@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
+<head>
+    <title th:text="#{auth.label.auth}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{auth.label.auth}"></h1>
+    <h6 class="description ml-2" th:text="#{auth.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue"  maxlength="100"
+           th:placeholder="#{auth.msg.searchPlaceholder}"/>
+    <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate" onclick="location.href='/auths/new'"
+                sec:authorize="hasAuthority('auth.create')" th:text="#{common.btn.add}"></button>
+    </div>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="authList"></div>
+</div>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function () {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function () {
+            getList();
+        });
+        getList();
+    };
+
+    /** 권한 데이터 검색  **/
+    function getList(pageNum = 1) {
+        const data = {
+            search: encodeURIComponent(document.getElementById('searchValue').value)
+        };
+        const urlParam = 'searchValue=' + data.search + '&pageNum=' + pageNum;
+        const opt = {
+            method: 'get',
+            url: '/auths?' + urlParam,
+            callbackFunc: function (response) {
+                document.getElementById('authList').innerHTML = response.responseText;
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
+                    className: 'scrollbar'
+                });
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+    /*]]>*/
+</script>
+</html>

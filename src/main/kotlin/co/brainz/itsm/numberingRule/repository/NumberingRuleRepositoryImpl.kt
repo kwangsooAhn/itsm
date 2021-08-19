@@ -7,8 +7,10 @@
 package co.brainz.itsm.numberingRule.repository
 
 import co.brainz.itsm.numberingRule.dto.NumberingRuleListDto
+import co.brainz.itsm.numberingRule.dto.NumberingRuleSearchCondition
 import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.itsm.numberingRule.entity.QNumberingRuleEntity
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -17,9 +19,9 @@ import org.springframework.stereotype.Repository
 class NumberingRuleRepositoryImpl : QuerydslRepositorySupport(NumberingRuleEntity::class.java),
     NumberingRuleRepositoryCustom {
 
-    override fun findRuleSearch(search: String): MutableList<NumberingRuleListDto> {
+    override fun findRuleSearch(numberingRuleSearchCondition: NumberingRuleSearchCondition): QueryResults<NumberingRuleListDto> {
         val rule = QNumberingRuleEntity.numberingRuleEntity
-        val query = from(rule)
+        return from(rule)
             .select(
                 Projections.constructor(
                     NumberingRuleListDto::class.java,
@@ -31,22 +33,9 @@ class NumberingRuleRepositoryImpl : QuerydslRepositorySupport(NumberingRuleEntit
                 )
             )
             .where(
-                super.like(rule.numberingName, search)
+                super.like(rule.numberingName, numberingRuleSearchCondition.searchValue)
             )
             .orderBy(rule.numberingName.desc())
             .fetchResults()
-
-        val numberingRuleList = mutableListOf<NumberingRuleListDto>()
-        for (data in query.results) {
-            val numberingRuleListDto = NumberingRuleListDto(
-                numberingId = data.numberingId,
-                numberingName = data.numberingName,
-                numberingDesc = data.numberingDesc,
-                latestDate = data.latestDate,
-                latestValue = data.latestValue
-            )
-            numberingRuleList.add(numberingRuleListDto)
-        }
-        return numberingRuleList
     }
 }

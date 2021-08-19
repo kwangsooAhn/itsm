@@ -9,9 +9,9 @@ package co.brainz.itsm.numberingPattern.controller
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternDetailDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternListDto
+import co.brainz.itsm.numberingPattern.dto.NumberingPatternSearchCondition
 import co.brainz.itsm.numberingPattern.service.NumberingPatternService
 import javax.validation.Valid
-import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -25,14 +25,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class NumberingPatternRestController(private val numberingPatternService: NumberingPatternService) {
 
-    private val logger = LoggerFactory.getLogger(NumberingPatternRestController::class.java)
-
     /**
      * 패턴 리스트 조회.
      */
     @GetMapping("/", "")
-    fun getNumberingPatternList(search: String): List<NumberingPatternListDto> {
-        return numberingPatternService.getNumberingPatternList(search).data
+    fun getNumberingPatternList(numberingPatternSearchCondition: NumberingPatternSearchCondition): List<NumberingPatternListDto> {
+        return numberingPatternService.getNumberingPatternList(numberingPatternSearchCondition).data
     }
 
     /**

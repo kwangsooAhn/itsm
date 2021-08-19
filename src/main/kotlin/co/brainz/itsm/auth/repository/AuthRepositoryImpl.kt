@@ -8,6 +8,7 @@ package co.brainz.itsm.auth.repository
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.QAliceAuthEntity
 import co.brainz.itsm.auth.dto.AuthListDto
+import co.brainz.itsm.auth.dto.AuthSearchCondition
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -16,7 +17,7 @@ class AuthRepositoryImpl : QuerydslRepositorySupport(
     AliceAuthEntity::class.java
 ), AuthRepositoryCustom {
 
-    override fun findAuthSearch(search: String): QueryResults<AuthListDto> {
+    override fun findAuthSearch(authSearchCondition: AuthSearchCondition): QueryResults<AuthListDto> {
         val auth = QAliceAuthEntity.aliceAuthEntity
         return from(auth)
             .select(
@@ -28,9 +29,12 @@ class AuthRepositoryImpl : QuerydslRepositorySupport(
                 )
             )
             .where(
-                super.like(auth.authName, search)
-                    ?.or(super.like(auth.authDesc, search))
-            ).orderBy(auth.authName.asc())
+                super.like(auth.authName, authSearchCondition.searchValue)
+                    ?.or(super.like(auth.authDesc, authSearchCondition.searchValue))
+            )
+            .orderBy(auth.authName.asc())
+            .limit(authSearchCondition.contentNumPerPage)
+            .offset((authSearchCondition.pageNum - 1) * authSearchCondition.contentNumPerPage)
             .fetchResults()
     }
 }

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{role.label.role}"></title>
+</head>
+<body>
+<th:block layout:fragment="head">
+    <div class="z-role-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
+            <h1 th:text="#{role.label.role}"></h1>
+            <h6 class="description ml-2" th:text="#{role.msg.editDescription}"></h6>
+        </div>
+        <div class="z-main-header-search flex-row">
+            <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100" th:placeholder="#{role.msg.searchPlaceholder}"/>
+            <span id="totalCount" class="search-count"></span>
+            <div class="ml-auto">
+                <button type="button" class="z-button secondary" id="btnSearch" name="btnSearch" onclick="onCreate();"
+                        sec:authorize="hasAuthority('role.create')" th:text="#{common.btn.add}"></button>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="content">
+    <div class="z-role-content flex-fill">
+        <div class="list" id="roleList"></div>
+    </div>
+</th:block>
+<th:block layout:fragment="aside">
+    <div class="z-aside">
+        <div class="z-role-content-edit flex-column">
+            <div class="edit-form">
+                <div class="edit-row flex-column">
+                    <label th:text="#{role.label.id}" class="required"></label>
+                    <input type="text" class="z-input" id="txtRoleId" name="txtRoleId" maxlength="100"/>
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{role.label.name}" class="required"></label>
+                    <input type="text" class="z-input" id="txtRoleName" name="txtRoleName" maxlength="100" />
+                    <input type="hidden" id="txtRoleNameOrg" name="txtRoleNameOrg"/>
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{role.label.desc}"></label>
+                    <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" class="z-textarea textarea-scroll-wrapper"></textarea>
+                </div>
+                <div class="edit-row flex-column">
+                    <div class="flex-row">
+                        <div class="flex-row">
+                            <label th:text="#{role.label.auth}" class="required"></label>
+                        </div>
+                        <div class="ml-auto">
+                            <label class="z-checkbox z-checkbox-all">
+                                <input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"/>
+                                <span></span>
+                                <span class="z-label" th:text="#{role.btn.selectAll}"/>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="z-checkbox-list">
+                        <ul>
+                            <li class="text-ellipsis" th:each="auth : ${authList}">
+                                <label class="z-checkbox" th:for="${auth?.authId}" tabindex="0">
+                                    <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
+                                    <span></span>
+                                    <span class="z-label" th:text="${auth?.authName}"></span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{common.label.createUser}"></label>
+                    <input type="text" class="z-input" id="spanCreateUserKey" name="spanCreateUserKey" disabled />
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{common.label.createDate}"></label>
+                    <input type="text" class="z-input" id="spanCreateDt" name="spanCreateDt" disabled />
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{common.label.updateUser}"></label>
+                    <input type="text" class="z-input" id="spanUpdateUserKey" name="spanUpdateUserKey" disabled />
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{common.label.updateDate}"></label>
+                    <input type="text" class="z-input" id="spanUpdateDt" name="spanUpdateDt" disabled />
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{role.label.referenceCount}"></label>
+                    <input type="text" class="z-input" id="userRoleMapCount" name="userRoleMapCount" disabled />
+                </div>
+            </div>
+        </div>
+        <div class="flex-row justify-content-end mr-5">
+            <div class="z-button-list">
+                <button type="button" class="z-button primary" sec:authorize="hasAuthority('role.create')" id="btnRegist" name="btnRegist"
+                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                <button type="button" class="z-button primary" sec:authorize="hasAuthority('role.update')" id="btnUpdate" name="btnUpdate"
+                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                <button type="button" class="z-button secondary" sec:authorize="hasAuthority('role.delete')" id="btnDelete" name="btnDelete"
+                        th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        let ROLE_DELETE = false;
+        let ROLE_CREATE = false;
+        let ROLE_UPDATE = false;
+        getRoleList(true);
+
+        window.onload = function() {
+            if (document.getElementById('btnUpdate') !== null) {
+                ROLE_UPDATE = true;
+            }
+
+            if (document.getElementById('btnRegist') !== null) {
+                ROLE_CREATE = true;
+            }
+
+            if (document.getElementById('btnDelete') !== null) {
+                ROLE_DELETE = true;
+            }
+
+            if (isNotNull('txtRoleId') && isNotEmpty('txtRoleId')) {
+                document.getElementById('txtRoleId').setAttribute('disabled','');
+                if (ROLE_UPDATE) {
+                    document.getElementById('btnUpdate').style.display = 'block';
+                }
+                if (ROLE_CREATE) {
+                    document.getElementById('btnRegist').style.display = 'none';
+                }
+            } else {
+                if (ROLE_UPDATE) {
+                    document.getElementById('btnUpdate').style.display = 'block';
+                }
+                if (ROLE_CREATE) {
+                    document.getElementById('btnRegist').style.display = 'none';
+                }
+            }
+
+            document.getElementById('search').focus();
+            document.getElementById('search').addEventListener('keyup', function() {
+                getRoleList(false);
+            });
+
+            OverlayScrollbars(document.querySelector('.z-list-body'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.role-content-edit'), { className: 'scrollbar' });
+            Array.prototype.forEach.call(document.querySelectorAll('.z-checkbox-list'), function(target) {
+                OverlayScrollbars(target, { className: 'inner-scrollbar' });
+            });
+        }
+
+        function onGetDetail(roleId) {
+            const opt = {
+                method: 'get',
+                url: '/rest/roles/' +  encodeURIComponent(roleId),
+                showProgressbar: false,
+                callbackFunc: function(response) {
+                    let responseJson = JSON.parse(response.responseText);
+                    document.getElementById('txtRoleId').value = responseJson.roleId;
+                    document.getElementById('txtRoleName').value = responseJson.roleName;
+                    document.getElementById('txtRoleNameOrg').value = responseJson.roleName;
+                    document.getElementById('txtRoleDesc').value = responseJson.roleDesc;
+                    let arrAuthList = responseJson.arrAuthList;
+
+                    Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]'), function(roleAuth) {
+                        roleAuth.checked = false;
+                        for (let i = 0; i<arrAuthList.length; i++) {
+                            if (roleAuth.id === arrAuthList[i].authId) {
+                                roleAuth.checked = true;
+                            }
+                        }
+                    });
+                    document.getElementById('spanCreateUserKey').value = responseJson.createUserName;
+                    document.getElementById('spanCreateDt').value = i18n.userDateTime(responseJson.createDt);
+                    document.getElementById('spanUpdateUserKey').value = responseJson.updateUserName;
+                    document.getElementById('spanUpdateDt').value = i18n.userDateTime(responseJson.updateDt);
+                    document.getElementById('txtRoleId').setAttribute('disabled','');
+                    document.getElementById('userRoleMapCount').value = i18n.msg('role.label.count', responseJson.userRoleMapCount);
+                    if (ROLE_DELETE) {
+                        disabledButton(responseJson.userRoleMapCount);
+                    }
+                },
+            };
+            aliceJs.sendXhr(opt);
+            document.getElementById('selectAll').checked = false;
+            OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
+            Array.prototype.forEach.call(document.querySelectorAll('.z-checkbox-list'), function(target) {
+                OverlayScrollbars(target, { className: 'inner-scrollbar',
+                    callbacks: {
+                        onInitialized: function () {
+                            const verticalScrollTrack = document.querySelector('.z-checkbox-list> .os-scrollbar-vertical');
+                            verticalScrollTrack.classList.add('right', 'padding');
+                        }
+                    }
+                });
+            });
+            OverlayScrollbars(document.querySelector('#txtRoleDesc'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
+        }
+
+        /*추가 버튼 */
+        function onCreate() {
+            document.getElementById('txtRoleId').value = '';
+            document.getElementById('txtRoleId').removeAttribute('disabled');
+            document.getElementById('txtRoleName').value = '';
+            document.getElementById('txtRoleDesc').value = '';
+            document.getElementById('selectAll').checked = false;
+            let roleAuths = document.getElementsByName('roleAuth');
+            for(let i = 0; i < roleAuths.length; i++) {
+                roleAuths[i].checked = false;
+            }
+
+            document.getElementById('spanCreateUserKey').value = '';
+            document.getElementById('spanCreateDt').value = '';
+            document.getElementById('spanUpdateUserKey').value = '';
+            document.getElementById('spanUpdateDt').value = '';
+            document.getElementById('userRoleMapCount').value = '';
+            if (ROLE_UPDATE) {
+                document.getElementById('btnUpdate').style.display = 'none';
+            }
+            if (ROLE_CREATE) {
+                document.getElementById('btnRegist').style.display = 'block';
+            }
+            if (ROLE_DELETE) {
+                document.getElementById('btnDelete').style.display = 'none';
+            }
+        }
+
+        /*등록, 수정 버튼*/
+        function onSave(flag) {
+            if (isEmpty('txtRoleId', 'role.msg.enterRoleId')) return;
+            if (isEmpty('txtRoleName', 'role.msg.enterRoleName')) return;
+
+            let roleIds = [];
+            let roleNames = [];
+            let validList = document.querySelectorAll('td[name=roleName]');
+            for(let i = 0; i < validList.length; i++) {
+                roleIds.push(validList[i].id);
+                roleNames.push(validList[i].textContent);
+            }
+
+            if (flag === 'post') {
+                for(let i = 0; i < roleIds.length; i++) {
+                    if (document.getElementById('txtRoleId').value === roleIds[i]) {
+                        aliceAlert.alertWarning([[#{role.msg.duplicateRoleId}]]);
+                        return;
+                    }
+                }
+                for(let i = 0; i < roleNames.length; i++) {
+                    if (document.getElementById('txtRoleName').value === roleNames[i]) {
+                        aliceAlert.alertWarning([[#{role.msg.duplicateRoleName}]]);
+                        return;
+                    }
+                }
+            } else {
+                if (isNotEquals('txtRoleName', 'txtRoleNameOrg')) {
+                    for(let i = 0; i < roleNames.length; i++) {
+                        if (document.getElementById('txtRoleName').value === roleNames[i]) {
+                            aliceAlert.alertWarning([[#{role.msg.duplicateRoleName}]]);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            //저장 데이터 수집
+            let obj = {};
+            obj.roleId = document.getElementById('txtRoleId').value;    //역할 아이디
+            obj.roleName = document.getElementById('txtRoleName').value;//역할 명
+            obj.roleDesc= document.getElementById('txtRoleDesc').value; //역할 설명
+            let arrAuthId = [];                                         //역할 권한
+            Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]:checked'), function(item) {
+                arrAuthId.push(item.id);
+            });
+
+            if (arrAuthId.length === 0) {
+                aliceAlert.alertWarning([[#{role.msg.selectAuth}]]);
+                return;
+            }
+
+            obj.arrAuthId = arrAuthId;
+            let strUrl = '/rest/roles';
+            if (flag !== 'post') {
+                strUrl += '/' + document.getElementById('txtRoleId').value;
+            }
+            const opt = {
+                method: flag,
+                url: strUrl,
+                params: JSON.stringify(obj),
+                contentType: 'application/json',
+                callbackFunc: function () {
+                    aliceAlert.alertSuccess([[#{common.msg.save}]], function() {
+                        window.location.href = '/roles/edit';
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        /** 삭제 버튼  */
+        function onDelete() {
+            const opt = {
+                    method: 'delete',
+                    url: '/rest/roles/' + encodeURIComponent(document.getElementById('txtRoleId').value),
+                    callbackFunc: function(response) {
+                        switch (response.responseText) {
+                            case "true":
+                                aliceAlert.alertSuccess([[#{common.msg.delete}]], function() {
+                                    window.location.href = '/roles/edit';
+                                });
+                                break;
+                            case "false":
+                                aliceAlert.alertDanger(i18n.msg('common.label.delete') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
+                                break;
+                            default :
+                                aliceAlert.alertDanger([[#{common.msg.fail}]]);
+                                break;
+                        }
+                    }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        /** 삭제 버튼 활성, 비활성화 */
+        function disabledButton(count) {
+            let btn = document.getElementById('btnDelete');
+            if (count !== 0) {
+                btn.disabled = 'disabled';
+            } else {
+                btn.disabled = false;
+            }
+        }
+
+        function getRoleList(showProgressbar) {
+            const data = {
+                search: encodeURIComponent(document.getElementById('search').value)
+            };
+            const urlParam = 'search=' + data.search;
+            const opt = {
+                method: 'get',
+                url: '/roles?' + urlParam,
+                showProgressbar: showProgressbar,
+                callbackFunc: function(response) {
+                    document.getElementById('roleList').innerHTML = response.responseText;
+                    let roleList = document.querySelectorAll('td[name=roleName]');
+                    aliceJs.showTotalCount(roleList.length, 'totalCount');
+                    if (response.responseText.indexOf('no-data-found') === -1) {
+                        for (let i = 0; i < roleList.length; i++) {
+                            roleList[i].style.cursor = 'pointer';
+                            roleList[i].addEventListener('click', function(){
+                                let activeTr = document.querySelector('tr.active')
+                                if (activeTr !== null) {
+                                    activeTr.classList.remove('active');
+                                }
+                                this.parentElement.classList.add('active');
+                                if (ROLE_UPDATE) {
+                                    document.getElementById('btnUpdate').style.display = 'inline-block';
+                                }
+                                if (ROLE_CREATE) {
+                                    document.getElementById('btnRegist').style.display = 'none';
+                                }
+                                if (ROLE_DELETE) {
+                                    document.getElementById('btnDelete').style.display = 'inline-block';
+                                }
+                                onGetDetail(this.id);
+                            });
+                        }
+                        if (roleList.length > 0) {
+                            document.querySelector('td[name=roleName]').click();
+                        }
+                        OverlayScrollbars(document.querySelector('.z-list-body'), { className: 'inner-scrollbar' });
+                    } else {
+                        onCreate();
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        function selectAll() {
+            let checkFlag = document.getElementById('selectAll').checked;
+            let roleAuths = document.getElementsByName('roleAuth');
+            if (checkFlag === false) {
+                for (let i = 0; i < roleAuths.length; i++) {
+                    roleAuths[i].checked = false;
+                }
+            } else {
+                for(let i = 0; i < roleAuths.length; i++) {
+                    roleAuths[i].checked = true;
+                }
+            }
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

@@ -18,13 +18,16 @@ import co.brainz.framework.auth.repository.AliceMenuRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlRepository
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.auth.dto.AuthDto
-import co.brainz.itsm.auth.dto.AuthListDto
 import co.brainz.itsm.auth.dto.AuthListReturnDto
 import co.brainz.itsm.auth.dto.AuthMenuDto
+import co.brainz.itsm.auth.dto.AuthSearchCondition
 import co.brainz.itsm.auth.dto.AuthUrlDto
 import co.brainz.itsm.auth.repository.AuthRepository
 import javax.transaction.Transactional
+import kotlin.math.ceil
 import org.springframework.stereotype.Service
 
 @Service
@@ -41,18 +44,36 @@ class AuthService(
      * 전체 권한 목록 조회
      */
     fun getAuthList(): AuthListReturnDto {
-        val authList = authRepository.findAuthSearch("")
+        val authList = authRepository.findAuthSearch(
+            AuthSearchCondition(""))
         return AuthListReturnDto(
             data = authList.results,
-            totalCount = authList.total
+            paging = AlicePagingData(
+                totalCount = authList.total,
+                totalCountWithoutCondition = authRepository.count(),
+                currentPageNum = 0L,
+                totalPageNum = 0L,
+                orderType = null
+            )
         )
     }
 
     /**
      * 권한 정보 검색
      */
-    fun getAuthSearchList(search: String): MutableList<AuthListDto> {
-        return authRepository.findAuthSearch(search).results
+    fun getAuthSearchList(authSearchCondition: AuthSearchCondition): AuthListReturnDto {
+        val queryResult = authRepository.findAuthSearch(authSearchCondition)
+
+        return AuthListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = authRepository.count(),
+                currentPageNum = authSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            )
+        )
     }
 
     /**

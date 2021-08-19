@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/searchCommonLayout}">
 <head>
     <title th:text="#{dashboard.label.dashboard}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-dashboard-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{token.label.list}"></h1>
-            <h6 class="description ml-2" th:text="#{dashboard.msg.viewDescription}"></h6>
-        </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{token.label.list}"></h1>
+    <h6 class="description ml-2" th:text="#{dashboard.msg.viewDescription}"></h6>
+</div>
+<div layout:fragment="pageSearchResult">
     <div class="z-dashboard-content flex-fill">
         <h3 class="sub-title">업무통계</h3>
         <div id="statistic" class="flex-row">
@@ -61,100 +57,98 @@
             <div id="tokenList"></div>
         </div>
     </div>
-</th:block>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript">
-        /*<![CDATA[ */
-        let offsetCount = 0;
-        window.addEventListener('load', function () {
-            document.getElementById('searchFromDt').value = i18n.getDate({'months': -3});
-            document.getElementById('toDt').value = i18n.getDate();
-            tokenSearch(false);
-        });
+</div>
+<script layout:fragment="pageScript" type="text/javascript">
+    /*<![CDATA[ */
+    let offsetCount = 0;
+    window.addEventListener('load', function () {
+        document.getElementById('searchFromDt').value = i18n.getDate({'months': -3});
+        document.getElementById('toDt').value = i18n.getDate();
+        tokenSearch(false);
+    });
 
-        /**
-         * 문서함을 검색한다.
-         */
-        function tokenSearch(isScroll) {
-            let urlParam = '';
-            document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
+    /**
+     * 문서함을 검색한다.
+     */
+    function tokenSearch(isScroll) {
+        let urlParam = '';
+        document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.searchDataCount;
             }
-            urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSubmit('get', '/tokens?' + urlParam, isScroll);
-            document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
-                new zTag(tagInput, {
-                    suggestion: false,
-                    realtime: false,
-                    tagType: 'instance'
-                });
-            });
+        } else {
+            offsetCount = 0;
         }
+        urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+        restSubmit('get', '/tokens?' + urlParam, isScroll);
+        document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
+            new zTag(tagInput, {
+                suggestion: false,
+                realtime: false,
+                tagType: 'instance'
+            });
+        });
+    }
 
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        let tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = response.responseText;
-                        setDateTimeFormat(tempDiv);
-                        document.querySelector('.dashboard-content .card-list').insertAdjacentHTML('beforeend', tempDiv.innerHTML);
-                    } else {
-                        document.getElementById('tokenList').innerHTML = response.responseText;
-                        setDateTimeFormat(document.getElementById('tokenList'));
-                        OverlayScrollbars(document.querySelector('.scroll-wrap'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function (e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            tokenSearch(true);
-                                        }
+    function restSubmit(method, url, isScroll) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                if (isScroll) {
+                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                        offsetCount = offsetCount + aliceJs.searchDataCount;
+                    }
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = response.responseText;
+                    setDateTimeFormat(tempDiv);
+                    document.querySelector('.dashboard-content .card-list').insertAdjacentHTML('beforeend', tempDiv.innerHTML);
+                } else {
+                    document.getElementById('tokenList').innerHTML = response.responseText;
+                    setDateTimeFormat(document.getElementById('tokenList'));
+                    OverlayScrollbars(document.querySelector('.scroll-wrap'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function (e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        tokenSearch(true);
                                     }
                                 }
                             }
-                        });
-                    }
+                        }
+                    });
                 }
-            };
-            aliceJs.sendXhr(opt);
-        }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
 
-        /**
-         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-         */
-        function setDateTimeFormat(elem) {
-            elem.querySelectorAll('.date-time').forEach(dt => {
-                dt.title = i18n.userDateTime(dt.textContent.trim());
-                dt.textContent = dateFormatFromNow(dt.textContent.trim());
-            });
-        }
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            dt.title = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = dateFormatFromNow(dt.textContent.trim());
+        });
+    }
 
-        /**
-         * 클릭한 문서를 연다. 완료된 문서일 경우 보기 화면을 연다.
-         */
-        function openTokenEdit(tokenId) {
-            let popUpUrl = '/tokens/' + tokenId + '/edit';
-            window.open(popUpUrl, 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
-        }
+    /**
+     * 클릭한 문서를 연다. 완료된 문서일 경우 보기 화면을 연다.
+     */
+    function openTokenEdit(tokenId) {
+        let popUpUrl = '/tokens/' + tokenId + '/edit';
+        window.open(popUpUrl, 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
+    }
 
-        /* ]]> */
-    </script>
-</th:block>
+    /* ]]> */
+</script>
 </body>
 </html>

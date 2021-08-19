@@ -6,15 +6,19 @@
 
 package co.brainz.itsm.numberingPattern.service
 
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternDetailDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternListDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternListReturnDto
+import co.brainz.itsm.numberingPattern.dto.NumberingPatternSearchCondition
 import co.brainz.itsm.numberingPattern.entity.NumberingPatternEntity
 import co.brainz.itsm.numberingPattern.repository.NumberingPatternRepository
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import kotlin.math.ceil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -28,9 +32,18 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
     /**
      * 패턴 리스트 조회
      */
-    fun getNumberingPatternList(search: String): NumberingPatternListReturnDto {
-
-        return numberingPatternRepository.findPatternSearch(search)
+    fun getNumberingPatternList(numberingPatternSearchCondition: NumberingPatternSearchCondition): NumberingPatternListReturnDto {
+        val queryResult = numberingPatternRepository.findPatternSearch(numberingPatternSearchCondition)
+        return NumberingPatternListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = numberingPatternRepository.count(),
+                currentPageNum = numberingPatternSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**
@@ -131,7 +144,7 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
      */
     fun getPatternValue(patternType: String, originPatternValue: String): String {
         val jsonParser = JsonParser()
-        var objProperty = ""
+        val objProperty: String
         var patternValue = ""
         when (patternType) {
             NumberingPatternConstants.PatternType.TEXT.code -> {
@@ -170,7 +183,7 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
      */
     fun getPatternNameList(): MutableList<NumberingPatternListDto> {
         val patternEntities = numberingPatternRepository.findAll()
-        var numberingPatternList = mutableListOf<NumberingPatternListDto>()
+        val numberingPatternList = mutableListOf<NumberingPatternListDto>()
 
         for (data in patternEntities) {
             val numberingPatternListDto = NumberingPatternListDto(
