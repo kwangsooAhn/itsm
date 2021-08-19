@@ -952,7 +952,7 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
   border-left: 0.0625rem solid #CFD5D9;
   padding: 0 4.0625rem;
-  overflow-y: auto;
+  overflow: hidden;
 }
 .z-document-container .z-token-properties .z-token-tabs {
   display: flex;
@@ -969,7 +969,7 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.188rem solid #339AF0;
 }
 .z-document-container .z-token-properties .z-token-panels {
-  height: 43.75rem;
+  height: 100%;
   overflow-y: auto;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-panel {
@@ -978,9 +978,11 @@ input, button, select, optgroup, textarea {
 .z-document-container .z-token-properties .z-token-panels .z-token-panel.on {
   display: block;
 }
+.z-document-container .z-token-properties .z-token-panels .z-token-panel .z-icon.i-delete {
+  background: #8B9094;
+}
 .z-document-container .z-token-properties .z-token-panels .z-token-tag {
-  display: none;
-  margin-top: 1.25rem;
+  margin: 0.625rem 0 0 0;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-history {
   height: 100%;
@@ -1035,14 +1037,24 @@ input, button, select, optgroup, textarea {
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-related-item {
   height: 9.75rem;
-  margin: 0.625rem 0.625rem 0 0;
+  margin: 0.625rem 0 0 0;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-color {
   width: 0.375rem;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row {
   flex: 1;
   border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
   padding: 1rem;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row-content a {
@@ -1064,11 +1076,11 @@ input, button, select, optgroup, textarea {
   color: #8B9094;
   margin-left: 0.5rem;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row-content .z-icon.i-delete {
-  background: #8B9094;
-}
 .z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row-topic {
   height: 100%;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row-topic h6 {
+  width: 27.5rem;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-related .z-document-add {
   border: 0.0625rem solid #CFD5D9;
@@ -1081,57 +1093,31 @@ input, button, select, optgroup, textarea {
 .z-document-container .z-token-properties .z-token-panels .z-token-related .z-document-add .z-button-icon .z-icon.i-plus {
   background: #8B9094;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-comment {
-  padding-top: 0.625rem;
+.z-document-container .z-token-properties .z-token-panels .z-token-comment-item {
+  padding: 1rem;
+  margin: 0.625rem 0 0 0;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item {
-  padding: 1.25rem 1.5625rem;
-  margin: 0.625rem 0.625rem 0 0;
-  border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.1875rem;
-  background-color: #F7F8F9;
+.z-document-container .z-token-properties .z-token-panels .z-token-comment-item .z-comment-row-info .z-user-name {
+  font-weight: 700;
+  color: #222529;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row {
-  color: #586872;
-  margin-top: 0.625rem;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  white-space: pre-line;
-  white-space: -o-pre-wrap;
-  white-space: -moz-pre-wrap;
-  word-break: break-all;
+.z-document-container .z-token-properties .z-token-panels .z-token-comment-item .z-comment-row-info .z-comment-time {
+  color: #8B9094;
+  margin-left: 0.5rem;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row-info .user-name {
-  color: #586872;
+.z-document-container .z-token-properties .z-token-panels .z-token-comment-item .z-comment-row-content {
+  height: 100%;
+  margin: 0.625rem 0 0 0;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row-info .date-time {
-  color: #ACB4BF;
-  margin-left: 0.625rem;
+.z-document-container .z-token-properties .z-token-panels .z-token-comment-item .z-comment-row-content h6 {
+  width: 27.5rem;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row-info button {
-  padding: 0;
-}
-.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row-info button .icon-delete {
-  background: #CCCED1;
-}
-.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row-info div:last-child {
-  margin-left: auto;
-}
-.z-document-container .z-token-properties .z-token-panels .z-token-comment .comment-input {
-  margin-top: 0.625rem;
-  padding: 0;
-}
-.z-document-container .z-token-properties .z-token-panels .z-token-comment .comment-input textarea {
-  flex: 1;
-  min-height: 4.063rem;
-  padding: 0.625rem 1.563rem;
-  margin-right: 0.3125rem;
-  border-radius: 0.1875rem;
-}
-.z-document-container .z-token-properties .z-token-panels .z-token-comment .comment-input .textarea-scroll-wrapper {
-  width: 24.6875rem;
-  height: 4.0625rem;
-  margin-right: 0.3125rem;
+.z-document-container .z-token-properties .z-token-panels .z-token-comment .z-comment-add {
+  margin: 0.625rem 0 0 0;
 }
 
 /* _elements.scss

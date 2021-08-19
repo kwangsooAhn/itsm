@@ -91,7 +91,7 @@ function zTag(inputElement, userSettings, tagifySettings) {
         tagging.on('add', (function (tag) {
             const jsonData = {
                 tagType: tag.detail.tagify.settings.tagType,
-                tagValue: tag.detail.data.value,
+                value: tag.detail.data.value,
                 targetId: tag.detail.tagify.settings.targetId
             };
             aliceJs.fetchText(TAG_URL, {

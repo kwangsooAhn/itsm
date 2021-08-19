@@ -44,10 +44,19 @@ $token-history-tbody-color:                  $gray800;
 // 관련 문서
 $token-related-border-color:                 $gray300;
 $token-related-border-width:                 0.0625rem; // 1px
+$token-related-border-radius:                0.125rem; // 2px
 $token-related-add-bg-color:                 $neutral50;
 
 $token-related-name-color:                   $gray800;
 $token-related-numbering-color:              $gray500;
+
+// 댓글
+$token-comment-border-color:                 $gray300;
+$token-comment-border-width:                 0.0625rem; // 1px
+$token-comment-border-radius:                0.125rem; // 2px
+
+$token-comment-user-name-color:              $gray800;
+$token-comment-time-color:                   $gray500;
 
 //////////////////////////// CI 모달 /////////////////////////
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
