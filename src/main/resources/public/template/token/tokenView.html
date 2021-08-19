@@ -14,317 +14,53 @@
     <div class="z-document-container">
         <form id="frm" name="frm">
             <div class="z-document-main flex-column align-items-center">
+                <input type="hidden" id="tokenId" th:value="${tokenId}"/>
+                <input type="hidden" id="folderId" th:value="${folderId}"/>
                 <div class="z-document-main-header flex-row justify-content-between align-items-center flex-wrap">
                     <span class="z-document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></span>
-                    <div class="z-button-list">
-                        <button type="button" class="z-button form" onclick="openProcessStatusPopUp()" th:text="#{process.label.processMap}"></button>
-                        <div id="button-panel"></div>
-                        <button type="button" class="z-button form" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])" th:text="#{common.btn.print}"></button>
-                    </div>
+                    <div id="defaultButtonArea"></div>
+                    <div class="z-action-button-top-area" id="actionButtonTopArea"></div>
                 </div>
                 <div class="z-drawing-board" id="documentDrawingBoard"></div>
+                <div class="z-document-main-footer flex-row justify-content-end align-items-center flex-wrap">
+                    <div class="z-action-button-bottom-area" id="actionButtonBottomArea"></div>
+                </div>
             </div>
         </form>
-        <div class="z-token-properties">
-            <div class="z-token-tabs">
-                <h5 class="z-token-tab align-center pointer active" data-target-contents="tokenInformation" th:text="#{token.label.information}"></h5>
-                <h5 class="z-token-tab align-center pointer" data-target-contents="tokenComment" th:text="#{common.label.comment}"></h5>
-                <h5 class="z-token-tab align-center pointer" data-target-contents="tokenTag" th:text="#{common.label.tag}"></h5>
-            </div>
-            <div class="z-token-panels">
-                <div class="z-token-panel on" id="tokenInformation">
-                    <div class="z-token-history">
-                        <label class="z-token-history-sub-title" th:text="#{token.label.history}"></label>
-                        <table class="z-token-history-table">
-                            <thead>
-                            <tr class="flex-row align-items-center">
-                                <th style="width: 45%;" class="align-left" th:text="#{token.label.startDt}">시작일시</th>
-                                <th style="width: 40%;" class="align-left" th:text="#{token.label.elementName}">업무</th>
-                                <th style="width: 15%;" class="align-left" th:text="#{token.label.assignee}">담당자</th>
-                            </tr>
-                            </thead>
-                            <tbody id="history">
-                            <tr class="flex-row align-items-center" th:each="tokenHistory : ${instanceHistory}">
-                                <td style="width: 45%;" class="align-left date-time" th:name="tokenDt" th:text="${tokenHistory.tokenStartDt}"/>
-                                <td style="width: 40%;" class="align-left" th:text="${tokenHistory.elementName}"></td>
-                                <td style="width: 15%;" class="align-left" th:text="${tokenHistory.assigneeName}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="z-token-related">
-                        <label class="z-token-related-sub-title" th:text="#{token.label.relatedInstance}"></label>
-                        <div class="z-token-related-item flex-row" th:each="rInstance: ${relatedInstance}">
-                            <div class="z-document-color" th:style="|background-color: ${rInstance.documentColor}|"></div>
-                            <div class="z-document-row flex-column">
-                                <div class="z-document-row-content flex-row justify-content-between">
-                                    <a th:onclick="openTokenEdit([[${rInstance.tokenId}]])">
-                                        <div class="z-document-title flex-row align-items-center">
-                                            <h6 th:text="${rInstance.documentName}"></h6>
-                                            <h6 th:text="${rInstance.documentNo}"></h6>
-                                        </div>
-                                    </a>
-                                    <button type="button" class="z-button-icon"
-                                            th:onclick="zFormToken.removeRelatedDoc({folderId: [[${rInstance.folderId}]], instanceId: [[${rInstance.instanceId}]]})">
-                                        <span class="z-icon i-delete"></span>
-                                    </button>
-                                </div>
-                                <div class="z-document-row-topic">
-                                    <h6 th:each="topic: ${rInstance.topics}" th:text="${topic}"></h6>
-                                </div>
-                                <div class="z-document-row-info flex-row align-items-center">
-                                    <div class="flex-row align-items-center">
-                                        <img class="z-img i-profile-photo mr-2" th:src="@{${rInstance.avatarPath}}" width="30" height="30"/>
-                                        <h6 th:text="${rInstance.instanceCreateUserName}"></h6>
-                                    </div>
-                                    <span class="vertical-bar"></span>
-                                    <h6 class="dateFormatFromNow" th:text="${rInstance.instanceStartDt}"></h6>
-                                    <span class="vertical-bar"></span>
-                                    <h6 th:text="#{token.label.completed}"></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="z-token-related-item flex-row justify-content-center align-items-center z-document-add">
-                            <button class="z-button-icon" th:onclick="openPopUp([[${tokenId}]])">
-                                <span class="z-icon i-plus"></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="z-token-comment">
-                    <div class="list-item flex-column" th:each="comment : ${commentList}">
-                        <div class="comment-row-info flex-row align-items-center">
-                            <div class="comment-user flex-row align-items-center">
-                                <img class="z-img i-profile-photo mr-2" th:src="@{${comment.avatarPath}}" width="32" height="32"/>
-                                <h5 class="user-name" th:text="${comment.createUserName}"></h5>
-                            </div>
-                            <h5 class="date-time" th:text="${comment.createDt}"></h5>
-                            <div th:if="${#authentication.details.userKey} == ${comment.createUserKey}">
-                                <button class="z-button-icon form" th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|">
-                                    <span class="z-icon i-delete"></span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="comment-row">
-                            <span th:text="${comment.content}"></span>
-                        </div>
-                    </div>
-                    <div id="comment-container" class="comment comment-input flex-row align-items-start"></div>
-                </div>
-                <div class="z-token-tag">
-                    <div style="margin-bottom: 1rem;">
-                        <input name="tags" th:value="|${tagList}|"/>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="z-token-properties flex-column" id="documentProperties"></div>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="script">
-    <script th:src="@{/assets/js/document/zDocument.js}"></script>
-    <script type="text/javascript">
+    <script type="module">
         /*<![CDATA[*/
-        window.onload = function () {
-            // view 일 경우, 컴포넌트들의 세부 값을 편집 할 수 없음
-            const documentDrawingBoard = document.getElementById('documentDrawingBoard');
-            documentDrawingBoard.setAttribute('data-display', 'complete');
-
-            aliceForm.init(aliceDocument.initToken, '[[${tokenId}]]');
-            var tokenDtEle = document.querySelectorAll('td[name=tokenDt]');
-            for (let i = 0; i < tokenDtEle.length; i++) {
-                if (tokenDtEle[i].textContent !== '') {
-                    tokenDtEle[i].textContent = i18n.userDateTime(tokenDtEle[i].textContent);
-                }
-            }
-
-            let tagInput = document.querySelector('input[name=tags]');
-            new Tagify(tagInput, {
-                pattern: /^.{0,100}$/,
-                editTags: false,
-                callbacks: {
-                    'add': onAddTag,
-                    'remove': onRemoveTag
-                },
-                placeholder: '[[#{token.msg.tag}]]'
-            });
-
-            document.querySelectorAll('.z-token-tabs > h4').forEach((ele) => {
-                ele.addEventListener('click', (e) => {
-                    // 탭 동작
-                    Array.prototype.filter.call(e.target.parentNode.children, function (child) {
-                        return child !== e.target;
-                    }).forEach((sblingEle) => {
-                        sblingEle.classList.remove('active');
-                    });
-                    e.target.classList.add('active');
-                    // 컨텐츠 내용 동작
-                    let targetElement = document.querySelector('.' + e.target.dataset.targetContents);
-                    if (targetElement != null) {
-                        Array.prototype.filter.call(targetElement.parentNode.children, function (child) {
-                            return child !== targetElement;
-                        }).forEach((sblingEle) => {
-                            sblingEle.style.display = 'none';
-                        });
-                        targetElement.style.display = 'block';
-                    };
-                    // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
-                    sessionStorage.setItem('z-token-tabs', e.target.dataset.targetContents);
-                });
-            });
-
-            const selectedTab = sessionStorage.getItem('z-token-tabs');
-            if (selectedTab !== null) {
-                document.querySelector('h4[data-target-contents="' + selectedTab +  '"]').click();
-            } else {
-                document.querySelector('h4[data-target-contents="token-history"]').click();
-            }
-
-            document.querySelectorAll('.dateFormatFromNow').forEach((ele) => {
-                ele.textContent = dateFormatFromNow(ele.textContent);
-            });
-            document.querySelectorAll('.date-time').forEach((element) => {
-                element.textContent = i18n.userDateTime(element.textContent);
-            });
-
-            OverlayScrollbars(document.querySelectorAll('.z-token-panels'), {className: 'scrollbar'});
+        import { zFormToken } from "../../assets/js/document/zFormToken.js";
+        import { zFormButton } from "../../assets/js/document/zFormButton.js";
+        import { SESSION } from '../../assets/js/lib/zConstants.js';
+        const userSession = {
+            userKey : '[[${#authentication.details.userKey}]]',
+            userId : '[[${#authentication.details.userId}]]',
+            userName: '[[${#authentication.details.userName}]]',
+            email: '[[${#authentication.details.email}]]',
+            position: '[[${#authentication.details.position}]]',
+            department: '[[${#authentication.details.department}]]',
+            officeNumber: '[[${#authentication.details.officeNumber}]]',
+            mobileNumber: '[[${#authentication.details.mobileNumber}]]'
         };
+        Object.assign(SESSION, userSession);
 
-        function onAddTag(tag) {
-            const jsonData = {
-                tagType: 'instance',
-                tagValue: tag.detail.data.value,
-                targetId: '[[${instanceId}]]'
-            };
-            restSubmit('POST', '/rest/tags', function () {
-                location.reload();
-            }, jsonData, false);
-        }
+        // 문서 생성
+        aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {
+            method: 'GET'
+        }).then((formDataJson) => {
+            formDataJson.tokenId = document.getElementById('tokenId').value;
+            formDataJson.folderId = document.getElementById('folderId').value;
 
-        function onRemoveTag(tag) {
-            restSubmit('DELETE', '/rest/tags/' + tag.detail.data.id, function () {
-                location.reload();
-            });
-        }
+            zFormToken.init(formDataJson, false);
+            zFormButton.init(formDataJson, zFormToken);
 
-        function openPopUp(tokenId) {
-            window.open('/tokens/' + tokenId + '/view-pop', tokenId, 'width=1000, height=790');
-        }
-
-        function openProcessStatusPopUp() {
-            window.open('/process/[[${instanceId}]]/status', 'process_status_[[${instanceId}]]', 'width=1300, height=500');
-        }
-
-        function onRelatedInstanceDelete(instanceId) {
-            const jsonData = {
-                instanceId: instanceId
-            };
-
-            restSubmit('DELETE', '/rest/folders/[[${folderId}]]', function () {
-                location.reload();
-            }, jsonData, false);
-        }
-
-        function openTokenEdit(tokenId) {
-            const _width = 1500,
-                _height = 920;
-            const _left = Math.ceil((window.screen.width - _width) / 2);
-            const _top = Math.ceil((window.screen.height - _height) / 4);
-            window.open('/tokens/' + tokenId + '/view', 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150) + ', left=' + _left + ', top=' + _top);
-        }
-
-        function getInstanceList(search, showProgressbar) {
-            restSubmit('get', '/tokens/view-pop/documents?searchValue=' + search.trim() + '&tokenId=' + '[[${tokenId}]]', function(result) {
-                document.getElementById('instanceList').innerHTML = result;
-                aliceJs.showTotalCount(document.querySelectorAll('.instance-list').length);
-                let instanceDtEle = document.querySelectorAll('td[name=instanceDt]');
-                for (let i = 0; i < instanceDtEle.length; i++) {
-                    if (instanceDtEle[i].textContent !== '') {
-                        instanceDtEle[i].textContent = i18n.userDateTime(instanceDtEle[i].textContent);
-                    }
-                }
-                // 스크롤바
-                OverlayScrollbars(document.querySelector('.z-list-body'), { className: 'scrollbar' });
-            }, null, showProgressbar);
-        }
-
-        // 관련문서 모달
-        function openRelatedToken(tokenId, search) {
-            tokenListModal = new modal({
-                title: i18n.msg('token.label.relatedInstance'),
-                body: createModalContent(),
-                classes: 'token-list',
-                buttons: [{
-                    content: i18n.msg('common.btn.select'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        saveTokenList();
-                    }
-                },{
-                    content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        modal.hide();
-                    }
-                }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function(modal) {
-                    document.getElementById('search').addEventListener('keyup', function() {
-                        getInstanceList(this.value, false);
-                    });
-                    getInstanceList(document.getElementById('search').value, true);
-                }
-            });
-            tokenListModal.show();
-        }
-
-        // 관련문서 추가
-        function saveTokenList() {
-            let checked = document.querySelectorAll('input[name=chk]:checked');
-            if (checked.length === 0) {
-                aliceAlert.alertWarning(i18n.msg('token.msg.selectToken'));
-                return;
-            } else {
-                let jsonArray = new Array();
-                for (let i = 0; i < checked.length; i++) {
-                    let jsonObject = new Object();
-                    jsonObject.folderId = '[[${folderId}]]';
-                    jsonObject.instanceId = checked[i].value;
-                    jsonArray.push(jsonObject);
-                }
-                restSubmit('POST', '/rest/folders', function() {
-                    aliceDocument.createTokenInfoTab();
-                    tokenListModal.hide();
-                }, jsonArray, true);
-            }
-        }
-
-        // 관련 문서 모달 내부 Template
-        function createModalContent(data) {
-            return `<div class="related-instance-list">` +
-                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('token.label.relatedInstancePlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
-                `<div class="table-set" id="instanceList"></div>` +
-                `</div>`;
-        }
-
-        function restSubmit(method, url, result, data, showProgressbar) {
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                showProgressbar: showProgressbar,
-                callbackFunc: function (response) {
-                    result(response.responseText);
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
+            window.zFormToken = zFormToken;
+        });
         /*]]>*/
     </script>
 </th:block>

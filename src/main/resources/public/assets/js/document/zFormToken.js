@@ -22,14 +22,15 @@ class ZFormToken {
     /**
      * 클래스 초기화
      *
-     * @param domElement Form 그리고자 하는 대상 DOM Element
      * @param formDataJson 그리고자 하는 폼에 대한 JSON 데이터
+     * @param editable 편집 가능여부
      */
-    init(formDataJson) {
+    init(formDataJson, editable) {
         this.domElement = document.getElementById('documentDrawingBoard'); // 문서 엘리먼트
         this.propertiesElement = document.getElementById('documentProperties'); // 우측 문서 정보, 의견, 태그가 표시되는 엘리먼트
         this.data = formDataJson;
         this.formDataJson = this.data.form;
+        this.editable = editable;
         // 정렬
         this.sortFormObject(this.formDataJson);
         // 화면 출력
@@ -98,7 +99,7 @@ class ZFormToken {
      */
     makeTab() {
         // 탭 생성
-        aliceJs.fetchText('/tokens/' + this.data.tokenId + '/edit-tab', {
+        aliceJs.fetchText('/tokens/' + this.data.tokenId + '/edit-tab?mode=' + (this.editable ? 'edit' : 'view'), {
             method: 'GET'
         }).then((htmlData) => {
             this.propertiesElement.innerHTML = htmlData;
@@ -116,15 +117,15 @@ class ZFormToken {
             this.setDateTimeFormat();
 
             // 스크롤바
-            //OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
 
             // 디자인된 selectbox
             aliceJs.initDesignedSelectTag();
 
             // 태그 초기화
             new zTag(document.getElementById('tokenTags'), {
-                suggestion: true,
-                realtime: true,
+                suggestion: this.editable,
+                realtime: this.editable,
                 tagType: 'instance',
                 targetId: this.data.instanceId
             });

@@ -31,8 +31,11 @@ class ZFormButton {
         this.zForm = zForm;
         // 기본 버튼 추가
         this.makeDefaultButton();
-        // 사용자 정의 버튼 추가
-        this.makeActionButton(this.formDataJson.actions);
+        // 편집 가능할 경우에만 버튼 추가
+        if (this.zForm.editable) {
+            // 사용자 정의 버튼 추가
+            this.makeActionButton(this.formDataJson.actions);
+        }
     }
     /**
      * 신청서 상단 프로세스맵, 인쇄 버튼 추가

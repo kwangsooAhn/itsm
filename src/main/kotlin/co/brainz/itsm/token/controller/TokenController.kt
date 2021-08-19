@@ -46,7 +46,7 @@ class TokenController(
     private val tokenPrintPage: String = "token/tokenPrint"
     private val tokenPopUpPage: String = "token/tokenPopUp"
     private val tokenInstanceListPage: String = "token/tokenInstanceList"
-    private val tokenEditTab: String = "token/tokenEditTab"
+    private val tokenTab: String = "token/tokenTab"
     private val tokenViewTab: String = "token/tokenViewTab"
 
     /**
@@ -103,10 +103,14 @@ class TokenController(
     }
 
     /**
-     * [tokenId] 문서의 오른쪽 정보를 보여주는 탭 정보를 조회한다. edit
+     * [tokenId] 문서의 오른쪽 정보를 보여주는 탭 정보를 조회한다.
+     * 편집 가능할 경우 mode = edit , 편집 불가일 경우 mode = view
      */
     @GetMapping("{tokenId}/edit-tab")
-    fun getDocumentEditTab(@PathVariable tokenId: String, model: Model): String {
+    fun getDocumentEditTab(
+        @PathVariable tokenId: String,
+        @RequestParam(value = "mode", defaultValue = "edit") mode: String,
+        model: Model): String {
         val instanceId = instanceService.getInstanceId(tokenId)!!
         model.addAttribute("instanceId", instanceId)
         model.addAttribute("folderId", folderService.getFolderId(tokenId))
@@ -114,7 +118,8 @@ class TokenController(
         model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
         model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
-        return tokenEditTab
+        model.addAttribute("mode", mode)
+        return tokenTab
     }
 
     /**

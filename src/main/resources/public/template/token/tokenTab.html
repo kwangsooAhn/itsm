@@ -46,10 +46,13 @@
                                     <h6 th:text="${rInstance.documentNo}"></h6>
                                 </div>
                             </a>
-                            <button type="button" class="z-button-icon"
-                                    th:onclick="zFormToken.removeRelatedDoc({ folderId: [[${rInstance.folderId}]], instanceId: [[${rInstance.instanceId}]] })">
-                                <span class="z-icon i-delete"></span>
-                            </button>
+                            <!-- 편집 가능할 경우에만 버튼이 표시됨 -->
+                            <th:block th:if="${mode} == 'edit'">
+                                <button type="button" class="z-button-icon"
+                                        th:onclick="zFormToken.removeRelatedDoc({ folderId: [[${rInstance.folderId}]], instanceId: [[${rInstance.instanceId}]] })">
+                                    <span class="z-icon i-delete"></span>
+                                </button>
+                            </th:block>
                         </div>
                         <div class="z-document-row-topic">
                             <h6 class="text-ellipsis" th:each="topic: ${rInstance.topics}" th:text="${topic}"></h6>
@@ -67,11 +70,14 @@
                     </div>
                 </div>
             </th:block>
-            <div class="z-token-related-item flex-row justify-content-center align-items-center z-document-add">
+            <!-- 편집 가능할 경우에만 버튼이 표시됨 -->
+            <th:block th:if="${mode} == 'edit'">
+                <div class="z-token-related-item flex-row justify-content-center align-items-center z-document-add">
                 <button class="z-button-icon" th:onclick="zFormToken.openRelatedDocModal()">
                     <span class="z-icon i-plus"></span>
                 </button>
             </div>
+            </th:block>
         </div>
     </div>
     <div class="z-token-panel z-token-comment" id="tokenComment">
@@ -84,7 +90,7 @@
                     </div>
                     <h6 class="z-comment-time date-time" th:text="${comment.createDt}"></h6>
                     <div class="ml-auto">
-                        <button th:if="${#authentication.details.userKey} == ${comment.createUserKey}" class="z-button-icon"
+                        <button th:if="${#authentication.details.userKey} == ${comment.createUserKey} and ${mode} == 'edit'" class="z-button-icon"
                                 th:attr="onclick=|zFormToken.removeComment('${comment.commentId}')|">
                             <span class="z-icon i-delete"></span>
                         </button>
@@ -97,12 +103,12 @@
         </th:block>
         <div class="z-comment-add flex-row align-items-start">
             <textarea id="commentValue" class="z-textarea textarea-scroll-wrapper flex-fill mr-1" maxlength="200" rows="2" th:placeholder="#{comment.msg.enterComments}"></textarea>
-            <button class="z-button secondary" th:onclick="zFormToken.saveComment()" th:text="#{common.btn.register}"></button>
+            <button class="z-button secondary" th:onclick="zFormToken.saveComment()" th:text="#{common.btn.register}" th:disabled="${mode == 'view'}"></button>
         </div>
     </div>
     <div class="z-token-panel z-token-tag" id="tokenTag">
         <div class="tag-input">
-            <input type="text" class="z-input" id="tokenTags" th:value="${tagList}" />
+            <input type="text" class="z-input" id="tokenTags" th:value="${tagList}" th:readonly="${mode == 'view'}" />
         </div>
     </div>
 </div>

@@ -5,7 +5,6 @@
 
 package co.brainz.framework.tag.dto
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -13,13 +12,13 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.Serializable
 
 data class AliceTagDto(
-    @JsonProperty("id")
+    @JsonProperty("tagId")
     var tagId: String? = null,
-    @JsonIgnore
+    @JsonProperty("tagType", access = JsonProperty.Access.WRITE_ONLY)
     var tagType: String = "",
     @JsonProperty("value")
     var tagValue: String = "",
-    @JsonIgnore
+    @JsonProperty("targetId", access = JsonProperty.Access.WRITE_ONLY)
     var targetId: String = ""
 ) : Serializable {
     override fun toString(): String {
