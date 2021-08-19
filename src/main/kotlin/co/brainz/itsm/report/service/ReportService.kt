@@ -6,6 +6,7 @@
 package co.brainz.itsm.report.service
 
 import co.brainz.itsm.chart.dto.ChartDto
+import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.chart.service.ChartManagerFactory
 import co.brainz.itsm.report.dto.ReportDto
 import co.brainz.itsm.report.dto.ReportListReturnDto
@@ -30,7 +31,8 @@ class ReportService(
     private val reportDataRepository: ReportDataRepository,
     private val reportTemplateService: ReportTemplateService,
     private val reportTemplateRepository: ReportTemplateRepository,
-    private val chartManagerFactory: ChartManagerFactory
+    private val chartManagerFactory: ChartManagerFactory,
+    private val chartRepository: ChartRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -98,25 +100,27 @@ class ReportService(
 
         // chart list
         templateEntity.charts?.forEach { it ->
-            val chartEntity = it.chart
+            val chartEntity = chartRepository.findChartEntityByChartId(it.chartId)
 
             //values에 저장할 값 셋팅
-            val chartInfo = LinkedHashMap<String, Any>()
-            chartInfo["name"] = chartEntity.chartName
-            chartInfo["type"] = chartEntity.chartType
-            chartInfo["desc"] = chartEntity.chartDesc?: ""
-            chartInfo["config"] = mapper.readValue(chartEntity.chartConfig, Map::class.java)
+            if (chartEntity != null) {
+                val chartInfo = LinkedHashMap<String, Any>()
+                chartInfo["name"] = chartEntity.chartName
+                chartInfo["type"] = chartEntity.chartType
+                chartInfo["desc"] = chartEntity.chartDesc?: ""
+                chartInfo["config"] = mapper.readValue(chartEntity.chartConfig, Map::class.java)
 
-            val valuesMap = LinkedHashMap<String, Any>()
-            valuesMap["chart"] = chartInfo
-            val strValues = mapper.writeValueAsString(valuesMap)
-            val reportDataEntity = ReportDataEntity(
-                dataId = "",
-                report = reportEntity,
-                chartId = chartEntity.chartId,
-                values = strValues
-            )
-            reportDataRepository.save(reportDataEntity)
+                val valuesMap = LinkedHashMap<String, Any>()
+                valuesMap["chart"] = chartInfo
+                val strValues = mapper.writeValueAsString(valuesMap)
+                val reportDataEntity = ReportDataEntity(
+                    dataId = "",
+                    report = reportEntity,
+                    chartId = chartEntity.chartId,
+                    values = strValues
+                )
+                reportDataRepository.save(reportDataEntity)
+            }
         }
 
         return reportEntity.reportId

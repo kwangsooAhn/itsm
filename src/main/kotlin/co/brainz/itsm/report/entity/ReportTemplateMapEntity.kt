@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.report.entity
 
-import co.brainz.itsm.chart.entity.ChartEntity
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -27,9 +26,8 @@ data class ReportTemplateMapEntity(
     val template: ReportTemplateEntity,
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chart_id")
-    val chart: ChartEntity,
+    @Column(name = "chart_id")
+    val chartId: String,
 
     @Column(name = "display_order")
     val displayOrder: Int
@@ -37,5 +35,5 @@ data class ReportTemplateMapEntity(
 
 data class ReportTemplateMapPk(
     val template: String = "",
-    val chart: String = ""
+    val chartId: String = ""
 ) : Serializable

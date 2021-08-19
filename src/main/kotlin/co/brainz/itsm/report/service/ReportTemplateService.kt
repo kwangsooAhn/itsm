@@ -59,7 +59,10 @@ class ReportTemplateService(
         templateList.results.forEach { template ->
             val chartList = mutableListOf<ChartDto>()
             template.charts?.forEach { it ->
-                chartList.add(chartMapper.toChartDto(it.chart))
+                val chartEntity = chartRepository.findChartEntityByChartId(it.chartId)
+                if (chartEntity != null) {
+                    chartList.add(chartMapper.toChartDto(chartEntity))
+                }
             }
             reportTemplateList.add(
                 ReportTemplateListDto(
@@ -93,13 +96,15 @@ class ReportTemplateService(
         val chartList = mutableListOf<ChartDto>()
         val templateMapList = templateEntity.charts?.sortedBy { data -> data.displayOrder }
         templateMapList?.forEach { map ->
-            val chartEntity = map.chart
-            chartList.add(
-                ChartDto(
-                    chartId = chartEntity.chartId,
-                    chartName = chartEntity.chartName
+            val chartEntity = chartRepository.findChartEntityByChartId(map.chartId)
+            if (chartEntity != null) {
+                chartList.add(
+                    ChartDto(
+                        chartId = chartEntity.chartId,
+                        chartName = chartEntity.chartName
+                    )
                 )
-            )
+            }
         }
         reportTemplateDto.charts = chartList
         return reportTemplateDto
@@ -129,7 +134,7 @@ class ReportTemplateService(
                 // map
                 templateDto.charts?.forEach { chart ->
                     val templateMapEntity = ReportTemplateMapEntity(
-                        chart = chartRepository.findById(chart.chartId).get(),
+                        chartId = chart.chartId,
                         template = templateEntity,
                         displayOrder = chart.displayOrder
                     )
@@ -171,7 +176,7 @@ class ReportTemplateService(
                 reportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
                 templateDto.charts?.forEach { chart ->
                     val templateMapEntity = ReportTemplateMapEntity(
-                        chart = chartRepository.findById(chart.chartId).get(),
+                        chartId = chart.chartId,
                         template = templateEntity,
                         displayOrder = chart.displayOrder
                     )
