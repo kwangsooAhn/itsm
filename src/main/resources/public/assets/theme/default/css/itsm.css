@@ -6137,6 +6137,27 @@ body.modal-active {
   display: inline-block;
   vertical-align: middle;
 }
+.modal-dialog.product-info-modal {
+  width: 26.875rem;
+  height: 31.25rem;
+}
+.modal-dialog.product-info-modal .modal-content {
+  margin: 1.25rem 2.5rem 1.25rem 2.5rem;
+  height: 29.375rem;
+  padding: 1.25rem;
+  border-color: #FFFFFF;
+}
+.modal-dialog.product-info-modal .modal-content .i-logo {
+  height: 2.5rem;
+  margin-bottom: 1.875rem;
+}
+.modal-dialog.product-info-modal .modal-content .top-line {
+  border-color: #FFFFFF;
+  border-width: 0.0625rem;
+  border-top-color: #ACB4BF;
+  border-style: ridge;
+  padding-top: 0.625rem;
+}
 
 /* _thumbnail.scss 
  *
