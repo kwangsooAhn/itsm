@@ -124,17 +124,18 @@
                 formModal.show();
             }
         };
+
         function createModalContent(data) {
             return `<div class="flex-column">` +
-                `<label> <h3>${i18n.msg('user.msg.updatePasswordNotice', passwordExpiredPeriod)}</h3></label>` +
+                `<label> ${i18n.msg('user.msg.updatePasswordNotice', passwordExpiredPeriod)}</label>` +
                 `<label> ${i18n.msg('user.tooltip.pwRuleSummary')}</label>` +
-                `</br></br>` +
                 `<label>${i18n.msg('user.label.nowUserPassword')} </label>` +
-                `<input type="password" id="nowPassword" class="z-input" maxlength="100" required="required">` +
+                `<input type="password" id="nowPassword" class="z-input" maxlength="20" required="required">` +
                 `<label>${i18n.msg('user.label.newUserPassword')} </label>` +
-                `<input type="password" id="newPassword" class="z-input" maxlength="100" required="required">` +
+                `<input type="password" id="newPassword" class="z-input" maxlength="20" required="required">` +
                 `<label>${i18n.msg('user.label.newUserRePassword')} </label>` +
-                `<input type="password" id="newRePassword" class="z-input" maxlength="100" required="required">`
+                `<input type="password" id="newRePassword" class="z-input" maxlength="20" required="required">` +
+                '</div>'
         }
 
         function validation() {
