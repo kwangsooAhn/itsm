@@ -11,8 +11,8 @@
 @import '../template/_variables.scss';      // 상속 불가
 @import '../template/_mixins.scss';         // 상속 불가
 @import '../template/_utilities.scss';      // 상속 불가
-@import '../template/_icons.scss'; // 공통 아이콘
 @import '_variables.scss';
+@import '_icons.scss';
 @import '_layout.scss';
 @import '_elements.scss';
 @import '_buttons.scss';
@@ -30,3 +30,4 @@
 @import '_browser-guide.scss';
 @import '_email-certification.scss';
 @import '_modal.scss';
+@import '_paging.scss';

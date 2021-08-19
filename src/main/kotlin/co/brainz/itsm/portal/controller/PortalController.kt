@@ -7,16 +7,13 @@
 package co.brainz.itsm.portal.controller
 
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.constants.DownloadConstants
-import co.brainz.itsm.download.dto.DownloadSearchDto
+import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.service.DownloadService
-import co.brainz.itsm.notice.dto.NoticeSearchDto
+import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import co.brainz.itsm.portal.service.PortalService
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -42,13 +39,11 @@ class PortalController(
     private val portalBrowserGuidePage: String = "portal/portalBrowserGuide"
     private val portalNoticeSearchPage: String = "portal/notice/noticeSearch"
     private val portalNoticeListPage: String = "portal/notice/noticeList"
-    private val portalNoticeListFragment: String = "portal/notice/noticeList :: list"
     private val portalNoticeViewPage: String = "portal/notice/noticeView"
     private val portalFaqPage: String = "portal/faq/portalFaq"
     private val portalFaqListPage: String = "portal/faq/portalFaqList"
     private val portalDownloadSearchPage: String = "portal/download/downloadSearch"
     private val portalDownloadListPage: String = "portal/download/downloadList"
-    private val portalDownloadListFragment: String = "portal/download/downloadList :: list"
     private val portalDownloadViewPage: String = "portal/download/downloadView"
 
     /**
@@ -88,17 +83,12 @@ class PortalController(
      * 포탈 공지사항 리스트 호출
      */
     @GetMapping("/notices")
-    fun getNoticeList(noticeSearchDto: NoticeSearchDto, model: Model): String {
-        val searchValue = noticeSearchDto.searchValue
-        val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
-        val toDt = LocalDateTime.parse(noticeSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
-        val offset = noticeSearchDto.offset
-        val limit = ItsmConstants.SEARCH_DATA_COUNT
-        val result = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset, limit)
+    fun getNoticeList(noticeSearchCondition: NoticeSearchCondition, model: Model): String {
+        val result = noticeService.findNoticeSearch(noticeSearchCondition)
+        model.addAttribute("topNoticeList", noticeService.findTopNotice())
         model.addAttribute("noticeList", result.data)
-        model.addAttribute("noticeCount", result.totalCount)
-        model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue, fromDt, toDt, limit))
-        return if (noticeSearchDto.isScroll) portalNoticeListFragment else portalNoticeListPage
+        model.addAttribute("paging", result.paging)
+        return portalNoticeListPage
     }
 
     /**
@@ -139,14 +129,14 @@ class PortalController(
     }
 
     /**
-     * [downloadSearchDto], [model]를 받아서 포탈 자료실 리스트 화면 호출.
+     * [downloadSearchCondition], [model]를 받아서 포탈 자료실 리스트 화면 호출.
      */
     @GetMapping("/downloads")
-    fun getDownloadList(downloadSearchDto: DownloadSearchDto, model: Model): String {
-        val result = downloadService.getDownloadList(downloadSearchDto)
+    fun getDownloadList(downloadSearchCondition: DownloadSearchCondition, model: Model): String {
+        val result = downloadService.getDownloadList(downloadSearchCondition)
         model.addAttribute("downloadList", result.data)
-        model.addAttribute("downloadCount", result.totalCount)
-        return if (downloadSearchDto.isScroll) portalDownloadListFragment else portalDownloadListPage
+        model.addAttribute("paging", result.paging)
+        return portalDownloadListPage
     }
 
     /**

@@ -3,62 +3,63 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/portalLayout">
 <head>
-    <meta charset="UTF-8">
     <title th:text="#{portal.label.portal}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div id="main-banner" class="main-banner">
-        <h1 class="title align-center" th:text="#{portal.label.topPhrase}"></h1>
-    </div>
-    <div id="main-search" class="main-search align-center">
-        <input type="text" class="col-8 z-input i-search mr-2" id="searchValue" name="searchValue"
-               th:value="${portalSearchDto?.searchValue}"
-               th:placeholder="#{common.label.searchWord}" maxlength="100"/>
-        <span id="spanTotalCount" class="search-count"></span>
-    </div>
-    <div class="main-content">
-        <ul class="card-group flex-row justify-content-between">
-            <li class="card flex-column">
-                <div class="card-header align-center">
-                    <div class="icon">
-                        <a href="/portals/notices/search">
-                            <img th:src="@{/assets/media/images/portal/img_portal_notice.png}" width="120" height="120" alt="Notice">
-                        </a>
+<th:block layout:fragment="portalContent">
+    <div class="main">
+        <div id="main-banner" class="main-banner">
+            <h1 class="title align-center" th:text="#{portal.label.topPhrase}"></h1>
+        </div>
+        <div id="main-search" class="main-search align-center">
+            <input type="text" class="col-8 z-input i-search mr-2" id="searchValue" name="searchValue"
+                   th:value="${portalSearchDto?.searchValue}"
+                   th:placeholder="#{common.label.searchWord}" maxlength="100"/>
+            <span id="spanTotalCount" class="search-count"></span>
+        </div>
+        <div class="main-content">
+            <ul class="card-group flex-row justify-content-between">
+                <li class="card flex-column">
+                    <div class="card-header align-center">
+                        <div class="icon">
+                            <a href="/portals/notices/search">
+                                <img class="z-img i-portal-notice" th:src="@{/assets/media/images/portal/img_portal_notice.png}" width="120" height="120" alt="Notice">
+                            </a>
+                        </div>
+                        <h3 th:text="#{menu.notice.parent}"></h3>
                     </div>
-                    <h3 th:text="#{menu.notice.parent}"></h3>
-                </div>
-                <div class="card-list">
-                    <table id="notice"></table>
-                </div>
-            </li>
-            <li class="card flex-column">
-                <div class="card-header align-center">
-                    <div class="icon">
-                        <a href="/portals/faqs/ /view">
-                            <img th:src="@{/assets/media/images/portal/img_portal_faq.png}" width="120" height="120" alt="Faq">
-                        </a>
+                    <div class="card-list">
+                        <table id="notice"></table>
                     </div>
-                    <h3 th:text="#{menu.faq.parent}"></h3>
-                </div>
-                <div class="card-list">
-                    <table id="faq"></table>
-                </div>
-            </li>
-            <li class="card flex-column">
-                <div class="card-header align-center">
-                    <div class="icon">
-                        <a href="/portals/downloads/search">
-                            <img th:src="@{/assets/media/images/portal/img_portal_download.png}" width="120" height="120" alt="Download">
-                        </a>
+                </li>
+                <li class="card flex-column">
+                    <div class="card-header align-center">
+                        <div class="icon">
+                            <a href="/portals/faqs/ /view">
+                                <img class="z-img i-portal-faq" th:src="@{/assets/media/images/portal/img_portal_faq.png}" width="120" height="120" alt="Faq">
+                            </a>
+                        </div>
+                        <h3 th:text="#{menu.faq.parent}"></h3>
                     </div>
-                    <h3 th:text="#{menu.download.parent}"></h3>
-                </div>
-                <div class="card-list">
-                    <table id="download"></table>
-                </div>
-            </li>
-        </ul>
+                    <div class="card-list">
+                        <table id="faq"></table>
+                    </div>
+                </li>
+                <li class="card flex-column">
+                    <div class="card-header align-center">
+                        <div class="icon">
+                            <a href="/portals/downloads/search">
+                                <img class="z-img i-portal-download" th:src="@{/assets/media/images/portal/img_portal_download.png}" width="120" height="120" alt="Download">
+                            </a>
+                        </div>
+                        <h3 th:text="#{menu.download.parent}"></h3>
+                    </div>
+                    <div class="card-list">
+                        <table id="download"></table>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </th:block>
 </body>

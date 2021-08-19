@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/portalLayout">
 <head>
-    <meta charset="UTF-8">
-    <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
-    <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
     <title th:text="#{project.title.error}"></title>
 </head>
 <body>
-<div class="alice-wrapper">
-    <div class="portal-container flex-row">
+<th:block layout:fragment="portalHead"></th:block>
+<th:block layout:fragment="portalContent">
+    <div class="error-main flex-row">
         <div class="error-background float-left">
-            <img th:src="@{/assets/media/images/error/img_error_caution.png}"/>
-            <img class="logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
+            <img class="z-img i-error-caution" th:src="@{/assets/media/images/error/img_error_caution.png}"/>
+            <img class="z-img i-logo"  th:src="@{/assets/media/icons/logo/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
         </div>
         <div class="error-form float-right">
             <h1 th:text="#{error.label.topPhrase}"></h1>
@@ -22,17 +22,19 @@
             <button th:text="#{error.btn.return}" class="z-button primary" id="errorButton"></button>
         </div>
     </div>
-</div>
+</th:block>
 </body>
-<script type="text/javascript">
-    window.addEventListener('load', function () {
-        document.getElementById('errorButton').addEventListener('click', function () {
-            if (window.opener) {
-                self.close();
-            } else {
-                history.go(-1);
-            }
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        window.addEventListener('load', function () {
+            document.getElementById('errorButton').addEventListener('click', function () {
+                if (window.opener) {
+                    self.close();
+                } else {
+                    history.go(-1);
+                }
+            })
         })
-    })
-</script>
+    </script>
+</th:block>
 </html>

@@ -1,0 +1,41 @@
+@import '../../template/_icons.scss';      // 공통 아이콘
+
+// 네비게이션
+.z-icon {
+  &.i-gnb-board {
+    @include maskImage($icon-gnb-board, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
+  }
+  &.i-gnb-chart {
+    @include maskImage($icon-gnb-chart, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20xp
+  }
+  &.i-gnb-dashboard {
+    @include maskImage($icon-gnb-dashboard, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
+  }
+  &.i-gnb-document {
+    @include maskImage($icon-gnb-document, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
+  }
+  &.i-gnb-download {
+    @include maskImage($icon-gnb-download, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
+  }
+  &.i-gnb-faq {
+    @include maskImage($icon-gnb-faq, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
+  }
+  &.i-gnb-notice {
+    @include maskImage($icon-gnb-notice, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
+  }
+  &.i-gnb-config {
+    @include maskImage($icon-gnb-config, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
+  }
+  &.i-gnb-workflow {
+    @include maskImage($icon-gnb-workflow, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
+  }
+  &.i-gnb-token {
+    @include maskImage($icon-gnb-token, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
+  }
+  &.i-gnb-cmdb {
+    @include maskImage($icon-gnb-cmdb, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
+  }
+  &.i-gnb_sub_dot {
+    @include maskImage($icon-gnb-sub-dot, 0.25rem, 0.25rem, no-repeat, center); // 4xp 4px
+  }
+}

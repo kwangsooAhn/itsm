@@ -1,19 +1,19 @@
 @import '../template/_tooltip.scss';
 // clipboard - 복사 용도
-.#{$common-prefix}clipboard-tooltip {
+.z-clipboard-tooltip {
   position: relative;
   display: inline-block;
   margin-left: 0.3125rem; // 5px
   cursor: pointer;
 
   &:hover {
-    .#{$common-prefix}clipboard-tooltip-text {
+    .z-clipboard-tooltip-text {
       visibility: visible;
       opacity: 1;
     }
   }
 
-  .#{$common-prefix}clipboard-tooltip-text {
+  .z-clipboard-tooltip-text {
     @include absolute($left: 50%, $bottom: 120%);
     width: 9.375rem; //150px
     font-family: $clipboard-tooltip-font-family;
@@ -39,46 +39,3 @@
   }
 }
 
-// 도움말용
-.help-tooltip {
-  display: inline-block;
-  margin-left: $tooltip-help-margin;
-  vertical-align: middle;
-
-  .help-tooltip-icon {
-    display: inline-block;
-    cursor: pointer;
-    @include maskImage('#{$icon-folder-path}icon_tooltip.svg', $tooltip-help-size, $tooltip-help-size, no-repeat, center, null, map-get($grays, "pressed"));
-  }
-
-  .tooltip-contents {
-    position: absolute;
-    left: $tooltip-contents-left;
-    width: $tooltip-contents-width;
-    font-size: $tooltip-font-size;
-    color: $tooltip-contents-color;
-    @include border($tooltip-contents-border-width, solid, $tooltip-contents-border-color, all);
-    @include borderRadius($tooltip-contents-border-radius);
-    padding: $tooltip-contents-padding;
-    margin: 0.25rem 0 0 0;
-    box-shadow: $tooltip-contents-box-shadow;
-    background-color: $tooltip-contents-background;
-    visibility: hidden;
-    z-index: $z-index-tooltip;
-    span {
-      color: $blue;
-      word-break: keep-all;
-      line-height: 1.5;
-    }
-  }
-
-  &:hover {
-    .tooltip-contents {
-      visibility: visible;
-      @include animation (0s, 0.3s, fadeIn, ease-out);
-    }
-    .help-tooltip-icon {
-      background: $tooltip-help-hover-bg-color;
-    }
-  }
-}

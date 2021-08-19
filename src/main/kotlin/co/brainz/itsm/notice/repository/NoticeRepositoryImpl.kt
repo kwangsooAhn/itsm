@@ -6,11 +6,13 @@
 
 package co.brainz.itsm.notice.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.notice.dto.NoticeListDto
-import co.brainz.itsm.notice.dto.NoticeListReturnDto
+import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.entity.QNoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -37,55 +39,7 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
             .fetch()
     }
 
-    override fun findNoticeSearch(
-        searchValue: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        offset: Long,
-        limit: Long
-    ): NoticeListReturnDto {
-        val notice = QNoticeEntity.noticeEntity
-        val query = from(notice)
-            .select(
-                Projections.constructor(
-                    NoticeListDto::class.java,
-                    notice.topNoticeYn,
-                    notice.noticeNo,
-                    notice.noticeTitle,
-                    notice.popYn,
-                    notice.createDt,
-                    notice.popStrtDt,
-                    notice.popEndDt,
-                    notice.popWidth,
-                    notice.popHeight,
-                    notice.topNoticeStrtDt,
-                    notice.topNoticeEndDt,
-                    notice.createUser.userName
-                )
-            )
-            .where(
-                super.like(notice.noticeTitle, searchValue)?.or(
-                    super.like(notice.createUser.userName, searchValue)
-                ),
-                notice.createDt.goe(fromDt), notice.createDt.lt(toDt)
-            )
-            .orderBy(notice.createDt.desc())
-            .limit(limit)
-            .offset(offset)
-            .fetchResults()
-
-        return NoticeListReturnDto(
-            data = query.results,
-            totalCount = query.total
-        )
-    }
-
-    override fun findTopNoticeSearch(
-        searchValue: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        limit: Long
-    ): MutableList<NoticeListDto> {
+    override fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): QueryResults<NoticeListDto> {
         val notice = QNoticeEntity.noticeEntity
         return from(notice)
             .select(
@@ -106,13 +60,47 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 )
             )
             .where(
-                super.like(notice.noticeTitle, searchValue)?.or(
-                    super.like(notice.createUser.userName, searchValue)
+                super.like(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
+                    super.like(notice.createUser.userName, noticeSearchCondition.searchValue)
                 ),
-                notice.createDt.goe(fromDt), notice.createDt.lt(toDt), notice.topNoticeYn.eq(true)
+                notice.createDt.goe(noticeSearchCondition.formattedFromDt),
+                notice.createDt.lt(noticeSearchCondition.formattedToDt)
             )
             .orderBy(notice.createDt.desc())
-            .limit(limit)
+            .limit(noticeSearchCondition.contentNumPerPage)
+            .offset((noticeSearchCondition.pageNum - 1) * noticeSearchCondition.contentNumPerPage)
+            .fetchResults()
+    }
+
+    override fun findTopNotice(): MutableList<NoticeListDto> {
+        val notice = QNoticeEntity.noticeEntity
+        val user = QAliceUserEntity.aliceUserEntity
+        val currentDateTime = LocalDateTime.now()
+        return from(notice)
+            .select(
+                Projections.constructor(
+                    NoticeListDto::class.java,
+                    notice.topNoticeYn,
+                    notice.noticeNo,
+                    notice.noticeTitle,
+                    notice.popYn,
+                    notice.createDt,
+                    notice.popStrtDt,
+                    notice.popEndDt,
+                    notice.popWidth,
+                    notice.popHeight,
+                    notice.topNoticeStrtDt,
+                    notice.topNoticeEndDt,
+                    notice.createUser.userName
+                )
+            )
+            .innerJoin(notice.createUser, user)
+            .where(
+                notice.topNoticeStrtDt.loe(currentDateTime),
+                notice.topNoticeEndDt.goe(currentDateTime),
+                notice.topNoticeYn.eq(true)
+            )
+            .orderBy(notice.createDt.desc())
             .fetch()
     }
 

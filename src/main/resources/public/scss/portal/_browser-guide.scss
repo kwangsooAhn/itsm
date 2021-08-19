@@ -4,7 +4,8 @@
  * URL : .../portal/browserGuide
  */
 
-.guide-body {
+.browser-guide-main {
+  height: 100%;
   background-color: $browser-guide-bg-color;
   
   h1 {
@@ -31,6 +32,6 @@
   }
 
   &:hover {
-    @include boxShadow(0, 0, 0.9375rem, 0, hexToRGBA(map-get($grays, 'pressed'), 0.3), true);
+    @include boxShadow(0, 0, 0.9375rem, 0, $browser-box-hover-border-color, true);
   }
 }

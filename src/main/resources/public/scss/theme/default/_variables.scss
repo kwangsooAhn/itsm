@@ -1,21 +1,36 @@
 //////////////////////////// Asset path ////////////////////////////
-$icon-folder-path:                            '../media/icons/';
-$image-folder-path:                           '../media/images/';
-$tree-folder-path:                            '../../../media/icons/tree';
+$font-folder-path:                            '../../../fonts';
+$icon-folder-path:                            '../../../media/icons/';
+$image-folder-path:                           '../../../media/images/';
+
+// 테마별 경로
+$theme-icon-folder-path:                       '../media/icons/';
+$theme-image-folder-path:                      '../media/images/';
 
 ////////////////////////////// Layout //////////////////////////////
+// Main
+$layout-main-bg-color:                        $neutral50;
+// Main > Header
+$layout-main-header-border-width:             0.0625rem;  // 1px
+$layout-main-header-border-color:             $gray300;
+$layout-main-header-bg-color:                 $neutral50;
+
+// Content
+$layout-content-bg-color:                     $neutral50;
+
+// Aside
+$layout-aside-bg-color:                       $white;
+
 // Logo
 $logo-width:                                  13.75rem; // 220px
 $logo-height:                                 3.375rem; // 54px
 
 // Navigation
 $nav-width:                                   13.75rem; // 220px
-$nav-height:                                  9.375rem; // 150px
-$nav-bg-color:                                $gray800;
 
 // Menu
 $menu-width:                                  13.75rem; // 220px
-$menu-height:                                 calc(100vh - #{$nav-height} - #{$logo-height}); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이를 제외
+$menu-height:                                 calc(100vh - #{$logo-height}); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이를 제외
 $menu-bg-color:                               $gray800;
 $menu-bg-selected-color:                      $gray900;
 $menu-bg-hover:                               $gray700;
@@ -56,31 +71,18 @@ $top-menu-user-dropdown-active-color:         $blue700;
 // Menu Icons
 $icon-gnb-color:                              $gray500;
 
-$icon-gnb-board:                              $icon-folder-path + 'gnb/icon_gnb_board.svg';
-$icon-gnb-chart:                              $icon-folder-path + 'gnb/icon_gnb_chart.svg';
-$icon-gnb-dashboard:                          $icon-folder-path + 'gnb/icon_gnb_dashboard.svg';
-$icon-gnb-document:                           $icon-folder-path + 'gnb/icon_gnb_document.svg';
-$icon-gnb-download:                           $icon-folder-path + 'gnb/icon_gnb_download.svg';
-$icon-gnb-faq:                                $icon-folder-path + 'gnb/icon_gnb_faq.svg';
-$icon-gnb-notice:                             $icon-folder-path + 'gnb/icon_gnb_notice.svg';
-$icon-gnb-config:                             $icon-folder-path + 'gnb/icon_gnb_config.svg';
-$icon-gnb-workflow:                           $icon-folder-path + 'gnb/icon_gnb_workflow.svg';
-$icon-gnb-token:                              $icon-folder-path + 'gnb/icon_gnb_token.svg';
-$icon-gnb-cmdb:                               $icon-folder-path + 'gnb/icon_gnb_cmdb.svg';
-$icon-gnb-sub-dot:                            $icon-folder-path + 'gnb/icon_gnb_sub_dot.svg';
-
-$icon-menu-arrow-right:                       $icon-folder-path + 'icon_menu_arrow_right.svg';
-$icon-menu-arrow-bottom:                      $icon-folder-path + 'icon_menu_arrow_bottom.svg';
-
-// Profile
-$profile-photo-size:                          2rem; // 16px
-$profile-photo-background:                    #F0F0F0;
-
-// Document color icon
-$document-color-size:                         1rem; // 16px
-
-// 헤더
-$layout-header-border:                        0.0625rem solid map-get($grays, 'line'); // 1px
+$icon-gnb-board:                              $theme-icon-folder-path + 'gnb/icon_gnb_board.svg';
+$icon-gnb-chart:                              $theme-icon-folder-path + 'gnb/icon_gnb_chart.svg';
+$icon-gnb-dashboard:                          $theme-icon-folder-path + 'gnb/icon_gnb_dashboard.svg';
+$icon-gnb-document:                           $theme-icon-folder-path + 'gnb/icon_gnb_document.svg';
+$icon-gnb-download:                           $theme-icon-folder-path + 'gnb/icon_gnb_download.svg';
+$icon-gnb-faq:                                $theme-icon-folder-path + 'gnb/icon_gnb_faq.svg';
+$icon-gnb-notice:                             $theme-icon-folder-path + 'gnb/icon_gnb_notice.svg';
+$icon-gnb-config:                             $theme-icon-folder-path + 'gnb/icon_gnb_config.svg';
+$icon-gnb-workflow:                           $theme-icon-folder-path + 'gnb/icon_gnb_workflow.svg';
+$icon-gnb-token:                              $theme-icon-folder-path + 'gnb/icon_gnb_token.svg';
+$icon-gnb-cmdb:                               $theme-icon-folder-path + 'gnb/icon_gnb_cmdb.svg';
+$icon-gnb-sub-dot:                            $theme-icon-folder-path + 'gnb/icon_gnb_sub_dot.svg';
 
 ////////////////////////////// View //////////////////////////////
 $view-title-font-size:                        1.125rem; // 18px
@@ -95,6 +97,14 @@ $view-content-font-size:                      $font-size-s; // 16px
 $view-content-font-weight:                    $font-weight-regular;
 $view-content-font-color:                     map-get($grays, 'dark');
 
+$view-content-bg-color:                       $white;
+$view-content-border-width:                   0.0625rem;  // 1px
+$view-content-border-color:                   $gray300;
+////////////////////////////// Edit //////////////////////////////
+$edit-content-bg-color:                       $white;
+$edit-content-border-width:                   0.0625rem;  // 1px
+$edit-content-border-color:                   $gray300;
+
 ////////////////////////////// 리스트 //////////////////////////////
 // 리스트 - 마우스 오버시
 $list-hover-bg-color:                         map-get($grays, 'line');
@@ -107,23 +117,28 @@ $list-active-font-color:                      map-get($blues, 'dark');
 $list-active-bg-color:                        hexToRGBA(#e6e8eb, 0.6);
 
 // 공지사항 상단 공지 (배경색 별도 처리)
-$notice-pinned-color:                         hexToRGBA(map-get($blues, 'light'), 0.15);
+$notice-pinned-color:                         $blue100;
 
+// Document color icon
+$document-color-size:                         1rem; // 16px
+
+// 리스트 항목명
+$list-head-font-size:                         $gray800;
 ////////////////////////////// 카드 //////////////////////////////
+$card-content-bg-color:                       $white;
 $card-border-width:                           0.0625rem; // 1px
-$card-border-color:                           map-get($grays, 'line');
+$card-border-color:                           $gray300;
 $card-border:                                 $card-border-width solid $card-border-color;
 $card-border-radius:                          0.0625rem; // 1px
 $card-hover-box-shadow:                       0 0 0.9375rem hexToRGBA(map-get($grays, 'pressed'), 0.15), inset 0 0 0 $card-border-width $card-border-color;
+
+// 카드 목록 마우스 오버시
+$card-list-hover-bg-color:                    $neutral200;
 
 // 카드 - 데이터 없을 때
 $no-data-found-bg:                            hexToRGBA(map-get($grays, 'light'), 0.45);
 
 //////////////////////////// Thumbnail /////////////////////////////
-$thumbnail-border-width:                      0.0625rem; // 1px
-$thumbnail-border-color:                      map-get($grays, 'line');
-$thumbnail-asset-path:                        '../../../media/icons/thumbnail';
-
 // 업무흐름 아이콘 선택
 $thumbnail-icon-modal-width:                  47.81rem; // 765px
 $thumbnail-icon-modal-height:                 45rem; // 720px
@@ -131,7 +146,6 @@ $thumbnail-icon-container-padding:            1.375rem; // 22px
 
 $thumbnail-size:                              10.31rem; // 165px
 $thumbnail-icon-size:                         6.25rem; // 100px
-$thumbnail-icon-box-shadow:                   0 0 0 0.0625rem $thumbnail-border-color;
 
 // CMDB 아이콘 선택
 $thumbnail-cmdb-icon-modal-top:               15rem; // 240px

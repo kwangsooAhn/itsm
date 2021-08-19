@@ -13,6 +13,7 @@ import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
+import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.service.UserService
 import javax.servlet.http.HttpServletRequest
 import org.mapstruct.factory.Mappers
@@ -23,7 +24,6 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 
 /**
  * 사용자 관리 클래스
@@ -42,7 +42,6 @@ class UserController(
 
     private val userSearchPage: String = "user/userSearch"
     private val userListPage: String = "user/userList"
-    private val userListFragment: String = "user/userList :: list"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
 
@@ -59,16 +58,11 @@ class UserController(
      * 사용자 조회 목록 화면을 호출한다.
      */
     @GetMapping("")
-    fun getUserList(
-        @RequestParam(value = "search", defaultValue = "") search: String,
-        @RequestParam(value = "offset", defaultValue = "0") offset: String,
-        @RequestParam(value = "isScroll", defaultValue = "false") isScroll: Boolean,
-        model: Model
-    ): String {
-        val result = userService.selectUserList(search, offset.toLong())
+    fun getUserList(userSearchCondition: UserSearchCondition, model: Model): String {
+        val result = userService.selectUserList(userSearchCondition)
         model.addAttribute("userList", result.data)
-        model.addAttribute("userListCount", result.totalCount)
-        return if (isScroll) userListFragment else userListPage
+        model.addAttribute("paging", result.paging)
+        return userListPage
     }
 
     /**

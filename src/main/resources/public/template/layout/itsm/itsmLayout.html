@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:th="http://www.thymeleaf.org">
+<!--/* ITSM 화면에서 사용하는 컨테이너 레이아웃. */-->
+<head>
+	<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Zenius ITSM</title>
+	<th:block th:insert="layout/itsm/itsmHead :: itsmHead"></th:block>
+</head>
+<th:block layout:fragment="pageHead"></th:block>
+<body>
+<div class="z-wrapper">
+	<div class="z-itsm-container">
+		<!--/* 왼쪽 메뉴 */-->
+		<div th:replace="layout/itsm/fragment/navigationFragment"></div>
+		<!--/* 오른쪽 메인 */-->
+		<div class="z-main">
+			<!--/* 상단 메뉴 */-->
+			<div th:replace="layout/itsm/fragment/topMenuFragment">topMenu</div>
+			<!--/* 페이지별로 달라지는 메인 컨텐츠 */-->
+			<th:block layout:fragment="mainContent"></th:block>
+		</div>
+	</div>
+</div>
+</body>
+<th:block layout:fragment="pageScript"></th:block>
+</html>

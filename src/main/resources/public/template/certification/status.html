@@ -1,24 +1,86 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/portalLayout">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
-    <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
     <title th:text="#{project.title.authenticationEmail}"></title>
 </head>
 <body>
-<div class="alice-wrapper">
+<th:block layout:fragment="portalHead"></th:block>
+<th:block layout:fragment="portalContent">
+    <div class="email-certificate-main flex-row">
+        <div class="email-certificate-background float-left">
+            <th:block th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
+                <img class="z-img i-email-certificate-check" th:src="@{/assets/media/images/email/img_email_certificate_check.png}"/>
+            </th:block>
+            <th:block th:if="${validCode == 1 || validCode == 2}">
+                <img class="z-img i-email-certificate-complete" th:src="@{/assets/media/images/email/img_email_certificate_complete.png}"/>
+            </th:block>
+            <img class="z-img i-logo"  th:src="@{/assets/media/icons/logo/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
+        </div>
+        <div class="email-certificate-form float-right">
+            <!-- 인증 없이 로그인 시도 -->
+            <th:block th:if="${validCode == 0 || validCode == 4}">
+                <h1 th:text="#{authentication.msg.beforeEmailCheck}"></h1>
+            </th:block>
+            <!-- 인증성공 후 로그인 시도 -->
+            <th:block th:if="${validCode == 1}">
+                <h1 th:text="#{authentication.msg.authenticationCompleted}"></h1>
+                <th:block sec:authorize="isAnonymous()">
+                    <h3 th:utext="#{login.label.requiredLogin}"></h3>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="z-button primary" th:text="#{login.btn.login}"></button>
+                    </form>
+                </th:block>
+                <th:block sec:authorize="isAuthenticated()">
+                    <h3></h3>
+                    <a class="z-button primary authentication-email" href="/tokens/search" th:text="#{login.label.gotoMainPage}"></a>
+                </th:block>
+            </th:block>
+            <!-- 이미 인증완료된 후 로그인 시도 -->
+            <th:block th:if="${validCode == 2}">
+                <h1 th:text="#{authentication.msg.alreadyAuthenticated}"></h1>
+                <th:block sec:authorize="isAnonymous()">
+                    <h3 th:utext="#{login.label.requiredLogin}"></h3>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="z-button primary" th:text="#{login.btn.login}"></button>
+                    </form>
+                </th:block>
+                <th:block sec:authorize="isAuthenticated()">
+                    <h3></h3>
+                    <a class="z-button primary authentication-email" href="/tokens/search" th:text="#{login.label.gotoMainPage}"></a>
+                </th:block>
+            </th:block>
+            <!-- 인증 만료시 -->
+            <th:block th:if="${validCode == 3}">
+                <h1 th:text="#{authentication.msg.expiredAuthentication}"></h1>
+            </th:block>
+            <!-- 인증 없이 로그인 시도하거나 인증 만료시 -->
+            <th:block th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
+                <th:block sec:authorize="isAuthenticated()">
+                    <h3 th:utext="#{authentication.msg.beforeEmailCheckDescription}"></h3>
+                    <form id="sendForm" method="get" onsubmit="return false">
+                        <button type="submit" id="btnSend" class="z-button primary authentication-email" th:text="#{authentication.label.recallAuthentication}"></button>
+                    </form>
+                </th:block>
+                <th:block sec:authorize="isAnonymous()">
+                    <h3 th:utext="#{authentication.msg.recallAuthentication}"></h3>
+                </th:block>
+            </th:block>
+        </div>
+    </div>
+</th:block>
+<div class="z-wrapper">
     <div class="portal-container flex-row">
         <div class="email-certificate-background float-left">
             <th:block th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
-                <img th:src="@{/assets/media/images/email/img_email_certificate_check.png}"/>
+                <img class="z-img i-email-certificate-check" th:src="@{/assets/media/images/email/img_email_certificate_check.png}"/>
             </th:block>
             <th:block th:if="${validCode == 1 || validCode == 2}">
-                <img th:src="@{/assets/media/images/email/img_email_certificate_complete.png}"/>
+                <img class="z-img i-email-certificate-complete" th:src="@{/assets/media/images/email/img_email_certificate_complete.png}"/>
             </th:block>
-            <img class="logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
+            <img class="z-img i-logo"  th:src="@{/assets/media/icons/logo/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
         </div>
         <div class="email-certificate-form float-right">
             <!-- 인증 없이 로그인 시도 -->
@@ -72,30 +134,29 @@
         </div>
     </div>
 </div>
-<script th:src="@{/assets/js/lib/zAlert.js}"></script>
-<script th:src="@{/assets/js/lib/zI18n.js}"></script>
-<script th:src="@{/assets/js/lib/zUtil.js}"></script>
-<script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
-    window.addEventListener('load', function () {
-        document.getElementById('btnSend').addEventListener("click", function () {
-            restSubmit('get', '/certification/certifiedmail');
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        window.addEventListener('load', function () {
+            document.getElementById('btnSend').addEventListener('click', function () {
+                restSubmit('get', '/certification/certifiedmail');
+            });
         });
-    });
 
 
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            params: new FormData(document.getElementById("sendForm")),
-            callbackFunc: function() {
-                aliceAlert.alertWarning(i18n.msg('authentication.msg.resentAuthentication') + '\n' + i18n.msg('authentication.msg.emailCheck'));
-            }
-        };
-        aliceJs.sendXhr(opt)
-    }
-    /*]]>*/
-</script>
+        function restSubmit(method, url) {
+            const opt = {
+                method: method,
+                url: url,
+                params: new FormData(document.getElementById('sendForm')),
+                callbackFunc: function() {
+                    aliceAlert.alertWarning(i18n.msg('authentication.msg.resentAuthentication') + '\n' + i18n.msg('authentication.msg.emailCheck'));
+                }
+            };
+            aliceJs.sendXhr(opt)
+        }
+        /*]]>*/
+    </script>
+</th:block>
 </body>
 </html>

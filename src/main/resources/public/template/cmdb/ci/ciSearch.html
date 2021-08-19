@@ -1,180 +1,136 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{cmdb.ci.label.ciInquiry}"></title>
+    <th:block layout:fragment="pageHead">
+        <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
+    </th:block>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="cmdb-ci-header">
-        <div class="header-title flex-row align-items-baseline">
-            <h1 th:text="#{cmdb.ci.label.ciInquiry}"></h1>
-            <h6 class="description ml-2" th:text="#{cmdb.ci.msg.searchDescription}"></h6>
-        </div>
-        <div class="header-search flex-row">
-            <input type="hidden" sec:authorize="hasAuthority('cmdb.ci.create') || hasAuthority('cmdb.ci.update')"
-                   th:name="isRole" th:value="true"/>
-            <input type="hidden" sec:authorize="!hasAuthority('cmdb.ci.create') && !hasAuthority('cmdb.ci.update')"
-                   th:name="isRole" th:value="false"/>
-            <form id="searchFrm">
-                <input type="text" class="z-input i-search col-5" id="search" name="search" maxlength="100"
-                       th:placeholder="#{cmdb.ci.label.searchPlaceholder}"/>
-                <input type="text" class="z-input i-search col-3 mr-2" id="tagSearch" name="tagSearch" maxlength="100"
-                       th:placeholder="#{cmdb.ci.label.tagPlaceholder}"/>
-                <input type="hidden" id="flag" name="flag" value="itsm"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-        </div>
-    </div>
-    <div class="cmdb-ci-content flex-fill">
-        <div class="list" id="ciList"></div>
-    </div>
-</th:block>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{cmdb.ci.label.ciInquiry}"></h1>
+    <h6 class="description ml-2" th:text="#{cmdb.ci.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="hidden" sec:authorize="hasAuthority('cmdb.ci.create') || hasAuthority('cmdb.ci.update')"
+           th:name="isRole" th:value="true"/>
+    <input type="hidden" sec:authorize="!hasAuthority('cmdb.ci.create') && !hasAuthority('cmdb.ci.update')"
+           th:name="isRole" th:value="false"/>
+    <form id="searchFrm">
+        <input type="text" class="z-input i-search col-5" id="searchValue" name="searchValue" maxlength="100"
+               th:placeholder="#{cmdb.ci.label.searchPlaceholder}"/>
+        <input type="text" class="z-input i-search col-3 mr-2" id="tagSearch" name="tagSearch" maxlength="100"
+               th:placeholder="#{cmdb.ci.label.tagPlaceholder}"/>
+        <input type="hidden" id="flag" name="flag" value="itsm"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="ciList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
-    <script th:src="@{/assets/vendors/tagify/tagify.custom.js}"></script>
-    <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
-    <script type="text/javascript">
-        /*<![CDATA[*/
-        let offsetCount = 0;
-        let loopOffSet = 0;
-        window.onload = function () {
-            document.getElementById('search').focus();
-            document.getElementById('search').onkeyup = function() {
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    let loopOffSet = 0;
+    window.onload = function () {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').onkeyup = function() {
+            loopOffSet = 0;
+            getList();
+        };
+        // 태그 조회가 아직 미완성이기 때문에 임시적으로 엔터로 변경한다.
+        document.getElementById('tagSearch').onkeyup = function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
                 loopOffSet = 0;
-                searchCis(false);
-            };
-            // 태그 조회가 아직 미완성이기 때문에 임시적으로 엔터로 변경한다.
-            document.getElementById('tagSearch').onkeyup = function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    loopOffSet = 0;
-                    searchCis(false);
-                }
-            };
-            searchCis(false);
-        }
-
-        function openCIDetailModal(ciId) {
-            restSubmit('GET', '/cmdb/cis/'+ciId+'/view', false);
-        }
-
-        function searchCis(isScroll) {
-            let urlParam = '';
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
+                getList();
             }
-            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount  + '&isScroll=' + isScroll;
-            restSubmit('get', '/cmdb/cis?' + urlParam, isScroll);
-            let ciListTags = document.querySelectorAll('input[name=ciListTags]');
-            let ciIdList= (document.querySelectorAll('input[name=ciId]'));
-            for (let i = loopOffSet; i < ciListTags.length; i++) {
-                new zTag(ciListTags[i], {
-                    suggestion: false,
-                    realtime: false,
-                    tagType: 'ci',
-                    targetId: ciIdList[i].value
-                });
-            }
-            loopOffSet = loopOffSet + aliceJs.searchDataCount;
-        }
+        };
+        getList();
+    }
 
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const ciTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        ciTbody.appendChild(container)
-                    } else {
-                        if (url.indexOf("/view") > 0) {
-                            const ciDetailModal = new modal({
-                                title: i18n.msg('cmdb.ci.label.view'),
-                                body: response.responseText,
-                                classes: 'cmdb-ci-view-modal',
-                                buttons: [{
-                                    content: i18n.msg('common.btn.close'),
-                                    classes: 'z-button secondary',
-                                    bindKey: false,
-                                    callback: function (modal) {
-                                        modal.hide();
-                                    }
-                                }],
-                                close: {
-                                    closable: false,
-                                },
-                                onCreate: function (modal) {
-                                    document.getElementById('ciAttributes').click();
-                                    // 스크롤바 추가
-                                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
-                                    OverlayScrollbars(document.querySelectorAll('textarea'), {
-                                        className: 'scrollbar',
-                                        resize: 'vertical',
-                                        sizeAutoCapable: true,
-                                        textarea: {
-                                            dynHeight: false,
-                                            dynWidth: false,
-                                            inheritedAttrs: "class"
-                                        }
-                                    });
-                                    new zTag(document.querySelector('input[name=ciDetailTags]'),{
-                                        suggestion: false,
-                                        realtime: false,
-                                        tagType: 'ci',
-                                        targetId: document.getElementById('ciId').getAttribute('value')
-                                    });                                    
-                                    // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-                                    document.querySelectorAll('.date-time').forEach(dt => {
-                                        dt.textContent = i18n.userDateTime(dt.textContent.trim());
-                                    });
-                                }
-                            });
-                            ciDetailModal.show();
-                        } else {
-                            document.getElementById('ciList').innerHTML = response.responseText;
-                            aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                            OverlayScrollbars(document.querySelector('.list-body'), {
+    function openCIDetailModal(ciId) {
+        restSubmit('GET', '/cmdb/cis/'+ciId+'/view', false);
+    }
+
+    function getList(pageNum = 1) {
+        restSubmit('get', '/cmdb/cis?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+        let ciListTags = document.querySelectorAll('input[name=ciListTags]');
+        let ciIdList= (document.querySelectorAll('input[name=ciId]'));
+        for (let i = loopOffSet; i < ciListTags.length; i++) {
+            new zTag(ciListTags[i], {
+                suggestion: false,
+                realtime: false,
+                tagType: 'ci',
+                targetId: ciIdList[i].value
+            });
+        }
+        loopOffSet = loopOffSet + aliceJs.searchDataCount;
+    }
+
+    function restSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                if (url.indexOf("/view") > 0) {
+                    const ciDetailModal = new modal({
+                        title: i18n.msg('cmdb.ci.label.view'),
+                        body: response.responseText,
+                        classes: 'cmdb-ci-view-modal',
+                        buttons: [{
+                            content: i18n.msg('common.btn.close'),
+                            classes: 'z-button secondary',
+                            bindKey: false,
+                            callback: function (modal) {
+                                modal.hide();
+                            }
+                        }],
+                        close: {
+                            closable: false,
+                        },
+                        onCreate: function (modal) {
+                            document.getElementById('ciAttributes').click();
+                            // 스크롤바 추가
+                            OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
+                            OverlayScrollbars(document.querySelectorAll('textarea'), {
                                 className: 'scrollbar',
-                                callbacks: {
-                                    onScroll: function (e) {
-                                        const scrollHeight = e.target.scrollHeight;
-                                        const scrollTop = e.target.scrollTop;
-                                        const clientHeight = e.target.clientHeight;
-                                        if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                                searchCis(true);
-                                            }
-                                        }
-                                    }
+                                resize: 'vertical',
+                                sizeAutoCapable: true,
+                                textarea: {
+                                    dynHeight: false,
+                                    dynWidth: false,
+                                    inheritedAttrs: "class"
                                 }
                             });
+                            new zTag(document.querySelector('input[name=ciDetailTags]'),{
+                                suggestion: false,
+                                realtime: false,
+                                tagType: 'ci',
+                                targetId: document.getElementById('ciId').getAttribute('value')
+                            });
+                            // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+                            document.querySelectorAll('.date-time').forEach(dt => {
+                                dt.textContent = i18n.userDateTime(dt.textContent.trim());
+                            });
                         }
-                    }
+                    });
+                    ciDetailModal.show();
+                } else {
+                    document.getElementById('ciList').innerHTML = response.responseText;
+                    OverlayScrollbars(document.querySelector('.z-list-body'), {
+                        className: 'scrollbar'
+                    });
                 }
-            };
-            aliceJs.sendXhr(opt);
-        }
-        /*]]>*/
-    </script>
-</th:block>
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+    /*]]>*/
+</script>
 </html>

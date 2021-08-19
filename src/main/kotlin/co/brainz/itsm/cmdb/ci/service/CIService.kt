@@ -10,10 +10,11 @@ import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIRelationDto
-import co.brainz.cmdb.dto.CIReturnDto
+import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
+import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
@@ -57,8 +58,8 @@ class CIService(
     /**
      * CMDB CI 목록 조회
      */
-    fun getCIs(params: LinkedHashMap<String, Any>): CIReturnDto {
-        return ciService.getCIs(params)
+    fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
+        return ciService.getCIs(ciSearchCondition)
     }
 
     /**
@@ -79,7 +80,7 @@ class CIService(
             ciDetailDto.ciIconData = map["ciIconData"] as String
             ciDetailDto.ciDesc = map["ciDesc"] as String
             ciDetailDto.ciStatus = map["ciStatus"] as String
-            ciDetailDto.automatic = false
+            ciDetailDto.interlink = false
             ciDetailDto.typeId = map["typeId"] as String
             ciDetailDto.typeName = map["typeName"] as String
             ciDetailDto.classId = map["classId"] as String

@@ -1,4 +1,4 @@
-@import "../../template/_layout.scss";
+@import '../../template/_layout.scss';
 
 // layout 이벤트
 @include keyframe (slideDown) {
@@ -22,47 +22,75 @@
     transform: translateY(0);
   }
 }
-/////////////////////////////////////////////// 공통 /////////////////////////////////////////////////////
-.itsm-container {
-  @include container;
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
-
-  @include horizontalBar(0.0625rem,  0.625rem 0, map-get($grays, "line"));
-
-  // 메뉴 디자인은 _gnb.scss 참조
-  // 메인
-  .main {
-    width: calc(100% - #{$nav-width});
+// z-itsm-container ----------------------------------------------------------------------------------------------------
+.z-itsm {
+  &-container {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
     height: 100vh;
+    overflow: auto;
 
-    // 상단 영역
-    @include defaultHeader();
+    .z-main-content {
 
-    // 리스트
-    @include defaultListTemplate();
+    }
 
-    // 카드
-    @include defaultCardTemplate();
+    .z-main {
+      display: flex;
+      flex-direction: column;
+      width: calc(100% - #{$nav-width});
+      height: 100vh;
 
-    // edit, register
-    @include defaultEditTemplate();
+      // 스크롤 바가 존재할 경우 상단 top 영역과 스크롤바 사이 간격 추가
+      &.os-host-overflow > .os-padding { margin-right: $scrollbar-thick; }
 
-    // view
-    @include defaultViewTemplate();
-  }
-  // 역할, 권한, 코드 화면의 우측 영역
-  .aside {
-    flex-shrink: 0; // 고정
-    width: 38.125rem; // 610px
-    background-color: $white;
-    padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
+      &-content {
+        padding: 0 3.75rem; // 0 60px
+        background-color: $layout-content-bg-color;
+        height: 100%;
+        .z-page-title {
+          display: flex;
+          align-items: baseline!important;
+          padding-bottom: 2rem;
+        }
+        .z-page-search {
+          display: flex;
+          flex-direction: row;
+          .z-search-count {
+            font-weight: $layout-header-search-font-weight;
+            font-size: 0.875rem;
+            color: $layout-header-search-color;
+          }
+        }
+        // pagingList
+        @include pagingListTemplate();
+      }
 
-    // 코드 화면은 너비가 다름
-    &.code { width: 62.5rem; } // 1000px
+      // 리스트
+      //@include defaultListTemplate();
+
+      // 카드
+      @include defaultCardTemplate();
+
+      // edit, register
+      @include defaultEditTemplate();
+
+      // view
+      @include defaultViewTemplate();
+    }
+    // 역할, 권한, 코드 화면의 우측 영역
+    .z-aside {
+      flex-shrink: 0; // 고정
+      width: 38.125rem; // 610px
+      background-color: $layout-aside-bg-color;
+      padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
+
+      // 코드 화면은 너비가 다름
+      &.code { width: 62.5rem; } // 1000px
+    }
   }
 }
+
 // 슬라이드 효과
 .slide-down {
   @include animation(0s, 0.3s, slideDown, ease-out);
@@ -72,9 +100,9 @@
   @include animation(0s, 0.3s, slideUp, ease-out);
 }
 // 사용자 아이콘
-.profile-photo {
+.i-profile-photo {
   @include borderRadius(50%);
-  background-color: $profile-photo-background;
+  background-color: $element-icon-color;
 }
 
 .user-name {
@@ -90,412 +118,402 @@
   display: inline-block;
 }
 
-// 스크롤 바 제거
-.hidden-scroll {
-  overflow: hidden;
-}
+.z- {
+  /////////////////////////////////////////////// 헤더 ////////////////////////////////////////////////////////
+  // 공지사항, FAQ, 자료실, 게시판, 사용자 정의 차트
+  // 시스템관리 > 사용자, 게시판
+  // 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
+  // 업무흐름 관리 > 역할, 권한
+  // 업무흐름 관리 > 코드
+  // 업무흐름 관리 > 패턴
+  // 업무흐름 관리 > 문서번호
+  // CMDB > Attribute
+  // CMDB > Class
+  // CMDB > Type
+  // CMDB > Ci
+  &faq-header,
+  &download-header,
+  &board-header,
+  &user-header,
+  &board-admin-header,
+  &process-header,
+  &form-header,
+  &document-admin-header,
+  &custom-code-header,
+  &auth-header,
+  &role-header,
+  &code-header,
+  &numbering-pattern-header,
+  &numbering-rule-header,
+  &chart-header,
+  &cmdb-attribute-header,
+  &cmdb-class-header,
+  &cmdb-type-header,
+  &cmdb-ci-header,
+  &scheduler-header,
+  .report-template-header {
+    padding: 0 3.75rem 0 3.75rem; // 0px 60px 0px 60px
+  }
 
-/////////////////////////////////////////////// 헤더 ////////////////////////////////////////////////////////
-// 공지사항, FAQ, 자료실, 게시판, 사용자 정의 차트
-// 시스템관리 > 사용자, 게시판
-// 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
-// 업무흐름 관리 > 역할, 권한
-// 업무흐름 관리 > 코드
-// 업무흐름 관리 > 이미지 관리
-// 업무흐름 관리 > 패턴
-// 업무흐름 관리 > 문서번호
-// CMDB > Attribute
-// CMDB > Class
-// CMDB > Type
-// CMDB > Ci
-.notice-header,
-.faq-header,
-.download-header,
-.board-header,
-.user-header,
-.board-admin-header,
-.process-header,
-.form-header,
-.document-admin-header,
-.custom-code-header,
-.auth-header,
-.role-header,
-.code-header,
-.image-header,
-.numbering-pattern-header,
-.numbering-rule-header,
-.chart-header,
-.cmdb-attribute-header,
-.cmdb-class-header,
-.cmdb-type-header,
-.cmdb-ci-header,
-.scheduler-header,
-.report-template-header {
-  padding: 0 3.75rem 0 3.75rem; // 0px 60px 0px 60px
-  background-color: $neutral50;
-}
+  // 문서함
+  // 신청서
+  // 대시보드
+  // 업무흐름 관리 > 이미지 관리
+  &document-header,
+  &token-header,
+  &dashboard-header,
+  &image-header {
+    padding: 0 3.75rem 0 3.75rem; // 0px 60px 0px 60px
+    @include border($layout-main-header-border-width, solid, $layout-main-header-border-color, bottom);
+  }
 
-// 문서함
-// 신청서
-// 대시보드
-.document-header,
-.token-header,
-.dashboard-header {
-  padding: 0 3.75rem 0 3.75rem; // 35px 60px 0px 60px
-  background-color: $neutral50;
-  border-bottom: $layout-header-border;
-}
+  /////////////////////////////////////////////// 리스트 /////////////////////////////////////////////////////
+  // 공지사항, FAQ, 자료실, 게시판, 사용자 정의 차트
+  // 시스템관리 > 사용자, 게시판
+  // 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
+  // 업무흐름 관리 > 역할, 권한
+  // 업무흐름 관리 > 코드
+  // 업무흐름 관리 > 패턴
+  // 업무흐름 관리 > 문서번호
+  // CMDB > Attribute
+  // CMDB > Type
+  // CMDB > Class
+  // CMDB > Ci
+  &faq-content,
+  &download-content,
+  &board-content,
+  &user-content,
+  &board-admin-content,
+  &process-content,
+  &form-content,
+  &document-admin-content,
+  &custom-code-content,
+  &auth-content,
+  &role-content,
+  &code-content,
+  &numbering-pattern-content,
+  &numbering-rule-content,
+  &chart-content,
+  &cmdb-attribute-content,
+  &cmdb-type-content,
+  &cmdb-class-content,
+  &cmdb-ci-content,
+  &report-template-content {
+    padding: 0.9375rem 3.75rem; // 15px 60px
+    background-color: $layout-content-bg-color;
+  }
 
-/////////////////////////////////////////////// 리스트 /////////////////////////////////////////////////////
-// 공지사항, FAQ, 자료실, 게시판, 사용자 정의 차트
-// 시스템관리 > 사용자, 게시판
-// 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
-// 업무흐름 관리 > 역할, 권한
-// 업무흐름 관리 > 코드
-// 업무흐름 관리 > 패턴
-// 업무흐름 관리 > 문서번호
-// CMDB > Attribute
-// CMDB > Type
-// CMDB > Class
-// CMDB > Ci
-.notice-content,
-.faq-content,
-.download-content,
-.board-content,
-.user-content,
-.board-admin-content,
-.process-content,
-.form-content,
-.document-admin-content,
-.custom-code-content,
-.auth-content,
-.role-content,
-.code-content,
-.numbering-pattern-content,
-.numbering-rule-content,
-.chart-content,
-.cmdb-attribute-content,
-.cmdb-type-content,
-.cmdb-class-content,
-.cmdb-ci-content,
-.report-template-content {
-  padding: 0.9375rem 3.75rem; // 15px 60px
-  background-color: map-get($grays, "light");
+  /////////////////////////////////////////////// 카드 /////////////////////////////////////////////////////
+  // 문서함
+  // 신청서
+  // 대시보드
+  &document-content {
+    padding: 1.875rem 1.875rem 0 3.75rem; // 30px 30px 0 60px
+    background-color: $card-content-bg-color;
+
+    .document-column {
+      width: 100%;
+      height: 100%;
+      padding: 1.975rem; // 30px
+
+      // 신청서 > 아이콘
+      .document-icon {
+        @include absolute($top: 3.75rem,$left: 23.125rem); // 60px 370px
+        overflow: hidden;
+      }
+      // 신청서 > 설명
+      .document-description {
+        display: block;
+        width: 20rem; // 320px
+        margin-top: 0.625rem; // 10px
+        font-size: 1rem; // 16px
+        font-weight: $font-weight-regular;
+        color: map-get($grays, 'blue');
+        margin-top: 0.625rem; // 10px
+      }
+    }
+  }
+
+  &token-content,
+  &dashboard-content {
+    padding: 1.875rem 1.875rem 0 3.75rem; // 30px 30px 0 60px
+    background-color: $card-content-bg-color;
+
+    .card { width: 100%; }
+
+    // 문서함 > 업무흐름 색상
+    .document-color {
+      width: 0.75rem; // 12px
+    }
+    // 문서함 > 제목 내용
+    .document-row {
+      padding: 1.875rem 3rem; // 30px 48px
+
+      &-content {
+        // 문서 제목
+        .document {
+          &-title {
+            // 문서 번호
+            .document-numbering {
+              font-size: 1rem; // 16px
+              font-weight: $font-weight-regular;
+              color: $gray;
+            }
+          }
+          &-topic {
+            width: 39.38rem; //630px
+            margin-top: 1.5625rem; // 25px
+
+            .topic {
+              font-size: 1rem; // 16px
+              font-weight: $font-weight-regular;
+              color: map-get($grays, 'dark');
+            }
+          }
+        }
+      }
+      &-info {
+        .document {
+          &-detail {
+            .user-name,
+            .create-dt,
+            .element-name {
+              font-size: 1rem; // 16px
+              font-weight: $font-weight-regular;
+              color: map-get($grays, 'dark');
+            }
+          }
+          &-tag {
+            max-width: 23.75rem; // 380px
+            margin-top: 3.5rem; // 56px
+          }
+        }
+      }
+    }
+    // TODO: 추후 대시보드 디자인 완료시 아래 부분은 삭제 예정
+    // 대시보드 > 소제목
+    .sub-title {
+      margin: 1.25rem 0; // 20px 0
+    }
+    // 대시보드 > 업무 통계
+    .statistic {
+      &-box {
+        width: 23.75rem; // 380px
+        @include border(0.0625rem, solid, map-get($grays, 'line'), all);
+        @include borderRadius(0.3125rem); // 5px
+        padding: 1.5625rem; // 25px
+      }
+      &-info {
+        margin-left: 1.5625rem; // 25px
+      }
+      &-count {
+        margin-bottom: 0.9375rem; // 15px
+      }
+      &-type { color: map-get($grays, 'blue'); }
+    }
+    // 대시보드 > 처리할 문서
+    .scroll-wrap {
+      height:  27.5rem; // 440px
+      margin-right: 1.25rem; //20px
+      .card:first-of-type { margin-top: 0;}
+    }
+  }
+
+  /////////////////////////////////////////////// EDIT /////////////////////////////////////////////////////
+  // 공지사항, FAQ, 자료실, 게시판
+  &notice-content-edit,
+  &faq-content-edit,
+  &download-content-edit,
+  &board-content-edit {
+    padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
+    background-color: $edit-content-bg-color;
+    @include border($edit-content-border-width, solid, $edit-content-border-color, top);
+  }
+  // 역할, 권한, 코드, 패턴, 문서번호, CMDB Type
+  &auth-content-edit,
+  &role-content-edit,
+  &code-content-edit,
+  &numbering-pattern-content-edit,
+  &numbering-rule-content-edit,
+  &cmdb-type-content-edit {
+    height: 41.25rem; // 660px
+    margin: 0 0 1.875rem 0; // 30px
+    // 스크롤바
+    .edit-form {
+      padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
+
+      .edit-row {
+        margin-top: 0.625rem; // 10px
+        //임시
+        .input-button-remove {
+          @include relative();
+          .input-button-remove-btn {
+            position: absolute;
+            margin-top: 0.75rem; // 12px
+            margin-left: calc(100% - 108px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 1.125rem; // 18px
+            height: 1.125rem; // 18px
+            @include transition(0.2s ease-out);
+            @include borderRadius(3.125rem); // 50px
+            order: 5;
+            cursor: pointer;
+            font-family: $font-family-m;
+            font-size: 1.25rem; // 20px
+            font-weight: $font-weight-bold;
+            color: map-get($grays, 'pressed');
+            background: 0 0;
+
+            &::after {
+              height: 1.125rem; // 18px
+              line-height: 0.875rem; // 14px
+              content: '\00D7';
+            }
+
+            &:hover {
+              color: $tag-btn-remove-hover-color;
+              background: map-get($grays, 'pressed');
+              + div {
+                > span {
+                  opacity: 1; // 기존 0.5
+                }
+                &::before {
+                  @include transition(0.2s);
+                }
+              }
+            }
+            &.active {
+              display: inline-flex;
+            }
+          }
+        }
+      }
+    }
+  }
+  // 시스템관리 > 사용자
+  &user-content-edit {
+    padding: 0 23.13rem 3.125rem 23.13rem; // 0 370px 50px 370px
+    @include border($edit-content-border-width, solid, $edit-content-border-color, top);
+    background-color: $edit-content-bg-color;
+
+    .sub-title { margin-top: 2.5rem; } // 40px
+    // select box 크기 고정
+    .custom-setting-top-select,
+    .language-select,
+    .theme-color-select {
+      width: 29.38rem; // 470px
+    }
+    .select-date-time {
+      width: 19.38rem; // 310px
+    }
+    .hour-select {
+      width: 9.688rem; // 155px
+    }
+  }
+  // 시스템관리 > 게시판
+  &board-admin-content-edit {
+    padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
+    @include border($edit-content-border-width, solid, $edit-content-border-color, top);
+    background-color: $edit-content-bg-color;
+
+    // 카테고리 테이블
+    .edit-table {
+      margin: 1.25rem 0 0 0; // 20px 0 0 0
+      tr {
+        height: 2.5rem; // 40px
+        line-height: 2.5rem;
+        th {
+          @include border(0.0625rem, solid, map-get($grays, 'line'), bottom); // 1px
+        }
+        td {
+          padding: 0 0.9375rem; // 0 15px
+          @include border(0.0625rem, solid, map-get($grays, 'line'), bottom); // 1px
+        }
+      }
+      .tbody {
+        tr:hover { background-color: $list-hover-bg-color; }
+        // 데이터 없을때
+        .no-data-found-list {
+          background-color: $no-data-found-list-bg;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+  // 업무흐름 관리 > 이미지 관리
+  &image-content-edit {
+    padding: 3.125rem 3.75rem; // 50px 60px
+    background-color: $edit-content-bg-color;
+  }
+  // 업무흐름 관리 > 커스텀 코드
+  // CMDB > Attribute
+  &custom-code-content-edit,
+  &cmdb-attribute-content-edit,
+  &scheduler-content-edit {
+    padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
+    @include border($edit-content-border-width, solid, $edit-content-border-color, top);
+    background-color: $edit-content-bg-color;
+    height: 100%;
+
+    .under-bar {
+      margin-top: 0.625rem; // 10px
+    }
+    // 조건
+    .condition {
+      width: 28.31rem; // 453px
+    }
+
+    .attribute {
+      margin-left: 4rem;
+    }
+  }
+  // 업무흐름 관리 > 문서번호
+  &numbering-rule-content-edit {
+    .select-pattern-type {
+      width: 20rem; // 320px
+    }
+    .pattern-type {
+      width: 7.5rem // 120px
+    }
+  }
+  // CMDB > Class
+  &cmdb-class-content-edit{
+    height: 41.25rem; // 660px
+    margin: 0 0 1.875rem 0; // 30px
+    // 스크롤바
+    .edit-form {
+      padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
+
+      .edit-row {  margin-top: 0.625rem; } // 10px
+    }
+    .attribute { width: 27.94rem; } // 447px;
+  }
+  // Report > Template
+  &report-template-content-edit {
+    padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
+    @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
+    background-color: $white;
+    height: 100%;
+  }
+
+  /////////////////////////////////////////////// VIEW /////////////////////////////////////////////////////
+  // 공지사항, FAQ, 자료실, CMDB Attribute
+  &notice-content-view,
+  &faq-content-view,
+  &download-content-view,
+  &board-content-view,
+  &cmdb-attribute-content-view {
+    padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
+    @include border($view-content-border-width, solid, $view-content-border-color, top);
+    background-color: $view-content-bg-color;
+  }
+
+  &chart-content-view {
+    width: 100%;
+    height: 25rem; // 400px
+  }
 }
 // 공지사항 상단 공지
 .notice-pinned { background-color: $notice-pinned-color; }
-
-/////////////////////////////////////////////// 카드 /////////////////////////////////////////////////////
-// 문서함
-// 신청서
-// 대시보드
-.document-content {
-  padding: 1.875rem 1.875rem 0 3.75rem; // 30px 30px 0 60px
-  background-color: $white;
-
-  .document-column {
-    width: 100%;
-    height: 100%;
-    padding: 1.975rem; // 30px
-
-    // 신청서 > 아이콘
-    .document-icon {
-      @include absolute($top: 3.75rem,$left: 23.125rem); // 60px 370px
-      overflow: hidden;
-    }
-    // 신청서 > 설명
-    .document-description {
-      display: block;
-      width: 20rem; // 320px
-      margin-top: 0.625rem; // 10px
-      font-size: 1rem; // 16px
-      font-weight: $font-weight-regular;
-      color: map-get($grays, "blue");
-      margin-top: 0.625rem; // 10px
-    }
-  }
-}
-
-.token-content,
-.dashboard-content {
-  padding: 1.875rem 1.875rem 0 3.75rem; // 30px 30px 0 60px
-  background-color: $white;
-
-  .card { width: 100%; }
-
-  // 문서함 > 업무흐름 색상
-  .document-color {
-    width: 0.75rem; // 12px
-  }
-  // 문서함 > 제목 내용
-  .document-row {
-    padding: 1.875rem 3rem; // 30px 48px
-
-    &-content {
-      // 문서 제목
-      .document {
-        &-title {
-          // 문서 번호
-          .document-numbering {
-            font-size: 1rem; // 16px
-            font-weight: $font-weight-regular;
-            color: $gray;
-          }
-        }
-        &-topic {
-          width: 39.38rem; //630px
-          margin-top: 1.5625rem; // 25px
-
-          .topic {
-            font-size: 1rem; // 16px
-            font-weight: $font-weight-regular;
-            color: map-get($grays, "dark");
-          }
-        }
-      }
-    }
-    &-info {
-      .document {
-        &-detail {
-          .user-name,
-          .create-dt,
-          .element-name {
-            font-size: 1rem; // 16px
-            font-weight: $font-weight-regular;
-            color: map-get($grays, "dark");
-          }
-        }
-        &-tag {
-          max-width: 23.75rem; // 380px
-          margin-top: 3.5rem; // 56px
-        }
-      }
-    }
-  }
-  // TODO: 추후 대시보드 디자인 완료시 아래 부분은 삭제 예정
-  // 대시보드 > 소제목
-  .sub-title {
-    margin: 1.25rem 0; // 20px 0
-  }
-  // 대시보드 > 업무 통계
-  .statistic {
-    &-box {
-      width: 23.75rem; // 380px
-      @include border(0.0625rem, solid, map-get($grays, "line"), all);
-      @include borderRadius(0.3125rem); // 5px
-      padding: 1.5625rem; // 25px
-    }
-    &-info {
-      margin-left: 1.5625rem; // 25px
-    }
-    &-count {
-      margin-bottom: 0.9375rem; // 15px
-    }
-    &-type { color: map-get($grays, "blue"); }
-  }
-  // 대시보드 > 처리할 문서
-  .scroll-wrap {
-    height:  27.5rem; // 440px
-    margin-right: 1.25rem; //20px
-    .card:first-of-type { margin-top: 0;}
-  }
-}
-
-/////////////////////////////////////////////// EDIT /////////////////////////////////////////////////////
-// 공지사항, FAQ, 자료실, 게시판
-.notice-content-edit,
-.faq-content-edit,
-.download-content-edit,
-.board-content-edit {
-  padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
-  background-color: $white;
-  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
-}
-// 역할, 권한, 코드, 패턴, 문서번호, CMDB Type
-.auth-content-edit,
-.role-content-edit,
-.code-content-edit,
-.numbering-pattern-content-edit,
-.numbering-rule-content-edit,
-.cmdb-type-content-edit {
-  height: 41.25rem; // 660px
-  margin: 0 0 1.875rem 0; // 30px
-  // 스크롤바
-  .edit-form {
-    padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
-
-    .edit-row {
-      margin-top: 0.625rem; // 10px
-      //임시
-      .input-button-remove {
-        @include relative();
-        .input-button-remove-btn {
-          position: absolute;
-          margin-top: 0.75rem; // 12px
-          margin-left: calc(100% - 108px);
-          display: none;
-          align-items: center;
-          justify-content: center;
-          width: 1.125rem; // 18px
-          height: 1.125rem; // 18px
-          @include transition(0.2s ease-out);
-          @include borderRadius(3.125rem); // 50px
-          order: 5;
-          cursor: pointer;
-          font-family: $font-family-m;
-          font-size: 1.25rem; // 20px
-          font-weight: $font-weight-bold;
-          color: map-get($grays, "pressed");
-          background: 0 0;
-
-          &::after {
-            height: 1.125rem; // 18px
-            line-height: 0.875rem; // 14px
-            content: '\00D7';
-          }
-
-          &:hover {
-            color: $tag-hover-btn-remove-color;
-            background: map-get($grays, "pressed");
-            + div {
-              > span {
-                opacity: 1; // 기존 0.5
-              }
-              &::before {
-                @include insideBorder(1.25rem, $tag-hover-bg-color);
-                @include transition(0.2s);
-              }
-            }
-          }
-          &.active {
-            display: inline-flex;
-          }
-        }
-      }
-    }
-  }
-}
-// 시스템관리 > 사용자
-.user-content-edit {
-  padding: 0 23.13rem 3.125rem 23.13rem; // 0 370px 50px 370px
-  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
-  background-color: $white;
-
-  .sub-title { margin-top: 2.5rem; } // 40px
-  // select box 크기 고정
-  .custom-setting-top-select,
-  .language-select,
-  .theme-color-select {
-    width: 29.38rem; // 470px
-  }
-  .select-date-time {
-    width: 19.38rem; // 310px
-  }
-  .hour-select {
-    width: 9.688rem; // 155px
-  }
-}
-// 시스템관리 > 게시판
-.board-admin-content-edit {
-  padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
-  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
-  background-color: $white;
-
-  // 카테고리 테이블
-  .edit-table {
-    margin: 1.25rem 0 0 0; // 20px 0 0 0
-    tr {
-      height: 2.5rem; // 40px
-      line-height: 2.5rem;
-      th {
-        @include border(0.0625rem, solid, map-get($grays, 'line'), bottom); // 1px
-      }
-      td {
-        padding: 0 0.9375rem; // 0 15px
-        @include border(0.0625rem, solid, map-get($grays, 'line'), bottom); // 1px
-      }
-    }
-    .tbody {
-      tr:hover { background-color: $list-hover-bg-color; }
-      // 데이터 없을때
-      .no-data-found-list {
-        background-color: $no-data-found-list-bg;
-        pointer-events: none;
-      }
-    }
-  }
-}
-// 업무흐름 관리 > 이미지 관리
-.image-content-edit {
-  padding: 3.125rem 3.75rem; // 50px 60px
-  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
-  background-color: $white;
-  border-top: $layout-header-border;
-}
-// 업무흐름 관리 > 커스텀 코드
-// CMDB > Attribute
-.custom-code-content-edit,
-.cmdb-attribute-content-edit,
-.scheduler-content-edit {
-  padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
-  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
-  background-color: $white;
-  height: 100%;
-
-  .under-bar {
-    margin-top: 0.625rem; // 10px
-  }
-  // 조건
-  .condition {
-    width: 28.31rem; // 453px
-  }
-
-  .attribute {
-    margin-left: 4rem;
-  }
-}
-// 업무흐름 관리 > 문서번호
-.numbering-rule-content-edit {
-  .select-pattern-type {
-    width: 20rem; // 320px
-  }
-  .pattern-type {
-    width: 7.5rem // 120px
-  }
-}
-// CMDB > Class
-.cmdb-class-content-edit{
-  height: 41.25rem; // 660px
-  margin: 0 0 1.875rem 0; // 30px
-  // 스크롤바
-  .edit-form {
-    padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
-
-    .edit-row {  margin-top: 0.625rem; } // 10px
-  }
-  .attribute { width: 27.94rem; } // 447px;
-}
-// Report > Template
-.report-template-content-edit {
-  padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
-  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
-  background-color: $white;
-  height: 100%;
-}
-
-/////////////////////////////////////////////// VIEW /////////////////////////////////////////////////////
-// 공지사항, FAQ, 자료실, CMDB Attribute
-.notice-content-view,
-.faq-content-view,
-.download-content-view,
-.board-content-view,
-.cmdb-attribute-content-view {
-  padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
-  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
-  background-color: $white;
-}
-
-.chart-content-view {
-  width: 100%;
-  height: 25rem; // 400px
-}

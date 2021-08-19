@@ -7,40 +7,42 @@
     <title th:text="#{download.label.view}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="download-header">
-        <div class="header-title flex-row align-items-baseline">
-            <h1 th:text="#{download.label.download}"></h1>
-            <h6 class="description ml-2" th:text="#{download.msg.viewDescription}"></h6>
+<th:block layout:fragment="portalContent">
+    <div class="main">
+        <div class="download-header">
+            <div class="header-title flex-row align-items-baseline">
+                <h1 th:text="#{download.label.download}"></h1>
+                <h6 class="description ml-2" th:text="#{download.msg.viewDescription}"></h6>
+            </div>
         </div>
-    </div>
-    <div class="download-content">
-        <div class="view flex-column flex-fill">
-            <div class="view-title text-ellipsis" th:text="#{${download.downloadTitle}}"></div>
-            <div class="view-sub-title flex-row justify-content-end">
-                <span id="spanCreateDt" th:text="${download?.createDt}"></span>
-                <span class="vertical-bar"></span>
-                <span th:text="${download?.createUserName}"></span>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="view-content flex-row">
-                <span class="view-text" th:text="#{${download.downloadCategory}}"></span>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="file-uploader-view">
-                <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
-                <div class="vertical-bar"></div>
-                <form id="frm" method="post">
-                    <div class="file-uploader-list">
-                        <div id="dropZoneFiles"></div>
-                        <div id="dropZoneUploadedFiles"></div>
+        <div class="download-content">
+            <div class="view flex-column flex-fill">
+                <div class="view-title text-ellipsis" th:text="#{${download.downloadTitle}}"></div>
+                <div class="view-sub-title flex-row justify-content-end">
+                    <span id="spanCreateDt" th:text="${download?.createDt}"></span>
+                    <span class="vertical-bar"></span>
+                    <span th:text="${download?.createUserName}"></span>
+                </div>
+                <div class="horizontal-bar"></div>
+                <div class="view-content flex-row">
+                    <span class="view-text" th:text="#{${download.downloadCategory}}"></span>
+                </div>
+                <div class="horizontal-bar"></div>
+                <div class="file-uploader-view">
+                    <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
+                    <div class="vertical-bar"></div>
+                    <form id="frm" method="post">
+                        <div class="file-uploader-list">
+                            <div id="dropZoneFiles"></div>
+                            <div id="dropZoneUploadedFiles"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="horizontal-bar"></div>
+                <div class="view-btn-content flex-row justify-content-start">
+                    <div class="z-button-list">
+                        <a class="z-button secondary" href="/portals/downloads/search" th:text="#{common.btn.list}"></a>
                     </div>
-                </form>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="view-btn-content flex-row justify-content-start">
-                <div class="z-button-list">
-                    <a class="z-button secondary" href="/portals/downloads/search" th:text="#{common.btn.list}"></a>
                 </div>
             </div>
         </div>
@@ -53,7 +55,7 @@
         window.onload = function() {
             document.getElementById('spanCreateDt').textContent =
                 i18n.userDateTime(document.getElementById('spanCreateDt').textContent);
-            zFileUploaderPortal.init({extra: {formId: 'downloadForm', ownId: [[${download.downloadId}]], editor: false, isView: true}});
+            zFileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download.downloadId}]], editor: false, isView: true, defaultUrl: '/rest/portals', isHeaders : false}});
             OverlayScrollbars(document.querySelector('.main'), { className: 'scrollbar' });
         };
         /*]]>*/

@@ -7,15 +7,17 @@
     <title th:text="${faq != null} ? #{faq.label.edit} : #{faq.label.register}"></title>
 </head>
 <body>
+<th:block layout:fragment="head">
+    <div class="z-faq-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
+            <h1 th:text="#{faq.label.faq}"></h1>
+            <h6 class="description ml-2" th:text="#{faq.msg.editDescription}"></h6>
+        </div>
+    </div>
+</th:block>
 <th:block layout:fragment="content">
     <div class="flex-column z-edit">
-        <div class="faq-header">
-            <div class="header-title flex-row align-items-baseline">
-                <h1 th:text="#{faq.label.faq}"></h1>
-                <h6 class="description ml-2" th:text="#{faq.msg.editDescription}"></h6>
-            </div>
-        </div>
-        <div class="faq-content-edit">
+        <div class="z-faq-content-edit">
             <form id="faqForm" method="post" onsubmit="return false">
                 <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
                 <div class="flex-column z-edit-row">

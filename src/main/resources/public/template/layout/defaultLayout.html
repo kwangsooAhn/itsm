@@ -6,20 +6,22 @@
 		<th:block layout:fragment="cssLink"></th:block>
 		<th:block layout:fragment="scriptLink"></th:block>
 	</head>
-	<body>
-		<div class="alice-wrapper">
-			<div class="itsm-container flex-row">
-				<div>
-					<div class="z-gnb">
-						<th:block th:replace="layout/menu">menu</th:block>
-						<th:block th:replace="layout/navigation">menu</th:block>
+	<body th:with="COMMON_PREFIX='z-'">
+		<div class="z-wrapper">
+			<div class="z-itsm-container flex-row">
+				<!-- 네비게이션 -->
+				<th:block th:replace="layout/navigation"></th:block>
+				<!-- 메인 -->
+				<div class="z-main flex-column">
+					<div class="z-main-header">
+						<th:block th:replace="layout/topMenu">topMenu</th:block>
+						<th:block layout:fragment="head"></th:block>
 					</div>
-				</div>
-				<div class="main flex-column">
-					<th:block th:replace="layout/topMenu">topMenu</th:block>
 					<th:block layout:fragment="content"></th:block>
 				</div>
+				<!-- 사이드바 -->
 				<th:block layout:fragment="aside"></th:block>
+				<!-- 하단 -->
 				<footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
 			</div>
 		</div>

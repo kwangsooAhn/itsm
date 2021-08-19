@@ -6,10 +6,10 @@
 
 package co.brainz.itsm.board.controller
 
-import co.brainz.itsm.board.dto.BoardArticleSearchDto
+import co.brainz.itsm.board.dto.BoardArticleSearchCondition
 import co.brainz.itsm.board.dto.BoardArticleViewDto
 import co.brainz.itsm.board.dto.BoardDto
-import co.brainz.itsm.board.dto.BoardSearchDto
+import co.brainz.itsm.board.dto.BoardSearchCondition
 import co.brainz.itsm.board.service.BoardArticleService
 import co.brainz.itsm.board.service.BoardService
 import org.springframework.stereotype.Controller
@@ -27,12 +27,10 @@ class BoardController(
 
     private val boardSearchPage: String = "board/boardSearch"
     private val boardListPage: String = "board/boardList"
-    private val boardListFragment: String = "board/boardList :: list"
     private val boardEditPage: String = "board/boardEdit"
     private val boardViewPage: String = "board/boardView"
     private val boardArticlesSearchPage: String = "board/boardArticlesSearch"
     private val boardArticlesListPage: String = "board/boardArticlesList"
-    private val boardArticlesListFragment: String = "board/boardArticlesList :: list"
     private val boardArticlesEditPage: String = "board/boardArticlesEdit"
     private val boardArticlesViewPage: String = "board/boardArticlesView"
     private val boardArticlesCommentListPage: String = "board/boardArticlesCommentList"
@@ -49,15 +47,15 @@ class BoardController(
     }
 
     /**
-     *  [BoardSearchDto]를 받아서 게시판 관리 리스트 화면에[String]으로 반환한다.
+     *  [BoardSearchCondition]를 받아서 게시판 관리 리스트 화면에[String]으로 반환한다.
      *
      */
     @GetMapping("")
-    fun getBoardList(boardSearchDto: BoardSearchDto, model: Model): String {
-        val result = boardService.getBoardList(boardSearchDto)
+    fun getBoardList(boardSearchCondition: BoardSearchCondition, model: Model): String {
+        val result = boardService.getBoardList(boardSearchCondition)
         model.addAttribute("boardAdminList", result.data)
-        model.addAttribute("boardAdminCount", result.totalCount)
-        return if (boardSearchDto.isScroll) boardListFragment else boardListPage
+        model.addAttribute("paging", result.paging)
+        return boardListPage
     }
 
     /**
@@ -116,25 +114,25 @@ class BoardController(
      * @return String
      */
     @GetMapping("/articles/search/param")
-    fun getBoardArticleSearchParam(boardArticleSearchDto: BoardArticleSearchDto, model: Model): String {
+    fun getBoardArticleSearchParam(boardArticleSearchCondition: BoardArticleSearchCondition, model: Model): String {
         model.addAttribute("boardAdminList", boardService.getSelectBoard())
-        model.addAttribute("boardAdminId", boardArticleSearchDto.boardAdminId)
+        model.addAttribute("boardAdminId", boardArticleSearchCondition.boardAdminId)
         return boardArticlesSearchPage
     }
 
     /**
      * 게시판 리스트 화면.
      *
-     * @param boardArticleSearchDto
+     * @param boardArticleSearchCondition
      * @param model
      * @return String
      */
     @GetMapping("/articles")
-    fun getBoardArticleList(boardArticleSearchDto: BoardArticleSearchDto, model: Model): String {
-        val result = boardArticleService.getBoardArticleList(boardArticleSearchDto)
+    fun getBoardArticleList(boardArticleSearchCondition: BoardArticleSearchCondition, model: Model): String {
+        val result = boardArticleService.getBoardArticleList(boardArticleSearchCondition)
         model.addAttribute("boardList", result.data)
-        model.addAttribute("boardCount", result.totalCount)
-        return if (boardArticleSearchDto.isScroll) boardArticlesListFragment else boardArticlesListPage
+        model.addAttribute("paging", result.paging)
+        return boardArticlesListPage
     }
 
     /**

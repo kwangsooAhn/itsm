@@ -5,45 +5,43 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <input type="hidden" id="totalCount" th:value="${userListCount}"/>
-    <table class="list-table">
-        <thead class="list-head">
-            <tr class="flex-row align-items-center">
-                <th style="width:3.2%;"></th>
-                <th style="width:9.8%;" class="align-left" th:text="#{user.label.name}"></th>
-                <th style="width:10%;" class="align-left" th:text="#{user.label.id}"></th>
-                <th style="width:16%;" class="align-left" th:text="#{user.label.email}"></th>
-                <th style="width:16%;" class="align-left" th:text="#{user.label.department}"></th>
-                <th style="width:10%;" class="align-left" th:text="#{user.label.position}"></th>
-                <th style="width:10%;" class="align-left" th:text="#{user.label.officeNumber}"></th>
-                <th style="width:10%;" class="align-left" th:text="#{user.label.mobileNumber}"></th>
-                <th style="width:15%;" class="align-left" th:text="#{user.label.signUpDate}"></th>
-            </tr>
-        </thead>
-        <tbody class="list-body">
-            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(userList)}">
-                <td style="width:100%" colspan="9" class="align-center" th:text="#{common.msg.noData}"></td>
-            </tr>
-            <th:block th:fragment="list">
-                <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
-                    <td style="width:3.2%;" class="align-right p-0">
-                        <img class="profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
-                    </td>
-                    <td style="width:9.8%;" class="align-left underline">
-                        <a th:text="${user.userName}"
-                           th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''">
-                        </a>
-                    </td>
-                    <td style="width:10%;" class="align-left" th:text="${user.userId}"></td>
-                    <td style="width:16%;" class="align-left" th:text="${user.email}"></td>
-                    <td style="width:16%;" class="align-left" th:text="${user.department}"></td>
-                    <td style="width:10%;" class="align-left" th:text="${user.position}"></td>
-                    <td style="width:10%;" class="align-left" th:text="${user.officeNumber}"></td>
-                    <td style="width:10%;" class="align-left" th:text="${user.mobileNumber}"></td>
-                    <td style="width:15%;" class="align-left date-time" th:text="${user.createDt}"></td>
-                </tr>
-            </th:block>
-        </tbody>
-    </table>
+<table class="z-list-table">
+    <thead class="z-list-head">
+        <tr class="flex-row align-items-center">
+            <th style="width:3.2%;"></th>
+            <th style="width:9.8%;" class="align-left" th:text="#{user.label.name}"></th>
+            <th style="width:10%;" class="align-left" th:text="#{user.label.id}"></th>
+            <th style="width:16%;" class="align-left" th:text="#{user.label.email}"></th>
+            <th style="width:16%;" class="align-left" th:text="#{user.label.department}"></th>
+            <th style="width:10%;" class="align-left" th:text="#{user.label.position}"></th>
+            <th style="width:10%;" class="align-left" th:text="#{user.label.officeNumber}"></th>
+            <th style="width:10%;" class="align-left" th:text="#{user.label.mobileNumber}"></th>
+            <th style="width:15%;" class="align-left" th:text="#{user.label.signUpDate}"></th>
+        </tr>
+    </thead>
+    <tbody class="z-list-body">
+        <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(userList)}">
+            <td style="width:100%" colspan="9" class="align-center" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
+            <td style="width:3.2%;" class="align-right p-0">
+                <img class="z-img i-profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
+            </td>
+            <td style="width:9.8%;" class="align-left underline">
+                <a th:text="${user.userName}"
+                   th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''">
+                </a>
+            </td>
+            <td style="width:10%;" class="align-left" th:text="${user.userId}"></td>
+            <td style="width:16%;" class="align-left" th:text="${user.email}"></td>
+            <td style="width:16%;" class="align-left" th:text="${user.department}"></td>
+            <td style="width:10%;" class="align-left" th:text="${user.position}"></td>
+            <td style="width:10%;" class="align-left" th:text="${user.officeNumber}"></td>
+            <td style="width:10%;" class="align-left" th:text="${user.mobileNumber}"></td>
+            <td style="width:15%;" class="align-left date-time" th:text="${user.createDt}"></td>
+        </tr>
+    </tbody>
+</table>
+<th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 </body>
 </html>

@@ -1,42 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/portalLayout">
 <head>
-    <meta http-equiv="Content-Type" content="text/css; charset=UTF-8"/>
-    <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
-    <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
     <title th:text="#{project.title.browserGuide}"></title>
 </head>
 <body>
-<div class="alice-wrapper">
-    <div class="portal-container flex-column guide-body">
+<th:block layout:fragment="portalHead"></th:block>
+<th:block layout:fragment="portalContent">
+    <div class="browser-guide-main flex-column">
         <h1 class="align-center" th:text="#{portal.label.browserGuidePhrase}"></h1>
         <div class="browser-row align-center">
             <div class="browser-box">
                 <a href="https://www.google.com/intl/ko/chrome/" target="_blank">
-                    <img th:src="@{/assets/media/images/portal/img_guide_chrome.png}" width="180" height="180" alt="Chrome">
+                    <img class="z-img i-guide-chrome" th:src="@{/assets/media/images/portal/img_guide_chrome.png}" width="180" height="180" alt="Chrome">
                     <h3 class="align-center" th:text="#{portal.label.chrome}"/>
                 </a>
             </div>
             <div class="browser-box">
                 <a href="https://www.mozilla.org/ko/firefox/new/" target="_blank">
-                    <img th:src="@{/assets/media/images/portal/img_guide_firefox.png}"  width="180" height="180" alt="Firefox">
+                    <img class="z-img i-guide-firefox" th:src="@{/assets/media/images/portal/img_guide_firefox.png}"  width="180" height="180" alt="Firefox">
                     <h3 class="align-center" th:text="#{portal.label.firefox}"/>
                 </a>
             </div>
             <div class="browser-box">
                 <a href="https://www.microsoft.com/ko-kr/edge" target="_blank">
-                    <img th:src="@{/assets/media/images/portal/img_guide_msedge.png}" width="180" height="180" alt="Edge">
+                    <img class="z-img i-guide-msedge" th:src="@{/assets/media/images/portal/img_guide_msedge.png}" width="180" height="180" alt="Edge">
                     <h3 class="align-center" th:text="#{portal.label.msEdge}"/>
                 </a>
             </div>
             <div class="browser-box">
                 <a href="https://support.apple.com/ko_KR/downloads/safari" target="_blank">
-                    <img th:src="@{/assets/media/images/portal/img_guide_safari.png}" width="180" height="180" alt="Safari">
+                    <img class="z-img i-guide-safari" th:src="@{/assets/media/images/portal/img_guide_safari.png}" width="180" height="180" alt="Safari">
                     <h3 class="align-center" th:text="#{portal.label.safari}"/>
                 </a>
             </div>
         </div>
     </div>
-</div>
+</th:block>
 </body>
 </html>

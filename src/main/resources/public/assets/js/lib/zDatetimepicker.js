@@ -106,15 +106,9 @@
 
         // create title > close icon
         const spanClose = document.createElement('span');
-        spanClose.className = 'z-icon-close';
+        spanClose.className = 'z-icon i-clear';
         spanClose.addEventListener('click', this.close, false);
         pickerTitle.appendChild(spanClose);
-
-        // create sub title > 시간 날짜 표시
-        let pickerSubTitle = document.createElement('div');
-        pickerSubTitle.className = 'z-picker-modal-sub-title';
-        this.el.appendChild(pickerSubTitle);
-        this.changeDisplay();
 
         // create content
         let pickerContent = document.createElement('div');
@@ -138,27 +132,28 @@
             pickerContent.appendChild(pickerContentTime);
             this.drawTime();
         }
+        if(this.type === 'DATEHOUR' || this.type === 'HOUR') {
+            // create button
+            let pickerButton = document.createElement('div');
+            pickerButton.className = 'z-button-list z-picker-modal-button';
+            this.el.appendChild(pickerButton);
 
-        // create button
-        let pickerButton = document.createElement('div');
-        pickerButton.className = 'z-button-list z-picker-modal-button';
-        this.el.appendChild(pickerButton);
+            // create button > confirm
+            let buttonConfirm = document.createElement('button');
+            buttonConfirm.type = 'button';
+            buttonConfirm.className = 'z-button secondary';
+            buttonConfirm.innerText = i18n.msg('common.btn.select');
+            buttonConfirm.addEventListener('click', this.changeTarget, false);
+            pickerButton.appendChild(buttonConfirm);
 
-        // create button > confirm
-        let buttonConfirm = document.createElement('button');
-        buttonConfirm.type = 'button';
-        buttonConfirm.className = 'z-button secondary';
-        buttonConfirm.innerText = i18n.msg('common.btn.select');
-        buttonConfirm.addEventListener('click', this.changeTarget, false);
-        pickerButton.appendChild(buttonConfirm);
-
-        // create button > cancel
-        let buttonCancel = document.createElement('button');
-        buttonCancel.type = 'button';
-        buttonCancel.className = 'z-button extra';
-        buttonCancel.innerText = i18n.msg('common.btn.cancel');
-        buttonCancel.addEventListener('click', this.close, false);
-        pickerButton.appendChild(buttonCancel);
+            // create button > cancel
+            let buttonCancel = document.createElement('button');
+            buttonCancel.type = 'button';
+            buttonCancel.className = 'z-button extra';
+            buttonCancel.innerText = i18n.msg('common.btn.cancel');
+            buttonCancel.addEventListener('click', this.close, false);
+            pickerButton.appendChild(buttonCancel);
+        }
     }
 
     Object.assign(Picker.prototype, {
@@ -189,7 +184,6 @@
                     if (this.type === 'HOUR' || this.type === 'DATEHOUR') {
                         this.drawTime();
                     }
-                    this.changeDisplay();
                 }
                 // remove event
                 document.removeEventListener('mousedown', this.clickWindow, false);
@@ -233,7 +227,7 @@
 
             // prev month
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'date-prev';
+            prevArrow.className = 'z-icon i-arrow-right z-date-prev';
             prevArrow.addEventListener('click', _this.prevMonth, false);
             monthPanel.appendChild(prevArrow);
 
@@ -246,7 +240,7 @@
 
             // next month
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'date-next';
+            nextArrow.className = 'z-icon i-arrow-right z-date-next';
             nextArrow.addEventListener('click', _this.nextMonth, false);
             monthPanel.appendChild(nextArrow);
 
@@ -286,7 +280,7 @@
                 if (_this.displayLuxon.valueOf() === firstDayOfDate.valueOf()) {
                     calendarCell.classList.add('selected');
                 }
-                calendarCell.addEventListener('click', function(e) {
+                calendarCell.addEventListener('click', function(e) { 
                     const elem = e.target;
                     const parentElem = elem.parentNode;
                     const isSelected = elem.classList.contains('selected');
@@ -303,6 +297,7 @@
                             _this.drawDate();
                         }
                     }
+                    _this.changeTarget();
                 }, false);
                 calendarPanel.appendChild(calendarCell);
                 firstDayOfDate = firstDayOfDate.plus({ days: 1 });
@@ -325,7 +320,7 @@
             pickerTime.appendChild(hourGroup);
             // △ 버튼
             const hourArrowUp = document.createElement('span');
-            hourArrowUp.classList.add('arrow-up', 'hour-up');
+            hourArrowUp.className = 'z-icon i-arrow-right z-hour-up';
             hourArrowUp.addEventListener('click', _this.changeTime.bind(_this, { hours: 1 }), false);
             hourGroup.appendChild(hourArrowUp);
             // 시간
@@ -339,7 +334,7 @@
             hourGroup.appendChild(digitHour);
             // ▽ 버튼
             const hourArrowDown = document.createElement('span');
-            hourArrowDown.classList.add('arrow-down', 'hour-down');
+            hourArrowDown.className = 'z-icon i-arrow-right z-hour-down';
             hourArrowDown.addEventListener('click', _this.changeTime.bind(_this, { hours: -1 }), false);
             hourGroup.appendChild(hourArrowDown);
             // create hour end ---------------------------------------------------------------------
@@ -356,7 +351,7 @@
             pickerTime.appendChild(minuteGroup);
             // △ 버튼
             const minuteArrowUp = document.createElement('span');
-            minuteArrowUp.classList.add('arrow-up', 'minute-up');
+            minuteArrowUp.className = 'z-icon i-arrow-right z-minute-up';
             minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this, { minutes: 1 }), false);
             minuteGroup.appendChild(minuteArrowUp);
             // 분
@@ -370,7 +365,7 @@
             minuteGroup.appendChild(digitMinute);
             // ▽ 버튼
             const minuteArrowDown = document.createElement('span');
-            minuteArrowDown.classList.add('arrow-down', 'minute-down');
+            minuteArrowDown.className = 'z-icon i-arrow-right z-minute-down';
             minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this, { minutes: -1 }), false);
             minuteGroup.appendChild(minuteArrowDown);
             // create minute end -------------------------------------------------------------------
@@ -451,22 +446,10 @@
             this.selectLuxon = this.selectLuxon.plus({ months: 1 });
             this.drawDate();
         },
-        // Date picker에 표시되는 선택된 날짜 시간을 변경.
-        changeDisplay: function() {
-            const displayElem = this.el.querySelector('.z-picker-modal-sub-title');
-            displayElem.innerHTML = '';
-            if (this.type === 'DATE') {
-                displayElem.textContent = this.selectLuxon.toFormat(i18n.dateFormat);
-            } else {
-                displayElem.textContent = this.selectLuxon.toFormat(i18n.dateTimeFormat);
-            }
-        },
         // Date picker 에서 특정 날짜 선택시 표시되는 날짜 변경.
         changeDay: function(offset) {
             this.selectLuxon = this.selectLuxon.set(offset);
             this.displayLuxon = this.selectLuxon.plus({ days: 0});
-
-            this.changeDisplay();
         },
         // Date picker 확인 버튼 클릭시 실제 대상 input box의 날짜 시간 값 변경.
         changeTarget: function() {
@@ -493,7 +476,6 @@
                 this.selectLuxon = this.selectLuxon.plus({ hours: 12 });
             }
             this.meridiem = meridiem;
-            this.changeDisplay();
         },
         // Time picker 에서 위 아래 화살표 아이콘 클릭시 시간 변경.
         changeTime: function(offset) {
@@ -529,7 +511,6 @@
             const minuteInput = document.getElementById(this.id + '-time-minute');
             minuteInput.value = this.selectLuxon.toFormat(this.minuteFormat);
 
-            this.changeDisplay();
         },
         // Time picker 에서 input box (Hour) 변경시 처리.
         setHour: function() {
@@ -549,7 +530,6 @@
                     hourInput.value = '0' + Number(inputValue);
                 }
                 this.selectLuxon = this.selectLuxon.set({ hour: hourInput.value });
-                this.changeDisplay();
             } else {
                 hourInput.value = this.selectLuxon.toFormat(this.hourFormat);
             }
@@ -570,7 +550,6 @@
                     minuteInput.value = '0' + Number(inputValue) ;
                 }
                 this.selectLuxon = this.selectLuxon.set({ minute: minuteInput.value });
-                this.changeDisplay();
             } else {
                 minuteInput.value = this.selectLuxon.toFormat(this.minuteFormat);
             }

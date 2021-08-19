@@ -1,117 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{user.label.user}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="user-header">
-        <div class="header-title flex-row align-items-baseline">
-            <h1 th:text="#{user.label.user}"></h1>
-            <h6 class="description ml-2" th:text="#{user.msg.searchDescription}"></h6>
-        </div>
-        <div class="header-search flex-row">
-            <input class="z-input i-search col-5 mr-2" id="search" type="text" maxlength="100"
-                   th:placeholder="#{user.label.searchPlaceholder}"/>
-            <span id="spanTotalCount" class="search-count"></span>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" onclick="location.href='/users/new'"
-                        sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.add}"></button>
-            </div>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{user.label.user}"></h1>
+    <h6 class="description ml-2" th:text="#{user.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input class="z-input i-search col-5 mr-2" id="searchValue" type="text" maxlength="100"
+           th:placeholder="#{user.label.searchPlaceholder}"/>
+    <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" onclick="location.href='/users/new'"
+                sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.add}"></button>
     </div>
-    <div class="user-content flex-fill">
-        <div class="list" id="userList"></div>
-    </div>
-</th:block>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="userList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript">
-        /*<![CDATA[*/
-        let offsetCount = 0;
-        window.onload = function() {
-            document.getElementById('search').focus();
-            document.getElementById('search').addEventListener('keyup', getUserList.bind(null, false), false);
-            getUserList(false);
-        }
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    let offsetCount = 0;
+    window.onload = function() {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function () {
+            getList();
+        });
+        getList();
+    }
 
-        document.getElementById('search').onkeyup = function() {
-            getUserList(false);
+    document.getElementById('searchValue').onkeyup = function() {
+        getList();
+    };
+
+    function getList(pageNum = 1) {
+        restSearchSubmit('get', '/users?searchValue=' + document.getElementById('searchValue').value + '&pageNum=' + pageNum);
+    }
+
+    function restSearchSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            showProgressbar: false,
+            callbackFunc: function(response) {
+                document.getElementById('userList').innerHTML = response.responseText;
+                setDateTimeFormat(document.getElementById('userList'));
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
+                    className: 'scrollbar'
+                });
+            }
         };
+        aliceJs.sendXhr(opt);
+    }
 
-        function getUserList(isScroll) {
-            const searchOpt = {
-                search: document.getElementById('search').value
-            }
-            let urlParam = 'search=' + searchOpt.search;
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
-            }
-            urlParam += '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSearchSubmit('get', '/users?' + urlParam, isScroll);
-        }
-
-        function restSearchSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                showProgressbar: false,
-                callbackFunc: function(response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const userTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        setDateTimeFormat(tbody);
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        userTbody.appendChild(container)
-                    } else {
-                        document.getElementById('userList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        setDateTimeFormat(document.getElementById('userList'));
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            getUserList(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /**
-         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-         */
-        function setDateTimeFormat(elem) {
-            elem.querySelectorAll('.date-time').forEach(dt => {
-                dt.textContent = i18n.userDateTime(dt.textContent.trim());
-            });
-        }
-        /*]]>*/
-    </script>
-</th:block>
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+        });
+    }
+    /*]]>*/
+</script>
 </html>

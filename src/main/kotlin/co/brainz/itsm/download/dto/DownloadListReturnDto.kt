@@ -6,9 +6,10 @@
 
 package co.brainz.itsm.download.dto
 
+import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
 data class DownloadListReturnDto(
     val data: List<DownloadListDto> = emptyList(),
-    val totalCount: Long = 0
+    val paging: AlicePagingData
 ) : Serializable

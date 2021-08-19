@@ -1,7 +1,7 @@
 /**
  * @projectDescription 신청서 Library.
  *
- * @author woodajung
+ * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.

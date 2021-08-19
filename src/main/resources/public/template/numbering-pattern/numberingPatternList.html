@@ -1,27 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<table class="list-table">
-    <thead class="list-head">
+<table class="z-list-table">
+    <thead class="z-list-head">
     <tr class="flex-row align-items-center">
         <th style="width:25%;" class="align-left" th:text="#{pattern.label.name}"></th>
         <th style="width:25%;" class="align-left" th:text="#{pattern.label.type}"></th>
         <th style="width:50%;" class="align-left" th:text="#{pattern.label.value}"></th>
     </tr>
     </thead>
-    <tbody class="list-body">
+    <tbody class="z-list-body">
     <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(patternList)}">
         <td style="width:100%" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>
     <tr class="flex-row align-items-center" th:each="pattern : ${patternList}">
-        <td style="width:25%;" class="align-left" th:id="${pattern.patternId}" name="patternName" th:text="${pattern.patternName}"></td>
-        <td style="width:25%;" class="align-left" id="patternType" name="patternType" th:text="${pattern.patternType}"></td>
-        <td style="width:50%;" class="align-left" id="patternValue" name="patternValue" th:text="${pattern.patternValue}"></td>
+        <td style="width:25%;" class="align-left underline" th:id="${pattern.patternId}">
+            <a sec:authorize="!hasAuthority('numbering.pattern.update')" th:text="${pattern.patternName}"
+               th:href="@{/numberingPatterns/{id}/view(id=${pattern.patternId})}"></a>
+            <a sec:authorize="hasAuthority('numbering.pattern.update')" th:text="${pattern.patternName}"
+               th:href="@{/numberingPatterns/{id}/edit(id=${pattern.patternId})}"></a>
+        </td>
+        <td style="width:25%;" class="align-left" id="patternType" th:text="${pattern.patternType}"></td>
+        <td style="width:50%;" class="align-left" id="patternValue" th:text="${pattern.patternValue}"></td>
     </tr>
     </tbody>
 </table>
+<th:block th:insert="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 </body>
 </html>

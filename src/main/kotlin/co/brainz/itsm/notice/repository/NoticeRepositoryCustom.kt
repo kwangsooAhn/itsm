@@ -8,29 +8,18 @@ package co.brainz.itsm.notice.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.notice.dto.NoticeListDto
-import co.brainz.itsm.notice.dto.NoticeListReturnDto
+import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
-import java.time.LocalDateTime
+import com.querydsl.core.QueryResults
 
 interface NoticeRepositoryCustom : AliceRepositoryCustom {
 
     fun findNoticeTopList(limit: Long): List<PortalTopDto>
 
-    fun findNoticeSearch(
-        searchValue: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        offset: Long,
-        limit: Long
-    ): NoticeListReturnDto
+    fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): QueryResults<NoticeListDto>
 
-    fun findTopNoticeSearch(
-        searchValue: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        limit: Long
-    ): MutableList<NoticeListDto>
+    fun findTopNotice(): MutableList<NoticeListDto>
 
     fun findNotice(noticeNo: String): NoticeEntity
 }

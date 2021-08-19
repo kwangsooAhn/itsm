@@ -1,110 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{cmdb.attribute.label.management}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="cmdb-attribute-header">
-        <div class="header-title flex-row align-items-baseline">
-            <h1 th:text="#{cmdb.attribute.label.management}"></h1>
-            <h6 class="description ml-2" th:text="#{cmdb.attribute.msg.searchDescription}"></h6>
-        </div>
-        <div class="header-search flex-row">
-            <input type="hidden" sec:authorize="hasAuthority('cmdb.attribute.create') || hasAuthority('cmdb.attribute.update')" th:name="isRole"
-                   th:value="true"/>
-            <input type="hidden" sec:authorize="!hasAuthority('cmdb.attribute.create') && !hasAuthority('cmdb.attribute.update')" th:name="isRole"
-                   th:value="false"/>
-            <form id="searchFrm">
-                <input class="z-input i-search col-5 mr-2" id="search" name="search" type="text" maxlength="100"
-                       th:placeholder="#{cmdb.attribute.label.searchPlaceholder}"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" onclick="location.href='/cmdb/attributes/new'"
-                        sec:authorize="hasAuthority('cmdb.attribute.create')" th:text="#{common.btn.add}"></button>
-            </div>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{cmdb.attribute.label.management}"></h1>
+    <h6 class="description ml-2" th:text="#{cmdb.attribute.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="hidden" sec:authorize="hasAuthority('cmdb.attribute.create') || hasAuthority('cmdb.attribute.update')" th:name="isRole"
+           th:value="true"/>
+    <input type="hidden" sec:authorize="!hasAuthority('cmdb.attribute.create') && !hasAuthority('cmdb.attribute.update')" th:name="isRole"
+           th:value="false"/>
+    <form id="searchFrm">
+        <input class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" type="text" maxlength="100"
+               th:placeholder="#{cmdb.attribute.label.searchPlaceholder}"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" onclick="location.href='/cmdb/attributes/new'"
+                sec:authorize="hasAuthority('cmdb.attribute.create')" th:text="#{common.btn.add}"></button>
     </div>
-    <div class="cmdb-attribute-content flex-fill">
-        <div class="list" id="attributeList"></div>
-    </div>
-</th:block>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="attributeList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript">
-        /*<![CDATA[*/
-        let offsetCount = 0;
-        window.onload = function () {
-            document.getElementById('search').focus();
-            document.getElementById('search').addEventListener('keyup', function() { searchAttributes(false); });
-            searchAttributes(false);
-        }
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function () {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        getList();
+    }
 
-        /**
-         * Attribute 검색
-         */
-        function searchAttributes(isScroll) {
-            let urlParam = '';
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
+    /**
+     * Attribute 검색
+     */
+    function getList(pageNum = 1) {
+        restSubmit('get', '/cmdb/attributes?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+    }
+
+    // REST API
+    function restSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                document.getElementById('attributeList').innerHTML = response.responseText;
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
+                    className: 'scrollbar'
+                });
             }
-            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount  + '&isScroll=' + isScroll;
-            restSubmit('get', '/cmdb/attributes?' + urlParam, isScroll);
-        }
-
-        // REST API
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const attributeTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        attributeTbody.appendChild(container)
-                    } else {
-                        document.getElementById('attributeList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            searchAttributes(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-        /*]]>*/
-    </script>
-</th:block>
+        };
+        aliceJs.sendXhr(opt);
+    }
+    /*]]>*/
+</script>
 </html>

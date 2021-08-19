@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/itsmLayout}">
+<!--/* 페이징처리가 된 리스트 화면 레이아웃 */-->
+<body>
+<div layout:fragment="mainContent" class="z-main-content flex-column">
+    <th:block layout:fragment="pageContent">
+        <!--/* 페이지별 타이틀 */-->
+        <div layout:fragment="pageTitle" class="z-page-title"></div>
+        <!--/* 페이지별 검색 */-->
+        <div layout:fragment="pageSearching" class="z-page-search"></div>
+        <!--/* 페이지별 리스트 */-->
+        <div layout:fragment="pageList" class="z-page-list"></div>
+        <!--/* 페이징 처리 영역 */-->
+        <div layout:replace="layout/itsm/fragment/pagingAreaFragment"></div>
+    </th:block>
+</div>
+</body>
+</html>

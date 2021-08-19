@@ -1,23 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/portalLayout">
 <head>
-    <meta charset="UTF-8">
-    <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
+    <th:block layout:fragment="meta">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    </th:block>
     <title th:text="#{project.title.signUp}"></title>
+    <th:block layout:fragment="scriptLink">
+        <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
+        <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
+        <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
+        <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+    </th:block>
 </head>
 <body>
-<div class="alice-wrapper">
-    <div class="portal-container flex-row">
+<th:block layout:fragment="portalHead"></th:block>
+<th:block layout:fragment="portalContent">
+    <div class="signup-main flex-row">
         <div class="signup-background">
-            <img class="signup-logo" th:src="@{/assets/media/icons/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
+            <img class="z-img i-signup-logo" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
             <div class="signup-login-face">
                 <span class="signup-login-note" th:text="#{login.label.loginNote}"></span>
                 <a class="z-button light-secondary signup-return" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
             </div>
-            <img class="signup-main-image" th:src="@{/assets/media/images/signup/img_signup_main.png}" width="1310" height="800" alt="Signup Main">
+            <img class="z-img i-signup-main-image" th:src="@{/assets/media/images/signup/img_signup_main.png}" width="1310" height="800" alt="Signup Main">
         </div>
         <div class="signup-form">
             <h1 class="align-center" th:text="#{login.label.userSignUp}"></h1>
@@ -31,7 +39,7 @@
                                 <span class="required"></span>
                             </label>
                             <div class="help-tooltip">
-                                <span class="help-tooltip-icon"></span>
+                                <span class="z-icon i-tooltip"></span>
                                 <div class="tooltip-contents">
                                     <span th:utext="#{user.tooltip.idRule}"></span>
                                 </div>
@@ -44,7 +52,7 @@
                                 <span class="required"></span>
                             </label>
                             <div class="help-tooltip">
-                                <span class="help-tooltip-icon"></span>
+                                <span class="z-icon i-tooltip"></span>
                                 <div class="tooltip-contents">
                                     <span th:utext="#{user.tooltip.pwRule}"></span>
                                 </div>
@@ -86,125 +94,110 @@
             </div>
         </div>
     </div>
-
-    <div id="divProgressBar"
-         style="z-index:1000; position:fixed; display:block; width:100%; height:100%; top:50; left:0; right:0; bottom:0; background-color:grey; opacity:0.5; pointer-events:all;">
-        <img id="aProgressBar" name="aProgressBar" th:src="@{/assets/media/images/loading_w_dark.gif}"
-             style="position: absolute; left: 50%; top: 0; bottom:0; margin:auto;"/>
-    </div>
-</div>
-<script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
-<script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
-<script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
-<script th:src="@{/assets/vendors/rsa/rng.js}"></script>
-<script th:src="@{/assets/js/lib/zI18n.js}"></script>
-<script th:src="@{/assets/js/lib/zAlert.js}"></script>
-<script th:src="@{/assets/js/lib/zValidation.legacy.js}"></script>
-<script th:src="@{/assets/js/lib/zUtil.js}"></script>
-<script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
-<script th:src="@{/assets/js/lib/zFileuploader.js}"></script>
-<script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
-    window.onload = function() {
-        i18n.init();
-        hiddenProgressBar();
-        document.getElementById('userId').focus();
-        zFileUploader.avatar({
-            extra: {
-                dropZoneFilesId: 'avatarDropZone',
-                type: 'avatar',
-                dropZoneMaxFileSize: 0.2,
-                dropZoneUrl: '/certification/fileupload?target=avatar',
-                dropZoneMaxFiles: 1,
-                acceptedFiles: '.png,.jpeg,.jpg,.gif',
-                enableImageThumbnails: true,
-                avatar: {
-                    id: [[${users?.userKey}]],
-                    path: [[${users?.avatarPath}]],
-                    value: [[${users?.avatarValue}]],
-                    size: [[${users?.avatarSize}]]
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            hiddenProgressBar();
+            document.getElementById('userId').focus();
+            zFileUploader.avatar({
+                extra: {
+                    dropZoneFilesId: 'avatarDropZone',
+                    type: 'avatar',
+                    dropZoneMaxFileSize: 0.2,
+                    dropZoneUrl: '/certification/fileupload?target=avatar',
+                    dropZoneMaxFiles: 1,
+                    acceptedFiles: '.png,.jpeg,.jpg,.gif',
+                    enableImageThumbnails: true,
+                    avatar: {
+                        id: [[${users?.userKey}]],
+                        path: [[${users?.avatarPath}]],
+                        value: [[${users?.avatarValue}]],
+                        size: [[${users?.avatarSize}]]
+                    }
                 }
-            }
-        });
-    };
-
-    const STATUS_SUCCESS = '0';
-    const STATUS_ERROR_USER_ID_DUPLICATION = '1';
-    const STATUS_ERROR_EMAIL_DUPLICATION = '3';
-
-    // 사용자 등록
-    function userRegister() {
-        if (validation()) {
-
-            const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
-            const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
-            const rsa = new RSAKey();
-            rsa.setPublic(keyModule, keyExponent);
-
-            const password = document.getElementById('password').value;
-            const registerInfo = {
-                userId: document.getElementById('userId').value,
-                password: rsa.encrypt(password),
-                userName: document.getElementById('userName').value,
-                email: document.getElementById('email').value,
-                mobileNumber: document.getElementById('mobileNumber').value,
-                fileSeq: document.getElementsByName('fileSeq').value,
-                avatarUUID: document.getElementById('avatarUUID').value
-            };
-
-            restSubmit('POST', '/certification', true, registerInfo);
-        }
-    }
-
-    // 데이터 전송
-    function restSubmit(method, url, async, data) {
-        const opt = {
-            method: method,
-            url: url,
-            async: async,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function(response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        aliceAlert.alertSuccess([[#{user.msg.signUp}]], function() {
-                            location.href = '/login';
-                        });
-                        break;
-                    case STATUS_ERROR_USER_ID_DUPLICATION:
-                        aliceAlert.alertWarning([[#{user.msg.sameUserId}]]);
-                        break;
-                    case STATUS_ERROR_EMAIL_DUPLICATION:
-                        aliceAlert.alertWarning([[#{user.msg.sameEmail}]]);
-                        break;
-                    default :
-                        aliceAlert.alertDanger([[#{user.msg.signUpFail}]]);
-                        break;
-                }
-            }
+            });
         };
-        aliceJs.sendXhr(opt);
-    }
 
-    // 빈 값 체크
-    function validation() {
-        if (isEmpty('userId', 'user.msg.enterUserId')) return false;
-        if (isEmpty('password', 'user.msg.enterUserPassword')) return false;
-        if (isEmpty('rePassword', 'user.msg.enterUserRePassword')) return false;
-        if (isEmpty('userName', 'user.msg.enterUserName')) return false;
-        if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
-        if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
-        if (!isValidUserId('userId', true)) return false;
-        if (!isValidPassword('password')) return false;
-        if (!isValidEmail('email', true)) return false;
+        const STATUS_SUCCESS = '0';
+        const STATUS_ERROR_USER_ID_DUPLICATION = '1';
+        const STATUS_ERROR_EMAIL_DUPLICATION = '3';
 
-        return true;
-    }
+        // 사용자 등록
+        function userRegister() {
+            if (validation()) {
 
-    function deptPopUp() {
-        window.open('/users/department/view-pop', null, 'width=400, height=700');
-    }
-    /*]]>*/
-</script>
+                const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+                const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+                const rsa = new RSAKey();
+                rsa.setPublic(keyModule, keyExponent);
+
+                const password = document.getElementById('password').value;
+                const registerInfo = {
+                    userId: document.getElementById('userId').value,
+                    password: rsa.encrypt(password),
+                    userName: document.getElementById('userName').value,
+                    email: document.getElementById('email').value,
+                    mobileNumber: document.getElementById('mobileNumber').value,
+                    fileSeq: document.getElementsByName('fileSeq').value,
+                    avatarUUID: document.getElementById('avatarUUID').value
+                };
+
+                restSubmit('POST', '/certification', true, registerInfo);
+            }
+        }
+
+        // 데이터 전송
+        function restSubmit(method, url, async, data) {
+            const opt = {
+                method: method,
+                url: url,
+                async: async,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceAlert.alertSuccess([[#{user.msg.signUp}]], function() {
+                                location.href = '/login';
+                            });
+                            break;
+                        case STATUS_ERROR_USER_ID_DUPLICATION:
+                            aliceAlert.alertWarning([[#{user.msg.sameUserId}]]);
+                            break;
+                        case STATUS_ERROR_EMAIL_DUPLICATION:
+                            aliceAlert.alertWarning([[#{user.msg.sameEmail}]]);
+                            break;
+                        default :
+                            aliceAlert.alertDanger([[#{user.msg.signUpFail}]]);
+                            break;
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        // 빈 값 체크
+        function validation() {
+            if (isEmpty('userId', 'user.msg.enterUserId')) return false;
+            if (isEmpty('password', 'user.msg.enterUserPassword')) return false;
+            if (isEmpty('rePassword', 'user.msg.enterUserRePassword')) return false;
+            if (isEmpty('userName', 'user.msg.enterUserName')) return false;
+            if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
+            if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
+            if (!isValidUserId('userId', true)) return false;
+            if (!isValidPassword('password')) return false;
+            if (!isValidEmail('email', true)) return false;
+
+            return true;
+        }
+
+        function deptPopUp() {
+            window.open('/users/department/view-pop', null, 'width=400, height=700');
+        }
+        /*]]>*/
+    </script>
+</th:block>
 </body>
 </html>

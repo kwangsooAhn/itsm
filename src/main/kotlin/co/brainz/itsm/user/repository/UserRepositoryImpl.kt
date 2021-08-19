@@ -9,9 +9,9 @@ package co.brainz.itsm.user.repository
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.code.entity.QCodeEntity
-import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.user.dto.UserListDataDto
-import co.brainz.itsm.user.dto.UserListReturnDto
+import co.brainz.itsm.user.dto.UserSearchCondition
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -19,13 +19,10 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java), UserRepositoryCustom {
-    override fun findAliceUserEntityList(
-        search: String,
-        offset: Long
-    ): UserListReturnDto {
+    override fun findAliceUserEntityList(userSearchCondition: UserSearchCondition): QueryResults<UserListDataDto> {
         val user = QAliceUserEntity.aliceUserEntity
         val code = QCodeEntity.codeEntity
-        val query = from(user)
+        return from(user)
             .select(
                 Projections.constructor(
                     UserListDataDto::class.java,
@@ -47,19 +44,16 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
             )
             .leftJoin(code).on(code.code.eq(user.department))
             .where(
-                super.like(user.userName, search)?.or(super.like(user.userId, search))
-                    ?.or(super.like(user.position, search))
-                    ?.or(super.like(user.department, search))?.or(super.like(user.officeNumber, search))
-                    ?.or(super.like(user.mobileNumber, search))
+                super.like(user.userName, userSearchCondition.searchValue)
+                    ?.or(super.like(user.userId, userSearchCondition.searchValue))
+                    ?.or(super.like(user.position, userSearchCondition.searchValue))
+                    ?.or(super.like(user.department, userSearchCondition.searchValue))
+                    ?.or(super.like(user.officeNumber, userSearchCondition.searchValue))
+                    ?.or(super.like(user.mobileNumber, userSearchCondition.searchValue))
             )
             .orderBy(user.userName.asc())
-            .limit(ItsmConstants.SEARCH_DATA_COUNT)
-            .offset(offset)
+            .limit(userSearchCondition.contentNumPerPage)
+            .offset((userSearchCondition.pageNum - 1) * userSearchCondition.contentNumPerPage)
             .fetchResults()
-
-        return UserListReturnDto(
-            data = query.results,
-            totalCount = query.total
-        )
     }
 }

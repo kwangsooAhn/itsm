@@ -53,11 +53,11 @@
     }
   }
   // 사용자 아이콘
-  .profile-photo {
+  .i-profile-photo {
     flex : none;
     margin: auto 0.9376rem auto 0; // 15px
     @include borderRadius(50%);
-    background-color: $profile-photo-background;
+    background-color: $element-icon-color;
   }
 
   // 버튼

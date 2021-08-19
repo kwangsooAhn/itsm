@@ -375,7 +375,7 @@ COMMENT ON COLUMN awf_custom_code.create_dt IS '등록일';
 COMMENT ON COLUMN awf_custom_code.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_custom_code.update_dt IS '수정일';
 
-insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용자 이름 검색', 'table', 'awf_user', 'user_name', 'user_key', null, '{}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용자 이름 검색', 'table', 'awf_user', 'user_name', 'user_key', null, '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288ab777dd21b50177dd52781e0000', '데이터베이스', 'code', null, null, null, 'cmdb.db.kind', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 /**
  * 사용자정의코드테이블
@@ -606,8 +606,8 @@ insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7,TRUE)
 insert into awf_menu values ('chart', 'menu', '/charts/search', 8,TRUE);
 insert into awf_menu values ('config', 'menu', '', 9,TRUE);
 insert into awf_menu values ('config.user', 'config', '/users/search', 1,TRUE);
-insert into awf_menu values ('config.auth', 'config', '/auths/edit', 2,TRUE);
-insert into awf_menu values ('config.role', 'config', '/roles/edit', 3,TRUE);
+insert into awf_menu values ('config.auth', 'config', '/auths/search', 2,TRUE);
+insert into awf_menu values ('config.role', 'config', '/roles/search', 3,TRUE);
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,TRUE);
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6,TRUE);
@@ -618,8 +618,8 @@ insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRU
 insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3,TRUE);
 insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4,TRUE);
 insert into awf_menu values ('workflow.image', 'workflow', '/images', 5,TRUE);
-insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/edit', 6, true);
-insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/edit', 7, true);
+insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, true);
+insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, true);
 insert into awf_menu values ('cmdb', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
@@ -1388,7 +1388,10 @@ COMMENT ON COLUMN awf_url.method IS 'method';
 COMMENT ON COLUMN awf_url.url_desc IS '설명';
 COMMENT ON COLUMN awf_url.is_required_auth IS '권한 필수여부';
 
-insert into awf_url values ('/auths/edit', 'get', '역할  설정 뷰를 호출', 'TRUE');
+insert into awf_url values ('/auths/search', 'get', '권한 검색화면', 'TRUE');
+insert into awf_url values ('/auths/new', 'get', '권한 등록', 'TRUE');
+insert into awf_url values ('/auths/{id}/edit', 'get', '권한 수정', 'TRUE');
+insert into awf_url values ('/auths/{id}/view', 'get', '권한 상세 보기', 'TRUE');
 insert into awf_url values ('/auths', 'get', '권한 관리 목록', 'TRUE');
 insert into awf_url values ('/boards', 'get', '게시판 관리 리스트 호출화면', 'TRUE');
 insert into awf_url values ('/boards/new', 'get', '게시판 관리 신규 등록', 'TRUE');
@@ -1469,9 +1472,15 @@ insert into awf_url values ('/notices/{id}/view', 'get', '공지사항 상세 �
 insert into awf_url values ('/notices/{id}/view-pop', 'get', '공지사항 팝업 화면', 'FALSE');
 insert into awf_url values ('/notifications', 'get', '알림 리스트 화면', 'FALSE');
 insert into awf_url values ('/numberingPatterns', 'get', '패턴 관리 목록 뷰', 'TRUE');
-insert into awf_url values ('/numberingPatterns/edit', 'get', '패턴 편집 화면', 'TRUE');
+insert into awf_url values ('/numberingPatterns/search', 'get', '패턴 검색화면', 'TRUE');
+insert into awf_url values ('/numberingPatterns/new', 'get', '패턴 등록', 'TRUE');
+insert into awf_url values ('/numberingPatterns/{id}/edit', 'get', '패턴 수정', 'TRUE');
+insert into awf_url values ('/numberingPatterns/{id}/view', 'get', '패턴 상세 보기', 'TRUE');
 insert into awf_url values ('/numberingRules', 'get', '문서번호 관리 목록 뷰', 'TRUE');
-insert into awf_url values ('/numberingRules/edit', 'get', '문서번호 편집 화면', 'TRUE');
+insert into awf_url values ('/numberingRules/search', 'get', '문서번호 검색화면', 'TRUE');
+insert into awf_url values ('/numberingRules/new', 'get', '문서번호 등록', 'TRUE');
+insert into awf_url values ('/numberingRules/{id}/edit', 'get', '문서번호 수정', 'TRUE');
+insert into awf_url values ('/numberingRules/{id}/view', 'get', '문서번호 상세 보기', 'TRUE');
 insert into awf_url values ('/oauth/{service}/callback', 'get', 'OAuth 로그인 응답 콜백', 'TRUE');
 insert into awf_url values ('/oauth/{service}/login', 'get', 'OAuth 로그인 화면 호출', 'TRUE');
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
@@ -1584,7 +1593,7 @@ insert into awf_url values ('/rest/numberingRules/{id}', 'delete', '문서번호
 insert into awf_url values ('/rest/portals', 'get', '포탈 조회 (페이징)', 'FALSE');
 insert into awf_url values ('/rest/portals/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filenameextensions', 'get', '포탈 첨부파일 확장자 조회', 'FALSE');
-insert into awf_url values ('/rest/portals/files', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
+insert into awf_url values ('/rest/portals/filelist', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/top', 'get', '포탈 첫화면 Top 조회', 'FALSE');
 insert into awf_url values ('/rest/processes', 'post', '프로세스 디자이너 기본 정보 저장 / 다른이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/processes/{id}', 'put', '프로세스 수정', 'TRUE');
@@ -1617,7 +1626,10 @@ insert into awf_url values ('/rest/users/{userkey}/resetpassword', 'put', '사�
 insert into awf_url values ('/rest/users/colors', 'get', '사용자 정의 색상 조회', 'FALSE');
 insert into awf_url values ('/rest/users/colors', 'put', '사용자 정의 색상 저장', 'FALSE');
 insert into awf_url values ('/rest/products/info', 'get', '제품 정보 조회', 'TRUE');
-insert into awf_url values ('/roles/edit', 'get', '역할 설정 뷰 호출', 'TRUE');
+insert into awf_url values ('/roles/search', 'get', '역할 검색화면', 'TRUE');
+insert into awf_url values ('/roles/new', 'get', '역할 등록', 'TRUE');
+insert into awf_url values ('/roles/{id}/edit', 'get', '역할 수정', 'TRUE');
+insert into awf_url values ('/roles/{id}/view', 'get', '역할 상세 보기', 'TRUE');
 insert into awf_url values ('/roles', 'get', '역할 관리 목록 뷰 호출', 'TRUE');
 insert into awf_url values ('/schedulers', 'get', '스케줄러 리스트 화면', 'TRUE');
 insert into awf_url values ('/schedulers/new', 'get', '스케줄러 신규 등록 화면', 'TRUE');
@@ -1664,10 +1676,10 @@ COMMENT ON COLUMN awf_url_auth_map.url IS '요청url';
 COMMENT ON COLUMN awf_url_auth_map.method IS 'method';
 COMMENT ON COLUMN awf_url_auth_map.auth_id IS '권한아이디';
 
-insert into awf_url_auth_map values ('/auths/edit', 'get', 'auth.create');
-insert into awf_url_auth_map values ('/auths/edit', 'get', 'auth.delete');
-insert into awf_url_auth_map values ('/auths/edit', 'get', 'auth.update');
-insert into awf_url_auth_map values ('/auths/edit', 'get', 'auth.read');
+insert into awf_url_auth_map values ('/auths/search', 'get', 'auth.read');
+insert into awf_url_auth_map values ('/auths/new', 'get', 'auth.create');
+insert into awf_url_auth_map values ('/auths/{id}/edit', 'get', 'auth.update');
+insert into awf_url_auth_map values ('/auths/{id}/view', 'get', 'auth.read');
 insert into awf_url_auth_map values ('/auths', 'get', 'auth.create');
 insert into awf_url_auth_map values ('/auths', 'get', 'auth.delete');
 insert into awf_url_auth_map values ('/auths', 'get', 'auth.update');
@@ -1806,15 +1818,15 @@ insert into awf_url_auth_map values ('/notices/{id}/edit', 'get', 'notice.update
 insert into awf_url_auth_map values ('/notices/{id}/view', 'get', 'notice.read');
 insert into awf_url_auth_map values ('/notices/{id}/view-pop', 'get', 'notice.read');
 insert into awf_url_auth_map values ('/numberingPatterns', 'get', 'numbering.pattern.read');
-insert into awf_url_auth_map values ('/numberingPatterns/edit', 'get', 'numbering.pattern.update');
-insert into awf_url_auth_map values ('/numberingPatterns/edit', 'get', 'numbering.pattern.read');
-insert into awf_url_auth_map values ('/numberingPatterns/edit', 'get', 'numbering.pattern.create');
-insert into awf_url_auth_map values ('/numberingPatterns/edit', 'get', 'numbering.pattern.delete');
+insert into awf_url_auth_map values ('/numberingPatterns/search', 'get', 'numbering.pattern.read');
+insert into awf_url_auth_map values ('/numberingPatterns/new', 'get', 'numbering.pattern.create');
+insert into awf_url_auth_map values ('/numberingPatterns/{id}/edit', 'get', 'numbering.pattern.update');
+insert into awf_url_auth_map values ('/numberingPatterns/{id}/view', 'get', 'numbering.pattern.read');
 insert into awf_url_auth_map values ('/numberingRules', 'get', 'numbering.rule.read');
-insert into awf_url_auth_map values ('/numberingRules/edit', 'get', 'numbering.rule.update');
-insert into awf_url_auth_map values ('/numberingRules/edit', 'get', 'numbering.rule.read');
-insert into awf_url_auth_map values ('/numberingRules/edit', 'get', 'numbering.rule.create');
-insert into awf_url_auth_map values ('/numberingRules/edit', 'get', 'numbering.rule.delete');
+insert into awf_url_auth_map values ('/numberingRules/search', 'get', 'numbering.rule.read');
+insert into awf_url_auth_map values ('/numberingRules/new', 'get', 'numbering.rule.create');
+insert into awf_url_auth_map values ('/numberingRules/{id}/edit', 'get', 'numbering.rule.update');
+insert into awf_url_auth_map values ('/numberingRules/{id}/view', 'get', 'numbering.rule.read');
 insert into awf_url_auth_map values ('/processes', 'get', 'process.read');
 insert into awf_url_auth_map values ('/processes', 'get', 'process.delete');
 insert into awf_url_auth_map values ('/processes', 'get', 'process.update');
@@ -2016,10 +2028,10 @@ insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.update');
 insert into awf_url_auth_map values ('/rest/products/info', 'get', 'product.read');
-insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.update');
-insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.read');
-insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.create');
-insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.delete');
+insert into awf_url_auth_map values ('/roles/search', 'get', 'role.read');
+insert into awf_url_auth_map values ('/roles/new', 'get', 'role.create');
+insert into awf_url_auth_map values ('/roles/{id}/edit', 'get', 'role.update');
+insert into awf_url_auth_map values ('/roles/{id}/view', 'get', 'role.read');
 insert into awf_url_auth_map values ('/roles', 'get', 'role.read');
 insert into awf_url_auth_map values ('/schedulers', 'get', 'scheduler.create');
 insert into awf_url_auth_map values ('/schedulers', 'get', 'scheduler.delete');
@@ -3237,7 +3249,7 @@ CREATE TABLE cmdb_ci
 	ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
 	ci_desc character varying(512),
-	automatic boolean DEFAULT 'false',
+    interlink boolean DEFAULT 'false',
 	instance_id character varying(128),
 	create_user_key character varying(128),
 	create_dt timestamp,
@@ -3261,7 +3273,7 @@ COMMENT ON COLUMN cmdb_ci.ci_name IS 'CI이름';
 COMMENT ON COLUMN cmdb_ci.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci.type_id IS '타입아이디';
 COMMENT ON COLUMN cmdb_ci.ci_desc IS 'CI설명';
-COMMENT ON COLUMN cmdb_ci.automatic IS '자동등록여부';
+COMMENT ON COLUMN cmdb_ci.interlink IS '연동 여부';
 COMMENT ON COLUMN cmdb_ci.instance_id IS '인스턴스ID';
 COMMENT ON COLUMN cmdb_ci.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_ci.create_dt IS '등록일시';
@@ -3310,7 +3322,7 @@ CREATE TABLE cmdb_ci_history
 	class_id character varying(128),
 	ci_icon character varying(200),
 	ci_desc character varying(512),
-	automatic boolean DEFAULT 'false',
+    interlink boolean DEFAULT 'false',
 	instance_id character varying(128),
     apply_dt timestamp,
 	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id),
@@ -3328,7 +3340,7 @@ COMMENT ON COLUMN cmdb_ci_history.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci_history.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci_history.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci_history.ci_desc IS 'CI설명';
-COMMENT ON COLUMN cmdb_ci_history.automatic IS '자동등록여부';
+COMMENT ON COLUMN cmdb_ci_history.interlink IS '연동 여부';
 COMMENT ON COLUMN cmdb_ci_history.instance_id IS '인스턴스ID';
 COMMENT ON COLUMN cmdb_ci_history.apply_dt IS '반영일시';
 

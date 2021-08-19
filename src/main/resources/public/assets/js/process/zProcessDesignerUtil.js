@@ -407,7 +407,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: aliceJs.CLASS_PREFIX + 'button primary',
+                    classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {
@@ -416,7 +416,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: aliceJs.CLASS_PREFIX + 'button secondary',
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -852,15 +852,15 @@
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.className = aliceJs.CLASS_PREFIX + 'button-icon secondary ' + aliceJs.CLASS_PREFIX + 'button-minimap';
+        minimapButton.className = 'z-button-icon secondary z-button-minimap';
         minimapButton.addEventListener('click', function (e) {
-            const elem = aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'button-minimap');
+            const elem = aliceJs.clickInsideElement(e, 'z-button-minimap');
             elem.classList.toggle('active');
             document.querySelector('div.minimap').classList.toggle('closed');
         }, false);
 
         const minimapIcon = document.createElement('span');
-        minimapIcon.className = aliceJs.CLASS_PREFIX + 'icon i-minimap';
+        minimapIcon.className = 'z-icon i-minimap';
         minimapButton.appendChild(minimapIcon);
         drawingBoard.appendChild(minimapButton);
 
@@ -881,7 +881,7 @@
         simulationTitle.textContent = i18n.msg('process.btn.simulationCheckResult');
 
         const simulationClose = document.createElement('span');
-        simulationClose.className = 'icon-minus';
+        simulationClose.className = 'z-icon i-minus';
         simulationTitle.appendChild(simulationClose);
         simulationClose.addEventListener('click', simulationToggleEvent, false);
         simulationContainer.appendChild(simulationTitle);
@@ -907,11 +907,11 @@
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.className = aliceJs.CLASS_PREFIX + 'button-icon secondary ' + aliceJs.CLASS_PREFIX + 'button-simulation-report';
+        simulationButton.className = 'z-button-icon secondary z-button-simulation-report';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');
-        simulationIcon.className = aliceJs.CLASS_PREFIX + 'icon i-simulation-report';
+        simulationIcon.className = 'z-icon i-simulation-report';
         simulationButton.appendChild(simulationIcon);
         drawingBoard.appendChild(simulationButton);
 
@@ -1004,9 +1004,10 @@ function valdationCheck() {
     let requiredList = [];
     let deployableStatus = ['process.status.publish', 'process.status.use'];
     let nowStatus = zProcessDesigner.data.process.status;
+    let commonStartCount = 0;
 
     if (deployableStatus.indexOf(zProcessDesigner.initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
-        aliceJs.alertWarning(i18n.msg('common.msg.onlySaveInEdit'));
+        aliceAlert.alertWarning(i18n.msg('common.msg.onlySaveInEdit'));
         return false;
     }
     if (zProcessDesigner.isView) return false;
@@ -1015,12 +1016,15 @@ function valdationCheck() {
         return false;
     }
 
-    if (deployableStatus.indexOf(nowStatus) >= 0) {
+    if (deployableStatus.indexOf(nowStatus) > -1) {
         for (let i = 0; i < totalElements.length; i++) {
+            if(totalElements[i].type === 'commonStart') {
+                commonStartCount++;
+            }
             if (typeList.indexOf(totalElements[i].type) >= 0) {
                 requiredList = totalElements[i].required;
                 for (let key in totalElements[i]) {
-                    if (requiredList.indexOf(key) >= 0) {
+                    if (requiredList.indexOf(key) > -1) {
                         if (totalElements[i][key].toString().trim() === '') {
                             const errorElem = document.getElementById(totalElements[i].id);
                             aliceAlert.alertWarning(i18n.msg('process.msg.enterRequired',
@@ -1033,7 +1037,7 @@ function valdationCheck() {
                 }
                 if (totalElements[i].data !== undefined) {
                     for (let key in totalElements[i].data) {
-                        if (requiredList.indexOf(key) >= 0) {
+                        if (requiredList.indexOf(key) > -1) {
                             if (totalElements[i].data[key].toString().trim() === '') {
                                 const errorElem = document.getElementById(totalElements[i].id);
                                 aliceAlert.alertWarning(i18n.msg('process.msg.enterRequired',
@@ -1046,6 +1050,10 @@ function valdationCheck() {
                     }
                 }
             }
+        }
+        if (commonStartCount !== 1) {
+            aliceAlert.alertWarning(i18n.msg('process.msg.startElementMustOne'));
+            return false;
         }
         return true;
     }

@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/portalLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/portal/pageType/searchCommonLayout}">
 <head>
     <title th:text="#{faq.label.faq}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="faq-header">
-        <div class="header-title flex-row align-items-baseline">
+<th:block layout:fragment="searchArea">
+    <div class="z-content-header">
+        <div class="z-page-title flex-row align-items-baseline">
             <h1 th:text="#{faq.label.faq}"></h1>
             <h6 class="description ml-2" th:text="#{faq.msg.portalDescription}"></h6>
         </div>
-        <div class="faq-search">
+        <div class="z-page-search">
             <select id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')" class="col-5 mr-2">
                 <option th:text="#{common.code.faq.category.all}" value="" selected></option>
                 <option th:each="category:${faqs.faqCategory}"
@@ -22,73 +21,71 @@
             <span id="spanTotalCount" class="search-count"></span>
         </div>
     </div>
-    <div class="faq-content">
-        <div class="list"></div>
-    </div>
+</th:block>
+<th:block layout:fragment="contentArea">
+    <div class="z-faq-content"></div>
 </th:block>
 </body>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[ */
-        const faqId = [[${faqs?.faqId}]];
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[ */
+    const faqId = [[${faqs?.faqId}]];
 
-        window.onload = function () {
-            if (faqId !== '') {
-                getFaqList('', faqId);
-            } else {
-                restSubmit('get', '/portals/faqs');
-            }
+    window.onload = function () {
+        if (faqId !== '') {
+            getFaqList('', faqId);
+        } else {
+            restSubmit('get', '/portals/faqs');
         }
+    }
 
-        function getFaqList(category, faqId) {
-            let urlParam = '';
-            if (category !== '') {
-                urlParam += 'category=' + category;
-            } else {
-                urlParam += 'id=' + faqId;
-            }
-            restSubmit('get', '/portals/faqs?' + urlParam);
+    function getFaqList(category, faqId) {
+        let urlParam = '';
+        if (category !== '') {
+            urlParam += 'category=' + category;
+        } else {
+            urlParam += 'id=' + faqId;
         }
+        restSubmit('get', '/portals/faqs?' + urlParam);
+    }
 
-        function restSubmit(method, url) {
-            const opt = {
-                method: method,
-                url: url,
-                showProgressbar: false,
-                async: false,
-                callbackFunc: function(response) {
-                    document.querySelector('.list').innerHTML = response.responseText;
-                    document.getElementsByClassName('faq-group')[0].open = true;
-                    document.getElementsByClassName('faq-row')[0].open = true;
-                    aliceJs.showTotalCount(document.getElementsByClassName('faq-row').length);
+    function restSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            showProgressbar: false,
+            async: false,
+            callbackFunc: function(response) {
+                document.querySelector('.z-faq-content').innerHTML = response.responseText;
+                document.getElementsByClassName('z-faq-group')[0].open = true;
+                document.getElementsByClassName('z-faq-row')[0].open = true;
+                aliceJs.showTotalCount(document.getElementsByClassName('z-faq-row').length);
 
-                    let selectedGroup = document.getElementById('selected-group').value;
-                    let selectedId = document.getElementById('selected-id').value;
-                    if (selectedId !== '') {
-                        let group = document.getElementsByClassName('faq-group');
-                        let row = document.getElementsByClassName('faq-row');
-                        for (let i = 0; i < group.length; i++) {
-                            if (group[i].id === selectedGroup) {
-                                document.getElementsByClassName('faq-group')[0].open = false;
-                                group[i].open = true;
-                                break;
-                            }
-                        }
-                        for (let i = 0; i < row.length; i++) {
-                            if (row[i].id === selectedId) {
-                                document.getElementsByClassName('faq-row')[0].open = false;
-                                row[i].open = true;
-                                row[i].setAttribute('id', 'highlight')
-                                break;
-                            }
+                let selectedGroup = document.getElementById('selected-group').value;
+                let selectedId = document.getElementById('selected-id').value;
+                if (selectedId !== '') {
+                    let group = document.getElementsByClassName('z-faq-group');
+                    let row = document.getElementsByClassName('z-faq-row');
+                    for (let i = 0; i < group.length; i++) {
+                        if (group[i].id === selectedGroup) {
+                            document.getElementsByClassName('z-faq-group')[0].open = false;
+                            group[i].open = true;
+                            break;
                         }
                     }
-                    OverlayScrollbars(document.querySelector('.main'), { className: 'scrollbar' });
+                    for (let i = 0; i < row.length; i++) {
+                        if (row[i].id === selectedId) {
+                            document.getElementsByClassName('z-faq-row')[0].open = false;
+                            row[i].open = true;
+                            row[i].setAttribute('id', 'highlight')
+                            break;
+                        }
+                    }
                 }
-            };
-            aliceJs.sendXhr(opt);
-        }
-        /* ]]> */
-    </script>
-</th:block>
+                OverlayScrollbars(document.querySelector('.z-main'), { className: 'scrollbar' });
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+    /* ]]> */
+</script>
 </html>

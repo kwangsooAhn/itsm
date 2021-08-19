@@ -29,6 +29,7 @@ common:
     colon: ":"
     count: "total {0}"
     createDate: "Create Date"
+    createDtDesc: "Order by create date"
     createUser: "Create User"
     customColor: "Custom User Color"
     delete: "Delete"
@@ -37,18 +38,21 @@ common:
     group: "Group"
     modify: "Modify"
     name: "Name"
+    nameAsc: "Order by name"
     searchWord: "Please enter your search term"
     success: "Success"
     tag: "Tag"
     title: "Title"
+    totalCountWithoutCondition: "({0}) data total {1}"
+    totalPageNum: "total {0} page"
     update: "Update"
     updateDate: "Update Date"
     updateUser: "Update User"
     writeDate: "Write Date"
     writer: "Writer"
+    emptyData: "-"
   msg:
     confirmDelete: "Are you sure you want to delete?"
-    customColorSave: "Your color has not been saved yet.<br/>Your color will be reset."
     dataSelect: "Please select data."
     delete: "Deleted."
     deleteTartget: "Please select target."
@@ -349,6 +353,9 @@ cmdb:
       sourceCiName: "Source CI Name"
       targetCiId: "Target CI ID"
       targetCiName: "Target CI Name"
+      whetherToInterlock: "Whether to Interlink"
+      interlock: "Interlink"
+      nonInterlock: "Non Interlink"
     msg:
       deleteEditableCI: "Do you want to delete the entered asset information from the list?"
       deleteReadableCI: "Do you want to delete asset information from the list?"
@@ -1003,6 +1010,7 @@ process:
     enterProcessName: "Please enter a process name."
     failedDestroy: "Related documents exist for this process.<br/>This can't be destroyed."
     noticeImportFile: "Import only possible in XML file"
+    startEventnMustOne: 'Only one start event is allowed.'
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
   title:
@@ -1269,6 +1277,7 @@ user:
     user: "User"
   msg:
     createUser: "User is registered."
+    customColorSave: "Your color has not been saved yet.<br/>Your color will be reset."
     editDescription: "Register users or modify user information."
     editSelfDescription: "Edit your personal information."
     emailAlert: "When you change your email, you need to verify."
@@ -1299,17 +1308,19 @@ user:
     ※ Do not allow spaces."
     pwRule: "※ At least two types of characters (upper case, lower case, special characters, numbers),
     &nbsp;&nbsp;&nbsp;&nbsp;More than 8 characters, less than 8 characters, if one kind character used, 10~20 length limit
+
     ※ Do not include your ID.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) If the ID is zenius, zeniu comprises available, zenius is not included.<br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;ex) If the ID is zenius, zeniu comprises available, zenius is not included.<br/><br/>
+
     ※ Do not include your email ID.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID zenius, zeniu comprises available<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;ex) If the e-mail ID zenius, zeniu comprises available<br/>
+
     ※ Do not allow spaces.<br/>"
     pwRuleSummary: "※ At least two types of characters (upper case, lower case, special characters, numbers),
     &nbsp;&nbsp;&nbsp;&nbsp;More than 8 characters, less than 8 characters, if one kind character used, 10~20 length limit
     ※ Do not include your ID.<br/><br/>
     ※ Do not include your email ID.<br/><br/>
     ※ Do not allow spaces.<br/>"
-
 
 
 # Validation

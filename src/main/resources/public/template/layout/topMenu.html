@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <body>
-        <div class="z-top">
+        <div class="z-main-top">
             <div class="flex-row justify-content-end">
                 <span class="z-notification">
-                    <span class="z-icon-notification active" onclick="toggleNotificationContainer();">
+                    <span class="z-icon-notification" onclick="toggleNotificationContainer();">
                         <img class="load-svg" th:src="@{/assets/theme/{theme}/media/icons/gnb/icon_gnb_notification.svg(theme=${#authentication.details.theme})}" width="25" height="27">
                     </span>
                 </span>
                 <span class="z-divide">|</span>
                 <button class="z-user z-user-info flex-row align-items-center" tabindex="0">
-                    <img class="z-user z-user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
+                    <img class="z-img i-user-profile z-user" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
                     <span class="z-user z-user-name text-ellipsis" sec:authentication="details.userName"></span>
                     <span class="z-user z-icon i-arrow-right"></span>
                 </button>
@@ -26,6 +26,7 @@
             </div>
             <div id="notification-panel" class="z-notification-panel"></div>
         </div>
+        <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
     </body>
     <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
@@ -65,10 +66,10 @@
 
     function toggleNotificationContainer() {
         if (notificationDiv!== null) {
-            if (notificationDiv.classList.contains('z-on')) {
-                notificationDiv.classList.remove('z-on');
+            if (notificationDiv.classList.contains('on')) {
+                notificationDiv.classList.remove('on');
             } else {
-                notificationDiv.classList.add('z-on');
+                notificationDiv.classList.add('on');
             }
         }
     }
@@ -77,8 +78,8 @@
         //알림창 내부를 클릭한 경우 동작하지 않는다.
         if (aliceJs.clickInsideElement(e, 'z-notification-panel') || aliceJs.clickInsideElement(e, 'z-notification')) { return false; }
 
-        if (notificationDiv && notificationDiv.classList.contains('z-on')) {
-            notificationDiv.classList.remove('z-on');
+        if (notificationDiv && notificationDiv.classList.contains('on')) {
+            notificationDiv.classList.remove('on');
         }
     }
 
@@ -87,8 +88,8 @@
         restSubmitNotification('get', '/notifications', function (result) {
             notificationDiv.innerHTML = result;
             const noConfirmNotification = notificationDiv.querySelectorAll('div[isnot-confirm=false]'); // 확인 안된 알림
-            if (noConfirmNotification.length !== 0 && !notificationDiv.parentNode.classList.contains('z-active')) {
-                notificationDiv.parentNode.classList.add('z-active');
+            if (noConfirmNotification.length !== 0 && !document.querySelector('.z-icon-notification').classList.contains('active')) {
+                document.querySelector('.z-icon-notification').classList.add('active');
             }
             document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
                 notificationDiv.querySelectorAll('div[is-display=true]').length + ')';

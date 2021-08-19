@@ -6,10 +6,13 @@
 package co.brainz.workflow.form.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.AliceTagEntity
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.framework.util.AlicePagingData
+import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.entity.WfComponentPropertyEntity
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
@@ -30,12 +33,14 @@ import co.brainz.workflow.provider.dto.FormGroupDto
 import co.brainz.workflow.provider.dto.FormRowDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDataDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
+import co.brainz.workflow.provider.dto.RestTemplateFormListReturnDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.util.UUID
 import javax.transaction.Transactional
+import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 
@@ -65,28 +70,31 @@ class WfFormService(
      * @param parameters
      * @return List<RestTemplateFormDto>
      */
-    fun getFormList(parameters: LinkedHashMap<String, Any>): List<RestTemplateFormDto> {
-        var search = ""
-        var status = listOf<String>()
-        var offset: Long? = null
-        if (parameters["search"] != null) search = parameters["search"].toString()
-        if (parameters["status"] != null) status = parameters["status"].toString().split(",")
-        if (parameters["offset"] != null) {
-            offset = parameters["offset"].toString().toLong()
-        }
-        val queryResult = wfFormRepository.findFormEntityList(search, status, offset)
+    fun getFormList(formSearchCondition: FormSearchCondition): RestTemplateFormListReturnDto {
+        val queryResult = wfFormRepository.findFormEntityList(formSearchCondition)
         val formList = mutableListOf<RestTemplateFormDto>()
         for (form in queryResult.results) {
             val restTemplateDto = wfFormMapper.toFormViewDto(form)
             when (restTemplateDto.status) {
                 WfFormConstants.FormStatus.EDIT.value,
                 WfFormConstants.FormStatus.PUBLISH.value -> restTemplateDto.editable = true
+                WfFormConstants.FormStatus.USE.value -> {
+                    restTemplateDto.editable = !wfFormRepository.findFormDocumentExist(restTemplateDto.id)
+                }
             }
-            restTemplateDto.totalCount = queryResult.total
             formList.add(restTemplateDto)
         }
 
-        return formList
+        return RestTemplateFormListReturnDto(
+            data = formList,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = wfFormRepository.count(),
+                currentPageNum = formSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**

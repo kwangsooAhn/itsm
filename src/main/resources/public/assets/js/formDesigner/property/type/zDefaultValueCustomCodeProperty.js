@@ -10,7 +10,7 @@
  *
  * https://www.brainz.co.kr
  */
-import { FORM } from '../../../lib/zConstants.js';
+import { CLASS_PREFIX, FORM } from '../../../lib/zConstants.js';
 import { UIDiv, UILabel, UIRadioButton, UISpan, UISelect } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
@@ -52,6 +52,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
 
         // customCode|none|없음  customCode|session|세션값  customCode|code|코드값|코드명
         const defaultCustomCodeValues = this.value.split('|');
+
         // custom code
         const customCodeOption = FORM.CUSTOM_CODE.reduce((result, option) => {
             option.name = option.customCodeName;
@@ -95,12 +96,12 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             radioGroup.UILabel.addUI(new UISpan());
 
             if (!zValidation.isEmpty(item.name)) {
-                radioGroup.UILabel.addUI(new UISpan().setUIClass('label').setUIInnerHTML(i18n.msg(item.name)));
+                radioGroup.UILabel.addUI(new UISpan().setUIClass(CLASS_PREFIX + 'label').setUIInnerHTML(i18n.msg(item.name)));
             }
 
             switch (item.value) {
                 case FORM.CUSTOM.SESSION:
-                    const sessionSelectOption = this.selectOptions.reduce((result, option) => {
+                    const sessionSelectOption = JSON.parse(JSON.stringify(this.selectOptions)).reduce((result, option) => {
                         option.name = i18n.msg(option.name);
                         result.push(option);
                         return result;
@@ -121,11 +122,11 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                         .setUIId('code')
                         .setUIAttribute('data-value', item.value)
                         .onUIChange(this.updateProperty.bind(this));
-                    radioGroup.addUI(radioGroup.UISelect);
-                    this.UIElement.UIGroup.UIDiv = radioGroup;
-
                     const customCodeValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';
-                    this.makeCustomCodeData(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue);
+                    this.makeCustomCodeData(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue).then(function (response){
+                        radioGroup.addUI(radioGroup.UISelect);
+                    });
+                    this.UIElement.UIGroup.UIDiv = radioGroup;
                     break;
             }
             this.UIElement.UIGroup.addUI(radioGroup);
@@ -138,25 +139,22 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     afterEvent() {}
 
     // 커스텀 코드 데이터 select box 생성
-    makeCustomCodeData(UISelect, customCodeId, customCodeValue) {
-        aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {
+    async makeCustomCodeData(UISelect, customCodeId, customCodeValue) {
+        let customCodeDataOption = [];
+        let customCodeData = await aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {
             method: 'GET'
-        }).then((customCodeData) => {
-            if (!zValidation.isEmpty(customCodeData)) {
-                const customCodeDataOption = customCodeData.reduce((result, data) => {
-                    data.name = data.value;
-                    data.value = data.key;
-                    result.push(data);
-                    return result;
-                }, []);
-                const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
-                UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
-            }
         });
+        for (let i = 0; i < customCodeData.length; i++) {
+            customCodeData[i].name = customCodeData[i].value;
+            customCodeData[i].value = customCodeData[i].key;
+            customCodeDataOption.push(customCodeData[i]);
+        }
+        const customDataOptionValue =  zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
+        UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
     }
     // 커스텀 코드 변경시 커스텀 코드 데이터 select box를 업데이트 한다.
-    updateCustomCodeData(e) {
-        this.makeCustomCodeData(this.UIElement.UIGroup.UIDiv.UISelect, e.target.value, '');
+    async updateCustomCodeData(e) {
+        await this.makeCustomCodeData(this.UIElement.UIGroup.UIDiv.UISelect, e.target.value, '');
 
         this.updateProperty.call(this, e);
     }
@@ -169,23 +167,22 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         }
 
         const elem = e.target || e;
-        const parentElem = elem.type === 'radio' ? elem.parentNode.parentNode : elem.parentNode;
-        const checkedRadio = parentElem.querySelector('input[type=radio]:checked');
-        const selectElem = checkedRadio.parentNode.parentNode.querySelector('.select');
-        // radio 변경시
+        const parentElem = elem.parentNode.parentNode;
+        const curRadioElem = parentElem.querySelector('input[type=radio]:checked');
         const customCodeId = this.UIElement.UISelect.domElement.value;
-        const radioType = checkedRadio.getAttribute('data-value');
+        const radioType= curRadioElem.getAttribute('data-value');
+        const sessionSelectBox = document.getElementById('session');
+        const codeSelectBox= document.getElementById('code');
 
         switch (radioType) {
             case FORM.CUSTOM.NONE:
-                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|');
+                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType + '|');
                 break;
             case FORM.CUSTOM.SESSION:
-                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|' + selectElem.value);
+                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType + '|' + sessionSelectBox.value);
                 break;
             case FORM.CUSTOM.CODE:
-                const selectText = selectElem.options[selectElem.selectedIndex].text;
-                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|' + selectElem.value + '|' + selectText);
+                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType + '|' + codeSelectBox.options[codeSelectBox.selectedIndex].value + '|' + codeSelectBox.options[codeSelectBox.selectedIndex].text);
                 break;
         }
     }

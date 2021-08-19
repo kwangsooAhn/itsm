@@ -1,252 +1,207 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{notice.label.notice}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="notice-header">
-        <div class="header-title flex-row align-items-baseline">
-            <h1 th:text="#{notice.label.notice}"></h1>
-            <h6 class="description ml-2" th:text="#{notice.msg.searchDescription}"></h6>
-        </div>
-        <div class="header-search flex-row">
-            <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>
-            <input type="hidden" name="isRole" sec:authorize="!hasAuthority('notice.update')" th:value="false"/>
-            <form id="searchFrm">
-                <input type="text" class="z-input i-search col-5" id="searchValue" name="searchValue" maxlength="100"
-                       th:placeholder="#{notice.label.searchPlaceholder}"/>
-                <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
-                <span>~</span>
-                <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
-                <input type="hidden" class="search-date" id="toDt" name="toDt" readonly="readonly"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" onclick="location.href='/notices/new'"
-                        sec:authorize="hasAuthority('notice.create')" th:text="#{common.btn.add}"></button>
-            </div>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{notice.label.notice}"></h1>
+    <h6 class="description ml-2" th:text="#{notice.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>
+    <input type="hidden" name="isRole" sec:authorize="!hasAuthority('notice.update')" th:value="false"/>
+    <form id="searchFrm">
+        <input type="text" class="z-input i-search col-5" id="searchValue" name="searchValue" maxlength="100"
+               th:placeholder="#{notice.label.searchPlaceholder}"/>
+        <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
+        <span>~</span>
+        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
+        <input type="hidden" class="search-date" id="toDt" name="toDt" readonly="readonly"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" onclick="location.href='/notices/new'"
+                sec:authorize="hasAuthority('notice.create')" th:text="#{common.btn.add}"></button>
     </div>
-    <div class="notice-content flex-fill">
-        <div class="list" id="noticeList"></div>
-    </div>
-</th:block>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="noticeList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript">
-        /*<![CDATA[ */
-        let offsetCount = 0;
-        let searchFromDt = i18n.getDate({'months': -1});
-        let searchToDt = i18n.getDate();
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[ */
+    let searchFromDt = i18n.getDate({'months': -1});
+    let searchToDt = i18n.getDate();
 
-        window.onload = function () {
-            // initialization date picker
-            document.getElementById('searchValue').focus();
-            const fromDtElement = document.getElementById('fromDt');
-            const searchToDtElement = document.getElementById('searchToDt');
-            fromDtElement.value = searchFromDt;
-            searchToDtElement.value = searchToDt;
-            zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
-            zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
-            document.getElementById('searchValue').addEventListener('keyup', function () {
-                getNoticeList(false);
-            });
-            getNoticeList(false);
+    window.onload = function () {
+        // initialization date picker
+        document.getElementById('searchValue').focus();
+        const fromDtElement = document.getElementById('fromDt');
+        const searchToDtElement = document.getElementById('searchToDt');
+        fromDtElement.value = searchFromDt;
+        searchToDtElement.value = searchToDt;
+        zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
+        zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
+        document.getElementById('searchValue').addEventListener('keyup', function () {
+            getList();
+        });
+        getList();
+    };
+
+    function setDatePicker(element, picker) {
+        if (typeof picker === 'undefined') {
+            return false;
+        }
+        if (element.id === 'fromDt') {
+            const toDtValue = document.getElementById('searchToDt').value;
+            if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
+                aliceAlert.alertWarning(i18n.msg("common.msg.selectBeforeDate", toDtValue), function () {
+                    document.getElementById('fromDt').value = searchFromDt;
+                    picker.open();
+                });
+            } else {
+                getList();
+            }
+        } else {
+            const fromDtValue = document.getElementById('fromDt').value;
+            if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
+                aliceAlert.alertWarning(i18n.msg("common.msg.selectAfterDate", fromDtValue), function () {
+                    document.getElementById('searchToDt').value = searchToDt;
+                    picker.open();
+                });
+            } else {
+                getList();
+            }
+        }
+    }
+
+    //list 팝업 생성
+    function openPopUp(id, width, height) {
+        var _top = 150;
+        var _left = 150;
+
+        window.open(id + '/view-pop?value=true', id, 'width=' + width + ',height=' + height + ',top=' + _top + ',left=' + _left);
+    }
+
+    //get notice list
+    function getList(pageNum = 1) {
+        document.getElementById('toDt').value =
+            i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
+        restSubmit('get', '/notices?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+    }
+
+    //REST API
+    function restSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                let listBody = document.querySelector('#noticeList');
+                listBody.innerHTML = response.responseText;
+
+                setDateTimeFormat(listBody);
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
+                    className: 'scrollbar'
+                });
+            }
         };
+        aliceJs.sendXhr(opt);
+    }
 
-        function setDatePicker(element, picker) {
-            if (typeof picker === 'undefined') {
-                return false;
-            }
-            if (element.id === 'fromDt') {
-                const toDtValue = document.getElementById('searchToDt').value;
-                if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    aliceAlert.alertWarning(i18n.msg("common.msg.selectBeforeDate", toDtValue), function () {
-                        document.getElementById('fromDt').value = searchFromDt;
-                        picker.open();
-                    });
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            const dtList = dt.textContent.split('~');
+            if (dtList.length > 1) {
+                if (dtList[0] !== 'null') {
+                    dt.textContent = i18n.userDateTime(dtList[0].trim())
+                        + ' ~ ' + i18n.userDateTime(dtList[1].trim());
                 } else {
-                    getNoticeList(false);
+                    dt.textContent = '';
                 }
             } else {
-                const fromDtValue = document.getElementById('fromDt').value;
-                if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                    aliceAlert.alertWarning(i18n.msg("common.msg.selectAfterDate", fromDtValue), function () {
-                        document.getElementById('searchToDt').value = searchToDt;
-                        picker.open();
-                    });
-                } else {
-                    getNoticeList(false);
-                }
+                dt.textContent = i18n.userDateTime(dtList[0].trim());
             }
+        });
+    }
+
+    // Tr 동적 데이터 만들기
+    function getDataTemplate(data) {
+        let div = document.querySelector('.z-list-body .os-content');
+        let tr = document.createElement('tr');
+        tr.className = 'flex-row align-items-center';
+
+        let tdNoticeTitle = document.createElement('td');
+        tdNoticeTitle.style.width = '30%';
+        tdNoticeTitle.className = 'align-left underline';
+        let aNoticeTitle = document.createElement('a');
+        if (document.getElementsByName('isRole')[0].value === 'true') {
+            aNoticeTitle.href = '/notices/'+ data.noticeNo +'/edit';
+        } else {
+            aNoticeTitle.href = '/notices/'+ data.noticeNo +'/view';
         }
+        aNoticeTitle.innerText = data.noticeTitle;
+        tdNoticeTitle.appendChild(aNoticeTitle);
 
-        //list 팝업 생성
-        function openPopUp(id, width, height) {
-            var _top = 150;
-            var _left = 150;
-
-            window.open(id + '/view-pop?value=true', id, 'width=' + width + ',height=' + height + ',top=' + _top + ',left=' + _left);
-        }
-
-        //get notice list
-        function getNoticeList(isScroll) {
-            let urlParam = '';
-            document.getElementById('toDt').value =
-                i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
-           if (isScroll) {
-                if (offsetCount === 0) {
-                   offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
-
-            }
-            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSubmit('get', '/notices?' + urlParam, isScroll);
-        }
-
-        //REST API
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const noticeTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        setDateTimeFormat(tbody);
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        noticeTbody.appendChild(container)
-                    } else {
-                        document.getElementById('noticeList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        setDateTimeFormat(document.getElementById('noticeList'));
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    // 스크롤이 맨 마지막에 있을 경우
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            getNoticeList(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
+        let tdPopYn = document.createElement('td');
+        tdPopYn.style.width = '5%';
+        tdPopYn.className = 'align-center';
+        let aPopYn = document.createElement('a');
+        if (data.popYn === true) {
+            const popYnBtn = document.createElement('button');
+            popYnBtn.type = 'button';
+            popYnBtn.className = 'z-button-icon form';
+            const icon =  document.createElement('span');
+            icon.className = 'z-icon i-popup';
+            popYnBtn.appendChild(icon);
+            aPopYn.appendChild(popYnBtn);
+            aPopYn.onclick = function() {
+                openPopUp(data.noticeNo, data.popWidth, data.popHeight);
             };
-            aliceJs.sendXhr(opt);
+            tdPopYn.appendChild(aPopYn);
         }
 
-        /**
-         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-         */
-        function setDateTimeFormat(elem) {
-            elem.querySelectorAll('.date-time').forEach(dt => {
-                const dtList = dt.textContent.split('~');
-                if (dtList.length > 1) {
-                    if (dtList[0] !== 'null') {
-                        dt.textContent = i18n.userDateTime(dtList[0].trim())
-                            + ' ~ ' + i18n.userDateTime(dtList[1].trim());
-                    } else {
-                        dt.textContent = '';
-                    }
-                } else {
-                    dt.textContent = i18n.userDateTime(dtList[0].trim());
-                }
-            });
+        let tdUserName = document.createElement('td');
+        tdUserName.innerText = data.createUserName;
+        tdUserName.style.width = '10%';
+        tdUserName.className = 'align-center';
+
+        let tdPopDt = document.createElement('td');
+        if (i18n.userDateTime(data.popStrtDt) !== '') {
+            tdPopDt.innerText = i18n.userDateTime(data.popStrtDt) + ' ~ ' + i18n.userDateTime(data.popStrtDt);
         }
+        tdPopDt.style.width = '20%';
+        tdPopDt.className = 'align-left';
 
-        // Tr 동적 데이터 만들기
-        function getDataTemplate(data) {
-            let div = document.querySelector('.list-body .os-content');
-            let tr = document.createElement('tr');
-            tr.className = 'flex-row align-items-center';
-
-            let tdNoticeTitle = document.createElement('td');
-            tdNoticeTitle.style.width = '30%';
-            tdNoticeTitle.className = 'align-left underline';
-            let aNoticeTitle = document.createElement('a');
-            if (document.getElementsByName('isRole')[0].value === 'true') {
-                aNoticeTitle.href = '/notices/'+ data.noticeNo +'/edit';
-            } else {
-                aNoticeTitle.href = '/notices/'+ data.noticeNo +'/view';
-            }
-            aNoticeTitle.innerText = data.noticeTitle;
-            tdNoticeTitle.appendChild(aNoticeTitle);
-
-            let tdPopYn = document.createElement('td');
-            tdPopYn.style.width = '5%';
-            tdPopYn.className = 'align-center';
-            let aPopYn = document.createElement('a');
-            if (data.popYn === true) {
-                const popYnBtn = document.createElement('button');
-                popYnBtn.type = 'button';
-                popYnBtn.className = 'z-button-icon form';
-                const icon =  document.createElement('span');
-                icon.className = 'z-icon i-popup';
-                popYnBtn.appendChild(icon);
-                aPopYn.appendChild(popYnBtn);
-                aPopYn.onclick = function() {
-                    openPopUp(data.noticeNo, data.popWidth, data.popHeight);
-                };
-                tdPopYn.appendChild(aPopYn);
-            }
-
-            let tdUserName = document.createElement('td');
-            tdUserName.innerText = data.createUserName;
-            tdUserName.style.width = '10%';
-            tdUserName.className = 'align-center';
-
-            let tdPopDt = document.createElement('td');
-            if (i18n.userDateTime(data.popStrtDt) !== '') {
-                tdPopDt.innerText = i18n.userDateTime(data.popStrtDt) + ' ~ ' + i18n.userDateTime(data.popStrtDt);
-            }
-            tdPopDt.style.width = '20%';
-            tdPopDt.className = 'align-left';
-
-            let tdNoticeDt = document.createElement('td');
-            if (i18n.userDateTime(data.topNoticeStrtDt) !== '') {
-                tdNoticeDt.innerText = i18n.userDateTime(data.topNoticeStrtDt) + ' ~ ' +
-                    i18n.userDateTime(data.topNoticeEndDt);
-            }
-            tdNoticeDt.style.width = '20%';
-            tdNoticeDt.className = 'align-left';
-
-            let tdCreateDt = document.createElement('td');
-            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
-            tdCreateDt.style.width = '15%';
-            tdCreateDt.className = 'align-left';
-
-            tr.appendChild(tdNoticeTitle);
-            tr.appendChild(tdPopYn);
-            tr.appendChild(tdUserName);
-            tr.appendChild(tdPopDt);
-            tr.appendChild(tdNoticeDt);
-            tr.appendChild(tdCreateDt);
-            div.appendChild(tr);
+        let tdNoticeDt = document.createElement('td');
+        if (i18n.userDateTime(data.topNoticeStrtDt) !== '') {
+            tdNoticeDt.innerText = i18n.userDateTime(data.topNoticeStrtDt) + ' ~ ' +
+                i18n.userDateTime(data.topNoticeEndDt);
         }
-        /* ]]> */
-    </script>
-</th:block>
+        tdNoticeDt.style.width = '20%';
+        tdNoticeDt.className = 'align-left';
+
+        let tdCreateDt = document.createElement('td');
+        tdCreateDt.innerText = i18n.userDateTime(data.createDt);
+        tdCreateDt.style.width = '15%';
+        tdCreateDt.className = 'align-left';
+
+        tr.appendChild(tdNoticeTitle);
+        tr.appendChild(tdPopYn);
+        tr.appendChild(tdUserName);
+        tr.appendChild(tdPopDt);
+        tr.appendChild(tdNoticeDt);
+        tr.appendChild(tdCreateDt);
+        div.appendChild(tr);
+    }
+    /* ]]> */
+</script>
 </html>

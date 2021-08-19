@@ -10,12 +10,12 @@
 @import '../../template/_variables.scss';  // 상속 불가
 @import '../../template/_mixins.scss';     // 상속 불가
 @import '../../template/_utilities.scss';  // 상속 불가
-@import '../../template/_icons.scss'; // 공통 아이콘
 @import '_variables.scss';
+@import '_icons.scss';
 @import '_elements.scss';
 @import '_buttons.scss';
 @import '_layout.scss';
-@import '_gnb.scss';
+@import '_navigation.scss';
 @import '_top.scss';
 @import '_alerts.scss';
 @import '_validations.scss';
@@ -33,3 +33,4 @@
 @import '_reply.scss';
 @import '_popup.scss';
 @import '_tag.scss';
+@import '_paging.scss';

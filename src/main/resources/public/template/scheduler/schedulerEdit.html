@@ -7,15 +7,17 @@
     <title th:text="${schedule != null} ? #{scheduler.label.edit} : #{scheduler.label.register}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="flex-column z-edit hidden-scroll">
-        <div class="scheduler-header">
-            <div class="header-title flex-row align-items-baseline">
-                <h1 th:text="#{scheduler.label.schedule}"></h1>
-                <h6 class="description ml-2" th:text="#{scheduler.msg.scheduleDescription}"></h6>
-            </div>
+<th:block layout:fragment="head">
+    <div class="z-scheduler-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
+            <h1 th:text="#{scheduler.label.schedule}"></h1>
+            <h6 class="description ml-2" th:text="#{scheduler.msg.scheduleDescription}"></h6>
         </div>
-        <div class="scheduler-content-edit">
+    </div>
+</th:block>
+<th:block layout:fragment="content">
+    <div class="flex-column z-edit">
+        <div class="z-scheduler-content-edit">
             <div class="flex-column z-edit-row">
                 <label for="taskName">
                     <span th:text="#{scheduler.label.name}"></span>
@@ -106,7 +108,7 @@
                     <span th:text="#{scheduler.label.executeCycleType}"></span>
                     <span class="required"></span>
                     <div class="help-tooltip">
-                        <span class="help-tooltip-icon"></span>
+                        <span class="z-icon i-tooltip"></span>
                         <div id="tooltipContent" class="tooltip-contents">
                             <span id="fixedDelayTooltip" th:utext="#{scheduler.tooltip.fixedDelay}"></span>
                             <span id="fixedRateTooltip" th:utext="#{scheduler.tooltip.fixedRate}"></span>
@@ -244,7 +246,7 @@
                         for (let i = 0; i < executeTimeEle.length; i++) {
                             executeTimeEle[i].textContent = i18n.userDateTime(executeTimeEle[i].textContent);
                         }
-                        OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
+                        OverlayScrollbars(document.querySelector('.z-list-body'), {className: 'scrollbar'});
                     });
                 }
             };

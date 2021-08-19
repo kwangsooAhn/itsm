@@ -12,6 +12,7 @@ import javax.transaction.Transactional
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -24,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest
  * 신청서가 진행될 때 instance가 생성되면서 folder(relate_type=origin)도 생성된다.
  * 문서 상세에서 연관문서를 추가할 경우 folder에 related_type이 reference로 추가된다.
  */
+@Disabled
 @SpringBootTest
 @DisplayName("Folder API 호출 테스트")
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)

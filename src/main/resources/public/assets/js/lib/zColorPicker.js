@@ -34,7 +34,7 @@ function zColorPicker(targetElement, options) {
     this.isCustomColorControlOpen = false; // 사용자 색상 편집 중인지 여부
 
     // input box
-    targetElement.classList.add(aliceJs.CLASS_PREFIX + 'color-input');
+    targetElement.classList.add('z-color-input');
     this.inputEl = targetElement;
     // 기존 저장된 색상 : 사용자가 색상을 변경하더라도, 사용자 색상을 저장하지 않고 color picker를 닫으면 원래 색상으로 변경되어야 한다. 
     this.savedValue = targetElement.value.toUpperCase();
@@ -49,7 +49,7 @@ function zColorPicker(targetElement, options) {
 
     // wrapper
     const wrapperContainer = document.createElement('div');
-    wrapperContainer.className = aliceJs.CLASS_PREFIX + 'color-picker-wrapper';
+    wrapperContainer.className = 'z-color-picker-wrapper';
     targetElement.parentElement.insertBefore(wrapperContainer, targetElement.nextSibling);
     targetElement.parentElement.removeChild(targetElement);
     wrapperContainer.appendChild(targetElement);
@@ -57,14 +57,14 @@ function zColorPicker(targetElement, options) {
 
     // color picker
     const colorPicker = document.createElement('div');
-    colorPicker.className = aliceJs.CLASS_PREFIX + 'color-picker';
+    colorPicker.className = 'z-color-picker';
     colorPicker.tabIndex = 0;
     wrapperContainer.appendChild(colorPicker);
     this.colorPicker = colorPicker;
 
     // color box
     const colorBox = document.createElement('div');
-    colorBox.className = aliceJs.CLASS_PREFIX + 'color-box';
+    colorBox.className = 'z-color-box';
     colorPicker.appendChild(colorBox);
     this.colorEl = colorBox;
 
@@ -76,7 +76,7 @@ function zColorPicker(targetElement, options) {
     // color picker modal
     let pickerModal = document.createElement('div');
     pickerModal.id = targetElement.id + 'Picker';
-    pickerModal.className = aliceJs.CLASS_PREFIX + 'color-picker-modal';
+    pickerModal.className = 'z-color-picker-modal';
     wrapperContainer.appendChild(pickerModal);
     this.modalEl = pickerModal;
     
@@ -157,8 +157,8 @@ Object.assign(zColorPicker.prototype, {
     },
     // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
     autoClose: function(e) {
-        if (!aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'color-picker-modal') &&
-            !aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'color-picker') &&
+        if (!aliceJs.clickInsideElement(e, 'z-color-picker-modal') &&
+            !aliceJs.clickInsideElement(e, 'z-color-picker') &&
             !aliceJs.clickInsideElement(e, 'gmodal-active')) {
             // 사용자 색상이 저장된 색상과 다를 경우 알림창을 띄워 사용자에게 확인 요청
             if (JSON.stringify(this.savedCustomColors) !== JSON.stringify(this.customColors)) {
@@ -208,18 +208,18 @@ Object.assign(zColorPicker.prototype, {
     // palette draw
     drawPalette() {
         let paletteContainer = document.createElement('div');
-        paletteContainer.className = aliceJs.CLASS_PREFIX + 'palette-container';
+        paletteContainer.className = 'z-palette-container';
         this.modalEl.appendChild(paletteContainer);
         this.colorListEl = paletteContainer;
 
         // point color
-        let template = `<div class="${aliceJs.CLASS_PREFIX}palette-row">`;
+        let template = `<div class="z-palette-row">`;
         for (let i = 0; i < this.options.colors[0].length; i++) {
             const itemColor = this.options.colors[0][i];
-            template += `<span class="${aliceJs.CLASS_PREFIX}palette-item point-color`+
+            template += `<span class="z-palette-item point-color`+
                 `${(itemColor === '#FFFFFF') ? ' border-inset' : ''}${this.value === itemColor ? ' selected' : ''}"`+
                 ` data-color="${itemColor}" style="background-color: ${this.value === itemColor ? 'transparent' : itemColor};" >`+
-                `<sapn class="${aliceJs.CLASS_PREFIX}palette-item-inner" style="background-color: ${itemColor}"></sapn>` +
+                `<sapn class="z-palette-item-inner" style="background-color: ${itemColor}"></sapn>` +
                 `</span>`;
         }
         template += `</div>`;
@@ -228,13 +228,13 @@ Object.assign(zColorPicker.prototype, {
         // material color
         template = ``;
         for (let i = 1; i < this.options.colors.length; i++) {
-            template += `<div class="${aliceJs.CLASS_PREFIX}palette-row">`;
+            template += `<div class="z-palette-row">`;
             for (let j = 0; j < this.options.colors[i].length; j++) {
                 const itemColor = this.options.colors[i][j];
-                template += `<span class="${aliceJs.CLASS_PREFIX}palette-item material-color${(i === 1) ? ' first' : ''}`+
+                template += `<span class="z-palette-item material-color${(i === 1) ? ' first' : ''}`+
                     `${(i === (this.options.colors.length - 1)) ? ' last' : ''}${this.value === itemColor ? ' selected' : ''}"`+
                     ` data-color="${itemColor}" style="background-color: ${this.value === itemColor ? 'transparent' : itemColor};" >`+
-                    `<sapn class="${aliceJs.CLASS_PREFIX}palette-item-inner" style="background-color: ${itemColor}"></sapn>` +
+                    `<sapn class="z-palette-item-inner" style="background-color: ${itemColor}"></sapn>` +
                     `</span>`;
             }
             template += `</div>`;
@@ -243,32 +243,32 @@ Object.assign(zColorPicker.prototype, {
         
         // 이벤트 등록
         this.selectedEl = paletteContainer.querySelector('.selected');
-        paletteContainer.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'palette-item').forEach((item) => {
+        paletteContainer.querySelectorAll('.z-palette-item').forEach((item) => {
             item.addEventListener('click', this.selectColor.bind(this), false);
         });
     },
     // 사용자 색상 draw
     drawCustomColorPalette() {
         let paletteContainer = document.createElement('div');
-        paletteContainer.className = aliceJs.CLASS_PREFIX + 'custom-color-palette-container';
+        paletteContainer.className = 'z-custom-color-palette-container';
         this.modalEl.appendChild(paletteContainer);
 
         // 사용자 색상 문구
-        const textTemplate = `<span class="${aliceJs.CLASS_PREFIX}custom-color-text">${i18n.msg('common.label.customColor')}</span>`;
+        const textTemplate = `<span class="z-custom-color-text">${i18n.msg('common.label.customColor')}</span>`;
         paletteContainer.insertAdjacentHTML('beforeend', textTemplate);
 
         // 편집 아이콘
         const editButton = document.createElement('button');
         editButton.type = 'button';
-        editButton.className = aliceJs.CLASS_PREFIX + 'button-icon extra ' + aliceJs.CLASS_PREFIX + 'custom-color-edit on';
-        editButton.insertAdjacentHTML('beforeend', `<span class="${aliceJs.CLASS_PREFIX}icon i-edit"></span>`);
+        editButton.className = 'z-button-icon extra z-custom-color-edit on';
+        editButton.insertAdjacentHTML('beforeend', `<span class="z-icon i-edit"></span>`);
         editButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         paletteContainer.appendChild(editButton);
         this.editButtonEl = editButton;
 
         // 사용자 색상 목록
         const customColorList = document.createElement('div');
-        customColorList.className = aliceJs.CLASS_PREFIX + 'custom-color-list';
+        customColorList.className = 'z-custom-color-list';
         paletteContainer.appendChild(customColorList);
         this.customColorListEl = customColorList;
 
@@ -278,7 +278,7 @@ Object.assign(zColorPicker.prototype, {
             // 이벤트 등록
             const colorItem = this.customColorListEl.lastChild;
             colorItem.addEventListener('click', this.selectColor.bind(this), false);
-            colorItem.querySelector('.' + aliceJs.CLASS_PREFIX + 'custom-color-palette-item-clear')
+            colorItem.querySelector('.z-custom-color-palette-item-clear')
                 .addEventListener('click', this.removeCustomColor.bind(this), false);
         });
 
@@ -286,16 +286,16 @@ Object.assign(zColorPicker.prototype, {
         const isMaxCustomColor =  (this.savedCustomColors.length === this.options.maxCustomColor);
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = aliceJs.CLASS_PREFIX + 'button-icon ' + aliceJs.CLASS_PREFIX + 'custom-color-plus' +
+        addButton.className = 'z-button-icon z-custom-color-plus' +
             (isMaxCustomColor ? '' : ' on');
-        addButton.insertAdjacentHTML('beforeend', `<span class="${aliceJs.CLASS_PREFIX}icon i-plus"></span>`);
+        addButton.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
         addButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         this.addButtonEl = addButton;
         customColorList.appendChild(addButton);
 
         // 사용자 색상 control container
         const customColorControlContainer = document.createElement('div');
-        customColorControlContainer.className = aliceJs.CLASS_PREFIX + 'custom-color-control-container';
+        customColorControlContainer.className = 'z-custom-color-control-container';
         paletteContainer.appendChild(customColorControlContainer);
         this.customColorControlContainerEl = customColorControlContainer;
         
@@ -305,12 +305,12 @@ Object.assign(zColorPicker.prototype, {
     // 사용자 색상 control(물방울, hex, rgb 영역) draw
     drawCustomColorControl() {
         const customColorControl = document.createElement('div');
-        customColorControl.className = aliceJs.CLASS_PREFIX + 'custom-color-control';
+        customColorControl.className = 'z-custom-color-control';
         this.customColorControlContainerEl.appendChild(customColorControl);
 
         // 물방울
         const waterDrop = document.createElement('span');
-        waterDrop.className = aliceJs.CLASS_PREFIX + 'icon i-water-drop';
+        waterDrop.className = 'z-icon i-water-drop';
         waterDrop.style.setProperty('--data-color', '#8B9094');
         waterDrop.insertAdjacentHTML('beforeend', this.getWaterDropSvg());
         customColorControl.appendChild(waterDrop);
@@ -319,7 +319,7 @@ Object.assign(zColorPicker.prototype, {
         // hex
         const hexInput = document.createElement('input');
         hexInput.type = 'text';
-        hexInput.className = aliceJs.CLASS_PREFIX + 'input ' + aliceJs.CLASS_PREFIX + 'color-hex';
+        hexInput.className = 'z-input z-color-hex';
         hexInput.placeholder = '#FFFFFF';
         hexInput.setAttribute('maxlength', '7');
         hexInput.addEventListener('keyup', this.setHex.bind(this), false);
@@ -330,7 +330,7 @@ Object.assign(zColorPicker.prototype, {
         ['r', 'g', 'b'].forEach((str) => {
             const rgbInput = document.createElement('input');
             rgbInput.type = 'text';
-            rgbInput.className = aliceJs.CLASS_PREFIX + 'input ' + aliceJs.CLASS_PREFIX + 'color-' + str;
+            rgbInput.className = 'z-input z-color-' + str;
             rgbInput.placeholder = '255';
             rgbInput.setAttribute('maxlength', '3');
             rgbInput.addEventListener('keyup', this.setRgb.bind(this), false);
@@ -341,7 +341,7 @@ Object.assign(zColorPicker.prototype, {
         // 추가 버튼
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = aliceJs.CLASS_PREFIX + 'button secondary';
+        addButton.className = 'z-button secondary';
         addButton.textContent = i18n.msg('common.btn.add');
         addButton.disabled = (this.savedCustomColors.length === this.options.maxCustomColor);
         addButton.addEventListener('click', this.addCustomColor.bind(this), false);
@@ -351,20 +351,20 @@ Object.assign(zColorPicker.prototype, {
         // Hex, R,G,B 문구 추가
         ['', 'Hex', 'R', 'G', 'B'].forEach((str) => {
             const colorText = document.createElement('span');
-            colorText.className = aliceJs.CLASS_PREFIX + 'color-text';
+            colorText.className = 'z-color-text';
             colorText.textContent = str;
             customColorControl.appendChild(colorText);
         });
         
         // 버튼 그룹
         let bottomButtonList = document.createElement('div');
-        bottomButtonList.className = aliceJs.CLASS_PREFIX + 'button-list justify-content-end';
+        bottomButtonList.className = 'z-button-list justify-content-end';
         this.customColorControlContainerEl.appendChild(bottomButtonList);
 
         // 버튼 그룹 > 저장 버튼
         const saveButton = document.createElement('button');
         saveButton.type = 'button';
-        saveButton.className = aliceJs.CLASS_PREFIX + 'button primary';
+        saveButton.className = 'z-button primary';
         saveButton.textContent = i18n.msg('common.btn.save');
         saveButton.addEventListener('click', this.saveCustomColor.bind(this), false);
         bottomButtonList.appendChild(saveButton);
@@ -372,7 +372,7 @@ Object.assign(zColorPicker.prototype, {
         // 버튼 그룹 > 취소 버튼
         const cancelButton = document.createElement('button');
         cancelButton.type = 'button';
-        cancelButton.className = aliceJs.CLASS_PREFIX + 'button extra';
+        cancelButton.className = 'z-button extra';
         cancelButton.textContent = i18n.msg('common.btn.cancel');
         cancelButton.addEventListener('click', () => {
             // 알림창 - 사용자 색상이 아직 저장되지 않았습니다.
@@ -425,7 +425,7 @@ Object.assign(zColorPicker.prototype, {
         this.inputEl.value = this.value;
 
         // 메인 색상 선택하거나 저장된 색상을 선택할 경우 사용자 색상이 정상적으로 저장된다.
-        if (e.target.classList.contains(aliceJs.CLASS_PREFIX + 'palette-item') ||
+        if (e.target.classList.contains('z-palette-item') ||
             this.savedCustomColors.includes(this.value)) {
             this.savedValue = this.value;
         }
@@ -478,11 +478,11 @@ Object.assign(zColorPicker.prototype, {
     },
     // 커스텀 색상 아이템 템플릿
     getCustomColorTemplate(color, isSelected) {
-        return `<span class="${aliceJs.CLASS_PREFIX}custom-color-palette-item custom-color${isSelected ? ' selected' : ''}"`+
+        return `<span class="z-custom-color-palette-item custom-color${isSelected ? ' selected' : ''}"`+
             ` data-color="${color}" style="background-color: ${isSelected ? 'transparent' : color};" >`+
-            `<sapn class="${aliceJs.CLASS_PREFIX}custom-color-palette-item-inner" style="background-color: ${color}"></sapn>` +
-            `<button type="button" class="${aliceJs.CLASS_PREFIX}button-icon ${aliceJs.CLASS_PREFIX}custom-color-palette-item-clear">` +
-            `<span class="${aliceJs.CLASS_PREFIX}icon i-clear"></span>` +
+            `<sapn class="z-custom-color-palette-item-inner" style="background-color: ${color}"></sapn>` +
+            `<button type="button" class="z-button-icon z-custom-color-palette-item-clear">` +
+            `<span class="z-icon i-clear"></span>` +
             `</button>` +
             `</span>`;
     },
@@ -503,7 +503,7 @@ Object.assign(zColorPicker.prototype, {
         // 이벤트 등록
         const colorItem = this.customColorListEl.lastChild;
         colorItem.addEventListener('click', this.selectColor.bind(this), false);
-        colorItem.querySelector('.' + aliceJs.CLASS_PREFIX + 'custom-color-palette-item-clear')
+        colorItem.querySelector('.z-custom-color-palette-item-clear')
             .addEventListener('click', this.removeCustomColor.bind(this), false);
 
         // 순서 변경
@@ -574,7 +574,7 @@ Object.assign(zColorPicker.prototype, {
         }
 
         // 기존 색상 선택
-        const colorList = this.colorListEl.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'palette-item');
+        const colorList = this.colorListEl.querySelectorAll('.z-palette-item');
         for (let i = 0; i < colorList.length; i++) {
             if (colorList[i].getAttribute('data-color') === this.savedValue) {
                 colorList[i].classList.add('selected');
@@ -585,7 +585,7 @@ Object.assign(zColorPicker.prototype, {
         }
 
         // 사용자 정의 색상 삭제
-        const customColorList = this.customColorListEl.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'custom-color-palette-item');
+        const customColorList = this.customColorListEl.querySelectorAll('.z-custom-color-palette-item');
         for (let i = 0; i < customColorList.length; i++) {
             this.customColorListEl.removeChild(customColorList[i]);
         }
@@ -596,7 +596,7 @@ Object.assign(zColorPicker.prototype, {
             // 이벤트 등록
             const colorItem = this.customColorListEl.lastChild;
             colorItem.addEventListener('click', this.selectColor.bind(this), false);
-            colorItem.querySelector('.' + aliceJs.CLASS_PREFIX + 'custom-color-palette-item-clear')
+            colorItem.querySelector('.z-custom-color-palette-item-clear')
                 .addEventListener('click', this.removeCustomColor.bind(this), false);
             // 순서 변경
             aliceJs.swapNode(colorItem, this.addButtonEl);

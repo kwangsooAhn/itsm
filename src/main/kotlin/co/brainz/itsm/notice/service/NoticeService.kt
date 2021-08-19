@@ -6,17 +6,20 @@
 
 package co.brainz.itsm.notice.service
 
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.notice.dto.NoticeDto
 import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.dto.NoticeListReturnDto
 import co.brainz.itsm.notice.dto.NoticePopupDto
 import co.brainz.itsm.notice.dto.NoticePopupListDto
+import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.mapper.NoticeMapper
 import co.brainz.itsm.notice.repository.NoticeRepository
-import java.time.LocalDateTime
+import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -28,20 +31,25 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val noticeMapper: NoticeMapper = Mappers.getMapper(NoticeMapper::class.java)
 
-    // 공지사항 리스트
-    fun findNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime, offset: Long, limit: Long):
-            NoticeListReturnDto {
-        return noticeRepository.findNoticeSearch(searchValue, fromDt, toDt, offset, limit)
+    // 공지사항 검색 결과
+    fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): NoticeListReturnDto {
+        val queryResult = noticeRepository.findNoticeSearch(noticeSearchCondition)
+
+        return NoticeListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = noticeRepository.count(),
+                currentPageNum = noticeSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     // 공지사항 상단 리스트
-    fun findTopNoticeSearch(
-        searchValue: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        limit: Long
-    ): MutableList<NoticeListDto> {
-        return noticeRepository.findTopNoticeSearch(searchValue, fromDt, toDt, limit)
+    fun findTopNotice(): MutableList<NoticeListDto> {
+        return noticeRepository.findTopNotice()
     }
 
     // 공지사항 조회 및 수정용 세부정보

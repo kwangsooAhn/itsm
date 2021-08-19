@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { SESSION, FORM } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIButton, UIDiv, UIInput, UISpan } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -50,29 +50,26 @@ export const customCodeMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
+        const element = new UIDiv().setUIClass('z-element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInputButton = new UIDiv()
-            .setUIClass(CLASS_PREFIX + 'input-button')
+            .setUIClass('z-custom-code')
             .addUIClass('flex-row')
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIInput = new UIInput(this.getDefaultValue())
+            .setUIClass('z-input z-input-button')
             .setUIReadOnly(true)
             .setUIAttribute('data-custom-data', this.elementDefaultValueCustomCode)
             .onUIChange(this.updateValue.bind(this));
-        element.UIButtonClear = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'button-clear')
-            .setUIAttribute('tabIndex', '-1')
-            .onUIClick(aliceJs.clearText);
         element.UIButton = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'button-search')
-            .addUIClass(CLASS_PREFIX + 'button-icon')
-            .addUIClass('form')
-            .onUIClick(this.openCustomCodePopup.bind(this))
-            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-search'));
+            .setUIClass('z-button')
+            .setUIClass('secondary')
+            .addUIClass('z-button-icon')
+            .onUIClick(this.openCustomCodeModal.bind(this))
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-folder'));
 
-        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButtonClear).addUI(element.UIButton));
+        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
         return element;
     },
@@ -140,6 +137,90 @@ export const customCodeMixin = {
 
         this.value = e.target.value;
     },
+
+    // TODO: #10252 커스텀 코드 모달로 변경시 일감 처리 예정
+    openCustomCodeModal(e) {
+        e.stopPropagation();
+        let customCodeData = {
+            componentId: this.id,
+            componentValue: this.elementDefaultValueCustomCode
+        };
+        const storageName = 'alice_custom-codes-search-' + this.id;
+        sessionStorage.setItem(storageName, JSON.stringify(customCodeData));
+        const selectModal = new modal({
+            title: i18n.msg('form.label.customCodeTarget'),
+            body: this.getSelectModalContent(),
+            classes: 'custom-code-list',
+            buttons: [{
+                content: i18n.msg('common.btn.add'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: () => {
+                    let isChekced = false;
+                    document.getElementsByName('customCode').forEach((chkElem) => {
+                        if (chkElem.checked) {
+                            isChekced = true;
+                            this.elementDefaultValueCustomCode = customCodeData.componentValue.split('|')[0] + '|code|' + chkElem.id + '|' + chkElem.value;
+                        }
+                    });
+                    isChekced ? selectModal.hide() : aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: (modal) => {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: () => {
+                this.getCustomCode();
+                document.getElementById('search').addEventListener('keyup', (e) => {
+                    e.preventDefault();
+                    this.searchCustomCode();
+                });
+            }
+        });
+        selectModal.show();
+    },
+    getCustomCode() { // 서버에서 데이터 가져오기
+        const defaultValues = this.elementDefaultValueCustomCode.split('|');
+        let url = '/custom-codes/' + defaultValues[0] + '/search';
+        aliceJs.fetchText(url, {
+            method: 'GET',
+            showProgressbar: true
+        }).then((htmlData) => {
+            document.getElementById('customCodeList').innerHTML = htmlData;
+            OverlayScrollbars(document.querySelector('.radio-list'), {className: 'scrollbar'});
+        });
+    },
+    // 서버에서 가져온 데이터에서 검색하기
+    getSelectModalContent() {
+        return `<div class="flex-column view-row">` +
+            `<div class="flex-row justify-content-start input-search">` +
+            `<input class="z-input i-search col-5 " type="text" id="search" placeholder="${i18n.msg('customCode.msg.enterSearchTerm')}">` +
+            `<span id="ciListTotalCount" class="search-count"></span>` +
+            `</div>` +
+            `</div>` +
+            `<div class="custom-code-main" id="customCodeList"></div>`;
+    },
+    // 서버에서 가져온 데이터내에서 검색
+    searchCustomCode() {
+        let searchValue = document.getElementById('search').value;
+        let customCodeList = document.getElementsByName('custom-code-list');
+
+        for (let i = 0; i < customCodeList.length; i++) {
+            let code = customCodeList[i].getElementsByClassName('label');
+            if (code[0].innerHTML.indexOf(searchValue) != -1) {
+                customCodeList[i].style.display = '';
+            } else {
+                customCodeList[i].style.display = 'none';
+            }
+        }
+    },
     // 세부 속성 조회
     getProperty() {
         const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueCustomCode', 'element.DefaultValueCustomCode',
@@ -153,19 +234,6 @@ export const customCodeMixin = {
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
-    },
-    // TODO: #10252 커스텀 코드 모달로 변경시 일감 처리 예정
-    openCustomCodePopup(e) {
-        e.stopPropagation();
-        const defaultValues = this.elementDefaultValueCustomCode.split('|');
-        let customCodeData = {
-            componentId: this.id,
-            componentValue: this.elementDefaultValueCustomCode
-        };
-        const storageName = 'alice_custom-codes-search-' + this.id;
-        sessionStorage.setItem(storageName, JSON.stringify(customCodeData));
-        let url = '/custom-codes/' + defaultValues[0] + '/search';
-        window.open(url, storageName, 'width=640, height=866');
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {

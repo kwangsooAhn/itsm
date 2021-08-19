@@ -18,7 +18,6 @@ table {
     tr {
       display: flex;
       height: 2.125rem; //34px
-      border-bottom: 0.125rem solid map-get($grays, "default");
       th {
         color: $table-th-font-color;
         vertical-align: middle;

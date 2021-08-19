@@ -3,24 +3,34 @@
  * 파일 경로 : _session-invalid.scss
  * URL : /sessionInValid
  */
-.session-background {
-  width: 50vw;
-  height: 100vh;
-  background-color: $session-invalid-bg-color;
-  overflow: hidden;
-
-  .logo {
-    @include relative($top: -59.1875rem); // -947px
-    margin: 5rem 0 0 5rem; // 80px 80x
+.session {
+  &-main {
+    height: 100%;
   }
+
+  &-background {
+    width: 50vw;
+    height: 100vh;
+    background-color: $session-invalid-bg-color;
+    overflow: hidden;
+
+    .i-logo {
+      @include relative($top: -59.1875rem); // -947px
+      margin: 5rem 0 0 5rem; // 80px 80x
+    }
+  }
+
+  &-form {
+    width: 50vw;
+    padding: 21.5625rem 6.25rem; // 345px 100px
+    @include border(0.0625rem, solid, $session-invalid-border-color, left);
+
+    h1 {
+      color: $session-invalid-font-color;
+      line-height: 1.7;
+    }
+  }
+
+  .session-count-txt { color: $session-invalid-count-font-color; }
 }
 
-.session-form {
-  width: 50vw;
-  padding: 21.5625rem 6.25rem; // 345px 100px
-  @include border(0.0625rem, solid, $session-invalid-border-color, left);
-
-  h1 { line-height: 1.7; }
-
-  .session-count-txt { color: $blue; }
-}

@@ -1,7 +1,6 @@
 package co.brainz.itsm.board.repository
 
 import co.brainz.itsm.board.entity.PortalBoardEntity
-import co.brainz.itsm.board.repository.querydsl.BoardRepositoryCustom
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
