@@ -65,9 +65,14 @@
     }
 
     &.icon-unit-px {
-      background: url($icon-folder-path + "formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 1rem) 50%;
+      background: url($icon-folder-path + "formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
       background-color: $element-bg-color;
       padding-right: 1.875rem; // 30px
+      text-align: right;
+
+      &:not(:last-child) {
+        margin-right: 0.25rem; // 4px
+      }
     }
   }
   // textarea 엘리먼트

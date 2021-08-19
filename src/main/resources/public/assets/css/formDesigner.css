@@ -5963,7 +5963,7 @@ body.modal-active {
   border: none;
 }
 .z-component .z-element .z-dr-table tr td {
-  padding: 1rem 0;
+  padding: 0.6875rem 0;
   border: 0.0625rem solid #CFD5D9;
   border-left: none;
   border-right: none;
@@ -5972,10 +5972,12 @@ body.modal-active {
   display: table-cell;
 }
 .z-component .z-element .z-dr-table .z-dr-table-header {
+  height: 2rem;
+  border-bottom: 0.125rem solid #CFD5D9;
   background-color: #F5F5F5;
 }
 .z-component .z-element .z-dr-table .z-dr-table-header .z-dr-table-header-cell {
-  padding: 1rem;
+  padding: 0 1rem;
 }
 .z-component .z-element .z-dr-table .no-data-found-list {
   color: #ACB4BF;
@@ -6096,9 +6098,13 @@ body.modal-active {
   padding-right: 1.875rem;
 }
 .property .z-input:not(.tagify).icon-unit-px {
-  background: url("../media/icons/formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 1rem) 50%;
+  background: url("../media/icons/formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
   background-color: #FFFFFF;
   padding-right: 1.875rem;
+  text-align: right;
+}
+.property .z-input:not(.tagify).icon-unit-px:not(:last-child) {
+  margin-right: 0.25rem;
 }
 .property .textArea {
   min-height: 7.5rem;

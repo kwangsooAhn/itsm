@@ -283,7 +283,7 @@
       background-color: $component-drTable-bg-color;
       border: none;
       tr td {
-        padding: $element-indent 0;
+        padding: 0.6875rem 0;
         @include border(0.0625rem, solid, $component-drTable-border-color, all);
         border-left: none;
         border-right: none;
@@ -292,9 +292,11 @@
       }
       // 제목
       .z-dr-table-header {
+        height: 2rem;
+        @include border(0.125rem, solid, $component-drTable-border-color, bottom);
         background-color: $component-drTable-header-bg-color;
         .z-dr-table-header-cell {
-          padding: $element-indent;
+          padding: 0 $element-indent;
         }
       }
       // 데이터 없음

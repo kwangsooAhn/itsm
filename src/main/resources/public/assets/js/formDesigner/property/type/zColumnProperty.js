@@ -385,10 +385,11 @@ export default class ZColumnProperty extends ZProperty {
         columnContentFontOptionProperty.columnWidth = '6';
 
         return [
-            new ZInputBoxProperty(id + '|columnName', 'element.columnName', option.columnName),
+            // new ZInputBoxProperty(id + '|columnName', 'element.columnName', option.columnName),
             columnTypeProperty,
             new ZSliderProperty(id + '|columnWidth', 'element.columnWidth', option.columnWidth),
             new ZGroupProperty('group.columnHead')
+                .addProperty(new ZInputBoxProperty(id + '|columnName', 'element.columnName', option.columnName))
                 .addProperty(columnHeadColorProperty)
                 .addProperty(columnHeadFontSizeProperty)
                 .addProperty(columnHeadAlignProperty)
