@@ -22,54 +22,48 @@
     transform: translateY(0);
   }
 }
-/////////////////////////////////////////////// 공통 /////////////////////////////////////////////////////
+// z-itsm-container ----------------------------------------------------------------------------------------------------
 .z-itsm {
   &-container {
-    @include container;
+    display: flex;
+    flex-direction: row;
     width: 100vw;
     height: 100vh;
     overflow: auto;
 
+    .z-main-content {
+
+    }
+
     .z-main {
+      display: flex;
+      flex-direction: column;
       width: calc(100% - #{$nav-width});
       height: 100vh;
 
       // 스크롤 바가 존재할 경우 상단 top 영역과 스크롤바 사이 간격 추가
       &.os-host-overflow > .os-padding { margin-right: $scrollbar-thick; }
 
-      // 상단 영역
-      .z-main-header {
-        @include sticky($top: 0);
-        background-color: $layout-main-header-bg-color;
-        z-index: $z-index-between-gnb-event;
-
-        @include defaultMainHeader();
-      }
-
-      &-page {
+      &-content {
         padding: 0 3.75rem; // 0 60px
         background-color: $layout-content-bg-color;
         height: 100%;
         .z-page-title {
+          display: flex;
+          align-items: baseline!important;
           padding-bottom: 2rem;
         }
-
         .z-page-search {
+          display: flex;
+          flex-direction: row;
           .z-search-count {
             font-weight: $layout-header-search-font-weight;
             font-size: 0.875rem;
             color: $layout-header-search-color;
           }
         }
-        .z-page-content {
-          display: flex;
-          flex: 1;  // flex: 1 1 0;
-          padding-top: 0.9375rem; // 15px
-          padding-bottom: 0.9375rem; // 15px
-
-          // pagingList
-          @include pagingListTemplate();
-        }
+        // pagingList
+        @include pagingListTemplate();
       }
 
       // 리스트

@@ -5,9 +5,10 @@
 
 package co.brainz.itsm.role.dto
 
+import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
 data class RoleListReturnDto(
     val data: List<RoleListDto> = emptyList(),
-    val totalCount: Long = 0
+    val paging: AlicePagingData
 ) : Serializable

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/itsmLayout}">
+<!--/* 화면을 좌우로 분할하여 좌측에서는 트리, 우측에는 편집화면이 출력되는 트리/편집 화면 레이아웃 */-->
+<body>
+<div layout:fragment="mainContent" class="z-main-content">
+    <th:block layout:fragment="pageContent">
+        <div class="flex-row">
+            <div class="flex-column">
+                <!--/* 페이지별 타이틀 */-->
+                <div layout:fragment="pageTitle" class="z-page-title"></div>
+                <!--/* 페이지별 검색 */-->
+                <div layout:fragment="pageSearching" class="z-page-search"></div>
+                <!--/* 페이지별 트리 */-->
+                <div layout:fragment="pageTree" class="z-page-tree"></div>
+            </div>
+            <div class="flex-column">
+                <!--/* 편집 영역 */-->
+                <div layout:fragment="pageTree" class="z-page-edit"></div>
+            </div>
+        </div>
+    </th:block>
+</div>
+</body>
+</html>

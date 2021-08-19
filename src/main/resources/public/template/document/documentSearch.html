@@ -1,146 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      layout:decorate="~{layout/itsm/pageType/searchCommonLayout}">
 <head>
     <title th:text="#{document.label.document}"></title>
 </head>
-<th:block layout:fragment="cssLink">
+<th:block layout:fragment="pageHead">
     <link th:href="@{/assets/vendors/tagify/tagify.css}" rel="stylesheet"/>
     <link th:href="@{/assets/css/formDesigner.css}" rel="stylesheet"/>
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
-</th:block>
-<th:block layout:fragment="scriptLink">
-    <script th:src="@{/assets/js/lib/zColorPicker.js}"></script>
-    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
-    <script type="module">
-        // 사용자 세션 정보 저장
-        import { SESSION } from '../../assets/js/lib/zConstants.js';
-        import { zDocument } from '../../assets/js/document/zDocument.js';
-
-        const userSession = {
-            userKey : '[[${#authentication.details.userKey}]]',
-            userId : '[[${#authentication.details.userId}]]',
-            userName: '[[${#authentication.details.userName}]]',
-            email: '[[${#authentication.details.email}]]',
-            position: '[[${#authentication.details.position}]]',
-            department: '[[${#authentication.details.department}]]',
-            officeNumber: '[[${#authentication.details.officeNumber}]]',
-            mobileNumber: '[[${#authentication.details.mobileNumber}]]'
-        };
-        if (userSession['department'] !== '') {
-            aliceJs.fetchJson('/rest/codes/' + userSession['department'], {
-                method: 'GET'
-            }).then((codeData) => {
-                userSession['departmentName'] = codeData.codeName;
-                Object.assign(SESSION, userSession);
-            });
-        } else {
-            Object.assign(SESSION, userSession);
-        }
-        // 신청서 모듈 클래스
-        window.zDocument = zDocument;
-        console.log(zDocument);
-        zDocument.initDocumentModal();
-
-        let offsetCount = 0;
-        window.addEventListener('load', (e) => {
-            document.getElementById('searchDocuments').focus();
-            document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
-                search.addEventListener('keyup', () => {
-                    documentSearches(false);
-                });
-            });
-            documentSearches(false);
-        });
-        /**
-         * 신청서 목록 검색
-         * @param isScroll
-         */
-        function documentSearches(isScroll) {
-            let urlParam = '';
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
-            }
-            urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount  + '&isScroll=' + isScroll;
-            restSubmit('get', '/documents?' + urlParam, isScroll);
-        }
-        // TODO: fetch 로 변경
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        document.querySelector('.z-document-content .card-list').insertAdjacentHTML('beforeend', response.responseText);
-                    } else {
-                        document.getElementById('documentList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        OverlayScrollbars(document.querySelector('.z-document-content'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            documentSearches(true);
-                                        }
-                                    }
-                                    if (scrollTop > 20) {
-                                        document.getElementById('header-search').classList.remove('slide-down');
-                                        document.getElementById('header-search').classList.add('slide-up');
-                                        document.getElementById('header-title').style.display = 'none';
-                                    } else {
-                                        document.getElementById('header-search').classList.remove('slide-up');
-                                        document.getElementById('header-search').classList.add('slide-down');
-                                        document.getElementById('header-title').style.display = 'flex';
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-    </script>
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
 </th:block>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-document-header">
-        <div class="z-main-header-title flex-row align-items-baseline" id="header-title">
-            <h1 th:text="#{document.label.document}"></h1>
-            <h6 class="description ml-2" th:text="#{document.msg.searchDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row" id="header-search">
-            <form id="searchDocumentsFrm">
-                <input type="text" id="searchDocuments" name="searchDocuments" maxlength="100"
-                       th:placeholder="#{document.label.searchPlaceholder}" class="z-input i-search col-3"/>
-                <input type="text" id="searchProcessName" name="searchProcessName" maxlength="100"
-                       th:placeholder="#{document.label.process}" class="z-input i-search col-3"/>
-                <input type="text" id="searchFormName" name="searchFormName" maxlength="100"
-                       th:placeholder="#{document.label.form}" class="z-input i-search col-3 mr-2"/>
-                <input type="hidden" id="searchDocumentType" name="searchDocumentType"
-                       value="application-form"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-        </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{document.label.document}"></h1>
+    <h6 class="description ml-2" th:text="#{document.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="searchDocumentsFrm">
+        <input type="text" id="searchDocuments" name="searchDocuments" maxlength="100"
+               th:placeholder="#{document.label.searchPlaceholder}" class="z-input i-search col-3"/>
+        <input type="text" id="searchProcessName" name="searchProcessName" maxlength="100"
+               th:placeholder="#{document.label.process}" class="z-input i-search col-3"/>
+        <input type="text" id="searchFormName" name="searchFormName" maxlength="100"
+               th:placeholder="#{document.label.form}" class="z-input i-search col-3 mr-2"/>
+        <input type="hidden" id="searchDocumentType" name="searchDocumentType"
+               value="application-form"/>
+        <span id="spanTotalCount" class="search-count"></span>
+    </form>
+</div>
+<div layout:fragment="pageSearchResult">
     <div class="z-document-content flex-fill">
         <input type="hidden" sec:authorize="hasAuthority('document.create')" th:name="isRole" th:value="true"/>
         <input type="hidden" sec:authorize="!hasAuthority('document.create')" th:name="isRole" th:value="false"/>
@@ -154,6 +45,109 @@
             <div class="z-drawing-board" id="documentDrawingBoard"></div>
         </div>
     </template>
-</th:block>
+</div>
 </body>
+<script layout:fragment="pageScript" type="module">
+
+    // 사용자 세션 정보 저장
+    import { SESSION } from '../../assets/js/lib/zConstants.js';
+    import { zDocument } from '../../assets/js/document/zDocument.js';
+
+    const userSession = {
+        userKey : '[[${#authentication.details.userKey}]]',
+        userId : '[[${#authentication.details.userId}]]',
+        userName: '[[${#authentication.details.userName}]]',
+        email: '[[${#authentication.details.email}]]',
+        position: '[[${#authentication.details.position}]]',
+        department: '[[${#authentication.details.department}]]',
+        officeNumber: '[[${#authentication.details.officeNumber}]]',
+        mobileNumber: '[[${#authentication.details.mobileNumber}]]'
+    };
+    if (userSession['department'] !== '') {
+        aliceJs.fetchJson('/rest/codes/' + userSession['department'], {
+            method: 'GET'
+        }).then((codeData) => {
+            userSession['departmentName'] = codeData.codeName;
+            Object.assign(SESSION, userSession);
+        });
+    } else {
+        Object.assign(SESSION, userSession);
+    }
+    // 신청서 모듈 클래스
+    window.zDocument = zDocument;
+    console.log(zDocument);
+    zDocument.initDocumentModal();
+
+    let offsetCount = 0;
+    window.addEventListener('load', (e) => {
+        document.getElementById('searchDocuments').focus();
+        document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
+            search.addEventListener('keyup', () => {
+                documentSearches(false);
+            });
+        });
+        documentSearches(false);
+    });
+    /**
+     * 신청서 목록 검색
+     * @param isScroll
+     */
+    function documentSearches(isScroll) {
+        let urlParam = '';
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.searchDataCount;
+            }
+        } else {
+            offsetCount = 0;
+        }
+        urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount  + '&isScroll=' + isScroll;
+        restSubmit('get', '/documents?' + urlParam, isScroll);
+    }
+    // TODO: fetch 로 변경
+    function restSubmit(method, url, isScroll) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                if (isScroll) {
+                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                        offsetCount = offsetCount + aliceJs.searchDataCount;
+                    }
+                    document.querySelector('.z-document-content .card-list').insertAdjacentHTML('beforeend', response.responseText);
+                } else {
+                    document.getElementById('documentList').innerHTML = response.responseText;
+                    aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                    OverlayScrollbars(document.querySelector('.z-document-content'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        documentSearches(true);
+                                    }
+                                }
+                                if (scrollTop > 20) {
+                                    document.getElementById('header-search').classList.remove('slide-down');
+                                    document.getElementById('header-search').classList.add('slide-up');
+                                    document.getElementById('header-title').style.display = 'none';
+                                } else {
+                                    document.getElementById('header-search').classList.remove('slide-up');
+                                    document.getElementById('header-search').classList.add('slide-down');
+                                    document.getElementById('header-title').style.display = 'flex';
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+</script>
 </html>

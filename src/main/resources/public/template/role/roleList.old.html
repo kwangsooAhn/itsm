@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <table class="z-list-table">
+        <thead class="z-list-head">
+            <tr class="flex-row align-items-center">
+                <th style="width:25%;" class="align-left" th:text="#{role.label.name}"></th>
+                <th style="width:25%;" class="align-left" th:text="#{role.label.id}"></th>
+                <th style="width:50%;" class="align-left" th:text="#{role.label.desc}"></th>
+            </tr>
+        </thead>
+        <tbody class="z-list-body">
+        <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(roleList)}">
+            <td style="width:100%" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
+        </tr>
+            <tr class="flex-row align-items-center" th:each="role : ${roleList}">
+                <td style="width:25%;" class="align-left" th:id="${role.roleId}" name="roleName" th:text="${role.roleName}"></td>
+                <td style="width:25%;" class="align-left" id="roleId" name="roleId" th:text="${role.roleId}"></td>
+                <td style="width:50%;" class="align-left" id="roleDesc" name="roleDesc" th:text="${role.roleDesc}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

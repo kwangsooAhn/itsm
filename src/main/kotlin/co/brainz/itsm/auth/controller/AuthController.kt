@@ -1,6 +1,7 @@
 package co.brainz.itsm.auth.controller
 
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.auth.dto.AuthSearchCondition
 import co.brainz.itsm.auth.service.AuthService
 import co.brainz.itsm.code.service.CodeService
 import javax.servlet.http.HttpServletRequest
@@ -18,8 +19,17 @@ class AuthController(
 ) {
 
     val logger = LoggerFactory.getLogger(AuthController::class.java)
+    private val authSearchPage: String ="auth/authSearch"
     private val authEditPage: String = "auth/authEdit"
     private val authListPage: String = "auth/authList"
+
+    /**
+     * 권한 검색 화면
+     */
+    @GetMapping("/search")
+    fun getAuthSearch(request: HttpServletRequest, model: Model): String {
+        return authSearchPage
+    }
 
     /**
      * 권한 설정 화면 호출처리.
@@ -44,9 +54,10 @@ class AuthController(
      * 권한 설정 검색 결과 리스트 화면 호출 처리.
      */
     @GetMapping("")
-    fun getAuthList(search: String, model: Model): String {
-        model.addAttribute("authList", authService.getAuthSearchList(search))
-
+    fun getAuthList(authSearchCondition: AuthSearchCondition, model: Model): String {
+        val result = authService.getAuthSearchList(authSearchCondition)
+        model.addAttribute("authList", result.data)
+        model.addAttribute("paging", result.paging)
         return authListPage
     }
 }

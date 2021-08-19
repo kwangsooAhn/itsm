@@ -6,6 +6,8 @@
 
 package co.brainz.itsm.numberingRule.service
 
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternDetailDto
@@ -14,6 +16,8 @@ import co.brainz.itsm.numberingRule.constants.NumberingRuleConstants
 import co.brainz.itsm.numberingRule.dto.NumberingRuleDetailDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleListDto
+import co.brainz.itsm.numberingRule.dto.NumberingRuleListReturnDto
+import co.brainz.itsm.numberingRule.dto.NumberingRuleSearchCondition
 import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.itsm.numberingRule.entity.NumberingRulePatternMapEntity
 import co.brainz.itsm.numberingRule.entity.NumberingRulePatternMapPk
@@ -24,6 +28,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.math.ceil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -45,7 +50,7 @@ class NumberingRuleService(
      */
     fun getNumberingRules(): MutableList<NumberingRuleListDto> {
         val ruleEntities = numberingRuleRepository.findAll()
-        var numberingRuleList = mutableListOf<NumberingRuleListDto>()
+        val numberingRuleList = mutableListOf<NumberingRuleListDto>()
 
         for (data in ruleEntities) {
             val numberingRuleListDto = NumberingRuleListDto(
@@ -63,9 +68,18 @@ class NumberingRuleService(
     /**
      * 문서번호 리스트 조회
      */
-    fun getNumberingRuleList(search: String): MutableList<NumberingRuleListDto> {
-
-        return numberingRuleRepository.findRuleSearch(search)
+    fun getNumberingRuleList(numberingRuleSearchCondition: NumberingRuleSearchCondition): NumberingRuleListReturnDto {
+        val queryResult = numberingRuleRepository.findRuleSearch(numberingRuleSearchCondition)
+        return NumberingRuleListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = numberingRuleRepository.count(),
+                currentPageNum = numberingRuleSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            )
+        )
     }
 
     /**
