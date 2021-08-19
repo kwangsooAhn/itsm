@@ -2943,6 +2943,14 @@ table[id=documentDisplay] td {
 .z-itsm-container .z-main-content .z-page-list .z-list-tree {
   height: 37.88rem;
 }
+.z-itsm-container .z-main-content .z-page-column-item {
+  display: flex;
+  flex: 1;
+  padding: 0 0.9375rem;
+}
+.z-itsm-container .z-main-content .z-page-column-item:first-child {
+  padding-left: 0;
+}
 .z-itsm-container .z-main .card-list {
   flex-wrap: wrap;
   padding-bottom: 0.625rem;

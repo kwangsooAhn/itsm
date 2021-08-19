@@ -64,6 +64,9 @@
         }
         // pagingList
         @include pagingListTemplate();
+
+        // treeEdit
+        @include treeEditTemplate();
       }
 
       // 리스트
