@@ -33,6 +33,9 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <!--<script type = "text/javascript" src = "http://code.jquery.com/jquery-latest.min.js"></script>-->
+    <script type = "text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script type = "text/javascript" src = "https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
         let offsetCount = 0;
@@ -109,6 +112,10 @@
             elem.querySelectorAll('.date-time').forEach(dt => {
                 dt.textContent = i18n.userDateTime(dt.textContent.trim());
             });
+        }
+
+        function download() {
+            console.log('DOWNLOAD')
         }
         /*]]>*/
     </script>

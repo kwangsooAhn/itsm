@@ -35,6 +35,7 @@ class ReportController(
     private val templateListPage: String = "report/reportTemplateList"
     private val templateListFragment: String = "report/reportTemplateList :: list"
     private val templateEditPage: String = "report/reportTemplateEdit"
+    private val templateViewPage: String = "report/reportTemplateView"
     private val templatePreviewPage: String = "report/reportTemplatePreview"
     private val reportSearchPage: String = "report/reportSearch"
     private val reportListPage: String = "report/reportList"
@@ -68,8 +69,10 @@ class ReportController(
     }
 
     @GetMapping("/template/{templateId}/view")
-    fun getReportTemplateView(@PathVariable templateId: String): String {
-        return templateEditPage
+    fun getReportTemplateView(@PathVariable templateId: String, model: Model): String {
+        model.addAttribute("chartList", chartService.getCharts(ChartSearchDto(limit = -1, offset = -1)))
+        model.addAttribute("template", reportTemplateService.getReportTemplateDetail(templateId))
+        return templateViewPage
     }
 
     @GetMapping("/template/preview")

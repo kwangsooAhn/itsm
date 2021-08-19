@@ -191,37 +191,40 @@
   // 아이콘 
   .z-icon-gnb {
     &-board {
-      @include maskImage($icon-gnb-board, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-board, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
     }
     &-chart {
-      @include maskImage($icon-gnb-chart, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20xp
+      @include maskImage($icon-gnb-chart, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
+    }
+    &-report {
+      @include maskImage($icon-gnb-chart, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
     }
     &-dashboard {
-      @include maskImage($icon-gnb-dashboard, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-dashboard, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
     }
     &-document {
-      @include maskImage($icon-gnb-document, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-document, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
     }
     &-download {
-      @include maskImage($icon-gnb-download, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-download, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
     }
     &-faq {
-      @include maskImage($icon-gnb-faq, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-faq, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
     }
     &-notice {
-      @include maskImage($icon-gnb-notice, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-notice, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
     }
     &-config {
-      @include maskImage($icon-gnb-config, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-config, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
     }
     &-workflow {
-      @include maskImage($icon-gnb-workflow, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-workflow, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
     }
     &-token {
-      @include maskImage($icon-gnb-token, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-token, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
     }
     &-cmdb {
-      @include maskImage($icon-gnb-cmdb, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-cmdb, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20px 20px
     }
   }
 }

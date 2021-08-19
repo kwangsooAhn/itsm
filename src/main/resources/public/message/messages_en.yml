@@ -889,7 +889,7 @@ menu:
     parent: "Notice"
   report:
     parent: "Report"
-    report: "Report Info"
+    report: "Report List"
     template: "Report Template"
   setting:
     editMyInfo: "Edit My Info"
@@ -1087,7 +1087,6 @@ report:
   label:
     automatic: "Automatic generation"
     chart: "Chart"
-    config: "Report Config"
     description: "Description"
     download: "Download"
     preview: "Preview"
@@ -1095,11 +1094,12 @@ report:
     report: "Report"
     reportName: "Report Name"
     search: "Report Search"
-    searchPlaceholder: "Report name"
+    searchPlaceholder: "Template name"
+    template: "Template"
     templateName: "Template Name"
   msg:
-    configDescription: "Set up reports using custom charts."
-    editDescription: "Register, modify, or delete reports."
+    configDescription: "Set up templates using custom charts."
+    editDescription: "Register, modify, or delete templates."
     searchDescription: "Search report that you generated."
     templateNameUsed: "Duplicate template name exists."
   template:

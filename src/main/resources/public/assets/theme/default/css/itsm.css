@@ -3510,6 +3510,17 @@ table[id=documentDisplay] td {
   mask-position: center;
   background: #8B9094;
 }
+.z-gnb .z-icon-gnb-report {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #8B9094;
+}
 .z-gnb .z-icon-gnb-dashboard {
   width: 1.5rem;
   height: 1.5rem;
