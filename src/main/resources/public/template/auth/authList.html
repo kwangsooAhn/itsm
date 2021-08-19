@@ -1,27 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-    <table class="z-list-table">
-        <thead class="z-list-head">
-            <tr class="flex-row align-items-center">
-                <th style="width:25%;" class="align-left" th:text="#{auth.label.authName}"></th>
-                <th style="width:25%;" class="align-left" th:text="#{auth.label.authId}"></th>
-                <th style="width:50%;" class="align-left" th:text="#{auth.label.authDesc}"></th>
-            </tr>
-        </thead>
-        <tbody class="z-list-body">
-            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(authList)}">
-                <td style="width:100%" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
-            </tr>
-            <tr class="flex-row align-items-center" th:each="auth : ${authList}">
-                <td style="width:25%;" class="align-left" th:id="${auth.authId}" name="authName" th:text="${auth.authName}"></td>
-                <td style="width:25%;" class="align-left" id="authId" name="authId" th:text="${auth.authId}"></td>
-                <td style="width:50%;" class="align-left" id="authDesc" name="authDesc" th:text="${auth.authDesc}"></td>
-            </tr>
-        </tbody>
-    </table>
+<table class="z-list-table">
+    <thead class="z-list-head">
+        <tr class="flex-row align-items-center">
+            <th style="width:25%;" class="align-left" th:text="#{auth.label.authName}"></th>
+            <th style="width:25%;" class="align-left" th:text="#{auth.label.authId}"></th>
+            <th style="width:50%;" class="align-left" th:text="#{auth.label.authDesc}"></th>
+        </tr>
+    </thead>
+    <tbody class="z-list-body">
+        <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(authList)}">
+            <td style="width:100%" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <tr class="flex-row align-items-center" th:each="auth : ${authList}">
+            <td style="width:25%;" class="align-left underline">
+                <a sec:authorize="!hasAuthority('auth.update')" th:text="${auth.authName}"
+                   th:href="@{/auths/{id}/view(id=${auth.authId})}"></a>
+                <a sec:authorize="hasAuthority('auth.update')" th:text="${auth.authName}"
+                   th:href="@{/auths/{id}/edit(id=${auth.authId})}"></a>
+            </td>
+            <td style="width:25%;" class="align-left" id="authId" name="authId" th:text="${auth.authId}"></td>
+            <td style="width:50%;" class="align-left" id="authDesc" name="authDesc" th:text="${auth.authDesc}"></td>
+        </tr>
+    </tbody>
+</table>
+<th:block th:insert="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 </body>
 </html>

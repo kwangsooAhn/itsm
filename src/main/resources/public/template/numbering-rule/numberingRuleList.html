@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <table class="z-list-table">
     <thead class="z-list-head">
@@ -18,15 +16,18 @@
         <td style="width:100%" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>
     <tr class="flex-row align-items-center" th:each="rule : ${ruleList}">
-        <td style="width:30%;" class="align-left" th:id="${rule.numberingId}" name="ruleName"
-            th:text="${rule.numberingName}"></td>
-        <td style="width:30%;" class="align-left" id="ruleDesc" name="ruleDesc" th:text="${rule.numberingDesc}"></td>
-        <td style="width:20%;" class="align-left" id="ruleLatestValue" name="ruleLatestValue"
-            th:text="${rule.latestValue}"></td>
-        <td style="width:20%;" class="align-left" id="ruleLatestDate" name="ruleLatestDate"
-            th:text="${rule.latestDate}"></td>
+        <td style="width:30%;" class="align-left underline" th:id="${rule.numberingId}">
+            <a sec:authorize="!hasAuthority('numbering.rule.update')" th:text="${rule.numberingName}"
+               th:href="@{/numberingRules/{id}/view(id=${rule.numberingId})}"></a>
+            <a sec:authorize="hasAuthority('numbering.rule.update')" th:text="${rule.numberingName}"
+               th:href="@{/numberingRules/{id}/edit(id=${rule.numberingId})}"></a>
+        </td>
+        <td style="width:30%;" class="align-left" id="ruleDesc" th:text="${rule.numberingDesc}"></td>
+        <td style="width:20%;" class="align-left" id="ruleLatestValue" th:text="${rule.latestValue}"></td>
+        <td style="width:20%;" class="align-left" id="ruleLatestDate" th:text="${rule.latestDate}"></td>
     </tr>
     </tbody>
 </table>
+<th:block th:insert="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 </body>
 </html>

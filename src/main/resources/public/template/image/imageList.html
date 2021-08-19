@@ -1,281 +1,275 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/itsm/pageType/searchCommonLayout">
 <head>
     <title th:text="#{image.label.list}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-image-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{image.label.list}"></h1>
-            <h6 class="description ml-2" th:text="#{image.msg.searchDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row">
-            <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{image.label.name}"/>
-            <span id="totalCount" class="search-count"></span>
-        </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{image.label.list}"></h1>
+    <h6 class="description ml-2" th:text="#{image.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching" class="z-main-header-search flex-row">
+    <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{image.label.name}"/>
+    <span id="totalCount" class="search-count"></span>
+</div>
+<th:block layout:fragment="pageSearchResult">
     <div class="z-image-content-edit flex-fill">
         <div class="z-thumbnail-main flex-row flex-wrap" id="thumbnailMain"></div>
     </div>
 </th:block>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript" th:inline="javascript">
-        let previewModal;
-        let offsetCount = 0;
-        window.onload = function () {
-            getImages(false);
-            // 미리보기 모달 생성
-            previewModal = new modal({
-                title: i18n.msg('image.label.name'),
-                body: `<div class="z-thumbnail-preview-image"></div>`,
-                classes: 'z-thumbnail-preview',
-                buttons: [{
-                    content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        modal.hide();
-                    }
-                }],
-                close: { closable: false },
-                onHide: function(modal) {
-                    // 기존 선택된  클래스를 제거
-                    const selectedThumbnails = document.querySelectorAll('.z-thumbnail.selected');
-                    for (let i = 0, len = selectedThumbnails.length; i < len; i++) {
-                        selectedThumbnails[i].classList.remove('selected');
-                    }
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    let previewModal;
+    let offsetCount = 0;
+    window.onload = function () {
+        getImages(false);
+        // 미리보기 모달 생성
+        previewModal = new modal({
+            title: i18n.msg('image.label.name'),
+            body: `<div class="z-thumbnail-preview-image"></div>`,
+            classes: 'z-thumbnail-preview',
+            buttons: [{
+                content: i18n.msg('common.btn.close'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function(modal) {
+                    modal.hide();
                 }
+            }],
+            close: { closable: false },
+            onHide: function(modal) {
+                // 기존 선택된  클래스를 제거
+                const selectedThumbnails = document.querySelectorAll('.z-thumbnail.selected');
+                for (let i = 0, len = selectedThumbnails.length; i < len; i++) {
+                    selectedThumbnails[i].classList.remove('selected');
+                }
+            }
+        });
+        // 썸네일 표시
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function () {
+            aliceJs.pressKeyForAction(event, 'Enter', function () {
+                document.getElementById('thumbnailMain').innerHTML = '';
+                getImages(false);
             });
-            // 썸네일 표시
-            document.getElementById('searchValue').focus();
-            document.getElementById('searchValue').addEventListener('keyup', function () {
-                aliceJs.pressKeyForAction(event, 'Enter', function () {
-                    document.getElementById('thumbnailMain').innerHTML = '';
-                    getImages(false);
-                });
-            });
-            // 스크롤바 표시
-            OverlayScrollbars(document.querySelector('.z-main'), {
-                className: 'scrollbar',
-                callbacks: {
-                    onScroll: function (e) {
-                        const scrollHeight = e.target.scrollHeight;
-                        const scrollTop = e.target.scrollTop;
-                        const clientHeight = e.target.clientHeight;
-                        if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                getImages(true);
-                            }
+        });
+        // 스크롤바 표시
+        OverlayScrollbars(document.querySelector('.z-main'), {
+            className: 'scrollbar',
+            callbacks: {
+                onScroll: function (e) {
+                    const scrollHeight = e.target.scrollHeight;
+                    const scrollTop = e.target.scrollTop;
+                    const clientHeight = e.target.clientHeight;
+                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            getImages(true);
                         }
                     }
                 }
-            });
-        }
-
-        function getImages(isScroll) {
-            let urlParam = 'searchValue=' + document.getElementById('searchValue').value;
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.imageOffsetCount;
-                }
-                urlParam += '&offset=' + offsetCount;
-            } else {
-                offsetCount = 0;
-                urlParam += '&offset=' + offsetCount;
             }
-            restSubmit('get', '/rest/images?' + urlParam, isScroll);
-        }
+        });
+    }
 
-        function restSubmit(method, url, isScroll) {
-            aliceJs.fetchJson(url, {
-                method: method
-            }).then((imageList) => {
-                addThumbnailUpload();
-                if (isScroll) {
-                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                        offsetCount = offsetCount + aliceJs.imageOffsetCount;
-                        imageList.data.forEach(function (image) {
-                            addThumbnail(image);
-                        });
-                    }
-                } else {
-                    let count = JSON.stringify(imageList.totalCount)
-                    aliceJs.showTotalCount(count, 'totalCount');
-                    document.getElementById('totalCount').value = count;
+    function getImages(isScroll) {
+        let urlParam = 'searchValue=' + document.getElementById('searchValue').value;
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.imageOffsetCount;
+            }
+            urlParam += '&offset=' + offsetCount;
+        } else {
+            offsetCount = 0;
+            urlParam += '&offset=' + offsetCount;
+        }
+        restSubmit('get', '/rest/images?' + urlParam, isScroll);
+    }
+
+    function restSubmit(method, url, isScroll) {
+        aliceJs.fetchJson(url, {
+            method: method
+        }).then((imageList) => {
+            addThumbnailUpload();
+            if (isScroll) {
+                if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                    offsetCount = offsetCount + aliceJs.imageOffsetCount;
                     imageList.data.forEach(function (image) {
                         addThumbnail(image);
                     });
                 }
-            })
-        }
+            } else {
+                let count = JSON.stringify(imageList.totalCount)
+                aliceJs.showTotalCount(count, 'totalCount');
+                document.getElementById('totalCount').value = count;
+                imageList.data.forEach(function (image) {
+                    addThumbnail(image);
+                });
+            }
+        })
+    }
 
-        function addThumbnail(image) {
-            const thumbnailContainer = document.getElementById('thumbnailMain');
-            const thumbnailTemplate = `
-                <div class="z-thumbnail" tabindex="-1">
-                    <div class="z-thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
-                    <div class="z-thumbnail-info">
-                        <p class="z-thumbnail-info-text">
-                            <label class="z-thumbnail-image-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
-                            <input type="text" class="z-input float-left" />
-                        </p>
-                        <p class="z-thumbnail-info-text"><label class="text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
-                    </div>
-                    <div class="z-thumbnail-bottom">
-                        <label class="file-update-dt">${i18n.userDateTime(image.updateDt)}</label>
-                        <button type="button" class="z-button-icon float-right" data-name="${image.name}" onclick="removeImage(this);"><span class="z-icon i-delete"></span></button>
-                    </div>
+    function addThumbnail(image) {
+        const thumbnailContainer = document.getElementById('thumbnailMain');
+        const thumbnailTemplate = `
+            <div class="z-thumbnail" tabindex="-1">
+                <div class="z-thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
+                <div class="z-thumbnail-info">
+                    <p class="z-thumbnail-info-text">
+                        <label class="z-thumbnail-image-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
+                        <input type="text" class="z-input float-left" />
+                    </p>
+                    <p class="z-thumbnail-info-text"><label class="text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
+                </div>
+                <div class="z-thumbnail-bottom">
+                    <label class="file-update-dt">${i18n.userDateTime(image.updateDt)}</label>
+                    <button type="button" class="z-button-icon float-right" data-name="${image.name}" onclick="removeImage(this);"><span class="z-icon i-delete"></span></button>
+                </div>
+            </div>
+        `;
+        thumbnailContainer.insertAdjacentHTML('beforeend', thumbnailTemplate);
+    }
+
+    function addThumbnailUpload() {
+        const thumbnailCnt = document.getElementById('thumbnailMain').querySelectorAll('.z-thumbnail-upload').length;
+        if (thumbnailCnt === 0) {
+            let thumbnailUploadTemplate = `
+                <div class="z-thumbnail-upload align-center" onclick="document.getElementById('imageUploadFile').click();" tabindex="-1">
+                    <span class="z-icon i-image-upload"></span>
+                    <p class="z-thumbnail-upload-text underline mt-2">${i18n.msg('image.label.upload')}</p>
+                    <input type="file" id="imageUploadFile" accept=".png,.gif,.jpeg,.jpg" multiple onchange="uploadImage(this);" style="display: none;"/>
                 </div>
             `;
-            thumbnailContainer.insertAdjacentHTML('beforeend', thumbnailTemplate);
+            document.getElementById('thumbnailMain').insertAdjacentHTML('beforeend', thumbnailUploadTemplate);
         }
+    }
 
-        function addThumbnailUpload() {
-            const thumbnailCnt = document.getElementById('thumbnailMain').querySelectorAll('.z-thumbnail-upload').length;
-            if (thumbnailCnt === 0) {
-                let thumbnailUploadTemplate = `
-                    <div class="z-thumbnail-upload align-center" onclick="document.getElementById('imageUploadFile').click();" tabindex="-1">
-                        <span class="z-icon i-image-upload"></span>
-                        <p class="z-thumbnail-upload-text underline mt-2">${i18n.msg('image.label.upload')}</p>
-                        <input type="file" id="imageUploadFile" accept=".png,.gif,.jpeg,.jpg" multiple onchange="uploadImage(this);" style="display: none;"/>
-                    </div>
-                `;
-                document.getElementById('thumbnailMain').insertAdjacentHTML('beforeend', thumbnailUploadTemplate);
-            }
-        }
-
-        function removeImage(imgObj) {
-            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), function() {
-                aliceJs.fetchText('/rest/images/' + imgObj.dataset.name, {
-                    method: 'delete',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }).then((rtn) => {
-                    if (rtn === 'true') {
-                        document.getElementById('thumbnailMain').removeChild(imgObj.parentNode.parentNode);
-                        let deleteAfterCount = Number(document.getElementById('totalCount').value) - 1;
-                        document.getElementById('totalCount').value = deleteAfterCount;
-                        aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
-                    }
-                });
-            });
-        }
-
-        function renameEventHandler(e) {
-            e.stopPropagation();
-            e.preventDefault();
-
-            e.target.removeEventListener('blur', renameEventHandler);
-            e.target.removeEventListener('keyup', renameEventHandler);
-
-            const labelElem = e.target.parentNode.querySelector('label');
-            e.target.style.display = 'none';
-            labelElem.style.display = 'block';
-
-            let name = labelElem.textContent.trim();
-            let extension = name.split('.').pop();
-
-            let modifyName = '';
-            if (e.target.value.trim() !== '') {
-                modifyName = e.target.value.trim() + '.' + extension;
-            }
-            if (name === modifyName) { return false; }
-            aliceJs.fetchText('/rest/images', {
-                method: 'PUT',
+    function removeImage(imgObj) {
+        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), function() {
+            aliceJs.fetchText('/rest/images/' + imgObj.dataset.name, {
+                method: 'delete',
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ originName: name, modifyName: modifyName })
+                }
             }).then((rtn) => {
                 if (rtn === 'true') {
-                    labelElem.textContent = modifyName;
-                    labelElem.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
-                } else {
-                    aliceAlert.alertWarning(i18n.msg("image.msg.failedRename"));
+                    document.getElementById('thumbnailMain').removeChild(imgObj.parentNode.parentNode);
+                    let deleteAfterCount = Number(document.getElementById('totalCount').value) - 1;
+                    document.getElementById('totalCount').value = deleteAfterCount;
+                    aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
                 }
             });
+        });
+    }
+
+    function renameEventHandler(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        e.target.removeEventListener('blur', renameEventHandler);
+        e.target.removeEventListener('keyup', renameEventHandler);
+
+        const labelElem = e.target.parentNode.querySelector('label');
+        e.target.style.display = 'none';
+        labelElem.style.display = 'block';
+
+        let name = labelElem.textContent.trim();
+        let extension = name.split('.').pop();
+
+        let modifyName = '';
+        if (e.target.value.trim() !== '') {
+            modifyName = e.target.value.trim() + '.' + extension;
         }
+        if (name === modifyName) { return false; }
+        aliceJs.fetchText('/rest/images', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ originName: name, modifyName: modifyName })
+        }).then((rtn) => {
+            if (rtn === 'true') {
+                labelElem.textContent = modifyName;
+                labelElem.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
+            } else {
+                aliceAlert.alertWarning(i18n.msg("image.msg.failedRename"));
+            }
+        });
+    }
 
-        function renameImage(target) {
-            const name = target.textContent.trim();
-            target.style.display = 'none';
+    function renameImage(target) {
+        const name = target.textContent.trim();
+        target.style.display = 'none';
 
-            let inputObj = target.parentNode.querySelector('input');
-            let extension = name.split('.').pop();
-            inputObj.value = name.split('.' + extension)[0];
-            inputObj.style.display = 'block';
+        let inputObj = target.parentNode.querySelector('input');
+        let extension = name.split('.').pop();
+        inputObj.value = name.split('.' + extension)[0];
+        inputObj.style.display = 'block';
 
-            inputObj.addEventListener('blur', renameEventHandler, false);
-            inputObj.addEventListener('keyup', function (e) {
-                if (e.keyCode === 13) {
-                    e.target.blur();
+        inputObj.addEventListener('blur', renameEventHandler, false);
+        inputObj.addEventListener('keyup', function (e) {
+            if (e.keyCode === 13) {
+                e.target.blur();
+            }
+        }, false);
+        inputObj.focus();
+    }
+    // 이미지 업로드
+    function uploadImage(fileObj) {
+        let fileList = fileObj.files;
+        if (fileList.length > 0) {
+            const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+            const uploadImage = function () {
+                let xhr = new XMLHttpRequest(),
+                    formData = new FormData();
+                for (let i = 0, len = fileList.length; i < len; i++) {
+                    formData.append('files', fileList[i]);
                 }
-            }, false);
-            inputObj.focus();
-        }
-        // 이미지 업로드
-        function uploadImage(fileObj) {
-            let fileList = fileObj.files;
-            if (fileList.length > 0) {
-                const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
-                const uploadImage = function () {
-                    let xhr = new XMLHttpRequest(),
-                        formData = new FormData();
-                    for (let i = 0, len = fileList.length; i < len; i++) {
-                        formData.append('files', fileList[i]);
-                    }
-                    xhr.onreadystatechange = () => {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            let list = JSON.parse(xhr.responseText);
-                            for (let i = 0, len = list.length; i < len; i++) {
-                                addThumbnail(list[i]);
-                            }
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        let list = JSON.parse(xhr.responseText);
+                        for (let i = 0, len = list.length; i < len; i++) {
+                            addThumbnail(list[i]);
                         }
                     }
-                    xhr.open('POST', '/rest/images', true);
-                    xhr.send(formData);
-                    document.getElementById('imageUploadFile').value = '';
                 }
+                xhr.open('POST', '/rest/images', true);
+                xhr.send(formData);
+                document.getElementById('imageUploadFile').value = '';
+            }
 
-                if (isAllowedExtensions(allowedExtensions, fileList)) {
-                    uploadImage();
-                    aliceAlert.alertSuccess(i18n.msg('image.msg.registrationSuccess'), function() {
-                        location.reload();
+            if (isAllowedExtensions(allowedExtensions, fileList)) {
+                uploadImage();
+                aliceAlert.alertSuccess(i18n.msg('image.msg.registrationSuccess'), function() {
+                    location.reload();
+                });
+            } else {
+                aliceAlert.confirm(i18n.msg('image.msg.existNotAllowedExtension'),
+                    uploadImage, // OK 시 업로드
+                    function() {
+                        document.getElementById('imageUploadFile').value = '';  // CANCEL 시 file object 값 비움 처리
                     });
-                } else {
-                    aliceAlert.confirm(i18n.msg('image.msg.existNotAllowedExtension'),
-                        uploadImage, // OK 시 업로드
-                        function() {
-                            document.getElementById('imageUploadFile').value = '';  // CANCEL 시 file object 값 비움 처리
-                        });
-                }
             }
         }
-        // 이미지 미리보기
-        function imagePreview(thumbnail) {
-            thumbnail.parentNode.classList.add('selected');
+    }
+    // 이미지 미리보기
+    function imagePreview(thumbnail) {
+        thumbnail.parentNode.classList.add('selected');
 
-            // 이미지 파일명 제목 표시
-            const previewModalHeader = previewModal.wrapper.querySelector('.modal-header');
-            if (previewModalHeader !== null) {
-                previewModalHeader.textContent = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
-            }
-
-            // 내부 이미지 경로 변경
-            const previewModalContent = previewModal.wrapper.querySelector('.z-thumbnail-preview-image');
-            if (previewModalContent !== null) {
-                previewModalContent.style.backgroundImage = thumbnail.style.backgroundImage;
-            }
-            // 모달 호출
-            previewModal.show();
+        // 이미지 파일명 제목 표시
+        const previewModalHeader = previewModal.wrapper.querySelector('.modal-header');
+        if (previewModalHeader !== null) {
+            previewModalHeader.textContent = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
         }
-    </script>
-</th:block>
+
+        // 내부 이미지 경로 변경
+        const previewModalContent = previewModal.wrapper.querySelector('.z-thumbnail-preview-image');
+        if (previewModalContent !== null) {
+            previewModalContent.style.backgroundImage = thumbnail.style.backgroundImage;
+        }
+        // 모달 호출
+        previewModal.show();
+    }
+</script>
 </body>
 </html>

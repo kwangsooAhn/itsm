@@ -30,8 +30,8 @@ insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7,TRUE)
 insert into awf_menu values ('chart', 'menu', '/charts/search', 8,TRUE);
 insert into awf_menu values ('config', 'menu', '', 9,TRUE);
 insert into awf_menu values ('config.user', 'config', '/users/search', 1,TRUE);
-insert into awf_menu values ('config.auth', 'config', '/auths/edit', 2,TRUE);
-insert into awf_menu values ('config.role', 'config', '/roles/edit', 3,TRUE);
+insert into awf_menu values ('config.auth', 'config', '/auths/search', 2,TRUE);
+insert into awf_menu values ('config.role', 'config', '/roles/search', 3,TRUE);
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,TRUE);
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6,TRUE);
@@ -42,8 +42,8 @@ insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRU
 insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3,TRUE);
 insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4,TRUE);
 insert into awf_menu values ('workflow.image', 'workflow', '/images', 5,TRUE);
-insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/edit', 6, true);
-insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/edit', 7, true);
+insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, true);
+insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, true);
 insert into awf_menu values ('cmdb', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');

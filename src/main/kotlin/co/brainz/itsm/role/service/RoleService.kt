@@ -13,12 +13,16 @@ import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceAuthRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.dto.RoleListReturnDto
+import co.brainz.itsm.role.dto.RoleSearchCondition
 import co.brainz.itsm.role.repository.RoleRepository
 import javax.transaction.Transactional
+import kotlin.math.ceil
 import org.springframework.stereotype.Service
 
 @Service
@@ -32,10 +36,16 @@ class RoleService(
      * 상단 전체 역할정보를 가져온다.
      */
     fun selectRoleList(): RoleListReturnDto {
-        val roleList = roleRepository.findRoleSearch("")
+        val roleList = roleRepository.findRoleSearch(RoleSearchCondition(""))
         return RoleListReturnDto(
             data = roleList.results,
-            totalCount = roleList.total
+            paging = AlicePagingData(
+                totalCount = roleList.total,
+                totalCountWithoutCondition = roleRepository.count(),
+                currentPageNum = 0L,
+                totalPageNum = 0L,
+                orderType = ""
+            )
         )
     }
 
@@ -132,8 +142,19 @@ class RoleService(
     /**
      * 역할 목록을 조회 (검색어 포함).
      */
-    fun getRoleSearchList(search: String): MutableList<RoleListDto> {
-        return roleRepository.findRoleSearch(search).results
+    fun getRoleSearchList(roleSearchCondition: RoleSearchCondition): RoleListReturnDto {
+        val queryResult = roleRepository.findRoleSearch(roleSearchCondition)
+
+        return RoleListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = roleRepository.count(),
+                currentPageNum = roleSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**
@@ -147,7 +168,7 @@ class RoleService(
      * 전체 역할 목록 조회 및 사용자가 가지고 있는 역할 체크
      */
     fun getAllRolesToUserCheck(userEntity: AliceUserEntity?): MutableList<RoleDetailDto> {
-        val allRoles = roleRepository.findRoleSearch("").results
+        val allRoles = roleRepository.findRoleSearch(RoleSearchCondition("")).results
         val userRoleIds = mutableListOf<String>()
         if (userEntity != null) {
             val userRoles = this.getUserRoles(userEntity.userKey)

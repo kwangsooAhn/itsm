@@ -9,6 +9,7 @@ package co.brainz.itsm.role.repository
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.entity.QAliceRoleEntity
 import co.brainz.itsm.role.dto.RoleListDto
+import co.brainz.itsm.role.dto.RoleSearchCondition
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -17,7 +18,7 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
     AliceRoleEntity::class.java
 ), RoleRepositoryCustom {
 
-    override fun findRoleSearch(search: String): QueryResults<RoleListDto> {
+    override fun findRoleSearch(roleSearchCondition: RoleSearchCondition): QueryResults<RoleListDto> {
         val role = QAliceRoleEntity.aliceRoleEntity
         return from(role)
             .select(
@@ -29,9 +30,12 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
                 )
             )
             .where(
-                super.like(role.roleName, search)
-                    ?.or(super.like(role.roleDesc, search))
-            ).orderBy(role.roleName.asc())
+                super.like(role.roleName, roleSearchCondition.searchValue)
+                    ?.or(super.like(role.roleDesc, roleSearchCondition.searchValue))
+            )
+            .orderBy(role.roleName.asc())
+            .limit(roleSearchCondition.contentNumPerPage)
+            .offset((roleSearchCondition.pageNum - 1) * roleSearchCondition.contentNumPerPage)
             .fetchResults()
     }
 }
