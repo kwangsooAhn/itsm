@@ -198,7 +198,7 @@ class ZFormToken {
             'action': actionType
         };
         // 컴포넌트 값
-        saveData.componentData = this.zForm.getComponentData(this.zForm.form, []);
+        saveData.componentData = this.zForm.getComponentData(this.form, []);
 
         //TODO: #10547 폼 리팩토링 - 신청서 저장 - 서버 진행 후 return false 제거
         console.log(saveData);
@@ -232,7 +232,7 @@ class ZFormToken {
      * 프로세스 맵 팝업 호출
      */
     openProcessStatusPopUp() {
-        window.open('/process/[[${instanceId}]]/status', 'process_status_[[${instanceId}]]', 'width=1300, height=500');
+        window.open('/process/' + this.data.instanceId + '/status', 'process_status_' + this.data.instanceId, 'width=1300, height=500');
     }
 
     /**

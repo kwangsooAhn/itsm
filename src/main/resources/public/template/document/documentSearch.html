@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      layout:decorate="~{layout/itsm/pageType/searchCommonLayout}">
 <head>
     <title th:text="#{document.label.document}"></title>
 </head>
-<th:block layout:fragment="cssLink">
+<th:block layout:fragment="pageHead">
     <link th:href="@{/assets/css/formDesigner.css}" rel="stylesheet"/>
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
-</th:block>
-<th:block layout:fragment="scriptLink">
     <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
     <script type="module">
@@ -116,28 +114,24 @@
     </script>
 </th:block>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-document-header">
-        <div class="z-main-header-title flex-row align-items-baseline" id="header-title">
-            <h1 th:text="#{document.label.document}"></h1>
-            <h6 class="description ml-2" th:text="#{document.msg.searchDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row" id="header-search">
-            <form id="searchDocumentsFrm">
-                <input type="text" id="searchDocuments" name="searchDocuments" maxlength="100"
-                       th:placeholder="#{document.label.searchPlaceholder}" class="z-input i-search col-3"/>
-                <input type="text" id="searchProcessName" name="searchProcessName" maxlength="100"
-                       th:placeholder="#{document.label.process}" class="z-input i-search col-3"/>
-                <input type="text" id="searchFormName" name="searchFormName" maxlength="100"
-                       th:placeholder="#{document.label.form}" class="z-input i-search col-3 mr-2"/>
-                <input type="hidden" id="searchDocumentType" name="searchDocumentType"
-                       value="application-form"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-        </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{document.label.document}"></h1>
+    <h6 class="description ml-2" th:text="#{document.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="searchDocumentsFrm">
+        <input type="text" id="searchDocuments" name="searchDocuments" maxlength="100"
+               th:placeholder="#{document.label.searchPlaceholder}" class="z-input i-search col-3"/>
+        <input type="text" id="searchProcessName" name="searchProcessName" maxlength="100"
+               th:placeholder="#{document.label.process}" class="z-input i-search col-3"/>
+        <input type="text" id="searchFormName" name="searchFormName" maxlength="100"
+               th:placeholder="#{document.label.form}" class="z-input i-search col-3 mr-2"/>
+        <input type="hidden" id="searchDocumentType" name="searchDocumentType"
+               value="application-form"/>
+        <span id="spanTotalCount" class="search-count"></span>
+    </form>
+</div>
+<div layout:fragment="pageSearchResult">
     <div class="z-document-content flex-fill">
         <input type="hidden" sec:authorize="hasAuthority('document.create')" th:name="isRole" th:value="true"/>
         <input type="hidden" sec:authorize="!hasAuthority('document.create')" th:name="isRole" th:value="false"/>
@@ -149,12 +143,12 @@
                 <div id="defaultButtonArea"></div>
                 <div class="z-action-button-top-area" id="actionButtonTopArea"></div>
             </div>
-            <div class="z-drawing-board" id="documentDrawingBoard"></div>
+            <div class="z-drawing-board" id="documentDrawingBoard" data-display="running"></div>
             <div class="z-document-main-footer flex-row justify-content-end align-items-center flex-wrap">
                 <div class="z-action-button-bottom-area" id="actionButtonBottomArea"></div>
             </div>
         </div>
     </template>
-</th:block>
+</div>
 </body>
 </html>

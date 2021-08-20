@@ -17,11 +17,6 @@
     background-color: $layout-main-bg-color;
     @include scrollbarHidden;
 
-    // 미리보기 화면
-    //&.preview {
-    //  .input { pointer-events: none; }
-    //}
-
     // 상단 영역
     .z-document-main-header {
       width: $drawing-board-width;

@@ -1663,6 +1663,9 @@ input, button, select, optgroup, textarea {
 .z-drawing-board.edit .z-group-label {
   pointer-events: none;
 }
+.z-drawing-board:not([data-display=ready]) .z-component-tooltip {
+  border-color: transparent !important;
+}
 
 .z-save-info {
   min-height: 1.5625rem;
