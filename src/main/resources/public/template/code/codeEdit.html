@@ -21,58 +21,53 @@
     </div>
 </div>
 <div layout:fragment="pageTree">
-    <div class="z-code-content flex-fill">
-        <div class="list-tree">
-            <div id="treeList"></div>
-        </div>
-    </div>
+    <div id="treeList"></div>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-aside code">
-        <div class="z-code-content-edit flex-column">
-            <div class="edit-form">
-                <div class="edit-row flex-row">
-                    <div class="edit-column flex-column flex-fill mr-4">
-                        <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
-                        <input id="txtCode" name="txtCode" class="z-input" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
-                    </div>
-                    <div class="edit-column flex-column flex-fill">
-                        <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
-                        <input id="txtPCode" name="txtPCode" class="z-input" type="text" th:value="${codeDetail?.pCode}"
-                               maxlength="100"/>
-                    </div>
-                </div>
-                <div class="edit-row flex-row">
-                    <div class="edit-column flex-column flex-fill mr-4">
-                        <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
-                        <input id="txtCodeName" name="txtCodeName" class="z-input" type="text" th:value="${codeDetail?.codeName}"
-                               maxlength="100"/>
-                    </div>
-                    <div class="edit-column flex-column flex-fill">
-                        <label class="form-title" th:text="#{code.label.defaultCodeValue}" for="txtCodeValue"></label>
-                        <input id="txtCodeValue" name="txtCodeValue" class="z-input" type="text" th:value="${codeDetail?.codeValue}"
-                               maxlength="100"/>
-                    </div>
-                </div>
-                <div class="edit-row flex-column">
-                    <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
-                    <input id="txtSeqNum" name="txtSeqNum" class="z-input" type="text" th:value="${codeDetail?.seqNum}"
-                           onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
-                </div>
-                <div class="edit-row flex-column">
-                    <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
-                    <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
-                              class="z-textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
-                </div>
-                <div class="edit-row flex-column">
-                    <div class="under-bar">
-                        <label th:text="#{code.label.codeLang}"></label>
-                        <button type="button" class="z-button-icon extra float-right" onclick="drawCodeLang()">
-                            <span class="z-icon i-plus"></span>
-                        </button>
-                    </div>
-                    <div id="codeLang"></div>
-                </div>
+    <div class="z-edit-form flex-fill">
+        <div class="z-edit-row flex-row">
+            <div class="flex-column flex-fill mr-4">
+                <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
+                <input id="txtCode" name="txtCode" class="z-input" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
+            </div>
+            <div class="flex-column flex-fill">
+                <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
+                <input id="txtPCode" name="txtPCode" class="z-input" type="text" th:value="${codeDetail?.pCode}"
+                       maxlength="100"/>
+            </div>
+        </div>
+        <div class="z-edit-row flex-row">
+            <div class="flex-column flex-fill mr-4">
+                <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
+                <input id="txtCodeName" name="txtCodeName" class="z-input" type="text" th:value="${codeDetail?.codeName}"
+                       maxlength="100"/>
+            </div>
+            <div class="flex-column flex-fill">
+                <label class="form-title" th:text="#{code.label.defaultCodeValue}" for="txtCodeValue"></label>
+                <input id="txtCodeValue" name="txtCodeValue" class="z-input" type="text" th:value="${codeDetail?.codeValue}"
+                       maxlength="100"/>
+            </div>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
+            <input id="txtSeqNum" name="txtSeqNum" class="z-input" type="text" th:value="${codeDetail?.seqNum}"
+                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
+            <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
+                      class="z-textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
+        </div>
+        <div class="z-edit-row flex-column flex-fill">
+            <div class="flex-row justify-content-between">
+                <label th:text="#{code.label.codeLang}"></label>
+                <button type="button" class="z-button-icon extra float-right" onclick="drawCodeLang()">
+                    <span class="z-icon i-plus"></span>
+                </button>
+            </div>
+            <div class="under-bar"></div>
+            <div id="codeLangScroll">
+                <div id="codeLang"></div>
             </div>
         </div>
         <div class="flex-row justify-content-end">
@@ -90,6 +85,17 @@
             </div>
         </div>
     </div>
+    <template id="langCodeRowTemplate">
+        <div class="z-edit-row flex-row align-items-center">
+            <label class="required mr-3" th:text="#{'code.label.lang'}"></label>
+            <div class="col-2 mr-5"><select></select></div>
+            <label class="required mr-3" th:text="#{code.label.codeValue}"></label>
+            <input class="z-input flex-fill mr-3" type="text" name="codeLangValue" maxlength="100">
+            <button class="z-button-icon extra">
+                <span class="z-icon i-delete"></span>
+            </button>
+        </div>
+    </template>
 </div>
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
@@ -105,20 +111,11 @@
     const sessionKey = 'code_expand_key';
 
     window.addEventListener('load', function () {
-        OverlayScrollbars(document.querySelector('.list-tree'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-page-edit'), {className: 'scrollbar'});
+        OverlayScrollbars(document.getElementById('txtCodeDesc'), {className: 'scrollbar'});
         document.getElementById('searchValue').addEventListener('keyup', function () {
             getCodeList();
-        });
-        OverlayScrollbars(document.querySelector('.code-content-edit'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelectorAll('#txtCodeDesc'), {
-            className: 'scrollbar',
-            resize: 'vertical',
-            sizeAutoCapable: true,
-            textarea: {
-                dynHeight: false,
-                dynWidth: false,
-                inheritedAttrs: "class"
-            }
         });
 
         if (document.getElementById('btnUpdate') !== null) {
@@ -271,7 +268,7 @@
         }
 
         let codeLangData = {};
-        let divLang = document.getElementById('codeLang').childNodes;
+        let divLang = document.getElementById('codeLang').children;
         for (let i = 0; i < divLang.length; i++) {
             const selectValue = divLang[i].getElementsByTagName('select')[0].value;
             const codeLangValue = divLang[i].getElementsByTagName('input')[0].value;
@@ -282,7 +279,7 @@
                 return false;
             }
         }
-        if (divLang.length != 0) {
+        if (divLang.length !== 0) {
             jsonData.codeLang = JSON.stringify(codeLangData);
         }
 
@@ -353,65 +350,26 @@
     }
 
     function drawCodeLang(param) {
-        const divRow = document.createElement('div');
-        divRow.classList.add('flex-row', 'edit-row');
+        const langCodeRow = document.getElementById('langCodeRowTemplate').content.cloneNode(true);
 
-        const divLangLabel = document.createElement('div');
-        divLangLabel.classList.add('flex-column', 'col-1');
-        const langLabel = document.createElement('label');
-        langLabel.classList.add('required');
-        langLabel.textContent = i18n.msg('code.label.lang');
-        divLangLabel.appendChild(langLabel)
-
-        const divLangSelect = document.createElement('div');
-        divLangSelect.classList.add('flex-column', 'col-5', 'mr-4');
-        const langSelect = document.createElement('select');
         const langList = /*[[${langList}]]*/'';
+        const selectTag = langCodeRow.querySelector('select')
         for (let i = 0; i < langList.length; i++) {
             const selectOption = document.createElement('option');
             selectOption.value = langList[i].codeValue;
             selectOption.text = langList[i].codeValue;
             selectOption.selected = (typeof param !== 'undefined') ? (param.lang === selectOption.value) : '';
-            langSelect.appendChild(selectOption);
+            selectTag.appendChild(selectOption);
         }
-        divLangSelect.appendChild(langSelect);
 
-        const divCodeLangLabel = document.createElement('div');
-        divCodeLangLabel.classList.add('flex-column', 'col-1');
-        const codeLangValueLabel = document.createElement('label');
-        codeLangValueLabel.classList.add('required');
-        codeLangValueLabel.textContent = i18n.msg('code.label.codeValue');
-        divCodeLangLabel.appendChild(codeLangValueLabel);
-
-        const divCodeLangValueInput = document.createElement('div');
-        divCodeLangValueInput.classList.add('flex-column', 'col-5', 'ml-4');
-        const codeLangValueInput = document.createElement('input');
-        codeLangValueInput.classList.add('z-input');
-        codeLangValueInput.type = 'text';
-        codeLangValueInput.name = 'codeLangValue';
-        codeLangValueInput.maxLength = 100;
-        codeLangValueInput.value = (typeof param !== 'undefined') ? param.codeLangValue : '';
-        divCodeLangValueInput.appendChild(codeLangValueInput);
-
-        const divDeleteBtn = document.createElement('div');
-        divDeleteBtn.classList.add('flex-column', 'col-1');
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'z-button-icon extra';
-        const deleteIcon = document.createElement('span');
-        deleteIcon.className = 'z-icon i-delete';
-        deleteBtn.appendChild(deleteIcon);
+        langCodeRow.querySelector('input').value = param.codeLangValue;
+        const deleteBtn = langCodeRow.querySelector('button.z-button-icon');
         deleteBtn.addEventListener('click', function () {
-            const row = deleteBtn.parentNode.parentNode;
+            const row = deleteBtn.parentNode;
             row.remove();
         });
-        divDeleteBtn.appendChild(deleteBtn);
 
-        divRow.appendChild(divLangLabel);
-        divRow.appendChild(divLangSelect);
-        divRow.appendChild(divCodeLangLabel);
-        divRow.appendChild(divCodeLangValueInput);
-        divRow.appendChild(divDeleteBtn);
-        document.getElementById('codeLang').appendChild(divRow);
+        document.getElementById('codeLang').appendChild(langCodeRow);
         aliceJs.initDesignedSelectTag(document.querySelector('#codeLang'));
     }
 

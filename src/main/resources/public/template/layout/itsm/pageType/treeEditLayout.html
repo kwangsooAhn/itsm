@@ -4,11 +4,11 @@
       layout:decorate="~{layout/itsm/itsmLayout}">
 <!--/* 화면을 좌우로 분할하여 좌측에서는 트리, 우측에는 편집화면이 출력되는 트리/편집 화면 레이아웃 */-->
 <body>
-<div layout:fragment="mainContent" class="z-main-content">
+<div layout:fragment="mainContent" class="z-main-content flex-column">
     <th:block layout:fragment="pageContent">
         <!--/* 페이지별 타이틀 */-->
         <div layout:fragment="pageTitle" class="z-page-title"></div>
-        <div class="flex-row">
+        <div class="flex-row flex-fill pb-5">
             <div class="flex-column z-page-column-item">
                 <!--/* 페이지별 검색 */-->
                 <div layout:fragment="pageSearching" class="z-page-search"></div>
