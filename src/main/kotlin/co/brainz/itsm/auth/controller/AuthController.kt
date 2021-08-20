@@ -19,7 +19,7 @@ class AuthController(
 ) {
 
     val logger = LoggerFactory.getLogger(AuthController::class.java)
-    private val authSearchPage: String ="auth/authSearch"
+    private val authSearchPage: String = "auth/authSearch"
     private val authEditPage: String = "auth/authEdit"
     private val authListPage: String = "auth/authList"
 
@@ -35,7 +35,7 @@ class AuthController(
      * 권한 설정 화면 호출처리.
      */
     @GetMapping("/edit")
-    fun getRolelist(request: HttpServletRequest, model: Model): String {
+    fun getRoleList(request: HttpServletRequest, model: Model): String {
 
         val defaultUserMenuList = codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code)
         val defaultUserUrlList = codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code)

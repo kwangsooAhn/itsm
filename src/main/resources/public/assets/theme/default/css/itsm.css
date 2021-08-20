@@ -2942,6 +2942,39 @@ table[id=documentDisplay] td {
 .z-itsm-container .z-main-content .z-page-list .z-list-tree {
   height: 37.88rem;
 }
+.z-itsm-container .z-main-content .z-page-column-item {
+  display: flex;
+  flex: 1;
+  padding: 0 1.875rem;
+}
+.z-itsm-container .z-main-content .z-page-column-item:first-child {
+  padding-left: 0;
+}
+.z-itsm-container .z-main-content .z-page-column-item:last-child {
+  padding-right: 0;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-tree {
+  flex: 1;
+  margin-top: 0.9375rem;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 100%;
+  background-color: #FFFFFF;
+  padding: 2.1875rem 0;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 2.5rem 0 2.5rem;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form .z-edit-row {
+  margin-top: 0.625rem;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form .z-button-list {
+  margin: 1.875rem 0;
+}
 .z-itsm-container .z-main .card-list {
   flex-wrap: wrap;
   padding-bottom: 0.625rem;
@@ -3030,15 +3063,6 @@ table[id=documentDisplay] td {
 }
 .z-itsm-container .z-main .view-content .view-text {
   margin: 0;
-}
-.z-itsm-container .z-aside {
-  flex-shrink: 0;
-  width: 38.125rem;
-  background-color: #FFFFFF;
-  padding: 9.625rem 2.1875rem 3.125rem 0;
-}
-.z-itsm-container .z-aside.code {
-  width: 62.5rem;
 }
 
 .slide-down {
