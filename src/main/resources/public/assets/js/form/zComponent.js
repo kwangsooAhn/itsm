@@ -267,6 +267,7 @@ export default class ZComponent {
     set labelAlign(value) {
         this._label.align = value;
         this.UIElement.UIComponent.UILabel.setUITextAlign(value);
+        this.UIElement.UIComponent.UILabel.setUIProperty('--data-align', this.getLabelAlign(value));
     }
 
     get labelAlign() {
@@ -327,6 +328,7 @@ export default class ZComponent {
         const label = new UILabel().setUIClass(CLASS_PREFIX + 'component-label')
             .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
             .setUICSSText(`text-align: ${this.labelAlign};`)
+            .setUIProperty('--data-align', this.getLabelAlign(this.labelAlign))
             .setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
         // 라벨 문구
         const labelCssText = `color:${this.labelFontColor};` +
@@ -359,6 +361,20 @@ export default class ZComponent {
             labelColumnWidth -= Number(this.elementColumnWidth);
         }
         return labelColumnWidth;
+    }
+
+    /**
+     * 라벨 정렬
+     */
+    getLabelAlign(align) {
+        switch (align) {
+            case 'left':
+                return 'flex-start';
+            case 'center':
+                return 'center';
+            case 'right':
+                return 'flex-end';
+        }
     }
 
     /**

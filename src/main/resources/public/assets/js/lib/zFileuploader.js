@@ -492,6 +492,8 @@ const zFileUploader = (function () {
 
                         validation(this, file, 'fileUploader');
                         exportFile = file;
+
+
                     });
 
                     this.on('removedfile', function (file) {
@@ -500,6 +502,9 @@ const zFileUploader = (function () {
                             const dropzoneMessage = _this.element.querySelector('.dz-message');
                             dropzoneMessage.querySelector('.i-document-txt').style.display = 'block';
                             _this.isFileExist = false;
+                        }
+                        if (typeof extraParam.callback === 'function') {
+                            extraParam.callback('remove', file.previewElement.querySelector('input[name="fileSeq"]').value);
                         }
                     });
 
@@ -510,6 +515,9 @@ const zFileUploader = (function () {
                         if (response.file !== undefined) {
                             seq.value = response.file.fileSeq;
                             file.previewElement.appendChild(seq);
+                        }
+                        if (typeof extraParam.callback === 'function') {
+                            extraParam.callback('add', seq.value);
                         }
                     });
 

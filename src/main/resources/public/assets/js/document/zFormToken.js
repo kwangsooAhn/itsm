@@ -205,9 +205,9 @@ class ZFormToken {
         return false;
 
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
-        const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
+        const url = zValidation.isEmpty(saveData.tokenId) ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
         aliceJs.fetchText(url, {
-            method: (saveData.tokenId === '') ? 'post' : 'put',
+            method: zValidation.isEmpty(saveData.tokenId) ? 'POST' : 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },

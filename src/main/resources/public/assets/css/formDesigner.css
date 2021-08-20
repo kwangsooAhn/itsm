@@ -695,6 +695,7 @@ input, button, select, optgroup, textarea {
 :root {
   --data-column: 12;
   --data-row: 2;
+  --data-align: flex-start ;
 }
 
 /* _icons.scss
@@ -5855,10 +5856,8 @@ body.modal-active {
 }
 .z-component .z-component-label {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
+  justify-content: var(--data-align);
   padding: 0.4375rem 0.938rem 0.4375rem 0;
-}
-.z-component .z-component-label .z-component-label-text {
-  width: 100%;
 }
 .z-component .z-component-label.on {
   display: flex;
