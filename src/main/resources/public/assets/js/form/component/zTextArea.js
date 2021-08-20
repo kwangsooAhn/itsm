@@ -54,6 +54,7 @@ export const textAreaMixin = {
         element.UITextArea = new UITextArea().setUIPlaceholder(this.elementPlaceholder)
             .setUIProperty('--data-row', this.elementRows)
             .setUIAttribute('data-validation-required', this.validationRequired)
+            .setUIValue(this.value)
             .onUIKeyUp(this.updateValue.bind(this))
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UITextArea);

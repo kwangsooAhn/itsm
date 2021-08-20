@@ -198,10 +198,10 @@ class ZFormToken {
             'action': actionType
         };
         // 컴포넌트 값
-        saveData.componentData = this.zForm.getComponentData(this.form, []);
+        saveData.componentData = this.getComponentData(this.form, []);
 
-        //TODO: #10547 폼 리팩토링 - 신청서 저장 - 서버 진행 후 return false 제거
-        console.log(saveData);
+        //TODO: #10546 폼 리팩토링 - 처리할 문서 저장 - 화면
+        console.debug(saveData);
         return false;
 
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
