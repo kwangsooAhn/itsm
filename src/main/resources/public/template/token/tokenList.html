@@ -17,7 +17,7 @@
                 <div class="document-row-content">
                     <div class="document-title flex-row align-items-center">
                         <h3 th:text="${token.documentName}" class="mr-2 text-ellipsis"></h3>
-                        <span th:text="${token.documentNo}" class="document-numbering text-ellipsis"></span>
+                        <span th:text="${token.documentNo}" class="z-document-numbering text-ellipsis"></span>
                     </div>
                     <div class="document-topic">
                         <label class="topic" th:each="topic: ${token.topics}" th:text="${topic}"></label>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="document-row-info">
                     <div class="document-detail flex-row align-items-center float-right">
-                        <div class="document-user inline-flex align-items-center justify-content-center">
+                        <div class="inline-flex align-items-center justify-content-center">
                             <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.avatarPath}" width="32" height="32">
                             <span class="user-name" th:text="${token.createUserName}"></span>
                         </div>

@@ -407,6 +407,12 @@
   &.edit {
     .z-group-label { pointer-events: none; }
   }
+  // 폼 디자이너가 아닐 경우 컴포넌트 테두리 제거
+  &:not([data-display="ready"]) {
+    .z-component-tooltip {
+      border-color: transparent !important;
+    }
+  }
 }
 
 // 저장 정보

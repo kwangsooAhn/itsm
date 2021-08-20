@@ -50,6 +50,8 @@ export default class ZColorPickerProperty extends ZProperty {
         e.stopPropagation();
         e.preventDefault();
 
+        this.panel.validationStatus = true;
+
         // change 일 경우 minLength, maxLength 체크
         if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
             this.panel.validationStatus = false; // 유효성 검증 실패

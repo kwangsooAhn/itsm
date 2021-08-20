@@ -1171,6 +1171,7 @@ token:
     elementName: "업무 명"
     endDt: "완료 일시"
     history: "처리 이력"
+    information: "문서정보"
     list: "문서함"
     print: "처리할 문서 인쇄"
     relatedInstance: "관련 문서"

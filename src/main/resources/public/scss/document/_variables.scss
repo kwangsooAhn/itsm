@@ -5,13 +5,58 @@ $layout-header-height:                       0; // 0px
 // main
 $layout-main-bg-color:                       $neutral50;
 
+// 문서 번호
+$document-numbering-font-family:             $font-family-s;
+$document-numbering-font-size:               $font-size-xs;
+$document-numbering-color:                   $gray800;
+
 // main > drawing-board
 $drawing-board-width:                        60rem; // 960px
 $drawing-board-bg-color:                     $white;
-$drawing-board-border:                       0.0625rem solid map-get($grays, 'line'); // 1px
-$drawing-board-box-shadow:                   0 0 0.9375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
-$drawing-board-padding:                      6.25rem 4.688rem; // 100px 75px;
 
+// properties
+$layout-properties-width:                    38.13rem; // 610px
+$layout-properties-bg-color:                 $white;
+$layout-properties-border-color:             $gray300;
+$layout-properties-border-width:             0.0625rem; // 1px
+
+// properties > 탭
+$token-tab-color:                            $gray400;
+$token-tab-border-color:                     $gray300;
+$token-tab-border-width:                     0.0625rem; // 1px
+
+$token-tab-selected-color:                   $gray800;
+$token-tab-selected-border-color:            $blue500;
+$token-tab-selected-border-width:            0.188rem; // 3px
+
+$token-tab-sub-title-color:                  $gray500;
+
+// 처리이력 테이블
+$token-history-table-font-family:            $font-family-s;
+$token-history-table-font-size:              $font-size-xs;
+$token-history-table-border-color:           $gray300;
+$token-history-table-border-width:           0.0625rem; // 1px
+$token-history-thead-color:                  $gray400;
+$token-history-thead-font-weight:            $font-weight-bold;
+$token-history-thead-bg-color:               $neutral100;
+$token-history-tbody-color:                  $gray800;
+
+// 관련 문서
+$token-related-border-color:                 $gray300;
+$token-related-border-width:                 0.0625rem; // 1px
+$token-related-border-radius:                0.125rem; // 2px
+$token-related-add-bg-color:                 $neutral50;
+
+$token-related-name-color:                   $gray800;
+$token-related-numbering-color:              $gray500;
+
+// 댓글
+$token-comment-border-color:                 $gray300;
+$token-comment-border-width:                 0.0625rem; // 1px
+$token-comment-border-radius:                0.125rem; // 2px
+
+$token-comment-user-name-color:              $gray800;
+$token-comment-time-color:                   $gray500;
 
 //////////////////////////// CI 모달 /////////////////////////
 $cmdb-ci-modal-width:                        62.5rem; // 1000px

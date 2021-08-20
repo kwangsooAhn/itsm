@@ -197,6 +197,7 @@ class FormService(
                         FormComponentDto(
                             id = component["id"] as String,
                             type = component["type"] as String,
+                            mapId = component["mapId"] as String,
                             isTopic = component["isTopic"] as Boolean,
                             tags = component["tags"] as List<AliceTagDto>,
                             value = component["value"] as String,

@@ -1323,21 +1323,21 @@ label {
   background-position-y: 50%;
 }
 .z-input.i-date-picker {
-  background-image: url("../../../media/icons/icon_date_picker.svg");
+  background-image: url("../../../media/icons/dateTimePicker/icon_date_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-time-picker {
-  background-image: url("../../../media/icons/icon_time_picker.svg");
+  background-image: url("../../../media/icons/dateTimePicker/icon_time_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-datetime-picker {
-  background-image: url("../../../media/icons/icon_date_time_picker.svg");
+  background-image: url("../../../media/icons/dateTimePicker/icon_date_time_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
@@ -3182,7 +3182,7 @@ table[id=documentDisplay] td {
 .z-token-content .document-row, .z-dashboard-content .document-row {
   padding: 1.875rem 3rem;
 }
-.z-token-content .document-row-content .document-title .document-numbering, .z-dashboard-content .document-row-content .document-title .document-numbering {
+.z-token-content .document-row-content .document-title .z-document-numbering, .z-dashboard-content .document-row-content .document-title .z-document-numbering {
   font-size: 1rem;
   font-weight: 400;
   color: #ACB4BF;
