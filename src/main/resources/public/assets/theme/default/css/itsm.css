@@ -1981,7 +1981,6 @@ input {
 
 label {
   margin: 0.625rem 0;
-  color: #3F4B56;
 }
 
 textarea {
@@ -6128,6 +6127,35 @@ body.modal-active {
 .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .list-body .list-row > td {
   display: inline-block;
   vertical-align: middle;
+}
+.modal-dialog.product-info-modal {
+  width: 26.875rem;
+  height: 31.25rem;
+}
+.modal-dialog.product-info-modal .modal-content {
+  margin: 1.25rem;
+  height: 30rem;
+  padding: 0.625rem;
+  border-color: #FFFFFF;
+}
+.modal-dialog.product-info-modal .modal-content label {
+  color: #8B9094;
+}
+.modal-dialog.product-info-modal .modal-content .i-logo {
+  height: 2.5rem;
+  margin-bottom: 1.875rem;
+}
+.modal-dialog.product-info-modal .modal-content .top-line {
+  color: #222529;
+  border-color: #FFFFFF;
+  border-width: 0.0625rem;
+  border-top-color: #8B9094;
+  border-style: ridge;
+  padding-top: 0.625rem;
+}
+.modal-dialog.product-info-modal .modal-content .product-href {
+  color: #339AF0;
+  margin: 0.625rem 0;
 }
 
 /* _thumbnail.scss 
