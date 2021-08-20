@@ -1171,6 +1171,7 @@ token:
     elementName: "업무 명"
     endDt: "완료 일시"
     history: "처리 이력"
+    information: "문서정보"
     list: "문서함"
     print: "처리할 문서 인쇄"
     relatedInstance: "관련 문서"
@@ -1389,3 +1390,4 @@ product:
     mainPhone: "대표전화 : 02-2205-6001"
     technicalSupport: "기술지원 : 02-2205-6031"
     productInquiry: "제품문의 : 02-2205-6009, 6015"
+    copyright: "ⓒ 2020 Brainzcompany. All rights reserved."

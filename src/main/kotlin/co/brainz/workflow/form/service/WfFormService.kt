@@ -149,8 +149,8 @@ class WfFormService(
                     val componentDto = FormComponentDto(
                         id = componentEntity.componentId,
                         type = componentEntity.componentType,
-                        isTopic = componentEntity.isTopic,
                         mapId = componentEntity.mappingId,
+                        isTopic = componentEntity.isTopic,
                         tags = aliceTagService.getTagsByTargetId(
                             AliceTagConstants.TagType.COMPONENT.code,
                             componentEntity.componentId
@@ -488,6 +488,7 @@ class WfFormService(
     ): WfComponentEntity {
         val tagList = component.tags as List<String>
         tagList.forEach { tagValue ->
+            // TODO: #11094 폼 디자이너 편집 화면 - 태그 저장시 에러 발생
             aliceTagRepository.save(
                 AliceTagEntity(
                     tagType = AliceTagConstants.TagType.COMPONENT.code,

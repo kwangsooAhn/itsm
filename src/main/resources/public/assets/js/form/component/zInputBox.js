@@ -13,7 +13,7 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { SESSION, CLASS_PREFIX, FORM } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv, UIInput } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
@@ -58,8 +58,6 @@ export const inputBoxMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInputbox = new UIInput().setUIPlaceholder(this.elementPlaceholder)
             .setUIRequired(this.validationRequired)
-            // TODO: 처리할 문서 - 그룹의 displayType에 따라서 readonly 처리
-            //.setUIReadOnly((this.parent.parent.displayType === FORM.DISPLAY_TYPE.READONLY))
             .setUIValue(this.getDefaultValue())
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('data-validation-type', this.validationValidationType)
@@ -71,7 +69,12 @@ export const inputBoxMixin = {
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {},
+    afterEvent() {
+        // 신청서 양식 편집 화면에 따른 처리
+        if (this.parent.parent.displayType === FORM.DISPLAY_TYPE.READONLY) {
+            this.UIElement.UIComponent.UIElement.UIInputbox.setUIReadOnly(true);
+        }
+    },
     set element(element) {
         this._element = element;
     },

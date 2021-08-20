@@ -238,7 +238,7 @@
             // 버튼
             if (this.options.buttons.length > 0) {
                 let buttons = document.createElement('div');
-                buttons.className = 'modal-bottom z-button-list flex-row float-right';
+                buttons.className = 'modal-bottom z-button-list flex-row float-right align-items-end';
 
                 for (let i = 0, len = this.options.buttons.length; i < len; i++) {
                     let button = document.createElement('button');

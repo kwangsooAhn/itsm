@@ -9,6 +9,7 @@ import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.provider.dto.RestTemplateActionDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
@@ -61,8 +62,8 @@ class DocumentActionService(
             val isAssignee = this.checkAssignee(tokenObject, userEntity)
             // 반환할 버튼 정보
             val actionsResult = this.getActionList(tokenObject, userEntity, isProgress, isAssignee)
-            // 해당 문서의 담당자가 아닌 경우, 모든 컴포넌트의 displayType을 readonly로 설정한다.
-            val components = tokenObject.get("form").asJsonObject.get("components").asJsonArray
+            // 해당 문서의 담당자가 아닌 경우, 모든 그룹의 displayType을 readonly로 설정한다.
+            val groups = tokenObject.get("form").asJsonObject.get("group").asJsonArray
             if (!isAssignee) {
                 for (action in actionsResult) {
                     if (action.asJsonObject.get("value").asString == WfElementConstants.Action.SAVE.value ||
@@ -71,10 +72,10 @@ class DocumentActionService(
                         action.asJsonObject.get("value").asString == WfElementConstants.Action.REJECT.value ||
                         action.asJsonObject.get("value").asString == WfElementConstants.Action.WITHDRAW.value
                     ) {
-                        for (component in components) {
-                            component.asJsonObject.get("dataAttribute").asJsonObject.addProperty(
+                        for (group in groups) {
+                            group.asJsonObject.addProperty(
                                 "displayType",
-                                "readonly"
+                                WfDocumentConstants.DisplayType.READONLY.value
                             )
                         }
                     }

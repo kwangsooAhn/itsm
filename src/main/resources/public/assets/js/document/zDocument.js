@@ -26,16 +26,14 @@ class ZDocument {
         this.documentModal = new modal({
             title: '',
             body: documentModalTemplate.content.cloneNode(true),
-            classes: 'document-modal-dialog document-container',
+            classes: 'document-modal-dialog z-document-container',
             buttons:[],
             close: { closable: false },
             onCreate: () => {
                 this.domElement = document.getElementById('documentDrawingBoard');
-                this.btnDomElement = document.getElementById('documentButtonArea');
             },
             onHide: () => {
                 this.domElement.innerHTML = '';
-                this.btnDomElement.innerHTML = '';
             }
         });
     }
@@ -51,11 +49,7 @@ class ZDocument {
             // 정렬 (기준 : displayOrder)
             this.sortJson(documentData.form);
             this.data = documentData;
-
-            const documentButtonArea =  document.getElementById('documentButtonArea');
-            documentButtonArea.innerHTML = '';
-
-            zFormButton.init(documentButtonArea, documentData, this);
+            zFormButton.init(documentData, this); // 버튼 초기화
             this.makeDocument(this.data.form); // Form 생성
             this.documentModal.show(); // 모달 표시
             aliceJs.initDesignedSelectTag();
@@ -104,35 +98,16 @@ class ZDocument {
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             const group = this.addObjectByType(FORM.LAYOUT.GROUP, data, parent, index);
-            // TODO: #10540 폼 리팩토링 - 신청서 양식 편집시 설계에 따라 바뀔 수 있음
-            // row 에 포함된 component displayType이 모두 hidden이면 group도 숨긴다.
-            const checkDisplay = data.row.some( (row) => row.component.some((component) =>
-                component.displayType !== FORM.DISPLAY_TYPE.HIDDEN));
-            if (!checkDisplay) {
-                group.UIElement.addUIClass('off');
-            }
             data.row.forEach( (r, rIndex) => {
                 this.makeDocument(r, group, rIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'component')) { // row
             const row = this.addObjectByType(FORM.LAYOUT.ROW, data, parent, index);
-            // TODO: #10540 폼 리팩토링 - 신청서 양식 편집시 설계에 따라 바뀔 수 있음
-            // component displayType 이 모두 hidden이면 row도 숨긴다.
-            const checkDisplay = data.component.some((component) =>
-                component.displayType !== FORM.DISPLAY_TYPE.HIDDEN);
-            if (!checkDisplay) {
-                row.UIElement.addUIClass('off');
-            }
             data.component.forEach( (c, cIndex) => {
                 this.makeDocument(c, row, cIndex);
             });
         } else { // component
-            const component = this.addObjectByType(FORM.LAYOUT.COMPONENT, data, parent, index);
-            // TODO: #10540 폼 리팩토링 - 신청서 양식 편집시 설계에 따라 바뀔 수 있음
-            // component displayType 이 hidden이면 component를 숨긴다.
-            if (data.displayType === FORM.DISPLAY_TYPE.HIDDEN) {
-                component.UIElement.addUIClass('off');
-            }
+            this.addObjectByType(FORM.LAYOUT.COMPONENT, data, parent, index);
         }
     }
     /**
