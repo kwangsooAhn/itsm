@@ -44,8 +44,10 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
             query.orderBy(statusNumber.asc())
                 .orderBy(form.updateDt.coalesce(form.createDt).desc())
         }
-        query.limit(formSearchCondition.contentNumPerPage)
-        query.offset((formSearchCondition.pageNum - 1) * formSearchCondition.contentNumPerPage)
+        if (formSearchCondition.isPaging) {
+            query.limit(formSearchCondition.contentNumPerPage)
+            query.offset((formSearchCondition.pageNum - 1) * formSearchCondition.contentNumPerPage)
+        }
 
         return query.fetchResults()
     }
