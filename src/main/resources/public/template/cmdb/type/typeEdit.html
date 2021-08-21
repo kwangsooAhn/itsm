@@ -1,83 +1,74 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/defaultLayout">
+      layout:decorate="~{layout/itsm/pageType/treeEditLayout}">
 <head>
     <title th:text="#{cmdb.type.label.management}"></title>
 </head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/lib/zPageMutationObserver.js}"></script>
+</th:block>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-cmdb-type-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{cmdb.type.label.management}"></h1>
-            <h6 class="description ml-2" th:text="#{cmdb.type.msg.searchDescription}"></h6>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{cmdb.type.label.management}"></h1>
+    <h6 class="description ml-2" th:text="#{cmdb.type.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
+           th:placeholder="#{cmdb.type.label.searchPlaceholder}"/>
+    <span id="totalCount" class="search-count"></span>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate" onclick="onCreate();"
+                sec:authorize="hasAuthority('cmdb.type.create')" th:text="#{common.btn.add}"></button>
+    </div>
+</div>
+<div layout:fragment="pageTree">
+    <div id="treeList"></div>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <div class="z-edit-row flex-column">
+            <label class="required" th:text="#{cmdb.type.label.parentType}" for="parentTypeName"></label>
+            <input class="z-input" id="parentTypeName" name="parentTypeName" type="text" maxlength="100" readonly/>
+            <input id="parentTypeId" name="parentTypeId" type="hidden"/>
         </div>
-        <div class="z-main-header-search flex-row">
-            <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
-                   th:placeholder="#{cmdb.type.label.searchPlaceholder}"/>
-            <span id="totalCount" class="search-count"></span>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate" onclick="onCreate();"
-                        sec:authorize="hasAuthority('cmdb.type.create')" th:text="#{common.btn.add}"></button>
+        <div class="z-edit-row flex-column">
+            <label class="required" th:text="#{cmdb.type.label.name}" for="typeName"></label>
+            <input class="z-input" id="typeName" name="typeName" type="text" maxlength="100"/>
+            <input id="typeId" name="typeId" type="hidden"/>
+            <input id="typeLevel" name="typeLevel" type="hidden"/>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label class="required" th:text="#{cmdb.type.label.alias}" for="typeAlias"></label>
+            <input class="z-input" id="typeAlias" name="typeAlias" type="text" maxlength="16"
+                   onkeyup="aliceJs.removeChar(event, regularCharacterReg, 'gi')"  />
+        </div>
+        <div class="z-edit-row flex-column">
+            <label th:text="#{cmdb.type.label.description}" for="typeDesc"></label>
+            <textarea id="typeDesc" name="typeDesc" th:maxlength="200" th:rows="7"
+                      class="z-textarea textarea-scroll-wrapper" text=""></textarea>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label class="required" th:text="#{cmdb.type.label.seq}" for="typeSeq"></label>
+            <input class="z-input" id="typeSeq" name="typeSeq" type="text"  maxlength="4"
+                   onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
+            <div class="flex-row z-input-button">
+                <input class="z-input col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
+                <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
+                <button class="z-button-search z-button form" name="typeIconSelector" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="z-cmdb-type-content flex-fill">
-        <div class="list-tree">
-            <div id="treeList"></div>
-        </div>
-    </div>
-</th:block>
-<th:block layout:fragment="aside">
-    <div class="z-aside tree">
-        <div class="z-cmdb-type-content-edit flex-column">
-            <div class="edit-form">
-                <div class="edit-row flex-column">
-                    <label class="required" th:text="#{cmdb.type.label.parentType}" for="parentTypeName"></label>
-                    <input class="z-input" id="parentTypeName" name="parentTypeName" type="text" maxlength="100" readonly/>
-                    <input id="parentTypeId" name="parentTypeId" type="hidden"/>
-                </div>
-                <div class="edit-row flex-column">
-                    <label class="required" th:text="#{cmdb.type.label.name}" for="typeName"></label>
-                    <input class="z-input" id="typeName" name="typeName" type="text" maxlength="100"/>
-                    <input id="typeId" name="typeId" type="hidden"/>
-                    <input id="typeLevel" name="typeLevel" type="hidden"/>
-                </div>
-                <div class="edit-row flex-column">
-                    <label class="required" th:text="#{cmdb.type.label.alias}" for="typeAlias"></label>
-                    <input class="z-input" id="typeAlias" name="typeAlias" type="text" maxlength="16"
-                           onkeyup="aliceJs.removeChar(event, regularCharacterReg, 'gi')"  />
-                </div>
-                <div class="edit-row flex-column">
-                    <label th:text="#{cmdb.type.label.description}" for="typeDesc"></label>
-                    <textarea id="typeDesc" name="typeDesc" th:maxlength="200" th:rows="7"
-                              class="z-textarea textarea-scroll-wrapper" text=""></textarea>
-                </div>
-                <div class="edit-row flex-column">
-                    <label class="required" th:text="#{cmdb.type.label.seq}" for="typeSeq"></label>
-                    <input class="z-input" id="typeSeq" name="typeSeq" type="text"  maxlength="4"
-                           onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
-                </div>
-                <div class="edit-row flex-column">
-                    <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
-                    <div class="flex-row z-input-button">
-                        <input class="z-input col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
-                        <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
-                        <button class="z-button-search z-button form" name="typeIconSelector" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
-                    </div>
-                </div>
-                <div class="edit-row flex-column">
-                    <label th:text="#{cmdb.type.label.class}" for="typeClass"></label>
-                    <div class="flex-row z-input-button">
-                        <input class="z-input col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
-                        <input id="typeClassId" name="typeClassId" type="hidden"/>
-                        <span class="z-icon i-clear" name="clearClass" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
-                        <button class="z-button-search z-button form" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
-                    </div>
-                </div>
+        <div class="z-edit-row flex-column">
+            <label th:text="#{cmdb.type.label.class}" for="typeClass"></label>
+            <div class="flex-row z-input-button">
+                <input class="z-input col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
+                <input id="typeClassId" name="typeClassId" type="hidden"/>
+                <span class="z-icon i-clear" name="clearClass" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
+                <button class="z-button-search z-button form" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
         <div class="flex-row justify-content-end">
@@ -94,243 +85,251 @@
             </div>
         </div>
     </div>
-</th:block>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-        const STATUS_SUCCESS = '0';
-        const STATUS_SUCCESS_EDIT_TYPE = '1';
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    const STATUS_SUCCESS = '0';
+    const STATUS_SUCCESS_EDIT_TYPE = '1';
+    let observer = aliceJs.pageObserver;
 
-        window.addEventListener('load', function() {
-            document.getElementById('search').focus();
-            onCreate();
+    window.addEventListener('load', function() {
+        observer.set();
+        document.getElementById('search').focus();
+        onCreate();
 
-            function getTypeList() {
-                const search = encodeURIComponent(document.querySelector('#search').value);
-                tree.load({
-                    source: 'ciType',
-                    dataUrl: '/rest/cmdb/types?search=' + search,
-                    target: 'treeList',
-                    text: 'typeName',
-                    totalCount: true,
-                    selectedNode: function(response) {
-                        onGetDetail(response.id);
-                        document.getElementById('typeLevel').value = response.getAttribute('data-depth');
-                    }
-                });
-            }
-            getTypeList();
-
-            // 상세조회
-            function onGetDetail(typeId) {
-                document.querySelectorAll('input[type=text]').forEach(function(object){
-                    object.value = '';
-                });
-                document.querySelector('textarea').value = '';
-
-                const opt = {
-                    method: 'get',
-                    url: '/rest/cmdb/types/' + typeId,
-                    showProgressbar: false,
-                    callbackFunc: function(response) {
-                        let responseJson = JSON.parse(response.responseText);
-                        document.getElementById('parentTypeName').setAttribute('readonly','');
-                        document.getElementById('parentTypeName').value = responseJson.ptypeName;
-                        document.getElementById('parentTypeId').value = responseJson.ptypeId;
-                        document.getElementById('typeName').value = responseJson.typeName;
-                        document.getElementById('typeId').value = responseJson.typeId;
-                        document.getElementById('typeDesc').value = responseJson.typeDesc;
-                        document.getElementById('typeSeq').value = responseJson.typeSeq;
-                        document.getElementById('typeAlias').value = responseJson.typeAlias;
-                        document.getElementById('typeIcon').value = responseJson.typeIcon;
-                        document.getElementById('typeClassId').value = responseJson.classId;
-                        document.getElementById('typeClass').value = responseJson.className;
-                        if (responseJson.pTypeId !== null) {
-                            document.querySelector('#btnUpdate').removeAttribute('disabled');
-                            document.querySelector('#btnDelete').removeAttribute('disabled');
-                            document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
-                            document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
-                            document.getElementById('typeAlias').readOnly = true;
-                        } else {
-                            document.getElementById('btnUpdate').disabled = true;
-                            document.getElementById('btnDelete').disabled = true;
-                            document.getElementById('btnDelete').disabled = true;
-                            document.querySelector('button[name=typeIconSelector]').disabled = true;
-                            document.querySelector('button[name=typeClassSelector]').disabled = true;
-                        }
-                        onEdit();
-                    }
-                };
-                aliceJs.sendXhr(opt);
-            }
-            OverlayScrollbars(document.querySelector('.list-tree'), { className: 'scrollbar' });
-            document.getElementById('search').addEventListener('keyup', function() {
-                getTypeList();
-            });
-            OverlayScrollbars(document.querySelector('.type-content-edit'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelectorAll('#typeDesc'), {
-                className: 'scrollbar',
-                resize: 'vertical',
-                sizeAutoCapable: true,
-                textarea: {
-                    dynHeight: false,
-                    dynWidth: false,
-                    inheritedAttrs: "class"
+        function getTypeList() {
+            const search = encodeURIComponent(document.querySelector('#search').value);
+            tree.load({
+                source: 'ciType',
+                dataUrl: '/rest/cmdb/types?search=' + search,
+                target: 'treeList',
+                text: 'typeName',
+                totalCount: true,
+                selectedNode: function(response) {
+                    onGetDetail(response.id);
+                    document.getElementById('typeLevel').value = response.getAttribute('data-depth');
                 }
             });
-        });
+        }
+        getTypeList();
 
-        /** create **/
-        function onCreate() {
-            document.querySelector('#btnUpdate').style.display = 'none';
-            document.querySelector('#btnDelete').style.display = 'none';
-            document.querySelector('#btnRegist').style.display = 'block';
-            document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
-            document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
-            document.querySelectorAll('input[type=text]:not(.inherit)').forEach(function(object){
+        // 상세조회
+        function onGetDetail(typeId) {
+            if (!observer.canPageChange()) {
+                return;
+            }
+            document.querySelectorAll('input[type=text]').forEach(function(object){
                 object.value = '';
             });
             document.querySelector('textarea').value = '';
-            document.querySelector('input[name=typeAlias]').removeAttribute('readOnly');
 
-            let selectedNode = tree.getTreeSelectNode();
-            if (selectedNode !== null) {
-                document.querySelector('#parentTypeName').value = selectedNode.dataset.name;
-                document.querySelector('#parentTypeId').value = selectedNode.id;
-            }
-        }
-
-        function onEdit() {
-            document.querySelector('#btnUpdate').style.display = 'block';
-            document.querySelector('#btnDelete').style.display = 'block';
-            document.querySelector('#btnRegist').style.display = 'none';
-        }
-
-        /** save **/
-        function onSave(method) {
-            const jsonData = {
-                typeId: document.getElementById('typeId').value,
-                pTypeId: document.getElementById('parentTypeId').value,
-                typeName: document.getElementById('typeName').value,
-                typeAlias: document.getElementById('typeAlias').value,
-                typeDesc: document.getElementById('typeDesc').value,
-                typeSeq: document.getElementById('typeSeq').value,
-                typeIcon: document.getElementById('typeIcon').value,
-                classId: document.getElementById('typeClassId').value,
-                className: document.getElementById('typeClass').value,
-                typeLevel: document.getElementById('typeLevel').value
-            };
-            if (jsonData.pTypeId === null || jsonData.pTypeId.trim() === '') {
-                aliceAlert.alertWarning([[#{cmdb.type.msg.enterPType}]]);
-                return false;
-            }
-            if (jsonData.typeName === null || jsonData.typeName.trim() === '') {
-                aliceAlert.alertWarning([[#{cmdb.type.msg.enterTypeName}]]);
-                return false;
-            }
-            if (jsonData.typeSeq === null || jsonData.typeSeq.trim() === '') {
-                aliceAlert.alertWarning([[#{cmdb.type.msg.enterTypeSeq}]]);
-                return false;
-            }
-            if (jsonData.typeAlias === null || jsonData.typeAlias.trim() === '') {
-                aliceAlert.alertWarning([[#{cmdb.type.msg.enterTypeAlias}]]);
-                return false;
-            }
-            let url = '/rest/cmdb/types';
-            if (method !== 'post') {
-                url += '/' + document.getElementById('typeId').value;
-            }
             const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(jsonData),
-                contentType: 'application/json',
-                callbackFunc: function (response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
-                                window.location.href = '/cmdb/types/edit';
-                            });
-                            break;
-                        case STATUS_SUCCESS_EDIT_TYPE:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.update'), function () {
-                                window.location.href = '/cmdb/types/edit';
-                            });
-                            break;
-                        default:
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /** delete **/
-        function onDelete() {
-            const opt = {
-                method: 'delete',
-                url: '/rest/cmdb/types/' + document.getElementById('typeId').value,
+                method: 'get',
+                url: '/rest/cmdb/types/' + typeId,
+                showProgressbar: false,
                 callbackFunc: function(response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
-                                window.location.href ='/cmdb/types/edit';
-                            });
-                            break;
-                        default:
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                            break;
+                    let responseJson = JSON.parse(response.responseText);
+                    document.getElementById('parentTypeName').setAttribute('readonly','');
+                    document.getElementById('parentTypeName').value = responseJson.ptypeName;
+                    document.getElementById('parentTypeId').value = responseJson.ptypeId;
+                    document.getElementById('typeName').value = responseJson.typeName;
+                    document.getElementById('typeId').value = responseJson.typeId;
+                    document.getElementById('typeDesc').value = responseJson.typeDesc;
+                    document.getElementById('typeSeq').value = responseJson.typeSeq;
+                    document.getElementById('typeAlias').value = responseJson.typeAlias;
+                    document.getElementById('typeIcon').value = responseJson.typeIcon;
+                    document.getElementById('typeClassId').value = responseJson.classId;
+                    document.getElementById('typeClass').value = responseJson.className;
+                    if (responseJson.pTypeId !== null) {
+                        document.querySelector('#btnUpdate').removeAttribute('disabled');
+                        document.querySelector('#btnDelete').removeAttribute('disabled');
+                        document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+                        document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
+                        document.getElementById('typeAlias').readOnly = true;
+                    } else {
+                        document.getElementById('btnUpdate').disabled = true;
+                        document.getElementById('btnDelete').disabled = true;
+                        document.getElementById('btnDelete').disabled = true;
+                        document.querySelector('button[name=typeIconSelector]').disabled = true;
+                        document.querySelector('button[name=typeClassSelector]').disabled = true;
                     }
+                    onEdit();
+                    observer.isChanged = false;
                 }
             };
             aliceJs.sendXhr(opt);
         }
-
-        /** CMDB-Icon **/
-        function iconPopUp() {
-            if (document.getElementById('parentTypeId').value !== '') {
-                aliceJs.thumbnail({
-                    title: i18n.msg('cmdb.type.label.icon'),
-                    targetId: 'typeIcon',
-                    type: 'cmdb-icon',
-                    isThumbnailInfo: false,
-                    isFilePrefix: false,
-                    thumbnailDoubleClickUse: true,
-                    selectedPath: document.querySelector('#typeIcon').value,
-                });
-            } else {
-                aliceAlert.alertWarning([[#{cmdb.type.msg.selectType}]]);
+        OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
+        document.getElementById('search').addEventListener('keyup', function() {
+            getTypeList();
+        });
+        OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
+        OverlayScrollbars(document.getElementById('typeDesc'), {
+            className: 'scrollbar',
+            resize: 'vertical',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: "class"
             }
-        }
+        });
+    });
 
-        /** Type-Class **/
-        function classPopUp() {
-            if (isNotEmpty('parentTypeId')) {
-                tree.load({
-                    view: 'modal',
-                    title: i18n.msg('cmdb.type.label.class'),
-                    source: 'ciClass',
-                    dataUrl: '/rest/cmdb/classes',
-                    rootAvailable: false,
-                    target: 'modalTreeList',
-                    text: 'className',
-                    selectedValue: document.getElementById('typeClassId').value,
-                    callbackFunc: function(response) {
-                        if (response.id !== 'root') {
-                            document.querySelector('#typeClass').value = response.dataset.name;
-                            document.querySelector('#typeClassId').value = response.id;
-                        } else {
-                            aliceAlert.alertWarning([[#{cmdb.type.msg.selectAvailableClass}]]);
-                        }
+    /** create **/
+    function onCreate() {
+        if (!observer.canPageChange()) {
+            return;
+        }
+        document.querySelector('#btnUpdate').style.display = 'none';
+        document.querySelector('#btnDelete').style.display = 'none';
+        document.querySelector('#btnRegist').style.display = 'block';
+        document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+        document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
+        document.querySelectorAll('input[type=text]:not(.inherit)').forEach(function(object){
+            object.value = '';
+        });
+        document.querySelector('textarea').value = '';
+        document.querySelector('input[name=typeAlias]').removeAttribute('readOnly');
+
+        let selectedNode = tree.getTreeSelectNode();
+        if (selectedNode !== null) {
+            document.querySelector('#parentTypeName').value = selectedNode.dataset.name;
+            document.querySelector('#parentTypeId').value = selectedNode.id;
+        }
+        observer.isChanged = false;
+    }
+
+    function onEdit() {
+        document.querySelector('#btnUpdate').style.display = 'block';
+        document.querySelector('#btnDelete').style.display = 'block';
+        document.querySelector('#btnRegist').style.display = 'none';
+    }
+
+    /** save **/
+    function onSave(method) {
+        const jsonData = {
+            typeId: document.getElementById('typeId').value,
+            pTypeId: document.getElementById('parentTypeId').value,
+            typeName: document.getElementById('typeName').value,
+            typeAlias: document.getElementById('typeAlias').value,
+            typeDesc: document.getElementById('typeDesc').value,
+            typeSeq: document.getElementById('typeSeq').value,
+            typeIcon: document.getElementById('typeIcon').value,
+            classId: document.getElementById('typeClassId').value,
+            className: document.getElementById('typeClass').value,
+            typeLevel: document.getElementById('typeLevel').value
+        };
+        if (jsonData.pTypeId === null || jsonData.pTypeId.trim() === '') {
+            aliceAlert.alertWarning([[#{cmdb.type.msg.enterPType}]]);
+            return false;
+        }
+        if (jsonData.typeName === null || jsonData.typeName.trim() === '') {
+            aliceAlert.alertWarning([[#{cmdb.type.msg.enterTypeName}]]);
+            return false;
+        }
+        if (jsonData.typeSeq === null || jsonData.typeSeq.trim() === '') {
+            aliceAlert.alertWarning([[#{cmdb.type.msg.enterTypeSeq}]]);
+            return false;
+        }
+        if (jsonData.typeAlias === null || jsonData.typeAlias.trim() === '') {
+            aliceAlert.alertWarning([[#{cmdb.type.msg.enterTypeAlias}]]);
+            return false;
+        }
+        let url = '/rest/cmdb/types';
+        if (method !== 'post') {
+            url += '/' + document.getElementById('typeId').value;
+        }
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(jsonData),
+            contentType: 'application/json',
+            callbackFunc: function (response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
+                            window.location.href = '/cmdb/types/edit';
+                        });
+                        break;
+                    case STATUS_SUCCESS_EDIT_TYPE:
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.update'), function () {
+                            window.location.href = '/cmdb/types/edit';
+                        });
+                        break;
+                    default:
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        break;
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    /** delete **/
+    function onDelete() {
+        const opt = {
+            method: 'delete',
+            url: '/rest/cmdb/types/' + document.getElementById('typeId').value,
+            callbackFunc: function(response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
+                            window.location.href ='/cmdb/types/edit';
+                        });
+                        break;
+                    default:
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        break;
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    /** CMDB-Icon **/
+    function iconPopUp() {
+        if (document.getElementById('parentTypeId').value !== '') {
+            aliceJs.thumbnail({
+                title: i18n.msg('cmdb.type.label.icon'),
+                targetId: 'typeIcon',
+                type: 'cmdb-icon',
+                isThumbnailInfo: false,
+                isFilePrefix: false,
+                thumbnailDoubleClickUse: true,
+                selectedPath: document.querySelector('#typeIcon').value,
+            });
+        } else {
+            aliceAlert.alertWarning([[#{cmdb.type.msg.selectType}]]);
+        }
+    }
+
+    /** Type-Class **/
+    function classPopUp() {
+        if (isNotEmpty('parentTypeId')) {
+            tree.load({
+                view: 'modal',
+                title: i18n.msg('cmdb.type.label.class'),
+                source: 'ciClass',
+                dataUrl: '/rest/cmdb/classes',
+                rootAvailable: false,
+                target: 'modalTreeList',
+                text: 'className',
+                selectedValue: document.getElementById('typeClassId').value,
+                callbackFunc: function(response) {
+                    if (response.id !== 'root') {
+                        document.querySelector('#typeClass').value = response.dataset.name;
+                        document.querySelector('#typeClassId').value = response.id;
+                    } else {
+                        aliceAlert.alertWarning([[#{cmdb.type.msg.selectAvailableClass}]]);
                     }
-                });
-            } else {
-                aliceAlert.alertWarning([[#{cmdb.type.msg.selectType}]]);
-            }
+                }
+            });
+        } else {
+            aliceAlert.alertWarning([[#{cmdb.type.msg.selectType}]]);
         }
-        /*]]>*/
-    </script>
-</th:block>
+    }
+    /*]]>*/
+</script>
 </html>

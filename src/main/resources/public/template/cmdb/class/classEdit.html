@@ -1,74 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/defaultLayout">
+      layout:decorate="~{layout/itsm/pageType/treeEditLayout}">
 <head>
     <title th:text="#{cmdb.class.label.management}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-cmdb-class-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{cmdb.class.label.management}"></h1>
-            <h6 class="description ml-2" th:text="#{cmdb.class.msg.editDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row">
-            <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
-                   th:placeholder="#{cmdb.class.label.searchPlaceholder}"/>
-            <span id="totalCount" class="search-count"></span>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate" onclick="onCreate();"
-                        sec:authorize="hasAuthority('cmdb.class.create')" th:text="#{common.btn.add}"></button>
-            </div>
-        </div>
-    </div>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/lib/zPageMutationObserver.js}"></script>
 </th:block>
-<th:block layout:fragment="content">
-    <div class="z-cmdb-class-content flex-fill">
-        <div class="list-tree">
-            <div id="treeList"></div>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{cmdb.class.label.management}"></h1>
+    <h6 class="description ml-2" th:text="#{cmdb.class.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
+           th:placeholder="#{cmdb.class.label.searchPlaceholder}"/>
+    <span id="totalCount" class="search-count"></span>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate" onclick="onCreate();"
+                sec:authorize="hasAuthority('cmdb.class.create')" th:text="#{common.btn.add}"></button>
     </div>
-</th:block>
-<th:block layout:fragment="aside">
-    <div class="z-aside">
-        <div class="z-cmdb-class-content-edit flex-column">
-            <div class="edit-form">
-                <input type="hidden" id="txtClassId" name="txtClassId"/>
-                <input type="hidden" id="txtPClassId" name="txtPClassId"/>
-                <div class="edit-row flex-column">
-                    <label class="form-title" th:text="#{cmdb.class.label.pClassName}" for="txtPClassName"></label>
-                    <input type="text" class="z-input" id="txtPClassName" name="txtPClassName" maxlength="128" readonly/>
-                </div>
-                <div class="edit-row flex-column">
-                    <label class="required" th:text="#{cmdb.class.label.name}" for="txtClassName"></label>
-                    <input type="text" class="z-input" id="txtClassName" name="txtClassName" maxlength="100"/>
-                </div>
-                <div class="edit-row flex-column">
-                    <label class="form-title" th:text="#{cmdb.class.label.description}" for="txtClassDesc"></label>
-                    <textarea id="txtClassDesc" name="txtClassDesc" th:maxlength="500" th:rows="7"
-                              class="z-textarea textarea-scroll-wrapper"></textarea>
-                </div>
-                <div class="edit-row flex-column">
-                    <label class="required" th:text="#{cmdb.class.label.seq}" for="txtClassSeq"></label>
-                    <input type="text" class="z-input" id="txtClassSeq" name="txtClassSeq" maxlength="4"
-                           onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
-                </div>
-                <div class="edit-row flex-column">
-                    <div class="under-bar">
-                        <label>
-                            <span class="required" th:text="#{cmdb.class.label.attributeList}"></span>
-                            <button type="button" class="z-button-icon float-right"
-                                    onclick="openClassAttributeListModal()">
-                                <span class="z-icon i-plus"></span>
-                            </button>
-                        </label>
-                    </div>
-                </div>
-                <div id="extendsAttributeList"></div>
-                <div id="attributeList"></div>
+</div>
+<div layout:fragment="pageTree">
+    <div id="treeList"></div>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <input type="hidden" id="txtClassId" name="txtClassId"/>
+        <input type="hidden" id="txtPClassId" name="txtPClassId"/>
+        <div class="z-edit-row flex-column">
+            <label class="form-title" th:text="#{cmdb.class.label.pClassName}" for="txtPClassName"></label>
+            <input type="text" class="z-input" id="txtPClassName" name="txtPClassName" maxlength="128" readonly/>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label class="required" th:text="#{cmdb.class.label.name}" for="txtClassName"></label>
+            <input type="text" class="z-input" id="txtClassName" name="txtClassName" maxlength="100"/>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label class="form-title" th:text="#{cmdb.class.label.description}" for="txtClassDesc"></label>
+            <textarea id="txtClassDesc" name="txtClassDesc" th:maxlength="500" th:rows="7"
+                      class="z-textarea textarea-scroll-wrapper"></textarea>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label class="required" th:text="#{cmdb.class.label.seq}" for="txtClassSeq"></label>
+            <input type="text" class="z-input" id="txtClassSeq" name="txtClassSeq" maxlength="4"
+                   onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+        </div>
+        <div class="z-edit-row flex-column flex-fill">
+            <div class="flex-row justify-content-between">
+                <label class="required" th:text="#{cmdb.class.label.attributeList}"></label>
+                <button type="button" class="z-button-icon float-right"
+                        onclick="openClassAttributeListModal()">
+                    <span class="z-icon i-plus"></span>
+                </button>
             </div>
+            <div class="under-bar"></div>
+            <div id="extendsAttributeList"></div>
+            <div id="attributeList"></div>
         </div>
         <div class="flex-row justify-content-end">
             <div class="z-button-list">
@@ -85,340 +75,347 @@
             </div>
         </div>
     </div>
-</th:block>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-        const STATUS_SUCCESS = '0';
-        const STATUS_SUCCESS_EDIT_CLASS = '1';
-        const STATUS_FAILE_CLASS_HAVE_TYPE = '2';
-        let extendsAttributeList = document.getElementById('extendsAttributeList');
-        let attributeList = document.getElementById('attributeList');
-        let classAttributeMap = new Map();
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    const STATUS_SUCCESS = '0';
+    const STATUS_SUCCESS_EDIT_CLASS = '1';
+    const STATUS_FAILE_CLASS_HAVE_TYPE = '2';
+    let extendsAttributeList = document.getElementById('extendsAttributeList');
+    let attributeList = document.getElementById('attributeList');
+    let classAttributeMap = new Map();
+    let observer = aliceJs.pageObserver;
 
-        window.onload = function () {
-            document.getElementById('search').focus();
-            onCreate();
+    window.onload = function () {
+        observer.set();
+        document.getElementById('search').focus();
+        onCreate();
 
-            function getCIClassList() {
-                const search = encodeURIComponent(document.getElementById('search').value);
-                tree.load({
-                    source: 'ciClass',
-                    dataUrl: '/rest/cmdb/classes?search=' + search,
-                    target: 'treeList',
-                    text: 'className',
-                    totalCount: true,
-                    selectedNode: function (response) {
-                        onGetDetail(response.id)
-                    }
-                });
-            }
-
-            getCIClassList();
-            document.getElementById('root').click();
-
-            /** CMDB Class 상세 정보 **/
-            function onGetDetail(ciClassId) {
-                const opt = {
-                    method: 'get',
-                    url: '/rest/cmdb/classes/' + encodeURIComponent(ciClassId),
-                    showProgressbar: false,
-                    callbackFunc: function (response) {
-                        let responseJson = JSON.parse(response.responseText);
-                        document.getElementById('txtClassId').value = responseJson.classId;
-                        document.getElementById('txtPClassId').value = responseJson.pclassId;
-                        document.getElementById('txtPClassName').value = responseJson.pclassName;
-                        document.getElementById('txtClassName').value = responseJson.className;
-                        document.getElementById('txtClassDesc').value = responseJson.classDesc;
-                        document.getElementById('txtClassSeq').value = responseJson.classSeq;
-
-                        if (responseJson.editable) {
-                            document.getElementById('btnUpdate').removeAttribute('disabled');
-                            document.getElementById('btnDelete').removeAttribute('disabled');
-                        } else {
-                            document.getElementById('btnUpdate').disabled = true;
-                            document.getElementById('btnDelete').disabled = true;
-                        }
-                        while (extendsAttributeList.hasChildNodes()) {
-                            extendsAttributeList.removeChild(extendsAttributeList.firstChild);
-                        }
-                        while (attributeList.hasChildNodes()) {
-                            attributeList.removeChild(attributeList.firstChild);
-                        }
-                        if (responseJson.extendsAttributes !== null) {
-                            responseJson.extendsAttributes.forEach(function (data) {
-                                drawAttribute({
-                                    key: data.attributeId,
-                                    value: data.attributeName
-                                }, 'extendsAttribute', false);
-                            });
-                        }
-                        classAttributeMap.clear();
-                        if (responseJson.attributes !== null) {
-                            responseJson.attributes.forEach(function (data) {
-                                classAttributeMap.set(data.attributeId, data.attributeName);
-                                drawAttribute({
-                                    key: data.attributeId,
-                                    value: data.attributeName
-                                }, 'attribute', responseJson.editable);
-                            });
-                        }
-                        onEdit();
-                    }
-                };
-                aliceJs.sendXhr(opt);
-            }
-
-            OverlayScrollbars(document.querySelector('.list-tree'), {className: 'scrollbar'});
-            document.getElementById('search').addEventListener('keyup', function () {
-                getCIClassList();
-            });
-            OverlayScrollbars(document.querySelectorAll('.cmdb-class-content-edit'), {className: 'scrollbar'});
-            OverlayScrollbars(document.getElementById('txtClassDesc'), {
-                className: 'scrollbar',
-                resize: 'vertical',
-                sizeAutoCapable: true,
-                textarea: {
-                    dynHeight: false,
-                    dynWidth: false,
-                    inheritedAttrs: "class"
+        function getCIClassList() {
+            const search = encodeURIComponent(document.getElementById('search').value);
+            tree.load({
+                source: 'ciClass',
+                dataUrl: '/rest/cmdb/classes?search=' + search,
+                target: 'treeList',
+                text: 'className',
+                totalCount: true,
+                selectedNode: function (response) {
+                    onGetDetail(response.id)
                 }
             });
-        };
-
-        /** 추가 버튼 **/
-        function onCreate() {
-            while (extendsAttributeList.hasChildNodes()) {
-                extendsAttributeList.removeChild(extendsAttributeList.firstChild);
-            }
-            while (attributeList.hasChildNodes()) {
-                attributeList.removeChild(attributeList.firstChild);
-            }
-            classAttributeMap.clear();
-
-            document.getElementById('btnUpdate').style.display = 'none';
-            document.getElementById('btnDelete').style.display = 'none';
-            document.getElementById('btnRegister').style.display = 'block';
-            document.getElementById('txtClassId').value = '';
-            document.getElementById('txtPClassId').value = '';
-            document.getElementById('txtClassName').value = '';
-            document.getElementById('txtClassDesc').value = '';
-            document.getElementById('txtClassSeq').value = '';
-
-            let selectedNode = tree.getTreeSelectNode();
-            if (selectedNode !== null) {
-                document.getElementById('txtPClassName').value = selectedNode.dataset.name;
-                document.getElementById('txtPClassId').value = selectedNode.id;
-            }
         }
 
-        function onEdit() {
-            document.getElementById('btnUpdate').style.display = 'block';
-            document.getElementById('btnDelete').style.display = 'block';
-            document.getElementById('btnRegister').style.display = 'none';
-        }
+        getCIClassList();
+        document.getElementById('root').click();
 
-        /** CMDB Class 등록, 수정 **/
-        function onSave(flag) {
-            let pClassId = document.getElementById('txtPClassId').value;
-            if (isEmpty('txtClassName', 'cmdb.class.msg.enterClassName')) return;
-            if (isEmpty('txtClassSeq', 'cmdb.class.msg.enterClassSeq')) return;
-            if (document.getElementsByName('attribute').length === 0) {
-                aliceAlert.alertWarning(i18n.msg("cmdb.class.msg.enterAttributeList"));
+        /** CMDB Class 상세 정보 **/
+        function onGetDetail(ciClassId) {
+            if (!observer.canPageChange()) {
                 return;
             }
-            let attributeList = [];
-            document.getElementsByName('attribute').forEach(function (elem) {
-                attributeList.push(elem.id);
-            });
-
-            let obj = {};
-            obj.classId = document.getElementById('txtClassId').value;
-            obj.className = document.getElementById('txtClassName').value;
-            obj.classDesc = document.getElementById('txtClassDesc').value;
-            obj.classSeq = document.getElementById('txtClassSeq').value;
-            obj.attributes = attributeList;
-
-            if (pClassId !== '' || pClassId !== null) {
-                obj.pclassId = pClassId;
-            }
-
-            let strUrl = '/rest/cmdb/classes';
-            if (flag !== 'post') {
-                strUrl += '/' + document.getElementById('txtClassId').value;
-            }
-
-            const opt = {
-                method: flag,
-                url: strUrl,
-                params: JSON.stringify(obj),
-                contentType: 'application/json',
-                callbackFunc: function (response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
-                                window.location.href = '/cmdb/class/edit';
-                            });
-                            break;
-                        case STATUS_SUCCESS_EDIT_CLASS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.update'), function () {
-                                window.location.href = '/cmdb/class/edit';
-                            });
-                            break;
-                        default:
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /** CMDB Class 삭제 **/
-        function onDelete() {
-            const opt = {
-                method: 'delete',
-                url: '/rest/cmdb/classes/' + document.getElementById('txtClassId').value,
-                callbackFunc: function (response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
-                                window.location.href = '/cmdb/class/edit';
-                            });
-                            break;
-                        case STATUS_FAILE_CLASS_HAVE_TYPE:
-                            aliceAlert.alertDanger(i18n.msg('cmdb.class.msg.relatedTypes'));
-                            break;
-                        default:
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt)
-        }
-
-        function drawAttribute(param, target, editable) {
-            const divRow = document.createElement('div');
-            divRow.name = 'attributeDiv';
-            divRow.classList.add('edit-row', 'flex-row');
-
-            const inputElem = document.createElement('input');
-            inputElem.type = 'text';
-            inputElem.id = param.key;
-            inputElem.name = target;
-            inputElem.value = (typeof param !== 'undefined') ? param.value : '';
-            inputElem.classList.add('z-input', 'attribute');
-            inputElem.readOnly = true;
-
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'z-button-icon extra';
-            const deleteIcon = document.createElement('span');
-            deleteIcon.className = 'z-icon i-delete';
-            deleteBtn.appendChild(deleteIcon);
-            deleteBtn.addEventListener('click', function () {
-                aliceAlert.confirm(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), function () {
-                    const row = deleteBtn.parentNode;
-                    classAttributeMap.delete(inputElem.id);
-                    row.remove();
-                }, null);
-            });
-            divRow.appendChild(inputElem);
-            if (editable) {
-                inputElem.readOnly = false;
-                divRow.appendChild(deleteBtn);
-            }
-            if (editable) {
-                document.getElementById('attributeList').appendChild(divRow);
-            } else {
-                document.getElementById('extendsAttributeList').appendChild(divRow);
-            }
-        }
-
-        function openClassAttributeListModal() {
-            const classAttributeListModal = new modal({
-                title: i18n.msg('cmdb.class.label.attributeList'),
-                body: createModalContent(),
-                classes: 'cmdb-class-attribute-modal',
-                buttons: [{
-                    content: i18n.msg('common.btn.select'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function (modal) {
-                        while (attributeList.hasChildNodes()) {
-                            attributeList.removeChild(attributeList.firstChild);
-                        }
-                        classAttributeMap.forEach(function (value, key) {
-                            drawAttribute({
-                                key: key,
-                                value: value
-                            }, 'attribute', true);
-                        });
-                        modal.hide();
-                    }
-                }, {
-                    content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function (modal) {
-                        modal.hide();
-                    }
-                }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function (modal) {
-                    document.getElementById('attributeSearch').addEventListener('keyup', function () {
-                        getAttributeList(this.value, false);
-                    });
-                    getAttributeList(document.getElementById('attributeSearch').value, true);
-                }
-            });
-            classAttributeListModal.show();
-        }
-
-        function createModalContent() {
-            return `<div class="cmdb-class-attribute-list">` +
-                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
-                `<div class="table-set" id="ciClassAttributeList"></div>` +
-                `</div>`;
-        }
-
-        function getAttributeList(search, showProgressbar) {
-            let classId = document.getElementById('txtClassId').value;
-            let strUrl = '/cmdb/class/view-pop/attributes?search=' + search.trim() + '&classId=' + classId;
-
             const opt = {
                 method: 'get',
-                url: strUrl,
-                contentType: 'application/json',
-                showProgressbar: showProgressbar,
+                url: '/rest/cmdb/classes/' + encodeURIComponent(ciClassId),
+                showProgressbar: false,
                 callbackFunc: function (response) {
-                    document.getElementById('ciClassAttributeList').innerHTML = response.responseText;
-                    aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
-                    OverlayScrollbars(document.querySelector('.z-list-body'), {className: 'scrollbar'});
-                    document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
-                        checkbox.addEventListener('change', function (e) {
-                            if (e.target.checked) {
-                                classAttributeMap.set(e.target.value, e.target.name);
-                            } else {
-                                classAttributeMap.delete(e.target.value);
-                            }
+                    let responseJson = JSON.parse(response.responseText);
+                    document.getElementById('txtClassId').value = responseJson.classId;
+                    document.getElementById('txtPClassId').value = responseJson.pclassId;
+                    document.getElementById('txtPClassName').value = responseJson.pclassName;
+                    document.getElementById('txtClassName').value = responseJson.className;
+                    document.getElementById('txtClassDesc').value = responseJson.classDesc;
+                    document.getElementById('txtClassSeq').value = responseJson.classSeq;
+
+                    if (responseJson.editable) {
+                        document.getElementById('btnUpdate').removeAttribute('disabled');
+                        document.getElementById('btnDelete').removeAttribute('disabled');
+                    } else {
+                        document.getElementById('btnUpdate').disabled = true;
+                        document.getElementById('btnDelete').disabled = true;
+                    }
+                    while (extendsAttributeList.hasChildNodes()) {
+                        extendsAttributeList.removeChild(extendsAttributeList.firstChild);
+                    }
+                    while (attributeList.hasChildNodes()) {
+                        attributeList.removeChild(attributeList.firstChild);
+                    }
+                    if (responseJson.extendsAttributes !== null) {
+                        responseJson.extendsAttributes.forEach(function (data) {
+                            drawAttribute({
+                                key: data.attributeId,
+                                value: data.attributeName
+                            }, 'extendsAttribute', false);
                         });
-                        classAttributeMap.forEach(function (value, key) {
-                            if (checkbox.value === key) {
-                                checkbox.checked = true;
-                            }
+                    }
+                    classAttributeMap.clear();
+                    if (responseJson.attributes !== null) {
+                        responseJson.attributes.forEach(function (data) {
+                            classAttributeMap.set(data.attributeId, data.attributeName);
+                            drawAttribute({
+                                key: data.attributeId,
+                                value: data.attributeName
+                            }, 'attribute', responseJson.editable);
                         });
-                    });
+                    }
+                    onEdit();
+                    observer.isChanged = false;
                 }
             };
             aliceJs.sendXhr(opt);
         }
 
-        /*]]>*/
-    </script>
-</th:block>
+        OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
+        document.getElementById('search').addEventListener('keyup', function () {
+            getCIClassList();
+        });
+        OverlayScrollbars(document.querySelector('.z-page-edit'), {className: 'scrollbar'});
+        OverlayScrollbars(document.getElementById('txtClassDesc'), {
+            className: 'scrollbar',
+            resize: 'vertical',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: "class"
+            }
+        });
+    };
 
+    /** 추가 버튼 **/
+    function onCreate() {
+        if (!observer.canPageChange()) {
+            return;
+        }
+        while (extendsAttributeList.hasChildNodes()) {
+            extendsAttributeList.removeChild(extendsAttributeList.firstChild);
+        }
+        while (attributeList.hasChildNodes()) {
+            attributeList.removeChild(attributeList.firstChild);
+        }
+        classAttributeMap.clear();
+
+        document.getElementById('btnUpdate').style.display = 'none';
+        document.getElementById('btnDelete').style.display = 'none';
+        document.getElementById('btnRegister').style.display = 'block';
+        document.getElementById('txtClassId').value = '';
+        document.getElementById('txtPClassId').value = '';
+        document.getElementById('txtClassName').value = '';
+        document.getElementById('txtClassDesc').value = '';
+        document.getElementById('txtClassSeq').value = '';
+
+        let selectedNode = tree.getTreeSelectNode();
+        if (selectedNode !== null) {
+            document.getElementById('txtPClassName').value = selectedNode.dataset.name;
+            document.getElementById('txtPClassId').value = selectedNode.id;
+        }
+        observer.isChanged = false;
+    }
+
+    function onEdit() {
+        document.getElementById('btnUpdate').style.display = 'block';
+        document.getElementById('btnDelete').style.display = 'block';
+        document.getElementById('btnRegister').style.display = 'none';
+    }
+
+    /** CMDB Class 등록, 수정 **/
+    function onSave(flag) {
+        let pClassId = document.getElementById('txtPClassId').value;
+        if (isEmpty('txtClassName', 'cmdb.class.msg.enterClassName')) return;
+        if (isEmpty('txtClassSeq', 'cmdb.class.msg.enterClassSeq')) return;
+        if (document.getElementsByName('attribute').length === 0) {
+            aliceAlert.alertWarning(i18n.msg("cmdb.class.msg.enterAttributeList"));
+            return;
+        }
+        let attributeList = [];
+        document.getElementsByName('attribute').forEach(function (elem) {
+            attributeList.push(elem.id);
+        });
+
+        let obj = {};
+        obj.classId = document.getElementById('txtClassId').value;
+        obj.className = document.getElementById('txtClassName').value;
+        obj.classDesc = document.getElementById('txtClassDesc').value;
+        obj.classSeq = document.getElementById('txtClassSeq').value;
+        obj.attributes = attributeList;
+
+        if (pClassId !== '' || pClassId !== null) {
+            obj.pclassId = pClassId;
+        }
+
+        let strUrl = '/rest/cmdb/classes';
+        if (flag !== 'post') {
+            strUrl += '/' + document.getElementById('txtClassId').value;
+        }
+
+        const opt = {
+            method: flag,
+            url: strUrl,
+            params: JSON.stringify(obj),
+            contentType: 'application/json',
+            callbackFunc: function (response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
+                            window.location.href = '/cmdb/class/edit';
+                        });
+                        break;
+                    case STATUS_SUCCESS_EDIT_CLASS:
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.update'), function () {
+                            window.location.href = '/cmdb/class/edit';
+                        });
+                        break;
+                    default:
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        break;
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    /** CMDB Class 삭제 **/
+    function onDelete() {
+        const opt = {
+            method: 'delete',
+            url: '/rest/cmdb/classes/' + document.getElementById('txtClassId').value,
+            callbackFunc: function (response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                            window.location.href = '/cmdb/class/edit';
+                        });
+                        break;
+                    case STATUS_FAILE_CLASS_HAVE_TYPE:
+                        aliceAlert.alertDanger(i18n.msg('cmdb.class.msg.relatedTypes'));
+                        break;
+                    default:
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        break;
+                }
+            }
+        };
+        aliceJs.sendXhr(opt)
+    }
+
+    function drawAttribute(param, target, editable) {
+        const divRow = document.createElement('div');
+        divRow.name = 'attributeDiv';
+        divRow.classList.add('edit-row', 'flex-row');
+
+        const inputElem = document.createElement('input');
+        inputElem.type = 'text';
+        inputElem.id = param.key;
+        inputElem.name = target;
+        inputElem.value = (typeof param !== 'undefined') ? param.value : '';
+        inputElem.classList.add('z-input', 'attribute');
+        inputElem.readOnly = true;
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'z-button-icon extra';
+        const deleteIcon = document.createElement('span');
+        deleteIcon.className = 'z-icon i-delete';
+        deleteBtn.appendChild(deleteIcon);
+        deleteBtn.addEventListener('click', function () {
+            aliceAlert.confirm(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), function () {
+                const row = deleteBtn.parentNode;
+                classAttributeMap.delete(inputElem.id);
+                row.remove();
+                observer.isChanged = true;
+            }, null);
+        });
+        divRow.appendChild(inputElem);
+        if (editable) {
+            inputElem.readOnly = false;
+            divRow.appendChild(deleteBtn);
+        }
+        if (editable) {
+            document.getElementById('attributeList').appendChild(divRow);
+        } else {
+            document.getElementById('extendsAttributeList').appendChild(divRow);
+        }
+        observer.set();
+    }
+
+    function openClassAttributeListModal() {
+        const classAttributeListModal = new modal({
+            title: i18n.msg('cmdb.class.label.attributeList'),
+            body: createModalContent(),
+            classes: 'cmdb-class-attribute-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.select'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: function (modal) {
+                    while (attributeList.hasChildNodes()) {
+                        attributeList.removeChild(attributeList.firstChild);
+                    }
+                    classAttributeMap.forEach(function (value, key) {
+                        drawAttribute({
+                            key: key,
+                            value: value
+                        }, 'attribute', true);
+                    });
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function (modal) {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function (modal) {
+                document.getElementById('attributeSearch').addEventListener('keyup', function () {
+                    getAttributeList(this.value, false);
+                });
+                getAttributeList(document.getElementById('attributeSearch').value, true);
+            }
+        });
+        classAttributeListModal.show();
+    }
+
+    function createModalContent() {
+        return `<div class="cmdb-class-attribute-list">` +
+            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
+            `<div class="table-set" id="ciClassAttributeList"></div>` +
+            `</div>`;
+    }
+
+    function getAttributeList(search, showProgressbar) {
+        let classId = document.getElementById('txtClassId').value;
+        let strUrl = '/cmdb/class/view-pop/attributes?search=' + search.trim() + '&classId=' + classId;
+
+        const opt = {
+            method: 'get',
+            url: strUrl,
+            contentType: 'application/json',
+            showProgressbar: showProgressbar,
+            callbackFunc: function (response) {
+                document.getElementById('ciClassAttributeList').innerHTML = response.responseText;
+                aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
+                document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
+                    checkbox.addEventListener('change', function (e) {
+                        if (e.target.checked) {
+                            classAttributeMap.set(e.target.value, e.target.name);
+                        } else {
+                            classAttributeMap.delete(e.target.value);
+                        }
+                    });
+                    classAttributeMap.forEach(function (value, key) {
+                        if (checkbox.value === key) {
+                            checkbox.checked = true;
+                        }
+                    });
+                });
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+    /*]]>*/
+</script>
 </html>

@@ -53,6 +53,7 @@ common:
     emptyData: "-"
   msg:
     confirmDelete: "Are you sure you want to delete?"
+    confirmNotSave: "You have unsaved changes. Do you want to move without saving?"
     dataSelect: "Please select data."
     delete: "Deleted."
     deleteTartget: "Please select target."
