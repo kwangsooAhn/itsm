@@ -6,6 +6,9 @@
 <head>
     <title th:text="#{code.label.code}"></title>
 </head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/lib/zPageMutationObserver.js}"></script>
+</th:block>
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{code.label.code}"></h1>
@@ -16,7 +19,7 @@
            th:placeholder="#{code.label.searchPlaceholder}"/>
     <span id="totalCount" class="search-count"></span>
     <div class="ml-auto">
-        <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate" onclick="onCreate();"
+        <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate"
                 sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
@@ -61,14 +64,12 @@
         <div class="z-edit-row flex-column flex-fill">
             <div class="flex-row justify-content-between">
                 <label th:text="#{code.label.codeLang}"></label>
-                <button type="button" class="z-button-icon extra float-right" onclick="drawCodeLang()">
+                <button type="button" class="z-button-icon extra float-right" id="btnCodeLang">
                     <span class="z-icon i-plus"></span>
                 </button>
             </div>
             <div class="under-bar"></div>
-            <div id="codeLangScroll">
-                <div id="codeLang"></div>
-            </div>
+            <div id="codeLang"></div>
         </div>
         <div class="flex-row justify-content-end">
             <div class="z-button-list">
@@ -109,8 +110,13 @@
     let CODE_CREATE = false;
     let CODE_UPDATE = false;
     const sessionKey = 'code_expand_key';
+    let observer = aliceJs.pageObserver;
 
     window.addEventListener('load', function () {
+        observer.set();
+        document.getElementById('btnCreate').addEventListener('click',onCreate);
+        document.getElementById('btnCodeLang').addEventListener('click',drawCodeLang);
+
         OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-page-edit'), {className: 'scrollbar'});
         OverlayScrollbars(document.getElementById('txtCodeDesc'), {className: 'scrollbar'});
@@ -148,6 +154,9 @@
         getCodeList();
 
         function onGetDetail(codeId) {
+            if (!observer.canPageChange()) {
+                return;
+            }
             document.querySelectorAll('input[type=text]').forEach(function (object) {
                 object.value = '';
             });
@@ -190,16 +199,19 @@
                         document.querySelector('#btnRegist').setAttribute('disabled', 'true');
                     }
                     onEdit();
+                    observer.isChanged = false;
                 }
             };
-
             aliceJs.sendXhr(opt);
         }
     });
 
-
     /** create **/
     function onCreate() {
+        if (!observer.canPageChange()) {
+            return;
+        }
+
         if (CODE_UPDATE) {
             document.querySelector('#btnUpdate').style.display = 'none';
             document.querySelector('#btnUpdate').setAttribute('disabled', 'true');
@@ -218,11 +230,13 @@
         document.querySelector('textarea').value = '';
         document.querySelector('#txtCode').removeAttribute('disabled');
         document.querySelector('#txtPCode').removeAttribute('disabled');
+        document.getElementById('codeLang').innerHTML = '';
 
         let selectedNode = tree.getTreeSelectNode();
         if (selectedNode !== null) {
             document.querySelector('#txtPCode').value = selectedNode.id;
         }
+        observer.isChanged = false;
     }
 
     function onEdit() {
@@ -250,19 +264,19 @@
         };
 
         if (jsonData.code === null || jsonData.code.trim() === '') {
-            aliceAlert.alertWarning([[#{code.msg.enterCode}]]);
+            aliceAlert.alertWarning('[[#{code.msg.enterCode}]]');
             return false;
         }
 
         if (jsonData.pCode === null || jsonData.pCode.trim() === '') {
-            aliceAlert.alertWarning([[#{code.msg.enterPCode}]]);
+            aliceAlert.alertWarning('[[#{code.msg.enterPCode}]]');
             return false;
         }
 
         const codeLangList = document.querySelectorAll('input[name=codeLangValue]');
         for (let i = 0; i < codeLangList.length; i++) {
             if (codeLangList[i].value.trim() === "") {
-                aliceAlert.alertWarning(i18n.msg('code.msg.enterCodeLangValue'));
+                aliceAlert.alertWarning('[[#{code.msg.enterCodeLangValue}]]');
                 return false;
             }
         }
@@ -362,15 +376,17 @@
             selectTag.appendChild(selectOption);
         }
 
-        langCodeRow.querySelector('input').value = param.codeLangValue;
+        langCodeRow.querySelector('input').value = (typeof param.codeLangValue !== 'undefined') ? param.codeLangValue : '';
         const deleteBtn = langCodeRow.querySelector('button.z-button-icon');
         deleteBtn.addEventListener('click', function () {
             const row = deleteBtn.parentNode;
             row.remove();
+            observer.isChanged = true;
         });
 
         document.getElementById('codeLang').appendChild(langCodeRow);
         aliceJs.initDesignedSelectTag(document.querySelector('#codeLang'));
+        observer.set();
     }
 
     function initCodeLang(param) {
@@ -385,7 +401,6 @@
             }
         }
     }
-
     /*]]>*/
 </script>
 </html>

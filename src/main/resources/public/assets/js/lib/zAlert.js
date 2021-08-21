@@ -425,6 +425,7 @@ aliceAlert.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                         okCallbackFunc.apply(null, params);
                     }
                     modal.hide();
+                    return true;
                 }
             },
             {
@@ -435,6 +436,7 @@ aliceAlert.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                         cancelCallbackFunc();
                     }
                     modal.hide();
+                    return false;
                 }
             }
         ],
