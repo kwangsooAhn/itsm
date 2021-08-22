@@ -42,7 +42,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 super.like(customCode.type, customCodeSearchCondition.searchType)
             )
             .where(
-                super.like(customCode.customCodeName, customCodeSearchCondition.searchValue.toString())
+                super.like(customCode.customCodeName, customCodeSearchCondition.searchValue)
             )
             .orderBy(customCode.customCodeName.asc())
         if (customCodeSearchCondition.viewType != "editor") {

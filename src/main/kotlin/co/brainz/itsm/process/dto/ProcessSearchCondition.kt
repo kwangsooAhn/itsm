@@ -18,8 +18,9 @@ import java.io.Serializable
 data class ProcessSearchCondition(
     val searchValue: String? = null,
     val status: String? = null,
-    val pageNum: Long = 1L,
+    val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
     val statusArray: List<String>? = status?.split(",")
+    val isPaging = pageNum > 0;
 }

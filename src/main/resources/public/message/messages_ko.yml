@@ -53,6 +53,7 @@ common:
     emptyData: "-"
   msg:
     confirmDelete: "정말 삭제하시겠습니까?"
+    confirmNotSave: "저장되지 않은 변경사항이 있습니다. 저장하지 않고 이동하시겠습니까?"
     dataSelect: "데이터를 선택하세요."
     delete: "삭제되었습니다."
     deleteTartget: "삭제 대상을 선택하세요."
@@ -1390,3 +1391,4 @@ product:
     mainPhone: "대표전화 : 02-2205-6001"
     technicalSupport: "기술지원 : 02-2205-6031"
     productInquiry: "제품문의 : 02-2205-6009, 6015"
+    copyright: "ⓒ 2020 Brainzcompany. All rights reserved."

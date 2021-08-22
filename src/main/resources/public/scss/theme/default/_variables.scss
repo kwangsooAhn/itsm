@@ -272,3 +272,22 @@ $chart-edit-modal-height:                    53.0625rem; // 849px
 
 ///////////////////////// 사용자 정의 차트 미리보기 모달 /////////////////////////
 $chart-view-modal-width:                     62.5rem;  // 1000px
+
+/////////////////////// 제품 정보 모달 /////////////////////////////////
+$product-info-modal-width:                   26.875rem; // 430px;
+$product-info-modal-height:                  31.25rem; // 500px
+
+$product-info-modal-content-margin:          1.25rem; // 20px
+$product-info-modal-content-margin-bottom:   1.875rem; //30px
+$product-info-modal-content-padding:         0.625rem; // 10px
+$product-info-modal-content-height:          30rem; // 480px
+$product-info-modal-content-border-color:    $white;
+$product-info-modal-content-icon-height:     2.5rem; // 40px
+$product-info-modal-content-href-color:      $blue500;
+$product-info-modal-content-color:           $gray500;
+
+$product-info-modal-line-color:              $gray800;
+$product-info-modal-line-border-color:       $white;
+$product-info-modal-line-border-width:       0.0625rem; //1px
+$product-info-modal-line-border-top-color:   $gray500;
+$product-info-modal-line-padding-top:        0.625rem; //10px

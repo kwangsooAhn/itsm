@@ -190,7 +190,43 @@
       }
     }
   }
-
+}
+// treeEditTemplate
+@mixin treeEditTemplate() {
+  .z-page-column-item {
+    display: flex;
+    flex: 1; // flex: 1 1 0;
+    padding: 0 1.875rem; // 30px
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+    }
+    .z-page-tree {
+      flex: 1;
+      margin-top: 0.9375rem; // 15px
+    }
+    // 역할, 권한, 코드 화면의 우측 영역
+    .z-page-edit {
+      display: flex;
+      flex-direction: column;
+      flex: 1 0 100%; // 고정
+      background-color: $layout-aside-bg-color;
+      padding: 2.1875rem 0; // 35px 0
+      .z-edit-form {
+        display: flex;
+        flex-direction: column;
+        padding: 0 2.5rem 0 2.5rem; // 0 40px 0 40px
+        .z-edit-row {
+          margin-top: 0.625rem; // 10px
+        }
+        .z-button-list {
+          margin: 1.875rem 0;
+        } // 30px
+      }
+    }
+  }
 }
 // list
 /*
