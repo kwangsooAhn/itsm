@@ -763,7 +763,7 @@ form:
     email: "Email"
     group:
       columnContent: "컬럼 내용"
-      columnElement: "사용자 유형"
+      columnElement: "사용자 입력"
       columnHead: "컬럼 제목"
       columnValidation: "입력 데이터 유효성 검사"
       display: "출력속성"

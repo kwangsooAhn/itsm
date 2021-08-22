@@ -115,7 +115,7 @@
       margin-left : 0.625rem; // 10px
       &.off { display: none; }
     }
-    .select {
+    .z-select {
       display: block;
       margin-left: 0.625rem; // 10px
       &.off { display: none; }
@@ -178,7 +178,7 @@
       .z-panel {
         @include relative();
         margin-top: 0.625rem;
-        padding: 0.625rem 0; // 10px 0
+        padding-top: 0.625rem;
         @include border(0.0625rem, solid, $gray300, all); // 1px
 
         .z-panel-common {
@@ -212,6 +212,15 @@
           .z-button-switch,
           .z-button-toggle {
             padding: 0.25rem  0.5625rem; // 4px 9px
+          }
+        }
+
+        // individual panel 내부 중복 border 제거
+        .z-panel-individual > .property-group {
+          border: none;
+
+          &:last-child {
+            @include border(0.0625rem, solid, $gray300, top); // 1px
           }
         }
       }

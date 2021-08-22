@@ -6143,11 +6143,11 @@ body.modal-active {
 .property .default-type .z-input.off {
   display: none;
 }
-.property .default-type .select {
+.property .default-type .z-select {
   display: block;
   margin-left: 0.625rem;
 }
-.property .default-type .select.off {
+.property .default-type .z-select.off {
   display: none;
 }
 .property .picker-wrapper-date .datepicker,
@@ -6192,7 +6192,7 @@ body.modal-active {
 .property .z-tab-panel .z-panels .z-panel {
   position: relative;
   margin-top: 0.625rem;
-  padding: 0.625rem 0;
+  padding-top: 0.625rem;
   border: 0.0625rem solid #CFD5D9;
 }
 .property .z-tab-panel .z-panels .z-panel .z-panel-common .panel-name {
@@ -6224,4 +6224,10 @@ body.modal-active {
 .property .z-tab-panel .z-panels .z-panel .z-button-toggle-group .z-button-switch,
 .property .z-tab-panel .z-panels .z-panel .z-button-toggle-group .z-button-toggle {
   padding: 0.25rem 0.5625rem;
+}
+.property .z-tab-panel .z-panels .z-panel .z-panel-individual > .property-group {
+  border: none;
+}
+.property .z-tab-panel .z-panels .z-panel .z-panel-individual > .property-group:last-child {
+  border-top: 0.0625rem solid #CFD5D9;
 }
