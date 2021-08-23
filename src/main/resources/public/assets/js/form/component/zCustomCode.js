@@ -26,7 +26,7 @@ import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/zD
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        defaultValueCustomCode: '', // 커스텀코드 기본값 (폼 디자이너에서 설정한 값)
+        defaultValueCustomCode: '' // 커스텀코드 기본값 (폼 디자이너에서 설정한 값)
     },
     validation: {
         required: false // 필수값 여부

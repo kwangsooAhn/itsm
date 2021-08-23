@@ -492,8 +492,6 @@ const zFileUploader = (function () {
 
                         validation(this, file, 'fileUploader');
                         exportFile = file;
-
-
                     });
 
                     this.on('removedfile', function (file) {

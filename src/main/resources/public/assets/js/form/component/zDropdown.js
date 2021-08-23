@@ -111,7 +111,7 @@ export const dropdownMixin = {
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
-        console.log(e.target.value);
+
         this.value = e.target.value;
     },
     // 세부 속성 조회
