@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{report.label.template}"></title>
+    <title th:text="${template != null} ? #{report.label.templateEdit} : #{report.label.templateRegister}"></title>
 </head>
 <body>
+<th:block layout:fragment="head">
+    <div class="z-report-template-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
+            <h1 th:text="#{report.label.template}"></h1>
+            <h6 class="description ml-2" th:text="#{report.msg.editDescription}"></h6>
+        </div>
+    </div>
+</th:block>
 <th:block layout:fragment="content">
     <div class="flex-column z-edit">
-        <div class="report-template-header">
-            <div class="header-title flex-row align-items-baseline">
-                <h1 th:text="#{report.label.template}"></h1>
-                <h6 class="description ml-2" th:text="#{report.msg.editDescription}"></h6>
-            </div>
-        </div>
-        <div class="report-template-content-edit">
+        <div class="z-report-template-content-edit">
             <div class="flex-column z-edit-row">
                 <label for="templateName">
                     <span th:text="#{report.label.templateName}"></span>
@@ -37,7 +39,7 @@
                     <input type="checkbox" id="automatic" name="automatic"
                            th:checked="${template?.automatic == true}">
                     <span></span>
-                    <span class="label" th:text="#{report.label.automatic}"></span>
+                    <span class="z-label" th:text="#{report.label.automatic}"></span>
                 </label>
             </div>
             <div class="flex-column z-edit-row">
@@ -108,24 +110,25 @@
             if (typeof data !== 'undefined' && data !== null) {
                 property = data;
             }
+            if (chartList != null) {
+                const options = chartList.map(function (option) {
+                    return `<option value="${option.chartId}" ${property.chartId === option.chartId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.chartName)}</option>`;
+                }).join('');
+                let rowId = ZWorkflowUtil.generateUUID();
+                let rowElement =
+                    `<div class="flex-row mt-2">` +
+                    `<div class="flex-column col-11"><select name="chart" id="${rowId}_chart">${options}</select></div>` +
+                    `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
+                    `</div>`;
+                target.insertAdjacentHTML('beforeend', rowElement);
 
-            const options = chartList['data'].map(function (option) {
-                return `<option value="${option.chartId}" ${property.chartId === option.chartId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.chartName)}</option>`;
-            }).join('');
-            let rowId = ZWorkflowUtil.generateUUID();
-            let rowElement =
-                `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-11"><select name="chart" id="${rowId}_chart">${options}</select></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
-                `</div>`;
-            target.insertAdjacentHTML('beforeend', rowElement);
-
-            const deleteBtn = document.getElementById(rowId + '_delete');
-            deleteBtn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                this.parentElement.parentElement.remove();
-            });
-            aliceJs.initDesignedSelectTag();
+                const deleteBtn = document.getElementById(rowId + '_delete');
+                deleteBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    this.parentElement.parentElement.remove();
+                });
+                aliceJs.initDesignedSelectTag();
+            }
         }
 
         // 유효성 검사(중복 차트 체크)

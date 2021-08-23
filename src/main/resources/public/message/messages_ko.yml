@@ -1104,7 +1104,9 @@ report:
     search: "보고서 조회"
     searchPlaceholder: "템플릿 명"
     template: "템플릿"
+    templateEdit: "템플릿 수정"
     templateName: "템플릿 명"
+    templateRegister: "템플릿 등록"
   msg:
     configDescription: "사용자 정의 차트를 이용한 템플릿을 설정합니다."
     duplicateChart: "중복된 차트가 존재합니다."

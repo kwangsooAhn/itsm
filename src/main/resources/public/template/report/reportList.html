@@ -1,35 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-</head>
+<head></head>
 <body>
-<input th:type="hidden" id="totalCount" name="totalCount" th:value="${reportListCount}"/>
-<table class="list-table">
-    <thead class="list-head">
+<table class="z-list-table">
+    <thead class="z-list-head">
     <tr class="flex-row align-items-center">
         <th style="width:50%;" class="align-left" th:text="#{report.label.reportName}"></th>
         <th style="width:30%;" class="align-center" th:text="#{report.label.publishDate}"></th>
         <th style="width:20%;" class="align-center" th:text="#{report.label.download}"></th>
     </tr>
     </thead>
-    <tbody class="list-body">
+    <tbody class="z-list-body">
     <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(reportList)}">
-        <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
+        <td style="width:100%" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>
-    <th:block th:fragment="list">
-        <tr class="flex-row align-items-center" th:each="report : ${reportList}">
-            <td style="width: 50%" class="align-left underline">
-                <a th:text="${report.reportName}" th:href="@{/reports/report/{id}/view(id=${report.reportId})}" th:target="_blank"></a>
-            </td>
-            <td style="width:30%;" class="align-center date-time" name="createDt" th:text="${report.publishDt}"></td>
-            <td style="width:20%;" class="align-center">
-                <button class="z-button secondary" th:text="DOWN" onclick="download()"></button>
-            </td>
-        </tr>
-    </th:block>
-    </tbody>
+    <tr class="flex-row align-items-center" th:each="report : ${reportList}">
+        <td style="width: 50%" class="align-left underline">
+            <a th:text="${report.reportName}" th:href="@{/reports/report/{id}/view(id=${report.reportId})}" th:target="_blank"></a>
+        </td>
+        <td style="width:30%;" class="align-center date-time" name="createDt" th:text="${report.publishDt}"></td>
+        <td style="width:20%;" class="align-center">
+            <button class="z-button secondary" th:text="DOWN" onclick="download()"></button>
+        </td>
+    </tr>
 </table>
+<th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 </body>
 </html>

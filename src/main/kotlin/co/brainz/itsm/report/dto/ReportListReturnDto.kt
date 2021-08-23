@@ -5,9 +5,10 @@
 
 package co.brainz.itsm.report.dto
 
+import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
 data class ReportListReturnDto(
     val data: List<ReportListDto> = emptyList(),
-    val totalCount: Long = 0
+    val paging: AlicePagingData
 ) : Serializable

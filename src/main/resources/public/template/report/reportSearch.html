@@ -1,123 +1,134 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
-    <title th:text="#{report.label.config}"></title>
+    <title th:text="#{menu.report.report}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="board-admin-header">
-        <div class="header-title flex-row align-items-baseline">
-            <h1 th:text="#{report.label.search}"></h1>
-            <h6 class="description ml-2" th:text="#{report.msg.searchDescription}"></h6>
-        </div>
-        <div class="header-search flex-row">
-            <input type="hidden" sec:authorize="hasAuthority('report.create') || hasAuthority('report.update')"
-                   th:name="isRole" th:value="true"/>
-            <input type="hidden" sec:authorize="!hasAuthority('report.create') && !hasAuthority('report.update')"
-                   th:name="isRole" th:value="false"/>
-            <form id="searchFrm">
-                <select id="search" name="search" class="col-3">
-                    <option value="" th:text="#{report.template.all}"></option>
-                    <option th:each="template: ${templateList}" th:value="${template.templateId}" th:text="#{${template.templateName}}"></option>
-                </select>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-        </div>
-    </div>
-    <div class="board-admin-content flex-fill">
-        <div class="list" id="reportList"></div>
-    </div>
-</th:block>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{menu.report.report}"></h1>
+    <h6 class="description ml-2" th:text="#{report.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="hidden" sec:authorize="hasAuthority('report.create') || hasAuthority('report.update')"
+           th:name="isRole" th:value="true"/>
+    <input type="hidden" sec:authorize="!hasAuthority('report.create') && !hasAuthority('report.update')"
+           th:name="isRole" th:value="false"/>
+    <form id="searchFrm">
+        <select id="searchTemplate" name="searchTemplate" class="col-3">
+            <option value="" th:text="#{report.template.all}"></option>
+            <option th:each="template: ${templateList}" th:value="${template.templateId}" th:text="#{${template.templateName}}"></option>
+        </select>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="reportList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <!--<script type = "text/javascript" src = "http://code.jquery.com/jquery-latest.min.js"></script>-->
-    <script type = "text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-    <script type = "text/javascript" src = "https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        let offsetCount = 0;
-        window.onload = function() {
-            document.getElementById('search').addEventListener('change', function() { getReportList(false); });
-            document.getElementById('search').addEventListener('keyup', function() { getReportList(false); });
-            getReportList(false);
-        };
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    let offsetCount = 0;
+    window.onload = function() {
+        document.getElementById('searchTemplate').addEventListener('change', function() { getList(); });
+        getList();
+    };
 
-        function getReportList(isScroll) {
-            let urlParam = '';
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
+    function getList(pageNum = 1) {
+        restSearchSubmit('get', '/reports/report?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+    }
+
+    function restSearchSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                document.getElementById('reportList').innerHTML = response.responseText;
+                setDateTimeFormat(document.getElementById('reportList'));
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
+                    className: 'scrollbar'
+                });
             }
-            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSubmit('get', '/reports/report?' + urlParam, isScroll);
-        }
+        };
+        aliceJs.sendXhr(opt);
+    }
 
-        // REST API
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                callbackFunc: function(response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const schedulerTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        setDateTimeFormat(tbody);
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        schedulerTbody.appendChild(container)
-                    } else {
-                        document.getElementById('reportList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        setDateTimeFormat(document.getElementById('reportList'));
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            getReportList(true);
-                                        }
+    /*function getReportList(isScroll) {
+        let urlParam = '';
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.searchDataCount;
+            }
+        } else {
+            offsetCount = 0;
+        }
+        urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+        restSubmit('get', '/reports/report?' + urlParam, isScroll);
+    }*/
+
+    // REST API
+    /*function restSubmit(method, url, isScroll) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            callbackFunc: function(response) {
+                if (isScroll) {
+                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                        offsetCount = offsetCount + aliceJs.searchDataCount;
+                    }
+                    const schedulerTbody = document.querySelector('.list-body .os-content');
+                    const tbody = document.createElement('tbody');
+                    tbody.innerHTML = response.responseText;
+                    setDateTimeFormat(tbody);
+                    const container = document.createDocumentFragment();
+                    for (let i = 0; i < tbody.rows.length; i++) {
+                        let node = tbody.rows[i].cloneNode(true);
+                        container.appendChild(node);
+                    }
+                    schedulerTbody.appendChild(container)
+                } else {
+                    document.getElementById('reportList').innerHTML = response.responseText;
+                    aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                    setDateTimeFormat(document.getElementById('reportList'));
+                    OverlayScrollbars(document.querySelector('.list-body'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        getReportList(true);
                                     }
                                 }
                             }
-                        });
-                    }
-                },
-                showProgressbar: false
-            };
-            aliceJs.sendXhr(opt);
-        }
+                        }
+                    });
+                }
+            },
+            showProgressbar: false
+        };
+        aliceJs.sendXhr(opt);
+    }*/
 
-        /**
-         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-         */
-        function setDateTimeFormat(elem) {
-            elem.querySelectorAll('.date-time').forEach(dt => {
-                dt.textContent = i18n.userDateTime(dt.textContent.trim());
-            });
-        }
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+        });
+    }
 
-        function download() {
-            console.log('DOWNLOAD')
-        }
-        /*]]>*/
-    </script>
-</th:block>
+    function download() {
+        console.log('DOWNLOAD')
+    }
+    /*]]>*/
+</script>
 </html>

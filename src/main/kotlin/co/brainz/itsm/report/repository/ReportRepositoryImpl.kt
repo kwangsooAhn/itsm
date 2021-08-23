@@ -6,8 +6,8 @@
 
 package co.brainz.itsm.report.repository
 
+import co.brainz.itsm.report.dto.ReportCondition
 import co.brainz.itsm.report.dto.ReportListDto
-import co.brainz.itsm.report.dto.ReportSearchDto
 import co.brainz.itsm.report.entity.QReportEntity
 import co.brainz.itsm.report.entity.ReportEntity
 import com.querydsl.core.QueryResults
@@ -18,9 +18,9 @@ import org.springframework.stereotype.Repository
 @Repository
 class ReportRepositoryImpl : QuerydslRepositorySupport(ReportEntity::class.java), ReportRepositoryCustom {
 
-    override fun getReportList(reportSearchDto: ReportSearchDto): QueryResults<ReportListDto> {
+    override fun getReportList(reportCondition: ReportCondition): QueryResults<ReportListDto> {
         val report = QReportEntity.reportEntity
-        val query = from(report)
+        return from(report)
             .select(
                 Projections.constructor(
                     ReportListDto::class.java,
@@ -32,15 +32,11 @@ class ReportRepositoryImpl : QuerydslRepositorySupport(ReportEntity::class.java)
                 )
             )
             .where(
-                super.like(report.template.templateId, reportSearchDto.search.toString())
+                super.like(report.template.templateId, reportCondition.searchTemplate)
             )
-        query.orderBy(report.publishDt.desc())
-        if (reportSearchDto.limit != null && reportSearchDto.limit > - 1) {
-            query.limit(reportSearchDto.limit)
-        }
-        if (reportSearchDto.offset != null && reportSearchDto.offset > -1) {
-            query.offset(reportSearchDto.offset)
-        }
-        return query.fetchResults()
+            .orderBy(report.publishDt.desc())
+            .limit(reportCondition.contentNumPerPage)
+            .offset((reportCondition.pageNum - 1) * reportCondition.contentNumPerPage)
+            .fetchResults()
     }
 }

@@ -8,21 +8,24 @@ package co.brainz.itsm.report.service
 import co.brainz.cmdb.dto.RestTemplateReturnDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.mapper.ChartMapper
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.chart.service.ChartService
+import co.brainz.itsm.report.dto.ReportTemplateCondition
 import co.brainz.itsm.report.dto.ReportTemplateDetailDto
 import co.brainz.itsm.report.dto.ReportTemplateDto
 import co.brainz.itsm.report.dto.ReportTemplateListDto
 import co.brainz.itsm.report.dto.ReportTemplateListReturnDto
 import co.brainz.itsm.report.dto.ReportTemplateMapDto
-import co.brainz.itsm.report.dto.ReportTemplateSearchDto
 import co.brainz.itsm.report.entity.ReportTemplateEntity
 import co.brainz.itsm.report.entity.ReportTemplateMapEntity
+import co.brainz.itsm.report.repository.ReportRepository
 import co.brainz.itsm.report.repository.ReportTemplateMapRepository
 import co.brainz.itsm.report.repository.ReportTemplateRepository
 import com.fasterxml.jackson.core.type.TypeReference
@@ -30,6 +33,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.lang.Math.ceil
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.mapstruct.factory.Mappers
@@ -41,6 +45,7 @@ class ReportTemplateService(
     private val aliceUserRepository: AliceUserRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val reportTemplateRepository: ReportTemplateRepository,
+    private val reportRepository: ReportRepository,
     private val reportTemplateMapRepository: ReportTemplateMapRepository,
     private val chartRepository: ChartRepository,
     private val chartService: ChartService
@@ -53,10 +58,10 @@ class ReportTemplateService(
     /**
      * 템플릿 목록 조회
      */
-    fun getReportTemplateList(reportTemplateSearchDto: ReportTemplateSearchDto): ReportTemplateListReturnDto {
-        val templateList = reportTemplateRepository.getReportTemplateList(reportTemplateSearchDto)
+    fun getReportTemplateList(reportTemplateCondition: ReportTemplateCondition): ReportTemplateListReturnDto {
+        val queryResult = reportTemplateRepository.getReportTemplateList(reportTemplateCondition)
         val reportTemplateList = mutableListOf<ReportTemplateListDto>()
-        templateList.results.forEach { template ->
+        queryResult.results.forEach { template ->
             val chartList = mutableListOf<ChartDto>()
             template.charts?.forEach { it ->
                 val chartEntity = chartRepository.findChartEntityByChartId(it.chartId)
@@ -78,7 +83,13 @@ class ReportTemplateService(
 
         return ReportTemplateListReturnDto(
             data = reportTemplateList,
-            totalCount = reportTemplateList.size.toLong()
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = reportTemplateRepository.count(),
+                currentPageNum = reportTemplateCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            )
         )
     }
 
@@ -235,6 +246,9 @@ class ReportTemplateService(
             }
             else -> {
                 reportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
+                templateEntity.reports?.forEach {
+                    reportRepository.delete(it)
+                }
                 reportTemplateRepository.delete(templateEntity)
             }
         }

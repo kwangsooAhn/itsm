@@ -1104,7 +1104,9 @@ report:
     search: "Report Search"
     searchPlaceholder: "Template name"
     template: "Template"
+    templateEdit: "Template Edit"
     templateName: "Template Name"
+    templateRegister: "Template Register"
   msg:
     configDescription: "Set up templates using custom charts."
     editDescription: "Register, modify, or delete templates."

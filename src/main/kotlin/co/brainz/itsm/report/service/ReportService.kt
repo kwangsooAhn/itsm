@@ -5,12 +5,14 @@
 
 package co.brainz.itsm.report.service
 
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.chart.service.ChartManagerFactory
+import co.brainz.itsm.report.dto.ReportCondition
 import co.brainz.itsm.report.dto.ReportDto
 import co.brainz.itsm.report.dto.ReportListReturnDto
-import co.brainz.itsm.report.dto.ReportSearchDto
 import co.brainz.itsm.report.entity.ReportDataEntity
 import co.brainz.itsm.report.entity.ReportEntity
 import co.brainz.itsm.report.repository.ReportDataRepository
@@ -29,7 +31,6 @@ import org.springframework.stereotype.Service
 class ReportService(
     private val reportRepository: ReportRepository,
     private val reportDataRepository: ReportDataRepository,
-    private val reportTemplateService: ReportTemplateService,
     private val reportTemplateRepository: ReportTemplateRepository,
     private val chartManagerFactory: ChartManagerFactory,
     private val chartRepository: ChartRepository
@@ -38,11 +39,17 @@ class ReportService(
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    fun getReportList(reportSearchDto: ReportSearchDto): ReportListReturnDto {
-        val reportList = reportRepository.getReportList(reportSearchDto)
+    fun getReportList(reportCondition: ReportCondition): ReportListReturnDto {
+        val queryResult = reportRepository.getReportList(reportCondition)
         return ReportListReturnDto(
-            data = reportList.results,
-            totalCount = reportList.total
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = reportTemplateRepository.count(),
+                currentPageNum = reportCondition.pageNum,
+                totalPageNum = Math.ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
         )
     }
 

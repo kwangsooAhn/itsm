@@ -44,7 +44,7 @@
             .#{$common-prefix}logo {
                 display: inline-block;
                 background-color: $black;
-                @include maskImage('#{$icon-folder-path}icon_logo.svg', 152px, 26px, no-repeat, center); // 24px 24px
+                @include maskImage('#{$icon-folder-path}logo/icon_logo.svg', 152px, 26px, no-repeat, center); // 24px 24px
             }
         }
     }

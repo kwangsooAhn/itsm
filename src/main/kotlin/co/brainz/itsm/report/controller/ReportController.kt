@@ -6,10 +6,10 @@
 
 package co.brainz.itsm.report.controller
 
-import co.brainz.itsm.chart.dto.ChartSearchDto
+import co.brainz.itsm.chart.dto.ChartSearchCondition
 import co.brainz.itsm.chart.service.ChartService
-import co.brainz.itsm.report.dto.ReportSearchDto
-import co.brainz.itsm.report.dto.ReportTemplateSearchDto
+import co.brainz.itsm.report.dto.ReportCondition
+import co.brainz.itsm.report.dto.ReportTemplateCondition
 import co.brainz.itsm.report.service.ReportService
 import co.brainz.itsm.report.service.ReportTemplateService
 import java.time.LocalDateTime
@@ -33,13 +33,11 @@ class ReportController(
 
     private val templateSearchPage: String = "report/reportTemplateSearch"
     private val templateListPage: String = "report/reportTemplateList"
-    private val templateListFragment: String = "report/reportTemplateList :: list"
     private val templateEditPage: String = "report/reportTemplateEdit"
     private val templateViewPage: String = "report/reportTemplateView"
     private val templatePreviewPage: String = "report/reportTemplatePreview"
     private val reportSearchPage: String = "report/reportSearch"
     private val reportListPage: String = "report/reportList"
-    private val reportListFragment: String = "report/reportList :: list"
     private val reportViewPage: String = "report/reportView"
 
     @GetMapping("/template/search")
@@ -48,29 +46,29 @@ class ReportController(
     }
 
     @GetMapping("/template")
-    fun getReportTemplates(reportTemplateSearchDto: ReportTemplateSearchDto, model: Model): String {
-        val result = reportTemplateService.getReportTemplateList(reportTemplateSearchDto)
+    fun getReportTemplates(reportTemplateCondition: ReportTemplateCondition, model: Model): String {
+        val result = reportTemplateService.getReportTemplateList(reportTemplateCondition)
         model.addAttribute("templateList", result.data)
-        model.addAttribute("templateListCount", result.totalCount)
-        return if (reportTemplateSearchDto.isScroll) templateListFragment else templateListPage
+        model.addAttribute("paging", result.paging)
+        return templateListPage
     }
 
     @GetMapping("/template/new")
     fun getReportTemplateNew(model: Model): String {
-        model.addAttribute("chartList", chartService.getCharts(ChartSearchDto(limit = -1, offset = -1)))
+        model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
         return templateEditPage
     }
 
     @GetMapping("/template/{templateId}/edit")
     fun getReportTemplateEdit(@PathVariable templateId: String, model: Model): String {
-        model.addAttribute("chartList", chartService.getCharts(ChartSearchDto(limit = -1, offset = -1)))
+        model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
         model.addAttribute("template", reportTemplateService.getReportTemplateDetail(templateId))
         return templateEditPage
     }
 
     @GetMapping("/template/{templateId}/view")
     fun getReportTemplateView(@PathVariable templateId: String, model: Model): String {
-        model.addAttribute("chartList", chartService.getCharts(ChartSearchDto(limit = -1, offset = -1)))
+        model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
         model.addAttribute("template", reportTemplateService.getReportTemplateDetail(templateId))
         return templateViewPage
     }
@@ -85,17 +83,17 @@ class ReportController(
     fun getReportSearch(request: HttpServletRequest, model: Model): String {
         model.addAttribute(
             "templateList",
-            reportTemplateService.getReportTemplateList(ReportTemplateSearchDto(limit = -1)).data
+            reportTemplateService.getReportTemplateList(ReportTemplateCondition()).data
         )
         return reportSearchPage
     }
 
     @GetMapping("/report")
-    fun getReports(reportSearchDto: ReportSearchDto, model: Model): String {
-        val result = reportService.getReportList(reportSearchDto)
+    fun getReports(reportCondition: ReportCondition, model: Model): String {
+        val result = reportService.getReportList(reportCondition)
         model.addAttribute("reportList", result.data)
-        model.addAttribute("reportListCount", result.totalCount)
-        return if (reportSearchDto.isScroll) reportListFragment else reportListPage
+        model.addAttribute("paging", result.paging)
+        return reportListPage
     }
 
     @GetMapping("/report/{reportId}/view")

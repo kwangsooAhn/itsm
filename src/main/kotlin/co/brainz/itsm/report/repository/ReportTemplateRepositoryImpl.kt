@@ -6,7 +6,7 @@
 
 package co.brainz.itsm.report.repository
 
-import co.brainz.itsm.report.dto.ReportTemplateSearchDto
+import co.brainz.itsm.report.dto.ReportTemplateCondition
 import co.brainz.itsm.report.entity.QReportTemplateEntity
 import co.brainz.itsm.report.entity.ReportTemplateEntity
 import com.querydsl.core.QueryResults
@@ -20,19 +20,18 @@ class ReportTemplateRepositoryImpl : QuerydslRepositorySupport(ReportTemplateEnt
     /**
      * 템플릿 조회
      */
-    override fun getReportTemplateList(reportTemplateSearchDto: ReportTemplateSearchDto): QueryResults<ReportTemplateEntity> {
+    override fun getReportTemplateList(reportTemplateCondition: ReportTemplateCondition): QueryResults<ReportTemplateEntity> {
         val template = QReportTemplateEntity.reportTemplateEntity
         val query = from(template)
             .where(
-                super.like(template.templateName, reportTemplateSearchDto.search.toString())
+                super.like(template.templateName, reportTemplateCondition.searchValue)
             )
             .orderBy(template.templateName.asc())
-        if (reportTemplateSearchDto.limit != null && reportTemplateSearchDto.limit > -1) {
-            query.limit(reportTemplateSearchDto.limit)
+        if (reportTemplateCondition.isPaging) {
+            query.limit(reportTemplateCondition.contentNumPerPage)
+            query.offset((reportTemplateCondition.pageNum - 1) * reportTemplateCondition.contentNumPerPage)
         }
-        if (reportTemplateSearchDto.offset != null && reportTemplateSearchDto.offset > -1) {
-            query.offset(reportTemplateSearchDto.offset)
-        }
+
         return query.fetchResults()
     }
 

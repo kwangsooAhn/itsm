@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-</head>
+<head></head>
 <body>
-<input th:type="hidden" id="totalCount" name="totalCount" th:value="${templateListCount}"/>
-<table class="list-table">
-    <thead class="list-head">
+<table class="z-list-table">
+    <thead class="z-list-head">
     <tr class="flex-row align-items-center">
         <th style="width:25%;" class="align-left" th:text="#{report.label.templateName}"></th>
         <th style="width:20%;" class="align-left" th:text="#{report.label.description}"></th>
@@ -17,33 +14,32 @@
         <th style="width:5%;" class="align-center"></th>
     </tr>
     </thead>
-    <tbody class="list-body">
+    <tbody class="z-list-body">
     <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(templateList)}">
         <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>
-    <th:block th:fragment="list">
-        <tr class="flex-row align-items-center" th:each="template : ${templateList}">
-            <td style="width:25%;" class="align-left underline">
-                <a sec:authorize="!hasAuthority('report.update')" th:text="${template.templateName}"
-                   th:href="@{/reports/template/{id}/view(id=${template.templateId})}"></a>
-                <a sec:authorize="hasAuthority('report.update')" th:text="${template.templateName}"
-                   th:href="@{/reports/template/{id}/edit(id=${template.templateId})}"></a>
-            </td>
-            <td style="width:20%;" class="align-left" th:text="${template.templateDesc}"></td>
-            <td style="width:25%;" class="align-left">
-                <span class="label" th:each="chart : ${template?.charts}" th:text="#{${chart.chartName}}"></span>
-            </td>
-            <td style="width:10%;" class="align-center" id="userName" th:text="${template?.createUserName}"></td>
-            <td style="width:15%;" class="align-center date-time" name="createDt" th:text="${template.createDt}"></td>
-            <td style="width: 5%;">
-                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('report.create')"
-                        th:onclick="makeReport([[${template.templateId}]])">
-                    <span class="z-icon i-edit"></span>
-                </button>
-            </td>
-        </tr>
-    </th:block>
+    <tr class="flex-row align-items-center" th:each="template : ${templateList}">
+        <td style="width:25%;" class="align-left underline">
+            <a sec:authorize="!hasAuthority('report.update')" th:text="${template.templateName}"
+               th:href="@{/reports/template/{id}/view(id=${template.templateId})}"></a>
+            <a sec:authorize="hasAuthority('report.update')" th:text="${template.templateName}"
+               th:href="@{/reports/template/{id}/edit(id=${template.templateId})}"></a>
+        </td>
+        <td style="width:20%;" class="align-left" th:text="${template.templateDesc}"></td>
+        <td style="width:25%;" class="align-left">
+            <span class="label" th:each="chart : ${template?.charts}" th:text="#{${chart.chartName}}"></span>
+        </td>
+        <td style="width:10%;" class="align-center" id="userName" th:text="${template?.createUserName}"></td>
+        <td style="width:15%;" class="align-center date-time" name="createDt" th:text="${template.createDt}"></td>
+        <td style="width: 5%;">
+            <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('report.create')"
+                    th:onclick="makeReport([[${template.templateId}]])">
+                <span class="z-icon i-edit"></span>
+            </button>
+        </td>
+    </tr>
     </tbody>
 </table>
+<th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 </body>
 </html>

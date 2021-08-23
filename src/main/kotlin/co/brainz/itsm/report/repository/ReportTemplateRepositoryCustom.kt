@@ -7,12 +7,12 @@
 package co.brainz.itsm.report.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.report.dto.ReportTemplateSearchDto
+import co.brainz.itsm.report.dto.ReportTemplateCondition
 import co.brainz.itsm.report.entity.ReportTemplateEntity
 import com.querydsl.core.QueryResults
 
 interface ReportTemplateRepositoryCustom : AliceRepositoryCustom {
-    fun getReportTemplateList(reportTemplateSearchDto: ReportTemplateSearchDto): QueryResults<ReportTemplateEntity>
+    fun getReportTemplateList(reportTemplateCondition: ReportTemplateCondition): QueryResults<ReportTemplateEntity>
     fun getReportTemplateDetail(templateId: String): ReportTemplateEntity
     fun findDuplicationTemplateName(templateName: String, templateId: String): Long
 }
