@@ -42,13 +42,15 @@ class ZDocument {
      * @param documentId 신청서 아이디
      */
     openDocument(documentId) {
-        // TODO: 신청서 데이터 load. > 가데이터 삭제 필요
         aliceJs.fetchJson('/rest/documents/' + documentId + '/data', {
             method: 'GET'
         }).then((documentData) => {
             // 정렬 (기준 : displayOrder)
             this.sortJson(documentData.form);
             this.data = documentData;
+            this.editable = true; // 신청서는 view, edit 모드가 존재하지 않는다. 권한만 있으면 editable 가능하다.
+            document.getElementById('instanceId').value = this.data.instanceId;
+
             zFormButton.init(documentData, this); // 버튼 초기화
             this.makeDocument(this.data.form); // Form 생성
             this.documentModal.show(); // 모달 표시
@@ -167,11 +169,24 @@ class ZDocument {
      */
     processAction(actionType) {
         // 유효성 체크
-        let validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
+        const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
         if (!validationUncheckActionType.includes(actionType) && zValidation.hasDOMElementError(this.domElement)) {
             return false;
         }
-        // TODO: DR 테이블, CI 테이블 필수값 체크
+        // DR 테이블, CI 테이블 필수인 경우 row를 1개 이상 등록하라는 경고 후 포커싱
+        let validationCheck = true;
+        const validationCheckTables = document.querySelectorAll('table[data-validation-required="true"]');
+        for (let i = 0; i < validationCheckTables.length; i ++) {
+            const table = validationCheckTables[i];
+            if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
+                validationCheck = false;
+                aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
+                    table.focus();
+                });
+                return false;
+            }
+        }
+        if (!validationCheck) { return false; }
         
         const saveData = {
             'documentId': this.data.documentId,

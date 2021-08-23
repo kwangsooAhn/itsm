@@ -817,6 +817,7 @@ class ZFormDesigner {
      */
     preview() {
         const previewData = this.form.toJson();
+        zDocument.editable = false;
         zFormButton.init({ form: previewData}, zDocument);
         zDocument.makeDocument(previewData); // Form 생성
         zDocument.documentModal.show(); // 모달 표시

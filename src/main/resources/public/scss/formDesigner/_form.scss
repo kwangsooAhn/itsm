@@ -166,11 +166,8 @@
   // label
   .z-component-label {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
+    justify-content: var(--data-align);
     padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
-
-    .z-component-label-text {
-      width: 100%;
-    }
 
     &.on { display: flex; }
     &.off { display: none; }
