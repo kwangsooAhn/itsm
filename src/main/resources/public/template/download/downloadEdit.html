@@ -1,126 +1,117 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
     <title th:text="${download != null} ? #{download.label.edit} : #{download.label.register}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-download-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{download.label.download}"></h1>
-            <h6 class="description ml-2" th:text="#{download.msg.editDescription}"></h6>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{download.label.download}"></h1>
+    <h6 class="description ml-2" th:text="#{download.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageEdit">
+        <div class="flex-column z-edit-row">
+            <label for="downloadCategory">
+                <span th:text="#{download.label.category}"></span>
+                <span class="required"></span>
+            </label>
+            <select id="downloadCategory">
+                <option th:each="category: ${categoryList}"
+                        th:value="${category.code}"
+                        th:text="#{${category.code}}"
+                        th:selected="${category.code} == ${download?.downloadCategory}"></option>
+            </select>
         </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="flex-column z-edit">
-        <div class="z-download-content-edit">
-            <div class="flex-column z-edit-row">
-                <label for="downloadCategory">
-                    <span th:text="#{download.label.category}"></span>
-                    <span class="required"></span>
-                </label>
-                <select id="downloadCategory">
-                    <option th:each="category: ${categoryList}"
-                            th:value="${category.code}"
-                            th:text="#{${category.code}}"
-                            th:selected="${category.code} == ${download?.downloadCategory}"></option>
-                </select>
+        <div class="flex-column z-edit-row">
+            <label for="downloadTitle">
+                <span th:text="#{common.label.title}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" id="downloadTitle" class="z-input" maxlength="100" th:value="${download?.downloadTitle}"></td>
+        </div>
+        <div class="flex-column z-edit-row file-uploader-edit">
+            <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
+            <div id="dropZoneFiles"></div>
+            <div id="dropZoneUploadedFiles"></div>
+        </div>
+        <div class="flex-row justify-content-between z-edit-row">
+            <div class="z-button-list">
+                <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="flex-column z-edit-row">
-                <label for="downloadTitle">
-                    <span th:text="#{common.label.title}"></span>
-                    <span class="required"></span>
-                </label>
-                <input type="text" id="downloadTitle" class="z-input" maxlength="100" th:value="${download?.downloadTitle}"></td>
-            </div>
-            <div class="flex-column z-edit-row file-uploader-edit">
-                <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
-                <div id="dropZoneFiles"></div>
-                <div id="dropZoneUploadedFiles"></div>
-            </div>
-            <div class="flex-row justify-content-between z-edit-row">
-                <div class="z-button-list">
-                    <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
-                </div>
-                <div class="z-button-list">
-                    <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
-                            class="z-button primary" th:text="#{common.btn.modify}"></button>
-                    <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
-                            class="z-button primary" th:text="#{common.btn.register}"></button>
-                    <button th:if="${download?.downloadId}" onclick="deleteDownload()"
-                            class="z-button secondary" th:text="#{common.btn.delete}"></button>
-                </div>
+            <div class="z-button-list">
+                <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
+                        class="z-button primary" th:text="#{common.btn.modify}"></button>
+                <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
+                        class="z-button primary" th:text="#{common.btn.register}"></button>
+                <button th:if="${download?.downloadId}" onclick="deleteDownload()"
+                        class="z-button secondary" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
-</th:block>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript" type="text/javascript">
-        /*<![CDATA[*/
-        window.onload = function() {
-            document.getElementById('downloadTitle').focus();
-            zFileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download?.downloadId}]]}});
-            OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
-        };
+<script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        document.getElementById('downloadTitle').focus();
+        zFileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download?.downloadId}]]}});
+        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+    };
 
-        //Empty Check
-        function emptyCheck() {
-            if (isEmpty('downloadCategory', 'download.msg.selectCategory')) { return false; }
-            return !isEmpty('downloadTitle', 'common.msg.enterTitle')
-        }
+    //Empty Check
+    function emptyCheck() {
+        if (isEmpty('downloadCategory', 'download.msg.selectCategory')) { return false; }
+        return !isEmpty('downloadTitle', 'common.msg.enterTitle')
+    }
 
-        function saveDownload(method) {
-            if (emptyCheck()) {
-                let fileSeqList = [];
-                let delFileSeqList = [];
-                document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
-                document.getElementsByName('delFileSeq').forEach(elem => delFileSeqList.push(elem.value));
-                const data = {
-                    downloadCategory: document.getElementById('downloadCategory').value,
-                    downloadTitle: document.getElementById('downloadTitle').value,
-                    fileSeqList: fileSeqList,
-                    delFileSeqList: delFileSeqList
-                };
-                if (method === 'put') {
-                    data.downloadId = /*[[${download?.downloadId}]]*/'';
-                    data.views = /*[[${download?.views}]]*/'';
-                }
-                restSubmit(method, '/rest/downloads', data);
-            }
-        }
-
-        function deleteDownload() {
-            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
-        }
-
-        //REST API
-        function restSubmit(method, url, data) {
-            var resultMsg;
-            if (method.toLowerCase() === 'post') {
-                resultMsg = i18n.msg('common.msg.save');
-            } else if (method.toLowerCase() === 'put') {
-                resultMsg = i18n.msg('common.msg.update');
-            } else if (method.toLowerCase() === 'delete') {
-                resultMsg = i18n.msg('common.msg.delete');
-            }
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function() {
-                    aliceAlert.alertSuccess(resultMsg, function() {
-                        location.href = '/downloads/search';
-                    });
-                }
+    function saveDownload(method) {
+        if (emptyCheck()) {
+            let fileSeqList = [];
+            let delFileSeqList = [];
+            document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
+            document.getElementsByName('delFileSeq').forEach(elem => delFileSeqList.push(elem.value));
+            const data = {
+                downloadCategory: document.getElementById('downloadCategory').value,
+                downloadTitle: document.getElementById('downloadTitle').value,
+                fileSeqList: fileSeqList,
+                delFileSeqList: delFileSeqList
             };
-            aliceJs.sendXhr(opt);
+            if (method === 'put') {
+                data.downloadId = /*[[${download?.downloadId}]]*/'';
+                data.views = /*[[${download?.views}]]*/'';
+            }
+            restSubmit(method, '/rest/downloads', data);
         }
-        /*]]>*/
-    </script>
-</th:block>
+    }
+
+    function deleteDownload() {
+        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
+    }
+
+    //REST API
+    function restSubmit(method, url, data) {
+        var resultMsg;
+        if (method.toLowerCase() === 'post') {
+            resultMsg = i18n.msg('common.msg.save');
+        } else if (method.toLowerCase() === 'put') {
+            resultMsg = i18n.msg('common.msg.update');
+        } else if (method.toLowerCase() === 'delete') {
+            resultMsg = i18n.msg('common.msg.delete');
+        }
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function() {
+                aliceAlert.alertSuccess(resultMsg, function() {
+                    location.href = '/downloads/search';
+                });
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+    /*]]>*/
+</script>
 </html>
