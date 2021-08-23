@@ -71,6 +71,7 @@ export const fileUploadMixin = {
                 editor: true,
                 isView: false,
                 isForm: true,
+                fileDataIds: this.value,
                 callback: this.updateValue.bind(this) // 파일업로드, 파일삭제시 호출되는 callback 함수
             }
         };

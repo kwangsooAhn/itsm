@@ -182,16 +182,29 @@ class ZFormToken {
      */
     processAction(actionType) {
         // 유효성 체크
-        let validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
+        const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
         if (!validationUncheckActionType.includes(actionType) && zValidation.hasDOMElementError(this.domElement)) {
             return false;
         }
-        // TODO: DR 테이블, CI 테이블 필수값 체크
+        // DR 테이블, CI 테이블 필수인 경우 row를 1개 이상 등록하라는 경고 후 포커싱
+        let validationCheck = true;
+        const validationCheckTables = document.querySelectorAll('table[data-validation-required="true"]');
+        for (let i = 0; i < validationCheckTables.length; i ++) {
+            const table = validationCheckTables[i];
+            if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
+                validationCheck = false;
+                aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
+                    table.focus();
+                });
+                return false;
+            }
+        }
+        if (!validationCheck) { return false; }
 
         const saveData = {
-            'documentId': this.formDataJson.documentId,
-            'instanceId': this.formDataJson.instanceId,
-            'tokenId': (zValidation.isDefined(this.formDataJson.tokenId) ? this.formDataJson.tokenId : ''),
+            'documentId': this.data.documentId,
+            'instanceId': this.data.instanceId,
+            'tokenId': (zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : ''),
             'isComplete': (actionType !== 'save'),
             'assigneeId' : (actionType === 'save') ? SESSION['userKey'] : '',
             'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : '',
@@ -199,13 +212,11 @@ class ZFormToken {
         };
         // 컴포넌트 값
         saveData.componentData = this.getComponentData(this.form, []);
-
-        //TODO: #10546 폼 리팩토링 - 처리할 문서 저장 - 화면
         console.debug(saveData);
-        return false;
 
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
-        const url = zValidation.isEmpty(saveData.tokenId) ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
+        const url = zValidation.isEmpty(saveData.tokenId) ? '/rest/tokens/data' :
+            '/rest/tokens/' + saveData.tokenId + '/data';
         aliceJs.fetchText(url, {
             method: zValidation.isEmpty(saveData.tokenId) ? 'POST' : 'PUT',
             headers: {
@@ -232,7 +243,8 @@ class ZFormToken {
      * 프로세스 맵 팝업 호출
      */
     openProcessStatusPopUp() {
-        window.open('/process/' + this.data.instanceId + '/status', 'process_status_' + this.data.instanceId, 'width=1300, height=500');
+        window.open('/process/' + this.data.instanceId + '/status', 'process_status_' + this.data.instanceId,
+            'width=1300, height=500');
     }
 
     /**

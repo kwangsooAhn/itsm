@@ -26,7 +26,7 @@ import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/zD
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        defaultValueCustomCode: ''
+        defaultValueCustomCode: '', // 커스텀코드 기본값 (폼 디자이너에서 설정한 값)
     },
     validation: {
         required: false // 필수값 여부
@@ -41,7 +41,7 @@ export const customCodeMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        this._value = this._value || '${default}';
+        this._value = this.data.value || '${default}'; // 서버에 저장되는 값은 키 값만 저장된다. 왜냐하면 assignee Id 로 key만 전달되어야 하기 떄문이다.
 
         // customCode|none|없음  customCode|session|세션값  customCode|code|코드값|코드명
         if (zValidation.isEmpty(this._element.defaultValueCustomCode)) {
@@ -57,10 +57,10 @@ export const customCodeMixin = {
             .addUIClass('flex-row')
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
-        element.UIInput = new UIInput(this.getDefaultValue())
+        element.UIInput = new UIInput()
             .setUIClass('z-input z-input-button')
             .setUIReadOnly(true)
-            .setUIAttribute('data-custom-data', this.elementDefaultValueCustomCode)
+            .setUIAttribute('data-custom-data', (this.value === '${default}') ? this.elementDefaultValueCustomCode : this.value)
             .onUIChange(this.updateValue.bind(this));
         element.UIButton = new UIButton()
             .setUIClass('z-button')
@@ -71,6 +71,7 @@ export const customCodeMixin = {
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
+        this.setDefaultValue(element.UIInput);
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
@@ -86,7 +87,8 @@ export const customCodeMixin = {
     },
     set elementDefaultValueCustomCode(value) {
         this._element.defaultValueCustomCode = value;
-        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(this.getDefaultValue()).setUIAttribute('data-custom-data', value);
+        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', value);
+        this.setDefaultValue(this.UIElement.UIComponent.UIElement.UIInput);
     },
     get elementDefaultValueCustomCode() {
         return this._element.defaultValueCustomCode;
@@ -115,19 +117,28 @@ export const customCodeMixin = {
         return this._value;
     },
     // 기본값 조회
-    getDefaultValue() {
-        if (this._value === '${default}') {
-            const defaultValues = this.elementDefaultValueCustomCode.split('|');
+    setDefaultValue(target) {
+        const defaultValues = this.elementDefaultValueCustomCode.split('|');
+        if (this.value === '${default}') {
             switch (defaultValues[1]) {
                 case FORM.CUSTOM.NONE:
-                    return '';
+                    target.setUIValue('');
+                    break;
                 case FORM.CUSTOM.SESSION:
-                    return SESSION[defaultValues[2]] || '';
+                    target.setUIValue(SESSION[defaultValues[2]] || '');
+                    break;
                 case FORM.CUSTOM.CODE:
-                    return defaultValues[3];
+                    target.setUIValue(defaultValues[3]);
+                    break;
             }
         } else {
-            return this.value;
+            // key|value
+            aliceJs.fetchJson('/rest/custom-codes/' + defaultValues[0], {
+                method: 'GET'
+            }).then((customCodeData) => {
+                const selectedCustomData = customCodeData.find((item) => item.key === this.value);
+                target.setUIValue(selectedCustomData.value);
+            });
         }
     },
     // input box 값 변경시 이벤트 핸들러
@@ -135,10 +146,11 @@ export const customCodeMixin = {
         e.stopPropagation();
         e.preventDefault();
 
-        this.value = e.target.value;
+        const customData = e.target.getAttribute('data-custom-data').split('|');
+        this.value = customData[2];
     },
 
-    // TODO: #10252 커스텀 코드 모달로 변경시 일감 처리 예정
+    // 커스텀 코드 모달
     openCustomCodeModal(e) {
         e.stopPropagation();
         let customCodeData = {
@@ -160,7 +172,9 @@ export const customCodeMixin = {
                     document.getElementsByName('customCode').forEach((chkElem) => {
                         if (chkElem.checked) {
                             isChekced = true;
-                            this.elementDefaultValueCustomCode = customCodeData.componentValue.split('|')[0] + '|code|' + chkElem.id + '|' + chkElem.value;
+                            const customData = customCodeData.componentValue.split('|')[0] + '|code|' + chkElem.id + '|' + chkElem.value;
+                            this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', customData).setUIValue(chkElem.value);
+                            this.UIElement.UIComponent.UIElement.UIInput.domElement.dispatchEvent(new Event('change'));
                         }
                     });
                     isChekced ? selectModal.hide() : aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
@@ -194,7 +208,19 @@ export const customCodeMixin = {
             showProgressbar: true
         }).then((htmlData) => {
             document.getElementById('customCodeList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.radio-list'), {className: 'scrollbar'});
+            // 기존 커스텀 코드 선택
+            let selectedRadioId = '';
+            if (this.value === '${default}') {
+                if (defaultValues[1] === FORM.CUSTOM.CODE) {
+                    selectedRadioId = defaultValues[2];
+                }
+            } else {
+                selectedRadioId = this.value;
+            }
+            if (!zValidation.isEmpty(selectedRadioId)) {
+                document.getElementById(selectedRadioId).checked = true;
+            }
+            OverlayScrollbars(document.querySelector('.radio-list'), { className: 'scrollbar' });
         });
     },
     // 서버에서 가져온 데이터에서 검색하기
