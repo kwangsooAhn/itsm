@@ -38,8 +38,10 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
             query.orderBy(statusNumber.asc())
                 .orderBy(process.updateDt.coalesce(process.createDt).desc())
         }
-        query.limit(processSearchCondition.contentNumPerPage)
-        query.offset((processSearchCondition.pageNum - 1) * processSearchCondition.contentNumPerPage)
+        if (processSearchCondition.isPaging) {
+            query.limit(processSearchCondition.contentNumPerPage)
+            query.offset((processSearchCondition.pageNum - 1) * processSearchCondition.contentNumPerPage)
+        }
 
         return query.fetchResults()
     }

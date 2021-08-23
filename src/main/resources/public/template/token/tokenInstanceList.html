@@ -38,8 +38,8 @@
                 </label>
             <td style="width:20%;" class="align-left" th:text="${instance.documentNo}"></td>
             <td style="width:20%;" class="align-left" th:text="${instance.documentName}"></td>
-            <td style="width:20%;" class="align-left" th:name="instanceDt" th:text="${instance.instanceStartDt}"/>
-            <td style="width:20%;" class="align-left" th:name="instanceDt" th:text="${instance.instanceEndDt}"/>
+            <td style="width:20%;" class="date-time align-left" th:text="${instance.instanceStartDt}"/>
+            <td style="width:20%;" class="date-time align-left" th:text="${instance.instanceEndDt}"/>
             <td style="width:15%;" class="align-left" th:text="${instance.instanceCreateUserName}"></td>
         </tr>
     </tbody>

@@ -53,6 +53,7 @@ common:
     emptyData: "-"
   msg:
     confirmDelete: "Are you sure you want to delete?"
+    confirmNotSave: "You have unsaved changes. Do you want to move without saving?"
     dataSelect: "Please select data."
     delete: "Deleted."
     deleteTartget: "Please select target."
@@ -1204,6 +1205,7 @@ token:
     elementName: "Task Name"
     endDt: "Finish Date"
     history: "History"
+    information: "Information"
     list: "My Document List"
     print: "Process Document Print"
     relatedInstance: "Related Documents"
@@ -1423,3 +1425,4 @@ product:
     mainPhone: "MainPhone : 02-2205-6001"
     technicalSupport: "TechnicalSupport : 02-2205-6031"
     productInquiry: "ProductInquiry : 02-2205-6009, 6015"
+    copyright: "ⓒ 2020 Brainzcompany. All rights reserved."

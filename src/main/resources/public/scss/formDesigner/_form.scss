@@ -23,7 +23,9 @@
     background-color: $group-selected-bg-color;
   }
   // displayType이 hidden일 경우
-  &.off { display: none; }
+  &[data-displaytype='document.displayType.hidden'] {
+    display: none;
+  }
 }
 // 그룹
 .z-group {
@@ -86,7 +88,7 @@
       }
 
       .z-group-label-text {
-        padding-right: 0.625rem; // 10px
+        padding: 0 0.625rem 0.625rem 0; // 0 10px 10px 0
       }
 
       .z-icon {
@@ -165,6 +167,10 @@
   .z-component-label {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
+
+    .z-component-label-text {
+      width: 100%;
+    }
 
     &.on { display: flex; }
     &.off { display: none; }

@@ -1,83 +1,75 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/defaultLayout">
+      layout:decorate="~{layout/itsm/pageType/treeEditLayout}">
 <head>
     <title th:text="#{code.label.code}"></title>
 </head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/lib/zPageMutationObserver.js}"></script>
+</th:block>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-code-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{code.label.code}"></h1>
-            <h6 class="description ml-2" th:text="#{code.msg.editDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row">
-            <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
-                   th:placeholder="#{code.label.searchPlaceholder}"/>
-            <span id="totalCount" class="search-count"></span>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate" onclick="onCreate();"
-                        sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.add}"></button>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{code.label.code}"></h1>
+    <h6 class="description ml-2" th:text="#{code.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+           th:placeholder="#{code.label.searchPlaceholder}"/>
+    <span id="totalCount" class="search-count"></span>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate"
+                sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.add}"></button>
+    </div>
+</div>
+<div layout:fragment="pageTree">
+    <div id="treeList"></div>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <div class="z-edit-row flex-row">
+            <div class="flex-column flex-fill mr-4">
+                <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
+                <input id="txtCode" name="txtCode" class="z-input" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
+            </div>
+            <div class="flex-column flex-fill">
+                <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
+                <input id="txtPCode" name="txtPCode" class="z-input" type="text" th:value="${codeDetail?.pCode}"
+                       maxlength="100"/>
             </div>
         </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="z-code-content flex-fill">
-        <div class="list-tree">
-            <div id="treeList"></div>
-        </div>
-    </div>
-</th:block>
-<th:block layout:fragment="aside">
-    <div class="z-aside code">
-        <div class="z-code-content-edit flex-column">
-            <div class="edit-form">
-                <div class="edit-row flex-row">
-                    <div class="edit-column flex-column flex-fill mr-4">
-                        <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
-                        <input id="txtCode" name="txtCode" class="z-input" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
-                    </div>
-                    <div class="edit-column flex-column flex-fill">
-                        <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
-                        <input id="txtPCode" name="txtPCode" class="z-input" type="text" th:value="${codeDetail?.pCode}"
-                               maxlength="100"/>
-                    </div>
-                </div>
-                <div class="edit-row flex-row">
-                    <div class="edit-column flex-column flex-fill mr-4">
-                        <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
-                        <input id="txtCodeName" name="txtCodeName" class="z-input" type="text" th:value="${codeDetail?.codeName}"
-                               maxlength="100"/>
-                    </div>
-                    <div class="edit-column flex-column flex-fill">
-                        <label class="form-title" th:text="#{code.label.defaultCodeValue}" for="txtCodeValue"></label>
-                        <input id="txtCodeValue" name="txtCodeValue" class="z-input" type="text" th:value="${codeDetail?.codeValue}"
-                               maxlength="100"/>
-                    </div>
-                </div>
-                <div class="edit-row flex-column">
-                    <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
-                    <input id="txtSeqNum" name="txtSeqNum" class="z-input" type="text" th:value="${codeDetail?.seqNum}"
-                           onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
-                </div>
-                <div class="edit-row flex-column">
-                    <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
-                    <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
-                              class="z-textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
-                </div>
-                <div class="edit-row flex-column">
-                    <div class="under-bar">
-                        <label th:text="#{code.label.codeLang}"></label>
-                        <button type="button" class="z-button-icon extra float-right" onclick="drawCodeLang()">
-                            <span class="z-icon i-plus"></span>
-                        </button>
-                    </div>
-                    <div id="codeLang"></div>
-                </div>
+        <div class="z-edit-row flex-row">
+            <div class="flex-column flex-fill mr-4">
+                <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
+                <input id="txtCodeName" name="txtCodeName" class="z-input" type="text" th:value="${codeDetail?.codeName}"
+                       maxlength="100"/>
             </div>
+            <div class="flex-column flex-fill">
+                <label class="form-title" th:text="#{code.label.defaultCodeValue}" for="txtCodeValue"></label>
+                <input id="txtCodeValue" name="txtCodeValue" class="z-input" type="text" th:value="${codeDetail?.codeValue}"
+                       maxlength="100"/>
+            </div>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
+            <input id="txtSeqNum" name="txtSeqNum" class="z-input" type="text" th:value="${codeDetail?.seqNum}"
+                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
+            <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
+                      class="z-textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
+        </div>
+        <div class="z-edit-row flex-column flex-fill">
+            <div class="flex-row justify-content-between">
+                <label th:text="#{code.label.codeLang}"></label>
+                <button type="button" class="z-button-icon extra float-right" id="btnCodeLang">
+                    <span class="z-icon i-plus"></span>
+                </button>
+            </div>
+            <div class="under-bar"></div>
+            <div id="codeLang"></div>
         </div>
         <div class="flex-row justify-content-end">
             <div class="z-button-list">
@@ -94,346 +86,321 @@
             </div>
         </div>
     </div>
-</th:block>
+    <template id="langCodeRowTemplate">
+        <div class="z-edit-row flex-row align-items-center">
+            <label class="required mr-3" th:text="#{'code.label.lang'}"></label>
+            <div class="col-2 mr-5"><select></select></div>
+            <label class="required mr-3" th:text="#{code.label.codeValue}"></label>
+            <input class="z-input flex-fill mr-3" type="text" name="codeLangValue" maxlength="100">
+            <button class="z-button-icon extra">
+                <span class="z-icon i-delete"></span>
+            </button>
+        </div>
+    </template>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-        const STATUS_SUCCESS = '0';
-        const STATUS_SUCCESS_EDIT_CODE = '1';
-        const STATUS_ERROR_CODE_DUPLICATION = '2';
-        const STATUS_ERROR_CODE_P_CODE_NOT_EXIST = '3';
-        const STATUS_ERROR_CODE_P_CODE_USED = '4';
-        let CODE_DELETE = false;
-        let CODE_CREATE = false;
-        let CODE_UPDATE = false;
-        const sessionKey = 'code_expand_key';
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    const STATUS_SUCCESS = '0';
+    const STATUS_SUCCESS_EDIT_CODE = '1';
+    const STATUS_ERROR_CODE_DUPLICATION = '2';
+    const STATUS_ERROR_CODE_P_CODE_NOT_EXIST = '3';
+    const STATUS_ERROR_CODE_P_CODE_USED = '4';
+    let CODE_DELETE = false;
+    let CODE_CREATE = false;
+    let CODE_UPDATE = false;
+    const sessionKey = 'code_expand_key';
+    let observer = aliceJs.pageObserver;
 
-        window.addEventListener('load', function () {
-            if (document.getElementById('btnUpdate') !== null) {
-                CODE_UPDATE = true;
-            }
-            if (document.getElementById('btnRegist') !== null) {
-                CODE_CREATE = true;
-            }
-            if (document.getElementById('btnDelete') !== null) {
-                CODE_DELETE = true;
-            }
-            document.getElementById('search').focus();
-            onCreate();
+    window.addEventListener('load', function () {
+        observer.set();
+        document.getElementById('btnCreate').addEventListener('click',onCreate);
+        document.getElementById('btnCodeLang').addEventListener('click',drawCodeLang);
 
-            function getCodeList() {
-                const search = encodeURIComponent(document.querySelector('#search').value);
-                tree.load({
-                    dataUrl: '/rest/codes?search=' + search,
-                    target: 'treeList',
-                    text: 'code',
-                    leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
-                    sessionKey: sessionKey,
-                    totalCount: true,
-                    selectedNode: function (response) {
-                        onGetDetail(response.id)
-                    }
-                });
-            }
-
+        OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-page-edit'), {className: 'scrollbar'});
+        OverlayScrollbars(document.getElementById('txtCodeDesc'), {className: 'scrollbar'});
+        document.getElementById('searchValue').addEventListener('keyup', function () {
             getCodeList();
-
-            function onGetDetail(codeId) {
-                document.querySelectorAll('input[type=text]').forEach(function (object) {
-                    object.value = '';
-                });
-                document.querySelector('textarea').value = '';
-
-                const opt = {
-                    method: 'get',
-                    url: '/rest/codes/' + codeId,
-                    showProgressbar: false,
-                    callbackFunc: function (response) {
-                        let responseJson = JSON.parse(response.responseText);
-                        document.getElementById('txtCode').value = responseJson.code;
-                        document.getElementById('txtCode').setAttribute('disabled', '');
-                        document.getElementById('txtPCode').value = responseJson.pcode;
-                        document.getElementById('txtPCode').setAttribute('disabled', '');
-                        document.getElementById('txtCodeName').value = responseJson.codeName;
-                        document.getElementById('txtCodeValue').value = responseJson.codeValue;
-                        document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
-                        document.getElementById('txtSeqNum').value = responseJson.seqNum;
-                        initCodeLang(responseJson.codeLang);
-                        if (CODE_CREATE) {
-                            document.querySelector('#btnRegist').style.display = 'none';
-                        }
-                        if (responseJson.editable) {
-                            if (CODE_UPDATE) {
-                                document.querySelector('#btnUpdate').removeAttribute('disabled');
-                            }
-                            if (CODE_DELETE) {
-                                document.querySelector('#btnDelete').removeAttribute('disabled');
-                            }
-                        } else {
-                            if (CODE_UPDATE) {
-                                document.getElementById('btnUpdate').disabled = true;
-                            }
-                            if (CODE_DELETE) {
-                                document.getElementById('btnDelete').disabled = true;
-                            }
-                        }
-                        if (CODE_CREATE) {
-                            document.querySelector('#btnRegist').setAttribute('disabled', 'true');
-                        }
-                        onEdit();
-                    }
-                };
-
-                aliceJs.sendXhr(opt);
-            }
-
-            OverlayScrollbars(document.querySelector('.list-tree'), {className: 'scrollbar'});
-            document.getElementById('search').addEventListener('keyup', function () {
-                getCodeList();
-            });
-            OverlayScrollbars(document.querySelector('.code-content-edit'), {className: 'scrollbar'});
-            OverlayScrollbars(document.querySelectorAll('#txtCodeDesc'), {
-                className: 'scrollbar',
-                resize: 'vertical',
-                sizeAutoCapable: true,
-                textarea: {
-                    dynHeight: false,
-                    dynWidth: false,
-                    inheritedAttrs: "class"
-                }
-            });
         });
 
+        if (document.getElementById('btnUpdate') !== null) {
+            CODE_UPDATE = true;
+        }
+        if (document.getElementById('btnRegist') !== null) {
+            CODE_CREATE = true;
+        }
+        if (document.getElementById('btnDelete') !== null) {
+            CODE_DELETE = true;
+        }
+        document.getElementById('searchValue').focus();
+        onCreate();
 
-        /** create **/
-        function onCreate() {
-            if (CODE_UPDATE) {
-                document.querySelector('#btnUpdate').style.display = 'none';
-                document.querySelector('#btnUpdate').setAttribute('disabled', 'true');
-            }
-            if (CODE_DELETE) {
-                document.querySelector('#btnDelete').style.display = 'none';
-                document.querySelector('#btnDelete').setAttribute('disabled', 'true');
-            }
-            if (CODE_CREATE) {
-                document.querySelector('#btnRegist').removeAttribute('disabled');
-                document.querySelector('#btnRegist').style.display = 'block';
+        function getCodeList() {
+            const search = encodeURIComponent(document.getElementById('searchValue').value);
+            tree.load({
+                dataUrl: '/rest/codes?search=' + search,
+                target: 'treeList',
+                text: 'code',
+                leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
+                sessionKey: sessionKey,
+                totalCount: true,
+                selectedNode: function (response) {
+                    onGetDetail(response.id)
+                }
+            });
+        }
+
+        getCodeList();
+
+        function onGetDetail(codeId) {
+            if (!observer.canPageChange()) {
+                return;
             }
             document.querySelectorAll('input[type=text]').forEach(function (object) {
                 object.value = '';
             });
             document.querySelector('textarea').value = '';
-            document.querySelector('#txtCode').removeAttribute('disabled');
-            document.querySelector('#txtPCode').removeAttribute('disabled');
-
-            let selectedNode = tree.getTreeSelectNode();
-            if (selectedNode !== null) {
-                document.querySelector('#txtPCode').value = selectedNode.id;
-            }
-        }
-
-        function onEdit() {
-            if (CODE_UPDATE) {
-                document.querySelector('#btnUpdate').style.display = 'block';
-            }
-            if (CODE_DELETE) {
-                document.querySelector('#btnDelete').style.display = 'block';
-            }
-            if (CODE_DELETE) {
-                document.querySelector('#btnRegist').style.display = 'none';
-            }
-        }
-
-
-        /** save **/
-        function onSave(method) {
-            const jsonData = {
-                code: document.getElementById('txtCode').value,
-                pCode: document.getElementById('txtPCode').value,
-                codeName: document.getElementById('txtCodeName').value,
-                codeValue: document.getElementById('txtCodeValue').value,
-                codeDesc: document.getElementById('txtCodeDesc').value,
-                seqNum: document.getElementById('txtSeqNum').value
-            };
-
-            if (jsonData.code === null || jsonData.code.trim() === '') {
-                aliceAlert.alertWarning([[#{code.msg.enterCode}]]);
-                return false;
-            }
-
-            if (jsonData.pCode === null || jsonData.pCode.trim() === '') {
-                aliceAlert.alertWarning([[#{code.msg.enterPCode}]]);
-                return false;
-            }
-
-            const codeLangList = document.querySelectorAll('input[name=codeLangValue]');
-            for (let i = 0; i < codeLangList.length; i++) {
-                if (codeLangList[i].value.trim() === "") {
-                    aliceAlert.alertWarning(i18n.msg('code.msg.enterCodeLangValue'));
-                    return false;
-                }
-            }
-
-            let codeLangData = {};
-            let divLang = document.getElementById('codeLang').childNodes;
-            for (let i = 0; i < divLang.length; i++) {
-                const selectValue = divLang[i].getElementsByTagName('select')[0].value;
-                const codeLangValue = divLang[i].getElementsByTagName('input')[0].value;
-                if (typeof codeLangData[selectValue] === 'undefined') {
-                    codeLangData[selectValue] = codeLangValue;
-                } else {
-                    aliceAlert.alertWarning(i18n.msg('code.msg.selectNotDuplicateLang'));
-                    return false;
-                }
-            }
-            if (divLang.length != 0) {
-                jsonData.codeLang = JSON.stringify(codeLangData);
-            }
-
-            let url = '/rest/codes';
-            if (method !== 'post') {
-                url += '/' + document.getElementById('txtCode').value;
-            }
 
             const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(jsonData),
-                contentType: 'application/json',
+                method: 'get',
+                url: '/rest/codes/' + codeId,
+                showProgressbar: false,
                 callbackFunc: function (response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            tree.setTreeExpandNode(sessionKey);
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
-                                window.location.href = '/codes/edit';
-                            });
-                            break;
-                        case STATUS_SUCCESS_EDIT_CODE:
-                            tree.setTreeExpandNode(sessionKey);
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function () {
-                                window.location.href = '/codes/edit';
-                            });
-                            break;
-                        case STATUS_ERROR_CODE_P_CODE_NOT_EXIST:
-                            aliceAlert.alertWarning(i18n.msg('code.msg.pCodeNotExist'));
-                            break;
-                        case STATUS_ERROR_CODE_DUPLICATION:
-                            aliceAlert.alertWarning(i18n.msg('code.msg.duplicateCode'));
-                            break;
-                        default:
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                            break;
+                    let responseJson = JSON.parse(response.responseText);
+                    document.getElementById('txtCode').value = responseJson.code;
+                    document.getElementById('txtCode').setAttribute('disabled', '');
+                    document.getElementById('txtPCode').value = responseJson.pcode;
+                    document.getElementById('txtPCode').setAttribute('disabled', '');
+                    document.getElementById('txtCodeName').value = responseJson.codeName;
+                    document.getElementById('txtCodeValue').value = responseJson.codeValue;
+                    document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
+                    document.getElementById('txtSeqNum').value = responseJson.seqNum;
+                    initCodeLang(responseJson.codeLang);
+                    if (CODE_CREATE) {
+                        document.querySelector('#btnRegist').style.display = 'none';
                     }
+                    if (responseJson.editable) {
+                        if (CODE_UPDATE) {
+                            document.querySelector('#btnUpdate').removeAttribute('disabled');
+                        }
+                        if (CODE_DELETE) {
+                            document.querySelector('#btnDelete').removeAttribute('disabled');
+                        }
+                    } else {
+                        if (CODE_UPDATE) {
+                            document.getElementById('btnUpdate').disabled = true;
+                        }
+                        if (CODE_DELETE) {
+                            document.getElementById('btnDelete').disabled = true;
+                        }
+                    }
+                    if (CODE_CREATE) {
+                        document.querySelector('#btnRegist').setAttribute('disabled', 'true');
+                    }
+                    onEdit();
+                    observer.isChanged = false;
                 }
             };
-
             aliceJs.sendXhr(opt);
         }
+    });
 
-        /** delete **/
-        function onDelete() {
-            const opt = {
-                method: 'delete',
-                url: '/rest/codes/' + document.getElementById('txtCode').value,
-                callbackFunc: function (response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            tree.setTreeExpandNode(sessionKey);
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
-                                window.location.href = '/codes/edit';
-                            });
-                            break;
-                        case STATUS_ERROR_CODE_P_CODE_USED:
-                            aliceAlert.alertWarning(i18n.msg('code.msg.referenceCodeExist'));
-                            break;
-                        default:
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
+    /** create **/
+    function onCreate() {
+        if (!observer.canPageChange()) {
+            return;
+        }
+
+        if (CODE_UPDATE) {
+            document.querySelector('#btnUpdate').style.display = 'none';
+            document.querySelector('#btnUpdate').setAttribute('disabled', 'true');
+        }
+        if (CODE_DELETE) {
+            document.querySelector('#btnDelete').style.display = 'none';
+            document.querySelector('#btnDelete').setAttribute('disabled', 'true');
+        }
+        if (CODE_CREATE) {
+            document.querySelector('#btnRegist').removeAttribute('disabled');
+            document.querySelector('#btnRegist').style.display = 'block';
+        }
+        document.querySelectorAll('input[type=text]').forEach(function (object) {
+            object.value = '';
+        });
+        document.querySelector('textarea').value = '';
+        document.querySelector('#txtCode').removeAttribute('disabled');
+        document.querySelector('#txtPCode').removeAttribute('disabled');
+        document.getElementById('codeLang').innerHTML = '';
+
+        let selectedNode = tree.getTreeSelectNode();
+        if (selectedNode !== null) {
+            document.querySelector('#txtPCode').value = selectedNode.id;
+        }
+        observer.isChanged = false;
+    }
+
+    function onEdit() {
+        if (CODE_UPDATE) {
+            document.querySelector('#btnUpdate').style.display = 'block';
+        }
+        if (CODE_DELETE) {
+            document.querySelector('#btnDelete').style.display = 'block';
+        }
+        if (CODE_DELETE) {
+            document.querySelector('#btnRegist').style.display = 'none';
+        }
+    }
+
+
+    /** save **/
+    function onSave(method) {
+        const jsonData = {
+            code: document.getElementById('txtCode').value,
+            pCode: document.getElementById('txtPCode').value,
+            codeName: document.getElementById('txtCodeName').value,
+            codeValue: document.getElementById('txtCodeValue').value,
+            codeDesc: document.getElementById('txtCodeDesc').value,
+            seqNum: document.getElementById('txtSeqNum').value
+        };
+
+        if (jsonData.code === null || jsonData.code.trim() === '') {
+            aliceAlert.alertWarning('[[#{code.msg.enterCode}]]');
+            return false;
+        }
+
+        if (jsonData.pCode === null || jsonData.pCode.trim() === '') {
+            aliceAlert.alertWarning('[[#{code.msg.enterPCode}]]');
+            return false;
+        }
+
+        const codeLangList = document.querySelectorAll('input[name=codeLangValue]');
+        for (let i = 0; i < codeLangList.length; i++) {
+            if (codeLangList[i].value.trim() === "") {
+                aliceAlert.alertWarning('[[#{code.msg.enterCodeLangValue}]]');
+                return false;
+            }
+        }
+
+        let codeLangData = {};
+        let divLang = document.getElementById('codeLang').children;
+        for (let i = 0; i < divLang.length; i++) {
+            const selectValue = divLang[i].getElementsByTagName('select')[0].value;
+            const codeLangValue = divLang[i].getElementsByTagName('input')[0].value;
+            if (typeof codeLangData[selectValue] === 'undefined') {
+                codeLangData[selectValue] = codeLangValue;
+            } else {
+                aliceAlert.alertWarning(i18n.msg('code.msg.selectNotDuplicateLang'));
+                return false;
+            }
+        }
+        if (divLang.length !== 0) {
+            jsonData.codeLang = JSON.stringify(codeLangData);
+        }
+
+        let url = '/rest/codes';
+        if (method !== 'post') {
+            url += '/' + document.getElementById('txtCode').value;
+        }
+
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(jsonData),
+            contentType: 'application/json',
+            callbackFunc: function (response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        tree.setTreeExpandNode(sessionKey);
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
+                            window.location.href = '/codes/edit';
+                        });
+                        break;
+                    case STATUS_SUCCESS_EDIT_CODE:
+                        tree.setTreeExpandNode(sessionKey);
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function () {
+                            window.location.href = '/codes/edit';
+                        });
+                        break;
+                    case STATUS_ERROR_CODE_P_CODE_NOT_EXIST:
+                        aliceAlert.alertWarning(i18n.msg('code.msg.pCodeNotExist'));
+                        break;
+                    case STATUS_ERROR_CODE_DUPLICATION:
+                        aliceAlert.alertWarning(i18n.msg('code.msg.duplicateCode'));
+                        break;
+                    default:
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        break;
                 }
-            };
-
-            aliceJs.sendXhr(opt);
-        }
-
-        function drawCodeLang(param) {
-            const divRow = document.createElement('div');
-            divRow.classList.add('flex-row', 'edit-row');
-
-            const divLangLabel = document.createElement('div');
-            divLangLabel.classList.add('flex-column', 'col-1');
-            const langLabel = document.createElement('label');
-            langLabel.classList.add('required');
-            langLabel.textContent = i18n.msg('code.label.lang');
-            divLangLabel.appendChild(langLabel)
-
-            const divLangSelect = document.createElement('div');
-            divLangSelect.classList.add('flex-column', 'col-5', 'mr-4');
-            const langSelect = document.createElement('select');
-            const langList = /*[[${langList}]]*/'';
-            for (let i = 0; i < langList.length; i++) {
-                const selectOption = document.createElement('option');
-                selectOption.value = langList[i].codeValue;
-                selectOption.text = langList[i].codeValue;
-                selectOption.selected = (typeof param !== 'undefined') ? (param.lang === selectOption.value) : '';
-                langSelect.appendChild(selectOption);
             }
-            divLangSelect.appendChild(langSelect);
+        };
 
-            const divCodeLangLabel = document.createElement('div');
-            divCodeLangLabel.classList.add('flex-column', 'col-1');
-            const codeLangValueLabel = document.createElement('label');
-            codeLangValueLabel.classList.add('required');
-            codeLangValueLabel.textContent = i18n.msg('code.label.codeValue');
-            divCodeLangLabel.appendChild(codeLangValueLabel);
+        aliceJs.sendXhr(opt);
+    }
 
-            const divCodeLangValueInput = document.createElement('div');
-            divCodeLangValueInput.classList.add('flex-column', 'col-5', 'ml-4');
-            const codeLangValueInput = document.createElement('input');
-            codeLangValueInput.classList.add('z-input');
-            codeLangValueInput.type = 'text';
-            codeLangValueInput.name = 'codeLangValue';
-            codeLangValueInput.maxLength = 100;
-            codeLangValueInput.value = (typeof param !== 'undefined') ? param.codeLangValue : '';
-            divCodeLangValueInput.appendChild(codeLangValueInput);
-
-            const divDeleteBtn = document.createElement('div');
-            divDeleteBtn.classList.add('flex-column', 'col-1');
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'z-button-icon extra';
-            const deleteIcon = document.createElement('span');
-            deleteIcon.className = 'z-icon i-delete';
-            deleteBtn.appendChild(deleteIcon);
-            deleteBtn.addEventListener('click', function () {
-                const row = deleteBtn.parentNode.parentNode;
-                row.remove();
-            });
-            divDeleteBtn.appendChild(deleteBtn);
-
-            divRow.appendChild(divLangLabel);
-            divRow.appendChild(divLangSelect);
-            divRow.appendChild(divCodeLangLabel);
-            divRow.appendChild(divCodeLangValueInput);
-            divRow.appendChild(divDeleteBtn);
-            document.getElementById('codeLang').appendChild(divRow);
-            aliceJs.initDesignedSelectTag(document.querySelector('#codeLang'));
-        }
-
-        function initCodeLang(param) {
-            const divCodeLang = document.getElementById('codeLang');
-            while (divCodeLang.hasChildNodes()) {
-                divCodeLang.removeChild(divCodeLang.firstChild);
-            }
-            if (param !== '') {
-                const codeLang = JSON.parse(param);
-                for (let index in codeLang) {
-                    drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeValue});
+    /** delete **/
+    function onDelete() {
+        const opt = {
+            method: 'delete',
+            url: '/rest/codes/' + document.getElementById('txtCode').value,
+            callbackFunc: function (response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        tree.setTreeExpandNode(sessionKey);
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                            window.location.href = '/codes/edit';
+                        });
+                        break;
+                    case STATUS_ERROR_CODE_P_CODE_USED:
+                        aliceAlert.alertWarning(i18n.msg('code.msg.referenceCodeExist'));
+                        break;
+                    default:
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        break;
                 }
             }
+        };
+
+        aliceJs.sendXhr(opt);
+    }
+
+    function drawCodeLang(param) {
+        const langCodeRow = document.getElementById('langCodeRowTemplate').content.cloneNode(true);
+
+        const langList = /*[[${langList}]]*/'';
+        const selectTag = langCodeRow.querySelector('select')
+        for (let i = 0; i < langList.length; i++) {
+            const selectOption = document.createElement('option');
+            selectOption.value = langList[i].codeValue;
+            selectOption.text = langList[i].codeValue;
+            selectOption.selected = (typeof param !== 'undefined') ? (param.lang === selectOption.value) : '';
+            selectTag.appendChild(selectOption);
         }
 
-        /*]]>*/
-    </script>
-</th:block>
+        langCodeRow.querySelector('input').value = (typeof param.codeLangValue !== 'undefined') ? param.codeLangValue : '';
+        const deleteBtn = langCodeRow.querySelector('button.z-button-icon');
+        deleteBtn.addEventListener('click', function () {
+            const row = deleteBtn.parentNode;
+            row.remove();
+            observer.isChanged = true;
+        });
+
+        document.getElementById('codeLang').appendChild(langCodeRow);
+        aliceJs.initDesignedSelectTag(document.querySelector('#codeLang'));
+        observer.set();
+    }
+
+    function initCodeLang(param) {
+        const divCodeLang = document.getElementById('codeLang');
+        while (divCodeLang.hasChildNodes()) {
+            divCodeLang.removeChild(divCodeLang.firstChild);
+        }
+        if (param !== '') {
+            const codeLang = JSON.parse(param);
+            for (let index in codeLang) {
+                drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeValue});
+            }
+        }
+    }
+    /*]]>*/
+</script>
 </html>

@@ -7,27 +7,40 @@
 </head>
 <th:block layout:fragment="css">
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
-    <link th:href="@{/assets/theme/{theme}/css/itsm.css(theme=${#authentication.details.theme})}"
-          rel="stylesheet"/>
+    <link th:href="@{/assets/theme/{theme}/css/itsm.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
 </th:block>
 <body>
 <th:block layout:fragment="content">
-    <div class="document-container">
+    <div class="z-document-container">
         <form id="frm" name="frm">
-            <div class="document-main flex-column align-items-center" style="right: 38.13rem">
-                <div class="document-main-header flex-row justify-content-between align-items-center">
-                    <span class="document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></span>
-                    <div class="z-button-area" id="documentButtonArea"></div>
+            <div class="z-document-main flex-column align-items-center">
+                <input type="hidden" id="tokenId" th:value="${tokenId}" />
+                <input type="hidden" id="folderId" th:value="${folderId}"/>
+                <div class="z-document-main-header flex-row justify-content-between align-items-center flex-wrap">
+                    <span class="z-document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></span>
+                    <div id="defaultButtonArea"></div>
+                    <div class="z-action-button-top-area" id="actionButtonTopArea"></div>
                 </div>
-                <div class="z-drawing-board" id="documentPanel" data-display="token"></div>
+                <div class="z-drawing-board" id="documentDrawingBoard" data-display="running"></div>
+                <div class="z-document-main-footer flex-row justify-content-end align-items-center flex-wrap">
+                    <div class="z-action-button-bottom-area" id="actionButtonBottomArea"></div>
+                </div>
             </div>
         </form>
-        <div class="token-properties"></div>
+        <div class="z-token-properties flex-column" id="documentProperties"></div>
     </div>
+    <!-- 관련 문서 모달-->
+    <template id="relatedTokenModalTemplate">
+        <div class="related-instance-list">
+            <input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
+                   th:placeholder="#{token.label.relatedInstancePlaceholder}"/>
+            <span id="spanTotalCount" class="search-count"></span>
+            <div class="table-set" id="instanceList"></div>
+        </div>
+    </template>
 </th:block>
 </body>
 <th:block layout:fragment="script">
-    <script th:src="@{/assets/vendors/tagify/tagify.custom.js}"></script>
     <script type="module">
         /*<![CDATA[*/
         import { zFormToken } from "../../assets/js/document/zFormToken.js";
@@ -44,291 +57,20 @@
             mobileNumber: '[[${#authentication.details.mobileNumber}]]'
         };
         Object.assign(SESSION, userSession);
-        let tokenListModal, instanceId;
 
-        // 아래 URL 은 추후에 '/rest/tokens/' + '[[${tokenId}]]' + '/data' 로 수정해야 함.
-        //aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {
-        aliceJs.fetchJson('/assets/js/document/token_test.json', {
+        // 문서 생성
+        aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {
             method: 'GET'
         }).then((formDataJson) => {
-            if (formDataJson.instanceId) {
-                addIdComponent('instanceId', formDataJson.instanceId);
-            }
+            formDataJson.tokenId = document.getElementById('tokenId').value;
+            formDataJson.folderId = document.getElementById('folderId').value;
 
-            if (formDataJson) {
-                addIdComponent('tokenId', formDataJson.tokenId);
-            }
+            zFormToken.init(formDataJson, true);
+            zFormButton.init(formDataJson, zFormToken);
 
-            zFormToken.init(document.getElementById('documentPanel'), formDataJson);
-            zFormButton.init(document.getElementById('documentButtonArea'), formDataJson, zFormToken);
+            window.zFormToken = zFormToken;
         });
-        OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
         /*]]>*/
-    </script>
-    <script type="text/javascript">
-        // 탭 정보들 조회하여 셋팅.
-        window.onload = function() {
-            tabInit();
-            aliceJs.initDesignedSelectTag();
-        }
-
-        /**
-         * 토큰 탭 화면 초기화
-         */
-        function tabInit() {
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/tokens/' + '[[${tokenId}]]' + '/edit-tab',
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    instanceId = document.getElementById('instanceId').getAttribute('data-id');
-                    if (document.querySelector('.token-properties').children) {
-                        document.querySelector('.token-properties').remove();
-                        let tokenInfo = document.createElement('div');
-                        tokenInfo.className = 'token-properties';
-                        document.querySelector('.document-container').append(tokenInfo);
-                    }
-
-                    document.querySelector('.token-properties').innerHTML = response.responseText;
-
-                    // 탭 정보에 이벤트를 등록
-                    document.querySelectorAll('.token-info-tab > h4').forEach((ele) => {
-                        ele.addEventListener('click', (e) => {
-                            // 탭 동작
-                            Array.prototype.filter.call(e.target.parentNode.children, function (child) {
-                                return child !== e.target;
-                            }).forEach((siblingElement) => {
-                                siblingElement.classList.remove('active');
-                            });
-                            e.target.classList.add('active');
-                            // 컨텐츠 내용 동작
-                            let targetElement = document.querySelector('.' + e.target.dataset.targetContents);
-                            if (targetElement != null) {
-                                Array.prototype.filter.call(targetElement.parentNode.children, function (child) {
-                                    return child !== targetElement;
-                                }).forEach((siblingElement) => {
-                                    siblingElement.style.display = 'none';
-                                });
-                                targetElement.style.display = 'block';
-                            }
-                            // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
-                            sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
-
-                            if (e.target.dataset.targetContents === 'token-tag') {
-                                document.querySelector('span[contenteditable]').focus();
-                            }
-                        });
-                    });
-
-                    // userDate 변환
-                    document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
-                        element.textContent = dateFormatFromNow(element.textContent);
-                    });
-                    document.querySelectorAll('.user-date-time').forEach((element) => {
-                        element.textContent = i18n.userDateTime(element.textContent);
-                    });
-
-                    addCommentBox(instanceId);
-
-                    new zTag(document.querySelector('input[name=tags]'),{
-                        suggestion: true,
-                        realtime: true,
-                        tagType: 'instance',
-                        targetId: instanceId
-                    })
-                    const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : 'token-history';
-                    document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
-                    OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
-                    const tokenActionEle = document.querySelectorAll('td[name=tokenAction]');
-                    for (let i = 0; i < tokenActionEle.length; i++) {
-                        tokenActionEle[i].textContent = i18n.msg(tokenActionEle[i].textContent);
-                    }
-                    OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
-                }
-            });
-        }
-
-        /**
-         * Comment Object.
-         *
-         * @param instanceId
-         */
-        function addCommentBox(instanceId) {
-            let commentContainer = document.getElementById('comment-container');
-            if (commentContainer !== null) {
-
-                let commentBoxTextarea = document.createElement('textarea');
-                commentBoxTextarea.id = 'commentValue';
-                commentBoxTextarea.setAttribute('placeholder', i18n.msg('comment.msg.enterComments'));
-                commentBoxTextarea.className = 'textarea-scroll-wrapper';
-                let commentButton = document.createElement('button');
-                commentButton.type = 'button';
-                commentButton.innerText = i18n.msg('common.btn.register');
-                commentButton.className = 'z-button form';
-                commentButton.addEventListener('click', function () {
-                    // 유효성 검증
-                    if (isEmpty('commentValue', 'comment.msg.enterComments')) { return false; }
-                    saveComment(instanceId, commentBoxTextarea.value);
-                });
-
-                commentContainer.appendChild(commentBoxTextarea);
-                commentContainer.appendChild(commentButton);
-
-                OverlayScrollbars(commentContainer.querySelector('textarea'), {
-                    className: 'inner-scrollbar',
-                    resize: 'vertical',
-                    sizeAutoCapable: true,
-                    textarea: {
-                        dynHeight: false,
-                        dynWidth: false,
-                        inheritedAttrs: 'class'
-                    }
-                });
-            }
-        }
-
-        function openProcessStatusPopUp() {
-            window.open('/process/[[${instanceId}]]/status', 'process_status_[[${instanceId}]]', 'width=1300, height=500');
-        }
-
-        function openTokenEdit(tokenId) {
-            const _width = 1500, _height = 920;
-            const _left = Math.ceil((window.screen.width - _width) / 2);
-            const _top = Math.ceil((window.screen.height - _height) / 4);
-            window.open('/tokens/' + tokenId + '/view', 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150) + ', left=' + _left + ', top=' + _top);
-        }
-
-        /**
-         * Save Comment.
-         *
-         * @param instanceId
-         * @param comment
-         */
-        function saveComment(instanceId, comment) {
-            let data = {
-                instanceId: instanceId,
-                content: comment
-            };
-            const opt = {
-                method: 'POST',
-                url: '/rest/comments',
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function(xhr) {
-                    if (xhr.responseText) {
-                        tabInit();
-                    } else {
-                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /**
-         * id Component 를 만든다. (document, token)
-         *
-         * @param v_kind 분류, data : id 값
-         * @param v_data id
-         */
-        function addIdComponent(v_kind, v_data) {
-            const comp = document.createElement('div');
-            comp.id = v_kind;
-            comp.setAttribute('data-id', v_data);
-            document.getElementById('documentPanel').appendChild(comp);
-        }
-
-        // 관련문서 모달
-        function openRelatedToken() {
-            tokenListModal = new modal({
-                title: i18n.msg('token.label.relatedInstance'),
-                body: createModalContent(),
-                classes: 'token-list',
-                buttons: [{
-                    content: i18n.msg('common.btn.select'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function() {
-                        saveTokenList();
-                    }
-                },{
-                    content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        modal.hide();
-                    }
-                }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function() {
-                    document.getElementById('search').addEventListener('keyup', function() {
-                        getInstanceList(this.value, false);
-                    });
-                    getInstanceList(document.getElementById('search').value, true);
-                }
-            });
-            tokenListModal.show();
-        }
-
-        // 관련 문서 모달 내부 Template
-        function createModalContent() {
-            return `<div class="related-instance-list">` +
-                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('token.label.relatedInstancePlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
-                `<div class="table-set" id="instanceList"></div>` +
-                `</div>`;
-        }
-
-        // 관련문서 추가
-        function saveTokenList() {
-            let checked = document.querySelectorAll('input[name=chk]:checked');
-            if (checked.length === 0) {
-                aliceAlert.alertWarning(i18n.msg('token.msg.selectToken'));
-            } else {
-                let jsonArray = [];
-                for (let i = 0; i < checked.length; i++) {
-                    let jsonObject = {};
-                    jsonObject.folderId = '[[${folderId}]]';
-                    jsonObject.instanceId = checked[i].value;
-                    jsonArray.push(jsonObject);
-                }
-                restSubmit('POST', '/rest/folders', function() {
-                    aliceDocument.createTokenInfoTab();
-                    tokenListModal.hide();
-                }, jsonArray, true);
-            }
-        }
-
-        function getInstanceList(search, showProgressbar) {
-            restSubmit('get', '/tokens/view-pop/documents?searchValue=' + search.trim() + '&tokenId=' + '[[${tokenId}]]', function(result) {
-                document.getElementById('instanceList').innerHTML = result;
-                aliceJs.showTotalCount(document.querySelectorAll('.instance-list').length);
-                let instanceDtEle = document.querySelectorAll('td[name=instanceDt]');
-                for (let i = 0; i < instanceDtEle.length; i++) {
-                    if (instanceDtEle[i].textContent !== '') {
-                        instanceDtEle[i].textContent = i18n.userDateTime(instanceDtEle[i].textContent);
-                    }
-                }
-                // 스크롤바
-                OverlayScrollbars(document.querySelector('.z-list-body'), { className: 'scrollbar' });
-            }, null, showProgressbar);
-        }
-
-        function restSubmit(method, url, result, data, showProgressbar) {
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                showProgressbar: showProgressbar,
-                callbackFunc: function (response) {
-                    result(response.responseText);
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
     </script>
 </th:block>
 </html>
