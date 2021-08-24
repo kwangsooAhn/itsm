@@ -219,15 +219,17 @@ export default class ZColumnProperty extends ZProperty {
             const propertyObjectElement = propertyObject.makeProperty(this);
 
             if (!zValidation.isDefined(propertyObjectElement)) { return false; }
+            target.addUI(propertyObjectElement);
+            propertyObject.afterEvent();
 
             if (propertyObject instanceof ZGroupProperty) {
                 // 그룹에 포함될 경우
                 propertyObject.children.map(childPropertyObject => {
                     const childPropertyObjectElement = childPropertyObject.makeProperty(this);
                     propertyObjectElement.addUI(childPropertyObjectElement);
+                    childPropertyObject.afterEvent();
                 });
             }
-            target.addUI(propertyObjectElement);
         });
     }
     // 컬럼 선택

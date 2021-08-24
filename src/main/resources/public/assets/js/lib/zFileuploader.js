@@ -501,6 +501,9 @@ const zFileUploader = (function () {
                             dropzoneMessage.querySelector('.i-document-txt').style.display = 'block';
                             _this.isFileExist = false;
                         }
+                        if (typeof extraParam.callback === 'function') {
+                            extraParam.callback('remove', file.previewElement.querySelector('input[name="fileSeq"]').value);
+                        }
                     });
 
                     this.on('success', function (file, response) {
@@ -510,6 +513,9 @@ const zFileUploader = (function () {
                         if (response.file !== undefined) {
                             seq.value = response.file.fileSeq;
                             file.previewElement.appendChild(seq);
+                        }
+                        if (typeof extraParam.callback === 'function') {
+                            extraParam.callback('add', seq.value);
                         }
                     });
 

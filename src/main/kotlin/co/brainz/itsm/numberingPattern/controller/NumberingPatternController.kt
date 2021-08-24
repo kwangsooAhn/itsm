@@ -61,6 +61,17 @@ class NumberingPatternController(
     }
 
     /**
+     * 패턴 편집 화면
+     */
+    @GetMapping("/{numberingPatternId}/edit")
+    fun getNoticeForm(@PathVariable numberingPatternId: String, model: Model): String {
+        val dateList = codeService.selectCodeByParent(NumberingPatternConstants.DEFAULT_DATE_FORMAT_PARENT_CODE)
+        model.addAttribute("dateList", dateList)
+        model.addAttribute("pattern", numberingPatternService.getNumberingPatternsDetail(numberingPatternId))
+        return numberingPatternEditPage
+    }
+
+    /**
      * 패턴 보기 화면
      */
     @GetMapping("/{numberingPatternId}/view")

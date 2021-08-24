@@ -1,330 +1,323 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
     <title th:text="${users != null} ? #{user.label.edit} : #{user.label.register}"></title>
 </head>
-<body>
-<th:block layout:fragment="head">
-    <div class="z-user-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{user.label.user}"></h1>
-            <h6 class="description ml-2" th:text="#{user.msg.editDescription}"></h6>
-        </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="flex-column z-edit">
-        <div class="z-user-content-edit">
-            <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
-            <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
-            <div class="flex-column z-edit-row">
-                <h3 class="sub-title under-bar bold" th:text="#{user.label.profile}"></h3>
-            </div>
-            <div class="flex-column z-edit-row">
-                <div class="flex-row">
-                    <div class="z-edit-column col-6">
-                        <div class="flex-column z-edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
-                            <label for="userId">
-                                <span th:text="#{user.label.id}"></span>
-                                <span class="required"></span>
-                            </label>
-                            <input type="text" class="z-input" id="userId" name="userId" maxlength="100"
-                                   th:value="${users?.userId}" required="required"/>
-                        </div>
-                        <div class="flex-column z-edit-row" th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice')}">
-                            <label th:text="#{user.label.password}"></label>
-                            <button class="z-button primary" type="button" th:text="#{user.btn.resetPassword}"
-                                    th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"/>
-                        </div>
-                        <div class="flex-column z-edit-row">
-                            <label for="userName">
-                                <span th:text="#{user.label.name}"></span>
-                                <span class="required"></span>
-                            </label>
-                            <input type="text" class="z-input" id="userName" name="userName" th:value="${users?.userName}"
-                                   maxlength="100" required="required" />
-                        </div>
-                        <div class="flex-column z-edit-row">
-                            <label for="email">
-                                <span th:text="#{user.label.email}"></span>
-                                <span class="required"></span>
-                            </label>
-                            <input type="text" class="z-input" id="email" name="email" th:value="${users?.email}"
-                                   maxlength="100" required="required">
-                        </div>
-                        <div class="flex-column z-edit-row">
-                            <label th:text="#{user.label.position}" for="position"></label>
-                            <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}" maxlength="100">
-                        </div>
-                        <div class="flex-column z-edit-row">
-                            <label th:text="#{user.label.department}" for="department"></label>
-                            <div class="flex-row z-input-button">
-                                <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
-                                <input type="text" class="z-input col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
-                                <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
-                                <button type="button" class="z-button-search z-button form" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
-                            </div>
-                        </div>
-                        <div class="flex-column z-edit-row">
-                            <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
-                            <input type="text" class="z-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
-                                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
-                        </div>
-                        <div class="flex-column z-edit-row">
-                            <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
-                            <input type="text" class="z-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
-                                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
-                        </div>
-                    </div>
-                    <div class="flex-column avatar-edit ml-4">
-                        <label class="avatar-title" th:text="#{user.label.avatar}"></label>
-                        <div id="avatarDropZone"></div>
-                        <div class="avatar-description">
-                            <span class="avatar-text" th:text="#{user.label.FileSizeLimit}"></span>
-                            <span class="avatar-text" th:text="#{user.label.FileExtensionAllowed}"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-column z-edit-row">
-                <h3 class="sub-title under-bar bold" th:text="#{user.label.customSetting}"></h3>
-            </div>
-            <div class="flex-column z-edit-row">
-                <div class="flex-row">
-                    <div class="flex-column col-6 mr-4">
-                        <label for="timezone">
-                            <span th:text="#{user.label.timezone}"></span>
-                            <span class="required"></span>
-                        </label>
-                        <select class="custom-setting-top-select" name="timezone" id="timezone">
-                            <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
-                                    th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone?:defaultTimezone}"></option>
-                        </select>
-                    </div>
-                    <div class="flex-column col-6">
-                        <label th:text="#{user.label.timeFormat}" for="date"></label>
-                        <div class="flex-row">
-                            <select class="select-date-time mr-1" name="date" id="date">
-                                <option th:each="date: ${dateList}" th:value="${date.codeValue}"
-                                        th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
-                            </select>
-                            <select class="hour-select" name="time" id="time">
-                                <option th:each="time: ${timeList}" th:value="${time.codeValue}"
-                                        th:text="${time.code}" th:selected="${time.codeValue} == ${usersTime}"></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-column z-edit-row">
-                <div class="flex-row">
-                    <div class="flex-column col-6 mr-4">
-                        <label for="lang">
-                            <span th:text="#{user.label.lang}"></span>
-                            <span class="required"></span>
-                        </label>
-                        <select class="language-select" name="lang" id="lang">
-                            <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
-                                    th:text="${lang.codeValue}" th:selected="${lang.codeValue} == ${users?.lang}"></option>
-                        </select>
-                    </div>
-                    <div class="flex-column col-6">
-                        <label for="theme">
-                            <span th:text="#{user.label.theme}"></span>
-                            <span class="required"></span>
-                        </label>
-                        <select class="theme-color-select" name="theme" id="theme">
-                            <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
-                                    th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"
-                                    th:unless="${theme.codeValue} == 'dark'"></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-column z-edit-row">
-                <h3 class="sub-title under-bar bold" th:text="#{user.label.role}"></h3>
-            </div>
-            <div class="flex-column z-edit-row">
-                <div class="z-checkbox-list">
-                    <ul>
-                        <li class="user-role-checkbox-wrap" th:each="role : ${roles}">
-                            <label class="z-checkbox" th:for="|roles*{roleStat.index}|" th:title="*{role.roleName}" tabindex="0">
-                                <input class="user-role-checkbox" type="checkbox"
-                                       th:id="|roles*{roleStat.index}|" name="roles"
-                                       th:value="*{role.roleId}" th:checked="*{role.checked}">
-                                <span></span>
-                                <span class="z-label" th:text="*{role.roleName}"></span>
-                            </label>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="flex-column z-edit-row">
-                <h3 class="sub-title under-bar bold" th:text="#{user.label.usageStatus}"></h3>
-                <label class="z-switch">
-                    <input type="checkbox" id="usageStatus" name="usageStatus"
-                           th:checked="${users?.useYn == null || users?.useYn == true}">
-                    <span></span>
-                    <span class="z-label" th:text="#{user.msg.usageStatus}"></span>
-                </label>
-            </div>
-            <div class="flex-row justify-content-between z-edit-row">
-                <div class="z-button-list">
-                    <a class="z-button secondary" href="/users/search" th:text="#{common.btn.list}"></a>
-                </div>
-                <div class="z-button-list">
-                <button class="z-button primary" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
-                        th:onclick="restSubmit('post', [[@{/rest/users}]], 'true')"></button>
-                <button class="z-button primary" type="button" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
-                        th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')"></button>
-            </div>
-            </div>
-        </div>
-    </div>
-</th:block>
-</body>
-<th:block layout:fragment="pageScript">
+<th:block layout:fragment="pageHead">
     <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
     <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
     <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
     <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-        window.onload = function() {
-            document.getElementById('userId').focus();
-            zFileUploader.avatar({
-                extra: {
-                    dropZoneFilesId: 'avatarDropZone',
-                    type: 'avatar',
-                    dropZoneMaxFileSize: 0.2,
-                    dropZoneUrl: '/fileupload?target=avatar',
-                    dropZoneMaxFiles: 1,
-                    acceptedFiles: '.png,.jpeg,.jpg,.gif',
-                    enableImageThumbnails: true,
-                    avatar: {
-                        id: [[${users?.userKey}]],
-                        path: [[${users?.avatarPath}]],
-                        value: [[${users?.avatarValue}]],
-                        size: [[${users?.avatarSize}]]
-                    }
-                }
-            });
-
-            OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
-            OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
-        };
-
-        const STATUS_SUCCESS = '0';
-        const STATUS_ERROR_USER_ID_DUPLICATION = '1';
-        const STATUS_ERROR_EMAIL_DUPLICATION = '3';
-        const STATUS_SUCCESS_EDIT_EMAIL = '4';
-        const STATUS_SUCCESS_EDIT_ADMIN = '5';
-        const STATUS_SUCCESS_EDIT_PASSWORD = '6';
-
-        function restSubmit(method, url, activeValidation) {
-            if (activeValidation === 'true') {
-                if (!validation()) {
-                    return false;
+</th:block>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{user.label.user}"></h1>
+    <h6 class="description ml-2" th:text="#{user.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
+        <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
+        <div class="flex-column z-edit-row">
+            <h3 class="sub-title under-bar bold" th:text="#{user.label.profile}"></h3>
+        </div>
+        <div class="flex-column z-edit-row">
+            <div class="flex-row">
+                <div class="z-edit-column col-6">
+                    <div class="flex-column z-edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
+                        <label for="userId">
+                            <span th:text="#{user.label.id}"></span>
+                            <span class="required"></span>
+                        </label>
+                        <input type="text" class="z-input" id="userId" name="userId" maxlength="100"
+                               th:value="${users?.userId}" required="required"/>
+                    </div>
+                    <div class="flex-column z-edit-row" th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice')}">
+                        <label th:text="#{user.label.password}"></label>
+                        <button class="z-button primary" type="button" th:text="#{user.btn.resetPassword}"
+                                th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"/>
+                    </div>
+                    <div class="flex-column z-edit-row">
+                        <label for="userName">
+                            <span th:text="#{user.label.name}"></span>
+                            <span class="required"></span>
+                        </label>
+                        <input type="text" class="z-input" id="userName" name="userName" th:value="${users?.userName}"
+                               maxlength="100" required="required" />
+                    </div>
+                    <div class="flex-column z-edit-row">
+                        <label for="email">
+                            <span th:text="#{user.label.email}"></span>
+                            <span class="required"></span>
+                        </label>
+                        <input type="text" class="z-input" id="email" name="email" th:value="${users?.email}"
+                               maxlength="100" required="required">
+                    </div>
+                    <div class="flex-column z-edit-row">
+                        <label th:text="#{user.label.position}" for="position"></label>
+                        <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}" maxlength="100">
+                    </div>
+                    <div class="flex-column z-edit-row">
+                        <label th:text="#{user.label.department}" for="department"></label>
+                        <div class="flex-row z-input-button">
+                            <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
+                            <input type="text" class="z-input col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
+                            <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
+                            <button type="button" class="z-button-search z-button form" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
+                        </div>
+                    </div>
+                    <div class="flex-column z-edit-row">
+                        <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
+                        <input type="text" class="z-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
+                               onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
+                    </div>
+                    <div class="flex-column z-edit-row">
+                        <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
+                        <input type="text" class="z-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
+                               onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
+                    </div>
+                </div>
+                <div class="flex-column avatar-edit ml-4">
+                    <label class="avatar-title" th:text="#{user.label.avatar}"></label>
+                    <div id="avatarDropZone"></div>
+                    <div class="avatar-description">
+                        <span class="avatar-text" th:text="#{user.label.FileSizeLimit}"></span>
+                        <span class="avatar-text" th:text="#{user.label.FileExtensionAllowed}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-column z-edit-row">
+            <h3 class="sub-title under-bar bold" th:text="#{user.label.customSetting}"></h3>
+        </div>
+        <div class="flex-column z-edit-row">
+            <div class="flex-row">
+                <div class="flex-column col-6 mr-4">
+                    <label for="timezone">
+                        <span th:text="#{user.label.timezone}"></span>
+                        <span class="required"></span>
+                    </label>
+                    <select class="custom-setting-top-select" name="timezone" id="timezone">
+                        <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
+                                th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone?:defaultTimezone}"></option>
+                    </select>
+                </div>
+                <div class="flex-column col-6">
+                    <label th:text="#{user.label.timeFormat}" for="date"></label>
+                    <div class="flex-row">
+                        <select class="select-date-time mr-1" name="date" id="date">
+                            <option th:each="date: ${dateList}" th:value="${date.codeValue}"
+                                    th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
+                        </select>
+                        <select class="hour-select" name="time" id="time">
+                            <option th:each="time: ${timeList}" th:value="${time.codeValue}"
+                                    th:text="${time.code}" th:selected="${time.codeValue} == ${usersTime}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-column z-edit-row">
+            <div class="flex-row">
+                <div class="flex-column col-6 mr-4">
+                    <label for="lang">
+                        <span th:text="#{user.label.lang}"></span>
+                        <span class="required"></span>
+                    </label>
+                    <select class="language-select" name="lang" id="lang">
+                        <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
+                                th:text="${lang.codeValue}" th:selected="${lang.codeValue} == ${users?.lang}"></option>
+                    </select>
+                </div>
+                <div class="flex-column col-6">
+                    <label for="theme">
+                        <span th:text="#{user.label.theme}"></span>
+                        <span class="required"></span>
+                    </label>
+                    <select class="theme-color-select" name="theme" id="theme">
+                        <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
+                                th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"
+                                th:unless="${theme.codeValue} == 'dark'"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="flex-column z-edit-row">
+            <h3 class="sub-title under-bar bold" th:text="#{user.label.role}"></h3>
+        </div>
+        <div class="flex-column z-edit-row">
+            <div class="z-checkbox-list">
+                <ul>
+                    <li class="user-role-checkbox-wrap" th:each="role : ${roles}">
+                        <label class="z-checkbox" th:for="|roles*{roleStat.index}|" th:title="*{role.roleName}" tabindex="0">
+                            <input class="user-role-checkbox" type="checkbox"
+                                   th:id="|roles*{roleStat.index}|" name="roles"
+                                   th:value="*{role.roleId}" th:checked="*{role.checked}">
+                            <span></span>
+                            <span class="z-label" th:text="*{role.roleName}"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="flex-column z-edit-row">
+            <h3 class="sub-title under-bar bold" th:text="#{user.label.usageStatus}"></h3>
+            <label class="z-switch">
+                <input type="checkbox" id="usageStatus" name="usageStatus"
+                       th:checked="${users?.useYn == null || users?.useYn == true}">
+                <span></span>
+                <span class="z-label" th:text="#{user.msg.usageStatus}"></span>
+            </label>
+        </div>
+        <div class="flex-row justify-content-between z-edit-row">
+            <div class="z-button-list">
+                <a class="z-button secondary" href="/users/search" th:text="#{common.btn.list}"></a>
+            </div>
+            <div class="z-button-list">
+            <button class="z-button primary" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
+                    th:onclick="restSubmit('post', [[@{/rest/users}]], 'true')"></button>
+            <button class="z-button primary" type="button" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
+                    th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')"></button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        document.getElementById('userId').focus();
+        zFileUploader.avatar({
+            extra: {
+                dropZoneFilesId: 'avatarDropZone',
+                type: 'avatar',
+                dropZoneMaxFileSize: 0.2,
+                dropZoneUrl: '/fileupload?target=avatar',
+                dropZoneMaxFiles: 1,
+                acceptedFiles: '.png,.jpeg,.jpg,.gif',
+                enableImageThumbnails: true,
+                avatar: {
+                    id: [[${users?.userKey}]],
+                    path: [[${users?.avatarPath}]],
+                    value: [[${users?.avatarValue}]],
+                    size: [[${users?.avatarSize}]]
                 }
             }
-            let arrRoleValue = [];
-            document.querySelectorAll('input[name=roles]:checked').forEach(function(item) {
-                arrRoleValue.push(item.value);
-            });
+        });
 
-            const data = {
-                userKey: document.getElementById('userKey').value,
-                userId: document.getElementById('userId').value,
-                userName: document.getElementById('userName').value,
-                email: document.getElementById('email').value,
-                useYn: document.getElementById('usageStatus').checked,
-                position: document.getElementById('position').value,
-                department: document.getElementById('departmentCode').value,
-                officeNumber: document.getElementById('officeNumber').value,
-                mobileNumber: document.getElementById('mobileNumber').value,
-                timezone: document.getElementById('timezone').value,
-                lang: document.getElementById('lang').value,
-                theme: document.getElementById('theme').value,
-                timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
-                roles: arrRoleValue,
-                avatarUUID: document.getElementById('avatarUUID').value
-            };
+        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
+    };
 
-            aliceJs.sendXhr({
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function(response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess([[#{user.msg.createUser}]], function() {
-                                window.location.reload();
-                            });
-                            break;
-                        case STATUS_SUCCESS_EDIT_ADMIN:
-                            aliceAlert.alertSuccess([[#{common.msg.modify}]], function() {
-                                window.location.reload();
-                            });
-                            break;
-                        case STATUS_SUCCESS_EDIT_EMAIL:
-                            aliceAlert.alertSuccess([[#{user.msg.emailWithUpdate}]], function() {
-                                window.location.reload();
-                            });
-                            break;
-                        case STATUS_SUCCESS_EDIT_PASSWORD:
-                            aliceAlert.alertSuccess([[#{user.msg.resetPassword}]]);
-                            break;
-                        case STATUS_ERROR_USER_ID_DUPLICATION:
-                            aliceAlert.alertWarning([[#{user.msg.sameUserId}]]);
-                            break;
-                        case STATUS_ERROR_EMAIL_DUPLICATION:
-                            aliceAlert.alertWarning([[#{user.msg.sameEmail}]]);
-                            break;
-                        default:
-                            aliceAlert.alertDanger([[#{common.msg.fail}]]);
-                            break;
-                    }
+    const STATUS_SUCCESS = '0';
+    const STATUS_ERROR_USER_ID_DUPLICATION = '1';
+    const STATUS_ERROR_EMAIL_DUPLICATION = '3';
+    const STATUS_SUCCESS_EDIT_EMAIL = '4';
+    const STATUS_SUCCESS_EDIT_ADMIN = '5';
+    const STATUS_SUCCESS_EDIT_PASSWORD = '6';
+
+    function restSubmit(method, url, activeValidation) {
+        if (activeValidation === 'true') {
+            if (!validation()) {
+                return false;
+            }
+        }
+        let arrRoleValue = [];
+        document.querySelectorAll('input[name=roles]:checked').forEach(function(item) {
+            arrRoleValue.push(item.value);
+        });
+
+        const data = {
+            userKey: document.getElementById('userKey').value,
+            userId: document.getElementById('userId').value,
+            userName: document.getElementById('userName').value,
+            email: document.getElementById('email').value,
+            useYn: document.getElementById('usageStatus').checked,
+            position: document.getElementById('position').value,
+            department: document.getElementById('departmentCode').value,
+            officeNumber: document.getElementById('officeNumber').value,
+            mobileNumber: document.getElementById('mobileNumber').value,
+            timezone: document.getElementById('timezone').value,
+            lang: document.getElementById('lang').value,
+            theme: document.getElementById('theme').value,
+            timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
+            roles: arrRoleValue,
+            avatarUUID: document.getElementById('avatarUUID').value
+        };
+
+        aliceJs.sendXhr({
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function(response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        aliceAlert.alertSuccess([[#{user.msg.createUser}]], function() {
+                            window.location.reload();
+                        });
+                        break;
+                    case STATUS_SUCCESS_EDIT_ADMIN:
+                        aliceAlert.alertSuccess([[#{common.msg.modify}]], function() {
+                            window.location.reload();
+                        });
+                        break;
+                    case STATUS_SUCCESS_EDIT_EMAIL:
+                        aliceAlert.alertSuccess([[#{user.msg.emailWithUpdate}]], function() {
+                            window.location.reload();
+                        });
+                        break;
+                    case STATUS_SUCCESS_EDIT_PASSWORD:
+                        aliceAlert.alertSuccess([[#{user.msg.resetPassword}]]);
+                        break;
+                    case STATUS_ERROR_USER_ID_DUPLICATION:
+                        aliceAlert.alertWarning([[#{user.msg.sameUserId}]]);
+                        break;
+                    case STATUS_ERROR_EMAIL_DUPLICATION:
+                        aliceAlert.alertWarning([[#{user.msg.sameEmail}]]);
+                        break;
+                    default:
+                        aliceAlert.alertDanger([[#{common.msg.fail}]]);
+                        break;
                 }
-            });
-        }
+            }
+        });
+    }
 
-        function validation() {
-            if (isEmpty('userId', 'user.msg.enterUserId')) return false;
-            if (!isValidUserId("userId", true)) return false;
-            if (isEmpty('userName', 'user.msg.enterUserName')) return false;
-            if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
-            if (!isValidEmail('email', true)) return false;
-            return true;
-        }
+    function validation() {
+        if (isEmpty('userId', 'user.msg.enterUserId')) return false;
+        if (!isValidUserId("userId", true)) return false;
+        if (isEmpty('userName', 'user.msg.enterUserName')) return false;
+        if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
+        if (!isValidEmail('email', true)) return false;
+        return true;
+    }
 
-        function setDepartment(node) {
-            document.getElementById('department').value = node.textContent;
-            document.getElementById('departmentCode').value = node.id;
-        }
+    function setDepartment(node) {
+        document.getElementById('department').value = node.textContent;
+        document.getElementById('departmentCode').value = node.id;
+    }
 
-        function deptPopUp() {
-            const rootCode = 'department';
-            tree.load({
-                view: 'modal',
-                title: i18n.msg('department.label.deptList'),
-                dataUrl: '/rest/codes?pCode=' + rootCode,
-                root: rootCode,
-                rootLevel: 3,
-                target: 'treeList',
-                text: 'codeName',
-                defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
-                leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
-                selectedValue: document.getElementById('departmentCode').value,
-                callbackFunc: function(response) {
-                    setDepartment(response);
-                }
-            });
-        }
-        /*]]>*/
-    </script>
-</th:block>
+    function deptPopUp() {
+        const rootCode = 'department';
+        tree.load({
+            view: 'modal',
+            title: i18n.msg('department.label.deptList'),
+            dataUrl: '/rest/codes?pCode=' + rootCode,
+            root: rootCode,
+            rootLevel: 3,
+            target: 'treeList',
+            text: 'codeName',
+            defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
+            leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
+            selectedValue: document.getElementById('departmentCode').value,
+            callbackFunc: function(response) {
+                setDepartment(response);
+            }
+        });
+    }
+    /*]]>*/
+</script>
 </html>

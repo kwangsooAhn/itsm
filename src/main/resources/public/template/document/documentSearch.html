@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{layout/itsm/pageType/searchCommonLayout}">
+      layout:decorate="~{layout/itsm/pageType/commonSearchLayout}">
 <head>
     <title th:text="#{document.label.document}"></title>
 </head>
@@ -139,6 +139,7 @@
     </div>
     <template id="documentModalTemplate">
         <div class="z-document-main flex-column align-items-center">
+            <input type="hidden" id="instanceId" />
             <div class="z-document-main-header flex-row justify-content-end align-items-center flex-wrap">
                 <div id="defaultButtonArea"></div>
                 <div class="z-action-button-top-area" id="actionButtonTopArea"></div>

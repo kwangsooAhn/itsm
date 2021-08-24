@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @RequestMapping("/roles")
@@ -30,18 +31,9 @@ class RoleController(private val roleService: RoleService) {
     fun getRoleSearch(request: HttpServletRequest, model: Model): String {
         return roleSearchPage
     }
-    /**
-     * 역할 설정 뷰를 호출한다.
-     */
-    @GetMapping("/edit")
-    fun getRoleList(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("authList", roleService.selectAuthList())
-
-        return roleEditPage
-    }
 
     /**
-     * 역할 설정 검색 결과 리스트 화면 호출 처리.
+     * 역할 검색 결과 리스트 화면
      */
     @GetMapping("")
     fun getRoleList(roleSearchCondition: RoleSearchCondition, model: Model): String {
@@ -49,5 +41,24 @@ class RoleController(private val roleService: RoleService) {
         model.addAttribute("roleList", result.data)
         model.addAttribute("paging", result.paging)
         return roleListPage
+    }
+
+    /**
+     * 역할신규 등록 화면
+     */
+    @GetMapping("/new")
+    fun getRoleNew(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("authList", roleService.selectAuthList())
+        return roleEditPage
+    }
+
+    /**
+     * 역할 편집 화면
+     */
+    @GetMapping("/{roleId}/edit")
+    fun getRoleList(@PathVariable roleId: String, model: Model): String {
+        model.addAttribute("role", roleService.getRoleDetail(roleId))
+        model.addAttribute("authList", roleService.selectAuthList())
+        return roleEditPage
     }
 }

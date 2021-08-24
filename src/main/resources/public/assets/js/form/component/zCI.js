@@ -13,7 +13,6 @@
 import { FORM, CLASS_PREFIX, CI, UNIT, SESSION } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIButton, UIDiv, UITable, UIRow, UICell, UIImg, UISpan, UIInput } from '../../lib/zUI.js';
-import { zDocument } from '../../document/zDocument.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
@@ -156,6 +155,7 @@ export const ciMixin = {
             .setUIClass(CLASS_PREFIX + 'ci-table')
             .addUIClass('mt-2')
             .setUIId('ciTable' + this.id)
+            .setUIAttribute('tabindex', '-1')
             .setUIAttribute('data-validation-required', this.validationRequired);
 
         // 테이블 제목
@@ -248,6 +248,7 @@ export const ciMixin = {
                 } else {
                     const editButton = new UIButton()
                         .setUIClass(CLASS_PREFIX + 'button-icon')
+                        .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
                         .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-edit'));
@@ -372,11 +373,12 @@ export const ciMixin = {
     },
     // CI 저장 - 서버
     saveCIData(data, callbackFunc) {
+        const instanceIdElem = document.getElementById('instanceId');
         const saveData = {
             ciId: data.ciId,
             componentId: this.id,
             values: { ciAttributes: [], ciTags: [] },
-            instanceId: zDocument.data.instanceId
+            instanceId: instanceIdElem.value
         };
         document.querySelectorAll('.attribute').forEach((el) => {
             let ciAttribute = {};
@@ -543,7 +545,8 @@ export const ciMixin = {
     },
     // 기존 CI 변경 모달
     openUpdateModal(rowIndex, data) {
-        const urlParam = 'ciId=' + data.ciId + '&componentId=' + this.id + '&instanceId=' + zDocument.data.instanceId;
+        const instanceIdElem = document.getElementById('instanceId');
+        const urlParam = 'ciId=' + data.ciId + '&componentId=' + this.id + '&instanceId=' + instanceIdElem.value;
         aliceJs.fetchText('/cmdb/cis/component/edit?' + urlParam, {
             method: 'POST',
             headers: {
