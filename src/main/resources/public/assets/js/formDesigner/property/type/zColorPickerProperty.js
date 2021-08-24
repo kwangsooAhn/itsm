@@ -42,8 +42,6 @@ export default class ZColorPickerProperty extends ZProperty {
 
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
-        console.log(this);
-        console.log(this.UIElement.UIColorPicker.domElement);
         new zColorPicker(this.UIElement.UIColorPicker.domElement, { type: 'fill' });
     }
 

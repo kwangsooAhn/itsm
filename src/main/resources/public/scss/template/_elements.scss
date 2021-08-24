@@ -53,7 +53,7 @@ a:active {
 }
 
 // textarea
-textarea:not(.#{$common-prefix}textarea) {
+textarea:not(.z-textarea) {
   font-family: inherit;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
@@ -252,7 +252,7 @@ label {
 //  2. z-element 모두 구성된 후에 _element.scss로 overwrite 할 것.
 
 // input
-.#{$common-prefix}input {
+.z-input {
   height: 2.25rem; // 36px
   font-family: inherit;
   font-size: $element-font-size;
@@ -403,7 +403,7 @@ label {
 // text area
 // overlay scroll로 인한 div와의 중복 디자인을 방지하기 위해
 // outer div에 대해 예외 처리
-.#{$common-prefix}textarea {
+.z-textarea {
     font-family: inherit;
     font-size: $element-font-size;
     font-weight: $element-font-weight;
@@ -464,7 +464,7 @@ label {
 }
 
 // switch
-.#{$common-prefix}switch {
+.z-switch {
   @include relative();
   height: 1.125rem; // 18px
   font-family: inherit;
@@ -474,7 +474,7 @@ label {
   color: $element-font-color;
   outline: none;
 
-  .#{$common-prefix}label {
+  .z-label {
     display: inline-block;
     height: 1.125rem; // 18px
     margin-left: 3rem; // 48px
@@ -552,7 +552,7 @@ select {
      - z-select-options : z-select-box 클릭 시 보여지는 option 리스트 부분
 */
 
-.#{$common-prefix}select {
+.z-select {
   display: inline-block;
   @include relative();
   width: 100%;
@@ -564,7 +564,7 @@ select {
   }
 
   // select 태그를 대신해서 보여지는 부분
-  .#{$common-prefix}select-box {
+  .z-select-box {
     display: flex;
     align-items: center;
     @include absolute(0, 0, 0, 0);
@@ -593,7 +593,7 @@ select {
         border: $element-focus-border;
         @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color);
         // 열렸을때 출력되는 화살표 아이콘
-        .#{$common-prefix}icon {
+        .z-icon {
           &.i-arrow-right {
             @include rotate(-90);
           }
@@ -605,7 +605,7 @@ select {
       }
 
       // 닫혔을때 출력되는 화살표 아이콘
-      .#{$common-prefix}icon {
+      .z-icon {
         pointer-events: none;
 
         &.i-arrow-right {
@@ -637,7 +637,7 @@ select {
   }
 
   // z-select-box 클릭 시 보여지는 option 리스트 부분
-  .#{$common-prefix}select-options {
+  .z-select-options {
     display: none;
     list-style: none;
     @include absolute(calc(100% + 0.25rem), 0, null, 0);  // 4px
@@ -687,9 +687,9 @@ select {
 }
 
 // slider
-.#{$common-prefix}slider {
+.z-slider {
   min-height: 1.375rem; // 22px
-  .#{$common-prefix}range {
+  .z-range {
     --range-fill-color: #{$slider-range-fill-color};
     --range-location: 100%;
     -webkit-appearance: none;
@@ -753,7 +753,7 @@ select {
       }
     }
   }
-  .#{$common-prefix}input {
+  .z-input {
     width: 23%;
     text-align: center;
     margin-left: 2%;
@@ -765,7 +765,7 @@ select {
 }
 
 // checkbox
-.#{$common-prefix}checkbox {
+.z-checkbox {
   margin-right: 0.5rem; // 8px
   font-family: $element-font-family;
   font-size: $element-font-size;
@@ -798,7 +798,7 @@ select {
 
     &:not(:disabled) {
       + span { cursor: pointer; }
-      ~ .#{$common-prefix}label { cursor: pointer; }
+      ~ .z-label { cursor: pointer; }
       &:checked {
         + span {
           // 체크 기호
@@ -834,7 +834,7 @@ select {
           border-color: $element-disabled-font-color;
         }
       }
-      ~ .#{$common-prefix}label {
+      ~ .z-label {
         color: $element-disabled-font-color;
       }
     }
@@ -866,7 +866,7 @@ select {
 }
 
 // radio button
-.#{$common-prefix}radio {
+.z-radio {
   @include relative();
   margin-right: 0.5rem; // 8px
   font-family: $element-font-family;
@@ -910,7 +910,7 @@ select {
 
     &:not(:disabled) {
       + span { cursor: pointer; }
-      ~ .#{$common-prefix}label { cursor: pointer; }
+      ~ .z-label { cursor: pointer; }
 
       &:checked {
         + span {
@@ -941,7 +941,7 @@ select {
           background-color: $element-disabled-bg-color;
         }
       }
-      ~ .#{$common-prefix}label {
+      ~ .z-label {
         color: $element-disabled-font-color;
       }
       &:checked {

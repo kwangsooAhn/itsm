@@ -15,7 +15,7 @@
  */
 import ZProperty from '../zProperty.js';
 import { UIButton, UICell, UICheckbox, UIDiv, UIInput, UIRow, UISpan, UITable } from '../../../lib/zUI.js';
-import { CLASS_PREFIX, FORM } from '../../../lib/zConstants.js';
+import { FORM } from '../../../lib/zConstants.js';
 
 const propertyExtends = {
     /* 추가되는 기본 속성외에 속성이 없음 */
@@ -41,49 +41,58 @@ export default class ZOptionListProperty extends ZProperty {
         this.UIElement = new UIDiv().setUIClass('property').setUIProperty('--data-column', this.columnWidth);
 
         // 라벨
-        this.UIElement.UILabel = this.makeLabelProperty();
+        this.UIElement.UILabel = this.makeLabelProperty().setUICSSText('padding-bottom: 0;');
+        const UILabelText = this.UIElement.UILabel.domElement.firstChild;
+        UILabelText.style.display = 'inline-block';
+        UILabelText.style.margin = '0.5rem 0';
+
+        // 옵션 추가 버튼
+        this.UIElement.UIButton = new UIButton()
+            .setUIClass('z-button-icon')
+            .addUIClass('extra')
+            .addUIClass('float-right')
+            .onUIClick(this.addRow.bind(this));
+        const plusIcon = new UISpan()
+            .addUIClass('z-icon')
+            .addUIClass('i-plus');
+        this.UIElement.UIButton.addUI(plusIcon);
+        this.UIElement.UILabel.addUI(this.UIElement.UIButton);
         this.UIElement.addUI(this.UIElement.UILabel);
 
-        const optionButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-list');
-        // 옵션 추가 버튼
-        const addButton = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'button-icon')
-            .addUIClass('extra')
-            .onUIClick(this.addRow.bind(this));
-        const plusIcon = new UISpan().addUIClass(CLASS_PREFIX + 'icon').addUIClass('i-plus');
-        addButton.addUI(plusIcon);
-
         // 옵션 삭제 버튼
+        const optionButtonGroup = new UIDiv().setUIClass('z-button-list');
         const removeButton = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'button-icon')
+            .setUIClass('z-button-icon')
             .addUIClass('extra')
             .onUIClick(this.removeRow.bind(this));
-        const minusIcon = new UISpan().addUIClass(CLASS_PREFIX + 'icon').addUIClass('i-minus');
+        const minusIcon = new UISpan().addUIClass('z-icon').addUIClass('i-minus');
         removeButton.addUI(minusIcon);
 
-        optionButtonGroup.addUI(addButton);
         optionButtonGroup.addUI(removeButton);
         this.UIElement.UIButtonGroup = optionButtonGroup;
         this.UIElement.addUI(this.UIElement.UIButtonGroup);
 
         // 옵션 리스트
         const optionTable = new UITable()
-            .setUIClass(CLASS_PREFIX + 'option-table')
-            .addUIClass('mt-2')
-            .setUICSSText('border: 1px solid #000; border-collapse: collapse');
+            .setUIClass('z-option-table')
 
-        const header = new UIRow(optionTable).setUIClass(CLASS_PREFIX + 'option-table-header');
+        const header = new UIRow(optionTable).setUIClass('z-option-table-header');
         optionTable.addUIRow(header);
 
-        const checkTD = new UICell(header).setUICSSText('width: 20%; border: 1px solid #000');
-        const nameTD = new UICell(header).setUICSSText('width: 40%; border: 1px solid #000').setUITextContent('항목 이름');
-        const valueTD = new UICell(header).setUICSSText('width: 40%; border: 1px solid #000').setUITextContent('항목 값');
-        header.addUICell(checkTD);
+        const nameTD = new UICell(header).setUITextContent(i18n.msg('form.properties.optionList.name'));
+        const valueTD = new UICell(header).setUITextContent(i18n.msg('form.properties.optionList.value'));
+        const checkTD = new UICell(header).setUICSSText('width: 10%;');
+
+        // 마이너스 버튼 추가
+        const removeTd = new UICell(header).setUICSSText('width: 10%;');
+
         header.addUICell(nameTD);
         header.addUICell(valueTD);
+        header.addUICell(checkTD);
+        header.addUICell(removeTd);
 
         this.value.forEach((option) => {
-            const optionRow = new UIRow(optionTable).setUIClass(CLASS_PREFIX + 'option-table-row');
+            const optionRow = new UIRow(optionTable).setUIClass('z-option-table-row');
             optionTable.addUIRow(this.makeRow(optionRow, option));
         });
 
@@ -96,21 +105,34 @@ export default class ZOptionListProperty extends ZProperty {
     afterEvent() {}
 
     makeRow(optionRow, option) {
-        const checkTD = new UICell(optionRow).setUICSSText('width: 20%; border: 1px solid #000');
+        const nameTD = new UICell(optionRow);
+        nameTD.inputName =  new UIInput()
+            .setUIPlaceholder(i18n.msg('form.properties.optionList.namePlaceholder'))
+            .setUIValue(option.name).onUIChange(this.updateProperty.bind(this));
+        nameTD.addUI(nameTD.inputName);
+
+        const valueTD = new UICell(optionRow);
+        valueTD.inputValue =  new UIInput()
+            .setUIPlaceholder(i18n.msg('form.properties.optionList.valuePlaceholder'))
+            .setUIValue(option.value).onUIChange(this.updateProperty.bind(this));
+        valueTD.addUI(valueTD.inputValue);
+
+        const checkTD = new UICell(optionRow).setUICSSText('width: 10%;');
         checkTD.checkBox =  new UICheckbox(false);
         checkTD.addUI(checkTD.checkBox);
 
-        const nameTD = new UICell(optionRow).setUICSSText('width: 40%; border: 1px solid #000');
-        nameTD.inputName =  new UIInput().setUIValue(option.name).onUIChange(this.updateProperty.bind(this));
-        nameTD.addUI(nameTD.inputName);
+        // todo: removeRow 기능 수정 후 적용
+        const removeTd = new UICell(optionRow).setUICSSText('width: 15%;');
+        removeTd.removeButton = new UIButton()
+            .addUIClass('z-icon')
+            .addUIClass('i-clear')
+            // .onUIClick(this.removeRow.bind(this));
+        removeTd.addUI(removeTd.removeButton);
 
-        const valueTD = new UICell(optionRow).setUICSSText('width: 40%; border: 1px solid #000');
-        valueTD.inputValue =  new UIInput().setUIValue(option.value).onUIChange(this.updateProperty.bind(this));
-        valueTD.addUI(valueTD.inputValue);
-
-        optionRow.addUICell(checkTD);
         optionRow.addUICell(nameTD);
         optionRow.addUICell(valueTD);
+        optionRow.addUICell(checkTD);
+        optionRow.addUICell(removeTd);
 
         return optionRow;
     }
@@ -130,12 +152,20 @@ export default class ZOptionListProperty extends ZProperty {
         e.preventDefault();
 
         const optionTable = this.UIElement.UIOptionTable;
-        const optionRow = new UIRow(optionTable).setUIClass(CLASS_PREFIX + 'option-table-row');
+
+        if (optionTable.rows.length === 2 && optionTable.rows[1].hasUIClass('no-data-found-list')) {
+            optionTable.removeUIRow(optionTable.rows[1]);
+        }
+
+        const optionRow = new UIRow(optionTable).setUIClass('z-option-table-row');
         optionTable.addUIRow(this.makeRow(optionRow, FORM.DEFAULT_OPTION_ROW));
+
         this.panel.update.call(this.panel, this.key, this.getPropertyValue(this.UIElement.UIOptionTable.domElement));
     }
 
     // 옵션 삭제 버튼 클릭 이벤트
+    // todo: 다중 선택 제거가 제대로 되지 않는 이슈 있음.
+    //       클릭한 remove Button의 row만 삭제하도록 수정.
     removeRow(e) {
         e.stopPropagation();
         e.preventDefault();
@@ -143,12 +173,33 @@ export default class ZOptionListProperty extends ZProperty {
         const optionTable = this.UIElement.UIOptionTable.domElement;
         for (let row of optionTable.rows) {
             const tdList = row.cells;
-            if (row.sectionRowIndex > 0 && tdList[0].children[0].checked) {
+            if (row.sectionRowIndex > 0 && tdList[2].children[0].checked) {
                 this.UIElement.UIOptionTable.removeUIRow(this.UIElement.UIOptionTable.rows[row.sectionRowIndex]);
             }
         }
 
+        if (optionTable.rows.length === 1) {
+            const row = new UIRow(this.UIElement.UIOptionTable).setUIClass('no-data-found-list');
+            this.UIElement.UIOptionTable.addUIRow(row);
+
+            const td = new UICell(row).setUIClass('align-center')
+                .setColspan(4)
+                .setUITextContent(i18n.msg('common.msg.noData'));
+            row.addUICell(td);
+        }
+
         this.panel.update.call(this.panel, this.key, this.getPropertyValue(optionTable));
+    }
+
+    // 데이터가 없을 때
+    setEmptyTable(targetTable) {
+        const row = new UIRow(targetTable).setUIClass('no-data-found-list');
+        targetTable.addUI(row);
+
+        const td = new UICell(row).setUIClass('align-center')
+            .setColspan(this.elementColumns.length + 1)
+            .setUITextContent(i18n.msg('common.msg.noData'));
+        row.addUICell(td);
     }
 
     // table DOM을 받아서 입력된 옵션 명과 옵션 값을 리스트로 반환
@@ -157,7 +208,9 @@ export default class ZOptionListProperty extends ZProperty {
         for (let row of optionTable.rows) {
             const tdList = row.cells;
             if (row.sectionRowIndex > 0) {
-                propertyValue.push({name: tdList[1].children[0].value, value: tdList[2].children[0].value});
+                let itemName = tdList[0].children[0].value || i18n.msg('form.properties.optionList.enterValue');
+                let itemValue = tdList[1].children[0].value;
+                propertyValue.push({name: itemName, value: itemValue});
             }
         }
         return propertyValue;

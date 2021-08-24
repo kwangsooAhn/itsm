@@ -821,6 +821,12 @@ form:
       day: "일"
       days: "일 후"
       hours: "시간 후"
+    optionList:
+      enterValue: "항목 이름을 입력하세요."
+      name: "항목 이름"
+      namePlaceholder: "이름 입력"
+      value: "항목 값"
+      valuePlaceholder: "값 입력"
   status:
     destroy: "폐기"
     edit: "편집"

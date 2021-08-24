@@ -6231,3 +6231,37 @@ body.modal-active {
 .property .z-tab-panel .z-panels .z-panel .z-panel-individual > .property-group:last-child {
   border-top: 0.0625rem solid #CFD5D9;
 }
+.property .z-option-table {
+  width: 100%;
+  border: none;
+  border-collapse: collapse;
+  color: #ABB0B5;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.property .z-option-table .z-option-table-header {
+  height: 2rem;
+  border-bottom: 0.125rem solid #CFD5D9;
+  background-color: #F5F5F5;
+  text-indent: 1rem;
+  font-weight: 500;
+}
+.property .z-option-table tr td {
+  border: 0.0625rem solid #CFD5D9;
+  border-left: none;
+  border-right: none;
+  vertical-align: middle;
+}
+.property .z-option-table tr td .z-input {
+  width: 85%;
+  padding: 0.75rem;
+  margin: 0 0.25rem;
+}
+.property .z-option-table tr td .z-icon {
+  display: block;
+  margin: 0 auto;
+  background: #ABB0B5;
+}
+.property .z-option-table tr td .z-icon:hover {
+  background: #339AF0;
+}
