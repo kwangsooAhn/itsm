@@ -35,7 +35,7 @@ COMMENT ON COLUMN awf_code.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_code.update_dt IS '수정일';
 insert into awf_code values ('cmdb', 'root', 'cmdb', 'CMDB 설정', 'CMDB 설정', true, 1, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.relation.type', 'cmdb', 'cmdb.relation.type', 'CI 연관 관계 타입', 'CI 연관 관계 타입', true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('cmdb.relation.type.default', 'cmdb.relation.type', 'default', '기본 연관', '기본 연관', true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('cmdb.relation.type.default', 'cmdb.relation.type', 'default', 'default', '기본 연관', true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.db.kind', '', null, '데이터베이스', 'cmdb 데이터데이스 종류', TRUE, 1, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.db.kind.oracle', 'cmdb.db.kind', 'oracle', 'Oracle', 'cmdb 데이터데이스 종류', TRUE, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.db.kind.postgresql', 'cmdb.db.kind', 'postgresql', 'Postresql', '', TRUE, 2, 2,  '0509e09412534a6e98f04ca79abb6424', now(), null, null);
