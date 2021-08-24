@@ -35,7 +35,7 @@ class AuthRestController(private val authService: AuthService) {
      * 권한 상세 정보 조회
      */
     @GetMapping("/{authId}")
-    fun getAuths(@PathVariable authId: String): List<AuthDto> {
+    fun getAuths(@PathVariable authId: String): AuthDto {
         return authService.getAuthDetail(authId)
     }
 

@@ -45,7 +45,8 @@ class AuthService(
      */
     fun getAuthList(): AuthListReturnDto {
         val authList = authRepository.findAuthSearch(
-            AuthSearchCondition(""))
+            AuthSearchCondition("")
+        )
         return AuthListReturnDto(
             data = authList.results,
             paging = AlicePagingData(
@@ -188,8 +189,7 @@ class AuthService(
     /**
      * 권한 상세 정보 조회
      */
-    fun getAuthDetail(authId: String): List<AuthDto> {
-        val dto = mutableListOf<AuthDto>()
+    fun getAuthDetail(authId: String): AuthDto {
         val authInfo = authRepository.findByAuthId(authId)
         val menuList = mutableListOf<AuthMenuDto>()
         val urlList = mutableListOf<AuthUrlDto>()
@@ -202,18 +202,15 @@ class AuthService(
             urlList.add(AuthUrlDto(authUrlMap.url.url, authUrlMap.url.method, authUrlMap.auth.authId))
         }
 
-        dto.add(
-            AuthDto(
-                authInfo.authId,
-                authInfo.authName,
-                authInfo.authDesc,
-                null,
-                menuList,
-                null,
-                urlList,
-                roleAuthMapCount
-            )
+        return AuthDto(
+            authInfo.authId,
+            authInfo.authName,
+            authInfo.authDesc,
+            null,
+            menuList,
+            null,
+            urlList,
+            roleAuthMapCount
         )
-        return dto
     }
 }

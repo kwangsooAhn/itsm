@@ -31,37 +31,46 @@
     height: 100vh;
     overflow: auto;
 
-    .z-main-content {
-
-    }
-
     .z-main {
       display: flex;
       flex-direction: column;
       width: calc(100% - #{$nav-width});
       height: 100vh;
+      background-color: $layout-main-bg-color;
 
-      // 스크롤 바가 존재할 경우 상단 top 영역과 스크롤바 사이 간격 추가
-      &.os-host-overflow > .os-padding { margin-right: $scrollbar-thick; }
+      &-title {
+        display: flex;
+        align-items: baseline!important;
+        padding: 0 3.75rem 2rem 3.75rem; // 0 60px 32px 60px
+      }
 
       &-content {
-        padding: 0 3.75rem; // 0 60px
         background-color: $layout-content-bg-color;
         height: 100%;
-        .z-page-title {
-          display: flex;
-          align-items: baseline!important;
-          padding-bottom: 2rem;
+
+        .z-page-content {
+          @include border(0.0625rem,solid,$layout-main-header-border-color,top);
+          flex: 1 1 auto;
+          background: $layout-page-content-bg-color;
         }
+
         .z-page-search {
           display: flex;
           flex-direction: row;
+          padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
           .z-search-count {
             font-weight: $layout-header-search-font-weight;
             font-size: 0.875rem;
             color: $layout-header-search-color;
           }
         }
+
+        // commonSearchTemplate
+        @include commonSearchTemplate();
+
+        // commonEdit
+        @include commonEditTemplate();
+
         // pagingList
         @include pagingListTemplate();
 
@@ -154,7 +163,6 @@
   // 업무흐름 관리 > 이미지 관리
   &document-header,
   &token-header,
-  &dashboard-header,
   &image-header {
     padding: 0 3.75rem 0 3.75rem; // 0px 60px 0px 60px
     @include border($layout-main-header-border-width, solid, $layout-main-header-border-color, bottom);
@@ -232,84 +240,7 @@
     padding: 1.875rem 1.875rem 0 3.75rem; // 30px 30px 0 60px
     background-color: $card-content-bg-color;
 
-    .card { width: 100%; }
 
-    // 문서함 > 업무흐름 색상
-    .document-color {
-      width: 0.75rem; // 12px
-    }
-    // 문서함 > 제목 내용
-    .document-row {
-      padding: 1.875rem 3rem; // 30px 48px
-
-      &-content {
-        // 문서 제목
-        .document {
-          &-title {
-            // 문서 번호
-            .z-document-numbering {
-              font-size: 1rem; // 16px
-              font-weight: $font-weight-regular;
-              color: $gray;
-            }
-          }
-          &-topic {
-            width: 39.38rem; //630px
-            margin-top: 1.5625rem; // 25px
-
-            .topic {
-              font-size: 1rem; // 16px
-              font-weight: $font-weight-regular;
-              color: map-get($grays, 'dark');
-            }
-          }
-        }
-      }
-      &-info {
-        .document {
-          &-detail {
-            .user-name,
-            .create-dt,
-            .element-name {
-              font-size: 1rem; // 16px
-              font-weight: $font-weight-regular;
-              color: map-get($grays, 'dark');
-            }
-          }
-          &-tag {
-            max-width: 23.75rem; // 380px
-            margin-top: 3.5rem; // 56px
-          }
-        }
-      }
-    }
-    // TODO: 추후 대시보드 디자인 완료시 아래 부분은 삭제 예정
-    // 대시보드 > 소제목
-    .sub-title {
-      margin: 1.25rem 0; // 20px 0
-    }
-    // 대시보드 > 업무 통계
-    .statistic {
-      &-box {
-        width: 23.75rem; // 380px
-        @include border(0.0625rem, solid, map-get($grays, 'line'), all);
-        @include borderRadius(0.3125rem); // 5px
-        padding: 1.5625rem; // 25px
-      }
-      &-info {
-        margin-left: 1.5625rem; // 25px
-      }
-      &-count {
-        margin-bottom: 0.9375rem; // 15px
-      }
-      &-type { color: map-get($grays, 'blue'); }
-    }
-    // 대시보드 > 처리할 문서
-    .scroll-wrap {
-      height:  27.5rem; // 440px
-      margin-right: 1.25rem; //20px
-      .card:first-of-type { margin-top: 0;}
-    }
   }
 
   /////////////////////////////////////////////// EDIT /////////////////////////////////////////////////////

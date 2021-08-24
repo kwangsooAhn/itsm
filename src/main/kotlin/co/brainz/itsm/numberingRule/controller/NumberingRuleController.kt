@@ -59,7 +59,7 @@ class NumberingRuleController(
      */
     @GetMapping("/{numberingRuleId}/view")
     fun getNumberingRuleView(@PathVariable numberingRuleId: String, model: Model): String {
-        model.addAttribute("patternList", numberingPatternService.getPatternNameList())
+        model.addAttribute("rule", numberingRuleService.getNumberingRuleDetail(numberingRuleId))
         return numberingRuleViewPage
     }
 
@@ -68,7 +68,7 @@ class NumberingRuleController(
      */
     @GetMapping("/{numberingRuleId}/edit")
     fun getNumberingRuleEdit(@PathVariable numberingRuleId: String, model: Model): String {
-        model.addAttribute("patternList", numberingPatternService.getPatternNameList())
+        model.addAttribute("rule", numberingRuleService.getNumberingRuleDetail(numberingRuleId))
         return numberingRuleEditPage
     }
 }
