@@ -143,7 +143,8 @@
   &cmdb-class-header,
   &cmdb-type-header,
   &cmdb-ci-header,
-  &scheduler-header {
+  &scheduler-header,
+  &report-template-header {
     padding: 0 3.75rem 0 3.75rem; // 0px 60px 0px 60px
   }
 
@@ -189,7 +190,8 @@
   &cmdb-attribute-content,
   &cmdb-type-content,
   &cmdb-class-content,
-  &cmdb-ci-content {
+  &cmdb-ci-content,
+  &report-template-content {
     padding: 0.9375rem 3.75rem; // 15px 60px
     background-color: $layout-content-bg-color;
   }
@@ -480,6 +482,13 @@
       .edit-row {  margin-top: 0.625rem; } // 10px
     }
     .attribute { width: 27.94rem; } // 447px;
+  }
+  // Report > Template
+  &report-template-content-edit {
+    padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
+    @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
+    background-color: $white;
+    height: 100%;
   }
 
   /////////////////////////////////////////////// VIEW /////////////////////////////////////////////////////

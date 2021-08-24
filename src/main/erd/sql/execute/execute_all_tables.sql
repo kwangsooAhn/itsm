@@ -126,6 +126,10 @@ insert into awf_auth values ('process.delete', '프로세스 삭제', '', '0509e
 insert into awf_auth values ('process.read', '프로세스 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('process.update', '프로세스 변경', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('product.read', '제품 정보 조회', '제품 정보 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('report.create', '보고서 등록', null, now(), null, '0509e09412534a6e98f04ca79abb6424', null);
+insert into awf_auth values ('report.delete', '보고서 삭제', null, now(), null, '0509e09412534a6e98f04ca79abb6424', null);
+insert into awf_auth values ('report.read', '보고서 조회', null, now(), null, '0509e09412534a6e98f04ca79abb6424', null);
+insert into awf_auth values ('report.update', '보고서 변경', null, now(), null, '0509e09412534a6e98f04ca79abb6424', null);
 insert into awf_auth values ('role.create', '역할 등록', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('role.delete', '역할 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('role.read', '역할 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -604,7 +608,10 @@ insert into awf_menu values ('faq', 'menu', '/faqs/search', 5,TRUE);
 insert into awf_menu values ('download', 'menu', '/downloads/search', 6,TRUE);
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7,TRUE);
 insert into awf_menu values ('chart', 'menu', '/charts/search', 8,TRUE);
-insert into awf_menu values ('config', 'menu', '', 9,TRUE);
+insert into awf_menu values ('report', 'menu', '', 9, true);
+insert into awf_menu values ('report.template', 'report', '/reports/template/search', 1, true);
+insert into awf_menu values ('report.report', 'report', '/reports/report/search', 2, true);
+insert into awf_menu values ('config', 'menu', '', 10,TRUE);
 insert into awf_menu values ('config.user', 'config', '/users/search', 1,TRUE);
 insert into awf_menu values ('config.auth', 'config', '/auths/search', 2,TRUE);
 insert into awf_menu values ('config.role', 'config', '/roles/search', 3,TRUE);
@@ -612,7 +619,7 @@ insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6,TRUE);
 insert into awf_menu values ('config.product', 'config', '', 7,TRUE);
-insert into awf_menu values ('workflow', 'menu', '', 10,TRUE);
+insert into awf_menu values ('workflow', 'menu', '', 11,TRUE);
 insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1,TRUE);
 insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRUE);
 insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3,TRUE);
@@ -620,7 +627,7 @@ insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/s
 insert into awf_menu values ('workflow.image', 'workflow', '/images', 5,TRUE);
 insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, true);
 insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, true);
-insert into awf_menu values ('cmdb', 'menu', '', 11, 'TRUE');
+insert into awf_menu values ('cmdb', 'menu', '', 12, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
 insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
@@ -776,6 +783,18 @@ insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.type.read');
 insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.type.create');
 insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.type.update');
 insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.type.delete');
+insert into awf_menu_auth_map values ('report', 'report.read');
+insert into awf_menu_auth_map values ('report', 'report.create');
+insert into awf_menu_auth_map values ('report', 'report.update');
+insert into awf_menu_auth_map values ('report', 'report.delete');
+insert into awf_menu_auth_map values ('report.template', 'report.read');
+insert into awf_menu_auth_map values ('report.template', 'report.create');
+insert into awf_menu_auth_map values ('report.template', 'report.update');
+insert into awf_menu_auth_map values ('report.template', 'report.delete');
+insert into awf_menu_auth_map values ('report.report', 'report.read');
+insert into awf_menu_auth_map values ('report.report', 'report.create');
+insert into awf_menu_auth_map values ('report.report', 'report.update');
+insert into awf_menu_auth_map values ('report.report', 'report.delete');
 
 /**
  * 알림
@@ -1034,6 +1053,10 @@ insert into awf_role_auth_map values ('admin', 'scheduler.execute');
 insert into awf_role_auth_map values ('admin', 'scheduler.read');
 insert into awf_role_auth_map values ('admin', 'scheduler.update');
 insert into awf_role_auth_map values ('admin', 'product.read');
+insert into awf_role_auth_map values ('admin', 'report.create');
+insert into awf_role_auth_map values ('admin', 'report.update');
+insert into awf_role_auth_map values ('admin', 'report.read');
+insert into awf_role_auth_map values ('admin', 'report.delete');
 insert into awf_role_auth_map values ('auth.all', 'auth.create');
 insert into awf_role_auth_map values ('auth.all', 'auth.delete');
 insert into awf_role_auth_map values ('auth.all', 'auth.update');
@@ -1499,6 +1522,20 @@ insert into awf_url values ('/processes/search', 'get', '프로세스 리스트 
 insert into awf_url values ('/process/{id}/edit', 'get', '프로세스 디자이너 편집 화면' ,'TRUE');
 insert into awf_url values ('/process/{id}/view', 'get', '프로세스 디자이너 보기 화면' ,'TRUE');
 insert into awf_url values ('/process/{id}/status', 'get', '프로세스 상태', 'TRUE');
+insert into awf_url values ('/reports/report', 'get', '보고서 조회', 'TRUE');
+insert into awf_url values ('/reports/report/search', 'get', '보고서 조회 검색 화면 호출', 'TRUE');
+insert into awf_url values ('/reports/report/{id}/view', 'get', '보고서 상세화면', 'TRUE');
+insert into awf_url values ('/reports/template', 'get', '템플릿 설정 목록 조회', 'TRUE');
+insert into awf_url values ('/reports/template/new', 'get', '템플릿 설정 등록', 'TRUE');
+insert into awf_url values ('/reports/template/preview', 'get', '템플릿 미리보기', 'true');
+insert into awf_url values ('/reports/template/search', 'get', '템플릿 설정 검색 화면 호출', 'TRUE');
+insert into awf_url values ('/reports/template/{id}/edit', 'get', '템플릿 설정 수정', 'TRUE');
+insert into awf_url values ('/reports/template/{id}/view', 'get', '템플릿 설정 미리보기', 'TRUE');
+insert into awf_url values ('/rest/reports/template', 'post', '템플릿 설정 등록 처리', 'true');
+insert into awf_url values ('/rest/reports/template/charts', 'get', '템플릿 차트 데이터 조회', 'true');
+insert into awf_url values ('/rest/reports/template/{id}', 'delete', '템플릿 설정 삭제 처리', 'true');
+insert into awf_url values ('/rest/reports/template/{id}', 'post', '보고서 생성 (임시)', 'true');
+insert into awf_url values ('/rest/reports/template/{id}', 'put', '템플릿 설정 수정 처리', 'true');
 insert into awf_url values ('/rest/auths', 'get', '권한 전체 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/auths', 'post', '권한 등록', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'get', '권한 상세 정보 조회', 'TRUE');
@@ -1840,6 +1877,57 @@ insert into awf_url_auth_map values ('/process/{id}/view', 'get', 'process.updat
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.create');
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.update');
 insert into awf_url_auth_map values ('/process/{id}/status', 'get', 'document.read');
+
+
+
+
+insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/reports/report/search', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/report/search', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/report/search', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/report/search', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/reports/template', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/template', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/template', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/template', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/reports/report', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/report', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/report', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/report', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/reports/template/{id}/edit', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/template/{id}/edit', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.read');
+
+insert into awf_url_auth_map values ('/reports/template/new', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/rest/reports/template', 'post', 'report.create');
+insert into awf_url_auth_map values ('/rest/reports/template/{id}', 'put', 'report.update');
+insert into awf_url_auth_map values ('/rest/reports/template/{id}', 'delete', 'report.delete');
+insert into awf_url_auth_map values ('/reports/template/preview', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/template/preview', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/template/preview', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/template/preview', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.create');
+insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.read');
+insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.update');
+
+insert into awf_url_auth_map values ('/rest/reports/template/{id}', 'post', 'report.create');
+
+
+
+
+
+
 insert into awf_url_auth_map values ('/rest/auths', 'post', 'auth.create');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.delete');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.update');

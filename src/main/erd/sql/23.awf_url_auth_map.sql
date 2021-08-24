@@ -183,6 +183,57 @@ insert into awf_url_auth_map values ('/process/{id}/view', 'get', 'process.updat
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.create');
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.update');
 insert into awf_url_auth_map values ('/process/{id}/status', 'get', 'document.read');
+
+
+
+
+insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/reports/report/search', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/report/search', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/report/search', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/report/search', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/reports/template', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/template', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/template', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/template', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/reports/report', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/report', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/report', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/report', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/reports/template/{id}/edit', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/template/{id}/edit', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.read');
+
+insert into awf_url_auth_map values ('/reports/template/new', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/rest/reports/template', 'post', 'report.create');
+insert into awf_url_auth_map values ('/rest/reports/template/{id}', 'put', 'report.update');
+insert into awf_url_auth_map values ('/rest/reports/template/{id}', 'delete', 'report.delete');
+insert into awf_url_auth_map values ('/reports/template/preview', 'get', 'report.create');
+insert into awf_url_auth_map values ('/reports/template/preview', 'get', 'report.read');
+insert into awf_url_auth_map values ('/reports/template/preview', 'get', 'report.update');
+insert into awf_url_auth_map values ('/reports/template/preview', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.create');
+insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.delete');
+insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.read');
+insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.update');
+
+insert into awf_url_auth_map values ('/rest/reports/template/{id}', 'post', 'report.create');
+
+
+
+
+
+
 insert into awf_url_auth_map values ('/rest/auths', 'post', 'auth.create');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.delete');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.update');
