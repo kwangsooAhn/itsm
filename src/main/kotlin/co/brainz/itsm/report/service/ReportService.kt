@@ -55,17 +55,10 @@ class ReportService(
 
     fun getReportDetail(reportId: String): ReportDto {
         val reportEntity = reportRepository.getOne(reportId)
-        val reportDto = ReportDto(
-            reportId = reportEntity.reportId,
-            reportName = reportEntity.reportName,
-            reportDesc = reportEntity.reportDesc,
-            publishDt = reportEntity.publishDt
-        )
 
-        // template 목록과 데이터를 추가한다.
-        val chartDataList = mutableListOf<ChartDto>()
         // 저장된 테이블에서 차트 정보를 조회하여 가져온다 >>> chartDto를 만든다.
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        val chartDataList = mutableListOf<ChartDto>()
         val reportDataEntities = reportDataRepository.getReportDataEntitiesByReport(reportEntity)
         reportDataEntities.forEach { data ->
             val chartDto = ChartDto(
@@ -83,11 +76,13 @@ class ReportService(
             chartDataList.add(chartManagerFactory.getChartManager(chartDto.chartType).getChart(chartDto))
         }
 
-        if (chartDataList.isNotEmpty()) {
-            reportDto.data = chartDataList
-        }
-
-        return reportDto
+        return ReportDto(
+            reportId = reportEntity.reportId,
+            reportName = reportEntity.reportName,
+            reportDesc = reportEntity.reportDesc,
+            publishDt = reportEntity.publishDt,
+            data = chartDataList
+        )
     }
 
     @Transactional

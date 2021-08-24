@@ -14,5 +14,5 @@ data class ReportDto(
     val reportName: String,
     val reportDesc: String? = null,
     val publishDt: LocalDateTime?,
-    var data: List<ChartDto> = mutableListOf()
+    val data: List<ChartDto> = mutableListOf()
 ) : Serializable
