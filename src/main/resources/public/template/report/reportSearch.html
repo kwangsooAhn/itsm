@@ -57,66 +57,6 @@
         aliceJs.sendXhr(opt);
     }
 
-    /*function getReportList(isScroll) {
-        let urlParam = '';
-        if (isScroll) {
-            if (offsetCount === 0) {
-                offsetCount = aliceJs.searchDataCount;
-            }
-        } else {
-            offsetCount = 0;
-        }
-        urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-        restSubmit('get', '/reports/report?' + urlParam, isScroll);
-    }*/
-
-    // REST API
-    /*function restSubmit(method, url, isScroll) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            callbackFunc: function(response) {
-                if (isScroll) {
-                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                        offsetCount = offsetCount + aliceJs.searchDataCount;
-                    }
-                    const schedulerTbody = document.querySelector('.list-body .os-content');
-                    const tbody = document.createElement('tbody');
-                    tbody.innerHTML = response.responseText;
-                    setDateTimeFormat(tbody);
-                    const container = document.createDocumentFragment();
-                    for (let i = 0; i < tbody.rows.length; i++) {
-                        let node = tbody.rows[i].cloneNode(true);
-                        container.appendChild(node);
-                    }
-                    schedulerTbody.appendChild(container)
-                } else {
-                    document.getElementById('reportList').innerHTML = response.responseText;
-                    aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                    setDateTimeFormat(document.getElementById('reportList'));
-                    OverlayScrollbars(document.querySelector('.list-body'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function(e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        getReportList(true);
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-            },
-            showProgressbar: false
-        };
-        aliceJs.sendXhr(opt);
-    }*/
-
     /**
      * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
      */

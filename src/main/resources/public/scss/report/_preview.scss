@@ -5,29 +5,29 @@
  * @author lizeelf
  * @version 1.0
  */
-.#{$common-prefix}report {
+.z-report {
     margin: 1cm auto;
-    .#{$common-prefix}report-main {
-        .#{$common-prefix}report-main-header {
+    .z-report-main {
+        .z-report-main-header {
             line-height: 1.2;
             margin: 0 0 10mm 0;
             font-size: 2.25rem;
             font-weight: bold;
         }
-        .#{$common-prefix}report-area {
-            .#{$common-prefix}drawing-board {
-                width: 1000px; //임시
-                .#{$common-prefix}chart-content {
-                    margin: 0 0 20px 0;
-                    .#{$common-prefix}title {
+        .z-report-area {
+            .z-drawing-board {
+                width: 62.5rem; // 1000px; 임시
+                .z-chart-content {
+                    margin: 0 0 1.25rem 0; // 20px
+                    .z-title {
 
                     }
-                    .#{$common-prefix}chart {
-                        padding: 12px 0 0 0;
+                    .z-chart {
+                        padding: 0.75rem 0 0 0; // 12px
                     }
                 }
             }
-            .#{$common-prefix}form {
+            .z-form {
                 box-shadow: none;
                 // 인쇄시 모든 동작을 막음
                 input, textarea, button, select,
@@ -37,14 +37,14 @@
                 }
             }
         }
-        .#{$common-prefix}report-main-footer {
+        .z-report-main-footer {
             display: flex;
             line-height: 1.2;
             margin: 4mm 0 10mm 0;
-            .#{$common-prefix}logo {
+            .z-logo {
                 display: inline-block;
                 background-color: $black;
-                @include maskImage('#{$icon-folder-path}logo/icon_logo.svg', 152px, 26px, no-repeat, center); // 24px 24px
+                @include maskImage('#{$icon-folder-path}logo/icon_logo.svg', 9.5rem, 1.625rem, no-repeat, center); // 152px 26px
             }
         }
     }
@@ -59,7 +59,7 @@
         width: 210mm;
         height: 297mm;
     }
-    .#{$common-prefix}report {
+    .z-report {
         padding: 0mm 20mm;
         margin: 0;
         border: initial;
@@ -70,11 +70,11 @@
         background: initial;
         page-break-after: always;
 
-        .#{$common-prefix}report-main-header {
+        .z-report-main-header {
             margin: 0 0 10mm 0;
         }
 
-        .#{$common-prefix}form {
+        .z-form {
             box-shadow: none; // 인쇄 영역의 테두리엔 그림자 효과 제외
         }
     }
