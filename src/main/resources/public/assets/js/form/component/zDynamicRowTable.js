@@ -523,7 +523,7 @@ export const dynamicRowTableMixin = {
             isTopic: this._isTopic,
             mapId: this._mapId,
             tags: this._tags,
-            value: this._value,
+            value: (Array.isArray(this._value) && this._value.length > 0) ? JSON.stringify(this._value) : this._value,
             label: this._label,
             element: this._element,
             validation: this._validation
