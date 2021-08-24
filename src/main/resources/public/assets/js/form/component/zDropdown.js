@@ -49,7 +49,10 @@ export const dropdownMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         const selectOptionValue = this._value || this.element.options[0].value;
-        element.UIDropdown = new UISelect().setUIOptions(this.element.options).setUIValue(selectOptionValue);
+        element.UIDropdown = new UISelect()
+            .setUIOptions(this.element.options)
+            .setUIValue(selectOptionValue)
+            .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIDropdown);
         return element;
     },
@@ -108,7 +111,7 @@ export const dropdownMixin = {
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
-        
+
         this.value = e.target.value;
     },
     // 세부 속성 조회
