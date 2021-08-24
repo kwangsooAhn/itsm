@@ -246,9 +246,6 @@ class ReportTemplateService(
             }
             else -> {
                 reportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
-                templateEntity.reports?.forEach {
-                    reportRepository.delete(it)
-                }
                 reportTemplateRepository.delete(templateEntity)
             }
         }

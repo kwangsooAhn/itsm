@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.report.repository
 
+import co.brainz.itsm.report.dto.ReportCategoryDto
 import co.brainz.itsm.report.dto.ReportListDto
 import co.brainz.itsm.report.dto.ReportSearchCondition
 import co.brainz.itsm.report.entity.QReportEntity
@@ -27,12 +28,12 @@ class ReportRepositoryImpl : QuerydslRepositorySupport(ReportEntity::class.java)
                     report.reportId,
                     report.reportName,
                     report.reportDesc,
-                    report.template,
+                    report.templateId,
                     report.publishDt
                 )
             )
             .where(
-                super.like(report.template.templateId, reportSearchCondition.searchTemplate)
+                super.like(report.templateId, reportSearchCondition.searchTemplate)
             )
             .orderBy(report.publishDt.desc())
         if (reportSearchCondition.isPaging) {
@@ -40,5 +41,22 @@ class ReportRepositoryImpl : QuerydslRepositorySupport(ReportEntity::class.java)
             query.offset((reportSearchCondition.pageNum - 1) * reportSearchCondition.contentNumPerPage)
         }
         return query.fetchResults()
+    }
+
+    /**
+     * 보고서 Select 조건 조회
+     */
+    override fun getDistinctReportCategoryList(): List<ReportCategoryDto> {
+        val report = QReportEntity.reportEntity
+        return from(report).distinct()
+            .select(
+                Projections.constructor(
+                    ReportCategoryDto::class.java,
+                    report.templateId,
+                    report.reportName
+                )
+            )
+            .orderBy(report.reportName.asc())
+            .fetch()
     }
 }

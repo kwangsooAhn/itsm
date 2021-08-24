@@ -10,6 +10,7 @@ import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.chart.service.ChartManagerFactory
+import co.brainz.itsm.report.dto.ReportCategoryDto
 import co.brainz.itsm.report.dto.ReportDto
 import co.brainz.itsm.report.dto.ReportListReturnDto
 import co.brainz.itsm.report.dto.ReportSearchCondition
@@ -51,6 +52,10 @@ class ReportService(
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
+    }
+
+    fun getDistinctReportCategoryList(): List<ReportCategoryDto> {
+        return reportRepository.getDistinctReportCategoryList()
     }
 
     fun getReportDetail(reportId: String): ReportDto {
@@ -96,7 +101,7 @@ class ReportService(
             reportName = templateEntity.templateName,
             reportDesc = templateEntity.templateDesc,
             publishDt = LocalDateTime.now(),
-            template = templateEntity
+            templateId = templateEntity.templateId
         )
         reportEntity = reportRepository.save(reportEntity)
 

@@ -13,8 +13,6 @@ import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
@@ -27,9 +25,8 @@ data class ReportEntity(
     @Column(name = "report_id")
     val reportId: String = "",
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "template_id")
-    var template: ReportTemplateEntity,
+    @Column(name = "template_id")
+    var templateId: String = "",
 
     @Column(name = "report_name", length = 128)
     val reportName: String = "",

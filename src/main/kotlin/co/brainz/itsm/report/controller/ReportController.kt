@@ -81,10 +81,7 @@ class ReportController(
 
     @GetMapping("/report/search")
     fun getReportSearch(request: HttpServletRequest, model: Model): String {
-        model.addAttribute(
-            "templateList",
-            reportTemplateService.getReportTemplateList(ReportTemplateCondition()).data
-        )
+        model.addAttribute("categoryList", reportService.getDistinctReportCategoryList())
         return reportSearchPage
     }
 

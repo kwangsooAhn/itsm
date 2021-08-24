@@ -19,7 +19,7 @@
     <form id="searchFrm">
         <select id="searchTemplate" name="searchTemplate" class="col-3">
             <option value="" th:text="#{report.template.all}"></option>
-            <option th:each="template: ${templateList}" th:value="${template.templateId}" th:text="#{${template.templateName}}"></option>
+            <option th:each="category: ${categoryList}" th:value="${category.templateId}" th:text="#{${category.reportName}}"></option>
         </select>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
