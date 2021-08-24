@@ -899,6 +899,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-gnb-report {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-gnb-dashboard {
   width: 1.5rem;
   height: 1.5rem;
@@ -3247,14 +3257,14 @@ table[id=documentDisplay] td {
   display: inline-block;
 }
 
-.z-faq-header, .z-download-header, .z-board-header, .z-user-header, .z-board-admin-header, .z-process-header, .z-form-header, .z-document-admin-header, .z-custom-code-header, .z-auth-header, .z-role-header, .z-code-header, .z-numbering-pattern-header, .z-numbering-rule-header, .z-chart-header, .z-cmdb-attribute-header, .z-cmdb-class-header, .z-cmdb-type-header, .z-cmdb-ci-header, .z-scheduler-header {
+.z-faq-header, .z-download-header, .z-board-header, .z-user-header, .z-board-admin-header, .z-process-header, .z-form-header, .z-document-admin-header, .z-custom-code-header, .z-auth-header, .z-role-header, .z-code-header, .z-numbering-pattern-header, .z-numbering-rule-header, .z-chart-header, .z-cmdb-attribute-header, .z-cmdb-class-header, .z-cmdb-type-header, .z-cmdb-ci-header, .z-scheduler-header, .z-report-template-header {
   padding: 0 3.75rem 0 3.75rem;
 }
 .z-document-header, .z-token-header, .z-image-header {
   padding: 0 3.75rem 0 3.75rem;
   border-bottom: 0.0625rem solid #CFD5D9;
 }
-.z-faq-content, .z-download-content, .z-board-content, .z-user-content, .z-board-admin-content, .z-process-content, .z-form-content, .z-document-admin-content, .z-custom-code-content, .z-auth-content, .z-role-content, .z-code-content, .z-numbering-pattern-content, .z-numbering-rule-content, .z-chart-content, .z-cmdb-attribute-content, .z-cmdb-type-content, .z-cmdb-class-content, .z-cmdb-ci-content {
+.z-faq-content, .z-download-content, .z-board-content, .z-user-content, .z-board-admin-content, .z-process-content, .z-form-content, .z-document-admin-content, .z-custom-code-content, .z-auth-content, .z-role-content, .z-code-content, .z-numbering-pattern-content, .z-numbering-rule-content, .z-chart-content, .z-cmdb-attribute-content, .z-cmdb-type-content, .z-cmdb-class-content, .z-cmdb-ci-content, .z-report-template-content {
   padding: 0.9375rem 3.75rem;
   background-color: #FAFAFA;
 }
@@ -3433,6 +3443,12 @@ table[id=documentDisplay] td {
 }
 .z-cmdb-class-content-edit .attribute {
   width: 27.94rem;
+}
+.z-report-template-content-edit {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
+  border-top: 0.0625rem solid #EBEBEB;
+  background-color: #FFFFFF;
+  height: 100%;
 }
 .z-notice-content-view, .z-faq-content-view, .z-download-content-view, .z-board-content-view, .z-cmdb-attribute-content-view {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
