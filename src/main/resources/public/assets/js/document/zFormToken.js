@@ -464,9 +464,13 @@ class ZFormToken {
     }
     
     /**
-     * TODO: 문서 인쇄
+     * 문서 인쇄
      */
-    print() {}
+    print() {
+        const printData  =  this.form.toJson();
+        sessionStorage.setItem('alice_print', JSON.stringify(printData));
+        window.open('/tokens/' + this.data.tokenId + '/print', '_blank');
+    }
     /**
      * 문서 닫기
      */

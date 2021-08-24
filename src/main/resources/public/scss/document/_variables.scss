@@ -62,8 +62,8 @@ $token-comment-time-color:                   $gray500;
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
 $cmdb-ci-modal-height:                       53.0625rem; // 849px
 
-$cmdb-ci-attribute-border:                   0.0625rem solid map-get($grays, 'line'); // 1px
-$cmdb-ci-attribute-bg-color:                 map-get($grays, 'light');
+$cmdb-ci-attribute-border:                   0.0625rem solid $gray300; // 1px
+$cmdb-ci-attribute-bg-color:                 $neutral50;
 
 ///////////////////////////// Tree ////////////////////////////////
 $tree-modal-width:                           40rem; // 640px
@@ -75,10 +75,7 @@ $custom-code-modal-height:                   53.75rem; // 860px
 $custom-code-modal-header-height:            3.125rem; // 50px
 $custom-code-modal-bottom-height:            6.25rem; //100px
 
-/////////////////////////// color Set //////////////////////////
-$grays: (
-  'icon':                                         #A0A4A6,
-  'line':                                         #D7DBE0,
-  'fill':                                         #EBECED,
-  'focus':                                        #283238
-) !default;
+///////////////////////// 인쇄 /////////////////////////
+$print-font-color:                           $black;
+$print-a4-width:                             210mm;
+$print-a4-height:                            297mm;

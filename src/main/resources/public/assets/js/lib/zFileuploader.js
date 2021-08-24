@@ -456,6 +456,10 @@ const zFileUploader = (function () {
                                     delFilePreview.parentNode.querySelector('.i-document-txt').style.display = 'block';
                                     _this.isFileExist = false;
                                 }
+
+                                if (typeof extraParam.callback === 'function') {
+                                    extraParam.callback('remove', delFile.value);
+                                }
                             });
                         }
                     });
@@ -502,7 +506,7 @@ const zFileUploader = (function () {
                             _this.isFileExist = false;
                         }
                         if (typeof extraParam.callback === 'function') {
-                            extraParam.callback('remove', file.previewElement.querySelector('input[name="fileSeq"]').value);
+                            extraParam.callback('remove', file.previewElement.querySelector('input[name="' + fileAttrName + '"]').value);
                         }
                     });
 

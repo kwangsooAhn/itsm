@@ -5,50 +5,90 @@
  * @author wdj
  * @version 1.0
  */
-.#{$common-prefix}print {
-  margin: 1cm auto;
+.z-print {
+  margin: 0 auto;
 
-  .#{$common-prefix}print-main-header {
-    line-height: 1.2;
-    margin: 0 0 10mm 0;
+  table {
+    tr { height: 0; }
   }
-  .#{$common-prefix}form {
-    box-shadow: none;
-    // 인쇄시 모든 동작을 막음
-    input, textarea, button, select,
-    .dropzone, .ql-toolbar,
-    label.radio, label.checkbox {
-      pointer-events: none;
+
+  &-main-header {
+    text-align: center;
+    margin: 5mm 0;
+
+    h1 { color: $print-font-color; }
+  }
+
+  &-main-footer {
+    line-height: 1.2;
+    padding: 5mm 0;
+  }
+
+  &-header-space,
+  &-footer-space { height: 0; }
+
+  &-main {
+    .z-drawing-board {
+      .z-form {
+        box-shadow: none; // 인쇄 영역의 테두리엔 그림자 효과 제외
+        border: none; // 인쇄시 테두리 제외
+        // 인쇄시 모든 동작을 막음
+        input, textarea, button, select,
+        .dropzone, .ql-toolbar,
+        label.radio, label.checkbox {
+          pointer-events: none;
+        }
+      }
     }
   }
 }
 
 @page {
   size: A4;
-  margin: 0;
+  margin: 0 20mm;
 }
 @media print {
   html, body {
-    width: 210mm;
-    height: 297mm;
+    width: $print-a4-width;
+    height: $print-a4-height;
   }
-  .#{$common-prefix}print {
-    padding: 0mm 20mm;
+  .z-print {
+    padding: 0;
     margin: 0;
     border: initial;
     border-radius: initial;
-    width: initial;
+    width: 100%;
     min-height: initial;
     box-shadow: initial;
     background: initial;
-    page-break-after: always;
+    page-break-before: auto;
 
-    .#{$common-prefix}print-main-header {
-      margin: 0 0 10mm 0;
+    &-main-header {
+      margin: 5mm 0 0 0;
     }
 
-    .#{$common-prefix}form {
-      box-shadow: none; // 인쇄 영역의 테두리엔 그림자 효과 제외
+    &-header-space { height: 10mm; }
+    &-footer-space { height: 20mm; }
+
+    &-main {
+      margin: 0 auto;
+      // 페이지 마다 하단 영역 표시
+      thead { display: table-header-group; }
+      tbody { display: table-row-group; }
+      tfoot { display: table-footer-group; }
+
+      // 폼이 그려지는 영역
+      .z-drawing-board {
+        .z-form {
+          display: table-row;
+        }
+      }
+    }
+
+    &-main-footer {
+      position: fixed;
+      bottom: 0;
+      width: $print-a4-width;
     }
   }
 }

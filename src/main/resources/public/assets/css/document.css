@@ -2094,24 +2094,38 @@ select {
  * @version 1.0
  */
 .z-print {
-  margin: 1cm auto;
+  margin: 0 auto;
 }
-.z-print .z-print-main-header {
+.z-print table tr {
+  height: 0;
+}
+.z-print-main-header {
+  text-align: center;
+  margin: 5mm 0;
+}
+.z-print-main-header h1 {
+  color: #000000;
+}
+.z-print-main-footer {
   line-height: 1.2;
-  margin: 0 0 10mm 0;
+  padding: 5mm 0;
 }
-.z-print .z-form {
+.z-print-header-space, .z-print-footer-space {
+  height: 0;
+}
+.z-print-main .z-drawing-board .z-form {
   box-shadow: none;
+  border: none;
 }
-.z-print .z-form input, .z-print .z-form textarea, .z-print .z-form button, .z-print .z-form select,
-.z-print .z-form .dropzone, .z-print .z-form .ql-toolbar,
-.z-print .z-form label.radio, .z-print .z-form label.checkbox {
+.z-print-main .z-drawing-board .z-form input, .z-print-main .z-drawing-board .z-form textarea, .z-print-main .z-drawing-board .z-form button, .z-print-main .z-drawing-board .z-form select,
+.z-print-main .z-drawing-board .z-form .dropzone, .z-print-main .z-drawing-board .z-form .ql-toolbar,
+.z-print-main .z-drawing-board .z-form label.radio, .z-print-main .z-drawing-board .z-form label.checkbox {
   pointer-events: none;
 }
 
 @page {
   size: A4;
-  margin: 0;
+  margin: 0 20mm;
 }
 @media print {
   html, body {
@@ -2120,21 +2134,44 @@ select {
   }
 
   .z-print {
-    padding: 0mm 20mm;
+    padding: 0;
     margin: 0;
     border: initial;
     border-radius: initial;
-    width: initial;
+    width: 100%;
     min-height: initial;
     box-shadow: initial;
     background: initial;
-    page-break-after: always;
+    page-break-before: auto;
   }
-  .z-print .z-print-main-header {
-    margin: 0 0 10mm 0;
+  .z-print-main-header {
+    margin: 5mm 0 0 0;
   }
-  .z-print .z-form {
-    box-shadow: none;
+  .z-print-header-space {
+    height: 10mm;
+  }
+  .z-print-footer-space {
+    height: 20mm;
+  }
+  .z-print-main {
+    margin: 0 auto;
+  }
+  .z-print-main thead {
+    display: table-header-group;
+  }
+  .z-print-main tbody {
+    display: table-row-group;
+  }
+  .z-print-main tfoot {
+    display: table-footer-group;
+  }
+  .z-print-main .z-drawing-board .z-form {
+    display: table-row;
+  }
+  .z-print-main-footer {
+    position: fixed;
+    bottom: 0;
+    width: 210mm;
   }
 }
 /* _modal.scss 
@@ -2230,7 +2267,7 @@ body.modal-active {
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group {
   background-color: #F7F8F9;
   padding: 0 1.25rem 1.25rem 1.25rem;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   margin-bottom: 0.625rem;
 }
@@ -2249,7 +2286,7 @@ body.modal-active {
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .attribute-group {
   background-color: #F7F8F9;
   padding: 0 1.25rem 1.25rem 1.25rem;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   margin-bottom: 0.625rem;
 }
