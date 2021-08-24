@@ -695,6 +695,7 @@ input, button, select, optgroup, textarea {
 :root {
   --data-column: 12;
   --data-row: 2;
+  --data-align: flex-start ;
 }
 
 /* _icons.scss
@@ -1662,6 +1663,9 @@ input, button, select, optgroup, textarea {
 }
 .z-drawing-board.edit .z-group-label {
   pointer-events: none;
+}
+.z-drawing-board:not([data-display=ready]) .z-component-tooltip {
+  border-color: transparent !important;
 }
 
 .z-save-info {
@@ -5724,7 +5728,7 @@ body.modal-active {
 .z-group-tooltip.focus {
   background-color: #F1F9FC;
 }
-.z-group-tooltip.off {
+.z-group-tooltip[data-displaytype="document.displayType.hidden"] {
   display: none;
 }
 
@@ -5780,7 +5784,7 @@ body.modal-active {
   opacity: 0;
 }
 .z-group.accordion .z-group-label .z-group-label-text {
-  padding-right: 0.625rem;
+  padding: 0 0.625rem 0.625rem 0;
 }
 .z-group.accordion .z-group-label .z-icon.i-arrow-right {
   opacity: 1;
@@ -5852,6 +5856,7 @@ body.modal-active {
 }
 .z-component .z-component-label {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
+  justify-content: var(--data-align);
   padding: 0.4375rem 0.938rem 0.4375rem 0;
 }
 .z-component .z-component-label.on {

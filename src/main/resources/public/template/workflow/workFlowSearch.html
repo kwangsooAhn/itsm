@@ -188,6 +188,7 @@
                 },
                 onCreate: function(modal) {
                     // color picker 초기화
+                    console.log(document.getElementById('documentColor'));
                     new zColorPicker(document.getElementById('documentColor'), { type: 'fill' });
                     // 신청서 상태 초기화
                     const statusElem = document.getElementById('document-status');
@@ -296,7 +297,7 @@
         };
 
         aliceJs.fetchText('/rest/workflows/' + documentId + '/display', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },

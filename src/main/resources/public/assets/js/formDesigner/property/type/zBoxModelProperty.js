@@ -67,6 +67,9 @@ export default class ZBoxModelProperty extends ZProperty {
     updateProperty(e) {
         e.stopPropagation();
         e.preventDefault();
+
+        this.panel.validationStatus = true;
+
         // enter, tab 입력시
         if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
             return false;

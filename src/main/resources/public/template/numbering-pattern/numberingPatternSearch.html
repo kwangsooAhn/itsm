@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
+<head>
+    <title th:text="#{pattern.label.pattern}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{pattern.label.pattern}"></h1>
+    <h6 class="description ml-2" th:text="#{pattern.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+           th:placeholder="#{pattern.msg.searchPlaceholder}"/>
+    <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" id="btnSearch" name="btnSearch" onclick="location.href='/numberingPatterns/new'"
+                sec:authorize="hasAuthority('numbering.pattern.create')" th:text="#{common.btn.add}"></button>
+    </div>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="patternList"></div>
+</div>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+
+    window.onload = function () {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function () {
+            getList();
+        });
+        getList();
+        OverlayScrollbars(document.querySelector('.numbering-pattern-content-edit'), {className: 'scrollbar'});
+    };
+
+    /** 패턴 리스트 출력 기능 **/
+    function getList(pageNum = 1) {
+        const data = {
+            search: encodeURIComponent(document.getElementById('searchValue').value)
+        };
+        const urlParam = 'searchValue=' + data.search + '&pageNum=' + pageNum;
+        const opt = {
+            method: 'get',
+            url: '/numberingPatterns?' + urlParam,
+            callbackFunc: function (response) {
+                document.getElementById('patternList').innerHTML = response.responseText;
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+    /*]]>*/
+</script>
+</html>

@@ -53,6 +53,7 @@ common:
     emptyData: "-"
   msg:
     confirmDelete: "Are you sure you want to delete?"
+    confirmNotSave: "You have unsaved changes. Do you want to move without saving?"
     dataSelect: "Please select data."
     delete: "Deleted."
     deleteTartget: "Please select target."
@@ -900,6 +901,10 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
+  report:
+    parent: "Report"
+    report: "Report List"
+    template: "Report Template"
   setting:
     editMyInfo: "Edit My Info"
   token:
@@ -1090,6 +1095,35 @@ process:
       userTask: "User Task"
       withdraw: "Withdraw"
 
+# Report
+report:
+  btn:
+    preview: "Preview"
+  label:
+    automatic: "Automatic generation"
+    chart: "Chart"
+    description: "Description"
+    download: "Download"
+    preview: "Preview"
+    publishDate: "Publish Date"
+    report: "Report"
+    reportName: "Report Name"
+    search: "Report Search"
+    searchPlaceholder: "Template name"
+    template: "Template"
+    templateEdit: "Template Edit"
+    templateName: "Template Name"
+    templateRegister: "Template Register"
+  msg:
+    configDescription: "Set up templates using custom charts."
+    duplicateChart: "Duplicate chart exists."
+    editDescription: "Register, modify, or delete templates."
+    emptyChart: "Chart does not exist."
+    searchDescription: "Search report that you generated."
+    templateNameUsed: "Duplicate template name exists."
+  template:
+    all: "All"
+
 # Role
 role:
   btn:
@@ -1104,8 +1138,10 @@ role:
     role: "Role"
   msg:
     duplicateRoleId: "Duplicate role id! Please enter other role id."
+    duplicateChart: "Duplicate chart exists."
     duplicateRoleName: "Duplicate role name! Please enter other role name."
     editDescription: "Add, view and manage roles."
+    emptyChart: "Chart does not exist."
     enterRoleId: "Please enter a role id."
     enterRoleName: "Please enter a role name."
     searchPlaceholder: "Role Name / Role Desc."
@@ -1177,6 +1213,7 @@ token:
     elementName: "Task Name"
     endDt: "Finish Date"
     history: "History"
+    information: "Information"
     list: "My Document List"
     print: "Process Document Print"
     relatedInstance: "Related Documents"
@@ -1396,3 +1433,4 @@ product:
     mainPhone: "MainPhone : 02-2205-6001"
     technicalSupport: "TechnicalSupport : 02-2205-6031"
     productInquiry: "ProductInquiry : 02-2205-6009, 6015"
+    copyright: "ⓒ 2020 Brainzcompany. All rights reserved."

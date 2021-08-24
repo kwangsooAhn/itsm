@@ -816,14 +816,10 @@ class ZFormDesigner {
      * TODO: 미리보기
      */
     preview() {
-        const documentButtonArea =  document.getElementById('documentButtonArea');
-        documentButtonArea.innerHTML = '';
-        // 미리보기시 닫기 버튼만 표시
-        zFormButton.domElement = documentButtonArea;
-        zFormButton.zForm = zDocument;
-        zFormButton.makeActionButton([{ 'name': 'common.btn.close', 'value': 'close', 'customYn': false }]);
-
-        zDocument.makeDocument(this.form.toJson()); // Form 생성
+        const previewData = this.form.toJson();
+        zDocument.editable = false;
+        zFormButton.init({ form: previewData}, zDocument);
+        zDocument.makeDocument(previewData); // Form 생성
         zDocument.documentModal.show(); // 모달 표시
     }
     /**

@@ -9,7 +9,6 @@ package co.brainz.itsm.notice.controller
 import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.service.NoticeService
 import javax.servlet.http.HttpServletRequest
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/notices")
 class NoticeController(private val noticeService: NoticeService) {
 
-    private val logger = LoggerFactory.getLogger(this::class.java)
     private val noticeSearchPage: String = "notice/noticeSearch"
     private val noticeListPage: String = "notice/noticeList"
     private val noticeEditPage: String = "notice/noticeEdit"
@@ -28,7 +26,7 @@ class NoticeController(private val noticeService: NoticeService) {
     private val noticePopUpPage: String = "notice/noticePopUp"
 
     /**
-     * 공지사항 검색 화면 호출 처리
+     * 공지사항 검색 화면
      */
     @GetMapping("/search")
     fun getNoticeSearch(request: HttpServletRequest, model: Model): String {
@@ -36,7 +34,7 @@ class NoticeController(private val noticeService: NoticeService) {
     }
 
     /**
-     * 공지사항 검색 결과 리스트 화면 호출 처리
+     * 공지사항 검색 결과 리스트 화면
      */
     @GetMapping("")
     fun getNoticeList(noticeSearchCondition: NoticeSearchCondition, model: Model): String {
@@ -48,7 +46,7 @@ class NoticeController(private val noticeService: NoticeService) {
     }
 
     /**
-     * 공지사항 신규 등록 화면 호출 처리
+     * 공지사항 신규 등록 화면
      */
     @GetMapping("/new")
     fun getNoticeNew(request: HttpServletRequest, model: Model): String {

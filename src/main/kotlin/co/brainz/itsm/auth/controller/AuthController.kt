@@ -1,6 +1,7 @@
 package co.brainz.itsm.auth.controller
 
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.auth.dto.AuthSearchCondition
 import co.brainz.itsm.auth.service.AuthService
 import co.brainz.itsm.code.service.CodeService
 import javax.servlet.http.HttpServletRequest
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @RequestMapping("/auths")
@@ -18,35 +20,49 @@ class AuthController(
 ) {
 
     val logger = LoggerFactory.getLogger(AuthController::class.java)
+    private val authSearchPage: String = "auth/authSearch"
     private val authEditPage: String = "auth/authEdit"
     private val authListPage: String = "auth/authList"
 
     /**
-     * 권한 설정 화면 호출처리.
+     * 권한 검색 화면
      */
-    @GetMapping("/edit")
-    fun getRolelist(request: HttpServletRequest, model: Model): String {
+    @GetMapping("/search")
+    fun getAuthSearch(request: HttpServletRequest, model: Model): String {
+        return authSearchPage
+    }
 
-        val defaultUserMenuList = codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code)
-        val defaultUserUrlList = codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code)
-        val menuAllList = authService.getMenuList()
-        val urlAllList = authService.getUrlList()
+    /**
+     * 권한 검색 결과 리스트 화면
+     */
+    @GetMapping("")
+    fun getAuthList(authSearchCondition: AuthSearchCondition, model: Model): String {
+        val result = authService.getAuthSearchList(authSearchCondition)
+        model.addAttribute("authList", result.data)
+        model.addAttribute("paging", result.paging)
+        return authListPage
+    }
 
-        model.addAttribute("defaultUserMenuList", defaultUserMenuList)
-        model.addAttribute("defaultUserUrlList", defaultUserUrlList)
-        model.addAttribute("menuList", menuAllList)
-        model.addAttribute("urlList", urlAllList)
-
+    /**
+     * 권한 신규 등록 화면
+     */
+    @GetMapping("/new")
+    fun getAuthNew(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("menuList", authService.getMenuList())
+        model.addAttribute("urlList", authService.getUrlList())
         return authEditPage
     }
 
     /**
-     * 권한 설정 검색 결과 리스트 화면 호출 처리.
+     * 권한 편집 화면
      */
-    @GetMapping("")
-    fun getAuthList(search: String, model: Model): String {
-        model.addAttribute("authList", authService.getAuthSearchList(search))
-
-        return authListPage
+    @GetMapping("/{authId}/edit")
+    fun getRoleList(@PathVariable authId: String, model: Model): String {
+        model.addAttribute("auth", authService.getAuthDetail(authId))
+        model.addAttribute("defaultUserMenuList", codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code))
+        model.addAttribute("defaultUserUrlList", codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code))
+        model.addAttribute("menuList", authService.getMenuList())
+        model.addAttribute("urlList", authService.getUrlList())
+        return authEditPage
     }
 }

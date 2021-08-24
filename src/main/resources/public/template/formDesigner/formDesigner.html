@@ -10,7 +10,6 @@
     <th:block th:replace="formDesigner/fragments/formHead :: formHead"></th:block>
     <script th:src="@{/assets/js/lib/zShortcut.js}"></script>
     <script th:src="@{/assets/vendors/sortableJS/sortable.js}"></script>
-    <script th:src="@{/assets/vendors/tagify/tagify.custom.js}"></script>
     <script type="module">
         // 사용자 세션 정보 저장
         import { SESSION, CLASS_PREFIX } from '../../assets/js/lib/zConstants.js';
@@ -320,11 +319,11 @@
 </template>
 <!-- 미리보기 모달 -->
 <template id="documentModalTemplate">
-    <div class="document-main preview flex-column align-items-center">
-        <div class="document-main-header flex-row justify-content-end align-items-center">
-            <div class="z-button-area" id="documentButtonArea"></div>
+    <div class="z-document-main preview flex-column align-items-center">
+        <div class="z-document-main-header flex-row justify-content-end align-items-center flex-wrap">
+            <div id="defaultButtonArea"></div>
         </div>
-        <div class="z-drawing-board" id="documentDrawingBoard"></div>
+        <div class="z-drawing-board" id="documentDrawingBoard" data-display="ready"></div>
     </div>
 </template>
 </body>

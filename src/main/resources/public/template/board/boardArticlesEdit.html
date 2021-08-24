@@ -1,266 +1,258 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
     <title th:text="${boardInfo != null} ? (${replyYn} ? #{board.label.reply} : #{board.label.edit}) : #{board.label.register}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-board-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{board.label.board}"></h1>
-            <h6 class="description ml-2" th:text="#{board.msg.editDescription}"></h6>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{board.label.board}"></h1>
+    <h6 class="description ml-2" th:text="#{board.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <form id="boardForm" method="post" onsubmit="return false">
+            <div class="flex-column z-edit-row">
+                <label for="boardAdminId">
+                    <span th:text="#{board.label.board}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="boardAdminId" name="boardAdminId">
+                    <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
+                            th:text="#{${boardAdmin.boardAdminTitle}}"
+                            th:selected="${boardAdmin.boardAdminId} == ${boardAdminInfo?.boardAdminId}"></option>
+                </select>
+            </div>
+            <div class="flex-column z-edit-row" id="divCategoryYn" name="divCategoryYn">
+                <label for="boardCategory">
+                    <span th:text="#{board.label.category}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="boardCategory" name="boardCategory">
+                    <option th:each="boardCategory: ${boardCategoryInfo}" th:value="${boardCategory.boardCategoryId}"
+                            th:text="#{${boardCategory.boardCategoryName}}"
+                            th:selected="${boardInfo?.boardCategoryId} == ${boardCategory.boardCategoryId}">
+                    </option>
+                </select>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label for="boardTitle">
+                    <span th:text="#{board.label.title}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="boardTitle" class="z-input" maxlength="100" th:value="${boardInfo?.boardTitle}">
+            </div>
+            <div class="flex-column z-edit-row">
+                <label th:text="#{common.label.contents}" for="boardContents"/>
+                <div class="text-editor" id="boardContents"></div>
+            </div>
+            <div class="flex-column z-edit-row file-uploader-edit" id="divFile" name="divFile">
+                <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
+                <div id="dropZoneFiles"></div>
+                <div id="dropZoneUploadedFiles"></div>
+            </div>
+            <div id="boardUserInfo" class="flex-column z-edit-row">
+                <div class="flex-row">
+                    <div class="flex-column col-6 mr-4">
+                        <label th:text="#{common.label.writer}"/>
+                        <input type="text" id="spanCreateUserKey" name="spanCreateUserKey" class="z-input" disabled
+                               th:value="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"/>
+                    </div>
+                </div>
+                <div class="flex-row">
+                    <div class="flex-column col-6">
+                        <label th:text="#{common.label.createDate}"/>
+                        <input type="text" id="spanCreateDt" name="spanCreateDt" class="z-input" disabled
+                               th:value="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''"/>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-row justify-content-between z-edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary"
+                       th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list">
+                    <button class="z-button primary" sec:authorize="hasAuthority('board.update')"
+                            th:if="${boardInfo?.boardId} and ${replyYn} == false"
+                            onclick ="saveBoard('put', 'normal')"
+                            th:text="#{common.btn.modify}">
+                    </button>
+                    <button class="z-button primary" sec:authorize="hasAuthority('board.create')"
+                            th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
+                            onclick="saveBoard('post', 'normal')"
+                            th:text="#{common.btn.register}">
+                    </button>
+                    <button class="z-button secondary" sec:authorize="hasAuthority('board.create')"
+                            th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
+                            onclick="saveBoard('post', 'reply')"
+                            th:text="#{board.btn.reply}">
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="flex-column z-edit">
-        <div class="z-board-content-edit">
-            <form id="boardForm" method="post" onsubmit="return false">
-                <div class="flex-column z-edit-row">
-                    <label for="boardAdminId">
-                        <span th:text="#{board.label.board}"></span>
-                        <span class="required"></span>
-                    </label>
-                    <select id="boardAdminId" name="boardAdminId">
-                        <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
-                                th:text="#{${boardAdmin.boardAdminTitle}}"
-                                th:selected="${boardAdmin.boardAdminId} == ${boardAdminInfo?.boardAdminId}"></option>
-                    </select>
-                </div>
-                <div class="flex-column z-edit-row" id="divCategoryYn" name="divCategoryYn">
-                    <label for="boardCategory">
-                        <span th:text="#{board.label.category}"></span>
-                        <span class="required"></span>
-                    </label>
-                    <select id="boardCategory" name="boardCategory">
-                        <option th:each="boardCategory: ${boardCategoryInfo}" th:value="${boardCategory.boardCategoryId}"
-                                th:text="#{${boardCategory.boardCategoryName}}"
-                                th:selected="${boardInfo?.boardCategoryId} == ${boardCategory.boardCategoryId}">
-                        </option>
-                    </select>
-                </div>
-                <div class="flex-column z-edit-row">
-                    <label for="boardTitle">
-                        <span th:text="#{board.label.title}"></span>
-                        <span class="required"></span>
-                    </label>
-                    <input type="text" id="boardTitle" class="z-input" maxlength="100" th:value="${boardInfo?.boardTitle}">
-                </div>
-                <div class="flex-column z-edit-row">
-                    <label th:text="#{common.label.contents}" for="boardContents"/>
-                    <div class="text-editor" id="boardContents"></div>
-                </div>
-                <div class="flex-column z-edit-row file-uploader-edit" id="divFile" name="divFile">
-                    <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
-                    <div id="dropZoneFiles"></div>
-                    <div id="dropZoneUploadedFiles"></div>
-                </div>
-                <div id="boardUserInfo" class="flex-column z-edit-row">
-                    <div class="flex-row">
-                        <div class="flex-column col-6 mr-4">
-                            <label th:text="#{common.label.writer}"/>
-                            <input type="text" id="spanCreateUserKey" name="spanCreateUserKey" class="z-input" disabled
-                                   th:value="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"/>
-                        </div>
-                    </div>
-                    <div class="flex-row">
-                        <div class="flex-column col-6">
-                            <label th:text="#{common.label.createDate}"/>
-                            <input type="text" id="spanCreateDt" name="spanCreateDt" class="z-input" disabled
-                                   th:value="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-row justify-content-between z-edit-row">
-                    <div class="z-button-list">
-                        <a class="z-button secondary"
-                           th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
-                    </div>
-                    <div class="z-button-list">
-                        <button class="z-button primary" sec:authorize="hasAuthority('board.update')"
-                                th:if="${boardInfo?.boardId} and ${replyYn} == false"
-                                onclick ="saveBoard('put', 'normal')"
-                                th:text="#{common.btn.modify}">
-                        </button>
-                        <button class="z-button primary" sec:authorize="hasAuthority('board.create')"
-                                th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
-                                onclick="saveBoard('post', 'normal')"
-                                th:text="#{common.btn.register}">
-                        </button>
-                        <button class="z-button secondary" sec:authorize="hasAuthority('board.create')"
-                                th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
-                                onclick="saveBoard('post', 'reply')"
-                                th:text="#{board.btn.reply}">
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</th:block>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript" type="text/javascript">
-        /*<![CDATA[*/
-        const boardId = /*[[${boardInfo?.boardId}]]*/;
-        // boardAdminId, attachYn, attachFileSize, categoryYn은 게시판 선택 변경이 가능하기 때문에 let으로 변경 함.
-        let boardAdminId = /*[[${boardAdminInfo?.boardAdminId}]]*/;
-        let attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
-        let attachFileSize = /*[[${boardAdminInfo?.attachFileSize}]]*/;
-        let categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
-        const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
-        const replyYn = /*[[${replyYn}]]*/;
-        const boardCreateDt = document.getElementById('spanCreateDt');
-        let textEditor = null;
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    const boardId = /*[[${boardInfo?.boardId}]]*/;
+    // boardAdminId, attachYn, attachFileSize, categoryYn은 게시판 선택 변경이 가능하기 때문에 let으로 변경 함.
+    let boardAdminId = /*[[${boardAdminInfo?.boardAdminId}]]*/;
+    let attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
+    let attachFileSize = /*[[${boardAdminInfo?.attachFileSize}]]*/;
+    let categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
+    const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
+    const replyYn = /*[[${replyYn}]]*/;
+    const boardCreateDt = document.getElementById('spanCreateDt');
+    let textEditor = null;
 
-        window.onload = function() {
-            document.getElementById('boardTitle').focus();
-            if (boardId === null) {
-                document.getElementById('boardUserInfo').style.display = 'none';
+    window.onload = function() {
+        document.getElementById('boardTitle').focus();
+        if (boardId === null) {
+            document.getElementById('boardUserInfo').style.display = 'none';
+        }
+
+        boardCreateDt.value = i18n.userDateTime(boardCreateDt.value);
+
+        if (attachYn) {
+            let ownId = '';
+            if (!replyYn) {
+                ownId = boardId;
             }
+            zFileUploader.init({extra: {formId: 'boardForm', ownId: ownId, dropZoneMaxFileSize: attachFileSize}});
+        } else {
+            document.getElementById('divFile').style.display = 'none';
+        }
+        if (categoryYn && /*[[${boardInfo?.boardCategoryId}]]*/ !== '') {
+            document.getElementById('boardCategory').value = /*[[${boardInfo?.boardCategoryId}]]*/;
+        }
+        if (!categoryYn) {
+            document.getElementById('divCategoryYn').style.display = 'none';
+        }
+        // 텍스트 에디터 초기화
+        textEditor = new zQuill(document.getElementById('boardContents'), {
+            readOnly: false,
+            content: (boardId !== "" && replyYn === false) ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
+        });
 
-            boardCreateDt.value = i18n.userDateTime(boardCreateDt.value);
+        document.getElementById('boardAdminId').addEventListener('change', function() {
+            restSubmit('get', '/rest/boards/'+this.value+'/view', '');
+        });
 
-            if (attachYn) {
-                let ownId = '';
-                if (!replyYn) {
-                    ownId = boardId;
-                }
-                zFileUploader.init({extra: {formId: 'boardForm', ownId: ownId, dropZoneMaxFileSize: attachFileSize}});
-            } else {
-                document.getElementById('divFile').style.display = 'none';
-            }
-            if (categoryYn && /*[[${boardInfo?.boardCategoryId}]]*/ !== '') {
-                document.getElementById('boardCategory').value = /*[[${boardInfo?.boardCategoryId}]]*/;
-            }
-            if (!categoryYn) {
-                document.getElementById('divCategoryYn').style.display = 'none';
-            }
-            // 텍스트 에디터 초기화
-            textEditor = new zQuill(document.getElementById('boardContents'), {
-                readOnly: false,
-                content: (boardId !== "" && replyYn === false) ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
-            });
+        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+    };
 
-            document.getElementById('boardAdminId').addEventListener('change', function() {
-                restSubmit('get', '/rest/boards/'+this.value+'/view', '');
-            });
+    //게시판 저장
+    function saveBoard(method, kind) {
+        if (isEmpty('boardTitle', 'board.msg.enterBoardTitle')) return;
 
-            OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
+        let fileSeqList = [];
+        let delFileSeqList = [];
+        if (attachYn) {
+            document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
+            document.getElementsByName('delFileSeq').forEach(elm => delFileSeqList.push(elm.value));
+        }
+
+        let boardCategoryId;
+        if (categoryYn) {
+            boardCategoryId = document.getElementById('boardCategory').value;
+        }
+
+        const data = {
+            boardAdminId: document.getElementById('boardAdminId').value,
+            boardTitle: document.getElementById('boardTitle').value,
+            boardContents: JSON.stringify(textEditor.getContents()),
+            fileSeqList: fileSeqList,
+            delFileSeqList: delFileSeqList,
+            boardCategoryId: boardCategoryId
         };
 
-        //게시판 저장
-        function saveBoard(method, kind) {
-            if (isEmpty('boardTitle', 'board.msg.enterBoardTitle')) return;
+        if (method === 'put' || kind === 'reply') {
+            data.boardId = boardId;
+        }
+        if (kind === 'normal') {
+            restSubmit(method, '/rest/boards/articles', data);
+        } else if (kind === 'reply') {
+            restSubmit(method, '/rest/boards/articles/reply', data);
+        }
+    }
 
-            let fileSeqList = [];
-            let delFileSeqList = [];
-            if (attachYn) {
-                document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
-                document.getElementsByName('delFileSeq').forEach(elm => delFileSeqList.push(elm.value));
-            }
+    //조회 화면 이동
+    function searchBoard() {
+        location.href = '/boards/articles/search/param?boardAdminId='+boardAdminId;
+    }
 
-            let boardCategoryId;
-            if (categoryYn) {
-                boardCategoryId = document.getElementById('boardCategory').value;
-            }
+    //게시판 변경에 따른 값 초기화
+    function getBoardView(data) {
+        //게시판 변경에 따른 초기값 변경
+        boardAdminId = data.boardAdminId;
+        attachYn = data.attachYn;
+        attachFileSize = data.attachFileSize;
+        categoryYn = data.categoryYn;
 
-            const data = {
-                boardAdminId: document.getElementById('boardAdminId').value,
-                boardTitle: document.getElementById('boardTitle').value,
-                boardContents: JSON.stringify(textEditor.getContents()),
-                fileSeqList: fileSeqList,
-                delFileSeqList: delFileSeqList,
-                boardCategoryId: boardCategoryId
-            };
-
-            if (method === 'put' || kind === 'reply') {
-                data.boardId = boardId;
+        // attach file
+        let divFile = document.getElementById('divFile');
+        if (data.attachYn && divFile.style.display === 'none') {
+            document.getElementById('divFile').style.display = '';
+            if (document.getElementById('dropZoneFileUpload') === null) {
+                zFileUploader.init({extra: {formId: 'boardForm', ownId: boardId, dropZoneMaxFileSize: attachFileSize}});
             }
-            if (kind === 'normal') {
-                restSubmit(method, '/rest/boards/articles', data);
-            } else if (kind === 'reply') {
-                restSubmit(method, '/rest/boards/articles/reply', data);
-            }
+        } else if (!data.attachYn && divFile.style.display === '') {
+            document.getElementById('divFile').style.display = 'none';
         }
 
-        //조회 화면 이동
-        function searchBoard() {
-            location.href = '/boards/articles/search/param?boardAdminId='+boardAdminId;
+        // category
+        document.getElementById('boardCategory').options.length = 0;
+        if (data.categoryYn) {
+            let categories = data['categoryInfo'] !== null ? data['categoryInfo'] : [];
+            categories.forEach(function(category) {
+                let option = document.createElement('option');
+                option.value = category.boardCategoryId;
+                option.text = category.boardCategoryName;
+                document.getElementById('boardCategory').appendChild(option);
+            });
+            aliceJs.initDesignedSelectTag();
+            document.getElementById('divCategoryYn').style.display = '';
+        } else {
+            document.getElementById('divCategoryYn').style.display = 'none';
+        }
+    }
+
+    //REST API
+    function restSubmit(method, url, data) {
+        let resultMsg = '';
+        if (method === 'put' || method === 'post') {
+            resultMsg = i18n.msg('common.msg.save');
+        } else if (method === 'delete') {
+            resultMsg = i18n.msg('common.msg.delete');
         }
 
-        //게시판 변경에 따른 값 초기화
-        function getBoardView(data) {
-            //게시판 변경에 따른 초기값 변경
-            boardAdminId = data.boardAdminId;
-            attachYn = data.attachYn;
-            attachFileSize = data.attachFileSize;
-            categoryYn = data.categoryYn;
-
-            // attach file
-            let divFile = document.getElementById('divFile');
-            if (data.attachYn && divFile.style.display === 'none') {
-                document.getElementById('divFile').style.display = '';
-                if (document.getElementById('dropZoneFileUpload') === null) {
-                    zFileUploader.init({extra: {formId: 'boardForm', ownId: boardId, dropZoneMaxFileSize: attachFileSize}});
-                }
-            } else if (!data.attachYn && divFile.style.display === '') {
-                document.getElementById('divFile').style.display = 'none';
-            }
-
-            // category
-            document.getElementById('boardCategory').options.length = 0;
-            if (data.categoryYn) {
-                let categories = data['categoryInfo'] !== null ? data['categoryInfo'] : [];
-                categories.forEach(function(category) {
-                    let option = document.createElement('option');
-                    option.value = category.boardCategoryId;
-                    option.text = category.boardCategoryName;
-                    document.getElementById('boardCategory').appendChild(option);
-                });
-                aliceJs.initDesignedSelectTag();
-                document.getElementById('divCategoryYn').style.display = '';
-            } else {
-                document.getElementById('divCategoryYn').style.display = 'none';
-            }
-        }
-
-        //REST API
-        function restSubmit(method, url, data) {
-            let resultMsg = '';
-            if (method === 'put' || method === 'post') {
-                resultMsg = i18n.msg('common.msg.save');
-            } else if (method === 'delete') {
-                resultMsg = i18n.msg('common.msg.delete');
-            }
-
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function(response) {
-                    if (method === 'put' || method === 'post' || method === 'delete') {
-                        aliceAlert.alertSuccess(resultMsg, function () {
-                            searchBoard();
-                        });
-                    } else if (method === 'get') {
-                        if (url.indexOf('/rest/boards') !== -1) {
-                            let data = JSON.parse(response.responseText);
-                            getBoardView(data)
-                        } else {
-                            document.getElementById('boardCommentList').innerHTML = response.responseText;
-                        }
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function(response) {
+                if (method === 'put' || method === 'post' || method === 'delete') {
+                    aliceAlert.alertSuccess(resultMsg, function () {
+                        searchBoard();
+                    });
+                } else if (method === 'get') {
+                    if (url.indexOf('/rest/boards') !== -1) {
+                        let data = JSON.parse(response.responseText);
+                        getBoardView(data)
+                    } else {
+                        document.getElementById('boardCommentList').innerHTML = response.responseText;
                     }
-                },
-                showProgressbar: false
-            };
-            aliceJs.sendXhr(opt);
-        }
-        /*]]>*/
-    </script>
-</th:block>
+                }
+            },
+            showProgressbar: false
+        };
+        aliceJs.sendXhr(opt);
+    }
+    /*]]>*/
+</script>
 </html>

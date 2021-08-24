@@ -334,4 +334,34 @@
       }
     }
   }
+  // 제품 정보 모달
+  &.product-info-modal {
+    width: $product-info-modal-width;
+    height: $product-info-modal-height;
+    .modal-content {
+      margin: $product-info-modal-content-margin;
+      height: $product-info-modal-content-height;
+      padding:$product-info-modal-content-padding;
+      border-color: $product-info-modal-content-border-color;
+      label {
+        color: $product-info-modal-content-color;
+      }
+      .i-logo {
+        height: $product-info-modal-content-icon-height;
+        margin-bottom: $product-info-modal-content-margin-bottom;
+      }
+      .top-line {
+        color: $product-info-modal-line-color;
+        border-color: $product-info-modal-line-border-color;
+        border-width: $product-info-modal-line-border-width;
+        border-top-color: $product-info-modal-line-border-top-color;
+        border-style: ridge;
+        padding-top: $product-info-modal-line-padding-top;
+      }
+      .product-href {
+        color: $product-info-modal-content-href-color;
+        margin: 0.625rem 0;
+      }
+    }
+  }
 }

@@ -8,6 +8,9 @@
   &.i-gnb-chart {
     @include maskImage($icon-gnb-chart, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20xp
   }
+  &.i-gnb-report {
+    @include maskImage($icon-gnb-chart, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20xp
+  }
   &.i-gnb-dashboard {
     @include maskImage($icon-gnb-dashboard, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
   }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
+<head>
+    <title th:text="#{role.label.role}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{role.label.role}"></h1>
+    <h6 class="description ml-2" th:text="#{role.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{role.msg.searchPlaceholder}"/>
+    <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" id="btnSearch" name="btnSearch" onclick="location.href='/roles/new'"
+                sec:authorize="hasAuthority('role.create')" th:text="#{common.btn.add}"></button>
+    </div>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="roleList"></div>
+</div>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript">
+    window.onload = function() {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function() {
+            getList();
+        });
+        getList();
+    }
+
+    function getList(pageNum = 1) {
+        const data = {
+            search: encodeURIComponent(document.getElementById('searchValue').value)
+        };
+        const urlParam = 'searchValue=' + data.search + '&pageNum=' + pageNum;
+        const opt = {
+            method: 'get',
+            url: '/roles?' + urlParam,
+            callbackFunc: function(response) {
+                document.getElementById('roleList').innerHTML = response.responseText;
+                OverlayScrollbars(document.querySelector('.z-list-body'), { className: 'scrollbar' });
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+    /*]]>*/
+</script>
+</html>

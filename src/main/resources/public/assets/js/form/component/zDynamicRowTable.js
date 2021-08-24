@@ -53,9 +53,6 @@ export const dynamicRowTableMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        // label 상단 처리
-        this.labelPosition = FORM.LABEL.POSITION.TOP;
-
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
@@ -64,6 +61,7 @@ export const dynamicRowTableMixin = {
             .setUIClass(CLASS_PREFIX + 'dr-table')
             .addUIClass('mt-2')
             .setUIId('drTable' + this.id)
+            .setUIAttribute('tabindex', '-1')
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.addUI(element.UITable);
 

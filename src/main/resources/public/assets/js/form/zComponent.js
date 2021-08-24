@@ -59,6 +59,11 @@ export default class ZComponent {
         this._label = Object.assign({}, DEFAULT_PROPERTY.label, data.label);
         this._propertyName = 'form.component.' + data.type || ''; // i18n message name
 
+        // 라벨 위치 초기화
+        if (!Object.prototype.hasOwnProperty.call(this.data, 'label')) {
+            this.initLabelPosition(this._type);
+        }
+
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
         // 타입에 따른 Mixin import
@@ -91,6 +96,27 @@ export default class ZComponent {
         // 툴팁
         this.UIElement.UITooltipMenu = this.makeTooltip();
         this.UIElement.addUI(this.UIElement.UITooltipMenu);
+    }
+
+    // 라벨 위치 초기화
+    initLabelPosition(type) {
+        switch(type) {
+            case 'textArea':
+            case 'dynamicRowTable':
+            case 'ci':
+                // 라벨 상단
+                this._label.position = FORM.LABEL.POSITION.TOP;
+                break;
+            case 'textEditor':
+            case 'image':
+            case 'divider':
+            case 'fileUpload':
+                // 라벨 숨김
+                this._label.position = FORM.LABEL.POSITION.HIDDEN;
+                break;
+            default:
+                break;
+        }
     }
 
     // 타입에 따른 믹스인 호출
@@ -241,6 +267,7 @@ export default class ZComponent {
     set labelAlign(value) {
         this._label.align = value;
         this.UIElement.UIComponent.UILabel.setUITextAlign(value);
+        this.UIElement.UIComponent.UILabel.setUIProperty('--data-align', this.getLabelAlign(value));
     }
 
     get labelAlign() {
@@ -301,6 +328,7 @@ export default class ZComponent {
         const label = new UILabel().setUIClass(CLASS_PREFIX + 'component-label')
             .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
             .setUICSSText(`text-align: ${this.labelAlign};`)
+            .setUIProperty('--data-align', this.getLabelAlign(this.labelAlign))
             .setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
         // 라벨 문구
         const labelCssText = `color:${this.labelFontColor};` +
@@ -333,6 +361,20 @@ export default class ZComponent {
             labelColumnWidth -= Number(this.elementColumnWidth);
         }
         return labelColumnWidth;
+    }
+
+    /**
+     * 라벨 정렬
+     */
+    getLabelAlign(align) {
+        switch (align) {
+            case 'left':
+                return 'flex-start';
+            case 'center':
+                return 'center';
+            case 'right':
+                return 'flex-end';
+        }
     }
 
     /**

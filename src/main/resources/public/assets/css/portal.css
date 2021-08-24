@@ -5155,27 +5155,29 @@ body.modal-active {
  * @description 페이징 목록 디자인
  * @author Jung Hee Chan
  */
-.z-itsm-container .z-paging-area {
+.z-itsm-container .z-page-paging {
   background-color: #FAFAFA;
 }
 
-.z-paging-area {
+.z-page-paging {
+  display: flex;
+  flex-direction: row !important;
   padding: 0 3.75rem 1.875rem 3.75rem;
   justify-content: center;
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   line-height: 1.5rem;
 }
-.z-paging-area a.z-paging-arrow {
+.z-page-paging a.z-paging-arrow {
   cursor: text;
 }
-.z-paging-area a.z-paging-arrow.active {
+.z-page-paging a.z-paging-arrow.active {
   cursor: pointer;
 }
-.z-paging-area a.z-paging-arrow.active span.z-icon {
+.z-page-paging a.z-paging-arrow.active span.z-icon {
   background: #8B9094;
 }
-.z-paging-area a.z-paging-arrow .z-icon.i-paging-start-arrow {
+.z-page-paging a.z-paging-arrow .z-icon.i-paging-start-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/paging/icon_paging_arrow_start.svg");
@@ -5186,7 +5188,7 @@ body.modal-active {
   mask-position: center;
   background: #ABB0B5;
 }
-.z-paging-area a.z-paging-arrow .z-icon.i-paging-prev-arrow {
+.z-page-paging a.z-paging-arrow .z-icon.i-paging-prev-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/paging/icon_paging_arrow_prev.svg");
@@ -5197,7 +5199,7 @@ body.modal-active {
   mask-position: center;
   background: #ABB0B5;
 }
-.z-paging-area a.z-paging-arrow .z-icon.i-paging-next-arrow {
+.z-page-paging a.z-paging-arrow .z-icon.i-paging-next-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/paging/icon_paging_arrow_next.svg");
@@ -5208,7 +5210,7 @@ body.modal-active {
   mask-position: center;
   background: #ABB0B5;
 }
-.z-paging-area a.z-paging-arrow .z-icon.i-paging-end-arrow {
+.z-page-paging a.z-paging-arrow .z-icon.i-paging-end-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/paging/icon_paging_arrow_end.svg");
@@ -5219,7 +5221,7 @@ body.modal-active {
   mask-position: center;
   background: #ABB0B5;
 }
-.z-paging-area .z-paging-numbers a {
+.z-page-paging .z-paging-numbers a {
   display: inline-block;
   min-width: 1.5rem;
   line-height: 1.375rem;
@@ -5227,14 +5229,14 @@ body.modal-active {
   text-align: center;
   color: #222529;
 }
-.z-paging-area .z-paging-numbers a:hover {
+.z-page-paging .z-paging-numbers a:hover {
   color: #222529;
   background-color: #E3F5FC;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
 }
-.z-paging-area .z-paging-numbers a.selected-page {
+.z-page-paging .z-paging-numbers a.selected-page {
   font-weight: 700;
   color: #2578CE;
   border: 1px solid #2578CE;
@@ -5242,7 +5244,7 @@ body.modal-active {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
 }
-.z-paging-area .z-paging-numbers a:active {
+.z-page-paging .z-paging-numbers a:active {
   font-weight: 700;
   color: #1959AC;
   background-color: #ADE6FD;
@@ -5250,7 +5252,7 @@ body.modal-active {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
 }
-.z-paging-area #spanCurrentPageNum {
+.z-page-paging #spanCurrentPageNum {
   font-weight: 700;
   color: #8B9094;
   position: absolute;

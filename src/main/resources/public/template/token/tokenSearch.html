@@ -1,210 +1,204 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+    layout:decorate="~{layout/itsm/pageType/commonSearchLayout}">
 <head>
     <title th:text="#{token.label.list}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-token-header">
-        <div class="z-main-header-title flex-row align-items-baseline" id="header-title">
-            <h1 th:text="#{token.label.list}"></h1>
-            <h6 class="description ml-2" th:text="#{token.msg.searchDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row" id="header-search">
-            <form id="frmSearch">
-                <select class="col-3" name="searchTokenType" id="searchTokenType">
-                    <option value="token.type.todo" th:text="#{token.type.todo}" selected></option>
-                    <option value="token.type.requested" th:text="#{token.type.requested}"></option>
-                    <option value="token.type.progress" th:text="#{token.type.progress}"></option>
-                    <option value="token.type.completed" th:text="#{token.type.completed}"></option>
-                </select>
-                <select class="col-3" name="searchDocumentId" id="searchDocumentId">
-                    <option value="" th:text="#{token.label.all}" selected="selected"></option>
-                    <option th:each="document: ${documentList}" th:value="${document.documentId}"
-                            th:text="${document.documentName}"></option>
-                </select>
-                <input class="z-input i-search col-3" type="text" name="searchValue" id="searchValue"
-                       maxlength="100" th:placeholder="#{token.label.searchPlaceholder}"/>
-                <input type="text" class="z-input i-date-picker search-date col-3" id="searchFromDt" name="searchFromDt"/>
-                <input type="text" class="z-input i-date-picker search-date col-3" id="toDt" name="toDt"/>
-                <input type="hidden" class="search-date col-2" id="searchToDt" name="searchToDt" readonly="readonly"/>
-                <input  type="text" class="z-input i-search col-3 mr-2" id="searchTagString" name="searchTags"
-                        maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-        </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{token.label.list}"></h1>
+    <h6 class="description ml-2" th:text="#{token.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="frmSearch">
+        <select class="col-3" name="searchTokenType" id="searchTokenType">
+            <option value="token.type.todo" th:text="#{token.type.todo}" selected></option>
+            <option value="token.type.requested" th:text="#{token.type.requested}"></option>
+            <option value="token.type.progress" th:text="#{token.type.progress}"></option>
+            <option value="token.type.completed" th:text="#{token.type.completed}"></option>
+        </select>
+        <select class="col-3" name="searchDocumentId" id="searchDocumentId">
+            <option value="" th:text="#{token.label.all}" selected="selected"></option>
+            <option th:each="document: ${documentList}" th:value="${document.documentId}"
+                    th:text="${document.documentName}"></option>
+        </select>
+        <input class="z-input i-search col-3" type="text" name="searchValue" id="searchValue"
+               maxlength="100" th:placeholder="#{token.label.searchPlaceholder}"/>
+        <input type="text" class="z-input i-date-picker search-date col-3" id="searchFromDt" name="searchFromDt"/>
+        <input type="text" class="z-input i-date-picker search-date col-3" id="toDt" name="toDt"/>
+        <input type="hidden" class="search-date col-2" id="searchToDt" name="searchToDt" readonly="readonly"/>
+        <input  type="text" class="z-input i-search col-3 mr-2" id="searchTagString" name="searchTags"
+                maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
+        <span id="spanTotalCount" class="search-count"></span>
+    </form>
+</div>
+<div layout:fragment="pageSearchResult">
     <div class="z-token-content flex-fill">
         <input type="hidden" sec:authorize="hasAuthority('token.read')" th:name="isRole" th:value="true"/>
         <input type="hidden" sec:authorize="!hasAuthority('token.read')" th:name="isRole" th:value="false"/>
         <div id="tokenList"></div>
     </div>
-</th:block>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[ */
-        let offsetCount = 0;
-        let searchFromDt = i18n.getDate({'months': -1});
-        let searchToDt = i18n.getDate();
+</div>
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[ */
+    let offsetCount = 0;
+    let searchFromDt = i18n.getDate({'months': -1});
+    let searchToDt = i18n.getDate();
 
-        window.onload = function () {
-            document.getElementById('searchValue').focus();
-            // date picker 초기화
-            const searchFromDtElement = document.getElementById('searchFromDt');
-            const toDtElement = document.getElementById('toDt');
-            searchFromDtElement.value = searchFromDt;
-            toDtElement.value = searchToDt;
-            zDateTimePicker.initDatePicker(searchFromDtElement, setDatePicker);
-            zDateTimePicker.initDatePicker(toDtElement, setDatePicker);
+    window.onload = function () {
+        document.getElementById('searchValue').focus();
+        // date picker 초기화
+        const searchFromDtElement = document.getElementById('searchFromDt');
+        const toDtElement = document.getElementById('toDt');
+        searchFromDtElement.value = searchFromDt;
+        toDtElement.value = searchToDt;
+        zDateTimePicker.initDatePicker(searchFromDtElement, setDatePicker);
+        zDateTimePicker.initDatePicker(toDtElement, setDatePicker);
 
-            // 검색 이벤트 핸들러 셋업
-            document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function (element) {
-                element.addEventListener('change', () => tokenSearch(false), false);
-            });
+        // 검색 이벤트 핸들러 셋업
+        document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function (element) {
+            element.addEventListener('change', () => tokenSearch(false), false);
+        });
 
-            document.getElementById('searchValue').addEventListener('keyup', (e) => {tokenSearch(false);}, false);
+        document.getElementById('searchValue').addEventListener('keyup', (e) => {tokenSearch(false);}, false);
 
-            // 태그 조회가 아직 미완성이기 때문에 임시적으로 엔터로 변경한다.
-            document.getElementById('searchTagString').addEventListener('keyup', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    tokenSearch(false);
-                }
-            }, false);
-
-            tokenSearch(false);
-        };
-
-        function setDatePicker(element, picker) {
-            if (typeof picker === 'undefined') {
-                return false;
+        // 태그 조회가 아직 미완성이기 때문에 임시적으로 엔터로 변경한다.
+        document.getElementById('searchTagString').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                tokenSearch(false);
             }
-            if (element.id === 'searchFromDt') {
-                const toDtValue = document.getElementById('toDt').value;
-                if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    aliceAlert.alertWarning(i18n.msg("common.msg.selectBeforeDate", toDtValue), function () {
-                        document.getElementById('searchFromDt').value = searchFromDt;
-                        picker.open();
-                    });
-                } else {
-                    tokenSearch(false);
-                }
+        }, false);
+
+        tokenSearch(false);
+    };
+
+    function setDatePicker(element, picker) {
+        if (typeof picker === 'undefined') {
+            return false;
+        }
+        if (element.id === 'searchFromDt') {
+            const toDtValue = document.getElementById('toDt').value;
+            if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
+                aliceAlert.alertWarning(i18n.msg("common.msg.selectBeforeDate", toDtValue), function () {
+                    document.getElementById('searchFromDt').value = searchFromDt;
+                    picker.open();
+                });
             } else {
-                const fromDtValue = document.getElementById('searchFromDt').value;
-                if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                    aliceAlert.alertWarning(i18n.msg("common.msg.selectAfterDate", fromDtValue), function () {
-                        document.getElementById('toDt').value = searchToDt;
-                        picker.open();
-                    });
-                } else {
-                    tokenSearch(false);
-                }
+                tokenSearch(false);
+            }
+        } else {
+            const fromDtValue = document.getElementById('searchFromDt').value;
+            if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
+                aliceAlert.alertWarning(i18n.msg("common.msg.selectAfterDate", fromDtValue), function () {
+                    document.getElementById('toDt').value = searchToDt;
+                    picker.open();
+                });
+            } else {
+                tokenSearch(false);
             }
         }
+    }
 
-        /**
-         * 문서함을 검색한다.
-         */
-        function tokenSearch(isScroll) {
-            let urlParam = '';
-            document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
+    /**
+     * 문서함을 검색한다.
+     */
+    function tokenSearch(isScroll) {
+        let urlParam = '';
+        document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.searchDataCount;
             }
-            urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSubmit('get', '/tokens?' + urlParam, isScroll);
-            document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
-                    new zTag(tagInput, {
-                        suggestion: false,
-                        realtime: false,
-                        tagType: 'instance'
-                    });
-            });
+        } else {
+            offsetCount = 0;
         }
+        urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+        restSubmit('get', '/tokens?' + urlParam, isScroll);
+        document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
+                new zTag(tagInput, {
+                    suggestion: false,
+                    realtime: false,
+                    tagType: 'instance'
+                });
+        });
+    }
 
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        let tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = response.responseText;
-                        setDateTimeFormat(tempDiv);
-                        document.querySelector('.z-token-content .card-list').insertAdjacentHTML('beforeend', tempDiv.innerHTML);
-                    } else {
-                        document.getElementById('tokenList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        setDateTimeFormat(document.getElementById('tokenList'));
-                        OverlayScrollbars(document.querySelector('.z-token-content'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function (e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            tokenSearch(true);
-                                        }
-                                    }
-                                    if (scrollTop > 20) {
-                                        document.getElementById('header-search').classList.remove('slide-down');
-                                        document.getElementById('header-search').classList.add('slide-up');
-                                        document.getElementById('header-title').style.display = 'none';
-                                    } else {
-                                        document.getElementById('header-search').classList.remove('slide-up');
-                                        document.getElementById('header-search').classList.add('slide-down');
-                                        document.getElementById('header-title').style.display = 'flex';
+    function restSubmit(method, url, isScroll) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                if (isScroll) {
+                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                        offsetCount = offsetCount + aliceJs.searchDataCount;
+                    }
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = response.responseText;
+                    setDateTimeFormat(tempDiv);
+                    document.querySelector('.z-token-content .card-list').insertAdjacentHTML('beforeend', tempDiv.innerHTML);
+                } else {
+                    document.getElementById('tokenList').innerHTML = response.responseText;
+                    aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                    setDateTimeFormat(document.getElementById('tokenList'));
+                    OverlayScrollbars(document.querySelector('.z-token-content'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function (e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        tokenSearch(true);
                                     }
                                 }
+                                if (scrollTop > 20) {
+                                    document.getElementById('header-search').classList.remove('slide-down');
+                                    document.getElementById('header-search').classList.add('slide-up');
+                                    document.getElementById('header-title').style.display = 'none';
+                                } else {
+                                    document.getElementById('header-search').classList.remove('slide-up');
+                                    document.getElementById('header-search').classList.add('slide-down');
+                                    document.getElementById('header-title').style.display = 'flex';
+                                }
                             }
-                        });
-                    }
+                        }
+                    });
                 }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /**
-         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-         */
-        function setDateTimeFormat(elem) {
-            elem.querySelectorAll('.date-time').forEach(tokenCreateDt => {
-                tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
-                tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
-            });
-        }
-
-        /**
-         * 클릭한 문서를 연다. 완료된 문서일 경우 보기 화면을 연다.
-         */
-        function openTokenEdit(tokenId) {
-            const tokenTypeSelectBox = document.getElementById('searchTokenType');
-            const tokenType = tokenTypeSelectBox.options[tokenTypeSelectBox.selectedIndex].value;
-            let popUpUrl = '/tokens/' + tokenId + '/edit';
-            if (tokenType === 'token.type.completed') { // 완료된 문서
-                popUpUrl = '/tokens/' + tokenId + '/view'
             }
-            window.open(popUpUrl, 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
-        }
+        };
+        aliceJs.sendXhr(opt);
+    }
 
-        /* ]]> */
-    </script>
-</th:block>
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(tokenCreateDt => {
+            tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
+            tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
+        });
+    }
+
+    /**
+     * 클릭한 문서를 연다. 완료된 문서일 경우 보기 화면을 연다.
+     */
+    function openTokenEdit(tokenId) {
+        const tokenTypeSelectBox = document.getElementById('searchTokenType');
+        const tokenType = tokenTypeSelectBox.options[tokenTypeSelectBox.selectedIndex].value;
+        let popUpUrl = '/tokens/' + tokenId + '/edit';
+        if (tokenType === 'token.type.completed') { // 완료된 문서
+            popUpUrl = '/tokens/' + tokenId + '/view'
+        }
+        window.open(popUpUrl, 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
+    }
+
+    /* ]]> */
+</script>
 </body>
 </html>

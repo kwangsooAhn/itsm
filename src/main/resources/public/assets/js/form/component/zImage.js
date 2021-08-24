@@ -49,9 +49,6 @@ export const imageMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        // label 숨김 처리
-        this.labelPosition = FORM.LABEL.POSITION.HIDDEN;
-
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth)
             .setUITextAlign(this.elementAlign);

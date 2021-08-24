@@ -1,274 +1,266 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/defaultLayout">
+      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
     <title th:text="${notice != null} ? #{notice.label.edit} : #{notice.label.register}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-notice-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{notice.label.notice}"></h1>
-            <h6 class="description ml-2" th:text="#{notice.msg.editDescription}"></h6>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{notice.label.notice}"></h1>
+    <h6 class="description ml-2" th:text="#{notice.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <form id="frm" method="post">
+            <div class="flex-column z-edit-row">
+                <label th:text="#{common.label.title}" for="noticeTitle" class="required"></label>
+                <input type="text" id="noticeTitle" name="noticeTitle" class="z-input" maxlength="128"
+                       th:value="${notice?.noticeTitle}"/>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label th:text="#{common.label.contents}" for="noticeContents" class="required"></label>
+                <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11"
+                          class="z-textarea textarea-scroll-wrapper" th:text="${notice?.noticeContents}"></textarea>
+            </div>
+            <div class="flex-column z-edit-row file-uploader-edit">
+                <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
+                <div id="dropZoneFiles"></div>
+                <div id="dropZoneUploadedFiles"></div>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label th:text="#{common.label.writer}"></label>
+                <input type="text" class="z-input" th:value="${notice?.createUserName} ? ${notice.createUserName} : ${#authentication.details.userName}"
+                       disabled/>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label class="z-switch">
+                    <input type="checkbox" id="popYn" name="popYn" onchange="setDisplay('popTab',this)"
+                           th:checked="${notice?.popYn == true}">
+                    <span></span>
+                    <span class="z-label" th:text="#{notice.label.popUpNoticeSettings}"></span>
+                </label>
+            </div>
+            <div id="popTab" class="flex-column z-edit-row">
+                <div class="flex-row">
+                    <div class="flex-column col-6 mr-4">
+                        <label th:text="#{notice.label.height}" for="popHeight"></label>
+                        <input type="text" id="popHeight" name="popHeight" class="z-input i-px"
+                               th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4"
+                               onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
+                               oninput="maxLengthCheck(this)"/>
+                    </div>
+                    <div class="flex-column col-6">
+                        <label th:text="#{notice.label.width}" for="popWidth"></label>
+                        <input type="text" id="popWidth" name="popWidth" class="z-input i-px"
+                               th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4"
+                               onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
+                               oninput="maxLengthCheck(this)" />
+                    </div>
+                </div>
+                <div class="flex-row">
+                    <div class="flex-column col-6 mr-4">
+                        <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
+                        <input type="text" id="popStrtDt" name="popStrtDt" class="z-input i-date-picker date col-pct-12" />
+                    </div>
+                    <div class="flex-column col-6">
+                        <label th:text="#{notice.label.endDt}" for="popEndDt"></label>
+                        <input type="text" id="popEndDt" name="popEndDt" class="z-input i-date-picker date col-pct-12" />
+                    </div>
+                </div>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label class="z-switch">
+                    <input type="checkbox" id="topNoticeYn" name="topNoticeYn" onchange="setDisplay('topNoticeTab',this)"
+                           th:checked="${notice?.topNoticeYn == true}">
+                    <span></span>
+                    <span class="z-label" th:text="#{notice.label.topNoticeSettings}"></span>
+                </label>
+            </div>
+            <div id="topNoticeTab" class="flex-column z-edit-row">
+                <div class="flex-row">
+                    <div class="flex-column col-6 mr-4">
+                        <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
+                        <input type="text" id="topNoticeStrtDt" class="z-input i-date-picker date col-pct-12" name="topNoticeStrtDt"/>
+                    </div>
+                    <div class="flex-column col-6">
+                        <label th:text="#{notice.label.endDt}" for="popEndDt"></label>
+                        <input type="text" id="topNoticeEndDt" class="z-input i-date-picker date col-pct-12" name="topNoticeEndDt"/>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-row justify-content-between z-edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list">
+                    <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert"
+                            class="z-button primary" onclick="saveNotice('post')" th:text="#{common.btn.register}">
+                    </button>
+                    <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update"
+                            class="z-button primary" onclick="saveNotice('put')" th:text="#{common.btn.modify}">
+                    </button>
+                    <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete"
+                            class="z-button secondary" onclick="deleteNotice()" th:text="#{common.btn.delete}">
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="flex-column z-edit">
-        <div class="z-notice-content-edit">
-            <form id="frm" method="post">
-                <div class="flex-column z-edit-row">
-                    <label th:text="#{common.label.title}" for="noticeTitle" class="required"></label>
-                    <input type="text" id="noticeTitle" name="noticeTitle" class="z-input" maxlength="128"
-                           th:value="${notice?.noticeTitle}"/>
-                </div>
-                <div class="flex-column z-edit-row">
-                    <label th:text="#{common.label.contents}" for="noticeContents" class="required"></label>
-                    <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11"
-                              class="z-textarea textarea-scroll-wrapper" th:text="${notice?.noticeContents}"></textarea>
-                </div>
-                <div class="flex-column z-edit-row file-uploader-edit">
-                    <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
-                    <div id="dropZoneFiles"></div>
-                    <div id="dropZoneUploadedFiles"></div>
-                </div>
-                <div class="flex-column z-edit-row">
-                    <label th:text="#{common.label.writer}"></label>
-                    <input type="text" class="z-input" th:value="${notice?.createUserName} ? ${notice.createUserName} : ${#authentication.details.userName}"
-                           disabled/>
-                </div>
-                <div class="flex-column z-edit-row">
-                    <label class="z-switch">
-                        <input type="checkbox" id="popYn" name="popYn" onchange="setDisplay('popTab',this)"
-                               th:checked="${notice?.popYn == true}">
-                        <span></span>
-                        <span class="z-label" th:text="#{notice.label.popUpNoticeSettings}"></span>
-                    </label>
-                </div>
-                <div id="popTab" class="flex-column z-edit-row">
-                    <div class="flex-row">
-                        <div class="flex-column col-6 mr-4">
-                            <label th:text="#{notice.label.height}" for="popHeight"></label>
-                            <input type="text" id="popHeight" name="popHeight" class="z-input i-px"
-                                   th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4"
-                                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
-                                   oninput="maxLengthCheck(this)"/>
-                        </div>
-                        <div class="flex-column col-6">
-                            <label th:text="#{notice.label.width}" for="popWidth"></label>
-                            <input type="text" id="popWidth" name="popWidth" class="z-input i-px"
-                                   th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4"
-                                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
-                                   oninput="maxLengthCheck(this)" />
-                        </div>
-                    </div>
-                    <div class="flex-row">
-                        <div class="flex-column col-6 mr-4">
-                            <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
-                            <input type="text" id="popStrtDt" name="popStrtDt" class="z-input i-date-picker date col-pct-12" />
-                        </div>
-                        <div class="flex-column col-6">
-                            <label th:text="#{notice.label.endDt}" for="popEndDt"></label>
-                            <input type="text" id="popEndDt" name="popEndDt" class="z-input i-date-picker date col-pct-12" />
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-column z-edit-row">
-                    <label class="z-switch">
-                        <input type="checkbox" id="topNoticeYn" name="topNoticeYn" onchange="setDisplay('topNoticeTab',this)"
-                               th:checked="${notice?.topNoticeYn == true}">
-                        <span></span>
-                        <span class="z-label" th:text="#{notice.label.topNoticeSettings}"></span>
-                    </label>
-                </div>
-                <div id="topNoticeTab" class="flex-column z-edit-row">
-                    <div class="flex-row">
-                        <div class="flex-column col-6 mr-4">
-                            <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
-                            <input type="text" id="topNoticeStrtDt" class="z-input i-date-picker date col-pct-12" name="topNoticeStrtDt"/>
-                        </div>
-                        <div class="flex-column col-6">
-                            <label th:text="#{notice.label.endDt}" for="popEndDt"></label>
-                            <input type="text" id="topNoticeEndDt" class="z-input i-date-picker date col-pct-12" name="topNoticeEndDt"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-row justify-content-between z-edit-row">
-                    <div class="z-button-list">
-                        <a class="z-button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
-                    </div>
-                    <div class="z-button-list">
-                        <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert"
-                                class="z-button primary" onclick="saveNotice('post')" th:text="#{common.btn.register}">
-                        </button>
-                        <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update"
-                                class="z-button primary" onclick="saveNotice('put')" th:text="#{common.btn.modify}">
-                        </button>
-                        <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete"
-                                class="z-button secondary" onclick="deleteNotice()" th:text="#{common.btn.delete}">
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</th:block>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript">
-        /*<![CDATA[ */
-        window.onload = function() {
-            document.getElementById('noticeTitle').focus();
-            setDisplay('popTab',document.getElementById('popYn'));
-            setDisplay('topNoticeTab',document.getElementById('topNoticeYn'));
-            zFileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
-            OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelectorAll('#noticeContents'), {
-                className: 'scrollbar',
-                resize: 'vertical',
-                sizeAutoCapable: true,
-                textarea: {
-                    dynHeight: false,
-                    dynWidth: false,
-                    inheritedAttrs: "class"
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[ */
+    window.onload = function() {
+        document.getElementById('noticeTitle').focus();
+        setDisplay('popTab',document.getElementById('popYn'));
+        setDisplay('topNoticeTab',document.getElementById('topNoticeYn'));
+        zFileUploader.init({extra: {formId: 'frm', ownId: [[${notice?.noticeNo}]]}});
+        OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelectorAll('#noticeContents'), {
+            className: 'scrollbar',
+            resize: 'vertical',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: "class"
+            }
+        });
+    }
+
+    function setDisplay(viewId, swithElement) {
+        if (swithElement.checked) {
+            if (viewId === 'popTab') {
+                const popStrtDtVal = /*[[${notice?.popStrtDt}]]*/;
+                const popEndDtVal = /*[[${notice?.popEndDt}]]*/;
+                const popStrtDtElement = document.getElementById('popStrtDt');
+                const popEndDtElement = document.getElementById('popEndDt');
+                document.getElementById('popWidth').value = /*[[${notice?.popWidth} ? ${notice.popWidth} : 500]]*/;
+                document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
+                popStrtDtElement.value = popStrtDtVal ? i18n.userDateTime(popStrtDtVal) : i18n.getDateTime();
+                popEndDtElement.value = popEndDtVal ? i18n.userDateTime(popEndDtVal) : i18n.getDateTime({'days':30});
+                zDateTimePicker.initDateTimePicker(popStrtDtElement);
+                zDateTimePicker.initDateTimePicker(popEndDtElement);
+            } else if (viewId === 'topNoticeTab') {
+                const topNoticeStrtDtVal = /*[[${notice?.topNoticeStrtDt}]]*/;
+                const topNoticeEndDtVal = /*[[${notice?.topNoticeEndDt}]]*/;
+                const topNoticeStrtDtElement = document.getElementById('topNoticeStrtDt');
+                const topNoticeEndDtElement = document.getElementById('topNoticeEndDt');
+                topNoticeStrtDtElement.value = topNoticeStrtDtVal ? i18n.userDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
+                topNoticeEndDtElement.value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime({'days':30});
+                zDateTimePicker.initDateTimePicker(topNoticeStrtDtElement);
+                zDateTimePicker.initDateTimePicker(topNoticeEndDtElement);
+            }
+            document.getElementById(viewId).style.display = 'block';
+        } else {
+            if (viewId === 'popTab') {
+                document.getElementById('popWidth').value = '';
+                document.getElementById('popHeight').value = '';
+                document.getElementById('popStrtDt').value = '';
+                document.getElementById('popEndDt').value = '';
+            } else if (viewId === 'topNoticeTab') {
+                document.getElementById('topNoticeStrtDt').value = '';
+                document.getElementById('topNoticeEndDt').value = '';
+            }
+            document.getElementById(viewId).style.display = 'none';
+        }
+    }
+
+    // validation check
+    function validation() {
+        if (isEmpty('noticeTitle', 'common.msg.enterTitle')) return false;
+        if (isEmpty('noticeContents', 'common.msg.enterContents')) return false;
+        if (document.getElementById('popYn').checked) {
+            if (isEmpty('popHeight', 'notice.msg.enterPopHeight')) return false;
+            if (isExistInScope('popHeight', 500, 1000, 'notice.msg.checkPopHeightRange')) return false;
+            if (isEmpty('popWidth', 'notice.msg.enterPopWidth')) return false;
+            if (isExistInScope('popWidth', 500, 1000, 'notice.msg.checkPopWidthRange')) return false;
+            if (isEmpty('popStrtDt', 'notice.msg.enterPopStrtDt')) return false;
+            if (isEmpty('popEndDt', 'notice.msg.enterPopEndDt')) return false;
+            if (isOrOperator((i18n.systemDateTime(document.getElementById('popStrtDt').value) > i18n.systemDateTime(document.getElementById('popEndDt').value))
+                , (i18n.systemDateTime(document.getElementById('popStrtDt').value) === i18n.systemDateTime(document.getElementById('popEndDt').value))
+                , 'notice.msg.compareWithPopUpValue')) return false;
+        }
+
+
+        if (document.getElementById('topNoticeYn').checked) {
+            if (isEmpty('topNoticeStrtDt', 'notice.msg.enterTopNoticeStrtDt')) return false;
+            if (isEmpty('topNoticeEndDt', 'notice.msg.enterTopNoticeEndDt')) return false;
+            if (isOrOperator((i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value) > i18n.systemDateTime(document.getElementById('topNoticeEndDt').value))
+                , (i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value) === i18n.systemDateTime(document.getElementById('topNoticeEndDt').value))
+                , 'notice.msg.compareWithTopNoticeValue')) return false;
+        }
+        return true;
+    }
+
+    function saveNotice(method) {
+        if (!validation()) {
+            return false;
+        }
+
+        const noticeNo = [[${notice?.noticeNo}]];
+        const fileSeq = [];
+        const delFileSeq = [];
+        let url = '';
+        document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
+        document.getElementsByName('delFileSeq').forEach(elm => delFileSeq.push(elm.value));
+        const data = {
+            noticeTitle: document.getElementById('noticeTitle').value,
+            noticeContents: document.getElementById('noticeContents').value,
+            popYn: document.getElementById('popYn').checked,
+            popStrtDt: i18n.systemDateTime(document.getElementById('popStrtDt').value),
+            popEndDt: i18n.systemDateTime(document.getElementById('popEndDt').value),
+            popWidth: document.getElementById('popWidth').value,
+            popHeight: document.getElementById('popHeight').value,
+            topNoticeYn: document.getElementById('topNoticeYn').checked,
+            topNoticeStrtDt: i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value),
+            topNoticeEndDt: i18n.systemDateTime(document.getElementById('topNoticeEndDt').value),
+            fileSeq: fileSeq
+        };
+
+        if (method === 'put') {
+            data.noticeNo = noticeNo;
+            data.delFileSeq = delFileSeq;
+            url = '/rest/notices/' + noticeNo;
+        } else {
+            url = '/rest/notices';
+        }
+
+        restSubmit(method, url, data);
+    }
+
+    function deleteNotice() {
+        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/notices/' + [[${notice?.noticeNo}]]);
+    }
+
+    function restSubmit(method, url, data) {
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function() {
+                if (method === 'post') {
+                    aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
+                        window.location.href = '/notices/search';
+                    });
+                } else if (method === 'put') {
+                    aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function () {
+                        window.location = '/notices/search';
+                    });
+                } else if (method === 'delete') {
+                    aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                        window.location = '/notices/search';
+                    });
+                } else {
+                    aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
                 }
-            });
-        }
-
-        function setDisplay(viewId, swithElement) {
-            if (swithElement.checked) {
-                if (viewId === 'popTab') {
-                    const popStrtDtVal = /*[[${notice?.popStrtDt}]]*/;
-                    const popEndDtVal = /*[[${notice?.popEndDt}]]*/;
-                    const popStrtDtElement = document.getElementById('popStrtDt');
-                    const popEndDtElement = document.getElementById('popEndDt');
-                    document.getElementById('popWidth').value = /*[[${notice?.popWidth} ? ${notice.popWidth} : 500]]*/;
-                    document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
-                    popStrtDtElement.value = popStrtDtVal ? i18n.userDateTime(popStrtDtVal) : i18n.getDateTime();
-                    popEndDtElement.value = popEndDtVal ? i18n.userDateTime(popEndDtVal) : i18n.getDateTime({'days':30});
-                    zDateTimePicker.initDateTimePicker(popStrtDtElement);
-                    zDateTimePicker.initDateTimePicker(popEndDtElement);
-                } else if (viewId === 'topNoticeTab') {
-                    const topNoticeStrtDtVal = /*[[${notice?.topNoticeStrtDt}]]*/;
-                    const topNoticeEndDtVal = /*[[${notice?.topNoticeEndDt}]]*/;
-                    const topNoticeStrtDtElement = document.getElementById('topNoticeStrtDt');
-                    const topNoticeEndDtElement = document.getElementById('topNoticeEndDt');
-                    topNoticeStrtDtElement.value = topNoticeStrtDtVal ? i18n.userDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
-                    topNoticeEndDtElement.value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime({'days':30});
-                    zDateTimePicker.initDateTimePicker(topNoticeStrtDtElement);
-                    zDateTimePicker.initDateTimePicker(topNoticeEndDtElement);
-                }
-                document.getElementById(viewId).style.display = 'block';
-            } else {
-                if (viewId === 'popTab') {
-                    document.getElementById('popWidth').value = '';
-                    document.getElementById('popHeight').value = '';
-                    document.getElementById('popStrtDt').value = '';
-                    document.getElementById('popEndDt').value = '';
-                } else if (viewId === 'topNoticeTab') {
-                    document.getElementById('topNoticeStrtDt').value = '';
-                    document.getElementById('topNoticeEndDt').value = '';
-                }
-                document.getElementById(viewId).style.display = 'none';
             }
-        }
-
-        // validation check
-        function validation() {
-            if (isEmpty('noticeTitle', 'common.msg.enterTitle')) return false;
-            if (isEmpty('noticeContents', 'common.msg.enterContents')) return false;
-            if (document.getElementById('popYn').checked) {
-                if (isEmpty('popHeight', 'notice.msg.enterPopHeight')) return false;
-                if (isExistInScope('popHeight', 500, 1000, 'notice.msg.checkPopHeightRange')) return false;
-                if (isEmpty('popWidth', 'notice.msg.enterPopWidth')) return false;
-                if (isExistInScope('popWidth', 500, 1000, 'notice.msg.checkPopWidthRange')) return false;
-                if (isEmpty('popStrtDt', 'notice.msg.enterPopStrtDt')) return false;
-                if (isEmpty('popEndDt', 'notice.msg.enterPopEndDt')) return false;
-                if (isOrOperator((i18n.systemDateTime(document.getElementById('popStrtDt').value) > i18n.systemDateTime(document.getElementById('popEndDt').value))
-                    , (i18n.systemDateTime(document.getElementById('popStrtDt').value) === i18n.systemDateTime(document.getElementById('popEndDt').value))
-                    , 'notice.msg.compareWithPopUpValue')) return false;
-            }
-
-
-            if (document.getElementById('topNoticeYn').checked) {
-                if (isEmpty('topNoticeStrtDt', 'notice.msg.enterTopNoticeStrtDt')) return false;
-                if (isEmpty('topNoticeEndDt', 'notice.msg.enterTopNoticeEndDt')) return false;
-                if (isOrOperator((i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value) > i18n.systemDateTime(document.getElementById('topNoticeEndDt').value))
-                    , (i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value) === i18n.systemDateTime(document.getElementById('topNoticeEndDt').value))
-                    , 'notice.msg.compareWithTopNoticeValue')) return false;
-            }
-            return true;
-        }
-
-        function saveNotice(method) {
-            if (!validation()) {
-                return false;
-            }
-
-            const noticeNo = [[${notice?.noticeNo}]];
-            const fileSeq = [];
-            const delFileSeq = [];
-            let url = '';
-            document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
-            document.getElementsByName('delFileSeq').forEach(elm => delFileSeq.push(elm.value));
-            const data = {
-                noticeTitle: document.getElementById('noticeTitle').value,
-                noticeContents: document.getElementById('noticeContents').value,
-                popYn: document.getElementById('popYn').checked,
-                popStrtDt: i18n.systemDateTime(document.getElementById('popStrtDt').value),
-                popEndDt: i18n.systemDateTime(document.getElementById('popEndDt').value),
-                popWidth: document.getElementById('popWidth').value,
-                popHeight: document.getElementById('popHeight').value,
-                topNoticeYn: document.getElementById('topNoticeYn').checked,
-                topNoticeStrtDt: i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value),
-                topNoticeEndDt: i18n.systemDateTime(document.getElementById('topNoticeEndDt').value),
-                fileSeq: fileSeq
-            };
-
-            if (method === 'put') {
-                data.noticeNo = noticeNo;
-                data.delFileSeq = delFileSeq;
-                url = '/rest/notices/' + noticeNo;
-            } else {
-                url = '/rest/notices';
-            }
-
-            restSubmit(method, url, data);
-        }
-
-        function deleteNotice() {
-            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/notices/' + [[${notice?.noticeNo}]]);
-        }
-
-        function restSubmit(method, url, data) {
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function() {
-                    if (method === 'post') {
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
-                            window.location.href = '/notices/search';
-                        });
-                    } else if (method === 'put') {
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function () {
-                            window.location = '/notices/search';
-                        });
-                    } else if (method === 'delete') {
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
-                            window.location = '/notices/search';
-                        });
-                    } else {
-                        aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt)
-        }
-        /* ]]> */
-    </script>
-</th:block>
+        };
+        aliceJs.sendXhr(opt)
+    }
+    /* ]]> */
+</script>
 </html>

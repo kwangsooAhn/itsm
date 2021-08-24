@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/itsmLayout}">
+<!--/* 검색에 따라 결과가 리스트 외에 다양한 형태로 출력되는 화면 레이아웃 */-->
+<body>
+<th:block layout:fragment="pageContent">
+    <!--/* 페이지별 검색 */-->
+    <th:block layout:fragment="pageSearching" class="z-page-search"></th:block>
+    <div class="z-page-content">
+        <!--/* 검색 결과 출력 */-->
+        <div layout:fragment="pageSearchResult" class="z-page-result"></div>
+    </div>
+</th:block>
+</body>
+</html>

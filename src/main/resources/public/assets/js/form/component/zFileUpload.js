@@ -10,13 +10,13 @@
  * https://www.brainz.co.kr
  */
 
-import {CLASS_PREFIX, FORM} from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
+import {CLASS_PREFIX} from '../../lib/zConstants.js';
 import { UIDiv } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -39,13 +39,10 @@ export const fileUploadMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        this._value = this._value || '';
+        this._value = this.data.value || '';
     },
     // component 엘리먼트 생성
     makeElement() {
-        // label 숨김 처리
-        this.labelPosition = FORM.LABEL.POSITION.HIDDEN;
-
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
@@ -73,7 +70,9 @@ export const fileUploadMixin = {
                 clickable: false,
                 editor: true,
                 isView: false,
-                isForm: true
+                isForm: true,
+                fileDataIds: this.value,
+                callback: this.updateValue.bind(this) // 파일업로드, 파일삭제시 호출되는 callback 함수
             }
         };
         // 미리보기 시 dropzone 중복을 방지하기 위해 id 재구성
@@ -124,6 +123,18 @@ export const fileUploadMixin = {
     },
     get value() {
         return this._value;
+    },
+    updateValue(type, fileSeq) {
+        const tempValue = zValidation.isEmpty(this.value) ? [] : this.value.split(',');
+        if (type === 'add') {
+            tempValue.push(fileSeq);
+        } else { // remove
+            const index = tempValue.findIndex((seq) => seq === fileSeq);
+            if (index > -1) {
+                tempValue.splice(index, 1);
+            }
+        }
+        this.value = tempValue.join();
     },
     getProperty() {
         return [

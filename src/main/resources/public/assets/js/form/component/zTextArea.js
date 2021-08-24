@@ -48,15 +48,13 @@ export const textAreaMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        // label 숨김 처리
-        this.labelPosition = FORM.LABEL.POSITION.TOP;
-
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         element.UITextArea = new UITextArea().setUIPlaceholder(this.elementPlaceholder)
             .setUIProperty('--data-row', this.elementRows)
             .setUIAttribute('data-validation-required', this.validationRequired)
+            .setUIValue(this.value)
             .onUIKeyUp(this.updateValue.bind(this))
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UITextArea);

@@ -48,7 +48,6 @@ class WfActionService(
             actions.addAll(postActions(currentElement))
             actions.addAll(preActions())
         }
-        actions.addAll(closeActions())
         return actions
     }
 
@@ -97,23 +96,6 @@ class WfActionService(
             )
         )
         return preActions
-    }
-
-    /**
-     * Close Actions.
-     *
-     * @return MutableList<RestTemplateActionDto>
-     */
-    private fun closeActions(): MutableList<RestTemplateActionDto> {
-        val closeActions: MutableList<RestTemplateActionDto> = mutableListOf()
-        closeActions.add(
-            RestTemplateActionDto(
-                name = "common.btn.close",
-                value = WfElementConstants.Action.CLOSE.value,
-                customYn = false
-            )
-        )
-        return closeActions
     }
 
     /**

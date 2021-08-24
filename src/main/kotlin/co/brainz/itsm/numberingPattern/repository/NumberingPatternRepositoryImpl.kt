@@ -8,10 +8,11 @@ package co.brainz.itsm.numberingPattern.repository
 
 import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternListDto
-import co.brainz.itsm.numberingPattern.dto.NumberingPatternListReturnDto
+import co.brainz.itsm.numberingPattern.dto.NumberingPatternSearchCondition
 import co.brainz.itsm.numberingPattern.entity.NumberingPatternEntity
 import co.brainz.itsm.numberingPattern.entity.QNumberingPatternEntity
 import co.brainz.itsm.numberingPattern.service.NumberingPatternService
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -19,9 +20,11 @@ import org.springframework.stereotype.Repository
 @Repository
 class NumberingPatternRepositoryImpl(
     private val numberingPatternService: NumberingPatternService
-) : QuerydslRepositorySupport(NumberingPatternEntity::class.java), NumberingPatternRepositoryCustom {
+) :
+    QuerydslRepositorySupport(NumberingPatternEntity::class.java),
+    NumberingPatternRepositoryCustom {
 
-    override fun findPatternSearch(search: String): NumberingPatternListReturnDto {
+    override fun findPatternSearch(numberingPatternSearchCondition: NumberingPatternSearchCondition): QueryResults<NumberingPatternListDto> {
         val pattern = QNumberingPatternEntity.numberingPatternEntity
         val query = from(pattern)
             .select(
@@ -34,38 +37,25 @@ class NumberingPatternRepositoryImpl(
                 )
             )
             .where(
-                super.like(pattern.patternName, search)
+                super.like(pattern.patternName, numberingPatternSearchCondition.searchValue)
             )
             .orderBy(pattern.patternName.desc())
             .fetchResults()
 
-        val numberingPatternList = mutableListOf<NumberingPatternListDto>()
-        var patternType = ""
         for (data in query.results) {
-
+            data.patternValue = numberingPatternService.getPatternValue(data.patternType, data.patternValue)
             when (data.patternType) {
                 NumberingPatternConstants.PatternType.TEXT.code -> {
-                    patternType = NumberingPatternConstants.PatternType.SUMMARZIE_TEXT.code
+                    data.patternType = NumberingPatternConstants.PatternType.SUMMARZIE_TEXT.code
                 }
                 NumberingPatternConstants.PatternType.DATE.code -> {
-                    patternType = NumberingPatternConstants.PatternType.SUMMARZIE_DATE.code
+                    data.patternType = NumberingPatternConstants.PatternType.SUMMARZIE_DATE.code
                 }
                 NumberingPatternConstants.PatternType.SEQUENCE.code -> {
-                    patternType = NumberingPatternConstants.PatternType.SUMMARZIE_SEQUENCE.code
+                    data.patternType = NumberingPatternConstants.PatternType.SUMMARZIE_SEQUENCE.code
                 }
             }
-
-            val numberingPatternListDto = NumberingPatternListDto(
-                patternId = data.patternId,
-                patternName = data.patternName,
-                patternType = patternType,
-                patternValue = numberingPatternService.getPatternValue(data.patternType, data.patternValue)
-            )
-            numberingPatternList.add(numberingPatternListDto)
         }
-        return NumberingPatternListReturnDto(
-            data = numberingPatternList,
-            totalCount = query.total
-        )
+        return query
     }
 }
