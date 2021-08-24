@@ -33,7 +33,7 @@ class AuthController(
     }
 
     /**
-     * 권한 설정 검색 결과 리스트 화면 호출 처리.
+     * 권한 검색 결과 리스트 화면
      */
     @GetMapping("")
     fun getAuthList(authSearchCondition: AuthSearchCondition, model: Model): String {
@@ -41,6 +41,16 @@ class AuthController(
         model.addAttribute("authList", result.data)
         model.addAttribute("paging", result.paging)
         return authListPage
+    }
+
+    /**
+     * 권한 신규 등록 화면
+     */
+    @GetMapping("/new")
+    fun getAuthNew(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("menuList", authService.getMenuList())
+        model.addAttribute("urlList", authService.getUrlList())
+        return authEditPage
     }
 
     /**
@@ -53,7 +63,6 @@ class AuthController(
         model.addAttribute("defaultUserUrlList", codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code))
         model.addAttribute("menuList", authService.getMenuList())
         model.addAttribute("urlList", authService.getUrlList())
-
         return authEditPage
     }
 }

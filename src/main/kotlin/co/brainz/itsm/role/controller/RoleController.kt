@@ -31,19 +31,9 @@ class RoleController(private val roleService: RoleService) {
     fun getRoleSearch(request: HttpServletRequest, model: Model): String {
         return roleSearchPage
     }
-    /**
-     * 역할 편집 화면
-     */
-    @GetMapping("/{roleId}/edit")
-    fun getRoleList(@PathVariable roleId: String, model: Model): String {
-        model.addAttribute("role", roleService.getRoleDetail(roleId))
-        model.addAttribute("authList", roleService.selectAuthList())
-
-        return roleEditPage
-    }
 
     /**
-     * 역할 설정 검색 결과 리스트 화면 호출 처리.
+     * 역할 검색 결과 리스트 화면
      */
     @GetMapping("")
     fun getRoleList(roleSearchCondition: RoleSearchCondition, model: Model): String {
@@ -51,5 +41,24 @@ class RoleController(private val roleService: RoleService) {
         model.addAttribute("roleList", result.data)
         model.addAttribute("paging", result.paging)
         return roleListPage
+    }
+
+    /**
+     * 역할신규 등록 화면
+     */
+    @GetMapping("/new")
+    fun getRoleNew(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("authList", roleService.selectAuthList())
+        return roleEditPage
+    }
+
+    /**
+     * 역할 편집 화면
+     */
+    @GetMapping("/{roleId}/edit")
+    fun getRoleList(@PathVariable roleId: String, model: Model): String {
+        model.addAttribute("role", roleService.getRoleDetail(roleId))
+        model.addAttribute("authList", roleService.selectAuthList())
+        return roleEditPage
     }
 }
