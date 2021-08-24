@@ -184,6 +184,9 @@ COMMENT ON COLUMN awf_code.create_dt IS '등록일';
 COMMENT ON COLUMN awf_code.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_code.update_dt IS '수정일';
 
+insert into awf_code values ('cmdb', 'root', 'cmdb', 'CMDB 설정', 'CMDB 설정', true, 1, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('cmdb.relation.type', 'cmdb', 'cmdb.relation.type', 'CI 연관 관계 타입', 'CI 연관 관계 타입', true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('cmdb.relation.type.default', 'cmdb.relation.type', 'default', '기본 연관', '기본 연관', true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.db.kind', '', null, '데이터베이스', 'cmdb 데이터데이스 종류', TRUE, 1, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.db.kind.oracle', 'cmdb.db.kind', 'oracle', 'Oracle', 'cmdb 데이터데이스 종류', TRUE, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.db.kind.postgresql', 'cmdb.db.kind', 'postgresql', 'Postresql', '', TRUE, 2, 2,  '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -1522,6 +1525,7 @@ insert into awf_url values ('/rest/charts/{id}/preview', 'post', '사용자 정�
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis', 'get', 'CI 전체 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'post', 'CI 컴포넌트 - CI 세부 정보 등록', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/data', 'delete', 'CI 컴포넌트 - CI 세부 정보 삭제', 'FALSE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
@@ -1540,6 +1544,7 @@ insert into awf_url values ('/rest/codes', 'get', '코드 전체 조회', 'TRUE'
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'get', '코드 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'delete', '코드 삭제', 'TRUE');
+insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/comments', 'post', 'Comment 저장', 'FALSE');
 insert into awf_url values ('/rest/comments/{id}', 'delete', 'Comment 삭제', 'FALSE');
 insert into awf_url values ('/rest/custom-codes', 'get', '커스텀 코드 조회', 'FALSE');
@@ -1885,6 +1890,7 @@ insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'put', 'cmdb.cla
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'delete', 'cmdb.class.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}/attributes', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}/attributes', 'get', 'form.update');
+insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.update');
@@ -1907,6 +1913,10 @@ insert into awf_url_auth_map values ('/rest/codes/{id}', 'get', 'code.delete');
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'get', 'code.read');
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'put', 'code.update');
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'delete', 'code.delete');
+insert into awf_url_auth_map values ('/rest/codes/related/{id}', 'get', 'code.create');
+insert into awf_url_auth_map values ('/rest/codes/related/{id}', 'get', 'code.update');
+insert into awf_url_auth_map values ('/rest/codes/related/{id}', 'get', 'code.delete');
+insert into awf_url_auth_map values ('/rest/codes/related/{id}', 'get', 'code.read');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'post', 'custom.code.delete');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'custom.code.create');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'post', 'custom.code.create');
