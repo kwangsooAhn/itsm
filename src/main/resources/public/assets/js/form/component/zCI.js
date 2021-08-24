@@ -498,11 +498,25 @@ export const ciMixin = {
                     closable: false,
                 },
                 onCreate:(modal) => {
+                    let param = {};
                     const newCIId = ZWorkflowUtil.generateUUID();
                     document.getElementById('ciId').value = newCIId;
                     // CI 타입 선택 모달 바인딩
                     const ciTypeId = document.getElementById('typeId').value;
                     document.getElementById('typeSelectBtn').addEventListener('click', this.openSelectTypeModal.bind(this, ciTypeId));
+                    // CI 연관 관계 코드 데이터 호출
+                    aliceJs.fetchJson('/rest/codes/related/cmdb.relation.type', {
+                        method: 'GET'
+                    }).then((code) => {
+                        param.codeList = code;
+                    });
+                    // CI 연관 관계 CI 목록 리스트 호출
+                    aliceJs.fetchJson('/rest/cmdb/cis', {
+                        method: 'GET'
+                    }).then((ci) => {
+                        param.ciList = ci;
+                    });
+                    document.getElementById('addRelationBtn').addEventListener('click', this.addRelation.bind(this, param));
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
                     OverlayScrollbars(document.querySelectorAll('textarea'), {
@@ -818,6 +832,65 @@ export const ciMixin = {
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
+    },
+    // 연관 관계 입력 row 추가
+    addRelation(param) {
+        const divRow = document.createElement('div');
+        divRow.classList.add('flex-row', 'edit-row', 'relation-group');
+
+        const relationTypeSelect = document.createElement('select');
+        relationTypeSelect.classList.add('relation-type-select-box');
+        const relationTypeList = param.codeList
+        for (let i = 0; i < relationTypeList.length; i++) {
+            const selectOption = document.createElement('option');
+            selectOption.value = relationTypeList[i].codeValue;
+            selectOption.text = relationTypeList[i].codeName;
+            relationTypeSelect.appendChild(selectOption);
+        }
+        relationTypeSelect.classList.add('mr-1');
+
+        const ciList = param.ciList.data;
+        const sourceCISelect = document.createElement('select');
+        sourceCISelect.classList.add('ci-select-box');
+        for (let i = 0; i < ciList.length; i++) {
+            const selectOption = document.createElement('option');
+            selectOption.value = ciList[i].ciId;
+            selectOption.text = ciList[i].ciName;
+            sourceCISelect.appendChild(selectOption);
+        }
+        sourceCISelect.classList.add('mr-1');
+
+        const targetCISelect = document.createElement('select');
+        targetCISelect.classList.add('ci-select-box');
+        for (let i = 0; i < ciList.length; i++) {
+            const selectOption = document.createElement('option');
+            selectOption.value = ciList[i].ciId;
+            selectOption.text = ciList[i].ciName;
+            targetCISelect.appendChild(selectOption);
+        }
+        targetCISelect.classList.add('mr-1');
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'z-button-icon extra';
+        const deleteIcon = document.createElement('span');
+        deleteIcon.className = 'z-icon i-delete';
+        deleteBtn.appendChild(deleteIcon);
+        deleteBtn.addEventListener('click', function () {
+            const row = deleteBtn.parentNode;
+            const relationElems = document.querySelectorAll('input[name=targetCISelect]');
+            if (relationElems.length === 1) {
+                const relationLabel = document.getElementById('relationLabel');
+                relationLabel.removeChild(relationLabel.children[1]);
+            }
+            row.remove();
+        });
+
+        divRow.appendChild(relationTypeSelect);
+        divRow.appendChild(sourceCISelect);
+        divRow.appendChild(targetCISelect);
+        divRow.appendChild(deleteBtn);
+        document.getElementById('relation').appendChild(divRow);
+        aliceJs.initDesignedSelectTag(document.querySelector('#relation'));
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {
