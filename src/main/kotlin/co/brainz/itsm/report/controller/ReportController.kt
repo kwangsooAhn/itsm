@@ -8,7 +8,7 @@ package co.brainz.itsm.report.controller
 
 import co.brainz.itsm.chart.dto.ChartSearchCondition
 import co.brainz.itsm.chart.service.ChartService
-import co.brainz.itsm.report.dto.ReportCondition
+import co.brainz.itsm.report.dto.ReportSearchCondition
 import co.brainz.itsm.report.dto.ReportTemplateCondition
 import co.brainz.itsm.report.service.ReportService
 import co.brainz.itsm.report.service.ReportTemplateService
@@ -89,8 +89,8 @@ class ReportController(
     }
 
     @GetMapping("/report")
-    fun getReports(reportCondition: ReportCondition, model: Model): String {
-        val result = reportService.getReportList(reportCondition)
+    fun getReports(reportSearchCondition: ReportSearchCondition, model: Model): String {
+        val result = reportService.getReportList(reportSearchCondition)
         model.addAttribute("reportList", result.data)
         model.addAttribute("paging", result.paging)
         return reportListPage

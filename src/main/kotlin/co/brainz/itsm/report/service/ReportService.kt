@@ -10,9 +10,9 @@ import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.chart.service.ChartManagerFactory
-import co.brainz.itsm.report.dto.ReportCondition
 import co.brainz.itsm.report.dto.ReportDto
 import co.brainz.itsm.report.dto.ReportListReturnDto
+import co.brainz.itsm.report.dto.ReportSearchCondition
 import co.brainz.itsm.report.entity.ReportDataEntity
 import co.brainz.itsm.report.entity.ReportEntity
 import co.brainz.itsm.report.repository.ReportDataRepository
@@ -39,14 +39,14 @@ class ReportService(
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    fun getReportList(reportCondition: ReportCondition): ReportListReturnDto {
-        val queryResult = reportRepository.getReportList(reportCondition)
+    fun getReportList(reportSearchCondition: ReportSearchCondition): ReportListReturnDto {
+        val queryResult = reportRepository.getReportList(reportSearchCondition)
         return ReportListReturnDto(
             data = queryResult.results,
             paging = AlicePagingData(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = reportTemplateRepository.count(),
-                currentPageNum = reportCondition.pageNum,
+                currentPageNum = reportSearchCondition.pageNum,
                 totalPageNum = Math.ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )

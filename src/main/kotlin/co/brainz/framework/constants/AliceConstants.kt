@@ -134,13 +134,6 @@ object AliceConstants {
      * 알림 개수.
      */
     const val NOTIFICATION_SIZE = 50L
-
-    enum class Status(val code: String) {
-        STATUS_VALID_SUCCESS("-1"),
-        STATUS_SUCCESS("0"),
-        STATUS_ERROR_DUPLICATION("1"),
-        STATUS_ERROR_NOT_EXIST("2")
-    }
 }
 
 /**

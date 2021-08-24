@@ -7,7 +7,6 @@ package co.brainz.itsm.report.service
 
 import co.brainz.cmdb.dto.RestTemplateReturnDto
 import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -17,6 +16,7 @@ import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.mapper.ChartMapper
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.chart.service.ChartService
+import co.brainz.itsm.report.constants.ReportConstants
 import co.brainz.itsm.report.dto.ReportTemplateCondition
 import co.brainz.itsm.report.dto.ReportTemplateDetailDto
 import co.brainz.itsm.report.dto.ReportTemplateDto
@@ -153,7 +153,7 @@ class ReportTemplateService(
                 }
             }
             else -> {
-                restTemplateReturnDto.code = AliceConstants.Status.STATUS_ERROR_DUPLICATION.code
+                restTemplateReturnDto.code = ReportConstants.Template.EditStatus.STATUS_ERROR_DUPLICATION.code
                 restTemplateReturnDto.status = false
             }
         }
@@ -195,7 +195,7 @@ class ReportTemplateService(
                 }
             }
             else -> {
-                restTemplateReturnDto.code = AliceConstants.Status.STATUS_ERROR_DUPLICATION.code
+                restTemplateReturnDto.code = ReportConstants.Template.EditStatus.STATUS_ERROR_DUPLICATION.code
                 restTemplateReturnDto.status = false
             }
         }
@@ -242,7 +242,7 @@ class ReportTemplateService(
         when (templateEntity) {
             null -> {
                 restTemplateReturnDto.status = false
-                restTemplateReturnDto.code = AliceConstants.Status.STATUS_ERROR_NOT_EXIST.code
+                restTemplateReturnDto.code = ReportConstants.Template.EditStatus.STATUS_ERROR_NOT_EXIST.code
             }
             else -> {
                 reportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)

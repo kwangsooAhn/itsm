@@ -1110,7 +1110,9 @@ report:
     templateRegister: "Template Register"
   msg:
     configDescription: "Set up templates using custom charts."
+    duplicateChart: "Duplicate chart exists."
     editDescription: "Register, modify, or delete templates."
+    emptyChart: "Chart does not exist."
     searchDescription: "Search report that you generated."
     templateNameUsed: "Duplicate template name exists."
   template:

@@ -7,10 +7,10 @@
 package co.brainz.itsm.report.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.report.dto.ReportCondition
 import co.brainz.itsm.report.dto.ReportListDto
+import co.brainz.itsm.report.dto.ReportSearchCondition
 import com.querydsl.core.QueryResults
 
 interface ReportRepositoryCustom : AliceRepositoryCustom {
-    fun getReportList(reportCondition: ReportCondition): QueryResults<ReportListDto>
+    fun getReportList(reportSearchCondition: ReportSearchCondition): QueryResults<ReportListDto>
 }
