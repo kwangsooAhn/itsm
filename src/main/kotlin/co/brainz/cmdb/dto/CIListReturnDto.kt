@@ -11,5 +11,5 @@ import java.io.Serializable
 
 data class CIListReturnDto(
     val data: List<CIListDto> = emptyList(),
-    val paging: AlicePagingData
+    val paging: AlicePagingData?
 ) : Serializable

@@ -7,6 +7,7 @@
 package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.cmdb.dto.CIDetailDto
+import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.itsm.cmdb.ci.service.CIService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
@@ -24,6 +25,11 @@ import org.springframework.web.bind.annotation.RestController
 class CIRestController(private val ciService: CIService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+
+    @GetMapping("")
+    fun getCIs(): CIListReturnDto {
+        return ciService.getCIs(null)
+    }
 
     @GetMapping("/{ciId}")
     fun getCI(request: HttpServletRequest, model: Model, @PathVariable ciId: String): CIDetailDto {

@@ -62,7 +62,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     /**
      * CI 목록 조회.
      */
-    override fun findCIList(ciSearchCondition: CISearchCondition): QueryResults<CIsDto> {
+    override fun findCIList(ciSearchCondition: CISearchCondition?): QueryResults<CIsDto> {
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
@@ -93,7 +93,8 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             )
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
             .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
-            .where(
+        if (ciSearchCondition != null) {
+            query.where(
                 (!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
                     .and(
                         super.like(ci.ciName, ciSearchCondition.searchValue)
@@ -103,33 +104,33 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                             ?.or(super.like(ci.ciDesc, ciSearchCondition.searchValue))
                     )
             )
-
-            .orderBy(ci.ciName.asc())
-        if (ciSearchCondition.tagArray?.isNotEmpty() == true) {
-            query.where(
-                ci.ciId.`in`(
-                    JPAExpressions
-                        .select(cmdbTag.targetId)
-                        .from(cmdbTag)
-                        .where(
-                            cmdbTag.tagValue.`in`(ciSearchCondition.tagArray)
-                                .and(cmdbTag.tagType.eq(AliceTagConstants.TagType.CI.code))
-                        )
+            if (ciSearchCondition.tagArray?.isNotEmpty() == true) {
+                query.where(
+                    ci.ciId.`in`(
+                        JPAExpressions
+                            .select(cmdbTag.targetId)
+                            .from(cmdbTag)
+                            .where(
+                                cmdbTag.tagValue.`in`(ciSearchCondition.tagArray)
+                                    .and(cmdbTag.tagType.eq(AliceTagConstants.TagType.CI.code))
+                            )
+                    )
                 )
-            )
-        }
-        if (ciSearchCondition.flag == "component") {
-            query.where(
-                ci.ciId.notIn(
-                    JPAExpressions
-                        .select(wfComponentCIData.ciId)
-                        .from(wfComponentCIData)
-                        .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
+            }
+            if (ciSearchCondition.flag == "component") {
+                query.where(
+                    ci.ciId.notIn(
+                        JPAExpressions
+                            .select(wfComponentCIData.ciId)
+                            .from(wfComponentCIData)
+                            .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
+                    )
                 )
-            )
+            }
+            query.limit(ciSearchCondition.contentNumPerPage)
+            query.offset((ciSearchCondition.pageNum - 1) * ciSearchCondition.contentNumPerPage)
         }
-        query.limit(ciSearchCondition.contentNumPerPage)
-        query.offset((ciSearchCondition.pageNum - 1) * ciSearchCondition.contentNumPerPage)
+        query.orderBy(ci.ciName.asc())
 
         return query.fetchResults()
     }
