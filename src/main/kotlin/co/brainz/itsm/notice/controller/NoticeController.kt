@@ -26,7 +26,7 @@ class NoticeController(private val noticeService: NoticeService) {
     private val noticePopUpPage: String = "notice/noticePopUp"
 
     /**
-     * 공지사항 검색 화면 호출 처리
+     * 공지사항 검색 화면
      */
     @GetMapping("/search")
     fun getNoticeSearch(request: HttpServletRequest, model: Model): String {
@@ -34,7 +34,7 @@ class NoticeController(private val noticeService: NoticeService) {
     }
 
     /**
-     * 공지사항 검색 결과 리스트 화면 호출 처리
+     * 공지사항 검색 결과 리스트
      */
     @GetMapping("")
     fun getNoticeList(noticeSearchCondition: NoticeSearchCondition, model: Model): String {

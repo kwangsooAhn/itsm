@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @RequestMapping("/auths")
@@ -32,25 +33,6 @@ class AuthController(
     }
 
     /**
-     * 권한 설정 화면 호출처리.
-     */
-    @GetMapping("/edit")
-    fun getRoleList(request: HttpServletRequest, model: Model): String {
-
-        val defaultUserMenuList = codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code)
-        val defaultUserUrlList = codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code)
-        val menuAllList = authService.getMenuList()
-        val urlAllList = authService.getUrlList()
-
-        model.addAttribute("defaultUserMenuList", defaultUserMenuList)
-        model.addAttribute("defaultUserUrlList", defaultUserUrlList)
-        model.addAttribute("menuList", menuAllList)
-        model.addAttribute("urlList", urlAllList)
-
-        return authEditPage
-    }
-
-    /**
      * 권한 설정 검색 결과 리스트 화면 호출 처리.
      */
     @GetMapping("")
@@ -59,5 +41,19 @@ class AuthController(
         model.addAttribute("authList", result.data)
         model.addAttribute("paging", result.paging)
         return authListPage
+    }
+
+    /**
+     * 권한 편집 화면
+     */
+    @GetMapping("/{authId}/edit")
+    fun getRoleList(@PathVariable authId: String, model: Model): String {
+        model.addAttribute("auth", authService.getAuthDetail(authId))
+        model.addAttribute("defaultUserMenuList", codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code))
+        model.addAttribute("defaultUserUrlList", codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code))
+        model.addAttribute("menuList", authService.getMenuList())
+        model.addAttribute("urlList", authService.getUrlList())
+
+        return authEditPage
     }
 }

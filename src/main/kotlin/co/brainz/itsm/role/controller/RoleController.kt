@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @RequestMapping("/roles")
@@ -31,10 +32,11 @@ class RoleController(private val roleService: RoleService) {
         return roleSearchPage
     }
     /**
-     * 역할 설정 뷰를 호출한다.
+     * 역할 편집 화면
      */
-    @GetMapping("/edit")
-    fun getRoleList(request: HttpServletRequest, model: Model): String {
+    @GetMapping("/{roleId}/edit")
+    fun getRoleList(@PathVariable roleId: String, model: Model): String {
+        model.addAttribute("role", roleService.getRoleDetail(roleId))
         model.addAttribute("authList", roleService.selectAuthList())
 
         return roleEditPage
