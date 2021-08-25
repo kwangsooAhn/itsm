@@ -328,6 +328,10 @@ export default class ZColumnProperty extends ZProperty {
                 { name: i18n.msg('form.properties.columnType.dateTime'), value: 'dateTime' }
             ]);
 
+        // head - input
+        const columnHeadInputProperty = new ZInputBoxProperty(id + '|columnName', 'element.columnName', option.columnName);
+        columnHeadInputProperty.columnWidth = '9';
+
         // head - fontColor
         const columnHeadColorProperty = new ZColorPickerProperty(id + '|columnHead.fontColor', 'columnHead.fontColor', option.columnHead.fontColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
@@ -391,11 +395,11 @@ export default class ZColumnProperty extends ZProperty {
             columnTypeProperty,
             new ZSliderProperty(id + '|columnWidth', 'element.columnWidth', option.columnWidth),
             new ZGroupProperty('group.columnHead')
-                .addProperty(new ZInputBoxProperty(id + '|columnName', 'element.columnName', option.columnName))
-                .addProperty(columnHeadColorProperty)
+                .addProperty(columnHeadInputProperty)
                 .addProperty(columnHeadFontSizeProperty)
                 .addProperty(columnHeadAlignProperty)
-                .addProperty(columnHeadFontOptionProperty),
+                .addProperty(columnHeadFontOptionProperty)
+                .addProperty(columnHeadColorProperty),
             new ZGroupProperty('group.columnContent')
                 .addProperty(columnContentColorProperty)
                 .addProperty(columnContentFontSizeProperty)

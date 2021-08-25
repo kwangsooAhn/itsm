@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX, UNIT, SESSION } from '../../lib/zConstants.js';
+import { FORM, UNIT, SESSION } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv, UICell, UIRow, UIInput, UISpan, UITable, UIButton, UISelect } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -53,12 +53,12 @@ export const dynamicRowTableMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
+        const element = new UIDiv().setUIClass('z-element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         // 테이블
         element.UITable = new UITable()
-            .setUIClass(CLASS_PREFIX + 'dr-table')
+            .setUIClass('z-dr-table')
             .addUIClass('mt-2')
             .setUIId('drTable' + this.id)
             .setUIAttribute('tabindex', '-1')
@@ -68,14 +68,14 @@ export const dynamicRowTableMixin = {
         this.makeTable(element.UITable);
 
         // 추가 버튼
-        element.UIDiv = new UIDiv().setUIClass(CLASS_PREFIX + 'dr-table-button-group');
+        element.UIDiv = new UIDiv().setUIClass('z-dr-table-button-group');
         element.addUI(element.UIDiv);
 
         element.UIDiv.addUIButton = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'button-icon')
+            .setUIClass('z-button-icon')
             .addUIClass('extra')
             .onUIClick(this.addTableRow.bind(this, element.UITable, {}))
-            .addUI(new UISpan().addUIClass(CLASS_PREFIX + 'icon').addUIClass('i-plus'));
+            .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'));
         element.UIDiv.addUI(element.UIDiv.addUIButton);
 
         return element;
@@ -132,7 +132,7 @@ export const dynamicRowTableMixin = {
     },
     makeTable(table) {
         // 테이블 제목
-        const row = new UIRow(table).setUIClass(CLASS_PREFIX + 'dr-table-header');
+        const row = new UIRow(table).setUIClass('z-dr-table-header');
         table.addUIRow(row);
 
         this.elementColumns.forEach((column) => {
@@ -146,7 +146,7 @@ export const dynamicRowTableMixin = {
             const td = new UICell(row)
                 .addUIClass('align-' + column.columnHead.align)
                 .setUICSSText(tdCssText)
-                .addUI(new UISpan().addUIClass(CLASS_PREFIX + 'dr-table-header-cell').setUIInnerHTML(column.columnName));
+                .addUI(new UISpan().addUIClass('z-dr-table-header-cell').setUIInnerHTML(column.columnName));
             row.addUICell(td);
         });
         // row 삭제 버튼 영역
@@ -183,7 +183,7 @@ export const dynamicRowTableMixin = {
         if (zValidation.isEmpty(this._value)) { this.value = []; }
 
         // row 추가
-        const row = new UIRow(targetTable).setUIClass(CLASS_PREFIX + 'dr-table-row');
+        const row = new UIRow(targetTable).setUIClass('z-dr-table-row');
         // td 추가
         const columnData = [];
         this.elementColumns.forEach((column, index) => {
@@ -207,10 +207,10 @@ export const dynamicRowTableMixin = {
         }
         // 삭제 버튼
         const removeButton = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'button-icon')
+            .setUIClass('z-button-icon')
             .addUIClass('extra')
             .onUIClick(this.removeTableRow.bind(this, targetTable, row))
-            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-clear'));
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-clear'));
         const td = new UICell(row)
             .addUIClass('align-center')
             .setUICSSText('width:35' + UNIT.PX)
@@ -264,9 +264,9 @@ export const dynamicRowTableMixin = {
             .onUIChange(this.updateValue.bind(this));
     },
     getDateForColumn(column, cellValue, index) {
-        let dateWrapper = new UIDiv().setUIClass(CLASS_PREFIX + 'element');
+        let dateWrapper = new UIDiv().setUIClass('z-element');
         let date = new UIInput().setUIPlaceholder(i18n.dateFormat)
-            .setUIClass(CLASS_PREFIX + 'input i-date-picker')
+            .setUIClass('z-input i-date-picker')
             .setUIId('date' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'date' + index)
             .setUIValue(this.getDefaultValueForDate(column, cellValue))
@@ -278,10 +278,10 @@ export const dynamicRowTableMixin = {
         return dateWrapper;
     },
     getTimeForColumn(column, cellValue, index) {
-        let timeWrapper = new UIDiv().setUIClass(CLASS_PREFIX + 'element');
+        let timeWrapper = new UIDiv().setUIClass('z-element');
 
         let time = new UIInput().setUIPlaceholder(i18n.timeFormat)
-            .setUIClass(CLASS_PREFIX + 'input i-time-picker')
+            .setUIClass('z-input i-time-picker')
             .setUIId('time' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'time' + index)
             .setUIValue(this.getDefaultValueForTime(column, cellValue))
@@ -294,10 +294,10 @@ export const dynamicRowTableMixin = {
         return timeWrapper;
     },
     getDateTimeForColumn(column, cellValue, index) {
-        let dateTimeWrapper = new UIDiv().setUIClass(CLASS_PREFIX + 'element');
+        let dateTimeWrapper = new UIDiv().setUIClass('z-element');
 
         let dateTime = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
-            .setUIClass(CLASS_PREFIX + 'input i-datetime-picker')
+            .setUIClass('z-input i-datetime-picker')
             .setUIId('datetime' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'datetime' + index)
             .setUIValue(this.getDefaultValueForDateTime(column, cellValue))
