@@ -457,8 +457,8 @@ const zFileUploader = (function () {
                                     _this.isFileExist = false;
                                 }
 
-                                if (typeof extraParam.callback === 'function') {
-                                    extraParam.callback('remove', delFile.value);
+                                if (typeof _this.options.params.userCallback === 'function') {
+                                    _this.options.params.userCallback();
                                 }
                             });
                         }
@@ -505,8 +505,8 @@ const zFileUploader = (function () {
                             dropzoneMessage.querySelector('.i-document-txt').style.display = 'block';
                             _this.isFileExist = false;
                         }
-                        if (typeof extraParam.callback === 'function') {
-                            extraParam.callback('remove', file.previewElement.querySelector('input[name="' + fileAttrName + '"]').value);
+                        if (typeof _this.options.params.userCallback === 'function') {
+                            _this.options.params.userCallback();
                         }
                     });
 
@@ -518,8 +518,8 @@ const zFileUploader = (function () {
                             seq.value = response.file.fileSeq;
                             file.previewElement.appendChild(seq);
                         }
-                        if (typeof extraParam.callback === 'function') {
-                            extraParam.callback('add', seq.value);
+                        if (typeof _this.options.params.userCallback === 'function') {
+                            _this.options.params.userCallback();
                         }
                     });
 

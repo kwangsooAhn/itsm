@@ -72,7 +72,7 @@ export const fileUploadMixin = {
                 isView: false,
                 isForm: true,
                 fileDataIds: this.value,
-                callback: this.updateValue.bind(this) // 파일업로드, 파일삭제시 호출되는 callback 함수
+                userCallback: this.updateValue.bind(this) // 파일업로드, 파일삭제시 호출되는 callback 함수
             }
         };
         // 미리보기 시 dropzone 중복을 방지하기 위해 id 재구성
@@ -108,7 +108,7 @@ export const fileUploadMixin = {
     },
     set validationRequired(boolean) {
         this._validation.required = boolean;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-required', boolean);
+        this.UIElement.UIComponent.UIElement.UIFileUpload.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
             this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
         } else {
@@ -124,14 +124,12 @@ export const fileUploadMixin = {
     get value() {
         return this._value;
     },
-    updateValue(type, fileSeq) {
-        const tempValue = zValidation.isEmpty(this.value) ? [] : this.value.split(',');
-        if (type === 'add') {
-            tempValue.push(fileSeq);
-        } else { // remove
-            const index = tempValue.findIndex((seq) => seq === fileSeq);
-            if (index > -1) {
-                tempValue.splice(index, 1);
+    updateValue() {
+        const tempValue = [];
+        const inputElements = this.UIElement.UIComponent.UIElement.UIFileUpload.domElement.getElementsByTagName('input');
+        for (let i = 0; i < inputElements.length; i++) {
+            if (inputElements[i].name !== 'delFileSeq') {
+                tempValue.push(inputElements[i].value);
             }
         }
         this.value = tempValue.join();
