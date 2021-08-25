@@ -312,6 +312,7 @@ ZWorkflowUtil.addRequiredProcessAttribute = function(processData) {
  * @param data XML 파일 데이터
  * @return string 데이터
  */
+ZWorkflowUtil.FORM_ARRARY_TYPE = ['group', 'row', 'component', 'tags', 'options', 'columns'];
 ZWorkflowUtil.XMLToObject = function(data) {
     let obj = '';
     if (data.nodeType === Node.ELEMENT_NODE) { // element
@@ -332,7 +333,14 @@ ZWorkflowUtil.XMLToObject = function(data) {
             if (item.nodeType === Node.ELEMENT_NODE) {
                 let nodeName = item.nodeName;
                 if (typeof (obj[nodeName]) === 'undefined') {
-                    obj[nodeName] = ZWorkflowUtil.XMLToObject(item);
+                    // group, row, component, columns 등 복수 처리가 필요한 경우 배열로 넘긴다.
+                    if (ZWorkflowUtil.FORM_ARRARY_TYPE.includes(nodeName) && !Array.isArray(obj[nodeName])) {
+                        let arr = ZWorkflowUtil.XMLToObject(item);
+                        obj[nodeName] = [];
+                        obj[nodeName].push(arr);
+                    } else {
+                        obj[nodeName] = ZWorkflowUtil.XMLToObject(item);
+                    }
                 } else {
                     if (typeof (obj[nodeName].push) === 'undefined') {
                         let arr = obj[nodeName];
@@ -367,8 +375,7 @@ ZWorkflowUtil.loadFormFromXML = function (data) {
     }
 
     const form = xmlDoc.evaluate('/definitions/form', xmlDoc, null, resultType, null);
-    const jsonData = ZWorkflowUtil.XMLToObject(form.singleNodeValue);
-    return jsonData;
+    return ZWorkflowUtil.XMLToObject(form.singleNodeValue);
 };
 
 /**
@@ -477,10 +484,11 @@ ZWorkflowUtil.loadProcessFromXML = function(data) {
  */
 ZWorkflowUtil.saveImportData = function(type, data) {
     let result = false;
-    let saveUrl = '/rest/forms' + '?saveType=saveas';
+    let saveUrl = '/rest/forms?saveType=saveas';
     if (type === 'process') {
-        saveUrl = '/rest/processes' + '?saveType=saveas';
+        saveUrl = '/rest/processes?saveType=saveas';
     }
+    // TODO: 프로세스 디자이너 리팩토링시 return 받는 데이터 타입을 text 로 통일한 후 받도록 처리하여 aliceJs.fetchText 로 변경 필요
     aliceJs.sendXhr({
         method: 'POST',
         async: false,
