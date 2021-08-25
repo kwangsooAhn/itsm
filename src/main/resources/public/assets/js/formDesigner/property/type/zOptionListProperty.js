@@ -121,7 +121,7 @@ export default class ZOptionListProperty extends ZProperty {
         checkTD.checkBox =  new UICheckbox(false);
         checkTD.addUI(checkTD.checkBox);
 
-        // todo: removeRow 기능 수정 후 적용
+        // todo: #11114 removeRow 기능 수정 후 적용
         const removeTd = new UICell(optionRow).setUICSSText('width: 15%;');
         removeTd.removeButton = new UIButton()
             .addUIClass('z-icon')
@@ -164,8 +164,7 @@ export default class ZOptionListProperty extends ZProperty {
     }
 
     // 옵션 삭제 버튼 클릭 이벤트
-    // todo: 다중 선택 제거가 제대로 되지 않는 이슈 있음.
-    //       클릭한 remove Button의 row만 삭제하도록 수정.
+    // todo: #11114 클릭한 remove Button의 row만 삭제하도록 수정.
     removeRow(e) {
         e.stopPropagation();
         e.preventDefault();
