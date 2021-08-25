@@ -102,6 +102,10 @@ ZWorkflowUtil.objectToXML = function(data) {
                 xml += ZWorkflowUtil.objectToXML(data[key][item]);
                 xml += '</' + key + '>';
             });
+            // 빈 배열일 경우에도 태그 추가
+            if (data[key].length === 0) {
+                xml += '<' + key + '><![CDATA[]]></' + key + '>';
+            }
         } else if (data[key] && typeof data[key] === 'object') {
             xml += ZWorkflowUtil.objectToXML(data[key]);
         } else {
@@ -230,6 +234,7 @@ ZWorkflowUtil.export = function (id, type) {
     aliceJs.fetchJson(exportUrl, {
         method: 'GET'
     }).then((data) => {
+        // TODO: #11116 isTopic 같은 boolean 데이터가 화면에 전달될때 topic 으로 전달됨
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
             aliceAlert.alertDanger(i18n.msg('form.msg.failedExport'));
             return false;
