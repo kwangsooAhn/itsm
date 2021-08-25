@@ -1,98 +1,87 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-itsmurity"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
     <title th:text="#{rule.label.rule}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-numbering-rule-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{rule.label.rule}"></h1>
-            <h6 class="description ml-2" th:text="#{rule.msg.editDescription}"></h6>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{rule.label.rule}"></h1>
+    <h6 class="description ml-2" th:text="#{rule.msg.editDescription}"></h6>
+</div>
+z
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <div class="z-edit-row flex-column">
+            <label th:text="#{rule.label.name}" class="required"></label>
+            <input type="hidden" id="txtRuleId" name="txtRuleId" th:value="${rule?.numberingId}"/>
+            <input type="text" class="z-input" id="txtRuleName" name="txtRuleName" maxlength="100"
+                   th:value="${rule?.numberingName}"/>
         </div>
-        <div class="z-main-header-search flex-row">
-            <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
-                   th:placeholder="#{rule.msg.searchPlaceholder}"/>
-            <span id="totalCount" class="search-count"></span>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" id="btnSearch" name="btnSearch" onclick="onCreate();"
-                        sec:authorize="hasAuthority('numbering.rule.create')" th:text="#{common.btn.add}"></button>
-            </div>
+        <div class="z-edit-row flex-column">
+            <label th:text="#{rule.label.desc}"></label>
+            <textarea id="txtRuleDesc" name="txtRuleDesc" maxlength="200" rows="7"
+                      class="z-textarea textarea-scroll-wrapper" th:value="${rule?.numberingDesc}"></textarea>
         </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="z-numbering-rule-content flex-fill">
-        <div class="list" id="ruleList"></div>
-    </div>
-</th:block>
-<th:block layout:fragment="aside">
-    <div class="z-aside">
-        <div class="z-numbering-rule-content-edit flex-column">
-            <div class="edit-form">
-                <div class="edit-row flex-column">
-                    <label th:text="#{rule.label.name}" class="required"></label>
-                    <input type="hidden" id="txtRuleId" name="txtRuleId"/>
-                    <input type="hidden" id="txtRuleNameOrg" name="txtRuleNameOrg"/>
-                    <input type="text" class="z-input" id="txtRuleName" name="txtRuleName" maxlength="100"/>
-                </div>
-                <div class="edit-row flex-column">
-                    <label th:text="#{rule.label.desc}"></label>
-                    <textarea id="txtRuleDesc" name="txtRuleDesc" maxlength="200" rows="7"
-                              class="z-textarea textarea-scroll-wrapper"></textarea>
-                </div>
-                <div id="type-select-pattern">
-                    <div class="edit-row flex-column">
-                        <div class="under-bar">
-                            <label th:text="#{pattern.label.pattern}" class="required"></label>
-                            <button type="button" class="z-button-icon extra float-right" onclick="addPattern()">
-                                <span class="z-icon i-plus"></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="firstPattern" class="edit-row flex-row pattern">
-                        <span th:text="#{rule.label.firstPattern}" class="pattern-type"/>
-                        <select id="selectFirstPattern" name="pattern"
-                                class="select-date-time select-pattern-type mr-1">
-                            <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
-                                    th:text="${pattern.patternName}" th:name="${pattern.patternType}"></option>
-                        </select>
-                    </div>
-                    <div id="secondPattern" class="edit-row flex-row pattern">
-                        <span th:text="#{rule.label.secondPattern}" class="pattern-type"/>
-                        <select id="selectSecondPattern" name="pattern"
-                                class="select-date-time select-pattern-type mr-1">
-                            <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
-                                    th:text="${pattern.patternName}" th:name="${pattern.patternType}"></option>
-                        </select>
-                        <button type="button" name="secondPattern" class="z-button-icon extra ml-l" onclick="deletePattern(this.name)">
-                            <span class="z-icon i-delete"></span>
-                        </button>
-                    </div>
-                    <div id="thirdPattern" class="edit-row flex-row pattern">
-                        <span th:text="#{rule.label.thirdPattern}" class="pattern-type"/>
-                        <select id="selectThirdPattern" name="pattern"
-                                class="select-date-time select-pattern-type mr-1">
-                            <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
-                                    th:text="${pattern.patternName}" th:name="${pattern.patternType}"></option>
-                        </select>
-                        <button type="button" name="thirdPattern" class="z-button-icon extra" onclick="deletePattern(this.name)">
-                            <span class="z-icon i-delete"></span>
-                        </button>
-                    </div>
+        <div id="type-select-pattern" class="z-edit-row">
+            <div class="z-edit-row flex-column">
+                <div class="under-bar">
+                    <label th:text="#{pattern.label.pattern}" class="required"></label>
+                    <button type="button" class="z-button-icon extra float-right" onclick="addPattern()">
+                        <span class="z-icon i-plus"></span>
+                    </button>
                 </div>
             </div>
+            <div id="firstPattern" class="z-edit-row flex-row pattern">
+                <span th:text="#{rule.label.firstPattern}" class="pattern-type"></span>
+                <select id="selectFirstPattern" name="pattern"
+                        class="select-date-time select-pattern-type mr-1">
+                    <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
+                            th:text="${pattern.patternName}" th:name="${pattern.patternType}"
+                            th:selected="${rule?.patternList[0]?.patternName == pattern.patternName}"></option>
+                </select>
+            </div>
+            <div id="secondPattern" class="z-edit-row flex-row pattern">
+                <span th:text="#{rule.label.secondPattern}" class="pattern-type"></span>
+                <select id="selectSecondPattern" name="pattern"
+                        class="select-date-time select-pattern-type mr-1">
+                    <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
+                            th:text="${pattern.patternName}" th:name="${pattern.patternType}"
+                            th:selected="${rule?.patternList[1].patternName == pattern.patternName}">
+                    </option>
+                </select>
+                <button type="button" name="secondPattern" class="z-button-icon extra ml-l"
+                        onclick="deletePattern(this.name)">
+                    <span class="z-icon i-delete"></span>
+                </button>
+            </div>
+            <div id="thirdPattern" class="z-edit-row flex-row pattern">
+                <span th:text="#{rule.label.thirdPattern}" class="pattern-type"></span>
+                <select id="selectThirdPattern" name="pattern"
+                        class="select-date-time select-pattern-type mr-1">
+                    <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
+                            th:text="${pattern.patternName}" th:name="${pattern.patternType}"
+                            th:selected="${rule?.patternList[2].patternName == pattern.patternName}">
+                    </option>
+                </select>
+                <button type="button" name="thirdPattern" class="z-button-icon extra"
+                        onclick="deletePattern(this.name)">
+                    <span class="z-icon i-delete"></span>
+                </button>
+            </div>
         </div>
-        <div class="flex-row justify-content-end">
+        <div class="flex-row justify-content-between z-edit-row">
+            <div class="z-button-list">
+                <a class="z-button secondary" href="/numberingRules/search" th:text="#{common.btn.list}"></a>
+            </div>
             <div class="z-button-list">
                 <button type="button" class="z-button primary" sec:authorize="hasAuthority('numbering.rule.create')"
-                        id="btnRegist" name="btnRegist"
+                        id="btnRegist" name="btnRegist" th:if="!${rule?.ruleId}"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
                 <button type="button" class="z-button primary" sec:authorize="hasAuthority('numbering.rule.update')"
-                        id="btnUpdate" name="btnUpdate"
+                        id="btnUpdate" name="btnUpdate" th:if="${rule?.ruleId}"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="z-button secondary" sec:authorize="hasAuthority('numbering.rule.delete')"
                         id="btnDelete" name="btnDelete"
@@ -101,318 +90,142 @@
             </div>
         </div>
     </div>
-</th:block>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-        let PATTERN_DELETE = false;
-        let PATTERN_CREATE = false;
-        let PATTERN_UPDATE = false;
-        const STATUS_SUCCESS = '0';
-        const STATUS_ERROR_RULE_USED = '1';
-        let count = 2;
-        const maxCount = 3;
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    const STATUS_SUCCESS = '0';
+    const STATUS_ERROR_RULE_USED = '1';
+    let count = 2;
+    const maxCount = 3;
 
-        window.onload = function () {
-            getRuleList(true);
-
-            if (document.getElementById('btnUpdate') !== null) {
-                PATTERN_UPDATE = true;
+    window.onload = function () {
+        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('#txtRuleDesc'), {
+            className: 'scrollbar',
+            resize: 'vertical',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: "class"
             }
+        });
+    };
 
-            if (document.getElementById('btnRegist') !== null) {
-                PATTERN_CREATE = true;
-            }
+    /** 등록, 수정 기능 **/
+    function onSave(flag) {
+        if (isEmpty('txtRuleName', 'rule.msg.enterRuleName')) return;
 
-            if (document.getElementById('btnDelete') !== null) {
-                PATTERN_DELETE = true;
-            }
+        let ruleNames = [];
+        let validList = document.querySelectorAll('td[name=ruleName]');
+        for (let i = 0; i < validList.length; i++) {
+            ruleNames.push(validList[i].textContent);
+        }
 
-            if (isNotNull('txtRuleId') && isNotEmpty('txtRuleId')) {
-                if (PATTERN_UPDATE) {
-                    document.getElementById('btnUpdate').style.display = 'inline-block';
+        if (flag === 'post') {
+            for (let i = 0; i < ruleNames.length; i++) {
+                if (document.getElementById('txtRuleName').value === ruleNames[i]) {
+                    aliceAlert.alertWarning([[#{rule.msg.duplicateRuleName}]]);
+                    return;
                 }
-                if (PATTERN_CREATE) {
-                    document.getElementById('btnRegist').style.display = 'none';
+            }
+        }
+
+        let obj = {};
+        let patternList = [];
+        let patternTypeList = [];
+
+        document.getElementsByName('pattern').forEach(function (pattern, index) {
+            if (document.querySelectorAll('.pattern')[index].getAttribute('style') === 'display: flex;') {
+                patternList.push(pattern.value);
+            }
+        });
+
+        document.querySelectorAll('option:checked').forEach(elem => patternTypeList.push(elem.getAttribute('name')));
+        if (!patternTypeList.includes('numbering.pattern.sequence')) {
+            aliceAlert.alertWarning(i18n.msg('rule.msg.selectSequence'));
+            return;
+        }
+
+        obj.numberingId = document.getElementById('txtRuleId').value;//문서번호 아이디
+        obj.numberingName = document.getElementById('txtRuleName').value;//문서번호 명
+        obj.numberingDesc = document.getElementById('txtRuleDesc').value;//문서번호 설명
+        obj.patternList = patternList;//패턴
+
+        let strUrl = '/rest/numberingRules';
+        if (flag !== 'post') {
+            strUrl += '/' + document.getElementById('txtRuleId').value;
+        }
+        const opt = {
+            method: flag,
+            url: strUrl,
+            params: JSON.stringify(obj),
+            contentType: 'application/json',
+            callbackFunc: function (response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            window.location.href = '/numberingRules/search';
+                        });
+                        break;
+                    case STATUS_ERROR_RULE_USED:
+                        aliceAlert.alertWarning(i18n.msg('rule.msg.usedRule'));
+                        break;
+                    default:
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        break;
                 }
             }
-
-            let ruleList = document.querySelectorAll('td[name=ruleName]');
-            for (let i = 0; i < ruleList.length; i++) {
-                ruleList[i].addEventListener('click', function () {
-                    let activeTr = document.querySelector('tr.active');
-                    if (activeTr !== null) {
-                        activeTr.classList.remove('active');
-                    }
-                    this.parentElement.classList.add('active');
-                    if (PATTERN_UPDATE) {
-                        document.getElementById('btnUpdate').style.display = 'inline-block';
-                    }
-                    if (PATTERN_CREATE) {
-                        document.getElementById('btnRegist').style.display = 'none';
-                    }
-                    onGetDetail(this.id);
-                });
-            }
-
-            document.getElementById('search').focus();
-            document.getElementById('search').addEventListener('keyup', function () {
-                getRuleList(false);
-            });
-
-            OverlayScrollbars(document.querySelector('.numbering-rule-content-edit'), {className: 'scrollbar'});
-            OverlayScrollbars(document.querySelector('#txtRuleDesc'), {
-                className: 'scrollbar',
-                resize: 'vertical',
-                sizeAutoCapable: true,
-                textarea: {
-                    dynHeight: false,
-                    dynWidth: false,
-                    inheritedAttrs: "class"
-                }
-            });
         };
+        aliceJs.sendXhr(opt);
+    }
 
-        /** 패턴 상세 정보 가져오기 **/
-        function onGetDetail(ruleName) {
-            const opt = {
-                method: 'get',
-                url: '/rest/numberingRules/' + encodeURIComponent(ruleName),
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    count = 2;
-                    let responseJson = JSON.parse(response.responseText);
-                    let patternEle = document.getElementsByName('pattern');
-                    const patternListLength = responseJson.patternList.length;
-                    document.getElementById('txtRuleId').value = responseJson.numberingId;
-                    document.getElementById('txtRuleName').value = responseJson.numberingName;
-                    document.getElementById('txtRuleNameOrg').value = responseJson.numberingName;
-                    document.getElementById('txtRuleDesc').value = responseJson.numberingDesc;
-
-                    if (responseJson.editable) {
-                        document.getElementById('btnUpdate').removeAttribute('disabled');
-                        document.getElementById('btnDelete').removeAttribute('disabled');
-                    } else {
-                        document.getElementById('btnUpdate').disabled = true;
-                        document.getElementById('btnDelete').disabled = true;
-                    }
-
-                    for (let i = 0; i < patternListLength; i++) {
-                        for (let k = 0; k < patternEle[i].length; k++) {
-                            if (patternEle[i][k].textContent === responseJson.patternList[i].patternName) {
-                                document.querySelectorAll('.z-select-box')[i].textContent = responseJson.patternList[i].patternName;
-                                patternEle[i][k].selected = true;
-                            }
-                        }
-                    }
-                    document.getElementsByName('pattern').forEach(function (pattern, index) {
-                        document.querySelectorAll('.pattern')[index].style.display = 'flex';
-                        if (index + 1 > patternListLength) {
-                            document.querySelectorAll('.pattern')[index].style.display = 'none';
-                            count--;
-                        }
-                    });
+    /** 삭제 기능  **/
+    function onDelete() {
+        const opt = {
+            method: 'delete',
+            url: '/rest/numberingRules/' + encodeURIComponent(document.getElementById('txtRuleId').value),
+            callbackFunc: function (response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                            window.location.href = '/numberingRules/search';
+                        });
+                        break;
+                    case STATUS_ERROR_RULE_USED:
+                        aliceAlert.alertWarning(i18n.msg('rule.msg.usedRule'));
+                        break;
+                    default:
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        break;
                 }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /** 추가 버튼 **/
-        function onCreate() {
-            count = 2;
-            document.getElementById('txtRuleId').value = '';
-            document.getElementById('txtRuleName').value = '';
-            document.getElementById('txtRuleDesc').value = '';
-            document.querySelectorAll('.z-select-box').forEach(elem => elem.textContent = document.querySelector('.z-select-options').firstElementChild.textContent);
-            document.querySelectorAll('.pattern').forEach(elem => elem.style.display = 'flex');
-            document.getElementsByName('pattern').forEach(elem => elem[0].selected = true);
-
-            if (PATTERN_UPDATE) {
-                document.getElementById('btnUpdate').style.display = 'none';
             }
-            if (PATTERN_CREATE) {
-                document.getElementById('btnRegist').style.display = 'inline-block';
-            }
-            if (PATTERN_DELETE) {
-                document.getElementById('btnDelete').style.display = 'none';
-            }
-        }
+        };
+        aliceJs.sendXhr(opt);
+    }
 
-        /** 등록, 수정 기능 **/
-        function onSave(flag) {
-            if (isEmpty('txtRuleName', 'rule.msg.enterRuleName')) return;
-
-            let ruleNames = [];
-            let validList = document.querySelectorAll('td[name=ruleName]');
-            for (let i = 0; i < validList.length; i++) {
-                ruleNames.push(validList[i].textContent);
-            }
-
-            if (flag === 'post') {
-                for (let i = 0; i < ruleNames.length; i++) {
-                    if (document.getElementById('txtRuleName').value === ruleNames[i]) {
-                        aliceAlert.alertWarning([[#{rule.msg.duplicateRuleName}]]);
-                        return;
-                    }
-                }
+    function addPattern() {
+        if (count === 0) {
+            document.querySelectorAll('.pattern')[1].style.display = 'flex';
+            count++;
+        } else if (count === 1) {
+            if (document.querySelectorAll('.pattern')[1].getAttribute('style') === 'display: flex;') {
+                document.querySelectorAll('.pattern')[2].style.display = 'flex';
             } else {
-                if (isNotEquals('txtRuleName', 'txtRuleNameOrg')) {
-                    for (let i = 0; i < ruleNames.length; i++) {
-                        if (document.getElementById('txtRuleName').value === ruleNames[i]) {
-                            aliceAlert.alertWarning([[#{rule.msg.duplicateRuleName}]]);
-                            return;
-                        }
-                    }
-                }
-            }
-
-            let obj = {};
-            let patternList = [];
-            let patternTypeList = [];
-
-            document.getElementsByName('pattern').forEach(function (pattern, index) {
-                if (document.querySelectorAll('.pattern')[index].getAttribute('style') === 'display: flex;') {
-                    patternList.push(pattern.value);
-                }
-            });
-
-            document.querySelectorAll('option:checked').forEach(elem => patternTypeList.push(elem.getAttribute('name')));
-            if (!patternTypeList.includes('numbering.pattern.sequence')) {
-                aliceAlert.alertWarning(i18n.msg('rule.msg.selectSequence'));
-                return;
-            }
-
-            obj.numberingId = document.getElementById('txtRuleId').value;//문서번호 아이디
-            obj.numberingName = document.getElementById('txtRuleName').value;//문서번호 명
-            obj.numberingDesc = document.getElementById('txtRuleDesc').value;//문서번호 설명
-            obj.patternList = patternList;//패턴
-
-            let strUrl = '/rest/numberingRules';
-            if (flag !== 'post') {
-                strUrl += '/' + document.getElementById('txtRuleId').value;
-            }
-            const opt = {
-                method: flag,
-                url: strUrl,
-                params: JSON.stringify(obj),
-                contentType: 'application/json',
-                callbackFunc: function (response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
-                                window.location.href = '/numberingRules/edit';
-                            });
-                            break;
-                        case STATUS_ERROR_RULE_USED:
-                            aliceAlert.alertWarning(i18n.msg('rule.msg.usedRule'));
-                            break;
-                        default:
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /** 삭제 기능  **/
-        function onDelete() {
-            const opt = {
-                method: 'delete',
-                url: '/rest/numberingRules/' + encodeURIComponent(document.getElementById('txtRuleId').value),
-                callbackFunc: function (response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
-                                window.location.href = '/numberingRules/edit';
-                            });
-                            break;
-                        case STATUS_ERROR_RULE_USED:
-                            aliceAlert.alertWarning(i18n.msg('rule.msg.usedRule'));
-                            break;
-                        default:
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /** 문서번호 리스트 출력 기능 **/
-        function getRuleList(showProgressbar) {
-            const data = {
-                search: encodeURIComponent(document.getElementById('search').value)
-            };
-            const urlParam = 'search=' + data.search;
-            const opt = {
-                method: 'get',
-                url: '/numberingRules?' + urlParam,
-                showProgressbar: showProgressbar,
-                callbackFunc: function (response) {
-                    document.getElementById('ruleList').innerHTML = response.responseText;
-                    let ruleLatestDtEle = document.querySelectorAll('td[name=ruleLatestDate]');
-                    for (let i = 0; i < ruleLatestDtEle.length; i++) {
-                        ruleLatestDtEle[i].textContent = i18n.userDateTime(ruleLatestDtEle[i].textContent);
-                    }
-                    let ruleList = document.querySelectorAll('td[name=ruleName]');
-                    document.getElementById('totalCount').textContent = i18n.msg("common.label.count", ruleList.length);
-                    if (response.responseText.indexOf('no-data-found') === -1) {
-                        for (let i = 0; i < ruleList.length; i++) {
-                            ruleList[i].style.cursor = 'pointer';
-                            ruleList[i].addEventListener('click', function () {
-                                let activeTr = document.querySelector('tr.active');
-                                if (activeTr !== null) {
-                                    activeTr.classList.remove('active');
-                                }
-                                this.parentElement.classList.add('active');
-                                if (PATTERN_UPDATE) {
-                                    document.getElementById('btnUpdate').style.display = 'inline-block';
-                                }
-                                if (PATTERN_CREATE) {
-                                    document.getElementById('btnRegist').style.display = 'none';
-                                }
-                                if (PATTERN_DELETE) {
-                                    document.getElementById('btnDelete').style.display = 'inline-block';
-                                }
-                                onGetDetail(this.id);
-                            });
-                        }
-                        if (ruleList.length > 0) {
-                            document.querySelector('td[name=ruleName]').click();
-                        }
-                        OverlayScrollbars(document.querySelector('.z-list-body'), {className: 'scrollbar'});
-                    } else {
-                        onCreate();
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        function addPattern() {
-            if (count === 0) {
                 document.querySelectorAll('.pattern')[1].style.display = 'flex';
-                count++;
-            } else if (count === 1) {
-                if (document.querySelectorAll('.pattern')[1].getAttribute('style') === 'display: flex;') {
-                    document.querySelectorAll('.pattern')[2].style.display = 'flex';
-                } else {
-                    document.querySelectorAll('.pattern')[1].style.display = 'flex';
-                }
-                count++;
-            } else {
-                aliceAlert.alertWarning(i18n.msg('rule.msg.addPattern', maxCount));
             }
+            count++;
+        } else {
+            aliceAlert.alertWarning(i18n.msg('rule.msg.addPattern', maxCount));
         }
+    }
 
-        function deletePattern(name) {
-            document.getElementById(name).style.display = 'none';
-            count--;
-        }
+    function deletePattern(name) {
+        document.getElementById(name).style.display = 'none';
+        count--;
+    }
 
-        /*]]>*/
-    </script>
-</th:block>
+    /*]]>*/
+</script>
 </html>

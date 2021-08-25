@@ -899,6 +899,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-gnb-report {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-gnb-dashboard {
   width: 1.5rem;
   height: 1.5rem;
@@ -2849,34 +2859,118 @@ table[id=documentDisplay] td {
   flex-direction: column;
   width: calc(100% - 13.75rem);
   height: 100vh;
+  background-color: #FAFAFA;
 }
-.z-itsm-container .z-main.os-host-overflow > .os-padding {
-  margin-right: 0.5rem;
+.z-itsm-container .z-main-title {
+  display: flex;
+  align-items: baseline !important;
+  padding: 0 3.75rem 2rem 3.75rem;
 }
 .z-itsm-container .z-main-content {
-  padding: 0 3.75rem;
   background-color: #FAFAFA;
   height: 100%;
 }
-.z-itsm-container .z-main-content .z-page-title {
-  display: flex;
-  align-items: baseline !important;
-  padding-bottom: 2rem;
+.z-itsm-container .z-main-content .z-page-content {
+  border-top: 0.0625rem solid #CFD5D9;
+  flex: 1 1 auto;
+  background: #FFFFFF;
 }
 .z-itsm-container .z-main-content .z-page-search {
   display: flex;
   flex-direction: row;
+  padding: 0 3.75rem 1.25rem 3.75rem;
 }
 .z-itsm-container .z-main-content .z-page-search .z-search-count {
   font-weight: 700;
   font-size: 0.875rem;
   color: #8B9094;
 }
+.z-itsm-container .z-main-content .z-page-result {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.875rem 3.75rem 1.875rem 3.75rem;
+  background-color: #FFFFFF;
+}
+.z-itsm-container .z-main-content .z-page-result .document-color {
+  width: 0.75rem;
+}
+.z-itsm-container .z-main-content .z-page-result .document-row {
+  padding: 1.875rem 3rem;
+}
+.z-itsm-container .z-main-content .z-page-result .document-row-content .document-title .z-document-numbering {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ACB4BF;
+}
+.z-itsm-container .z-main-content .z-page-result .document-row-content .document-topic {
+  width: 39.38rem;
+  margin-top: 1.5625rem;
+}
+.z-itsm-container .z-main-content .z-page-result .document-row-content .document-topic .topic {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+}
+.z-itsm-container .z-main-content .z-page-result .document-row-info .document-detail .user-name,
+.z-itsm-container .z-main-content .z-page-result .document-row-info .document-detail .create-dt,
+.z-itsm-container .z-main-content .z-page-result .document-row-info .document-detail .element-name {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+}
+.z-itsm-container .z-main-content .z-page-result .document-row-info .document-tag {
+  max-width: 23.75rem;
+  margin-top: 3.5rem;
+}
+.z-itsm-container .z-main-content .z-page-result .sub-title {
+  margin: 1.25rem 0;
+}
+.z-itsm-container .z-main-content .z-page-result .statistic-box {
+  width: 23.75rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.3125rem;
+  -webkit-border-radius: 0.3125rem;
+  -moz-border-radius: 0.3125rem;
+  padding: 1.5625rem;
+}
+.z-itsm-container .z-main-content .z-page-result .statistic-info {
+  margin-left: 1.5625rem;
+}
+.z-itsm-container .z-main-content .z-page-result .statistic-count {
+  margin-bottom: 0.9375rem;
+}
+.z-itsm-container .z-main-content .z-page-result .statistic-type {
+  color: #929AA6;
+}
+.z-itsm-container .z-main-content .z-page-result .scroll-wrap {
+  flex: 1 1 auto;
+  margin-right: 1.25rem;
+}
+.z-itsm-container .z-main-content .z-page-result .scroll-wrap .card:first-of-type {
+  margin-top: 0;
+}
+.z-itsm-container .z-main-content .z-page-edit {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  padding: 2.1875rem 23.125rem 3.125rem 23.125rem;
+  background-color: #FFFFFF;
+}
+.z-itsm-container .z-main-content .z-page-edit .z-edit-form {
+  display: flex;
+  flex-direction: column;
+}
+.z-itsm-container .z-main-content .z-page-edit .z-edit-form .z-edit-row {
+  margin-top: 0.625rem;
+}
+.z-itsm-container .z-main-content .z-page-edit .z-button-list {
+  margin: 1.875rem 0;
+}
 .z-itsm-container .z-main-content .z-page-list {
   display: flex;
   flex: 1;
-  padding-top: 0.9375rem;
-  padding-bottom: 0.9375rem;
+  padding: 0 3.75rem 1.25rem 3.75rem;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-content {
   display: flex;
@@ -2948,14 +3042,19 @@ table[id=documentDisplay] td {
   padding: 0 1.875rem;
 }
 .z-itsm-container .z-main-content .z-page-column-item:first-child {
-  padding-left: 0;
+  padding-left: 3.75rem;
 }
 .z-itsm-container .z-main-content .z-page-column-item:last-child {
-  padding-right: 0;
+  padding-right: 3.75rem;
 }
 .z-itsm-container .z-main-content .z-page-column-item .z-page-tree {
   flex: 1;
   margin-top: 0.9375rem;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-search {
+  display: flex;
+  flex-direction: row;
+  padding: 0 0 1.25rem 0;
 }
 .z-itsm-container .z-main-content .z-page-column-item .z-page-edit {
   display: flex;
@@ -2982,6 +3081,7 @@ table[id=documentDisplay] td {
 .z-itsm-container .z-main .card-list .card {
   position: relative;
   min-width: 32.0625rem;
+  width: 100%;
   min-height: 12.5rem;
   margin: 1.25rem 1.25rem 0 0;
   padding: 0;
@@ -3157,14 +3257,14 @@ table[id=documentDisplay] td {
   display: inline-block;
 }
 
-.z-faq-header, .z-download-header, .z-board-header, .z-user-header, .z-board-admin-header, .z-process-header, .z-form-header, .z-document-admin-header, .z-custom-code-header, .z-auth-header, .z-role-header, .z-code-header, .z-numbering-pattern-header, .z-numbering-rule-header, .z-chart-header, .z-cmdb-attribute-header, .z-cmdb-class-header, .z-cmdb-type-header, .z-cmdb-ci-header, .z-scheduler-header {
+.z-faq-header, .z-download-header, .z-board-header, .z-user-header, .z-board-admin-header, .z-process-header, .z-form-header, .z-document-admin-header, .z-custom-code-header, .z-auth-header, .z-role-header, .z-code-header, .z-numbering-pattern-header, .z-numbering-rule-header, .z-chart-header, .z-cmdb-attribute-header, .z-cmdb-class-header, .z-cmdb-type-header, .z-cmdb-ci-header, .z-scheduler-header, .z-report-template-header {
   padding: 0 3.75rem 0 3.75rem;
 }
-.z-document-header, .z-token-header, .z-dashboard-header, .z-image-header {
+.z-document-header, .z-token-header, .z-image-header {
   padding: 0 3.75rem 0 3.75rem;
   border-bottom: 0.0625rem solid #CFD5D9;
 }
-.z-faq-content, .z-download-content, .z-board-content, .z-user-content, .z-board-admin-content, .z-process-content, .z-form-content, .z-document-admin-content, .z-custom-code-content, .z-auth-content, .z-role-content, .z-code-content, .z-numbering-pattern-content, .z-numbering-rule-content, .z-chart-content, .z-cmdb-attribute-content, .z-cmdb-type-content, .z-cmdb-class-content, .z-cmdb-ci-content {
+.z-faq-content, .z-download-content, .z-board-content, .z-user-content, .z-board-admin-content, .z-process-content, .z-form-content, .z-document-admin-content, .z-custom-code-content, .z-auth-content, .z-role-content, .z-code-content, .z-numbering-pattern-content, .z-numbering-rule-content, .z-chart-content, .z-cmdb-attribute-content, .z-cmdb-type-content, .z-cmdb-class-content, .z-cmdb-ci-content, .z-report-template-content {
   padding: 0.9375rem 3.75rem;
   background-color: #FAFAFA;
 }
@@ -3195,69 +3295,6 @@ table[id=documentDisplay] td {
 .z-token-content, .z-dashboard-content {
   padding: 1.875rem 1.875rem 0 3.75rem;
   background-color: #FFFFFF;
-}
-.z-token-content .card, .z-dashboard-content .card {
-  width: 100%;
-}
-.z-token-content .document-color, .z-dashboard-content .document-color {
-  width: 0.75rem;
-}
-.z-token-content .document-row, .z-dashboard-content .document-row {
-  padding: 1.875rem 3rem;
-}
-.z-token-content .document-row-content .document-title .z-document-numbering, .z-dashboard-content .document-row-content .document-title .z-document-numbering {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #ACB4BF;
-}
-.z-token-content .document-row-content .document-topic, .z-dashboard-content .document-row-content .document-topic {
-  width: 39.38rem;
-  margin-top: 1.5625rem;
-}
-.z-token-content .document-row-content .document-topic .topic, .z-dashboard-content .document-row-content .document-topic .topic {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #586872;
-}
-.z-token-content .document-row-info .document-detail .user-name,
-.z-token-content .document-row-info .document-detail .create-dt,
-.z-token-content .document-row-info .document-detail .element-name, .z-dashboard-content .document-row-info .document-detail .user-name,
-.z-dashboard-content .document-row-info .document-detail .create-dt,
-.z-dashboard-content .document-row-info .document-detail .element-name {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #586872;
-}
-.z-token-content .document-row-info .document-tag, .z-dashboard-content .document-row-info .document-tag {
-  max-width: 23.75rem;
-  margin-top: 3.5rem;
-}
-.z-token-content .sub-title, .z-dashboard-content .sub-title {
-  margin: 1.25rem 0;
-}
-.z-token-content .statistic-box, .z-dashboard-content .statistic-box {
-  width: 23.75rem;
-  border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.3125rem;
-  -webkit-border-radius: 0.3125rem;
-  -moz-border-radius: 0.3125rem;
-  padding: 1.5625rem;
-}
-.z-token-content .statistic-info, .z-dashboard-content .statistic-info {
-  margin-left: 1.5625rem;
-}
-.z-token-content .statistic-count, .z-dashboard-content .statistic-count {
-  margin-bottom: 0.9375rem;
-}
-.z-token-content .statistic-type, .z-dashboard-content .statistic-type {
-  color: #929AA6;
-}
-.z-token-content .scroll-wrap, .z-dashboard-content .scroll-wrap {
-  height: 27.5rem;
-  margin-right: 1.25rem;
-}
-.z-token-content .scroll-wrap .card:first-of-type, .z-dashboard-content .scroll-wrap .card:first-of-type {
-  margin-top: 0;
 }
 .z-notice-content-edit, .z-faq-content-edit, .z-download-content-edit, .z-board-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
@@ -3406,6 +3443,12 @@ table[id=documentDisplay] td {
 }
 .z-cmdb-class-content-edit .attribute {
   width: 27.94rem;
+}
+.z-report-template-content-edit {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
+  border-top: 0.0625rem solid #EBEBEB;
+  background-color: #FFFFFF;
+  height: 100%;
 }
 .z-notice-content-view, .z-faq-content-view, .z-download-content-view, .z-board-content-view, .z-cmdb-attribute-content-view {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;

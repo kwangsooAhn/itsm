@@ -16,8 +16,12 @@
 		<div class="z-main">
 			<!--/* 상단 메뉴 */-->
 			<div th:replace="layout/itsm/fragment/topMenuFragment">topMenu</div>
+			<!--/* 페이지별 타이틀 */-->
+			<div layout:fragment="pageTitle" class="z-main-title"></div>
 			<!--/* 페이지별로 달라지는 메인 컨텐츠 */-->
-			<th:block layout:fragment="mainContent"></th:block>
+			<div class="z-main-content flex-column">
+				<th:block layout:fragment="pageContent"></th:block>
+			</div>
 		</div>
 	</div>
 </div>

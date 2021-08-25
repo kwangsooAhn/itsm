@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/itsmLayout}">
+<!--/* 세부 항목 편집 화면 레이아웃 */-->
+<body>
+<th:block layout:fragment="pageContent">
+    <div class="z-page-content">
+        <!--/* 편집 영역 */-->
+        <div layout:fragment="pageEdit" class="z-page-edit"></div>
+
+    </div>
+</th:block>
+</body>
+</html>

@@ -21,7 +21,7 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
     override fun findChartList(chartSearchCondition: ChartSearchCondition): QueryResults<ChartListDto> {
         val chart = QChartEntity.chartEntity
         val user = QAliceUserEntity.aliceUserEntity
-        return from(chart)
+        val query = from(chart)
             .select(
                 Projections.constructor(
                     ChartListDto::class.java,
@@ -37,8 +37,10 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
             .where(
                 super.like(chart.chartType, chartSearchCondition.searchGroupName)
             ).orderBy(chart.chartName.asc())
-            .limit(chartSearchCondition.contentNumPerPage)
-            .offset((chartSearchCondition.pageNum - 1) * chartSearchCondition.contentNumPerPage)
-            .fetchResults()
+        if (chartSearchCondition.isPaging) {
+            query.limit(chartSearchCondition.contentNumPerPage)
+            query.offset((chartSearchCondition.pageNum - 1) * chartSearchCondition.contentNumPerPage)
+        }
+        return query.fetchResults()
     }
 }
