@@ -226,7 +226,7 @@ ZWorkflowUtil.downloadXML = function(id, suffix, xmlString) {
  * @param id form/process ID
  * @param type form/process
  */
-ZWorkflowUtil.export = function (id, type) {
+ZWorkflowUtil.export = function(id, type) {
     let exportUrl = '/rest/forms/' + id + '/data';
     if (type === 'process') {
         exportUrl = '/rest/process/' + id + '/data';
