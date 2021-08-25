@@ -880,6 +880,19 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 
+/* _layout.scss
+ *
+ * 파일 경로 : template/_layout.scss
+ * @description HTML layout 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.z-wrapper {
+  display: flex;
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
 /* _preview.scss
  *
  * 파일 경로 : report/_preview.scss

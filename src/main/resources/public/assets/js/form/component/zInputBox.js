@@ -13,7 +13,7 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, CLASS_PREFIX, FORM } from '../../lib/zConstants.js';
+import { SESSION, FORM } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv, UIInput } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
@@ -54,7 +54,7 @@ export const inputBoxMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInputbox = new UIInput().setUIPlaceholder(this.elementPlaceholder)
             .setUIRequired(this.validationRequired)

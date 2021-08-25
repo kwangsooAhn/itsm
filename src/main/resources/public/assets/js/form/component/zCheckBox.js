@@ -9,7 +9,7 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UILabel, UICheckbox, UISpan } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
@@ -48,7 +48,7 @@ export const checkBoxMixin = {
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv()
-            .setUIClass(CLASS_PREFIX + 'element')
+            .setUIClass('z-element')
             .addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
         return this.makeCheckbox(element);
@@ -131,7 +131,7 @@ export const checkBoxMixin = {
             object.UILabel = new UILabel()
                 .setUIFor(checkboxId)
                 .setUIClass(this.element.align)
-                .addUIClass(CLASS_PREFIX + 'checkbox');
+                .addUIClass('z-checkbox');
             object.UILabel.UICheckbox = new UICheckbox(checkedYn)
                 .setUIId(checkboxId)
                 .setUIAttribute('value', this.element.options[i].value)

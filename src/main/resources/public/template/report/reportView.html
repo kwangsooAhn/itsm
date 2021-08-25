@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="formDesigner/formCore">
+      layout:decorator="report/reportCore">
 <head>
     <title th:text="#{report.label.preview}"></title>
 </head>
@@ -27,12 +27,6 @@
 </th:block>
 </body>
 <th:block layout:fragment="script">
-    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
-    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
-    <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
-    <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
-    <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
-    <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
         const report = /*[[${report}]]*/ null;

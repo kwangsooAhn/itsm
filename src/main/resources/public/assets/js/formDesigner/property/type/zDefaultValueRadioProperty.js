@@ -11,7 +11,7 @@
  *
  * https://www.brainz.co.kr
  */
-import { CLASS_PREFIX, FORM } from '../../../lib/zConstants.js';
+import { FORM } from '../../../lib/zConstants.js';
 import { UIDiv, UIInput, UILabel, UIRadioButton, UISpan } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
@@ -48,7 +48,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
             const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length) +
                 ZWorkflowUtil.generateUUID();
             // 라벨
-            radioGroup.UILabel = new UILabel().setUIClass(CLASS_PREFIX + 'radio').setUIFor('radioProperty' + radioId);
+            radioGroup.UILabel = new UILabel().setUIClass('z-radio').setUIFor('radioProperty' + radioId);
             radioGroup.addUI(radioGroup.UILabel);
             // 라디오 버튼
             radioGroup.UILabel.UIRadio = new UIRadioButton(defaultValueArray[0] === item.value)
@@ -61,7 +61,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
             radioGroup.UILabel.addUI(new UISpan());
             
             if (!zValidation.isEmpty(item.name)) {
-                radioGroup.UILabel.addUI(new UISpan().setUIClass(CLASS_PREFIX + 'label').setUIInnerHTML(i18n.msg(item.name)));
+                radioGroup.UILabel.addUI(new UISpan().setUIClass('z-label').setUIInnerHTML(i18n.msg(item.name)));
             }
 
             switch (item.value) {
@@ -82,7 +82,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                     radioGroup.UIInput = new UIInput((
                         aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DAYS,
                             defaultValueArray[0] === item.value ? defaultValueArray[1] : '')))
-                        .setUIClass(CLASS_PREFIX + 'input i-date-picker')
+                        .setUIClass('z-input i-date-picker')
                         .addUIClass('picker')
                         .setUIId('dateProperty')
                         .setUIAttribute('name', this.key);
@@ -106,7 +106,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 case FORM.DATE_TYPE.TIME_PICKER:
                     radioGroup.UIInput = new UIInput(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.HOURS,
                         defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
-                        .setUIClass(CLASS_PREFIX + 'input i-time-picker')
+                        .setUIClass('z-input i-time-picker')
                         .addUIClass('picker')
                         .setUIId('timeProperty')
                         .setUIAttribute('name', this.key);
@@ -134,7 +134,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 case FORM.DATE_TYPE.DATETIME_PICKER:
                     radioGroup.UIInput = new UIInput(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DATETIME,
                         defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
-                        .setUIClass(CLASS_PREFIX + 'input i-datetime-picker')
+                        .setUIClass('z-input i-datetime-picker')
                         .addUIClass('picker')
                         .setUIId('timeProperty')
                         .setUIAttribute('name', this.key);

@@ -2117,9 +2117,7 @@ select {
   box-shadow: none;
   border: none;
 }
-.z-print-main .z-drawing-board .z-form input, .z-print-main .z-drawing-board .z-form textarea, .z-print-main .z-drawing-board .z-form button, .z-print-main .z-drawing-board .z-form select,
-.z-print-main .z-drawing-board .z-form .dropzone, .z-print-main .z-drawing-board .z-form .ql-toolbar,
-.z-print-main .z-drawing-board .z-form label.radio, .z-print-main .z-drawing-board .z-form label.checkbox {
+.z-print-main .z-drawing-board .z-form * {
   pointer-events: none;
 }
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="reportHead">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/report.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
+    <script th:src="@{/assets/js/lib/zI18n.js}"></script>
+    <script th:src="@{/assets/js/lib/zUtil.js}"></script>
+    <script th:src="@{/assets/js/lib/zSelectBox.js}"></script>
+    <script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        // TODO: 모듈로 변경 필요
+        const parsedDateTimeFormat = '[[${#authentication.details.timeFormat}]]'.split(' ');
+        i18n.init(JSON.stringify({
+            dateTimeFormat: '[[${#authentication.details.timeFormat}]]',
+            dateFormat: parsedDateTimeFormat[0],
+            timeFormat: (parsedDateTimeFormat[2] !== undefined) ? parsedDateTimeFormat[1] + ' ' + parsedDateTimeFormat[2] : parsedDateTimeFormat[1],
+            lang: '[[${#authentication.details.lang}]]',
+            timezone: '[[${#authentication.details.timezone}]]'
+        }));
+    </script>
+</head>
+</html>

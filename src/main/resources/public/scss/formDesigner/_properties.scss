@@ -65,9 +65,14 @@
     }
 
     &.icon-unit-px {
-      background: url($icon-folder-path + "formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 1rem) 50%;
+      background: url($icon-folder-path + "formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
       background-color: $element-bg-color;
       padding-right: 1.875rem; // 30px
+      text-align: right;
+
+      &:not(:last-child) {
+        margin-right: 0.25rem; // 4px
+      }
     }
   }
   // textarea 엘리먼트
@@ -110,7 +115,7 @@
       margin-left : 0.625rem; // 10px
       &.off { display: none; }
     }
-    .select {
+    .z-select {
       display: block;
       margin-left: 0.625rem; // 10px
       &.off { display: none; }
@@ -173,7 +178,7 @@
       .z-panel {
         @include relative();
         margin-top: 0.625rem;
-        padding: 0.625rem 0; // 10px 0
+        padding-top: 0.625rem;
         @include border(0.0625rem, solid, $gray300, all); // 1px
 
         .z-panel-common {
@@ -208,6 +213,50 @@
           .z-button-toggle {
             padding: 0.25rem  0.5625rem; // 4px 9px
           }
+        }
+
+        // individual panel 내부 중복 border 제거
+        .z-panel-individual > .property-group {
+          border: none;
+
+          &:last-child {
+            @include border(0.0625rem, solid, $gray300, top); // 1px
+          }
+        }
+      }
+    }
+  }
+  .z-option-table {
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+    color: $property-option-tb-color;
+    font-size: $element-font-size;
+    font-weight: $property-option-tb-font-weight;
+
+    .z-option-table-header {
+      height: 2rem;
+      @include border(0.125rem, solid, $property-option-tb-header-color, bottom);
+      background-color: $property-option-tb-header-bg-color;
+      text-indent: $element-indent;
+      font-weight: $property-option-tb-header-font-weight;
+    }
+    tr td {
+      @include border(0.0625rem, solid, $property-option-tb-header-color, all);
+      border-left: none;
+      border-right: none;
+      vertical-align: middle;
+      .z-input {
+        width: 85%;
+        padding: 0.75rem;
+        margin: 0 0.25rem;
+      }
+      .z-icon {
+        display: block;
+        margin: 0 auto;
+        background: $property-option-tb-content-btn-color;
+        &:hover {
+          background: $property-option-tb-content-btn-hv-color;
         }
       }
     }

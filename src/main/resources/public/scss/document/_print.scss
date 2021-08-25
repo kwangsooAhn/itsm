@@ -32,12 +32,8 @@
       .z-form {
         box-shadow: none; // 인쇄 영역의 테두리엔 그림자 효과 제외
         border: none; // 인쇄시 테두리 제외
-        // 인쇄시 모든 동작을 막음
-        input, textarea, button, select,
-        .dropzone, .ql-toolbar,
-        label.radio, label.checkbox {
-          pointer-events: none;
-        }
+        // 인쇄시 폼 내의 모든 컴포넌트 동작을 막음
+        * { pointer-events: none; }
       }
     }
   }
