@@ -22,5 +22,5 @@ data class FormSearchCondition(
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
     val statusArray = status?.split(",")
-    val isPaging = pageNum > 0;
+    val isPaging = pageNum > 0
 }
