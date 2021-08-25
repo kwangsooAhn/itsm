@@ -13,7 +13,6 @@
  */
 import ZProperty from '../zProperty.js';
 import { UIButton, UIDiv, UISpan } from '../../../lib/zUI.js';
-import { CLASS_PREFIX } from '../../../lib/zConstants.js';
 
 const propertyExtends = {
     /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
@@ -36,7 +35,7 @@ export default class ZToggleButtonProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // 버튼 그룹
-        this.UIElement.UIButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-toggle-group');
+        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('z-button-toggle-group');
         const toggleValueArray = this.value.split('|');
         this.options.forEach((item, index) => {
             const name = item.value.substr(0, 1).toUpperCase() +
@@ -45,9 +44,9 @@ export default class ZToggleButtonProperty extends ZProperty {
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
                 .setUIId(this.key + name)
                 .setUIAttribute('data-value', (toggleValueArray[index] === 'Y'))
-                .setUIClass(CLASS_PREFIX + 'button-toggle')
+                .setUIClass('z-button-toggle')
                 .onUIClick(this.updateProperty.bind(this))
-                .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass(item.name));
+                .addUI(new UISpan().setUIClass('z-icon').addUIClass(item.name));
 
             if (toggleValueArray[index] === 'Y') {
                 this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('selected');

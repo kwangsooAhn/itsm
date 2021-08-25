@@ -13,7 +13,6 @@
  */
 import ZProperty from '../zProperty.js';
 import { UIButton, UIDiv, UISpan } from '../../../lib/zUI.js';
-import { CLASS_PREFIX } from '../../../lib/zConstants.js';
 
 const propertyExtends = {
     /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
@@ -36,16 +35,16 @@ export default class ZSwitchButtonProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // 버튼 그룹
-        this.UIElement.UIButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-switch-group');
+        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('z-button-switch-group');
         this.options.forEach((item) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
                 .setUIId(this.key)
                 .setUIAttribute('data-value', item.value)
-                .setUIClass(CLASS_PREFIX + 'button-switch')
+                .setUIClass('z-button-switch')
                 .onUIClick(this.updateProperty.bind(this))
-                .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass(item.name));
+                .addUI(new UISpan().setUIClass('z-icon').addUIClass(item.name));
 
             if (this.value === item.value) {
                 this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('selected');

@@ -746,7 +746,7 @@ form:
       color: "색상"
       columns: "컬럼 설정"
       columnName: "컬럼명"
-      columnOrder: "순서"
+      columnOrder: "순서 변경"
       columnType: "입력 유형"
       defaultValue: "기본값"
       DefaultValueCustomCode: "Custom Code"
@@ -764,9 +764,9 @@ form:
     email: "Email"
     group:
       columnContent: "컬럼 내용"
-      columnElement: "입력 유형 엘리먼트"
+      columnElement: "사용자 입력"
       columnHead: "컬럼 제목"
-      columnValidation: "입력 유형 엘리먼트 유효성"
+      columnValidation: "입력 데이터 유효성 검사"
       display: "출력속성"
       element: "엘리먼트"
       label: "라벨"
@@ -822,6 +822,12 @@ form:
       day: "일"
       days: "일 후"
       hours: "시간 후"
+    optionList:
+      enterValue: "항목 이름을 입력하세요."
+      name: "항목 이름"
+      namePlaceholder: "이름 입력"
+      value: "항목 값"
+      valuePlaceholder: "값 입력"
   status:
     destroy: "폐기"
     edit: "편집"

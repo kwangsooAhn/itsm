@@ -5968,7 +5968,7 @@ body.modal-active {
   border: none;
 }
 .z-component .z-element .z-dr-table tr td {
-  padding: 1rem 0;
+  padding: 0.6875rem 0;
   border: 0.0625rem solid #CFD5D9;
   border-left: none;
   border-right: none;
@@ -5977,10 +5977,12 @@ body.modal-active {
   display: table-cell;
 }
 .z-component .z-element .z-dr-table .z-dr-table-header {
+  height: 2rem;
+  border-bottom: 0.125rem solid #CFD5D9;
   background-color: #F5F5F5;
 }
 .z-component .z-element .z-dr-table .z-dr-table-header .z-dr-table-header-cell {
-  padding: 1rem;
+  padding: 0 1rem;
 }
 .z-component .z-element .z-dr-table .no-data-found-list {
   color: #ACB4BF;
@@ -6101,9 +6103,13 @@ body.modal-active {
   padding-right: 1.875rem;
 }
 .property .z-input:not(.tagify).icon-unit-px {
-  background: url("../media/icons/formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 1rem) 50%;
+  background: url("../media/icons/formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
   background-color: #FFFFFF;
   padding-right: 1.875rem;
+  text-align: right;
+}
+.property .z-input:not(.tagify).icon-unit-px:not(:last-child) {
+  margin-right: 0.25rem;
 }
 .property .textArea {
   min-height: 7.5rem;
@@ -6142,11 +6148,11 @@ body.modal-active {
 .property .default-type .z-input.off {
   display: none;
 }
-.property .default-type .select {
+.property .default-type .z-select {
   display: block;
   margin-left: 0.625rem;
 }
-.property .default-type .select.off {
+.property .default-type .z-select.off {
   display: none;
 }
 .property .picker-wrapper-date .datepicker,
@@ -6191,7 +6197,7 @@ body.modal-active {
 .property .z-tab-panel .z-panels .z-panel {
   position: relative;
   margin-top: 0.625rem;
-  padding: 0.625rem 0;
+  padding-top: 0.625rem;
   border: 0.0625rem solid #CFD5D9;
 }
 .property .z-tab-panel .z-panels .z-panel .z-panel-common .panel-name {
@@ -6223,4 +6229,44 @@ body.modal-active {
 .property .z-tab-panel .z-panels .z-panel .z-button-toggle-group .z-button-switch,
 .property .z-tab-panel .z-panels .z-panel .z-button-toggle-group .z-button-toggle {
   padding: 0.25rem 0.5625rem;
+}
+.property .z-tab-panel .z-panels .z-panel .z-panel-individual > .property-group {
+  border: none;
+}
+.property .z-tab-panel .z-panels .z-panel .z-panel-individual > .property-group:last-child {
+  border-top: 0.0625rem solid #CFD5D9;
+}
+.property .z-option-table {
+  width: 100%;
+  border: none;
+  border-collapse: collapse;
+  color: #ABB0B5;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.property .z-option-table .z-option-table-header {
+  height: 2rem;
+  border-bottom: 0.125rem solid #CFD5D9;
+  background-color: #F5F5F5;
+  text-indent: 1rem;
+  font-weight: 500;
+}
+.property .z-option-table tr td {
+  border: 0.0625rem solid #CFD5D9;
+  border-left: none;
+  border-right: none;
+  vertical-align: middle;
+}
+.property .z-option-table tr td .z-input {
+  width: 85%;
+  padding: 0.75rem;
+  margin: 0 0.25rem;
+}
+.property .z-option-table tr td .z-icon {
+  display: block;
+  margin: 0 auto;
+  background: #ABB0B5;
+}
+.property .z-option-table tr td .z-icon:hover {
+  background: #339AF0;
 }

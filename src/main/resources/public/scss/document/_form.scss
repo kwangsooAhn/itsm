@@ -11,7 +11,7 @@ $tooltip-type: (group, row, component);
   &.accordion {
     .z-group-accordion-checkBox:checked {
       ~ .wrow-tooltip:not(.off):last-child {
-        @include border(0.0625rem, solid, $gray300, bottom); // 1px
+        @include border(0.0625rem, solid, $group-accordion-border-color, bottom); // 1px
       }
     }
   }

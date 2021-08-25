@@ -197,3 +197,13 @@ $button-tab: (
   'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
   'disabled': ('font': $neutral200, 'background': $neutral200, 'border': $neutral200)
 );
+
+$property-option-tb-color:                         $gray400;
+$property-option-tb-font-weight:                   $font-weight-regular;
+
+$property-option-tb-header-color:                  $gray300;
+$property-option-tb-header-bg-color:               $neutral100;
+$property-option-tb-header-font-weight:            $font-weight-medium;
+
+$property-option-tb-content-btn-color:             $gray400;
+$property-option-tb-content-btn-hv-color:          $blue500;

@@ -10,7 +10,7 @@
  *
  * https://www.brainz.co.kr
  */
-import { CLASS_PREFIX, FORM } from '../../../lib/zConstants.js';
+import { FORM } from '../../../lib/zConstants.js';
 import { UIDiv, UIInput } from '../../../lib/zUI.js';
 import ZProperty from '../zProperty.js';
 
@@ -38,13 +38,13 @@ export default class ZDateTimePickerProperty extends ZProperty {
 
         switch (this.pickerType) {
             case FORM.DATE_TYPE.DATE_PICKER:
-                this.UIElement.UIInput.setUIClass(CLASS_PREFIX + 'input i-date-picker');
+                this.UIElement.UIInput.setUIClass('z-input i-date-picker');
                 break;
             case FORM.DATE_TYPE.TIME_PICKER:
-                this.UIElement.UIInput.setUIClass(CLASS_PREFIX + 'input i-time-picker');
+                this.UIElement.UIInput.setUIClass('z-input i-time-picker');
                 break;
             case FORM.DATE_TYPE.DATETIME_PICKER:
-                this.UIElement.UIInput.setUIClass(CLASS_PREFIX + 'input i-datetime-picker');
+                this.UIElement.UIInput.setUIClass('z-input i-datetime-picker');
                 break;
         }
 

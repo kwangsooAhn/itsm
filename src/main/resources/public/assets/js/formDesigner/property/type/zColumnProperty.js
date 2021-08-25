@@ -11,7 +11,7 @@
  *
  * https://www.brainz.co.kr
  */
-import { CLASS_PREFIX, FORM, UNIT } from '../../../lib/zConstants.js';
+import { FORM, UNIT } from '../../../lib/zConstants.js';
 import { UIButton, UIDiv, UISpan } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
@@ -115,9 +115,9 @@ export default class ZColumnProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // tab panel > tagGroup, panelGroup
-        this.UITabPanel = new UIDiv().setUIClass(CLASS_PREFIX + 'tab-panel');
-        this.UITabPanel.tabGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'tabs');
-        this.UITabPanel.panelGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'panels');
+        this.UITabPanel = new UIDiv().setUIClass('z-tab-panel');
+        this.UITabPanel.tabGroup = new UIDiv().setUIClass('z-tabs');
+        this.UITabPanel.panelGroup = new UIDiv().setUIClass('z-panels');
         this.UITabPanel.addUI(this.UITabPanel.tabGroup).addUI(this.UITabPanel.panelGroup);
         this.UIElement.addUI(this.UITabPanel);
         
@@ -128,10 +128,10 @@ export default class ZColumnProperty extends ZProperty {
 
         // tab panel > tagGroup > addButton : 컬럼 추가 버튼
         this.UITabPanel.tabGroup.addButton = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'button-icon')
+            .setUIClass('z-button-icon')
             .addUIClass('extra')
             .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
-            .addUI(new UISpan().addUIClass(CLASS_PREFIX + 'icon').addUIClass('i-plus'))
+            .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'))
             .onUIClick(this.addColumn.bind(this, { columnType: 'input' }, -1));
         this.UITabPanel.tabGroup.addUI(this.UITabPanel.tabGroup.addButton);
 
@@ -150,17 +150,17 @@ export default class ZColumnProperty extends ZProperty {
         }
         // tab 버튼
         const tab = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'button-icon')
-            .addUIClass(CLASS_PREFIX + 'tab')
+            .setUIClass('z-button-icon')
+            .addUIClass('z-tab')
             .setUIId('column' + index)
-            .addUI(new UISpan().addUIClass(CLASS_PREFIX + 'icon').addUIClass('i-check'))
+            .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-check'))
             .onUIClick(this.selectColumn.bind(this, 'column' + index));
         this.UITabPanel.tabGroup.addUI(tab);
         this.tabs.push(tab);
 
         // panel 추가
         const panel = new UIDiv()
-            .setUIClass(CLASS_PREFIX + 'panel')
+            .setUIClass('z-panel')
             .setUIId('column' + index)
             .setUIDisplay('none');
         panel.UICommon = this.addColumnForColumnCommon(columnOption, index); // 컬럼 공통 속성
@@ -184,17 +184,17 @@ export default class ZColumnProperty extends ZProperty {
         }
     }
     addColumnForColumnCommon(option, index) {
-        const columnCommonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'panel-common');
+        const columnCommonGroup = new UIDiv().setUIClass('z-panel-common');
         // 순서 변경 < > 버튼 추가
         const arrowLeftButton = new UIButton()
-            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-arrow-right').addUIClass('z-prev'))
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-prev'))
             .onUIClick(this.swapColumn.bind(this, 'column' + index, - 1));
         const arrowRightButton = new UIButton()
-            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-arrow-right').addUIClass('z-next'))
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-next'))
             .onUIClick(this.swapColumn.bind(this, 'column' + index, + 1));
         // 패널 삭제 버튼 추가
         const deleteButton = new UIButton().addUIClass('panel-delete-button')
-            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-delete'))
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'))
             .onUIClick(this.removeColumn.bind(this, 'column' + index));
 
         columnCommonGroup.addUI(
@@ -208,7 +208,7 @@ export default class ZColumnProperty extends ZProperty {
         return columnCommonGroup;
     }
     addColumnForColumnType(option, index) {
-        const columnIndividualGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'panel-individual');
+        const columnIndividualGroup = new UIDiv().setUIClass('z-panel-individual');
         const property = this.getPropertyForColumnType(option, 'column' + index);
         this.makePropertyRecursive(columnIndividualGroup, property);
         return columnIndividualGroup;
@@ -328,6 +328,10 @@ export default class ZColumnProperty extends ZProperty {
                 { name: i18n.msg('form.properties.columnType.dateTime'), value: 'dateTime' }
             ]);
 
+        // head - input
+        const columnHeadInputProperty = new ZInputBoxProperty(id + '|columnName', 'element.columnName', option.columnName);
+        columnHeadInputProperty.columnWidth = '9';
+
         // head - fontColor
         const columnHeadColorProperty = new ZColorPickerProperty(id + '|columnHead.fontColor', 'columnHead.fontColor', option.columnHead.fontColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
@@ -387,14 +391,15 @@ export default class ZColumnProperty extends ZProperty {
         columnContentFontOptionProperty.columnWidth = '6';
 
         return [
-            new ZInputBoxProperty(id + '|columnName', 'element.columnName', option.columnName),
+            // new ZInputBoxProperty(id + '|columnName', 'element.columnName', option.columnName),
             columnTypeProperty,
             new ZSliderProperty(id + '|columnWidth', 'element.columnWidth', option.columnWidth),
             new ZGroupProperty('group.columnHead')
-                .addProperty(columnHeadColorProperty)
+                .addProperty(columnHeadInputProperty)
                 .addProperty(columnHeadFontSizeProperty)
                 .addProperty(columnHeadAlignProperty)
-                .addProperty(columnHeadFontOptionProperty),
+                .addProperty(columnHeadFontOptionProperty)
+                .addProperty(columnHeadColorProperty),
             new ZGroupProperty('group.columnContent')
                 .addProperty(columnContentColorProperty)
                 .addProperty(columnContentFontSizeProperty)

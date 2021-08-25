@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX, UNIT } from '../../lib/zConstants.js';
+import { UNIT } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv, UIImg, UISpan, UIText } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
@@ -49,19 +49,19 @@ export const imageMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth)
             .setUITextAlign(this.elementAlign);
 
-        element.UIImg = new UIImg().setUIClass(CLASS_PREFIX + 'imagebox').setUIId('imagebox' + this.id)
+        element.UIImg = new UIImg().setUIClass('z-imagebox').setUIId('imagebox' + this.id)
             .setUIAttribute('data-path', aliceJs.filterXSS(this.elementPath))
             .setUIWidth(this.elementWidth + UNIT.PX)
             .setUIHeight(this.elementHeight + UNIT.PX);
         element.addUI(element.UIImg);
 
         // placeholder
-        element.UIDiv = new UIDiv().setUIClass(CLASS_PREFIX + 'imagebox-placeholder')
-            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-no-image'))
+        element.UIDiv = new UIDiv().setUIClass('z-imagebox-placeholder')
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-no-image'))
             .addUI(new UIText().addUIClass('mt-2').setUIInnerHTML(i18n.msg('image.label.placeholder')));
         element.addUI(element.UIDiv);
         return element;

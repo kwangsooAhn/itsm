@@ -10,7 +10,7 @@
  *
  * https://www.brainz.co.kr
  */
-import { CLASS_PREFIX, FORM } from '../../../lib/zConstants.js';
+import { FORM } from '../../../lib/zConstants.js';
 import { UIDiv, UILabel, UIRadioButton, UISpan, UISelect } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
@@ -83,7 +83,10 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             const radioGroup = new UIDiv().setUIClass('radio-property-group').addUIClass('vertical');
             const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
             // 라벨
-            radioGroup.UILabel = new UILabel().setUIClass(CLASS_PREFIX + 'radio').setUIFor('radioProperty' + radioId);
+            radioGroup.UILabel = new UILabel()
+                .setUIClass('z-radio')
+                .addUIClass('mb-1')
+                .setUIFor('radioProperty' + radioId)
             radioGroup.addUI(radioGroup.UILabel);
             // 라디오 버튼
             radioGroup.UILabel.UIRadio = new UIRadioButton(defaultCustomCodeValues[1] === item.value)
@@ -96,7 +99,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             radioGroup.UILabel.addUI(new UISpan());
 
             if (!zValidation.isEmpty(item.name)) {
-                radioGroup.UILabel.addUI(new UISpan().setUIClass(CLASS_PREFIX + 'label').setUIInnerHTML(i18n.msg(item.name)));
+                radioGroup.UILabel.addUI(new UISpan().setUIClass('z-label').setUIInnerHTML(i18n.msg(item.name)));
             }
 
             switch (item.value) {
@@ -108,7 +111,6 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     }, []);
                     const sessionSelectOptionValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : this.selectOptions[0].value;
                     radioGroup.UISelect = new UISelect()
-                        .addUIClass('mt-1')
                         .setUIId('session')
                         .setUIOptions(sessionSelectOption)
                         .setUIValue(sessionSelectOptionValue)
@@ -118,7 +120,6 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     break;
                 case FORM.CUSTOM.CODE:
                     radioGroup.UISelect = new UISelect()
-                        .addUIClass('mt-1')
                         .setUIId('code')
                         .setUIAttribute('data-value', item.value)
                         .onUIChange(this.updateProperty.bind(this));

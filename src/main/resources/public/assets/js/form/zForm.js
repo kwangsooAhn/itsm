@@ -11,7 +11,7 @@
  */
 import * as mixin from '../lib/zMixins.js';
 import { UIDiv } from '../lib/zUI.js';
-import { CLASS_PREFIX, UNIT, FORM } from '../lib/zConstants.js';
+import { UNIT, FORM } from '../lib/zConstants.js';
 import ZClipboardProperty from '../formDesigner/property/type/zClipboardProperty.js';
 import ZInputBoxProperty from '../formDesigner/property/type/zInputBoxProperty.js';
 import ZTextAreaProperty from '../formDesigner/property/type/zTextAreaProperty.js';
@@ -323,6 +323,6 @@ export default class ZForm {
 export class UIForm extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = CLASS_PREFIX + FORM.LAYOUT.FORM;
+        this.domElement.className = 'z-' + FORM.LAYOUT.FORM;
     }
 }

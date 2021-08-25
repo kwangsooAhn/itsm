@@ -7,7 +7,7 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { CLASS_PREFIX, FORM } from '../lib/zConstants.js';
+import { FORM } from '../lib/zConstants.js';
 import { zDocument } from '../document/zDocument.js';
 import { zFormButton } from '../document/zFormButton.js';
 import { zValidation } from '../lib/zValidation.js';
@@ -84,7 +84,7 @@ class ZFormDesigner {
      */
     initComponentPalette() {
         // drag & drop 이벤트 추가
-        const componentIconBoxes = document.querySelectorAll('.' + CLASS_PREFIX + 'component-icon-box');
+        const componentIconBoxes = document.querySelectorAll('.z-component-icon-box');
         componentIconBoxes.forEach(icon => {
             new Sortable(icon, {
                 group: {
@@ -109,9 +109,9 @@ class ZFormDesigner {
                     evt.clone.classList.add('placeholder');
                 },
                 onMove: function (evt) {
-                    if (evt.from !== evt.to && evt.dragged.classList.contains(CLASS_PREFIX + 'component-icon')) {
+                    if (evt.from !== evt.to && evt.dragged.classList.contains('z-component-icon')) {
                         // drag시 컴포넌트 표시
-                        evt.dragged.classList.add(CLASS_PREFIX + 'component-icon-drag-in');
+                        evt.dragged.classList.add('z-component-icon-drag-in');
                         if (evt.dragged.children.length < 3) {
                             const component = new ZComponent({ type: evt.dragged.id });
                             evt.dragged.appendChild(component.UIElement.domElement);
@@ -124,14 +124,14 @@ class ZFormDesigner {
                         if (evt.item.children.length === 3) {
                             evt.item.removeChild(evt.item.children[2]);
                         }
-                        evt.item.classList.remove(CLASS_PREFIX + 'component-icon-drag-in');
+                        evt.item.classList.remove('z-component-icon-drag-in');
                         return false;
                     }
                     const histories = [];  // 이력 저장용
                     const editor = this.options.editor;
                     const parentObject = editor.form.getById(evt.to.id); // 부모 객체
 
-                    if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.FORM)) {
+                    if (evt.to.classList.contains('z-' + FORM.LAYOUT.FORM)) {
                         // 신규 group / row / component 추가
                         const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, parentObject, evt.newDraggableIndex);
                         const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, group, 0);
@@ -144,7 +144,7 @@ class ZFormDesigner {
                         });
                         // group 선택
                         group.UIElement.domElement.dispatchEvent(new Event('click'));
-                    } else if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.GROUP)) {
+                    } else if (evt.to.classList.contains('z-' + FORM.LAYOUT.GROUP)) {
                         // 신규 row / component 추가
                         const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, parentObject, evt.newDraggableIndex);
                         editor.addObjectByType(FORM.LAYOUT.COMPONENT, {type: evt.item.id}, row, 0);
@@ -156,7 +156,7 @@ class ZFormDesigner {
                         });
                         // row 선택
                         row.UIElement.domElement.dispatchEvent(new Event('click'));
-                    } else if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.ROW)) {
+                    } else if (evt.to.classList.contains('z-' + FORM.LAYOUT.ROW)) {
                         // 신규 component 추가
                         const component = editor.addObjectByType(FORM.LAYOUT.COMPONENT, { type : evt.item.id }, parentObject, evt.newDraggableIndex);
                         // 이력 추가
@@ -291,12 +291,12 @@ class ZFormDesigner {
                     },
                     animation: 150,
                     sort: true,
-                    chosenClass: CLASS_PREFIX + 'component-drag-in',
+                    chosenClass: 'z-component-drag-in',
                     editor: this,
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
-                    filter: '.' + CLASS_PREFIX + 'tooltip-menu',
+                    filter: '.' + 'z-tooltip-menu',
                     preventOnFilter: true,
                     onChoose: function () {
                         this.options.editor.deSelectObject();
@@ -324,22 +324,22 @@ class ZFormDesigner {
                     },
                     animation: 150,
                     sort: true,
-                    chosenClass: CLASS_PREFIX + 'component-drag-in',
+                    chosenClass: 'z-component-drag-in',
                     editor: this,
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
-                    filter: '.' + CLASS_PREFIX + 'tooltip-menu',
+                    filter: '.' + 'z-tooltip-menu',
                     preventOnFilter: true,
                     onChoose: function () {
                         this.options.editor.deSelectObject();
                     },
                     onClone: function (evt) {
                     // clone 대상이되는 엘리먼트 디자인 변경
-                        evt.clone.classList.add(CLASS_PREFIX + 'component-drag-ghost');
+                        evt.clone.classList.add('z-component-drag-ghost');
                     },
                     onEnd: function (evt) {
-                        evt.clone.classList.remove(CLASS_PREFIX + 'component-drag-ghost');
+                        evt.clone.classList.remove('z-component-drag-ghost');
 
                         const editor = this.options.editor;
                         const fromObject = editor.form.getById(evt.from.id);
@@ -360,7 +360,7 @@ class ZFormDesigner {
                                 to: { id: '', clone: null }
                             });
 
-                            if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.FORM)) {
+                            if (evt.to.classList.contains('z-' + FORM.LAYOUT.FORM)) {
                             // form 내에 신규 group 추가
                                 const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject, evt.newDraggableIndex);
                                 group.add(sortObject, 0);
@@ -412,7 +412,7 @@ class ZFormDesigner {
                         name: 'row',
                         pull: 'clone',
                         put: function (to) { // row 컴포넌트 갯수 제한
-                            if (to.el.classList.contains(CLASS_PREFIX + 'row') &&
+                            if (to.el.classList.contains('z-row') &&
                           to.el.children.length >= FORM.MAX_COMPONENT_IN_ROW) {
                                 return 'false';
                             } else {
@@ -422,31 +422,31 @@ class ZFormDesigner {
                     },
                     direction: function(evt, target, dragEl) { // 하나의 row에 여러개 컴포넌트 추가 용도
                         if (target !== null &&
-                        target.className.includes(CLASS_PREFIX + 'component-tooltip') &&
-                        (dragEl.className.includes(CLASS_PREFIX + 'component-tooltip') ||
-                            dragEl.className.includes(CLASS_PREFIX + 'component-icon'))) {
+                        target.className.includes('z-component-tooltip') &&
+                        (dragEl.className.includes('z-component-tooltip') ||
+                            dragEl.className.includes('z-component-icon'))) {
                             return 'horizontal';
                         }
                         return 'vertical';
                     },
                     animation: 150,
                     sort: true,
-                    chosenClass: CLASS_PREFIX + 'component-drag-in',
+                    chosenClass: 'z-component-drag-in',
                     editor: this,
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
-                    filter: '.' + CLASS_PREFIX + 'tooltip-menu',
+                    filter: '.' + 'z-tooltip-menu',
                     preventOnFilter: true,
                     onChoose: function () {
                         this.options.editor.deSelectObject();
                     },
                     onClone: function (evt) {
                     // clone 대상이되는 엘리먼트 디자인 변경
-                        evt.clone.classList.add(CLASS_PREFIX + 'component-drag-ghost');
+                        evt.clone.classList.add('z-component-drag-ghost');
                     },
                     onEnd: function (evt) {
-                        evt.clone.classList.remove(CLASS_PREFIX + 'component-drag-ghost');
+                        evt.clone.classList.remove('z-component-drag-ghost');
 
                         const editor = this.options.editor;
 
@@ -466,7 +466,7 @@ class ZFormDesigner {
                                 from: { id: sortObject.parent.id, clone: sortObject.clone(true, { type: sortObject.type }).toJson() },
                                 to: { id: '', clone: null }
                             });
-                            if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.FORM)) {
+                            if (evt.to.classList.contains('z-' + FORM.LAYOUT.FORM)) {
                             // 신규 group, row 추가 후 component 이동
                                 const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject, evt.newDraggableIndex);
                                 const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, group, 0);
@@ -479,7 +479,7 @@ class ZFormDesigner {
                                 });
                                 // group 선택
                                 group.UIElement.domElement.dispatchEvent(new Event('click'));
-                            } else if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.GROUP)) {
+                            } else if (evt.to.classList.contains('z-' + FORM.LAYOUT.GROUP)) {
                             // 신규 row 추가 후 component 이동
                                 const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, toObject, evt.newDraggableIndex);
                                 row.add(sortObject, 0);
@@ -828,16 +828,16 @@ class ZFormDesigner {
      */
     onLeftClickHandler(e) {
         // 상단 드롭 다운 메뉴가 오픈되어 있으면 닫는다.
-        if (e.target != null && !e.target.classList.contains(CLASS_PREFIX + 'header-button-dropdown')) {
-            document.querySelectorAll('.' + CLASS_PREFIX + 'header-button-dropdown').forEach(function (dropdown) {
+        if (e.target != null && !e.target.classList.contains('z-header-button-dropdown')) {
+            document.querySelectorAll('.' + 'z-header-button-dropdown').forEach(function (dropdown) {
                 if (dropdown.classList.contains('active')) {
                     dropdown.classList.remove('active');
                 }
             });
         }
         // 폼 내부를 선택한게 아니라면, 기존 선택된 항목을 초기화한다.
-        if (aliceJs.clickInsideElement(e, CLASS_PREFIX + 'form-properties-panel-header') ||
-            aliceJs.clickInsideElement(e, CLASS_PREFIX + 'form-properties-panel')) {
+        if (aliceJs.clickInsideElement(e, 'z-form-properties-panel-header') ||
+            aliceJs.clickInsideElement(e, 'z-form-properties-panel')) {
             return false;
         }
     }

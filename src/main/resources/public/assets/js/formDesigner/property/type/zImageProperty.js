@@ -12,7 +12,6 @@
  */
 import ZProperty from '../zProperty.js';
 import { UIButton, UIDiv, UIInput, UISpan } from '../../../lib/zUI.js';
-import { CLASS_PREFIX } from '../../../lib/zConstants.js';
 
 const propertyExtends = {
     /* 추가적인 설정이 없다. */
@@ -43,10 +42,10 @@ export default class ZImageProperty extends ZProperty {
         this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIInput);
 
         // button
-        this.UIElement.UIDiv.UIButton = new UIButton().setUIClass(CLASS_PREFIX + 'button-icon').addUIClass('form')
+        this.UIElement.UIDiv.UIButton = new UIButton().setUIClass('z-button-icon').addUIClass('form')
             .setUIId('imageUploadPopUp')
             .onUIClick(this.openThumbnailModal.bind(this));
-        this.UIElement.UIDiv.UIButton.addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-folder'));
+        this.UIElement.UIDiv.UIButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-folder'));
         this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIButton);
 
         this.UIElement.addUI(this.UIElement.UIDiv);

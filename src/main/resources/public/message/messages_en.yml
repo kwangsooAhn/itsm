@@ -822,6 +822,12 @@ form:
       day: "Day"
       days: "days after"
       hours: "hours after"
+    optionList:
+      enterValue: "Please enter name."
+      name: "Name"
+      namePlaceholder: "name"
+      value: "Value"
+      valuePlaceholder: "value"
   status:
     destroy: "Destroy"
     edit: "Edit"
