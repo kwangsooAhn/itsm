@@ -5,8 +5,11 @@
     layout:decorate="layout/itsm/pageType/pagingListLayout">
 <head>
     <title th:text="#{form.label.form}"></title>
-    <th:block layout:fragment="pageHead"></th:block>
 </head>
+<th:block layout:fragment="pageHead">
+    <!-- 폼 export, import시 사용 -->
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
+</th:block>
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{form.label.form}"></h1>
@@ -128,9 +131,7 @@
                             classes: 'z-button primary',
                             bindKey: false,
                             callback: function(modal) {
-                                // TODO: 폼 리팩토링 완료 후, exportWoo를 export로 변경하고 export 함수를 삭제한다.
                                 ZWorkflowUtil.export(responseObject.id, 'form');
-                                //ZWorkflowUtil.exportWoo(responseObject.id, 'form');
                             }
                         }],
                         close: {

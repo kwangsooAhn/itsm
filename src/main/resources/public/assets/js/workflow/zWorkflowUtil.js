@@ -120,33 +120,7 @@ ZWorkflowUtil.objectToXML = function(data) {
  * @param version workflow version
  * @return {string} XML 문자열
  */
-ZWorkflowUtil.createFormXMLString = function(formData, version) {
-    const xmlDoc = document.implementation.createDocument('', '', null);
-    let definitions = xmlDoc.createElement('definitions');
-    let form = xmlDoc.createElement('form');
-    form.setAttribute('workflow-version', version);
-    form.setAttribute('id', formData.formId);
-    form.setAttribute('name', formData.name);
-    form.setAttribute('description', formData.desc);
-
-    for (let i = 0, len = formData.components.length; i < len; i ++) {
-        let componentProp = formData.components[i];
-        let componentNode = xmlDoc.createElement('component');
-        componentNode.setAttribute('id', componentProp.componentId);
-        delete componentProp.componentId;
-        componentNode.setAttribute('type', componentProp.type);
-        delete  componentProp.type;
-        if (typeof componentProp === 'object') {
-            componentNode.innerHTML = ZWorkflowUtil.objectToXML(componentProp);
-        }
-        form.appendChild(componentNode);
-    }
-    definitions.appendChild(form);
-    xmlDoc.appendChild(definitions);
-    let serializer = new XMLSerializer();
-    return serializer.serializeToString(xmlDoc);
-};
-ZWorkflowUtil.createFormXMLStringWoo = function (formData, version) {
+ZWorkflowUtil.createFormXMLString = function (formData, version) {
     const serializer = new XMLSerializer();
     const xmlDoc = document.implementation.createDocument('', '', null);
     // 세부 정보
@@ -248,56 +222,27 @@ ZWorkflowUtil.downloadXML = function(id, suffix, xmlString) {
  * @param id form/process ID
  * @param type form/process
  */
-ZWorkflowUtil.export = function(id, type) {
+ZWorkflowUtil.export = function (id, type) {
     let exportUrl = '/rest/forms/' + id + '/data';
     if (type === 'process') {
         exportUrl = '/rest/process/' + id + '/data';
     }
-    aliceJs.sendXhr({
-        method: 'GET',
-        url: exportUrl,
-        callbackFunc: function(xhr) {
-            const data = JSON.parse(xhr.responseText);
-            console.debug(data);
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/rest/codes/version.workflow',
-                callbackFunc: function(xhr) {
-                    let versionInfo = JSON.parse(xhr.responseText);
-                    let xmlString = '';
-                    if (type === 'form') {
-                        xmlString = ZWorkflowUtil.createFormXMLString(data, versionInfo.codeValue);
-                    } else if (type === 'process') {
-                        xmlString = ZWorkflowUtil.createProcessXMLString(data, versionInfo.codeValue);
-                    }
-                    ZWorkflowUtil.downloadXML(id, type, xmlString);
-                },
-                contentType: 'application/json; charset=utf-8',
-                showProgressbar: false
-            });
-        },
-        contentType: 'application/json; charset=utf-8'
-    });
-};
-ZWorkflowUtil.exportWoo = function (id, type) {
-    // TODO: 가데이터 삭제 필요
-    //let exportUrl = '/rest/form/' + id + '/data';
-    //if (type === 'process') {
-    //    exportUrl = '/rest/process/' + id + '/data';
-    //}
-    //aliceJs.fetchJson(exportUrl, { method: 'GET' })
-    aliceJs.fetchJson('/assets/js/formDesigner/data_210320.json', {
+    aliceJs.fetchJson(exportUrl, {
         method: 'GET'
     }).then((data) => {
+        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
+            aliceAlert.alertDanger(i18n.msg('form.msg.failedExport'));
+            return false;
+        }
         // 버전 정보
         aliceJs.fetchJson('/rest/codes/version.workflow', {
             method: 'GET'
         }).then(codeData => {
             let xmlString = '';
             if (type === 'form') {
-                xmlString = ZWorkflowUtil.createFormXMLStringWoo(data, codeData.codeValue);
+                xmlString = ZWorkflowUtil.createFormXMLString(data, codeData.codeValue);
             } else if (type === 'process') {
-                //xmlString = ZWorkflowUtil.createProcessXMLString(data, codeData.codeValue);
+                xmlString = ZWorkflowUtil.createProcessXMLString(data, codeData.codeValue);
             }
             ZWorkflowUtil.downloadXML(id, type, xmlString);
         });
@@ -411,64 +356,9 @@ ZWorkflowUtil.XMLToObject = function(data) {
 /**
  * 파일 데이터로부터 폼 정보를 읽어 json 구조로 만들어 반환 한다.
  * @param data XML 파일 데이터
- * <?xml version="1.0" encoding="UTF-8"?>
- * <definitions>
- *     <form workflow-version="버전" id="폼ID"" name="" description="">
- *         <component id="컴포넌트ID" type="select">
- *             <dataAttribute>
- *                 <displayType/>
- *                 <mappingId/>
- *                 <isTopic>true</isTopic>
- *             </dataAttribute>
- *             <label>...</label>
- *             <display>...</display>
- *             <option>
- *                 <seq>1</seq>
- *                 <name>Option</name>
- *                 <value>Option</value>
- *             </option>
- *             <option></option>
- *         </component>
- *         ...
- *     </form>
- * <definitions>
- * @returns {{components: []}}
+ * @returns json
  */
-ZWorkflowUtil.loadFormFromXML = function(data) {
-    const parser = new DOMParser();
-    const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
-    const xmlDoc = parser.parseFromString(data, 'text/xml');
-    if (ZWorkflowUtil.isParseError(xmlDoc)) {
-        throw new Error('Error parsing XML');
-    }
-    
-    let formData = {components: []};
-    let formNode = xmlDoc.evaluate('/definitions/form', xmlDoc, null, resultType, null);
-    let formNodeList = formNode.singleNodeValue.childNodes;
-    for (let i = 0, len = formNodeList.length; i < len; i++) {
-        let componentNode = formNodeList[i];
-        if (componentNode.nodeType === Node.ELEMENT_NODE) {
-            let componentData = ZWorkflowUtil.XMLToObject(componentNode);
-            Object.defineProperty(componentData, 'componentId', Object.getOwnPropertyDescriptor(componentData, 'id'));
-            delete componentData['id'];
-            // 옵션이 배열이 아닐 경우 배열에 넣어준다.
-            if (typeof componentData['option'] !== 'undefined' && !Array.isArray(componentData['option'])) {
-                componentData['option'] = [componentData['option']];
-            }
-            // 필드가 배열이 아닐 경우 필드를 배열에 넣어준다.
-            if (typeof componentData['field'] !== 'undefined' && !Array.isArray(componentData['field'])) {
-                componentData['field'] = [componentData['field']];
-            }
-            formData.components.push(componentData);
-        }
-    }
-    //display order는 Number로 처리해야한다.
-    formData.components = formData.components.filter(function(comp) {
-        return comp.display.order = Number(comp.display.order);
-    });
-    return formData;
-};
-ZWorkflowUtil.loadFormFromXMLWoo = function (data) {
+ZWorkflowUtil.loadFormFromXML = function (data) {
     const parser = new DOMParser();
     const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
     const xmlDoc = parser.parseFromString(data, 'application/xml');
@@ -627,9 +517,7 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
             if (type === xmlFile.name.split('_')[0]) {
                 switch (type) {
                     case 'form':
-                    // TODO: 폼 리팩토링 완료 후, loadFormFromXMLWoo을 사용하도록 수정한다.
                         saveData = ZWorkflowUtil.loadFormFromXML(e.target.result);
-                        //saveData = ZWorkflowUtil.loadFormFromXMLWoo(e.target.result);
                         saveData.name = data.formName;
                         saveData.desc = data.formDesc;
                         break;
