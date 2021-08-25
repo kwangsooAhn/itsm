@@ -607,19 +607,11 @@ insert into awf_menu values ('notice', 'menu', '/notices/search', 4,TRUE);
 insert into awf_menu values ('faq', 'menu', '/faqs/search', 5,TRUE);
 insert into awf_menu values ('download', 'menu', '/downloads/search', 6,TRUE);
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7,TRUE);
-insert into awf_menu values ('chart', 'menu', '/charts/search', 8,TRUE);
-insert into awf_menu values ('report', 'menu', '', 9, true);
+insert into awf_menu values ('report', 'menu', '', 8, true);
 insert into awf_menu values ('report.template', 'report', '/reports/template/search', 1, true);
 insert into awf_menu values ('report.report', 'report', '/reports/report/search', 2, true);
-insert into awf_menu values ('config', 'menu', '', 10,TRUE);
-insert into awf_menu values ('config.user', 'config', '/users/search', 1,TRUE);
-insert into awf_menu values ('config.auth', 'config', '/auths/search', 2,TRUE);
-insert into awf_menu values ('config.role', 'config', '/roles/search', 3,TRUE);
-insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,TRUE);
-insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
-insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6,TRUE);
-insert into awf_menu values ('config.product', 'config', '', 7,TRUE);
-insert into awf_menu values ('workflow', 'menu', '', 11,TRUE);
+insert into awf_menu values ('report.chart', 'report', '/charts/search', 3,TRUE);
+insert into awf_menu values ('workflow', 'menu', '', 9,TRUE);
 insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1,TRUE);
 insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRUE);
 insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3,TRUE);
@@ -627,11 +619,19 @@ insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/s
 insert into awf_menu values ('workflow.image', 'workflow', '/images', 5,TRUE);
 insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, true);
 insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, true);
-insert into awf_menu values ('cmdb', 'menu', '', 12, 'TRUE');
+insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
 insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
 insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
+insert into awf_menu values ('config', 'menu', '', 11,TRUE);
+insert into awf_menu values ('config.user', 'config', '/users/search', 1,TRUE);
+insert into awf_menu values ('config.auth', 'config', '/auths/search', 2,TRUE);
+insert into awf_menu values ('config.role', 'config', '/roles/search', 3,TRUE);
+insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,TRUE);
+insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
+insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6,TRUE);
+insert into awf_menu values ('config.product', 'config', '', 7,TRUE);
 
 /**
  * 권한별메뉴매핑
@@ -652,10 +652,6 @@ COMMENT ON TABLE awf_menu_auth_map IS '권한별메뉴매핑';
 COMMENT ON COLUMN awf_menu_auth_map.menu_id IS '메뉴아이디';
 COMMENT ON COLUMN awf_menu_auth_map.auth_id IS '권한아이디';
 
-insert into awf_menu_auth_map values ('chart', 'chart.read');
-insert into awf_menu_auth_map values ('chart', 'chart.create');
-insert into awf_menu_auth_map values ('chart', 'chart.update');
-insert into awf_menu_auth_map values ('chart', 'chart.delete');
 insert into awf_menu_auth_map values ('config', 'user.read');
 insert into awf_menu_auth_map values ('config', 'user.create');
 insert into awf_menu_auth_map values ('config', 'user.update');
@@ -795,6 +791,10 @@ insert into awf_menu_auth_map values ('report.report', 'report.read');
 insert into awf_menu_auth_map values ('report.report', 'report.create');
 insert into awf_menu_auth_map values ('report.report', 'report.update');
 insert into awf_menu_auth_map values ('report.report', 'report.delete');
+insert into awf_menu_auth_map values ('report.chart', 'chart.read');
+insert into awf_menu_auth_map values ('report.chart', 'chart.create');
+insert into awf_menu_auth_map values ('report.chart', 'chart.update');
+insert into awf_menu_auth_map values ('report.chart', 'chart.delete');
 
 /**
  * 알림
