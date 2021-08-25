@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import {CLASS_PREFIX, FORM} from '../../lib/zConstants.js';
+import { FORM } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import {UIDiv, UIInput} from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -48,10 +48,10 @@ export const dateMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().setUIPlaceholder(i18n.dateFormat)
-            .setUIClass(CLASS_PREFIX + 'input i-date-picker')
+            .setUIClass('z-input i-date-picker')
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.getDefaultValue())

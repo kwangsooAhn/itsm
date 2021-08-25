@@ -10,13 +10,12 @@
  * https://www.brainz.co.kr
  */
 
-import {CLASS_PREFIX} from '../../lib/zConstants.js';
+import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
-import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -43,10 +42,10 @@ export const fileUploadMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIFileUpload = new UIDiv().setUIClass(CLASS_PREFIX + 'fileupload')
+        element.UIFileUpload = new UIDiv().setUIClass('z-fileupload')
             .addUIClass('file-uploader-edit')
             .setUIId('fileupload' + this.id);
 

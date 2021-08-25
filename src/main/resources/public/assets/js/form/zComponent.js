@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 import * as mixin from '../lib/zMixins.js';
-import { CLASS_PREFIX, FORM, UNIT } from '../lib/zConstants.js';
+import { FORM, UNIT } from '../lib/zConstants.js';
 import { UIDiv, UILabel, UISpan } from '../lib/zUI.js';
 import { inputBoxMixin } from './component/zInputBox.js';
 import { textAreaMixin } from './component/zTextArea.js';
@@ -325,7 +325,7 @@ export default class ZComponent {
      * 라벨 DOM 객체 생성
      */
     makeLabel() {
-        const label = new UILabel().setUIClass(CLASS_PREFIX + 'component-label')
+        const label = new UILabel().setUIClass('z-component-label')
             .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
             .setUICSSText(`text-align: ${this.labelAlign};`)
             .setUIProperty('--data-align', this.getLabelAlign(this.labelAlign))
@@ -337,7 +337,7 @@ export default class ZComponent {
             `${this.labelFontOptionItalic ? 'font-style:italic;' : ''}` +
             `${this.labelFontOptionItalic ? 'text-decoration:underline;' : ''}`;
 
-        label.UILabelText = new UISpan().setUIClass(CLASS_PREFIX + 'component-label-text')
+        label.UILabelText = new UISpan().setUIClass('z-component-label-text')
             .setUICSSText(labelCssText)
             .setUITextContent(this.labelText);
         label.addUI(label.UILabelText);
@@ -405,14 +405,14 @@ export default class ZComponent {
 export class UIComponentTooltip extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = CLASS_PREFIX + 'component-tooltip';
+        this.domElement.className = 'z-component-tooltip';
     }
 }
 
 export class UIComponent extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = CLASS_PREFIX + 'component';
+        this.domElement.className = 'z-component';
         this.domElement.tabIndex = 0;
     }
 }

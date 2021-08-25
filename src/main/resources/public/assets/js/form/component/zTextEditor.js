@@ -10,7 +10,6 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
@@ -48,11 +47,11 @@ export const textEditorMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass('z-element')
             .addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIDiv = new UIDiv().setUIClass(CLASS_PREFIX + 'text-editor').setUIId('editorContainer')
+        element.UIDiv = new UIDiv().setUIClass('z-text-editor').setUIId('editorContainer')
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.addUI(element.UIDiv);
 

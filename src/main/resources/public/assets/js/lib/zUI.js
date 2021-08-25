@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 
-import { CLASS_PREFIX, FORM, UNIT } from './zConstants.js';
+import { UNIT } from './zConstants.js';
 
 class UIElement {
     constructor(domElement) {
@@ -192,7 +192,7 @@ class UIInput extends UIElement {
     constructor(text) {
         super(document.createElement('input'));
         this.domElement.type = 'text';
-        this.domElement.className = CLASS_PREFIX + 'input';
+        this.domElement.className = 'z-input';
 
         this.domElement.addEventListener(
             'keydown',
@@ -236,7 +236,7 @@ class UIInput extends UIElement {
 class UITextArea extends UIElement {
     constructor() {
         super(document.createElement('textarea'));
-        this.domElement.className = CLASS_PREFIX + 'textarea';
+        this.domElement.className = 'z-textarea';
         this.domElement.style.padding = '10px';
         this.domElement.spellcheck = false;
 
@@ -316,7 +316,7 @@ class UISelect extends UIElement {
 class UICheckbox extends UIElement {
     constructor(boolean) {
         super(document.createElement('input'));
-        this.domElement.className =  CLASS_PREFIX + 'checkbox';
+        this.domElement.className =  'z-checkbox';
         this.domElement.type = 'checkbox';
         this.setUIValue(boolean);
     }
@@ -337,7 +337,7 @@ class UICheckbox extends UIElement {
 class UIRadioButton extends UIElement {
     constructor(boolean) {
         super(document.createElement('input'));
-        this.domElement.className = CLASS_PREFIX + 'radio';
+        this.domElement.className = 'z-radio';
         this.domElement.type = 'radio';
         this.setUIValue(boolean);
     }
@@ -358,18 +358,18 @@ class UIRadioButton extends UIElement {
 class UIClipboard extends UIElement {
     constructor() {
         super(document.createElement('div'));
-        this.domElement.className = CLASS_PREFIX + 'clipboard';
+        this.domElement.className = 'z-clipboard';
         // input
         this.UIInput = new UIInput().addUIClass('copy').setUIReadOnly(true);
         this.addUI(this.UIInput);
 
         // tooptip
-        this.UITooltip = new UIDiv().setUIClass(CLASS_PREFIX + 'clipboard-tooltip');
+        this.UITooltip = new UIDiv().setUIClass('z-clipboard-tooltip');
         this.addUI(this.UITooltip);
 
         // copy button
         const scope = this;
-        this.UITooltip.UIButton = new UIButton().setUIClass(CLASS_PREFIX + 'button-icon').addUIClass('form');
+        this.UITooltip.UIButton = new UIButton().setUIClass('z-button-icon').addUIClass('form');
         this.UITooltip.UIButton.domElement.addEventListener('click', function () {
             scope.UIInput.domElement.select();
             scope.UIInput.domElement.setSelectionRange(0, 99999);
@@ -383,11 +383,11 @@ class UIClipboard extends UIElement {
         this.UITooltip.addUI(this.UITooltip.UIButton);
 
         // copy button icon
-        const UIButtonIcon = new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-clipboard');
+        const UIButtonIcon = new UISpan().setUIClass('z-icon').addUIClass('i-clipboard');
         this.UITooltip.UIButton.addUI(UIButtonIcon);
 
         // tooltip text
-        this.UITooltip.UITooptipText = new UISpan().setUIClass(CLASS_PREFIX + 'clipboard-tooltip-text')
+        this.UITooltip.UITooptipText = new UISpan().setUIClass('z-clipboard-tooltip-text')
             .setUITextContent('Copy to clipboard');
         this.UITooltip.UIButton.addUI(this.UITooltip.UITooptipText);
     }
@@ -396,7 +396,7 @@ class UIClipboard extends UIElement {
 class UISwitch extends UIElement {
     constructor(boolean) {
         super(document.createElement('label'));
-        this.domElement.className = CLASS_PREFIX + 'switch';
+        this.domElement.className = 'z-switch';
 
         // checkbox
         this.UICheckbox = new UICheckbox(boolean);
@@ -404,7 +404,7 @@ class UISwitch extends UIElement {
         this.addUI(new UISpan());
 
         // label
-        this.UISpan = new UISpan().setUIClass(CLASS_PREFIX + 'label');
+        this.UISpan = new UISpan().setUIClass('z-label');
         this.addUI(this.UISpan);
     }
 
@@ -446,7 +446,7 @@ class UIHorizontalRule extends UIElement {
 class UIButton extends UIElement {
     constructor(value) {
         super(document.createElement('button'));
-        this.domElement.className = CLASS_PREFIX + 'button';
+        this.domElement.className = 'z-button';
         this.domElement.type = 'button';
         this.domElement.textContent = value;
     }
@@ -455,9 +455,9 @@ class UIButton extends UIElement {
 class UISlider extends UIElement {
     constructor(value, max) {
         super(document.createElement('div'));
-        this.domElement.className = CLASS_PREFIX + 'slider';
+        this.domElement.className = 'z-slider';
         // range
-        this.UIRange = new UIInput(value).setUIClass(CLASS_PREFIX + 'range');
+        this.UIRange = new UIInput(value).setUIClass('z-range');
         this.UIRange.domElement.type = 'range';
         // range thumb 위치 계산
         let thumbLocation =  parseInt((value - 1) * 100 / (max - 1)) + UNIT.PERCENT;
@@ -465,7 +465,7 @@ class UISlider extends UIElement {
         this.addUI(this.UIRange);
         // input
         this.UIInput = new UIInput(value).setUIReadOnly(true)
-            .setUIClass(CLASS_PREFIX + 'input');
+            .setUIClass('z-input');
         this.addUI(this.UIInput);
 
         const scope = this;
