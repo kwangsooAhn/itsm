@@ -13,5 +13,5 @@ data class ReportTemplateCondition(
     val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
-    val isPaging = pageNum > 0;
+    val isPaging = pageNum > 0
 }

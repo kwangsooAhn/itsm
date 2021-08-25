@@ -48,7 +48,8 @@ class ReportService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = reportTemplateRepository.count(),
                 currentPageNum = reportSearchCondition.pageNum,
-                totalPageNum = Math.ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = Math.ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble())
+                    .toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -109,12 +110,12 @@ class ReportService(
         templateEntity.charts?.forEach { it ->
             val chartEntity = chartRepository.findChartEntityByChartId(it.chartId)
 
-            //values에 저장할 값 셋팅
+            // values 에 저장할 값 셋팅
             if (chartEntity != null) {
                 val chartInfo = LinkedHashMap<String, Any>()
                 chartInfo["name"] = chartEntity.chartName
                 chartInfo["type"] = chartEntity.chartType
-                chartInfo["desc"] = chartEntity.chartDesc?: ""
+                chartInfo["desc"] = chartEntity.chartDesc ?: ""
                 chartInfo["config"] = mapper.readValue(chartEntity.chartConfig, Map::class.java)
 
                 val valuesMap = LinkedHashMap<String, Any>()
