@@ -83,17 +83,4 @@ class NumberingPatternController(
         model.addAttribute("pattern", numberingPatternService.getNumberingPatternsDetail(numberingPatternId))
         return numberingPatternViewPage
     }
-
-    /**
-     * 패턴 편집 화면
-     */
-    @GetMapping("/{numberingPatternId}/edit")
-    fun getNumberingPatternEdit(@PathVariable numberingPatternId: String, model: Model): String {
-        model.addAttribute(
-            "dateList",
-            codeService.selectCodeByParent(NumberingPatternConstants.DEFAULT_DATE_FORMAT_PARENT_CODE)
-        )
-        model.addAttribute("pattern", numberingPatternService.getNumberingPatternsDetail(numberingPatternId))
-        return numberingPatternEditPage
-    }
 }
