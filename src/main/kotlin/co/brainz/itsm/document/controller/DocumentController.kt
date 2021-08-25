@@ -24,7 +24,6 @@ class DocumentController(
 
     private val documentSearchPage: String = "document/documentSearch"
     private val documentListPage: String = "document/documentList"
-    private val documentPrintPage: String = "document/documentPrint"
 
     /**
      * 신청서 리스트 호출 화면.
@@ -48,14 +47,5 @@ class DocumentController(
         model.addAttribute("documentList", result.data)
         model.addAttribute("paging", result.paging)
         return documentListPage
-    }
-
-    /**
-     * 신청서 인쇄 화면.
-     */
-    @GetMapping("/{documentId}/print")
-    fun getDocumentPrint(@PathVariable documentId: String, model: Model, request: HttpServletRequest): String {
-        model.addAttribute("time", LocalDateTime.now())
-        return documentPrintPage
     }
 }
