@@ -17,10 +17,6 @@ COMMENT ON TABLE awf_menu_auth_map IS '권한별메뉴매핑';
 COMMENT ON COLUMN awf_menu_auth_map.menu_id IS '메뉴아이디';
 COMMENT ON COLUMN awf_menu_auth_map.auth_id IS '권한아이디';
 
-insert into awf_menu_auth_map values ('chart', 'chart.read');
-insert into awf_menu_auth_map values ('chart', 'chart.create');
-insert into awf_menu_auth_map values ('chart', 'chart.update');
-insert into awf_menu_auth_map values ('chart', 'chart.delete');
 insert into awf_menu_auth_map values ('config', 'user.read');
 insert into awf_menu_auth_map values ('config', 'user.create');
 insert into awf_menu_auth_map values ('config', 'user.update');
@@ -160,3 +156,7 @@ insert into awf_menu_auth_map values ('report.report', 'report.read');
 insert into awf_menu_auth_map values ('report.report', 'report.create');
 insert into awf_menu_auth_map values ('report.report', 'report.update');
 insert into awf_menu_auth_map values ('report.report', 'report.delete');
+insert into awf_menu_auth_map values ('report.chart', 'chart.read');
+insert into awf_menu_auth_map values ('report.chart', 'chart.create');
+insert into awf_menu_auth_map values ('report.chart', 'chart.update');
+insert into awf_menu_auth_map values ('report.chart', 'chart.delete');

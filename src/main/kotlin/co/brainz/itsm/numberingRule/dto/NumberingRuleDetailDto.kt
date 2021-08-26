@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.numberingRule.dto
 
-import co.brainz.itsm.numberingPattern.dto.NumberingPatternDetailDto
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -16,6 +15,14 @@ data class NumberingRuleDetailDto(
     var numberingDesc: String? = null,
     var latestDate: LocalDateTime? = null,
     var latestValue: String? = null,
-    var patternList: MutableList<NumberingPatternDetailDto>,
+    var patternList: MutableList<NumberingPatternMapDto>,
     var editable: Boolean? = null
+) : Serializable
+
+data class NumberingPatternMapDto (
+    var patternId: String,
+    var patternName: String,
+    var patternType: String,
+    var patternValue: String,
+    var patternOrder: Int
 ) : Serializable

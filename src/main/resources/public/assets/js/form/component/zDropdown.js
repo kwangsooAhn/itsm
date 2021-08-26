@@ -11,7 +11,7 @@
  * https://www.brainz.co.kr
  */
 
-import { CLASS_PREFIX, FORM } from '../../lib/zConstants.js';
+import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UISelect } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
@@ -45,7 +45,7 @@ export const dropdownMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         const selectOptionValue = this._value || this.element.options[0].value;

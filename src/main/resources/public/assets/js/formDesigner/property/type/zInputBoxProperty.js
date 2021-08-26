@@ -46,7 +46,7 @@ export default class ZInputBoxProperty extends ZProperty {
             .onUIChange(this.updateProperty.bind(this));
         // 단위 추가
         if (this.unit !== '') {
-            this.UIElement.UIInput.addUIClass('icon-unit-' + this.unit);
+            this.UIElement.UIInput.addUIClass('i-unit-' + this.unit);
         }
         this.UIElement.addUI(this.UIElement.UIInput);
 

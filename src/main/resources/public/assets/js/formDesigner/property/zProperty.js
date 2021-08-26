@@ -17,11 +17,12 @@
  */
 import { MAX_COLUMN_COUNT } from '../../lib/zConstants.js';
 import { UIDiv, UILabel, UISpan } from '../../lib/zUI.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 export default class ZProperty {
     constructor(key, name, type, value) {
         this._key = key;
-        this._name = 'form.properties.' + name;
+        this._name = zValidation.isEmpty(name) ? '' : 'form.properties.' + name;
         this._type = type;
         this._value = JSON.parse(JSON.stringify(value));
         this._unit = '';
@@ -49,7 +50,7 @@ export default class ZProperty {
     }
 
     set name(name) {
-        this._name = 'form.properties.' + name;
+        this._name = zValidation.isEmpty(name) ? '' : 'form.properties.' + name;
     }
 
     get type() {
@@ -118,13 +119,16 @@ export default class ZProperty {
      * @param data 세부 속성 데이터
      */
     makeLabelProperty(name) {
+        const labelText = name || this.name;
         const label = new UILabel().setUIClass('property-label').setUITextAlign('left');
-        // 라벨 문구
-        label.addUI(new UISpan().setUIClass('property-label-text')
-            .setUITextContent(i18n.msg(name === undefined ? this.name : name)));
+        if (!zValidation.isEmpty(labelText)) {
+            // 라벨 문구
+            label.addUI(new UISpan().setUIClass('property-label-text')
+                .setUITextContent(i18n.msg(labelText)));
+        }
         // 필수 여부
         if (this.validation.required) {
-            label.addUI(new UISpan().setUIClass('required'));
+            label.addUI(new UISpan().setUIClass('required').addUIClass('ml-1'));
         }
         // 툴팁(도움말) 기능 추가
         if (this.help !== '') {

@@ -11,7 +11,7 @@
  */
 import * as mixin from '../lib/zMixins.js';
 import { UIDiv } from '../lib/zUI.js';
-import { CLASS_PREFIX, FORM, UNIT } from '../lib/zConstants.js';
+import { FORM, UNIT } from '../lib/zConstants.js';
 import ZClipboardProperty from '../formDesigner/property/type/zClipboardProperty.js';
 import ZGroupProperty from '../formDesigner/property/type/zGroupProperty.js';
 import ZBoxModelProperty from '../formDesigner/property/type/zBoxModelProperty.js';
@@ -263,13 +263,13 @@ export default class ZRow {
 export class UIRowTooltip extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = CLASS_PREFIX + 'row-tooltip';
+        this.domElement.className = 'z-row-tooltip';
     }
 }
 
 export class UIRow extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = CLASS_PREFIX + FORM.LAYOUT.ROW + ' flex-row';
+        this.domElement.className = 'z-' + FORM.LAYOUT.ROW + ' flex-row';
     }
 }

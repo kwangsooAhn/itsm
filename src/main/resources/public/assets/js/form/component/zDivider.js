@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX, UNIT } from '../../lib/zConstants.js';
+import { UNIT } from '../../lib/zConstants.js';
 import { UIDiv, UIHorizontalRule } from '../../lib/zUI.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
@@ -46,10 +46,10 @@ export const dividerMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIHorizontalRule = new UIHorizontalRule().setUIClass(CLASS_PREFIX + 'divider').setUIId('divider' + this.id);
+        element.UIHorizontalRule = new UIHorizontalRule().setUIClass('z-divider').setUIId('divider' + this.id);
         element.addUI(element.UIHorizontalRule);
         return element;
     },

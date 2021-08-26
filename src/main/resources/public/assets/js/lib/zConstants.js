@@ -9,8 +9,6 @@
  */
 // 사용자 세션 정보
 export const SESSION = {};
-// class 접두사
-export const CLASS_PREFIX = 'z-';
 // 단위
 export const UNIT = {
     PX: 'px',
@@ -70,7 +68,7 @@ export const FORM = {
     },
     CUSTOM_CODE: [],
     // 옵션 속성에 추가되는 기본 값
-    DEFAULT_OPTION_ROW: { name: 'name', value: 'value' },
+    DEFAULT_OPTION_ROW: { name: '', value: '' },
     // 6개 column 제한 (dynamic table)
     MAX_COLUMN_IN_TABLE: 6
 };

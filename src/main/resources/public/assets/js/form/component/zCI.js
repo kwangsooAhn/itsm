@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX, CI, UNIT, SESSION } from '../../lib/zConstants.js';
+import { FORM, CI, UNIT, SESSION } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIButton, UIDiv, UITable, UIRow, UICell, UIImg, UISpan, UIInput } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -48,7 +48,7 @@ export const ciMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
+        const element = new UIDiv().setUIClass('z-element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
         // 버튼 목록
         element.UIButtonGroup = this.makeCIButton();
@@ -116,7 +116,7 @@ export const ciMixin = {
         return this._value;
     },
     makeCIButton() {
-        const buttonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-list');
+        const buttonGroup = new UIDiv().setUIClass('z-button-list');
         if (this.elementIsEditable) {
             // 등록
             const registerButton = new UIButton(i18n.msg('cmdb.ci.label.new') + ' ' + i18n.msg('cmdb.ci.label.register'))
@@ -152,14 +152,14 @@ export const ciMixin = {
     makeCITable() {
         // 테이블
         const table = new UITable()
-            .setUIClass(CLASS_PREFIX + 'ci-table')
+            .setUIClass('z-ci-table')
             .addUIClass('mt-2')
             .setUIId('ciTable' + this.id)
             .setUIAttribute('tabindex', '-1')
             .setUIAttribute('data-validation-required', this.validationRequired);
 
         // 테이블 제목
-        const row = new UIRow(table).setUIClass(CLASS_PREFIX + 'ci-table-header');
+        const row = new UIRow(table).setUIClass('z-ci-table-header');
         table.addUIRow(row);
 
         this.getCITableData().forEach((option) => {
@@ -236,22 +236,22 @@ export const ciMixin = {
             case 'icon-edit': // CI 등록 / 수정
                 if (data.actionType === CI.ACTION_TYPE.DELETE) {
                     const viewButton = new UIButton()
-                        .setUIClass(CLASS_PREFIX + 'button-icon')
+                        .setUIClass('z-button-icon')
                         .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openViewModal.bind(this, data.ciId))
-                        .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-search'));
+                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
 
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
                         .addUI(viewButton);
                 } else {
                     const editButton = new UIButton()
-                        .setUIClass(CLASS_PREFIX + 'button-icon')
+                        .setUIClass('z-button-icon')
                         .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
-                        .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-edit'));
+                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-edit'));
 
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
@@ -259,22 +259,22 @@ export const ciMixin = {
                 }
             case 'icon-search': // CI 상세 조회
                 const searchButton = new UIButton()
-                    .setUIClass(CLASS_PREFIX + 'button-icon')
+                    .setUIClass('z-button-icon')
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.openViewModal.bind(this, data.ciId))
-                    .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-search'));
+                    .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
                     .addUI(searchButton);
             case 'icon-delete': // Row 삭제
                 const deleteButton = new UIButton()
-                    .setUIClass(CLASS_PREFIX + 'button-icon')
+                    .setUIClass('z-button-icon')
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.removeCITableRow.bind(this, row.parent, row.getUIIndex(), data))
-                    .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-delete'));
+                    .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
@@ -292,7 +292,7 @@ export const ciMixin = {
             this.removeCITableRow(targetTable, 1);
         }
         // row 추가
-        const row = new UIRow(targetTable).setUIClass(CLASS_PREFIX + 'ci-table-row');
+        const row = new UIRow(targetTable).setUIClass('z-ci-table-row');
         targetTable.addUIRow(row);
         // td 추가
         this.getCITableData().forEach((option) => {
@@ -302,7 +302,7 @@ export const ciMixin = {
     // CI 테이블 row 변경
     updateCITableRow(targetTable, rowIndex, data) {
         // row 추가
-        const row = new UIRow(targetTable).setUIClass(CLASS_PREFIX + 'ci-table-row');
+        const row = new UIRow(targetTable).setUIClass('z-ci-table-row');
         targetTable.updateUIRow(rowIndex, row);
         // td 추가
         this.getCITableData().forEach((option) => {
@@ -942,7 +942,7 @@ export const ciMixin = {
             isTopic: this._isTopic,
             mapId: this._mapId,
             tags: this._tags,
-            value: this._value,
+            value: (Array.isArray(this._value) && this._value.length > 0) ? JSON.stringify(this._value) : this._value,
             label: this._label,
             element: this._element,
             validation: this._validation

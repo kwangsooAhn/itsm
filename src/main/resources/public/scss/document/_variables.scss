@@ -49,7 +49,6 @@ $token-related-add-bg-color:                 $neutral50;
 
 $token-related-name-color:                   $gray800;
 $token-related-numbering-color:              $gray500;
-
 // 댓글
 $token-comment-border-color:                 $gray300;
 $token-comment-border-width:                 0.0625rem; // 1px
@@ -58,12 +57,15 @@ $token-comment-border-radius:                0.125rem; // 2px
 $token-comment-user-name-color:              $gray800;
 $token-comment-time-color:                   $gray500;
 
+//////////////////////////// Form ///////////////////////////
+$group-accordion-border-color:               $gray300;
+
 //////////////////////////// CI 모달 /////////////////////////
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
 $cmdb-ci-modal-height:                       53.0625rem; // 849px
 
-$cmdb-ci-attribute-border:                   0.0625rem solid map-get($grays, 'line'); // 1px
-$cmdb-ci-attribute-bg-color:                 map-get($grays, 'light');
+$cmdb-ci-attribute-border:                   0.0625rem solid $gray300; // 1px
+$cmdb-ci-attribute-bg-color:                 $neutral50;
 
 $cmdb-ci-relation-height:                    2.4375rem; // 39px
 $cmdb_ci-relation-font-size:                 $font-size-l; // 24px
@@ -86,10 +88,7 @@ $custom-code-modal-height:                   53.75rem; // 860px
 $custom-code-modal-header-height:            3.125rem; // 50px
 $custom-code-modal-bottom-height:            6.25rem; //100px
 
-/////////////////////////// color Set //////////////////////////
-$grays: (
-  'icon':                                         #A0A4A6,
-  'line':                                         #D7DBE0,
-  'fill':                                         #EBECED,
-  'focus':                                        #283238
-) !default;
+///////////////////////// 인쇄 /////////////////////////
+$print-font-color:                           $black;
+$print-a4-width:                             210mm;
+$print-a4-height:                            297mm;

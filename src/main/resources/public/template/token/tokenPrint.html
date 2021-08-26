@@ -10,32 +10,45 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
-    <div class="print">
-        <div class="print-main flex-column align-items-center">
-            <div class="print-main-header">
-                <img class="z-img i-zenius" src="/assets/media/images/zenius.ico" width="25" height="25">
-                <span class="float-right align-right" id="print-information"></span>
-            </div>
-            <div class="print-area justify-content-center">
+    <div class="z-print">
+        <div class="z-print-main-header">
+            <h1 id="documentTitle"></h1>
+        </div>
+        <table class="z-print-main">
+            <thead><tr><td>
+                <div class="z-print-header-space"> </div>
+            </td></tr></thead>
+            <tbody><tr><td>
                 <div class="z-drawing-board" id="documentDrawingBoard" data-display="print"></div>
-            </div>
+            </td></tr></tbody>
+            <tfoot><tr><td>
+                <div class="z-print-footer-space"> </div>
+            </td></tr></tfoot>
+        </table>
+        <div class="z-print-main-footer">
+            <img class="z-img i-logo-print" th:src="@{/assets/media/icons/logo/icon_logo_print.svg}" width="152" height="26">
+            <span class="float-right align-right" id="print-information"></span>
         </div>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="script">
-    <script th:src="@{/assets/js/document/zDocument.js}"></script>
-    <script th:inline="javascript" type="text/javascript">
+    <script type="module">
         /*<![CDATA[*/
-        window.onload = function() {
-            const printInfo = document.getElementById('print-information');
-            printInfo.innerHTML = aliceForm.session.userName + ' ['
-                + aliceForm.session.email + ']<br>'
-                + i18n.printFormat(/*[[${time}]]*/'') + '<br>'
-                + [[${documentNo}]];
+        import { zFormToken } from '../../assets/js/document/zFormToken.js';
 
-            let data = sessionStorage.getItem('alice_print');
-            aliceForm.init(aliceDocument.drawDocument, data);
+        window.onload = function() {
+            const userName = '[[${#authentication.details.userName}]]';
+            const userEmail = '[[${#authentication.details.email}]]';
+            const time = '[[${time}]]';
+
+            const printInfo = document.getElementById('print-information');
+            printInfo.innerHTML = userName + ' [' + userEmail + ']<br>' + i18n.printFormat(time);
+
+            const printData = JSON.parse(sessionStorage.getItem('alice_print'));
+            document.getElementById('documentTitle').textContent = printData.name;
+            zFormToken.domElement = document.getElementById('documentDrawingBoard');
+            zFormToken.makeForm(printData);
 
             setTimeout(function() {
                 window.print();

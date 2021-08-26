@@ -110,7 +110,8 @@ class TokenController(
     fun getDocumentEditTab(
         @PathVariable tokenId: String,
         @RequestParam(value = "mode", defaultValue = "edit") mode: String,
-        model: Model): String {
+        model: Model
+    ): String {
         val instanceId = instanceService.getInstanceId(tokenId)!!
         model.addAttribute("instanceId", instanceId)
         model.addAttribute("folderId", folderService.getFolderId(tokenId))

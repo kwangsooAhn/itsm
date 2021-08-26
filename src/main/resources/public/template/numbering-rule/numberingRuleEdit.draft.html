@@ -22,7 +22,7 @@
         <div class="z-edit-row flex-column">
             <label th:text="#{rule.label.desc}"></label>
             <textarea id="txtRuleDesc" name="txtRuleDesc" maxlength="200" rows="7"
-                      class="z-textarea textarea-scroll-wrapper" th:text="${rule?.numberingDesc}"></textarea>
+                      class="z-textarea textarea-scroll-wrapper" th:value="${rule?.numberingDesc}"></textarea>
         </div>
         <div id="type-select-pattern" class="z-edit-row">
             <div class="z-edit-row flex-column">
@@ -33,33 +33,43 @@
                     </button>
                 </div>
             </div>
-            <div id="patternList" class="z-edit-row flex-column">
-                <th:block th:if="${#arrays.isEmpty(rule?.patternList)}">
-                    <div class="flex-row z-edit-row">
-                        <select name="pattern" class="mr-1">
-                            <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
-                                    th:text="${pattern.patternName}" th:name="${pattern.patternType}">
-                            </option>
-                        </select>
-                        <button style="visibility:hidden" type="button" class="z-button-icon extra ml-1">
-                            <span class="z-icon i-delete"></span>
-                        </button>
-                    </div>
-                </th:block>
-                <th:block th:each="patternData, iterStat : ${#lists.sort(rule?.patternList, byPatternOrder)}">
-                    <div class="flex-row z-edit-row">
-                        <select name="pattern" class="mr-1">
-                            <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
-                                    th:text="${pattern.patternName}" th:name="${pattern.patternType}"
-                                    th:selected="${patternData.patternName} == ${pattern.patternName}">
-                            </option>
-                        </select>
-                        <button th:style="(${iterStat.index} > 0)? '':'visibility:hidden'" type="button"
-                                class="z-button-icon extra ml-1" onclick="deletePattern(this)">
-                            <span class="z-icon i-delete"></span>
-                        </button>
-                    </div>
-                </th:block>
+            <div id="firstPattern" class="z-edit-row flex-row pattern">
+                <span th:text="#{rule.label.firstPattern}" class="col-2"></span>
+                <select id="selectFirstPattern" name="pattern"
+                        class="select-date-time select-pattern-type mr-1">
+                    <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
+                            th:text="${pattern.patternName}" th:name="${pattern.patternType}"
+                            th:selected="(${rule?.patternList}? ${rule?.patternList[0].patternName}:'') == ${pattern.patternName}">
+                    </option>
+                </select>
+            </div>
+            <div id="secondPattern" class="z-edit-row flex-row pattern">
+                <span th:text="#{rule.label.secondPattern}" class="col-2"></span>
+                <select id="selectSecondPattern" name="pattern"
+                        class="select-date-time select-pattern-type mr-1">
+                    <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
+                            th:text="${pattern.patternName}" th:name="${pattern.patternType}"
+                            th:selected="(${rule?.patternList}? ${rule?.patternList[1].patternName}:'') == ${pattern.patternName}">
+                    </option>
+                </select>
+                <button type="button" name="secondPattern" class="z-button-icon extra ml-l"
+                        onclick="deletePattern(this.name)">
+                    <span class="z-icon i-delete"></span>
+                </button>
+            </div>
+            <div id="thirdPattern" class="z-edit-row flex-row pattern">
+                <span th:text="#{rule.label.thirdPattern}" class="col-2"></span>
+                <select id="selectThirdPattern" name="pattern"
+                        class="select-date-time select-pattern-type mr-1">
+                    <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
+                            th:text="${pattern.patternName}" th:name="${pattern.patternType}"
+                            th:selected="(${rule?.patternList}? ${rule?.patternList[2].patternName}:'') == ${pattern.patternName}">
+                    </option>
+                </select>
+                <button type="button" name="thirdPattern" class="z-button-icon extra"
+                        onclick="deletePattern(this.name)">
+                    <span class="z-icon i-delete"></span>
+                </button>
             </div>
         </div>
         <div class="flex-row justify-content-between z-edit-row">
@@ -68,7 +78,7 @@
             </div>
             <div class="z-button-list">
                 <button type="button" class="z-button primary" sec:authorize="hasAuthority('numbering.rule.create')"
-                        id="btnAdd" name="btnAdd" th:if="!${rule?.numberingId}"
+                        id="btnRegist" name="btnRegist" th:if="!${rule?.numberingId}"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
                 <button type="button" class="z-button primary" sec:authorize="hasAuthority('numbering.rule.update')"
                         id="btnUpdate" name="btnUpdate" th:if="${rule?.numberingId}"
@@ -80,24 +90,13 @@
             </div>
         </div>
     </div>
-    <template id="patternRowTemplate">
-        <div class="flex-row z-edit-row">
-            <select name="pattern" class="mr-1">
-                <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
-                        th:text="${pattern.patternName}" th:name="${pattern.patternType}">
-                </option>
-            </select>
-            <button type="button" class="z-button-icon extra ml-1" onclick="deletePattern(this)">
-                <span class="z-icon i-delete"></span>
-            </button>
-        </div>
-    </template>
 </div>
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     const STATUS_SUCCESS = '0';
     const STATUS_ERROR_RULE_USED = '1';
+    let count = 2;
     const maxCount = 3;
 
     window.onload = function () {
@@ -112,9 +111,6 @@
                 inheritedAttrs: "class"
             }
         });
-        if ([[${rule?.numberingId}]]) {
-
-        }
     };
 
     /** 등록, 수정 기능 **/
@@ -140,8 +136,10 @@
         let patternList = [];
         let patternTypeList = [];
 
-        document.querySelectorAll('#patternList div.z-edit-row.flex-row select[name="pattern"]').forEach(function (pattern) {
-            patternList.push(pattern.value);
+        document.getElementsByName('pattern').forEach(function (pattern, index) {
+            if (document.querySelectorAll('.pattern')[index].getAttribute('style') === 'display: flex;') {
+                patternList.push(pattern.value);
+            }
         });
 
         document.querySelectorAll('option:checked').forEach(elem => patternTypeList.push(elem.getAttribute('name')));
@@ -208,21 +206,26 @@
     }
 
     function addPattern() {
-        let validPatternList = document.querySelectorAll('#patternList div.z-edit-row.flex-row')
-        if (validPatternList.length >= maxCount) {
+        if (count === 0) {
+            document.querySelectorAll('.pattern')[1].style.display = 'flex';
+            count++;
+        } else if (count === 1) {
+            if (document.querySelectorAll('.pattern')[1].getAttribute('style') === 'display: flex;') {
+                document.querySelectorAll('.pattern')[2].style.display = 'flex';
+            } else {
+                document.querySelectorAll('.pattern')[1].style.display = 'flex';
+            }
+            count++;
+        } else {
             aliceAlert.alertWarning(i18n.msg('rule.msg.addPattern', maxCount));
-            return;
         }
-
-        const patternListRow = document.getElementById('patternRowTemplate').content.cloneNode(true);
-        document.getElementById('patternList').appendChild(patternListRow);
-
-        aliceJs.initDesignedSelectTag(document.querySelector('#patternList'));
     }
 
-    function deletePattern(row) {
-        row.parentNode.remove();
+    function deletePattern(name) {
+        document.getElementById(name).style.display = 'none';
+        count--;
     }
+
     /*]]>*/
 </script>
 </html>

@@ -10,9 +10,9 @@ import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
-import co.brainz.itsm.numberingPattern.dto.NumberingPatternDetailDto
 import co.brainz.itsm.numberingPattern.repository.NumberingPatternRepository
 import co.brainz.itsm.numberingRule.constants.NumberingRuleConstants
+import co.brainz.itsm.numberingRule.dto.NumberingPatternMapDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleDetailDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleListDto
@@ -20,7 +20,6 @@ import co.brainz.itsm.numberingRule.dto.NumberingRuleListReturnDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleSearchCondition
 import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.itsm.numberingRule.entity.NumberingRulePatternMapEntity
-import co.brainz.itsm.numberingRule.entity.NumberingRulePatternMapPk
 import co.brainz.itsm.numberingRule.repository.NumberingRulePatternMapRepository
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -87,7 +86,7 @@ class NumberingRuleService(
      */
     fun getNumberingRuleDetail(numberingId: String): NumberingRuleDetailDto {
         val ruleDetail = numberingRuleRepository.getOne(numberingId)
-        val patternList = mutableListOf<NumberingPatternDetailDto>()
+        val patternList = mutableListOf<NumberingPatternMapDto>()
         var editable = true
 
         if (ruleDetail.latestValue != null) {
@@ -96,11 +95,12 @@ class NumberingRuleService(
 
         ruleDetail.numberingRulePatternMapEntities.forEach {
             patternList.add(
-                NumberingPatternDetailDto(
+                NumberingPatternMapDto(
                     it.numberingPattern.patternId,
                     it.numberingPattern.patternName,
                     it.numberingPattern.patternType,
-                    it.numberingPattern.patternValue
+                    it.numberingPattern.patternValue,
+                    it.patternOrder
                 )
             )
         }
@@ -133,17 +133,7 @@ class NumberingRuleService(
         )
 
         if (numberingRuleDto.numberingId != "") {
-            numberingRuleEntity.numberingRulePatternMapEntities.forEach {
-                numberingRulePatternMapRepository.deleteById(
-                    NumberingRulePatternMapPk(
-                        it.numberingRule.numberingId,
-                        it.numberingPattern.patternId,
-                        count
-                    )
-                )
-                count++
-            }
-            count = 0
+            numberingRulePatternMapRepository.deleteByNumberingRule(numberingRuleEntity)
         }
 
         numberingRuleDto.patternList.forEach {

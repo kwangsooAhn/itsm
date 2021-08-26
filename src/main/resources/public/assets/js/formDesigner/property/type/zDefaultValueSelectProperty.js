@@ -12,9 +12,8 @@
  * https://www.brainz.co.kr
  */
 import ZProperty from '../zProperty.js';
-import { UIButton, UIDiv, UIInput, UISelect, UISpan } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
-import { CLASS_PREFIX } from '../../../lib/zConstants.js';
+import { UIButton, UIDiv, UIInput, UISelect, UISpan } from '../../../lib/zUI.js';
 
 const propertyExtends = {
     options : [
@@ -52,15 +51,15 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
         this.UIElement.UIGroup = new UIDiv().setUIClass('default-type');
         const defaultTypeValueArray = this.value.split('|');
         // switch button
-        this.UIElement.UIGroup.UIButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-switch-group');
+        this.UIElement.UIGroup.UIButtonGroup = new UIDiv().setUIClass('z-button-switch-group');
         this.options.forEach((item) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
             this.UIElement.UIGroup.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(this.key)
                 .setUIAttribute('data-type', item.value)
-                .setUIClass(CLASS_PREFIX + 'button-switch')
+                .setUIClass('z-button-switch')
                 .onUIClick(this.updateProperty.bind(this))
-                .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'text').setUITextContent(i18n.msg(item.name)));
+                .addUI(new UISpan().setUIClass('z-text').setUITextContent(i18n.msg(item.name)));
 
             if (defaultTypeValueArray[0] === item.value) {
                 this.UIElement.UIGroup.UIButtonGroup['UIButton' + name].addUIClass('selected');

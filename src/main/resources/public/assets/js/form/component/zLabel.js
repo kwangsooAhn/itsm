@@ -10,7 +10,6 @@
  * https://www.brainz.co.kr
  */
 
-import { CLASS_PREFIX } from '../../lib/zConstants.js';
 import { UNIT } from '../../lib/zConstants.js';
 import { UIDiv } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
@@ -53,7 +52,7 @@ export const labelMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         return element;

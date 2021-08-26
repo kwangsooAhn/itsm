@@ -744,7 +744,7 @@ form:
       color: "색상"
       columns: "컬럼 설정"
       columnName: "컬럼명"
-      columnOrder: "순서"
+      columnOrder: "순서 변경"
       columnType: "입력 유형"
       defaultValue: "기본값"
       DefaultValueCustomCode: "Custom Code"
@@ -762,9 +762,9 @@ form:
     email: "Email"
     group:
       columnContent: "컬럼 내용"
-      columnElement: "입력 유형 엘리먼트"
+      columnElement: "사용자 입력"
       columnHead: "컬럼 제목"
-      columnValidation: "입력 유형 엘리먼트 유효성"
+      columnValidation: "입력 데이터 유효성 검사"
       display: "출력속성"
       element: "엘리먼트"
       label: "라벨"
@@ -805,6 +805,7 @@ form:
     validate: "유효성"
     validation:
       required: "필수 여부"
+      requiredInput: "필수 입력"
       maxLength: "최대 길이"
       minLength: "최소 길이"
       validationType: "유효성 타입"
@@ -820,6 +821,12 @@ form:
       day: "일"
       days: "일 후"
       hours: "시간 후"
+    optionList:
+      enterValue: "항목 이름을 입력하세요."
+      name: "항목 이름"
+      namePlaceholder: "이름 입력"
+      value: "항목 값"
+      valuePlaceholder: "값 입력"
   status:
     destroy: "폐기"
     edit: "편집"
@@ -872,8 +879,6 @@ login:
 menu:
   board:
     parent: "게시판"
-  chart:
-    parent: "사용자 정의 차트"
   config:
     auth: "권한"
     boardAdmin: "게시판"
@@ -894,6 +899,7 @@ menu:
   notice:
     parent: "공지사항"
   report:
+    chart: "사용자 정의 차트"
     parent: "보고서"
     report: "보고서 조회"
     template: "템플릿 설정"

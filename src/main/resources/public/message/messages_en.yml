@@ -805,6 +805,7 @@ form:
     validate: "Validate"
     validation:
       required: "Required"
+      requiredInput: "Required Field"
       maxLength: "Max Length"
       minLength: "Min Length"
       validationType: "Validation Type"
@@ -820,6 +821,12 @@ form:
       day: "Day"
       days: "days after"
       hours: "hours after"
+    optionList:
+      enterValue: "Please enter name."
+      name: "Name"
+      namePlaceholder: "name"
+      value: "Value"
+      valuePlaceholder: "value"
   status:
     destroy: "Destroy"
     edit: "Edit"
@@ -872,8 +879,6 @@ login:
 menu:
   board:
     parent: "Board"
-  chart:
-    parent: "User custom chart"
   config:
     auth: "Auth"
     boardAdmin: "Board management"
@@ -894,6 +899,7 @@ menu:
   notice:
     parent: "Notice"
   report:
+    chart: "User custom chart"
     parent: "Report"
     report: "Report List"
     template: "Report Template"

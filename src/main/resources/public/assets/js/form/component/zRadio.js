@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UILabel, UIRadioButton, UISpan } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
@@ -49,7 +49,7 @@ export const radioMixin = {
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv()
-            .setUIClass(CLASS_PREFIX + 'element')
+            .setUIClass('z-element')
             .addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
         return this.makeRadioButton(element);
@@ -136,7 +136,7 @@ export const radioMixin = {
             object.UILabel = new UILabel()
                 .setUIFor(radioId)
                 .setUIClass(this.element.align)
-                .addUIClass(CLASS_PREFIX + 'radio');
+                .addUIClass('z-radio');
             object.UILabel.UIRadio = new UIRadioButton(checkedYn)
                 .setUIId(radioId)
                 .setUIAttribute('value', this.element.options[i].value)

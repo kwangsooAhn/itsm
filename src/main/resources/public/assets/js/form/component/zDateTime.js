@@ -10,8 +10,8 @@
  * https://www.brainz.co.kr
  */
 
-import {CLASS_PREFIX, FORM} from '../../lib/zConstants.js';
-import {zValidation} from '../../lib/zValidation.js';
+import { FORM } from '../../lib/zConstants.js';
+import { zValidation } from '../../lib/zValidation.js';
 import {UIDiv, UIInput} from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
@@ -47,10 +47,10 @@ export const dataTimeMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
-            .setUIClass(CLASS_PREFIX + 'input i-datetime-picker')
+            .setUIClass('z-input i-datetime-picker')
             .setUIId('dateTime' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.getDefaultValue())
