@@ -807,6 +807,7 @@ form:
     validate: "유효성"
     validation:
       required: "필수 여부"
+      requiredInput: "필수 입력"
       maxLength: "최대 길이"
       minLength: "최소 길이"
       validationType: "유효성 타입"

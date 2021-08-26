@@ -7,7 +7,7 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { CLASS_PREFIX, FORM } from './zConstants.js';
+import { FORM } from './zConstants.js';
 import { UIDiv, UISpan, UIUl, UILi } from './zUI.js';
 import { UIGroupTooltip } from '../form/zGroup.js';
 import { UIRowTooltip } from '../form/zRow.js';
@@ -122,18 +122,18 @@ export const toolTipMenuMixin = {
      * 툴팁 DOM 객체 생성
      */
     makeTooltip() {
-        const tooltipMenu = new UIDiv().setUIClass(CLASS_PREFIX + 'tooltip-menu');
-        tooltipMenu.UIUl = new UIUl().setUIClass(CLASS_PREFIX + 'tooltip-menu-items');
+        const tooltipMenu = new UIDiv().setUIClass('z-tooltip-menu');
+        tooltipMenu.UIUl = new UIUl().setUIClass('z-tooltip-menu-items');
 
         // copy
-        tooltipMenu.UIUl.UILiCopy = new UILi().setUIClass(CLASS_PREFIX + 'tooltip-menu-item')
+        tooltipMenu.UIUl.UILiCopy = new UILi().setUIClass('z-tooltip-menu-item')
             .setUIAttribute('data-action', 'copy')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-copy'))
             .onUIClick(this.copyObject.bind(this));
         tooltipMenu.UIUl.addUI(tooltipMenu.UIUl.UILiCopy);
 
         // remove
-        tooltipMenu.UIUl.UILiRemove = new UILi().setUIClass(CLASS_PREFIX + 'tooltip-menu-item')
+        tooltipMenu.UIUl.UILiRemove = new UILi().setUIClass('z-tooltip-menu-item')
             .setUIAttribute('data-action', 'remove')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'))
             .onUIClick(this.removeObject.bind(this));
@@ -213,7 +213,8 @@ export const toolTipMenuMixin = {
         editor.history.save(histories.reverse());
         // 타입이 동일한 바로 이전 객체 선택, 하나도 존재하지 않으면 form 선택
         if (parentObject.children[cloneObject.displayDisplayOrder - 1]) {
-            parentObject.children[cloneObject.displayDisplayOrder - 1].UIElement.domElement.dispatchEvent(new Event('click'));
+            parentObject.children[cloneObject.displayDisplayOrder - 1].UIElement
+                .domElement.dispatchEvent(new Event('click'));
         } else {
             editor.form.UIElement.domElement.dispatchEvent(new Event('click'));
         }

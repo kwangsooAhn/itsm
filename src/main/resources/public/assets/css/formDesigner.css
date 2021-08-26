@@ -6069,6 +6069,9 @@ body.modal-active {
 .property .property-label {
   font-size: 0.875rem;
   color: #8D9299;
+}
+.property .property-label .property-label-text {
+  display: inline-block;
   padding-bottom: 0.625rem;
 }
 .property .property-value {
@@ -6097,18 +6100,18 @@ body.modal-active {
   font-size: 0.875rem;
   vertical-align: middle;
 }
-.property .z-input:not(.tagify).icon-unit-search {
+.property .z-input:not(.tagify).i-unit-search {
   background: url("../media/icons/formDesigner/unit/icon_unit_search.svg") no-repeat 97% 50%;
   background-color: #FFFFFF;
-  padding-right: 1.875rem;
+  padding: 0 1.875rem 0 0.5rem;
 }
-.property .z-input:not(.tagify).icon-unit-px {
+.property .z-input:not(.tagify).i-unit-px {
   background: url("../media/icons/formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
   background-color: #FFFFFF;
-  padding-right: 1.875rem;
+  padding: 0 1.875rem 0 0.5rem;
   text-align: right;
 }
-.property .z-input:not(.tagify).icon-unit-px:not(:last-child) {
+.property .z-input:not(.tagify).i-unit-px:not(:last-child) {
   margin-right: 0.25rem;
 }
 .property .textArea {
@@ -6171,19 +6174,19 @@ body.modal-active {
   flex-wrap: wrap;
   margin: 0.3125rem 0;
 }
+.property .default-type-radio .radio-property-group .z-radio {
+  margin-right: 0;
+}
 .property .default-type-radio .radio-property-group .radio-item .z-input {
   width: 2.813rem;
-  margin: 0 0.3125rem 0 0;
+  margin-right: 0.3125rem;
+  padding: 0 0.5rem;
 }
-.property .default-type-radio .radio-property-group .picker-wrapper-date {
-  display: inline-block;
-  width: auto;
+.property .default-type-radio .radio-property-group .radio-item .z-input:not(:first-child) {
+  margin-left: 0.3125rem;
 }
-.property .default-type-radio .radio-property-group .picker-wrapper-date .datepicker,
-.property .default-type-radio .radio-property-group .picker-wrapper-date .timepicker,
-.property .default-type-radio .radio-property-group .picker-wrapper-date .datetimepicker {
-  width: 260px;
-  margin: 0;
+.property .default-type-radio .radio-property-group .z-picker-wrapper-date {
+  flex: 1;
 }
 .property .z-tab-panel .z-tabs .z-button-icon {
   padding: 4px 9px;
@@ -6210,14 +6213,14 @@ body.modal-active {
 .property .z-tab-panel .z-panels .z-panel .z-panel-common > .property {
   padding: 0 0.75rem;
 }
-.property .z-tab-panel .z-panels .z-panel .z-button {
+.property .z-tab-panel .z-panels .z-panel .z-button-icon {
   padding: 0;
 }
-.property .z-tab-panel .z-panels .z-panel .z-button .z-icon {
+.property .z-tab-panel .z-panels .z-panel .z-button-icon .z-icon {
   display: inline-block;
   background: #339AF0;
 }
-.property .z-tab-panel .z-panels .z-panel .z-button .z-icon.z-prev {
+.property .z-tab-panel .z-panels .z-panel .z-button-icon .z-icon.z-prev {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);

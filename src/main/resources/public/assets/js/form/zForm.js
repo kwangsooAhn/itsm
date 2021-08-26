@@ -229,7 +229,7 @@ export default class ZForm {
         const padding = this._display.padding.split(' ');
         padding[3] = left;
         this._display.padding = padding.join(' ');
-        this.UIElement.setUIPaddingLeft(padding + UNIT.PX);
+        this.UIElement.setUIPaddingLeft(left + UNIT.PX);
     }
 
     get displayPaddingLeft() {

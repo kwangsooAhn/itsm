@@ -249,6 +249,8 @@ export const dynamicRowTableMixin = {
         }
         return new UIInput().setUIPlaceholder(column.columnElement.placeholder)
             .setUIValue(defaultValue)
+            .setUIRequired(column.columnValidation.required)
+            .setUIAttribute('data-validation-required', column.columnValidation.required)
             .setUIAttribute('data-validation-type', column.columnValidation.validationType)
             .setUIAttribute('data-validation-max-length', column.columnValidation.maxLength)
             .setUIAttribute('data-validation-min-length', column.columnValidation.minLength)
@@ -507,9 +509,9 @@ export const dynamicRowTableMixin = {
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
-            new ZGroupProperty('group.element')
+            new ZGroupProperty('element.columns')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZColumnProperty('elementColumns', 'element.columns', this.elementColumns)),
+                .addProperty(new ZColumnProperty('elementColumns', '', this.elementColumns)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
