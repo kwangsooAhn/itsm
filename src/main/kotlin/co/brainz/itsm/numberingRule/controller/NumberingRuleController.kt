@@ -7,6 +7,7 @@
 package co.brainz.itsm.numberingRule.controller
 
 import co.brainz.itsm.numberingPattern.service.NumberingPatternService
+import co.brainz.itsm.numberingRule.dto.NumberingPatternMapDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleSearchCondition
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import javax.servlet.http.HttpServletRequest
@@ -51,6 +52,7 @@ class NumberingRuleController(
      */
     @GetMapping("/new")
     fun getNumberingRuleNew(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("patternList", numberingPatternService.getPatternNameList())
         return numberingRuleEditPage
     }
 
@@ -68,7 +70,9 @@ class NumberingRuleController(
      */
     @GetMapping("/{numberingRuleId}/edit")
     fun getNumberingRuleEdit(@PathVariable numberingRuleId: String, model: Model): String {
+        model.addAttribute("patternList", numberingPatternService.getPatternNameList())
         model.addAttribute("rule", numberingRuleService.getNumberingRuleDetail(numberingRuleId))
+        model.addAttribute("byPatternOrder", Comparator.comparing(NumberingPatternMapDto::patternOrder))
         return numberingRuleEditPage
     }
 }
