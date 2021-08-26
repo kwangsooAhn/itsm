@@ -191,15 +191,28 @@ class CIService(
     /**
      * CI 컴포넌트 - CI 컴포넌트 세부 데이터 조회
      */
-    fun getCIComponentData(ciId: String, componentId: String): CIComponentDataDto? {
-        val ciComponentData = ciComponentDataRepository.findByCiIdAndComponentId(ciId, componentId)
+    fun getCIComponentData(ciId: String, componentId: String, instanceId: String): CIComponentDataDto? {
+        val ciComponentData =
+            ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
+        val relationList = mutableListOf<CIRelationDto>()
+
+        if (ciComponentData != null) {
+            val ciComponentDataValue: Map<String, Any> =
+                mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
+            val relationData = mutableListOf<Map<String, String>>()
+            relationData.addAll(mapper.convertValue(ciComponentDataValue["relatedCIData"], listLinkedMapType))
+            relationData.forEach {
+                relationList.add(mapper.convertValue(it, CIRelationDto::class.java))
+            }
+        }
 
         return if (ciComponentData != null) {
             CIComponentDataDto(
                 ciId = ciComponentData.ciId,
                 componentId = ciComponentData.componentId,
                 values = ciComponentData.values,
-                instanceId = ciComponentData.instanceId
+                instanceId = ciComponentData.instanceId,
+                ciRelations = relationList
             )
         } else {
             null

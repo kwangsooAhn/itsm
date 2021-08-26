@@ -525,7 +525,7 @@ export const ciMixin = {
                     }).then((ci) => {
                         param.ciList = ci;
                     });
-                    document.getElementById('addRelationBtn').addEventListener('click', this.addRelation.bind(this, param));
+                    document.getElementById('addCIRelationBtn').addEventListener('click', this.addCIRelation.bind(this, param));
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
                     OverlayScrollbars(document.querySelectorAll('textarea'), {
@@ -597,7 +597,7 @@ export const ciMixin = {
                     }
                 }],
                 close: { closable: false, },
-                onCreate: (modal) => {
+                onCreate: async (modal) => {
                     let param = {};
                     // 수정된 데이터가 존재할 경우 수정 데이터로 변경
                     document.getElementById('ciAttributes').click();
@@ -612,24 +612,31 @@ export const ciMixin = {
                     }
 
                     // CI 연관 관계 코드 데이터 호출
-                    aliceJs.fetchJson('/rest/codes/related/cmdb.relation.type', {
+                    await aliceJs.fetchJson('/rest/codes/related/cmdb.relation.type', {
                         method: 'GET'
                     }).then((code) => {
                         param.codeList = code;
                     });
                     // CI 연관 관계 CI 목록 리스트 호출
-                    aliceJs.fetchJson('/rest/cmdb/cis', {
+                    await aliceJs.fetchJson('/rest/cmdb/cis', {
                         method: 'GET'
                     }).then((ci) => {
                         param.ciList = ci;
                     });
-                    // CI 컴포넌트 데이터 조회
-                    aliceJs.fetchJson('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id, {
-                        method: 'GET',
-                    }).then((ciComponentData) => {
-                        console.log(ciComponentData);
-                    });
-                    document.getElementById('addRelationBtn').addEventListener('click', this.addRelation.bind(this, param));
+                    // actionType에 따른 연관 관계 데이터 조회
+                    if (data.actionType === CI.ACTION_TYPE.MODIFY) {
+                        // cmdb_ci, cmdb_ci_relation 테이블에 등록되어 있는 데이터의 경우, cmdb_ci_relation 테이블에서 연관 관계 데이트를 가져와 처리한다.
+                    } else if (data.actionType === CI.ACTION_TYPE.REGISTER) {
+                        // cmdb_ci_relation 테이블에 등록되지 않은 데이터의 경우, wf_component_ci_data 테이블에서 연관 관계 데이터를 가져와 처리한다.
+                        aliceJs.fetchJson('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id + '&instanceId=' + instanceIdElem.value, {
+                            method: 'GET',
+                        }).then((ciComponentData) => {
+                            for (let i = 0; i < ciComponentData.ciRelations.length; i++) {
+                                this.addCIRelation(param, ciComponentData.ciRelations[i])
+                            }
+                        });
+                    }
+                    document.getElementById('addCIRelationBtn').addEventListener('click', this.addCIRelation.bind(this, param));
 
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
@@ -865,7 +872,7 @@ export const ciMixin = {
         ];
     },
     // 연관 관계 입력 row 추가
-    addRelation(param) {
+    addCIRelation(param, ciRelations) {
         const divRow = document.createElement('div');
         divRow.classList.add('flex-row', 'edit-row', 'relation-group', 'relation-group-div');
 
@@ -876,6 +883,7 @@ export const ciMixin = {
             const selectOption = document.createElement('option');
             selectOption.value = relationTypeList[i].codeValue;
             selectOption.text = relationTypeList[i].codeName;
+            selectOption.selected = (typeof ciRelations !== 'undefined') ? (ciRelations.relationType === selectOption.value) : '';
             relationTypeSelect.appendChild(selectOption);
         }
         relationTypeSelect.classList.add('mr-1');
@@ -887,6 +895,7 @@ export const ciMixin = {
             const selectOption = document.createElement('option');
             selectOption.value = ciList[i].ciId;
             selectOption.text = ciList[i].ciName;
+            selectOption.selected = (typeof ciRelations !== 'undefined') ? (ciRelations.sourceCIId === selectOption.value) : '';
             sourceCISelect.appendChild(selectOption);
         }
         sourceCISelect.classList.add('mr-1');
@@ -897,6 +906,7 @@ export const ciMixin = {
             const selectOption = document.createElement('option');
             selectOption.value = ciList[i].ciId;
             selectOption.text = ciList[i].ciName;
+            selectOption.selected = (typeof ciRelations !== 'undefined') ? (ciRelations.targetCIId === selectOption.value) : '';
             targetCISelect.appendChild(selectOption);
         }
         targetCISelect.classList.add('mr-1');
@@ -920,8 +930,8 @@ export const ciMixin = {
         divRow.appendChild(sourceCISelect);
         divRow.appendChild(targetCISelect);
         divRow.appendChild(deleteBtn);
-        document.getElementById('relation').appendChild(divRow);
-        aliceJs.initDesignedSelectTag(document.querySelector('#relation'));
+        document.getElementById('ciRelation').appendChild(divRow);
+        aliceJs.initDesignedSelectTag(document.querySelector('#ciRelation'));
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {

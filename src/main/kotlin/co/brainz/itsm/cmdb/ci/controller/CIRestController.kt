@@ -62,7 +62,9 @@ class CIRestController(private val ciService: CIService) {
     @GetMapping("/{ciId}/data")
     fun getCIComponentData(request: HttpServletRequest, @PathVariable ciId: String): CIComponentDataDto? {
         return ciService.getCIComponentData(
-            ciId, request.getParameter("componentId")
+            ciId,
+            request.getParameter("componentId"),
+            request.getParameter("instanceId")
         )
     }
 }
