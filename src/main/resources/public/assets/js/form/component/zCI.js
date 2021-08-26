@@ -377,7 +377,7 @@ export const ciMixin = {
         const saveData = {
             ciId: data.ciId,
             componentId: this.id,
-            values: { ciAttributes: [], ciTags: [] },
+            values: { ciAttributes: [], ciTags: [], relatedCIData: [] },
             instanceId: instanceIdElem.value
         };
         document.querySelectorAll('.attribute').forEach((el) => {
@@ -434,6 +434,13 @@ export const ciMixin = {
             if (Object.keys(ciAttribute).length !== 0) {
                 saveData.values.ciAttributes.push(ciAttribute);
             }
+        });
+        document.querySelectorAll('.relation-group-div').forEach((el) => {
+            let data = {};
+            data.relationType = el.childNodes[0].getElementsByTagName('select')[0].value;
+            data.sourceCIId = el.childNodes[1].getElementsByTagName('select')[0].value;
+            data.targetCIId = el.childNodes[2].getElementsByTagName('select')[0].value;
+            saveData.values.relatedCIData.push(data);
         });
         if (!zValidation.isEmpty(document.getElementById('ciTags').value)) {
             const ciTags = JSON.parse(document.getElementById('ciTags').value);
@@ -591,6 +598,7 @@ export const ciMixin = {
                 }],
                 close: { closable: false, },
                 onCreate: (modal) => {
+                    let param = {};
                     // 수정된 데이터가 존재할 경우 수정 데이터로 변경
                     document.getElementById('ciAttributes').click();
 
@@ -602,6 +610,26 @@ export const ciMixin = {
                     if (data.actionType === CI.ACTION_TYPE.MODIFY) {
                         document.getElementById('typeSelectBtn').disabled = true;
                     }
+
+                    // CI 연관 관계 코드 데이터 호출
+                    aliceJs.fetchJson('/rest/codes/related/cmdb.relation.type', {
+                        method: 'GET'
+                    }).then((code) => {
+                        param.codeList = code;
+                    });
+                    // CI 연관 관계 CI 목록 리스트 호출
+                    aliceJs.fetchJson('/rest/cmdb/cis', {
+                        method: 'GET'
+                    }).then((ci) => {
+                        param.ciList = ci;
+                    });
+                    // CI 컴포넌트 데이터 조회
+                    aliceJs.fetchJson('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id, {
+                        method: 'GET',
+                    }).then((ciComponentData) => {
+                        console.log(ciComponentData);
+                    });
+                    document.getElementById('addRelationBtn').addEventListener('click', this.addRelation.bind(this, param));
 
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
@@ -839,7 +867,7 @@ export const ciMixin = {
     // 연관 관계 입력 row 추가
     addRelation(param) {
         const divRow = document.createElement('div');
-        divRow.classList.add('flex-row', 'edit-row', 'relation-group');
+        divRow.classList.add('flex-row', 'edit-row', 'relation-group', 'relation-group-div');
 
         const relationTypeSelect = document.createElement('select');
         relationTypeSelect.classList.add('relation-type-select-box');

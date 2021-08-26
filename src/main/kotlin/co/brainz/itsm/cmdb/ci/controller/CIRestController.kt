@@ -8,6 +8,7 @@ package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIListReturnDto
+import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
 import co.brainz.itsm.cmdb.ci.service.CIService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
@@ -52,6 +53,16 @@ class CIRestController(private val ciService: CIService) {
         return ciService.deleteCIComponentData(
             request.getParameter("ciId"),
             request.getParameter("componentId")
+        )
+    }
+
+    /**
+     * CI 컴포넌트 - CI 컴포넌트 세부 정보 조회
+     */
+    @GetMapping("/{ciId}/data")
+    fun getCIComponentData(request: HttpServletRequest, @PathVariable ciId: String): CIComponentDataDto? {
+        return ciService.getCIComponentData(
+            ciId, request.getParameter("componentId")
         )
     }
 }

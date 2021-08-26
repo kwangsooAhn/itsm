@@ -14,6 +14,7 @@ import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
+import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
@@ -108,7 +109,6 @@ class CIService(
                 tagData.forEach {
                     tagDataList.add(mapper.convertValue(it, AliceTagDto::class.java))
                 }
-                // TODO : 연관 관계
 
                 // 세부 속성
                 val ciAttributes: List<Map<String, Any>> =
@@ -186,5 +186,23 @@ class CIService(
 
     fun getCIRelation(ciId: String): List<CIRelationDto> {
         return ciService.getRelation(ciId)
+    }
+
+    /**
+     * CI 컴포넌트 - CI 컴포넌트 세부 데이터 조회
+     */
+    fun getCIComponentData(ciId: String, componentId: String): CIComponentDataDto? {
+        val ciComponentData = ciComponentDataRepository.findByCiIdAndComponentId(ciId, componentId)
+
+        return if (ciComponentData != null) {
+            CIComponentDataDto(
+                ciId = ciComponentData.ciId,
+                componentId = ciComponentData.componentId,
+                values = ciComponentData.values,
+                instanceId = ciComponentData.instanceId
+            )
+        } else {
+            null
+        }
     }
 }
