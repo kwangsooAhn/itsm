@@ -9,8 +9,6 @@
  */
 // 사용자 세션 정보
 export const SESSION = {};
-// class 접두사
-export const CLASS_PREFIX = 'z-';
 // 단위
 export const UNIT = {
     PX: 'px',

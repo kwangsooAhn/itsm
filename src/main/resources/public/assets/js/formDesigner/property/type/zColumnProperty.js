@@ -26,6 +26,7 @@ import ZDefaultValueSelectProperty from './zDefaultValueSelectProperty.js';
 import ZOptionListProperty from './zOptionListProperty.js';
 import ZDefaultValueRadioProperty from './zDefaultValueRadioProperty.js';
 import ZDateTimePickerProperty from './zDateTimePickerProperty.js';
+import ZSwitchProperty from './zSwitchProperty.js';
 
 export const propertyExtends = {
     columnCommon: {
@@ -55,6 +56,7 @@ export const propertyExtends = {
             defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
         },
         columnValidation: {
+            required: false, // 필수값 여부
             validationType: 'none',
             minLength: '0',
             maxLength: '100'
@@ -142,12 +144,10 @@ export default class ZColumnProperty extends ZProperty {
     // 컬럼 추가
     addColumn(option, index) {
         if (index === -1 ) { index = this.value.length; }
-        // 컬럼 옵션
-        const columnOption = Object.assign({}, propertyExtends.columnCommon, option);
+        // 공통 컬럼 옵션
+        const commonColumnOption = Object.assign({}, propertyExtends.columnCommon, option);
         // 열 속성 기본 값 조회
-        if (zValidation.isEmpty(columnOption.columnElement)) {
-            Object.assign(columnOption, propertyExtends[columnOption.columnType]);
-        }
+        const columnOption = aliceJs.mergeObject(propertyExtends[commonColumnOption.columnType], commonColumnOption);
         // tab 버튼
         const tab = new UIButton()
             .setUIClass('z-button-icon')
@@ -186,14 +186,14 @@ export default class ZColumnProperty extends ZProperty {
     addColumnForColumnCommon(option, index) {
         const columnCommonGroup = new UIDiv().setUIClass('z-panel-common');
         // 순서 변경 < > 버튼 추가
-        const arrowLeftButton = new UIButton()
+        const arrowLeftButton = new UIButton().setUIClass('z-button-icon')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-prev'))
             .onUIClick(this.swapColumn.bind(this, 'column' + index, - 1));
-        const arrowRightButton = new UIButton()
+        const arrowRightButton = new UIButton().setUIClass('z-button-icon')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-next'))
             .onUIClick(this.swapColumn.bind(this, 'column' + index, + 1));
         // 패널 삭제 버튼 추가
-        const deleteButton = new UIButton().addUIClass('panel-delete-button')
+        const deleteButton = new UIButton().setUIClass('z-button-icon').addUIClass('panel-delete-button')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'))
             .onUIClick(this.removeColumn.bind(this, 'column' + index));
 
@@ -440,6 +440,7 @@ export default class ZColumnProperty extends ZProperty {
                 .addProperty(new ZInputBoxProperty(id + '|columnElement.placeholder', 'element.placeholder', option.columnElement.placeholder))
                 .addProperty(new ZDefaultValueSelectProperty(id + '|columnElement.defaultValueSelect', 'element.defaultValueSelect', option.columnElement.defaultValueSelect)),
             new ZGroupProperty('group.columnValidation')
+                .addProperty(new ZSwitchProperty(id + '|columnValidation.required', 'validation.requiredInput', option.columnValidation.required))
                 .addProperty(validationTypeProperty)
                 .addProperty(new ZInputBoxProperty(id + '|columnValidation.minLength', 'validation.minLength', option.columnValidation.minLength))
                 .addProperty(new ZInputBoxProperty(id + '|columnValidation.maxLength', 'validation.maxLength', option.columnValidation.maxLength))

@@ -190,11 +190,11 @@ export const inputBoxMixin = {
         // validation - validation Type
         const validationTypeProperty = new ZDropdownProperty('validationValidationType', 'validation.validationType',
             this.validationValidationType, [
-                {name: i18n.msg('form.properties.none'), value: 'none'},
-                {name: i18n.msg('form.properties.char'), value: 'char'},
-                {name: i18n.msg('form.properties.number'), value: 'number'},
-                {name: i18n.msg('form.properties.email'), value: 'email'},
-                {name: i18n.msg('form.properties.phone'), value: 'phone'}
+                { name: i18n.msg('form.properties.none'), value: 'none' },
+                { name: i18n.msg('form.properties.char'), value: 'char' },
+                { name: i18n.msg('form.properties.number'), value: 'number' },
+                { name: i18n.msg('form.properties.email'), value: 'email' },
+                { name: i18n.msg('form.properties.phone'), value: 'phone' }
             ]);
 
         return [
@@ -205,8 +205,8 @@ export const inputBoxMixin = {
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZDefaultValueSelectProperty('elementDefaultValueSelect', 'element.defaultValueSelect', this.elementDefaultValueSelect)),
             new ZGroupProperty('group.validation')
-                .addProperty(validationTypeProperty)
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
+                .addProperty(validationTypeProperty)
                 .addProperty(new ZInputBoxProperty('validationMinLength', 'validation.minLength', this.validationMinLength))
                 .addProperty(new ZInputBoxProperty('validationMaxLength', 'validation.maxLength', this.validationMaxLength))
         ];
