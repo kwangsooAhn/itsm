@@ -880,8 +880,6 @@ login:
 menu:
   board:
     parent: "게시판"
-  chart:
-    parent: "사용자 정의 차트"
   config:
     auth: "권한"
     boardAdmin: "게시판"
@@ -902,6 +900,7 @@ menu:
   notice:
     parent: "공지사항"
   report:
+    chart: "사용자 정의 차트"
     parent: "보고서"
     report: "보고서 조회"
     template: "템플릿 설정"

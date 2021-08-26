@@ -880,8 +880,6 @@ login:
 menu:
   board:
     parent: "Board"
-  chart:
-    parent: "User custom chart"
   config:
     auth: "Auth"
     boardAdmin: "Board management"
@@ -902,6 +900,7 @@ menu:
   notice:
     parent: "Notice"
   report:
+    chart: "User custom chart"
     parent: "Report"
     report: "Report List"
     template: "Report Template"
