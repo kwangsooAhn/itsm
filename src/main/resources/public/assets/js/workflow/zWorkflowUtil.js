@@ -319,9 +319,8 @@ ZWorkflowUtil.addRequiredProcessAttribute = function(processData) {
  */
 ZWorkflowUtil.FORM_ARRARY_TYPE = ['group', 'row', 'component', 'tags', 'options', 'columns'];
 ZWorkflowUtil.XMLToObject = function(data) {
-    let obj = '';
     if (data.nodeType === Node.ELEMENT_NODE) { // element
-        obj = {};
+        let obj = {};
         if (data.attributes.length > 0) { // 속성 정보도 object 데이터로 추가한다.
             for (let i = 0, len = data.attributes.length; i < len; i++) {
                 let attr = data.attributes.item(i);
@@ -329,41 +328,43 @@ ZWorkflowUtil.XMLToObject = function(data) {
                 obj[attr.nodeName] = attr.nodeValue;
             }
         }
-    } else if (data.nodeType === Node.TEXT_NODE) {
-        obj = data.nodeValue;
-    }
-    if (data.hasChildNodes()) {
-        for (let j = 0, cLen = data.childNodes.length; j < cLen; j++) {
-            let item = data.childNodes.item(j);
-            if (item.nodeType === Node.ELEMENT_NODE) {
-                let nodeName = item.nodeName;
-                if (typeof (obj[nodeName]) === 'undefined') {
-                    // group, row, component, columns 등 복수 처리가 필요한 경우 배열로 넘긴다.
-                    if (ZWorkflowUtil.FORM_ARRARY_TYPE.includes(nodeName) && !Array.isArray(obj[nodeName])) {
-                        let arr = ZWorkflowUtil.XMLToObject(item);
-                        obj[nodeName] = [];
-                        obj[nodeName].push(arr);
+        if (data.hasChildNodes()) {
+            for (let j = 0, cLen = data.childNodes.length; j < cLen; j++) {
+                let item = data.childNodes.item(j);
+                if (item.nodeType === Node.ELEMENT_NODE) {
+                    let nodeName = item.nodeName;
+                    if (typeof (obj[nodeName]) === 'undefined') {
+                        // group, row, component, columns 등 복수 처리가 필요한 경우 배열로 넘긴다.
+                        if (ZWorkflowUtil.FORM_ARRARY_TYPE.includes(nodeName) && !Array.isArray(obj[nodeName])) {
+                            let arr = ZWorkflowUtil.XMLToObject(item);
+                            obj[nodeName] = [];
+                            obj[nodeName].push(arr);
+                        } else {
+                            obj[nodeName] = ZWorkflowUtil.XMLToObject(item);
+                        }
                     } else {
-                        obj[nodeName] = ZWorkflowUtil.XMLToObject(item);
+                        if (typeof (obj[nodeName].push) === 'undefined') {
+                            let arr = obj[nodeName];
+                            obj[nodeName] = [];
+                            obj[nodeName].push(arr);
+                        }
+                        obj[nodeName].push(ZWorkflowUtil.XMLToObject(item));
                     }
-                } else {
-                    if (typeof (obj[nodeName].push) === 'undefined') {
-                        let arr = obj[nodeName];
-                        obj[nodeName] = [];
-                        obj[nodeName].push(arr);
+                } else if (item.nodeType === Node.CDATA_SECTION_NODE) {
+                    if (item.nodeValue === 'false' || item.nodeValue === 'true') { //boolean 값
+                        obj = (item.nodeValue === 'true');
+                    } else {
+                        obj = item.nodeValue;
                     }
-                    obj[nodeName].push(ZWorkflowUtil.XMLToObject(item));
-                }
-            } else if (item.nodeType === Node.CDATA_SECTION_NODE) {
-                if (item.nodeValue === 'false' || item.nodeValue === 'true') { //boolean 값
-                    obj = (item.nodeValue === 'true');
-                } else {
-                    obj = item.nodeValue;
                 }
             }
         }
+        return obj;
+    } else if (data.nodeType === Node.TEXT_NODE) {
+        return data.nodeValue;
+    } else {
+        return '';
     }
-    return obj;
 };
 
 /**
