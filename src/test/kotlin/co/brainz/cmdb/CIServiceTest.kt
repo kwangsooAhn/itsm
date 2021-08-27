@@ -53,7 +53,7 @@ class CIServiceTest {
         assumingThat(
             ciDtoList.data.isNotEmpty()
         ) {
-            assertTrue(ciDtoList.paging!!.totalCount > 0)
+            assertTrue(ciDtoList.paging.totalCount > 0)
         }
     }
 
