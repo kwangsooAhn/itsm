@@ -486,11 +486,11 @@ class WfFormService(
         currentFormEntity: WfFormEntity,
         component: FormComponentDto
     ): WfComponentEntity {
-        component.tags?.forEach { tagValue ->
+        component.tags?.forEach { tag ->
             aliceTagRepository.save(
                 AliceTagEntity(
                     tagType = AliceTagConstants.TagType.COMPONENT.code,
-                    tagValue = tagValue.tagValue,
+                    tagValue = tag.tagValue,
                     targetId = component.id
                 )
             )
