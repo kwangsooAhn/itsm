@@ -109,7 +109,8 @@ class TokenController(
     @GetMapping("{tokenId}/edit-tab")
     fun getDocumentEditTab(
         @PathVariable tokenId: String,
-        @RequestParam(value = "mode", defaultValue = "edit") mode: String, model: Model
+        @RequestParam(value = "mode", defaultValue = "edit") mode: String,
+        model: Model
     ): String {
         val instanceId = instanceService.getInstanceId(tokenId)!!
         model.addAttribute("instanceId", instanceId)

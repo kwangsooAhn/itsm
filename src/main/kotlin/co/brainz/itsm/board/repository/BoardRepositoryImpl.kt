@@ -6,10 +6,12 @@
 
 package co.brainz.itsm.board.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.board.dto.BoardArticleListDto
 import co.brainz.itsm.board.dto.BoardArticleSearchCondition
 import co.brainz.itsm.board.dto.BoardArticleViewDto
 import co.brainz.itsm.board.entity.PortalBoardEntity
+import co.brainz.itsm.board.entity.QPortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardCategoryEntity
 import co.brainz.itsm.board.entity.QPortalBoardCommentEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
@@ -29,6 +31,8 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
         val category = QPortalBoardCategoryEntity("category")
         val boardRead = QPortalBoardReadEntity("read")
         val comment = QPortalBoardCommentEntity("comment")
+        val boardAdmin = QPortalBoardAdminEntity("categoryYn")
+        val user = QAliceUserEntity("userKey")
         return from(board)
             .select(
                 Projections.constructor(
@@ -40,17 +44,20 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
                     board.boardGroupId,
                     board.boardLevelId,
                     board.boardTitle,
+                    boardAdmin.categoryYn,
                     ExpressionUtils.`as`(
                         JPAExpressions.select(comment.boardCommentId.count()).from(comment)
                             .where(board.boardId.eq(comment.commentBoard.boardId)), "replyCount"
                     ),
                     boardRead.boardReadCount.coalesce(0).`as`("readCount"),
                     board.createDt,
-                    board.createUser.userName
+                    user.userName
                 )
             )
+            .innerJoin(user).on(board.createUser.userKey.eq(user.userKey))
             .leftJoin(category).on(board.boardCategoryId.eq(category.boardCategoryId))
             .leftJoin(boardRead).on(board.boardId.eq(boardRead.boardId))
+            .leftJoin(boardAdmin).on((board.boardAdmin.boardAdminId.eq(boardAdmin.boardAdminId)))
             .where(
                 board.boardAdmin.boardAdminId.eq(boardArticleSearchCondition.boardAdminId),
                 super.likeIgnoreCase(
