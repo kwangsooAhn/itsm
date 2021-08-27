@@ -248,6 +248,7 @@ label {
 
   &:read-only:not(.tagify) {
     background-color: $element-readonly-bg-color;
+    background-image: none;
     border: none;
     @include border($element-readonly-border-width, solid, $element-readonly-border-color, left);
     @include borderRadius(0);

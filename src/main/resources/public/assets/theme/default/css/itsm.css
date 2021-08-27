@@ -1245,6 +1245,7 @@ label {
 }
 .z-input:read-only:not(.tagify) {
   background-color: #FFFFFF;
+  background-image: none;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
@@ -5135,6 +5136,9 @@ table[id=documentDisplay] td {
   border: 0.0625rem solid #CFD5D9;
   padding: 0;
 }
+.ql-wrapper-container .ql-toolbar.ql-snow .ql-picker {
+  color: #222529;
+}
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats {
   margin: 0;
   padding: 0;
@@ -5318,6 +5322,16 @@ table[id=documentDisplay] td {
 .ql-wrapper-container .ql-toolbar-hidden {
   display: none;
 }
+.ql-wrapper-container .ql-toolbar-readonly .ql-picker {
+  color: #ABB0B5 !important;
+}
+.ql-wrapper-container .ql-toolbar-readonly .ql-icon,
+.ql-wrapper-container .ql-toolbar-readonly .ql-transparent {
+  fill: #ABB0B5 !important;
+}
+.ql-wrapper-container .ql-toolbar-readonly .bg {
+  opacity: 0;
+}
 .ql-wrapper-container .ql-toolbar-readonly button.ql-active {
   color: #ABB0B5 !important;
 }
@@ -5383,7 +5397,11 @@ table[id=documentDisplay] td {
   border-color: #2578CE;
 }
 .ql-wrapper-container.ql-readonly {
+  background-color: #EEEEEE;
   pointer-events: none;
+}
+.ql-wrapper-container.ql-readonly .ql-container.ql-snow {
+  color: #ABB0B5 !important;
 }
 
 .ql-container {

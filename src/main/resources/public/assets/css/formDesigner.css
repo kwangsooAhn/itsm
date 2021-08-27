@@ -1595,17 +1595,17 @@ input, button, select, optgroup, textarea {
   border-color: #64BBF6 !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow woo {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow {
   border-color: #64BBF6 !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow woo .ql-picker {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-picker {
   color: #64BBF6 !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-icon, .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-transparent, .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-arrow,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow woo .ql-icon,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow woo .ql-transparent,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow woo .ql-arrow {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-icon,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-transparent,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-arrow {
   fill: #64BBF6 !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .dropzone {
@@ -1913,6 +1913,7 @@ label {
 }
 .z-input:read-only:not(.tagify) {
   background-color: #FFFFFF;
+  background-image: none;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
@@ -4711,6 +4712,9 @@ select {
   border: 0.0625rem solid #CFD5D9;
   padding: 0;
 }
+.ql-wrapper-container .ql-toolbar.ql-snow .ql-picker {
+  color: #222529;
+}
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats {
   margin: 0;
   padding: 0;
@@ -4894,6 +4898,16 @@ select {
 .ql-wrapper-container .ql-toolbar-hidden {
   display: none;
 }
+.ql-wrapper-container .ql-toolbar-readonly .ql-picker {
+  color: #ABB0B5 !important;
+}
+.ql-wrapper-container .ql-toolbar-readonly .ql-icon,
+.ql-wrapper-container .ql-toolbar-readonly .ql-transparent {
+  fill: #ABB0B5 !important;
+}
+.ql-wrapper-container .ql-toolbar-readonly .bg {
+  opacity: 0;
+}
 .ql-wrapper-container .ql-toolbar-readonly button.ql-active {
   color: #ABB0B5 !important;
 }
@@ -4959,7 +4973,11 @@ select {
   border-color: #2578CE;
 }
 .ql-wrapper-container.ql-readonly {
+  background-color: #EEEEEE;
   pointer-events: none;
+}
+.ql-wrapper-container.ql-readonly .ql-container.ql-snow {
+  color: #ABB0B5 !important;
 }
 
 /* _color-picker.scss 

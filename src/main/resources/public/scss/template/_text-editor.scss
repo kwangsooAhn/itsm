@@ -20,6 +20,10 @@
       @include border($element-border-width, solid, $element-border-color, all);
       padding: 0;
 
+      .ql-picker {
+        color: $element-font-color;
+      }
+
       .ql-formats {
         margin: 0;
         padding: 0;
@@ -242,6 +246,17 @@
   }
   // 툴바 readonly
   .ql-toolbar-readonly {
+    .ql-picker {
+      color: $element-disabled-font-color !important;
+    }
+    .ql-icon,
+    .ql-transparent {
+      fill : $element-disabled-font-color !important;
+    }
+    .bg {
+      opacity: 0;
+    }
+
     button {
       &.ql-active {
         color: $element-disabled-font-color !important;
@@ -337,6 +352,12 @@
 
   // 텍스트에디터는 readonly 속성이 없기 때문에 readonly일 경우 disabled 디자인과 동일하게 처리
   &.ql-readonly {
+    background-color: $element-disabled-bg-color;
     pointer-events: none;
+    .ql-container {
+      &.ql-snow {
+        color: $element-disabled-font-color !important;
+      }
+    }
   }
 }
