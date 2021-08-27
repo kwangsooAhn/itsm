@@ -59,7 +59,7 @@ class CIService(
     /**
      * CMDB CI 목록 조회
      */
-    fun getCIs(ciSearchCondition: CISearchCondition?): CIListReturnDto {
+    fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
         return ciService.getCIs(ciSearchCondition)
     }
 

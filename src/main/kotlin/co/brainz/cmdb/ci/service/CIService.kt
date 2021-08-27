@@ -78,7 +78,7 @@ class CIService(
     /**
      * CI 목록 조회.
      */
-    fun getCIs(ciSearchCondition: CISearchCondition?): CIListReturnDto {
+    fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
         val cis = ciRepository.findCIList(ciSearchCondition)
         val ciList = mutableListOf<CIListDto>()
         for (ci in cis.results) {
@@ -87,23 +87,16 @@ class CIService(
             )
         }
 
-        return if (ciSearchCondition != null) {
-            CIListReturnDto(
-                data = ciList,
-                paging = AlicePagingData(
-                    totalCount = cis.total,
-                    totalCountWithoutCondition = ciRepository.count(),
-                    currentPageNum = ciSearchCondition.pageNum,
-                    totalPageNum = ceil(cis.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
-                    orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
-                )
+        return CIListReturnDto(
+            data = ciList,
+            paging = AlicePagingData(
+                totalCount = cis.total,
+                totalCountWithoutCondition = ciRepository.count(),
+                currentPageNum = ciSearchCondition.pageNum,
+                totalPageNum = ceil(cis.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
-        } else {
-            CIListReturnDto(
-                data = ciList,
-                paging = null
-            )
-        }
+        )
     }
 
     /**

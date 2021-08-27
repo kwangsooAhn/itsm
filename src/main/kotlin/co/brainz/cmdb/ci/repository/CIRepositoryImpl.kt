@@ -62,7 +62,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     /**
      * CI 목록 조회.
      */
-    override fun findCIList(ciSearchCondition: CISearchCondition?): QueryResults<CIsDto> {
+    override fun findCIList(ciSearchCondition: CISearchCondition): QueryResults<CIsDto> {
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
