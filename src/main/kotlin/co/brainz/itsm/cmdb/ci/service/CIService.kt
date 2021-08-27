@@ -9,6 +9,7 @@ package co.brainz.itsm.cmdb.ci.service
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIHistoryDto
+import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.framework.tag.dto.AliceTagDto
@@ -61,6 +62,13 @@ class CIService(
      */
     fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
         return ciService.getCIs(ciSearchCondition)
+    }
+
+    /**
+     * CMDB CI 전체 목록 조회
+     */
+    fun getCIList(): List<CIListDto> {
+        return ciService.getCIList()
     }
 
     /**

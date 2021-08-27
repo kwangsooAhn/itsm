@@ -7,7 +7,7 @@
 package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.cmdb.dto.CIDetailDto
-import co.brainz.cmdb.dto.CIListReturnDto
+import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
 import co.brainz.itsm.cmdb.ci.service.CIService
@@ -29,8 +29,8 @@ class CIRestController(private val ciService: CIService) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @GetMapping("")
-    fun getCIs(): CIListReturnDto {
-        return ciService.getCIs(null)
+    fun getCIs(): List<CIListDto> {
+        return ciService.getCIList()
     }
 
     @GetMapping("/{ciId}")
