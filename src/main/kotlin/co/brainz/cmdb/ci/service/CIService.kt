@@ -244,6 +244,7 @@ class CIService(
                     ciRelationRepository.save(
                         CIRelationEntity(
                             relationType = it.relationType,
+                            ciId = ciDto.ciId,
                             sourceCIId = it.sourceCIId,
                             targetCIId = it.targetCIId
                         )
@@ -324,6 +325,7 @@ class CIService(
             ciRelationRepository.save(
                 CIRelationEntity(
                     relationType = it.relationType,
+                    ciId = ciDto.ciId,
                     sourceCIId = it.sourceCIId,
                     targetCIId = it.targetCIId
                 )

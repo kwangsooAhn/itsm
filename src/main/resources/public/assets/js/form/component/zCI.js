@@ -625,14 +625,36 @@ export const ciMixin = {
                     });
                     // actionType에 따른 연관 관계 데이터 조회
                     if (data.actionType === CI.ACTION_TYPE.MODIFY) {
-                        // cmdb_ci, cmdb_ci_relation 테이블에 등록되어 있는 데이터의 경우, cmdb_ci_relation 테이블에서 연관 관계 데이트를 가져와 처리한다.
+                        // 기존 CI 변경 클릭 후, 리스트에서 CI를 선택, 이후 CI 변경 시, 모달창에 출력되는 연관 관계 데이터는 cmdb_ci_relation 테이블의 데이터이다.
+                        // 이후 CI 수정 시, 수정한 연관 관계 데이터는 wf_component_ci_data 테이블의 데이터를 가져와 보여준다.
+                        aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id + '&instanceId=' + instanceIdElem.value, {
+                            method: 'GET',
+                        }).then((ciComponentData) => {
+                            if (ciComponentData === "") {
+                                aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/relation', {
+                                    method: 'GET',
+                                }).then((ciRelations) => {
+                                    const ciRelation = JSON.parse(ciRelations);
+                                    if (Object.keys(ciRelation).length !== 0) {
+                                        for (let i = 0; i < ciRelation.length; i++) {
+                                            this.addCIRelation(param, ciRelations[i]);
+                                        }
+                                    }
+                                });
+                            } else {
+                                const ciComponent = JSON.parse(ciComponentData);
+                                for (let i = 0; i < ciComponent.ciRelations.length; i++) {
+                                    this.addCIRelation(param, ciComponent.ciRelations[i]);
+                                }
+                            }
+                        });
                     } else if (data.actionType === CI.ACTION_TYPE.REGISTER) {
                         // cmdb_ci_relation 테이블에 등록되지 않은 데이터의 경우, wf_component_ci_data 테이블에서 연관 관계 데이터를 가져와 처리한다.
                         aliceJs.fetchJson('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id + '&instanceId=' + instanceIdElem.value, {
                             method: 'GET',
                         }).then((ciComponentData) => {
                             for (let i = 0; i < ciComponentData.ciRelations.length; i++) {
-                                this.addCIRelation(param, ciComponentData.ciRelations[i])
+                                this.addCIRelation(param, ciComponentData.ciRelations[i]);
                             }
                         });
                     }

@@ -8,6 +8,7 @@ package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIListReturnDto
+import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
 import co.brainz.itsm.cmdb.ci.service.CIService
 import javax.servlet.http.HttpServletRequest
@@ -66,5 +67,13 @@ class CIRestController(private val ciService: CIService) {
             request.getParameter("componentId"),
             request.getParameter("instanceId")
         )
+    }
+
+    /**
+     * CI 연관 관계 데이터 조회
+     */
+    @GetMapping("/{ciId}/relation")
+    fun getCIRelations(@PathVariable ciId: String): List<CIRelationDto> {
+        return ciService.getCIRelation(ciId)
     }
 }

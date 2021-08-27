@@ -25,6 +25,9 @@ data class CIRelationEntity(
     @Column(name = "relation_type", length = 100)
     var relationType: String? = null,
 
+    @Column(name = "ci_id")
+    val ciId: String = "",
+
     @Column(name = "source_ci_id", length = 128)
     var sourceCIId: String = "",
 

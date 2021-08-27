@@ -127,7 +127,7 @@
                         <td style="width: 100%;" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
                     </tr>
                     <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciRelationList)}" th:each="ciRelation: ${ciRelationList}">
-                        <td style="width: 20%;" th:text="${ciRelation.relationTypeName}"></td>
+                        <td style="width: 20%;" th:text="${ciRelation.relationType}"></td>
                         <td style="width: 40%;" th:text="${ciRelation.sourceCIName}"></td>
                         <td style="width: 40%;" th:text="${ciRelation.targetCIName}"></td>
                     </tr>
