@@ -121,8 +121,7 @@ class FormService(
      * @param formDataString
      * @return Boolean
      */
-    fun saveFormData(formId: String, formDataString: String): Boolean {
-        val formDataDto = makeFormDataDto(formDataString)
+    fun saveFormData(formId: String, formDataDto: RestTemplateFormDataDto): Boolean {
         formDataDto.updateDt = LocalDateTime.now()
         formDataDto.updateUserKey = currentSessionUser.getUserKey()
         logger.info("save form : [{}]", formId)
