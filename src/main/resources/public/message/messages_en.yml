@@ -656,6 +656,7 @@ form:
     enterFormName: "Please enter a form name."
     failedAllColumnDelete: "At least one column is required."
     failedDestroy: "Related documents exist for this form.<br/>This can't be destroyed."
+    failedExport: "Failed to export document form."
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     fileSelect: "Please select a file."
     information: "There are no common editable component detail attributes."
