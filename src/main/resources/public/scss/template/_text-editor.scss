@@ -240,6 +240,20 @@
   .ql-toolbar-hidden {
     display: none;
   }
+  // 툴바 readonly
+  .ql-toolbar-readonly {
+    button {
+      &.ql-active {
+        color: $element-disabled-font-color !important;
+        .ql-icon {
+          fill : $element-disabled-font-color !important;
+        }
+        &:after {
+          background: transparent !important;
+        }
+      }
+    }
+  }
   // 편집 영역
   .ql-container {
     &.ql-snow {
@@ -271,6 +285,10 @@
         }
       }
     }
+    // 유효성 검증 실패시
+    &.error {
+      @include border($validation-error-border-width, solid, $validation-error-border-color, all);
+    }
   }
 
   // 테두리 없음
@@ -288,7 +306,7 @@
   }
 
   // hover
-  &:hover {
+  &:hover:not(.ql-readonly) {
     outline: 0;
     .ql-toolbar {
       &.ql-snow {
@@ -302,7 +320,7 @@
     }
   }
   // focus
-  &:focus {
+  &:focus:not(.ql-readonly) {
     outline: 0;
     @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
     .ql-toolbar {
@@ -315,5 +333,10 @@
         border-color: $element-focus-border-color;
       }
     }
+  }
+
+  // 텍스트에디터는 readonly 속성이 없기 때문에 readonly일 경우 disabled 디자인과 동일하게 처리
+  &.ql-readonly {
+    pointer-events: none;
   }
 }

@@ -67,11 +67,6 @@ $blues: (
   'light':                                    #87CEFF
 ) !default;
 
-// orange color
-$oranges: (
-  'light':                                    #FF850A
-) !default;
-
 $gray:                                        #ACB4BF !default;
 $red:                                         #ff405a !default;
 $blue:                                        #0098FF !default;
@@ -84,8 +79,6 @@ $common-prefix:                               'z-';
 
 $description-color:                           $gray500;
 $required-color:                              $red500;
-$error-color:                                 $red500;
-$success-color:                               $green500;
 
 // 선
 $horizontal-bar-width:                        0.0625rem; // 1px
@@ -104,6 +97,7 @@ $element-bg-color:                            $white;
 $element-border-color:                        $gray300;
 $element-border-width:                        0.0625rem; // 1px
 $element-border:                              $element-border-width solid $element-border-color;
+$element-border-radius:                       0.125rem; // 2px
 $element-indent:                              1rem; // 16px 내부 들여쓰기
 $element-shadow-color:                        $gray300;
 $element-icon-color:                          $gray500;
@@ -115,6 +109,7 @@ $element-placeholder-font-color:              $gray400;
 $element-active-font-color:                   $blue700;
 $element-active-bg-color:                     $blue200;
 $element-active-border-color:                 $blue600;
+$element-active-border-width:                 0.0625rem; // 1px
 
 // 키보드 또는 선택시, 해당 element에 포커싱되었을 때 사용하는 디자인 변수
 $element-focus-font-color:                    $blue700;
@@ -139,31 +134,34 @@ $element-disabled-border-width:               0.0625rem; // 1px
 $element-disabled-border:                     $element-disabled-border-width solid $element-disabled-border-color;
 
 // element readonly 시 사용하는 디자인 변수
-$element-readonly-font-color:                 map-get($grays, 'dark');
-$element-readonly-bg-color:                   $neutral200;
+$element-readonly-font-color:                 $gray800;
+$element-readonly-bg-color:                   $white;
 $element-readonly-border-color:               $gray400;
 $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:                     $element-readonly-border-width solid $element-readonly-border-color;
 
-// 체크박스, 라디오 버튼, 스위치 등 선택되었을 때 (ON) 디자인 변수
-$element-checked-color:                      $blue500;
-$element-checked-active-color:               $blue700;
+// 체크박스, 라디오 버튼, selectbox 선택되었을 때 (ON) 디자인 변수
+$element-checked-color:                       $blue500;
+$element-checked-active-color:                $blue700;
 
-//셀렉트 박스 선택되었을 때 옵션에 사용하는 디자인 변수
-$element-selected-font-color:                 $blue500;
-$element-hover-bg-color:                      hexToRGBA($blue, 0.08); // 불투명도 8%
+// 스위치 디자인 변수
+$switch-thumb-color:                          $white;
+$switch-thumb-border-color:                   $gray500;
+$switch-thumb-border-width:                   0.0625rem; // 1px
+$switch-thumb-shadow-color:                   $gray600;
 
-// 유효성 검증 실패시 디자인 변수
-$element-error-font-color:                    $red !important;
-$element-error-border-color:                  $red;
-$element-error-border-width:                  0.0625rem; // 1px
-$element-error-border:                        $element-error-border-width solid $element-error-border-color !important;
+$switch-off-track-color:                      $gray400;
+$switch-off-track-border-color:               $gray500;
+$switch-off-track-border-width:               0.0625rem; // 1px
 
-// 유효성 검증 성공 시 디자인 변수
-$element-success-font-color:                  $red500 !important;
-$element-success-border-color:                $red500;
-$element-success-border-width:                0.0625rem; // 1px
-$element-success-border:                      $element-success-border-width solid $element-success-border-color !important;
+$switch-on-track-color:                       $blue500;
+$switch-on-track-border-color:                $blue600;
+$switch-on-track-border-width:                0.0625rem; // 1px
+
+$switch-disabled-thumb-bg-color:              $neutral100;
+$switch-disabled-track-color:                 $neutral300;
+$switch-disabled-track-border-color:          $gray300;
+$switch-disabled-track-border-width:          0.0625rem; // 1px
 
 // headings
 $h1-font-size:                                $font-size-xxl; // 45px
@@ -547,9 +545,6 @@ $header-tooltip-box-shadow-color:            $gray300;
 $header-tooltip-padding:                     7px; // 7px
 $header-tooltip-margin:                      16px 0 0 0; // 16px
 
-/////////////////////////////// designed select ///////////////////////////////
-$select-bg-color:                            $blue50;
-
 //////////////////////////////////// z-index ///////////////////////////////////
 $z-index-alert:                              999999;
 $z-index-between-alert-modal:                5000;
@@ -620,12 +615,21 @@ $slider-thumb-disabled-border-color:         $gray300;
 $slider-thumb-disabled-bg-color:             $neutral200;
 
 ////////////////////////////// validation /////////////////////////////
-$validation-info-color:                      $blue500;
+// info
+$validation-info-font-color:                 $blue500;
 $validation-info-bg-color:                   $blue100;
-$validation-error-color:                     $red500;
+$validation-info-border-color:               $blue500;
+$validation-info-border-width:               0.0625rem; // 1px
+// error
+$validation-error-font-color:                $red500;
 $validation-error-bg-color:                  $red50;
-$validation-success-color:                   $green600;
+$validation-error-border-color:              $red500;
+$validation-error-border-width:              0.0625rem; // 1px
+// sucess
+$validation-success-font-color:              $green600;
 $validation-success-bg-color:                $green100;
+$validation-success-border-color:            $green500;
+$validation-success-border-width:            0.0625rem; // 1px
 
 ////////////////////////////// paging /////////////////////////////
 $paging-current-num-font-color:              $gray500;

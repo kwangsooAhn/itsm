@@ -26,6 +26,10 @@
   &[data-displaytype='document.displayType.hidden'] {
     display: none;
   }
+  // displayType이 readonly일 경우
+  &[data-displaytype='document.displayType.readonly'] {
+    
+  }
 }
 // 그룹
 .z-group {
