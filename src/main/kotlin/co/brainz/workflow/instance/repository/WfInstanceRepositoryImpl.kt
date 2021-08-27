@@ -320,6 +320,9 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                                 )
                         )
                     )
+                    .or(
+                        instance.documentNo.contains(searchValue)
+                    )
             )
         }
         if (fromDt.isNotEmpty()) builder.and(
