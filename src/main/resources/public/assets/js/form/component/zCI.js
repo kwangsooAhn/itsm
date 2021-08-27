@@ -910,7 +910,7 @@ export const ciMixin = {
         }
         relationTypeSelect.classList.add('mr-1');
 
-        const ciList = param.ciList.data;
+        const ciList = param.ciList;
         const sourceCISelect = document.createElement('select');
         sourceCISelect.classList.add('ci-select-box');
         for (let i = 0; i < ciList.length; i++) {
