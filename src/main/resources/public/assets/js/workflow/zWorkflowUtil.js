@@ -351,11 +351,7 @@ ZWorkflowUtil.XMLToObject = function(data) {
                         obj[nodeName].push(ZWorkflowUtil.XMLToObject(item));
                     }
                 } else if (item.nodeType === Node.CDATA_SECTION_NODE) {
-                    if (item.nodeValue === 'false' || item.nodeValue === 'true') { //boolean 값
-                        obj = (item.nodeValue === 'true');
-                    } else {
-                        obj = item.nodeValue;
-                    }
+                    obj = ['true', 'false'].includes(item.nodeValue) ? (item.nodeValue === 'true') : item.nodeValue;
                 }
             }
         }
