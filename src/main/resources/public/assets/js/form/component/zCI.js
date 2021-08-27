@@ -60,7 +60,15 @@ export const ciMixin = {
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {},
+    afterEvent() {
+        // 신청서 양식 편집 화면에 따른 처리
+        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+            // 모든 버튼을 disabled 처리
+            this.UIElement.UIComponent.UIElement.domElement.querySelectorAll('button').forEach((elem) => {
+                elem.disabled = true;
+            });
+        }
+    },
     // set, get
     set element(element) {
         this._element = element;

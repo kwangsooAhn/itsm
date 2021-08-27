@@ -3806,7 +3806,7 @@ table tbody tr:hover {
 .file-uploader-edit .dropzone {
   min-height: 6.25rem;
   background-color: #F7F8F9;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
   padding: 0.625rem 0.625rem 0 0.625rem;
 }
 .file-uploader-edit .dropzone .dz-default {
@@ -3849,7 +3849,7 @@ table tbody tr:hover {
   position: relative;
   height: 5rem;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
   padding: 1rem 1.25rem 0.5rem 1.25rem;
   margin-bottom: 0.625rem;
   vertical-align: top;
@@ -3911,26 +3911,22 @@ table tbody tr:hover {
   grid-row: 1/span 2;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-filename {
+  grid-column: 2;
+  color: #586872;
+  padding: 0 20px;
+  text-align: left;
   display: inline-block;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   word-wrap: normal;
-  padding: 0 20px;
-  text-align: left;
-  grid-column: 2;
-}
-.file-uploader-edit .dropzone .dz-preview .dz-details .dz-filename span {
-  color: #586872;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-size {
+  grid-column: 2;
+  color: #ACB4BF;
   text-align: left;
   padding: 0 1.25rem;
-  grid-column: 2;
-}
-.file-uploader-edit .dropzone .dz-preview .dz-details .dz-size span {
-  color: #ACB4BF;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-download {
   display: block;
@@ -3941,9 +3937,11 @@ table tbody tr:hover {
   text-align: center;
   cursor: pointer;
 }
+.file-uploader-edit .dropzone .dz-preview .dz-download .z-icon {
+  background: #8B9094;
+}
 .file-uploader-edit .dropzone .dz-preview .dz-download .z-icon.i-download {
   height: 3rem;
-  background: #8B9094;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-remove {
   display: block;
@@ -3954,9 +3952,11 @@ table tbody tr:hover {
   text-align: center;
   cursor: pointer;
 }
+.file-uploader-edit .dropzone .dz-preview .dz-remove .z-icon {
+  background: #8B9094;
+}
 .file-uploader-edit .dropzone .dz-preview .dz-remove .z-icon.i-delete {
   height: 3rem;
-  background: #8B9094;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-image {
   display: block;
@@ -4099,6 +4099,31 @@ table tbody tr:hover {
   -o-transition: width 300ms ease-in-out;
   -ms-transition: width 300ms ease-in-out;
   transition: width 300ms ease-in-out;
+}
+.file-uploader-edit.disabled {
+  pointer-events: none;
+}
+.file-uploader-edit.disabled .dropzone {
+  background-color: #EEEEEE;
+  border: 0.0625rem solid #CFD5D9;
+}
+.file-uploader-edit.disabled .dropzone .dz-default.dz-message {
+  color: #ABB0B5;
+}
+.file-uploader-edit.disabled .dropzone .dz-preview {
+  background-color: #EEEEEE;
+  border: 0.0625rem solid #CFD5D9;
+}
+.file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-file-type {
+  filter: grayscale(1);
+}
+.file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-download .z-icon,
+.file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-remove .z-icon {
+  background: #ABB0B5;
+}
+.file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-filename,
+.file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-size {
+  color: #ABB0B5;
 }
 .file-uploader-view {
   display: flex;

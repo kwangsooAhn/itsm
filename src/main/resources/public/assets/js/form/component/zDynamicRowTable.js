@@ -81,7 +81,29 @@ export const dynamicRowTableMixin = {
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {},
+    afterEvent() {
+        // 신청서 양식 편집 화면에 따른 처리
+        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+            this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.setUIDisabled(true);
+            // 모든 cell을 readonly 처리하고 버튼은 disabled 처리한다.
+            const drTable = this.UIElement.UIComponent.UIElement.UITable.domElement;
+            for (const row of drTable.rows) {
+                for (const cell of row.cells) {
+                    const elem = cell.querySelector('input, select, button');
+                    if (zValidation.isDefined(elem)) {
+                        // 버튼일 경우 readonly 대신 disabled 처리 필요
+                        if (elem.tagName === 'BUTTON') {
+                            elem.disabled = true;
+                        } else if (elem.tagName === 'SELECT') {
+                            elem.classList.add('readonly');
+                        } else {
+                            elem.readOnly = true;
+                        }
+                    }
+                }
+            }
+        }
+    },
     // set, get
     set element(element) {
         this._element = element;
