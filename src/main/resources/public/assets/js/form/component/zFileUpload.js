@@ -9,8 +9,7 @@
  *
  * https://www.brainz.co.kr
  */
-
-import { zValidation } from '../../lib/zValidation.js';
+import { FORM } from '../../lib/zConstants.js';
 import { UIDiv } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
@@ -60,6 +59,10 @@ export const fileUploadMixin = {
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
+        // 신청서 양식 편집 화면에 따른 처리
+        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+            this.UIElement.UIComponent.UIElement.UIFileUpload.addUIClass('disabled');
+        }
         let fileOptions = {
             extra: {
                 formId: 'frm',

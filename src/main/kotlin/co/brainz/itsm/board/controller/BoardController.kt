@@ -131,6 +131,7 @@ class BoardController(
     fun getBoardArticleList(boardArticleSearchCondition: BoardArticleSearchCondition, model: Model): String {
         val result = boardArticleService.getBoardArticleList(boardArticleSearchCondition)
         model.addAttribute("boardList", result.data)
+        model.addAttribute("categoryUseYn", result.categoryUseYn)
         model.addAttribute("paging", result.paging)
         return boardArticlesListPage
     }

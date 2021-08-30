@@ -52,56 +52,6 @@ a:active {
   text-decoration: none;
 }
 
-// textarea
-textarea:not(.z-textarea) {
-  font-family: inherit;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $element-line-height;
-  color: $element-font-color;
-  background-color: $element-bg-color;
-  @include border($element-border-width, solid, $element-border-color, all);
-  @include borderRadius(0.0625rem); // 1px
-  padding: 0.5rem $element-indent 0.5rem $element-indent; // 들여쓰기 8px 10px 8px 10px
-  resize: vertical;
-
-  &::placeholder {
-    color: $element-placeholder-font-color;
-  }
-
-  &:not(:disabled),
-  &:not(:read-only) {
-    &:focus {
-      outline: 0;
-      border: $element-focus-border;
-    }
-
-    &:hover {
-      outline: 0;
-      border: $element-hover-border;
-      @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA($blue, 0.2)); // 5px
-    }
-  }
-
-  &:disabled {
-    color: $element-disabled-font-color;
-    background-color: $element-disabled-bg-color;
-    pointer-events: none;
-    cursor: default;
-  }
-
-  &:read-only {
-    background-color: $element-readonly-bg-color;
-    border-color: $element-readonly-border-color;
-    pointer-events: none;
-    cursor: default;
-  }
-
-  &.error {
-    color: $element-error-font-color;
-    border: $element-error-border;
-  }
-}
 // table
 table {
   table-layout: fixed;
@@ -128,7 +78,6 @@ table {
     }
   }
 }
-
 // span
 span {
   font-family: inherit;
@@ -258,67 +207,69 @@ label {
   font-size: $element-font-size;
   font-weight: $element-font-weight;
   line-height: $element-line-height;
-  color: $neutral900; // $element-font-color
+  color: $element-font-color;
   background-color: $element-bg-color;
-  @include border($element-border-width, solid, $gray300, all); // $element-border-width, $element-border-color
-  @include borderRadius(0.125rem); // 2px
-  padding: 0 0.9375rem; // 들여쓰기 0 15px / 0 $element-indent
+  @include border($element-border-width, solid, $element-border-color, all);
+  @include borderRadius($element-border-radius); // 2px
+  padding: 0 $element-indent; // 들여쓰기
   vertical-align: middle;
 
   &::placeholder {
-    color: $gray400; // $element-placeholder-font-color
+    color: $element-placeholder-font-color;
   }
 
   &:not(:disabled),
   &:not(:read-only) {
     &:hover {
       outline: 0;
-      border-color: $blue400; // $element-hover-border
+      @include border($element-hover-border-width, solid, $element-hover-border-color, all);
     }
 
     &:focus {
       outline: 0;
-      border-color: $blue600; // $element-focus-border
-      @include boxShadow(0, 0, 0.125rem, 0, hexToRGBA($blue600, 1)); // 2px
+      @include border($element-focus-border-width, solid, $element-focus-border-color, all);
+      @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+
       &[data-error] {
-        @include border($element-border-width, solid, $element-error-border-color, all);
+        @include border($validation-error-border-width, solid, $validation-error-border-color, all);
         @include boxShadow(0, 0, 0, 0, $element-bg-color);
       }
       &[data-success] {
-        @include border($element-border-width, solid, $validation-success-color, all);
+        @include border($validation-success-border-width, solid, $validation-success-border-color, all);
         @include boxShadow(0, 0, 0, 0, $element-bg-color);
       }
     }
 
     &:active {
       outline: 0;
-      @include border($element-border-width, solid, $blue500, all); // $element-hover-border
+      @include border($element-active-border-width, solid, $element-active-border-color, all);
     }
   }
 
   &:read-only:not(.tagify) {
-    border-color: $gray400;
-    border-style: none none none solid;
+    background-color: $element-readonly-bg-color;
+    background-image: none;
+    border: none;
+    @include border($element-readonly-border-width, solid, $element-readonly-border-color, left);
     @include borderRadius(0);
-    background-color: $white;
     pointer-events: none;
     cursor: default;
   }
 
   &:disabled {
-    color: $gray400; // $element-disabled-font-color
-    background-color: $neutral200; // $element-disabled-bg-color
-    border-color: $gray300; // $element-disabled-border-color
+    color: $element-disabled-font-color;
+    background-color: $element-disabled-bg-color;
+    @include border($element-disabled-border-width, solid, $element-disabled-border-color, all);
     pointer-events: none;
     cursor: default;
   }
 
   &.error {
-    @include border($element-border-width, solid, $error-color, all); // $element-error-border
+    @include border($validation-error-border-width, solid, $validation-error-border-color, all);
   }
 
   &.success {
-    @include border($element-border-width, solid, $success-color, all);
+    @include border($validation-success-border-width, solid, $validation-success-border-color, all);
   }
 
   &-clear {
@@ -408,58 +359,61 @@ label {
     font-size: $element-font-size;
     font-weight: $element-font-weight;
     line-height: $element-line-height;
-    color: $neutral900; // $element-font-color
+    color: $element-font-color;
     background-color: $element-bg-color;
-    padding: 0.5rem $element-indent 0.5rem $element-indent; // 들여쓰기 8px 10px 8px 10px
+    padding: 0.5rem $element-indent; // 들여쓰기 8px 16px
   &:not(.os-textarea) {
-    @include border($element-border-width, solid, $gray300, all); // $element-border-width, $element-border-color
-    @include borderRadius(0.125rem);
+    @include border($element-border-width, solid, $element-border-color, all);
+    @include borderRadius($element-border-radius);
   }
 
   &::placeholder {
-    color: $gray400;
+    color: $element-placeholder-font-color;
   }
 
-  &:not(:disabled) {
+  &:not(:disabled),
+  &:not(:read-only) {
     &:focus {
       outline: 0;
-      @include border($element-border-width, solid, $blue600, all);
-      @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+      @include border($element-focus-border-width, solid, $element-focus-border-color, all);
+      @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
     }
 
     &:hover {
       outline: 0;
-      @include border($element-border-width, solid, $blue400, all);
+      @include border($element-hover-border-width, solid, $element-hover-border-color, all);
     }
 
     &:active {
       outline: 0;
-      @include border($element-border-width, solid, $blue500, all);
+      @include border($element-active-border-width, solid, $element-active-border-color, all);
     }
   }
 
-  &:disabled {
-    color: $gray400;
-    background-color: $neutral200;
+  &:read-only:not(.os-host-textarea) {
+    background-color: $element-readonly-bg-color;
+    border: none;
+    @include border($element-readonly-border-width, solid, $element-readonly-border-color, left);
+    @include borderRadius(0);
     pointer-events: none;
     cursor: default;
+    resize: none;
   }
 
-  &:read-only:not(.os-host-textarea) {
-    border-color: $gray400;
-    border-style: none none none solid;
-    @include borderRadius(0);
-    background-color: $white;
+  &:disabled {
+    color: $element-disabled-font-color;
+    background-color: $element-disabled-bg-color;
+    @include border($element-disabled-border-width, solid, $element-disabled-border-color, all);
     pointer-events: none;
     cursor: default;
   }
 
   &.error {
-    @include border($element-border-width, solid, $error-color, all);
+    @include border($validation-error-border-width, solid, $validation-error-border-color, all);
   }
 
   &.success {
-    @include border($element-border-width, solid, $success-color, all);
+    @include border($validation-success-border-width, solid, $validation-success-border-color, all);
   }
 }
 
@@ -488,8 +442,8 @@ label {
       @include absolute(0, 0, 0, 0);
       width: 2.25rem; // 36px
       height: 0.75rem; // 12px
-      background-color: $gray400;
-      @include border(0.0625rem, solid, $gray500, all); // 1px
+      background-color: $switch-off-track-color;
+      @include border($switch-off-track-border-width, solid, $switch-off-track-border-color, all); // 1px
       @include borderRadius(2.5rem); // 40px
       cursor: pointer;
       @include transition(.4s);
@@ -499,15 +453,16 @@ label {
         @include absolute($top: -0.25rem, $left: -0.0625rem); // -4px -1px
         width: 1.125rem; // 18px
         height: 1.125rem; // 18px
-        background-color: $white;
+        background-color: $switch-thumb-color;
+        @include border($switch-thumb-border-width, solid, $switch-thumb-border-color, all); // 1px
         @include borderRadius(50%);
-        @include boxShadow(0, 0, 0.125rem, 0, $gray600); // 2px
+        @include boxShadow(0, 0, 0.125rem, 0, $switch-thumb-shadow-color); // 2px
       }
     }
     &:checked {
       + span {
-        background-color: $blue500;
-        border-color: $blue600;
+        background-color: $switch-on-track-color;
+        @include border($switch-on-track-border-width, solid, $switch-on-track-border-color, all); // 1px
         &::before {
           @include translate(1.3125rem, 0); // 21px
         }
@@ -515,10 +470,10 @@ label {
     }
     &:disabled {
       + span {
-        background-color: $neutral300;
-        border-color: $gray300;
+        background-color: $switch-disabled-track-color;
+        @include border($switch-disabled-track-border-width, solid, $switch-disabled-track-border-color, all); // 1px
         &::before {
-          background-color: $neutral100;
+          background-color: $switch-disabled-thumb-bg-color;
         }
       }
     }
@@ -526,7 +481,6 @@ label {
 }
 
 // select
-// 새로고침시 디자인전 기존 디자인이 표시됨
 select {
   height: 2.25rem; // 36px
   font-family: inherit;
@@ -585,13 +539,18 @@ select {
 
       &:hover {
         outline: 0;
-        border: $element-hover-border;
+        @include border($element-hover-border-width, solid, $element-hover-border-color, all);
+      }
+
+      &:focus {
+        outline: 0;
+        @include border($element-focus-border-width, solid, $element-focus-border-color, all);
+        @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
       }
 
       &.active {
         outline: 0;
-        border: $element-focus-border;
-        @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color);
+        @include border($element-active-border-width, solid, $element-active-border-color, all);
         // 열렸을때 출력되는 화살표 아이콘
         .z-icon {
           &.i-arrow-right {
@@ -616,21 +575,21 @@ select {
       }
     }
 
-    // disabled
-    &.disabled-select {
-      border: $element-disabled-border;
-      background-color: $element-disabled-bg-color;
-      color: $element-disabled-font-color;
+    // readonly
+    &.readonly {
+      background-color: $element-readonly-bg-color;
+      border: none;
+      @include border($element-readonly-border-width, solid, $element-readonly-border-color, left);
+      @include borderRadius(0);
       pointer-events: none;
       cursor: default;
     }
 
-    // readonly
-    &.readonly {
-      border: $element-readonly-border;
-      border-style: none none none solid;
-      background-color: $white;
-      @include borderRadius(0);
+    // disabled
+    &.disabled-select {
+      color: $element-disabled-font-color;
+      background-color: $element-disabled-bg-color;
+      @include border($element-disabled-border-width, solid, $element-disabled-border-color, all);
       pointer-events: none;
       cursor: default;
     }
@@ -644,10 +603,10 @@ select {
     z-index: $z-index-between-alert-modal;
     padding: 0.25rem 0; // 4px
     margin: 0;
-    border: $element-border;
+    @include border($element-border-width, solid, $element-border-color, all);
     background-color: $element-bg-color;
     max-height: 25rem; // 400px
-    color: $gray800;
+    color: $element-font-color;
     outline: 0;
     overflow: auto;
     @include borderRadius(0.125rem); // 2px
@@ -663,22 +622,18 @@ select {
       line-height: $element-line-height;
       @include ellipsis(flex);
 
-      &:hover {
-        background: $select-bg-color;
-      }
+      &:hover { background: $element-hover-bg-color; }
 
-      &[rel='hide'] {
-        display: none;
-      }
+      &[rel='hide'] { display: none; }
     }
     .selected {
-      color: $element-selected-font-color;
+      color: $element-checked-color;
 
       // 선택된 옵션에 표시되는 체크 아이콘
       &:after {
         @include absolute($right: 0.9375rem); // 15px
-        width: 10px;
-        height: 7px;
+        width: 0.625rem; // 10px
+        height: 0.438rem; // 7px
         @include backgroundImage($icon-folder-path + 'icon_select_check.svg', auto, no-repeat, center, center);
         content: '';
       }
@@ -795,25 +750,26 @@ select {
         vertical-align: middle;
       }
     }
-
-    &:not(:disabled) {
-      + span { cursor: pointer; }
-      ~ .z-label { cursor: pointer; }
-      &:checked {
-        + span {
-          // 체크 기호
-          &::after {
-            content: '';
-            @include absolute($top: 0.125rem, $left: 0); // 2px
-            width: 0.75rem; // 12px
-            height: 0.375rem; // 6px
-            @include border(0.125rem, solid, $element-checked-color, bottom, top);
-            @include border(0.125rem, solid, $element-checked-color, left, right);
-            @include borderRadius(0.125rem); // 2px
-            @include transform(translate(0.1875rem, 0.25rem) rotate(-45deg)); // 3px, 4px
-          }
+    &:checked {
+      + span {
+        // 체크 기호
+        &::after {
+          content: '';
+          @include absolute($top: 0.125rem, $left: 0); // 2px
+          width: 0.75rem; // 12px
+          height: 0.375rem; // 6px
+          @include border(0.125rem, solid, $element-checked-color, bottom, top);
+          @include border(0.125rem, solid, $element-checked-color, left, right);
+          @include borderRadius(0.125rem); // 2px
+          @include transform(translate(0.1875rem, 0.25rem) rotate(-45deg)); // 3px, 4px
         }
       }
+    }
+
+    &:not(:disabled),
+    &:not(.readonly) {
+      + span { cursor: pointer; }
+      ~ .z-label { cursor: pointer; }
 
       &:hover {
         + span {
@@ -824,8 +780,9 @@ select {
         }
       }
     }
-
-    &:disabled {
+    // 체크박스는 readonly 속성이 없기 때문에 readonly일 경우 disabled 디자인과 동일하게 처리
+    &:disabled,
+    &.readonly {
       + span {
         &::before {
           background-color: $element-disabled-bg-color;
@@ -841,7 +798,8 @@ select {
   }
 
   &:focus {
-    input[type=checkbox]:not(:disabled) {
+    input[type=checkbox]:not(:disabled),
+    input[type=checkbox]:not(.readonly) {
       + span {
         &:before {
           border-color: $element-focus-border-color;
@@ -851,7 +809,8 @@ select {
     }
   }
   &:active {
-    input[type=checkbox]:not(:disabled) {
+    input[type=checkbox]:not(:disabled),
+    input[type=checkbox]:not(.readonly) {
       + span {
         &:before {
           border-color: $element-active-border-color;
@@ -862,6 +821,12 @@ select {
         }
       }
     }
+  }
+
+  // readonly, disabled 클래스 설정시 라벨의 동작을 막음
+  &.readonly,
+  &.disabled {
+    pointer-events: none;
   }
 }
 
@@ -908,7 +873,8 @@ select {
       }
     }
 
-    &:not(:disabled) {
+    &:not(:disabled),
+    &:not(.readonly) {
       + span { cursor: pointer; }
       ~ .z-label { cursor: pointer; }
 
@@ -933,8 +899,9 @@ select {
         }
       }
     }
-
-    &:disabled {
+    // 라디오버튼은 readonly 속성이 없기 때문에 readonly일 경우 disabled 디자인과 동일하게 처리
+    &:disabled,
+    &.readonly {
       + span {
         &::before {
           border-color: $element-disabled-border-color;
@@ -956,7 +923,8 @@ select {
   }
 
   &:focus {
-    input[type=radio]:not(:disabled) {
+    input[type=radio]:not(:disabled),
+    input[type=radio]:not(.readonly) {
       + span {
         &:before {
           border-color: $element-focus-border-color;
@@ -967,7 +935,8 @@ select {
     }
   }
   &:active {
-    input[type=radio]:not(:disabled) {
+    input[type=radio]:not(:disabled),
+    input[type=radio]:not(.readonly) {
       + span {
         &:before {
           border-color: $element-active-border-color;
@@ -979,5 +948,11 @@ select {
         }
       }
     }
+  }
+
+  // readonly, disabled 클래스 설정시 라벨의 동작을 막음
+  &.readonly,
+  &.disabled {
+    pointer-events: none;
   }
 }

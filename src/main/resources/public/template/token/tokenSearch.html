@@ -62,7 +62,7 @@
             element.addEventListener('change', () => tokenSearch(false), false);
         });
 
-        document.getElementById('searchValue').addEventListener('keyup', (e) => {tokenSearch(false);}, false);
+        document.getElementById('searchValue').addEventListener('keyup', () => {tokenSearch(false);}, false);
 
         // 태그 조회가 아직 미완성이기 때문에 임시적으로 엔터로 변경한다.
         document.getElementById('searchTagString').addEventListener('keyup', (e) => {
@@ -106,7 +106,6 @@
      * 문서함을 검색한다.
      */
     function tokenSearch(isScroll) {
-        let urlParam = '';
         document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
         if (isScroll) {
             if (offsetCount === 0) {
@@ -115,15 +114,8 @@
         } else {
             offsetCount = 0;
         }
-        urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+        let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
         restSubmit('get', '/tokens?' + urlParam, isScroll);
-        document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
-                new zTag(tagInput, {
-                    suggestion: false,
-                    realtime: false,
-                    tagType: 'instance'
-                });
-        });
     }
 
     function restSubmit(method, url, isScroll) {
@@ -140,12 +132,19 @@
                     let tempDiv = document.createElement('div');
                     tempDiv.innerHTML = response.responseText;
                     setDateTimeFormat(tempDiv);
+                    tempDiv.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
+                        new zTag(tagInput, {
+                            suggestion: false,
+                            realtime: false,
+                            tagType: 'instance'
+                        });
+                    });
                     document.querySelector('.z-token-content .card-list').insertAdjacentHTML('beforeend', tempDiv.innerHTML);
                 } else {
                     document.getElementById('tokenList').innerHTML = response.responseText;
                     aliceJs.showTotalCount(document.getElementById('totalCount').value);
                     setDateTimeFormat(document.getElementById('tokenList'));
-                    OverlayScrollbars(document.querySelector('.z-token-content'), {
+                    OverlayScrollbars(document.querySelector('.z-page-content'), {
                         className: 'scrollbar',
                         callbacks: {
                             onScroll: function (e) {
@@ -157,17 +156,15 @@
                                         tokenSearch(true);
                                     }
                                 }
-                                if (scrollTop > 20) {
-                                    document.getElementById('header-search').classList.remove('slide-down');
-                                    document.getElementById('header-search').classList.add('slide-up');
-                                    document.getElementById('header-title').style.display = 'none';
-                                } else {
-                                    document.getElementById('header-search').classList.remove('slide-up');
-                                    document.getElementById('header-search').classList.add('slide-down');
-                                    document.getElementById('header-title').style.display = 'flex';
-                                }
                             }
                         }
+                    });
+                    document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
+                        new zTag(tagInput, {
+                            suggestion: false,
+                            realtime: false,
+                            tagType: 'instance'
+                        });
                     });
                 }
             }

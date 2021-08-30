@@ -67,7 +67,7 @@ class WfFormService(
     /**
      * 폼 목록을 출력하기 위한 문서양식 리스트 조회
      *
-     * @param parameters
+     * @param formSearchCondition
      * @return List<RestTemplateFormDto>
      */
     fun getFormList(formSearchCondition: FormSearchCondition): RestTemplateFormListReturnDto {
@@ -392,7 +392,7 @@ class WfFormService(
                 wfFormGroupPropertyRepository.saveAll(wfFormGroupPropertyEntities)
             }
 
-            group.row?.let {
+            group.row.let {
                 for (row in it) {
                     val currentRow = wfFormRowRepository.save(
                         WfFormRowEntity(
@@ -449,7 +449,7 @@ class WfFormService(
 
         for (group in restTemplateFormDataDto.group.orEmpty()) {
             group.id = UUID.randomUUID().toString().replace("-", "")
-            for (row in group.row.orEmpty()) {
+            for (row in group.row) {
                 row.id = UUID.randomUUID().toString().replace("-", "")
                 for (component in row.component) {
                     component.id = UUID.randomUUID().toString().replace("-", "")
@@ -486,13 +486,11 @@ class WfFormService(
         currentFormEntity: WfFormEntity,
         component: FormComponentDto
     ): WfComponentEntity {
-        val tagList = component.tags as List<String>
-        tagList.forEach { tagValue ->
-            // TODO: #11094 폼 디자이너 편집 화면 - 태그 저장시 에러 발생
+        component.tags?.forEach { tag ->
             aliceTagRepository.save(
                 AliceTagEntity(
                     tagType = AliceTagConstants.TagType.COMPONENT.code,
-                    tagValue = tagValue,
+                    tagValue = tag.tagValue,
                     targetId = component.id
                 )
             )

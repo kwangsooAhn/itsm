@@ -76,13 +76,13 @@
 
         // treeEdit
         @include treeEditTemplate();
+
+        // 카드
+        @include defaultCardTemplate();
       }
 
       // 리스트
       //@include defaultListTemplate();
-
-      // 카드
-      @include defaultCardTemplate();
 
       // edit, register
       @include defaultEditTemplate();

@@ -21,37 +21,37 @@
   }
   &.info {
     @include border($element-border-width, solid, $validation-info-bg-color, all);
-    color: $validation-info-color;
+    color: $validation-info-font-color;
     background-color: $validation-info-bg-color;
     @include backgroundImage('#{$icon-folder-path}validation/icon_info.svg', null, no-repeat, 1rem, center, null);
 
     .z-icon {
       &.i-clear {
-        background: $validation-info-color;
+        background: $validation-info-font-color;
       }
     }
   }
   &.error {
     @include border($element-border-width, solid, $validation-error-bg-color, all);
-    color: $validation-error-color;
+    color: $validation-error-font-color;
     background-color: $validation-error-bg-color;
     @include backgroundImage('#{$icon-folder-path}validation/icon_error.svg', null, no-repeat, 1rem, center, null);
 
     .z-icon {
       &.i-clear {
-        background: $validation-error-color;
+        background: $validation-error-font-color;
       }
     }
   }
   &.success {
     @include border($element-border-width, solid, $validation-success-bg-color, all);
-    color: $validation-success-color;
+    color: $validation-success-font-color;
     background-color: $validation-success-bg-color;
     @include backgroundImage('#{$icon-folder-path}validation/icon_success.svg', null, no-repeat, 1rem, center, null);
 
     .z-icon {
       &.i-clear {
-        background: $validation-success-color;
+        background: $validation-success-font-color;
       }
     }
   }
