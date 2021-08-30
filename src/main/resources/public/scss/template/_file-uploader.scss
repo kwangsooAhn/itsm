@@ -29,7 +29,7 @@
 }
 
 @include horizontalBar(0.0625rem,  0.625rem 0, map-get($grays, 'line'));
-
+// TODO: #11029 [SCSS] 파일 업로드 디자인
 .file-uploader {
   // edit 모드
   &-edit {
@@ -46,7 +46,7 @@
     .dropzone {
       min-height: 6.25rem; // 100px
       background-color: $dropzone-bg-color;
-      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+      @include border($element-border-width, solid, $element-border-color, all); // 1px
       padding: 0.625rem 0.625rem 0 0.625rem; // 10px
       // drag and drop 영역
       .dz-default {
@@ -90,7 +90,7 @@
         @include relative();
         height: $file-uploader-preview-height;
         background-color: $white;
-        @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+        @include border($element-border-width, solid, $element-border-color, all); // 1px
         padding: 1rem 1.25rem 0.5rem 1.25rem; // 16px 20px 8px 20px
         margin-bottom: 0.625rem; // 10px
         vertical-align: top;
@@ -143,24 +143,18 @@
           }
           // 파일명
           .dz-filename {
-            @include ellipsis();
+            grid-column: 2;
+            color: $file-uploader-filename-font-color;
             padding: 0 20px; // 0 20px
             text-align: left;
-            grid-column: 2;
-
-            span {
-              color: $file-uploader-filename-font-color;
-            }
+            @include ellipsis();
           }
           // 파일 크기
           .dz-size {
+            grid-column: 2;
+            color: $file-uploader-filesize-font-color;
             text-align: left;
             padding: 0 1.25rem; // 20px
-            grid-column: 2;
-
-            span {
-              color: $file-uploader-filesize-font-color;
-            }
           }
         }
         //파일 다운로드 아이콘
@@ -174,9 +168,9 @@
           cursor: pointer;
 
           .z-icon {
+            background: $file-uploader-icon-color;
             &.i-download {
               height: 3rem; // 48px
-              background: $file-uploader-icon-color;
             }
           }
         }
@@ -191,9 +185,9 @@
           cursor: pointer;
 
           .z-icon {
+            background: $file-uploader-icon-color;
             &.i-delete {
               height: 3rem; // 48px
-              background: $file-uploader-icon-color;
             }
           }
         }
@@ -282,6 +276,36 @@
             @include absolute(0, 0, 0, 0);
             background: linear-gradient(to bottom, $file-uploader-progress-color, $file-uploader-progress-color);
             @include transition(width 300ms ease-in-out);
+          }
+        }
+      }
+    }
+
+    // disabled
+    &.disabled {
+      pointer-events: none;
+      .dropzone {
+        background-color: $element-disabled-bg-color;
+        @include border($element-disabled-border-width, solid, $element-disabled-border-color, all);
+
+        .dz-default {
+          &.dz-message { color: $element-disabled-font-color; }
+        }
+
+        .dz-preview {
+          background-color: $element-disabled-bg-color;
+          @include border($element-disabled-border-width, solid, $element-disabled-border-color, all);
+
+          .dz-details {
+            .dz-file-type { filter: grayscale(1); }
+            .dz-download,
+            .dz-remove {
+              .z-icon { background: $element-disabled-font-color; }
+            }
+            .dz-filename,
+            .dz-size {
+              color: $element-disabled-font-color;
+            }
           }
         }
       }

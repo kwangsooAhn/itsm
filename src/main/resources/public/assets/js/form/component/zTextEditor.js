@@ -11,6 +11,7 @@
  */
 
 import { zValidation } from '../../lib/zValidation.js';
+import { FORM } from '../../lib/zConstants.js';
 import { UIDiv } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -64,7 +65,7 @@ export const textEditorMixin = {
     afterEvent() {
         this.editor = new zQuill(this.UIElement.UIComponent.UIElement.UIDiv.domElement, {
             placeholder: this.elementPlaceholder,
-            readOnly: false,
+            readOnly: (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY),
             content: (this.value !== '') ? this.value : ''
         });
         this.editor.root.style.setProperty('--data-row', this.elementRows);

@@ -1178,51 +1178,6 @@ a:active {
   text-decoration: none;
 }
 
-textarea:not(.z-textarea) {
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.2;
-  color: #222529;
-  background-color: #FFFFFF;
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  padding: 0.5rem 1rem 0.5rem 1rem;
-  resize: vertical;
-}
-textarea:not(.z-textarea)::placeholder {
-  color: #ABB0B5;
-}
-textarea:not(.z-textarea):not(:disabled):focus, textarea:not(.z-textarea):not(:read-only):focus {
-  outline: 0;
-  border: 0.0625rem solid #2578CE;
-}
-textarea:not(.z-textarea):not(:disabled):hover, textarea:not(.z-textarea):not(:read-only):hover {
-  outline: 0;
-  border: 0.0625rem solid #64BBF6;
-  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
-  -moz-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
-  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
-}
-textarea:not(.z-textarea):disabled {
-  color: #ABB0B5;
-  background-color: #EEEEEE;
-  pointer-events: none;
-  cursor: default;
-}
-textarea:not(.z-textarea):read-only {
-  background-color: #EEEEEE;
-  border-color: #ABB0B5;
-  pointer-events: none;
-  cursor: default;
-}
-textarea:not(.z-textarea).error {
-  color: #ff405a !important;
-  border: 0.0625rem solid #ff405a !important;
-}
-
 table {
   table-layout: fixed;
   border-collapse: collapse;
@@ -1359,13 +1314,13 @@ label {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
-  color: #212121;
+  color: #222529;
   background-color: #FFFFFF;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
-  padding: 0 0.9375rem;
+  padding: 0 1rem;
   vertical-align: middle;
 }
 .z-input::placeholder {
@@ -1373,45 +1328,46 @@ label {
 }
 .z-input:not(:disabled):hover, .z-input:not(:read-only):hover {
   outline: 0;
-  border-color: #64BBF6;
+  border: 0.0625rem solid #64BBF6;
 }
 .z-input:not(:disabled):focus, .z-input:not(:read-only):focus {
   outline: 0;
-  border-color: #2578CE;
-  -webkit-box-shadow: 0 0 0.125rem 0 #2578ce;
-  -moz-box-shadow: 0 0 0.125rem 0 #2578ce;
-  box-shadow: 0 0 0.125rem 0 #2578ce;
+  border: 0.0625rem solid #2578CE;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
+  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
+  box-shadow: 0 0 0.125rem 0 #2578CE;
 }
 .z-input:not(:disabled):focus[data-error], .z-input:not(:read-only):focus[data-error] {
-  border: 0.0625rem solid #ff405a;
+  border: 0.0625rem solid #F52525;
   -webkit-box-shadow: 0 0 0 0 #FFFFFF;
   -moz-box-shadow: 0 0 0 0 #FFFFFF;
   box-shadow: 0 0 0 0 #FFFFFF;
 }
 .z-input:not(:disabled):focus[data-success], .z-input:not(:read-only):focus[data-success] {
-  border: 0.0625rem solid #5CA21B;
+  border: 0.0625rem solid #76BD26;
   -webkit-box-shadow: 0 0 0 0 #FFFFFF;
   -moz-box-shadow: 0 0 0 0 #FFFFFF;
   box-shadow: 0 0 0 0 #FFFFFF;
 }
 .z-input:not(:disabled):active, .z-input:not(:read-only):active {
   outline: 0;
-  border: 0.0625rem solid #339AF0;
+  border: 0.0625rem solid #2578CE;
 }
 .z-input:read-only:not(.tagify) {
-  border-color: #ABB0B5;
-  border-style: none none none solid;
+  background-color: #FFFFFF;
+  background-image: none;
+  border: none;
+  border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  background-color: #FFFFFF;
   pointer-events: none;
   cursor: default;
 }
 .z-input:disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
-  border-color: #CFD5D9;
+  border: 0.0625rem solid #CFD5D9;
   pointer-events: none;
   cursor: default;
 }
@@ -1510,9 +1466,9 @@ label {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
-  color: #212121;
+  color: #222529;
   background-color: #FFFFFF;
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  padding: 0.5rem 1rem;
 }
 .z-textarea:not(.os-textarea) {
   border: 0.0625rem solid #CFD5D9;
@@ -1523,34 +1479,36 @@ label {
 .z-textarea::placeholder {
   color: #ABB0B5;
 }
-.z-textarea:not(:disabled):focus {
+.z-textarea:not(:disabled):focus, .z-textarea:not(:read-only):focus {
   outline: 0;
   border: 0.0625rem solid #2578CE;
   -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-textarea:not(:disabled):hover {
+.z-textarea:not(:disabled):hover, .z-textarea:not(:read-only):hover {
   outline: 0;
   border: 0.0625rem solid #64BBF6;
 }
-.z-textarea:not(:disabled):active {
+.z-textarea:not(:disabled):active, .z-textarea:not(:read-only):active {
   outline: 0;
-  border: 0.0625rem solid #339AF0;
+  border: 0.0625rem solid #2578CE;
+}
+.z-textarea:read-only:not(.os-host-textarea) {
+  background-color: #FFFFFF;
+  border: none;
+  border-left: 0.0625rem solid #ABB0B5;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  pointer-events: none;
+  cursor: default;
+  resize: none;
 }
 .z-textarea:disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
-  pointer-events: none;
-  cursor: default;
-}
-.z-textarea:read-only:not(.os-host-textarea) {
-  border-color: #ABB0B5;
-  border-style: none none none solid;
-  border-radius: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  background-color: #FFFFFF;
+  border: 0.0625rem solid #CFD5D9;
   pointer-events: none;
   cursor: default;
 }
@@ -1608,6 +1566,7 @@ label {
   width: 1.125rem;
   height: 1.125rem;
   background-color: #FFFFFF;
+  border: 0.0625rem solid #8B9094;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -1617,7 +1576,7 @@ label {
 }
 .z-switch input[type=checkbox]:checked + span {
   background-color: #339AF0;
-  border-color: #2578CE;
+  border: 0.0625rem solid #2578CE;
 }
 .z-switch input[type=checkbox]:checked + span::before {
   -webkit-transform: translate(1.3125rem, 0);
@@ -1628,7 +1587,7 @@ label {
 }
 .z-switch input[type=checkbox]:disabled + span {
   background-color: #E0E0E0;
-  border-color: #CFD5D9;
+  border: 0.0625rem solid #CFD5D9;
 }
 .z-switch input[type=checkbox]:disabled + span::before {
   background-color: #F5F5F5;
@@ -1700,12 +1659,16 @@ select {
   outline: 0;
   border: 0.0625rem solid #64BBF6;
 }
-.z-select .z-select-box:not(.readonly).active {
+.z-select .z-select-box:not(.readonly):focus {
   outline: 0;
   border: 0.0625rem solid #2578CE;
   -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
+}
+.z-select .z-select-box:not(.readonly).active {
+  outline: 0;
+  border: 0.0625rem solid #2578CE;
 }
 .z-select .z-select-box:not(.readonly).active .z-icon.i-arrow-right {
   -webkit-transform: rotate(-90deg);
@@ -1730,20 +1693,20 @@ select {
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
-.z-select .z-select-box.disabled-select {
-  border: 0.0625rem solid #CFD5D9;
-  background-color: #EEEEEE;
-  color: #ABB0B5;
-  pointer-events: none;
-  cursor: default;
-}
 .z-select .z-select-box.readonly {
-  border: 0.0625rem solid #ABB0B5;
-  border-style: none none none solid;
   background-color: #FFFFFF;
+  border: none;
+  border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
+  pointer-events: none;
+  cursor: default;
+}
+.z-select .z-select-box.disabled-select {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border: 0.0625rem solid #CFD5D9;
   pointer-events: none;
   cursor: default;
 }
@@ -1787,7 +1750,7 @@ select {
   word-wrap: normal;
 }
 .z-select .z-select-options li:hover {
-  background: #F1F9FC;
+  background: #E3F5FC;
 }
 .z-select .z-select-options li[rel=hide] {
   display: none;
@@ -1798,8 +1761,8 @@ select {
 .z-select .z-select-options .selected:after {
   position: absolute;
   right: 0.9375rem;
-  width: 10px;
-  height: 7px;
+  width: 0.625rem;
+  height: 0.438rem;
   background-image: url("../media/icons/icon_select_check.svg");
   background-size: auto;
   background-repeat: no-repeat;
@@ -1933,13 +1896,7 @@ select {
   background-color: #FFFFFF;
   vertical-align: middle;
 }
-.z-checkbox input[type=checkbox]:not(:disabled) + span {
-  cursor: pointer;
-}
-.z-checkbox input[type=checkbox]:not(:disabled) ~ .z-label {
-  cursor: pointer;
-}
-.z-checkbox input[type=checkbox]:not(:disabled):checked + span::after {
+.z-checkbox input[type=checkbox]:checked + span::after {
   content: "";
   position: absolute;
   top: 0.125rem;
@@ -1959,31 +1916,43 @@ select {
   -ms-transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
   transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
 }
-.z-checkbox input[type=checkbox]:not(:disabled):hover + span::before {
-  border-color: #64BBF6;
-  background-color: rgba(0, 152, 255, 0.08);
+.z-checkbox input[type=checkbox]:not(:disabled) + span, .z-checkbox input[type=checkbox]:not(.readonly) + span {
+  cursor: pointer;
 }
-.z-checkbox input[type=checkbox]:disabled + span::before {
+.z-checkbox input[type=checkbox]:not(:disabled) ~ .z-label, .z-checkbox input[type=checkbox]:not(.readonly) ~ .z-label {
+  cursor: pointer;
+}
+.z-checkbox input[type=checkbox]:not(:disabled):hover + span::before, .z-checkbox input[type=checkbox]:not(.readonly):hover + span::before {
+  border-color: #64BBF6;
+  background-color: #E3F5FC;
+}
+.z-checkbox input[type=checkbox]:disabled + span::before, .z-checkbox input[type=checkbox].readonly + span::before {
   background-color: #EEEEEE;
 }
-.z-checkbox input[type=checkbox]:disabled + span::after {
+.z-checkbox input[type=checkbox]:disabled + span::after, .z-checkbox input[type=checkbox].readonly + span::after {
   border-color: #ABB0B5;
 }
-.z-checkbox input[type=checkbox]:disabled ~ .z-label {
+.z-checkbox input[type=checkbox]:disabled ~ .z-label, .z-checkbox input[type=checkbox].readonly ~ .z-label {
   color: #ABB0B5;
 }
-.z-checkbox:focus input[type=checkbox]:not(:disabled) + span:before {
+.z-checkbox:focus input[type=checkbox]:not(:disabled) + span:before,
+.z-checkbox:focus input[type=checkbox]:not(.readonly) + span:before {
   border-color: #2578CE;
   -webkit-box-shadow: 0 0 0.0625rem 0 #2578CE;
   -moz-box-shadow: 0 0 0.0625rem 0 #2578CE;
   box-shadow: 0 0 0.0625rem 0 #2578CE;
 }
-.z-checkbox:active input[type=checkbox]:not(:disabled) + span:before {
+.z-checkbox:active input[type=checkbox]:not(:disabled) + span:before,
+.z-checkbox:active input[type=checkbox]:not(.readonly) + span:before {
   border-color: #2578CE;
   background-color: #ADE6FD;
 }
-.z-checkbox:active input[type=checkbox]:not(:disabled) + span:after {
+.z-checkbox:active input[type=checkbox]:not(:disabled) + span:after,
+.z-checkbox:active input[type=checkbox]:not(.readonly) + span:after {
   border-color: #1959AC;
+}
+.z-checkbox.readonly, .z-checkbox.disabled {
+  pointer-events: none;
 }
 
 .z-radio {
@@ -2031,16 +2000,16 @@ select {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
 }
-.z-radio input[type=radio]:not(:disabled) + span {
+.z-radio input[type=radio]:not(:disabled) + span, .z-radio input[type=radio]:not(.readonly) + span {
   cursor: pointer;
 }
-.z-radio input[type=radio]:not(:disabled) ~ .z-label {
+.z-radio input[type=radio]:not(:disabled) ~ .z-label, .z-radio input[type=radio]:not(.readonly) ~ .z-label {
   cursor: pointer;
 }
-.z-radio input[type=radio]:not(:disabled):checked + span::before {
+.z-radio input[type=radio]:not(:disabled):checked + span::before, .z-radio input[type=radio]:not(.readonly):checked + span::before {
   border-color: #CFD5D9;
 }
-.z-radio input[type=radio]:not(:disabled):checked + span::after {
+.z-radio input[type=radio]:not(:disabled):checked + span::after, .z-radio input[type=radio]:not(.readonly):checked + span::after {
   background-color: #339AF0;
   -webkit-transform: translate(4px, 9px) scale(1);
   -moz-transform: translate(4px, 9px) scale(1);
@@ -2048,18 +2017,18 @@ select {
   -ms-transform: translate(4px, 9px) scale(1);
   transform: translate(4px, 9px) scale(1);
 }
-.z-radio input[type=radio]:not(:disabled):hover + span::before {
+.z-radio input[type=radio]:not(:disabled):hover + span::before, .z-radio input[type=radio]:not(.readonly):hover + span::before {
   border-color: #64BBF6;
-  background-color: rgba(0, 152, 255, 0.08);
+  background-color: #E3F5FC;
 }
-.z-radio input[type=radio]:disabled + span::before {
+.z-radio input[type=radio]:disabled + span::before, .z-radio input[type=radio].readonly + span::before {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
 }
-.z-radio input[type=radio]:disabled ~ .z-label {
+.z-radio input[type=radio]:disabled ~ .z-label, .z-radio input[type=radio].readonly ~ .z-label {
   color: #ABB0B5;
 }
-.z-radio input[type=radio]:disabled:checked + span::after {
+.z-radio input[type=radio]:disabled:checked + span::after, .z-radio input[type=radio].readonly:checked + span::after {
   background-color: #ABB0B5;
   -webkit-transform: translate(4px, 9px) scale(1);
   -moz-transform: translate(4px, 9px) scale(1);
@@ -2067,23 +2036,29 @@ select {
   -ms-transform: translate(4px, 9px) scale(1);
   transform: translate(4px, 9px) scale(1);
 }
-.z-radio:focus input[type=radio]:not(:disabled) + span:before {
+.z-radio:focus input[type=radio]:not(:disabled) + span:before,
+.z-radio:focus input[type=radio]:not(.readonly) + span:before {
   border-color: #2578CE;
   -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-radio:active input[type=radio]:not(:disabled) + span:before {
+.z-radio:active input[type=radio]:not(:disabled) + span:before,
+.z-radio:active input[type=radio]:not(.readonly) + span:before {
   border-color: #2578CE;
   background-color: #ADE6FD;
 }
-.z-radio:active input[type=radio]:not(:disabled) + span::after {
+.z-radio:active input[type=radio]:not(:disabled) + span::after,
+.z-radio:active input[type=radio]:not(.readonly) + span::after {
   background-color: #1959AC;
   -webkit-transform: translate(4px, 9px) scale(1);
   -moz-transform: translate(4px, 9px) scale(1);
   -o-transform: translate(4px, 9px) scale(1);
   -ms-transform: translate(4px, 9px) scale(1);
   transform: translate(4px, 9px) scale(1);
+}
+.z-radio.readonly, .z-radio.disabled {
+  pointer-events: none;
 }
 
 /* _print.scss 
@@ -2480,7 +2455,7 @@ body.modal-active {
 }
 .tagify:disabled {
   border-color: #ABB0B5;
-  background-color: #EEEEEE;
+  background-color: #FFFFFF;
   pointer-events: none;
   cursor: default;
 }
