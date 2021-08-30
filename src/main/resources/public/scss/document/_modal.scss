@@ -36,24 +36,24 @@
             margin-bottom: 0.625rem; // 10px
           }
           // 연관 관계
-          .relation-group {
-            .relation-title-group {
+          .z-relation-group {
+            .z-relation-title-group {
               height: $cmdb-ci-relation-height;
-              .sub-title {
+              .z-sub-title {
                 font-size: $cmdb_ci-relation-font-size;
               }
             }
-            .relation-select-box-group {
+            .z-relation-select-box-group {
               width: $cmdb-ci-relation-select-group-width;
               font-size: $cmdb-ci-relation-select-group-font-size;
               font-weight: $cmdb-ci-relation-select-group-font-weight;
               font-family: $cmdb-ci-relation-select-group-font-family;
               padding: $cmdb-ci-relation-select-group-padding;
             }
-            .ci-select-box {
+            .z-ci-select-box {
               width: $cmdb-ci-ci-select-box-width;
             }
-            .relation-type-select-box {
+            .z-relation-type-select-box {
               width: $cmdb-ci-relation-select-box-width;
             }
           }

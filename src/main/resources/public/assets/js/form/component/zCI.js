@@ -435,7 +435,7 @@ export const ciMixin = {
                 saveData.values.ciAttributes.push(ciAttribute);
             }
         });
-        document.querySelectorAll('.relation-group-div').forEach((el) => {
+        document.querySelectorAll('.z-relation-group-div').forEach((el) => {
             let data = {};
             data.relationType = el.childNodes[0].getElementsByTagName('select')[0].value;
             data.sourceCIId = el.childNodes[1].getElementsByTagName('select')[0].value;
@@ -896,10 +896,10 @@ export const ciMixin = {
     // 연관 관계 입력 row 추가
     addCIRelation(param, ciRelations) {
         const divRow = document.createElement('div');
-        divRow.classList.add('flex-row', 'edit-row', 'relation-group', 'relation-group-div');
+        divRow.className = 'flex-row edit-row z-relation-group z-relation-group-div';
 
         const relationTypeSelect = document.createElement('select');
-        relationTypeSelect.classList.add('relation-type-select-box');
+        relationTypeSelect.classList.add('z-relation-type-select-box');
         const relationTypeList = param.codeList
         for (let i = 0; i < relationTypeList.length; i++) {
             const selectOption = document.createElement('option');
@@ -912,7 +912,7 @@ export const ciMixin = {
 
         const ciList = param.ciList;
         const sourceCISelect = document.createElement('select');
-        sourceCISelect.classList.add('ci-select-box');
+        sourceCISelect.classList.add('z-ci-select-box');
         for (let i = 0; i < ciList.length; i++) {
             const selectOption = document.createElement('option');
             selectOption.value = ciList[i].ciId;
@@ -923,7 +923,7 @@ export const ciMixin = {
         sourceCISelect.classList.add('mr-1');
 
         const targetCISelect = document.createElement('select');
-        targetCISelect.classList.add('ci-select-box');
+        targetCISelect.classList.add('z-ci-select-box');
         for (let i = 0; i < ciList.length; i++) {
             const selectOption = document.createElement('option');
             selectOption.value = ciList[i].ciId;
@@ -953,7 +953,7 @@ export const ciMixin = {
         divRow.appendChild(targetCISelect);
         divRow.appendChild(deleteBtn);
         document.getElementById('ciRelation').appendChild(divRow);
-        aliceJs.initDesignedSelectTag(document.querySelector('#ciRelation'));
+        aliceJs.initDesignedSelectTag(divRow);
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {
