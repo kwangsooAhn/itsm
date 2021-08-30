@@ -4,6 +4,7 @@
  */
 
 package co.brainz.framework.auth.controller
+
 import co.brainz.framework.auth.dto.AliceIpVerificationDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
@@ -38,8 +39,12 @@ class AliceLoginController(
 
     @Value("\${ip.access.control}")
     lateinit var ipAccessControlValue: String
+
     @Value("\${password.expired.period}")
     private var passwordExpiredPeriod: Long = 90
+
+    @Value("\${login.platform.enabled}")
+    private var loginPlatformEnabled: Boolean = false
 
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
@@ -82,6 +87,7 @@ class AliceLoginController(
             logger.info("INFO{} ", clientIp)
             model.addAttribute("ipList", ipList)
             model.addAttribute("clientIp", clientIp)
+            model.addAttribute("isLoingPlatform", loginPlatformEnabled)
         }
 
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
