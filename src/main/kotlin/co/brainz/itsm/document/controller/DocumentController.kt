@@ -8,12 +8,9 @@ package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.DocumentSearchCondition
-import java.time.LocalDateTime
-import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller

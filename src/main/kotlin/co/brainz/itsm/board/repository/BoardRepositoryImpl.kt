@@ -6,10 +6,12 @@
 
 package co.brainz.itsm.board.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.board.dto.BoardArticleListDto
 import co.brainz.itsm.board.dto.BoardArticleSearchCondition
 import co.brainz.itsm.board.dto.BoardArticleViewDto
 import co.brainz.itsm.board.entity.PortalBoardEntity
+import co.brainz.itsm.board.entity.QPortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardCategoryEntity
 import co.brainz.itsm.board.entity.QPortalBoardCommentEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
@@ -26,9 +28,11 @@ import org.springframework.stereotype.Repository
 class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.java), BoardRepositoryCustom {
     override fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): QueryResults<BoardArticleListDto> {
         val board = QPortalBoardEntity.portalBoardEntity
+        val user = QAliceUserEntity.aliceUserEntity
         val category = QPortalBoardCategoryEntity("category")
         val boardRead = QPortalBoardReadEntity("read")
         val comment = QPortalBoardCommentEntity("comment")
+        val boardAdmin = QPortalBoardAdminEntity("categoryYn")
         return from(board)
             .select(
                 Projections.constructor(
@@ -40,6 +44,7 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
                     board.boardGroupId,
                     board.boardLevelId,
                     board.boardTitle,
+                    boardAdmin.categoryYn,
                     ExpressionUtils.`as`(
                         JPAExpressions.select(comment.boardCommentId.count()).from(comment)
                             .where(board.boardId.eq(comment.commentBoard.boardId)), "replyCount"
@@ -49,8 +54,10 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
                     board.createUser.userName
                 )
             )
+            .innerJoin(board.createUser, user)
             .leftJoin(category).on(board.boardCategoryId.eq(category.boardCategoryId))
             .leftJoin(boardRead).on(board.boardId.eq(boardRead.boardId))
+            .leftJoin(boardAdmin).on((board.boardAdmin.boardAdminId.eq(boardAdmin.boardAdminId)))
             .where(
                 board.boardAdmin.boardAdminId.eq(boardArticleSearchCondition.boardAdminId),
                 super.likeIgnoreCase(

@@ -24,6 +24,8 @@ common:
   label:
     attachFile: "Attach file"
     blank: " "
+    bracketOpen: "["
+    bracketClose: "]"
     comment: "Comment"
     contents: "Contents"
     colon: ":"

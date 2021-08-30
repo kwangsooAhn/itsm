@@ -8,7 +8,7 @@
     <thead class="z-list-head">
         <tr class="flex-row align-items-center">
             <th style="width:10%;" class="align-left" th:text="#{board.label.number}"></th>
-            <th style="width:15%;" class="align-left" th:text="#{board.label.category}"></th>
+            <th style="width:15%;" class="align-left" th:if="${categoryUseYn}" th:text="#{board.label.category}"></th>
             <th style="width:30%;" class="align-left" th:text="#{common.label.title}"></th>
             <th style="width:10%;" class="align-left" th:text="#{board.label.commentCount}"></th>
             <th style="width:10%;" class="align-left" th:text="#{board.label.readCount}"></th>
@@ -22,7 +22,7 @@
         </tr>
         <tr class="flex-row align-items-center" th:each="board : ${boardList}">
             <td style="width:10%;" class="align-left" th:text="${board.boardSeq}"></td>
-            <td style="width:15%;" class="align-left" th:text="${board.boardCategoryName}"></td>
+            <td style="width:15%;" class="align-left" th:if="${board.categoryYn}" th:text="${board.boardCategoryName}"></td>
             <td style="width:30%;" class="align-left underline">
                 <a th:href="@{/boards/articles/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
             </td>
