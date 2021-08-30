@@ -3049,15 +3049,15 @@ table[id=documentDisplay] td {
 .z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form .z-button-list {
   margin: 1.875rem 0;
 }
-.z-itsm-container .z-main .card-list {
+.z-itsm-container .z-main-content .card-list {
   flex-wrap: wrap;
   padding-bottom: 0.625rem;
 }
-.z-itsm-container .z-main .card-list .card {
+.z-itsm-container .z-main-content .card-list .card {
   position: relative;
   min-width: 32.0625rem;
   width: 100%;
-  min-height: 12.5rem;
+  min-height: 9.375rem;
   margin: 1.25rem 1.25rem 0 0;
   padding: 0;
   border: 0.0625rem solid #EBEBEB;
@@ -3067,21 +3067,21 @@ table[id=documentDisplay] td {
   overflow: hidden;
   cursor: pointer;
 }
-.z-itsm-container .z-main .card-list .card:hover {
+.z-itsm-container .z-main-content .card-list .card:hover {
   box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15), inset 0 0 0 0.0625rem #CFD5D9;
 }
-.z-itsm-container .z-main .card-list .card .document-column h3 {
+.z-itsm-container .z-main-content .card-list .card .document-column h3 {
   width: 28rem;
 }
-.z-itsm-container .z-main .card-list .no-data-found {
+.z-itsm-container .z-main-content .card-list .no-data-found {
   width: 100%;
   background-color: rgba(247, 248, 249, 0.45);
   pointer-events: none;
 }
-.z-itsm-container .z-main .card-list .no-data-found .i-no-data {
+.z-itsm-container .z-main-content .card-list .no-data-found .i-no-data {
   content: url("../../../media/icons/icon_no_card.svg");
 }
-.z-itsm-container .z-main .card-list .no-data-found .no-data-text {
+.z-itsm-container .z-main-content .card-list .no-data-found .no-data-text {
   font-size: 1.125rem;
   font-weight: 500;
   color: #CCCED1;
