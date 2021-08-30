@@ -97,13 +97,19 @@
 
 		function createProductModalContent(data) {
 			return `<div class="flex-column">` +
-					`<label>${i18n.msg('product.label.versionSuffix') + data.version}</label>` +
+					`<div>` +
+					`<img class="z-img i-logo" src="/assets/media/icons/logo/icon_logo.svg/">` +
+					`</div>` +
+					`<label class="top-line">${i18n.msg('product.label.versionSuffix') + data.version}</label>` +
+					`<br><br><br>`+
 					`<label>${i18n.msg('product.label.company')}</label>` +
-					`<a href="${i18n.msg('product.label.url')}">${i18n.msg('product.label.url')}</a>` +
+					`<a href="${i18n.msg('product.label.url')}" class="product-href">${i18n.msg('product.label.url')}</a>` +
 					`<label>${i18n.msg('product.label.email')}</label>` +
 					`<label>${i18n.msg('product.label.mainPhone')}</label>` +
 					`<label>${i18n.msg('product.label.technicalSupport')}</label>` +
 					`<label>${i18n.msg('product.label.productInquiry')}</label>` +
+					`<br><br><br>`+
+					`<label>${i18n.msg('product.label.copyright')}</label>` +
 					`</div>`;
 		}
 
@@ -117,22 +123,20 @@
 					const data = JSON.parse(response.responseText);
 					let modalOptions = {
 						title: '',
+						classes: 'product-info-modal',
 						body: createProductModalContent(data),
-						buttons: [{
-							content: i18n.msg('common.btn.close'),
-							classes: 'z-button secondary',
-							bindKey: false,
-							callback: function (modal) {
-								modal.hide();
-							}
-						}],
+						buttons: [],
 						close: {
 							closable: false,
 						},
 					}
-
 					const productInfoModal = new modal(modalOptions);
 					productInfoModal.show();
+
+					document.querySelector('.modal-backdrop').addEventListener('click', function(e) {
+						e.stopPropagation();
+						productInfoModal.hide();
+					});
 				}
 			};
 			aliceJs.sendXhr(opt);
