@@ -438,8 +438,7 @@ export const ciMixin = {
         document.querySelectorAll('.z-relation-group-div').forEach((el) => {
             let data = {};
             data.relationType = el.childNodes[0].getElementsByTagName('select')[0].value;
-            data.sourceCIId = el.childNodes[1].getElementsByTagName('select')[0].value;
-            data.targetCIId = el.childNodes[2].getElementsByTagName('select')[0].value;
+            data.targetCIId = el.childNodes[1].getElementsByTagName('select')[0].value;
             saveData.values.relatedCIData.push(data);
         });
         if (!zValidation.isEmpty(document.getElementById('ciTags').value)) {
@@ -899,7 +898,7 @@ export const ciMixin = {
         divRow.className = 'flex-row edit-row z-relation-group z-relation-group-div';
 
         const relationTypeSelect = document.createElement('select');
-        relationTypeSelect.classList.add('z-relation-type-select-box');
+        relationTypeSelect.className = 'z-relation-type-select-box mr-1';
         const relationTypeList = param.codeList
         for (let i = 0; i < relationTypeList.length; i++) {
             const selectOption = document.createElement('option');
@@ -908,22 +907,10 @@ export const ciMixin = {
             selectOption.selected = (typeof ciRelations !== 'undefined') ? (ciRelations.relationType === selectOption.value) : '';
             relationTypeSelect.appendChild(selectOption);
         }
-        relationTypeSelect.classList.add('mr-1');
 
         const ciList = param.ciList;
-        const sourceCISelect = document.createElement('select');
-        sourceCISelect.classList.add('z-ci-select-box');
-        for (let i = 0; i < ciList.length; i++) {
-            const selectOption = document.createElement('option');
-            selectOption.value = ciList[i].ciId;
-            selectOption.text = ciList[i].ciName;
-            selectOption.selected = (typeof ciRelations !== 'undefined') ? (ciRelations.sourceCIId === selectOption.value) : '';
-            sourceCISelect.appendChild(selectOption);
-        }
-        sourceCISelect.classList.add('mr-1');
-
         const targetCISelect = document.createElement('select');
-        targetCISelect.classList.add('z-ci-select-box');
+        targetCISelect.className = 'z-target-ci-select-box mr-1';
         for (let i = 0; i < ciList.length; i++) {
             const selectOption = document.createElement('option');
             selectOption.value = ciList[i].ciId;
@@ -931,7 +918,6 @@ export const ciMixin = {
             selectOption.selected = (typeof ciRelations !== 'undefined') ? (ciRelations.targetCIId === selectOption.value) : '';
             targetCISelect.appendChild(selectOption);
         }
-        targetCISelect.classList.add('mr-1');
 
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'z-button-icon extra';
@@ -949,7 +935,6 @@ export const ciMixin = {
         });
 
         divRow.appendChild(relationTypeSelect);
-        divRow.appendChild(sourceCISelect);
         divRow.appendChild(targetCISelect);
         divRow.appendChild(deleteBtn);
         document.getElementById('ciRelation').appendChild(divRow);

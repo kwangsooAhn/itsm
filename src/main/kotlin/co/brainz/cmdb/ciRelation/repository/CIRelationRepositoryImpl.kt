@@ -15,7 +15,6 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 class CIRelationRepositoryImpl : QuerydslRepositorySupport(CIRelationEntity::class.java), CIRelationRepositoryCustom {
     override fun selectByCiId(ciId: String): MutableList<CIRelationDto> {
         val ciRelation = QCIRelationEntity.cIRelationEntity
-        val sourceCI = QCIEntity.cIEntity
         val targetCI = QCIEntity("targetCI")
 
         return from(ciRelation)
@@ -25,13 +24,10 @@ class CIRelationRepositoryImpl : QuerydslRepositorySupport(CIRelationEntity::cla
                     ciRelation.relationId,
                     ciRelation.relationType,
                     ciRelation.ciId,
-                    ciRelation.sourceCIId,
                     ciRelation.targetCIId,
-                    sourceCI.ciName,
                     targetCI.ciName
                 )
             )
-            .innerJoin(sourceCI).on(sourceCI.ciId.eq(ciRelation.sourceCIId))
             .innerJoin(targetCI).on(targetCI.ciId.eq(ciRelation.targetCIId))
             .where(
                 ciRelation.ciId.eq(ciId)

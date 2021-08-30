@@ -2282,11 +2282,11 @@ body.modal-active {
   font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   padding: 0.6875rem 0 0.6875rem 0;
 }
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-ci-select-box, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-ci-select-box, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-ci-select-box, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-ci-select-box {
-  width: 20.3rem;
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-target-ci-select-box, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-target-ci-select-box, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-target-ci-select-box, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-target-ci-select-box {
+  width: 30.5rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-relation-type-select-box, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-relation-type-select-box, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-relation-type-select-box, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-relation-type-select-box {
-  width: 10.9rem;
+  width: 21.8125rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view {
   height: calc(53.0625rem - 3.375rem - 5rem - 3.125rem);

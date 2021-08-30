@@ -271,7 +271,6 @@ class CIService(
                         CIRelationEntity(
                             relationType = it.relationType,
                             ciId = ciDto.ciId,
-                            sourceCIId = it.sourceCIId,
                             targetCIId = it.targetCIId
                         )
                     )
@@ -352,7 +351,6 @@ class CIService(
                 CIRelationEntity(
                     relationType = it.relationType,
                     ciId = ciDto.ciId,
-                    sourceCIId = it.sourceCIId,
                     targetCIId = it.targetCIId
                 )
             )

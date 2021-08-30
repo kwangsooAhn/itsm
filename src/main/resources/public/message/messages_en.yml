@@ -350,7 +350,6 @@ cmdb:
       view: "CI View"
       relation: "CI Relation"
       relationType: "Relation Type"
-      sourceCiName: "Source CI Name"
       targetCiName: "Target CI Name"
       whetherToInterlock: "Whether to Interlink"
       interlock: "Interlink"
