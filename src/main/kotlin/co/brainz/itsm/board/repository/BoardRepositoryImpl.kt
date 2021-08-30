@@ -28,11 +28,11 @@ import org.springframework.stereotype.Repository
 class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.java), BoardRepositoryCustom {
     override fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): QueryResults<BoardArticleListDto> {
         val board = QPortalBoardEntity.portalBoardEntity
+        val user = QAliceUserEntity.aliceUserEntity
         val category = QPortalBoardCategoryEntity("category")
         val boardRead = QPortalBoardReadEntity("read")
         val comment = QPortalBoardCommentEntity("comment")
         val boardAdmin = QPortalBoardAdminEntity("categoryYn")
-        val user = QAliceUserEntity("userKey")
         return from(board)
             .select(
                 Projections.constructor(
@@ -51,10 +51,10 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
                     ),
                     boardRead.boardReadCount.coalesce(0).`as`("readCount"),
                     board.createDt,
-                    user.userName
+                    board.createUser.userName
                 )
             )
-            .innerJoin(user).on(board.createUser.userKey.eq(user.userKey))
+            .innerJoin(board.createUser, user)
             .leftJoin(category).on(board.boardCategoryId.eq(category.boardCategoryId))
             .leftJoin(boardRead).on(board.boardId.eq(boardRead.boardId))
             .leftJoin(boardAdmin).on((board.boardAdmin.boardAdminId.eq(boardAdmin.boardAdminId)))
