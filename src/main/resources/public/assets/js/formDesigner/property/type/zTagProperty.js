@@ -31,8 +31,15 @@ export default class ZTagProperty extends ZProperty {
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
         // inputbox
+        // 태그 속성의 특이한 점은 실제로는 input box 를 사용하지만 값은 json 형태의 데이터가 Array 형태로 관리된다는 점이다.
+        // 아래와 같이 스트링으로 변환하여 input box 의 값으로 넣어줘야 tagify 에서 파싱해서 쓸 수 있다.
+        let valueString = '[' +
+            this.value.map(function (tag) {
+            return JSON.stringify(tag);
+        }).toString() + ']';
+
         this.UIElement.UIInput = new UIInput()//.removeUIClass('z-input').addUIClass('input')
-            .setUIId(this.key).setUIValue(this.value);
+            .setUIId(this.key).setUIValue(valueString);
         this.UIElement.addUI(this.UIElement.UIInput);
 
         // tag 는 실제 그려진 UI를 이용해서 tagify 적용이 필요함.
@@ -48,11 +55,11 @@ export default class ZTagProperty extends ZProperty {
                 callbacks: {
                     'add': (e) => {
                         const inputElem = e.detail.tagify.DOM.originalInput;
-                        this.panel.update.call(this.panel, inputElem.id, inputElem.value);
+                        this.panel.update.call(this.panel, inputElem.id, e.detail.tagify.value);
                     },
                     'remove': (e) => {
                         const inputElem = e.detail.tagify.DOM.originalInput;
-                        this.panel.update.call(this.panel, inputElem.id, inputElem.value);
+                        this.panel.update.call(this.panel, inputElem.id, e.detail.tagify.value);
                     }
                 }
             });

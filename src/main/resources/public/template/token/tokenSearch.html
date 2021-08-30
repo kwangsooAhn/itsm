@@ -117,13 +117,6 @@
         }
         urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
         restSubmit('get', '/tokens?' + urlParam, isScroll);
-        document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
-                new zTag(tagInput, {
-                    suggestion: false,
-                    realtime: false,
-                    tagType: 'instance'
-                });
-        });
     }
 
     function restSubmit(method, url, isScroll) {
@@ -145,7 +138,7 @@
                     document.getElementById('tokenList').innerHTML = response.responseText;
                     aliceJs.showTotalCount(document.getElementById('totalCount').value);
                     setDateTimeFormat(document.getElementById('tokenList'));
-                    OverlayScrollbars(document.querySelector('.z-token-content'), {
+                    OverlayScrollbars(document.querySelector('.z-page-content'), {
                         className: 'scrollbar',
                         callbacks: {
                             onScroll: function (e) {
@@ -157,19 +150,17 @@
                                         tokenSearch(true);
                                     }
                                 }
-                                if (scrollTop > 20) {
-                                    document.getElementById('header-search').classList.remove('slide-down');
-                                    document.getElementById('header-search').classList.add('slide-up');
-                                    document.getElementById('header-title').style.display = 'none';
-                                } else {
-                                    document.getElementById('header-search').classList.remove('slide-up');
-                                    document.getElementById('header-search').classList.add('slide-down');
-                                    document.getElementById('header-title').style.display = 'flex';
-                                }
                             }
                         }
                     });
                 }
+                document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
+                    new zTag(tagInput, {
+                        suggestion: false,
+                        realtime: false,
+                        tagType: 'instance'
+                    });
+                });
             }
         };
         aliceJs.sendXhr(opt);
