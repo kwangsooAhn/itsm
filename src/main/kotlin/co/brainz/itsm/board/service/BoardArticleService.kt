@@ -46,7 +46,7 @@ class BoardArticleService(
      */
     fun getBoardArticleList(boardArticleSearchCondition: BoardArticleSearchCondition): BoardArticleListReturnDto {
         val queryResult = boardRepository.findByBoardList(boardArticleSearchCondition)
-        return BoardArticleListReturnDto(
+        val boardArticleList = BoardArticleListReturnDto(
             data = queryResult.results,
             paging = AlicePagingData(
                 totalCount = queryResult.total,
@@ -55,8 +55,14 @@ class BoardArticleService(
                 totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             ),
-            categoryUseYn = boardAdminRepository.findByBoardAdminId(boardArticleSearchCondition.boardAdminId ?: "")?.categoryYn ?: false
+            categoryUseYn = false
         )
+
+        val boardAdmin = boardAdminRepository.findByBoardAdminId(boardArticleSearchCondition.boardAdminId)
+        if(boardAdmin != null) {
+            boardArticleList.categoryUseYn = boardAdmin.categoryYn
+        }
+        return boardArticleList
     }
 
     /**
