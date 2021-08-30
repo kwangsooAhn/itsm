@@ -18,6 +18,7 @@ import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import { FORM } from '../../lib/zConstants.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -60,7 +61,12 @@ export const textAreaMixin = {
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {},
+    afterEvent() {
+        // 신청서 양식 편집 화면에 따른 처리
+        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+            this.UIElement.UIComponent.UIElement.UITextArea.setUIReadOnly(true);
+        }
+    },
     // set, get
     set element(element) {
         this._element = element;

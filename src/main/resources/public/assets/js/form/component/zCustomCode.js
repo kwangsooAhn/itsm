@@ -75,7 +75,12 @@ export const customCodeMixin = {
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {},
+    afterEvent() {
+        // 신청서 양식 편집 화면에 따른 처리
+        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+            this.UIElement.UIComponent.UIElement.UIButton.setUIDisabled(true);
+        }
+    },
     // set, get
     set elementColumnWidth(width) {
         this._element.columnWidth = width;

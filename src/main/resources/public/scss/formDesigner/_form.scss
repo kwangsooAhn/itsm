@@ -26,6 +26,10 @@
   &[data-displaytype='document.displayType.hidden'] {
     display: none;
   }
+  // displayType이 readonly일 경우
+  &[data-displaytype='document.displayType.readonly'] {
+    
+  }
 }
 // 그룹
 .z-group {
@@ -286,7 +290,7 @@
       background-color: $component-drTable-bg-color;
       border: none;
       tr td {
-        padding: 0.6875rem 0;
+        padding: 0 0.3125rem 0 0; // 0 5px 0 0
         @include border(0.0625rem, solid, $component-drTable-border-color, all);
         border-left: none;
         border-right: none;
@@ -298,9 +302,14 @@
         height: 2rem;
         @include border(0.125rem, solid, $component-drTable-border-color, bottom);
         background-color: $component-drTable-header-bg-color;
+        td { padding: 0.6875rem 0.3125rem 0.6875rem 0; } // 11px 5px 11px 0
         .z-dr-table-header-cell {
           padding: 0 $element-indent;
         }
+      }
+
+      .z-dr-table-row {
+        .z-button-icon { padding: 0; }
       }
       // 데이터 없음
       .no-data-found-list {

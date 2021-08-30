@@ -269,6 +269,11 @@ class UITextArea extends UIElement {
         this.domElement.placeholder = value;
         return this;
     }
+
+    setUIReadOnly(boolean) {
+        this.domElement.readOnly = boolean;
+        return this;
+    }
 }
 
 class UISelect extends UIElement {

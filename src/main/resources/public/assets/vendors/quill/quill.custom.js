@@ -24,7 +24,8 @@ function zQuill(target, options) {
 
     // html template
     this.getTemplate = function () {
-        return `<div id="textEditorToolbar" class="${this.options.toolbarVisible ? '' : 'ql-toolbar-hidden'}">` +
+        return `<div id="textEditorToolbar" class="${this.options.toolbarVisible ? '' : 'ql-toolbar-hidden'}` +
+               `${this.options.readOnly ? ' ql-toolbar-readonly' : ''}">` +
                     // {'header': [1, 2, 3, 4, false]}
                     `<span class="ql-formats">` +
                         `<select class="ql-header">` +
@@ -69,6 +70,8 @@ function zQuill(target, options) {
     target.classList.add('ql-wrapper-container');
     if (!this.options.readOnly) {
         target.tabIndex = 0; // 선택가능
+    } else {
+        target.classList.add('ql-readonly');
     }
     target.insertAdjacentHTML('beforeend', this.getTemplate());
     this.containerEl = target;

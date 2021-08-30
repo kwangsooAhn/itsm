@@ -11221,7 +11221,7 @@
 
             module.exports = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <g transform="translate(-365 -142)"> <rect fill="none" width="24" height="24" transform="translate(365 142)" />
-                        <path fill="#323232" class="ql-icon" d="M172.193,2621.706A4.986,4.986,0,0,0,168,2614h-6a1,1,0,0,0,0,2h1v14h-1a1,1,0,0,0,0,2h7.5a5.5,5.5,0,0,0,2.693-10.294ZM166,2617h2a2,2,0,0,1,0,4h-2Zm3.5,12H166v-5h3.5a2.5,2.5,0,0,1,0,5Z" transform="translate(209 -2469)" />
+                        <path fill="#222529" class="ql-icon" d="M172.193,2621.706A4.986,4.986,0,0,0,168,2614h-6a1,1,0,0,0,0,2h1v14h-1a1,1,0,0,0,0,2h7.5a5.5,5.5,0,0,0,2.693-10.294ZM166,2617h2a2,2,0,0,1,0,4h-2Zm3.5,12H166v-5h3.5a2.5,2.5,0,0,1,0,5Z" transform="translate(209 -2469)" />
                     </g>
                 </svg>`;
             /***/ }),
