@@ -2243,6 +2243,9 @@ select {
 .z-checkbox:active input[type=checkbox]:not(.readonly) + span:after {
   border-color: #1959AC;
 }
+.z-checkbox.readonly, .z-checkbox.disabled {
+  pointer-events: none;
+}
 
 .z-radio {
   position: relative;
@@ -2345,6 +2348,9 @@ select {
   -o-transform: translate(4px, 9px) scale(1);
   -ms-transform: translate(4px, 9px) scale(1);
   transform: translate(4px, 9px) scale(1);
+}
+.z-radio.readonly, .z-radio.disabled {
+  pointer-events: none;
 }
 
 label {

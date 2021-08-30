@@ -822,6 +822,12 @@ select {
       }
     }
   }
+
+  // readonly, disabled 클래스 설정시 라벨의 동작을 막음
+  &.readonly,
+  &.disabled {
+    pointer-events: none;
+  }
 }
 
 // radio button
@@ -942,5 +948,11 @@ select {
         }
       }
     }
+  }
+
+  // readonly, disabled 클래스 설정시 라벨의 동작을 막음
+  &.readonly,
+  &.disabled {
+    pointer-events: none;
   }
 }
