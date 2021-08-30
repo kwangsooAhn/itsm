@@ -420,7 +420,7 @@
       position: relative;
       min-width: 32.0625rem; // 513px
       width: 100%;
-      min-height: 12.5rem; // 200px
+      min-height: 9.375rem; // 150px
       margin: 1.25rem 1.25rem 0 0; // 20px 20px 0 0
       padding: 0;
       @include border(0.0625rem, solid, map-get($grays, "line"), all);
