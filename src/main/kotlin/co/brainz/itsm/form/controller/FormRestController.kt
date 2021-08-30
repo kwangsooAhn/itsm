@@ -54,20 +54,20 @@ class FormRestController(private val formService: FormService) {
      * 신규 문서양식 등록, 새이름으로 저장
      *
      * @param saveType
-     * @param jsonData
+     * @param formData
      * @return String
      */
     @PostMapping("")
     fun createForm(
         @RequestParam(value = "saveType", defaultValue = "") saveType: String,
-        @RequestBody jsonData: Any
+        @RequestBody formData: RestTemplateFormDataDto
     ): String {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
             RestTemplateConstants.FormSaveType.SAVE_AS.code ->
-                formService.saveAsForm(mapper.writeValueAsString(jsonData))
-            else -> formService.createForm(mapper.convertValue(jsonData, RestTemplateFormDto::class.java))
+                formService.saveAsForm(formData)
+            else -> formService.createForm(formData)
         }
     }
 

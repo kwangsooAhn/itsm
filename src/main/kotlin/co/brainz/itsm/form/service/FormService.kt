@@ -9,22 +9,13 @@
 
 package co.brainz.itsm.form.service
 
-import co.brainz.framework.tag.dto.AliceTagDto
-import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.FormComponentDto
-import co.brainz.workflow.provider.dto.FormGroupDto
-import co.brainz.workflow.provider.dto.FormRowDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDataDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateFormListReturnDto
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.type.TypeFactory
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -36,12 +27,11 @@ class FormService(
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 폼 목록 조회.
      *
-     * @param params 검색조건을 포함하는 Map
+     * @param formSearchCondition 검색조건을 포함하는 Map
      * @return List<RestTemplateFormDto>
      */
     fun findForms(formSearchCondition: FormSearchCondition): RestTemplateFormListReturnDto {
@@ -88,15 +78,19 @@ class FormService(
     /**
      * 폼 생성
      *
-     * @param restTemplateFormDto
+     * @param formData
      * @return String 생성된 form ID
      */
-    fun createForm(restTemplateFormDto: RestTemplateFormDto): String {
-        restTemplateFormDto.status = RestTemplateConstants.FormStatus.EDIT.value
-        restTemplateFormDto.createUserKey = currentSessionUser.getUserKey()
-        restTemplateFormDto.createDt = LocalDateTime.now()
-        restTemplateFormDto.updateDt = LocalDateTime.now()
-        val newFormId = wfFormService.createForm(restTemplateFormDto).id
+    fun createForm(formData: RestTemplateFormDataDto): String {
+        formData.status = RestTemplateConstants.FormStatus.EDIT.value
+        formData.createUserKey = currentSessionUser.getUserKey()
+        formData.createDt = LocalDateTime.now()
+        formData.updateDt = LocalDateTime.now()
+        val newFormId = wfFormService.createForm(RestTemplateFormDto(
+            name = formData.name,
+            status = formData.status,
+            desc = formData.desc
+        )).id
         logger.info("create form : success [{}]", newFormId)
         return newFormId
     }
@@ -118,7 +112,7 @@ class FormService(
      * 폼과 폼에 속한 Group, Row, Component 전체 구조를 저장.
      *
      * @param formId
-     * @param formDataString
+     * @param formDataDto
      * @return Boolean
      */
     fun saveFormData(formId: String, formDataDto: RestTemplateFormDataDto): Boolean {
@@ -131,115 +125,13 @@ class FormService(
     /**
      * 폼 새이름으로 저장하기
      *
-     * @param formDataString
+     * @param formData
      * @return String 새로 생성된 form ID
      */
-    fun saveAsForm(formDataString: String): String {
-        val formDataDto = makeFormDataDto(formDataString)
-        formDataDto.status = RestTemplateConstants.FormStatus.EDIT.value
-        val newFormId = wfFormService.saveAsFormData(formDataDto).id
+    fun saveAsForm(formData: RestTemplateFormDataDto): String {
+        formData.status = RestTemplateConstants.FormStatus.EDIT.value
+        val newFormId = wfFormService.saveAsFormData(formData).id
         logger.info("save as form : success [{}]", newFormId)
         return newFormId
-    }
-
-    /**
-     * 화면에서 폼 데이터(String)를 FormDataDto 포맷으로 변환
-     *
-     * @param formDataString
-     * @return RestTemplateFormDataDto
-     */
-    private fun makeFormDataDto(formDataString: String): RestTemplateFormDataDto {
-        val map = mapper.readValue(formDataString, LinkedHashMap::class.java)
-        val linkedMapType = TypeFactory.defaultInstance()
-            .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
-
-        // Form display option
-        var formDisplay: LinkedHashMap<String, Any> = linkedMapOf()
-        map["display"]?.let {
-            formDisplay = mapper.convertValue(map["display"], linkedMapType)
-        }
-
-        // Group list in form
-        val formGroupList: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
-            map["group"],
-            TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
-        )
-        val groupList: MutableList<FormGroupDto> = mutableListOf()
-        for (formGroup in formGroupList) {
-            val groupDisplay = AliceUtil().convertStringToLinkedHashMap(formGroup["display"])
-            val groupLabel = AliceUtil().convertStringToLinkedHashMap(formGroup["label"])
-
-            // Row list in group
-            val rowListInGroup: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
-                formGroup["row"],
-                TypeFactory.defaultInstance()
-                    .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
-            )
-            val formRowList: MutableList<FormRowDto> = mutableListOf()
-            for (rowInGroup in rowListInGroup) {
-                val rowDisplay = AliceUtil().convertStringToLinkedHashMap(rowInGroup["display"])
-                val rowComponentList: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
-                    rowInGroup["component"],
-                    TypeFactory.defaultInstance()
-                        .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
-                )
-
-                val formComponentList: MutableList<FormComponentDto> = mutableListOf()
-                for (component in rowComponentList) {
-                    val componentDisplay = AliceUtil().convertStringToLinkedHashMap(component["display"])
-                    val componentLabel = AliceUtil().convertStringToLinkedHashMap(component["label"])
-                    val componentValidation = AliceUtil().convertStringToLinkedHashMap(component["validation"])
-                    val componentElement = AliceUtil().convertStringToLinkedHashMap(component["element"])
-
-                    formComponentList.add(
-                        @Suppress("UNCHECKED_CAST")
-                        FormComponentDto(
-                            id = component["id"] as String,
-                            type = component["type"] as String,
-                            mapId = component["mapId"] as String,
-                            isTopic = component["isTopic"] as Boolean,
-                            tags = component["tags"] as? List<AliceTagDto>,
-                            value = component["value"] as? String,
-                            display = componentDisplay,
-                            label = componentLabel,
-                            validation = componentValidation,
-                            element = componentElement
-                        )
-                    )
-                }
-
-                formRowList.add(
-                    FormRowDto(
-                        id = rowInGroup["id"] as String,
-                        display = rowDisplay,
-                        component = formComponentList
-                    )
-                )
-            }
-
-            groupList.add(
-                FormGroupDto(
-                    id = formGroup["id"] as String,
-                    name = formGroup["name"] as String,
-                    display = groupDisplay,
-                    label = groupLabel,
-                    row = formRowList
-                )
-            )
-        }
-
-        return RestTemplateFormDataDto(
-            id = (map["id"] ?: "") as String,
-            name = map["name"] as String,
-            desc = map["desc"] as String,
-            status = (map["status"] ?: "") as String,
-            category = map["category"] as String,
-            display = formDisplay,
-            createDt = LocalDateTime.now(),
-            createUserKey = currentSessionUser.getUserKey(),
-            updateDt = null,
-            updateUserKey = null,
-            group = groupList
-        )
     }
 }
