@@ -11,5 +11,6 @@ import java.io.Serializable
 
 data class BoardArticleListReturnDto(
     val data: List<BoardArticleListDto> = emptyList(),
-    val paging: AlicePagingData
+    val paging: AlicePagingData,
+    val categoryUseYn: Boolean
 ) : Serializable

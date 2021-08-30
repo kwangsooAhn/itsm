@@ -24,6 +24,8 @@ common:
   label:
     attachFile: "첨부 파일"
     blank: " "
+    bracketOpen: "["
+    bracketClose: "]"
     comment: "댓글"
     contents: "내용"
     colon: ":"
