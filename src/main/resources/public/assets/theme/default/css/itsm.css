@@ -6780,7 +6780,7 @@ body.modal-active {
 .alice-toastify.toast-content .icon {
   width: 6.25rem;
   height: 6.25rem;
-  background-image: url("../../../media/images/notification/img_notification_logo.png");
+  background-image: url("../media/images/notification/img_notification_logo.png");
   background-size: 6.25rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -7576,3 +7576,5 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
+
+/*# sourceMappingURL=itsm.css.map */
