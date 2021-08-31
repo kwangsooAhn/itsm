@@ -62,9 +62,9 @@
 }
 
 // header tooltip
-.#{$common-prefix}header-tooltip {
+.z-header-tooltip {
   @include relative();
-  .#{$common-prefix}header-tooltip-contents {
+  .z-header-tooltip-contents {
     @include absolute($left: 50%);
     @include translate(-50%, 0);
     visibility: hidden;
@@ -82,7 +82,7 @@
       @include translate(-70%, 0);
     }
 
-    .#{$common-prefix}header-tooltip-text {
+    .z-header-tooltip-text {
       font-family: $header-tooltip-font-family;
       font-size: $header-tooltip-font-size;
       color: $header-tooltip-font-color;
@@ -91,7 +91,7 @@
   }
   // 마우스 오버
   &:hover {
-    .#{$common-prefix}header-tooltip-contents {
+    .z-header-tooltip-contents {
       visibility: visible;
       @include animation (0s, 0.3s, fadeIn, ease-out);
     }

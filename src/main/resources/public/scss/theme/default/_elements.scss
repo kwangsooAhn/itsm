@@ -38,7 +38,7 @@ table[id="documentDisplay"] {
 
 // 체크박스 목록
 // ex) 권한, 역할 > 체크박스 목록
-.#{$common-prefix}checkbox {
+.z-checkbox {
   &-all {
     display: table-cell;
     padding-top: 0.3125rem; // 5px

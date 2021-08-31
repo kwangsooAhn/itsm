@@ -9,7 +9,7 @@
  *                   - process-properties : 세부 속성
  */
 
-.#{$common-prefix}process {
+.z-process {
   &-container {
     @include container;
   }
@@ -29,13 +29,13 @@
       padding: 0 $layout-header-padding; // 0 12px
     }
 
-    .#{$common-prefix}process-name {
+    .z-process-name {
       font-size: $layout-header-font-size;
     }
-    .#{$common-prefix}process-button-list {
+    .z-process-button-list {
       width: 19.06rem; // 305px
 
-      .#{$common-prefix}header-dropdown {
+      .z-header-dropdown {
         @include relative();
       }
     }
@@ -55,7 +55,7 @@
     left: $layout-element-palette-width;
     overflow: hidden;
 
-    .#{$common-prefix}drawing-board {
+    .z-drawing-board {
       @include absolute($top: 0, $left: 0); // 0 0
       width: 100%;
       height: 100%;

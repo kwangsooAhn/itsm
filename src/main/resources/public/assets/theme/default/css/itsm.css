@@ -4900,6 +4900,9 @@ table[id=documentDisplay] td {
 .z-picker-wrapper-date {
   display: inline-block;
 }
+.z-picker-wrapper-date .picker-main {
+  padding-right: 2.25rem;
+}
 
 .z-picker-modal {
   display: none;
@@ -7576,3 +7579,5 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
+
+/*# sourceMappingURL=itsm.css.map */

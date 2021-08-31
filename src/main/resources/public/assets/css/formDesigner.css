@@ -4472,6 +4472,9 @@ select {
 .z-picker-wrapper-date {
   display: inline-block;
 }
+.z-picker-wrapper-date .picker-main {
+  padding-right: 2.25rem;
+}
 
 .z-picker-modal {
   display: none;
@@ -5902,6 +5905,21 @@ body.modal-active {
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
 }
+.z-component .z-element .input:hover, .z-component .z-element .z-input:hover {
+  outline: 0;
+  border: 0.0625rem solid #64BBF6;
+}
+.z-component .z-element .input:focus, .z-component .z-element .z-input:focus {
+  outline: 0;
+  border: 0.0625rem solid #2578CE;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
+  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
+  box-shadow: 0 0 0.125rem 0 #2578CE;
+}
+.z-component .z-element .input:active, .z-component .z-element .z-input:active {
+  outline: 0;
+  border: 0.0625rem solid #2578CE;
+}
 .z-component .z-element .textArea, .z-component .z-element .z-textarea {
   width: 100%;
   height: calc(2.5rem * var(--data-row));
@@ -5985,6 +6003,12 @@ body.modal-active {
   background-color: #FFFFFF;
   pointer-events: none;
 }
+.z-component .z-element .z-ci-table .no-data-found-list td {
+  padding: 0.75rem 0;
+}
+.z-component .z-element .picker-wrapper-date .z-input {
+  margin-right: 2rem;
+}
 .z-component .z-element .picker-wrapper-date .datepicker {
   width: 100%;
 }
@@ -6016,10 +6040,17 @@ body.modal-active {
 .z-component .z-element .z-dr-table .z-dr-table-row .z-button-icon {
   padding: 0;
 }
+.z-component .z-element .z-dr-table .z-dr-table-row .z-input, .z-component .z-element .z-dr-table .z-dr-table-row .z-select {
+  padding: 0.4375rem 0;
+  margin: 0.25rem 0;
+}
 .z-component .z-element .z-dr-table .no-data-found-list {
   color: #ACB4BF;
   background-color: #FFFFFF;
   pointer-events: none;
+}
+.z-component .z-element .z-dr-table .no-data-found-list td {
+  padding: 0.75rem 0;
 }
 .z-component .z-element .z-dr-table-button-group {
   display: inline-block;

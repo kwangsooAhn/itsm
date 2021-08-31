@@ -2,20 +2,20 @@
 
 // clipboard
 // ID 복사하는 용도
-.#{$common-prefix}clipboard-tooltip {
+.z-clipboard-tooltip {
   position: relative;
   display: inline-block;
   margin-left: 0.3125rem; // 5px
   cursor: pointer;
 
   &:hover {
-    .#{$common-prefix}clipboard-tooltip-text {
+    .z-clipboard-tooltip-text {
       visibility: visible;
       opacity: 1;
     }
   }
 
-  .#{$common-prefix}clipboard-tooltip-text {
+  .z-clipboard-tooltip-text {
     visibility: hidden;
     position: absolute;
     width: 9.375rem; //150px
