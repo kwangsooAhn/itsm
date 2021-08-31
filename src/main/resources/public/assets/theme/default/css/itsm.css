@@ -1170,9 +1170,9 @@ label {
 }
 .switch input[type=checkbox]:hover + span::before {
   border-color: #64BBF6;
-  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
-  -moz-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
-  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
+  -moz-box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
+  box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
 }
 .switch:focus input[type=checkbox] + span:before {
   border-color: #2578CE;
@@ -4345,7 +4345,7 @@ table[id=documentDisplay] td {
   margin-top: 0.5rem;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap .dz-clickable {
-  color: #0098FF;
+  color: #339AF0;
   cursor: pointer;
 }
 .file-uploader-edit .dropzone .dz-default.dz-drag-hover {
@@ -4602,7 +4602,7 @@ table[id=documentDisplay] td {
   right: 0;
   bottom: 0;
   left: 0;
-  background: linear-gradient(to bottom, #0098FF, #0098FF);
+  background: linear-gradient(to bottom, #339AF0, #339AF0);
   -webkit-transition: width 300ms ease-in-out;
   -moz-transition: width 300ms ease-in-out;
   -o-transition: width 300ms ease-in-out;
@@ -4743,7 +4743,7 @@ table[id=documentDisplay] td {
   margin-top: 0.5rem;
 }
 .avatar-edit .avatar .dz-default.dz-message .add-file-button-wrap .dz-clickable {
-  color: #0098FF;
+  color: #339AF0;
   cursor: pointer;
 }
 .avatar-edit .avatar .dz-default.dz-drag-hover {
@@ -5532,7 +5532,7 @@ span.node {
   cursor: pointer;
 }
 span.node:hover {
-  background-color: rgba(0, 152, 255, 0.05);
+  background-color: rgba(51, 154, 240, 0.05);
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -6475,40 +6475,40 @@ body.modal-active {
     opacity: 1;
   }
 }
-.help-tooltip {
+.z-help-tooltip {
   display: inline-block;
   margin-left: 0.3125rem;
   vertical-align: middle;
 }
-.help-tooltip .z-icon.i-tooltip {
+.z-help-tooltip .z-icon.i-tooltip {
   cursor: pointer;
   background: #8B9094;
 }
-.help-tooltip .tooltip-contents {
+.z-help-tooltip .z-tooltip-contents {
   position: absolute;
   left: auto;
   visibility: hidden;
   background-color: #FFFFFF;
-  color: #0098FF;
+  color: #339AF0;
   width: 22.5rem;
   font-size: 1rem;
-  border: 0.125rem solid #0098FF;
+  border: 0.125rem solid #339AF0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
   padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
   margin: 0.25rem 0 0 0;
   z-index: 500;
-  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
-  -moz-box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
-  box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
+  -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  box-shadow: 0 0 0.125rem 0 #CFD5D9;
 }
-.help-tooltip .tooltip-contents span {
-  color: #0098FF;
+.z-help-tooltip .z-tooltip-contents span {
+  color: #339AF0;
   word-break: keep-all;
   line-height: 1.5;
 }
-.help-tooltip:hover .tooltip-contents {
+.z-help-tooltip:hover .z-tooltip-contents {
   visibility: visible;
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 0.3s;
@@ -6541,7 +6541,7 @@ body.modal-active {
   animation-iteration-count: 1;
   animation-direction: normal;
 }
-.help-tooltip:hover .z-icon.i-tooltip {
+.z-help-tooltip:hover .z-icon.i-tooltip {
   background: #339AF0;
 }
 
@@ -6616,6 +6616,50 @@ body.modal-active {
   animation-timing-function: ease-out;
   animation-iteration-count: 1;
   animation-direction: normal;
+}
+
+.z-clipboard-tooltip {
+  position: relative;
+  display: inline-block;
+  margin-left: 0.3125rem;
+  cursor: pointer;
+}
+.z-clipboard-tooltip:hover .z-clipboard-tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+.z-clipboard-tooltip .z-clipboard-tooltip-text {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  width: 9.375rem;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #339AF0;
+  background-color: #FFFFFF;
+  border: 0.125rem solid #339AF0;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  text-align: center;
+  padding: 0.313rem;
+  margin-left: -8.125rem;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s;
+  -moz-transition: opacity 0.3s;
+  -o-transition: opacity 0.3s;
+  -ms-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+  visibility: hidden;
+  z-index: 500;
+}
+.z-clipboard-tooltip .z-clipboard-tooltip-text::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  content: "";
+  margin-left: -0.313rem;
 }
 
 .z-notification .z-icon-notification {

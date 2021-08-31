@@ -1066,6 +1066,7 @@ process:
       end-name: "연결 엘리먼트 이름"
       exclusiveGateway: "배타적 게이트웨이"
       file: "파일"
+      groupArtifact: "그룹"
       id: "아이디"
       inclusiveGateway: "포괄적 게이트웨이"
       is-default: "기본 경로 여부"
