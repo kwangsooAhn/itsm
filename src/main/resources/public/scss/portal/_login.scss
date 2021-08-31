@@ -38,7 +38,7 @@
   &-divide {
     flex-basis: 100%;
     margin: 4rem 0 4rem 0; // 64px 0 64px 0
-    color: $gray400;
+    color: $login-divide-font-color;
     font-size: $login-form-font-size;
 
     &::before {

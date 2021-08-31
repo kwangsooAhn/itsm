@@ -109,23 +109,25 @@ $edit-content-border-color:                   $gray300;
 
 ////////////////////////////// 리스트 //////////////////////////////
 // 리스트 - 마우스 오버시
-$list-hover-bg-color:                         map-get($grays, 'line');
+$list-hover-bg-color:                         $neutral200;
 
 // 리스트 - 데이터 없을때
-$no-data-found-list-bg:                       map-get($grays, 'line');
+$no-data-found-list-bg:                       $white;
 
 // 리스트 - 선택시
-$list-active-font-color:                      map-get($blues, 'dark');
-$list-active-bg-color:                        hexToRGBA(#e6e8eb, 0.6);
+$list-active-font-color:                      $blue700;
+$list-active-bg-color:                        $blue100;
 
 // 공지사항 상단 공지 (배경색 별도 처리)
 $notice-pinned-color:                         $blue100;
 
+// 리스트 항목명
+$list-head-font-color:                        $gray800;
+$list-body-font-color:                        $gray800;
+
 // Document color icon
 $document-color-size:                         1rem; // 16px
 
-// 리스트 항목명
-$list-head-font-size:                         $gray800;
 ////////////////////////////// 카드 //////////////////////////////
 $card-content-bg-color:                       $white;
 $card-border-width:                           0.0625rem; // 1px
