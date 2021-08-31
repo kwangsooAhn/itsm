@@ -2,15 +2,15 @@
 
 // 파일 선택 모달
 .modal-dialog {
-  &.#{$common-prefix}thumbnail-file {
+  &.z-thumbnail-file {
     width: $thumbnail-modal-width;
     height: $thumbnail-modal-height;
     
     .modal-content {
       height: calc(#{$thumbnail-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
 
-      .#{$common-prefix}thumbnail-main {
-        .#{$common-prefix}thumbnail {
+      .z-thumbnail-main {
+        .z-thumbnail {
           width: 14.375rem; // 230px
         }
       }

@@ -1064,7 +1064,7 @@
             targetMappingProperties.className = 'properties';
 
             let targetMappingLabel = document.createElement('label');
-            targetMappingLabel.className = 'properties-title';
+            targetMappingLabel.className = 'properties-title mb-2';
             targetMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'targetMappingId');
             targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
@@ -1082,7 +1082,7 @@
             sourceMappingProperties.className = 'properties';
 
             let sourceMappingLabel = document.createElement('label');
-            sourceMappingLabel.className = 'properties-title';
+            sourceMappingLabel.className = 'properties-title mb-2';
             sourceMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'sourceMappingId');
             sourceMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
@@ -1122,7 +1122,7 @@
             targetMappingProperties.className = 'properties';
 
             let targetMappingLabel = document.createElement('label');
-            targetMappingLabel.className = 'properties-title';
+            targetMappingLabel.className = 'properties-title mb-2';
             targetMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'targetMappingId');
             targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
@@ -1177,7 +1177,7 @@
 
             // condition 생성
             let conditionLabel = document.createElement('label');
-            conditionLabel.className = 'properties-title';
+            conditionLabel.className = 'properties-title mb-2';
             conditionLabel.textContent = i18n.msg(i18nMsgPrefix + 'condition');
             actionContainer.appendChild(conditionLabel);
 
@@ -1188,7 +1188,7 @@
 
             // file 생성
             let fileLabel = document.createElement('label');
-            fileLabel.className = 'properties-title';
+            fileLabel.className = 'properties-title mb-2';
             fileLabel.textContent = i18n.msg(i18nMsgPrefix + 'file');
             actionContainer.appendChild(fileLabel);
 
@@ -1198,7 +1198,7 @@
             fileInput.readOnly = true;
 
             let fileBtn = document.createElement('button');
-            fileBtn.className = 'z-button-icon form';
+            fileBtn.className = 'z-button-icon z-button-attach-file';
             let fileIcon = document.createElement('span');
             fileIcon.className = 'z-icon i-folder';
             fileBtn.addEventListener('click', function() {
@@ -1527,7 +1527,7 @@
 
                 // property title
                 let labelObject = document.createElement('label');
-                labelObject.className = 'properties-title';
+                labelObject.className = 'properties-title mb-2';
                 labelObject.htmlFor = property.id;
                 if (property.type === 'checkbox') {
                     labelObject.classList.add('z-checkbox');
@@ -1761,7 +1761,7 @@
                 copyBtnContainer.className = 'z-clipboard-tooltip';
 
                 let copyBtn = document.createElement('button');
-                copyBtn.className = 'z-button-icon form btn-clipboard-tooltip';
+                copyBtn.className = 'z-button-icon secondary btn-clipboard-tooltip';
                 copyBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-clipboard"></span>`);
                 copyBtn.addEventListener('click', function() {
                     elementObject.select();

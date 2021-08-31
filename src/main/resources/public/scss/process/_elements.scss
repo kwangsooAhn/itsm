@@ -1,13 +1,5 @@
 @import '../template/_elements.scss';
 
-input:read-only {
-  color: $element-readonly-font-color;
-  background-color: $element-readonly-bg-color;
-  border-color: $element-readonly-border-color;
-  pointer-events: none;
-  cursor: default;
-}
-
 textarea {
   min-height: 7.5rem; // 120px
   resize: vertical;
@@ -66,7 +58,7 @@ svg {
         stroke-width: $node-selected-width !important;
 
         &.error {
-          stroke: $red !important;
+          stroke: $validation-error-font-color !important;
         }
       }
 
@@ -98,7 +90,7 @@ svg {
           stroke-width: $node-selected-width !important;
         }
 
-        &.error { stroke: $red !important; }
+        &.error { stroke: $validation-error-font-color !important; }
       }
     }
   }
@@ -106,7 +98,7 @@ svg {
   g.group-artifact-container {
     g.element {
       .group {
-        stroke: $black;
+        stroke: $group-color;
         fill: $white;
         fill-opacity: 1;
         stroke-dasharray: 5, 5;
@@ -116,7 +108,7 @@ svg {
         stroke: $node-selected-color !important;
         stroke-width: $node-selected-width !important;
 
-        &.error { stroke: $red !important; }
+        &.error { stroke: $validation-error-font-color !important; }
       }
 
       text {
@@ -144,7 +136,7 @@ svg {
         stroke-width: $connector-selected-width;
 
         &.error {
-          stroke: $red !important;
+          stroke: $validation-error-font-color !important;
         }
       }
 
@@ -183,13 +175,13 @@ svg {
     }
   }
 
-  defs marker path { fill: #596f7a; }
+  defs marker path { fill: $connector-color; }
   // 툴팁
   g.alice-tooltip {
     rect.tooltip-container {
-      fill: $tooltip-bg-color;
-      stroke: $tooltip-border-color;
-      stroke-width: $tooltip-border-width;
+      fill: $element-tooltip-bg-color;
+      stroke: $element-tooltip-border-color;
+      stroke-width: $element-tooltip-border-width;
     }
 
     rect.action-tooltip-item:hover,

@@ -60,7 +60,7 @@ $component-icon-drag-font-color:                   $blue400;
 // properties header
 $layout-properties-panel-header-height:            2.5rem; // 40px
 $layout-properties-panel-header-font-size:         $font-size-s;
-$layout-properties-panel-header-font-color:        map-get($blacks, 'ground');
+$layout-properties-panel-header-font-color:        $gray600;
 $layout-properties-panel-header-font-weight:       $font-weight-bold;
 $layout-properties-panel-header-bg-color:          $white;
 $layout-properties-panel-header-border-color:      $gray300;
@@ -85,29 +85,40 @@ $column-row:                                       12;  // 폼을 나누는 갯�
 $form-min-height:                                  56.25rem; // 900px
 $form-bg-color:                                    $white;
 $form-border-color:                                $gray300;
+$form-border-width:                                0.0625rem; // 1px
 
 //////////////////////////// group ///////////////////////////
+$group-border-color:                               $gray300;
+$group-border-width:                               0.0625rem; // 1px
 $group-accordion-bg-color:                         $neutral100;
 $group-accordion-border-color:                     $gray300;
+$group-accordion-border-width:                     0.125rem;
 $group-accordion-icon-color:                       $gray500; // 화살표 아이콘 색상
 $group-selected-border-color:                      $blue500;
+$group-selected-border-width:                      0.0625rem; // 1px
 $group-selected-border-radius:                     0.125rem; // 2px
 $group-selected-bg-color:                          $blue50;
 
 //////////////////////////// row ///////////////////////////
+$row-border-color:                                 $gray300;
+$row-border-width:                                 0.0625rem; // 1px
 $row-selected-border-color:                        $blue500;
+$row-selected-border-width:                        0.0625rem; // 1px
 $row-selected-border-radius:                       0.125rem; // 2px
 $row-selected-bg-color:                            $blue50;
 
 ////////////////////////// components /////////////////////////
+$component-border-color:                           $gray300;
+$component-border-width:                           0.0625rem; // 1px
 $component-gutter:                                 0.5rem; // 8px
 $component-selected-border-color:                  $blue500;
+$component-selected-border-width:                  0.0625rem; // 1px
 $component-selected-bg-color:                      $blue50;
 
 ///////////////////////// image 컴포넌트 ////////////////////////////
 $component-imagebox-font-size:                     $font-size-s;
 $component-imagebox-font-weight:                   $font-weight-regular;
-$component-imagebox-font-color:                    $gray;
+$component-imagebox-font-color:                    $gray400;
 $component-imagebox-bg-color:                      $neutral50;
 $component-selected-imagebox-bg-color:             $white;
 
@@ -117,76 +128,37 @@ $component-ciTable-border-color:                   $gray300;
 $component-ciTable-header-font-weight:             $font-weight-bold;
 $component-ciTable-header-font-color:              $gray400;
 $component-ciTable-header-bg-color:                $neutral100;
-$component-ciTable-noData-font-color:              $gray;
+$component-ciTable-noData-font-color:              $gray400;
 $component-ciTable-noData-bg-color:                $white;
 
 //////////////////////// DR Table 컴포넌트 /////////////////////////
 $component-drTable-bg-color:                       $white;
 $component-drTable-border-color:                   $gray300;
 $component-drTable-header-bg-color:                $neutral100;
-$component-drTable-noData-font-color:              $gray;
+$component-drTable-noData-font-color:              $gray400;
 $component-drTable-noData-bg-color:                $white;
 
 ///////////////////////// tooltip-menu /////////////////////////
 $tooltip-menu-bg-color:                            $white;
-$tooltip-menu-border-color:                        $gray300;
-$tooltip-menu-focus-bg-color:                      $blue;
-$tooltip-menu-icon-color:                          $gray300;
+$tooltip-menu-border-color:                        $blue500;
+$tooltip-menu-focus-bg-color:                      $blue500;
+$tooltip-menu-icon-color:                          $blue300;
 //////////////////////////// thumbnail //////////////////////////
 // 썸네일 모달
 $thumbnail-modal-width:                            1040px; // 1040px
 $thumbnail-modal-height:                           48.44rem; // 775px
 $thumbnail-main-padding:                           0.625rem; // 10px
-
-//////////////////////////// tooltip ////////////////////////////
-$tooltip-font-size:                                0.875rem; // 14px
-$tooltip-contents-width:                           21.25rem; // 340px
-$tooltip-contents-left:                            0.9375rem; // 15px
-$tooltip-contents-padding:                         1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
-$tooltip-contents-background:                      $white;
-$tooltip-contents-color:                           $blue;
-$tooltip-contents-left:                            0;
-$tooltip-contents-border-width:                    0.125rem; // 2px
-$tooltip-contents-border-color:                    $blue;
-$tooltip-contents-border:                          $tooltip-contents-border-width solid $tooltip-contents-border-color;
-$tooltip-contents-border-radius:                   0.125rem; // 2px
-$tooltip-contents-padding:                         1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
-$tooltip-contents-box-shadow:                      0 0 0.3125rem 0 rgba(30, 47, 63, 0.2); // 5px
-
-// clipboard tooltip
-// ID 복사하는 용도 > _tooltip.scss에 정의되어 있음
-$clipboard-tooltip-font-family:                    $font-family-s;
-$clipboard-tooltip-font-size:                      $font-size-xs;
-$clipboard-tooltip-font-weight:                    $font-weight-regular;
-$clipboard-tooltip-font-color:                     $blue;
-$clipboard-tooltip-bg-color:                       $white;
-$clipboard-tooltip-border-color:                   $blue;
-$clipboard-tooltip-border-width:                   0.125rem; // 2px
-$clipboard-tooltip-border:                         $clipboard-tooltip-border-width solid $clipboard-tooltip-border-color;
-$clipboard-tooltip-border-radius:                  0.0625rem; // 1px
-
-// 유효성 검증용
-$tooltip-validate-contents-width:                  3.75rem; // 60px
-$tooltip-validate-contents-bg-color:               $white;
-$tooltip-validate-contents-font-size:              0.875rem; // 14px
-$tooltip-validate-contents-font-weight:            $font-weight-regular;
-$tooltip-validate-contents-font-color:             $red;
-$tooltip-validate-contents-border-color:           $red;
-$tooltip-validate-contents-border-width:           0.125rem; // 2px
-$tooltip-validate-contents-border:                 $tooltip-validate-contents-border-width solid $tooltip-validate-contents-border-color;
-$tooltip-validate-contents-border-radius:          0.0625rem; // 1px
-$tooltip-validate-contents-padding:                0.6875rem 0.875rem; // 11px 14px
 //////////////////////////// 다른이름으로 저장하기 //////////////////////////
 $save-as-modal-height:                             25.63rem; // 410px
 
 /////////////////////////// properties ////////////////////////////
-$property-font-size:                               0.875rem; // 14px
+$property-font-size:                               $font-size-xs; // 14px
 
-$property-group-label-color:                       #323233;
-$property-group-label-font-size:                   1rem; // 16px
+$property-group-label-color:                       $gray800;
+$property-group-label-font-size:                   $font-size-s; // 16px
 
-$property-label-color:                             #8D9299;
-$property-label-font-size:                         0.875rem; // 14px
+$property-label-color:                             $gray500;
+$property-label-font-size:                         $font-size-xs; // 14px
 
 // 열 속성 > tab button
 $button-tab: (
@@ -207,3 +179,7 @@ $property-option-tb-header-font-weight:            $font-weight-medium;
 
 $property-option-tb-content-btn-color:             $gray400;
 $property-option-tb-content-btn-hv-color:          $blue500;
+
+$property-panel-border-color:                      $gray300;
+$property-panel-border-width:                      0.0625rem;
+$property-panel-icon-color:                        $blue500;
