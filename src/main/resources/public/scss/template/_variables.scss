@@ -69,7 +69,6 @@ $blues: (
 
 $gray:                                        #ACB4BF !default;
 $red:                                         #ff405a !default;
-$blue:                                        #0098FF !default;
 $orange:                                      #FF7319 !default;
 $green:                                       #00C462 !default;
 
@@ -308,10 +307,10 @@ $dropzone-font-color:                        $gray;
 $dropzone-font-weight:                       $font-weight-regular;
 $dropzone-bg-color:                          map-get($grays, 'light');
 // browse click 버튼
-$dropzone-clickable-font-color:              $blue;
+$dropzone-clickable-font-color:              $blue500;
 // 미리보기
 $file-uploader-preview-height:               5rem; // 80px;
-$file-uploader-progress-color:               $blue;
+$file-uploader-progress-color:               $blue500;
 $file-uploader-progress-bg-color:            map-get($grays, 'line');
 $file-uploader-filename-font-color:          map-get($grays, 'dark');
 $file-uploader-filesize-font-color:          $gray;
@@ -337,7 +336,7 @@ $avatar-dropzone-font-color:                 $gray;
 $avatar-dropzone-font-weight:                $font-weight-regular;
 $avatar-dropzone-bg-color:                   map-get($grays, 'light');
 // browse click 버튼
-$avatar-dropzone-clickable-font-color:       $blue;
+$avatar-dropzone-clickable-font-color:       $blue500;
 // description
 $avatar-desc-font-size:                      $font-size-xs;
 $avatar-desc-font-color:                     $gray;
@@ -357,7 +356,7 @@ $datepicker-focus-color:                     $blue600;
 $datepicker-hover-color:                     $blue400;
 $datepicker-icon-color:                      $gray500;
 // focus
-$datepicker-focus-border-color:              $blue;
+$datepicker-focus-border-color:              $blue500;
 $datepicker-focus-border-width:              0.0625rem; // 1px
 // title
 $datepicker-title-font-size:                 $font-size-xs;
@@ -411,11 +410,11 @@ $tree-folder-margin-left:                    0.5rem; // 8px
 // line 위치 계산
 $tree-indentation:                           calc((#{$tree-toggle-icon-width} / 2) + #{$tree-folder-margin-left} + (#{$tree-folder-icon-width} / 2));
 // node 선택
-$tree-selected-border-color:                 $blue;
+$tree-selected-border-color:                 $blue500;
 $tree-selected-border-width:                 0.0625rem; // 1px;
 $tree-selected-border:                       $tree-selected-border-width solid $tree-selected-border-color;
-$tree-selected-bg-color:                     hexToRGBA($blue, 0.05);
-$tree-hover-bg-color:                        hexToRGBA($blue, 0.05);
+$tree-selected-bg-color:                     hexToRGBA($blue500, 0.05);
+$tree-hover-bg-color:                        hexToRGBA($blue500, 0.05);
 
 ///////////////////////////////// modal //////////////////////////////
 // 모달 오픈시 바탕 어둡게
@@ -527,10 +526,14 @@ $thumbnail-nodata-font-color:                $gray500;
 $tooltip-help-margin:                        0.3125rem; // 5px
 $tooltip-font-size:                          1rem; // 16px
 $tooltip-contents-background:                $white;
-$tooltip-contents-color:                     $blue;
+$tooltip-contents-color:                     $blue500;
 $tooltip-contents-left:                      0;
 $tooltip-contents-width:                     100%;
 $tooltip-contents-padding:                   1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
+$tooltip-border-width:                       0.125rem; // 2px
+$tooltip-border-color:                       $blue500;
+$tooltip-border-radius:                      0.125rem; // 2px
+$tooltip-box-shadow-color:                   $gray300;
 
 // header tooltip
 $header-tooltip-font-family:                 $font-family-s;
@@ -544,6 +547,18 @@ $header-tooltip-border-color:                $gray300;
 $header-tooltip-box-shadow-color:            $gray300;
 $header-tooltip-padding:                     7px; // 7px
 $header-tooltip-margin:                      16px 0 0 0; // 16px
+
+// clipboard tooltip
+// ID 복사하는 용도 > _tooltip.scss에 정의되어 있음
+$clipboard-tooltip-font-family:              $font-family-s;
+$clipboard-tooltip-font-size:                $font-size-xs;
+$clipboard-tooltip-font-weight:              $font-weight-regular;
+$clipboard-tooltip-font-color:               $blue500;
+$clipboard-tooltip-bg-color:                 $white;
+$clipboard-tooltip-border-color:             $blue500;
+$clipboard-tooltip-border-width:             0.125rem; // 2px
+$clipboard-tooltip-border:                   $clipboard-tooltip-border-width solid $clipboard-tooltip-border-color;
+$clipboard-tooltip-border-radius:            0.0625rem; // 1px
 
 //////////////////////////////////// z-index ///////////////////////////////////
 $z-index-alert:                              999999;

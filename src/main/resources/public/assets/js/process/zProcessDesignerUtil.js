@@ -450,9 +450,9 @@
             method: 'put',
             url: '/rest/process/' + zProcessDesigner.data.process.id + '/simulation',
             callbackFunc: function (xhr) {
-                if (document.querySelectorAll('.simulation-report-contents-main .details div').length > 0) {
-                    document.querySelectorAll('.simulation-report-contents-main .details div').forEach((element) => element.parentElement.removeChild(element));
-                    document.querySelector('.simulation-report-contents-main .result').classList.remove('success', 'failed');
+                if (document.querySelectorAll('.z-simulation-report-contents-main .details div').length > 0) {
+                    document.querySelectorAll('.z-simulation-report-contents-main .details div').forEach((element) => element.parentElement.removeChild(element));
+                    document.querySelector('.z-simulation-report-contents-main .result').classList.remove('success', 'failed');
                 }
                 const response = JSON.parse(xhr.responseText);
 
@@ -466,8 +466,8 @@
                     mainResult = i18n.msg('common.label.fail');
                     mainResultClassName = 'failed';
                 }
-                document.querySelector('.simulation-report-contents-main .result').classList.add(mainResultClassName);
-                document.querySelector('.simulation-report-contents-main .result').textContent = mainResult;
+                document.querySelector('.z-simulation-report-contents-main .result').classList.add(mainResultClassName);
+                document.querySelector('.z-simulation-report-contents-main .result').textContent = mainResult;
 
                 // 세부 결과
                 for (let i = 0; i < response.simulationReport.length; i++) {
@@ -508,14 +508,14 @@
                     reportDetails.appendChild(elementInfo);
                     reportDetails.appendChild(failedMessage);
 
-                    document.querySelector('.simulation-report-contents-main .details').appendChild(reportDetails);
+                    document.querySelector('.z-simulation-report-contents-main .details').appendChild(reportDetails);
                 }
 
-                if (document.querySelector('.simulation-report').classList.contains('closed')) {
+                if (document.querySelector('.z-simulation-report').classList.contains('closed')) {
                     document.querySelector('.z-button-simulation-report').click();
                 }
                 // 스크롤바 생성
-                OverlayScrollbars(document.querySelector('.simulation-report-contents-main'), { className: 'scrollbar' });
+                OverlayScrollbars(document.querySelector('.z-simulation-report-contents-main'), { className: 'scrollbar' });
             },
             contentType: 'application/json; charset=utf-8',
             params: JSON.stringify(zProcessDesigner.data)
@@ -767,7 +767,7 @@
         const drawingboardContainer = document.querySelector('.z-drawing-board');
         let drawingBoard = d3.select(drawingboardContainer).select('svg');
         let content = drawingBoard.html();
-        const minimapSvg = d3.select('div.minimap').select('svg');
+        const minimapSvg = d3.select('div.z-minimap').select('svg');
         minimapSvg.html(content);
         minimapSvg.attr('width', 290).attr('height', 200);
         minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
@@ -783,7 +783,7 @@
         minimapSvg.selectAll('.selected').classed('selected', false);
         minimapSvg.selectAll('.reject-element').classed('reject-element', false);
         minimapSvg.append('rect')
-            .attr('class', 'minimap-guide')
+            .attr('class', 'z-minimap-guide')
             .attr('x', 0)
             .attr('y', 0)
             .attr('width', drawingboardContainer.offsetWidth)
@@ -795,7 +795,7 @@
             minimapTranslate = 'translate(' + -transform.x + ',' + -transform.y + ')';
         }
         minimapSvg.attr('viewBox', getSvgViewBox().join(' '));
-        minimapSvg.select('.minimap-guide').attr('transform', minimapTranslate);
+        minimapSvg.select('.z-minimap-guide').attr('transform', minimapTranslate);
     }
 
     /**
@@ -804,12 +804,12 @@
      * @return {[number, number, *, *]}
      */
     function getSvgViewBox() {
-        let isMinimapClosed = d3.select('div.minimap').classed('closed');
+        let isMinimapClosed = d3.select('div.z-minimap').classed('closed');
         if (isMinimapClosed) {
-            d3.select('div.minimap').classed('closed', false);
+            d3.select('div.z-minimap').classed('closed', false);
         }
         const drawingBoard = d3.select(document.querySelector('.z-drawing-board'));
-        const minimapSvg = d3.select('div.minimap').select('svg');
+        const minimapSvg = d3.select('div.z-minimap').select('svg');
         const nodeTopArray = [],
             nodeRightArray = [],
             nodeBottomArray = [],
@@ -823,7 +823,7 @@
             nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
         });
         if (isMinimapClosed) {
-            d3.select('div.minimap').classed('closed', true);
+            d3.select('div.z-minimap').classed('closed', true);
         }
         let viewBox = [0, 0, drawingBoard.node().offsetWidth, drawingBoard.node().offsetHeight];
         if (nodes.length > 0) {
@@ -846,7 +846,7 @@
 
         // 미니맵 초기화 설정
         const minimapContainer = document.createElement('div');
-        minimapContainer.classList.add('minimap', 'closed');
+        minimapContainer.className = 'z-minimap closed';
         drawingBoard.appendChild(minimapContainer);
         d3.select(minimapContainer).append('svg');
         // 미니맵 버튼
@@ -856,7 +856,7 @@
         minimapButton.addEventListener('click', function (e) {
             const elem = aliceJs.clickInsideElement(e, 'z-button-minimap');
             elem.classList.toggle('active');
-            document.querySelector('div.minimap').classList.toggle('closed');
+            document.querySelector('div.z-minimap').classList.toggle('closed');
         }, false);
 
         const minimapIcon = document.createElement('span');
@@ -868,16 +868,16 @@
 
         // 시뮬레이션 레포트 버튼 동작 이벤트 설정
         const simulationToggleEvent = function() {
-            document.querySelector('.simulation-report').classList.toggle('closed');
+            document.querySelector('.z-simulation-report').classList.toggle('closed');
             document.querySelector('.z-button-simulation-report').classList.toggle('active');
         };
 
         // 시뮬레이션 레포트 초기화 설정
         const simulationContainer = document.createElement('div');
-        simulationContainer.classList.add('simulation-report', 'closed');
+        simulationContainer.className = 'z-simulation-report closed';
 
         const simulationTitle = document.createElement('div');
-        simulationTitle.className = 'simulation-report-title';
+        simulationTitle.className = 'z-simulation-report-title';
         simulationTitle.textContent = i18n.msg('process.btn.simulationCheckResult');
 
         const simulationClose = document.createElement('span');
@@ -887,10 +887,10 @@
         simulationContainer.appendChild(simulationTitle);
 
         const simulationContent = document.createElement('div');
-        simulationContent.className = 'simulation-report-contents';
+        simulationContent.className = 'z-simulation-report-contents';
 
         const simulationMain = document.createElement('div');
-        simulationMain.className = 'simulation-report-contents-main';
+        simulationMain.className = 'z-simulation-report-contents-main';
 
         const simulationResult = document.createElement('div');
         simulationResult.className = 'result';
@@ -918,7 +918,7 @@
         // 시뮬레이션 레포트 화면 drag 설정
         let simulationReportX = 0;
         let simulationReportY = 0;
-        d3.select(document.querySelector('.simulation-report')).call(
+        d3.select(document.querySelector('.z-simulation-report')).call(
             d3.drag()
                 .on('start', function () {
                     simulationReportX = (d3.event.x - simulationReportX);

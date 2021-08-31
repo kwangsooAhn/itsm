@@ -1280,9 +1280,9 @@ label {
 }
 .switch input[type=checkbox]:hover + span::before {
   border-color: #64BBF6;
-  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
-  -moz-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
-  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
+  -moz-box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
+  box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
 }
 .switch:focus input[type=checkbox] + span:before {
   border-color: #2578CE;
