@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 data class BoardArticleSearchCondition(
-    val boardAdminId: String? = null,
+    val boardAdminId: String,
     val searchValue: String? = null,
     val fromDt: String? = null,
     val toDt: String? = null,

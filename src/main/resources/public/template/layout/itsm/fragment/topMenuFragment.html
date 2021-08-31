@@ -25,6 +25,7 @@
         </ul>
     </div>
     <div id="notification-panel" class="z-notification-panel"></div>
+    <div id="toast-panel" name="toast-panel" ></div>
     <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[ */
@@ -118,6 +119,7 @@
             Toastify({
                 text: text,
                 duration: 5000,
+                selector: 'toast-panel',
                 close: true,
                 gravity: 'bottom',
                 position: 'right',
@@ -129,7 +131,7 @@
                 onClick: function() {
                     openTokenPage(param.notificationId, param.instanceId);
                 }
-            }).showToast();
+            }).callToast();
         }
 
         // TODO: 처리할 문서 화면 호출. 해당 문서가 처리되었을 때 이슈로 구현하지 않음. 일단 처리할 문서 목록 화면으로 이동하도록 함.

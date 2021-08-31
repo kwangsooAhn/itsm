@@ -20,7 +20,8 @@
         <div class="z-board-content-view">
             <div class="flex-column view-row">
                 <div class="view-title text-ellipsis">
-                    <span th:if="${boardAdminInfo.categoryYn}" th:text="'['+${boardInfo?.boardCategoryName}+']'"></span>
+                    <span th:if="${boardAdminInfo.categoryYn && not #strings.isEmpty(boardInfo?.boardCategoryName)}"
+                          th:text="#{common.label.bracketOpen}+${boardInfo?.boardCategoryName}+#{common.label.bracketClose}"></span>
                     <span th:text="${boardInfo?.boardTitle}"></span>
                 </div>
             </div>

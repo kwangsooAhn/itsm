@@ -106,8 +106,8 @@
                                     <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
                                     <td class="col-1 align-center">
                                         <th:block th:if="${category.boardCount == 0}">
-                                            <button class="minus">
-                                                <span class="icon-delete-gray" th:onclick="deleteBoardCategory(this.parentNode, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])"></span>
+                                            <button type="button" class="z-button-icon extra" th:onclick="deleteBoardCategory(this, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])">
+                                                <span class="z-icon i-delete" ></span>
                                             </button>
                                         </th:block>
                                     </td>
@@ -326,7 +326,7 @@
             const categoryDeleteColumn = document.createElement('td');
             categoryNameColumn.className = 'col-6';
             categorySortColumn.className = 'col-5';
-            categoryDeleteColumn.className = 'col-1';
+            categoryDeleteColumn.className = 'col-1 align-center';
             categoryNameColumn.textContent = categoryNameObject.value;
             categorySortColumn.textContent = categorySortObject.value;
             categoryList.push({
@@ -335,9 +335,11 @@
                 boardCategorySort: categorySortObject.value
             })
             const deleteBtn = document.createElement('button');
-            deleteBtn.classList.add('minus');
+            deleteBtn.classList.add('z-button-icon');
+            deleteBtn.classList.add('extra');
             const deleteIcon = document.createElement('span');
-            deleteIcon.classList.add('icon-delete-gray');
+            deleteIcon.classList.add('z-icon');
+            deleteIcon.classList.add('i-delete');
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {
                 deleteBoardCategory(this);
