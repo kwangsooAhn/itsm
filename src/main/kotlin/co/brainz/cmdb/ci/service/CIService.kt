@@ -100,6 +100,39 @@ class CIService(
     }
 
     /**
+     * CI 전체 목록 조회
+     */
+    fun getCIList(): List<CIListDto> {
+        val ciEntities = ciRepository.findAll()
+        val ciList = mutableListOf<CIListDto>()
+
+        ciEntities.forEach { ci ->
+            val ciListDto = CIListDto(
+                ciId = ci.ciId,
+                ciNo = ci.ciNo,
+                ciName = ci.ciName,
+                ciIcon = ci.ciTypeEntity.typeIcon,
+                ciIconData = ci.ciTypeEntity.typeIcon?.let { ciTypeService.getCITypeImageData(it) },
+                ciDesc = ci.ciDesc,
+                ciStatus = ci.ciStatus,
+                interlink = ci.interlink,
+                typeId = ci.ciTypeEntity.typeId,
+                typeName = ci.ciTypeEntity.typeName,
+                classId = ci.ciTypeEntity.ciClass.classId,
+                className = ci.ciTypeEntity.ciClass.className,
+                createUserKey = ci.createUser?.userKey,
+                createDt = ci.createDt,
+                updateUserKey = ci.updateUser?.userKey,
+                updateDt = ci.updateDt,
+                ciTags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ci.ciId)
+            )
+            ciList.add(ciListDto)
+        }
+
+        return ciList
+    }
+
+    /**
      * CI 목록 단일 조회
      */
     fun getCI(ciId: String): CIListDto {
@@ -237,7 +270,7 @@ class CIService(
                     ciRelationRepository.save(
                         CIRelationEntity(
                             relationType = it.relationType,
-                            sourceCIId = it.sourceCIId,
+                            ciId = ciDto.ciId,
                             targetCIId = it.targetCIId
                         )
                     )
@@ -317,7 +350,7 @@ class CIService(
             ciRelationRepository.save(
                 CIRelationEntity(
                     relationType = it.relationType,
-                    sourceCIId = it.sourceCIId,
+                    ciId = ciDto.ciId,
                     targetCIId = it.targetCIId
                 )
             )

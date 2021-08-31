@@ -35,6 +35,28 @@
             @include borderRadius($cmdb-ci-attribute-border-radius);
             margin-bottom: 0.625rem; // 10px
           }
+          // 연관 관계
+          .z-relation-group {
+            .z-relation-title-group {
+              height: $cmdb-ci-relation-height;
+              .z-sub-title {
+                font-size: $cmdb_ci-relation-font-size;
+              }
+            }
+            .z-relation-select-box-group {
+              width: $cmdb-ci-relation-select-group-width;
+              font-size: $cmdb-ci-relation-select-group-font-size;
+              font-weight: $cmdb-ci-relation-select-group-font-weight;
+              font-family: $cmdb-ci-relation-select-group-font-family;
+              padding: $cmdb-ci-relation-select-group-padding;
+            }
+            .z-target-ci-select-box {
+              width: $cmdb-ci-target-select-box-width;
+            }
+            .z-relation-type-select-box {
+              width: $cmdb-ci-relation-select-box-width;
+            }
+          }
         }
         .cmdb-ci-content-view {
           height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 부모 높이 - 50px
