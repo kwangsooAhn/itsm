@@ -2917,13 +2917,13 @@ table[id=documentDisplay] td {
   height: 2.8125rem;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-body tr:hover {
-  background-color: #EBEBEB;
+  background-color: #EEEEEE;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-body tr.active {
-  background-color: rgba(230, 232, 235, 0.6);
+  background-color: #E3F5FC;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-body tr.active td {
-  color: #0060A5;
+  color: #1959AC;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-body tr td {
   font-size: 0.875rem;
@@ -2936,10 +2936,10 @@ table[id=documentDisplay] td {
   padding-left: 1.25rem;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-body tr td a {
-  color: #586872;
+  color: #222529;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-body .no-data-found-list {
-  background-color: #EBEBEB;
+  background-color: #FFFFFF;
   pointer-events: none;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-tree {
@@ -3309,10 +3309,10 @@ table[id=documentDisplay] td {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 .z-board-admin-content-edit .edit-table .tbody tr:hover {
-  background-color: #EBEBEB;
+  background-color: #EEEEEE;
 }
 .z-board-admin-content-edit .edit-table .tbody .no-data-found-list {
-  background-color: #EBEBEB;
+  background-color: #FFFFFF;
   pointer-events: none;
 }
 .z-image-content-edit {
