@@ -132,7 +132,7 @@ $card-border-width:                           0.0625rem; // 1px
 $card-border-color:                           $gray300;
 $card-border:                                 $card-border-width solid $card-border-color;
 $card-border-radius:                          0.0625rem; // 1px
-$card-hover-box-shadow:                       0 0 0.9375rem hexToRGBA(map-get($grays, 'pressed'), 0.15), inset 0 0 0 $card-border-width $card-border-color;
+$card-hover-box-shadow:                       0 0 0.9375rem hexToRGBA($gray300, 0.15), inset 0 0 0 $card-border-width $card-border-color;
 
 // 카드 목록 마우스 오버시
 $card-list-hover-bg-color:                    $neutral200;
@@ -261,8 +261,13 @@ $vertical-bar-margin:                         0.0625rem 0.9375rem 0.0625rem 0; /
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
 $cmdb-ci-modal-height:                       53.0625rem; // 849px
 
-$cmdb-ci-attribute-border:                   0.0625rem solid map-get($grays, 'line'); // 1px
-$cmdb-ci-attribute-bg-color:                 map-get($grays, 'light');
+$cmdb-ci-attribute-border-color:             $gray300;
+$cmdb-ci-attribute-border-width:             0.0625rem;
+$cmdb-ci-attribute-bg-color:                 $neutral50;
+$cmdb-ci-attribute-border-radius:            0.0625rem; // 1px
+
+$cmdb-ci-attribute-list-border-color:        $gray300;
+$cmdb-ci-attribute-list-border-width:        0.0625rem; // 1px
 
 //////////////////////////// 스케줄러 모달 /////////////////////////
 $scheduler-modal-width:                      62.5rem; // 1000px

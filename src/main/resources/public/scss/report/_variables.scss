@@ -1,13 +1,13 @@
 //////////////////////////// layout ////////////////////////////
 // header
-$layout-header-height:                       0; // 0px
+$layout-header-height:                        0; // 0px
 
 // main
-$layout-main-bg-color:                       map-get($grays, 'light');
+$layout-main-bg-color:                        $neutral50);
 
 // main > drawing-report
 $drawing-report-width:                        60rem; // 960px
 $drawing-report-bg-color:                     $white;
-$drawing-report-border:                       0.0625rem solid map-get($grays, 'line'); // 1px
-$drawing-report-box-shadow:                   0 0 0.9375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
+$drawing-report-border:                       0.0625rem solid $gray300; // 1px
+$drawing-report-box-shadow:                   0 0 0.9375rem 0 hexToRGBA($gray300, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
 $drawing-report-padding:                      6.25rem 4.688rem; // 100px 75px;

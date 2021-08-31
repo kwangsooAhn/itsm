@@ -85,29 +85,40 @@ $column-row:                                       12;  // 폼을 나누는 갯�
 $form-min-height:                                  56.25rem; // 900px
 $form-bg-color:                                    $white;
 $form-border-color:                                $gray300;
+$form-border-width:                                0.0625rem; // 1px
 
 //////////////////////////// group ///////////////////////////
+$group-border-color:                               $gray300;
+$group-border-width:                               0.0625rem; // 1px
 $group-accordion-bg-color:                         $neutral100;
 $group-accordion-border-color:                     $gray300;
+$group-accordion-border-width:                     0.125rem;
 $group-accordion-icon-color:                       $gray500; // 화살표 아이콘 색상
 $group-selected-border-color:                      $blue500;
+$group-selected-border-width:                      0.0625rem; // 1px
 $group-selected-border-radius:                     0.125rem; // 2px
 $group-selected-bg-color:                          $blue50;
 
 //////////////////////////// row ///////////////////////////
+$row-border-color:                                 $gray300;
+$row-border-width:                                 0.0625rem; // 1px
 $row-selected-border-color:                        $blue500;
+$row-selected-border-width:                        0.0625rem; // 1px
 $row-selected-border-radius:                       0.125rem; // 2px
 $row-selected-bg-color:                            $blue50;
 
 ////////////////////////// components /////////////////////////
+$component-border-color:                           $gray300;
+$component-border-width:                           0.0625rem; // 1px
 $component-gutter:                                 0.5rem; // 8px
 $component-selected-border-color:                  $blue500;
+$component-selected-border-width:                  0.0625rem; // 1px
 $component-selected-bg-color:                      $blue50;
 
 ///////////////////////// image 컴포넌트 ////////////////////////////
 $component-imagebox-font-size:                     $font-size-s;
 $component-imagebox-font-weight:                   $font-weight-regular;
-$component-imagebox-font-color:                    $gray;
+$component-imagebox-font-color:                    $gray400;
 $component-imagebox-bg-color:                      $neutral50;
 $component-selected-imagebox-bg-color:             $white;
 
@@ -117,21 +128,21 @@ $component-ciTable-border-color:                   $gray300;
 $component-ciTable-header-font-weight:             $font-weight-bold;
 $component-ciTable-header-font-color:              $gray400;
 $component-ciTable-header-bg-color:                $neutral100;
-$component-ciTable-noData-font-color:              $gray;
+$component-ciTable-noData-font-color:              $gray400;
 $component-ciTable-noData-bg-color:                $white;
 
 //////////////////////// DR Table 컴포넌트 /////////////////////////
 $component-drTable-bg-color:                       $white;
 $component-drTable-border-color:                   $gray300;
 $component-drTable-header-bg-color:                $neutral100;
-$component-drTable-noData-font-color:              $gray;
+$component-drTable-noData-font-color:              $gray400;
 $component-drTable-noData-bg-color:                $white;
 
 ///////////////////////// tooltip-menu /////////////////////////
 $tooltip-menu-bg-color:                            $white;
-$tooltip-menu-border-color:                        $gray300;
+$tooltip-menu-border-color:                        $blue500;
 $tooltip-menu-focus-bg-color:                      $blue500;
-$tooltip-menu-icon-color:                          $gray300;
+$tooltip-menu-icon-color:                          $blue300;
 //////////////////////////// thumbnail //////////////////////////
 // 썸네일 모달
 $thumbnail-modal-width:                            1040px; // 1040px
@@ -168,3 +179,7 @@ $property-option-tb-header-font-weight:            $font-weight-medium;
 
 $property-option-tb-content-btn-color:             $gray400;
 $property-option-tb-content-btn-hv-color:          $blue500;
+
+$property-panel-border-color:                      $gray300;
+$property-panel-border-width:                      0.0625rem;
+$property-panel-icon-color:                        $blue500;
