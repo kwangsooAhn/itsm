@@ -4280,7 +4280,7 @@ svg path.connector.hidden {
   word-break: keep-all;
   line-height: 1.5;
 }
-.z-help-tooltip:hover .tooltip-contents {
+.z-help-tooltip:hover .z-tooltip-contents {
   visibility: visible;
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 0.3s;

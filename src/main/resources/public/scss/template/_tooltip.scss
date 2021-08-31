@@ -48,7 +48,7 @@
   }
 
   &:hover {
-    .tooltip-contents {
+    .z-tooltip-contents {
       visibility: visible;
       @include animation (0s, 0.3s, fadeIn, ease-out);
     }
