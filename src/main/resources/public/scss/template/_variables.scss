@@ -67,11 +67,6 @@ $blues: (
   'light':                                    #87CEFF
 ) !default;
 
-$gray:                                        #ACB4BF !default;
-$red:                                         #ff405a !default;
-$orange:                                      #FF7319 !default;
-$green:                                       #00C462 !default;
-
 //////////////////////////////// common //////////////////////////////////
 // common prefix
 $common-prefix:                               'z-';
@@ -283,9 +278,9 @@ $scrollbar-color:                            map-get($grays, 'default');
 // scrollbar 모서리 곡선
 $scrollbar-border-radius:                    0.5rem; // 8px
 // scrollbar 배경 색상
-$scrollbar-bg-color:                         hexToRGBA(map-get($grays, 'line'), 0.6);
+$scrollbar-bg-color:                         $neutral50;
 // scrollbar hover, click 이동시 색상
-$scrollbar-hover-color:                      map-get($grays, 'pressed');
+$scrollbar-hover-color:                      $gray300;
 // dark 테마 스크롤바 (메뉴 사용)
 $scrollbar-dark-color:                       map-get($blacks, 'light');
 $scrollbar-dark-bg-color:                    map-get($blacks, 'focus');
@@ -303,7 +298,7 @@ $file-uploader-font-weight:                  $font-weight-medium;
 $file-uploader-icon-color:                   $gray500;
 // drag and drop 영역
 $dropzone-font-size:                         $font-size-xs;
-$dropzone-font-color:                        $gray;
+$dropzone-font-color:                        $gray400;
 $dropzone-font-weight:                       $font-weight-regular;
 $dropzone-bg-color:                          map-get($grays, 'light');
 // browse click 버튼
@@ -313,9 +308,9 @@ $file-uploader-preview-height:               5rem; // 80px;
 $file-uploader-progress-color:               $blue500;
 $file-uploader-progress-bg-color:            map-get($grays, 'line');
 $file-uploader-filename-font-color:          map-get($grays, 'dark');
-$file-uploader-filesize-font-color:          $gray;
+$file-uploader-filesize-font-color:          $gray400;
 // 파일 미존재시
-$file-uploader-no-date-font-color:           $gray;
+$file-uploader-no-date-font-color:           $gray400;
 // view 모드
 $file-uploader-view-font-size:               $font-size-xs;
 $file-uploader-view-font-color:              map-get($grays, 'dark');
@@ -332,14 +327,14 @@ $avatar-dropzone-height:                     20.63rem; // 330px
 $avatar-dropzone-sm-width:                   9.375rem; // 150px
 $avatar-dropzone-sm-height:                  9.375rem; // 150px
 $avatar-dropzone-font-size:                  $font-size-xs;
-$avatar-dropzone-font-color:                 $gray;
+$avatar-dropzone-font-color:                 $gray400;
 $avatar-dropzone-font-weight:                $font-weight-regular;
-$avatar-dropzone-bg-color:                   map-get($grays, 'light');
+$avatar-dropzone-bg-color:                   $neutral50;
 // browse click 버튼
 $avatar-dropzone-clickable-font-color:       $blue500;
 // description
 $avatar-desc-font-size:                      $font-size-xs;
-$avatar-desc-font-color:                     $gray;
+$avatar-desc-font-color:                     $gray400;
 $avatar-desc-font-weight:                    $font-weight-regular;
 
 ///////////////////////////////// date picker /////////////////////////////////

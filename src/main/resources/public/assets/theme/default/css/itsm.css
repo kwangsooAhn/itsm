@@ -1108,76 +1108,6 @@ label {
   font-weight: 500;
 }
 
-.switch {
-  position: relative;
-  height: 2.188rem;
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.2;
-  color: #222529;
-  outline: none;
-}
-.switch .label {
-  display: inline-block;
-  height: 2.188rem;
-  line-height: 2;
-  margin-left: 5.625rem;
-  cursor: pointer;
-}
-.switch input[type=checkbox] {
-  display: none;
-}
-.switch input[type=checkbox] + span {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 5rem;
-  background-color: #E1E3E6;
-  border-radius: 2.5rem;
-  -webkit-border-radius: 2.5rem;
-  -moz-border-radius: 2.5rem;
-  cursor: pointer;
-  -webkit-transition: 0.4s;
-  -moz-transition: 0.4s;
-  -o-transition: 0.4s;
-  -ms-transition: 0.4s;
-  transition: 0.4s;
-}
-.switch input[type=checkbox] + span::before {
-  content: "";
-  position: absolute;
-  bottom: 0.3125rem;
-  left: 0.25rem;
-  width: 1.563rem;
-  height: 1.563rem;
-  background-color: #FFFFFF;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-}
-.switch input[type=checkbox]:checked + span {
-  background-color: #339AF0;
-}
-.switch input[type=checkbox]:checked + span::before {
-  -webkit-transform: translate(2.875rem, 0);
-  -moz-transform: translate(2.875rem, 0);
-  -o-transform: translate(2.875rem, 0);
-  -ms-transform: translate(2.875rem, 0);
-  transform: translate(2.875rem, 0);
-}
-.switch input[type=checkbox]:hover + span::before {
-  border-color: #64BBF6;
-  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
-  -moz-box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
-  box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
-}
-.switch:focus input[type=checkbox] + span:before {
-  border-color: #2578CE;
-}
-
 .input-button {
   position: relative;
 }
@@ -1196,6 +1126,10 @@ label {
 }
 .input-button button:focus, .input-button button:hover, .input-button button:active {
   z-index: 25;
+}
+
+input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:hover {
+  outline: 0;
 }
 
 .z-input {
@@ -2876,7 +2810,7 @@ table[id=documentDisplay] td {
 .z-itsm-container .z-main-content .z-page-result .document-row-content .document-title .z-document-numbering {
   font-size: 1rem;
   font-weight: 400;
-  color: #ACB4BF;
+  color: #ABB0B5;
 }
 .z-itsm-container .z-main-content .z-page-result .document-row-content .document-topic {
   width: 39.38rem;
@@ -3068,7 +3002,7 @@ table[id=documentDisplay] td {
   cursor: pointer;
 }
 .z-itsm-container .z-main .card-list .card:hover {
-  box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15), inset 0 0 0 0.0625rem #CFD5D9;
+  box-shadow: 0 0 0.9375rem rgba(207, 213, 217, 0.15), inset 0 0 0 0.0625rem #CFD5D9;
 }
 .z-itsm-container .z-main .card-list .card .document-column h3 {
   width: 28rem;
@@ -3311,7 +3245,7 @@ table[id=documentDisplay] td {
   font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
-  color: #CCCED1;
+  color: #CFD5D9;
   background: 0 0;
 }
 .z-auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after, .z-role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after, .z-code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after, .z-numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after, .z-numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after, .z-cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after {
@@ -3321,7 +3255,7 @@ table[id=documentDisplay] td {
 }
 .z-auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover, .z-role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover, .z-code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover, .z-numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover, .z-numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover, .z-cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover {
   color: #FFFFFF;
-  background: #CCCED1;
+  background: #CFD5D9;
 }
 .z-auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span, .z-role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span, .z-code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span, .z-numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span, .z-numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span, .z-cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span {
   opacity: 1;
@@ -3967,7 +3901,7 @@ table[id=documentDisplay] td {
   background: transparent;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track {
-  background: rgba(235, 235, 235, 0.6);
+  background: #FAFAFA;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -3979,10 +3913,10 @@ table[id=documentDisplay] td {
   background: #E1E3E6;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
-  background: #CCCED1;
+  background: #CFD5D9;
 }
 .scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #CCCED1;
+  background: #CFD5D9;
 }
 .scrollbar > .os-scrollbar.os-scrollbar-unusable {
   background: transparent;
@@ -4060,7 +3994,7 @@ table[id=documentDisplay] td {
   background: transparent;
 }
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track {
-  background: rgba(235, 235, 235, 0.6);
+  background: #FAFAFA;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -4072,10 +4006,10 @@ table[id=documentDisplay] td {
   background: #E1E3E6;
 }
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
-  background: #CCCED1;
+  background: #CFD5D9;
 }
 .inner-scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #CCCED1;
+  background: #CFD5D9;
 }
 .inner-scrollbar > .os-scrollbar.os-scrollbar-unusable {
   background: transparent;
@@ -4172,7 +4106,7 @@ table[id=documentDisplay] td {
   overflow: auto;
 }
 .ql-container .ql-editor::-webkit-scrollbar-track {
-  background-color: rgba(235, 235, 235, 0.6);
+  background-color: #FAFAFA;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -4188,10 +4122,10 @@ table[id=documentDisplay] td {
   -moz-border-radius: 0.5rem;
 }
 .ql-container .ql-editor::-webkit-scrollbar-thumb:hover {
-  background-color: #CCCED1;
+  background-color: #CFD5D9;
 }
 .ql-container .ql-editor::-webkit-scrollbar-thumb:active {
-  background-color: #CCCED1;
+  background-color: #CFD5D9;
 }
 .ql-container .ql-editor::-webkit-resizer {
   width: 24px;
@@ -4324,7 +4258,7 @@ table[id=documentDisplay] td {
 .file-uploader-edit .dropzone .dz-default.dz-message {
   font-size: 0.875rem;
   font-weight: 400;
-  color: #ACB4BF;
+  color: #ABB0B5;
   text-align: center;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .z-icon.i-document-txt {
@@ -4338,7 +4272,7 @@ table[id=documentDisplay] td {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #ACB4BF;
+  background: #ABB0B5;
   margin-bottom: 1.25rem;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap {
@@ -4433,7 +4367,7 @@ table[id=documentDisplay] td {
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-size {
   grid-column: 2;
-  color: #ACB4BF;
+  color: #ABB0B5;
   text-align: left;
   padding: 0 1.25rem;
 }
@@ -4480,7 +4414,7 @@ table[id=documentDisplay] td {
   display: none;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-error {
-  border-color: #ff405a;
+  border-color: #F52525;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-error .dz-error-message {
   display: block;
@@ -4525,7 +4459,7 @@ table[id=documentDisplay] td {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #ff405a;
+  background: #F52525;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-processing .dz-progress {
   opacity: 1;
@@ -4653,7 +4587,7 @@ table[id=documentDisplay] td {
   height: 100%;
 }
 .file-uploader-view .file-uploader-list .text-no-file {
-  color: #ACB4BF;
+  color: #ABB0B5;
 }
 .file-uploader-view .dropzone.dz-uploaded {
   min-height: auto;
@@ -4687,7 +4621,7 @@ table[id=documentDisplay] td {
   text-underline-position: under;
 }
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-size {
-  color: #ACB4BF;
+  color: #ABB0B5;
   padding: 0;
 }
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-download,
@@ -4711,7 +4645,7 @@ table[id=documentDisplay] td {
 .avatar-edit .avatar {
   width: 20.63rem;
   height: 20.63rem;
-  background-color: #F7F8F9;
+  background-color: #FAFAFA;
   border: 0.0625rem solid #EBEBEB;
   padding: 0;
 }
@@ -4721,7 +4655,7 @@ table[id=documentDisplay] td {
 .avatar-edit .avatar .dz-default.dz-message {
   font-size: 0.875rem;
   font-weight: 400;
-  color: #ACB4BF;
+  color: #ABB0B5;
   text-align: center;
   margin-top: 85px;
 }
@@ -4736,7 +4670,7 @@ table[id=documentDisplay] td {
   mask-position: center;
   -webkit-mask-size: 5rem;
   mask-size: 5rem;
-  background: #CCCED1;
+  background: #CFD5D9;
   margin-bottom: 1.25rem;
 }
 .avatar-edit .avatar .dz-default.dz-message .add-file-button-wrap {
@@ -4836,7 +4770,7 @@ table[id=documentDisplay] td {
   display: block;
   font-size: 0.875rem;
   font-weight: 400;
-  color: #ACB4BF;
+  color: #ABB0B5;
   text-align: left;
   margin-bottom: 0.3125rem;
 }
@@ -4876,7 +4810,7 @@ table[id=documentDisplay] td {
 .avatar {
   font-size: 1rem;
   font-weight: 400;
-  color: #ACB4BF;
+  color: #ABB0B5;
 }
 .avatar-text {
   text-align: center;
@@ -6149,9 +6083,9 @@ body.modal-active {
   margin: 0.625rem 0;
 }
 .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group {
-  background-color: #F7F8F9;
+  background-color: #FAFAFA;
   padding: 0 1.25rem 1.25rem 1.25rem;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -6170,9 +6104,9 @@ body.modal-active {
   margin: 0.625rem 0;
 }
 .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group {
-  background-color: #F7F8F9;
+  background-color: #FAFAFA;
   padding: 0 1.25rem 1.25rem 1.25rem;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -6206,24 +6140,22 @@ body.modal-active {
 .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table {
   width: 100%;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .list-head tr {
-  color: #3F4B56;
-  border-bottom: 0.125rem solid #E1E3E6;
+.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-head tr {
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .list-body {
+.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body {
   display: block;
   width: 60rem;
   height: 32.8125rem;
-  color: #586872;
   overflow-y: auto;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .list-body .list-row {
+.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body .list-row {
   display: table;
   width: 100%;
   height: 3.125rem;
   line-height: 3.125rem;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .list-body .list-row > td {
+.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body .list-row > td {
   display: inline-block;
   vertical-align: middle;
 }
@@ -6918,7 +6850,7 @@ body.modal-active {
   align-items: center;
 }
 .reply-list .reply-create-date {
-  color: #ACB4BF;
+  color: #ABB0B5;
 }
 .reply-list .reply-row {
   margin-top: 1.875rem;

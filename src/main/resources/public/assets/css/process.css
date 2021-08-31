@@ -1231,7 +1231,7 @@ input, button, select, optgroup, textarea {
   margin: 0.625rem 0;
 }
 .z-process-main .z-drawing-board .z-simulation-report-contents-main .details div.failed {
-  color: #ff405a;
+  color: #F52525;
 }
 .z-process-main .z-drawing-board .z-simulation-report-contents-main .details-result, .z-process-main .z-drawing-board .z-simulation-report-contents-main .details-element-info, .z-process-main .z-drawing-board .z-simulation-report-contents-main .details-failed-message {
   margin-left: 0.313rem;
@@ -1263,9 +1263,9 @@ input, button, select, optgroup, textarea {
   width: 18.75rem;
   background-color: #FFFFFF;
   border-left: 0.0625rem solid #CFD5D9;
-  -webkit-box-shadow: 0 -0.125rem 0.125rem 0 #CFD5D9;
-  -moz-box-shadow: 0 -0.125rem 0.125rem 0 #CFD5D9;
-  box-shadow: 0 -0.125rem 0.125rem 0 #CFD5D9;
+  -webkit-box-shadow: 0 0.125rem 0.125rem 0 #CFD5D9;
+  -moz-box-shadow: 0 0.125rem 0.125rem 0 #CFD5D9;
+  box-shadow: 0 0.125rem 0.125rem 0 #CFD5D9;
   overflow-x: hidden;
   overflow-y: auto;
   -ms-overflow-style: none;
@@ -1452,76 +1452,6 @@ label {
   font-weight: 500;
 }
 
-.switch {
-  position: relative;
-  height: 2.188rem;
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.2;
-  color: #222529;
-  outline: none;
-}
-.switch .label {
-  display: inline-block;
-  height: 2.188rem;
-  line-height: 2;
-  margin-left: 5.625rem;
-  cursor: pointer;
-}
-.switch input[type=checkbox] {
-  display: none;
-}
-.switch input[type=checkbox] + span {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 5rem;
-  background-color: #E1E3E6;
-  border-radius: 2.5rem;
-  -webkit-border-radius: 2.5rem;
-  -moz-border-radius: 2.5rem;
-  cursor: pointer;
-  -webkit-transition: 0.4s;
-  -moz-transition: 0.4s;
-  -o-transition: 0.4s;
-  -ms-transition: 0.4s;
-  transition: 0.4s;
-}
-.switch input[type=checkbox] + span::before {
-  content: "";
-  position: absolute;
-  bottom: 0.3125rem;
-  left: 0.25rem;
-  width: 1.563rem;
-  height: 1.563rem;
-  background-color: #FFFFFF;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-}
-.switch input[type=checkbox]:checked + span {
-  background-color: #339AF0;
-}
-.switch input[type=checkbox]:checked + span::before {
-  -webkit-transform: translate(2.875rem, 0);
-  -moz-transform: translate(2.875rem, 0);
-  -o-transform: translate(2.875rem, 0);
-  -ms-transform: translate(2.875rem, 0);
-  transform: translate(2.875rem, 0);
-}
-.switch input[type=checkbox]:hover + span::before {
-  border-color: #64BBF6;
-  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
-  -moz-box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
-  box-shadow: 0 0 0.3125rem 0 rgba(51, 154, 240, 0.2);
-}
-.switch:focus input[type=checkbox] + span:before {
-  border-color: #2578CE;
-}
-
 .input-button {
   position: relative;
 }
@@ -1540,6 +1470,10 @@ label {
 }
 .input-button button:focus, .input-button button:hover, .input-button button:active {
   z-index: 25;
+}
+
+input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:hover {
+  outline: 0;
 }
 
 .z-input {
@@ -2357,7 +2291,7 @@ svg g.element-container g.element .node.selected {
   stroke-width: 2 !important;
 }
 svg g.element-container g.element .node.selected.error {
-  stroke: #ff405a !important;
+  stroke: #F52525 !important;
 }
 svg g.element-container g.element .node.reject-element {
   stroke: #F52525 !important;
@@ -3701,7 +3635,7 @@ svg path.connector.hidden {
   background: transparent;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track {
-  background: rgba(235, 235, 235, 0.6);
+  background: #FAFAFA;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -3713,10 +3647,10 @@ svg path.connector.hidden {
   background: #E1E3E6;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
-  background: #CCCED1;
+  background: #CFD5D9;
 }
 .scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #CCCED1;
+  background: #CFD5D9;
 }
 .scrollbar > .os-scrollbar.os-scrollbar-unusable {
   background: transparent;
@@ -3794,7 +3728,7 @@ svg path.connector.hidden {
   background: transparent;
 }
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track {
-  background: rgba(235, 235, 235, 0.6);
+  background: #FAFAFA;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -3806,10 +3740,10 @@ svg path.connector.hidden {
   background: #E1E3E6;
 }
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
-  background: #CCCED1;
+  background: #CFD5D9;
 }
 .inner-scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #CCCED1;
+  background: #CFD5D9;
 }
 .inner-scrollbar > .os-scrollbar.os-scrollbar-unusable {
   background: transparent;
@@ -3906,7 +3840,7 @@ svg path.connector.hidden {
   overflow: auto;
 }
 .ql-container .ql-editor::-webkit-scrollbar-track {
-  background-color: rgba(235, 235, 235, 0.6);
+  background-color: #FAFAFA;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -3922,10 +3856,10 @@ svg path.connector.hidden {
   -moz-border-radius: 0.5rem;
 }
 .ql-container .ql-editor::-webkit-scrollbar-thumb:hover {
-  background-color: #CCCED1;
+  background-color: #CFD5D9;
 }
 .ql-container .ql-editor::-webkit-scrollbar-thumb:active {
-  background-color: #CCCED1;
+  background-color: #CFD5D9;
 }
 .ql-container .ql-editor::-webkit-resizer {
   width: 24px;

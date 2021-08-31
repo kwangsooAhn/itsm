@@ -58,7 +58,7 @@ svg {
         stroke-width: $node-selected-width !important;
 
         &.error {
-          stroke: $red !important;
+          stroke: $validation-error-font-color !important;
         }
       }
 

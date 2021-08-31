@@ -189,3 +189,10 @@
   }
 }
 
+.z-button-icon {
+  &.z-button-attach-file {
+    .z-icon {
+      &.i-folder { background: $element-icon-color; }
+    }
+  }
+}
