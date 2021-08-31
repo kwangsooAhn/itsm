@@ -449,6 +449,15 @@ export const ciMixin = {
             data.targetCIId = el.childNodes[1].getElementsByTagName('select')[0].value;
             saveData.values.relatedCIData.push(data);
         });
+        for (let i = 0; i < saveData.values.relatedCIData.length; i++) {
+            for (let k = 0; k < i; k++) {
+                if (saveData.values.relatedCIData[i].targetCIId == saveData.values.relatedCIData[k].targetCIId &&
+                    saveData.values.relatedCIData[i].relationType == saveData.values.relatedCIData[k].relationType) {
+                    aliceAlert.alertWarning(i18n.msg('cmdb.ci.msg.duplicateRelatedCIData'));
+                    return;
+                }
+            }
+        }
         if (!zValidation.isEmpty(document.getElementById('ciTags').value)) {
             const ciTags = JSON.parse(document.getElementById('ciTags').value);
             ciTags.forEach((tag) => {

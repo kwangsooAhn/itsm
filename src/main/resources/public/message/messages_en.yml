@@ -360,6 +360,7 @@ cmdb:
       deleteEditableCI: "Do you want to delete the entered asset information from the list?"
       deleteReadableCI: "Do you want to delete asset information from the list?"
       deleteInformation: "All asset information being created will be deleted."
+      duplicateRelatedCIData: "The same relation and target CI exist."
       enterCiName: "Please enter a CI Name."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
