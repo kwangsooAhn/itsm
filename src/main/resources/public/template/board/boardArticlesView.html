@@ -1,96 +1,88 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonViewLayout}">
 <head>
     <title th:text="#{board.label.view}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-board-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{board.label.board}"></h1>
-            <h6 class="description ml-2" th:text="#{board.msg.viewDescription}"></h6>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{board.label.board}"></h1>
+    <h6 class="description ml-2" th:text="#{board.msg.viewDescription}"></h6>
+</div>
+<div layout:fragment="pageView">
+    <div class="flex-column z-view-row">
+        <div class="view-title text-ellipsis">
+            <span th:if="${boardAdminInfo.categoryYn && not #strings.isEmpty(boardInfo?.boardCategoryName)}"
+                  th:text="#{common.label.bracketOpen}+${boardInfo?.boardCategoryName}+#{common.label.bracketClose}"></span>
+            <span th:text="${boardInfo?.boardTitle}"></span>
         </div>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="flex-column view">
-        <div class="z-board-content-view">
-            <div class="flex-column view-row">
-                <div class="view-title text-ellipsis">
-                    <span th:if="${boardAdminInfo.categoryYn && not #strings.isEmpty(boardInfo?.boardCategoryName)}"
-                          th:text="#{common.label.bracketOpen}+${boardInfo?.boardCategoryName}+#{common.label.bracketClose}"></span>
-                    <span th:text="${boardInfo?.boardTitle}"></span>
-                </div>
-            </div>
-            <div class="flex-column view-row">
-                <div class="view-sub-title flex-row justify-content-end">
-                    <span class="user-name"
-                          th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
-                    <span class="vertical-bar"></span>
-                    <span id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
-                </div>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="flex-column view-row">
-                <div id="boardContents" class="view-content ql-border-disabled">
-                    <span th:text="#{common.label.contents}"></span>
-                </div>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="flex-row view-row file-uploader-view">
-                <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
-                <div class="vertical-bar"></div>
-                <form id="frm" method="post">
-                    <div class="file-uploader-list">
-                        <div id="dropZoneFiles"></div>
-                        <div id="dropZoneUploadedFiles"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="flex-row justify-content-between view-row">
-                <div class="z-button-list">
-                    <a class="z-button secondary"
-                       th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}"
-                       th:text="#{common.btn.list}"></a>
-                </div>
-                <div class="z-button-list">
-                    <button class="z-button primary"
-                            th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.update'')')})
-                                   or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
-                            th:onclick="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
-                            th:text="#{common.btn.modify}">
-                    </button>
-                    <button sec:authorize="hasAuthority('board.create')"
-                            class="z-button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
-                            th:onclick="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''"
-                            th:text="#{board.btn.reply}">
-                    </button>
-                    <button class="z-button secondary"
-                            th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.delete'')')})
-                                   or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
-                            th:onclick="deleteBoard('delete')"
-                            th:text="#{common.btn.delete}">
-                    </button>
-                </div>
-            </div>
-            <div class="reply-body" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
-                <div class="flex-row align-items-center reply-input-row">
-                    <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${#authentication.details.avatarPath}"
-                         width="32" height="32"/>
-                    <input type="text" class="z-input reply-input" id="boardComments" name="boardComments" maxlength="500"
-                           th:placeholder="#{comment.msg.enterComments}"/>
-                    <button class="z-button form" onclick="saveBoardComment('post')"
-                            th:text="#{common.btn.save}"></button>
-                </div>
-                <div class="flex-column reply-list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
-            </div>
+    <div class="flex-column z-view-row">
+        <div class="view-sub-title flex-row justify-content-end">
+            <span class="user-name"
+                  th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
+            <span class="vertical-bar"></span>
+            <span id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
         </div>
     </div>
-</th:block>
+    <div class="horizontal-bar"></div>
+    <div class="flex-column z-view-row">
+        <div id="boardContents" class="view-content ql-border-disabled">
+            <span th:text="#{common.label.contents}"></span>
+        </div>
+    </div>
+    <div class="horizontal-bar"></div>
+    <div class="flex-row z-view-row file-uploader-view">
+        <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
+        <div class="vertical-bar"></div>
+        <form id="frm" method="post">
+            <div class="file-uploader-list">
+                <div id="dropZoneFiles"></div>
+                <div id="dropZoneUploadedFiles"></div>
+            </div>
+        </form>
+    </div>
+    <div class="horizontal-bar"></div>
+    <div class="flex-row justify-content-between z-view-row">
+        <div class="z-button-list">
+            <a class="z-button secondary"
+               th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}"
+               th:text="#{common.btn.list}"></a>
+        </div>
+        <div class="z-button-list">
+            <button class="z-button primary"
+                    th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.update'')')})
+                           or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
+                    th:onclick="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
+                    th:text="#{common.btn.modify}">
+            </button>
+            <button sec:authorize="hasAuthority('board.create')"
+                    class="z-button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
+                    th:onclick="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''"
+                    th:text="#{board.btn.reply}">
+            </button>
+            <button class="z-button secondary"
+                    th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.delete'')')})
+                           or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
+                    th:onclick="deleteBoard('delete')"
+                    th:text="#{common.btn.delete}">
+            </button>
+        </div>
+    </div>
+    <div class="reply-body" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
+        <div class="flex-row align-items-center reply-input-row">
+            <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${#authentication.details.avatarPath}"
+                 width="32" height="32"/>
+            <input type="text" class="z-input reply-input" id="boardComments" name="boardComments" maxlength="500"
+                   th:placeholder="#{comment.msg.enterComments}"/>
+            <button class="z-button form" onclick="saveBoardComment('post')"
+                    th:text="#{common.btn.save}"></button>
+        </div>
+        <div class="flex-column reply-list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
+    </div>
+</div>
 </body>
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">

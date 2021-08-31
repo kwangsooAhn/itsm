@@ -79,6 +79,9 @@
 
         // 카드
         @include defaultCardTemplate();
+
+        // view
+        @include commonViewTemplate();
       }
 
       // 리스트
