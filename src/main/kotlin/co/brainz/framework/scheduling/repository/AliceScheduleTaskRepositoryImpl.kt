@@ -19,7 +19,7 @@ class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleT
 
     override fun findByScheduleList(schedulerSearchCondition: SchedulerSearchCondition): QueryResults<AliceScheduleTaskEntity> {
         val schedule = QAliceScheduleTaskEntity.aliceScheduleTaskEntity
-        return from(schedule)
+        val query = from(schedule)
             .where(
                 super.like(schedule.taskName, schedulerSearchCondition.searchValue)
                     ?.or(super.like(schedule.taskType, schedulerSearchCondition.searchValue))
@@ -27,9 +27,13 @@ class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleT
                     ?.or(super.like(schedule.executeClass, schedulerSearchCondition.searchValue))
             )
             .orderBy(schedule.taskName.asc())
-            .limit(schedulerSearchCondition.contentNumPerPage)
-            .offset((schedulerSearchCondition.pageNum - 1) * schedulerSearchCondition.contentNumPerPage)
-            .fetchResults()
+
+        if (schedulerSearchCondition.isPaging) {
+            query.limit(schedulerSearchCondition.contentNumPerPage)
+            query.offset((schedulerSearchCondition.pageNum - 1) * schedulerSearchCondition.contentNumPerPage)
+        }
+
+        return query.fetchResults()
     }
 
     override fun findByScheduleListByUse(): MutableList<AliceScheduleTaskEntity> {

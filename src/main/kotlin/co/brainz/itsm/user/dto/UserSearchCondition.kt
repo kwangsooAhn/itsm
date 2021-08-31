@@ -5,6 +5,8 @@ import java.io.Serializable
 
 data class UserSearchCondition(
     val searchValue: String? = null,
-    val pageNum: Long = 1L,
+    val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
-) : Serializable
+) : Serializable {
+    val isPaging = pageNum > 0
+}

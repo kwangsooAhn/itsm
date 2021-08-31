@@ -45,7 +45,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 super.like(customCode.customCodeName, customCodeSearchCondition.searchValue)
             )
             .orderBy(customCode.customCodeName.asc())
-        if (customCodeSearchCondition.viewType != "editor") {
+        if (customCodeSearchCondition.isPaging) {
             query.limit(customCodeSearchCondition.contentNumPerPage)
             query.offset((customCodeSearchCondition.pageNum - 1) * customCodeSearchCondition.contentNumPerPage)
         }

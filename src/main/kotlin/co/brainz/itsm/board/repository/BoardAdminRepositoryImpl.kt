@@ -28,7 +28,7 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
         val user = QAliceUserEntity.aliceUserEntity
         val board = QPortalBoardEntity("board")
-        return from(boardAdmin)
+        val query = from(boardAdmin)
             .select(
                 Projections.constructor(
                     BoardListDto::class.java,
@@ -49,9 +49,13 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                     boardAdmin.boardAdminTitle, boardSearchCondition.searchValue
                 )?.or(super.like(boardAdmin.createUser.userName, boardSearchCondition.searchValue))
             ).orderBy(boardAdmin.createDt.desc())
-            .limit(boardSearchCondition.contentNumPerPage)
-            .offset((boardSearchCondition.pageNum - 1) * boardSearchCondition.contentNumPerPage)
-            .fetchResults()
+
+        if (boardSearchCondition.isPaging) {
+            query.limit(boardSearchCondition.contentNumPerPage)
+            query.offset((boardSearchCondition.pageNum - 1) * boardSearchCondition.contentNumPerPage)
+        }
+
+         return query.fetchResults()
     }
 
     override fun findPortalBoardAdmin(): List<BoardListDto> {

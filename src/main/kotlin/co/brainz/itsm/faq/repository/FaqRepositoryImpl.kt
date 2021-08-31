@@ -35,7 +35,7 @@ class FaqRepositoryImpl(
                 messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, faqSearchCondition.searchValue)
         }
 
-        return from(faq)
+        val query = from(faq)
             .select(
                 Projections.constructor(
                     FaqListDto::class.java,
@@ -52,9 +52,13 @@ class FaqRepositoryImpl(
                 super.like(faq.faqTitle, faqSearchCondition.searchValue)
                     ?.or(super.inner(faq.faqGroup, faqSearchCondition.groupCodes))
             ).orderBy(faq.faqGroup.asc())
-            .limit(faqSearchCondition.contentNumPerPage)
-            .offset((faqSearchCondition.pageNum - 1) * faqSearchCondition.contentNumPerPage)
-            .fetchResults()
+
+        if (faqSearchCondition.isPaging) {
+            query.limit(faqSearchCondition.contentNumPerPage)
+            query.offset((faqSearchCondition.pageNum - 1) * faqSearchCondition.contentNumPerPage)
+        }
+
+        return query.fetchResults()
     }
 
     override fun findFaqTopList(limit: Long): List<PortalTopDto> {
