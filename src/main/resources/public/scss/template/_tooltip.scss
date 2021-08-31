@@ -15,7 +15,7 @@
   }
 }
 
-.help-tooltip {
+.z-help-tooltip {
   display: inline-block;
   margin-left: $tooltip-help-margin;
   vertical-align: middle;
@@ -27,28 +27,28 @@
     }
   }
 
-  .tooltip-contents {
+  .z-tooltip-contents {
     @include absolute($left: $tooltip-contents-left);
     visibility: hidden;
     background-color: $tooltip-contents-background;
     color: $tooltip-contents-color;
     width: $tooltip-contents-width;
     font-size: $tooltip-font-size;
-    @include border(0.125rem, solid, $blue, all); // 2xp
-    @include borderRadius(0.125rem); // 2px
+    @include border($tooltip-border-width, solid, $tooltip-border-color, all);
+    @include borderRadius($tooltip-border-radius); // 2px
     padding: $tooltip-contents-padding;
     margin: 0.25rem 0 0 0;
     z-index: $z-index-tooltip;
-    @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA(#1e2f3f, 0.2)); // 5px
+    @include boxShadow(0, 0, 0.125rem, 0, $tooltip-box-shadow-color); // 2px
     span {
-      color: $blue;
+      color: $tooltip-contents-color;
       word-break: keep-all;
       line-height: 1.5;
     }
   }
 
   &:hover {
-    .tooltip-contents {
+    .z-tooltip-contents {
       visibility: visible;
       @include animation (0s, 0.3s, fadeIn, ease-out);
     }
@@ -62,9 +62,9 @@
 }
 
 // header tooltip
-.#{$common-prefix}header-tooltip {
+.z-header-tooltip {
   @include relative();
-  .#{$common-prefix}header-tooltip-contents {
+  .z-header-tooltip-contents {
     @include absolute($left: 50%);
     @include translate(-50%, 0);
     visibility: hidden;
@@ -82,7 +82,7 @@
       @include translate(-70%, 0);
     }
 
-    .#{$common-prefix}header-tooltip-text {
+    .z-header-tooltip-text {
       font-family: $header-tooltip-font-family;
       font-size: $header-tooltip-font-size;
       color: $header-tooltip-font-color;
@@ -91,9 +91,49 @@
   }
   // 마우스 오버
   &:hover {
-    .#{$common-prefix}header-tooltip-contents {
+    .z-header-tooltip-contents {
       visibility: visible;
       @include animation (0s, 0.3s, fadeIn, ease-out);
+    }
+  }
+}
+
+// clipboard - 복사 용도
+.z-clipboard-tooltip {
+  @include relative();
+  display: inline-block;
+  margin-left: 0.3125rem; // 5px
+  cursor: pointer;
+
+  &:hover {
+    .z-clipboard-tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .z-clipboard-tooltip-text {
+    @include absolute($left: 50%, $bottom: 120%);
+    width: 9.375rem; //150px
+    font-family: $clipboard-tooltip-font-family;
+    font-size: $clipboard-tooltip-font-size;
+    font-weight: $clipboard-tooltip-font-weight;
+    color: $clipboard-tooltip-font-color;
+    background-color: $clipboard-tooltip-bg-color;
+    @include border($clipboard-tooltip-border-width, solid, $clipboard-tooltip-border-color, all);
+    @include borderRadius($clipboard-tooltip-border-radius);
+    text-align: center;
+    padding: 0.313rem; // 5px
+    margin-left: -8.125rem; // -130px
+    opacity: 0;
+    @include transition(opacity 0.3s);
+    visibility: hidden;
+    z-index: $z-index-tooltip;
+
+    &::after {
+      @include absolute($top: 100%, $left: 50%);
+      content: '';
+      margin-left: -0.313rem; // -5px
     }
   }
 }

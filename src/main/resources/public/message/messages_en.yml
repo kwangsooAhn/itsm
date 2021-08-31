@@ -1066,6 +1066,7 @@ process:
       end-name: "End Name"
       exclusiveGateway: "XOR Gateway"
       file: "File"
+      groupArtifact: "Group"
       id: "ID"
       inclusiveGateway: "OR Gateway"
       is-default: "is Default"

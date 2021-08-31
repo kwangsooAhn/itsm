@@ -60,7 +60,7 @@ $component-icon-drag-font-color:                   $blue400;
 // properties header
 $layout-properties-panel-header-height:            2.5rem; // 40px
 $layout-properties-panel-header-font-size:         $font-size-s;
-$layout-properties-panel-header-font-color:        map-get($blacks, 'ground');
+$layout-properties-panel-header-font-color:        $gray600;
 $layout-properties-panel-header-font-weight:       $font-weight-bold;
 $layout-properties-panel-header-bg-color:          $white;
 $layout-properties-panel-header-border-color:      $gray300;
@@ -130,63 +130,24 @@ $component-drTable-noData-bg-color:                $white;
 ///////////////////////// tooltip-menu /////////////////////////
 $tooltip-menu-bg-color:                            $white;
 $tooltip-menu-border-color:                        $gray300;
-$tooltip-menu-focus-bg-color:                      $blue;
+$tooltip-menu-focus-bg-color:                      $blue500;
 $tooltip-menu-icon-color:                          $gray300;
 //////////////////////////// thumbnail //////////////////////////
 // 썸네일 모달
 $thumbnail-modal-width:                            1040px; // 1040px
 $thumbnail-modal-height:                           48.44rem; // 775px
 $thumbnail-main-padding:                           0.625rem; // 10px
-
-//////////////////////////// tooltip ////////////////////////////
-$tooltip-font-size:                                0.875rem; // 14px
-$tooltip-contents-width:                           21.25rem; // 340px
-$tooltip-contents-left:                            0.9375rem; // 15px
-$tooltip-contents-padding:                         1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
-$tooltip-contents-background:                      $white;
-$tooltip-contents-color:                           $blue;
-$tooltip-contents-left:                            0;
-$tooltip-contents-border-width:                    0.125rem; // 2px
-$tooltip-contents-border-color:                    $blue;
-$tooltip-contents-border:                          $tooltip-contents-border-width solid $tooltip-contents-border-color;
-$tooltip-contents-border-radius:                   0.125rem; // 2px
-$tooltip-contents-padding:                         1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
-$tooltip-contents-box-shadow:                      0 0 0.3125rem 0 rgba(30, 47, 63, 0.2); // 5px
-
-// clipboard tooltip
-// ID 복사하는 용도 > _tooltip.scss에 정의되어 있음
-$clipboard-tooltip-font-family:                    $font-family-s;
-$clipboard-tooltip-font-size:                      $font-size-xs;
-$clipboard-tooltip-font-weight:                    $font-weight-regular;
-$clipboard-tooltip-font-color:                     $blue;
-$clipboard-tooltip-bg-color:                       $white;
-$clipboard-tooltip-border-color:                   $blue;
-$clipboard-tooltip-border-width:                   0.125rem; // 2px
-$clipboard-tooltip-border:                         $clipboard-tooltip-border-width solid $clipboard-tooltip-border-color;
-$clipboard-tooltip-border-radius:                  0.0625rem; // 1px
-
-// 유효성 검증용
-$tooltip-validate-contents-width:                  3.75rem; // 60px
-$tooltip-validate-contents-bg-color:               $white;
-$tooltip-validate-contents-font-size:              0.875rem; // 14px
-$tooltip-validate-contents-font-weight:            $font-weight-regular;
-$tooltip-validate-contents-font-color:             $red;
-$tooltip-validate-contents-border-color:           $red;
-$tooltip-validate-contents-border-width:           0.125rem; // 2px
-$tooltip-validate-contents-border:                 $tooltip-validate-contents-border-width solid $tooltip-validate-contents-border-color;
-$tooltip-validate-contents-border-radius:          0.0625rem; // 1px
-$tooltip-validate-contents-padding:                0.6875rem 0.875rem; // 11px 14px
 //////////////////////////// 다른이름으로 저장하기 //////////////////////////
 $save-as-modal-height:                             25.63rem; // 410px
 
 /////////////////////////// properties ////////////////////////////
-$property-font-size:                               0.875rem; // 14px
+$property-font-size:                               $font-size-xs; // 14px
 
-$property-group-label-color:                       #323233;
-$property-group-label-font-size:                   1rem; // 16px
+$property-group-label-color:                       $gray800;
+$property-group-label-font-size:                   $font-size-s; // 16px
 
-$property-label-color:                             #8D9299;
-$property-label-font-size:                         0.875rem; // 14px
+$property-label-color:                             $gray500;
+$property-label-font-size:                         $font-size-xs; // 14px
 
 // 열 속성 > tab button
 $button-tab: (
