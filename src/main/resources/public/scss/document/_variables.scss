@@ -64,9 +64,13 @@ $group-accordion-border-color:               $gray300;
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
 $cmdb-ci-modal-height:                       53.0625rem; // 849px
 
-$cmdb-ci-attribute-border:                   0.0625rem solid $gray300; // 1px
+$cmdb-ci-attribute-border-color:             $gray300;
+$cmdb-ci-attribute-border-width:             0.0625rem; // 1px
 $cmdb-ci-attribute-bg-color:                 $neutral50;
+$cmdb-ci-attribute-border-radius:            0.0625rem; // 1px
 
+$cmdb-ci-attribute-list-border-color:        $gray300;
+$cmdb-ci-attribute-list-border-width:        0.0625rem; // 1px
 ///////////////////////////// Tree ////////////////////////////////
 $tree-modal-width:                           40rem; // 640px
 $tree-modal-height:                          44.19rem; // 707px

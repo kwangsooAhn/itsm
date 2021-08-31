@@ -287,7 +287,7 @@
             font-family: $font-family-m;
             font-size: 1.25rem; // 20px
             font-weight: $font-weight-bold;
-            color: map-get($grays, 'pressed');
+            color: $gray300;
             background: 0 0;
 
             &::after {
@@ -298,7 +298,7 @@
 
             &:hover {
               color: $tag-btn-remove-hover-color;
-              background: map-get($grays, 'pressed');
+              background: $gray300;
               + div {
                 > span {
                   opacity: 1; // 기존 0.5

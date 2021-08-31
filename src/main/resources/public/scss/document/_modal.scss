@@ -19,7 +19,7 @@
       .modal-content {
         height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
         padding: 1.25rem; // 20px
-
+        // TODO: UX팀 디자인 작업 후 변경 예정
         .cmdb-ci-content-edit {
           height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 부모 높이 - 50px
           .edit-form { padding: 0 2.5rem; } // 40px
@@ -29,14 +29,13 @@
 
           // 세부 속성
           .attribute-group {
-            background-color: map-get($grays, "light");
+            background-color: $cmdb-ci-attribute-bg-color;
             padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
-            border: $cmdb-ci-attribute-border;
-            border-radius:  0.0625rem; // 1px
+            @include border($cmdb-ci-attribute-border-width, solid, $cmdb-ci-attribute-border-color, all);
+            @include borderRadius($cmdb-ci-attribute-border-radius);
             margin-bottom: 0.625rem; // 10px
           }
         }
-        // TODO: UX팀 디자인 작업 후 변경 예정
         .cmdb-ci-content-view {
           height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 부모 높이 - 50px
           .view-form { padding: 0 2.5rem; } // 40px
@@ -46,29 +45,25 @@
 
           // 세부 속성
           .attribute-group {
-            background-color: map-get($grays, "light");
+            background-color: $cmdb-ci-attribute-bg-color;
             padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
-            border: $cmdb-ci-attribute-border;
-            border-radius:  0.0625rem; // 1px
+            @include border($cmdb-ci-attribute-border-width, solid, $cmdb-ci-attribute-border-color, all);
+            @include borderRadius($cmdb-ci-attribute-border-radius);
             margin-bottom: 0.625rem; // 10px
           }
         }
-
+        // CI 선택 목록
         .table-set {
           margin-top: 2.188rem; // 35px
           table {
             width: 100%;
-            .list-head {
-              tr {
-                color: map-get($blacks, "light");
-                border-bottom: 0.125rem solid map-get($grays, "default");
-              }
+            .z-list-head {
+              tr { @include border(calc(#{$cmdb-ci-attribute-list-border-width} * 2), solid, $cmdb-ci-attribute-list-border-color, bottom); }
             }
-            .list-body {
+            .z-list-body {
               display: block;
               width: 60rem; // 960px
               height: 32.8125rem; // 525px
-              color: map-get($grays, "dark");
               overflow-y: auto;
               .list-row {
                 display: table;
