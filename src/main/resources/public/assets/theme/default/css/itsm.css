@@ -2936,7 +2936,7 @@ table[id=documentDisplay] td {
   display: flex;
   flex-direction: column;
 }
-.z-itsm-container .z-main-content .z-page-edit .z-edit-form .z-edit-row {
+.z-itsm-container .z-main-content .z-page-edit .z-edit-row {
   margin-top: 0.625rem;
 }
 .z-itsm-container .z-main-content .z-page-edit .z-button-list {
@@ -3088,7 +3088,6 @@ table[id=documentDisplay] td {
   margin-left: 2.5rem;
 }
 .z-itsm-container .z-main-content .z-page-view {
-  height: 100vh;
   display: flex;
   flex-direction: column;
   flex: 1 0 0;

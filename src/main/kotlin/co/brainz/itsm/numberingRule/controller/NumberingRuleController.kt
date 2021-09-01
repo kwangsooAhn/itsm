@@ -61,7 +61,9 @@ class NumberingRuleController(
      */
     @GetMapping("/{numberingRuleId}/view")
     fun getNumberingRuleView(@PathVariable numberingRuleId: String, model: Model): String {
+        model.addAttribute("patternList", numberingPatternService.getPatternNameList())
         model.addAttribute("rule", numberingRuleService.getNumberingRuleDetail(numberingRuleId))
+        model.addAttribute("byPatternOrder", Comparator.comparing(NumberingPatternMapDto::patternOrder))
         return numberingRuleViewPage
     }
 

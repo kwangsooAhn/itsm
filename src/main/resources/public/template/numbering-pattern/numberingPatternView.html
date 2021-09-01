@@ -44,6 +44,13 @@
         <input type="text" class="z-input" id="txtPatternValue" name="txtPatternValue"
                th:value="${pattern?.patternValue}" disabled/>
     </div>
+    <div id="type-select-pattern" class="z-edit-row flex-column">
+        <label th:text="#{pattern.label.value}" class="required"></label>
+        <select id="selectPatternDateValue" name="selectPatternDateValue" class="select-date-time mr-1" disabled>
+            <option th:each="date: ${dateList}" th:value="${date.code}"
+                    th:text="${date.codeValue}" th:selected="${date.codeValue == pattern?.patternValue}"></option>
+        </select>
+    </div>
     <div class="flex-row justify-content-start">
         <div class="z-button-list">
             <div class="z-button-list">

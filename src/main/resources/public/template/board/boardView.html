@@ -1,143 +1,122 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonViewLayout}">
 <head>
     <title th:text="#{board.label.boardView}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-board-admin-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{board.label.board}"></h1>
-            <h6 class="description ml-2" th:text="#{board.msg.adminViewDescription}"></h6>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{board.label.board}"></h1>
+    <h6 class="description ml-2" th:text="#{board.msg.adminViewDescription}"></h6>
+</div>
+<div layout:fragment="pageView">
+    <div class="flex-column z-view-row">
+        <label for="boardAdminTitle" th:text="#{board.label.name}"></label>
+        <input type="text" class="z-input" id="boardAdminTitle" th:value="${boardAdmin?.boardAdminTitle}" disabled/>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="flex-column z-edit">
-        <div class="z-board-admin-content-edit">
-            <div class="flex-column z-edit-row">
-                <label for="boardAdminTitle">
-                    <span th:text="#{board.label.name}"></span>
-                    <span class="required"></span>
-                </label>
-                <input type="text" class="z-input" id="boardAdminTitle" maxlength="70" th:value="${boardAdmin?.boardAdminTitle}"
-                       required="required" disabled/>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label class="z-switch">
-                    <span class="z-label" th:text="#{board.label.useYn}"></span>
-                    <input type="checkbox" id="boardUseYn" name="boardUseYn"
-                           th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}" disabled>
-                    <span></span>
-                </label>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label th:text="#{board.label.order}" for="boardAdminSort"></label>
-                <input class="z-input col-6" id="boardAdminSort" name="boardAdminSort" type="text"
-                       th:value="${boardAdmin?.boardAdminSort}" maxlength="2"
-                       onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" disabled/>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label th:text="#{board.label.desc}" for="boardAdminDesc"></label>
-                <textarea id="boardAdminDesc" name="boardAdminDesc" class="z-textarea textarea-scroll-wrapper"
-                          maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}" disabled></textarea>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label class="z-switch">
-                    <span class="z-label" th:text="#{board.label.replyYn}"></span>
-                    <input type="checkbox" id="replyYn" name="replyYn"
-                           th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}" disabled>
-                    <span></span>
-                </label>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label class="z-switch">
-                    <span class="z-label" th:text="#{board.label.commentYn}"></span>
-                    <input type="checkbox" id="commentYn" name="commentYn"
-                           th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}" disabled>
-                    <span></span>
-                </label>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label class="z-switch">
-                    <span class="z-label" th:text="#{board.label.category}"></span>
-                    <input type="checkbox" id="categoryYn" name="categoryYn"
-                           th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}" disabled>
-                    <span></span>
-                </label>
-                <div id="category-detail" class="category">
-                    <div class="flex-row">
-                        <div class="category-list">
-                            <table class="edit-table">
-                                <thead class="edit-table-thead">
-                                    <tr>
-                                        <th class="col-6 align-left" th:text="#{board.label.category}"></th>
-                                        <th class="col-5 align-left" th:text="#{board.label.order}"></th>
-                                        <th class="col-1 align-center"></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="boardCategoryList" class="edit-table-tbody">
-                                    <tr class="no-data-found-list align-center" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
-                                        <td style="width:100%" colspan="5" th:text="#{common.msg.noData}"></td>
-                                    </tr>
-                                    <tr th:each="category: ${boardAdmin?.categoryList}">
-                                        <td class="col-6 align-left" th:text="${category.boardCategoryName}"></td>
-                                        <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
-                                        <td class="col-1 align-center"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label class="z-switch">
-                    <span class="z-label" th:text="#{board.label.attachFileYn}"></span>
-                    <input type="checkbox" id="attachYn" name="attachYn"
-                           th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}" disabled>
-                    <span></span>
-                </label>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label th:text="#{board.label.attachFileSize}" for="attachFileSize"></label>
-                <input class="z-input col-6 i-mb" id="attachFileSize" name="attachFileSize" type="text"
-                       th:value="${boardAdmin?.attachFileSize}" maxlength="4" disabled/>
-            </div>
-            <div class="flex-row justify-content-start z-edit-row">
-                <div class="z-button-list">
-                    <a class="z-button secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
+    <div class="flex-column z-view-row">
+        <label class="z-switch">
+            <span class="z-label" th:text="#{board.label.useYn}"></span>
+            <input type="checkbox" id="boardUseYn" name="boardUseYn"
+                   th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}" disabled>
+            <span></span>
+        </label>
+    </div>
+    <div class="flex-column z-view-row">
+        <label th:text="#{board.label.order}" for="boardAdminSort"></label>
+        <input class="z-input col-6" id="boardAdminSort" name="boardAdminSort" type="text"
+               th:value="${boardAdmin?.boardAdminSort}" maxlength="2"
+               onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" disabled/>
+    </div>
+    <div class="flex-column z-view-row">
+        <label th:text="#{board.label.desc}" for="boardAdminDesc"></label>
+        <textarea id="boardAdminDesc" name="boardAdminDesc" class="z-textarea textarea-scroll-wrapper"
+                  maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
+    </div>
+    <div class="flex-column z-view-row">
+        <label class="z-switch">
+            <span class="z-label" th:text="#{board.label.replyYn}"></span>
+            <input type="checkbox" id="replyYn" name="replyYn"
+                   th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}" disabled>
+            <span></span>
+        </label>
+    </div>
+    <div class="flex-column z-view-row">
+        <label class="z-switch">
+            <span class="z-label" th:text="#{board.label.commentYn}"></span>
+            <input type="checkbox" id="commentYn" name="commentYn"
+                   th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}" disabled>
+            <span></span>
+        </label>
+    </div>
+    <div class="flex-column z-view-row">
+        <label class="z-switch">
+            <span class="z-label" th:text="#{board.label.category}"></span>
+            <input type="checkbox" id="categoryYn" name="categoryYn"
+                   th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}" disabled>
+            <span></span>
+        </label>
+        <div id="category-detail" class="category">
+            <div class="flex-row">
+                <div class="category-list">
+                    <table class="edit-table">
+                        <thead class="edit-table-thead">
+                        <tr>
+                            <th class="col-6 align-left" th:text="#{board.label.category}"></th>
+                            <th class="col-5 align-left" th:text="#{board.label.order}"></th>
+                            <th class="col-1 align-center"></th>
+                        </tr>
+                        </thead>
+                        <tbody id="boardCategoryList" class="edit-table-tbody">
+                        <tr class="no-data-found-list align-center"
+                            th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
+                            <td style="width:100%" colspan="5" th:text="#{common.msg.noData}"></td>
+                        </tr>
+                        <tr th:each="category: ${boardAdmin?.categoryList}">
+                            <td class="col-6 align-left" th:text="${category.boardCategoryName}"></td>
+                            <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
+                            <td class="col-1 align-center"></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-</th:block>
+    <div class="flex-column z-view-row">
+        <label class="z-switch">
+            <span class="z-label" th:text="#{board.label.attachFileYn}"></span>
+            <input type="checkbox" id="attachYn" name="attachYn"
+                   th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}" disabled>
+            <span></span>
+        </label>
+    </div>
+    <div class="flex-column z-view-row">
+        <label th:text="#{board.label.attachFileSize}" for="attachFileSize"></label>
+        <input class="z-input col-6 i-mb" id="attachFileSize" name="attachFileSize" type="text"
+               th:value="${boardAdmin?.attachFileSize}" maxlength="4" disabled/>
+    </div>
+    <div class="flex-row justify-content-start z-view-row">
+        <div class="z-button-list">
+            <a class="z-button secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
+        </div>
+    </div>
+</div>
 </body>
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
-
-        window.onload = function() {
-            OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
+        window.onload = function () {
+            OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
                 className: 'scrollbar',
-                resize: 'vertical',
-                sizeAutoCapable: true,
                 textarea: {
                     dynHeight: false,
                     dynWidth: false,
                     inheritedAttrs: "class"
                 }
-            });
-
-            // 게시물 삭제 처리 시
-            const boardAdminId = /*[[${boardAdmin.boardAdminId}]]*/;
-            if (boardAdminId === null) {
-                aliceAlert.alertSuccess(i18n.msg('common.msg.delete'));
-                return history.go(-1);
-            }
+            })
         };
         /* ]]> */
     </script>

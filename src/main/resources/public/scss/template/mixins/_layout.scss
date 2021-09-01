@@ -79,7 +79,6 @@
 // view
 @mixin commonViewTemplate {
   .z-page-view {
-    height: 100vh; // 화면에서 스크롤이 생기는 영역
     display: flex;
     flex-direction: column;
     flex: 1 0 0; // 고정
@@ -369,10 +368,9 @@
     .z-edit-form {
       display: flex;
       flex-direction: column;
-
-      .z-edit-row {
-        margin-top: 0.625rem; // 10px
-      }
+    }
+    .z-edit-row {
+      margin-top: 0.625rem; // 10px
     }
     .z-button-list {
       margin: 1.875rem 0; // 30px
