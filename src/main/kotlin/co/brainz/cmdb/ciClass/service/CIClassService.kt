@@ -74,7 +74,6 @@ class CIClassService(
      * CMDB CI Class 상세 조회
      */
     fun getCIClassDetail(classId: String): CIClassDetailDto {
-
         val ciClassEntity = ciClassRepository.getOne(classId)
         var editable = true
         val classList = mutableListOf<String>()
