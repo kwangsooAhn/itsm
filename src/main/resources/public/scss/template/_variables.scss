@@ -41,32 +41,6 @@ $font-folder-path:                            '../fonts';
 $icon-folder-path:                            '../media/icons/';
 $image-folder-path:                           '../media/images/';
 
-// black color
-$blacks: (
-  'focus':                                    #283238,
-  'ground':                                   #333D47,
-  'light':                                    #3F4B56
-) !default;
-
-// gray color
-$grays: (
-  'dark':                                     #586872,
-  'warm':                                     #7E848C,
-  'blue':                                     #929AA6,
-  'pressed':                                  #CCCED1,
-  'default':                                  #E1E3E6,
-  'line':                                     #EBEBEB,
-  'light':                                    #F7F8F9
-) !default;
-
-// blue color
-$blues: (
-  'dark':                                     #0060A5,
-  'pressed':                                  #0088E6,
-  'hover':                                    #33ADFF,
-  'light':                                    #87CEFF
-) !default;
-
 //////////////////////////////// common //////////////////////////////////
 // common prefix
 $common-prefix:                               'z-';
@@ -431,11 +405,12 @@ $tree-selected-bg-color:                     transparent;
 $tree-hover-bg-color:                        $blue100;
 
 ///////////////////////////////// modal //////////////////////////////
-// 모달 오픈시 바탕 어둡게
+// TODO: 모달 오픈시 바탕 어둡게 > 디자인팀(성효빈 대리) 디자인 확인 후 수정 예정
 $modal-backdrop-bg-color:                    hexToRGBA(#7493b3, 0.5);
 $modal-border-color:                         $gray300;
-$modal-bg-color:                             $white;
 $modal-border-width:                         0.0625rem; // 1px
+$modal-bg-color:                             $white;
+$modal-box-shadow-color:                     hexToRGBA(#7493b3, 0.25);
 
 $modal-width:                                34.38rem; // 550px
 $modal-height:                               22.5rem; // 360px
@@ -450,11 +425,17 @@ $modal-header-font-weight:                   $font-weight-medium;
 $modal-bottom-height:                        5rem; // 80px
 
 ///////////////////////////////// alert //////////////////////////////
+// TODO: 알림 오픈시 바탕 어둡게 > 디자인팀(성효빈 대리) 디자인 확인 후 수정 예정
+$alert-backdrop-bg-color:                    hexToRGBA(#7493b3, 0.5);
+$alert-border-color:                         $gray300;
+$alert-border-width:                         0.0625rem; // 1px
+$alert-bg-color:                             $white;
+$alert-box-shadow-color:                     hexToRGBA(#7493b3, 0.25);
+
 $alert-font-size:                            $font-size-xs;
 $alert-font-weight:                          $font-weight-medium;
 $alert-margin-size:                          0.3125rem;  // 5px
 $alert-box-sizing:                           border-box;
-$alert-bg-color:                             $white;
 
 ///////////////////////////// color-picker ///////////////////////////
 // color picker
@@ -592,6 +573,7 @@ $z-index-hidden:                             -1;
 // tag editable
 $tag-editable-bg-color:                      $gray100;
 $tag-editable-font-color:                    $gray700;
+$tag-editable-box-shadow-color:              $gray100;
 
 // tagify readonly
 $tagify-read-font-color:                     $gray500;
@@ -613,6 +595,11 @@ $tag-input-font-color:                       $gray400;
 $tag-invalid-color:                          $red500;
 $tag-invalid-bg-color:                       $red100;
 $tag-invalid-border-color:                   $red500;
+$tag-invalid-box-shadow-color:               $red200;
+
+$tag-auto-complete-border-color:             $gray300;
+$tag-auto-complete-border-width:             0.0625rem; // 1px
+$tag-auto-complete-box-shadow-color:         $gray300;
 
 ////////////////////////////// input box /////////////////////////////
 $input-clear-right:                          0rem;

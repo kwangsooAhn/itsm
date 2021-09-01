@@ -3172,10 +3172,10 @@ table tbody tr:hover {
   padding: 1.5625rem;
   margin: 0 auto 2em auto;
   box-sizing: border-box;
+  border: 0.0625rem solid #CFD5D9;
   -webkit-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
   -moz-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
   box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -3210,9 +3210,9 @@ table tbody tr:hover {
 .gmodal-button {
   font-size: 0.875rem;
   font-weight: 500;
-  margin: 0rem 0rem 0rem 0.3125rem;
+  margin: 0 0 0 0.3125rem;
   padding: 0.4375rem 1.5rem;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
 }
 .gmodal-icon-success {
   background-image: url("../media/icons/alert/icon_alert_success.svg");
@@ -3853,7 +3853,7 @@ table tbody tr:hover {
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-filename {
   grid-column: 2;
   color: #222529;
-  padding: 0 20px;
+  padding: 0 1.25rem;
   text-align: left;
   display: inline-block;
   max-width: 100%;
@@ -5093,9 +5093,9 @@ body.modal-active {
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
   border: 0.0625rem solid #CFD5D9;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  -moz-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;

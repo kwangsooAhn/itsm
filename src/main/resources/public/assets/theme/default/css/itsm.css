@@ -3674,10 +3674,10 @@ select {
   padding: 1.5625rem;
   margin: 0 auto 2em auto;
   box-sizing: border-box;
+  border: 0.0625rem solid #CFD5D9;
   -webkit-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
   -moz-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
   box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -3712,9 +3712,9 @@ select {
 .gmodal-button {
   font-size: 0.875rem;
   font-weight: 500;
-  margin: 0rem 0rem 0rem 0.3125rem;
+  margin: 0 0 0 0.3125rem;
   padding: 0.4375rem 1.5rem;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
 }
 .gmodal-icon-success {
   background-image: url("../../../media/icons/alert/icon_alert_success.svg");
@@ -4355,7 +4355,7 @@ select {
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-filename {
   grid-column: 2;
   color: #222529;
-  padding: 0 20px;
+  padding: 0 1.25rem;
   text-align: left;
   display: inline-block;
   max-width: 100%;
@@ -5807,9 +5807,9 @@ body.modal-active {
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
   border: 0.0625rem solid #CFD5D9;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  -moz-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -7031,9 +7031,9 @@ body.modal-active {
 .tagify.z-input:focus {
   outline: 0;
   border-color: #2578CE;
-  -webkit-box-shadow: 0 0 0.125rem 0 #2578ce;
-  -moz-box-shadow: 0 0 0.125rem 0 #2578ce;
-  box-shadow: 0 0 0.125rem 0 #2578ce;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
+  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
+  box-shadow: 0 0 0.125rem 0 #2578CE;
 }
 .tagify.z-input:active {
   outline: 0;
@@ -7212,10 +7212,10 @@ body.modal-active {
   color: black;
 }
 .tagify__tag--editable > div::before {
-  box-shadow: 0 0 0 0.125rem #d3e2e2 inset !important;
+  box-shadow: 0 0 0 0.125rem #EBF1F5 inset !important;
 }
 .tagify__tag--editable.tagify--invalid > div::before {
-  box-shadow: 0 0 0 0.125rem #d39494 inset !important;
+  box-shadow: 0 0 0 0.125rem #FEBEA7 inset !important;
 }
 .tagify__tag__removeBtn {
   display: inline-flex;
@@ -7315,12 +7315,12 @@ body.modal-active {
   bottom: 0;
   width: 0;
   height: 1em;
-  margin: auto 0;
   content: attr(data-placeholder);
   line-height: 1em;
   z-index: 1;
   color: #ABB0B5;
   opacity: 0;
+  margin: auto 0;
   white-space: nowrap;
   pointer-events: none;
 }
@@ -7529,5 +7529,3 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
-
-/*# sourceMappingURL=itsm.css.map */
