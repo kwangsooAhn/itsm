@@ -12,7 +12,7 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{cmdb.type.label.management}"></h1>
-    <h6 class="description ml-2" th:text="#{cmdb.type.msg.searchDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{cmdb.type.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
     <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
@@ -55,7 +55,7 @@
                    onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
         </div>
         <div class="z-edit-row flex-column">
-            <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
+            <label th:text="#{cmdb.type.label.icon}"></label>
             <div class="flex-row z-input-button">
                 <input class="z-input col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
                 <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="z-edit-row flex-column">
-            <label th:text="#{cmdb.type.label.class}" for="typeClass"></label>
+            <label th:text="#{cmdb.type.label.class}"></label>
             <div class="flex-row z-input-button">
                 <input class="z-input col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
                 <input id="typeClassId" name="typeClassId" type="hidden"/>

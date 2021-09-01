@@ -1,49 +1,11 @@
 @import "../../template/elements";
 
-h6 {
-  padding: 0 0 0 0.625rem; // 10px
-}
-
-.picker-wrapper-date {
-  display: inline;
-}
-
-input {
-  padding: 0 10px;
-  vertical-align: middle;
-}
-
-label {
-  margin: 0.625rem 0; // 10px 0
-}
-
-textarea {
-  display: block;
-  padding: 0.5rem 0.625rem; // 8px 10px
-  resize: vertical;
-  line-height: 1.3;
-}
-
-.switch {
-  margin: 1.875rem 0 1.25rem 0; // 30px 0 20px 0
-}
-
-// for designed select
-// 업무흐름 설정 화면용
-table[id="documentDisplay"] {
-  td {
-    overflow: initial;
-  }
-}
-
 // 체크박스 목록
-// ex) 권한, 역할 > 체크박스 목록
+// ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
 .z-checkbox {
-  &-all {
-    display: table-cell;
-    padding-top: 0.3125rem; // 5px
-  }
-
+  // 전체 선택
+  &-all { display: table-cell; }
+  // 목록
   &-list {
     height: 13.5rem; // 216px
     @include border($element-border-width, solid, $element-border-color, all);
@@ -59,24 +21,7 @@ table[id="documentDisplay"] {
 
     li {
       height: 1.5rem; // 24px
-      font-weight: $font-weight-regular;
-      color: map-get($grays, "dark");
       @include ellipsis(list-item);
     }
   }
-}
-// CI 조회 > 태그
-.tag-group {
-  display: initial;
-  line-height: 1.2;
-}
-// 문서함 > 태그
-.tag {
-  display: inline-block;
-  max-width: 13.75rem; // 220px
-  color: $tag-font-color;
-  @include borderRadius(0.0625rem); // 1px
-  padding: 0.3125rem 0.9375rem; // 5px 15px
-  background-color: $tag-bg-color;
-  margin: 0.3125rem; // 5px
 }

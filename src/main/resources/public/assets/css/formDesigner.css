@@ -1845,8 +1845,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   outline: 0;
   border: 0.0625rem solid #2578CE;
 }
-.z-input:read-only:not(.tagify) {
-  background-color: #FFFFFF;
+.z-input:read-only:not(:disabled):not(.tagify) {
+  background-color: transparent;
   background-image: none;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
@@ -1986,8 +1986,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   outline: 0;
   border: 0.0625rem solid #2578CE;
 }
-.z-textarea:read-only:not(.os-host-textarea) {
-  background-color: #FFFFFF;
+.z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
+  background-color: transparent;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
@@ -2186,7 +2186,7 @@ select {
   transform: rotate(90deg);
 }
 .z-select .z-select-box.readonly {
-  background-color: #FFFFFF;
+  background-color: transparent;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
@@ -2350,7 +2350,7 @@ select {
   text-align: center;
   margin-left: 2%;
 }
-.z-slider .z-input:read-only {
+.z-slider .z-input:read-only:not(:disabled) {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -4941,11 +4941,11 @@ select {
 .ql-wrapper-container:focus:not(.ql-readonly) .ql-container.ql-snow {
   border-color: #2578CE;
 }
-.ql-wrapper-container.ql-readonly {
+.ql-wrapper-container:not(.ql-border-disabled).ql-readonly {
   background-color: #EEEEEE;
   pointer-events: none;
 }
-.ql-wrapper-container.ql-readonly .ql-container.ql-snow {
+.ql-wrapper-container:not(.ql-border-disabled).ql-readonly .ql-container.ql-snow {
   color: #ABB0B5 !important;
 }
 

@@ -1287,8 +1287,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   outline: 0;
   border: 0.0625rem solid #2578CE;
 }
-.z-input:read-only:not(.tagify) {
-  background-color: #FFFFFF;
+.z-input:read-only:not(:disabled):not(.tagify) {
+  background-color: transparent;
   background-image: none;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
@@ -1428,8 +1428,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   outline: 0;
   border: 0.0625rem solid #2578CE;
 }
-.z-textarea:read-only:not(.os-host-textarea) {
-  background-color: #FFFFFF;
+.z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
+  background-color: transparent;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
@@ -1628,7 +1628,7 @@ select {
   transform: rotate(90deg);
 }
 .z-select .z-select-box.readonly {
-  background-color: #FFFFFF;
+  background-color: transparent;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
@@ -1792,7 +1792,7 @@ select {
   text-align: center;
   margin-left: 2%;
 }
-.z-slider .z-input:read-only {
+.z-slider .z-input:read-only:not(:disabled) {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -2228,6 +2228,7 @@ body.modal-active {
   width: 100%;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .z-list-head tr, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .z-list-head tr, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-head tr, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .z-list-head tr {
+  color: #222529;
   border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .z-list-body, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .z-list-body, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .z-list-body {
@@ -2245,6 +2246,10 @@ body.modal-active {
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .z-list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .z-list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .z-list-body .list-row > td {
   display: inline-block;
   vertical-align: middle;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .z-list-body .list-row > td .tag-group, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .z-list-body .list-row > td .tag-group, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body .list-row > td .tag-group, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .z-list-body .list-row > td .tag-group {
+  display: initial;
+  line-height: 1.2;
 }
 .modal-wrapper .modal-dialog.document-modal-dialog .z-document-main {
   right: 0;
@@ -2411,7 +2416,7 @@ body.modal-active {
 }
 .tagify:disabled {
   border-color: #ABB0B5;
-  background-color: #FFFFFF;
+  background-color: transparent;
   pointer-events: none;
   cursor: default;
 }

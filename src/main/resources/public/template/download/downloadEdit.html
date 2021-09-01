@@ -8,44 +8,46 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{download.label.download}"></h1>
-    <h6 class="description ml-2" th:text="#{download.msg.editDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{download.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="flex-column z-edit-row">
-        <label for="downloadCategory">
-            <span th:text="#{download.label.category}"></span>
-            <span class="required"></span>
-        </label>
-        <select id="downloadCategory">
-            <option th:each="category: ${categoryList}"
-                    th:value="${category.code}"
-                    th:text="#{${category.code}}"
-                    th:selected="${category.code} == ${download?.downloadCategory}"></option>
-        </select>
-    </div>
-    <div class="flex-column z-edit-row">
-        <label for="downloadTitle">
-            <span th:text="#{common.label.title}"></span>
-            <span class="required"></span>
-        </label>
-        <input type="text" id="downloadTitle" class="z-input" maxlength="100" th:value="${download?.downloadTitle}"></td>
-    </div>
-    <div class="flex-column z-edit-row file-uploader-edit">
-        <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
-        <div id="dropZoneFiles"></div>
-        <div id="dropZoneUploadedFiles"></div>
-    </div>
-    <div class="flex-row justify-content-between z-edit-row">
-        <div class="z-button-list">
-            <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
+    <div class="z-edit-form flex-fill">
+        <div class="flex-column z-edit-row">
+            <label for="downloadCategory">
+                <span th:text="#{download.label.category}"></span>
+                <span class="required"></span>
+            </label>
+            <select id="downloadCategory">
+                <option th:each="category: ${categoryList}"
+                        th:value="${category.code}"
+                        th:text="#{${category.code}}"
+                        th:selected="${category.code} == ${download?.downloadCategory}"></option>
+            </select>
         </div>
-        <div class="z-button-list">
-            <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
-                    class="z-button primary" th:text="#{common.btn.modify}"></button>
-            <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
-                    class="z-button primary" th:text="#{common.btn.register}"></button>
-            <button th:if="${download?.downloadId}" onclick="deleteDownload()"
-                    class="z-button secondary" th:text="#{common.btn.delete}"></button>
+        <div class="flex-column z-edit-row">
+            <label for="downloadTitle">
+                <span th:text="#{common.label.title}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" id="downloadTitle" class="z-input" maxlength="100" th:value="${download?.downloadTitle}"></td>
+        </div>
+        <div class="flex-column z-edit-row file-uploader-edit">
+            <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
+            <div id="dropZoneFiles"></div>
+            <div id="dropZoneUploadedFiles"></div>
+        </div>
+        <div class="flex-row justify-content-between z-edit-row">
+            <div class="z-button-list">
+                <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
+            </div>
+            <div class="z-button-list">
+                <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
+                        class="z-button primary" th:text="#{common.btn.modify}"></button>
+                <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
+                        class="z-button primary" th:text="#{common.btn.register}"></button>
+                <button th:if="${download?.downloadId}" onclick="deleteDownload()"
+                        class="z-button secondary" th:text="#{common.btn.delete}"></button>
+            </div>
         </div>
     </div>
 </div>

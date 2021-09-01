@@ -351,7 +351,7 @@
   }
 
   // 텍스트에디터는 readonly 속성이 없기 때문에 readonly일 경우 disabled 디자인과 동일하게 처리
-  &.ql-readonly {
+  &:not(.ql-border-disabled).ql-readonly {
     background-color: $element-disabled-bg-color;
     pointer-events: none;
     .ql-container {

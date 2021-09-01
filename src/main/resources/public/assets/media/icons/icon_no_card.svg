@@ -2,7 +2,7 @@
   <defs>
     <style>
       .doc-empty {
-        fill: rgba(204,206,209,0.6);
+        fill: #BDBDBD;
       }
     </style>
   </defs>
