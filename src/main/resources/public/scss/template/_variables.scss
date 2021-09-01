@@ -408,12 +408,12 @@ $text-editor-toolbar-selected-font-color:    $blue500;
 
 ///////////////////////////////// tree /////////////////////////////////
 $tree-font-size:                             $font-size-xs;
-$tree-font-color:                            map-get($blacks, 'light');
+$tree-font-color:                            $gray800;
 $tree-font-weight:                           $font-weight-medium;
 // tree 간격
 $tree-line-height:                           1.875rem; // 30px
-$tree-bg-color:                              map-get($grays, 'light');
-$tree-line-color:                            map-get($grays, 'default');
+$tree-bg-color:                              $neutral50;
+$tree-line-color:                            $gray300;
 $tree-line-width:                            0.0625rem; // 1px
 // +, - icon
 $tree-toggle-icon-width:                     0.875rem; // 14px
@@ -424,16 +424,16 @@ $tree-folder-margin-left:                    0.5rem; // 8px
 // line 위치 계산
 $tree-indentation:                           calc((#{$tree-toggle-icon-width} / 2) + #{$tree-folder-margin-left} + (#{$tree-folder-icon-width} / 2));
 // node 선택
-$tree-selected-border-color:                 $blue500;
-$tree-selected-border-width:                 0.0625rem; // 1px;
-$tree-selected-border:                       $tree-selected-border-width solid $tree-selected-border-color;
-$tree-selected-bg-color:                     hexToRGBA($blue500, 0.05);
-$tree-hover-bg-color:                        hexToRGBA($blue500, 0.05);
+$tree-border-color:                          transparent;
+$tree-border-width:                          0.0625rem; // 1px;
+$tree-selected-font-color:                   $blue500;
+$tree-selected-bg-color:                     transparent;
+$tree-hover-bg-color:                        $blue100;
 
 ///////////////////////////////// modal //////////////////////////////
 // 모달 오픈시 바탕 어둡게
 $modal-backdrop-bg-color:                    hexToRGBA(#7493b3, 0.5);
-$modal-border-color:                         map-get($grays, 'line');
+$modal-border-color:                         $gray300;
 $modal-bg-color:                             $white;
 $modal-border-width:                         0.0625rem; // 1px
 
@@ -443,11 +443,11 @@ $modal-height:                               22.5rem; // 360px
 // 모달 제목
 $modal-header-height:                        3.375rem; // 54px
 $modal-header-font-size:                     1.5rem; // 24px
-$modal-header-font-color:                    map-get($blacks, 'light');
+$modal-header-font-color:                    $gray800;
 $modal-header-font-weight:                   $font-weight-medium;
 
 // 모달 버튼 영역
-$modal-bottom-height:                       5rem; // 80px
+$modal-bottom-height:                        5rem; // 80px
 
 ///////////////////////////////// alert //////////////////////////////
 $alert-font-size:                            $font-size-xs;

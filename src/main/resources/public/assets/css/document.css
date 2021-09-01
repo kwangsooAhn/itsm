@@ -2122,7 +2122,7 @@ body.modal-active {
   width: 34.38rem;
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
   -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
@@ -2135,7 +2135,7 @@ body.modal-active {
   height: 3.375rem;
   font-size: 1.5rem;
   font-weight: 500;
-  color: #3F4B56;
+  color: #222529;
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog .modal-content {
