@@ -38,13 +38,13 @@ export default class ZDateTimePickerProperty extends ZProperty {
 
         switch (this.pickerType) {
             case FORM.DATE_TYPE.DATE_PICKER:
-                this.UIElement.UIInput.setUIClass('z-input i-date-picker');
+                this.UIElement.UIInput.setUIClass('z-input i-date-picker text-ellipsis');
                 break;
             case FORM.DATE_TYPE.TIME_PICKER:
-                this.UIElement.UIInput.setUIClass('z-input i-time-picker');
+                this.UIElement.UIInput.setUIClass('z-input i-time-picker text-ellipsis');
                 break;
             case FORM.DATE_TYPE.DATETIME_PICKER:
-                this.UIElement.UIInput.setUIClass('z-input i-datetime-picker');
+                this.UIElement.UIInput.setUIClass('z-input i-datetime-picker text-ellipsis');
                 break;
         }
 

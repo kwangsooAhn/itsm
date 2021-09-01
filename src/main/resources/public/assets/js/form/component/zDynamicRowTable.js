@@ -290,7 +290,7 @@ export const dynamicRowTableMixin = {
     getDateForColumn(column, cellValue, index) {
         let dateWrapper = new UIDiv().setUIClass('z-element');
         let date = new UIInput().setUIPlaceholder(i18n.dateFormat)
-            .setUIClass('z-input i-date-picker')
+            .setUIClass('z-input i-date-picker text-ellipsis')
             .setUIId('date' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'date' + index)
             .setUIValue(this.getDefaultValueForDate(column, cellValue))
@@ -305,7 +305,7 @@ export const dynamicRowTableMixin = {
         let timeWrapper = new UIDiv().setUIClass('z-element');
 
         let time = new UIInput().setUIPlaceholder(i18n.timeFormat)
-            .setUIClass('z-input i-time-picker')
+            .setUIClass('z-input i-time-picker text-ellipsis')
             .setUIId('time' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'time' + index)
             .setUIValue(this.getDefaultValueForTime(column, cellValue))
@@ -321,7 +321,7 @@ export const dynamicRowTableMixin = {
         let dateTimeWrapper = new UIDiv().setUIClass('z-element');
 
         let dateTime = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
-            .setUIClass('z-input i-datetime-picker')
+            .setUIClass('z-input i-datetime-picker text-ellipsis')
             .setUIId('datetime' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'datetime' + index)
             .setUIValue(this.getDefaultValueForDateTime(column, cellValue))
