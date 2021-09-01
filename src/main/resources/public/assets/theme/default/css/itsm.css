@@ -2820,10 +2820,10 @@ select {
   display: flex;
   flex-direction: column;
 }
-.z-itsm-container .z-main-content .z-page-edit .z-edit-form .z-edit-row {
+.z-itsm-container .z-main-content .z-page-edit .z-edit-row {
   margin-top: 0.625rem;
 }
-.z-itsm-container .z-main-content .z-page-edit .z-edit-form .z-edit-row label {
+.z-itsm-container .z-main-content .z-page-edit label {
   margin: 0.625rem 0;
 }
 .z-itsm-container .z-main-content .z-page-edit .z-button-list {
@@ -2979,6 +2979,45 @@ select {
   font-weight: 500;
   color: #BDBDBD;
   margin-left: 2.5rem;
+}
+.z-itsm-container .z-main-content .z-page-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  padding: 2.1875rem 23.125rem 3.125rem 23.125rem;
+}
+.z-itsm-container .z-main-content .z-page-view .z-view-row {
+  margin: 0.625rem 0 0 0;
+}
+.z-itsm-container .z-main-content .z-page-view .z-view-row label {
+  margin: 0.625rem 0;
+}
+.z-itsm-container .z-main-content .z-page-view .z-button-list {
+  margin-top: 1.875rem;
+}
+.z-itsm-container .z-main-content .z-page-view-sub-title {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #8B9094;
+  padding: 0 1.25rem;
+}
+.z-itsm-container .z-main-content .z-page-view-content {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #222529;
+  min-height: 13.4375rem;
+  padding: 0.3125rem 1.25rem;
+}
+.z-itsm-container .z-main-content .z-page-view-content pre {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-line;
+  white-space: -o-pre-wrap;
+  white-space: -moz-pre-wrap;
+  word-break: break-all;
+}
+.z-itsm-container .z-main-content .z-page-view-content .view-text {
+  margin: 0;
 }
 .z-itsm-container .z-main .z-edit {
   height: 100vh;

@@ -77,6 +77,42 @@
   }
 }
 // view
+@mixin commonViewTemplate {
+  .z-page-view {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 0; // 고정
+    padding: 2.1875rem 23.125rem 3.125rem 23.125rem; // 35px 370px 50px 370px
+
+    // 각 행
+    .z-view-row {
+      margin: 0.625rem 0 0 0; // 10px 0 0 0
+      label { margin: 0.625rem 0; } // 10px 0
+    }
+    .z-button-list { margin-top: 1.875rem; } // 30px
+
+    &-sub-title {
+      font-size: $view-sub-title-font-size;
+      font-weight: $view-sub-title-font-weight;
+      color: $view-sub-title-font-color;
+      padding: 0 1.25rem; // 0 20px
+    }
+    // 내용
+    &-content {
+      font-size: $view-content-font-size;
+      font-weight: $view-content-font-weight;
+      color: $view-content-font-color;
+      min-height: 13.4375rem; // 215px
+      padding: 0.3125rem 1.25rem; // 5px 20px
+
+      // 줄바꿈
+      pre { @include wordWrap(break-word); }
+
+      .view-text { margin: 0; }
+    }
+  }
+}
+// view
 @mixin defaultViewTemplate() {
   .view {
     height: 100vh; // edit 화면에서 스크롤이 생기는 영역
@@ -334,13 +370,11 @@
     .z-edit-form {
       display: flex;
       flex-direction: column;
-
-      .z-edit-row {
-        margin-top: 0.625rem; // 10px
-
-        label { margin: 0.625rem 0; } // 10px 0
-      }
     }
+    .z-edit-row {
+      margin-top: 0.625rem; // 10px
+    }
+    label { margin: 0.625rem 0; } // 10px 0
     .z-button-list {
       margin: 1.875rem 0; // 30px
     }

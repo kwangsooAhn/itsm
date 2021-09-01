@@ -1,79 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      layout:decorate="~{layout/itsm/pageType/commonViewLayout}">
 <head>
     <title th:text="#{rule.label.rule}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-numbering-rule-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{rule.label.rule}"></h1>
-            <h6 class="description ml-2 pl-2" th:text="#{rule.msg.editDescription}"></h6>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{rule.label.rule}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{rule.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageView">
+    <div class="flex-column z-view-row">
+        <label th:text="#{rule.label.name}"></label>
+        <input type="text" class="z-input" id="txtRuleName" name="txtRuleName" th:value="${rule?.numberingName}"
+               disabled>
+    </div>
+    <div class="z-view-row flex-column">
+        <label th:text="#{rule.label.desc}"></label>
+        <textarea id="txtRuleDesc" name="txtRuleDesc" class="z-textarea textarea-scroll-wrapper"
+                  th:text="${rule?.numberingDesc}" disabled></textarea>
+    </div>
+    <div id="type-select-pattern z-view-row">
+        <div class="z-view-row flex-column">
+            <div class="under-bar">
+                <label th:text="#{pattern.label.pattern}"></label>
+            </div>
+        </div>
+        <div id="patternList" class="z-view-row flex-column">
+            <th:block th:if="${#arrays.isEmpty(rule?.patternList)}">
+                <div class="flex-row z-view-row">
+                    <select name="pattern" class="mr-1" disabled>
+                        <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
+                                th:text="${pattern.patternName}" th:name="${pattern.patternType}">
+                        </option>
+                    </select>
+                </div>
+            </th:block>
+            <th:block th:each="patternData, iterStat : ${#lists.sort(rule?.patternList, byPatternOrder)}">
+                <div class="flex-row z-view-row">
+                    <select name="pattern" class="mr-1" disabled>
+                        <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
+                                th:text="${pattern.patternName}" th:name="${pattern.patternType}"
+                                th:selected="${patternData.patternName} == ${pattern.patternName}">
+                        </option>
+                    </select>
+                </div>
+            </th:block>
         </div>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="flex-column view">
-        <div class="z-content-view">
-            <div class="flex-column z-edit-row">
-                <h3 class="sub-title under-bar bold" th:text="#{rule.label.name}"></h3>
-            </div>
-            <div class="edit-row flex-column">
-                <label th:text="#{rule.label.desc}"></label>
-                <textarea id="txtRuleDesc" name="txtRuleDesc" maxlength="200" rows="7"
-                          class="z-textarea textarea-scroll-wrapper"></textarea>
-            </div>
-            <div id="type-select-pattern">
-                <div class="edit-row flex-column">
-                    <div class="under-bar">
-                        <label th:text="#{pattern.label.pattern}" class="required"></label>
-                        <button type="button" class="z-button-icon extra float-right" onclick="addPattern()">
-                            <span class="z-icon i-plus"></span>
-                        </button>
-                    </div>
-                </div>
-                <div id="firstPattern" class="edit-row flex-row pattern">
-                    <span th:text="#{rule.label.firstPattern}" class="pattern-type"></span>
-                    <select id="selectFirstPattern" name="pattern"
-                            class="select-date-time select-pattern-type mr-1">
-                        <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
-                                th:text="${pattern.patternName}" th:name="${pattern.patternType}"></option>
-                    </select>
-                </div>
-                <div id="secondPattern" class="edit-row flex-row pattern">
-                    <span th:text="#{rule.label.secondPattern}" class="pattern-type"></span>
-                    <select id="selectSecondPattern" name="pattern"
-                            class="select-date-time select-pattern-type mr-1">
-                        <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
-                                th:text="${pattern.patternName}" th:name="${pattern.patternType}"></option>
-                    </select>
-                    <button type="button" name="secondPattern" class="z-button-icon extra ml-l" onclick="deletePattern(this.name)">
-                        <span class="z-icon i-delete"></span>
-                    </button>
-                </div>
-                <div id="thirdPattern" class="edit-row flex-row pattern">
-                    <span th:text="#{rule.label.thirdPattern}" class="pattern-type"></span>
-                    <select id="selectThirdPattern" name="pattern"
-                            class="select-date-time select-pattern-type mr-1">
-                        <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
-                                th:text="${pattern.patternName}" th:name="${pattern.patternType}"></option>
-                    </select>
-                    <button type="button" name="thirdPattern" class="z-button-icon extra" onclick="deletePattern(this.name)">
-                        <span class="z-icon i-delete"></span>
-                    </button>
-                </div>
-            </div>
-            <div class="flex-row justify-content-end">
-                <div class="z-button-list">
-                    <div class="z-button-list">
-                        <a class="z-button secondary" href="/numberingRules/search" th:text="#{common.btn.list}"></a>
-                    </div>
-                </div>
+    <div class="flex-row justify-content-start">
+        <div class="z-button-list">
+            <div class="z-button-list">
+                <a class="z-button secondary" href="/numberingRules/search" th:text="#{common.btn.list}"></a>
             </div>
         </div>
     </div>
-</th:block>
+</div>
 </body>
 </html>

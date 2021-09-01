@@ -70,6 +70,7 @@ enum class UserConstants(val value: String) {
      */
     enum class UserEdit(val code: String) {
         EDIT("edit"),
+        VIEW("view"),
         EDIT_SELF("editself")
     }
 

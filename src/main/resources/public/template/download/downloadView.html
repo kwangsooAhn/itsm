@@ -1,71 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonViewLayout}">
 <head>
     <title th:text="#{download.label.view}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-download-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{download.label.download}"></h1>
-            <h6 class="description ml-2 pl-2" th:text="#{download.msg.viewDescription}"></h6>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{download.label.download}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{download.msg.viewDescription}"></h6>
+</div>
+<div layout:fragment="pageView">
+    <div class="flex-column z-view-row">
+        <div class="view-title text-ellipsis" th:text="${download.downloadTitle}"></div>
+    </div>
+    <div class="flex-column z-view-row">
+        <div class="view-sub-title flex-row justify-content-end">
+            <span class="user-name" th:text="${download?.createUserName}"></span>
+            <span class="vertical-bar"></span>
+            <span id="spanCreateDt" th:text="${download?.createDt}"></span>
         </div>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="flex-column view">
-        <div class="z-download-content-view">
-            <div class="flex-column view-row">
-                <div class="view-title text-ellipsis" th:text="${download.downloadTitle}"></div>
-            </div>
-            <div class="flex-column view-row">
-                <div class="view-sub-title flex-row justify-content-end">
-                    <span class="user-name" th:text="${download?.createUserName}"></span>
-                    <span class="vertical-bar"></span>
-                    <span id="spanCreateDt" th:text="${download?.createDt}"></span>
-                </div>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="flex-column view-row">
-                <div class="view-content">
-                    <pre>
-                        <span class="view-text" th:text="#{${download.downloadCategory}}"/>
-                    </pre>
-                </div>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="flex-row view-row file-uploader-view">
-                <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
-                <div class="vertical-bar"></div>
-                <form id="frm" method="post">
-                    <div class="file-uploader-list">
-                        <div id="dropZoneFiles"></div>
-                        <div id="dropZoneUploadedFiles"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="flex-row justify-content-start view-row">
-                <div class="z-button-list">
-                    <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
-                </div>
-            </div>
+    <div class="horizontal-bar"></div>
+    <div class="flex-column z-view-row">
+        <div class="view-content">
+            <pre>
+                <span class="view-text" th:text="#{${download.downloadCategory}}"/>
+            </pre>
         </div>
     </div>
-</th:block>
+    <div class="horizontal-bar"></div>
+    <div class="flex-row z-view-row file-uploader-view">
+        <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
+        <div class="vertical-bar"></div>
+        <form id="frm" method="post">
+            <div class="file-uploader-list">
+                <div id="dropZoneFiles"></div>
+                <div id="dropZoneUploadedFiles"></div>
+            </div>
+        </form>
+    </div>
+    <div class="horizontal-bar"></div>
+    <div class="flex-row justify-content-start z-view-row">
+        <div class="z-button-list">
+            <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
+        </div>
+    </div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript" type="text/javascript">
-        /*<![CDATA[*/
-        window.onload = function() {
-            document.getElementById('spanCreateDt').textContent = i18n.userDateTime(document.getElementById('spanCreateDt').textContent);
-            zFileUploader.init({extra: {formId: 'frm', ownId: [[${download.downloadId}]], editor: false, isView: true}});
+<script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        document.getElementById('spanCreateDt').textContent = i18n.userDateTime(document.getElementById('spanCreateDt').textContent);
+        zFileUploader.init({extra: {formId: 'frm', ownId: [[${download.downloadId}]], editor: false, isView: true}});
 
-            OverlayScrollbars(document.querySelectorAll('.view'), { className: 'scrollbar' });
-        };
-        /*]]>*/
-    </script>
-</th:block>
+        OverlayScrollbars(document.querySelectorAll('.view'), { className: 'scrollbar' });
+    };
+    /*]]>*/
+</script>
 </html>

@@ -1,79 +1,68 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonViewLayout}">
 <head>
     <title th:text="#{notice.label.view}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-notice-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{notice.label.notice}"></h1>
-            <h6 class="description ml-2 pl-2" th:text="#{notice.msg.viewDescription}"></h6>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{notice.label.notice}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{notice.msg.viewDescription}"></h6>
+</div>
+<div layout:fragment="pageView">
+    <div class="flex-column z-view-row">
+        <div class="view-title text-ellipsis" th:text="${notice?.noticeTitle}"></div>
+    </div>
+    <div class="flex-column z-view-row">
+        <div class="view-sub-title flex-row justify-content-end">
+            <span class="user-name" id="spanUserName" th:text="${notice?.createUserName}"></span>
+            <span class="vertical-bar"></span>
+            <span id="spanCreateDt" th:text="${notice.createDt}"></span>
         </div>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="flex-column view">
-        <div class="z-notice-content-view">
-            <div class="flex-column view-row">
-                <div class="view-title text-ellipsis" th:text="${notice?.noticeTitle}"></div>
-            </div>
-            <div class="flex-column view-row">
-                <div class="view-sub-title flex-row justify-content-end">
-                    <span class="user-name" id="spanUserName" th:text="${notice?.createUserName}"></span>
-                    <span class="vertical-bar"></span>
-                    <span id="spanCreateDt" th:text="${notice.createDt}"></span>
-                </div>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="flex-column view-row">
-                <div class="view-content">
-                    <pre>
-                        <span class="view-text" th:text="${notice?.noticeContents}"/>
-                    </pre>
-                </div>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="flex-row view-row file-uploader-view">
-                <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
-                <div class="vertical-bar"></div>
-                <form id="frm" method="post">
-                    <div class="file-uploader-list">
-                        <div id="dropZoneFiles"></div>
-                        <div id="dropZoneUploadedFiles"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="flex-row justify-content-start view-row">
-                <div class="z-button-list">
-                    <a class="z-button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
-                </div>
-            </div>
+    <div class="horizontal-bar"></div>
+    <div class="flex-column z-view-row">
+        <div class="view-content">
+            <pre>
+                <span class="view-text" th:text="${notice?.noticeContents}"/>
+            </pre>
         </div>
     </div>
-</th:block>
+    <div class="horizontal-bar"></div>
+    <div class="flex-row view-row file-uploader-view">
+        <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
+        <div class="vertical-bar"></div>
+        <form id="frm" method="post">
+            <div class="file-uploader-list">
+                <div id="dropZoneFiles"></div>
+                <div id="dropZoneUploadedFiles"></div>
+            </div>
+        </form>
+    </div>
+    <div class="horizontal-bar"></div>
+    <div class="flex-row justify-content-start z-view-row">
+        <div class="z-button-list">
+            <a class="z-button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
+        </div>
+    </div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript">
-        /*<![CDATA[ */
-        const noticeCreateDt = document.getElementById('spanCreateDt');
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[ */
+    const noticeCreateDt = document.getElementById('spanCreateDt');
 
-        window.onload = function() {
-            noticeCreateDt.textContent = i18n.userDateTime(noticeCreateDt.textContent);
-            // 게시물 삭제 처리 시, validation 체크.
-            const noticeNo = /*[[${notice.noticeNo}]]*/;
-            if (noticeNo === null) {
-                aliceAlert.alertWarning(i18n.msg('notice.msg.alreadyDeleted'));
-                return history.go(-1);
-            }
-            zFileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false, isView: true}});
-            OverlayScrollbars(document.querySelectorAll('.view'), { className: 'scrollbar' });
+    window.onload = function() {
+        noticeCreateDt.textContent = i18n.userDateTime(noticeCreateDt.textContent);
+        // 게시물 삭제 처리 시, validation 체크.
+        const noticeNo = /*[[${notice.noticeNo}]]*/;
+        if (noticeNo === null) {
+            aliceAlert.alertWarning(i18n.msg('notice.msg.alreadyDeleted'));
+            return history.go(-1);
         }
-        /* ]]> */
-    </script>
-</th:block>
+        zFileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false, isView: true}});
+        OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
+    }
+    /* ]]> */
+</script>
 </html>

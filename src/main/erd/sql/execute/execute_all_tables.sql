@@ -1693,6 +1693,7 @@ insert into awf_url values ('/tokens/{id}/view-pop', 'get', '관련문서 팝업
 insert into awf_url values ('/users', 'get', '사용자 조회 목록 화면', 'TRUE');
 insert into awf_url values ('/users/new', 'get', '사용자 등록 화면', 'TRUE');
 insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 등 메인이 되는 조회 화면', 'TRUE');
+insert into awf_url values ('/users/{userkey}/view', 'get', '사용자 정보 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editself', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
 insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', 'FALSE');
@@ -2173,6 +2174,7 @@ insert into awf_url_auth_map values ('/users/search', 'get', 'user.update');
 insert into awf_url_auth_map values ('/users/search', 'get', 'user.delete');
 insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.update');
+insert into awf_url_auth_map values ('/users/{userkey}/view', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.update');
 
