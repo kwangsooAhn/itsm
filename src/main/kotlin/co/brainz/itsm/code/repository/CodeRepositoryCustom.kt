@@ -14,7 +14,5 @@ interface CodeRepositoryCustom : AliceRepositoryCustom {
 
     fun findByCodeAll(): QueryResults<CodeEntity>
 
-    fun countByCodeList(search: String, pCode: String): Long
-
     fun findCodeDetail(search: String): CodeDetailDto
 }

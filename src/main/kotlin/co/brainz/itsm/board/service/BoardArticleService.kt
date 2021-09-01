@@ -59,7 +59,7 @@ class BoardArticleService(
         )
 
         val boardAdmin = boardAdminRepository.findByBoardAdminId(boardArticleSearchCondition.boardAdminId)
-        if(boardAdmin != null) {
+        if (boardAdmin != null) {
             boardArticleList.categoryUseYn = boardAdmin.categoryYn
         }
         return boardArticleList

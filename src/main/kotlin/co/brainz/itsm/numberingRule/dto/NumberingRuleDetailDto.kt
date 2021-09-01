@@ -19,7 +19,7 @@ data class NumberingRuleDetailDto(
     var editable: Boolean? = null
 ) : Serializable
 
-data class NumberingPatternMapDto (
+data class NumberingPatternMapDto(
     var patternId: String,
     var patternName: String,
     var patternType: String,

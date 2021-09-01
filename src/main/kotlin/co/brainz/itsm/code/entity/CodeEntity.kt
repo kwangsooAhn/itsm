@@ -41,6 +41,9 @@ data class CodeEntity(
     @Column(name = "editable")
     var editable: Boolean? = true,
 
+    @Column(name = "use_yn")
+    var useYn: Boolean? = true,
+
     @Column(name = "level")
     var level: Int? = null,
 

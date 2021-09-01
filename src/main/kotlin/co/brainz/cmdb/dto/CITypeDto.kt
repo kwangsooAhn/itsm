@@ -27,4 +27,4 @@ data class CITypeDto(
     var updateUserKey: String? = null,
     var updateDt: LocalDateTime? = null,
     var editable: Boolean? = true
-    ) : Serializable
+) : Serializable
