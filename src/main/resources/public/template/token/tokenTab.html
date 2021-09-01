@@ -60,7 +60,7 @@
                         <div class="z-document-row-info flex-row align-items-center">
                             <div class="flex-row align-items-center">
                                 <img class="z-img i-profile-photo mr-2" th:src="@{${rInstance.avatarPath}}" width="30" height="30"/>
-                                <h6 th:text="${rInstance.instanceCreateUserName}"></h6>
+                                <h6 class="pl-2" th:text="${rInstance.instanceCreateUserName}"></h6>
                             </div>
                             <span class="vertical-bar"></span>
                             <h6 class="dateFormatFromNow" th:text="${rInstance.instanceStartDt}"></h6>
@@ -86,7 +86,7 @@
                 <div class="z-comment-row-info flex-row align-items-center">
                     <div class="flex-row align-items-center">
                         <img class="z-img i-profile-photo mr-2" th:src="@{${comment.avatarPath}}" width="30" height="30"/>
-                        <h6 class="z-user-name" th:text="${comment.createUserName}"></h6>
+                        <h6 class="z-user-name pl-2" th:text="${comment.createUserName}"></h6>
                     </div>
                     <h6 class="z-comment-time date-time" th:text="${comment.createDt}"></h6>
                     <div class="ml-auto">

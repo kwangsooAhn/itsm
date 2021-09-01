@@ -14,7 +14,7 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{user.label.user}"></h1>
-    <h6 class="description ml-2" th:text="#{user.msg.editDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{user.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
@@ -60,7 +60,7 @@
                         <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}" maxlength="100">
                     </div>
                     <div class="flex-column z-edit-row">
-                        <label th:text="#{user.label.department}" for="department"></label>
+                        <label th:text="#{user.label.department}"></label>
                         <div class="flex-row z-input-button">
                             <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
                             <input type="text" class="z-input col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>

@@ -12,19 +12,19 @@
     <th:block th:fragment="list">
         <div class="card flex-row" th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}"
              sec:authorize="hasAuthority('token.read')" th:onclick="openTokenEdit([[${token.tokenId}]])">
-            <div class="document-color" th:style="|background-color: ${token.documentColor}|"></div>
-            <div class="document-row flex-fill flex-row justify-content-between">
-                <div class="document-row-content">
-                    <div class="document-title flex-row align-items-center">
+            <div class="z-document-color" th:style="|background-color: ${token.documentColor}|"></div>
+            <div class="z-document-row flex-fill flex-row justify-content-between">
+                <div class="z-document-row-content">
+                    <div class="z-document-title flex-row align-items-center">
                         <h3 th:text="${token.documentName}" class="mr-2 text-ellipsis"></h3>
                         <span th:text="${token.documentNo}" class="z-document-numbering text-ellipsis"></span>
                     </div>
-                    <div class="document-topic">
+                    <div class="z-document-topic">
                         <label class="topic" th:each="topic: ${token.topics}" th:text="${topic}"></label>
                     </div>
                 </div>
-                <div class="document-row-info">
-                    <div class="document-detail flex-row align-items-center float-right">
+                <div class="z-document-row-info">
+                    <div class="z-document-detail flex-row align-items-center float-right">
                         <div class="inline-flex align-items-center justify-content-center">
                             <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.avatarPath}" width="32" height="32">
                             <span class="user-name" th:text="${token.createUserName}"></span>
@@ -34,7 +34,7 @@
                         <span class="vertical-bar"></span>
                         <span class="element-name" th:text="${token.elementName}"></span>
                     </div>
-                    <div class="document-tag align-right">
+                    <div class="z-document-tag align-right">
                         <input type="text" name="tokenTagList" class="align-left text-ellipsis" th:value="${token.tags}" readonly></input>
                     </div>
                 </div>

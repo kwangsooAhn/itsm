@@ -9,9 +9,9 @@
   }
   &-input-row {
     padding: 1.3125rem 1.25rem; // 21px 20px
-    @include border(0.0625rem, solid, map-get($grays, "line"), top);
-    @include border(0.0625rem, solid, map-get($grays, "line"), bottom);
-    background-color: map-get($grays, "light");
+    @include border($reply-content-border-width, solid, $reply-content-border-color, top);
+    @include border($reply-content-border-width, solid, $reply-content-border-color, bottom);
+    background-color: $reply-content-bg-color;
     .reply-input {
       width: 100%;
       margin: 0 0.3125rem; // 5px
@@ -23,14 +23,19 @@
 
   &-list {
     padding: 0 0;
-    @include border(0.0625rem, solid, map-get($grays, "line"), bottom);
-    @include verticalBar(1.25rem, 1.25rem, 0.0625rem solid map-get($grays, "line"), 0.0625rem 0.9375rem 0.0625rem 0);
+    @include border($reply-content-border-width, solid, $reply-content-border-color, bottom);
+    @include verticalBar(1.25rem, 1.25rem, $reply-content-border-width solid $reply-content-border-color, 0.0625rem 0.9375rem 0.0625rem 0);
+    margin-top: 0.0625rem; // -1px
     .reply {
       &-info {
         align-items: center;
       }
+      &-user-name {
+        font-weight: $font-weight-regular;
+      }
       &-create-date {
-        color: $gray400;
+        color: $reply-date-font-color;
+        font-weight: $font-weight-regular;
       }
       &-row {
         margin-top : 1.875rem; // 30px
@@ -57,12 +62,6 @@
     flex : none;
     margin: auto 0.9376rem auto 0; // 15px
     @include borderRadius(50%);
-    background-color: $element-icon-color;
-  }
-
-  // 버튼
-  .icon-edit, 
-  .icon-delete {
-    background: map-get($grays, "pressed");
+    background-color: transparent;
   }
 }

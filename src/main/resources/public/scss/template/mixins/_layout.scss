@@ -35,7 +35,7 @@
       color: $view-title-font-color;
       padding-bottom: 0.625rem; // 10px
       margin-bottom: 0.625rem; //10px
-      border-bottom: 0.125rem solid map-get($grays, "default"); // 2px
+      @include border(calc(#{$view-content-border-width} * 2), solid, $view-content-border-color, bottom);
     }
     // 등록일, 등록자
     &-sub-title {
@@ -92,7 +92,7 @@
       font-weight: $view-title-font-weight;
       color: $view-title-font-color;
       padding-bottom: 0.625rem; // 10px
-      border-bottom: 0.125rem solid map-get($grays, "default"); // 2px
+      @include border(calc(#{$view-content-border-width} * 2), solid, $view-content-border-color, bottom);
     }
     // 등록일, 등록자
     &-sub-title {
@@ -125,23 +125,23 @@
     padding: 1.875rem 3.75rem 1.875rem 3.75rem; // 30px 60px 30px 60px
     background-color: $layout-page-content-bg-color;
 
-    // 문서함 > 업무흐름 색상
-    .document-color {
-      width: 0.75rem; // 12px
-    }
+    // 문서함 > 우측 업무흐름 색상바
+    .z-document-color { width: 0.75rem; } // 12px
+
     // 문서함 > 제목 내용
-    .document-row {
+    .z-document-row {
       padding: 1.875rem 3rem; // 30px 48px
 
       &-content {
         // 문서 제목
-        .document {
+        .z-document {
           &-title {
+            color: $token-name-color;
             // 문서 번호
             .z-document-numbering {
-              font-size: 1rem; // 16px
+              font-size: $font-size-s; // 16px
               font-weight: $font-weight-regular;
-              color: $gray400;
+              color: $token-numbering-color;
             }
           }
           &-topic {
@@ -149,22 +149,20 @@
             margin-top: 1.5625rem; // 25px
 
             .topic {
-              font-size: 1rem; // 16px
+              font-size: $font-size-s; // 16px
               font-weight: $font-weight-regular;
-              color: map-get($grays, 'dark');
             }
           }
         }
       }
       &-info {
-        .document {
+        .z-document {
           &-detail {
             .user-name,
             .create-dt,
             .element-name {
-              font-size: 1rem; // 16px
+              font-size: $font-size-s; // 16px
               font-weight: $font-weight-regular;
-              color: map-get($grays, 'dark');
             }
           }
           &-tag {
@@ -183,8 +181,8 @@
     .statistic {
       &-box {
         width: 23.75rem; // 380px
-        @include border(0.0625rem, solid, map-get($grays, 'line'), all);
-        @include borderRadius(0.3125rem); // 5px
+        @include border($card-border-width, solid, $card-border-color, all);
+        @include borderRadius($card-border-radius);
         padding: 1.5625rem; // 25px
       }
       &-info {
@@ -193,7 +191,7 @@
       &-count {
         margin-bottom: 0.9375rem; // 15px
       }
-      &-type { color: map-get($grays, 'blue'); }
+      &-type { color: $gray500; }
     }
     // 대시보드 > 처리할 문서
     .scroll-wrap {
@@ -218,7 +216,7 @@
       }
       // 테이블
       &-table {
-        position: relative;
+        @include relative();
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -242,8 +240,8 @@
       &-body {
         width: 100%;
         height: 100%;
-        border-top: 0.125rem solid $gray300; // 2px
-        border-bottom: 0.0625rem solid $gray300; // 1px
+        @include border(calc(#{$list-border-width} * 2), solid, $list-border-color, top);
+        @include border($list-border-width, solid, $list-border-color, bottom);
         tr {
           height: 2.8125rem; // 45px
           // 마우스 오버시 배경 색상
@@ -312,10 +310,14 @@
         padding: 0 2.5rem 0 2.5rem; // 0 40px 0 40px
         .z-edit-row {
           margin-top: 0.625rem; // 10px
+
+          label { margin: 0.625rem 0; } // 10px 0
+
+          .z-input {
+            &.attribute { width: 100%; }
+          }
         }
-        .z-button-list {
-          margin: 1.875rem 0;
-        } // 30px
+        .z-button-list { margin: 1.875rem 0; } // 30px
       }
     }
   }
@@ -335,6 +337,8 @@
 
       .z-edit-row {
         margin-top: 0.625rem; // 10px
+
+        label { margin: 0.625rem 0; } // 10px 0
       }
     }
     .z-button-list {
@@ -423,7 +427,7 @@
       min-height: 9.375rem; // 150px
       margin: 1.25rem 1.25rem 0 0; // 20px 20px 0 0
       padding: 0;
-      @include border(0.0625rem, solid, map-get($grays, "line"), all);
+      @include border($card-border-width, solid, $card-border-color, all);
       @include borderRadius($card-border-radius);
       overflow: hidden;
       cursor: pointer;
@@ -439,14 +443,14 @@
     // 데이터 없을 때
     .no-data-found {
       width: 100%;
-      background-color:$no-data-found-bg;
+      background-color:$no-data-found-bg-color;
       pointer-events: none;
 
-      .i-no-data { content: url('#{$icon-folder-path}icon_no_card.svg'); }
+      .i-no-card { content: url('#{$icon-folder-path}icon_no_card.svg'); }
       .no-data-text {
-        font-size: 1.125rem;; // 18px
+        font-size: $font-size-m;; // 18px
         font-weight: $font-weight-medium;
-        color: map-get($grays, "pressed");
+        color: $no-data-found-font-color;
         margin-left: 2.5rem; // 40px
       }
     }
@@ -458,6 +462,8 @@
     height: 100vh; // edit 화면에서 스크롤이 생기는 영역
     .z-edit-row {
       margin: 0.625rem 0 0; // 10px 0 0 0
+
+      label { margin: 0.625rem 0; } // 10px 0
 
       // 버튼 목록
       .z-button-list { margin-top: 1.875rem; } // 30px
