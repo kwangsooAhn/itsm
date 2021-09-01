@@ -2123,10 +2123,10 @@ body.modal-active {
   width: 34.38rem;
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #EBEBEB;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  -moz-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -2136,7 +2136,7 @@ body.modal-active {
   height: 3.375rem;
   font-size: 1.5rem;
   font-weight: 500;
-  color: #3F4B56;
+  color: #222529;
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog .modal-content {
@@ -2406,9 +2406,9 @@ body.modal-active {
 .tagify.z-input:focus {
   outline: 0;
   border-color: #2578CE;
-  -webkit-box-shadow: 0 0 0.125rem 0 #2578ce;
-  -moz-box-shadow: 0 0 0.125rem 0 #2578ce;
-  box-shadow: 0 0 0.125rem 0 #2578ce;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
+  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
+  box-shadow: 0 0 0.125rem 0 #2578CE;
 }
 .tagify.z-input:active {
   outline: 0;
@@ -2587,10 +2587,10 @@ body.modal-active {
   color: black;
 }
 .tagify__tag--editable > div::before {
-  box-shadow: 0 0 0 0.125rem #d3e2e2 inset !important;
+  box-shadow: 0 0 0 0.125rem #EBF1F5 inset !important;
 }
 .tagify__tag--editable.tagify--invalid > div::before {
-  box-shadow: 0 0 0 0.125rem #d39494 inset !important;
+  box-shadow: 0 0 0 0.125rem #FEBEA7 inset !important;
 }
 .tagify__tag__removeBtn {
   display: inline-flex;
@@ -2690,12 +2690,12 @@ body.modal-active {
   bottom: 0;
   width: 0;
   height: 1em;
-  margin: auto 0;
   content: attr(data-placeholder);
   line-height: 1em;
   z-index: 1;
   color: #ABB0B5;
   opacity: 0;
+  margin: auto 0;
   white-space: nowrap;
   pointer-events: none;
 }

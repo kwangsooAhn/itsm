@@ -3410,10 +3410,10 @@ svg path.connector.hidden {
   padding: 1.5625rem;
   margin: 0 auto 2em auto;
   box-sizing: border-box;
+  border: 0.0625rem solid #CFD5D9;
   -webkit-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
   -moz-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
   box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -3448,9 +3448,9 @@ svg path.connector.hidden {
 .gmodal-button {
   font-size: 0.875rem;
   font-weight: 500;
-  margin: 0rem 0rem 0rem 0.3125rem;
+  margin: 0 0 0 0.3125rem;
   padding: 0.4375rem 1.5rem;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
 }
 .gmodal-icon-success {
   background-image: url("../media/icons/alert/icon_alert_success.svg");
@@ -3645,7 +3645,7 @@ svg path.connector.hidden {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #E1E3E6;
+  background: #E0E0E0;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: #CFD5D9;
@@ -3738,7 +3738,7 @@ svg path.connector.hidden {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #E1E3E6;
+  background: #E0E0E0;
 }
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: #CFD5D9;
@@ -3792,7 +3792,7 @@ svg path.connector.hidden {
   background: transparent;
 }
 .inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track {
-  background: #283238;
+  background: #222529;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -3801,13 +3801,13 @@ svg path.connector.hidden {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #3F4B56;
+  background: #63686C;
 }
 .inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
-  background: #586872;
+  background: #8B9094;
 }
 .inner-scrollbar-dark > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #586872;
+  background: #8B9094;
 }
 .inner-scrollbar-dark > .os-scrollbar.os-scrollbar-unusable {
   background: transparent;
@@ -3851,7 +3851,7 @@ svg path.connector.hidden {
   background-color: transparent;
 }
 .ql-container .ql-editor::-webkit-scrollbar-thumb {
-  background-color: #E1E3E6;
+  background-color: #E0E0E0;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -4410,10 +4410,10 @@ body.modal-active {
   width: 34.38rem;
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #EBEBEB;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  -moz-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -4423,7 +4423,7 @@ body.modal-active {
   height: 3.375rem;
   font-size: 1.5rem;
   font-weight: 500;
-  color: #3F4B56;
+  color: #222529;
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog .modal-content {

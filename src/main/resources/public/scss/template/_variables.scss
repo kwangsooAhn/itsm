@@ -41,32 +41,6 @@ $font-folder-path:                            '../fonts';
 $icon-folder-path:                            '../media/icons/';
 $image-folder-path:                           '../media/images/';
 
-// black color
-$blacks: (
-  'focus':                                    #283238,
-  'ground':                                   #333D47,
-  'light':                                    #3F4B56
-) !default;
-
-// gray color
-$grays: (
-  'dark':                                     #586872,
-  'warm':                                     #7E848C,
-  'blue':                                     #929AA6,
-  'pressed':                                  #CCCED1,
-  'default':                                  #E1E3E6,
-  'line':                                     #EBEBEB,
-  'light':                                    #F7F8F9
-) !default;
-
-// blue color
-$blues: (
-  'dark':                                     #0060A5,
-  'pressed':                                  #0088E6,
-  'hover':                                    #33ADFF,
-  'light':                                    #87CEFF
-) !default;
-
 //////////////////////////////// common //////////////////////////////////
 // common prefix
 $common-prefix:                               'z-';
@@ -288,7 +262,7 @@ $scrollbar-thick:                            0.5rem; // 8px
 // element 내부 scrollbar 두께
 $scrollbar-thick-sm:                         0.25rem; // 4px
 // scrollbar 색상
-$scrollbar-color:                            map-get($grays, 'default');
+$scrollbar-color:                            $neutral300;
 // scrollbar 모서리 곡선
 $scrollbar-border-radius:                    0.5rem; // 8px
 // scrollbar 배경 색상
@@ -296,9 +270,9 @@ $scrollbar-bg-color:                         $neutral50;
 // scrollbar hover, click 이동시 색상
 $scrollbar-hover-color:                      $gray300;
 // dark 테마 스크롤바 (메뉴 사용)
-$scrollbar-dark-color:                       map-get($blacks, 'light');
-$scrollbar-dark-bg-color:                    map-get($blacks, 'focus');
-$scrollbar-dark-hover-color:                 map-get($grays, 'dark');
+$scrollbar-dark-color:                       $gray600;
+$scrollbar-dark-bg-color:                    $gray800;
+$scrollbar-dark-hover-color:                 $gray500;
 
 ///////////////////////////////// columns /////////////////////////////////
 // Column width (fixed)
@@ -307,27 +281,27 @@ $column-init: 5rem; // 80px
 
 //////////////////////////////// fileuploader ////////////////////////////////
 $file-uploader-font-size:                    $font-size-xs;
-$file-uploader-font-color:                   map-get($grays, 'dark');
+$file-uploader-font-color:                   $gray800;
 $file-uploader-font-weight:                  $font-weight-medium;
 $file-uploader-icon-color:                   $gray500;
 // drag and drop 영역
 $dropzone-font-size:                         $font-size-xs;
 $dropzone-font-color:                        $gray400;
 $dropzone-font-weight:                       $font-weight-regular;
-$dropzone-bg-color:                          map-get($grays, 'light');
+$dropzone-bg-color:                          $white;
 // browse click 버튼
 $dropzone-clickable-font-color:              $blue500;
 // 미리보기
 $file-uploader-preview-height:               5rem; // 80px;
 $file-uploader-progress-color:               $blue500;
-$file-uploader-progress-bg-color:            map-get($grays, 'line');
-$file-uploader-filename-font-color:          map-get($grays, 'dark');
+$file-uploader-progress-bg-color:            $gray300;
+$file-uploader-filename-font-color:          $gray800;
 $file-uploader-filesize-font-color:          $gray400;
 // 파일 미존재시
 $file-uploader-no-date-font-color:           $gray400;
 // view 모드
 $file-uploader-view-font-size:               $font-size-xs;
-$file-uploader-view-font-color:              map-get($grays, 'dark');
+$file-uploader-view-font-color:              $gray800;
 $file-uploader-view-font-weight:             $font-weight-regular;
 
 //////////////////////////////// avatar ////////////////////////////////
@@ -408,12 +382,12 @@ $text-editor-toolbar-selected-font-color:    $blue500;
 
 ///////////////////////////////// tree /////////////////////////////////
 $tree-font-size:                             $font-size-xs;
-$tree-font-color:                            map-get($blacks, 'light');
+$tree-font-color:                            $gray800;
 $tree-font-weight:                           $font-weight-medium;
 // tree 간격
 $tree-line-height:                           1.875rem; // 30px
-$tree-bg-color:                              map-get($grays, 'light');
-$tree-line-color:                            map-get($grays, 'default');
+$tree-bg-color:                              $neutral50;
+$tree-line-color:                            $gray300;
 $tree-line-width:                            0.0625rem; // 1px
 // +, - icon
 $tree-toggle-icon-width:                     0.875rem; // 14px
@@ -424,18 +398,19 @@ $tree-folder-margin-left:                    0.5rem; // 8px
 // line 위치 계산
 $tree-indentation:                           calc((#{$tree-toggle-icon-width} / 2) + #{$tree-folder-margin-left} + (#{$tree-folder-icon-width} / 2));
 // node 선택
-$tree-selected-border-color:                 $blue500;
-$tree-selected-border-width:                 0.0625rem; // 1px;
-$tree-selected-border:                       $tree-selected-border-width solid $tree-selected-border-color;
-$tree-selected-bg-color:                     hexToRGBA($blue500, 0.05);
-$tree-hover-bg-color:                        hexToRGBA($blue500, 0.05);
+$tree-border-color:                          transparent;
+$tree-border-width:                          0.0625rem; // 1px;
+$tree-selected-font-color:                   $blue500;
+$tree-selected-bg-color:                     transparent;
+$tree-hover-bg-color:                        $blue100;
 
 ///////////////////////////////// modal //////////////////////////////
-// 모달 오픈시 바탕 어둡게
+// TODO: 모달 오픈시 바탕 어둡게 > 디자인팀(성효빈 대리) 디자인 확인 후 수정 예정
 $modal-backdrop-bg-color:                    hexToRGBA(#7493b3, 0.5);
-$modal-border-color:                         map-get($grays, 'line');
-$modal-bg-color:                             $white;
+$modal-border-color:                         $gray300;
 $modal-border-width:                         0.0625rem; // 1px
+$modal-bg-color:                             $white;
+$modal-box-shadow-color:                     hexToRGBA(#7493b3, 0.25);
 
 $modal-width:                                34.38rem; // 550px
 $modal-height:                               22.5rem; // 360px
@@ -443,18 +418,24 @@ $modal-height:                               22.5rem; // 360px
 // 모달 제목
 $modal-header-height:                        3.375rem; // 54px
 $modal-header-font-size:                     1.5rem; // 24px
-$modal-header-font-color:                    map-get($blacks, 'light');
+$modal-header-font-color:                    $gray800;
 $modal-header-font-weight:                   $font-weight-medium;
 
 // 모달 버튼 영역
-$modal-bottom-height:                       5rem; // 80px
+$modal-bottom-height:                        5rem; // 80px
 
 ///////////////////////////////// alert //////////////////////////////
+// TODO: 알림 오픈시 바탕 어둡게 > 디자인팀(성효빈 대리) 디자인 확인 후 수정 예정
+$alert-backdrop-bg-color:                    hexToRGBA(#7493b3, 0.5);
+$alert-border-color:                         $gray300;
+$alert-border-width:                         0.0625rem; // 1px
+$alert-bg-color:                             $white;
+$alert-box-shadow-color:                     hexToRGBA(#7493b3, 0.25);
+
 $alert-font-size:                            $font-size-xs;
 $alert-font-weight:                          $font-weight-medium;
 $alert-margin-size:                          0.3125rem;  // 5px
 $alert-box-sizing:                           border-box;
-$alert-bg-color:                             $white;
 
 ///////////////////////////// color-picker ///////////////////////////
 // color picker
@@ -592,6 +573,7 @@ $z-index-hidden:                             -1;
 // tag editable
 $tag-editable-bg-color:                      $gray100;
 $tag-editable-font-color:                    $gray700;
+$tag-editable-box-shadow-color:              $gray100;
 
 // tagify readonly
 $tagify-read-font-color:                     $gray500;
@@ -613,6 +595,11 @@ $tag-input-font-color:                       $gray400;
 $tag-invalid-color:                          $red500;
 $tag-invalid-bg-color:                       $red100;
 $tag-invalid-border-color:                   $red500;
+$tag-invalid-box-shadow-color:               $red200;
+
+$tag-auto-complete-border-color:             $gray300;
+$tag-auto-complete-border-width:             0.0625rem; // 1px
+$tag-auto-complete-box-shadow-color:         $gray300;
 
 ////////////////////////////// input box /////////////////////////////
 $input-clear-right:                          0rem;

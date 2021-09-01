@@ -59,39 +59,31 @@ ul.tree {
 
       // Level 3+
       // -------------------------
-      ul {
-      }
+      ul {}
     }
   }
 }
-// +, - 아이콘
-img.exp_col {
-  cursor: pointer;
-}
 
-img.exp_col_empty {
-  width: 1rem; // 16px
-  cursor: pointer;
-}
-// 폴더 아이콘
-img.icon_tree {
-  vertical-align: middle;
-  padding-left: 0.188rem; // 3px
-  margin-top: -0.188rem; // 3px
-}
-
-// +, - 아이콘 출력 간격
-img.on {
-  display: inline-block;
-}
-
-img.off {
-  display: none;
+img {
+  // +, - 아이콘
+  &.exp_col { cursor: pointer; }
+  &.exp_col_empty {
+    width: 1rem; // 16px
+    cursor: pointer;
+  }
+  &.on { display: inline-block; }
+  &.off { display: none; }
+  // 폴더 아이콘
+  &.icon_tree {
+    vertical-align: middle;
+    padding-left: 0.188rem; // 3px
+    margin-top: -0.188rem; // 3px
+  }
 }
 
 span.node {
   padding: 0.25rem 0.188rem 0.25rem 0; // 4px 3px 4px 0
-  @include border($tree-selected-border-width, solid, transparent, all);
+  @include border($tree-border-width, solid, $tree-border-color, all);
   &:hover {
     background-color: $tree-hover-bg-color;
     @include borderRadius(0.125rem); // 2px
@@ -106,10 +98,10 @@ span.node {
 span.node_selected,
 span.modal_node_selected,{
   padding: 0.25rem 0.188rem 0.25rem 0; // 4px 3px 4px 0
-  background-color: map-get($blues, "light");
+  background-color: $tree-selected-bg-color;
   label {
+    color: $tree-selected-font-color;
     padding-left: $tree-folder-margin-left;
-    color: map-get($blues, "dark");
     cursor: pointer;
   }
   cursor: pointer;
@@ -130,8 +122,8 @@ span.modal_node_selected,{
   }
 
   .tree-list {
-    margin-top: 0.625rem; // 10px
     height: 32.5rem; // 520px
+    margin-top: 0.625rem; // 10px
   }
 
   .tree-nodata {

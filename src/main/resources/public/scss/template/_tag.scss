@@ -46,7 +46,7 @@
   &.z-input {
     height: max-content;
     padding: 0;
-    @include border(0.0625rem, solid, $element-border-color); // 1px
+    @include border($element-border-width, solid, $element-border-color); // 1px
     @include borderRadius(0.125rem); // 2px
 
     > .tagify__input {
@@ -70,7 +70,7 @@
     &:focus {
       outline: 0;
       border-color: $element-focus-border-color;
-      @include boxShadow(0, 0, 0.125rem, 0, hexToRGBA($blue600, 1)); // 2px
+      @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
     }
 
     &:active {
@@ -185,7 +185,7 @@
         }
 
         &:hover {
-          @include border(0.0625rem, solid, $tag-invalid-color, all); // 1px
+          @include border($element-border-width, solid, $tag-invalid-color, all); // 1px
           .tagify__tag__removeBtn {
             background-color: transparent;
           }
@@ -199,13 +199,13 @@
         color: black;
 
         &::before {
-          box-shadow: 0 0 0 0.125rem #d3e2e2 inset !important; // 2px
+          box-shadow: 0 0 0 0.125rem $tag-editable-box-shadow-color inset !important; // 2px
         }
       }
 
       &.tagify--invalid {
         > div::before {
-          box-shadow: 0 0 0 0.125rem #d39494 inset !important; // 2px
+          box-shadow: 0 0 0 0.125rem $tag-invalid-box-shadow-color inset !important; // 2px
         }
       }
     }
@@ -286,12 +286,12 @@
       @include absolute($top: 0, $bottom: 0);
       width: 0;
       height: 1em;
-      margin: auto 0;
       content: attr(data-placeholder);
       line-height: 1em;
       z-index: 1;
       color: $tag-input-font-color;
       opacity: 0;
+      margin: auto 0;
       white-space: nowrap;
       pointer-events: none;
     }
@@ -340,8 +340,8 @@
   &__wrapper {
     max-height: 18.75rem;
     padding: 0.4375rem; // 7px
-    @include border(0.0625rem, solid, $gray300, all); // 1px
-    @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray300); // 0px 2px 12px
+    @include border($tag-auto-complete-border-width, solid, $tag-auto-complete-border-color, all); // 1px
+    @include boxShadow(0, 0.125rem, 0.75rem, 0, $tag-auto-complete-box-shadow-color); // 0px 2px 12px
     @include transition(0.25s cubic-bezier(0, 1, 0.5, 1));
     overflow: hidden;
 
