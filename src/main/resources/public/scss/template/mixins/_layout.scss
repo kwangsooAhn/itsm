@@ -87,7 +87,7 @@
     // 각 행
     .z-view-row {
       margin: 0.625rem 0 0 0; // 10px 0 0 0
-
+      label { margin: 0.625rem 0; } // 10px 0
     }
     .z-button-list { margin-top: 1.875rem; } // 30px
 
@@ -369,13 +369,12 @@
     background-color: $layout-aside-bg-color;
     .z-edit-form {
       display: flex;
-      flex-direction: column;}
+      flex-direction: column;
     }
     .z-edit-row {
       margin-top: 0.625rem; // 10px
-
-      label { margin: 0.625rem 0; } // 10px 0
     }
+    label { margin: 0.625rem 0; } // 10px 0
     .z-button-list {
       margin: 1.875rem 0; // 30px
     }

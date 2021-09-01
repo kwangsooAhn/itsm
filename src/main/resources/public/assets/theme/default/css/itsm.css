@@ -2822,7 +2822,7 @@ select {
 .z-itsm-container .z-main-content .z-page-edit .z-edit-row {
   margin-top: 0.625rem;
 }
-.z-itsm-container .z-main-content .z-page-edit .z-edit-form .z-edit-row label {
+.z-itsm-container .z-main-content .z-page-edit label {
   margin: 0.625rem 0;
 }
 .z-itsm-container .z-main-content .z-page-edit .z-button-list {
@@ -2988,19 +2988,22 @@ select {
 .z-itsm-container .z-main-content .z-page-view .z-view-row {
   margin: 0.625rem 0 0 0;
 }
+.z-itsm-container .z-main-content .z-page-view .z-view-row label {
+  margin: 0.625rem 0;
+}
 .z-itsm-container .z-main-content .z-page-view .z-button-list {
   margin-top: 1.875rem;
 }
 .z-itsm-container .z-main-content .z-page-view-sub-title {
   font-size: 1rem;
   font-weight: 400;
-  color: #586872;
+  color: #8B9094;
   padding: 0 1.25rem;
 }
 .z-itsm-container .z-main-content .z-page-view-content {
   font-size: 1rem;
   font-weight: 400;
-  color: #586872;
+  color: #222529;
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
 }
