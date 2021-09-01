@@ -41,7 +41,8 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
 
     override fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): QueryResults<NoticeListDto> {
         val notice = QNoticeEntity.noticeEntity
-        return from(notice)
+
+        val query = from(notice)
             .select(
                 Projections.constructor(
                     NoticeListDto::class.java,
@@ -67,9 +68,13 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 notice.createDt.lt(noticeSearchCondition.formattedToDt)
             )
             .orderBy(notice.createDt.desc())
-            .limit(noticeSearchCondition.contentNumPerPage)
-            .offset((noticeSearchCondition.pageNum - 1) * noticeSearchCondition.contentNumPerPage)
-            .fetchResults()
+
+        if (noticeSearchCondition.isPaging) {
+            query.limit(noticeSearchCondition.contentNumPerPage)
+            query.offset((noticeSearchCondition.pageNum - 1) * noticeSearchCondition.contentNumPerPage)
+        }
+
+        return query.fetchResults()
     }
 
     override fun findTopNotice(): MutableList<NoticeListDto> {

@@ -81,6 +81,24 @@
             </div>
             <div id="ciAttributes" th:onclick="zCmdbAttribute.drawEditDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
             </div>
+            <!-- 연관 관계 -->
+            <div class="flex-column z-edit-row z-relation-group">
+                <div class="under-bar mt-4 z-relation-title-group">
+                    <label id="relationLabel" class="z-sub-title">
+                        <span th:text="#{cmdb.ci.label.relation}"></span>
+                    </label>
+                    <button id="addCIRelationBtn" type="button" class="z-button-icon extra float-right">
+                        <span class="z-icon i-plus"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-column z-edit-row z-relation-group">
+                <div class="flex-row z-relation-select-box-group">
+                    <div class="flex-column align-left" style="width: 40%;" th:text="#{cmdb.ci.label.relationType}"></div>
+                    <div class="flex-column align-left" style="width: 60%;" th:text="#{cmdb.ci.label.targetCiName}"></div>
+                </div>
+            </div>
+            <div id="ciRelation"/>
         </div>
     </div>
 </body>

@@ -16,6 +16,7 @@ data class BoardArticleListDto(
     var boardGroupId: Long? = 0,
     var boardLevelId: Long? = 0,
     var boardTitle: String = "",
+    var categoryYn: Boolean = false,
     var replyCount: Long = 0,
     var readCount: Long = 0,
     var createDt: LocalDateTime? = null,

@@ -13,6 +13,8 @@ data class CustomCodeSearchCondition(
     val viewType: String? = null,
     val searchValue: String? = null,
     val searchType: String? = null,
-    val pageNum: Long = 1L,
+    val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
-) : Serializable
+) : Serializable {
+    val isPaging = pageNum > 0
+}

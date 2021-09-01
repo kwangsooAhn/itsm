@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.cmdb.ci.dto
 
+import co.brainz.cmdb.dto.CIRelationDto
 import java.io.Serializable
 
 /**
@@ -18,5 +19,6 @@ data class CIComponentDataDto(
     val ciId: String = "",
     val componentId: String = "",
     val values: String,
-    val instanceId: String? = null
+    val instanceId: String? = null,
+    var ciRelations: MutableList<CIRelationDto>? = null
 ) : Serializable

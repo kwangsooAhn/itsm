@@ -55,6 +55,7 @@
       this.options.stopOnFocus = options.stopOnFocus === undefined? true: options.stopOnFocus; // stop timeout on focus
       this.options.onClick = options.onClick; // Callback after click
       this.options.onShow = options.onShow || function() {}; // Callback after show
+      this.options.limit = options.limit || 8; // Limit total count of message on window
 
       // Returning the current object for chaining functions
       return this;
@@ -196,18 +197,34 @@
       return divElement;
     },
 
-    // Displaying the toast
-    showToast: function() {
-      // Creating the DOM object for the toast
-      this.toastElement = this.buildToast();
-
+    // Call the toast
+    callToast: function() {
       // Getting the root element to with the toast needs to be added
-      var rootElement;
+      let rootElement;
       if (typeof this.options.selector === "undefined") {
         rootElement = document.body;
       } else {
         rootElement = document.getElementById(this.options.selector);
       }
+
+      // limit check
+      if (rootElement.childElementCount - this.options.limit >= 0) {
+        window.setTimeout(
+          function() {
+            this.callToast();
+          }.bind(this),
+          2000
+        );
+      } else {
+        this.showToast(rootElement);
+      }
+    },
+
+    // Displaying the toast
+    showToast: function(rootElement) {
+
+     // Creating the DOM object for the toast
+      this.toastElement = this.buildToast();
 
       // Validating if root element is present in DOM
       if (!rootElement) {

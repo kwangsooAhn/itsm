@@ -28,7 +28,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
      */
     override fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): QueryResults<CIAttributeListDto> {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
-        return from(ciAttribute)
+        val query = from(ciAttribute)
             .select(
                 Projections.constructor(
                     CIAttributeListDto::class.java,
@@ -45,9 +45,13 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ?.or(super.like(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
                     ?.or(super.like(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
             ).orderBy(ciAttribute.attributeName.asc())
-            .limit(ciAttributeSearchCondition.contentNumPerPage)
-            .offset((ciAttributeSearchCondition.pageNum - 1) * ciAttributeSearchCondition.contentNumPerPage)
-            .fetchResults()
+
+        if (ciAttributeSearchCondition.isPaging) {
+            query.limit(ciAttributeSearchCondition.contentNumPerPage)
+            query.offset((ciAttributeSearchCondition.pageNum - 1) * ciAttributeSearchCondition.contentNumPerPage)
+        }
+
+        return query.fetchResults()
     }
 
     /**

@@ -74,50 +74,42 @@
         }
       }
       // 미니맵
-      .minimap {
+      .z-minimap {
         display: inline-block;
         width: $minimap-width;
         height: $minimap-height;
-        position: absolute;
-        bottom: 0.625rem; // 10px
-        right: 3.438rem; // 55px
+        @include absolute($right: 3.438rem, $bottom: 0.625rem); // 55px 10px
         background-color: $minimap-bg-color;
-        border: $minimap-border;
+        @include border($minimap-border-width, solid, $minimap-border-color, all);
         border-radius: $minimap-border-radius;
-        box-shadow: $minimap-box-shadow;
+        @include boxShadow(0, 0, 0.3125rem, 0, $minimap-box-shadow-color); // 5px
         overflow: hidden;
 
         svg {
-            position: absolute;
-            top: 1.875rem; // 30px
-            left: 1.875rem; // 30px
-            background-color: $minimap-inside-bg-color;
-            border: $minimap-border;
-            border-radius: $minimap-border-radius;
-            // 미니맵 위치 변경시 표시되는 네모박스
-            rect.minimap-guide {
-                fill: $minimap-guide-bg-color;
-                fill-opacity: $minimap-guide-bg-color-opacity;
-                stroke-width: 0;
-            }
+          @include absolute($top: 1.875rem, $left: 1.875rem); // 30px 30px
+          background-color: $minimap-inside-bg-color;
+          @include border($minimap-border-width, solid, $minimap-border-color, all);
+          border-radius: $minimap-border-radius;
+          // 미니맵 위치 변경시 표시되는 네모박스
+          rect.z-minimap-guide {
+            fill: $minimap-guide-bg-color;
+            fill-opacity: $minimap-guide-bg-color-opacity;
+            stroke-width: 0;
+          }
         }
         // 닫음
         &.closed { display: none; }
       }
       // 시뮬레이션
-      .simulation-report {
+      .z-simulation-report {
         display: block;
         width: $simulation-report-width;
         height: $simulation-report-height;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        @include absolute(0, 0, 0, 0);
         background-color: $simulation-report-bg-color;
-        border: $simulation-report-border;
+        @include border($simulation-report-border-width, solid, $simulation-report-border-color, all);
         border-radius: $simulation-report-border-radius;
-        box-shadow: $simulation-report-box-shadow;
+        @include boxShadow(0, 0, 0.3125rem, 0, $simulation-report-box-shadow-color); // 5px
         margin: auto;
         overflow: hidden;
         // 제목
@@ -126,7 +118,7 @@
           font-size: $simulation-report-title-font-size;
           font-weight: $simulation-report-title-font-weight;
           color: $simulation-report-title-font-color;
-          border-bottom: $simulation-report-border;
+          @include border($simulation-report-border-width, solid, $simulation-report-border-color, bottm);
           padding: 1.125rem; // 17px
 
           .z-icon {
@@ -155,8 +147,8 @@
                 font-weight: $simulation-report-title-font-weight;
                 margin: 1.25rem 0.938rem; // 20px 15px
 
-                &.success { color: $green; }
-                &.failed { color: $red; }
+                &.success { color: $validation-success-font-color; }
+                &.failed { color: $validation-error-font-color; }
             }
             // 내용
             .details {
@@ -167,7 +159,7 @@
 
               div {
                 margin: 0.625rem 0; // 10px 0
-                &.failed { color: $red; }
+                &.failed { color: $validation-error-font-color; }
               }
 
               &-result, &-element-info, &-failed-message {
@@ -184,15 +176,15 @@
 
   // 세부 속성 상단
   &-properties-header {
-    position:fixed;
-    top: $layout-header-height;
-    right: 0;
+    @include fixed($top: $layout-header-height, $right: 0);
     width: $layout-properties-width;
     height: $layout-properties-header-height;
     font-size: $layout-properties-header-font-size;
     font-weight: $layout-properties-header-font-weight;
     color: $layout-properties-header-font-color;
     background-color: $layout-properties-header-bg-color;
+    @include border($layout-properties-border-width, solid, $layout-properties-border-color, left);
+    @include boxShadow(0, 0, 0.125rem, 0, $layout-properties-box-shadow-color); // 2px
     padding: 0.625rem 1.563rem; // 10px 25px;
   }
   // element 속성
@@ -200,15 +192,16 @@
     @include fixed(calc(#{$layout-header-height} + #{$layout-properties-header-height}), 0, 0, null);
     width: $layout-properties-width;
     background-color: $layout-properties-bg-color;
-    border-left: $layout-properties-border;
-    box-shadow: $layout-properties-box-shadow;
+    @include border($layout-properties-border-width, solid, $layout-properties-border-color, left);
+    @include boxShadow(0, 0.125rem, 0.125rem, 0, $layout-properties-box-shadow-color); // 2px
     overflow-x: hidden;
     overflow-y: auto;
     @include scrollbarHidden;
 
     // element 명
     .properties-group-title {
-      color: map-get($blues, "hover");
+      font-size: $property-group-label-font-size;
+      color: $property-group-label-color;
       margin: 1.563rem 1.563rem 0 1.563rem; // 25px 25px 0 25px
     }
 
@@ -219,15 +212,13 @@
       &-title {
         display: inline-block;
         width: 100%;
-        font-size: $properties-title-font-size;
-        font-weight: $properties-title-font-weight;
-        color: $properties-title-font-color;
-        margin-bottom: 0.625rem; // 10px
+        font-size: $property-label-font-size;
+        color: $property-label-color;
       }
       // 마지막 속성은 선 추가
       &.last {
         padding-bottom: 1.875rem; // 30px
-        border-bottom: $layout-properties-border;
+        @include border($layout-properties-border-width, solid, $layout-properties-border-color, bottom);
       }
       // Id
       .copy { width: 81% !important; }
@@ -235,19 +226,19 @@
       .file-select-group {
         .file {
           width: 81% !important;
-          margin-right: 5px; // 5px;
+          margin-right: 0.3125rem; // 5px;
         }
       }
       // assinee 등록
       .candidate-table,
       .script-data {
-        margin-top: 15px; // 15px
+        margin-top: 0.9375rem; // 15px
         button { padding: 0; }
         tr {
           th, td {
             text-align: center;
             vertical-align: middle;
-            border-color: $table-border-color;
+            border-color: $element-border-color;
             padding: 0 0.625rem; // 0 10px
           }
         }
@@ -259,10 +250,10 @@
       legend, .properties { padding:  0.9375rem 0 0.4375rem 0; } // 15px 0 7.5px 0
       .properties:last-child {
         padding-bottom: 1.875rem; // 30px
-        border-bottom: $layout-properties-border;
+        @include border($layout-properties-border-width, solid, $layout-properties-border-color, bottom);
       }
       &[name="condition"] {
-        border-bottom: $layout-properties-border;
+        @include border($layout-properties-border-width, solid, $layout-properties-border-color, bottom);
         .properties:last-child { border: none; }
       }
     }
@@ -270,15 +261,18 @@
     //프로세스 개요
     .process-info-main {
       margin: 1.25rem 1.563rem; // 20px 25px
-      .process-info-title { color: map-get($blues, "hover"); }
+      .process-info-title {
+        font-size: $property-group-label-font-size;
+        color: $property-group-label-color;
+      }
       // 엘리먼트 갯수
       .process-info-dashboard {
         margin-top: 1.25rem; // 20px
         .total {
-          color: map-get($blacks, "light");
+          color: $property-label-color;
           padding: 0 0 0.625rem 0; // 0 0 10px 0
           margin: 0;
-          border-bottom: 0.125rem solid map-get($grays, "line");
+          @include border(calc(#{$layout-properties-border-width} * 2), solid, $layout-properties-border-color, bottom);
         }
         table tr td {
             padding: 0.625rem; // 10px 들여쓰기

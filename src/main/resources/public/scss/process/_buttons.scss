@@ -316,5 +316,13 @@
   }
   &.z-button-candidate-add {
     margin-left: 0.3125rem; // 5px
+    .z-icon {
+      &.i-plus { background: $element-icon-color; }
+    }
+  }
+  &.z-button-attach-file {
+    .z-icon {
+      &.i-folder { background: $element-icon-color; }
+    }
   }
 }

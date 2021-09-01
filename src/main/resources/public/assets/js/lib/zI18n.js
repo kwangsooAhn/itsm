@@ -321,9 +321,9 @@
      *
      * @author Kim Sung Min
      * @since 2020-08-26
-     * @param {String}  beforeUserDateTime 사용자가 입력한 날짜시간.
-     * @param {offset}  offset 더하고 싶은 날짜 수
-     * @return {String} i18n.dateFormat으로 반환한다.
+     * @param {String}  beforeUserDate 사용자가 입력한 날짜시간.
+     * @param {{days: number}}  offset 더하고 싶은 날짜 수
+     * @return {String} i18n.dateFormat 으로 반환한다.
      */
     function makeUserDate(beforeUserDate, offset) {
         if (beforeUserDate === null || beforeUserDate === '') {

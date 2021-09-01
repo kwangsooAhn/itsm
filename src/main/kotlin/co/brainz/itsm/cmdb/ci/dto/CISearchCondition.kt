@@ -19,8 +19,9 @@ data class CISearchCondition(
     val searchValue: String? = null,
     val tagSearch: String? = null,
     val flag: String? = null,
-    val pageNum: Long = 1L,
+    val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
     val tagArray: List<String>? = if (!tagSearch.isNullOrEmpty()) tagSearch.split(",") else null
+    val isPaging = pageNum > 0
 }

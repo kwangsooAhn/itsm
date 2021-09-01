@@ -141,7 +141,7 @@
             .z-document-numbering {
               font-size: 1rem; // 16px
               font-weight: $font-weight-regular;
-              color: $gray;
+              color: $gray400;
             }
           }
           &-topic {
@@ -231,7 +231,7 @@
           th {
             font-size: $font-size-s;
             font-weight: $font-weight-medium;
-            color: $list-head-font-size;
+            color: $list-head-font-color;
             padding: 0 0.9375rem; // 0 15px
 
             &:first-child { padding-left: 1.25rem; } // 20px
@@ -256,13 +256,13 @@
           td {
             font-size: $font-size-xs;
             font-weight: $font-weight-regular;
-            color: $gray800;
+            color: $list-body-font-color;
             padding: 0 0.9375rem; // 0 15px
             line-height: initial; // 소문자 글자 짤림현상 방지
 
             &:first-child { padding-left: 1.25rem; } // 20px
 
-            a { color: map-get($grays, "dark"); }
+            a { color: $list-body-font-color; }
           }
         }
         // 데이터 없을때
@@ -420,7 +420,7 @@
       position: relative;
       min-width: 32.0625rem; // 513px
       width: 100%;
-      min-height: 12.5rem; // 200px
+      min-height: 9.375rem; // 150px
       margin: 1.25rem 1.25rem 0 0; // 20px 20px 0 0
       padding: 0;
       @include border(0.0625rem, solid, map-get($grays, "line"), all);

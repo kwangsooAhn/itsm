@@ -116,11 +116,8 @@
                 <table class="z-list-table">
                     <thead class="z-list-head">
                     <tr class="flex-row align-items-center">
-                        <th style="width: 20%;" class="align-left" th:text="#{cmdb.ci.label.relationType}"></th>
-                        <th style="width: 20%;" class="align-left" th:text="#{cmdb.ci.label.sourceCiId}"></th>
-                        <th style="width: 20%;" class="align-left" th:text="#{cmdb.ci.label.sourceCiName}"></th>
-                        <th style="width: 20%;" class="align-left" th:text="#{cmdb.ci.label.targetCiId}"></th>
-                        <th style="width: 20%;" class="align-left" th:text="#{cmdb.ci.label.targetCiName}"></th>
+                        <th style="width: 40%;" class="align-left" th:text="#{cmdb.ci.label.relationType}"></th>
+                        <th style="width: 60%;" class="align-left" th:text="#{cmdb.ci.label.targetCiName}"></th>
                     </tr>
                     </thead>
                     <tbody class="z-list-body">
@@ -129,11 +126,8 @@
                         <td style="width: 100%;" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
                     </tr>
                     <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciRelationList)}" th:each="ciRelation: ${ciRelationList}">
-                        <td style="width: 20%;" th:text="${ciRelation.relationTypeName}"></td>
-                        <td style="width: 20%;" th:text="${ciRelation.sourceCIId}"></td>
-                        <td style="width: 20%;" th:text="${ciRelation.sourceCIName}"></td>
-                        <td style="width: 20%;" th:text="${ciRelation.targetCIId}"></td>
-                        <td style="width: 20%;" th:text="${ciRelation.targetCIName}"></td>
+                        <td style="width: 40%;" th:text="${ciRelation.relationType}"></td>
+                        <td style="width: 60%;" th:text="${ciRelation.targetCIName}"></td>
                     </tr>
                     </tbody>
                 </table>

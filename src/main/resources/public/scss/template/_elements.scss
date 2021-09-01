@@ -90,82 +90,6 @@ label {
   font-size: $label-font-size;
   font-weight: $label-font-weight;
 }
-// switch
-.switch {
-  @include relative();
-  height: 2.188rem; // 35px
-  font-family: inherit;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $element-line-height;
-  color: $element-font-color;
-  outline: none;
-
-  .label {
-    display: inline-block;
-    height: 2.188rem; // 35px
-    line-height: 2.0;
-    margin-left: 5.625rem; // 90px
-    cursor: pointer;
-  }
-
-  input[type=checkbox] {
-    display: none;
-    // 스위치 버튼
-    + span {
-      @include absolute(0, 0, 0, 0);
-      width: 5rem; // 80px
-      background-color: map-get($grays, 'default');
-      @include borderRadius(2.5rem); // 40px
-      cursor: pointer;
-      @include transition(.4s);
-      // 동그라미
-      &::before {
-        content: '';
-        @include absolute($left: 0.25rem, $bottom: 0.3125rem); // 4px 5px
-        width: 1.563rem; // 25px
-        height: 1.563rem; // 25px
-        background-color: $white;
-        @include borderRadius(50%);
-      }
-    }
-
-    &:checked {
-      + span {
-        background-color: $element-checked-color;
-
-        &::before {
-          @include translate(2.875rem, 0); // 46px
-        }
-      }
-    }
-    // TODO: 디자인 필요
-    //&:disabled {
-    //  + span {
-    //    background-color: $element-disabled-bg-color;
-    //  }
-    //}
-
-    &:hover {
-      + span {
-        &::before {
-          border-color: $element-hover-border-color;
-          @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA($blue, 0.2)); // 5px
-        }
-      }
-    }
-  }
-
-  &:focus {
-    input[type=checkbox] {
-      + span {
-        &:before {
-          border-color: $element-focus-border-color;
-        }
-      }
-    }
-  }
-}
 // input box + button
 .input-button {
   @include relative();
@@ -200,7 +124,10 @@ label {
 //     참고를 위헤 이전 variables는 주석으로 남김.
 //  2. z-element 모두 구성된 후에 _element.scss로 overwrite 할 것.
 
-// input
+input, textarea, select {
+  &:focus,
+  &:hover { outline: 0; }
+}
 .z-input {
   height: 2.25rem; // 36px
   font-family: inherit;
@@ -351,7 +278,7 @@ label {
   }
 }
 
-// text area
+// textarea
 // overlay scroll로 인한 div와의 중복 디자인을 방지하기 위해
 // outer div에 대해 예외 처리
 .z-textarea {
@@ -713,7 +640,7 @@ select {
     text-align: center;
     margin-left: 2%;
     &:read-only {
-      @include border($element-border-width, solid, $gray300, all);
+      @include border($element-border-width, solid, $element-border-color, all);
       @include borderRadius(0.125rem); // 2px
     }
   }

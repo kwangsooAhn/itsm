@@ -22,7 +22,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
     override fun findAliceUserEntityList(userSearchCondition: UserSearchCondition): QueryResults<UserListDataDto> {
         val user = QAliceUserEntity.aliceUserEntity
         val code = QCodeEntity.codeEntity
-        return from(user)
+        val query = from(user)
             .select(
                 Projections.constructor(
                     UserListDataDto::class.java,
@@ -52,8 +52,12 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     ?.or(super.like(user.mobileNumber, userSearchCondition.searchValue))
             )
             .orderBy(user.userName.asc())
-            .limit(userSearchCondition.contentNumPerPage)
-            .offset((userSearchCondition.pageNum - 1) * userSearchCondition.contentNumPerPage)
-            .fetchResults()
+
+        if (userSearchCondition.isPaging) {
+            query.limit(userSearchCondition.contentNumPerPage)
+            query.offset((userSearchCondition.pageNum - 1) * userSearchCondition.contentNumPerPage)
+        }
+
+        return query.fetchResults()
     }
 }

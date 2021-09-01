@@ -133,9 +133,14 @@ class WfScriptTask(
     /**
      * 연관된 CI 를 CIDto 에 저장하기 위한 List 형태로 추출.
      */
-    private fun getCiRelations(ciId: String, ciComponentDataValue: Map<String, Any>): MutableList<CIRelationDto> {
+    private fun getCiRelations(ciComponentDataValue: Map<String, Any>): MutableList<CIRelationDto> {
         val relationList = mutableListOf<CIRelationDto>()
-        // TODO : 연관된 CI 정보
+        val relationData = mutableListOf<Map<String, String>>()
+
+        relationData.addAll(mapper.convertValue(ciComponentDataValue["relatedCIData"], listLinkedMapType))
+        relationData.forEach {
+            relationList.add(mapper.convertValue(it, CIRelationDto::class.java))
+        }
         return relationList
     }
 
@@ -162,7 +167,7 @@ class WfScriptTask(
                     // CI에 속한 세부 정보 추출
                     val ciDataList = this.getCiDataList(ciId, ciComponentDataValue)
                     val ciTags = this.getCiTags(ciId, ciComponentDataValue)
-                    val ciRelations = this.getCiRelations(ciId, ciComponentDataValue)
+                    val ciRelations = this.getCiRelations(ciComponentDataValue)
 
                     // Dto 생성후 List에 담기
                     ciDtoList.add(

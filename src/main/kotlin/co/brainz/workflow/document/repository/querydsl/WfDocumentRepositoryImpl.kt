@@ -56,8 +56,10 @@ class WfDocumentRepositoryImpl :
                 super.like(document.form.formName, documentSearchCondition.searchFormName)
             ).orderBy(document.documentName.asc())
 
-        query.limit(documentSearchCondition.contentNumPerPage)
-        query.offset((documentSearchCondition.pageNum - 1) * documentSearchCondition.contentNumPerPage)
+        if (documentSearchCondition.isPaging) {
+            query.limit(documentSearchCondition.contentNumPerPage)
+            query.offset((documentSearchCondition.pageNum - 1) * documentSearchCondition.contentNumPerPage)
+        }
 
         return query.fetchResults()
     }
