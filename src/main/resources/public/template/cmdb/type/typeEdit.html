@@ -113,6 +113,7 @@
             });
         }
         getTypeList();
+        document.getElementById('root').click();
 
         // 상세조회
         function onGetDetail(typeId) {
@@ -141,7 +142,7 @@
                     document.getElementById('typeIcon').value = responseJson.typeIcon;
                     document.getElementById('typeClassId').value = responseJson.classId;
                     document.getElementById('typeClass').value = responseJson.className;
-                    if (responseJson.pTypeId !== null) {
+                    if (responseJson.editable) {
                         document.querySelector('#btnUpdate').removeAttribute('disabled');
                         document.querySelector('#btnDelete').removeAttribute('disabled');
                         document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
