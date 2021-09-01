@@ -187,7 +187,6 @@ COMMENT ON COLUMN awf_code.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_code.create_dt IS '등록일';
 COMMENT ON COLUMN awf_code.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_code.update_dt IS '수정일';
-
 insert into awf_code values ('cmdb', 'root', 'cmdb', 'CMDB 설정', 'CMDB 설정', true, 1, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.relation.type', 'cmdb', 'cmdb.relation.type', 'CI 연관 관계 타입', 'CI 연관 관계 타입', true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.relation.type.default', 'cmdb.relation.type', 'default', 'default', '기본 연관', true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -3484,15 +3483,15 @@ DROP TABLE IF EXISTS cmdb_ci_relation cascade;
 
 CREATE TABLE cmdb_ci_relation
 (
-    relation_id character varying(128) NOT NULL,
-    relation_type character varying(100),
+	relation_id character varying(128) NOT NULL,
+	relation_type character varying(100),
     ci_id character varying(128) NOT NULL,
-    target_ci_id character varying(128) NOT NULL,
-    CONSTRAINT cmdb_ci_relation_pk PRIMARY KEY (relation_id),
-    CONSTRAINT cmdb_ci_relation_uk UNIQUE (relation_id),
+	target_ci_id character varying(128) NOT NULL,
+	CONSTRAINT cmdb_ci_relation_pk PRIMARY KEY (relation_id),
+	CONSTRAINT cmdb_ci_relation_uk UNIQUE (relation_id),
     CONSTRAINT cmdb_ci_relation_fk FOREIGN KEY (ci_id)
-        REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION
+      REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 COMMENT ON TABLE cmdb_ci_relation IS 'CMDB CI 연관관계';
