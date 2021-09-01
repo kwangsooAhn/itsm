@@ -93,7 +93,7 @@
             th {
               font-size: $font-size-s;
               font-weight: $font-weight-medium;
-              color: $list-head-font-size;
+              color: $list-head-font-color;
               padding: 0 0.9375rem; // 0 15px
 
               &:first-child { padding-left: 1.25rem; } // 20px
@@ -103,8 +103,8 @@
         // tbody
         &-body {
           width: 100%;
-          border-top: 0.125rem solid $gray300; // 2px
-          border-bottom: 0.0625rem solid $gray300; // 1px
+          @include border(0.125rem, solid, $list-border-color, top);
+          @include border(0.0625rem, solid, $list-border-color, bottom);
           tr {
             height: 2.8125rem; // 45px
             // 마우스 오버시 배경 색상
@@ -117,13 +117,13 @@
             td {
               font-size: $font-size-xs;
               font-weight: $font-weight-regular;
-              color: $gray800;
+              color: $list-body-font-color;
               padding: 0 0.9375rem; // 0 15px
               line-height: initial; // 소문자 글자 짤림현상 방지
 
               &:first-child { padding-left: 1.25rem; } // 20px
 
-              a { color: map-get($grays, "dark"); }
+              a { color: $list-body-font-color; }
             }
           }
           // 데이터 없을때
@@ -145,7 +145,7 @@
               min-height: 3.438rem; // 55px
               @include border($faq-group-border-width, solid, $faq-group-border-color, all);
               @include borderRadius(0.0625rem); // 1px
-              margin-bottom: 10px; // 10px
+              margin-bottom: 0.625rem; // 10px
 
               &-title {
                 height: 3.438rem; // 55px
@@ -191,9 +191,9 @@
             }
             // level 2
             &-row {
-              padding: 20px 30px 0px 30px; // 20px 30px 0px 30px;
-              &:first-of-type { padding-top: 35px; } // 30px
-              &:last-of-type { padding-bottom: 35px; } // 30px
+              padding: 1.25rem 1.875rem 0 1.875rem; // 20px 30px 0px 30px
+              &:first-of-type { padding-top: 2.188rem; } // 35px
+              &:last-of-type { padding-bottom: 2.188rem; } // 35px
 
               &-title {
                 font-size: $faq-row-font-size;
@@ -207,8 +207,7 @@
             }
             // level 3
             &-row-content {
-              margin-top: 20px; // 20px
-              margin-left: 17px; // 17px
+              margin: 1.25rem 1.063rem 0 0; // 20px 17px
               font-size: $faq-row-content-font-size;
               font-weight: $faq-row-content-font-weight;
               color: $faq-row-content-font-color;

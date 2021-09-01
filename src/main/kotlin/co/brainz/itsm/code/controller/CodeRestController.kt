@@ -38,6 +38,14 @@ class CodeRestController(private val codeService: CodeService) {
     }
 
     /**
+     * 연관 코드 상세 조회
+     */
+    @GetMapping("/related/{code}")
+    fun getRelatedCodes(@PathVariable code: String): Any {
+        return codeService.selectCodeByParent(code)
+    }
+
+    /**
      * 코드 데이터 등록
      */
     @PostMapping("/", "")

@@ -385,7 +385,7 @@ export const ciMixin = {
         const saveData = {
             ciId: data.ciId,
             componentId: this.id,
-            values: { ciAttributes: [], ciTags: [] },
+            values: { ciAttributes: [], ciTags: [], relatedCIData: [] },
             instanceId: instanceIdElem.value
         };
         document.querySelectorAll('.attribute').forEach((el) => {
@@ -443,6 +443,21 @@ export const ciMixin = {
                 saveData.values.ciAttributes.push(ciAttribute);
             }
         });
+        document.querySelectorAll('.z-relation-group-div').forEach((el) => {
+            let data = {};
+            data.relationType = el.childNodes[0].getElementsByTagName('select')[0].value;
+            data.targetCIId = el.childNodes[1].getElementsByTagName('select')[0].value;
+            saveData.values.relatedCIData.push(data);
+        });
+        for (let i = 0; i < saveData.values.relatedCIData.length; i++) {
+            for (let k = 0; k < i; k++) {
+                if (saveData.values.relatedCIData[i].targetCIId == saveData.values.relatedCIData[k].targetCIId &&
+                    saveData.values.relatedCIData[i].relationType == saveData.values.relatedCIData[k].relationType) {
+                    aliceAlert.alertWarning(i18n.msg('cmdb.ci.msg.duplicateRelatedCIData'));
+                    return;
+                }
+            }
+        }
         if (!zValidation.isEmpty(document.getElementById('ciTags').value)) {
             const ciTags = JSON.parse(document.getElementById('ciTags').value);
             ciTags.forEach((tag) => {
@@ -508,11 +523,25 @@ export const ciMixin = {
                     closable: false,
                 },
                 onCreate:(modal) => {
+                    let param = {};
                     const newCIId = ZWorkflowUtil.generateUUID();
                     document.getElementById('ciId').value = newCIId;
                     // CI 타입 선택 모달 바인딩
                     const ciTypeId = document.getElementById('typeId').value;
                     document.getElementById('typeSelectBtn').addEventListener('click', this.openSelectTypeModal.bind(this, ciTypeId));
+                    // CI 연관 관계 코드 데이터 호출
+                    aliceJs.fetchJson('/rest/codes/related/cmdb.relation.type', {
+                        method: 'GET'
+                    }).then((code) => {
+                        param.codeList = code;
+                    });
+                    // CI 연관 관계 CI 목록 리스트 호출
+                    aliceJs.fetchJson('/rest/cmdb/cis', {
+                        method: 'GET'
+                    }).then((ci) => {
+                        param.ciList = ci;
+                    });
+                    document.getElementById('addCIRelationBtn').addEventListener('click', this.addCIRelation.bind(this, param));
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
                     OverlayScrollbars(document.querySelectorAll('textarea'), {
@@ -584,7 +613,8 @@ export const ciMixin = {
                     }
                 }],
                 close: { closable: false, },
-                onCreate: (modal) => {
+                onCreate: async (modal) => {
+                    let param = {};
                     // 수정된 데이터가 존재할 경우 수정 데이터로 변경
                     document.getElementById('ciAttributes').click();
 
@@ -596,6 +626,55 @@ export const ciMixin = {
                     if (data.actionType === CI.ACTION_TYPE.MODIFY) {
                         document.getElementById('typeSelectBtn').disabled = true;
                     }
+
+                    // CI 연관 관계 코드 데이터 호출
+                    await aliceJs.fetchJson('/rest/codes/related/cmdb.relation.type', {
+                        method: 'GET'
+                    }).then((code) => {
+                        param.codeList = code;
+                    });
+                    // CI 연관 관계 CI 목록 리스트 호출
+                    await aliceJs.fetchJson('/rest/cmdb/cis', {
+                        method: 'GET'
+                    }).then((ci) => {
+                        param.ciList = ci;
+                    });
+                    // actionType에 따른 연관 관계 데이터 조회
+                    if (data.actionType === CI.ACTION_TYPE.MODIFY) {
+                        // 기존 CI 변경 클릭 후, 리스트에서 CI를 선택, 이후 CI 변경 시, 모달창에 출력되는 연관 관계 데이터는 cmdb_ci_relation 테이블의 데이터이다.
+                        // 이후 CI 수정 시, 수정한 연관 관계 데이터는 wf_component_ci_data 테이블의 데이터를 가져와 보여준다.
+                        aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id + '&instanceId=' + instanceIdElem.value, {
+                            method: 'GET',
+                        }).then((ciComponentData) => {
+                            if (ciComponentData === "") {
+                                aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/relation', {
+                                    method: 'GET',
+                                }).then((ciRelations) => {
+                                    const ciRelation = JSON.parse(ciRelations);
+                                    if (Object.keys(ciRelation).length !== 0) {
+                                        for (let i = 0; i < ciRelation.length; i++) {
+                                            this.addCIRelation(param, ciRelations[i]);
+                                        }
+                                    }
+                                });
+                            } else {
+                                const ciComponent = JSON.parse(ciComponentData);
+                                for (let i = 0; i < ciComponent.ciRelations.length; i++) {
+                                    this.addCIRelation(param, ciComponent.ciRelations[i]);
+                                }
+                            }
+                        });
+                    } else if (data.actionType === CI.ACTION_TYPE.REGISTER) {
+                        // cmdb_ci_relation 테이블에 등록되지 않은 데이터의 경우, wf_component_ci_data 테이블에서 연관 관계 데이터를 가져와 처리한다.
+                        aliceJs.fetchJson('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id + '&instanceId=' + instanceIdElem.value, {
+                            method: 'GET',
+                        }).then((ciComponentData) => {
+                            for (let i = 0; i < ciComponentData.ciRelations.length; i++) {
+                                this.addCIRelation(param, ciComponentData.ciRelations[i]);
+                            }
+                        });
+                    }
+                    document.getElementById('addCIRelationBtn').addEventListener('click', this.addCIRelation.bind(this, param));
 
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
@@ -829,6 +908,54 @@ export const ciMixin = {
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
+    },
+    // 연관 관계 입력 row 추가
+    addCIRelation(param, ciRelations) {
+        const divRow = document.createElement('div');
+        divRow.className = 'flex-row edit-row z-relation-group z-relation-group-div';
+
+        const relationTypeSelect = document.createElement('select');
+        relationTypeSelect.className = 'z-relation-type-select-box mr-1';
+        const relationTypeList = param.codeList
+        for (let i = 0; i < relationTypeList.length; i++) {
+            const selectOption = document.createElement('option');
+            selectOption.value = relationTypeList[i].codeValue;
+            selectOption.text = relationTypeList[i].codeName;
+            selectOption.selected = (typeof ciRelations !== 'undefined') ? (ciRelations.relationType === selectOption.value) : '';
+            relationTypeSelect.appendChild(selectOption);
+        }
+
+        const ciList = param.ciList;
+        const targetCISelect = document.createElement('select');
+        targetCISelect.className = 'z-target-ci-select-box mr-1';
+        for (let i = 0; i < ciList.length; i++) {
+            const selectOption = document.createElement('option');
+            selectOption.value = ciList[i].ciId;
+            selectOption.text = ciList[i].ciName;
+            selectOption.selected = (typeof ciRelations !== 'undefined') ? (ciRelations.targetCIId === selectOption.value) : '';
+            targetCISelect.appendChild(selectOption);
+        }
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'z-button-icon extra';
+        const deleteIcon = document.createElement('span');
+        deleteIcon.className = 'z-icon i-delete';
+        deleteBtn.appendChild(deleteIcon);
+        deleteBtn.addEventListener('click', function () {
+            const row = deleteBtn.parentNode;
+            const relationElems = document.querySelectorAll('input[name=targetCISelect]');
+            if (relationElems.length === 1) {
+                const relationLabel = document.getElementById('relationLabel');
+                relationLabel.removeChild(relationLabel.children[1]);
+            }
+            row.remove();
+        });
+
+        divRow.appendChild(relationTypeSelect);
+        divRow.appendChild(targetCISelect);
+        divRow.appendChild(deleteBtn);
+        document.getElementById('ciRelation').appendChild(divRow);
+        aliceJs.initDesignedSelectTag(divRow);
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {

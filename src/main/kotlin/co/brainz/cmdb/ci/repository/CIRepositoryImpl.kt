@@ -128,8 +128,11 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                 )
             )
         }
-        query.limit(ciSearchCondition.contentNumPerPage)
-        query.offset((ciSearchCondition.pageNum - 1) * ciSearchCondition.contentNumPerPage)
+
+        if (ciSearchCondition.isPaging) {
+            query.limit(ciSearchCondition.contentNumPerPage)
+            query.offset((ciSearchCondition.pageNum - 1) * ciSearchCondition.contentNumPerPage)
+        }
 
         return query.fetchResults()
     }

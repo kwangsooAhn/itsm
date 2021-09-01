@@ -67,11 +67,6 @@ $blues: (
   'light':                                    #87CEFF
 ) !default;
 
-$gray:                                        #ACB4BF !default;
-$red:                                         #ff405a !default;
-$orange:                                      #FF7319 !default;
-$green:                                       #00C462 !default;
-
 //////////////////////////////// common //////////////////////////////////
 // common prefix
 $common-prefix:                               'z-';
@@ -134,7 +129,7 @@ $element-disabled-border:                     $element-disabled-border-width sol
 
 // element readonly 시 사용하는 디자인 변수
 $element-readonly-font-color:                 $gray800;
-$element-readonly-bg-color:                   $white;
+$element-readonly-bg-color:                   transparent;
 $element-readonly-border-color:               $gray400;
 $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:                     $element-readonly-border-width solid $element-readonly-border-color;
@@ -272,6 +267,20 @@ $layout-header-search-font-weight:           $font-weight-bold;
 
 $layout-properties-width:                    18.75rem; // 300px
 
+// 리스트
+$list-border-color:                          $gray300;
+$list-border-width:                          0.0625rem; // 1px
+// 리스트 - 마우스 오버시
+$list-hover-bg-color:                        $neutral200;
+// 리스트 - 데이터 없을때
+$no-data-found-list-bg:                      $neutral50;
+// 리스트 - 선택시
+$list-active-font-color:                     $blue700;
+$list-active-bg-color:                       $blue100;
+// 리스트 항목
+$list-head-font-color:                       $gray800;
+$list-body-font-color:                       $gray800;
+
 //////////////////////////////// scrollbar ////////////////////////////////
 // 기본 스크롤바
 // scrollbar 두께
@@ -283,9 +292,9 @@ $scrollbar-color:                            map-get($grays, 'default');
 // scrollbar 모서리 곡선
 $scrollbar-border-radius:                    0.5rem; // 8px
 // scrollbar 배경 색상
-$scrollbar-bg-color:                         hexToRGBA(map-get($grays, 'line'), 0.6);
+$scrollbar-bg-color:                         $neutral50;
 // scrollbar hover, click 이동시 색상
-$scrollbar-hover-color:                      map-get($grays, 'pressed');
+$scrollbar-hover-color:                      $gray300;
 // dark 테마 스크롤바 (메뉴 사용)
 $scrollbar-dark-color:                       map-get($blacks, 'light');
 $scrollbar-dark-bg-color:                    map-get($blacks, 'focus');
@@ -303,7 +312,7 @@ $file-uploader-font-weight:                  $font-weight-medium;
 $file-uploader-icon-color:                   $gray500;
 // drag and drop 영역
 $dropzone-font-size:                         $font-size-xs;
-$dropzone-font-color:                        $gray;
+$dropzone-font-color:                        $gray400;
 $dropzone-font-weight:                       $font-weight-regular;
 $dropzone-bg-color:                          map-get($grays, 'light');
 // browse click 버튼
@@ -313,9 +322,9 @@ $file-uploader-preview-height:               5rem; // 80px;
 $file-uploader-progress-color:               $blue500;
 $file-uploader-progress-bg-color:            map-get($grays, 'line');
 $file-uploader-filename-font-color:          map-get($grays, 'dark');
-$file-uploader-filesize-font-color:          $gray;
+$file-uploader-filesize-font-color:          $gray400;
 // 파일 미존재시
-$file-uploader-no-date-font-color:           $gray;
+$file-uploader-no-date-font-color:           $gray400;
 // view 모드
 $file-uploader-view-font-size:               $font-size-xs;
 $file-uploader-view-font-color:              map-get($grays, 'dark');
@@ -324,23 +333,28 @@ $file-uploader-view-font-weight:             $font-weight-regular;
 //////////////////////////////// avatar ////////////////////////////////
 $avatar-font-size:                           $font-size-xs;
 $avatar-sm-font-size:                        0.8125rem; // 13px
-$avatar-font-color:                          map-get($blacks, 'light');
+$avatar-font-color:                          $gray500;
 $avatar-font-weight:                         $font-weight-medium;
+$avatar-border-color:                        $gray300;
+$avatar-border-width:                        0.0625rem; // 1px
 // drag and drop 영역
 $avatar-dropzone-width:                      20.63rem; // 330px
 $avatar-dropzone-height:                     20.63rem; // 330px
 $avatar-dropzone-sm-width:                   9.375rem; // 150px
 $avatar-dropzone-sm-height:                  9.375rem; // 150px
 $avatar-dropzone-font-size:                  $font-size-xs;
-$avatar-dropzone-font-color:                 $gray;
+$avatar-dropzone-font-color:                 $gray400;
 $avatar-dropzone-font-weight:                $font-weight-regular;
-$avatar-dropzone-bg-color:                   map-get($grays, 'light');
+$avatar-dropzone-bg-color:                   $neutral50;
+$avatar-dropzone-icon-color:                 $gray300;
 // browse click 버튼
 $avatar-dropzone-clickable-font-color:       $blue500;
 // description
 $avatar-desc-font-size:                      $font-size-xs;
-$avatar-desc-font-color:                     $gray;
+$avatar-desc-font-color:                     $gray400;
 $avatar-desc-font-weight:                    $font-weight-regular;
+// image
+$avatar-image-bg-color:                      $white;
 
 ///////////////////////////////// date picker /////////////////////////////////
 $datepicker-font-color:                      $gray800;

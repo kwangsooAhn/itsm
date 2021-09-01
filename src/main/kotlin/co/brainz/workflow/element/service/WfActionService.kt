@@ -120,7 +120,7 @@ class WfActionService(
                     )
                 )
             }
-            if (it.attributeId == WfElementConstants.AttributeId.REJECT_ID.value && it.attributeValue.isNotEmpty()) {
+            if (it.attributeId == WfElementConstants.AttributeId.REJECT_ID.value && it.attributeValue.trim().isNotEmpty()) {
                 postActions.add(
                     RestTemplateActionDto(
                         name = "common.btn.reject",

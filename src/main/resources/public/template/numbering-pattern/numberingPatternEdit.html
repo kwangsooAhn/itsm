@@ -9,7 +9,7 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{pattern.label.pattern}"></h1>
-    <h6 class="description ml-2" th:text="#{pattern.msg.editDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{pattern.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
@@ -22,19 +22,19 @@
         <div class="z-edit-row flex-column">
             <label th:text="#{pattern.label.type}" class="required"></label>
             <div class="flex-row mr-auto">
-                <label class="z-radio mr-4">
+                <label class="z-radio">
                     <input id="numbering.pattern.text" name="patternType" type="radio"
                            onclick="changePatternValueInput('numbering.pattern.text')"
                            th:checked="${pattern?.patternType == 'numbering.pattern.text'}">
                     <span></span>
-                    <span class="z-label" th:text="#{pattern.type.text}"></span>
+                    <span class="z-label  mr-4" th:text="#{pattern.type.text}"></span>
                 </label>
-                <label class="z-radio mr-4">
+                <label class="z-radio">
                     <input id="numbering.pattern.date" name="patternType" type="radio"
                            onclick="changePatternValueInput('numbering.pattern.date')"
                            th:checked="${pattern?.patternType == 'numbering.pattern.date'}">
                     <span></span>
-                    <span class="z-label" th:text="#{pattern.type.date}"></span>
+                    <span class="z-label mr-4" th:text="#{pattern.type.date}"></span>
                 </label>
                 <label class="z-radio">
                     <input id="numbering.pattern.sequence" name="patternType" type="radio"

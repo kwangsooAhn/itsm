@@ -54,10 +54,14 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
                 download.downloadTitle, downloadSearchCondition.searchValue
             )?.or(super.like(fileLoc.originName, downloadSearchCondition.searchValue))
                 ?.or(super.like(download.createUser.userName, downloadSearchCondition.searchValue)),
-            download.createDt.goe(downloadSearchCondition.formattedFromDt), download.createDt.lt(downloadSearchCondition.formattedToDt)
+            download.createDt.goe(downloadSearchCondition.formattedFromDt),
+            download.createDt.lt(downloadSearchCondition.formattedToDt)
         ).orderBy(download.downloadSeq.desc())
-            .limit(downloadSearchCondition.contentNumPerPage)
-            .offset((downloadSearchCondition.pageNum - 1) * downloadSearchCondition.contentNumPerPage)
+
+        if (downloadSearchCondition.isPaging) {
+            query.limit(downloadSearchCondition.contentNumPerPage)
+            query.offset((downloadSearchCondition.pageNum - 1) * downloadSearchCondition.contentNumPerPage)
+        }
 
         return query.fetchResults()
     }

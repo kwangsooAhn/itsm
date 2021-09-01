@@ -159,7 +159,7 @@
 
               div {
                 margin: 0.625rem 0; // 10px 0
-                &.failed { color: $red; }
+                &.failed { color: $validation-error-font-color; }
               }
 
               &-result, &-element-info, &-failed-message {
@@ -193,7 +193,7 @@
     width: $layout-properties-width;
     background-color: $layout-properties-bg-color;
     @include border($layout-properties-border-width, solid, $layout-properties-border-color, left);
-    @include boxShadow(0, -0.125rem, 0.125rem, 0, $layout-properties-box-shadow-color); // 2px
+    @include boxShadow(0, 0.125rem, 0.125rem, 0, $layout-properties-box-shadow-color); // 2px
     overflow-x: hidden;
     overflow-y: auto;
     @include scrollbarHidden;

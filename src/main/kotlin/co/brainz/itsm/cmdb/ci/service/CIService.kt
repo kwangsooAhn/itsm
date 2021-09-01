@@ -9,11 +9,13 @@ package co.brainz.itsm.cmdb.ci.service
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIHistoryDto
+import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
+import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
@@ -63,6 +65,13 @@ class CIService(
     }
 
     /**
+     * CMDB CI 전체 목록 조회
+     */
+    fun getCIList(): List<CIListDto> {
+        return ciService.getCIList()
+    }
+
+    /**
      * CI 컴포넌트 - CI 데이터 조회
      */
     fun getCIData(ciId: String, componentId: String, instanceId: String, modifyCIData: String): CIDetailDto {
@@ -108,7 +117,6 @@ class CIService(
                 tagData.forEach {
                     tagDataList.add(mapper.convertValue(it, AliceTagDto::class.java))
                 }
-                // TODO : 연관 관계
 
                 // 세부 속성
                 val ciAttributes: List<Map<String, Any>> =
@@ -186,5 +194,36 @@ class CIService(
 
     fun getCIRelation(ciId: String): List<CIRelationDto> {
         return ciService.getRelation(ciId)
+    }
+
+    /**
+     * CI 컴포넌트 - CI 컴포넌트 세부 데이터 조회
+     */
+    fun getCIComponentData(ciId: String, componentId: String, instanceId: String): CIComponentDataDto? {
+        val ciComponentData =
+            ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
+        val relationList = mutableListOf<CIRelationDto>()
+
+        if (ciComponentData != null) {
+            val ciComponentDataValue: Map<String, Any> =
+                mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
+            val relationData = mutableListOf<Map<String, String>>()
+            relationData.addAll(mapper.convertValue(ciComponentDataValue["relatedCIData"], listLinkedMapType))
+            relationData.forEach {
+                relationList.add(mapper.convertValue(it, CIRelationDto::class.java))
+            }
+        }
+
+        return if (ciComponentData != null) {
+            CIComponentDataDto(
+                ciId = ciComponentData.ciId,
+                componentId = ciComponentData.componentId,
+                values = ciComponentData.values,
+                instanceId = ciComponentData.instanceId,
+                ciRelations = relationList
+            )
+        } else {
+            null
+        }
     }
 }

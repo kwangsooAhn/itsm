@@ -9,7 +9,7 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{customCode.label.customCode}"></h1>
-    <h6 class="description ml-2" th:text="#{customCode.msg.editDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{customCode.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
@@ -27,12 +27,12 @@
                 <span class="required"></span>
             </label>
             <div class="flex-row mr-auto">
-                <label class="z-radio mr-4" for="table" tabindex="0">
+                <label class="z-radio" for="table" tabindex="0">
                     <input id="table" name="type" type="radio"
                            th:checked="${customCode?.type == null || customCode?.type == 'table'}"
                            onclick="changeContainer('table')">
                     <span></span>
-                    <span class="z-label" th:text="#{customCode.label.table}"></span>
+                    <span class="z-label mr-4" th:text="#{customCode.label.table}"></span>
                 </label>
                 <label class="z-radio" for="code" tabindex="0">
                     <input id="code" name="type" type="radio"

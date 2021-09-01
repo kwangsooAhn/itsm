@@ -33,7 +33,7 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
         val boardRead = QPortalBoardReadEntity("read")
         val comment = QPortalBoardCommentEntity("comment")
         val boardAdmin = QPortalBoardAdminEntity("categoryYn")
-        return from(board)
+        val query = from(board)
             .select(
                 Projections.constructor(
                     BoardArticleListDto::class.java,
@@ -68,9 +68,14 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
                 board.createDt.lt(boardArticleSearchCondition.formattedToDt)
             )
             .orderBy(board.boardGroupId.desc(), board.boardOrderSeq.asc())
-            .limit(boardArticleSearchCondition.contentNumPerPage)
-            .offset((boardArticleSearchCondition.pageNum - 1) * boardArticleSearchCondition.contentNumPerPage)
-            .fetchResults()
+
+        if (boardArticleSearchCondition.isPaging) {
+            query.limit(boardArticleSearchCondition.contentNumPerPage)
+            query.offset((boardArticleSearchCondition.pageNum - 1) * boardArticleSearchCondition.contentNumPerPage)
+
+        }
+
+        return query.fetchResults()
     }
 
     override fun findByBoardId(boardId: String): BoardArticleViewDto {

@@ -79,12 +79,14 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
         this.UIElement.UIGroup.addUI(this.UIElement.UIGroup.UIInput);
 
         // select
-        const selectOptionValue = (defaultTypeValueArray[0] === 'select') ? defaultTypeValueArray[1] : this.selectOptions[0].value;
-        const selectOption = this.selectOptions.reduce((result, option) => {
+        const defaultSelectOptions = JSON.parse(JSON.stringify(this.selectOptions));
+        const selectOptionValue = (defaultTypeValueArray[0] === 'select') ? defaultTypeValueArray[1] : defaultSelectOptions[0].value;
+        const selectOption = defaultSelectOptions.reduce((result, option) => {
             option.name = i18n.msg(option.name);
             result.push(option);
             return result;
         }, []);
+        console.log(selectOption);
         this.UIElement.UIGroup.UISelect = new UISelect().setUIId(this.key)
             .addUIClass((defaultTypeValueArray[0] === 'select') ? 'on' : 'off')
             .setUIOptions(selectOption).setUIValue(selectOptionValue)

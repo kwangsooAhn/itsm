@@ -64,8 +64,21 @@ $group-accordion-border-color:               $gray300;
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
 $cmdb-ci-modal-height:                       53.0625rem; // 849px
 
-$cmdb-ci-attribute-border:                   0.0625rem solid $gray300; // 1px
+$cmdb-ci-attribute-border-color:             $gray300;
+$cmdb-ci-attribute-border-width:             0.0625rem; // 1px
 $cmdb-ci-attribute-bg-color:                 $neutral50;
+$cmdb-ci-attribute-border-radius:            0.0625rem; // 1px
+
+$cmdb-ci-relation-height:                    2.4375rem; // 39px
+$cmdb_ci-relation-font-size:                 $font-size-l; // 24px
+$cmdb-ci-relation-select-group-width:        54.75rem; // 876px
+$cmdb-ci-relation-select-group-font-size:    $font-size-m;
+$cmdb-ci-relation-select-group-font-weight:  $font-weight-medium;
+$cmdb-ci-relation-select-group-font-family:  $font-family-m;
+$cmdb-ci-relation-select-group-padding:      0.6875rem 0 0.6875rem 0; // 11px 0 11px 0
+
+$cmdb-ci-target-select-box-width:            30.5rem; // 488px
+$cmdb-ci-relation-select-box-width:          21.8125rem; // 349px
 
 ///////////////////////////// Tree ////////////////////////////////
 $tree-modal-width:                           40rem; // 640px

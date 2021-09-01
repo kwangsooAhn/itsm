@@ -80,7 +80,7 @@
     }
   }
   // textarea 엘리먼트
-  .textArea {
+  .z-textArea {
     min-height: 7.5rem; // 120px
   }
   // input + button
@@ -98,16 +98,10 @@
       width: 23%;
       text-align: center;
       margin-left: 2%;
-      &:read-only {
-        @include border($element-border-width, solid, $gray300, all);
-        @include borderRadius(0.125rem); // 2px
-      }
     }
   }
   // select box
-  .select {
-    width: 100%;
-  }
+  .select { width: 100%; }
   // inputBox 컴포넌트 - 기본값 속성
   .default-type {
     display: flex;
@@ -134,7 +128,7 @@
   }
   // time, date, datepicker - 기본값 속성
   .default-type-radio {
-    position: relative;
+    @include relative();
     display: block;
 
     .radio-property-group {
@@ -164,15 +158,13 @@
   .z-tab-panel {
     .z-tabs {
       .z-button-icon {
-        padding: 4px 9px; // 4px 9px
+        padding: 0.25rem 0.563rem; // 4px 9px
 
         &:not(:last-child) {
           margin-right: 0.3125rem; // 5px
         }
         // 버튼 안보이게 처리
-        &.off {
-          display: none;
-        }
+        &.off { display: none; }
       }
     }
     .z-panels {
@@ -180,7 +172,7 @@
         @include relative();
         margin-top: 0.625rem;
         padding-top: 0.625rem;
-        @include border(0.0625rem, solid, $gray300, all); // 1px
+        @include border($property-panel-border-width, solid, $property-panel-border-color, all); // 1px
 
         .z-panel-common {
           .panel-name {
@@ -199,7 +191,7 @@
           padding: 0;
           .z-icon {
             display: inline-block;
-            background: $blue500;
+            background: $property-panel-icon-color;
 
             &.z-prev {
               @include rotate(180);
@@ -221,7 +213,7 @@
           border: none;
 
           &:last-child {
-            @include border(0.0625rem, solid, $gray300, top); // 1px
+            @include border($property-panel-border-width, solid, $property-panel-border-color, top); // 1px
           }
         }
       }

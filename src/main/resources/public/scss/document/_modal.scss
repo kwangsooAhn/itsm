@@ -19,7 +19,7 @@
       .modal-content {
         height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
         padding: 1.25rem; // 20px
-
+        // TODO: UX팀 디자인 작업 후 변경 예정
         .cmdb-ci-content-edit {
           height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 부모 높이 - 50px
           .edit-form { padding: 0 2.5rem; } // 40px
@@ -29,14 +29,35 @@
 
           // 세부 속성
           .attribute-group {
-            background-color: map-get($grays, "light");
+            background-color: $cmdb-ci-attribute-bg-color;
             padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
-            border: $cmdb-ci-attribute-border;
-            border-radius:  0.0625rem; // 1px
+            @include border($cmdb-ci-attribute-border-width, solid, $cmdb-ci-attribute-border-color, all);
+            @include borderRadius($cmdb-ci-attribute-border-radius);
             margin-bottom: 0.625rem; // 10px
           }
+          // 연관 관계
+          .z-relation-group {
+            .z-relation-title-group {
+              height: $cmdb-ci-relation-height;
+              .z-sub-title {
+                font-size: $cmdb_ci-relation-font-size;
+              }
+            }
+            .z-relation-select-box-group {
+              width: $cmdb-ci-relation-select-group-width;
+              font-size: $cmdb-ci-relation-select-group-font-size;
+              font-weight: $cmdb-ci-relation-select-group-font-weight;
+              font-family: $cmdb-ci-relation-select-group-font-family;
+              padding: $cmdb-ci-relation-select-group-padding;
+            }
+            .z-target-ci-select-box {
+              width: $cmdb-ci-target-select-box-width;
+            }
+            .z-relation-type-select-box {
+              width: $cmdb-ci-relation-select-box-width;
+            }
+          }
         }
-        // TODO: UX팀 디자인 작업 후 변경 예정
         .cmdb-ci-content-view {
           height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 부모 높이 - 50px
           .view-form { padding: 0 2.5rem; } // 40px
@@ -46,29 +67,28 @@
 
           // 세부 속성
           .attribute-group {
-            background-color: map-get($grays, "light");
+            background-color: $cmdb-ci-attribute-bg-color;
             padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
-            border: $cmdb-ci-attribute-border;
-            border-radius:  0.0625rem; // 1px
+            @include border($cmdb-ci-attribute-border-width, solid, $cmdb-ci-attribute-border-color, all);
+            @include borderRadius($cmdb-ci-attribute-border-radius);
             margin-bottom: 0.625rem; // 10px
           }
         }
-
+        // CI 선택 목록
         .table-set {
           margin-top: 2.188rem; // 35px
           table {
             width: 100%;
-            .list-head {
+            .z-list-head {
               tr {
-                color: map-get($blacks, "light");
-                border-bottom: 0.125rem solid map-get($grays, "default");
+                color: $list-head-font-color;
+                @include border(calc(#{$list-border-width} * 2), solid, $list-border-color, bottom);
               }
             }
-            .list-body {
+            .z-list-body {
               display: block;
               width: 60rem; // 960px
               height: 32.8125rem; // 525px
-              color: map-get($grays, "dark");
               overflow-y: auto;
               .list-row {
                 display: table;
@@ -78,6 +98,11 @@
                 & > td {
                   display: inline-block; // 말줄임 적용을 위해 추가
                   vertical-align: middle;
+                  // 태그
+                  .tag-group {
+                    display: initial;
+                    line-height: 1.2;
+                  }
                 }
               }
             }

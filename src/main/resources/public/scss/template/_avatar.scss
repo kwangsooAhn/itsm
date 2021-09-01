@@ -19,7 +19,7 @@
       width: $avatar-dropzone-width;
       height: $avatar-dropzone-height;
       background-color: $avatar-dropzone-bg-color;
-      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+      @include border($avatar-border-width, solid, $avatar-border-color, all); // 1px
       padding: 0;
 
       // drag and drop 영역
@@ -31,11 +31,11 @@
           font-weight: $avatar-dropzone-font-weight;
           color: $avatar-dropzone-font-color;
           text-align: center;
-          margin-top: 85px; // 85px
+          margin-top: 5.313rem; // 85px
           // 아이콘
           .z-icon {
             &.i-avatar {
-              @include maskImage('#{$icon-folder-path}fileUploader/icon_avatar.svg', 100%, 3.75rem, no-repeat, center, 5rem, map-get($grays, 'pressed')); // 60px
+              @include maskImage('#{$icon-folder-path}fileUploader/icon_avatar.svg', 100%, 5rem, no-repeat, center, 5rem, $avatar-dropzone-icon-color);
               margin-bottom: 1.25rem; // 20px
             }
           }
@@ -59,7 +59,7 @@
       }
        // 업로드된 파일 미리보기
       .dz-preview {
-        position: relative;
+        @include relative();
         height: 100%;
         padding: 0;
         border: 0;
@@ -84,7 +84,7 @@
         }
 
         &.dz-image-preview {
-          background: $white;
+          background: $avatar-image-bg-color;
           .dz-details {
             @include transition(opacity 0.2s linear);
           }
@@ -98,7 +98,7 @@
           align-items: center;
           line-height: 150%;
           text-align: center;
-          color: hexToRGBA($black, 0.9);
+          color: $avatar-font-color;
           opacity: 0;
           z-index: $z-index-between-event-and-default;
 
@@ -112,7 +112,7 @@
             display: block;
             width: 1.125rem;
             height: 1.125rem;
-            @include backgroundImage($icon-folder-path + 'icon_clear.svg', 0.875rem, no-repeat, center, center, hexToRGBA($white, 0.4)); // 14px
+            @include backgroundImage($icon-folder-path + 'icon_clear.svg', 1.125rem, no-repeat, center, center, hexToRGBA($white, 0.4)); // 18px
             cursor: pointer;
 
             &:hover {
