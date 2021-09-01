@@ -8,6 +8,9 @@
 // input box
 .z-picker-wrapper-date {
   display: inline-block;
+  .picker-main {
+    padding-right: 2.25rem;
+  }
 }
 // modal
 .z-picker-modal {

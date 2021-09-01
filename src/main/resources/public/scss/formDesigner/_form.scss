@@ -176,6 +176,21 @@
     // inputBox
     .input, .z-input {
       width: 100%;
+      @include border(0.0625rem, solid, $element-border-color, all); // 1px
+      @include borderRadius(0.0625rem); // 2px
+      &:hover {
+        outline: 0;
+        @include border($element-hover-border-width, solid, $element-hover-border-color, all);
+      }
+      &:focus {
+        outline: 0;
+        @include border($element-focus-border-width, solid, $element-focus-border-color, all);
+        @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+      }
+      &:active {
+        outline: 0;
+        @include border($element-active-border-width, solid, $element-active-border-color, all);
+      }
     }
     // textArea
     .textArea, .z-textarea {
@@ -259,6 +274,9 @@
 
     // time, date, datepicker 컴포넌트
     .picker-wrapper-date {
+      .z-input {
+        margin-right: 2rem;
+      }
       .datepicker {
         width: 100%;
       }
@@ -290,6 +308,11 @@
 
       .z-dr-table-row {
         .z-button-icon { padding: 0; }
+
+        .z-input, .z-select {
+          padding: 0.4375rem 0;
+          margin: 0.25rem 0;
+        }
       }
       // 데이터 없음
       .no-data-found-list {

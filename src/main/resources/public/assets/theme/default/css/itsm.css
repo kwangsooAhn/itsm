@@ -1785,6 +1785,7 @@ select {
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
+  line-height: 1.6;
   color: #222529;
   outline: none;
 }
@@ -4815,6 +4816,9 @@ select {
 .z-picker-wrapper-date {
   display: inline-block;
 }
+.z-picker-wrapper-date .picker-main {
+  padding-right: 2.25rem;
+}
 
 .z-picker-modal {
   display: none;
@@ -7529,3 +7533,5 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
+
+/*# sourceMappingURL=itsm.css.map */
