@@ -11,7 +11,7 @@
     <div class="z-numbering-pattern-header">
         <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{pattern.label.pattern}"></h1>
-            <h6 class="description ml-2" th:text="#{pattern.msg.editDescription}"></h6>
+            <h6 class="description ml-2 pl-2" th:text="#{pattern.msg.editDescription}"></h6>
         </div>
         <div class="z-main-header-search flex-row">
             <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
@@ -42,17 +42,17 @@
                 <div class="edit-row flex-column">
                     <label th:text="#{pattern.label.type}" class="required"></label>
                     <div class="flex-row mr-auto">
-                        <label class="z-radio mr-4">
+                        <label class="z-radio">
                             <input id="numbering.pattern.text" name="patternType" type="radio"
                                    onclick="changePatternValueInput('numbering.pattern.text')">
                             <span></span>
-                            <span class="z-label" th:text="#{pattern.type.text}"></span>
+                            <span class="z-label mr-4" th:text="#{pattern.type.text}"></span>
                         </label>
-                        <label class="z-radio mr-4">
+                        <label class="z-radio">
                             <input id="numbering.pattern.date" name="patternType" type="radio"
                                    onclick="changePatternValueInput('numbering.pattern.date')">
                             <span></span>
-                            <span class="z-label" th:text="#{pattern.type.date}"></span>
+                            <span class="z-label mr-4" th:text="#{pattern.type.date}"></span>
                         </label>
                         <label class="z-radio">
                             <input id="numbering.pattern.sequence" name="patternType" type="radio"

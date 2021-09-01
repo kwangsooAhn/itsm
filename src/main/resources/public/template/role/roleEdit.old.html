@@ -11,7 +11,7 @@
     <div class="z-role-header">
         <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{role.label.role}"></h1>
-            <h6 class="description ml-2" th:text="#{role.msg.editDescription}"></h6>
+            <h6 class="description ml-2 pl-2" th:text="#{role.msg.editDescription}"></h6>
         </div>
         <div class="z-main-header-search flex-row">
             <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100" th:placeholder="#{role.msg.searchPlaceholder}"/>
@@ -51,7 +51,7 @@
                             <label th:text="#{role.label.auth}" class="required"></label>
                         </div>
                         <div class="ml-auto">
-                            <label class="z-checkbox z-checkbox-all">
+                            <label class="z-checkbox z-checkbox-all p1-1">
                                 <input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"/>
                                 <span></span>
                                 <span class="z-label" th:text="#{role.btn.selectAll}"/>

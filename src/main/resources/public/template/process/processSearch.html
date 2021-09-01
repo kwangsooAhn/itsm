@@ -9,7 +9,7 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{process.label.process}"></h1>
-    <h6 class="description ml-2" th:text="#{process.msg.searchDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{process.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
     <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''process.update'')')}"/>
@@ -368,7 +368,7 @@
                        `<div id="dropZoneFiles"></div>` +
                        `<div id="dropZoneUploadedFiles"></div>` +
                    `</div>` +
-                   `<h6 class="description">${i18n.msg('process.msg.noticeImportFile')}</h6>` +
+                   `<h6 class="description pl-2">${i18n.msg('process.msg.noticeImportFile')}</h6>` +
                 `</div>`;
     }
 

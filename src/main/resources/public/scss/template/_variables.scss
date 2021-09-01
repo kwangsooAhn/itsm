@@ -129,7 +129,7 @@ $element-disabled-border:                     $element-disabled-border-width sol
 
 // element readonly 시 사용하는 디자인 변수
 $element-readonly-font-color:                 $gray800;
-$element-readonly-bg-color:                   $white;
+$element-readonly-bg-color:                   transparent;
 $element-readonly-border-color:               $gray400;
 $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:                     $element-readonly-border-width solid $element-readonly-border-color;
@@ -267,6 +267,20 @@ $layout-header-search-font-weight:           $font-weight-bold;
 
 $layout-properties-width:                    18.75rem; // 300px
 
+// 리스트
+$list-border-color:                          $gray300;
+$list-border-width:                          0.0625rem; // 1px
+// 리스트 - 마우스 오버시
+$list-hover-bg-color:                        $neutral200;
+// 리스트 - 데이터 없을때
+$no-data-found-list-bg:                      $neutral50;
+// 리스트 - 선택시
+$list-active-font-color:                     $blue700;
+$list-active-bg-color:                       $blue100;
+// 리스트 항목
+$list-head-font-color:                       $gray800;
+$list-body-font-color:                       $gray800;
+
 //////////////////////////////// scrollbar ////////////////////////////////
 // 기본 스크롤바
 // scrollbar 두께
@@ -319,8 +333,10 @@ $file-uploader-view-font-weight:             $font-weight-regular;
 //////////////////////////////// avatar ////////////////////////////////
 $avatar-font-size:                           $font-size-xs;
 $avatar-sm-font-size:                        0.8125rem; // 13px
-$avatar-font-color:                          map-get($blacks, 'light');
+$avatar-font-color:                          $gray500;
 $avatar-font-weight:                         $font-weight-medium;
+$avatar-border-color:                        $gray300;
+$avatar-border-width:                        0.0625rem; // 1px
 // drag and drop 영역
 $avatar-dropzone-width:                      20.63rem; // 330px
 $avatar-dropzone-height:                     20.63rem; // 330px
@@ -330,12 +346,15 @@ $avatar-dropzone-font-size:                  $font-size-xs;
 $avatar-dropzone-font-color:                 $gray400;
 $avatar-dropzone-font-weight:                $font-weight-regular;
 $avatar-dropzone-bg-color:                   $neutral50;
+$avatar-dropzone-icon-color:                 $gray300;
 // browse click 버튼
 $avatar-dropzone-clickable-font-color:       $blue500;
 // description
 $avatar-desc-font-size:                      $font-size-xs;
 $avatar-desc-font-color:                     $gray400;
 $avatar-desc-font-weight:                    $font-weight-regular;
+// image
+$avatar-image-bg-color:                      $white;
 
 ///////////////////////////////// date picker /////////////////////////////////
 $datepicker-font-color:                      $gray800;
