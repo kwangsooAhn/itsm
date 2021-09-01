@@ -1851,6 +1851,7 @@ select {
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
+  line-height: 1.6;
   color: #222529;
   outline: none;
 }
