@@ -424,6 +424,7 @@ code:
     pCode: "Parent Code"
     searchPlaceholder: "Code"
     seqNum: "The order of the output"
+    useYn: "Use enable"
   msg:
     duplicateCode: "Duplicate code Exists."
     editDescription: "Add, view and manage code."

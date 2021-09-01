@@ -424,6 +424,7 @@ code:
     pCode: "부모 코드"
     searchPlaceholder: "코드"
     seqNum: "출력 순서"
+    useYn: "사용여부"
   msg:
     duplicateCode: "중복된 코드가 존재합니다."
     editDescription: "코드를 추가하거나 조회 및 관리합니다."
