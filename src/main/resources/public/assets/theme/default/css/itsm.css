@@ -3908,7 +3908,7 @@ select {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #E1E3E6;
+  background: #E0E0E0;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: #CFD5D9;
@@ -4001,7 +4001,7 @@ select {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #E1E3E6;
+  background: #E0E0E0;
 }
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: #CFD5D9;
@@ -4055,7 +4055,7 @@ select {
   background: transparent;
 }
 .inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track {
-  background: #283238;
+  background: #222529;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -4064,13 +4064,13 @@ select {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #3F4B56;
+  background: #63686C;
 }
 .inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
-  background: #586872;
+  background: #8B9094;
 }
 .inner-scrollbar-dark > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #586872;
+  background: #8B9094;
 }
 .inner-scrollbar-dark > .os-scrollbar.os-scrollbar-unusable {
   background: transparent;
@@ -4114,7 +4114,7 @@ select {
   background-color: transparent;
 }
 .ql-container .ql-editor::-webkit-scrollbar-thumb {
-  background-color: #E1E3E6;
+  background-color: #E0E0E0;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -4231,7 +4231,7 @@ select {
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.625rem 0;
-  background-color: #EBEBEB;
+  background-color: #CFD5D9;
 }
 
 .file-uploader-edit {
@@ -4241,12 +4241,12 @@ select {
 .file-uploader-edit .file-uploader-title {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #586872;
+  color: #222529;
   margin: 0.5625rem 0 0.5625rem 0;
 }
 .file-uploader-edit .dropzone {
   min-height: 6.25rem;
-  background-color: #F7F8F9;
+  background-color: #FFFFFF;
   border: 0.0625rem solid #CFD5D9;
   padding: 0.625rem 0.625rem 0 0.625rem;
 }
@@ -4353,7 +4353,7 @@ select {
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-filename {
   grid-column: 2;
-  color: #586872;
+  color: #222529;
   padding: 0 20px;
   text-align: left;
   display: inline-block;
@@ -4513,7 +4513,7 @@ select {
   left: 0.9375rem;
   height: 0.1875rem;
   width: 90%;
-  background: #EBEBEB;
+  background: #CFD5D9;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -4574,7 +4574,7 @@ select {
 .file-uploader-view .file-uploader-title {
   font-size: 0.875rem;
   font-weight: 400;
-  color: #586872;
+  color: #222529;
   margin: auto 0;
 }
 .file-uploader-view .file-uploader-list {
@@ -4613,7 +4613,7 @@ select {
   height: 1.25rem;
 }
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-filename {
-  color: #586872;
+  color: #222529;
   padding: 0 0.625rem 0 0.9375rem;
   text-decoration: underline;
   text-underline-position: under;

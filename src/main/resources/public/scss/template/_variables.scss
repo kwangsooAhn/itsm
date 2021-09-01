@@ -288,7 +288,7 @@ $scrollbar-thick:                            0.5rem; // 8px
 // element 내부 scrollbar 두께
 $scrollbar-thick-sm:                         0.25rem; // 4px
 // scrollbar 색상
-$scrollbar-color:                            map-get($grays, 'default');
+$scrollbar-color:                            $neutral300;
 // scrollbar 모서리 곡선
 $scrollbar-border-radius:                    0.5rem; // 8px
 // scrollbar 배경 색상
@@ -296,9 +296,9 @@ $scrollbar-bg-color:                         $neutral50;
 // scrollbar hover, click 이동시 색상
 $scrollbar-hover-color:                      $gray300;
 // dark 테마 스크롤바 (메뉴 사용)
-$scrollbar-dark-color:                       map-get($blacks, 'light');
-$scrollbar-dark-bg-color:                    map-get($blacks, 'focus');
-$scrollbar-dark-hover-color:                 map-get($grays, 'dark');
+$scrollbar-dark-color:                       $gray600;
+$scrollbar-dark-bg-color:                    $gray800;
+$scrollbar-dark-hover-color:                 $gray500;
 
 ///////////////////////////////// columns /////////////////////////////////
 // Column width (fixed)
@@ -307,27 +307,27 @@ $column-init: 5rem; // 80px
 
 //////////////////////////////// fileuploader ////////////////////////////////
 $file-uploader-font-size:                    $font-size-xs;
-$file-uploader-font-color:                   map-get($grays, 'dark');
+$file-uploader-font-color:                   $gray800;
 $file-uploader-font-weight:                  $font-weight-medium;
 $file-uploader-icon-color:                   $gray500;
 // drag and drop 영역
 $dropzone-font-size:                         $font-size-xs;
 $dropzone-font-color:                        $gray400;
 $dropzone-font-weight:                       $font-weight-regular;
-$dropzone-bg-color:                          map-get($grays, 'light');
+$dropzone-bg-color:                          $white;
 // browse click 버튼
 $dropzone-clickable-font-color:              $blue500;
 // 미리보기
 $file-uploader-preview-height:               5rem; // 80px;
 $file-uploader-progress-color:               $blue500;
-$file-uploader-progress-bg-color:            map-get($grays, 'line');
-$file-uploader-filename-font-color:          map-get($grays, 'dark');
+$file-uploader-progress-bg-color:            $gray300;
+$file-uploader-filename-font-color:          $gray800;
 $file-uploader-filesize-font-color:          $gray400;
 // 파일 미존재시
 $file-uploader-no-date-font-color:           $gray400;
 // view 모드
 $file-uploader-view-font-size:               $font-size-xs;
-$file-uploader-view-font-color:              map-get($grays, 'dark');
+$file-uploader-view-font-color:              $gray800;
 $file-uploader-view-font-weight:             $font-weight-regular;
 
 //////////////////////////////// avatar ////////////////////////////////
