@@ -8,7 +8,7 @@
 <body>
 <th:block layout:fragment="portalContent">
     <div class="main">
-        <div id="main-banner" class="main-banner">
+        <div id= "main-banner" class="main-banner">
             <h1 class="title align-center" th:text="#{portal.label.topPhrase}"></h1>
         </div>
         <div id="main-search" class="main-search align-center">
@@ -17,7 +17,7 @@
                    th:placeholder="#{common.label.searchWord}" maxlength="100"/>
             <span id="spanTotalCount" class="search-count"></span>
         </div>
-        <div class="main-content">
+        <div id="main-content" class="main-content">
             <ul class="card-group flex-row justify-content-between">
                 <li class="card flex-column">
                     <div class="card-header align-center">
@@ -80,9 +80,13 @@
         * 이벤트리스너 초기화
         */
         function initEventListener() {
-            document.getElementById('searchValue').addEventListener('keyup', function () {
-                portalSearch(false);
-            });
+            document.getElementById('searchValue').addEventListener('keyup', function (event) {
+                if (!isSpecialKey(event)) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    portalSearch(false);
+                }
+             });
         }
 
         /*
@@ -160,12 +164,10 @@
                 callbackFunc: function (response) {
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
-                        if (dataList.data.length > 0) {
-                            aliceJs.showTotalCount(dataList.totalCount);
-                            document.getElementById('totalCount').value = dataList.totalCount;
+                        if (dataList.length > 0) {
                             if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                 offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.data.forEach(function(data) {
+                                dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
                             }
@@ -217,6 +219,7 @@
             divRow.className = 'row flex-row align-items-center';
             // 이미지
             let typeImage = document.createElement('img');
+            typeImage.className= 'z-img';
             typeImage.src = '/assets/media/images/portal/img_portal_' + data.tableName + '.png';
             divRow.appendChild(typeImage);
             // 내용
@@ -237,6 +240,8 @@
             divTitle.appendChild(aTitle);
             divContentBox.appendChild(divTitle);
 
+            let divContentWrapper = document.createElement('div');
+            divContentWrapper.className = 'item-content';
             let divContent = document.createElement('div');
             divContent.className = "text-ellipsis";
             if (data.tableName === 'download') {
@@ -244,7 +249,8 @@
             } else {
                 divContent.innerText = data.portalContent;
             }
-            divContentBox.appendChild(divContent);
+            divContentWrapper.appendChild(divContent);
+            divContentBox.appendChild(divContentWrapper);
 
             divRow.appendChild(divContentBox);
             div.appendChild(divRow);

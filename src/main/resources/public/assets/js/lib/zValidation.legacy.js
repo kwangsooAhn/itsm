@@ -13,6 +13,8 @@ const rgbReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 const idReg = /^[A-Za-z0-9+][A-Za-z0-9@\-_\.]*$/;
 const regularCharacterReg = /^[a-zA-Z가-힣0-9ㄱ-ㅎㅏ-ㅣ]*$/;
 const errorClass = 'error'; // 에러 발생시 추가될 클래스명
+const spcialKeyAscilCodeList = [9, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 91, 93, 112, 113, 114, 115, 116, 117,
+    118, 119, 120, 121, 122, 123, 144, 145] //Backspace, Enter, shift, Insert, Delete를 제외한 특수키 ex> 화살표, F1~12등등 특수키 아스키 코드값
 
 /**
  * 해당 엘리먼트가 null 인지 판별한다.
@@ -710,6 +712,20 @@ function maxLengthCheck(object) {
             object.value = object.value.slice(0, object.maxLength);
             return object.value;
         }
+        return true;
+    }
+    return false;
+}
+
+/**
+ * 키보드 입력시 특수키 입력인지 확인한다. 단, Text 입력관련 Key(Backspace, Enter, shift, Insert, Delete) 제외
+ * ex> 방향키, F1~F12, Tan 등등
+ * @returns {boolean}
+*/
+function isSpecialKey(event) {
+    event = event || window.event;
+    const keyID = (event.which) ? event.which : event.keyCode;
+    if (spcialKeyAscilCodeList.indexOf(keyID) > -1) {
         return true;
     }
     return false;
