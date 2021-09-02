@@ -912,6 +912,7 @@ input, button, select, optgroup, textarea {
   left: 0;
   overflow-y: auto;
   background-color: #FAFAFA;
+  z-index: 1000;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
