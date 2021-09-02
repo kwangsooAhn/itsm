@@ -1213,10 +1213,10 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.0625rem solid #CFD5D9;
   padding: 1.875rem 0;
 }
-.portal-container .main-search.slide-up + .portal-search-result .list {
+.portal-container .main-search.slide-up + .main-content .list {
   height: calc(8.75rem + 40.438rem);
 }
-.portal-container .main-search.slide-down + .portal-search-result .list {
+.portal-container .main-search.slide-down + .main-content .list {
   height: 40.438rem;
 }
 .portal-container .main-content .card-group {

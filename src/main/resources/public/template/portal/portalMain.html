@@ -95,27 +95,27 @@
                 contentType: 'application/json; charset=utf-8',
                 showProgressbar: false,
                 callbackFunc: function (response) {
-                    let tops = Object.entries(JSON.parse(response.responseText));
+                    const tops = Object.entries(JSON.parse(response.responseText));
                     tops.forEach(([topName, topData]) => {
-                        let topElement = document.getElementById(topName);
+                        const topElement = document.getElementById(topName);
                         for (let i = 0; i < topData.length; i++) {
-                            let data = topData[i];
-                            let row = document.createElement('tr');
-                            let cell = document.createElement('td');
-                            let contentAnchor = document.createElement('a');
+                            const data = topData[i];
+                            const row = document.createElement('tr');
+                            const cell = document.createElement('td');
+                            const contentAnchor = document.createElement('a');
                             switch (topName) {
                                 case 'notice':
-                                    contentAnchor.setAttribute('href', '/portals/notices/'+ data['id'] +'/view');
+                                    contentAnchor.href = '/portals/notices/'+ data['id'] +'/view';
                                     break;
                                 case 'faq':
-                                    contentAnchor.setAttribute('href', '/portals/faqs/' + data['id'] +'/view');
+                                    contentAnchor.href = '/portals/faqs/' + data['id'] +'/view';
                                     break;
                                 case 'download':
-                                    contentAnchor.setAttribute('href', '/portals/downloads/'+ data['id'] +'/view');
+                                    contentAnchor.href = '/portals/downloads/'+ data['id'] +'/view';
                                     break;
                             }
                             let contentText = document.createElement('span');
-                            contentText.classList.add('text-ellipsis');
+                            contentText.className = 'text-ellipsis';
                             contentText.textContent = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
                             contentAnchor.appendChild(contentText);
                             cell.appendChild(contentAnchor);
@@ -159,21 +159,22 @@
                 async: false,
                 callbackFunc: function (response) {
                     if (isScroll) {
-                        let dataList = JSON.parse(response.responseText);
-                        if (dataList.data.length > 0) {
-                            aliceJs.showTotalCount(dataList.totalCount);
-                            document.getElementById('totalCount').value = dataList.totalCount;
+                        const dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
                             if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                 offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.data.forEach(function(data) {
+                                dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
+
                             }
                         }
                     } else {
                         document.querySelector('.main-content').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
                     }
+
+                    aliceJs.showTotalCount(document.querySelectorAll('.item-box').length);
+
                     // 검색 조회 결과 화면 스크롤바
                     OverlayScrollbars(document.querySelector('.list'), {
                         className: 'scrollbar',
@@ -202,7 +203,7 @@
 
                     if (isNotEmpty('searchValue')) {
                         document.querySelectorAll('.row > .item-box > .item-content > .text-ellipsis').forEach(function(data) {
-                            let regex = new RegExp(document.getElementById('searchValue').value, 'gi');
+                            const regex = new RegExp(document.getElementById('searchValue').value, 'gi');
                             data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + document.getElementById('searchValue').value + "</span>");
                         });
                     }
@@ -212,20 +213,21 @@
         }
 
         function getDataTemplate(data) {
-            let div = document.querySelector('.list .os-content');
-            let divRow = document.createElement('div');
+            const div = document.querySelector('.list .os-content');
+            const divRow = document.createElement('div');
             divRow.className = 'row flex-row align-items-center';
             // 이미지
-            let typeImage = document.createElement('img');
+            const typeImage = document.createElement('img');
+            typeImage.className = 'z-img';
             typeImage.src = '/assets/media/images/portal/img_portal_' + data.tableName + '.png';
             divRow.appendChild(typeImage);
             // 내용
-            let divContentBox = document.createElement('div');
+            const divContentBox = document.createElement('div');
             divContentBox.className = 'item-box';
 
-            let divTitle = document.createElement('h5');
-            divTitle.className = "item-title underline text-ellipsis";
-            let aTitle = document.createElement('a');
+            const divTitle = document.createElement('h5');
+            divTitle.className = 'item-title underline text-ellipsis';
+            const aTitle = document.createElement('a');
             if (data.tableName === 'notice') {
                 aTitle.href = '/portals/notices/' + data.portalId + '/view';
             } else if (data.tableName === 'faq') {
@@ -237,15 +239,19 @@
             divTitle.appendChild(aTitle);
             divContentBox.appendChild(divTitle);
 
-            let divContent = document.createElement('div');
-            divContent.className = "text-ellipsis";
-            if (data.tableName === 'download') {
-                divContent.innerText = i18n.msg(''+data.portalContent+'');
-            } else {
-                divContent.innerText = data.portalContent;
-            }
-            divContentBox.appendChild(divContent);
+            const divContent = document.createElement('div');
+            divContent.className = 'item-content';
 
+            const divText = document.createElement('div');
+            divText.className = 'text-ellipsis';
+            if (data.tableName === 'download') {
+                divText.innerText = i18n.msg('' + data.portalContent + '');
+            } else {
+                divText.innerText = data.portalContent;
+            }
+            divContent.appendChild(divText);
+
+            divContentBox.appendChild(divContent);
             divRow.appendChild(divContentBox);
             div.appendChild(divRow);
         }

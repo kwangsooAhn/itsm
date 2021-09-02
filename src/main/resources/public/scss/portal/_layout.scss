@@ -263,12 +263,12 @@
 
       // 포탈 메인 화면이 슬라이딩 되면, 리스트 영역의 너비가 변경됨
       &.slide-up {
-        + .portal-search-result .list {
+        + .main-content .list {
           height: calc(#{$main-banner-height} + #{$content-list-height});
         }
       }
       &.slide-down {
-        + .portal-search-result .list {
+        + .main-content .list {
           height: $content-list-height;
         }
       }
