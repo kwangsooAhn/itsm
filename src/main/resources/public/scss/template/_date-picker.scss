@@ -6,11 +6,14 @@
  * @version 1.0
  */
 // input box
-.#{$common-prefix}picker-wrapper-date {
+.z-picker-wrapper-date {
   display: inline-block;
+  .picker-main {
+    padding-right: 2.25rem;
+  }
 }
 // modal
-.#{$common-prefix}picker-modal {
+.z-picker-modal {
   display: none;
   @include fixed();
   min-width: 12.5rem; // 200px
@@ -228,7 +231,7 @@
         @include borderRadius(0 $datepicker-border-radius $datepicker-border-radius 0);
       }
       // AM, PM
-      .#{$common-prefix}button-toggle-group {
+      .z-button-toggle-group {
         padding-left: 0.5rem; // 8px
       }
 

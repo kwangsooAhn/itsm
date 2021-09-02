@@ -72,7 +72,6 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
         if (boardArticleSearchCondition.isPaging) {
             query.limit(boardArticleSearchCondition.contentNumPerPage)
             query.offset((boardArticleSearchCondition.pageNum - 1) * boardArticleSearchCondition.contentNumPerPage)
-
         }
 
         return query.fetchResults()

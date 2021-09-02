@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonViewLayout}">
+<head>
+    <title th:text="${users != null} ? #{user.label.edit} : #{user.label.register}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+</th:block>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{user.label.user}"></h1>
+    <h6 class="description ml-2" th:text="#{user.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageView">
+    <input type="hidden" id="avatarUUID" name="avatarUUID" value="">
+    <div class="flex-column z-view-row">
+        <h3 class="sub-title under-bar bold" th:text="#{user.label.profile}"></h3>
+    </div>
+    <div class="flex-column z-view-row">
+        <div class="flex-row">
+            <div class="z-edit-column col-6">
+                <div class="flex-column z-view-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
+                    <label for="userId" th:text="#{user.label.id}"></label>
+                    <input type="text" class="z-input" id="userId" name="userId" th:value="${users?.userId}" readonly>
+                </div>
+                <div class="flex-column z-view-row">
+                    <label for="userName" th:text="#{user.label.name}"></label>
+                    <input type="text" class="z-input" id="userName" name="userName" th:value="${users?.userName}" readonly>
+                </div>
+                <div class="flex-column z-view-row">
+                    <label for="email" th:text="#{user.label.email}"></label>
+                    <input type="text" class="z-input" id="email" name="email" th:value="${users?.email}" readonly>
+                </div>
+                <div class="flex-column z-view-row">
+                    <label th:text="#{user.label.position}" for="position"></label>
+                    <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}" readonly>
+                </div>
+                <div class="flex-column z-view-row">
+                    <label th:text="#{user.label.department}" for="department"></label>
+                    <input type="text" class="z-input col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
+                </div>
+                <div class="flex-column z-view-row">
+                    <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
+                    <input type="text" class="z-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}" readonly>
+                </div>
+                <div class="flex-column z-view-row">
+                    <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
+                    <input type="text" class="z-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}" readonly>
+                </div>
+            </div>
+            <div class="flex-column avatar-edit ml-4">
+                <label class="avatar-title" th:text="#{user.label.avatar}"></label>
+                <div id="avatarDropZone"></div>
+                <div class="avatar-description">
+                    <span class="avatar-text" th:text="#{user.label.FileSizeLimit}"></span>
+                    <span class="avatar-text" th:text="#{user.label.FileExtensionAllowed}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-column z-view-row">
+        <h3 class="sub-title under-bar bold" th:text="#{user.label.customSetting}"></h3>
+    </div>
+    <div class="flex-column z-view-row">
+        <div class="flex-row">
+            <div class="flex-column col-6 mr-4">
+                <label for="timezone" th:text="#{user.label.timezone}"></label>
+                <select class="custom-setting-top-select" name="timezone" id="timezone" disabled>
+                    <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
+                            th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone?:defaultTimezone}"></option>
+                </select>
+            </div>
+            <div class="flex-column col-6">
+                <label th:text="#{user.label.timeFormat}" for="date"></label>
+                <div class="flex-row">
+                    <select class="select-date-time mr-1" name="date" id="date" disabled>
+                        <option th:each="date: ${dateList}" th:value="${date.codeValue}"
+                                th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
+                    </select>
+                    <select class="hour-select" name="time" id="time" disabled>
+                        <option th:each="time: ${timeList}" th:value="${time.codeValue}"
+                                th:text="${time.code}" th:selected="${time.codeValue} == ${usersTime}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-column z-view-row">
+        <div class="flex-row">
+            <div class="flex-column col-6 mr-4">
+                <label for="lang" th:text="#{user.label.lang}"></label>
+                <select class="language-select" name="lang" id="lang" disabled>
+                    <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
+                            th:text="${lang.codeValue}" th:selected="${lang.codeValue} == ${users?.lang}"></option>
+                </select>
+            </div>
+            <div class="flex-column col-6">
+                <label for="theme" th:text="#{user.label.theme}"></label>
+                <select class="theme-color-select" name="theme" id="theme" disabled>
+                    <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
+                            th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"
+                            th:unless="${theme.codeValue} == 'dark'"></option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="flex-column z-view-row">
+        <h3 class="sub-title under-bar bold" th:text="#{user.label.role}"></h3>
+    </div>
+    <div class="flex-column z-view-row">
+        <div class="z-checkbox-list">
+            <ul>
+                <li class="user-role-checkbox-wrap" th:each="role : ${roles}">
+                    <label class="z-checkbox" th:for="|roles*{roleStat.index}|" th:title="*{role.roleName}" tabindex="0">
+                        <input class="user-role-checkbox" type="checkbox"
+                               th:id="|roles*{roleStat.index}|" name="roles"
+                               th:value="*{role.roleId}" th:checked="*{role.checked}" disabled>
+                        <span></span>
+                        <span class="z-label" th:text="*{role.roleName}"></span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="flex-column z-view-row">
+        <h3 class="sub-title under-bar bold" th:text="#{user.label.usageStatus}"></h3>
+        <label class="z-switch">
+            <input type="checkbox" id="usageStatus" name="usageStatus"
+                   th:checked="${users?.useYn == null || users?.useYn == true}" disabled>
+            <span></span>
+            <span class="z-label" th:text="#{user.msg.usageStatus}"></span>
+        </label>
+    </div>
+    <div class="flex-row justify-content-start z-view-row">
+        <div class="z-button-list">
+            <a class="z-button secondary" href="/users/search" th:text="#{common.btn.list}"></a>
+        </div>
+    </div>
+</div>
+</body>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
+        zFileUploader.avatar({
+            extra: {
+                dropZoneFilesId: 'avatarDropZone',
+                type: 'avatar',
+                dropZoneMaxFileSize: 0.2,
+                dropZoneUrl: '/fileupload?target=avatar',
+                dropZoneMaxFiles: 1,
+                acceptedFiles: '.png,.jpeg,.jpg,.gif',
+                enableImageThumbnails: true,
+                isView : true,
+                editor: false,
+                dictDefaultMessage : '',
+                clickableLineMessage : '',
+                clickableMessage : '',
+                avatar: {
+                    id: [[${users?.userKey}]],
+                    path: [[${users?.avatarPath}]],
+                    value: [[${users?.avatarValue}]],
+                    size: [[${users?.avatarSize}]]
+                }
+            }
+        });
+    };
+    /*]]>*/
+</script>
+</html>

@@ -26,23 +26,6 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
             .fetchResults()
     }
 
-    override fun countByCodeList(search: String, pCode: String): Long {
-        val code = QCodeEntity.codeEntity
-        return from(code)
-            .select(code)
-            .where(
-                super.like(
-                    code.code, search
-                )
-            )
-            .where(
-                super.eq(
-                    code.pCode.code, pCode
-                )
-            )
-            .fetchCount()
-    }
-
     override fun findByCodeList(search: String, pCode: String): QueryResults<CodeEntity> {
         val code = QCodeEntity.codeEntity
         return from(code)
@@ -82,7 +65,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
                 )
             )
             .leftJoin(codeLang).on(code.code.eq(codeLang.code), codeLang.lang.eq(lang))
-            .where(code.pCode.code.`in`(pCodes))
+            .where(code.pCode.code.`in`(pCodes).and(code.useYn.eq(true)))
             .orderBy(code.seqNum.asc(), code.code.asc())
             .fetch()
     }
@@ -99,6 +82,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
                     code.codeValue,
                     code.codeDesc,
                     code.editable,
+                    code.useYn,
                     code.level,
                     code.seqNum,
                     Expressions.asString("")

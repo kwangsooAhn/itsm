@@ -472,5 +472,6 @@ insert into awf_url_auth_map values ('/users/search', 'get', 'user.update');
 insert into awf_url_auth_map values ('/users/search', 'get', 'user.delete');
 insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.update');
+insert into awf_url_auth_map values ('/users/{userkey}/view', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.update');

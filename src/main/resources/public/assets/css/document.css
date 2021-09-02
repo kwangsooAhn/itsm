@@ -1287,8 +1287,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   outline: 0;
   border: 0.0625rem solid #2578CE;
 }
-.z-input:read-only:not(.tagify) {
-  background-color: #FFFFFF;
+.z-input:read-only:not(:disabled):not(.tagify) {
+  background-color: transparent;
   background-image: none;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
@@ -1428,8 +1428,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   outline: 0;
   border: 0.0625rem solid #2578CE;
 }
-.z-textarea:read-only:not(.os-host-textarea) {
-  background-color: #FFFFFF;
+.z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
+  background-color: transparent;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
@@ -1628,7 +1628,7 @@ select {
   transform: rotate(90deg);
 }
 .z-select .z-select-box.readonly {
-  background-color: #FFFFFF;
+  background-color: transparent;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
@@ -1792,7 +1792,7 @@ select {
   text-align: center;
   margin-left: 2%;
 }
-.z-slider .z-input:read-only {
+.z-slider .z-input:read-only:not(:disabled) {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -1895,6 +1895,7 @@ select {
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
+  line-height: 1.6;
   color: #222529;
   outline: none;
 }
@@ -2122,10 +2123,10 @@ body.modal-active {
   width: 34.38rem;
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #EBEBEB;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  -moz-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -2135,7 +2136,7 @@ body.modal-active {
   height: 3.375rem;
   font-size: 1.5rem;
   font-weight: 500;
-  color: #3F4B56;
+  color: #222529;
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog .modal-content {
@@ -2227,6 +2228,7 @@ body.modal-active {
   width: 100%;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .z-list-head tr, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .z-list-head tr, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-head tr, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .z-list-head tr {
+  color: #222529;
   border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .z-list-body, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .z-list-body, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .z-list-body {
@@ -2244,6 +2246,10 @@ body.modal-active {
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .z-list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .z-list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .z-list-body .list-row > td {
   display: inline-block;
   vertical-align: middle;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .z-list-body .list-row > td .tag-group, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .z-list-body .list-row > td .tag-group, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body .list-row > td .tag-group, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .z-list-body .list-row > td .tag-group {
+  display: initial;
+  line-height: 1.2;
 }
 .modal-wrapper .modal-dialog.document-modal-dialog .z-document-main {
   right: 0;
@@ -2400,9 +2406,9 @@ body.modal-active {
 .tagify.z-input:focus {
   outline: 0;
   border-color: #2578CE;
-  -webkit-box-shadow: 0 0 0.125rem 0 #2578ce;
-  -moz-box-shadow: 0 0 0.125rem 0 #2578ce;
-  box-shadow: 0 0 0.125rem 0 #2578ce;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
+  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
+  box-shadow: 0 0 0.125rem 0 #2578CE;
 }
 .tagify.z-input:active {
   outline: 0;
@@ -2410,7 +2416,7 @@ body.modal-active {
 }
 .tagify:disabled {
   border-color: #ABB0B5;
-  background-color: #FFFFFF;
+  background-color: transparent;
   pointer-events: none;
   cursor: default;
 }
@@ -2581,10 +2587,10 @@ body.modal-active {
   color: black;
 }
 .tagify__tag--editable > div::before {
-  box-shadow: 0 0 0 0.125rem #d3e2e2 inset !important;
+  box-shadow: 0 0 0 0.125rem #EBF1F5 inset !important;
 }
 .tagify__tag--editable.tagify--invalid > div::before {
-  box-shadow: 0 0 0 0.125rem #d39494 inset !important;
+  box-shadow: 0 0 0 0.125rem #FEBEA7 inset !important;
 }
 .tagify__tag__removeBtn {
   display: inline-flex;
@@ -2684,12 +2690,12 @@ body.modal-active {
   bottom: 0;
   width: 0;
   height: 1em;
-  margin: auto 0;
   content: attr(data-placeholder);
   line-height: 1em;
   z-index: 1;
   color: #ABB0B5;
   opacity: 0;
+  margin: auto 0;
   white-space: nowrap;
   pointer-events: none;
 }

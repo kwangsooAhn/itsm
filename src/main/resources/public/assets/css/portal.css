@@ -1311,7 +1311,7 @@ input, button, select, optgroup, textarea {
   color: #222529;
   padding-bottom: 0.625rem;
   margin-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #E1E3E6;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 .portal-container .download-content .view-sub-title {
   font-size: 1rem;
@@ -1578,8 +1578,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   outline: 0;
   border: 0.0625rem solid #2578CE;
 }
-.z-input:read-only:not(.tagify) {
-  background-color: #FFFFFF;
+.z-input:read-only:not(:disabled):not(.tagify) {
+  background-color: transparent;
   background-image: none;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
@@ -1719,8 +1719,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   outline: 0;
   border: 0.0625rem solid #2578CE;
 }
-.z-textarea:read-only:not(.os-host-textarea) {
-  background-color: #FFFFFF;
+.z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
+  background-color: transparent;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
@@ -1919,7 +1919,7 @@ select {
   transform: rotate(90deg);
 }
 .z-select .z-select-box.readonly {
-  background-color: #FFFFFF;
+  background-color: transparent;
   border: none;
   border-left: 0.0625rem solid #ABB0B5;
   border-radius: 0;
@@ -2083,7 +2083,7 @@ select {
   text-align: center;
   margin-left: 2%;
 }
-.z-slider .z-input:read-only {
+.z-slider .z-input:read-only:not(:disabled) {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -2186,6 +2186,7 @@ select {
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
+  line-height: 1.6;
   color: #222529;
   outline: none;
 }
@@ -3171,10 +3172,10 @@ table tbody tr:hover {
   padding: 1.5625rem;
   margin: 0 auto 2em auto;
   box-sizing: border-box;
+  border: 0.0625rem solid #CFD5D9;
   -webkit-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
   -moz-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
   box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -3209,9 +3210,9 @@ table tbody tr:hover {
 .gmodal-button {
   font-size: 0.875rem;
   font-weight: 500;
-  margin: 0rem 0rem 0rem 0.3125rem;
+  margin: 0 0 0 0.3125rem;
   padding: 0.4375rem 1.5rem;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
 }
 .gmodal-icon-success {
   background-image: url("../media/icons/alert/icon_alert_success.svg");
@@ -3406,7 +3407,7 @@ table tbody tr:hover {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #E1E3E6;
+  background: #E0E0E0;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: #CFD5D9;
@@ -3499,7 +3500,7 @@ table tbody tr:hover {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #E1E3E6;
+  background: #E0E0E0;
 }
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: #CFD5D9;
@@ -3553,7 +3554,7 @@ table tbody tr:hover {
   background: transparent;
 }
 .inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track {
-  background: #283238;
+  background: #222529;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -3562,13 +3563,13 @@ table tbody tr:hover {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #3F4B56;
+  background: #63686C;
 }
 .inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
-  background: #586872;
+  background: #8B9094;
 }
 .inner-scrollbar-dark > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #586872;
+  background: #8B9094;
 }
 .inner-scrollbar-dark > .os-scrollbar.os-scrollbar-unusable {
   background: transparent;
@@ -3612,7 +3613,7 @@ table tbody tr:hover {
   background-color: transparent;
 }
 .ql-container .ql-editor::-webkit-scrollbar-thumb {
-  background-color: #E1E3E6;
+  background-color: #E0E0E0;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -3729,7 +3730,7 @@ table tbody tr:hover {
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.625rem 0;
-  background-color: #EBEBEB;
+  background-color: #CFD5D9;
 }
 
 .file-uploader-edit {
@@ -3739,12 +3740,12 @@ table tbody tr:hover {
 .file-uploader-edit .file-uploader-title {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #586872;
+  color: #222529;
   margin: 0.5625rem 0 0.5625rem 0;
 }
 .file-uploader-edit .dropzone {
   min-height: 6.25rem;
-  background-color: #F7F8F9;
+  background-color: #FFFFFF;
   border: 0.0625rem solid #CFD5D9;
   padding: 0.625rem 0.625rem 0 0.625rem;
 }
@@ -3851,8 +3852,8 @@ table tbody tr:hover {
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-filename {
   grid-column: 2;
-  color: #586872;
-  padding: 0 20px;
+  color: #222529;
+  padding: 0 1.25rem;
   text-align: left;
   display: inline-block;
   max-width: 100%;
@@ -4011,7 +4012,7 @@ table tbody tr:hover {
   left: 0.9375rem;
   height: 0.1875rem;
   width: 90%;
-  background: #EBEBEB;
+  background: #CFD5D9;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -4072,7 +4073,7 @@ table tbody tr:hover {
 .file-uploader-view .file-uploader-title {
   font-size: 0.875rem;
   font-weight: 400;
-  color: #586872;
+  color: #222529;
   margin: auto 0;
 }
 .file-uploader-view .file-uploader-list {
@@ -4111,7 +4112,7 @@ table tbody tr:hover {
   height: 1.25rem;
 }
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-filename {
-  color: #586872;
+  color: #222529;
   padding: 0 0.625rem 0 0.9375rem;
   text-decoration: underline;
   text-underline-position: under;
@@ -4135,14 +4136,14 @@ table tbody tr:hover {
 .avatar-edit .avatar-title {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #3F4B56;
+  color: #8B9094;
   margin: 0.5625rem 0 0.5625rem 0;
 }
 .avatar-edit .avatar {
   width: 20.63rem;
   height: 20.63rem;
   background-color: #FAFAFA;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
   padding: 0;
 }
 .avatar-edit .avatar .dz-default {
@@ -4153,11 +4154,11 @@ table tbody tr:hover {
   font-weight: 400;
   color: #ABB0B5;
   text-align: center;
-  margin-top: 85px;
+  margin-top: 5.313rem;
 }
 .avatar-edit .avatar .dz-default.dz-message .z-icon.i-avatar {
   width: 100%;
-  height: 3.75rem;
+  height: 5rem;
   -webkit-mask-image: url("../media/icons/fileUploader/icon_avatar.svg");
   mask-image: url("../media/icons/fileUploader/icon_avatar.svg");
   -webkit-mask-repeat: no-repeat;
@@ -4226,7 +4227,7 @@ table tbody tr:hover {
   align-items: center;
   line-height: 150%;
   text-align: center;
-  color: rgba(0, 0, 0, 0.9);
+  color: #8B9094;
   opacity: 0;
   z-index: 10;
 }
@@ -4243,7 +4244,7 @@ table tbody tr:hover {
   width: 1.125rem;
   height: 1.125rem;
   background-image: url("../media/icons/icon_clear.svg");
-  background-size: 0.875rem;
+  background-size: 1.125rem;
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
@@ -4312,6 +4313,9 @@ table tbody tr:hover {
  */
 .z-picker-wrapper-date {
   display: inline-block;
+}
+.z-picker-wrapper-date .picker-main {
+  padding-right: 2.25rem;
 }
 
 .z-picker-modal {
@@ -5088,10 +5092,10 @@ body.modal-active {
   width: 34.38rem;
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #EBEBEB;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  -moz-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -5101,7 +5105,7 @@ body.modal-active {
   height: 3.375rem;
   font-size: 1.5rem;
   font-weight: 500;
-  color: #3F4B56;
+  color: #222529;
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog .modal-content {

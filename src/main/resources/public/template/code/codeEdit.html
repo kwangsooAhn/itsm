@@ -12,7 +12,7 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{code.label.code}"></h1>
-    <h6 class="description ml-2" th:text="#{code.msg.editDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{code.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
     <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
@@ -57,6 +57,14 @@
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
         </div>
         <div class="z-edit-row flex-column">
+            <label class="z-switch">
+                <span class="z-label" th:text="#{code.label.useYn}"></span>
+                <input type="checkbox" id="codeUseYn" name="codeUseYn"
+                       th:checked="${codeDetail?.useYn == null || codeDetail?.useYn == true}">
+                <span></span>
+            </label>
+        </div>
+        <div class="z-edit-row flex-column">
             <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
             <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
                       class="z-textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
@@ -88,10 +96,10 @@
     </div>
     <template id="langCodeRowTemplate">
         <div class="z-edit-row flex-row align-items-center">
-            <label class="required mr-3" th:text="#{'code.label.lang'}"></label>
-            <div class="col-2 mr-5"><select></select></div>
-            <label class="required mr-3" th:text="#{code.label.codeValue}"></label>
-            <input class="z-input flex-fill mr-3" type="text" name="codeLangValue" maxlength="100">
+            <label class="required" th:text="#{'code.label.lang'}"></label>
+            <div class="col-2 ml-3 mr-5"><select></select></div>
+            <label class="required" th:text="#{code.label.codeValue}"></label>
+            <input class="z-input flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
             <button class="z-button-icon extra">
                 <span class="z-icon i-delete"></span>
             </button>
@@ -152,6 +160,7 @@
         }
 
         getCodeList();
+        document.getElementById('root').click();
 
         function onGetDetail(codeId) {
             if (!observer.canPageChange()) {
@@ -176,20 +185,23 @@
                     document.getElementById('txtCodeValue').value = responseJson.codeValue;
                     document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
                     document.getElementById('txtSeqNum').value = responseJson.seqNum;
+                    document.getElementById('codeUseYn').checked = responseJson.useYn;
                     initCodeLang(responseJson.codeLang);
                     if (CODE_CREATE) {
                         document.querySelector('#btnRegist').style.display = 'none';
                     }
                     if (responseJson.editable) {
                         if (CODE_UPDATE) {
-                            document.querySelector('#btnUpdate').removeAttribute('disabled');
+                            document.getElementById('btnUpdate').removeAttribute('disabled');
                         }
                         if (CODE_DELETE) {
-                            document.querySelector('#btnDelete').removeAttribute('disabled');
+                            document.getElementById('btnDelete').removeAttribute('disabled');
                         }
+                        document.getElementById('codeUseYn').removeAttribute('disabled');
                     } else {
                         if (CODE_UPDATE) {
                             document.getElementById('btnUpdate').disabled = true;
+                            document.getElementById('codeUseYn').disabled = true;
                         }
                         if (CODE_DELETE) {
                             document.getElementById('btnDelete').disabled = true;
@@ -260,7 +272,8 @@
             codeName: document.getElementById('txtCodeName').value,
             codeValue: document.getElementById('txtCodeValue').value,
             codeDesc: document.getElementById('txtCodeDesc').value,
-            seqNum: document.getElementById('txtSeqNum').value
+            seqNum: document.getElementById('txtSeqNum').value,
+            useYn: document.getElementById('codeUseYn').checked
         };
 
         if (jsonData.code === null || jsonData.code.trim() === '') {

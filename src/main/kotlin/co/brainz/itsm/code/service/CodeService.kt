@@ -172,7 +172,8 @@ class CodeService(
             codeValue = codeDetailDto.codeValue,
             codeDesc = codeDetailDto.codeDesc,
             editable = codeDetailDto.editable,
-            seqNum = codeDetailDto.seqNum
+            seqNum = codeDetailDto.seqNum,
+            useYn = codeDetailDto.useYn
         )
 
         if (codeRepository.existsByCodeAndEditableTrue(codeDetailDto.code)) {
@@ -219,7 +220,8 @@ class CodeService(
             codeValue = codeDetailDto.codeValue,
             codeDesc = codeDetailDto.codeDesc,
             editable = codeDetailDto.editable,
-            seqNum = codeDetailDto.seqNum
+            seqNum = codeDetailDto.seqNum,
+            useYn = codeDetailDto.useYn
         )
 
         if (codeDetailDto.pCode.isNullOrEmpty()) {

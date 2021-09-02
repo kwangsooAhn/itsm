@@ -173,7 +173,7 @@ input, textarea, select {
     }
   }
 
-  &:read-only:not(.tagify) {
+  &:read-only:not(:disabled):not(.tagify) {
     background-color: $element-readonly-bg-color;
     background-image: none;
     border: none;
@@ -317,7 +317,7 @@ input, textarea, select {
     }
   }
 
-  &:read-only:not(.os-host-textarea) {
+  &:read-only:not(:disabled):not(.os-host-textarea) {
     background-color: $element-readonly-bg-color;
     border: none;
     @include border($element-readonly-border-width, solid, $element-readonly-border-color, left);
@@ -639,7 +639,7 @@ select {
     width: 23%;
     text-align: center;
     margin-left: 2%;
-    &:read-only {
+    &:read-only:not(:disabled) {
       @include border($element-border-width, solid, $element-border-color, all);
       @include borderRadius(0.125rem); // 2px
     }
@@ -764,6 +764,7 @@ select {
   font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
+  line-height: 1.6;
   color: $element-font-color;
   outline: none;
 

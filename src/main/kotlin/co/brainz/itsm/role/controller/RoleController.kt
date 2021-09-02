@@ -23,6 +23,7 @@ class RoleController(private val roleService: RoleService) {
     private val roleSearchPage: String = "role/roleSearch"
     private val roleEditPage: String = "role/roleEdit"
     private val roleListPage: String = "role/roleList"
+    private val roleViewPage: String = "role/roleView"
 
     /**
      * 역할 검색 화면
@@ -60,5 +61,15 @@ class RoleController(private val roleService: RoleService) {
         model.addAttribute("role", roleService.getRoleDetail(roleId))
         model.addAttribute("authList", roleService.selectAuthList())
         return roleEditPage
+    }
+
+    /**
+     * 역할 상세 조회 화면
+     */
+    @GetMapping("/{roleId}/view")
+    fun getRoleView(@PathVariable roleId: String, model: Model): String {
+        model.addAttribute("role", roleService.getRoleDetail(roleId))
+        model.addAttribute("authList", roleService.selectAuthList())
+        return roleViewPage
     }
 }

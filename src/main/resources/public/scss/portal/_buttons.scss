@@ -1,6 +1,6 @@
 @import "../template/buttons";
 
-.#{$common-prefix}button {
+.z-button {
   // 구글 로그인 버튼
   // 카카오 로그인 버튼
   @each $theme, $value in $button-themes-social {

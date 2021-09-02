@@ -9,7 +9,7 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{notice.label.notice}"></h1>
-    <h6 class="description ml-2" th:text="#{notice.msg.searchDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{notice.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
     <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>

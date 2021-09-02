@@ -23,6 +23,7 @@ class AuthController(
     private val authSearchPage: String = "auth/authSearch"
     private val authEditPage: String = "auth/authEdit"
     private val authListPage: String = "auth/authList"
+    private val authViewPage: String = "auth/authView"
 
     /**
      * 권한 검색 화면
@@ -64,5 +65,18 @@ class AuthController(
         model.addAttribute("menuList", authService.getMenuList())
         model.addAttribute("urlList", authService.getUrlList())
         return authEditPage
+    }
+
+    /**
+     * 권한 상세 조회 화면
+     */
+    @GetMapping("/{authId}/view")
+    fun getRoleView(@PathVariable authId: String, model: Model): String {
+        model.addAttribute("auth", authService.getAuthDetail(authId))
+        model.addAttribute("defaultUserMenuList", codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code))
+        model.addAttribute("defaultUserUrlList", codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code))
+        model.addAttribute("menuList", authService.getMenuList())
+        model.addAttribute("urlList", authService.getUrlList())
+        return authViewPage
     }
 }

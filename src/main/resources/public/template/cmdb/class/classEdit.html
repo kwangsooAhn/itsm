@@ -12,7 +12,7 @@
 </th:block>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{cmdb.class.label.management}"></h1>
-    <h6 class="description ml-2" th:text="#{cmdb.class.msg.editDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{cmdb.class.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
     <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
@@ -301,7 +301,7 @@
     function drawAttribute(param, target, editable) {
         const divRow = document.createElement('div');
         divRow.name = 'attributeDiv';
-        divRow.classList.add('edit-row', 'flex-row');
+        divRow.className = 'edit-row flex-row mb-2';
 
         const inputElem = document.createElement('input');
         inputElem.type = 'text';

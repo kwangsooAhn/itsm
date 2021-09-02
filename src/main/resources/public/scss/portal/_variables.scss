@@ -72,6 +72,9 @@ $view-sub-title-font-color:                  $gray500;
 $view-content-font-size:                     $font-size-s; // 16px
 $view-content-font-weight:                   $font-weight-regular;
 $view-content-font-color:                    $gray800;
+$view-content-border-width:                  0.0625rem;  // 1px
+$view-content-border-color:                  $gray300;
+
 //////////////////////////// faq ////////////////////////////
 // faq > faq group
 $faq-group-font-size:                        $font-size-m; // 18px
@@ -159,9 +162,6 @@ $modal-header-height:                        3.375rem; //54px
 $modal-bottom-height:                        3.5rem; //56px
 
 ////////////////////////////// 리스트 //////////////////////////////
-// 리스트 - 마우스 오버시
-$list-hover-bg-color:                         $neutral200;
-
 // 리스트 - 데이터 없을때
 $no-data-found-list-bg:                       $white;
 
