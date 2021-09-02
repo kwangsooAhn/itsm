@@ -240,22 +240,15 @@ input, textarea, select {
     @include backgroundImage($icon-folder-path + 'icon_mb.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
-  // todo: 임시로 추가. 추후 z-input 모두 적용 시 제거 예정.
   &-button {
     @include relative();
     height: 2.25rem; // 36px
 
-    input[type='text'] {
-      margin: 0;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-
-      &:focus,
-      &:hover {
-        z-index: $z-index-event;
-      }
+    .z-input {
+      flex-basis: 100%;
     }
-    button {
+
+    .z-button-search {
       margin-left: -0.0625rem;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;

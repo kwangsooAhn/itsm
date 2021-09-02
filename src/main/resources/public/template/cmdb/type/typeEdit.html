@@ -57,7 +57,7 @@
         <div class="z-edit-row flex-column">
             <label th:text="#{cmdb.type.label.icon}"></label>
             <div class="flex-row z-input-button">
-                <input class="z-input col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
+                <input class="z-input inherit" id="typeIcon" name="typeIcon" type="text" readonly>
                 <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
                 <button class="z-button-search z-button form" name="typeIconSelector" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
             </div>
@@ -65,7 +65,7 @@
         <div class="z-edit-row flex-column">
             <label th:text="#{cmdb.type.label.class}"></label>
             <div class="flex-row z-input-button">
-                <input class="z-input col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
+                <input class="z-input inherit" id="typeClass" name="typeClass" type="text" readonly>
                 <input id="typeClassId" name="typeClassId" type="hidden"/>
                 <span class="z-icon i-clear" name="clearClass" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
                 <button class="z-button-search z-button form" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
@@ -113,6 +113,7 @@
             });
         }
         getTypeList();
+        document.getElementById('root').click();
 
         // 상세조회
         function onGetDetail(typeId) {
@@ -141,7 +142,7 @@
                     document.getElementById('typeIcon').value = responseJson.typeIcon;
                     document.getElementById('typeClassId').value = responseJson.classId;
                     document.getElementById('typeClass').value = responseJson.className;
-                    if (responseJson.pTypeId !== null) {
+                    if (responseJson.editable) {
                         document.querySelector('#btnUpdate').removeAttribute('disabled');
                         document.querySelector('#btnDelete').removeAttribute('disabled');
                         document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');

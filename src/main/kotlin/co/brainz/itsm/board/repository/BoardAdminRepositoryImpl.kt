@@ -55,7 +55,7 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             query.offset((boardSearchCondition.pageNum - 1) * boardSearchCondition.contentNumPerPage)
         }
 
-         return query.fetchResults()
+        return query.fetchResults()
     }
 
     override fun findPortalBoardAdmin(): List<BoardListDto> {

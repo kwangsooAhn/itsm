@@ -57,6 +57,14 @@
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
         </div>
         <div class="z-edit-row flex-column">
+            <label class="z-switch">
+                <span class="z-label" th:text="#{code.label.useYn}"></span>
+                <input type="checkbox" id="codeUseYn" name="codeUseYn"
+                       th:checked="${codeDetail?.useYn == null || codeDetail?.useYn == true}">
+                <span></span>
+            </label>
+        </div>
+        <div class="z-edit-row flex-column">
             <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
             <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
                       class="z-textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
@@ -152,6 +160,7 @@
         }
 
         getCodeList();
+        document.getElementById('root').click();
 
         function onGetDetail(codeId) {
             if (!observer.canPageChange()) {
@@ -176,20 +185,23 @@
                     document.getElementById('txtCodeValue').value = responseJson.codeValue;
                     document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
                     document.getElementById('txtSeqNum').value = responseJson.seqNum;
+                    document.getElementById('codeUseYn').checked = responseJson.useYn;
                     initCodeLang(responseJson.codeLang);
                     if (CODE_CREATE) {
                         document.querySelector('#btnRegist').style.display = 'none';
                     }
                     if (responseJson.editable) {
                         if (CODE_UPDATE) {
-                            document.querySelector('#btnUpdate').removeAttribute('disabled');
+                            document.getElementById('btnUpdate').removeAttribute('disabled');
                         }
                         if (CODE_DELETE) {
-                            document.querySelector('#btnDelete').removeAttribute('disabled');
+                            document.getElementById('btnDelete').removeAttribute('disabled');
                         }
+                        document.getElementById('codeUseYn').removeAttribute('disabled');
                     } else {
                         if (CODE_UPDATE) {
                             document.getElementById('btnUpdate').disabled = true;
+                            document.getElementById('codeUseYn').disabled = true;
                         }
                         if (CODE_DELETE) {
                             document.getElementById('btnDelete').disabled = true;
@@ -260,7 +272,8 @@
             codeName: document.getElementById('txtCodeName').value,
             codeValue: document.getElementById('txtCodeValue').value,
             codeDesc: document.getElementById('txtCodeDesc').value,
-            seqNum: document.getElementById('txtSeqNum').value
+            seqNum: document.getElementById('txtSeqNum').value,
+            useYn: document.getElementById('codeUseYn').checked
         };
 
         if (jsonData.code === null || jsonData.code.trim() === '') {

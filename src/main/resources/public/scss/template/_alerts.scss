@@ -23,7 +23,7 @@
 
   &-backdrop {
     @include fixed(0, 0, 0, 0);
-    background: hexToRGBA(#7493b3, 0.5);
+    background: $alert-backdrop-bg-color;
     z-index: $z-index-alert;
   }
 
@@ -35,8 +35,8 @@
     padding: 1.5625rem; // 25px
     margin: 0 auto 2em auto;
     box-sizing: $alert-box-sizing;
-    @include boxShadow(0, 0, 0.3125rem, 0.3125rem, hexToRGBA(#7493b3, 0.25)); // 5px
-    @include border(0.0625rem, solid, map-get($grays, 'line'), all);
+    @include border($alert-border-width, solid, $alert-border-color, all);
+    @include boxShadow(0, 0.125rem, 0.75rem, 0, $alert-box-shadow-color);
     @include borderRadius(0.0625rem); // 1px
     background: $alert-bg-color;
     z-index: $z-index-alert;
@@ -74,9 +74,9 @@
   &-button {
     font-size: $alert-font-size;
     font-weight: $alert-font-weight;
-    margin: 0rem 0rem 0rem $alert-margin-size;
+    margin: 0 0 0 $alert-margin-size;
     padding: 0.4375rem 1.5rem;
-    @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+    @include border($alert-border-width, solid, $alert-border-color, all);
   }
 
   &-icon {

@@ -10,7 +10,7 @@
   }
 }
 
-// @include horizontalBar(0.0625rem,  0.625rem 0, map-get($grays, "line"));
+// @include horizontalBar(0.0625rem,  0.625rem 0, #000000);
 @mixin horizontalBar($height, $margin, $color) {
   .horizontal-bar {
     height: $height;

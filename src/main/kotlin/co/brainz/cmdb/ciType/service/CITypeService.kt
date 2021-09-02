@@ -6,6 +6,7 @@
 
 package co.brainz.cmdb.ciType.service
 
+import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciType.constants.CITypeConstants
 import co.brainz.cmdb.ciType.entity.CITypeEntity
@@ -118,6 +119,15 @@ class CITypeService(
      */
     fun getCITypeDetail(typeId: String): CITypeDto {
         val typeDetailEntity = ciTypeRepository.findById(typeId).get()
+        var editable = true
+
+        if (ciTypeRepository.existsByPType(
+                ciTypeRepository.findById(typeId).orElse(CITypeEntity(typeId = typeId, ciClass = CIClassEntity()))
+            )
+        ) {
+            editable = false
+        }
+
         return CITypeDto(
             typeId = typeDetailEntity.typeId,
             typeName = typeDetailEntity.typeName,
@@ -134,7 +144,8 @@ class CITypeService(
             createDt = typeDetailEntity.createDt,
             createUserKey = typeDetailEntity.createUser?.userKey,
             updateDt = typeDetailEntity.updateDt,
-            updateUserKey = typeDetailEntity.updateUser?.userKey
+            updateUserKey = typeDetailEntity.updateUser?.userKey,
+            editable = editable
         )
     }
 

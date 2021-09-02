@@ -12,6 +12,7 @@ data class CodeDetailDto(
     var codeValue: String? = null,
     var codeDesc: String? = null,
     var editable: Boolean? = true,
+    var useYn: Boolean? = true,
     var level: Int? = null,
     var seqNum: Int? = null,
     var codeLang: String? = null

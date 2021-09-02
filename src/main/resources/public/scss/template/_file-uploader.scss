@@ -28,7 +28,7 @@
   }
 }
 
-@include horizontalBar(0.0625rem,  0.625rem 0, map-get($grays, 'line'));
+@include horizontalBar(0.0625rem,  0.625rem 0, $element-border-color);
 // TODO: #11029 [SCSS] 파일 업로드 디자인
 .file-uploader {
   // edit 모드
@@ -145,7 +145,7 @@
           .dz-filename {
             grid-column: 2;
             color: $file-uploader-filename-font-color;
-            padding: 0 20px; // 0 20px
+            padding: 0 1.25rem; // 0 20px
             text-align: left;
             @include ellipsis();
           }

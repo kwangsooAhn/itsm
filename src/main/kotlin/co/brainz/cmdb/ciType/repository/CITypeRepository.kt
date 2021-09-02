@@ -13,4 +13,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CITypeRepository : JpaRepository<CITypeEntity, String>, CITypeRepositoryCustom {
     fun existsCITypeEntitiesByCiClass_ClassId(ClassId: String): Boolean
+    fun existsByPType(pCITypeEntity: CITypeEntity): Boolean
 }

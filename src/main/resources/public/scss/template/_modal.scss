@@ -31,7 +31,7 @@ body.modal-active {
     margin: 0 auto 2em auto;
     background-color: $modal-bg-color;
     @include border($modal-border-width, solid, $modal-border-color, all);
-    @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line')); // 흐림 5px, $line-gray
+    @include boxShadow(0, 0.125rem, 0.75rem, 0, $modal-box-shadow-color);
     @include borderRadius(0.0625rem); // 1px
     z-index: $z-index-between-alert-modal;
 

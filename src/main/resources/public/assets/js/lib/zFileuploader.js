@@ -136,9 +136,6 @@ const zFileUploader = (function () {
         const dragAndDropZone = document.createElement('div');
         dragAndDropZone.id = dragAndDropZoneId;
         dragAndDropZone.className = extraParam.type;
-        if (extraParam.isView) {
-            dragAndDropZone.classList.add('view');
-        }
         dropZoneFiles.appendChild(dragAndDropZone);
 
         // 파일을 업로드하기 위한 별도의 버튼 기능을 정의하고 추가

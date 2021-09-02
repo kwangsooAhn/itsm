@@ -1929,20 +1929,15 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   position: relative;
   height: 2.25rem;
 }
-.z-input-button input[type=text] {
-  margin: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+.z-input-button .z-input {
+  flex-basis: 100%;
 }
-.z-input-button input[type=text]:focus, .z-input-button input[type=text]:hover {
-  z-index: 25;
-}
-.z-input-button button {
+.z-input-button .z-button-search {
   margin-left: -0.0625rem;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.z-input-button button:focus, .z-input-button button:hover, .z-input-button button:active {
+.z-input-button .z-button-search:focus, .z-input-button .z-button-search:hover, .z-input-button .z-button-search:active {
   z-index: 25;
 }
 .z-input-button .z-icon.i-clear {
@@ -3433,7 +3428,7 @@ select {
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(116, 147, 179, 0.5);
+  background: rgba(139, 144, 148, 0.5);
   z-index: 999999;
 }
 .gmodal-dialog {
@@ -3447,10 +3442,10 @@ select {
   padding: 1.5625rem;
   margin: 0 auto 2em auto;
   box-sizing: border-box;
-  -webkit-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  -moz-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
+  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
+  -moz-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
+  box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -3485,9 +3480,9 @@ select {
 .gmodal-button {
   font-size: 0.875rem;
   font-weight: 500;
-  margin: 0rem 0rem 0rem 0.3125rem;
+  margin: 0 0 0 0.3125rem;
   padding: 0.4375rem 1.5rem;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
 }
 .gmodal-icon-success {
   background-image: url("../media/icons/alert/icon_alert_success.svg");
@@ -3682,7 +3677,7 @@ select {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #E1E3E6;
+  background: #E0E0E0;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: #CFD5D9;
@@ -3775,7 +3770,7 @@ select {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #E1E3E6;
+  background: #E0E0E0;
 }
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: #CFD5D9;
@@ -3829,7 +3824,7 @@ select {
   background: transparent;
 }
 .inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track {
-  background: #283238;
+  background: #222529;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -3838,13 +3833,13 @@ select {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
-  background: #3F4B56;
+  background: #63686C;
 }
 .inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
-  background: #586872;
+  background: #8B9094;
 }
 .inner-scrollbar-dark > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #586872;
+  background: #8B9094;
 }
 .inner-scrollbar-dark > .os-scrollbar.os-scrollbar-unusable {
   background: transparent;
@@ -3888,7 +3883,7 @@ select {
   background-color: transparent;
 }
 .ql-container .ql-editor::-webkit-scrollbar-thumb {
-  background-color: #E1E3E6;
+  background-color: #E0E0E0;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -4005,7 +4000,7 @@ select {
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.625rem 0;
-  background-color: #EBEBEB;
+  background-color: #CFD5D9;
 }
 
 .file-uploader-edit {
@@ -4015,12 +4010,12 @@ select {
 .file-uploader-edit .file-uploader-title {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #586872;
+  color: #222529;
   margin: 0.5625rem 0 0.5625rem 0;
 }
 .file-uploader-edit .dropzone {
   min-height: 6.25rem;
-  background-color: #F7F8F9;
+  background-color: #FFFFFF;
   border: 0.0625rem solid #CFD5D9;
   padding: 0.625rem 0.625rem 0 0.625rem;
 }
@@ -4127,8 +4122,8 @@ select {
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-filename {
   grid-column: 2;
-  color: #586872;
-  padding: 0 20px;
+  color: #222529;
+  padding: 0 1.25rem;
   text-align: left;
   display: inline-block;
   max-width: 100%;
@@ -4287,7 +4282,7 @@ select {
   left: 0.9375rem;
   height: 0.1875rem;
   width: 90%;
-  background: #EBEBEB;
+  background: #CFD5D9;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -4348,7 +4343,7 @@ select {
 .file-uploader-view .file-uploader-title {
   font-size: 0.875rem;
   font-weight: 400;
-  color: #586872;
+  color: #222529;
   margin: auto 0;
 }
 .file-uploader-view .file-uploader-list {
@@ -4387,7 +4382,7 @@ select {
   height: 1.25rem;
 }
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-filename {
-  color: #586872;
+  color: #222529;
   padding: 0 0.625rem 0 0.9375rem;
   text-decoration: underline;
   text-underline-position: under;
@@ -5253,7 +5248,7 @@ body.modal-active {
   bottom: 0;
   left: 0;
   z-index: 5000;
-  background-color: rgba(116, 147, 179, 0.5);
+  background-color: rgba(139, 144, 148, 0.5);
 }
 .modal-wrapper .modal-dialog {
   position: absolute;
@@ -5263,10 +5258,10 @@ body.modal-active {
   width: 34.38rem;
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #EBEBEB;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
+  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
+  -moz-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
+  box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -5276,7 +5271,7 @@ body.modal-active {
   height: 3.375rem;
   font-size: 1.5rem;
   font-weight: 500;
-  color: #3F4B56;
+  color: #222529;
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog .modal-content {
