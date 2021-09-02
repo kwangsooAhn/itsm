@@ -405,8 +405,7 @@ $tree-selected-bg-color:                     transparent;
 $tree-hover-bg-color:                        $blue100;
 
 ///////////////////////////////// modal //////////////////////////////
-// TODO: 모달 오픈시 바탕 어둡게 > 디자인팀(성효빈 대리) 디자인 확인 후 수정 예정
-$modal-backdrop-bg-color:                    hexToRGBA(#7493b3, 0.5);
+$modal-backdrop-bg-color:                    hexToRGBA($gray500, 0.5);
 $modal-border-color:                         $gray300;
 $modal-border-width:                         0.0625rem; // 1px
 $modal-bg-color:                             $white;
@@ -425,8 +424,7 @@ $modal-header-font-weight:                   $font-weight-medium;
 $modal-bottom-height:                        5rem; // 80px
 
 ///////////////////////////////// alert //////////////////////////////
-// TODO: 알림 오픈시 바탕 어둡게 > 디자인팀(성효빈 대리) 디자인 확인 후 수정 예정
-$alert-backdrop-bg-color:                    hexToRGBA(#7493b3, 0.5);
+$alert-backdrop-bg-color:                    hexToRGBA($gray500, 0.5);
 $alert-border-color:                         $gray300;
 $alert-border-width:                         0.0625rem; // 1px
 $alert-bg-color:                             $white;

@@ -3660,7 +3660,7 @@ select {
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(116, 147, 179, 0.5);
+  background: rgba(139, 144, 148, 0.5);
   z-index: 999999;
 }
 .gmodal-dialog {
@@ -5796,7 +5796,7 @@ body.modal-active {
   bottom: 0;
   left: 0;
   z-index: 5000;
-  background-color: rgba(116, 147, 179, 0.5);
+  background-color: rgba(139, 144, 148, 0.5);
 }
 .modal-wrapper .modal-dialog {
   position: absolute;
