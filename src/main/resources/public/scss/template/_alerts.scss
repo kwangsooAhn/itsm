@@ -36,7 +36,7 @@
     margin: 0 auto 2em auto;
     box-sizing: $alert-box-sizing;
     @include border($alert-border-width, solid, $alert-border-color, all);
-    @include boxShadow(0, 0, 0.3125rem, 0.3125rem, $alert-box-shadow-color); // 5px
+    @include boxShadow(0, 0.125rem, 0.75rem, 0, $alert-box-shadow-color);
     @include borderRadius(0.0625rem); // 1px
     background: $alert-bg-color;
     z-index: $z-index-alert;

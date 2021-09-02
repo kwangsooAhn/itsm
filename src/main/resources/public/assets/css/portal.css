@@ -3173,9 +3173,9 @@ table tbody tr:hover {
   margin: 0 auto 2em auto;
   box-sizing: border-box;
   border: 0.0625rem solid #CFD5D9;
-  -webkit-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  -moz-box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
+  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
+  -moz-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
+  box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -5093,9 +5093,9 @@ body.modal-active {
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
   border: 0.0625rem solid #CFD5D9;
-  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
-  -moz-box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
-  box-shadow: 0 0 0.3125rem 0 rgba(116, 147, 179, 0.25);
+  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
+  -moz-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
+  box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
