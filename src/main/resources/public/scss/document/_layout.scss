@@ -16,6 +16,7 @@
     @include fixedContainer;
     background-color: $layout-main-bg-color;
     @include scrollbarHidden;
+    z-index: $z-index-modal;
 
     // 상단 영역
     .z-document-main-header {
