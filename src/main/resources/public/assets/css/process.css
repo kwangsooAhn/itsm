@@ -1605,20 +1605,15 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   position: relative;
   height: 2.25rem;
 }
-.z-input-button input[type=text] {
-  margin: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+.z-input-button .z-input {
+  flex-basis: 100%;
 }
-.z-input-button input[type=text]:focus, .z-input-button input[type=text]:hover {
-  z-index: 25;
-}
-.z-input-button button {
+.z-input-button .z-button-search {
   margin-left: -0.0625rem;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.z-input-button button:focus, .z-input-button button:hover, .z-input-button button:active {
+.z-input-button .z-button-search:focus, .z-input-button .z-button-search:hover, .z-input-button .z-button-search:active {
   z-index: 25;
 }
 .z-input-button .z-icon.i-clear {
