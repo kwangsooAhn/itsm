@@ -82,14 +82,14 @@ class FormService(
      * @return String 생성된 form ID
      */
     fun createForm(formData: RestTemplateFormDataDto): String {
-        formData.status = RestTemplateConstants.FormStatus.EDIT.value
-        formData.createUserKey = currentSessionUser.getUserKey()
-        formData.createDt = LocalDateTime.now()
-        formData.updateDt = LocalDateTime.now()
         val newFormId = wfFormService.createForm(RestTemplateFormDto(
             name = formData.name,
-            status = formData.status,
-            desc = formData.desc
+            status = RestTemplateConstants.FormStatus.EDIT.value,
+            desc = formData.desc,
+            editable = true,
+            createUserKey = currentSessionUser.getUserKey(),
+            createDt = LocalDateTime.now(),
+            updateDt = LocalDateTime.now()
         )).id
         logger.info("create form : success [{}]", newFormId)
         return newFormId
@@ -130,6 +130,8 @@ class FormService(
      */
     fun saveAsForm(formData: RestTemplateFormDataDto): String {
         formData.status = RestTemplateConstants.FormStatus.EDIT.value
+        formData.createUserKey = currentSessionUser.getUserKey()
+        formData.createDt = LocalDateTime.now()
         val newFormId = wfFormService.saveAsFormData(formData).id
         logger.info("save as form : success [{}]", newFormId)
         return newFormId

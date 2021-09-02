@@ -58,9 +58,11 @@ interface WfFormMapper {
         Mapping(source = "display", target = "display"),
         Mapping(source = "category", target = "category"),
         Mapping(source = "updateDt", target = "updateDt"),
+        Mapping(source = "createUserKey", target = "createUserKey"),
         Mapping(source = "updateUserKey", target = "updateUserKey"),
         Mapping(target = "createUserName", ignore = true),
-        Mapping(target = "updateUserName", ignore = true)
+        Mapping(target = "updateUserName", ignore = true),
+        Mapping(target = "editable", ignore = true)
     )
     fun toRestTemplateFormDto(restTemplateFormDataDto: RestTemplateFormDataDto): RestTemplateFormDto
 
