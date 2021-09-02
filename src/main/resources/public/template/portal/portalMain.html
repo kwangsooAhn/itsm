@@ -80,9 +80,13 @@
         * 이벤트리스너 초기화
         */
         function initEventListener() {
-            document.getElementById('searchValue').addEventListener('keyup', function () {
-                portalSearch(false);
-            });
+            document.getElementById('searchValue').addEventListener('keyup', function (event) {
+                if (!isSpecialKey(event)) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    portalSearch(false);
+                }
+             });
         }
 
         /*
@@ -166,15 +170,11 @@
                                 dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
-
                             }
                         }
                     } else {
                         document.querySelector('.main-content').innerHTML = response.responseText;
                     }
-
-                    aliceJs.showTotalCount(document.querySelectorAll('.item-box').length);
-
                     // 검색 조회 결과 화면 스크롤바
                     OverlayScrollbars(document.querySelector('.list'), {
                         className: 'scrollbar',
@@ -239,19 +239,18 @@
             divTitle.appendChild(aTitle);
             divContentBox.appendChild(divTitle);
 
+            const divContentWrapper = document.createElement('div');
+            divContentWrapper.className = 'item-content';
             const divContent = document.createElement('div');
-            divContent.className = 'item-content';
-
-            const divText = document.createElement('div');
-            divText.className = 'text-ellipsis';
+            divContent.className = "text-ellipsis";
             if (data.tableName === 'download') {
-                divText.innerText = i18n.msg('' + data.portalContent + '');
+                divContent.innerText = i18n.msg(''+data.portalContent+'');
             } else {
-                divText.innerText = data.portalContent;
+                divContent.innerText = data.portalContent;
             }
-            divContent.appendChild(divText);
+            divContentWrapper.appendChild(divContent);
+            divContentBox.appendChild(divContentWrapper);
 
-            divContentBox.appendChild(divContent);
             divRow.appendChild(divContentBox);
             div.appendChild(divRow);
         }
