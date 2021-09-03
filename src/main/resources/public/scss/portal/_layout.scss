@@ -39,40 +39,140 @@
   width: 100vw;
   height: 100vh;
   overflow: auto;
-  .z-main {
-    width: 100vw;
-    height: 100vh;
-    .z-top {
-      display: flex;
-      max-width: 120rem;
-      height: $layout-header-height;
-      padding: 0 1.25rem; // 0 20px
-      font-size: $layout-header-font-size;
-      font-weight: $layout-header-font-weight;
-      align-items: center;
-      color: $layout-header-font-color;
-      background-color: $layout-header-bg-color;
-      .name {
-        padding: 0 0.9375rem; // 0 15px
-        font-size: 1.125rem; // 18px
-      }
+  // 포탈 상단
+  .z-header {
+    @include fixedHeader;
+    max-width: 120rem;
+    height: $layout-header-height;
+    padding: 0 1.25rem; // 0 20px
+    font-size: $layout-header-font-size;
+    font-weight: $layout-header-font-weight;
+    align-items: center;
+    color: $layout-header-font-color;
+    background-color: $layout-header-bg-color;
+    .z-name {
+      padding: 0 0.9375rem; // 0 15px
+      font-size: 1.125rem; // 18px
     }
-    .z-portal-page {
-      max-width: 120rem;
+    // 상단이 존재하면
+    + .z-main { top: $layout-header-height; }
+  }
+  // 포탈 메인
+  .z-main {
+    @include fixed(0, $layout-properties-width, 0, 0);
+    max-width: 120rem;
+    margin: 0 auto;
+    overflow-y: auto;
 
+    .z-main-content {
+      height: 100%;
+
+      .z-main-banner {
+        height: $main-banner-height;
+        background-color: $main-search-bg-color;
+
+        .title { padding: 3.75rem 0 1.875rem 0; } // 60px 0px 30px 0px
+      }
+
+      .z-main-search {
+        height: $main-search-height;
+        background-color: $main-search-bg-color;
+        @include border(0.0625rem, solid, $gray300 ,bottom);
+        padding: 1.875rem 0; // 30px 0
+
+        // 포탈 메인 화면이 슬라이딩 되면, 리스트 영역의 너비가 변경됨
+        &.slide-up {
+          + .z-main-card .z-card-list {
+            height: calc(#{$main-banner-height} + #{$content-list-height});
+          }
+        }
+        &.slide-down {
+          + .z-main-card .z-card-list {
+            height: $content-list-height;
+          }
+        }
+      }
+
+      // 카드 형태 (포탈 메인)
+      .z-main-card {
+        // 포탈 메인 검색 전 화면
+        .z-card-group {
+          padding: 3.4375rem 13.75rem 0 13.75rem; // 55px 220px 0 220px
+          .z-card {
+            width: 30rem; // 480px
+            @include border(0.0625rem, solid, $card-border-color, all);
+
+            &-header { padding-top: 3.4375rem; } // 55px
+
+            // 목록
+            &-list-summary {
+              padding: 2.188rem 1.875rem 2.813rem 1.875rem; // 35px 30px 45px 30px
+
+              table {
+                th, td {
+                  padding: 0 1.25rem 0 1.25rem; // 0 20px
+                  vertical-align: middle;
+                  &:hover { background-color: $card-list-hover-bg-color; }
+
+                  a { color: $card-list-font-color; }
+                }
+              }
+            }
+          }
+        }
+        // 포탈 메인 검색 후 결과 화면
+        .z-card-list {
+          height: $content-list-height;
+          padding: 2.625rem 22.5rem 0 22.5rem; // 42px 360px 0 360px
+
+          .z-card-row {
+            width: 100%;
+            @include border(0.0625rem, solid, $list-bottom-border-color, bottom);
+            padding: 0.8125rem 0; // 13px 0
+            // 마지막 row
+            &:last-child {
+              margin: 0 0 3.125rem 0; //50px
+              border-bottom: none;
+            }
+
+            .z-card-item {
+              &-box { width:  68.13rem; } // 1090px
+
+              &-title {
+                padding-bottom: 0.5rem; // 8px
+
+                a { color: $headings-font-color; }
+              }
+
+              &-content {
+                font-size: $font-size-s;
+                font-weight: $font-weight-regular;
+                color: $list-row-content-font-color;
+
+                .keyword { color: $keyword-font-color; }
+              }
+            }
+            // 검색 데이터가 없을 때
+            .no-data {
+              width: 100%;
+              height: 100%;
+              margin: 4.375rem 0 0 0; //70px
+              color: $no-data-font-color;
+            }
+          }
+        }
+      }
+
+      // 검색 영역
       .z-content-header {
         padding: 0 13.75rem 0 13.75rem; // 220px
         background-color: $main-header-bg-color;
         @include border(0.0625rem, solid, $main-header-border-color, bottom); // 1px
 
-        .z-page-title {
-          padding: 3.75rem 0;
-        }
-        .z-page-search {
-          padding-bottom: 1.785rem; // 30px
-        }
+        .z-page-title { padding: 2.5rem 0; }  // 40px 0
       }
 
+      // 페이징
       .z-list {
         &-content {
           padding: 3.375rem 13.75rem 0 13.75rem; // 54px 220px
@@ -133,6 +233,7 @@
           }
         }
       }
+
       // FAQ
       .z-faq {
         &-content {
@@ -215,158 +316,202 @@
           }
         }
       }
-    }
-  }
-}
 
-.portal-container {
-  @include container;
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
-
-  .header {
-    @include fixedHeader;
-    max-width: 120rem;
-    height: $layout-header-height;
-    padding: 0 1.25rem; // 0 20px
-    margin: 0 auto;
-    font-size: $layout-header-font-size;
-    font-weight: $layout-header-font-weight;
-    color: $layout-header-font-color;
-    background-color: $layout-header-bg-color;
-
-    // Technical Support 문구
-    .name {
-      padding: 0 0.9375rem; // 0 15px
-      font-size: 1.125rem; // 18px
-    }
-  }
-  // 포탈 메인
-  .main {
-    @include fixedContainer;
-    max-width: 120rem;
-    margin: 0 auto;
-
-    &-banner {
-      height: $main-banner-height;
-      background-color: $main-search-bg-color;
-      
-      .title { padding: 3.75rem 0 1.875rem 0; } // 60px 0px 30px 0px
-    }
-
-    &-search {
-      height: $main-search-height;
-      background-color: $main-search-bg-color;
-      @include border(0.0625rem, solid, $gray300 ,bottom);
-      padding: 1.875rem 0; // 30px 0
-
-      // 포탈 메인 화면이 슬라이딩 되면, 리스트 영역의 너비가 변경됨
-      &.slide-up {
-        + .main-content .list {
-          height: calc(#{$main-banner-height} + #{$content-list-height});
-        }
+      // 자료실, 공지사항
+      .z-download-content,
+      .z-notice-content {
+        margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
+        @include portalViewTemplate();
       }
-      &.slide-down {
-        + .main-content .list {
-          height: $content-list-height;
-        }
-      }
-    }
-    
-    &-content {
-      .card-group {
-        padding: 3.4375rem 13.75rem 0 13.75rem; // 55px 220px 0 220px
-        .card {
-          width: 30rem; // 480px
-          @include border(0.0625rem, solid, $card-border-color, all);
-  
-          &-header {
-            padding-top: 3.4375rem; // 55px
-            .icon { 
-              padding-bottom: 1.25rem; // 20px
-              img { cursor: pointer; }
-            }
-          }
-          // 목록
-          &-list {
-            padding: 2.188rem 1.875rem 2.813rem 1.875rem; // 35px 30px 45px 30px
-  
-            table {
-              width: 100%;
-              height: 100%;
-              th, td {
-                padding: 0 1.25rem 0 1.25rem; // 20px
-                vertical-align: middle;
-                &:hover { background-color: $card-list-hover-bg-color; }
 
-                a { color: $card-list-font-color; }
-              }
+      // 분할 화면 : 로그인, 회원가입, 세션, 에러 , 인증메일
+      // 분할 화면 - 횐쪽
+      .z-vertical-split-left {
+        // 로고
+        .i-logo-white {
+          @include relative($top: 5rem, $left: 5rem);
+        }
+        .i-logo {
+          @include relative($top: -59.1875rem); // -947px
+          margin: 5rem 0 0 5rem; // 80px 0 0 80x
+        }
+
+        // 로그인
+        &.z-login-background {
+          width: calc(100vw - #{$login-form-width});
+          height: 100%;
+          @include backgroundImage('#{$image-folder-path}login/img_login_main.png', null, no-repeat, 0, 0, $login-bg-color);
+          overflow: hidden;
+        }
+
+        // 회원 가입
+        &.z-signup-background {
+          width: calc(100vw - #{$signup-form-width});
+          height: 100%;
+          @include backgroundImage('#{$image-folder-path}signup/img_signup_main.png', null, no-repeat, 0, 0, $signup-bg-color);
+          overflow: hidden;
+
+          // 로그인 버튼 영역
+          .z-signup-login-face {
+            top: 5rem; // 80px
+            margin: 5rem 5rem 0 0; // 80px 80px 0 0
+            // 계정이 있으신가요? 문구
+            .z-signup-login-note {
+              font-weight: $font-weight-medium;
+              color: $signup-login-note-color;
+              vertical-align: middle;
             }
           }
         }
-      }
-      // 포탈 메인 검색 결과
-      .list {
-        height: $content-list-height;
-        padding: 2.625rem 22.5rem 0 22.5rem; // 42px 360px 0 360px
-  
-        .row {
-            width: 100%;
-            @include border(0.0625rem, solid, $list-bottom-border-color, bottom);
-            padding: 0.8125rem 0; // 13px 0
-            // 마지막 row
-            &:last-child {
-              margin: 0 0 3.125rem 0; //50px
-              border-bottom: none;
-            }
-  
-            img {
-              width: 1.875rem; // 30px
-              height: 1.875rem; // 30px
-              margin-right: 0.938rem; // 15px
-            }
-  
-            .item {
-              &-box { width:  68.13rem; } // 1090px
-              &-title {
-                padding-bottom: 0.5rem; // 8px
-  
-                a { color: $headings-font-color; }
-              }
-              &-content {
-                font-size: 1rem; // 16px
-                font-weight: $font-weight-regular;
-                color: $list-row-content-font-color;
-  
-                .keyword { color: $keyword-font-color; }
-              }
-            }
-  
-            .no-data {
-                display: flex;
-                width: 100%;
-                height: 100%;
-                margin: 4.375rem 0 0 0; //70px
-                justify-content: center;
-                align-items: center;
-            }
+
+        // 세션
+        &.z-session-background {
+          width: 50vw;
+          height: 100vh;
+          @include backgroundImage('#{$image-folder-path}session/img_session_main.png', null, no-repeat, 0, 0, $session-invalid-bg-color);
+          overflow: hidden;
+        }
+
+        // 에러
+        &.z-error-background {
+          width: 50vw;
+          height: 100vh;
+          @include backgroundImage('#{$image-folder-path}error/img_error_caution.png', null, no-repeat, 0, 0, $error-bg-color);
+          overflow: hidden;
+        }
+
+        // 인증메일
+        &.z-email-certificate-background {
+          width: 50vw;
+          height: 100vh;
+          background-color: $email-certificate-bg-color;
+          overflow: hidden;
         }
       }
-    }
-  }
 
-  // 자료실
-  .download {
-    &-header {
-      @include portalHeader;
-      .download-search { padding-bottom: 1.875rem; } // 30px
-    }
-    &-content {
-      margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
-      @include portalViewTemplate();
+      // 분할 화면 - 오른쪽
+      .z-vertical-split-right {
+        // 로그인
+        &.z-login-form {
+          width: $login-form-width;
+          padding: 8.5rem 4.0625rem 0 4.0625rem; // 136px 65px 0 65px
+          h1 {
+            height: 2.313rem; // 37px
+            margin-bottom: 3.75rem; // 60px
+          }
 
-      .list { height: $layout-list-height; }
+          .login-base-form { margin-bottom: 1rem; }  // 16px
+
+          .z-login-divide {
+            flex-basis: 100%;
+            margin: 4rem 0 4rem 0; // 64px 0 64px 0
+            color: $login-divide-font-color;
+            font-size: $login-form-font-size;
+
+            &::before {
+              content: '';
+              flex-grow: 1;
+              height: 0.063rem; // 1px
+              margin-right: 1rem; // 16px
+              background: $login-form-border-color;
+            }
+
+            &::after {
+              content: '';
+              flex-grow: 1;
+              height: 0.063rem; // 1px
+              margin-left: 1rem; // 16px
+              background: $login-form-border-color;
+            }
+          }
+
+          .z-login-platform {
+            .z-button {
+              margin-bottom: 1rem; // 16px
+
+              &:last-child { margin: 0; }
+            }
+          }
+
+          .z-login-other {
+            height: 1.063rem; // 17px
+            margin-top: 6.188rem; // 99px
+            font-size: $login-form-font-size;
+            font-weight: $login-form-font-weight;
+            color: $login-form-font-color;
+
+            @include verticalBar(1.25rem, 2.5rem, 0.0625rem solid $login-form-border-color, 0 1.875rem 0 0); // 30px,  40px
+
+            a { color: $login-form-font-color; }
+
+            &-signUp,
+            &-findPwd,
+            &-findId { flex: 1 0 auto; }
+          }
+        }
+
+        // 회원 가입
+        &.z-signup-form {
+          width: $signup-form-width;
+          padding: 5.6875rem 4.0625rem 0 4.0625rem; // 91px 65px 0 65px
+          .z-signup-base-form {
+            @include relative(); // tooltip 영역 지정 용도
+          }
+        }
+
+        // 세션
+        &.z-session-form {
+          width: 50vw;
+          padding: 21.5625rem 6.25rem; // 345px 100px
+          @include border(0.0625rem, solid, $session-invalid-border-color, left);
+
+          h1 {
+            color: $session-invalid-font-color;
+            line-height: 1.7;
+          }
+          // 세션 카운트
+          .z-session-count-txt { color: $session-invalid-count-font-color; }
+        }
+
+        // 에러
+        &.z-error-form {
+          width: 50vw;
+          padding: 16.875rem 5.625rem; // 270px 90px
+          @include border(0.0625rem, solid, $error-border-color, left);
+
+          h1 {
+            color: $error-font-color;
+            line-height: 1.7;
+          }
+
+          .z-error-code-txt {
+            color: $error-code-font-color;
+            margin: 1.25rem 0; // 20px
+          }
+
+          .z-error-bottom-txt {
+            color: $error-description-font-color;
+            margin: 5rem 0; // 80px
+          }
+        }
+
+        // 인증메일
+        &.z-email-certificate-form {
+          width: 50vw;
+          padding: 21.5625rem 6.25rem; // 345px 100px
+          @include border(0.0625rem, solid, $email-certificate-border-color, left);
+
+          h1 {
+            color: $email-certificate-font-color;
+            line-height: 1.7;
+          }
+
+          h3 {
+            color: $email-certificate-description-font-color;
+            margin: 1.25rem 0 5rem 0; // 20px 0 80px 0
+          }
+        }
+      }
     }
   }
 }

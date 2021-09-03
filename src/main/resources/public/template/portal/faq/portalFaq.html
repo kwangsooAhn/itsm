@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/portal/pageType/commonSearchLayout}">
+      layout:decorate="~{layout/portal/pageType/accordionLayout}">
 <head>
     <title th:text="#{faq.label.faq}"></title>
 </head>
 <body>
-<th:block layout:fragment="searchArea">
+<th:block layout:fragment="pageSearching">
     <div class="z-content-header">
         <div class="z-page-title flex-row align-items-baseline">
             <h1 th:text="#{faq.label.faq}"></h1>
             <h6 class="description ml-2 pl-2" th:text="#{faq.msg.portalDescription}"></h6>
         </div>
-        <div class="z-page-search">
+        <div class="z-page-search pb-4">
             <select id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')" class="col-5 mr-2">
                 <option th:text="#{common.code.faq.category.all}" value="" selected></option>
                 <option th:each="category:${faqs.faqCategory}"
@@ -22,7 +22,7 @@
         </div>
     </div>
 </th:block>
-<th:block layout:fragment="contentArea">
+<th:block layout:fragment="pageAccordion">
     <div class="z-faq-content"></div>
 </th:block>
 </body>

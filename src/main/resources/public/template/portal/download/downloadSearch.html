@@ -6,13 +6,13 @@
     <title th:text="#{download.label.download}"></title>
 </head>
 <body>
-<th:block layout:fragment="searchArea">
+<th:block layout:fragment="pageSearching">
     <div class="z-content-header">
         <div class="z-page-title flex-row align-items-baseline">
             <h1 th:text="#{download.label.download}"></h1>
             <h6 class="description ml-2 pl-2" th:text="#{download.msg.portalDescription}"></h6>
         </div>
-        <div class="z-page-search">
+        <div class="z-page-search pb-4">
             <form id="searchFrm">
                 <select id="category" name="category" class="col-3">
                     <option value="" th:text="#{download.category.all}"></option>
@@ -29,7 +29,7 @@
         </div>
     </div>
 </th:block>
-<th:block layout:fragment="listArea">
+<th:block layout:fragment="pageList">
     <div class="z-list-content" id="downloadList"></div>
 </th:block>
 </body>
