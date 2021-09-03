@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
 </head>
@@ -24,14 +26,16 @@
                 <img th:src="${ci.ciIconData}"/>
             </td>
             <input type="hidden" name="ciId" th:value="${ci.ciId}">
-            <td style="width: 21%;" class="align-left underline pointer" th:text="${ci.ciNo}"
-                th:onclick="openCIDetailModal([[${ci.ciId}]]);"></td>
+            <td style="width: 21%;" class="align-left underline pointer">
+                <a sec:authorize="hasAuthority('cmdb.ci.read')" th:text="${ci.ciNo}"
+                   th:href="@{/cmdb/cis/{id}/view(id=${ci.ciId})}">
+                </a>
+            </td>
             <td style="width: 10%;" class="align-left" th:text="${ci.typeName}"></td>
             <td style="width: 15%;" class="align-left" th:text="${ci.ciName}"></td>
             <td style="width: 25%;" class="align-left" th:text="${ci.ciDesc}"></td>
             <td style="width: 25%;" class="align-left">
-                <input type="text" name="ciListTags" class="align-left text-ellipsis" th:value="${ci.ciTags}"
-                       readonly></input>
+                <input type="text" name="ciListTags" class="align-left text-ellipsis" th:value="${ci.ciTags}" readonly />
             </td>
         </tr>
     </tbody>
