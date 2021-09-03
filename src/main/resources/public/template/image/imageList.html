@@ -117,7 +117,7 @@
             }
             if (updatable === 'false') {
                 document.querySelectorAll('label[name="updateLabel"]').forEach(function (updateLabel) {
-                    updateLabel.onclick = function () {
+                    updateLabel.ondblclick = function () {
                         return;
                     };
                 });
