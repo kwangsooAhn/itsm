@@ -15,6 +15,9 @@
     <span id="totalCount" class="search-count"></span>
 </div>
 <div layout:fragment="pageSearchResult">
+    <input type="hidden" id="creatable" th:value="${#authorization.expression('hasAuthority(''image.create'')')}"/>
+    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''image.update'')')}"/>
+    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''image.delete'')')}"/>
     <div class="z-image-content-edit flex-fill">
         <div class="z-thumbnail-main flex-row flex-wrap" id="thumbnailMain"></div>
     </div>
@@ -22,6 +25,9 @@
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     let previewModal;
     let offsetCount = 0;
+    const creatable = document.getElementById('creatable').value;
+    const updatable = document.getElementById('updatable').value;
+    const deletable = document.getElementById('deletable').value;
     window.onload = function () {
         getImages(false);
         // 미리보기 모달 생성
@@ -90,7 +96,9 @@
         aliceJs.fetchJson(url, {
             method: method
         }).then((imageList) => {
-            addThumbnailUpload();
+            if (creatable === 'true') {
+                addThumbnailUpload();
+            }
             if (isScroll) {
                 if (aliceJs.isEnableScrollEvent(offsetCount)) {
                     offsetCount = offsetCount + aliceJs.imageOffsetCount;
@@ -106,6 +114,18 @@
                     addThumbnail(image);
                 });
             }
+            if (updatable === 'false') {
+                document.querySelectorAll('label[name="updateLabel"]').forEach(function (updateLabel) {
+                    updateLabel.ondblclick = function () {
+                        return;
+                    }
+                });
+            }
+            if (deletable === 'false') {
+                document.querySelectorAll('button[name="deleteBtn"]').forEach(function (deleteBtn) {
+                    deleteBtn.style.display = 'none';
+                });
+            }
         })
     }
 
@@ -116,14 +136,14 @@
                 <div class="z-thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
                 <div class="z-thumbnail-info">
                     <p class="z-thumbnail-info-text">
-                        <label class="z-thumbnail-image-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
+                        <label name="updateLabel" class="z-thumbnail-image-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
                         <input type="text" class="z-input float-left" />
                     </p>
                     <p class="z-thumbnail-info-text"><label class="text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
                 </div>
                 <div class="z-thumbnail-bottom">
                     <label class="file-update-dt">${i18n.userDateTime(image.updateDt)}</label>
-                    <button type="button" class="z-button-icon float-right" data-name="${image.name}" onclick="removeImage(this);"><span class="z-icon i-delete"></span></button>
+                    <button name="deleteBtn" type="button" class="z-button-icon float-right" data-name="${image.name}" onclick="removeImage(this);"><span class="z-icon i-delete"></span></button>
                 </div>
             </div>
         `;

@@ -1,138 +1,166 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonViewLayout}">
 <body>
-    <!-- CI 보기 모달 -->
-    <div class="cmdb-ci-content-view flex-column">
-        <div class="view-form">
-            <input type="hidden" id="ciId" th:value="${ciData?.ciId}"/>
-            <!-- CI No -->
-            <div class="flex-column view-row">
-                <label class="field-label" for="ciNo">
-                    <span th:text="#{cmdb.ci.label.seqNum}"></span>
-                </label>
-                <input type="text" id="ciNo" class="z-input" th:value="${ciData?.ciNo}" maxlength="100" readonly />
-            </div>
-            <!-- CI 타입 -->
-            <div class="flex-column view-row">
-                <label class="field-label" for="typeName">
-                    <span th:text="#{cmdb.ci.label.type}"></span>
-                    <span class="required"></span>
-                </label>
-                <div class="flex-row input-button">
-                    <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
-                    <input type="text" id="typeName" class="z-input col-pct-12 inherit" th:value="${ciData?.typeName}"
-                           readonly required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.type}"/>
-                    <button class="z-button form" id="typeSelectBtn" type="button" disabled th:text="#{common.btn.select}"></button>
-                </div>
-            </div>
-            <!-- 아이콘 -->
-            <div class="flex-column view-row">
-                <label class="field-label">
-                    <span th:text="#{cmdb.type.label.icon}"></span>
-                </label>
-                <div class="flex-row input-button">
-                    <input type="text" id="typeIcon" class="z-input col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
-                </div>
-            </div>
-            <!-- CI 이름 -->
-            <div class="flex-column view-row">
-                <label class="field-label" for="ciName">
-                    <span th:text="#{cmdb.ci.label.name}"></span>
-                    <span class="required"></span>
-                </label>
-                <input type="text" id="ciName" class="z-input" maxlength="100" th:value="${ciData?.ciName}"
-                       th:attr="data-validation-required-name=#{cmdb.ci.label.name}" readonly required="true"/>
-            </div>
-            <!--CI 설명 -->
-            <div class="flex-column view-row">
-                <label class="field-label" for="ciDesc">
-                    <span th:text="#{cmdb.ci.label.description}"></span>
-                </label>
-                <textarea id="ciDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="500"
-                          th:text="${ciData?.ciDesc}" readonly></textarea>
-            </div>
-            <!--클래스 -->
-            <div class="flex-column view-row">
-                <label class="field-label" for="className">
-                    <span th:text="#{cmdb.type.label.class}"></span>
-                    <span class="required"></span>
-                </label>
-                <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
-                <input type="text" id="className" class="z-input" maxlength="100" th:value="${ciData?.className}"
-                       th:attr="data-validation-required-name=#{cmdb.type.label.class}" readonly required="true"/>
-            </div>
-            <!-- CI 태그 -->
-            <div class="flex-column view-row">
-                <label class="field-label">
-                    <span th:text="#{cmdb.ci.label.tag}"></span>
-                </label>
-                <input type="text" id="tags" name="ciDetailTags" class="z-input col-pct-12 inherit"
-                       th:value="|${ciData.ciTags}|" readonly/>
-            </div>
-            <!-- 세부속성 -->
-            <div class="flex-column view-row">
-                <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
-            </div>
-            <div id="ciAttributes" th:onclick="zCmdbAttribute.drawViewDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
-            </div>
-            <!-- 변경 이력 -->
-            <div class="flex-column view-row">
-                <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.ci.label.history}"></h3>
-            </div>
-            <div class="ci-list" id="ciHistoryList">
-                <table class="z-list-table">
-                    <thead class="z-list-head">
-                    <tr class="flex-row align-items-center">
-                        <th style="width: 40%;" class="align-left" th:text="#{cmdb.ci.label.relatedDocument}"></th>
-                        <th style="width: 20%;" class="align-left" th:text="#{cmdb.ci.label.createUser}"></th>
-                        <th style="width: 20%;" class="align-left" th:text="#{cmdb.ci.label.applyDate}"></th>
-                        <th style="width: 10%;" th:text="#{cmdb.ci.label.status.type}"></th>
-                        <th style="width: 10%;" th:text="#{cmdb.ci.label.whetherToInterlink}"></th>
-                    </tr>
-                    </thead>
-                    <tbody class="z-list-body">
-                    <!--no data-->
-                    <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciHistoryList)}">
-                        <td style="width: 100%;" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
-                    </tr>
-                    <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciHistoryList)}" th:each="ciHistory: ${ciHistoryList}">
-                        <td th:if="${#strings.isEmpty(ciHistory.documentNo)}" style="width: 40%;" class="align-center" th:text="#{common.label.emptyData}"></td>
-                        <td th:unless="${#strings.isEmpty(ciHistory.documentNo)}" style="width: 40%;" th:text="${ciHistory.documentNo}"></td>
-                        <td th:if="${#strings.isEmpty(ciHistory.createUser)}" style="width: 20%;" class="align-center" th:text="#{common.label.emptyData}"></td>
-                        <td th:unless="${#strings.isEmpty(ciHistory.createUser)}" style="width: 20%;" th:text="#{ciHistory.createUser}"></td>
-                        <td style="width: 20%;" class="date-time" th:text="${ciHistory.applyDt}"></td>
-                        <td style="width: 10%;" class="align-center" th:text="#{|cmdb.ci.label.status.${ciHistory.ciStatus}|}"></td>
-                        <td th:if="${ciHistory.interlink == true}" style="width: 10%;" class="align-center" th:text="#{cmdb.ci.label.interlink}"></td>
-                        <td th:unless="${ciHistory.interlink == true}" style="width: 10%;" class="align-center" th:text="#{cmdb.ci.label.nonInterlink}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- 연관 관계 -->
-            <div class="flex-column view-row">
-                <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.ci.label.relation}"></h3>
-            </div>
-            <div class="ci-list" id="ciRelationList">
-                <table class="z-list-table">
-                    <thead class="z-list-head">
-                    <tr class="flex-row align-items-center">
-                        <th style="width: 40%;" class="align-left" th:text="#{cmdb.ci.label.relationType}"></th>
-                        <th style="width: 60%;" class="align-left" th:text="#{cmdb.ci.label.targetCiName}"></th>
-                    </tr>
-                    </thead>
-                    <tbody class="z-list-body">
-                    <!--no data-->
-                    <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciRelationList)}">
-                        <td style="width: 100%;" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
-                    </tr>
-                    <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciRelationList)}" th:each="ciRelation: ${ciRelationList}">
-                        <td style="width: 40%;" th:text="${ciRelation.relationType}"></td>
-                        <td style="width: 60%;" th:text="${ciRelation.targetCIName}"></td>
-                    </tr>
-                    </tbody>
-                </table>
+<head>
+    <title th:text="#{cmdb.ci.label.ciInquiry}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
+</th:block>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{cmdb.ci.label.ciInquiry}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{cmdb.ci.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageView">
+    <input type="hidden" id="ciId" th:value="${ciData?.ciId}"/>
+    <div class="flex-row">
+        <!-- CI No -->
+        <div class="flex-column z-view-row">
+            <label class="field-label" for="ciNo" th:text="#{cmdb.ci.label.seqNum}"></label>
+            <input type="text" id="ciNo" class="z-input" th:value="${ciData?.ciNo}" readonly/>
+        </div>
+        <!-- CI 타입 -->
+        <div class="flex-column z-view-row">
+            <label class="field-label" for="typeName" th:text="#{cmdb.ci.label.type}"></label>
+            <div class="flex-row">
+                <input type="text" id="typeName" class="z-input" th:value="${ciData?.typeName}" readonly/>
             </div>
         </div>
     </div>
+    <div class="flex-row">
+        <!-- 아이콘 -->
+        <div class="flex-column z-view-row">
+            <label class="field-label" th:text="#{cmdb.type.label.icon}"></label>
+            <div class="flex-row input-button">
+                <input type="text" id="typeIcon" class="z-input" th:value="${ciData?.ciIcon}" readonly/>
+            </div>
+        </div>
+        <!-- CI 이름 -->
+        <div class="flex-column z-view-row">
+            <label class="field-label" for="ciName">
+                <span th:text="#{cmdb.ci.label.name}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" id="ciName" class="z-input" maxlength="100" th:value="${ciData?.ciName}"
+                   th:attr="data-validation-required-name=#{cmdb.ci.label.name}" readonly required="true"/>
+        </div>
+    </div>
+    <!--CI 설명 -->
+    <div class="flex-column z-view-row">
+        <label class="field-label" for="ciDesc">
+            <span th:text="#{cmdb.ci.label.description}"></span>
+        </label>
+        <textarea id="ciDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="500"
+                  th:text="${ciData?.ciDesc}" readonly></textarea>
+    </div>
+    <!--클래스 -->
+    <div class="flex-column z-view-row">
+        <label class="field-label" for="className" th:text="#{cmdb.type.label.class}"></label>
+        <input type="text" id="className" class="z-input" maxlength="100" th:value="${ciData?.className}" readonly />
+    </div>
+    <!-- CI 태그 -->
+    <div class="flex-column z-view-row">
+        <label class="field-label" th:text="#{cmdb.ci.label.tag}"></label>
+        <input type="text" id="tags" name="ciDetailTags" class="z-input" th:value="|${ciData.ciTags}|" readonly />
+    </div>
+    <!-- 세부속성 -->
+    <div class="flex-column z-view-row">
+        <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
+    </div>
+    <div id="ciAttributes" th:onclick="zCmdbAttribute.drawViewDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
+    </div>
+    <!-- 변경 이력 -->
+    <div class="flex-column z-view-row">
+        <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.ci.label.history}"></h3>
+    </div>
+    <div class="z-view-row">
+        <table class="z-table">
+            <thead class="z-table-head">
+            <tr class="flex-row align-items-center">
+                <th style="width: 40%;" class="align-left" th:text="#{cmdb.ci.label.relatedDocument}"></th>
+                <th style="width: 20%;" class="align-left" th:text="#{cmdb.ci.label.createUser}"></th>
+                <th style="width: 20%;" class="align-left" th:text="#{cmdb.ci.label.applyDate}"></th>
+                <th style="width: 10%;" class="align-left" th:text="#{cmdb.ci.label.status.type}"></th>
+                <th style="width: 10%;" class="align-left" th:text="#{cmdb.ci.label.whetherToInterlink}"></th>
+            </tr>
+            </thead>
+            <tbody class="z-table-body">
+            <!--no data-->
+            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciHistoryList)}">
+                <td style="width: 100%;" colspan="5" class="align-left" th:text="#{common.msg.noData}"></td>
+            </tr>
+            <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciHistoryList)}" th:each="ciHistory: ${ciHistoryList}">
+                <td th:if="${#strings.isEmpty(ciHistory.documentNo)}" style="width: 40%;" class="align-left" th:text="#{common.label.emptyData}"></td>
+                <td th:unless="${#strings.isEmpty(ciHistory.documentNo)}" style="width: 40%;" th:text="${ciHistory.documentNo}"></td>
+                <td th:if="${#strings.isEmpty(ciHistory.createUser)}" style="width: 20%;" class="align-left" th:text="#{common.label.emptyData}"></td>
+                <td th:unless="${#strings.isEmpty(ciHistory.createUser)}" style="width: 20%;" th:text="#{ciHistory.createUser}"></td>
+                <td style="width: 20%;" class="date-time" th:text="${ciHistory.applyDt}"></td>
+                <td style="width: 10%;" class="align-left" th:text="#{|cmdb.ci.label.status.${ciHistory.ciStatus}|}"></td>
+                <td th:if="${ciHistory.interlink == true}" style="width: 10%;" class="align-left" th:text="#{cmdb.ci.label.interlink}"></td>
+                <td th:unless="${ciHistory.interlink == true}" style="width: 10%;" class="align-left" th:text="#{cmdb.ci.label.nonInterlink}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- 연관 관계 -->
+    <div class="flex-column z-view-row">
+        <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.ci.label.relation}"></h3>
+    </div>
+    <div class="z-view-row">
+        <table class="z-table">
+            <thead class="z-table-head">
+            <tr class="flex-row align-items-center">
+                <th style="width: 40%;" class="align-left" th:text="#{cmdb.ci.label.relationType}"></th>
+                <th style="width: 60%;" class="align-left" th:text="#{cmdb.ci.label.targetCiName}"></th>
+            </tr>
+            </thead>
+            <tbody class="z-table-body">
+            <!--no data-->
+            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciRelationList)}">
+                <td style="width: 100%;" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
+            </tr>
+            <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciRelationList)}" th:each="ciRelation: ${ciRelationList}">
+                <td style="width: 40%;" th:text="${ciRelation.relationType}"></td>
+                <td style="width: 60%;" th:text="${ciRelation.targetCIName}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="horizontal-bar"></div>
+    <div class="flex-row justify-content-start z-view-row">
+        <div class="z-button-list">
+            <a class="z-button secondary" href="/cmdb/cis/search" th:text="#{common.btn.list}"></a>
+        </div>
+    </div>
+</div>
 </body>
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[ */
+    window.onload = function() {
+        document.getElementById('ciAttributes').click();
+        // 스크롤바 추가
+        OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelectorAll('textarea'), {
+            className: 'scrollbar',
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: "class"
+            }
+        });
+        new zTag(document.querySelector('input[name=ciDetailTags]'),{
+            suggestion: false,
+            realtime: false,
+            tagType: 'ci',
+            targetId: ''
+        });
+        // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+        document.querySelectorAll('.date-time').forEach(dt => {
+            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+        });
+    }
+    /* ]]> */
+</script>
 </html>

@@ -76,6 +76,7 @@
 
     // 각 행
     .z-view-row {
+      width: 100%;
       margin: 0.625rem 0 0 0; // 10px 0 0 0
       label { margin: 0.625rem 0; } // 10px 0
     }
@@ -362,7 +363,9 @@
       flex-direction: column;
     }
     .z-edit-row {
-      margin-top: 0.625rem; // 10px
+      width: 100%;
+      margin: 0.625rem 0 0 0; // 10px 0 0 0
+      label { margin: 0.625rem 0; } // 10px 0
     }
     label { margin: 0.625rem 0; } // 10px 0
     .z-button-list {

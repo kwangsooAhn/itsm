@@ -1622,6 +1622,22 @@ table tr td, table tr th {
   word-wrap: normal;
 }
 
+.z-table {
+  width: 100%;
+}
+.z-table-head tr {
+  color: #222529;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+}
+.z-table-body {
+  display: block;
+  overflow-y: auto;
+}
+.z-table-body > td {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 span {
   font-family: inherit;
   margin: auto 0;
