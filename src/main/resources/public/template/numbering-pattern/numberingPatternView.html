@@ -17,7 +17,7 @@
                th:value="${pattern?.patternName}" disabled />
     </div>
     <div class="z-view-row flex-column">
-        <label th:text="#{pattern.label.type}" class="required"></label>
+        <label th:text="#{pattern.label.type}"></label>
         <div class="flex-row mr-auto">
             <label class="z-radio mr-4">
                 <input id="numbering.pattern.text" name="patternType" type="radio"
@@ -44,8 +44,8 @@
         <input type="text" class="z-input" id="txtPatternValue" name="txtPatternValue"
                th:value="${pattern?.patternValue}" disabled/>
     </div>
-    <div id="type-select-pattern" class="z-edit-row flex-column">
-        <label th:text="#{pattern.label.value}" class="required"></label>
+    <div id="type-select-pattern" class="z-view-row flex-column">
+        <label th:text="#{pattern.label.value}"></label>
         <select id="selectPatternDateValue" name="selectPatternDateValue" class="select-date-time mr-1" disabled>
             <option th:each="date: ${dateList}" th:value="${date.code}"
                     th:text="${date.codeValue}" th:selected="${date.codeValue == pattern?.patternValue}"></option>
