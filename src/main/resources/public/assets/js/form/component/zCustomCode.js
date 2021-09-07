@@ -80,6 +80,25 @@ export const customCodeMixin = {
         if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIButton.setUIDisabled(true);
         }
+        // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
+        // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
+        // 기본값이 '${default}' 이면 실제 값을 저장한다.
+        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+            this.parent?.parent?.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
+            this.value === '${default}') {
+            const defaultValues = this.elementDefaultValueCustomCode.split('|');
+            switch (defaultValues[1]) {
+                case FORM.CUSTOM.NONE:
+                    this.value = '';
+                    break;
+                case FORM.CUSTOM.SESSION:
+                    this.value = SESSION['userKey'] || '';
+                    break;
+                case FORM.CUSTOM.CODE:
+                    this.value = defaultValues[2];
+                    break;
+            }
+        }
     },
     // set, get
     set elementColumnWidth(width) {
