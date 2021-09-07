@@ -164,7 +164,7 @@
       }
 
       // 검색 영역
-      .z-content-header {
+      .z-main-header {
         padding: 0 13.75rem 0 13.75rem; // 220px
         background-color: $main-header-bg-color;
         @include border(0.0625rem, solid, $main-header-border-color, bottom); // 1px
@@ -234,92 +234,90 @@
         }
       }
 
-      // FAQ
-      .z-faq {
-        &-content {
-          margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
+      // 아코디언
+      .z-main-accordion {
+        margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
 
-          .z-faq {
-            // level 1
-            &-group {
-              @include relative();
-              min-height: 3.438rem; // 55px
-              @include border($faq-group-border-width, solid, $faq-group-border-color, all);
-              @include borderRadius(0.0625rem); // 1px
-              margin-bottom: 0.625rem; // 10px
+        // FAQ
+        .z-faq {
+          // level 1
+          &-group {
+            @include relative();
+            min-height: 3.438rem; // 55px
+            @include border($faq-group-border-width, solid, $faq-group-border-color, all);
+            @include borderRadius(0.0625rem); // 1px
+            margin-bottom: 0.625rem; // 10px
 
-              &-title {
-                height: 3.438rem; // 55px
-                padding: 1.25rem 0.9375rem; // 20px 15px
-                @include border($faq-group-border-width, solid, transparent, bottom); // 1px
-                font-size: $faq-group-font-size;
-                font-weight: $faq-group-font-weight;
-                color: $faq-group-font-color;
-                // 그룹일 경우 summary의 화살표 숨김
-                &::-webkit-details-marker { display: none; }
+            &-title {
+              height: 3.438rem; // 55px
+              padding: 1.25rem 0.9375rem; // 20px 15px
+              @include border($faq-group-border-width, solid, transparent, bottom); // 1px
+              font-size: $faq-group-font-size;
+              font-weight: $faq-group-font-weight;
+              color: $faq-group-font-color;
+              // 그룹일 경우 summary의 화살표 숨김
+              &::-webkit-details-marker { display: none; }
+              .z-icon {
+                &.i-plus {
+                  @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
+                  display: inline-block;
+                  opacity: 1;
+                  background: $faq-group-icon-color;
+                }
+                &.i-minus {
+                  @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
+                  display: inline-block;
+                  opacity: 0;
+                  background: $faq-group-icon-color;
+                }
+              }
+            }
+            &[open] {
+              @include border($faq-group-opened-border-width, solid, $faq-group-opened-border-color, all); // 1px
+              .z-faq-group-title {
+                color: $faq-group-opened-font-color;
+                border-bottom-color: $faq-group-opened-border-color;
                 .z-icon {
                   &.i-plus {
-                    @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
-                    display: inline-block;
-                    opacity: 1;
-                    background: $faq-group-icon-color;
+                    opacity: 0;
                   }
                   &.i-minus {
-                    @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
-                    display: inline-block;
-                    opacity: 0;
-                    background: $faq-group-icon-color;
+                    background: $faq-group-opened-icon-color;
+                    opacity: 1;
                   }
                 }
               }
-              &[open] {
-                @include border($faq-group-opened-border-width, solid, $faq-group-opened-border-color, all); // 1px
-                .z-faq-group-title {
-                  color: $faq-group-opened-font-color;
-                  border-bottom-color: $faq-group-opened-border-color;
-                  .z-icon {
-                    &.i-plus {
-                      opacity: 0;
-                    }
-                    &.i-minus {
-                      background: $faq-group-opened-icon-color;
-                      opacity: 1;
-                    }
-                  }
-                }
-                .z-faq-row { background-color: $faq-row-opened-bg-color; }
-              }
+              .z-faq-row { background-color: $faq-row-opened-bg-color; }
             }
-            // level 2
-            &-row {
-              padding: 1.25rem 1.875rem 0 1.875rem; // 20px 30px 0px 30px
-              &:first-of-type { padding-top: 2.188rem; } // 35px
-              &:last-of-type { padding-bottom: 2.188rem; } // 35px
+          }
+          // level 2
+          &-row {
+            padding: 1.25rem 1.875rem 0 1.875rem; // 20px 30px 0px 30px
+            &:first-of-type { padding-top: 2.188rem; } // 35px
+            &:last-of-type { padding-bottom: 2.188rem; } // 35px
 
-              &-title {
-                font-size: $faq-row-font-size;
-                font-weight: $faq-row-font-weight;
-                color: $faq-row-font-color;
-              }
+            &-title {
+              font-size: $faq-row-font-size;
+              font-weight: $faq-row-font-weight;
+              color: $faq-row-font-color;
+            }
 
-              &[open] {
-                @include horizontalBar(0.0625rem, 0.9375rem 0, $faq-row-opened-border-color);
-              }
+            &[open] {
+              @include horizontalBar(0.0625rem, 0.9375rem 0, $faq-row-opened-border-color);
             }
-            // level 3
-            &-row-content {
-              margin: 1.25rem 1.063rem 0 0; // 20px 17px
-              font-size: $faq-row-content-font-size;
-              font-weight: $faq-row-content-font-weight;
-              color: $faq-row-content-font-color;
-            }
+          }
+          // level 3
+          &-row-content {
+            margin: 1.25rem 1.063rem 0 0; // 20px 17px
+            font-size: $faq-row-content-font-size;
+            font-weight: $faq-row-content-font-weight;
+            color: $faq-row-content-font-color;
           }
         }
       }
 
-      // 자료실, 공지사항
-      .z-download-content,
-      .z-notice-content {
+      // 보기 화면 : 자료실, 공지사항
+      .z-main-view {
         margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
         @include portalViewTemplate();
       }

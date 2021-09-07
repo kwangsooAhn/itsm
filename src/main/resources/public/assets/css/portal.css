@@ -1102,12 +1102,12 @@ input, button, select, optgroup, textarea {
   margin: 4.375rem 0 0 0;
   color: #ABB0B5;
 }
-.z-portal-container .z-main .z-main-content .z-content-header {
+.z-portal-container .z-main .z-main-content .z-main-header {
   padding: 0 13.75rem 0 13.75rem;
   background-color: #FAFAFA;
   border-bottom: 0.0625rem solid #CFD5D9;
 }
-.z-portal-container .z-main .z-main-content .z-content-header .z-page-title {
+.z-portal-container .z-main .z-main-content .z-main-header .z-page-title {
   padding: 2.5rem 0;
 }
 .z-portal-container .z-main .z-main-content .z-list-content {
@@ -1167,10 +1167,10 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
   pointer-events: none;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content {
+.z-portal-container .z-main .z-main-content .z-main-accordion {
   margin: 3.375rem 13.75rem 0 13.75rem;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-group {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-group {
   position: relative;
   min-height: 3.438rem;
   border: 0.0625rem solid #CFD5D9;
@@ -1179,7 +1179,7 @@ input, button, select, optgroup, textarea {
   -moz-border-radius: 0.0625rem;
   margin-bottom: 0.625rem;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-group-title {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-group-title {
   height: 3.438rem;
   padding: 1.25rem 0.9375rem;
   border-bottom: 0.0625rem solid transparent;
@@ -1187,10 +1187,10 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   color: #63686C;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-group-title::-webkit-details-marker {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-group-title::-webkit-details-marker {
   display: none;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-group-title .z-icon.i-plus {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-group-title .z-icon.i-plus {
   position: absolute;
   top: 0.9375rem;
   right: 0.9375rem;
@@ -1198,7 +1198,7 @@ input, button, select, optgroup, textarea {
   opacity: 1;
   background: #8B9094;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-group-title .z-icon.i-minus {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-group-title .z-icon.i-minus {
   position: absolute;
   top: 0.9375rem;
   right: 0.9375rem;
@@ -1206,54 +1206,52 @@ input, button, select, optgroup, textarea {
   opacity: 0;
   background: #8B9094;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-group[open] {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-group[open] {
   border: 0.0625rem solid #339AF0;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-group[open] .z-faq-group-title {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-group[open] .z-faq-group-title {
   color: #339AF0;
   border-bottom-color: #339AF0;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-group[open] .z-faq-group-title .z-icon.i-plus {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-group[open] .z-faq-group-title .z-icon.i-plus {
   opacity: 0;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-group[open] .z-faq-group-title .z-icon.i-minus {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-group[open] .z-faq-group-title .z-icon.i-minus {
   background: #339AF0;
   opacity: 1;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-group[open] .z-faq-row {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-group[open] .z-faq-row {
   background-color: #E3F5FC;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-row {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-row {
   padding: 1.25rem 1.875rem 0 1.875rem;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-row:first-of-type {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-row:first-of-type {
   padding-top: 2.188rem;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-row:last-of-type {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-row:last-of-type {
   padding-bottom: 2.188rem;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-row-title {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-row-title {
   font-size: 1rem;
   font-weight: 500;
   color: #63686C;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-row[open] .horizontal-bar {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-row[open] .horizontal-bar {
   height: 0.0625rem;
   margin: 0.9375rem 0;
   background-color: #339AF0;
 }
-.z-portal-container .z-main .z-main-content .z-faq-content .z-faq-row-content {
+.z-portal-container .z-main .z-main-content .z-main-accordion .z-faq-row-content {
   margin: 1.25rem 1.063rem 0 0;
   font-size: 1rem;
   font-weight: 400;
   color: #222529;
 }
-.z-portal-container .z-main .z-main-content .z-download-content,
-.z-portal-container .z-main .z-main-content .z-notice-content {
+.z-portal-container .z-main .z-main-content .z-main-view {
   margin: 3.375rem 13.75rem 0 13.75rem;
 }
-.z-portal-container .z-main .z-main-content .z-download-content .view-title,
-.z-portal-container .z-main .z-main-content .z-notice-content .view-title {
+.z-portal-container .z-main .z-main-content .z-main-view .view-title {
   font-size: 1.125rem;
   font-weight: 500;
   color: #222529;
@@ -1261,23 +1259,20 @@ input, button, select, optgroup, textarea {
   margin-bottom: 0.625rem;
   border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
-.z-portal-container .z-main .z-main-content .z-download-content .view-sub-title,
-.z-portal-container .z-main .z-main-content .z-notice-content .view-sub-title {
+.z-portal-container .z-main .z-main-content .z-main-view .view-sub-title {
   font-size: 1rem;
   font-weight: 400;
   color: #8B9094;
   padding: 0 1.25rem;
 }
-.z-portal-container .z-main .z-main-content .z-download-content .view-content,
-.z-portal-container .z-main .z-main-content .z-notice-content .view-content {
+.z-portal-container .z-main .z-main-content .z-main-view .view-content {
   font-size: 1rem;
   font-weight: 400;
   color: #222529;
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
 }
-.z-portal-container .z-main .z-main-content .z-download-content .view-content pre,
-.z-portal-container .z-main .z-main-content .z-notice-content .view-content pre {
+.z-portal-container .z-main .z-main-content .z-main-view .view-content pre {
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-line;
@@ -1285,12 +1280,10 @@ input, button, select, optgroup, textarea {
   white-space: -moz-pre-wrap;
   word-break: break-all;
 }
-.z-portal-container .z-main .z-main-content .z-download-content .view-content .view-text,
-.z-portal-container .z-main .z-main-content .z-notice-content .view-content .view-text {
+.z-portal-container .z-main .z-main-content .z-main-view .view-content .view-text {
   margin: 0;
 }
-.z-portal-container .z-main .z-main-content .z-download-content .view-btn-content,
-.z-portal-container .z-main .z-main-content .z-notice-content .view-btn-content {
+.z-portal-container .z-main .z-main-content .z-main-view .view-btn-content {
   padding: 0.625rem 0 0 0;
 }
 .z-portal-container .z-main .z-main-content .z-vertical-split-left .i-logo-white {

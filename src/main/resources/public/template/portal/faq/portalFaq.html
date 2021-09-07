@@ -7,7 +7,7 @@
 </head>
 <body>
 <th:block layout:fragment="pageSearching">
-    <div class="z-content-header">
+    <div class="z-main-header">
         <div class="z-page-title flex-row align-items-baseline">
             <h1 th:text="#{faq.label.faq}"></h1>
             <h6 class="description ml-2 pl-2" th:text="#{faq.msg.portalDescription}"></h6>
@@ -23,7 +23,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="pageAccordion">
-    <div class="z-faq-content"></div>
+    <div class="z-main-accordion"></div>
 </th:block>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
@@ -55,7 +55,7 @@
             showProgressbar: false,
             async: false,
             callbackFunc: function(response) {
-                document.querySelector('.z-faq-content').innerHTML = response.responseText;
+                document.querySelector('.z-main-accordion').innerHTML = response.responseText;
                 document.getElementsByClassName('z-faq-group')[0].open = true;
                 document.getElementsByClassName('z-faq-row')[0].open = true;
                 aliceJs.showTotalCount(document.getElementsByClassName('z-faq-row').length);

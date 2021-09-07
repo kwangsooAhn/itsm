@@ -7,13 +7,13 @@
 </head>
 <body>
 <th:block layout:fragment="pageView">
-    <div class="z-content-header">
+    <div class="z-main-header">
         <div class="z-page-title flex-row align-items-baseline">
             <h1 th:text="#{notice.label.notice}"></h1>
             <h6 class="description ml-2 pl-2" th:text="#{notice.msg.viewDescription}"></h6>
         </div>
     </div>
-    <div class="z-notice-content">
+    <div class="z-main-view">
         <div class="view flex-column flex-fill">
             <div class="view-title text-ellipsis" th:text="${notice?.noticeTitle}"></div>
             <div class="view-sub-title flex-row justify-content-end">
