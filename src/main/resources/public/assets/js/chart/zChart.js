@@ -88,7 +88,7 @@ function ZChart(container, chartType, chartProperty) {
         case STACKED_BAR_CHART:
         case LINE_AND_COLUMN_CHART:
             if (chartType === STACKED_COLUMN_CHART || chartType === LINE_AND_COLUMN_CHART) {
-                if (chartType == LINE_AND_COLUMN_CHART) {
+                if (chartType === LINE_AND_COLUMN_CHART) {
                     options.series.push({data: []});
                 }
                 options.chart.type = 'column';
@@ -124,8 +124,8 @@ function ZChart(container, chartType, chartProperty) {
                 pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
                 positioner: function (labelWidth) {
                     return {
-                        x: (this.chart.chartWidth - labelWidth) / 2,
-                        y: (this.chart.plotHeight / 2) + 15
+                        x: (chart.chartWidth - labelWidth) / 2,
+                        y: (chart.plotHeight / 2) + 15
                     };
                 }
             };
@@ -165,7 +165,7 @@ function ZChart(container, chartType, chartProperty) {
 
 Object.assign(ZChart.prototype, {
     /** chartConfig 파싱 진행 **/
-    parsedPropertyJson : function(chartConfig, property) {
+    parsedPropertyJson: function (chartConfig, property) {
         let chartConfigJson = JSON.parse(chartConfig);
         let propertyJson = JSON.parse(property);
 
