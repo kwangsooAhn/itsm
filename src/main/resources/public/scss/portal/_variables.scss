@@ -53,6 +53,8 @@ $list-bottom-border-color:                   $gray300;
 $keyword-font-color:                         $blue500;
 // 검색 내용
 $list-row-content-font-color:                $gray600;
+// 데이터 없을때 색상
+$no-data-font-color:                         $gray400;
 
 // list
 $layout-list-height:                         35.44rem; // 567px
@@ -118,8 +120,6 @@ $browser-box-hover-border-color:             $gray400;
 
 ////////////////////////// 로그인  //////////////////////////
 $login-bg-color:                             $blue500;
-$login-logo-position-top:                    5rem; // 80px
-$login-logo-position-left:                   5rem; // 80px
 
 $login-form-width:                           38.13rem; // 610px
 $login-form-font-size:                       $font-size-s; // 16px
@@ -135,18 +135,20 @@ $signup-logo-position-top:                   5rem; // 80px
 $signup-logo-position-left:                  5rem; // 80px
 
 $signup-form-width:                          38.13rem; // 610px
+// 계정이 있으신가요? 문구
+$signup-login-note-color:                    $white;
 
 ////////////////////////// 세션 만료  //////////////////////////
 $session-invalid-font-color:                 $gray800;
 $session-invalid-count-font-color:           $blue500;
-$session-invalid-bg-color:                   $neutral50;
+$session-invalid-bg-color:                   $gray50;
 $session-invalid-border-color:               $gray300;
 
 ////////////////////////// 에러  //////////////////////////
 $error-font-color:                           $gray800;
 $error-code-font-color:                      $blue500;
 $error-description-font-color:               $gray600;
-$error-bg-color:                             $neutral50;
+$error-bg-color:                             $blue50;
 $error-border-color:                         $gray300;
 
 ///////////////////////// 메일 인증 ////////////////////////////

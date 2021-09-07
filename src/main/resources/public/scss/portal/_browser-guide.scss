@@ -4,34 +4,30 @@
  * URL : .../portal/browserGuide
  */
 
-.browser-guide-main {
+.z-browser-guide-main {
   height: 100%;
   background-color: $browser-guide-bg-color;
   
   h1 {
-    margin: 14.81rem 19.6875rem 3.75rem 19.6875rem; // 237px 315px 60px 315px
-  }
-}
-
-.browser-box {
-  display: inline-block;
-  width: 22.5rem; // 360px
-  height: 22.5rem; // 360px
-  background-color: $browser-box-bg-color;
-  @include border(0.0625rem, solid, $browser-box-border-color, all);
-  margin-left: 0.8125rem; // 13px
-
-  img {
-    margin-top: 3.875rem; // 62px
-    width: 11.25rem; // 180px
-    height: 11.25rem; // 180px
+    margin: 14.81rem 19.063rem 3.75rem 19.063rem; // 237px 305px 60px 305px
   }
 
-  h3 {
-    margin-top: 1.25rem; // 20px
-  }
+  .z-browser-box {
+    display: inline-block;
+    width: 22.5rem; // 360px
+    height: 22.5rem; // 360px
+    background-color: $browser-box-bg-color;
+    @include border(0.0625rem, solid, $browser-box-border-color, all);
+    margin-left: 0.8125rem; // 13px
 
-  &:hover {
-    @include boxShadow(0, 0, 0.9375rem, 0, $browser-box-hover-border-color, true);
+    img {
+      margin-top: 3.875rem; // 62px
+      width: 11.25rem; // 180px
+      height: 11.25rem; // 180px
+    }
+
+    &:hover {
+      @include boxShadow(0, 0, 0.9375rem, 0, $browser-box-hover-border-color, true);
+    }
   }
 }

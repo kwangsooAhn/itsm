@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head></head>
 <body>
-<div class="list">
+<div class="z-card-list">
     <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
-    <div class="row flex-row align-items-center" th:each="portalList : ${portalList}">
-        <img class="z-img" th:src="@{|/assets/media/images/portal/img_portal_${portalList.tableName}.png|}" width="30" height="30">
-        <div class="item-box">
-            <h5 class="item-title underline text-ellipsis" th:switch="${portalList.tableName}">
+    <div class="z-card-row flex-row align-items-center" th:each="portalList : ${portalList}">
+        <img class="z-img mr-3" th:src="@{|/assets/media/images/portal/img_portal_${portalList.tableName}.png|}" width="30" height="30">
+        <div class="z-card-item-box">
+            <h5 class="z-card-item-title underline text-ellipsis" th:switch="${portalList.tableName}">
                 <a th:case="#{'notice'}" th:href="@{/portals/notices/{id}/view(id=${portalList.portalId})}"
                    th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a>
                 <a th:case="#{'faq'}" th:href="@{/portals/faqs/{id}/view(id=${portalList.portalId})}"
@@ -16,14 +16,14 @@
                    th:if="${portalList.portalTitle != null}"
                    th:text="${portalList.portalTitle}"></a>
             </h5>
-            <div class="item-content" th:switch="${portalList.tableName}">
+            <div class="z-card-item-content" th:switch="${portalList.tableName}">
                 <div class="text-ellipsis" th:case="#{'download'}" th:text="#{${portalList.portalContent}}"></div>
                 <div class="text-ellipsis" th:case="*" th:text="${portalList.portalContent}"></div>
             </div>
         </div>
     </div>
-    <div class="row" th:if="${#arrays.isEmpty(portalList)}">
-        <div class="no-data" th:text="#{common.msg.noData}"></div>
+    <div class="z-card-row" th:if="${#arrays.isEmpty(portalList)}">
+        <div class="no-data flex-row justify-content-center align-items-center" th:text="#{common.msg.noData}"></div>
     </div>
 </div>
 </body>

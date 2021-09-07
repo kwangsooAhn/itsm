@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/portal/portalLayout}">
+<!-- /* 헤더 생략 */ -->
+<th:block layout:fragment="pageHeader"></th:block>
+<!--/* 두 가지로 수직 분할된 레이아웃 : 로그인, 회원가입 등 */-->
+<th:block layout:fragment="pageContent">
+    <div class="z-main-content flex-row">
+        <!--/* 왼쪽 페이지  */-->
+        <div layout:fragment="pageLeft"></div>
+        <!--/* 오른쪽 페이지  */-->
+        <div layout:fragment="pageRight"></div>
+    </div>
+</th:block>

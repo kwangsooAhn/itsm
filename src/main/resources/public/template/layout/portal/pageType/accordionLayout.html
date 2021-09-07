@@ -2,14 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/portal/portalLayout}">
-<!--/* 페이징처리가 된 리스트 화면 레이아웃 */-->
+<!--/* 아코디언 형태의 화면 레이아웃 : FAQ */-->
 <th:block layout:fragment="pageContent">
     <div class="z-main-content flex-column">
         <!--/* 페이지별 검색 */-->
         <div layout:fragment="pageSearching"></div>
-        <!--/* 페이지별 리스트 */-->
-        <div layout:fragment="pageList"></div>
-        <!--/* 페이징 처리 영역 */-->
-        <th:block layout:replace="layout/portal/fragment/pagingAreaFragment"></th:block>
+        <!--/* 페이지별 아코디언 리스트 */-->
+        <div layout:fragment="pageAccordion"></div>
     </div>
 </th:block>
