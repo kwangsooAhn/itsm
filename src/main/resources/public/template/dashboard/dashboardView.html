@@ -56,13 +56,14 @@
         <div id="tokenList"></div>
     </div>
 </div>
-<script layout:fragment="pageScript" type="text/javascript">
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
     let offsetCount = 0;
     window.addEventListener('load', function () {
         document.getElementById('searchFromDt').value = i18n.getDate({'months': -3});
         document.getElementById('toDt').value = i18n.getDate();
         tokenSearch(false);
+        openNoticePopup(/*[[${noticePopUp}]]*/);
     });
 
     /**
@@ -146,6 +147,38 @@
         window.open(popUpUrl, 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
     }
 
+    /**
+     * 공지사항 팝업 호출
+     */
+    function openNoticePopup(noticePopupData) {
+        noticePopupData.forEach((data) => {
+            const targetId = data.noticeNo;
+            const targetUrl = '/notices/' + targetId + '/view-pop';
+            if (getCookie(targetId) !== 'done') {
+                window.open(targetUrl, targetId, 'width=' + data.popWidth + ',height=' + data.popHeight + ',top=' + 150 + ',left=' + 150);
+            }
+        });
+    }
+
+    /**
+     * 공지사항 팝업 기능 관련 쿠키 설정
+     */
+    function getCookie(name) {
+        const nameOfCookie = name + '=';
+        let x = 0;
+        while (x <= document.cookie.length) {
+            const y = (x + nameOfCookie.length);
+            if (document.cookie.substring(x, y) == nameOfCookie) {
+                if ((endOfCookie = document.cookie.indexOf(';', y)) == -1)
+                    endOfCookie = document.cookie.length;
+                return unescape(document.cookie.substring(y, endOfCookie));
+            }
+            x = document.cookie.indexOf(' ', x) + 1;
+            if (x == 0)
+                break;
+        }
+        return '';
+    }
     /* ]]> */
 </script>
 </body>
