@@ -4196,6 +4196,7 @@ table tbody tr:hover {
 }
 .file-uploader-view {
   display: flex;
+  align-items: center;
   min-height: 3.125rem;
   padding: 0.125rem 1.25rem;
 }
