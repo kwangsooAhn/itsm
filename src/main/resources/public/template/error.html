@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/portalLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/portal/pageType/verticalSplitLayout}">
 <head>
     <title th:text="#{project.title.error}"></title>
 </head>
 <body>
-<th:block layout:fragment="portalHead"></th:block>
-<th:block layout:fragment="portalContent">
-    <div class="error-main flex-row">
-        <div class="error-background float-left">
-            <img class="z-img i-error-caution" th:src="@{/assets/media/images/error/img_error_caution.png}"/>
-            <img class="z-img i-logo"  th:src="@{/assets/media/icons/logo/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
-        </div>
-        <div class="error-form float-right">
-            <h1 th:text="#{error.label.topPhrase}"></h1>
-            <h1 th:text="#{error.label.middlePhrase}"></h1>
-            <h3 th:text="${message}" class="error-code-txt"></h3>
-            <h3 th:text="|#{error.label.errorCode} : ${error} (${status})|" class="error-code-txt"></h3>
-            <h3 th:text="#{error.label.bottomPhrase}" class="error-bottom-txt"></h3>
-            <button th:text="#{error.btn.return}" class="z-button primary" id="errorButton"></button>
-        </div>
+<th:block layout:fragment="pageLeft">
+    <div class="z-vertical-split-left z-error-background float-left">
+        <img class="z-img i-logo"  th:src="@{/assets/media/icons/logo/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
+    </div>
+</th:block>
+<th:block layout:fragment="pageRight">
+    <div class="z-vertical-split-right z-error-form float-right">
+        <h1 th:text="#{error.label.topPhrase}"></h1>
+        <h1 th:text="#{error.label.middlePhrase}"></h1>
+        <h3 th:text="${message}" class="z-error-code-txt"></h3>
+        <h3 th:text="|#{error.label.errorCode} : ${error} (${status})|" class="z-error-code-txt"></h3>
+        <h3 th:text="#{error.label.bottomPhrase}" class="z-error-bottom-txt"></h3>
+        <button th:text="#{error.btn.return}" class="z-button primary" id="errorButton"></button>
     </div>
 </th:block>
 </body>

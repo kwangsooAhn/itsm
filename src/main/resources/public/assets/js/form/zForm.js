@@ -27,7 +27,7 @@ export default class ZForm {
         this._id =  data.id || ZWorkflowUtil.generateUUID();
         this._name = data.name || '';
         this._desc = data.desc || '';
-        this._status = data.status || 'form.status.edit'; // 문서 상태 : 편집, 발생, 사용, 폐기
+        this._status = data.status || FORM.STATUS.EDIT; // 문서 상태 : 편집, 발생, 사용, 폐기
         this._category = data.category || 'process'; // process | cmdb
         this._display = {
             width: data.display.width || '960',
