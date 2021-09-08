@@ -30,7 +30,7 @@
     <div class="horizontal-bar"></div>
     <div class="flex-column z-view-row">
         <div id="boardContents" class="view-content ql-border-disabled">
-            <span class="view-text" th:text="${boardInfo?.boardContents}"></span>
+            <span th:text="#{common.label.contents}"></span>
         </div>
     </div>
     <div class="horizontal-bar"></div>
@@ -104,11 +104,11 @@
                 getBoardCommentList();
             }
             // 텍스트 에디터 초기화
-            // textEditor = new zQuill(document.getElementById('boardContents'), {
-            //     toolbarVisible: false,
-            //     readOnly: true,
-            //     content: (boardId !== "") ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
-            // });
+            textEditor = new zQuill(document.getElementById('boardContents'), {
+                toolbarVisible: false,
+                readOnly: true,
+                content: (boardId !== "") ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
+            });
 
             OverlayScrollbars(document.querySelector('.view'), {className: 'scrollbar'});
         };

@@ -4156,7 +4156,6 @@ select {
 }
 
 .ql-container .ql-editor {
-  resize: vertical;
   overflow: auto;
 }
 .ql-container .ql-editor::-webkit-scrollbar-track {
