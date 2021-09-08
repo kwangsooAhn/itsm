@@ -38,7 +38,7 @@ const DEFAULT_TAGIFY_SETTING = {
     editTags: false,
     placeholder: i18n.msg('token.msg.tag')
 };
-const TAG_TYPE = ['ci', 'instance', 'component'];
+const TAG_TYPE = ['ci', 'instance', 'component', 'chart'];
 const TAG_ERROR_MSG = {
     INVALID_TAG_TYPE: 'is invalid tag type. you can use tag type in [' + TAG_TYPE + ']'
 };
@@ -86,7 +86,7 @@ function zTag(inputElement, userSettings, tagifySettings) {
         }));
     }
 
-    // 화면 저장과 따로 실시간으로 저장/삭제하는 경우 이벤트 (ex: 처리할문서)
+    // 화면 저장과   실시간으로 저장/삭제하는 경우 이벤트 (ex: 처리할문서)
     if (userSettings.realtime) {
         tagging.on('add', (function (tag) {
             const jsonData = {

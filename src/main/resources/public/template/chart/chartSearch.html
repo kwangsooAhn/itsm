@@ -5,15 +5,6 @@
       layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{chart.label.chartList}"></title>
-    <th:block layout:fragment="pageHead">
-        <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
-        <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
-        <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
-        <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
-        <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
-        <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
-        <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
-    </th:block>
 </head>
 <body>
 <div layout:fragment="pageTitle">
@@ -238,12 +229,12 @@
                     setDisplay(document.getElementById('typeSelectBox').value);
                     let targetTags = document.getElementById('targetTags').value
                     document.getElementById('targetTags').value = targetTags.substring(1, targetTags.length - 1);
-                    new Tagify(document.querySelector('input[id=targetTags]'), {
-                        pattern: /^.{0,100}$/,
-                        editTags: false,
-                        placeholder: i18n.msg('token.msg.tag')
+                  new zTag(document.querySelector('input[name=targetTags]'),{
+                        suggestion: false,
+                        realtime: false,
+                        tagType: 'chart',
+                        targetId: chartId
                     });
-                    aliceJs.initDesignedSelectTag(document.querySelector('.chart-edit-modal'));
                 } else if (target === 'view') {
                     setChart(chartType, document.getElementById('propertyJson').value);
                 }
