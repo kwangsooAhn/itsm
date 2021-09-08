@@ -313,22 +313,6 @@
     }
 
     /**
-     * 다른 이름으로 저장 content.
-     *
-     * @return {string} content html
-     */
-    function createDialogContent() {
-        return `
-            <div class="save-as-main flex-column">
-                <label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>
-                <input type="text" id="process_name">
-                <label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>
-                <textarea rows="3" class="textarea-scroll-wrapper" id="process_description"></textarea>
-            </div>
-            `;
-    }
-
-    /**
      * save as process.
      */
     function saveAsProcess() {
@@ -338,7 +322,7 @@
          * @return {boolean} 체크성공여부
          */
         const checkRequired = function () {
-            let nameTextObject = document.getElementById('process_name');
+            let nameTextObject = document.getElementById('newProcessName');
             if (nameTextObject.value.trim() === '') {
                 nameTextObject.classList.add('error');
                 aliceAlert.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
@@ -355,8 +339,8 @@
         const saveAs = function () {
             const saveAsProcessData = JSON.parse(JSON.stringify(zProcessDesigner.data));
             let processData = saveAsProcessData.process;
-            processData.name = document.getElementById('process_name').value;
-            processData.description = document.getElementById('process_description').value;
+            processData.name = document.getElementById('newProcessName').value;
+            processData.description = document.getElementById('newProcessDescription').value;
             aliceJs.sendXhr({
                 method: 'POST',
                 url: '/rest/processes' + '?saveType=saveas',
@@ -374,6 +358,7 @@
                         default:
                             aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                                 opener.location.reload();
+
                                 window.name = 'process_' + processId + '_edit';
                                 location.href = '/process/' + processId + '/edit';
                             });
@@ -399,10 +384,10 @@
         /**
          * 다른 이름으로 저장하기 모달.
          */
-
+        const saveAsModalTemplate = document.getElementById('saveAsModalTemplate');
         const saveAsModal = new modal({
             title: i18n.msg('common.btn.saveAs'),
-            body: createDialogContent(),
+            body: saveAsModalTemplate.content.cloneNode(true),
             classes: 'save-as',
             buttons: [
                 {
@@ -423,11 +408,9 @@
                     }
                 }
             ],
-            close: {
-                closable: false,
-            },
+            close: { closable: false },
             onCreate: function(modal) {
-                OverlayScrollbars(document.getElementById('process_description'), {
+                OverlayScrollbars(document.getElementById('newProcessDescription'), {
                     className: 'scrollbar',
                     resize: 'none',
                     sizeAutoCapable: true,
