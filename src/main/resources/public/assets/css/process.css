@@ -1070,6 +1070,7 @@ input, button, select, optgroup, textarea {
   position: fixed;
   top: 0;
   width: 100%;
+  left: 0;
   height: 2.875rem;
   font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1.125rem;
@@ -4444,6 +4445,7 @@ body.modal-active {
 }
 
 .modal-dialog.save-as .modal-content {
+  height: calc(25.63rem - 3.375rem - 5rem);
   padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -4459,6 +4461,7 @@ body.modal-active {
   margin: 1rem 0 0.5rem 0;
 }
 .modal-dialog.save-as .modal-content .textarea-scroll-wrapper {
+  min-height: 7.5rem;
   resize: none;
 }
 
