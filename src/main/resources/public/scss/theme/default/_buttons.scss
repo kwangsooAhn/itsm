@@ -1,2 +1,10 @@
 @import "../../template/buttons";
 
+
+.z-button-icon {
+  .z-icon {
+    &.i-plus {
+      background: $black;
+    }
+  }
+}
