@@ -25,6 +25,7 @@
   margin: 0.9375rem 0 0 0; // 15px 0 0 0
   // 라벨
   .property-label {
+    @include relative();
     font-size: $property-label-font-size;
     color: $property-label-color;
 

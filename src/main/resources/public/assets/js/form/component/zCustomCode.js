@@ -275,6 +275,7 @@ export const customCodeMixin = {
     getProperty() {
         const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueCustomCode', 'element.DefaultValueCustomCode',
             this.elementDefaultValueCustomCode);
+        customCodeProperty.help = 'form.help.custom-code';
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),

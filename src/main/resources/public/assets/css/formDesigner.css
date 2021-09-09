@@ -5489,6 +5489,7 @@ body.modal-active {
   }
 }
 .z-help-tooltip {
+  position: relative;
   display: inline-block;
   margin-left: 0.3125rem;
   vertical-align: middle;
@@ -5504,7 +5505,7 @@ body.modal-active {
   background-color: #FFFFFF;
   color: #339AF0;
   width: 100%;
-  font-size: 1rem;
+  font-size: 0.875rem;
   border: 0.125rem solid #339AF0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -5520,6 +5521,54 @@ body.modal-active {
   color: #339AF0;
   word-break: keep-all;
   line-height: 1.5;
+}
+.z-help-tooltip .z-tooltip-contents.top {
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  -webkit-transform: translate(-50%, calc(-100% - 0.625rem));
+  -moz-transform: translate(-50%, calc(-100% - 0.625rem));
+  -o-transform: translate(-50%, calc(-100% - 0.625rem));
+  -ms-transform: translate(-50%, calc(-100% - 0.625rem));
+  transform: translate(-50%, calc(-100% - 0.625rem));
+}
+.z-help-tooltip .z-tooltip-contents.right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  -webkit-transform: translate(calc(100% + 0.625rem), -50%);
+  -moz-transform: translate(calc(100% + 0.625rem), -50%);
+  -o-transform: translate(calc(100% + 0.625rem), -50%);
+  -ms-transform: translate(calc(100% + 0.625rem), -50%);
+  transform: translate(calc(100% + 0.625rem), -50%);
+}
+.z-help-tooltip .z-tooltip-contents.bottom {
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+.z-help-tooltip .z-tooltip-contents.left {
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 0;
+  -webkit-transform: translate(calc(-100% - 0.625rem), -50%);
+  -moz-transform: translate(calc(-100% - 0.625rem), -50%);
+  -o-transform: translate(calc(-100% - 0.625rem), -50%);
+  -ms-transform: translate(calc(-100% - 0.625rem), -50%);
+  transform: translate(calc(-100% - 0.625rem), -50%);
 }
 .z-help-tooltip:hover .z-tooltip-contents {
   visibility: visible;
@@ -5673,6 +5722,10 @@ body.modal-active {
   left: 50%;
   content: "";
   margin-left: -0.313rem;
+}
+
+.z-help-tooltip {
+  position: static;
 }
 
 /* form, group, row, component 디자인 */
@@ -6064,6 +6117,7 @@ body.modal-active {
   margin: 0.9375rem 0 0 0;
 }
 .property .property-label {
+  position: relative;
   font-size: 0.875rem;
   color: #8B9094;
 }
