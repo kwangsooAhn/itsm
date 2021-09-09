@@ -401,7 +401,7 @@
         let tagList = [];
         JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
             tagList.push(tag.value);
-        })
+        });
 
         let chartInfo = {
             chartType: document.getElementById('typeSelectBox').value,
