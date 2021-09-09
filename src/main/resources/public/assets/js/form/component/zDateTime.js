@@ -198,6 +198,7 @@ export const dataTimeMixin = {
                 {name: '', value: FORM.DATE_TYPE.DATETIME},
                 {name: '', value: FORM.DATE_TYPE.DATETIME_PICKER}
             ]);
+        defaultValueRadioProperty.help = 'form.help.datetime-default';
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
