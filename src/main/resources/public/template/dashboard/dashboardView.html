@@ -108,7 +108,7 @@
                 } else {
                     document.getElementById('tokenList').innerHTML = response.responseText;
                     setDateTimeFormat(document.getElementById('tokenList'));
-                    /*OverlayScrollbars(document.querySelector('.scroll-wrap'), {
+                    OverlayScrollbars(document.querySelector('.z-page-content'), {
                         className: 'scrollbar',
                         callbacks: {
                             onScroll: function (e) {
@@ -122,7 +122,7 @@
                                 }
                             }
                         }
-                    });*/
+                    });
                 }
             }
         };
