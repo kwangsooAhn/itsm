@@ -270,7 +270,7 @@
         @include border(calc(#{$list-border-width} * 2), solid, $list-border-color, top);
         @include border($list-border-width, solid, $list-border-color, bottom);
         tr {
-          height: 2.615rem; // 41.84px
+          height: 2.5625rem; // 41px
           // 마우스 오버시 배경 색상
           &:hover { background-color: $list-hover-bg-color; }
           // 선택된 경우
