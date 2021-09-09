@@ -367,13 +367,11 @@
             onCreate: function(modal) {
                 // 파일 업로드 추가
                 zFileUploader.init({
-                    extra: {
-                        formId: 'importForm',
-                        dropZoneMaxFiles: 1,
-                        acceptedFiles: '.xml',
-                        dropZoneUrl: '/fileupload?target=import',
-                        editor: true
-                    }
+                    formId: 'importForm',
+                    dropZoneMaxFiles: 1,
+                    acceptedFiles: '.xml',
+                    dropZoneUrl: '/fileupload?target=import',
+                    editor: true
                 });
                 // 스크롤바 추가
                 OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});

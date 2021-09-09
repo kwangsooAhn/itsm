@@ -64,18 +64,16 @@ export const fileUploadMixin = {
             this.UIElement.UIComponent.UIElement.UIFileUpload.addUIClass('disabled');
         }
         let fileOptions = {
-            extra: {
-                formId: 'frm',
-                ownId: '',
-                dropZoneFilesId: 'dropZoneFiles-' + this.id,
-                dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + this.id,
-                clickable: false,
-                editor: true,
-                isView: false,
-                isForm: true,
-                fileDataIds: this.value,
-                userCallback: this.updateValue.bind(this) // 파일업로드, 파일삭제시 호출되는 callback 함수
-            }
+            formId: 'frm',
+            ownId: '',
+            dropZoneFilesId: 'dropZoneFiles-' + this.id,
+            dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + this.id,
+            clickable: false,
+            editor: true,
+            isView: false,
+            isForm: true,
+            fileDataIds: this.value,
+            userCallback: this.updateValue.bind(this) // 파일업로드, 파일삭제시 호출되는 callback 함수
         };
         // 미리보기 시 dropzone 중복을 방지하기 위해 id 재구성
         let validateElem = document.querySelectorAll('#dropZoneFiles-' + this.id);

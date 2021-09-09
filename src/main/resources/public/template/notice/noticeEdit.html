@@ -116,7 +116,7 @@
         document.getElementById('noticeTitle').focus();
         setDisplay('popTab',document.getElementById('popYn'));
         setDisplay('topNoticeTab',document.getElementById('topNoticeYn'));
-        zFileUploader.init({extra: {formId: 'frm', ownId: [[${notice?.noticeNo}]]}});
+        zFileUploader.init({formId: 'frm', ownId: [[${notice?.noticeNo}]]});
         OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelectorAll('#noticeContents'), {
             className: 'scrollbar',
