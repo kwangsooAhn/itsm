@@ -126,6 +126,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     const customCodeValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';
                     this.makeCustomCodeData(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue).then(function (response){
                         radioGroup.addUI(radioGroup.UISelect);
+                        aliceJs.initDesignedSelectTag(radioGroup.domElement);
                     });
                     this.UIElement.UIGroup.UIDiv = radioGroup;
                     break;
