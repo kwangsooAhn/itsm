@@ -86,7 +86,7 @@ function zTag(inputElement, userSettings, tagifySettings) {
         }));
     }
 
-    // 화면 저장과   실시간으로 저장/삭제하는 경우 이벤트 (ex: 처리할문서)
+    // 화면 저장과 따로 실시간으로 저장/삭제하는 경우 이벤트 (ex: 처리할문서)
     if (userSettings.realtime) {
         tagging.on('add', (function (tag) {
             const jsonData = {
