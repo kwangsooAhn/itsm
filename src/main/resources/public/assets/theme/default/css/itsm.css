@@ -2763,6 +2763,7 @@ select {
 }
 .z-itsm-container .z-main-content .z-page-result .z-document-color {
   width: 0.75rem;
+  margin: 0.05rem;
 }
 .z-itsm-container .z-main-content .z-page-result .z-document-row {
   padding: 1.875rem 3rem;

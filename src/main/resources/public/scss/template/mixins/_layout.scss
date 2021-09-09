@@ -163,7 +163,10 @@
     background-color: $layout-page-content-bg-color;
 
     // 문서함 > 우측 업무흐름 색상바
-    .z-document-color { width: 0.75rem; } // 12px
+    .z-document-color {
+      width: 0.75rem;  // 12px
+      margin: 0.05rem;
+    }
 
     // 문서함 > 제목 내용
     .z-document-row {
