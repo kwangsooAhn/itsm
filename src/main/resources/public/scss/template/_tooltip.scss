@@ -16,6 +16,7 @@
 }
 
 .z-help-tooltip {
+  @include relative();
   display: inline-block;
   margin-left: $tooltip-help-margin;
   vertical-align: middle;
@@ -28,6 +29,7 @@
   }
 
   .z-tooltip-contents {
+    // 툴팁 표시 위치 기본은 우측 하단
     @include absolute($left: $tooltip-contents-left);
     visibility: hidden;
     background-color: $tooltip-contents-background;
@@ -44,6 +46,23 @@
       color: $tooltip-contents-color;
       word-break: keep-all;
       line-height: 1.5;
+    }
+    // 툴팁 표시 위치 조정 가능
+    &.top {
+      @include absolute(0, auto, auto, 50%);
+      @include translate(-50%, calc(-100% - 0.625rem)); // 10px
+    }
+    &.right {
+      @include absolute(0, 0, auto, auto);
+      @include translate(calc(100% + 0.625rem), -50%);
+    }
+    &.bottom {
+      @include absolute(auto, auto, auto, 50%);
+      @include translate(-50%, 0);
+    }
+    &.left {
+      @include absolute(0, auto, auto, 0);
+      @include translate(calc(-100% - 0.625rem), -50%);
     }
   }
 

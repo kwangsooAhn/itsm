@@ -197,6 +197,7 @@ export const dateMixin = {
                 { name: '', value: FORM.DATE_TYPE.DAYS },
                 { name: '', value: FORM.DATE_TYPE.DATE_PICKER }
             ]);
+        defaultValueRadioProperty.help = 'form.help.date-default';
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
