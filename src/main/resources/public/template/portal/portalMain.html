@@ -1,71 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/portalLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/portal/pageType/cardLayout}">
 <head>
     <title th:text="#{portal.label.portal}"></title>
 </head>
 <body>
-<th:block layout:fragment="portalContent">
-    <div class="main">
-        <div id="main-banner" class="main-banner">
-            <h1 class="title align-center" th:text="#{portal.label.topPhrase}"></h1>
-        </div>
-        <div id="main-search" class="main-search align-center">
-            <input type="text" class="col-8 z-input i-search mr-2" id="searchValue" name="searchValue"
-                   th:value="${portalSearchDto?.searchValue}"
-                   th:placeholder="#{common.label.searchWord}" maxlength="100"/>
-            <span id="spanTotalCount" class="search-count"></span>
-        </div>
-        <div class="main-content">
-            <ul class="card-group flex-row justify-content-between">
-                <li class="card flex-column">
-                    <div class="card-header align-center">
-                        <div class="icon">
-                            <a href="/portals/notices/search">
-                                <img class="z-img i-portal-notice" th:src="@{/assets/media/images/portal/img_portal_notice.png}" width="120" height="120" alt="Notice">
-                            </a>
-                        </div>
-                        <h3 th:text="#{menu.notice.parent}"></h3>
+<th:block layout:fragment="pageSearching">
+    <div id="mainBanner" class="z-main-banner">
+        <h1 class="title align-center" th:text="#{portal.label.topPhrase}"></h1>
+    </div>
+    <div id="mainSearch" class="z-main-search align-center">
+        <input type="text" class="col-8 z-input i-search mr-2" id="searchValue" name="searchValue"
+               th:value="${portalSearchDto?.searchValue}"
+               th:placeholder="#{common.label.searchWord}" maxlength="100"/>
+        <span id="spanTotalCount" class="search-count"></span>
+    </div>
+</th:block>
+<th:block layout:fragment="pageCard">
+    <div id="mainCard" class="z-main-card">
+        <ul class="z-card-group flex-row justify-content-between">
+            <li class="z-card flex-column">
+                <div class="z-card-header align-center">
+                    <div class="z-card-icon pb-4">
+                        <a href="/portals/notices/search">
+                            <img class="z-img i-portal-notice pointer" th:src="@{/assets/media/images/portal/img_portal_notice.png}" width="120" height="120" alt="Notice">
+                        </a>
                     </div>
-                    <div class="card-list">
-                        <table id="notice"></table>
+                    <h3 th:text="#{menu.notice.parent}"></h3>
+                </div>
+                <div class="z-card-list-summary">
+                    <table id="notice"></table>
+                </div>
+            </li>
+            <li class="z-card flex-column">
+                <div class="z-card-header align-center">
+                    <div class="z-card-icon pb-4">
+                        <a href="/portals/faqs/ /view">
+                            <img class="z-img i-portal-faq pointer" th:src="@{/assets/media/images/portal/img_portal_faq.png}" width="120" height="120" alt="Faq">
+                        </a>
                     </div>
-                </li>
-                <li class="card flex-column">
-                    <div class="card-header align-center">
-                        <div class="icon">
-                            <a href="/portals/faqs/ /view">
-                                <img class="z-img i-portal-faq" th:src="@{/assets/media/images/portal/img_portal_faq.png}" width="120" height="120" alt="Faq">
-                            </a>
-                        </div>
-                        <h3 th:text="#{menu.faq.parent}"></h3>
+                    <h3 th:text="#{menu.faq.parent}"></h3>
+                </div>
+                <div class="z-card-list-summary">
+                    <table id="faq"></table>
+                </div>
+            </li>
+            <li class="z-card flex-column">
+                <div class="z-card-header align-center">
+                    <div class="z-card-icon pb-4">
+                        <a href="/portals/downloads/search">
+                            <img class="z-img i-portal-download pointer" th:src="@{/assets/media/images/portal/img_portal_download.png}" width="120" height="120" alt="Download">
+                        </a>
                     </div>
-                    <div class="card-list">
-                        <table id="faq"></table>
-                    </div>
-                </li>
-                <li class="card flex-column">
-                    <div class="card-header align-center">
-                        <div class="icon">
-                            <a href="/portals/downloads/search">
-                                <img class="z-img i-portal-download" th:src="@{/assets/media/images/portal/img_portal_download.png}" width="120" height="120" alt="Download">
-                            </a>
-                        </div>
-                        <h3 th:text="#{menu.download.parent}"></h3>
-                    </div>
-                    <div class="card-list">
-                        <table id="download"></table>
-                    </div>
-                </li>
-            </ul>
-        </div>
+                    <h3 th:text="#{menu.download.parent}"></h3>
+                </div>
+                <div class="z-card-list-summary">
+                    <table id="download"></table>
+                </div>
+            </li>
+        </ul>
     </div>
 </th:block>
 </body>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript">
+<script layout:fragment="pageScript" th:inline="javascript">
         /*<![CDATA[ */
         const topSize = 6;
         let offsetCount = 0;
@@ -99,27 +98,27 @@
                 contentType: 'application/json; charset=utf-8',
                 showProgressbar: false,
                 callbackFunc: function (response) {
-                    let tops = Object.entries(JSON.parse(response.responseText));
+                    const tops = Object.entries(JSON.parse(response.responseText));
                     tops.forEach(([topName, topData]) => {
-                        let topElement = document.getElementById(topName);
+                        const topElement = document.getElementById(topName);
                         for (let i = 0; i < topData.length; i++) {
-                            let data = topData[i];
-                            let row = document.createElement('tr');
-                            let cell = document.createElement('td');
-                            let contentAnchor = document.createElement('a');
+                            const data = topData[i];
+                            const row = document.createElement('tr');
+                            const cell = document.createElement('td');
+                            const contentAnchor = document.createElement('a');
                             switch (topName) {
                                 case 'notice':
-                                    contentAnchor.setAttribute('href', '/portals/notices/'+ data['id'] +'/view');
+                                    contentAnchor.href = '/portals/notices/'+ data['id'] +'/view';
                                     break;
                                 case 'faq':
-                                    contentAnchor.setAttribute('href', '/portals/faqs/' + data['id'] +'/view');
+                                    contentAnchor.href = '/portals/faqs/' + data['id'] +'/view';
                                     break;
                                 case 'download':
-                                    contentAnchor.setAttribute('href', '/portals/downloads/'+ data['id'] +'/view');
+                                    contentAnchor.href = '/portals/downloads/'+ data['id'] +'/view';
                                     break;
                             }
                             let contentText = document.createElement('span');
-                            contentText.classList.add('text-ellipsis');
+                            contentText.className = 'text-ellipsis';
                             contentText.textContent = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
                             contentAnchor.appendChild(contentText);
                             cell.appendChild(contentAnchor);
@@ -163,7 +162,7 @@
                 async: false,
                 callbackFunc: function (response) {
                     if (isScroll) {
-                        let dataList = JSON.parse(response.responseText);
+                        const dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
                             if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                 offsetCount = offsetCount + aliceJs.searchDataCount;
@@ -173,11 +172,10 @@
                             }
                         }
                     } else {
-                        document.querySelector('.main-content').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                        document.getElementById('mainCard').innerHTML = response.responseText;
                     }
                     // 검색 조회 결과 화면 스크롤바
-                    OverlayScrollbars(document.querySelector('.list'), {
+                    OverlayScrollbars(document.querySelector('.z-card-list'), {
                         className: 'scrollbar',
                         callbacks: {
                             onScroll: function(e) {
@@ -185,13 +183,13 @@
                                 const scrollTop = e.target.scrollTop;
                                 const clientHeight = e.target.clientHeight;
                                 if (scrollTop > 20) {
-                                    document.getElementById('main-search').classList.remove('slide-down');
-                                    document.getElementById('main-search').classList.add('slide-up');
-                                    document.getElementById('main-banner').style.display='none';
+                                    document.getElementById('mainSearch').classList.remove('slide-down');
+                                    document.getElementById('mainSearch').classList.add('slide-up');
+                                    document.getElementById('mainBanner').style.display='none';
                                 } else {
-                                    document.getElementById('main-search').classList.remove('slide-up');
-                                    document.getElementById('main-search').classList.add('slide-down');
-                                    document.getElementById('main-banner').style.display='block';
+                                    document.getElementById('mainSearch').classList.remove('slide-up');
+                                    document.getElementById('mainSearch').classList.add('slide-down');
+                                    document.getElementById('mainBanner').style.display='block';
                                 }
                                 if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
                                     if (aliceJs.isEnableScrollEvent(offsetCount)) {
@@ -203,8 +201,8 @@
                     });
 
                     if (isNotEmpty('searchValue')) {
-                        document.querySelectorAll('.row > .item-box > .item-content > .text-ellipsis').forEach(function(data) {
-                            let regex = new RegExp(document.getElementById('searchValue').value, 'gi');
+                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach(function(data) {
+                            const regex = new RegExp(document.getElementById('searchValue').value, 'gi');
                             data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + document.getElementById('searchValue').value + "</span>");
                         });
                     }
@@ -214,21 +212,23 @@
         }
 
         function getDataTemplate(data) {
-            let div = document.querySelector('.list .os-content');
-            let divRow = document.createElement('div');
-            divRow.className = 'row flex-row align-items-center';
+            const div = document.querySelector('.z-card-list .os-content');
+            const divRow = document.createElement('div');
+            divRow.className = 'z-card-row flex-row align-items-center';
             // 이미지
-            let typeImage = document.createElement('img');
-            typeImage.className= 'z-img';
+            const typeImage = document.createElement('img');
+            typeImage.className = 'z-img mr-3';
             typeImage.src = '/assets/media/images/portal/img_portal_' + data.tableName + '.png';
+            typeImage.style.width = '30px';
+            typeImage.style.height = '30px';
             divRow.appendChild(typeImage);
             // 내용
-            let divContentBox = document.createElement('div');
-            divContentBox.className = 'item-box';
+            const divContentBox = document.createElement('div');
+            divContentBox.className = 'z-card-item-box';
 
-            let divTitle = document.createElement('h5');
-            divTitle.className = "item-title underline text-ellipsis";
-            let aTitle = document.createElement('a');
+            const divTitle = document.createElement('h5');
+            divTitle.className = 'z-card-item-title underline text-ellipsis';
+            const aTitle = document.createElement('a');
             if (data.tableName === 'notice') {
                 aTitle.href = '/portals/notices/' + data.portalId + '/view';
             } else if (data.tableName === 'faq') {
@@ -240,10 +240,10 @@
             divTitle.appendChild(aTitle);
             divContentBox.appendChild(divTitle);
 
-            let divContentWrapper = document.createElement('div');
-            divContentWrapper.className = 'item-content';
-            let divContent = document.createElement('div');
-            divContent.className = "text-ellipsis";
+            const divContentWrapper = document.createElement('div');
+            divContentWrapper.className = 'z-card-item-content';
+            const divContent = document.createElement('div');
+            divContent.className = 'text-ellipsis';
             if (data.tableName === 'download') {
                 divContent.innerText = i18n.msg(''+data.portalContent+'');
             } else {
@@ -256,6 +256,5 @@
             div.appendChild(divRow);
         }
         /* ]]> */
-    </script>
-</th:block>
+</script>
 </html>

@@ -730,7 +730,6 @@
     function drawViewDetails(target, attributeData, userInfo) {
         target.removeAttribute('onclick');
         target.innerHTML = '';
-        // TODO: UX팀 디자인 작업 후 변경 예정
         for (let i = 0, iLen = attributeData.length; i < iLen; i++) {
             const groupAttribute = attributeData[i];
             const groupAttributeElem = document.createElement('div');
@@ -738,7 +737,7 @@
             for (let j = 0, jLen = groupAttribute.attributes.length; j < jLen; j++) {
                 const attributes = groupAttribute.attributes[j];
                 const childAttributeElem = document.createElement('div');
-                childAttributeElem.className = 'flex-column edit-row attribute';
+                childAttributeElem.className = 'flex-column z-view-row attribute';
                 childAttributeElem.setAttribute('data-attributeType', attributes.attributeType);
                 // 라벨
                 const labelElem = document.createElement('label');
@@ -768,59 +767,37 @@
                         childAttributeElem.appendChild(inputElem);
                         break;
                     case 'dropdown':
-                        const selectElem = document.createElement('select');
+                        const selectElem = document.createElement('input');
+                        selectElem.type = 'text';
+                        selectElem.className = 'z-input';
                         selectElem.id = attributes.attributeId;
-                        selectElem.className = 'readonly';
+                        selectElem.readOnly = true;
 
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
-                                const selectOption = document.createElement('option');
-                                selectOption.textContent = attributeOption.text;
-                                selectOption.value = attributeOption.value;
-                                if (selectOption.value === attributes.value) {
-                                    selectOption.selected = true;
+                                if (attributeOption.value === attributes.value) {
+                                    selectElem.value = attributeOption.text;
                                 }
-                                selectElem.appendChild(selectOption);
                             }
                         }
                         childAttributeElem.appendChild(selectElem);
                         break;
                     case 'radio':
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            const radio = document.createElement('input');
+                            radio.type = 'text';
+                            radio.className = 'z-input';
+                            radio.name = 'attribute-radio';
+                            radio.readOnly = true;
+
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
-                                const radioGroup = document.createElement('label');
-                                radioGroup.className = 'z-radio';
-                                radioGroup.tabindex = 0;
-                                radioGroup.htmlFor = attributes.attributeId + '-' + opt;
-
-                                const radio = document.createElement('input');
-                                radio.type = 'radio';
-                                radio.id = attributes.attributeId + '-' + opt;
-                                radio.name = 'attribute-radio';
-                                radio.value = attributeOption.value;
-                                radio.readOnly = true;
-                                radio.onclick = function() {
-                                    return false;
-                                };
                                 if (attributeOption.value === attributes.value) {
-                                    radio.checked = true;
+                                    radio.value = attributeOption.text;
                                 }
-                                if (attributes.value === '' && opt === 0) {
-                                    radio.checked = true;
-                                }
-                                radioGroup.appendChild(radio);
-
-                                const radioSpan = document.createElement('span');
-                                radioGroup.appendChild(radioSpan);
-
-                                const radioLabel = document.createElement('span');
-                                radioLabel.className = 'label';
-                                radioLabel.textContent = attributeOption.text;
-                                radioGroup.appendChild(radioLabel);
-                                childAttributeElem.appendChild(radioGroup);
                             }
+                            childAttributeElem.appendChild(radio);
                         }
                         break;
                     case 'checkbox':

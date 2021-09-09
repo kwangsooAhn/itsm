@@ -42,7 +42,7 @@ export default class ZGroup {
         this._type = 'group';
         this._id =  data.id || ZWorkflowUtil.generateUUID();
         this._name = data.name || ''; // 신청서 양식에서 사용되는 이름
-        this._displayType = data.displayType || 'document.displayType.editable';
+        this._displayType = data.displayType || FORM.DISPLAY_TYPE.EDITABLE;
         this._label = Object.assign({}, DEFAULT_GROUP_LABEL_PROPERTY, data.label);
         this._display = data.display || {
             displayOrder: 0,     // 표시 순서

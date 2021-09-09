@@ -23,76 +23,74 @@
   }
 }
 // z-itsm-container ----------------------------------------------------------------------------------------------------
-.z-itsm {
-  &-container {
+.z-itsm-container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+
+  .z-main {
     display: flex;
-    flex-direction: row;
-    width: 100vw;
+    flex-direction: column;
+    width: calc(100% - #{$nav-width});
     height: 100vh;
-    overflow: auto;
+    background-color: $layout-main-bg-color;
 
-    .z-main {
+    &-title {
       display: flex;
-      flex-direction: column;
-      width: calc(100% - #{$nav-width});
-      height: 100vh;
-      background-color: $layout-main-bg-color;
+      align-items: baseline!important;
+      padding: 0 3.75rem 2rem 3.75rem; // 0 60px 32px 60px
+    }
 
-      &-title {
+    &-content {
+      background-color: $layout-content-bg-color;
+      height: 100%;
+
+      .z-page-content {
+        @include border(0.0625rem,solid,$layout-main-header-border-color,top);
+        flex: 1 1 auto;
+        background: $layout-page-content-bg-color;
+      }
+
+      .z-page-search {
         display: flex;
-        align-items: baseline!important;
-        padding: 0 3.75rem 2rem 3.75rem; // 0 60px 32px 60px
+        flex-direction: row;
+        padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
+        .z-search-count {
+          font-weight: $layout-header-search-font-weight;
+          font-size: 0.875rem;
+          color: $layout-header-search-color;
+        }
       }
 
-      &-content {
-        background-color: $layout-content-bg-color;
-        height: 100%;
+      // commonSearchTemplate
+      @include commonSearchTemplate();
 
-        .z-page-content {
-          @include border(0.0625rem,solid,$layout-main-header-border-color,top);
-          flex: 1 1 auto;
-          background: $layout-page-content-bg-color;
-        }
+      // commonEdit
+      @include commonEditTemplate();
 
-        .z-page-search {
-          display: flex;
-          flex-direction: row;
-          padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
-          .z-search-count {
-            font-weight: $layout-header-search-font-weight;
-            font-size: 0.875rem;
-            color: $layout-header-search-color;
-          }
-        }
+      // pagingList
+      @include pagingListTemplate();
 
-        // commonSearchTemplate
-        @include commonSearchTemplate();
+      // treeEdit
+      @include treeEditTemplate();
 
-        // commonEdit
-        @include commonEditTemplate();
-
-        // pagingList
-        @include pagingListTemplate();
-
-        // treeEdit
-        @include treeEditTemplate();
-
-        // 카드
-        @include defaultCardTemplate();
-
-        // view
-        @include commonViewTemplate();
-      }
-
-      // 리스트
-      //@include defaultListTemplate();
-
-      // edit, register
-      @include defaultEditTemplate();
+      // 카드
+      @include defaultCardTemplate();
 
       // view
-      @include defaultViewTemplate();
+      @include commonViewTemplate();
     }
+
+    // 리스트
+    //@include defaultListTemplate();
+
+    // edit, register
+    @include defaultEditTemplate();
+
+    // view
+    @include defaultViewTemplate();
   }
 }
 

@@ -25,6 +25,12 @@ export const FORM = {
         ROW: 'row',
         COMPONENT: 'component'
     },
+    STATUS: {
+        EDIT: 'form.status.edit',
+        PUBLISH: 'form.status.publish',
+        USE: 'form.status.use',
+        DESTROY: 'form.status.destroy'
+    },
     DISPLAY_TYPE: {
         EDITABLE: 'document.displayType.editable',
         READONLY: 'document.displayType.readonly',

@@ -78,6 +78,21 @@ table {
     }
   }
 }
+.z-table {
+  width: 100%;
+  &-head tr {
+    color: $list-head-font-color;
+    @include border(calc(#{$list-border-width} * 2), solid, $list-border-color, bottom);
+  }
+  &-body {
+    display: block;
+    overflow-y: auto;
+    & > td {
+      display: inline-block; // 말줄임 적용을 위해 추가
+      vertical-align: middle;
+    }
+  }
+}
 // span
 span {
   font-family: inherit;

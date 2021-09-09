@@ -273,33 +273,6 @@
           @include borderRadius($cmdb-ci-attribute-border-radius);
           margin-bottom: 0.625rem; // 10px
         }
-
-        // todo: 변경 이력 임시 디자인(##10126)
-        .ci-list {
-          table {
-            width: 100%;
-            .z-list-head {
-              tr {
-                color: $list-head-font-color;
-                @include border(calc(#{$list-border-width} * 2), solid, $list-border-color, bottom);
-              }
-            }
-            .z-list-body {
-              display: block;
-              overflow-y: auto;
-              .list-row {
-                display: table;
-                width: 100%;
-                height: 3.125rem; // 50px
-                line-height: 3.125rem; // 50px
-                & > td {
-                  display: inline-block; // 말줄임 적용을 위해 추가
-                  vertical-align: middle;
-                }
-              }
-            }
-          }
-        }
       }
       // CI 선택 목록
       .table-set {

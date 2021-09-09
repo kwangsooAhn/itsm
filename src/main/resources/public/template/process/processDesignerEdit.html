@@ -30,7 +30,7 @@
 <body>
 <div class="z-wrapper">
     <div class="z-process-container">
-        <div class="z-process-header">
+        <div class="z-process-header flex-row align-items-center">
             <img class="z-img i-process-designer"  th:src="@{/assets/media/icons/process/topmenu/icon_process_designer.svg}" width="196" height="25" alt="Process Designer" />
             <span class="z-process-name ml-auto mr-auto" id="processName"></span>
             <!-- 버튼 영역 -->
@@ -234,6 +234,18 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+    </template>
+    <!-- 다른이름으로 저장하기 모달-->
+    <template id="saveAsModalTemplate">
+        <div class="save-as-main flex-column">
+            <label class="field-label" for="newProcessName">
+                <span th:text="#{process.label.name}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" class="z-input" id="newProcessName" data-validation-required="true">
+            <label class="field-label" for="newProcessDescription" th:text="#{process.label.description}"></label>
+            <textarea class="z-textarea textarea-scroll-wrapper" id="newProcessDescription" rows="3" ></textarea>
         </div>
     </template>
 </div>

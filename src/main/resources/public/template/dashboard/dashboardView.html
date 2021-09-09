@@ -7,7 +7,7 @@
 </head>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{token.label.list}"></h1>
+    <h1 th:text="#{dashboard.label.dashboard}"></h1>
     <h6 class="description ml-2 pl-2" th:text="#{dashboard.msg.viewDescription}"></h6>
 </div>
 <div layout:fragment="pageSearchResult">
@@ -56,13 +56,14 @@
         <div id="tokenList"></div>
     </div>
 </div>
-<script layout:fragment="pageScript" type="text/javascript">
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
     let offsetCount = 0;
     window.addEventListener('load', function () {
         document.getElementById('searchFromDt').value = i18n.getDate({'months': -3});
         document.getElementById('toDt').value = i18n.getDate();
         tokenSearch(false);
+        aliceJs.openNoticePopup(/*[[${noticePopUp}]]*/);
     });
 
     /**

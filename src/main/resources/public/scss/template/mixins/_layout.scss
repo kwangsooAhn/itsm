@@ -7,23 +7,13 @@
 
 // 고정 layout 디자인
 @mixin fixedHeader {
-  @include fixed(0, 0, null, 0);
-  display: flex;
-  align-items: center;
+  @include fixed($top: 0);
+  width: 100%;
 }
 
 @mixin fixedContainer {
   @include fixed($layout-header-height, $layout-properties-width, 0, 0);
   overflow-y: auto;
-}
-
-// portal 디자인
-@mixin portalHeader() {
-  // 제목
-  .header-title {
-    height: 10.625rem; // 170px
-    padding: 3.75rem 0; // 60px 0
-  }
 }
 
 @mixin portalViewTemplate() {
@@ -86,6 +76,7 @@
 
     // 각 행
     .z-view-row {
+      width: 100%;
       margin: 0.625rem 0 0 0; // 10px 0 0 0
       label { margin: 0.625rem 0; } // 10px 0
     }
@@ -372,7 +363,9 @@
       flex-direction: column;
     }
     .z-edit-row {
-      margin-top: 0.625rem; // 10px
+      width: 100%;
+      margin: 0.625rem 0 0 0; // 10px 0 0 0
+      label { margin: 0.625rem 0; } // 10px 0
     }
     label { margin: 0.625rem 0; } // 10px 0
     .z-button-list {
