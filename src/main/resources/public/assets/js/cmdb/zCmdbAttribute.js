@@ -158,9 +158,9 @@
     function Dropdown(property) {
         const objectId = attributeTypeList[1].type; // dropdown
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
-        parent.insertAdjacentHTML('beforeend', this.template);
+        parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', function (e) {
@@ -201,10 +201,9 @@
     function Radiobox(property) {
         const objectId = attributeTypeList[2].type; // radio
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
-        parent.insertAdjacentHTML('beforeend', this.template);
-
+        parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', function (e) {
             e.stopPropagation();
@@ -244,9 +243,9 @@
     function Checkbox(property) {
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
-        parent.insertAdjacentHTML('beforeend', this.template);
+        parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', function (e) {
