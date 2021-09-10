@@ -56,7 +56,7 @@
     /*<![CDATA[*/
     window.onload = function() {
         document.getElementById('downloadTitle').focus();
-        zFileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download?.downloadId}]]}});
+        zFileUploader.init({formId: 'downloadForm', ownId: [[${download?.downloadId}]]});
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
     };
 

@@ -149,25 +149,22 @@
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
         zFileUploader.avatar({
-            extra: {
-                dropZoneFilesId: 'avatarDropZone',
-                type: 'avatar',
-                dropZoneMaxFileSize: 0.2,
-                dropZoneUrl: '/fileupload?target=avatar',
-                dropZoneMaxFiles: 1,
-                acceptedFiles: '.png,.jpeg,.jpg,.gif',
-                enableImageThumbnails: true,
-                isView : true,
-                editor: false,
-                dictDefaultMessage : '',
-                clickableLineMessage : '',
-                clickableMessage : '',
-                avatar: {
-                    id: [[${users?.userKey}]],
-                    path: [[${users?.avatarPath}]],
-                    value: [[${users?.avatarValue}]],
-                    size: [[${users?.avatarSize}]]
-                }
+            dropZoneFilesId: 'avatarDropZone',
+            type: 'avatar',
+            dropZoneMaxFileSize: 0.2,
+            dropZoneUrl: '/fileupload?target=avatar',
+            dropZoneMaxFiles: 1,
+            acceptedFiles: '.png,.jpeg,.jpg,.gif',
+            isView : true,
+            editor: false,
+            dictDefaultMessage : '',
+            clickableLineMessage : '',
+            clickableMessage : '',
+            avatar: {
+                id: [[${users?.userKey}]],
+                path: [[${users?.avatarPath}]],
+                value: [[${users?.avatarValue}]],
+                size: [[${users?.avatarSize}]]
             }
         });
     };
