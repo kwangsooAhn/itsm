@@ -2981,7 +2981,7 @@ select {
   cursor: pointer;
 }
 .z-itsm-container .z-main-content .card-list .card:hover {
-  box-shadow: 0 0 0.9375rem rgba(207, 213, 217, 0.15), inset 0 0 0 0.0625rem #CFD5D9;
+  box-shadow: 0 0 0 0.0625rem #CFD5D9;
 }
 .z-itsm-container .z-main-content .card-list .card .document-column h3 {
   width: 28rem;
