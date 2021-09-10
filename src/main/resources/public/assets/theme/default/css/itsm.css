@@ -4156,6 +4156,7 @@ select {
 }
 
 .ql-container .ql-editor {
+  resize: vertical;
   overflow: auto;
 }
 .ql-container .ql-editor::-webkit-scrollbar-track {
@@ -4190,6 +4191,9 @@ select {
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0;
+}
+.ql-container.ql-disabled .ql-editor {
+  resize: none;
 }
 
 /* _file-uploader.scss 

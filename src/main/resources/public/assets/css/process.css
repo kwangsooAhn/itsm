@@ -3884,6 +3884,9 @@ svg path.connector.hidden {
   background-position-x: 0;
   background-position-y: 0;
 }
+.ql-container.ql-disabled .ql-editor {
+  resize: none;
+}
 
 /* _color-picker.scss 
  *
