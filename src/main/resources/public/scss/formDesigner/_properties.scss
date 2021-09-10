@@ -25,12 +25,21 @@
   margin: 0.9375rem 0 0 0; // 15px 0 0 0
   // 라벨
   .property-label {
+    @include relative();
     font-size: $property-label-font-size;
     color: $property-label-color;
 
     .property-label-text {
       display: inline-block;
       padding-bottom: 0.625rem; // 10px
+    }
+    // 옵션일 경우 버튼과 문구가 한 줄로 표시됨
+    &.horizontal {
+      display: table;
+      .property-label-text {
+        display: table-cell;
+        vertical-align: middle;
+      }
     }
   }
   .property-value {
@@ -145,6 +154,7 @@
           width: 2.813rem; // 45px
           margin-right: 0.3125rem; // 5px
           padding: 0 0.5rem; // 0 8px
+
           &:not(:first-child) {
             margin-left: 0.3125rem; // 5px
           }
@@ -196,6 +206,9 @@
             &.z-prev {
               @include rotate(180);
             }
+            &.z-clear {
+              background: $property-option-tb-content-btn-color
+            }
           }
         }
 
@@ -219,37 +232,29 @@
       }
     }
   }
+  // 옵션
   .z-option-table {
-    width: 100%;
-    border: none;
-    border-collapse: collapse;
-    color: $property-option-tb-color;
-    font-size: $element-font-size;
-    font-weight: $property-option-tb-font-weight;
 
-    .z-option-table-header {
-      height: 2rem;
-      @include border(0.125rem, solid, $property-option-tb-header-color, bottom);
-      background-color: $property-option-tb-header-bg-color;
-      text-indent: $element-indent;
-      font-weight: $property-option-tb-header-font-weight;
-    }
-    tr td {
-      @include border(0.0625rem, solid, $property-option-tb-header-color, all);
-      border-left: none;
-      border-right: none;
-      vertical-align: middle;
+    .z-option-table-row {
       .z-input {
         width: 85%;
         padding: 0.75rem;
-        margin: 0 0.25rem;
+        margin: 0.25rem; // 4px
+        // 입력된 값이 있으면
+        &:not(:placeholder-shown):not(:focus) {
+          border-color: transparent;
+        }
       }
-      .z-icon {
-        display: block;
-        margin: 0 auto;
-        background: $property-option-tb-content-btn-color;
+
+      .z-button-icon {
+        .z-icon {
+          display: block;
+          margin: 0 auto;
+          background: $property-option-tb-content-btn-color;
+          pointer-events: none;
+        }
         &:hover {
-          background: $property-option-tb-content-btn-hv-color;
+          .z-icon { background: $property-option-tb-content-btn-hv-color; }
         }
       }
     }

@@ -56,13 +56,14 @@
         <div id="tokenList"></div>
     </div>
 </div>
-<script layout:fragment="pageScript" type="text/javascript">
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
     let offsetCount = 0;
     window.addEventListener('load', function () {
         document.getElementById('searchFromDt').value = i18n.getDate({'months': -3});
         document.getElementById('toDt').value = i18n.getDate();
         tokenSearch(false);
+        aliceJs.openNoticePopup(/*[[${noticePopUp}]]*/);
     });
 
     /**
@@ -107,7 +108,7 @@
                 } else {
                     document.getElementById('tokenList').innerHTML = response.responseText;
                     setDateTimeFormat(document.getElementById('tokenList'));
-                    /*OverlayScrollbars(document.querySelector('.scroll-wrap'), {
+                    OverlayScrollbars(document.querySelector('.z-page-content'), {
                         className: 'scrollbar',
                         callbacks: {
                             onScroll: function (e) {
@@ -121,7 +122,7 @@
                                 }
                             }
                         }
-                    });*/
+                    });
                 }
             }
         };

@@ -236,6 +236,18 @@
             </div>
         </div>
     </template>
+    <!-- 다른이름으로 저장하기 모달-->
+    <template id="saveAsModalTemplate">
+        <div class="save-as-main flex-column">
+            <label class="field-label" for="newProcessName">
+                <span th:text="#{process.label.name}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" class="z-input" id="newProcessName" data-validation-required="true">
+            <label class="field-label" for="newProcessDescription" th:text="#{process.label.description}"></label>
+            <textarea class="z-textarea textarea-scroll-wrapper" id="newProcessDescription" rows="3" ></textarea>
+        </div>
+    </template>
 </div>
 </body>
 <script type="text/javascript">

@@ -149,8 +149,9 @@ $label-font-size:                             $font-size-xs;
 $label-font-weight:                           $font-weight-medium;
 
 // table
-$table-th-font-size:                          1.125rem; // 18px
-$table-th-font-weight:                        $font-weight-medium;
+$table-head-font-color:                       $gray400;
+$table-head-font-weight:                      $font-weight-medium;
+$table-head-bg-color:                         $neutral100;
 
 // button, a
 $button-font-family:                          $font-family-s;
@@ -517,7 +518,7 @@ $thumbnail-nodata-font-color:                $gray500;
 
 /////////////////////////////// tooltip ///////////////////////////////
 $tooltip-help-margin:                        0.3125rem; // 5px
-$tooltip-font-size:                          1rem; // 16px
+$tooltip-font-size:                          $font-size-xs;
 $tooltip-contents-background:                $white;
 $tooltip-contents-color:                     $blue500;
 $tooltip-contents-left:                      0;

@@ -666,6 +666,7 @@ form:
     maxLength: "Please enter less than {0} characters."
     min: "Please enter at least {0}."
     minLength: "Please enter at least {0} characters."
+    noOption: "There is no option."
     number: "Please enter only numbers."
     required: "Please enter the required item."
     saveInfo: "Saved at {0}"

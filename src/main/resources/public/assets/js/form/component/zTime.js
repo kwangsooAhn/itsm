@@ -197,6 +197,7 @@ export const timeMixin = {
                 { name: '', value: FORM.DATE_TYPE.HOURS },
                 { name: '', value: FORM.DATE_TYPE.TIME_PICKER }
             ]);
+        defaultValueRadioProperty.help = 'form.help.time-default';
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),

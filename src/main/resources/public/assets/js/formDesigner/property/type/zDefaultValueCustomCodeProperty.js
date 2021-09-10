@@ -72,7 +72,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
 
         // 기본 값
         // 기본 값 - 라벨
-        this.UIElement.UILabel = this.makeLabelProperty('form.properties.element.defaultValue');
+        this.UIElement.UILabel = this.makeLabelProperty('form.properties.element.defaultValue', 'form.help.custom-code-default');
         this.UIElement.UILabel.addUIClass('mt-3');
         this.UIElement.addUI(this.UIElement.UILabel);
         // 기본 값 - 그룹
@@ -86,7 +86,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             radioGroup.UILabel = new UILabel()
                 .setUIClass('z-radio')
                 .addUIClass('mb-1')
-                .setUIFor('radioProperty' + radioId)
+                .setUIFor('radioProperty' + radioId);
             radioGroup.addUI(radioGroup.UILabel);
             // 라디오 버튼
             radioGroup.UILabel.UIRadio = new UIRadioButton(defaultCustomCodeValues[1] === item.value)
@@ -126,6 +126,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     const customCodeValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';
                     this.makeCustomCodeData(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue).then(function (response){
                         radioGroup.addUI(radioGroup.UISelect);
+                        aliceJs.initDesignedSelectTag(radioGroup.domElement);
                     });
                     this.UIElement.UIGroup.UIDiv = radioGroup;
                     break;

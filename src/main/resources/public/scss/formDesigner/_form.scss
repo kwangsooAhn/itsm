@@ -192,17 +192,20 @@
         @include border($element-active-border-width, solid, $element-active-border-color, all);
       }
     }
+
     // textArea
     .textArea, .z-textarea {
       width: 100%;
       height: calc(2.5rem * var(--data-row));
     }
+
     // text editor
     .z-text-editor {
       .ql-editor {
         height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
       }
     }
+
     // radio , checkbox
     .z-radio, .z-checkbox {
       &.vertical {
@@ -215,6 +218,7 @@
         margin-right: 0.625rem;
       }
     }
+
     // image 컴포넌트
     .z-imagebox-placeholder {
       display: none;

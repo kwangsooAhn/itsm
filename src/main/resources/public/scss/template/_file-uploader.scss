@@ -314,6 +314,7 @@
   // view 모드
   &-view {
     display: flex;
+    align-items: center;
     min-height: 3.125rem; // 50px
     padding: 0.125rem 1.25rem; // 2px 20px
     // 제목
