@@ -4,7 +4,7 @@
  * - dropzone.js 를 기본으로 커스텀하였기 때문에 반드시 함께 import 한다.
  * - zI18n.js 의 사용자 설정에 따른 타임존, 날짜시간 포맷, 언어 등을 사용하므로 반드시 함께 import 한다.
  *
- * @author woodajung
+ * @author Woo Da jung
  * @version 1.0
  *
  * Copyright 2020 Brainzcompany Co., Ltd.
@@ -133,10 +133,10 @@
      * @returns {string}
      */
     function getPreviewTemplate() {
-        return `<div id="fileTemplate" name="fileTemplate" class="dz-preview dz-file-preview">` +
-                `<div class="dz-image"><img data-dz-thumbnail="" /></div>` +
+        return `<div id="fileTemplate" class="dz-preview dz-file-preview">` +
+                `<div class="dz-image"><img data-dz-thumbnail="" alt=""/></div>` +
                 `<div class="dz-details">` +
-                    `<img class="dz-file-type" />` +
+                    `<img class="dz-file-type" alt=""/>` +
                     `<div class="dz-filename"><span data-dz-name=""></span></div>` +
                     `<div class="dz-size"><span data-dz-size=""></span></div>` +
                     `<div class="dz-remove" data-dz-remove=""></div>` +
@@ -159,21 +159,23 @@
         if (fileSizeLogValue === Number.NEGATIVE_INFINITY) {
             convertedFileSize = '0 ' + unit[0];
         } else {
-            convertedFileSize = (fileBytes / Math.pow(logValueDigit, Math.floor(fileSizeLogValue))).toFixed(2) + ' ' + unit[fileSizeLogValue];
+            convertedFileSize = (fileBytes / Math.pow(logValueDigit, Math.floor(fileSizeLogValue))).toFixed(2) +
+                ' ' + unit[fileSizeLogValue];
         }
-        return `<div class="dz-preview dz-file-preview">` +
-                `<div class="dz-details">` +
-                    `<img class="dz-file-type" src="${getFileIcon(file.originName, options.isView)}" />` +
-                    `<div class="dz-filename" name="loadedFileNames" style="${options.isView ? 'cursor: pointer': ''}">` +
-                        `<span>${file.originName}</span>` +
-                    `</div>` +
-                    `<div class="dz-size" name="loadedFileSize"><span>${convertedFileSize}</span></div>` +
-                    `${options.isView ? `` : 
-                        `<div class="dz-download"><span class="z-icon i-download"></span></div>` +
-                        `<div class="dz-remove"><span class="z-icon i-delete"></span></div>`}` +
-                    `<input type="hidden" name="loadedFileSeq" value="${file.fileSeq}" />` +
+        return `` +
+        `<div class="dz-preview dz-file-preview">` +
+            `<div class="dz-details">` +
+                `<img class="dz-file-type" src="${getFileIcon(file.originName, options.isView)}" alt=""/>` +
+                `<div class="dz-filename" id="loadedFileNames" style="${options.isView ? 'cursor: pointer': ''}">` +
+                    `<span>${file.originName}</span>` +
                 `</div>` +
-            `</div>`;
+                `<div class="dz-size" id="loadedFileSize"><span>${convertedFileSize}</span></div>` +
+                `${options.isView ? `` : 
+                    `<div class="dz-download"><span class="z-icon i-download"></span></div>` +
+                    `<div class="dz-remove"><span class="z-icon i-delete"></span></div>`}` +
+                `<input type="hidden" name="loadedFileSeq" value="${file.fileSeq}" />` +
+            `</div>` +
+        `</div>`;
     }
 
     /**
@@ -206,7 +208,7 @@
                 const a = document.createElement('a');
                 const url = window.URL.createObjectURL(blob);
                 a.href = url;
-                a.download = target.parentElement.querySelector('div[name=loadedFileNames] span').textContent;
+                a.download = target.parentElement.querySelector('#loadedFileNames span').textContent;
                 document.body.append(a);
                 a.click();
                 a.remove();
@@ -229,7 +231,8 @@
         delFilePreview.style.display = 'none';
 
         // 파일이 하나도 없다면 아이콘을 보여준다.
-        const previewList = delFilePreview.parentNode.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
+        const previewList = delFilePreview.parentNode.querySelectorAll(
+            '.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
         if (previewList.length === 0) {
             delFilePreview.parentNode.querySelector('.i-document-txt').style.display = 'block';
             this.isFileExist = false;
@@ -245,7 +248,8 @@
         let extensionValueArr = [];
         // 수용 파일 확장자가 없다면 기본 파일 확장자 제한(DB)에서 확인 한다.
         if (options.acceptedFiles === null) {
-            const fileNameExtensionList = await aliceJs.fetchJson((options.defaultUrl === '' ? '/rest' : options.defaultUrl) + '/filenameextensions', {
+            const url = (options.defaultUrl === '' ? '/rest' : options.defaultUrl) + '/filenameextensions';
+            const fileNameExtensionList = await aliceJs.fetchJson(url, {
                 method: 'GET',
             });
             for (let i = 0; i < fileNameExtensionList.length; i++) {
@@ -331,9 +335,9 @@
                 aliceJs.fetchJson(
                     options.defaultUrl +
                     '/filelist?ownId=' +
-                    (options.hasOwnProperty('ownId') ? options.ownId : '') +
+                    (typeof options.ownId !== 'undefined' ? options.ownId : '') +
                     '&fileDataId=' +
-                    (options.hasOwnProperty('fileDataIds') ? options.fileDataIds : ''),
+                    (typeof options.fileDataIds !== 'undefined' ? options.fileDataIds : ''),
                     {
                         method: 'GET',
                     }
@@ -341,7 +345,8 @@
                     _this.isFileExist = files.length > 0;
                     // 파일이 존재하지 않으면
                     if (!_this.isFileExist && options.isView) {
-                        const noFileStr = options.isForm ? document.createElement('input') : document.createElement('span');
+                        const noFileStr = options.isForm ? document.createElement('input') :
+                            document.createElement('span');
                         noFileStr.className = 'text-no-file text-ellipsis';
                         // form-designer 또는 신청서일 때
                         if (options.isForm) {
@@ -414,7 +419,8 @@
                     });
 
                     _this.on('removedfile', function () {
-                        const previewList = _this.element.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
+                        const previewList = _this.element.querySelectorAll(
+                            '.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                         if (_this.files.length === 0 && previewList.length === 0) {
                             const dropzoneMessage = _this.element.querySelector('.dz-message');
                             dropzoneMessage.querySelector('.i-document-txt').style.display = 'block';
