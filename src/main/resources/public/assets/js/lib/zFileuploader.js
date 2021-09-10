@@ -268,7 +268,7 @@
      */
     function fileUploadValidationCheck(dropzone, file, options) {
         //파일 확장자 목록 관련 출력
-        getAcceptedFileExtentions().then((extensionValueArr) => {
+        getAcceptedFileExtentions(options).then((extensionValueArr) => {
             if (!extensionValueArr.includes(getExtension(file.name).toUpperCase())) {
                 dropzone.removeFile(file);
                 if (options.isDropzoneUnder) {
@@ -302,7 +302,6 @@
         const dropZoneUploadedFiles = document.getElementById(options.dropZoneUploadedFilesId);
 
         createDragAndDropZone(dropZoneFiles, options);
-
         // 파일 업로드 기능 정의
         const dropzoneId = '#' + options.dropZoneFilesId + ' #' + dragAndDropZoneId;
         new Dropzone(dropzoneId, {
@@ -354,7 +353,7 @@
                         dropZoneUploadedFiles.appendChild(noFileStr);
                     }
 
-                    files.forEach(function (fileMap) {
+                    files.forEach(function (fileMap, idx) {
                         const fileTemplate = getPreviewUploadedTemplate(fileMap.fileLocDto, options);
 
                         if (options.isView) {
@@ -362,17 +361,19 @@
                             dropZoneUploadedFiles.insertAdjacentHTML('beforeend', fileTemplate);
 
                             // 파일 다운로드 이벤트
-                            dropZoneUploadedFiles.querySelector('.dz-filename').addEventListener('click', fileDownloadHandler.bind(_this));
+                            dropZoneUploadedFiles.children[idx].querySelector('.dz-filename')
+                                .addEventListener('click', fileDownloadHandler.bind(_this));
                         } else {
                             // edit 일때
                             const dropzoneElement = document.querySelector(dropzoneId);
                             dropzoneElement.insertAdjacentHTML('beforeend', fileTemplate);
-
                             // 파일 다운로드
-                            dropzoneElement.querySelector('.dz-download').addEventListener('click', fileDownloadHandler.bind(_this));
+                            dropzoneElement.children[idx + 1].querySelector('.dz-download')
+                                .addEventListener('click', fileDownloadHandler.bind(_this));
 
                             // 파일삭제 : 첨부파일 목록에서 제외, 삭제 flag 추가
-                            dropzoneElement.querySelector('.dz-remove').addEventListener('click', fileRemoveHandler.bind(_this));
+                            dropzoneElement.children[idx + 1].querySelector('.dz-remove')
+                                .addEventListener('click', fileRemoveHandler.bind(_this));
                         }
                     });
                 });
@@ -390,7 +391,7 @@
                     const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
                     dropzoneMessage.appendChild(addFileBtn);
 
-                    this.on('addedfile', function (file) {
+                    _this.on('addedfile', function (file) {
                         const dropzoneMessage = _this.element.querySelector('.dz-message');
                         if (options.isDropzoneUnder) {
                             dropzoneMessage.style.display = 'none';
@@ -412,7 +413,7 @@
                         exportFile = file;
                     });
 
-                    this.on('removedfile', function () {
+                    _this.on('removedfile', function () {
                         const previewList = _this.element.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                         if (_this.files.length === 0 && previewList.length === 0) {
                             const dropzoneMessage = _this.element.querySelector('.dz-message');
@@ -424,7 +425,7 @@
                         }
                     });
 
-                    this.on('success', function (file, response) {
+                    _this.on('success', function (file, response) {
                         const seq = document.createElement('input');
                         seq.setAttribute('type', 'hidden');
                         seq.setAttribute('name', fileAttrName);
@@ -437,14 +438,14 @@
                         }
                     });
 
-                    this.on('error', function (file, errorMsg, xhr) {
+                    _this.on('error', function (file, errorMsg, xhr) {
                         if (xhr !== undefined) {
                             const res = JSON.parse(xhr.response);
                             file.previewElement.querySelector('.dz-error-message').innerText = res.message;
                         }
                     });
 
-                    this.on('complete', function () {
+                    _this.on('complete', function () {
                         if (options.isDropzoneUnder) {
                             const dropzoneMessage = _this.element.querySelector('.dz-message');
                             document.getElementById(dragAndDropZoneId).appendChild(dropzoneMessage);
@@ -537,32 +538,32 @@
                     _this.emit('complete', mockFile);
                 }
 
-                this.on('addedfile', function (file) {
+                _this.on('addedfile', function (file) {
                     options.fileName = generateUUID();
                     document.getElementById('avatarUUID').value = options.fileName;
-                    validation(this, file, 'avatarUploader');
+                    fileUploadValidationCheck(_this, file, options);
                     exportFile = file;
                 });
 
-                this.on('removedfile', function () {
+                _this.on('removedfile', function () {
                     options.fileName = '';
                     document.getElementById('avatarUUID').value = options.fileName;
                 });
 
-                this.on('success', function (file, response) {
+                _this.on('success', function (file, response) {
                     const seq = document.createElement('input');
                     seq.setAttribute('type', 'hidden');
                     seq.setAttribute('name', fileAttrName);
                     seq.value = response.file.fileSeq;
                     file.previewElement.appendChild(seq);
 
-                    let thumbs = document.querySelectorAll('.dz-image');
+                    const thumbs = document.querySelectorAll('.dz-image');
                     [].forEach.call(thumbs, function (thumb) {
                         thumb.style = 'width: 100%; height: 100%;';
                     });
                 });
 
-                this.on('thumbnail', function () {
+                _this.on('thumbnail', function () {
                     let thumbs = document.querySelectorAll('.dz-image');
                     [].forEach.call(thumbs, function (thumb) {
                         let img = thumb.querySelector('img');
@@ -573,7 +574,7 @@
                     });
                 });
 
-                this.on('error', function (file, errorMsg, xhr) {
+                _this.on('error', function (file, errorMsg, xhr) {
                     if (xhr !== undefined) {
                         const res = JSON.parse(xhr.response);
                         file.previewElement.querySelector('.dz-error-message').innerText = res.message;
@@ -593,9 +594,8 @@
      * @param param 매개변수
      */
     function init(param) {
-        const fileUploadOption = JSON.parse(JSON.stringify(param));
-        setExtraParam(fileUploadOption);
-        initFileUploader(fileUploadOption);
+        setExtraParam(param);
+        initFileUploader(param);
     }
     
     /**
@@ -604,9 +604,8 @@
      * @param param 매개변수
      */
     function avatar(param) {
-        const fileUploadOption = JSON.parse(JSON.stringify(param));
-        setExtraParam(fileUploadOption);
-        initAvatarUploader(fileUploadOption);
+        setExtraParam(param);
+        initAvatarUploader(param);
     }
 
     /**
