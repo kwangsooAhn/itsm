@@ -6,6 +6,10 @@
 <head>
     <title th:text="#{process.label.process}"></title>
 </head>
+<th:block layout:fragment="pageHead">
+    <!-- 프로세스 export, import시 사용 -->
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
+</th:block>
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{process.label.process}"></h1>
@@ -38,6 +42,7 @@
     const RESPONSE_FAIL = '0';
     const RESPONSE_DUPLICATION = '-1';
 
+    let importFile;
     let offsetCount = 0;
     window.onload = function() {
         document.getElementById('searchValue').focus();
@@ -328,16 +333,22 @@
         window.open('/process/' + processId + '/view', 'process_' + processId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
     }
 
+    // 파일업로드 라이브러리로 파일 drag & drop시 callback으로 전달받는 파일을 저장한다.
+    function getImportFile(file) {
+        if (typeof file !== 'undefined') {
+            importFile = file;
+        }
+    }
+
     // 프로세스 IMPORT
     function importProcess() {
-        if (checkValidation()) {
-            let fileList = zFileUploader.getFile();
+        if (checkValidation() && importFile) {
             const processInfo = {
                 processName: document.getElementById('process_name').value,
                 processDesc: document.getElementById('process_description').value
             };
 
-            ZWorkflowUtil.import(fileList, processInfo, 'process', function (resultCode) {
+            ZWorkflowUtil.import(importFile, processInfo, 'process', function (resultCode) {
                 switch (resultCode.toString()) {
                     case RESPONSE_DUPLICATION:
                         aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
@@ -405,7 +416,8 @@
                     dropZoneMaxFiles: 1,
                     acceptedFiles: '.xml',
                     dropZoneUrl: '/fileupload?target=import',
-                    editor: true
+                    editor: true,
+                    userCallback: getImportFile
                 });
                 // 스크롤바 추가
                 OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});

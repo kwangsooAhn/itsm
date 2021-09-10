@@ -23,7 +23,6 @@
     const addFileBtnWrapClassName = 'add-file-button-wrap'; // 업로드 버튼 클릭 구역 wrapper
     const unit = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
     const logValueDigit = 1024;
-    let exportFile; // 외부 file 정보
 
     function generateUUID() {
         function s4() {
@@ -414,8 +413,6 @@
                         file.previewElement.querySelector('.dz-remove').appendChild(removeIcon);
 
                         fileUploadValidationCheck(_this, file, options);
-
-                        exportFile = file;
                     });
 
                     _this.on('removedfile', function () {
@@ -440,7 +437,7 @@
                             file.previewElement.appendChild(seq);
                         }
                         if (typeof _this.options.params.userCallback === 'function') {
-                            _this.options.params.userCallback();
+                            _this.options.params.userCallback(file);
                         }
                     });
 
@@ -548,7 +545,6 @@
                     options.fileName = generateUUID();
                     document.getElementById('avatarUUID').value = options.fileName;
                     fileUploadValidationCheck(_this, file, options);
-                    exportFile = file;
                 });
 
                 _this.on('removedfile', function () {
@@ -614,16 +610,8 @@
         initAvatarUploader(param);
     }
 
-    /**
-     * 외부로 파일 정보를 내보냄
-     */
-    function getFile() {
-        return exportFile;
-    }
-
     exports.init = init;
     exports.avatar = avatar;
-    exports.getFile = getFile;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
