@@ -204,6 +204,7 @@
             `<div class="float-right"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
         parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
+
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', function (e) {
             e.stopPropagation();
