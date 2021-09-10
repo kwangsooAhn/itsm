@@ -2628,10 +2628,6 @@ select {
   border-bottom-right-radius: 0;
 }
 
-.z-button-icon .z-icon.i-plus {
-  background: #339AF0;
-}
-
 /* _layout.scss
  *
  * 파일 경로 : template/_layout.scss
