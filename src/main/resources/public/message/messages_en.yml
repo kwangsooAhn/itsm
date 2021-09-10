@@ -1312,6 +1312,7 @@ user:
     sameEmail: "The same Email exists."
     sameUserId: "The same ID exists."
     searchDescription: "View and manage users."
+    selectRole: "There must be at least one user role. <br/> Please select a user role."
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
     signUpFail: "Sign up failed."
     updatePasswordNotice: "Recommend changing your password every {0} days for personal information protection and safe system use. Change your password."

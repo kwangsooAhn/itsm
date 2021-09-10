@@ -730,3 +730,15 @@ function isSpecialKey(event) {
     }
     return false;
 }
+
+/**
+ * 체크박스/라디오버튼이 1건 이상 체크가 되어있는지 확인함
+ * @returns {boolean}
+ */
+function isChecked(name, messageId) {
+    if (document.querySelectorAll('input[name=' + name + ']:checked').length === 0) {
+        aliceAlert.alertWarning(i18n.msg(messageId));
+        return false;
+    }
+    return true;
+}
