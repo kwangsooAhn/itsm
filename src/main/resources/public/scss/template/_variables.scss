@@ -286,23 +286,35 @@ $file-uploader-font-weight:                  $font-weight-medium;
 $file-uploader-icon-color:                   $gray500;
 // drag and drop 영역
 $dropzone-font-size:                         $font-size-xs;
-$dropzone-font-color:                        $gray400;
 $dropzone-font-weight:                       $font-weight-regular;
 $dropzone-bg-color:                          $white;
+$dropzone-border-radius:                     0.0625rem; // 1px
+// hover
+$dropzone-hover-border-color:                $blue500;
+$dropzone-hover-bg-color:                    $blue100;
+// focus
+$dropzone-focus-border-color:                $blue600;
+$dropzone-focus-bg-color:                    $blue200;
+$dropzone-focus-color:                       $blue700;
+
 // browse click 버튼
 $dropzone-clickable-font-color:              $blue500;
 // 미리보기
-$file-uploader-preview-height:               5rem; // 80px;
+$file-uploader-preview-height:               4.5rem; // 72px
+$file-uploader-preview-radius:               0.0625rem; // 1px
 $file-uploader-progress-color:               $blue500;
 $file-uploader-progress-bg-color:            $gray300;
 $file-uploader-filename-font-color:          $gray800;
 $file-uploader-filesize-font-color:          $gray400;
+$file-uploader-font-size:                    $font-size-xs;
 // 파일 미존재시
 $file-uploader-no-date-font-color:           $gray400;
 // view 모드
 $file-uploader-view-font-size:               $font-size-xs;
 $file-uploader-view-font-color:              $gray800;
 $file-uploader-view-font-weight:             $font-weight-regular;
+// hover
+$file-uploader-hover-color:                  $blue500;
 
 //////////////////////////////// avatar ////////////////////////////////
 $avatar-font-size:                           $font-size-xs;

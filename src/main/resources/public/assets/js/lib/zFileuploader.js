@@ -389,19 +389,19 @@ const zFileUploader = (function () {
                         fileSizeStr.textContent = convertedFileSize;
                         fileSize.appendChild(fileSizeStr);
 
-                        // 다운로드
-                        const download = document.createElement('div');
-                        download.className = 'dz-download';
-                        const downloadIcon = document.createElement('span');
-                        downloadIcon.className = 'z-icon i-download';
-                        download.appendChild(downloadIcon);
-
                         // 삭제
                         const remove = document.createElement('div');
                         remove.className = 'dz-remove';
                         const removeIcon = document.createElement('span');
                         removeIcon.className = 'z-icon i-delete';
                         remove.appendChild(removeIcon);
+
+                        // 다운로드
+                        const download = document.createElement('div');
+                        download.className = 'dz-download';
+                        const downloadIcon = document.createElement('span');
+                        downloadIcon.className = 'z-icon i-download';
+                        download.appendChild(downloadIcon);
 
                         const fileSeq = document.createElement('input');
                         fileSeq.setAttribute('type', 'hidden');
@@ -413,8 +413,8 @@ const zFileUploader = (function () {
                         fileDetails.append(fileType);
                         fileDetails.append(fileName);
                         fileDetails.append(fileSize);
-                        fileDetails.append(download);
                         fileDetails.append(remove);
+                        fileDetails.append(download);
                         fileDetails.append(fileSeq);
 
                         const uploadedFileView = document.createElement('div');
@@ -450,7 +450,7 @@ const zFileUploader = (function () {
                                 // 파일이 하나도 없다면 아이콘을 보여준다.
                                 let previewList = delFilePreview.parentNode.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                                 if (previewList.length === 0) {
-                                    delFilePreview.parentNode.querySelector('.i-document-txt').style.display = 'block';
+                                    delFilePreview.parentNode.querySelector('.i-upload').style.display = 'block';
                                     _this.isFileExist = false;
                                 }
 
@@ -466,7 +466,7 @@ const zFileUploader = (function () {
                     const dropzoneMessage = _this.element.querySelector('.dz-message');
                     // 아이콘 추가
                     const dropzoneIcon = document.createElement('span');
-                    dropzoneIcon.className = 'z-icon i-document-txt';
+                    dropzoneIcon.className = 'z-icon i-upload';
                     if (_this.isFileExist) {
                         dropzoneIcon.style.display = 'none';
                     }
@@ -482,14 +482,16 @@ const zFileUploader = (function () {
                         }
                         // 파일 추가시 아이콘 숨기기
                         if (!_this.isFileExist) {
-                            dropzoneMessage.querySelector('.i-document-txt').style.display = 'none';
+                            dropzoneMessage.querySelector('.i-upload').style.display = 'none';
                             _this.isFileExist = true;
                         }
                         file.previewElement.querySelector('.dz-file-type').src = setFileIcon(file.name, extraParam.isView);
                         // 삭제 아이콘 추가
                         const removeIcon = document.createElement('span');
                         removeIcon.className = 'z-icon i-delete';
-                        file.previewElement.querySelector('.dz-remove').appendChild(removeIcon);
+                        const removeButton = file.previewElement.querySelector('.dz-remove');
+                        removeButton.style.gridColumn = '5';
+                        removeButton.appendChild(removeIcon);
 
                         validation(this, file, 'fileUploader');
                         exportFile = file;
@@ -499,7 +501,7 @@ const zFileUploader = (function () {
                         let previewList = _this.element.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                         if (_this.files.length === 0 && previewList.length === 0) {
                             const dropzoneMessage = _this.element.querySelector('.dz-message');
-                            dropzoneMessage.querySelector('.i-document-txt').style.display = 'block';
+                            dropzoneMessage.querySelector('.i-upload').style.display = 'block';
                             _this.isFileExist = false;
                         }
                         if (typeof _this.options.params.userCallback === 'function') {
