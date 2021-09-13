@@ -63,9 +63,16 @@
      * @param data
      * @return {null|boolean}
      */
-    function makeDetails(attributeType, data) {
+    function makeDetails(attributeType, data){
         if (typeof parent === 'undefined') { return false; }
         parent.innerHTML = '';
+        if(parent.previousElementSibling.querySelector('.float-right') == null){
+
+        } else {
+            // 이벤트 실행
+            let prevSiblings = parent.previousElementSibling.querySelector('.float-right');
+            prevSiblings.remove()
+        }
         let attributesProperty = {};
         if (typeof data !== 'undefined' && data !== null) {
             attributesProperty = data;
@@ -178,8 +185,9 @@
 
             const deleteBtn = document.getElementById(rowId + '_delete');
             deleteBtn.addEventListener('click', function (e) {
+                console.log('이벤트 발생시점2')
                 e.stopPropagation();
-                this.parentElement.parentElement.remove();
+                //this.parentElement.parentElement.remove();
             });
         });
 
