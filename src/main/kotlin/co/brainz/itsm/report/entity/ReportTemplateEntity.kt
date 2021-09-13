@@ -34,6 +34,9 @@ data class ReportTemplateEntity(
     @Column(name = "template_desc", length = 512)
     var templateDesc: String?,
 
+    @Column(name = "report_name", length = 128)
+    var reportName: String?,
+
     @Column(name = "automatic")
     var automatic: Boolean = false,
 
