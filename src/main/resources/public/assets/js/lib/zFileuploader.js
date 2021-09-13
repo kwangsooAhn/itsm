@@ -215,6 +215,8 @@
             } else {
                 aliceAlert.alertWarning(i18n.msg('file.msg.noAttachFile'));
             }
+        }).catch(err => {
+            aliceAlert.alertWarning(err);
         });
     }
 
