@@ -329,4 +329,12 @@
       @include backgroundImage('#{$icon-folder-path}icon_resize.svg', 12px, no-repeat, 0, 0, null);
     }
   }
+
+  //게시판 읽기 textarea고정
+  &.ql-disabled{
+    .ql-editor{
+      resize:none;
+    }
+  }
 }
+

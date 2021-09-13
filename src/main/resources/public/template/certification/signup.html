@@ -100,20 +100,17 @@
         hiddenProgressBar();
         document.getElementById('userId').focus();
         zFileUploader.avatar({
-            extra: {
-                dropZoneFilesId: 'avatarDropZone',
-                type: 'avatar',
-                dropZoneMaxFileSize: 0.2,
-                dropZoneUrl: '/certification/fileupload?target=avatar',
-                dropZoneMaxFiles: 1,
-                acceptedFiles: '.png,.jpeg,.jpg,.gif',
-                enableImageThumbnails: true,
-                avatar: {
-                    id: [[${users?.userKey}]],
-                    path: [[${users?.avatarPath}]],
-                    value: [[${users?.avatarValue}]],
-                    size: [[${users?.avatarSize}]]
-                }
+            dropZoneFilesId: 'avatarDropZone',
+            type: 'avatar',
+            dropZoneMaxFileSize: 0.2,
+            dropZoneUrl: '/certification/fileupload?target=avatar',
+            dropZoneMaxFiles: 1,
+            acceptedFiles: '.png,.jpeg,.jpg,.gif',
+            avatar: {
+                id: [[${users?.userKey}]],
+                path: [[${users?.avatarPath}]],
+                value: [[${users?.avatarValue}]],
+                size: [[${users?.avatarSize}]]
             }
         });
     };
