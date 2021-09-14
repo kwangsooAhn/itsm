@@ -52,7 +52,7 @@
     /*<![CDATA[*/
     window.onload = function() {
         document.getElementById('spanCreateDt').textContent = i18n.userDateTime(document.getElementById('spanCreateDt').textContent);
-        zFileUploader.init({extra: {formId: 'frm', ownId: [[${download.downloadId}]], editor: false, isView: true}});
+        zFileUploader.init({formId: 'frm', ownId: [[${download.downloadId}]], editor: false, isView: true});
 
         OverlayScrollbars(document.querySelectorAll('.view'), { className: 'scrollbar' });
     };

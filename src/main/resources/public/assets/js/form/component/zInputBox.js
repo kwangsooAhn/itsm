@@ -205,13 +205,18 @@ export const inputBoxMixin = {
                 { name: i18n.msg('form.properties.phone'), value: 'phone' }
             ]);
 
+        // 기본값
+        const defaultValueProperty = new ZDefaultValueSelectProperty('elementDefaultValueSelect',
+            'element.defaultValueSelect', this.elementDefaultValueSelect);
+        defaultValueProperty.help = 'form.help.text-default';
+
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZInputBoxProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder))
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZDefaultValueSelectProperty('elementDefaultValueSelect', 'element.defaultValueSelect', this.elementDefaultValueSelect)),
+                .addProperty(defaultValueProperty),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
                 .addProperty(validationTypeProperty)

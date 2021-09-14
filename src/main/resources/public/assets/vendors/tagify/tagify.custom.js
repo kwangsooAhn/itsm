@@ -38,7 +38,7 @@ const DEFAULT_TAGIFY_SETTING = {
     editTags: false,
     placeholder: i18n.msg('token.msg.tag')
 };
-const TAG_TYPE = ['ci', 'instance', 'component'];
+const TAG_TYPE = ['ci', 'instance', 'component', 'chart'];
 const TAG_ERROR_MSG = {
     INVALID_TAG_TYPE: 'is invalid tag type. you can use tag type in [' + TAG_TYPE + ']'
 };

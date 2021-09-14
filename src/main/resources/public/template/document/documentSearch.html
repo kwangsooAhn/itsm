@@ -81,7 +81,7 @@
                         document.querySelector('.z-document-content .card-list').insertAdjacentHTML('beforeend', response.responseText);
                     } else {
                         document.getElementById('documentList').innerHTML = response.responseText;
-                        OverlayScrollbars(document.querySelector('.z-document-content'), {
+                        OverlayScrollbars(document.querySelector('.z-page-content'), {
                             className: 'scrollbar',
                             callbacks: {
                                 onScroll: function(e) {

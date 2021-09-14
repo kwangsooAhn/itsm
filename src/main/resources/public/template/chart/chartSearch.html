@@ -232,12 +232,12 @@
                     setDisplay(document.getElementById('typeSelectBox').value);
                     let targetTags = document.getElementById('targetTags').value
                     document.getElementById('targetTags').value = targetTags.substring(1, targetTags.length - 1);
-                    new Tagify(document.querySelector('input[id=targetTags]'), {
-                        pattern: /^.{0,100}$/,
-                        editTags: false,
-                        placeholder: i18n.msg('token.msg.tag')
+                  new zTag(document.querySelector('input[name=targetTags]'),{
+                        suggestion: false,
+                        realtime: false,
+                        tagType: 'chart',
+                        targetId: chartId
                     });
-                    aliceJs.initDesignedSelectTag(document.querySelector('.chart-edit-modal'));
                 } else if (target === 'view') {
                     setChart(chartType, document.getElementById('propertyJson').value);
                 }
@@ -401,7 +401,7 @@
         let tagList = [];
         JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
             tagList.push(tag.value);
-        })
+        });
 
         let chartInfo = {
             chartType: document.getElementById('typeSelectBox').value,
