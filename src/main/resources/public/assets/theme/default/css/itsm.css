@@ -2863,7 +2863,6 @@ select {
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-table {
   position: relative;
-  display: flex;
   flex-direction: column;
   width: 100%;
   border: none;

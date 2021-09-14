@@ -246,7 +246,6 @@
       // 테이블
       &-table {
         @include relative();
-        display: flex;
         flex-direction: column;
         width: 100%;
         border: none;
