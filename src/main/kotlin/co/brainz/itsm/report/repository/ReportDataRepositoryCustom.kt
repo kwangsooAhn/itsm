@@ -7,5 +7,9 @@
 package co.brainz.itsm.report.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.itsm.report.entity.ReportDataEntity
+import co.brainz.itsm.report.entity.ReportEntity
 
-interface ReportDataRepositoryCustom : AliceRepositoryCustom
+interface ReportDataRepositoryCustom : AliceRepositoryCustom {
+    fun getReportDataEntitiesByReport(report: ReportEntity): List<ReportDataEntity>
+}

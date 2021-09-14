@@ -127,6 +127,7 @@ class ReportService(
                     dataId = "",
                     report = reportEntity,
                     chartId = chartEntity.chartId,
+                    displayOrder = it.displayOrder,
                     values = strValues
                 )
                 reportDataRepository.save(reportDataEntity)

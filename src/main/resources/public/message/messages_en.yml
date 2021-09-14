@@ -1103,11 +1103,11 @@ process:
 report:
   btn:
     preview: "Preview"
+    pdf: "PDF"
   label:
     automatic: "Automatic generation"
     chart: "Chart"
     description: "Description"
-    download: "Download"
     preview: "Preview"
     publishDate: "Publish Date"
     report: "Report"
