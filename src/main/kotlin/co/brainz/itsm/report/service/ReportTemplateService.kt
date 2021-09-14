@@ -25,7 +25,6 @@ import co.brainz.itsm.report.dto.ReportTemplateListReturnDto
 import co.brainz.itsm.report.dto.ReportTemplateMapDto
 import co.brainz.itsm.report.entity.ReportTemplateEntity
 import co.brainz.itsm.report.entity.ReportTemplateMapEntity
-import co.brainz.itsm.report.repository.ReportRepository
 import co.brainz.itsm.report.repository.ReportTemplateMapRepository
 import co.brainz.itsm.report.repository.ReportTemplateRepository
 import com.fasterxml.jackson.core.type.TypeReference
@@ -45,7 +44,6 @@ class ReportTemplateService(
     private val aliceUserRepository: AliceUserRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val reportTemplateRepository: ReportTemplateRepository,
-    private val reportRepository: ReportRepository,
     private val reportTemplateMapRepository: ReportTemplateMapRepository,
     private val chartRepository: ChartRepository,
     private val chartService: ChartService
@@ -102,6 +100,7 @@ class ReportTemplateService(
             templateId = templateEntity.templateId,
             templateName = templateEntity.templateName,
             templateDesc = templateEntity.templateDesc,
+            reportName = templateEntity.reportName,
             automatic = templateEntity.automatic
         )
         val chartList = mutableListOf<ChartDto>()
@@ -136,6 +135,7 @@ class ReportTemplateService(
                     templateId = "",
                     templateName = templateDto.templateName,
                     templateDesc = templateDto.templateDesc,
+                    reportName = templateDto.reportName,
                     automatic = templateDto.automatic,
                     createDt = LocalDateTime.now(),
                     createUser = aliceUserRepository.findAliceUserEntityByUserKey(currentSessionUser.getUserKey())
@@ -177,6 +177,7 @@ class ReportTemplateService(
             0L -> {
                 templateEntity.templateName = templateDto.templateName
                 templateEntity.templateDesc = templateDto.templateDesc
+                templateEntity.reportName = templateDto.reportName
                 templateEntity.automatic = templateDto.automatic
                 templateEntity.updateDt = LocalDateTime.now()
                 templateEntity.updateUser =
@@ -212,6 +213,7 @@ class ReportTemplateService(
             templateId = map["templateId"] as String,
             templateName = map["templateName"] as String,
             templateDesc = map["templateDesc"] as String,
+            reportName = map["reportName"] as String,
             automatic = map["automatic"] as Boolean
         )
 

@@ -294,27 +294,6 @@ aliceJs.sendXhr = function (option) {
     xhr.send(params);
 };
 
-/**
- * Promise 를 사용한 비동기 호출 및 응답
- */
-aliceJs.sendXhrPromise = function (option) {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        const async = (option.async === undefined || option.async === null) ? true : option.async;
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    resolve(xhr.response);
-                } else {
-                    reject('Error: ' + xhr.responseText);
-                }
-            }
-        };
-        xhr.open(option.method, option.url, async);
-        xhr.send(option.params);
-    });
-};
-
 /*
  * ProgressBar 보여줌
  */
@@ -1050,12 +1029,24 @@ aliceJs.doFetch = async function(url, option) {
     if (option.showProgressbar) {
         delete option.showProgressbar;
     }
+    const checkFetch = function (response) {
+        // Progressbar 삭제
+        if (showProgressbar) {
+            hiddenProgressBar();
+        }
+        // fetch에서 리턴된 Promise는 응답이 404나 500 오류여도 reject하지 않는다.
+        // reject 되는 경우는 네트워크 장애 또는 요청이 완료되지 못한 경우에만 발생한다.
+        if (!response.ok) {
+            if (response.status === 403) {
+                window.location.href = '/sessionInValid';
+            } else {
+                throw new Error('HTTP error, status = ' + response.status + ', url = ' + response.url);
+            }
+        }
+        return response;
+    };
     const fetchParam = Object.assign({}, option);
-    const response = await fetch(url, fetchParam);
-    // Progressbar 삭제
-    if (showProgressbar) {
-        hiddenProgressBar();
-    }
+    const response = await fetch(url, fetchParam).then(checkFetch);
     return response;
 };
 
@@ -1067,7 +1058,8 @@ aliceJs.doFetch = async function(url, option) {
  */
 aliceJs.fetchJson = function(url, option) {
     return aliceJs.doFetch(url, option)
-        .then(response => response.json());
+        .then(response => response.text())
+        .then(data => (data ? JSON.parse(data) : {}));
 };
 
 /**
@@ -1089,13 +1081,7 @@ aliceJs.fetchText = function(url, option) {
  */
 aliceJs.fetchBlob = function (url, option) {
     return aliceJs.doFetch(url, option)
-        .then(response => {
-            if (response.ok) {
-                return response.blob();
-            } else {
-                return false;
-            }
-        });
+        .then(response => response.blob());
 };
 
 /**
@@ -1271,4 +1257,39 @@ aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
 
     target.after(validateMsg);
     target.setAttribute('data-' + type, 'true');
+};
+
+/**
+ * noticePopup 데이터를 통해 팝업창을 생성한다.
+ * @param noticePopupData : 공지사항 데이터
+ */
+aliceJs.openNoticePopup = function (noticePopupData) {
+    noticePopupData.forEach((data) => {
+        const targetId = data.noticeNo;
+        const targetUrl = '/notices/' + targetId + '/view-pop';
+        if (aliceJs.getCookie(targetId) !== 'done') {
+            window.open(targetUrl, targetId, 'width=' + data.popWidth + ',height=' + data.popHeight + ',top=' + 150 + ',left=' + 150);
+        }
+    });
+};
+
+/**
+ * cookie 데이터가 존재하는지 검사한다.
+ * @param name : 공지사항 게시글의 noticeNo 데이터
+ */
+aliceJs.getCookie = function(name) {
+    const nameOfCookie = name + '=';
+    let x = 0;
+    while (x <= document.cookie.length) {
+        const y = (x + nameOfCookie.length);
+        if (document.cookie.substring(x, y) == nameOfCookie) {
+            if ((endOfCookie = document.cookie.indexOf(';', y)) == -1)
+                endOfCookie = document.cookie.length;
+            return unescape(document.cookie.substring(y, endOfCookie));
+        }
+        x = document.cookie.indexOf(' ', x) + 1;
+        if (x == 0)
+            break;
+    }
+    return '';
 };

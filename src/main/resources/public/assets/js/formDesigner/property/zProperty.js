@@ -118,7 +118,7 @@ export default class ZProperty {
      * 세부 속성 공통 라벨 생성
      * @param data 세부 속성 데이터
      */
-    makeLabelProperty(name) {
+    makeLabelProperty(name, help) {
         const labelText = name || this.name;
         const label = new UILabel().setUIClass('property-label').setUITextAlign('left');
         if (!zValidation.isEmpty(labelText)) {
@@ -131,11 +131,12 @@ export default class ZProperty {
             label.addUI(new UISpan().setUIClass('required').addUIClass('ml-1'));
         }
         // 툴팁(도움말) 기능 추가
-        if (this.help !== '') {
+        const helpText = help || this.help;
+        if (!zValidation.isEmpty(helpText)) {
             label.UITooltip = new UIDiv().setUIClass('z-help-tooltip');
             label.UITooltip.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-tooltip'));
             label.UITooltip.UIContent = new UIDiv().setUIClass('z-tooltip-contents');
-            label.UITooltip.UIContent.addUI(new UISpan().setUIInnerHTML(i18n.msg(this.help)));
+            label.UITooltip.UIContent.addUI(new UISpan().setUIInnerHTML(i18n.msg(helpText)));
             label.UITooltip.addUI(label.UITooltip.UIContent);
             label.addUI(label.UITooltip);
         }

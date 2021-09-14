@@ -86,7 +86,7 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
             result.push(option);
             return result;
         }, []);
-        console.log(selectOption);
+
         this.UIElement.UIGroup.UISelect = new UISelect().setUIId(this.key)
             .addUIClass((defaultTypeValueArray[0] === 'select') ? 'on' : 'off')
             .setUIOptions(selectOption).setUIValue(selectOptionValue)

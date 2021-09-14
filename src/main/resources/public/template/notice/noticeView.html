@@ -60,7 +60,7 @@
             aliceAlert.alertWarning(i18n.msg('notice.msg.alreadyDeleted'));
             return history.go(-1);
         }
-        zFileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false, isView: true}});
+        zFileUploader.init({formId: 'frm', ownId: noticeNo, editor: false, isView: true});
         OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
     }
     /* ]]> */

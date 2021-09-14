@@ -5,7 +5,7 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-/* _reset.scss 
+/* _reset.scss
  *
  * 파일 경로 : template/_reset.scss
  * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
@@ -151,7 +151,7 @@ input, button, select, optgroup, textarea {
   }
 }
 */
-/* _alignments.scss 
+/* _alignments.scss
  *
  * 파일 경로 : template/utilities/_alignments.scss
  * @description 정렬, 배치 관련 디자인
@@ -291,7 +291,7 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
-/* _columns.scss 
+/* _columns.scss
  *
  * 파일 경로 : template/utilities/_columns.scss
  * @description HTML element column 너비 관련 디자인
@@ -632,7 +632,7 @@ input, button, select, optgroup, textarea {
   font-style: normal;
   font-weight: 900;
 }
-/* _common.scss 
+/* _common.scss
  *
  * 파일 경로 : template/utilities/_common.scss
  * @description 공통으로 사용되는 디자인
@@ -893,6 +893,13 @@ input, button, select, optgroup, textarea {
   margin: 0 auto;
 }
 
+.z-report-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 120rem;
+  margin: 0.5cm auto;
+}
+
 /* _preview.scss
  *
  * 파일 경로 : report/_preview.scss
@@ -910,7 +917,7 @@ input, button, select, optgroup, textarea {
   font-weight: bold;
 }
 .z-report .z-report-main .z-report-area .z-drawing-board {
-  width: 62.5rem;
+  width: 45.625rem;
 }
 .z-report .z-report-main .z-report-area .z-drawing-board .z-chart-content {
   margin: 0 0 1.25rem 0;

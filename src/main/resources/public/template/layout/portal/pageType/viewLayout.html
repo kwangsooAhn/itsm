@@ -2,7 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/portal/portalLayout}">
+<!--/* view 화면 레이아웃 */-->
 <th:block layout:fragment="pageContent">
-    <th:block layout:fragment="searchArea"></th:block>
-    <th:block layout:fragment="contentArea"></th:block>
+    <div class="z-main-content flex-column">
+        <!--/* 페이지별 아코디언 리스트 */-->
+        <div layout:fragment="pageView"></div>
+    </div>
 </th:block>

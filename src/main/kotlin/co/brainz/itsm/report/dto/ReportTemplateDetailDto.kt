@@ -12,6 +12,7 @@ data class ReportTemplateDetailDto(
     val templateId: String,
     val templateName: String,
     val templateDesc: String? = null,
+    val reportName: String? = null,
     val automatic: Boolean,
     var charts: List<ChartDto>? = null
 ) : Serializable

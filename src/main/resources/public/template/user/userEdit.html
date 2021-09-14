@@ -145,7 +145,7 @@
             </div>
         </div>
         <div class="flex-column z-edit-row">
-            <h3 class="sub-title under-bar bold" th:text="#{user.label.role}"></h3>
+            <h3 class="sub-title under-bar bold required" th:text="#{user.label.role}"></h3>
         </div>
         <div class="flex-column z-edit-row">
             <div class="z-checkbox-list">
@@ -190,20 +190,17 @@
     window.onload = function() {
         document.getElementById('userId').focus();
         zFileUploader.avatar({
-            extra: {
-                dropZoneFilesId: 'avatarDropZone',
-                type: 'avatar',
-                dropZoneMaxFileSize: 0.2,
-                dropZoneUrl: '/fileupload?target=avatar',
-                dropZoneMaxFiles: 1,
-                acceptedFiles: '.png,.jpeg,.jpg,.gif',
-                enableImageThumbnails: true,
-                avatar: {
-                    id: [[${users?.userKey}]],
-                    path: [[${users?.avatarPath}]],
-                    value: [[${users?.avatarValue}]],
-                    size: [[${users?.avatarSize}]]
-                }
+            dropZoneFilesId: 'avatarDropZone',
+            type: 'avatar',
+            dropZoneMaxFileSize: 0.2,
+            dropZoneUrl: '/fileupload?target=avatar',
+            dropZoneMaxFiles: 1,
+            acceptedFiles: '.png,.jpeg,.jpg,.gif',
+            avatar: {
+                id: [[${users?.userKey}]],
+                path: [[${users?.avatarPath}]],
+                value: [[${users?.avatarValue}]],
+                size: [[${users?.avatarSize}]]
             }
         });
 
@@ -292,6 +289,7 @@
         if (isEmpty('userName', 'user.msg.enterUserName')) return false;
         if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
         if (!isValidEmail('email', true)) return false;
+        if (!isChecked('roles', 'user.msg.selectRole')) return false;
         return true;
     }
 

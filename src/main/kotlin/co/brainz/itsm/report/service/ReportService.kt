@@ -97,9 +97,11 @@ class ReportService(
         val templateEntity = reportTemplateRepository.getOne(templateId)
 
         // new report
+        // 보고서명이 존재하면 보고서 명을 사용하고 없으면 템플릿 명을 사용한다.
+        val reportName = if (templateEntity.reportName.isNullOrEmpty()) templateEntity.templateName else templateEntity.reportName
         var reportEntity = ReportEntity(
             reportId = "",
-            reportName = templateEntity.templateName,
+            reportName = reportName as String,
             reportDesc = templateEntity.templateDesc,
             publishDt = LocalDateTime.now(),
             templateId = templateEntity.templateId
@@ -125,6 +127,7 @@ class ReportService(
                     dataId = "",
                     report = reportEntity,
                     chartId = chartEntity.chartId,
+                    displayOrder = it.displayOrder,
                     values = strValues
                 )
                 reportDataRepository.save(reportDataEntity)

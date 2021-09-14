@@ -2,8 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/portal/portalLayout}">
+<!--/* 페이징처리가 된 리스트 화면 레이아웃 */-->
 <th:block layout:fragment="pageContent">
-    <th:block layout:fragment="searchArea"></th:block>
-    <th:block layout:fragment="listArea"></th:block>
-<th:block layout:replace="layout/portal/fragment/pagingAreaFragment"></th:block>
+    <div class="z-main-content flex-column">
+        <!--/* 페이지별 검색 */-->
+        <div layout:fragment="pageSearching"></div>
+        <!--/* 페이지별 리스트 */-->
+        <div layout:fragment="pageList"></div>
+        <!--/* 페이징 처리 영역 */-->
+        <th:block layout:replace="layout/portal/fragment/pagingAreaFragment"></th:block>
+    </div>
 </th:block>

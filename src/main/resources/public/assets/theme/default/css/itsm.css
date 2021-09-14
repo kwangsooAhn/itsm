@@ -1083,33 +1083,38 @@ table tr {
   height: 2.5rem;
 }
 table tr th {
-  font-size: 1.125rem;
   font-weight: 500;
 }
 table tr td, table tr th {
-  border: 0.0625rem solid transparent;
   display: table-cell;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   word-wrap: normal;
+  vertical-align: middle;
 }
 
 .z-table {
   width: 100%;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #ABB0B5;
+  border: none;
+  border-collapse: collapse;
 }
-.z-table-head tr {
-  color: #222529;
+.z-table tr {
+  border-bottom: 0.0625rem solid #CFD5D9;
+  border-left: none;
+  border-right: none;
+}
+.z-table tr.z-table-head {
+  height: 2rem;
+  font-weight: 500;
+  text-indent: 1rem;
+  border-top: 0.0625rem solid #CFD5D9;
   border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
-}
-.z-table-body {
-  display: block;
-  overflow-y: auto;
-}
-.z-table-body > td {
-  display: inline-block;
-  vertical-align: middle;
+  background-color: #F5F5F5;
 }
 
 span {
@@ -1282,8 +1287,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-input-button .z-button-search {
   margin-left: -0.0625rem;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
 }
 .z-input-button .z-button-search:focus, .z-input-button .z-button-search:hover, .z-input-button .z-button-search:active {
   z-index: 25;
@@ -2858,7 +2864,6 @@ select {
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-table {
   position: relative;
-  display: flex;
   flex-direction: column;
   width: 100%;
   border: none;
@@ -2882,7 +2887,7 @@ select {
   border-bottom: 0.0625rem solid #CFD5D9;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-body tr {
-  height: 2.8125rem;
+  height: 2.5625rem;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-body tr:hover {
   background-color: #EEEEEE;
@@ -2976,7 +2981,7 @@ select {
   cursor: pointer;
 }
 .z-itsm-container .z-main-content .card-list .card:hover {
-  box-shadow: 0 0 0.9375rem rgba(207, 213, 217, 0.15), inset 0 0 0 0.0625rem #CFD5D9;
+  box-shadow: 0 0 0 0.0625rem #CFD5D9;
 }
 .z-itsm-container .z-main-content .card-list .card .document-column h3 {
   width: 28rem;
@@ -4191,6 +4196,9 @@ select {
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0;
+}
+.ql-container.ql-disabled .ql-editor {
+  resize: none;
 }
 
 /* _file-uploader.scss 
@@ -6481,6 +6489,7 @@ body.modal-active {
   }
 }
 .z-help-tooltip {
+  position: relative;
   display: inline-block;
   margin-left: 0.3125rem;
   vertical-align: middle;
@@ -6495,8 +6504,8 @@ body.modal-active {
   visibility: hidden;
   background-color: #FFFFFF;
   color: #339AF0;
-  width: 22.5rem;
-  font-size: 1rem;
+  width: 28.125rem;
+  font-size: 0.875rem;
   border: 0.125rem solid #339AF0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -6512,6 +6521,54 @@ body.modal-active {
   color: #339AF0;
   word-break: keep-all;
   line-height: 1.5;
+}
+.z-help-tooltip .z-tooltip-contents.top {
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  -webkit-transform: translate(-50%, calc(-100% - 0.625rem));
+  -moz-transform: translate(-50%, calc(-100% - 0.625rem));
+  -o-transform: translate(-50%, calc(-100% - 0.625rem));
+  -ms-transform: translate(-50%, calc(-100% - 0.625rem));
+  transform: translate(-50%, calc(-100% - 0.625rem));
+}
+.z-help-tooltip .z-tooltip-contents.right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  -webkit-transform: translate(calc(100% + 0.625rem), -50%);
+  -moz-transform: translate(calc(100% + 0.625rem), -50%);
+  -o-transform: translate(calc(100% + 0.625rem), -50%);
+  -ms-transform: translate(calc(100% + 0.625rem), -50%);
+  transform: translate(calc(100% + 0.625rem), -50%);
+}
+.z-help-tooltip .z-tooltip-contents.bottom {
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+.z-help-tooltip .z-tooltip-contents.left {
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 0;
+  -webkit-transform: translate(calc(-100% - 0.625rem), -50%);
+  -moz-transform: translate(calc(-100% - 0.625rem), -50%);
+  -o-transform: translate(calc(-100% - 0.625rem), -50%);
+  -ms-transform: translate(calc(-100% - 0.625rem), -50%);
+  transform: translate(calc(-100% - 0.625rem), -50%);
 }
 .z-help-tooltip:hover .z-tooltip-contents {
   visibility: visible;

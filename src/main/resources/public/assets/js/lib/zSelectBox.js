@@ -98,7 +98,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
 
                 // z-select-box 클릭 이벤트
                 if (!originSelectTag.disabled && !originSelectTag.classList.contains('disabled') &&
-                    !originSelectTag.classList.contains('readonly')) {
+                    !originSelectTag.classList.contains('readonly') && originSelectTag.options.length > 0) {
                     designedSelectBox.addEventListener('click', (function (e) {
                         e.stopPropagation();
                         let clickedSelect = e.target;

@@ -122,7 +122,7 @@ $card-content-bg-color:                       $white;
 $card-border-width:                           0.0625rem; // 1px
 $card-border-color:                           $gray300;
 $card-border-radius:                          0.0625rem; // 1px
-$card-hover-box-shadow:                       0 0 0.9375rem hexToRGBA($gray300, 0.15), inset 0 0 0 $card-border-width $card-border-color;
+$card-hover-box-shadow:                       0 0 0 $card-border-width $card-border-color;
 
 // 카드 목록 마우스 오버시
 $card-list-hover-bg-color:                    $neutral200;
@@ -150,7 +150,7 @@ $thumbnail-cmdb-icon-box-shadow:              0 0 0 0.0625rem $thumbnail-border-
 
 ///////////////////////////// Tooltip //////////////////////////////
 $tooltip-contents-left:                       auto;
-$tooltip-contents-width:                      22.5rem; // 360px
+$tooltip-contents-width:                      28.125rem; // 450px
 
 /////////////////////////// Notification ///////////////////////////
 // Notification 상단 알람

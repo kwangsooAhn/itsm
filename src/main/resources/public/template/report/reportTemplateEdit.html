@@ -35,6 +35,19 @@
                           maxlength="250" rows="5" th:text="${template?.templateDesc}"></textarea>
             </div>
             <div class="flex-column z-edit-row">
+                <label for="reportName">
+                    <span th:text="#{report.label.reportName}"></span>
+                    <div class="z-help-tooltip">
+                        <span class="z-icon i-tooltip"></span>
+                        <div class="z-tooltip-contents">
+                            <span th:utext="#{report.tooltip.reportName}"></span>
+                        </div>
+                    </div>
+                </label>
+                <input type="text" id="reportName" class="z-input" maxlength="100"
+                       th:value="${template?.reportName}"/>
+            </div>
+            <div class="flex-column z-edit-row">
                 <label class="z-switch">
                     <input type="checkbox" id="automatic" name="automatic"
                            th:checked="${template?.automatic == true}">
@@ -158,17 +171,18 @@
                 if (isValidRequiredAll() && isValid()) {
                     let data = {
                         templateId: '',
-                        templateName: document.querySelector('#templateName').value,
-                        templateDesc: document.querySelector('#templateDesc').value,
-                        automatic: document.querySelector('#automatic').checked
+                        templateName: document.getElementById('templateName').value,
+                        templateDesc: document.getElementById('templateDesc').value,
+                        reportName: document.getElementById('reportName').value,
+                        automatic: document.getElementById('automatic').checked
                     }
                     let url = '/rest/reports/template';
                     if (method === 'put') {
                         url += '/' + /*[[${template?.templateId}]]*/'';
                         data.templateId = /*[[${template?.templateId}]]*/'';
                     }
-                    let charts = []
-                    let chartElement = document.querySelector('#chartList')
+                    let charts = [];
+                    let chartElement = document.getElementById('chartList');
                     chartElement.querySelectorAll('select[name=chart]').forEach((item, index) => {
                         let chart = {
                             id: item.value,
@@ -227,21 +241,25 @@
         // 미리보기
         // sessionStorage 에 화면 데이터 저장
         function preview() {
-            let chartElement = document.querySelector('#chartList');
-            let charts = [];
+            const chartElement = document.querySelector('#chartList');
+            const charts = [];
             chartElement.querySelectorAll('select[name=chart]').forEach((item) => {
                 if (item.value !== '') {
-                    charts.push({chartId: item.value})
+                    charts.push({chartId: item.value});
                 }
             });
 
-            let reportData = {
+            // 보고서 명이 존재하면 보고서명을 출력하고, 없으면 템플릿명을 출력한다.
+            const reportNameTemp = isEmpty('reportName') ? document.getElementById('templateName').value :
+                document.getElementById('reportName').value;
+
+            const reportData = {
                 reportId: '',
-                reportName: document.querySelector('#templateName').value,
+                reportName: reportNameTemp,
                 reportDesc: document.querySelector('#templateDesc').value,
                 charts: charts
             }
-            sessionStorage.setItem("alice_report", JSON.stringify(reportData))
+            sessionStorage.setItem("alice_report", JSON.stringify(reportData));
             window.open('/reports/template/preview', '_blank');
         }
         /*]]>*/

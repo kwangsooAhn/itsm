@@ -74,6 +74,14 @@ export const inputBoxMixin = {
         if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIInputbox.setUIReadOnly(true);
         }
+        // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
+        // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
+        // 기본값이 '${default}' 이면 실제 값을 저장한다.
+        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+            this.parent?.parent?.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
+            this.value === '${default}') {
+            this.value = this.UIElement.UIComponent.UIElement.UIInputbox.getUIValue();
+        }
     },
     set element(element) {
         this._element = element;
@@ -197,13 +205,18 @@ export const inputBoxMixin = {
                 { name: i18n.msg('form.properties.phone'), value: 'phone' }
             ]);
 
+        // 기본값
+        const defaultValueProperty = new ZDefaultValueSelectProperty('elementDefaultValueSelect',
+            'element.defaultValueSelect', this.elementDefaultValueSelect);
+        defaultValueProperty.help = 'form.help.text-default';
+
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZInputBoxProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder))
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZDefaultValueSelectProperty('elementDefaultValueSelect', 'element.defaultValueSelect', this.elementDefaultValueSelect)),
+                .addProperty(defaultValueProperty),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
                 .addProperty(validationTypeProperty)
