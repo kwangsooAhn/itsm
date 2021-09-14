@@ -3760,22 +3760,21 @@ table tbody tr:hover {
 }
 .file-uploader-edit .dropzone .dz-default.dz-message {
   display: grid;
-  grid-template-columns: 3.75rem 15.25rem 10rem auto;
-  min-width: 100%;
-  max-width: 100%;
+  grid-template-columns: 3.125rem auto;
   height: 4.5rem;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
   align-items: center;
   font-size: 0.875rem;
   font-weight: 400;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .z-icon.i-upload {
   display: block;
-  width: 100%;
-  height: 2.813rem;
+  width: 2.5rem;
+  height: 2.5rem;
   -webkit-mask-image: url("../media/icons/fileUploader/icon_upload.svg");
   mask-image: url("../media/icons/fileUploader/icon_upload.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3783,6 +3782,15 @@ table tbody tr:hover {
   -webkit-mask-position: center;
   mask-position: center;
   background: #8B9094;
+}
+.file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap {
+  display: inline-block;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+  text-align: left;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap .dz-clickable {
   color: #339AF0;
@@ -3819,7 +3827,7 @@ table tbody tr:hover {
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
-  padding: 0.75rem 1rem 0.5rem 0.75rem;
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
   margin-top: 0.25rem;
   vertical-align: top;
   font-size: 0.875rem;
@@ -3904,8 +3912,14 @@ table tbody tr:hover {
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-size {
   grid-column: 2;
   color: #ABB0B5;
-  text-align: left;
   padding: 0 0.75rem;
+  text-align: left;
+  display: inline-block;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-remove {
   display: block;
@@ -4054,14 +4068,11 @@ table tbody tr:hover {
 .file-uploader-edit .dropzone .dz-preview .dz-progress {
   position: relative;
   top: -1.563rem;
-  left: 0.9375rem;
-  height: 0.1875rem;
-  width: 90%;
-  background: #CFD5D9;
-  border-radius: 0.5rem;
-  -webkit-border-radius: 0.5rem;
-  -moz-border-radius: 0.5rem;
-  margin: 0 5%;
+  left: 0.75rem;
+  height: 1.5rem;
+  width: inherit;
+  background: inherit;
+  margin: 0 3rem 0 2.625rem;
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
   -o-transform: scale(1);
@@ -4074,16 +4085,25 @@ table tbody tr:hover {
 }
 .file-uploader-edit .dropzone .dz-preview .dz-progress .dz-upload {
   position: absolute;
-  top: 0;
+  top: -1.25rem;
   right: 0;
   bottom: 0;
   left: 0;
+  height: 0.25rem;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
   background: linear-gradient(to bottom, #339AF0, #339AF0);
   -webkit-transition: width 300ms ease-in-out;
   -moz-transition: width 300ms ease-in-out;
   -o-transition: width 300ms ease-in-out;
   -ms-transition: width 300ms ease-in-out;
   transition: width 300ms ease-in-out;
+}
+.file-uploader-edit .dropzone .dz-preview .dz-progress .dz-upload-text {
+  margin-top: 0.625rem;
+  color: #ABB0B5;
+  font-size: 0.6875rem;
 }
 .file-uploader-edit.disabled {
   pointer-events: none;
@@ -4100,7 +4120,7 @@ table tbody tr:hover {
   border: 0.0625rem solid #CFD5D9;
 }
 .file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-file-type {
-  background: #ABB0B5;
+  filter: grayscale(1);
 }
 .file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-download .z-icon,
 .file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-remove .z-icon {
@@ -4112,6 +4132,7 @@ table tbody tr:hover {
 }
 .file-uploader-view {
   display: flex;
+  align-items: center;
   min-height: 3.125rem;
   padding: 0.125rem 1.25rem;
 }

@@ -138,10 +138,18 @@ const zFileUploader = (function () {
         dragAndDropZone.className = extraParam.type;
         dropZoneFiles.appendChild(dragAndDropZone);
 
-        // 파일을 업로드하기 위한 별도의 버튼 기능을 정의하고 추가
-        const justText = document.createElement('span');
-        justText.textContent = extraParam.clickableLineMessage;
+        const defaultText = document.createElement('span');
+        defaultText.textContent = extraParam.dictDefaultMessage;
 
+        // 아바타일 경우 개행 추가
+        if (extraParam.type.indexOf('avatar') !== -1) {
+            defaultText.appendChild(document.createElement('br'));
+        }
+
+        const orText = document.createElement('span');
+        orText.textContent = extraParam.clickableLineMessage;
+
+        // 파일을 업로드하기 위한 별도의 버튼 기능을 정의하고 추가
         const addFileBtn = document.createElement('span');
         addFileBtn.classList.add('underline');
         if (typeof extraParam.clickable !== 'boolean') {
@@ -151,8 +159,15 @@ const zFileUploader = (function () {
 
         const addFileBtnWrap = document.createElement('div');
         addFileBtnWrap.className = addFileBtnWrapClassName;
-        addFileBtnWrap.appendChild(justText);
-        addFileBtnWrap.appendChild(addFileBtn);
+        addFileBtnWrap.appendChild(defaultText);
+
+        // todo: #11252
+        //       현재 폼 디자이너 및 신청서는 clickable 옵션 사용이 제한되므로, 디자인 차원에서 관련 메시지 및 버튼을 제거합니다.
+        if (!extraParam.isForm) {
+            addFileBtnWrap.appendChild(orText);
+            addFileBtnWrap.appendChild(addFileBtn);
+        }
+
         dragAndDropZone.appendChild(addFileBtnWrap);
     };
 
@@ -173,6 +188,9 @@ const zFileUploader = (function () {
         const progressData = document.createElement('span');
         progressData.dataset.dzUploadprogress = '';
         progressData.className = 'dz-upload';
+        const progressText = document.createElement('span');
+        progressText.textContent = 'Uploading';
+        progressText.className = 'dz-upload-text float-left';
 
         const fileType = document.createElement('img');
         fileType.className = 'dz-file-type';
@@ -199,6 +217,7 @@ const zFileUploader = (function () {
         const progress = document.createElement('div');
         progress.className = 'dz-progress';
         progress.appendChild(progressData);
+        progress.appendChild(progressText);
         const errorMsg = document.createElement('div');
         errorMsg.className = 'dz-error-message';
         errorMsg.appendChild(errorMsgData);
@@ -450,7 +469,7 @@ const zFileUploader = (function () {
                                 // 파일이 하나도 없다면 아이콘을 보여준다.
                                 let previewList = delFilePreview.parentNode.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                                 if (previewList.length === 0) {
-                                    delFilePreview.parentNode.querySelector('.i-upload').style.display = 'block';
+                                    // delFilePreview.parentNode.querySelector('.i-upload').style.display = 'block';
                                     _this.isFileExist = false;
                                 }
 
@@ -467,9 +486,9 @@ const zFileUploader = (function () {
                     // 아이콘 추가
                     const dropzoneIcon = document.createElement('span');
                     dropzoneIcon.className = 'z-icon i-upload';
-                    if (_this.isFileExist) {
-                        dropzoneIcon.style.display = 'none';
-                    }
+                    // if (_this.isFileExist) {
+                    //     dropzoneIcon.style.display = 'none';
+                    // }
                     dropzoneMessage.insertBefore(dropzoneIcon, dropzoneMessage.firstChild);
                     // browse 버튼 추가
                     const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
@@ -481,10 +500,10 @@ const zFileUploader = (function () {
                             dropzoneMessage.style.display = 'none';
                         }
                         // 파일 추가시 아이콘 숨기기
-                        if (!_this.isFileExist) {
-                            dropzoneMessage.querySelector('.i-upload').style.display = 'none';
-                            _this.isFileExist = true;
-                        }
+                        // if (!_this.isFileExist) {
+                        //     dropzoneMessage.querySelector('.i-upload').style.display = 'none';
+                        //     _this.isFileExist = true;
+                        // }
                         file.previewElement.querySelector('.dz-file-type').src = setFileIcon(file.name, extraParam.isView);
                         // 삭제 아이콘 추가
                         const removeIcon = document.createElement('span');
@@ -500,8 +519,8 @@ const zFileUploader = (function () {
                     this.on('removedfile', function (file) {
                         let previewList = _this.element.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                         if (_this.files.length === 0 && previewList.length === 0) {
-                            const dropzoneMessage = _this.element.querySelector('.dz-message');
-                            dropzoneMessage.querySelector('.i-upload').style.display = 'block';
+                            // const dropzoneMessage = _this.element.querySelector('.dz-message');
+                            // dropzoneMessage.querySelector('.i-upload').style.display = 'block';
                             _this.isFileExist = false;
                         }
                         if (typeof _this.options.params.userCallback === 'function') {

@@ -50,12 +50,11 @@
         // Drop files here to upload or browse 문구
         &.dz-message {
           display: grid;
-          grid-template-columns: 3.75rem 15.25rem 10rem auto; // 60px 244px 160px
-          min-width: 100%;
-          max-width: 100%;
+          grid-template-columns: 3.125rem auto; // 50px
           height: 4.5rem;
           @include border($element-border-width, solid, $element-border-color, all); // 1px
           @include borderRadius($dropzone-border-radius);
+          padding: 0.5rem 1rem 0.5rem 0.75rem; // 8px 16px 8px 12px
           align-items: center;
           font-size: $dropzone-font-size;
           font-weight: $dropzone-font-weight;
@@ -64,11 +63,13 @@
           .z-icon {
             &.i-upload {
               display: block;
-              @include maskImage('#{$icon-folder-path}fileUploader/icon_upload.svg', 100%, 2.813rem, no-repeat, center, null, $file-uploader-icon-color);
+              @include maskImage('#{$icon-folder-path}fileUploader/icon_upload.svg', 2.5rem, 2.5rem, no-repeat, center, null, $file-uploader-icon-color);
             }
           }
           // or brows 영역
           .add-file-button-wrap {
+            @include ellipsis();
+            text-align: left;
             .dz-clickable {
               color: $dropzone-clickable-font-color;
               cursor: pointer;
@@ -109,11 +110,11 @@
         background-color: $white;
         @include border($element-border-width, solid, $element-border-color, all); // 1px
         @include borderRadius($file-uploader-preview-radius);
-        padding: 0.75rem 1rem 0.5rem 0.75rem; // 12px 16px 8px 12px
+        padding: 0.5rem 1rem 0.5rem 0.75rem; // 8px 16px 8px 12px
         margin-top: 0.25rem; // 4 disabled"px
         vertical-align: top;
         font-size: $file-uploader-font-size;
-        // 마우스 오버시 효과
+        // 마우스 오버 시 효과
         &:hover {
           outline: 0;
           border-color: $dropzone-hover-border-color;
@@ -182,8 +183,9 @@
           .dz-size {
             grid-column: 2;
             color: $file-uploader-filesize-font-color;
-            text-align: left;
             padding: 0 0.75rem; // 0 12px
+            text-align: left;
+            @include ellipsis();
           }
         }
         // 파일 삭제 아이콘
@@ -295,12 +297,11 @@
         }
 
         .dz-progress {
-          @include relative($top: -1.563rem, $left: 0.9375rem); // -25px 15px
-          height: 0.1875rem; // 3px
-          width: 90%;
+          @include relative($top: -1.563rem, $left: 0.75rem); // -25px 12px
+          height: 1.5rem; // 24px
+          width: inherit;
           background: $file-uploader-progress-bg-color;
-          @include borderRadius(0.5rem); // 8px
-          margin: 0 5%;
+          margin: 0 3rem 0 2.625rem; // 0 48px 0 42px
           @include scale(1);
           opacity: 1;
           z-index: $z-index-between-modal-gnb;
@@ -308,9 +309,16 @@
           pointer-events: none;
 
           .dz-upload {
-            @include absolute(0, 0, 0, 0);
+            @include absolute(-1.25rem, 0, 0, 0); // 20px 0 0 0
+            height: 0.25rem; // 4px
+            @include borderRadius(0.5rem); // 8px
             background: linear-gradient(to bottom, $file-uploader-progress-color, $file-uploader-progress-color);
             @include transition(width 300ms ease-in-out);
+            &-text {
+              margin-top: 0.625rem; // 10px
+              color: $file-uploader-progress-font-color;
+              font-size: $file-uploader-progress-font-size;
+            }
           }
         }
       }
@@ -331,7 +339,7 @@
           @include border($element-disabled-border-width, solid, $element-disabled-border-color, all);
 
           .dz-details {
-            .dz-file-type { background: $element-disabled-font-color; }
+            .dz-file-type { filter: grayscale(1); }
             .dz-download,
             .dz-remove {
               .z-icon { background: $element-disabled-font-color; }
@@ -348,6 +356,7 @@
   // view 모드
   &-view {
     display: flex;
+    align-items: center;
     min-height: 3.125rem; // 50px
     padding: 0.125rem 1.25rem; // 2px 20px
     // 제목

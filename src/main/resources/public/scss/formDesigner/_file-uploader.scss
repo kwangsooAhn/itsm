@@ -1,9 +1,1 @@
 @import '../template/file-uploader';
-
-.file-uploader {
-  &-edit {
-    .dropzone {
-      pointer-events: none;
-    }
-  }
-}
