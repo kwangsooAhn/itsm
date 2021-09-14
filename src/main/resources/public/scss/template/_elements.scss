@@ -272,8 +272,7 @@ input, textarea, select {
 
     .z-button-search {
       margin-left: -0.0625rem;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
+      @include borderRadius(0.25rem);
 
       &:focus,
       &:hover,
