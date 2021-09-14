@@ -183,57 +183,24 @@
     /**
      * 드랍존 생성
      */
-    // function createDragAndDropZone(targetElement, options) {
-    //     const dropZoneTemplate =
-    //         `<div id="${dragAndDropZoneId}" class="${options.type}">` +
-    //             `<div class="${addFileBtnWrapClassName}">` +
-    //                 `<span>${options.clickableLineMessage}</span>` +
-    //                 `<span class="underline ${typeof options.clickable !== 'boolean' ? options.clickable : ''}">` +
-    //                     `${options.clickableMessage}` +
-    //                 `</span>` +
-    //             `</div>` +
-    //         `</div>`;
-    //     targetElement.insertAdjacentHTML('beforeend', dropZoneTemplate);
-    // }
-
-    const createDragAndDropZone = function (dropZoneFiles) {
-        const dragAndDropZone = document.createElement('div');
-        dragAndDropZone.id = dragAndDropZoneId;
-        dragAndDropZone.className = extraParam.type;
-        dropZoneFiles.appendChild(dragAndDropZone);
-
-        const defaultText = document.createElement('span');
-        defaultText.textContent = extraParam.dictDefaultMessage;
-
-        // 아바타일 경우 개행 추가
-        if (extraParam.type.indexOf('avatar') !== -1) {
-            defaultText.appendChild(document.createElement('br'));
-        }
-
-        const orText = document.createElement('span');
-        orText.textContent = extraParam.clickableLineMessage;
-
-        // 파일을 업로드하기 위한 별도의 버튼 기능을 정의하고 추가
-        const addFileBtn = document.createElement('span');
-        addFileBtn.classList.add('underline');
-        if (typeof extraParam.clickable !== 'boolean') {
-            addFileBtn.classList.add(extraParam.clickable);
-        }
-        addFileBtn.textContent = extraParam.clickableMessage;
-
-        const addFileBtnWrap = document.createElement('div');
-        addFileBtnWrap.className = addFileBtnWrapClassName;
-        addFileBtnWrap.appendChild(defaultText);
-
-        // todo: #11252
-        //       현재 폼 디자이너 및 신청서는 clickable 옵션 사용이 제한되므로, 디자인 차원에서 관련 메시지 및 버튼을 제거합니다.
-        if (!extraParam.isForm) {
-            addFileBtnWrap.appendChild(orText);
-            addFileBtnWrap.appendChild(addFileBtn);
-        }
-
-        dragAndDropZone.appendChild(addFileBtnWrap);
-    };
+    function createDragAndDropZone(targetElement, options) {
+        const dropZoneTemplate =
+            `<div id="${dragAndDropZoneId}" class="${options.type}">` +
+                `<div class="${addFileBtnWrapClassName}">` +
+                    `<span>${options.dictDefaultMessage}</span>` +
+                    // 타입이 아바타일 경우 개행 추가
+                    `${options.type.indexOf('avatar') === -1 ? `` : `<br>`}` +
+                    // todo: #11252 현재 폼 디자이너 및 신청서는 clickable 옵션 사용이 제한되므로,
+                    //              디자인 차원에서 관련 메시지 및 버튼을 제거합니다.
+                    `${options.isForm ? `` :
+                    `<span>${options.clickableLineMessage}</span>` +
+                    `<span class="underline ${typeof options.clickable !== 'boolean' ? options.clickable : ''}">` +
+                        `${options.clickableMessage}` +
+                    `</span>`}` +
+                `</div>` +
+            `</div>`;
+        targetElement.insertAdjacentHTML('beforeend', dropZoneTemplate);
+    }
 
     /**
      * 업로드된 파일 다운로드 이벤트 핸들러
