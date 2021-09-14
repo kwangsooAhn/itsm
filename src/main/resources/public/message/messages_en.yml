@@ -56,7 +56,7 @@ common:
   msg:
     confirmDelete: "Are you sure you want to delete?"
     confirmNotSave: "You have unsaved changes. Do you want to move without saving?"
-    dataSelect: "Please select data."
+    dataSelect: "Please select {0}."
     delete: "Deleted."
     deleteTartget: "Please select target."
     emptyValue: "There is an empty value"

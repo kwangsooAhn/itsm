@@ -49,7 +49,7 @@
             method: 'GET',
             url: '/rest/custom-codes?viewType=editor',
             async: false,
-            callbackFunc: function(xhr) {
+            callbackFunc: function (xhr) {
                 customCodeList = JSON.parse(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
@@ -63,15 +63,13 @@
      * @param data
      * @return {null|boolean}
      */
-    function makeDetails(attributeType, data){
-        if (typeof parent === 'undefined') { return false; }
+    function makeDetails(attributeType, data) {
+        if (typeof parent === 'undefined') {
+            return false;
+        }
         parent.innerHTML = '';
-        if(parent.previousElementSibling.querySelector('.float-right') == null){
-
-        } else {
-            // 이벤트 실행
-            let prevSiblings = parent.previousElementSibling.querySelector('.float-right');
-            prevSiblings.remove()
+        if (parent.previousElementSibling.querySelector('#button_add') !== null) {
+            parent.previousElementSibling.querySelector('#button_add').remove();
         }
         let attributesProperty = {};
         if (typeof data !== 'undefined' && data !== null) {
@@ -80,10 +78,10 @@
         let attributeObject = null;
         switch (attributeType) {
             case 'inputbox':
-                attributeObject =  new InputBox(attributesProperty);
+                attributeObject = new InputBox(attributesProperty);
                 break;
             case 'dropdown':
-                attributeObject =  new Dropdown(attributesProperty);
+                attributeObject = new Dropdown(attributesProperty);
                 break;
             case 'radio':
                 attributeObject = new Radiobox(attributesProperty);
@@ -108,7 +106,7 @@
      */
     function setValidations(list) {
         let validations = [];
-        list.forEach(function(v) {
+        list.forEach(function (v) {
             validationList.map(function (validation) {
                 if (v === validation.value) {
                     validations.push(validation);
@@ -131,7 +129,7 @@
         const validationOptions = validations.map(function (validation) {
             return `<option value='${validation.value}' ${property.validate === validation.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(validation.text)}</option>`;
         }).join('');
-        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
+        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function (option) {
             return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '100';
@@ -165,7 +163,7 @@
     function Dropdown(property) {
         const objectId = attributeTypeList[1].type; // dropdown
         this.template =
-            `<div class="float-right"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
         parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
@@ -185,14 +183,14 @@
 
             const deleteBtn = document.getElementById(rowId + '_delete');
             deleteBtn.addEventListener('click', function (e) {
-                console.log('이벤트 발생시점2')
                 e.stopPropagation();
-                //this.parentElement.parentElement.remove();
             });
         });
 
         if (property.option !== undefined && property.option !== null) {
-            property.option.forEach(function() { addBtn.click(); });
+            property.option.forEach(function () {
+                addBtn.click();
+            });
             document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
@@ -209,7 +207,7 @@
     function Radiobox(property) {
         const objectId = attributeTypeList[2].type; // radio
         this.template =
-            `<div class="float-right"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
         parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
@@ -235,7 +233,9 @@
         });
 
         if (property.option !== undefined && property.option !== null) {
-            property.option.forEach(function() { addBtn.click(); });
+            property.option.forEach(function () {
+                addBtn.click();
+            });
             document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
@@ -252,7 +252,7 @@
     function Checkbox(property) {
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
-            `<div class="float-right"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
         parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
@@ -280,7 +280,9 @@
         });
 
         if (property.option !== undefined && property.option !== null) {
-            property.option.forEach(function() { addBtn.click(); });
+            property.option.forEach(function () {
+                addBtn.click();
+            });
             document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
@@ -298,11 +300,11 @@
     function CustomCode(property) {
         const objectId = attributeTypeList[4].type; // custom-code
         // required
-        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
+        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function (option) {
             return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         // custom-code
-        const customCodeOptions = customCodeList.data.map(function(option) {
+        const customCodeOptions = customCodeList.data.map(function (option) {
             return `<option value='${option.customCodeId}' ${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.customCodeName)}</option>`;
         }).join('');
 
@@ -311,7 +313,10 @@
         const buttonText = property.button !== undefined ? property.button : '';
 
         // session
-        const sessionOptions = [{'text': i18n.msg('user.label.name'), 'value': 'userName'}, {'text': i18n.msg('user.label.department'), 'value': 'department'}].map(function(option) {
+        const sessionOptions = [{
+            'text': i18n.msg('user.label.name'),
+            'value': 'userName'
+        }, {'text': i18n.msg('user.label.department'), 'value': 'department'}].map(function (option) {
             return `<option value='${option.value}' ${(defaultType === 'session' && defaultValue === option.value) ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
 
@@ -333,13 +338,13 @@
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
             `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span></label></div>` +
             `<div class="flex-column col-1"></div>` +
-            `<div class="flex-column col-7"><select id="${objectId}-default-session" ${defaultType === 'session' ? '': 'disabled=\'true\''}>${sessionOptions}</select></div>` +
+            `<div class="flex-column col-7"><select id="${objectId}-default-session" ${defaultType === 'session' ? '' : 'disabled=\'true\''}>${sessionOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
             `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span></label></div>` +
             `<div class="flex-column col-1"></div>` +
-            `<div class="flex-column col-7"><select id="${objectId}-default-code" ${defaultType === 'code' ? '': 'disabled=\'true\''}></select></div>` +
+            `<div class="flex-column col-7"><select id="${objectId}-default-code" ${defaultType === 'code' ? '' : 'disabled=\'true\''}></select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('cmdb.attribute.label.buttonText')}</span></label></div>` +
@@ -350,15 +355,15 @@
 
         // custom-code 변경 시 데이터 변경
         const customCodeObject = document.getElementById(objectId + '-select');
-        customCodeObject.addEventListener('change', function(e) {
+        customCodeObject.addEventListener('change', function (e) {
             e.stopPropagation();
             aliceJs.sendXhr({
                 method: 'GET',
                 url: '/rest/custom-codes/' + this.value,
-                callbackFunc: function(xhr) {
+                callbackFunc: function (xhr) {
                     let customCodeData = JSON.parse(xhr.responseText);
                     let customCodeDataObject = document.getElementById(objectId + '-default-code');
-                    customCodeDataObject.innerHTML = customCodeData.map(function(option) {
+                    customCodeDataObject.innerHTML = customCodeData.map(function (option) {
                         return `<option value='${option.key}' ${defaultValue === option.key ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.value)}</option>`;
                     }).join('');
                     aliceJs.initDesignedSelectTag();
@@ -377,19 +382,19 @@
         const defaultSessionObject = document.getElementById(objectId + '-session');
         const defaultCodeObject = document.getElementById(objectId + '-code');
 
-        defaultNoneObject.addEventListener('click', function(e) {
+        defaultNoneObject.addEventListener('click', function (e) {
             e.stopPropagation();
             document.getElementById(objectId + '-default-session').disabled = true;
             document.getElementById(objectId + '-default-code').disabled = true;
             aliceJs.initDesignedSelectTag();
         });
-        defaultSessionObject.addEventListener('click', function(e) {
+        defaultSessionObject.addEventListener('click', function (e) {
             e.stopPropagation();
             document.getElementById(objectId + '-default-session').disabled = false;
             document.getElementById(objectId + '-default-code').disabled = true;
             aliceJs.initDesignedSelectTag();
         });
-        defaultCodeObject.addEventListener('click', function(e) {
+        defaultCodeObject.addEventListener('click', function (e) {
             e.stopPropagation();
             document.getElementById(objectId + '-default-session').disabled = true;
             document.getElementById(objectId + '-default-code').disabled = false;
@@ -630,7 +635,7 @@
                                 chk.name = 'attribute-checkbox';
                                 chk.value = attributeOption.value;
                                 if (attributes.value != null) {
-                                    if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                    if (attributes.value.indexOf(attributeOption.value) > -1) {
                                         chk.checked = true;
                                     }
                                 } else {
@@ -713,7 +718,7 @@
                                 };
                                 const itemName = 'alice_custom-codes-search-' + attributes.attributeId;
                                 sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
-                                let url = '/custom-codes/' + attributeValue.customCode+ '/search';
+                                let url = '/custom-codes/' + attributeValue.customCode + '/search';
                                 window.open(url, itemName, 'width=500, height=655');
                             });
                         }
@@ -823,11 +828,11 @@
                                 chk.name = 'attribute-checkbox';
                                 chk.value = attributeOption.value;
                                 chk.readOnly = true;
-                                chk.onclick = function() {
+                                chk.onclick = function () {
                                     return false;
                                 };
                                 if (attributes.value != null) {
-                                    if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                    if (attributes.value.indexOf(attributeOption.value) > -1) {
                                         chk.checked = true;
                                     }
                                 } else {
@@ -921,5 +926,5 @@
     exports.drawEditDetails = drawEditDetails;
     exports.drawViewDetails = drawViewDetails;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
+    Object.defineProperty(exports, '__esModule', {value: true});
 })));
