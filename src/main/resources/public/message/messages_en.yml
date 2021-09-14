@@ -1103,6 +1103,7 @@ process:
 report:
   btn:
     preview: "Preview"
+    pdf: "PDF"
   label:
     automatic: "Automatic generation"
     chart: "Chart"

@@ -12,7 +12,7 @@
 <th:block layout:fragment="content">
     <div class="z-report-wrapper">
         <div class="z-option-button align-right">
-            <button type="button" class="z-button secondary" th:text="PDF" th:onclick="download()"></button>
+            <button type="button" class="z-button secondary" th:text="#{report.btn.pdf}" th:onclick="download()"></button>
         </div>
         <div class="z-report">
             <div class="z-report-main">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="z-report-main-footer flex-row justify-content-between">
                     <div>
-                        <img class="z-img i-portal-notice pointer" th:src="@{/assets/media/icons/logo/icon_logo_print.svg}" width="152" height="26" alt="logo">
+                        <img class="z-img i-portal-notice pointer" th:src="@{/assets/media/icons/logo/icon_logo_print.svg}" width="152" height="26" alt="logo" />
                     </div>
                     <div class="z-paging"></div>
                     <div class="align-right mr-4" id="report-information"></div>
@@ -72,6 +72,7 @@
 
             // chart 그리기
             if (report['data'] !== undefined) {
+                console.log(report['data']);
                 report['data'].forEach((item) => {
                     addChartContent(item);
                 });

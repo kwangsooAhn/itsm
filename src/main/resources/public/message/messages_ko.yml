@@ -1102,6 +1102,7 @@ process:
 report:
   btn:
     preview: "미리보기"
+    pdf: "PDF"
   label:
     automatic: "자동 생성"
     chart: "사용자 정의 차트"
