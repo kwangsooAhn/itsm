@@ -893,6 +893,13 @@ input, button, select, optgroup, textarea {
   margin: 0 auto;
 }
 
+.z-report-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 120rem;
+  margin: 0.5cm auto;
+}
+
 /* _preview.scss
  *
  * 파일 경로 : report/_preview.scss
@@ -910,7 +917,7 @@ input, button, select, optgroup, textarea {
   font-weight: bold;
 }
 .z-report .z-report-main .z-report-area .z-drawing-board {
-  width: 62.5rem;
+  width: 45.625rem;
 }
 .z-report .z-report-main .z-report-area .z-drawing-board .z-chart-content {
   margin: 0 0 1.25rem 0;

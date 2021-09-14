@@ -1106,7 +1106,6 @@ report:
     automatic: "Automatic generation"
     chart: "Chart"
     description: "Description"
-    download: "Download"
     preview: "Preview"
     publishDate: "Publish Date"
     report: "Report"
