@@ -1127,6 +1127,8 @@ report:
     templateNameUsed: "Duplicate template name exists."
   template:
     all: "All"
+  tooltip:
+    reportName: "When creating a report, set the name of the report to be displayed.<br/>If the report name is not entered, the template name is used as the report name."
 
 # Role
 role:
