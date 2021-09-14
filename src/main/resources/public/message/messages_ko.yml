@@ -1126,6 +1126,8 @@ report:
     templateNameUsed: "중복되는 템플릿명이 존재합니다."
   template:
     all: "전체"
+  tooltip:
+    reportName: "보고서 생성시, 표시되는 보고서 명을 설정한다.<br/>보고서 명을 입력하지 않을 경우 템플릿 명이 보고서 명으로 사용된다."
 
 # Role
 role:
