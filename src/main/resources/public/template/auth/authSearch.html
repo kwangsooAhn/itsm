@@ -34,16 +34,21 @@
         getList();
     };
 
+    document.getElementById('searchValue').onkeyup = function() {
+        getList();
+    };
+
     /** 권한 데이터 검색  **/
     function getList(pageNum = 1) {
-        const data = {
-            search: encodeURIComponent(document.getElementById('searchValue').value)
-        };
-        const urlParam = 'searchValue=' + data.search + '&pageNum=' + pageNum;
+        restSearchSubmit('get', '/auths?searchValue=' + document.getElementById('searchValue').value + '&pageNum=' + pageNum);
+    }
+
+    function restSearchSubmit(method, url) {
         const opt = {
-            method: 'get',
-            url: '/auths?' + urlParam,
-            callbackFunc: function (response) {
+            method: method,
+            url: url,
+            showProgressbar: false,
+            callbackFunc: function(response) {
                 document.getElementById('authList').innerHTML = response.responseText;
                 OverlayScrollbars(document.querySelector('.z-list-body'), {
                     className: 'scrollbar'
