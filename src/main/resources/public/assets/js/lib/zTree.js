@@ -38,6 +38,7 @@
         totalCount: false,                      // 전체 개수 표시여부
         expandTree: true,                       // 전체 펼치기
         classes: 'tree',                        // 모달일 경우 추가되는 class 명
+        nodeType: '',                           // validation check 를 위한 node type
         buttons: [{
             content: 'Confirm',
             classes: 'z-button primary',
@@ -76,13 +77,33 @@
     function saveSelectedNode() {
         let nodeSelector = options.view === 'modal' ? '.modal_node_selected' : '.node_selected';
         const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
-        const departmentSelectedNode = document.querySelector('#departmentCode' + options.target + ' ' + nodeSelector);
 
-        if (!departmentSelectedNode) {
-            aliceAlert.alertWarning(i18n.msg('common.msg.departmentSelect'));
-            return false;
-        } else if (!selectedNode) {
-            aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
+        // AS-IS
+        //const departmentSelectedNode = document.querySelector('#departmentCode' + options.target + ' ' + nodeSelector);
+
+        // if (!departmentSelectedNode) {
+        //             aliceAlert.alertWarning(i18n.msg('common.msg.departmentSelect'));
+        //             return false;
+        //         } else if (!selectedNode) {
+        //             aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
+        //             return false;
+        //         }
+
+        // TO-BE
+        if (!selectedNode) {
+            // 샘플 데이터입니다. 테스트 해보고 미사용 코드는 제거해주세요.
+            // 1안
+            switch (options.nodeType) {
+                case "department":
+                    aliceAlert.alertWarning(i18n.msg('common.msg.departmentSelect'))
+                    break;
+                default:
+                    aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
+                    break;
+            }
+
+            // 2안 ( 삼항 연산자가 너무 길면 if 문으로 대체 / 해당 코드 제거시 message code도 함께 제거바랍니다. )
+            // options.nodeType !== "" ? aliceAlert.alertWarning(i18n.msg('tree.msg.validation', i18n.msg('tree.label.' + options.nodeType))) : aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
             return false;
         }
         let callbackFunc = options.callbackFunc;
