@@ -49,7 +49,7 @@
             method: 'GET',
             url: '/rest/custom-codes?viewType=editor',
             async: false,
-            callbackFunc: function (xhr) {
+            callbackFunc: function(xhr) {
                 customCodeList = JSON.parse(xhr.responseText);
             },
             contentType: 'application/json; charset=utf-8'
@@ -106,7 +106,7 @@
      */
     function setValidations(list) {
         let validations = [];
-        list.forEach(function (v) {
+        list.forEach(function(v) {
             validationList.map(function (validation) {
                 if (v === validation.value) {
                     validations.push(validation);
@@ -129,7 +129,7 @@
         const validationOptions = validations.map(function (validation) {
             return `<option value='${validation.value}' ${property.validate === validation.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(validation.text)}</option>`;
         }).join('');
-        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function (option) {
+        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
             return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '100';
@@ -300,11 +300,11 @@
     function CustomCode(property) {
         const objectId = attributeTypeList[4].type; // custom-code
         // required
-        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function (option) {
+        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
             return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         // custom-code
-        const customCodeOptions = customCodeList.data.map(function (option) {
+        const customCodeOptions = customCodeList.data.map(function(option) {
             return `<option value='${option.customCodeId}' ${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.customCodeName)}</option>`;
         }).join('');
 
@@ -355,15 +355,15 @@
 
         // custom-code 변경 시 데이터 변경
         const customCodeObject = document.getElementById(objectId + '-select');
-        customCodeObject.addEventListener('change', function (e) {
+        customCodeObject.addEventListener('change', function(e) {
             e.stopPropagation();
             aliceJs.sendXhr({
                 method: 'GET',
                 url: '/rest/custom-codes/' + this.value,
-                callbackFunc: function (xhr) {
+                callbackFunc: function(xhr) {
                     let customCodeData = JSON.parse(xhr.responseText);
                     let customCodeDataObject = document.getElementById(objectId + '-default-code');
-                    customCodeDataObject.innerHTML = customCodeData.map(function (option) {
+                    customCodeDataObject.innerHTML = customCodeData.map(function(option) {
                         return `<option value='${option.key}' ${defaultValue === option.key ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.value)}</option>`;
                     }).join('');
                     aliceJs.initDesignedSelectTag();
@@ -382,19 +382,19 @@
         const defaultSessionObject = document.getElementById(objectId + '-session');
         const defaultCodeObject = document.getElementById(objectId + '-code');
 
-        defaultNoneObject.addEventListener('click', function (e) {
+        defaultNoneObject.addEventListener('click', function(e) {
             e.stopPropagation();
             document.getElementById(objectId + '-default-session').disabled = true;
             document.getElementById(objectId + '-default-code').disabled = true;
             aliceJs.initDesignedSelectTag();
         });
-        defaultSessionObject.addEventListener('click', function (e) {
+        defaultSessionObject.addEventListener('click', function(e) {
             e.stopPropagation();
             document.getElementById(objectId + '-default-session').disabled = false;
             document.getElementById(objectId + '-default-code').disabled = true;
             aliceJs.initDesignedSelectTag();
         });
-        defaultCodeObject.addEventListener('click', function (e) {
+        defaultCodeObject.addEventListener('click', function(e) {
             e.stopPropagation();
             document.getElementById(objectId + '-default-session').disabled = true;
             document.getElementById(objectId + '-default-code').disabled = false;
@@ -828,7 +828,7 @@
                                 chk.name = 'attribute-checkbox';
                                 chk.value = attributeOption.value;
                                 chk.readOnly = true;
-                                chk.onclick = function () {
+                                chk.onclick = function() {
                                     return false;
                                 };
                                 if (attributes.value != null) {
