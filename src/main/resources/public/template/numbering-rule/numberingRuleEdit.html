@@ -46,19 +46,21 @@
                         </button>
                     </div>
                 </th:block>
-                <th:block th:each="patternData, iterStat : ${#lists.sort(rule?.patternList, byPatternOrder)}">
-                    <div class="flex-row z-edit-row">
-                        <select name="pattern" class="mr-1">
-                            <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
-                                    th:text="${pattern.patternName}" th:name="${pattern.patternType}"
-                                    th:selected="${patternData.patternName} == ${pattern.patternName}">
-                            </option>
-                        </select>
-                        <button th:style="(${iterStat.index} > 0)? '':'visibility:hidden'" type="button"
-                                class="z-button-icon extra ml-1" onclick="deletePattern(this)">
-                            <span class="z-icon i-delete"></span>
-                        </button>
-                    </div>
+                <th:block th:unless="${#arrays.isEmpty(rule)}">
+                    <th:block th:each="patternData, iterStat : ${#lists.sort(rule?.patternList, byPatternOrder)}">
+                        <div class="flex-row z-edit-row">
+                            <select name="pattern" class="mr-1">
+                                <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
+                                        th:text="${pattern.patternName}" th:name="${pattern.patternType}"
+                                        th:selected="${patternData.patternName} == ${pattern.patternName}">
+                                </option>
+                            </select>
+                            <button th:style="(${iterStat.index} > 0)? '':'visibility:hidden'" type="button"
+                                    class="z-button-icon extra ml-1" onclick="deletePattern(this)">
+                                <span class="z-icon i-delete"></span>
+                            </button>
+                        </div>
+                    </th:block>
                 </th:block>
             </div>
         </div>
