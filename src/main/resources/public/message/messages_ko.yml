@@ -1438,11 +1438,3 @@ product:
     technicalSupport: "기술지원 : 02-2205-6031"
     productInquiry: "제품문의 : 02-2205-6009, 6015"
     copyright: "ⓒ 2020 Brainzcompany. All rights reserved."
-
-# Tree (2안 미사용 시 제거해주세요)
-tree:
-  label:
-    department: "부서"
-    test: "테스트 항목"
-  msg:
-    validation: "{0}을(를) 선택해주세요."
