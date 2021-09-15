@@ -76,8 +76,12 @@
     function saveSelectedNode() {
         let nodeSelector = options.view === 'modal' ? '.modal_node_selected' : '.node_selected';
         const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
+        const departmentSelectedNode = document.querySelector('#departmentCode' + options.target + ' ' + nodeSelector);
 
-        if (!selectedNode) {
+        if (!departmentSelectedNode) {
+            aliceAlert.alertWarning(i18n.msg('common.msg.departmentSelect'));
+            return false;
+        } else if (!selectedNode) {
             aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
             return false;
         }

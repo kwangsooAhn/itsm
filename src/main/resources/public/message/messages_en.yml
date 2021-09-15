@@ -59,6 +59,7 @@ common:
     dataSelect: "Please select data."
     delete: "Deleted."
     deleteTartget: "Please select target."
+    departmentSelect: "Please select a department name"
     emptyValue: "There is an empty value"
     enterContents: "Please enter contents"
     enterTitle: "Please enter a title."
