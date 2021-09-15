@@ -1,92 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
     <title th:text="${template != null} ? #{report.label.templateEdit} : #{report.label.templateRegister}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-report-template-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{report.label.template}"></h1>
-            <h6 class="description ml-2 pl-2" th:text="#{report.msg.editDescription}"></h6>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{report.label.template}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{report.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <div class="flex-column z-edit-row">
+            <label for="templateName">
+                <span th:text="#{report.label.templateName}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" id="templateName" class="z-input" required="true" maxlength="100"
+                   th:attr="data-validation-required-name=#{report.label.templateName}"
+                   th:value="${template?.templateName}"/>
         </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="flex-column z-edit">
-        <div class="z-report-template-content-edit">
-            <div class="flex-column z-edit-row">
-                <label for="templateName">
-                    <span th:text="#{report.label.templateName}"></span>
-                    <span class="required"></span>
-                </label>
-                <input type="text" id="templateName" class="z-input" required="true" maxlength="100"
-                       th:attr="data-validation-required-name=#{report.label.templateName}"
-                       th:value="${template?.templateName}"/>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label for="templateDesc">
-                    <span th:text="#{report.label.description}"></span>
-                </label>
-                <textarea id="templateDesc" name="templateDesc" class="z-textarea textarea-scroll-wrapper"
-                          maxlength="250" rows="5" th:text="${template?.templateDesc}"></textarea>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label for="reportName">
-                    <span th:text="#{report.label.reportName}"></span>
-                    <div class="z-help-tooltip">
-                        <span class="z-icon i-tooltip"></span>
-                        <div class="z-tooltip-contents">
-                            <span th:utext="#{report.tooltip.reportName}"></span>
-                        </div>
+        <div class="flex-column z-edit-row">
+            <label for="templateDesc">
+                <span th:text="#{report.label.description}"></span>
+            </label>
+            <textarea id="templateDesc" name="templateDesc" class="z-textarea textarea-scroll-wrapper"
+                      maxlength="250" rows="5" th:text="${template?.templateDesc}"></textarea>
+        </div>
+        <div class="flex-column z-edit-row">
+            <label for="reportName">
+                <span th:text="#{report.label.reportName}"></span>
+                <div class="z-help-tooltip">
+                    <span class="z-icon i-tooltip"></span>
+                    <div class="z-tooltip-contents">
+                        <span th:utext="#{report.tooltip.reportName}"></span>
                     </div>
+                </div>
+            </label>
+            <input type="text" id="reportName" class="z-input" maxlength="100"
+                   th:value="${template?.reportName}"/>
+        </div>
+        <div class="flex-column z-edit-row">
+            <label class="z-switch">
+                <input type="checkbox" id="automatic" name="automatic"
+                       th:checked="${template?.automatic == true}">
+                <span></span>
+                <span class="z-label" th:text="#{report.label.automatic}"></span>
+            </label>
+        </div>
+        <div class="flex-column z-edit-row">
+            <div class="under-bar">
+                <label>
+                    <span th:text="#{report.label.chart}"></span>
                 </label>
-                <input type="text" id="reportName" class="z-input" maxlength="100"
-                       th:value="${template?.reportName}"/>
             </div>
-            <div class="flex-column z-edit-row">
-                <label class="z-switch">
-                    <input type="checkbox" id="automatic" name="automatic"
-                           th:checked="${template?.automatic == true}">
-                    <span></span>
-                    <span class="z-label" th:text="#{report.label.automatic}"></span>
-                </label>
-            </div>
-            <div class="flex-column z-edit-row">
-                <div class="under-bar">
-                    <label>
-                        <span th:text="#{report.label.chart}"></span>
-                    </label>
+            <div id="details" class="template">
+                <div class="flex-row justify-content-end">
+                    <button type="button" class="z-button-icon extra" onclick="addChart()">
+                        <span class="z-icon i-plus"></span>
+                    </button>
                 </div>
-                <div id="details" class="template">
-                    <div class="flex-row justify-content-end">
-                        <button type="button" class="z-button-icon extra" onclick="addChart()">
-                            <span class="z-icon i-plus"></span>
-                        </button>
-                    </div>
-                    <div id="chartList" class="chart"></div>
-                </div>
-            </div>
-            <div class="flex-row justify-content-between z-edit-row">
-                <div class="z-button-list">
-                    <a class="z-button secondary" href="/reports/template/search" th:text="#{common.btn.list}"></a>
-                </div>
-                <div class="z-button-list">
-                    <button class="z-button primary" th:if="${template == null}" sec:authorize="hasAuthority('report.create')"
-                            onclick="actionTemplate('post')" th:text="#{common.btn.register}"></button>
-                    <button class="z-button primary" th:if="${template?.templateId}" sec:authorize="hasAuthority('report.update')"
-                            onclick="actionTemplate('put')" th:text="#{common.btn.modify}"></button>
-                    <button class="z-button secondary" onclick="preview()" th:text="#{report.btn.preview}"></button>
-                    <button class="z-button secondary" th:if="${template?.templateId}" sec:authorize="hasAuthority('report.delete')"
-                            onclick="actionTemplate('delete')" th:text="#{common.btn.delete}"></button>
-                </div>
+                <div id="chartList" class="chart"></div>
             </div>
         </div>
+        <div class="flex-row justify-content-between z-edit-row">
+            <div class="z-button-list">
+                <a class="z-button secondary" href="/reports/template/search" th:text="#{common.btn.list}"></a>
+            </div>
+            <div class="z-button-list">
+                <button class="z-button primary" th:if="${template == null}"
+                        sec:authorize="hasAuthority('report.create')"
+                        onclick="actionTemplate('post')" th:text="#{common.btn.register}"></button>
+                <button class="z-button primary" th:if="${template?.templateId}"
+                        sec:authorize="hasAuthority('report.update')"
+                        onclick="actionTemplate('put')" th:text="#{common.btn.modify}"></button>
+                <button class="z-button secondary" onclick="preview()" th:text="#{report.btn.preview}"></button>
+                <button class="z-button secondary" th:if="${template?.templateId}"
+                        sec:authorize="hasAuthority('report.delete')"
+                        onclick="actionTemplate('delete')" th:text="#{common.btn.delete}"></button>
+            </div>
+        </div>
+
+
     </div>
-</th:block>
+</div>
 </body>
 <th:block layout:fragment="pageScript">
     <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
@@ -103,7 +102,7 @@
                 })
             }
 
-            OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
                 className: 'scrollbar',
                 resize: 'vertical',
@@ -205,7 +204,7 @@
                 url: url,
                 params: JSON.stringify(data),
                 contentType: 'application/json',
-                callbackFunc: function(response) {
+                callbackFunc: function (response) {
                     let result = JSON.parse(response.responseText);
                     if (method === 'post' || method === 'put') {
                         switch (result.code) {
@@ -221,7 +220,7 @@
                                 aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                                 break;
                         }
-                    } else if (method === 'delete'){
+                    } else if (method === 'delete') {
                         switch (result.code) {
                             case STATUS_SUCCESS:
                                 aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
@@ -262,6 +261,7 @@
             sessionStorage.setItem("alice_report", JSON.stringify(reportData));
             window.open('/reports/template/preview', '_blank');
         }
+
         /*]]>*/
     </script>
 </th:block>
