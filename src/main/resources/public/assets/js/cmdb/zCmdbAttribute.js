@@ -64,8 +64,13 @@
      * @return {null|boolean}
      */
     function makeDetails(attributeType, data) {
-        if (typeof parent === 'undefined') { return false; }
+        if (typeof parent === 'undefined') {
+            return false;
+        }
         parent.innerHTML = '';
+        if (parent.previousElementSibling.querySelector('#button_add') !== null) {
+            parent.previousElementSibling.querySelector('#button_add').remove();
+        }
         let attributesProperty = {};
         if (typeof data !== 'undefined' && data !== null) {
             attributesProperty = data;
@@ -73,10 +78,10 @@
         let attributeObject = null;
         switch (attributeType) {
             case 'inputbox':
-                attributeObject =  new InputBox(attributesProperty);
+                attributeObject = new InputBox(attributesProperty);
                 break;
             case 'dropdown':
-                attributeObject =  new Dropdown(attributesProperty);
+                attributeObject = new Dropdown(attributesProperty);
                 break;
             case 'radio':
                 attributeObject = new Radiobox(attributesProperty);
@@ -158,9 +163,9 @@
     function Dropdown(property) {
         const objectId = attributeTypeList[1].type; // dropdown
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
-        parent.insertAdjacentHTML('beforeend', this.template);
+        parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', function (e) {
@@ -179,12 +184,13 @@
             const deleteBtn = document.getElementById(rowId + '_delete');
             deleteBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                this.parentElement.parentElement.remove();
             });
         });
 
         if (property.option !== undefined && property.option !== null) {
-            property.option.forEach(function() { addBtn.click(); });
+            property.option.forEach(function () {
+                addBtn.click();
+            });
             document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
@@ -201,9 +207,9 @@
     function Radiobox(property) {
         const objectId = attributeTypeList[2].type; // radio
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
-        parent.insertAdjacentHTML('beforeend', this.template);
+        parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', function (e) {
@@ -227,7 +233,9 @@
         });
 
         if (property.option !== undefined && property.option !== null) {
-            property.option.forEach(function() { addBtn.click(); });
+            property.option.forEach(function () {
+                addBtn.click();
+            });
             document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
@@ -244,9 +252,9 @@
     function Checkbox(property) {
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
-        parent.insertAdjacentHTML('beforeend', this.template);
+        parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', function (e) {
@@ -272,7 +280,9 @@
         });
 
         if (property.option !== undefined && property.option !== null) {
-            property.option.forEach(function() { addBtn.click(); });
+            property.option.forEach(function () {
+                addBtn.click();
+            });
             document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
@@ -303,7 +313,10 @@
         const buttonText = property.button !== undefined ? property.button : '';
 
         // session
-        const sessionOptions = [{'text': i18n.msg('user.label.name'), 'value': 'userName'}, {'text': i18n.msg('user.label.department'), 'value': 'department'}].map(function(option) {
+        const sessionOptions = [{
+            'text': i18n.msg('user.label.name'),
+            'value': 'userName'
+        }, {'text': i18n.msg('user.label.department'), 'value': 'department'}].map(function (option) {
             return `<option value='${option.value}' ${(defaultType === 'session' && defaultValue === option.value) ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
 
@@ -325,13 +338,13 @@
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
             `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span></label></div>` +
             `<div class="flex-column col-1"></div>` +
-            `<div class="flex-column col-7"><select id="${objectId}-default-session" ${defaultType === 'session' ? '': 'disabled=\'true\''}>${sessionOptions}</select></div>` +
+            `<div class="flex-column col-7"><select id="${objectId}-default-session" ${defaultType === 'session' ? '' : 'disabled=\'true\''}>${sessionOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
             `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span></label></div>` +
             `<div class="flex-column col-1"></div>` +
-            `<div class="flex-column col-7"><select id="${objectId}-default-code" ${defaultType === 'code' ? '': 'disabled=\'true\''}></select></div>` +
+            `<div class="flex-column col-7"><select id="${objectId}-default-code" ${defaultType === 'code' ? '' : 'disabled=\'true\''}></select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('cmdb.attribute.label.buttonText')}</span></label></div>` +
@@ -622,7 +635,7 @@
                                 chk.name = 'attribute-checkbox';
                                 chk.value = attributeOption.value;
                                 if (attributes.value != null) {
-                                    if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                    if (attributes.value.indexOf(attributeOption.value) > -1) {
                                         chk.checked = true;
                                     }
                                 } else {
@@ -705,7 +718,7 @@
                                 };
                                 const itemName = 'alice_custom-codes-search-' + attributes.attributeId;
                                 sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
-                                let url = '/custom-codes/' + attributeValue.customCode+ '/search';
+                                let url = '/custom-codes/' + attributeValue.customCode + '/search';
                                 window.open(url, itemName, 'width=500, height=655');
                             });
                         }
@@ -819,7 +832,7 @@
                                     return false;
                                 };
                                 if (attributes.value != null) {
-                                    if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                    if (attributes.value.indexOf(attributeOption.value) > -1) {
                                         chk.checked = true;
                                     }
                                 } else {
@@ -913,5 +926,5 @@
     exports.drawEditDetails = drawEditDetails;
     exports.drawViewDetails = drawViewDetails;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
+    Object.defineProperty(exports, '__esModule', {value: true});
 })));
