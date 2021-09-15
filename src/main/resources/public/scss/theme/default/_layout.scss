@@ -277,14 +277,9 @@
   background-color: $edit-content-bg-color;
 
   .sub-title { margin-top: 2.5rem; } // 40px
-  // select box 크기 고정
-  .custom-setting-top-select,
-  .language-select,
-  .theme-color-select {
-    width: 29.38rem; // 470px
-  }
+
   .select-date-time {
-    width: 19.38rem; // 310px
+    width: calc(100% - 10.0005); // 310px
   }
   .hour-select {
     width: 9.688rem; // 155px
