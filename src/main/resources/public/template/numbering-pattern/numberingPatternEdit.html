@@ -25,7 +25,7 @@
                 <label class="z-radio">
                     <input id="numbering.pattern.text" name="patternType" type="radio"
                            onclick="changePatternValueInput('numbering.pattern.text')"
-                           th:checked="${pattern?.patternType == 'numbering.pattern.text'}">
+                           th:checked="${pattern?.patternType == null || pattern?.patternType == 'numbering.pattern.text'}">
                     <span></span>
                     <span class="z-label  mr-4" th:text="#{pattern.type.text}"></span>
                 </label>
@@ -45,12 +45,13 @@
                 </label>
             </div>
         </div>
-        <div id="type-input-pattern" class="z-edit-row flex-column">
+        <div th:style="${pattern?.patternType == null || pattern?.patternType == 'numbering.pattern.text' || pattern?.patternType == 'numbering.pattern.sequence' ? '' : 'display: none'}"
+             id="type-input-pattern" class="z-edit-row flex-column">
             <label th:text="#{pattern.label.value}" class="required"></label>
             <input type="text" class="z-input" id="txtPatternValue" name="txtPatternValue" maxlength="100"
                    th:value="${pattern?.patternValue}">
         </div>
-        <div id="type-select-pattern" class="z-edit-row flex-column">
+        <div th:style="${pattern?.patternType == 'numbering.pattern.date' ? '': 'display: none'}" id="type-select-pattern" class="z-edit-row flex-column">
             <label th:text="#{pattern.label.value}" class="required"></label>
             <select id="selectPatternDateValue" name="selectPatternDateValue" class="select-date-time mr-1">
                 <option th:each="date: ${dateList}" th:value="${date.code}"
@@ -188,10 +189,10 @@
             document.getElementById('txtPatternValue').addEventListener('keydown', onlyNumber);
             document.getElementById('txtPatternValue').addEventListener('keyup', aliceJs.removeChar);
         } else {
-            document.querySelector('.z-select-box').textContent = document.querySelector('.z-select-options').firstElementChild.textContent;
             document.getElementById('selectPatternDateValue')[0].selected = true;
             document.getElementById('type-input-pattern').style.display = 'none';
             document.getElementById('type-select-pattern').style.display = '';
+            aliceJs.initDesignedSelectTag();
         }
     }
 
