@@ -3311,13 +3311,8 @@ select {
 .z-user-content-edit .sub-title {
   margin-top: 2.5rem;
 }
-.z-user-content-edit .custom-setting-top-select,
-.z-user-content-edit .language-select,
-.z-user-content-edit .theme-color-select {
-  width: 29.38rem;
-}
 .z-user-content-edit .select-date-time {
-  width: 19.38rem;
+  width: calc(100% - 10.0005);
 }
 .z-user-content-edit .hour-select {
   width: 9.688rem;

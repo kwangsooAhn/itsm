@@ -29,7 +29,7 @@
     window.onload = function () {
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', function () {
-            getList(false);
+            getList();
         });
         getList();
     };
@@ -43,6 +43,7 @@
         const opt = {
             method: 'get',
             url: '/numberingRules?' + urlParam,
+            showProgressbar: false,
             callbackFunc: function (response) {
                 document.getElementById('ruleList').innerHTML = response.responseText;
                 OverlayScrollbars(document.querySelector('.z-list-body'), {
