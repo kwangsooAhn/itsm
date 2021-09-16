@@ -26,7 +26,8 @@
         <div class="flex-column z-edit-row">
             <div class="flex-row">
                 <div class="z-edit-column col-6">
-                    <div class="flex-column z-edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
+                    <div class="flex-column z-edit-row"
+                         th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <label for="userId">
                             <span th:text="#{user.label.id}"></span>
                             <span class="required"></span>
@@ -34,7 +35,8 @@
                         <input type="text" class="z-input" id="userId" name="userId" maxlength="100"
                                th:value="${users?.userId}" required="required"/>
                     </div>
-                    <div class="flex-column z-edit-row" th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice')}">
+                    <div class="flex-column z-edit-row"
+                         th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice')}">
                         <label th:text="#{user.label.password}"></label>
                         <button class="z-button primary" type="button" th:text="#{user.btn.resetPassword}"
                                 th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"/>
@@ -45,7 +47,7 @@
                             <span class="required"></span>
                         </label>
                         <input type="text" class="z-input" id="userName" name="userName" th:value="${users?.userName}"
-                               maxlength="100" required="required" />
+                               maxlength="100" required="required"/>
                     </div>
                     <div class="flex-column z-edit-row">
                         <label for="email">
@@ -57,25 +59,32 @@
                     </div>
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.position}" for="position"></label>
-                        <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}" maxlength="100">
+                        <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}"
+                               maxlength="100">
                     </div>
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.department}"></label>
                         <div class="flex-row z-input-button">
-                            <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
-                            <input type="text" class="z-input col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
-                            <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
-                            <button type="button" class="z-button-search z-button form" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
+                            <input type="hidden" id="departmentCode" name="departmentCode"
+                                   th:value="${deptCodeDetail?.code}"/>
+                            <input type="text" class="z-input col-5" id="department" name="department"
+                                   th:value="${deptCodeDetail?.codeValue}" readonly>
+                            <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);"
+                                  tabindex="-1"></span>
+                            <button type="button" class="z-button-search z-button form" onclick="deptPopUp();"
+                                    th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
-                        <input type="text" class="z-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
+                        <input type="text" class="z-input" id="officeNumber" name="officeNumber"
+                               th:value="${users?.officeNumber}"
                                onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
                     </div>
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
-                        <input type="text" class="z-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
+                        <input type="text" class="z-input" id="mobileNumber" name="mobileNumber"
+                               th:value="${users?.mobileNumber}"
                                onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
                     </div>
                 </div>
@@ -101,7 +110,8 @@
                     </label>
                     <select name="timezone" id="timezone">
                         <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
-                                th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone?:defaultTimezone}"></option>
+                                th:text="${timezone.timezoneId}"
+                                th:selected="${timezone.timezoneValue} == ${users?.timezone?:defaultTimezone}"></option>
                     </select>
                 </div>
                 <div class="flex-column col-6">
@@ -109,7 +119,8 @@
                     <div class="flex-row">
                         <select class="select-date-time mr-1" name="date" id="date">
                             <option th:each="date: ${dateList}" th:value="${date.codeValue}"
-                                    th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
+                                    th:text="${date.codeValue}"
+                                    th:selected="${date.codeValue} == ${usersDate}"></option>
                         </select>
                         <select class="hour-select" name="time" id="time">
                             <option th:each="time: ${timeList}" th:value="${time.codeValue}"
@@ -151,7 +162,8 @@
             <div class="z-checkbox-list">
                 <ul>
                     <li class="user-role-checkbox-wrap" th:each="role : ${roles}">
-                        <label class="z-checkbox" th:for="|roles*{roleStat.index}|" th:title="*{role.roleName}" tabindex="0">
+                        <label class="z-checkbox" th:for="|roles*{roleStat.index}|" th:title="*{role.roleName}"
+                               tabindex="0">
                             <input class="user-role-checkbox" type="checkbox"
                                    th:id="|roles*{roleStat.index}|" name="roles"
                                    th:value="*{role.roleId}" th:checked="*{role.checked}">
@@ -176,18 +188,18 @@
                 <a class="z-button secondary" href="/users/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="z-button-list">
-            <button class="z-button primary" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
-                    th:onclick="restSubmit('post', [[@{/rest/users}]], 'true')"></button>
-            <button class="z-button primary" type="button" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
-                    th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')"></button>
+                <button class="z-button primary" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
+                        th:onclick="restSubmit('post', [[@{/rest/users}]], 'true')"></button>
+                <button class="z-button primary" type="button" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
+                        th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')"></button>
             </div>
         </div>
     </div>
 </div>
 </body>
-<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+<script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    window.onload = function() {
+    window.onload = function () {
         document.getElementById('userId').focus();
         zFileUploader.avatar({
             dropZoneFilesId: 'avatarDropZone',
@@ -222,7 +234,7 @@
             }
         }
         let arrRoleValue = [];
-        document.querySelectorAll('input[name=roles]:checked').forEach(function(item) {
+        document.querySelectorAll('input[name=roles]:checked').forEach(function (item) {
             arrRoleValue.push(item.value);
         });
 
@@ -239,7 +251,7 @@
             timezone: document.getElementById('timezone').value,
             lang: document.getElementById('lang').value,
             theme: document.getElementById('theme').value,
-            timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
+            timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
             roles: arrRoleValue,
             avatarUUID: document.getElementById('avatarUUID').value
         };
@@ -249,20 +261,20 @@
             url: url,
             params: JSON.stringify(data),
             contentType: 'application/json',
-            callbackFunc: function(response) {
+            callbackFunc: function (response) {
                 switch (response.responseText) {
                     case STATUS_SUCCESS:
-                        aliceAlert.alertSuccess([[#{user.msg.createUser}]], function() {
+                        aliceAlert.alertSuccess([[#{user.msg.createUser}]], function () {
                             window.location.reload();
                         });
                         break;
                     case STATUS_SUCCESS_EDIT_ADMIN:
-                        aliceAlert.alertSuccess([[#{common.msg.modify}]], function() {
+                        aliceAlert.alertSuccess([[#{common.msg.modify}]], function () {
                             window.location.reload();
                         });
                         break;
                     case STATUS_SUCCESS_EDIT_EMAIL:
-                        aliceAlert.alertSuccess([[#{user.msg.emailWithUpdate}]], function() {
+                        aliceAlert.alertSuccess([[#{user.msg.emailWithUpdate}]], function () {
                             window.location.reload();
                         });
                         break;
@@ -311,11 +323,12 @@
             defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
             leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
             selectedValue: document.getElementById('departmentCode').value,
-            callbackFunc: function(response) {
+            callbackFunc: function (response) {
                 setDepartment(response);
             }
         });
     }
+
     /*]]>*/
 </script>
 </html>

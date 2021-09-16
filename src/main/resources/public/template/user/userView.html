@@ -24,13 +24,15 @@
     <div class="flex-column z-view-row">
         <div class="flex-row">
             <div class="z-edit-column col-6">
-                <div class="flex-column z-view-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
+                <div class="flex-column z-view-row"
+                     th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                     <label for="userId" th:text="#{user.label.id}"></label>
                     <input type="text" class="z-input" id="userId" name="userId" th:value="${users?.userId}" readonly>
                 </div>
                 <div class="flex-column z-view-row">
                     <label for="userName" th:text="#{user.label.name}"></label>
-                    <input type="text" class="z-input" id="userName" name="userName" th:value="${users?.userName}" readonly>
+                    <input type="text" class="z-input" id="userName" name="userName" th:value="${users?.userName}"
+                           readonly>
                 </div>
                 <div class="flex-column z-view-row">
                     <label for="email" th:text="#{user.label.email}"></label>
@@ -38,19 +40,23 @@
                 </div>
                 <div class="flex-column z-view-row">
                     <label th:text="#{user.label.position}" for="position"></label>
-                    <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}" readonly>
+                    <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}"
+                           readonly>
                 </div>
                 <div class="flex-column z-view-row">
                     <label th:text="#{user.label.department}" for="department"></label>
-                    <input type="text" class="z-input col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
+                    <input type="text" class="z-input col-5" id="department" name="department"
+                           th:value="${deptCodeDetail?.codeValue}" readonly>
                 </div>
                 <div class="flex-column z-view-row">
                     <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
-                    <input type="text" class="z-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}" readonly>
+                    <input type="text" class="z-input" id="officeNumber" name="officeNumber"
+                           th:value="${users?.officeNumber}" readonly>
                 </div>
                 <div class="flex-column z-view-row">
                     <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
-                    <input type="text" class="z-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}" readonly>
+                    <input type="text" class="z-input" id="mobileNumber" name="mobileNumber"
+                           th:value="${users?.mobileNumber}" readonly>
                 </div>
             </div>
             <div class="flex-column avatar-edit ml-4">
@@ -72,7 +78,8 @@
                 <label for="timezone" th:text="#{user.label.timezone}"></label>
                 <select name="timezone" id="timezone" disabled>
                     <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
-                            th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone?:defaultTimezone}"></option>
+                            th:text="${timezone.timezoneId}"
+                            th:selected="${timezone.timezoneValue} == ${users?.timezone?:defaultTimezone}"></option>
                 </select>
             </div>
             <div class="flex-column col-6">
@@ -116,7 +123,8 @@
         <div class="z-checkbox-list">
             <ul>
                 <li class="user-role-checkbox-wrap" th:each="role : ${roles}">
-                    <label class="z-checkbox" th:for="|roles*{roleStat.index}|" th:title="*{role.roleName}" tabindex="0">
+                    <label class="z-checkbox" th:for="|roles*{roleStat.index}|" th:title="*{role.roleName}"
+                           tabindex="0">
                         <input class="user-role-checkbox" type="checkbox"
                                th:id="|roles*{roleStat.index}|" name="roles"
                                th:value="*{role.roleId}" th:checked="*{role.checked}" disabled>
@@ -143,9 +151,9 @@
     </div>
 </div>
 </body>
-<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+<script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    window.onload = function() {
+    window.onload = function () {
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
         zFileUploader.avatar({
@@ -155,11 +163,11 @@
             dropZoneUrl: '/fileupload?target=avatar',
             dropZoneMaxFiles: 1,
             acceptedFiles: '.png,.jpeg,.jpg,.gif',
-            isView : true,
+            isView: true,
             editor: false,
-            dictDefaultMessage : '',
-            clickableLineMessage : '',
-            clickableMessage : '',
+            dictDefaultMessage: '',
+            clickableLineMessage: '',
+            clickableMessage: '',
             avatar: {
                 id: [[${users?.userKey}]],
                 path: [[${users?.avatarPath}]],
