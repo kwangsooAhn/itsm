@@ -20,7 +20,8 @@
         {'type': 'dropdown', 'name': 'Dropdown'},
         {'type': 'radio', 'name': 'Radio Button'},
         {'type': 'checkbox', 'name': 'Checkbox'},
-        {'type': 'custom-code', 'name': 'Custom Code'}
+        {'type': 'custom-code', 'name': 'Custom Code'},
+        {'type': 'group-list', 'name': 'Group List'}
     ];
 
     // Validation 목록
@@ -35,6 +36,9 @@
 
     let parent = null;
     let customCodeList = null;
+    let attributeId = '';
+    let attributeMap = new Map(); // 저장된 데이터
+    let attributeMapTemp = new Map(); // 화면에서 사용자가 변경 중인 데이터
 
     /**
      * 초기 데이터 셋팅.
@@ -43,6 +47,7 @@
      */
     function init(target) {
         parent = target;
+        attributeId = document.getElementById('attributeId').value;
 
         // load custom-code list.
         aliceJs.sendXhr({
@@ -65,11 +70,12 @@
      */
     function makeDetails(attributeType, data) {
         if (typeof parent === 'undefined') { return false; }
+
         parent.innerHTML = '';
-        let attributesProperty = {};
-        if (typeof data !== 'undefined' && data !== null) {
-            attributesProperty = data;
-        }
+        attributeMap.clear();
+        attributeMapTemp.clear();
+
+        const attributesProperty = Object.assign({}, data);
         let attributeObject = null;
         switch (attributeType) {
             case 'inputbox':
@@ -86,6 +92,9 @@
                 break;
             case 'custom-code':
                 attributeObject = new CustomCode(attributesProperty);
+                break;
+            case 'group-list':
+                attributeObject = new GroupList(attributesProperty);
                 break;
             default:
                 break;
@@ -390,6 +399,163 @@
     }
 
     /**
+     * Group list.
+     *
+     * @param {Object} property Attribute 데이터
+     * @constructor
+     */
+    function GroupList(property) {
+        const objectId = attributeTypeList[5].type; // group-list
+        this.template =
+            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        const addBtn = document.getElementById(objectId + '_add');
+        addBtn.addEventListener('click', openAttributeListModal, false);
+
+        if (property.value !== undefined && property.value !== null) {
+            // Attribute  목록을 조회
+            aliceJs.fetchJson('/rest/cmdb/attributes', {
+                method: 'GET'
+            }).then((attributeData) => {
+                console.log(attributeData);
+                console.log(attributeData.data);
+                /*attributeMap.forEach(function (value, key) {
+                    attributeMap.set(key, value);
+                    attributeMapTemp.set(key, value);
+                    addGroupList({ key: key, value: value });
+                });*/
+            });
+            // 저장된 데이터 추가
+            /*attributeMap.set(data.attributeId, data.attributeName);
+            attributeMapTemp.set(data.attributeId, data.attributeName);
+            property.option.forEach(function() { addBtn.click(); });
+            document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
+                object.querySelectorAll('input')[0].value = property.option[index].text;
+                object.querySelectorAll('input')[1].value = property.option[index].value;
+            });*/
+        }
+    }
+
+    /**
+     * Group list - 속성 추가
+     */
+    function addGroupList(data) {
+        let rowId = ZWorkflowUtil.generateUUID();
+        let rowElement =
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-12"><input type="text" class="z-input" maxlength="50" readonly="readonly" id="${data.key}" value="${data.value}"></div>` +
+            `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
+            `</div>`;
+        parent.insertAdjacentHTML('beforeend', rowElement);
+
+        const deleteBtn = document.getElementById(rowId + '_delete');
+        deleteBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const attributeKey = this.parentElement.parentElement.querySelector('input[type=text]').id;
+            attributeMap.delete(attributeKey);
+            this.parentElement.parentElement.remove();
+        });
+    }
+
+    /**
+     * Attribute 목록 모달 오픈
+     */
+    function openAttributeListModal() {
+        // 저장된 데이터를 담는다.
+        attributeMapTemp.clear();
+        attributeMap.forEach(function (value, key) {
+            attributeMapTemp.set(key, value);
+        });
+
+        // 모달 내부 template
+        const attributeListModalContent = `<div class="cmdb-class-attribute-list">` +
+                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
+                `maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/>` +
+                `<span id="spanTotalCount" class="search-count"></span>` +
+                `<div class="table-set" id="ciClassAttributeList"></div>` +
+            `</div>`;
+        /**
+         * 세부 속성 검색
+         */
+        const getAttributeList = function (search, showProgressbar) {
+            const url = '/cmdb/class/view-pop/attributes?search=' + search.trim() + '&classId=root';
+            aliceJs.fetchText(url, {
+                method: 'GET',
+                showProgressbar: showProgressbar
+            }).then((htmlData) => {
+                document.getElementById('ciClassAttributeList').innerHTML = htmlData;
+                aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
+
+                document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
+                    // 자기 자신은 선택불가능
+                    // 그룹 타입도 선택 불가능
+                    if (checkbox.value === attributeId ||
+                        checkbox.getAttribute('data-attribute-type') === 'group-list') {
+                        checkbox.disabled = true;
+                    } else {
+                        checkbox.addEventListener('change', function (e) {
+                            if (e.target.checked) {
+                                attributeMapTemp.set(e.target.value, e.target.name);
+                            } else {
+                                attributeMapTemp.delete(e.target.value);
+                            }
+                        });
+                    }
+                    attributeMapTemp.forEach(function (value, key) {
+                        if (checkbox.value === key) { checkbox.checked = true; }
+                    });
+                });
+
+                // 스크롤바 추가
+                OverlayScrollbars(document.querySelector('.z-list-body'), { className: 'scrollbar' });
+            });
+        };
+
+        const attributeListModal = new modal({
+            title: i18n.msg('cmdb.class.label.attributeList'),
+            body: attributeListModalContent,
+            classes: 'cmdb-class-attribute-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.select'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: function (modal) {
+                    attributeMap.clear();
+                    // 기존 목록 삭제
+                    while (parent.childNodes.length > 1) {
+                        parent.removeChild(parent.lastChild);
+                    }
+                    // 추가
+                    attributeMapTemp.forEach(function (value, key) {
+                        attributeMap.set(key, value);
+                        addGroupList({ key: key, value: value });
+                    });
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function (modal) {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function () {
+                document.getElementById('attributeSearch').addEventListener('keyup', function () {
+                    getAttributeList(this.value, false);
+                });
+                getAttributeList(document.getElementById('attributeSearch').value, false);
+            }
+        });
+        attributeListModal.show();
+    }
+
+    /**
      * 중복 유효성 검사.
      *
      * @param type
@@ -483,6 +649,13 @@
                     value: defaultValue
                 };
                 details.button = parent.querySelector('#' + attributeTypeList[4].type + '-button').value;
+                break;
+            case 'group-list':
+                let groupListOption = [];
+                document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
+                    groupListOption.push(object.querySelector('input').id);
+                });
+                details.value = groupListOption;
                 break;
             default:
                 break;
@@ -905,7 +1078,6 @@
     }
 
     exports.attributeTypeList = attributeTypeList;
-
     exports.init = init;
     exports.makeDetails = makeDetails;
     exports.checkDuplicate = checkDuplicate;
