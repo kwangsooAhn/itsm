@@ -253,10 +253,7 @@
 }
 
 // 역할, 권한, 코드, 패턴, 문서번호, CMDB Type
-.z-auth-content-edit,
-.z-role-content-edit,
-.z-code-content-edit,
-.z-cmdb-type-content-edit {
+.z-auth-content-edit {
   height: 41.25rem; // 660px
   margin: 0 0 1.875rem 0; // 30px
   // 스크롤바
@@ -338,15 +335,6 @@
 
   .attribute {
     margin-left: 4rem;
-  }
-}
-// 업무흐름 관리 > 문서번호
-.z-numbering-rule-content-edit {
-  .select-pattern-type {
-    width: 20rem; // 320px
-  }
-  .pattern-type {
-    width: 7.5rem // 120px
   }
 }
 // CMDB > Class
