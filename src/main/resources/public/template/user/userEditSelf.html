@@ -5,6 +5,12 @@
 <head>
     <title th:text="#{user.label.editUserInfo}"></title>
 </head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+</th:block>
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{user.label.editUserInfo}"></h1>
@@ -199,142 +205,137 @@
         </pre>
 </div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
-    <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
-    <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
-    <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-        window.onload = function () {
-            document.getElementById('userId').focus();
-            zFileUploader.avatar({
-                dropZoneFilesId: 'avatarDropZone',
-                type: 'avatar',
-                dropZoneMaxFileSize: 0.2,
-                dropZoneUrl: '/fileupload?target=avatar',
-                dropZoneMaxFiles: 1,
-                acceptedFiles: '.png,.jpeg,.jpg,.gif',
-                avatar: {
-                    id: [[${users?.userKey}]],
-                    path: [[${users?.avatarPath}]],
-                    value: [[${users?.avatarValue}]],
-                    size: [[${users?.avatarSize}]]
-                }
-            });
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function () {
+        document.getElementById('userId').focus();
+        zFileUploader.avatar({
+            dropZoneFilesId: 'avatarDropZone',
+            type: 'avatar',
+            dropZoneMaxFileSize: 0.2,
+            dropZoneUrl: '/fileupload?target=avatar',
+            dropZoneMaxFiles: 1,
+            acceptedFiles: '.png,.jpeg,.jpg,.gif',
+            avatar: {
+                id: [[${users?.userKey}]],
+                path: [[${users?.avatarPath}]],
+                value: [[${users?.avatarValue}]],
+                size: [[${users?.avatarSize}]]
+            }
+        });
 
-            OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
+    };
+
+    const STATUS_SUCCESS = '0';
+    const STATUS_ERROR_USER_ID_DUPLICATION = '1';
+    const STATUS_ERROR_EMAIL_DUPLICATION = '3';
+    const STATUS_SUCCESS_EDIT_EMAIL = '4';
+    const alicePlatform = 'user.platform.alice';
+
+    function restSubmit(method, url) {
+        if (!validation()) {
+            return false;
+        }
+
+        const data = {
+            userKey: document.getElementById('userKey').value,
+            userId: document.getElementById('userId').value,
+            userName: document.getElementById('userName').value,
+            email: document.getElementById('email').value,
+            position: document.getElementById('position').value,
+            department: document.getElementById('departmentCode').value,
+            officeNumber: document.getElementById('officeNumber').value,
+            mobileNumber: document.getElementById('mobileNumber').value,
+            timezone: document.getElementById('timezone').value,
+            lang: document.getElementById('lang').value,
+            theme: document.getElementById('theme').value,
+            timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
+            fileSeq: document.getElementsByName('fileSeq').value,
+            avatarUUID: document.getElementById('avatarUUID').value
         };
+        const password = document.getElementById('password').value;
+        if (password !== '') {
+            const rsa = new RSAKey();
+            const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+            const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+            rsa.setPublic(keyModule, keyExponent);
+            data.password = rsa.encrypt(password);
+        }
 
-        const STATUS_SUCCESS = '0';
-        const STATUS_ERROR_USER_ID_DUPLICATION = '1';
-        const STATUS_ERROR_EMAIL_DUPLICATION = '3';
-        const STATUS_SUCCESS_EDIT_EMAIL = '4';
-        const alicePlatform = 'user.platform.alice';
-
-        function restSubmit(method, url) {
-            if (!validation()) {
-                return false;
-            }
-
-            const data = {
-                userKey: document.getElementById('userKey').value,
-                userId: document.getElementById('userId').value,
-                userName: document.getElementById('userName').value,
-                email: document.getElementById('email').value,
-                position: document.getElementById('position').value,
-                department: document.getElementById('departmentCode').value,
-                officeNumber: document.getElementById('officeNumber').value,
-                mobileNumber: document.getElementById('mobileNumber').value,
-                timezone: document.getElementById('timezone').value,
-                lang: document.getElementById('lang').value,
-                theme: document.getElementById('theme').value,
-                timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
-                fileSeq: document.getElementsByName('fileSeq').value,
-                avatarUUID: document.getElementById('avatarUUID').value
-            };
-            const password = document.getElementById('password').value;
-            if (password !== '') {
-                const rsa = new RSAKey();
-                const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
-                const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
-                rsa.setPublic(keyModule, keyExponent);
-                data.password = rsa.encrypt(password);
-            }
-
-            aliceJs.sendXhr({
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function (response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess([[#{common.msg.modify}]], function () {
-                                window.location.reload();
-                            });
-                            break;
-                        case STATUS_SUCCESS_EDIT_EMAIL:
-                            aliceAlert.alertSuccess([[#{user.msg.emailWithUpdate}]], function () {
-                                window.location.reload();
-                            });
-                            break;
-                        case STATUS_ERROR_USER_ID_DUPLICATION:
-                            aliceAlert.alertWarning([[#{user.msg.sameUserId}]]);
-                            break;
-                        case STATUS_ERROR_EMAIL_DUPLICATION:
-                            aliceAlert.alertWarning([[#{user.msg.sameEmail}]]);
-                            break;
-                        default :
-                            aliceAlert.alertDanger(i18n.msg('common.label.modify') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
-                            break;
-                    }
+        aliceJs.sendXhr({
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function (response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        aliceAlert.alertSuccess([[#{common.msg.modify}]], function () {
+                            window.location.reload();
+                        });
+                        break;
+                    case STATUS_SUCCESS_EDIT_EMAIL:
+                        aliceAlert.alertSuccess([[#{user.msg.emailWithUpdate}]], function () {
+                            window.location.reload();
+                        });
+                        break;
+                    case STATUS_ERROR_USER_ID_DUPLICATION:
+                        aliceAlert.alertWarning([[#{user.msg.sameUserId}]]);
+                        break;
+                    case STATUS_ERROR_EMAIL_DUPLICATION:
+                        aliceAlert.alertWarning([[#{user.msg.sameEmail}]]);
+                        break;
+                    default :
+                        aliceAlert.alertDanger(i18n.msg('common.label.modify') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
+                        break;
                 }
-            });
-        }
-
-        function validation() {
-            if (isEmpty('userId', 'user.msg.enterUserId')) return false;
-            if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.enterUserPassword')) return false;
-            if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.enterUserRePassword')) return false;
-            if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
-            if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
-                if (!isValidPassword('password')) return false;
             }
-            if (!isValidUserId("userId", true)) return false;
-            if (isEmpty('userName', 'user.msg.enterUserName')) return false;
-            if ([[${users.platform}]] === alicePlatform) {
-                if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
-                if (!isValidEmail('email', true)) return false;
+        });
+    }
+
+    function validation() {
+        if (isEmpty('userId', 'user.msg.enterUserId')) return false;
+        if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.enterUserPassword')) return false;
+        if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.enterUserRePassword')) return false;
+        if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
+        if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
+            if (!isValidPassword('password')) return false;
+        }
+        if (!isValidUserId("userId", true)) return false;
+        if (isEmpty('userName', 'user.msg.enterUserName')) return false;
+        if ([[${users.platform}]] === alicePlatform) {
+            if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
+            if (!isValidEmail('email', true)) return false;
+        }
+        return true;
+    }
+
+    function setDepartment(node) {
+        document.getElementById('department').value = node.textContent;
+        document.getElementById('departmentCode').value = node.id;
+    }
+
+    function deptPopUp() {
+        const rootCode = 'department';
+        tree.load({
+            view: 'modal',
+            title: i18n.msg('department.label.deptList'),
+            dataUrl: '/rest/codes?pCode=' + rootCode,
+            root: rootCode,
+            rootLevel: 3,
+            target: 'treeList',
+            text: 'codeName',
+            defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
+            leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
+            selectedValue: document.getElementById('departmentCode').value,
+            callbackFunc: function (response) {
+                setDepartment(response);
             }
-            return true;
-        }
+        });
+    }
 
-        function setDepartment(node) {
-            document.getElementById('department').value = node.textContent;
-            document.getElementById('departmentCode').value = node.id;
-        }
-
-        function deptPopUp() {
-            const rootCode = 'department';
-            tree.load({
-                view: 'modal',
-                title: i18n.msg('department.label.deptList'),
-                dataUrl: '/rest/codes?pCode=' + rootCode,
-                root: rootCode,
-                rootLevel: 3,
-                target: 'treeList',
-                text: 'codeName',
-                defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
-                leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
-                selectedValue: document.getElementById('departmentCode').value,
-                callbackFunc: function (response) {
-                    setDepartment(response);
-                }
-            });
-        }
-
-        /*]]>*/
-    </script>
+    /*]]>*/
+</script>
 </th:block>
 </html>

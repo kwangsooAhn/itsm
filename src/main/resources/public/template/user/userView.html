@@ -70,7 +70,7 @@
         <div class="flex-row">
             <div class="flex-column col-6 mr-4">
                 <label for="timezone" th:text="#{user.label.timezone}"></label>
-                <select class="custom-setting-top-select" name="timezone" id="timezone" disabled>
+                <select name="timezone" id="timezone" disabled>
                     <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
                             th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone?:defaultTimezone}"></option>
                 </select>
@@ -94,14 +94,14 @@
         <div class="flex-row">
             <div class="flex-column col-6 mr-4">
                 <label for="lang" th:text="#{user.label.lang}"></label>
-                <select class="language-select" name="lang" id="lang" disabled>
+                <select name="lang" id="lang" disabled>
                     <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
                             th:text="${lang.codeValue}" th:selected="${lang.codeValue} == ${users?.lang}"></option>
                 </select>
             </div>
             <div class="flex-column col-6">
                 <label for="theme" th:text="#{user.label.theme}"></label>
-                <select class="theme-color-select" name="theme" id="theme" disabled>
+                <select name="theme" id="theme" disabled>
                     <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
                             th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"
                             th:unless="${theme.codeValue} == 'dark'"></option>
