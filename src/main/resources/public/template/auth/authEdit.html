@@ -99,15 +99,7 @@
     window.onload = function() {
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), {
-            className: 'inner-scrollbar',
-            callbacks: {
-                onInitialized: function () {
-                    const verticalScrollTrack = document.querySelectorAll('.z-checkbox-list');
-                    for (let i = 0; i < verticalScrollTrack.length; i++) {
-                        verticalScrollTrack.item(i).classList.add('right', 'padding');
-                    }
-                }
-            }
+            className: 'inner-scrollbar'
         });
 
         if (document.getElementById('txtAuthId').value) {
@@ -157,18 +149,6 @@
                         document.getElementById('roleAuthMapCount').value = i18n.msg('auth.label.count', responseJson.roleAuthMapCount);
                     }
                     disabledButton(responseJson.roleAuthMapCount);
-                    OverlayScrollbars(document.querySelector('.z-auth-content-edit'), {className: 'scrollbar'});
-                    OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), {
-                        className: 'inner-scrollbar',
-                        callbacks: {
-                            onInitialized: function () {
-                                const verticalScrollTrack = document.querySelectorAll('.z-checkbox-list> .os-scrollbar-vertical');
-                                for (let i = 0; i < verticalScrollTrack.length; i++) {
-                                    verticalScrollTrack.item(i).classList.add('right', 'padding');
-                                }
-                            }
-                        }
-                    });
                 },
             };
             aliceJs.sendXhr(opt);
