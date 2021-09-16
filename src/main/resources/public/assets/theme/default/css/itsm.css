@@ -3286,8 +3286,6 @@ select {
 .z-auth-content-edit,
 .z-role-content-edit,
 .z-code-content-edit,
-.z-numbering-pattern-content-edit,
-.z-numbering-rule-content-edit,
 .z-cmdb-type-content-edit {
   height: 41.25rem;
   margin: 0 0 1.875rem 0;
@@ -3295,16 +3293,12 @@ select {
 .z-auth-content-edit .edit-form,
 .z-role-content-edit .edit-form,
 .z-code-content-edit .edit-form,
-.z-numbering-pattern-content-edit .edit-form,
-.z-numbering-rule-content-edit .edit-form,
 .z-cmdb-type-content-edit .edit-form {
   padding: 0 1.875rem 0 4.0625rem;
 }
 .z-auth-content-edit .edit-form .edit-row,
 .z-role-content-edit .edit-form .edit-row,
 .z-code-content-edit .edit-form .edit-row,
-.z-numbering-pattern-content-edit .edit-form .edit-row,
-.z-numbering-rule-content-edit .edit-form .edit-row,
 .z-cmdb-type-content-edit .edit-form .edit-row {
   margin-top: 0.625rem;
 }
@@ -7621,3 +7615,5 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
+
+/*# sourceMappingURL=itsm.css.map */
