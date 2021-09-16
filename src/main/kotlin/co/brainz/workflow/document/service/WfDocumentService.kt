@@ -299,6 +299,10 @@ class WfDocumentService(
         return true
     }
 
+    fun getDocumentListByNumberingId(numberingId: String): List<WfDocumentEntity> {
+        return wfDocumentRepository.getDocumentListByNumberingId(numberingId)
+    }
+
     /**
      * Update Form and Process status.
      */

@@ -106,4 +106,11 @@ class WfDocumentRepositoryImpl :
             .fetchResults()
         return query.results
     }
+
+    override fun getDocumentListByNumberingId(numberingId: String): List<WfDocumentEntity> {
+        val document = QWfDocumentEntity.wfDocumentEntity
+        return from(document)
+            .where(document.numberingRule.numberingId.eq(numberingId))
+            .fetch()
+    }
 }
