@@ -36,6 +36,8 @@ class NumberingRuleRepositoryImpl : QuerydslRepositorySupport(NumberingRuleEntit
                 super.like(rule.numberingName, numberingRuleSearchCondition.searchValue)
             )
             .orderBy(rule.numberingName.desc())
+            .limit(numberingRuleSearchCondition.contentNumPerPage)
+            .offset((numberingRuleSearchCondition.pageNum - 1) * numberingRuleSearchCondition.contentNumPerPage)
             .fetchResults()
     }
 }

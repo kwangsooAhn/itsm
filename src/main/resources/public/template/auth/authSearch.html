@@ -43,6 +43,7 @@
         const opt = {
             method: 'get',
             url: '/auths?' + urlParam,
+            showProgressbar: false,
             callbackFunc: function (response) {
                 document.getElementById('authList').innerHTML = response.responseText;
                 OverlayScrollbars(document.querySelector('.z-list-body'), {

@@ -3283,29 +3283,14 @@ select {
   border-top: 0.0625rem solid #CFD5D9;
 }
 
-.z-auth-content-edit,
-.z-role-content-edit,
-.z-code-content-edit,
-.z-numbering-pattern-content-edit,
-.z-numbering-rule-content-edit,
-.z-cmdb-type-content-edit {
+.z-auth-content-edit {
   height: 41.25rem;
   margin: 0 0 1.875rem 0;
 }
-.z-auth-content-edit .edit-form,
-.z-role-content-edit .edit-form,
-.z-code-content-edit .edit-form,
-.z-numbering-pattern-content-edit .edit-form,
-.z-numbering-rule-content-edit .edit-form,
-.z-cmdb-type-content-edit .edit-form {
+.z-auth-content-edit .edit-form {
   padding: 0 1.875rem 0 4.0625rem;
 }
-.z-auth-content-edit .edit-form .edit-row,
-.z-role-content-edit .edit-form .edit-row,
-.z-code-content-edit .edit-form .edit-row,
-.z-numbering-pattern-content-edit .edit-form .edit-row,
-.z-numbering-rule-content-edit .edit-form .edit-row,
-.z-cmdb-type-content-edit .edit-form .edit-row {
+.z-auth-content-edit .edit-form .edit-row {
   margin-top: 0.625rem;
 }
 
@@ -3378,13 +3363,6 @@ select {
 .z-cmdb-attribute-content-edit .attribute,
 .z-scheduler-content-edit .attribute {
   margin-left: 4rem;
-}
-
-.z-numbering-rule-content-edit .select-pattern-type {
-  width: 20rem;
-}
-.z-numbering-rule-content-edit .pattern-type {
-  width: 7.5rem;
 }
 
 .z-cmdb-class-content-edit {
@@ -7616,3 +7594,5 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
+
+/*# sourceMappingURL=itsm.css.map */
