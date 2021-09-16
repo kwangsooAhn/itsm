@@ -128,6 +128,11 @@ spring:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32787/itsm
 ---
 spring:
+  profiles: jhpark
+  datasource:
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32847/itsm
+---
+spring:
   profiles: mo
   datasource:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32846/itsm
