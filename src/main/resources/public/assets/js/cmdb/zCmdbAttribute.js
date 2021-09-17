@@ -190,7 +190,11 @@
     function Dropdown(property) {
         const objectId = attributeTypeList[1].type; // dropdown
         this.template =
-            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add">` +
+                `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                    `<span class="z-icon i-plus"></span>` +
+                `</button>` +
+            `</div>`;
 
         parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
@@ -232,7 +236,7 @@
             property.option.forEach(function () {
                 addBtn.click();
             });
-            document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
+            document.querySelectorAll('#details > .flex-row').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
             });
@@ -248,7 +252,11 @@
     function Radiobox(property) {
         const objectId = attributeTypeList[2].type; // radio
         this.template =
-            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add">` +
+                `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                    `<span class="z-icon i-plus"></span>` +
+                `</button>` +
+            `</div>`;
 
         parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
@@ -291,7 +299,7 @@
             property.option.forEach(function () {
                 addBtn.click();
             });
-            document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
+            document.querySelectorAll('#details > .flex-row').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
             });
@@ -307,7 +315,11 @@
     function Checkbox(property) {
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
-            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add">` +
+                `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                    `<span class="z-icon i-plus"></span>` +
+                `</button>` +
+            `</div>`;
 
         parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
@@ -332,7 +344,12 @@
                 `<div class="flex-column col-1">` +
                     `<label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label>` +
                 `</div>` +
-                `<div class="flex-column col-1"><input type="checkbox"></div>` +
+                `<div class="flex-column col-1">` +
+                    `<label class="z-checkbox">` +
+                        `<input type="checkbox">` +
+                        `<span></span>` +
+                    `</label>` +
+                `</div>` +
                 `<div class="flex-column col-1">` +
                     `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
                         `<span class="z-icon i-delete"></span>` +
@@ -352,7 +369,7 @@
             property.option.forEach(function () {
                 addBtn.click();
             });
-            document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
+            document.querySelectorAll('#details > .flex-row').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
                 object.querySelectorAll('input')[2].checked = property.option[index].checked;
@@ -390,7 +407,9 @@
             'text': i18n.msg('user.label.name'),
             'value': 'userName'
         }, {'text': i18n.msg('user.label.department'), 'value': 'department'}].map(function (option) {
-            return `<option value='${option.value}' ${(defaultType === 'session' && defaultValue === option.value) ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
+            return `<option value='${option.value}' ` +
+                `${(defaultType === 'session' && defaultValue === option.value) ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
 
         this.template =
@@ -511,13 +530,11 @@
     function GroupList(property) {
         const objectId = attributeTypeList[5].type; // group-list
         this.template =
-            `<div class="flex-row justify-content-end">` +
+            `<div class="float-right" id="button_add">` +
                 `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
                     `<span class="z-icon i-plus"></span>` +
                 `</button>` +
             `</div>`;
-
-        parent.insertAdjacentHTML('beforeend', this.template);
 
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', openAttributeListModal, false);
@@ -712,7 +729,7 @@
             }
             case 'dropdown': {
                 let dropdownOption = [];
-                document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
+                document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     dropdownOption.push({
                         text: object.querySelectorAll('input')[0].value.trim(),
                         value: object.querySelectorAll('input')[1].value.trim()
@@ -723,7 +740,7 @@
             }
             case 'radio': {
                 let radioOption = [];
-                document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
+                document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     radioOption.push({
                         text: object.querySelectorAll('input')[0].value.trim(),
                         value: object.querySelectorAll('input')[1].value.trim()
@@ -734,7 +751,7 @@
             }
             case 'checkbox': {
                 let checkOption = [];
-                document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
+                document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     checkOption.push({
                         text: object.querySelectorAll('input')[0].value.trim(),
                         value: object.querySelectorAll('input')[1].value.trim(),
@@ -769,7 +786,7 @@
             }
             case 'group-list': {
                 let groupListOption = [];
-                document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
+                document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     groupListOption.push(object.querySelector('input').id);
                 });
                 details.value = groupListOption;
