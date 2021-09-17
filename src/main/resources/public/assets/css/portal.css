@@ -4067,7 +4067,7 @@ table tbody tr:hover {
   background: #339AF0;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .z-icon.i-delete {
-  height: 3.5rem;
+  height: 3.25rem;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-download {
   display: block;
@@ -4085,7 +4085,7 @@ table tbody tr:hover {
   background: #339AF0;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .z-icon.i-download {
-  height: 3.5rem;
+  height: 3.25rem;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-image {
   display: block;
