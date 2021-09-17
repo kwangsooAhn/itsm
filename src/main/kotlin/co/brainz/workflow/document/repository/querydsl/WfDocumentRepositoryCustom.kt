@@ -21,4 +21,9 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
      * 신청서 전체 리스트
      */
     fun findAllByDocuments(documentSearchCondition: DocumentSearchCondition): MutableList<RestTemplateDocumentDto>
+
+    /**
+     * 문서번호로 신청서 목록 조회
+     */
+    fun getDocumentListByNumberingId(numberingId: String): List<WfDocumentEntity>
 }
