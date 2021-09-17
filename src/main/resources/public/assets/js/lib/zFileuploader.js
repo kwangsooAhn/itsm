@@ -173,8 +173,8 @@
                 `</div>` +
                 `<div class="dz-size" id="loadedFileSize"><span>${convertedFileSize}</span></div>` +
                 `${options.isView ? `` : 
-                    `<div class="dz-download"><span class="z-icon i-download"></span></div>` +
                     `<div class="dz-remove"><span class="z-icon i-delete"></span></div>`}` +
+                    `<div class="dz-download"><span class="z-icon i-download"></span></div>` +
                 `<input type="hidden" name="loadedFileSeq" value="${file.fileSeq}" />` +
             `</div>` +
         `</div>`;

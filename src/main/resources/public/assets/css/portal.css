@@ -4048,7 +4048,7 @@ table tbody tr:hover {
   overflow: hidden;
   word-wrap: normal;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-remove {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove {
   display: block;
   height: 100%;
   grid-column: 3;
@@ -4057,16 +4057,16 @@ table tbody tr:hover {
   text-align: center;
   cursor: pointer;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-remove .z-icon {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .z-icon {
   background: #8B9094;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-remove .z-icon:hover {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .z-icon:hover {
   background: #339AF0;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-remove .z-icon.i-delete {
-  height: 3rem;
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .z-icon.i-delete {
+  height: 3.5rem;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-download {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download {
   display: block;
   height: 100%;
   grid-column: 5;
@@ -4075,14 +4075,17 @@ table tbody tr:hover {
   text-align: center;
   cursor: pointer;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-download .z-icon {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .z-icon {
   background: #8B9094;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-download .z-icon:hover {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .z-icon:hover {
   background: #339AF0;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-download .z-icon.i-download {
-  height: 3rem;
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .z-icon.i-download {
+  height: 3.5rem;
+}
+.file-uploader-edit .dropzone .dz-preview .dz-details:last-child {
+  grid-column: 5;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-image {
   display: block;

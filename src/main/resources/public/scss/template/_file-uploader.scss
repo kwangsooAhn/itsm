@@ -187,45 +187,50 @@
             text-align: left;
             @include ellipsis();
           }
-        }
-        // 파일 삭제 아이콘
-        .dz-remove {
-          display: block;
-          height: 100%;
-          grid-column: 3;
-          grid-row: 1 / span 2;
-          border: none;
-          text-align: center;
-          cursor: pointer;
 
-          .z-icon {
-            background: $file-uploader-icon-color;
-            &:hover {
-              background: $file-uploader-hover-color;
-            }
-            &.i-delete {
-              height: 3rem; // 48px
+          // 파일 삭제 아이콘
+          .dz-remove {
+            display: block;
+            height: 100%;
+            grid-column: 3;
+            grid-row: 1 / span 2;
+            border: none;
+            text-align: center;
+            cursor: pointer;
+
+            .z-icon {
+              background: $file-uploader-icon-color;
+              &:hover {
+                background: $file-uploader-hover-color;
+              }
+              &.i-delete {
+                height: 3.5rem; // 56px
+              }
             }
           }
-        }
-        //파일 다운로드 아이콘
-        .dz-download {
-          display: block;
-          height: 100%;
-          grid-column: 5;
-          grid-row: 1 / span 2;
-          border: none;
-          text-align: center;
-          cursor: pointer;
+          //파일 다운로드 아이콘
+          .dz-download {
+            display: block;
+            height: 100%;
+            grid-column: 5;
+            grid-row: 1 / span 2;
+            border: none;
+            text-align: center;
+            cursor: pointer;
 
-          .z-icon {
-            background: $file-uploader-icon-color;
-            &:hover {
-              background: $file-uploader-hover-color;
+            .z-icon {
+              background: $file-uploader-icon-color;
+              &:hover {
+                background: $file-uploader-hover-color;
+              }
+              &.i-download {
+                height: 3.5rem; // 56px
+              }
             }
-            &.i-download {
-              height: 3rem; // 48px
-            }
+          }
+
+          &:last-child {
+            grid-column: 5;
           }
         }
         // 이미지 디자인상 보이지 않음
