@@ -4057,6 +4057,9 @@ table tbody tr:hover {
   text-align: center;
   cursor: pointer;
 }
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove.added {
+  grid-column: 5;
+}
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .z-icon {
   background: #8B9094;
 }
@@ -4083,9 +4086,6 @@ table tbody tr:hover {
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .z-icon.i-download {
   height: 3.5rem;
-}
-.file-uploader-edit .dropzone .dz-preview .dz-details:last-child {
-  grid-column: 5;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-image {
   display: block;

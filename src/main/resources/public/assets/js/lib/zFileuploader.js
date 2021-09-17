@@ -414,7 +414,7 @@
                         const removeIcon = document.createElement('span');
                         removeIcon.className = 'z-icon i-delete';
                         const removeButton = file.previewElement.querySelector('.dz-remove');
-                        removeButton.style.gridColumn = '5';
+                        removeButton.className = 'dz-remove added'
                         removeButton.appendChild(removeIcon);
 
                         fileUploadValidationCheck(_this, file, options);

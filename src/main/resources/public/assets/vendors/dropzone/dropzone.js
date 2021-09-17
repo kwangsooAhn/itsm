@@ -1194,7 +1194,17 @@ var Dropzone = function (_Emitter) {
       }
 
       if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) {
+        /**
+         * @author jy.lim
+         *  폼 디자이너 > 1개 row에 여러개의 파일업로드 컴포넌트 생성 시,
+         *  span 메시지와 파일 추가를 위한 div 요소가 분리되어 보이는 현상이 있어
+         *  분리를 막기 위해 기존 span 메시지를 div 요소 내부에 위치하여 디자인이 깨지는 현상을 수정했습니다.
+         *  (zFileUploader.js createDragAndDropZone()을 참고 바랍니다.)
+         *
+         *  추후 버전업 또는 수정하게 될 경우 참고를 위해 원본 소스는 주석 처리해둡니다.
+         */
         this.element.appendChild(Dropzone.createElement("<div class=\"dz-default dz-message\"></div>"));
+        // this.element.appendChild(Dropzone.createElement("<div class=\"dz-default dz-message\"><span>" + this.options.dictDefaultMessage + "</span></div>"));
       }
 
       if (this.clickableElements.length) {
