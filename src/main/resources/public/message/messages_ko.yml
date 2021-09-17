@@ -1382,7 +1382,7 @@ file:
   msg:
     browser: "파일을 직접 찾으세요."
     noAttachFile: "첨부 파일이 없습니다."
-    upload: "업로드하려면 여기에 파일을 놓아 두세요."
+    upload: "업로드하려면 여기로 파일을 드래그하세요."
 
 # Pattern
 pattern:
