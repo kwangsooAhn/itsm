@@ -536,6 +536,8 @@
                 `</button>` +
             `</div>`;
 
+        parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
+
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', openAttributeListModal, false);
 
@@ -653,7 +655,7 @@
                 callback: function (modal) {
                     attributeMap.clear();
                     // 기존 목록 삭제
-                    while (parent.childNodes.length > 1) {
+                    while (parent.firstChild) {
                         parent.removeChild(parent.lastChild);
                     }
                     // 추가
