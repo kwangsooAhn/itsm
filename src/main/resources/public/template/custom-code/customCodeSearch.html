@@ -37,7 +37,7 @@
     window.onload = function() {
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
-        document.getElementById('searchType').addEventListener('change', getList.bind(null), false);
+        document.getElementById('searchType').addEventListener('change', function () { getList(); });
         getList();
     };
 

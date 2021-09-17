@@ -1629,8 +1629,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-input-button .z-button-search {
   margin-left: -0.0625rem;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
 }
 .z-input-button .z-button-search:focus, .z-input-button .z-button-search:hover, .z-input-button .z-button-search:active {
   z-index: 25;
@@ -3887,6 +3888,9 @@ svg path.connector.hidden {
   background-position-x: 0;
   background-position-y: 0;
 }
+.ql-container.ql-disabled .ql-editor {
+  resize: none;
+}
 
 /* _color-picker.scss 
  *
@@ -4208,11 +4212,11 @@ svg path.connector.hidden {
 }
 .z-help-tooltip .z-tooltip-contents {
   position: absolute;
-  left: 0;
+  left: auto;
   visibility: hidden;
   background-color: #FFFFFF;
   color: #339AF0;
-  width: 100%;
+  width: 28.125rem;
   font-size: 0.875rem;
   border: 0.125rem solid #339AF0;
   border-radius: 0.125rem;

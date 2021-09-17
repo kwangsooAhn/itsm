@@ -33,6 +33,8 @@ class ZFormDesigner {
             method: 'GET'
         }).then((customData) => {
             FORM.CUSTOM_CODE = customData.data;
+        }).catch(err => {
+            aliceAlert.alertWarning(err);
         });
 
         // 초기화
@@ -200,6 +202,8 @@ class ZFormDesigner {
             this.setFormName(this.data.name); // 폼 디자이너 상단 이름 출력
 
             this.form.UIElement.domElement.dispatchEvent(new Event('click')); // 폼 속성 패널 출력
+        }).catch(err => {
+            aliceAlert.alertWarning(err);
         });
 
         document.addEventListener('click', this.onLeftClickHandler.bind(this), false);
@@ -730,6 +734,8 @@ class ZFormDesigner {
             } else {
                 aliceAlert.alertDanger(i18n.msg('common.label.fail'));
             }
+        }).catch(err => {
+            aliceAlert.alertWarning(err);
         });
     }
 
@@ -810,6 +816,8 @@ class ZFormDesigner {
             } else {
                 aliceAlert.alertDanger(i18n.msg('common.label.fail'));
             }
+        }).catch(err => {
+            aliceAlert.alertWarning(err);
         });
     }
     /**

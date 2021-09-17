@@ -32,6 +32,9 @@ data class ReportDataEntity(
     @Column(name = "chart_id", length = 128)
     val chartId: String? = null,
 
+    @Column(name = "display_order")
+    val displayOrder: Int,
+
     @Column(name = "values")
     val values: String? = null
 ) : Serializable

@@ -1287,8 +1287,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-input-button .z-button-search {
   margin-left: -0.0625rem;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
 }
 .z-input-button .z-button-search:focus, .z-input-button .z-button-search:hover, .z-input-button .z-button-search:active {
   z-index: 25;
@@ -2863,7 +2864,6 @@ select {
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-table {
   position: relative;
-  display: flex;
   flex-direction: column;
   width: 100%;
   border: none;
@@ -3283,29 +3283,14 @@ select {
   border-top: 0.0625rem solid #CFD5D9;
 }
 
-.z-auth-content-edit,
-.z-role-content-edit,
-.z-code-content-edit,
-.z-numbering-pattern-content-edit,
-.z-numbering-rule-content-edit,
-.z-cmdb-type-content-edit {
+.z-auth-content-edit {
   height: 41.25rem;
   margin: 0 0 1.875rem 0;
 }
-.z-auth-content-edit .edit-form,
-.z-role-content-edit .edit-form,
-.z-code-content-edit .edit-form,
-.z-numbering-pattern-content-edit .edit-form,
-.z-numbering-rule-content-edit .edit-form,
-.z-cmdb-type-content-edit .edit-form {
+.z-auth-content-edit .edit-form {
   padding: 0 1.875rem 0 4.0625rem;
 }
-.z-auth-content-edit .edit-form .edit-row,
-.z-role-content-edit .edit-form .edit-row,
-.z-code-content-edit .edit-form .edit-row,
-.z-numbering-pattern-content-edit .edit-form .edit-row,
-.z-numbering-rule-content-edit .edit-form .edit-row,
-.z-cmdb-type-content-edit .edit-form .edit-row {
+.z-auth-content-edit .edit-form .edit-row {
   margin-top: 0.625rem;
 }
 
@@ -3317,13 +3302,8 @@ select {
 .z-user-content-edit .sub-title {
   margin-top: 2.5rem;
 }
-.z-user-content-edit .custom-setting-top-select,
-.z-user-content-edit .language-select,
-.z-user-content-edit .theme-color-select {
-  width: 29.38rem;
-}
 .z-user-content-edit .select-date-time {
-  width: 19.38rem;
+  width: calc(100% - 10.0005);
 }
 .z-user-content-edit .hour-select {
   width: 9.688rem;
@@ -3383,13 +3363,6 @@ select {
 .z-cmdb-attribute-content-edit .attribute,
 .z-scheduler-content-edit .attribute {
   margin-left: 4rem;
-}
-
-.z-numbering-rule-content-edit .select-pattern-type {
-  width: 20rem;
-}
-.z-numbering-rule-content-edit .pattern-type {
-  width: 7.5rem;
 }
 
 .z-cmdb-class-content-edit {
@@ -4196,6 +4169,9 @@ select {
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0;
+}
+.ql-container.ql-disabled .ql-editor {
+  resize: none;
 }
 
 /* _file-uploader.scss 
