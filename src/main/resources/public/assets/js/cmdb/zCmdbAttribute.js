@@ -31,9 +31,6 @@
         {'text': 'Number', 'value': 'number'}
     ];
 
-    const numberRegex = /^[-+]?[0-9]*\.?[0-9]+$/;
-    const charRegex = /^[a-zA-Z가-힣]*$/; // 영문자 , 한글
-
     let parent = null;
     let customCodeList = null;
     let attributeId = '';
@@ -131,29 +128,51 @@
         const list = ['', 'char', 'number'];
         const validations = setValidations(list);
         const validationOptions = validations.map(function (validation) {
-            return `<option value='${validation.value}' ${property.validate === validation.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(validation.text)}</option>`;
+            return `<option value='${validation.value}' ` +
+                `${property.validate === validation.value ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(validation.text)}</option>`;
         }).join('');
         const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
-            return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
+            return `<option value='${option.value}' ` +
+                `${property.required === option.value ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '100';
         const minLengthValue = property.minLength !== undefined ? property.minLength : '0';
         this.template =
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span><span class="required"></span></label></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span>` +
+                    `<span class="required"></span>` +
+                `</label>` +
+            `</div>` +
             `<div class="flex-column col-9"><select id="${objectId}-required">${booleanOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.validate')}</span><span class="required"></span></label></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.validate')}</span>` +
+                    `<span class="required"></span>` +
+                `</label>` +
+            `</div>` +
             `<div class="flex-column col-9"><select id="${objectId}-validation">${validationOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxLength')}</span></label></div>` +
-            `<div class="flex-column col-9"><input type="text" class="z-input" id="${objectId}-maxLength" maxlength="100" value="${maxLengthValue}"></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxLength')}</span></label>` +
+            `</div>` +
+            `<div class="flex-column col-9">` +
+            `<input type="text" class="z-input" id="${objectId}-maxLength" maxlength="100" value="${maxLengthValue}">` +
+            `</div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label></div>` +
-            `<div class="flex-column col-9"><input type="text" class="z-input" id="${objectId}-minLength" maxlength="100" value="${minLengthValue}"></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label>` +
+            `</div>` +
+            `<div class="flex-column col-9">` +
+            `<input type="text" class="z-input" id="${objectId}-minLength" maxlength="100" value="${minLengthValue}">` +
+            `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
     }
@@ -167,7 +186,11 @@
     function Dropdown(property) {
         const objectId = attributeTypeList[1].type; // dropdown
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="flex-row justify-content-end">` +
+                `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                    `<span class="z-icon i-plus"></span>` +
+                `</button>` +
+            `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -177,11 +200,24 @@
             let rowId = ZWorkflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-5 mr-4"><input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
-                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
+                `<div class="flex-column col-1">` +
+                    `<label>` +
+                        `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span>` +
+                        `<span class="required"></span>` +
+                    `</label>` +
+                `</div>` +
+                `<div class="flex-column col-5 mr-4">` +
+                    `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
+                `</div>` +
+                `<div class="flex-column col-1"><label>` +
+                    `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
+                `<div class="flex-column col-1">` +
+                    `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
+                        `<span class="z-icon i-delete"></span>` +
+                    `</button>` +
+                `</div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -210,7 +246,11 @@
     function Radiobox(property) {
         const objectId = attributeTypeList[2].type; // radio
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="flex-row justify-content-end">` +
+                `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                    `<span class="z-icon i-plus"></span>` +
+                `</button>` +
+            `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -220,11 +260,25 @@
             let rowId = ZWorkflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-5 mr-4"><input type="text" class="z-input" maxlength="50" required="true" data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
-                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
+                `<div class="flex-column col-1">` +
+                    `<label>` +
+                        `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span>` +
+                        `<span class="required"></span>` +
+                    `</label>` +
+                `</div>` +
+                `<div class="flex-column col-5 mr-4">` +
+                    `<input type="text" class="z-input" maxlength="50" required="true" ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
+                `</div>` +
+                `<div class="flex-column col-1">` +
+                    `<label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label>` +
+                `</div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
+                `<div class="flex-column col-1">` +
+                    `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
+                        `<span class="z-icon i-delete"></span>` +
+                    `</button>` +
+                `</div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -253,7 +307,11 @@
     function Checkbox(property) {
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="flex-row justify-content-end">` +
+                `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                    `<span class="z-icon i-plus"></span>` +
+                `</button>` +
+            `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -263,13 +321,27 @@
             let rowId = ZWorkflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-4 mr-4"><input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
-                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
+                `<div class="flex-column col-1">` +
+                    `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span>` +
+                    `<span class="required"></span></label>` +
+                `</div>` +
+                `<div class="flex-column col-4 mr-4">` +
+                    `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
+                `</div>` +
+                `<div class="flex-column col-1">` +
+                    `<label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label>` +
+                `</div>` +
                 `<div class="flex-column col-4 mr-4"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label></div>` +
+                `<div class="flex-column col-1">` +
+                    `<label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label>` +
+                `</div>` +
                 `<div class="flex-column col-1"><input type="checkbox"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
+                `<div class="flex-column col-1">` +
+                    `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
+                        `<span class="z-icon i-delete"></span>` +
+                    `</button>` +
+                `</div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -300,51 +372,94 @@
         const objectId = attributeTypeList[4].type; // custom-code
         // required
         const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
-            return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
+            return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         // custom-code
         const customCodeOptions = customCodeList.data.map(function(option) {
-            return `<option value='${option.customCodeId}' ${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.customCodeName)}</option>`;
+            return `<option value='${option.customCodeId}' ` +
+                `${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.customCodeName)}</option>`;
         }).join('');
 
         const defaultType = property.default !== undefined ? property.default.type : 'none';
-        const defaultValue = property.default !== undefined ? (defaultType === 'code' ? property.default.value.split('|')[0] : property.default.value) : '';
+        const defaultValue = property.default !== undefined ? (defaultType === 'code' ?
+            property.default.value.split('|')[0] : property.default.value) : '';
         const buttonText = property.button !== undefined ? property.button : '';
 
         // session
-        const sessionOptions = [{'text': i18n.msg('user.label.name'), 'value': 'userName'}, {'text': i18n.msg('user.label.department'), 'value': 'department'}].map(function(option) {
-            return `<option value='${option.value}' ${(defaultType === 'session' && defaultValue === option.value) ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
+        const sessions = [
+            {'text': i18n.msg('user.label.name'), 'value': 'userName'},
+            {'text': i18n.msg('user.label.department'), 'value': 'department'}
+        ];
+        const sessionOptions = sessions.map(function(option) {
+            return `<option value='${option.value}' ` +
+                `${(defaultType === 'session' && defaultValue === option.value) ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
 
         this.template =
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span><span class="required"></span></label></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span>` +
+                    `<span class="required"></span>` +
+                `</label>` +
+            `</div>` +
             `<div class="flex-column col-9"><select id="${objectId}-required">${booleanOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('customCode.label.customCode')}</span></label></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label><span>${i18n.msg('customCode.label.customCode')}</span></label>` +
+            `</div>` +
             `<div class="flex-column col-9"><select id="${objectId}-select">${customCodeOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('cmdb.attribute.label.default')}</span></label></div>` +
-            `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ${defaultType === 'none' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.none')}</span></label></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label><span>${i18n.msg('cmdb.attribute.label.default')}</span></label>` +
+            `</div>` +
+            `<div class="flex-column col-1">` +
+                `<label class="z-radio">` +
+                    `<input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ${defaultType === 'none' ? 'checked=\'true\'' : ''}>` +
+                    `<span></span>` +
+                    `<span class="label">${i18n.msg('cmdb.attribute.label.option.none')}</span>` +
+                `</label>` +
+            `</div>` +
             `<div class="flex-column col-8"></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span></label></div>` +
+            `<div class="flex-column col-1">` +
+                `<label class="z-radio">` +
+                    `<input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}>` +
+                    `<span></span>` +
+                    `<span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span>` +
+                `</label>` +
+            `</div>` +
             `<div class="flex-column col-1"></div>` +
-            `<div class="flex-column col-7"><select id="${objectId}-default-session" ${defaultType === 'session' ? '': 'disabled=\'true\''}>${sessionOptions}</select></div>` +
+            `<div class="flex-column col-7">` +
+                `<select id="${objectId}-default-session" ${defaultType === 'session' ? '': 'disabled=\'true\''}>${sessionOptions}</select>` +
+            `</div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span></label></div>` +
+            `<div class="flex-column col-1">` +
+                `<label class="z-radio">` +
+                    `<input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}>` +
+                    `<span></span>` +
+                    `<span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span>` +
+                `</label>` +
+            `</div>` +
             `<div class="flex-column col-1"></div>` +
             `<div class="flex-column col-7"><select id="${objectId}-default-code" ${defaultType === 'code' ? '': 'disabled=\'true\''}></select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('cmdb.attribute.label.buttonText')}</span></label></div>` +
-            `<div class="flex-column col-9"><input type="text" class="z-input" id="${objectId}-button" maxlength="100" value="${buttonText}"></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label><span>${i18n.msg('cmdb.attribute.label.buttonText')}</span></label>` +
+            `</div>` +
+            `<div class="flex-column col-9">` +
+                `<input type="text" class="z-input" id="${objectId}-button" maxlength="100" value="${buttonText}">` +
+            `</div>` +
             `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -360,7 +475,9 @@
                     let customCodeData = JSON.parse(xhr.responseText);
                     let customCodeDataObject = document.getElementById(objectId + '-default-code');
                     customCodeDataObject.innerHTML = customCodeData.map(function(option) {
-                        return `<option value='${option.key}' ${defaultValue === option.key ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.value)}</option>`;
+                        return `<option value='${option.key}' ` +
+                            `${defaultValue === option.key ? 'selected=\'true\'' : ''}>` +
+                            `${aliceJs.filterXSS(option.value)}</option>`;
                     }).join('');
                     aliceJs.initDesignedSelectTag();
                 },
@@ -407,34 +524,35 @@
     function GroupList(property) {
         const objectId = attributeTypeList[5].type; // group-list
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="flex-row justify-content-end">` +
+                `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                    `<span class="z-icon i-plus"></span>` +
+                `</button>` +
+            `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', openAttributeListModal, false);
 
-        if (property.value !== undefined && property.value !== null) {
-            // Attribute  목록을 조회
+        if (property.value !== undefined && property.value !== null && property.value.length > 0) {
+            // Attribute  목록 조회 - id 만 서버에 담고 있기 때문에 Attribute 명을 가져온다.
             aliceJs.fetchJson('/rest/cmdb/attributes', {
                 method: 'GET'
             }).then((attributeData) => {
-                console.log(attributeData);
-                console.log(attributeData.data);
-                /*attributeMap.forEach(function (value, key) {
-                    attributeMap.set(key, value);
-                    attributeMapTemp.set(key, value);
-                    addGroupList({ key: key, value: value });
-                });*/
+                if (attributeData.data.length > 0) {
+                    for (let i = 0; i < attributeData.data.length; i++) {
+                        const attribute = attributeData.data[i];
+                        for (let j = 0; j < property.value.length; j++) {
+                            if (attribute.attributeId === property.value[j]) {
+                                attributeMap.set(attribute.attributeId, attribute.attributeName);
+                                attributeMapTemp.set(attribute.attributeId, attribute.attributeName);
+                                addGroupList({ key: attribute.attributeId, value: attribute.attributeName });
+                            }
+                        }
+                    }
+                }
             });
-            // 저장된 데이터 추가
-            /*attributeMap.set(data.attributeId, data.attributeName);
-            attributeMapTemp.set(data.attributeId, data.attributeName);
-            property.option.forEach(function() { addBtn.click(); });
-            document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
-                object.querySelectorAll('input')[0].value = property.option[index].text;
-                object.querySelectorAll('input')[1].value = property.option[index].value;
-            });*/
         }
     }
 
@@ -445,8 +563,15 @@
         let rowId = ZWorkflowUtil.generateUUID();
         let rowElement =
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-12"><input type="text" class="z-input" maxlength="50" readonly="readonly" id="${data.key}" value="${data.value}"></div>` +
-            `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
+            `<div class="flex-column col-12">` +
+                `<input type="text" class="z-input" maxlength="50" readonly="readonly" ` +
+                `id="${data.key}" value="${data.value}">` +
+            `</div>` +
+            `<div class="flex-column col-1">` +
+               `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
+                   `<span class="z-icon i-delete"></span>` +
+               `</button>` +
+            `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -591,13 +716,14 @@
     function setDetails(attributeType) {
         let details = {};
         switch (attributeType) {
-            case 'inputbox':
+            case 'inputbox': {
                 details.validate = parent.querySelector('#' + attributeTypeList[0].type + '-validation').value;
                 details.required = parent.querySelector('#' + attributeTypeList[0].type + '-required').value;
                 details.maxLength = parent.querySelector('#' + attributeTypeList[0].type + '-maxLength').value;
                 details.minLength = parent.querySelector('#' + attributeTypeList[0].type + '-minLength').value;
                 break;
-            case 'dropdown':
+            }
+            case 'dropdown': {
                 let dropdownOption = [];
                 document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
                     dropdownOption.push({
@@ -607,7 +733,8 @@
                 });
                 details.option = dropdownOption;
                 break;
-            case 'radio':
+            }
+            case 'radio': {
                 let radioOption = [];
                 document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
                     radioOption.push({
@@ -617,7 +744,8 @@
                 });
                 details.option = radioOption;
                 break;
-            case 'checkbox':
+            }
+            case 'checkbox': {
                 let checkOption = [];
                 document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
                     checkOption.push({
@@ -628,7 +756,8 @@
                 });
                 details.option = checkOption;
                 break;
-            case 'custom-code':
+            }
+            case 'custom-code': {
                 details.required = parent.querySelector('#' + attributeTypeList[4].type + '-required').value;
                 const defaultType = document.querySelector('input[name="custom-code-default"]:checked').value;
                 let defaultValue = '';
@@ -650,13 +779,15 @@
                 };
                 details.button = parent.querySelector('#' + attributeTypeList[4].type + '-button').value;
                 break;
-            case 'group-list':
+            }
+            case 'group-list': {
                 let groupListOption = [];
                 document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
                     groupListOption.push(object.querySelector('input').id);
                 });
                 details.value = groupListOption;
                 break;
+            }
             default:
                 break;
         }
@@ -690,9 +821,10 @@
                 labelElem.appendChild(labelTextElem);
                 childAttributeElem.appendChild(labelElem);
 
-                const attributeValue = (attributes.attributeValue === null) ? '' : JSON.parse(attributes.attributeValue);
+                const attributeValue = (attributes.attributeValue === null) ? '' :
+                    JSON.parse(attributes.attributeValue);
                 switch (attributes.attributeType) {
-                    case 'inputbox':
+                    case 'inputbox': {
                         const inputElem = document.createElement('input');
                         inputElem.type = 'text';
                         inputElem.className = 'z-input';
@@ -730,7 +862,8 @@
                         }
                         childAttributeElem.appendChild(inputElem);
                         break;
-                    case 'dropdown':
+                    }
+                    case 'dropdown': {
                         const selectElem = document.createElement('select');
                         selectElem.id = attributes.attributeId;
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
@@ -747,7 +880,8 @@
                         }
                         childAttributeElem.appendChild(selectElem);
                         break;
-                    case 'radio':
+                    }
+                    case 'radio': {
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
@@ -780,7 +914,8 @@
                             }
                         }
                         break;
-                    case 'checkbox':
+                    }
+                    case 'checkbox': {
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
@@ -794,8 +929,8 @@
                                 chk.id = attributes.attributeId + '-' + opt;
                                 chk.name = 'attribute-checkbox';
                                 chk.value = attributeOption.value;
-                                if (attributes.value != null) {
-                                    if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                if (attributes.value !== null) {
+                                    if (attributes.value.indexOf(attributeOption.value) > -1) {
                                         chk.checked = true;
                                     }
                                 } else {
@@ -816,7 +951,8 @@
                             }
                         }
                         break;
-                    case 'custom-code':
+                    }
+                    case 'custom-code': {
                         let customValueArr = '';
                         if (attributes.value !== null) {
                             customValueArr = attributes.value.split('|');
@@ -878,12 +1014,13 @@
                                 };
                                 const itemName = 'alice_custom-codes-search-' + attributes.attributeId;
                                 sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
-                                let url = '/custom-codes/' + attributeValue.customCode+ '/search';
+                                let url = '/custom-codes/' + attributeValue.customCode + '/search';
                                 window.open(url, itemName, 'width=500, height=655');
                             });
                         }
                         childAttributeElem.appendChild(inputButtonElem);
                         break;
+                    }
                     default:
                         break;
                 }
@@ -920,9 +1057,10 @@
                 labelElem.appendChild(labelTextElem);
                 childAttributeElem.appendChild(labelElem);
 
-                const attributeValue = (attributes.attributeValue === null) ? '' : JSON.parse(attributes.attributeValue);
+                const attributeValue = (attributes.attributeValue === null) ? '' :
+                    JSON.parse(attributes.attributeValue);
                 switch (attributes.attributeType) {
-                    case 'inputbox':
+                    case 'inputbox': {
                         const inputElem = document.createElement('input');
                         inputElem.type = 'text';
                         inputElem.className = 'z-input';
@@ -939,7 +1077,8 @@
                         }
                         childAttributeElem.appendChild(inputElem);
                         break;
-                    case 'dropdown':
+                    }
+                    case 'dropdown': {
                         const selectElem = document.createElement('input');
                         selectElem.type = 'text';
                         selectElem.className = 'z-input';
@@ -956,7 +1095,8 @@
                         }
                         childAttributeElem.appendChild(selectElem);
                         break;
-                    case 'radio':
+                    }
+                    case 'radio': {
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
                             const radio = document.createElement('input');
                             radio.type = 'text';
@@ -973,7 +1113,8 @@
                             childAttributeElem.appendChild(radio);
                         }
                         break;
-                    case 'checkbox':
+                    }
+                    case 'checkbox': {
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
@@ -988,11 +1129,11 @@
                                 chk.name = 'attribute-checkbox';
                                 chk.value = attributeOption.value;
                                 chk.readOnly = true;
-                                chk.onclick = function() {
+                                chk.onclick = function () {
                                     return false;
                                 };
-                                if (attributes.value != null) {
-                                    if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                if (attributes.value !== null) {
+                                    if (attributes.value.indexOf(attributeOption.value) > -1) {
                                         chk.checked = true;
                                     }
                                 } else {
@@ -1013,7 +1154,8 @@
                             }
                         }
                         break;
-                    case 'custom-code':
+                    }
+                    case 'custom-code': {
                         let customValueArr = '';
                         if (attributes.value !== null) {
                             customValueArr = attributes.value.split('|');
@@ -1067,6 +1209,7 @@
                         }
                         childAttributeElem.appendChild(inputButtonElem);
                         break;
+                    }
                     default:
                         break;
                 }
