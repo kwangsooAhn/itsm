@@ -521,8 +521,8 @@ $tooltip-help-margin:                        0.3125rem; // 5px
 $tooltip-font-size:                          $font-size-xs;
 $tooltip-contents-background:                $white;
 $tooltip-contents-color:                     $blue500;
-$tooltip-contents-left:                      0;
-$tooltip-contents-width:                     100%;
+$tooltip-contents-left:                      auto;
+$tooltip-contents-width:                     28.125rem; // 450px
 $tooltip-contents-padding:                   1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
 $tooltip-border-width:                       0.125rem; // 2px
 $tooltip-border-color:                       $blue500;
