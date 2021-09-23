@@ -210,7 +210,7 @@
             if (isEmpty('boardAdminTitle', 'board.msg.enterBoardTitle')) return;
 
             if (document.getElementById('categoryYn').checked) {
-                if (document.querySelector('#boardCategoryList > tr:first-child').classList.contains('no-data-found-list')) {
+                if (categoryList.length === 0) {
                     aliceAlert.alertWarning(i18n.msg('board.msg.createCategory'));
                     return;
                 }
