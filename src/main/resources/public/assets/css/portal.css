@@ -672,7 +672,6 @@ input, button, select, optgroup, textarea {
   white-space: -o-pre-wrap;
   white-space: -moz-pre-wrap;
   word-break: break-all;
-  text-align: center;
 }
 
 .horizontal-bar {

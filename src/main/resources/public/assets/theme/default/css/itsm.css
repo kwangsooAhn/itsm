@@ -671,7 +671,6 @@ input, button, select, optgroup, textarea {
   white-space: -o-pre-wrap;
   white-space: -moz-pre-wrap;
   word-break: break-all;
-  text-align: center;
 }
 
 .horizontal-bar {
@@ -3177,6 +3176,15 @@ select {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   background-color: transparent;
+}
+
+.user-name {
+  display: inline-block;
+  max-width: 8.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
 
 .document-color-circle {
