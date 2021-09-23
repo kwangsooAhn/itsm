@@ -38,6 +38,7 @@
         totalCount: false,                      // 전체 개수 표시여부
         expandTree: true,                       // 전체 펼치기
         classes: 'tree',                        // 모달일 경우 추가되는 class 명
+        nodeType: '',                           // validation check 를 위한 node type
         buttons: [{
             content: 'Confirm',
             classes: 'z-button primary',
@@ -76,9 +77,15 @@
     function saveSelectedNode() {
         let nodeSelector = options.view === 'modal' ? '.modal_node_selected' : '.node_selected';
         const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
-
         if (!selectedNode) {
-            aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
+            switch (options.nodeType) {
+                case "department":
+                    aliceAlert.alertWarning(i18n.msg('common.msg.departmentSelect'))
+                    break;
+                default:
+                    aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
+                    break;
+            }
             return false;
         }
         let callbackFunc = options.callbackFunc;
