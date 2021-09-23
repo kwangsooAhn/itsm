@@ -3169,15 +3169,6 @@ select {
   background-color: transparent;
 }
 
-.user-name {
-  display: inline-block;
-  max-width: 8.75rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  word-wrap: normal;
-}
-
 .document-color-circle {
   width: 1rem;
   height: 1rem;
