@@ -15,10 +15,10 @@
         <div class="view-title text-wordWarp" th:text="${notice?.noticeTitle}"></div>
     </div>
     <div class="flex-column z-view-row">
-        <div class="view-sub-title flex-row justify-content-end text-wordWarp">
+        <div class="view-sub-title flex-row justify-content-end">
             <span class="text-wordWarp" id="spanUserName" th:text="${notice?.createUserName}"></span>
             <span class="vertical-bar"></span>
-            <span id="spanCreateDt" th:text="${notice.createDt}"></span>
+            <span class="date-vertical-align" id="spanCreateDt" th:text="${notice.createDt}"></span>
         </div>
     </div>
     <div class="horizontal-bar"></div>

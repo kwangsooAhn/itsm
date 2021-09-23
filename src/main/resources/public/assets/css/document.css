@@ -674,6 +674,11 @@ input, button, select, optgroup, textarea {
   word-break: break-all;
 }
 
+.date-vertical-align {
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.9375rem 0;

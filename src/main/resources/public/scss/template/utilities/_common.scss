@@ -29,6 +29,11 @@
 .text-wordWarp{
   @include wordWrap();
 }
+//date 수직 가운데 정렬
+.date-vertical-align{
+  vertical-align: middle;
+  white-space: nowrap;
+}
 // 가로 선
 @include horizontalBar($horizontal-bar-width, 0.9375rem 0, $element-border-color); // 15px
 // 세로 선
