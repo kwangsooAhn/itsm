@@ -25,6 +25,11 @@
 .text-ellipsis {
   @include ellipsis();
 }
+//줄바꿈
+.text-wordWarp{
+  @include wordWrap();
+  text-align: center;
+}
 // 가로 선
 @include horizontalBar($horizontal-bar-width, 0.9375rem 0, $element-border-color); // 15px
 // 세로 선
