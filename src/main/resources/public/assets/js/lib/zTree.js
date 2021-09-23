@@ -78,14 +78,7 @@
         let nodeSelector = options.view === 'modal' ? '.modal_node_selected' : '.node_selected';
         const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
         if (!selectedNode) {
-            switch (options.nodeType) {
-                case "department":
-                    aliceAlert.alertWarning(i18n.msg('common.msg.departmentSelect'))
-                    break;
-                default:
-                    aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
-                    break;
-            }
+            document.getElementById('departmentCode') !== "" ? aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName'))) : aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect', i18n.msg('common.label.data')));
             return false;
         }
         let callbackFunc = options.callbackFunc;
