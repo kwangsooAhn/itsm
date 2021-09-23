@@ -4282,40 +4282,63 @@ select {
   margin: 0.5625rem 0 0.5625rem 0;
 }
 .file-uploader-edit .dropzone {
-  min-height: 6.25rem;
+  min-height: 4.5rem;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #CFD5D9;
-  padding: 0.625rem 0.625rem 0 0.625rem;
-}
-.file-uploader-edit .dropzone .dz-default {
-  margin: 1.875rem 0;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message {
+  display: grid;
+  grid-template-columns: 3.125rem auto;
+  height: 4.5rem;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
+  align-items: center;
   font-size: 0.875rem;
   font-weight: 400;
-  color: #ABB0B5;
-  text-align: center;
 }
-.file-uploader-edit .dropzone .dz-default.dz-message .z-icon.i-document-txt {
+.file-uploader-edit .dropzone .dz-default.dz-message .z-icon.i-upload {
   display: block;
-  height: 2.813rem;
-  width: 100%;
-  height: 2.813rem;
-  -webkit-mask-image: url("../../../media/icons/fileUploader/icon_document_txt.svg");
-  mask-image: url("../../../media/icons/fileUploader/icon_document_txt.svg");
+  width: 2.5rem;
+  height: 2.5rem;
+  -webkit-mask-image: url("../../../media/icons/fileUploader/icon_upload.svg");
+  mask-image: url("../../../media/icons/fileUploader/icon_upload.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #ABB0B5;
-  margin-bottom: 1.25rem;
+  background: #8B9094;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap {
-  margin-top: 0.5rem;
+  display: inline-block;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+  text-align: left;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap .dz-clickable {
   color: #339AF0;
   cursor: pointer;
+}
+.file-uploader-edit .dropzone .dz-default.dz-message:hover {
+  outline: 0;
+  border-color: #339AF0;
+  background-color: #E3F5FC;
+}
+.file-uploader-edit .dropzone .dz-default.dz-message:focus, .file-uploader-edit .dropzone .dz-default.dz-message:active {
+  outline: 0;
+  border-color: #2578CE;
+  color: #1959AC;
+  background-color: #ADE6FD;
+}
+.file-uploader-edit .dropzone .dz-default.dz-message:focus .z-icon.i-upload, .file-uploader-edit .dropzone .dz-default.dz-message:active .z-icon.i-upload {
+  background-color: #1959AC;
+}
+.file-uploader-edit .dropzone .dz-default.dz-message:focus .add-file-button-wrap .dz-clickable, .file-uploader-edit .dropzone .dz-default.dz-message:active .add-file-button-wrap .dz-clickable {
+  color: #1959AC;
 }
 .file-uploader-edit .dropzone .dz-default.dz-drag-hover {
   border-style: solid;
@@ -4325,14 +4348,21 @@ select {
 }
 .file-uploader-edit .dropzone .dz-preview {
   position: relative;
-  height: 5rem;
+  height: 4.5rem;
   background-color: #FFFFFF;
   border: 0.0625rem solid #CFD5D9;
-  padding: 1rem 1.25rem 0.5rem 1.25rem;
-  margin-bottom: 0.625rem;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
+  margin-top: 0.25rem;
   vertical-align: top;
+  font-size: 0.875rem;
 }
 .file-uploader-edit .dropzone .dz-preview:hover {
+  outline: 0;
+  border-color: #339AF0;
+  background-color: #E3F5FC;
   z-index: 25;
 }
 .file-uploader-edit .dropzone .dz-preview:hover .dz-details {
@@ -4349,6 +4379,12 @@ select {
   -o-filter: blur(8px);
   -ms-filter: blur(8px);
   filter: blur(8px);
+}
+.file-uploader-edit .dropzone .dz-preview:focus, .file-uploader-edit .dropzone .dz-preview:active {
+  outline: 0;
+  border-color: #2578CE;
+  color: #1959AC;
+  background-color: #ADE6FD;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-file-preview .dz-image {
   border-radius: 1.25rem;
@@ -4372,7 +4408,7 @@ select {
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details {
   display: grid;
-  grid-template-columns: 2.563rem auto 1.25rem 1.25rem 1.125rem;
+  grid-template-columns: 2.563rem auto 1.5rem 0.5rem 1.5rem;
   min-width: 100%;
   max-width: 100%;
   align-items: center;
@@ -4391,7 +4427,7 @@ select {
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-filename {
   grid-column: 2;
   color: #222529;
-  padding: 0 1.25rem;
+  padding: 0 0.75rem;
   text-align: left;
   display: inline-block;
   max-width: 100%;
@@ -4403,10 +4439,16 @@ select {
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-size {
   grid-column: 2;
   color: #ABB0B5;
+  padding: 0 0.75rem;
   text-align: left;
-  padding: 0 1.25rem;
+  display: inline-block;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-download {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove {
   display: block;
   height: 100%;
   grid-column: 3;
@@ -4415,13 +4457,19 @@ select {
   text-align: center;
   cursor: pointer;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-download .z-icon {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove.added {
+  grid-column: 5;
+}
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .z-icon {
   background: #8B9094;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-download .z-icon.i-download {
-  height: 3rem;
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .z-icon:hover {
+  background: #339AF0;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-remove {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .z-icon.i-delete {
+  height: 3.25rem;
+}
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download {
   display: block;
   height: 100%;
   grid-column: 5;
@@ -4430,11 +4478,14 @@ select {
   text-align: center;
   cursor: pointer;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-remove .z-icon {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .z-icon {
   background: #8B9094;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-remove .z-icon.i-delete {
-  height: 3rem;
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .z-icon:hover {
+  background: #339AF0;
+}
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .z-icon.i-download {
+  height: 3.25rem;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-image {
   display: block;
@@ -4547,14 +4598,11 @@ select {
 .file-uploader-edit .dropzone .dz-preview .dz-progress {
   position: relative;
   top: -1.563rem;
-  left: 0.9375rem;
-  height: 0.1875rem;
-  width: 90%;
-  background: #CFD5D9;
-  border-radius: 0.5rem;
-  -webkit-border-radius: 0.5rem;
-  -moz-border-radius: 0.5rem;
-  margin: 0 5%;
+  left: 0.75rem;
+  height: 1.5rem;
+  width: inherit;
+  background: inherit;
+  margin: 0 3rem 0 2.625rem;
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
   -o-transform: scale(1);
@@ -4567,10 +4615,14 @@ select {
 }
 .file-uploader-edit .dropzone .dz-preview .dz-progress .dz-upload {
   position: absolute;
-  top: 0;
+  top: -1.25rem;
   right: 0;
   bottom: 0;
   left: 0;
+  height: 0.25rem;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
   background: linear-gradient(to bottom, #339AF0, #339AF0);
   -webkit-transition: width 300ms ease-in-out;
   -moz-transition: width 300ms ease-in-out;
@@ -4578,10 +4630,15 @@ select {
   -ms-transition: width 300ms ease-in-out;
   transition: width 300ms ease-in-out;
 }
+.file-uploader-edit .dropzone .dz-preview .dz-progress .dz-upload-text {
+  margin-top: 0.625rem;
+  color: #ABB0B5;
+  font-size: 0.6875rem;
+}
 .file-uploader-edit.disabled {
   pointer-events: none;
 }
-.file-uploader-edit.disabled .dropzone {
+.file-uploader-edit.disabled .dropzone .dz-default {
   background-color: #EEEEEE;
   border: 0.0625rem solid #CFD5D9;
 }
