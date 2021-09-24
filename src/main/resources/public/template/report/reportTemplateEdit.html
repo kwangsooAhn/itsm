@@ -79,7 +79,7 @@
                 <button class="z-button primary" th:if="${template?.templateId}"
                         sec:authorize="hasAuthority('report.update')"
                         onclick="actionTemplate('put')" th:text="#{common.btn.modify}"></button>
-                <button class="z-button secondary" onclick="preview()" th:text="#{report.btn.preview}"></button>
+                <button class="z-button secondary" onclick="preview()" th:text="#{common.btn.preview}"></button>
                 <button class="z-button secondary" th:if="${template?.templateId}"
                         sec:authorize="hasAuthority('report.delete')"
                         onclick="actionTemplate('delete')" th:text="#{common.btn.delete}"></button>
