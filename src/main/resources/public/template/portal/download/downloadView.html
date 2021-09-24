@@ -15,11 +15,11 @@
     </div>
     <div class="z-main-view">
         <div class="view flex-column flex-fill">
-            <div class="view-title text-ellipsis" th:text="#{${download.downloadTitle}}"></div>
+            <div class="view-title text-wordWrap" th:text="#{${download.downloadTitle}}"></div>
             <div class="view-sub-title flex-row justify-content-end">
                 <span th:text="${download?.createUserName}"></span>
                 <span class="vertical-bar"></span>
-                <span id="spanCreateDt" th:text="${download?.createDt}"></span>
+                <span class="text-wordNoWrap" id="spanCreateDt" th:text="${download?.createDt}"></span>
             </div>
             <div class="horizontal-bar"></div>
             <div class="view-content flex-row">

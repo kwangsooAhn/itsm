@@ -665,7 +665,7 @@ input, button, select, optgroup, textarea {
   word-wrap: normal;
 }
 
-.text-wordWarp {
+.text-wordWrap {
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-line;
@@ -674,8 +674,7 @@ input, button, select, optgroup, textarea {
   word-break: break-all;
 }
 
-.date-vertical-align {
-  vertical-align: middle;
+.text-wordNoWrap {
   white-space: nowrap;
 }
 

@@ -26,12 +26,11 @@
   @include ellipsis();
 }
 //줄바꿈
-.text-wordWarp{
+.text-wordWrap{
   @include wordWrap();
 }
-//date 수직 가운데 정렬
-.date-vertical-align{
-  vertical-align: middle;
+//줄바꿈제거
+.text-wordNoWrap{
   white-space: nowrap;
 }
 // 가로 선

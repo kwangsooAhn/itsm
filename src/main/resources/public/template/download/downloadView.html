@@ -12,13 +12,13 @@
 </div>
 <div layout:fragment="pageView">
     <div class="flex-column z-view-row">
-        <div class="view-title text-wordWarp" th:text="${download.downloadTitle}"></div>
+        <div class="view-title text-wordWrap" th:text="${download.downloadTitle}"></div>
     </div>
     <div class="flex-column z-view-row">
         <div class="view-sub-title flex-row justify-content-end">
-            <span class="text-wordWarp" th:text="${download?.createUserName}"></span>
+            <span class="text-wordWrap" th:text="${download?.createUserName}"></span>
             <span class="vertical-bar"></span>
-            <span class="date-vertical-align" id="spanCreateDt" th:text="${download?.createDt}"></span>
+            <span class="text-wordNoWrap" id="spanCreateDt" th:text="${download?.createDt}"></span>
         </div>
     </div>
     <div class="horizontal-bar"></div>
