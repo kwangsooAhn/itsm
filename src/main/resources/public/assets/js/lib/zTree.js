@@ -38,7 +38,7 @@
         totalCount: false,                      // 전체 개수 표시여부
         expandTree: true,                       // 전체 펼치기
         classes: 'tree',                        // 모달일 경우 추가되는 class 명
-        nodeType: '',                           // validation check 를 위한 node type
+        nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('common.label.data')),  // tree에 따로 nodeNameLabel 문구를 지정해주지 않으면 "데이터 을/를 선택하세요"가 출력
         buttons: [{
             content: 'Confirm',
             classes: 'z-button primary',
@@ -78,7 +78,7 @@
         let nodeSelector = options.view === 'modal' ? '.modal_node_selected' : '.node_selected';
         const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
         if (!selectedNode) {
-            document.getElementById('departmentCode') !== "" ? aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName'))) : aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect', i18n.msg('common.label.data')));
+            options.nodeNameLabel !== "" ? aliceAlert.alertWarning(options.nodeNameLabel) : aliceAlert.alertWarning(defaults.nodeNameLabel);
             return false;
         }
         let callbackFunc = options.callbackFunc;
