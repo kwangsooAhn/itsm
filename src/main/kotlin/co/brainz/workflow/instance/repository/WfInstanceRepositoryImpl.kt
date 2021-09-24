@@ -120,6 +120,12 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         builder.and(instance.instanceStatus.`in`(status))
         builder.and(token.tokenStatus.`in`(tokenStatus))
         builder.and(token.element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value))
+        if (tokenSearchConditionDto.documentGroup != "") {
+            if (tokenSearchConditionDto.documentGroup == "servicedesk.etc")
+                builder.and(document.documentGroup.notIn("servicedesk.incident", "servicedesk.inquiry", "servicedesk.request"))
+            else
+                builder.and(document.documentGroup.eq(tokenSearchConditionDto.documentGroup))
+        }
         builder.and(
             token.assigneeId.eq(tokenSearchConditionDto.userKey)
                 .or(
@@ -198,6 +204,12 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.assigneeId.eq(tokenSearchConditionDto.userKey))
             )
         )
+        if (tokenSearchConditionDto.documentGroup != "") {
+            if (tokenSearchConditionDto.documentGroup == "servicedesk.etc")
+                builder.and(document.documentGroup.notIn("servicedesk.incident", "servicedesk.inquiry", "servicedesk.request"))
+            else
+                builder.and(document.documentGroup.eq(tokenSearchConditionDto.documentGroup))
+        }
         builder.and(
             token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
         )

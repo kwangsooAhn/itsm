@@ -65,4 +65,11 @@ object WfTokenConstants {
             SearchType.COMPLETED -> listOf(Status.FINISH.code)
         }
     }
+
+    enum class StatistichType(val code: String) {
+        TODO("todo"),
+        RUNNING("running"),
+        MONTHDONE("monthDone"),
+        DONE("done")
+    }
 }

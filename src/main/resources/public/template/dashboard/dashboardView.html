@@ -11,35 +11,78 @@
     <h6 class="description ml-2 pl-2" th:text="#{dashboard.msg.viewDescription}"></h6>
 </div>
 <div layout:fragment="pageSearchResult">
-    <h3 class="sub-title">업무통계</h3>
+    <h3 class="sub-title" th:text="#{dashboard.label.statistics}"></h3>
     <div id="statistic" class="flex-row">
-        <div class="statistic-box flex-row align-items-center mr-4">
-            <img class="z-img i-dashboard-document" th:src="@{/assets/theme/{theme}/media/images/dashboard/img_dashboard_document.png(theme=${#authentication.details.theme})}">
-            <div class="statistic-info">
-                <h3 class="statistic-count flex-row">1</h3>
-                <span class="statistic-type">처리할 문서</span>
-            </div>
-        </div>
-        <div class="statistic-box flex-row align-items-center mr-4">
-            <img class="z-img i-dashboard-daily" th:src="@{/assets/theme/{theme}/media/images/dashboard/img_dashboard_daily.png(theme=${#authentication.details.theme})}">
-            <div class="statistic-info">
-                <h3 class="statistic-count flex-row">0(3)</h3>
-                <span class="statistic-type">오늘</span>
-            </div>
-        </div>
-        <div class="statistic-box flex-row align-items-center mr-4">
-            <img class="z-img i-dashboard-weekly" th:src="@{/assets/theme/{theme}/media/images/dashboard/img_dashboard_weekly.png(theme=${#authentication.details.theme})}">
-            <div class="statistic-info">
-                <h3 class="statistic-count flex-row">4(5)</h3>
-                <span class="statistic-type">이번 주</span>
-            </div>
-        </div>
-        <div class="statistic-box flex-row align-items-center">
-            <img class="z-img i-dashboard-monthly" th:src="@{/assets/theme/{theme}/media/images/dashboard/img_dashboard_monthly.png(theme=${#authentication.details.theme})}">
-            <div class="statistic-info">
-                <h3 class="statistic-count flex-row">11(12)</h3>
-                <span class="statistic-type">이번 달</span>
-            </div>
+        <div class="statistic-box flex-row align-items-center mr-4" th:each="statistic: ${dashboardStatistic}">
+          <table class="statistic-table">
+            <thead>
+            <tr>
+                <td th:switch= "${statistic.type}" class="align-center" rowspan="2">
+                    <img th:case="todo" class="z-icon" height="50%" width="50%" th:src="@{/assets/theme/{theme}/media/icons/dashboard/Icon_todo_document.svg(theme=${#authentication.details.theme})}">
+                    <img th:case="running" class="z-icon" height="50%" width="50%" th:src="@{/assets/theme/{theme}/media/icons/dashboard/Icon_running_document.svg(theme=${#authentication.details.theme})}">
+                    <img th:case="monthDone" class="z-icon" height="50%" width="50%" th:src="@{/assets/theme/{theme}/media/icons/dashboard/Icon_month_done_document.svg(theme=${#authentication.details.theme})}">
+                    <img th:case="done" class="z-icon" height="50%" width="50%" th:src="@{/assets/theme/{theme}/media/icons/dashboard/Icon_done_document.svg(theme=${#authentication.details.theme})}">
+                </td>
+                <td  th:switch= "${statistic.type}" colspan="2">
+                    <h4 th:case="todo" class="flex-row" th:text="#{dashboard.label.todoDocument}"></h4>
+                    <h4 th:case="running" class="flex-row" th:text="#{dashboard.label.runningDocument}"></h4>
+                    <h4 th:case="monthDone" class="flex-row" th:text="#{dashboard.label.monthDoneDocument}"></h4>
+                    <h4 th:case="done" class="flex-row" th:text="#{dashboard.label.doneDocument}"></h4>
+                </td>
+            </tr>
+            <tr>
+                <td class="align-left" colspan="2">
+                    <h1 class="statistic-header-type" name="total" th:text="${statistic.total}"></h1>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="align-center">
+                    <img class="z-icon" height="35%" width="35%" th:src="@{/assets/theme/{theme}/media/icons/dashboard/icon_incident.svg(theme=${#authentication.details.theme})}">
+                </td>
+                <td>
+                    <h5 class="flex-row" th:text="#{dashboard.label.incident}"></h5>
+                </td>
+                <td>
+                    <h5 class="statistic-type" name="incident" th:text="${statistic.incident}"></h5>
+                </td>
+            </tr>
+            <tr>
+                <td class="align-center">
+                    <img class="z-icon" height="35%" width="35%" th:src="@{/assets/theme/{theme}/media/icons/dashboard/icon_inquiry.svg(theme=${#authentication.details.theme})}">
+                </td>
+                <td>
+                    <h5 class="flex-row" th:text="#{dashboard.label.inquiry}"></h5>
+                </td>
+                <td>
+                    <h5 class="statistic-type" name="inquiry" th:text="${statistic.inquiry}"></h5>
+                </td>
+            </tr>
+            <tr>
+                <td class="align-center">
+                    <img class="z-icon" height="35%" width="35%" th:src="@{/assets/theme/{theme}/media/icons/dashboard/icon_request.svg(theme=${#authentication.details.theme})}">
+                </td>
+                <td>
+                    <h5 class="flex-row" th:text="#{dashboard.label.request}"></h5>
+                </td>
+                <td>
+                    <h5 class="statistic-type" name="request" th:text="${statistic.request}"></h5>
+                </td>
+            </tr>
+            <tr>
+                <td class="align-center">
+                    <img height="35%" width="35%" th:src="@{/assets/theme/{theme}/media/icons/dashboard/icon_etc.svg(theme=${#authentication.details.theme})}">
+                </td>
+                <td>
+                    <h5 class="flex-row" th:text="#{dashboard.label.etc}"></h5>
+                </td>
+                <td>
+                    <h5 class="statistic-type" name="etc" th:text="${statistic.etc}"></h5>
+                </td>
+            </tr>
+            </tbody>
+            </table>
         </div>
     </div>
     <form id="frmSearch">
@@ -59,6 +102,13 @@
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
     let offsetCount = 0;
+    window.onload = function () {
+        setInterval(function () {
+            getStatistic();
+        }, aliceJs.autoRefreshPeriod
+            )
+    }
+
     window.addEventListener('load', function () {
         document.getElementById('searchFromDt').value = i18n.getDate({'months': -3});
         document.getElementById('toDt').value = i18n.getDate();
@@ -147,6 +197,28 @@
         window.open(popUpUrl, 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
     }
 
+    /**
+     * 주기적으로 업무통계 데이터들을 새로고침해준다.
+     */
+    function getStatistic() {
+        aliceJs.fetchJson('/rest/dashboard/statistic', {
+            method: 'get'
+        }).then((result) => {
+            let total = document.querySelectorAll('h1[name=total]');
+            let incident = document.querySelectorAll('h5[name=incident]');
+            let inquiry = document.querySelectorAll('h5[name=inquiry]');
+            let request = document.querySelectorAll('h5[name=request]');
+            let etc = document.querySelectorAll('h5[name=etc]');
+
+            for(let i= 0; i < result.length ; i++) {
+                total[i].innerHTML= result[i].total;
+                incident[i].innerHTML= result[i].incident;
+                inquiry[i].innerHTML= result[i].inquiry;
+                request[i].innerHTML= result[i].request;
+                etc[i].innerHTML= result[i].etc;
+            }
+        })
+    }
     /* ]]> */
 </script>
 </body>

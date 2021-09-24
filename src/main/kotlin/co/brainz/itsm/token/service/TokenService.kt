@@ -8,6 +8,7 @@ package co.brainz.itsm.token.service
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.dashboard.dto.DashboardStatisticDto
 import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -24,6 +25,9 @@ import co.brainz.workflow.token.service.WfTokenService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import org.springframework.stereotype.Service
 
 @Service
@@ -122,4 +126,59 @@ class TokenService(
             searchTokenType = WfTokenConstants.SearchType.TODO.code
         )
     ).totalCount
+
+    /**
+     *  업무통계 데이터 조회
+     */
+    fun getDashboardStatistic(): List<DashboardStatisticDto> {
+        val dashboardStatisticDtoList = mutableListOf<DashboardStatisticDto>()
+        val typeList = listOf(WfTokenConstants.StatistichType.TODO.code, WfTokenConstants.StatistichType.RUNNING.code, WfTokenConstants.StatistichType.MONTHDONE.code, WfTokenConstants.StatistichType.DONE.code)
+
+        val tokenSearchConditionDto = TokenSearchConditionDto(
+            userKey = currentSessionUser.getUserKey()
+        )
+        var dashboardStatisticDto: DashboardStatisticDto
+
+        val today = LocalDate.now()
+
+        for (i in 0 until typeList.size) {
+            dashboardStatisticDto = DashboardStatisticDto()
+            when (typeList[i]) {
+                WfTokenConstants.StatistichType.TODO.code -> {
+                    tokenSearchConditionDto.searchTokenType = WfTokenConstants.SearchType.TODO.code
+                }
+                WfTokenConstants.StatistichType.RUNNING.code -> {
+                    tokenSearchConditionDto.searchTokenType = WfTokenConstants.SearchType.PROGRESS.code
+                }
+                WfTokenConstants.StatistichType.MONTHDONE.code -> {
+                    tokenSearchConditionDto.searchTokenType = WfTokenConstants.SearchType.COMPLETED.code
+                    tokenSearchConditionDto.searchFromDt =
+                        LocalDateTime.parse(LocalDateTime.of(today.year, today.month, 1, 0, 0, 0).toString(),
+                            DateTimeFormatter.ISO_DATE_TIME).toString()
+                    tokenSearchConditionDto.searchToDt =
+                        LocalDateTime.parse(LocalDateTime.of(today.year, today.month, today.lengthOfMonth(), 23, 59, 59)
+                            .toString(), DateTimeFormatter.ISO_DATE_TIME).toString()
+                }
+                WfTokenConstants.StatistichType.DONE.code -> {
+                    tokenSearchConditionDto.searchFromDt = ""
+                    tokenSearchConditionDto.searchToDt = ""
+                    tokenSearchConditionDto.searchTokenType = WfTokenConstants.SearchType.COMPLETED.code
+                }
+            }
+            dashboardStatisticDto.type = typeList[i]
+            tokenSearchConditionDto.documentGroup = ""
+            dashboardStatisticDto.total = getTokenList(tokenSearchConditionDto).totalCount
+            tokenSearchConditionDto.documentGroup = "servicedesk.incident"
+            dashboardStatisticDto.incident = getTokenList(tokenSearchConditionDto).totalCount
+            tokenSearchConditionDto.documentGroup = "servicedesk.inquiry"
+            dashboardStatisticDto.inquiry = getTokenList(tokenSearchConditionDto).totalCount
+            tokenSearchConditionDto.documentGroup = "servicedesk.request"
+            dashboardStatisticDto.request = getTokenList(tokenSearchConditionDto).totalCount
+            tokenSearchConditionDto.documentGroup = "servicedesk.etc"
+            dashboardStatisticDto.etc = getTokenList(tokenSearchConditionDto).totalCount
+
+            dashboardStatisticDtoList.add(dashboardStatisticDto)
+        }
+        return dashboardStatisticDtoList
+    }
 }
