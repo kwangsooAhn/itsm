@@ -32,7 +32,7 @@
     <div class="flex-column z-view-row">
         <label th:text="#{board.label.desc}" for="boardAdminDesc"></label>
         <textarea id="boardAdminDesc" name="boardAdminDesc" class="z-textarea textarea-scroll-wrapper"
-                  maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
+                  maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}" disabled></textarea>
     </div>
     <div class="flex-column z-view-row">
         <label class="z-switch">

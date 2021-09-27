@@ -25,6 +25,14 @@
 .text-ellipsis {
   @include ellipsis();
 }
+//줄바꿈
+.text-wordWrap{
+  @include wordWrap();
+}
+//줄바꿈제거
+.text-wordNoWrap{
+  white-space: nowrap;
+}
 // 가로 선
 @include horizontalBar($horizontal-bar-width, 0.9375rem 0, $element-border-color); // 15px
 // 세로 선
