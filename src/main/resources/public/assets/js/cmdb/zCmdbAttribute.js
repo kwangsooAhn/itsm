@@ -611,7 +611,7 @@
          * 세부 속성 검색
          */
         const getAttributeList = function (search, showProgressbar) {
-            const url = '/cmdb/class/view-pop/attributes?search=' + search.trim() + '&classId=root';
+            const url = '/cmdb/attributes/' + attributeId + '/list-modal?search=' + search.trim();
             aliceJs.fetchText(url, {
                 method: 'GET',
                 showProgressbar: showProgressbar
@@ -620,20 +620,13 @@
                 aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
 
                 document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
-                    // 자기 자신은 선택불가능
-                    // 그룹 타입도 선택 불가능
-                    if (checkbox.value === attributeId ||
-                        checkbox.getAttribute('data-attribute-type') === 'group-list') {
-                        checkbox.disabled = true;
-                    } else {
-                        checkbox.addEventListener('change', function (e) {
-                            if (e.target.checked) {
-                                attributeMapTemp.set(e.target.value, e.target.name);
-                            } else {
-                                attributeMapTemp.delete(e.target.value);
-                            }
-                        });
-                    }
+                    checkbox.addEventListener('change', function (e) {
+                        if (e.target.checked) {
+                            attributeMapTemp.set(e.target.value, e.target.name);
+                        } else {
+                            attributeMapTemp.delete(e.target.value);
+                        }
+                    });
                     attributeMapTemp.forEach(function (value, key) {
                         if (checkbox.value === key) { checkbox.checked = true; }
                     });
@@ -722,14 +715,13 @@
     function setDetails(attributeType) {
         let details = {};
         switch (attributeType) {
-            case 'inputbox': {
+            case 'inputbox':
                 details.validate = parent.querySelector('#' + attributeTypeList[0].type + '-validation').value;
                 details.required = parent.querySelector('#' + attributeTypeList[0].type + '-required').value;
                 details.maxLength = parent.querySelector('#' + attributeTypeList[0].type + '-maxLength').value;
                 details.minLength = parent.querySelector('#' + attributeTypeList[0].type + '-minLength').value;
                 break;
-            }
-            case 'dropdown': {
+            case 'dropdown':
                 let dropdownOption = [];
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     dropdownOption.push({
@@ -739,8 +731,7 @@
                 });
                 details.option = dropdownOption;
                 break;
-            }
-            case 'radio': {
+            case 'radio':
                 let radioOption = [];
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     radioOption.push({
@@ -750,8 +741,7 @@
                 });
                 details.option = radioOption;
                 break;
-            }
-            case 'checkbox': {
+            case 'checkbox':
                 let checkOption = [];
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     checkOption.push({
@@ -762,8 +752,7 @@
                 });
                 details.option = checkOption;
                 break;
-            }
-            case 'custom-code': {
+            case 'custom-code':
                 details.required = parent.querySelector('#' + attributeTypeList[4].type + '-required').value;
                 const defaultType = document.querySelector('input[name="custom-code-default"]:checked').value;
                 let defaultValue = '';
@@ -785,15 +774,13 @@
                 };
                 details.button = parent.querySelector('#' + attributeTypeList[4].type + '-button').value;
                 break;
-            }
-            case 'group-list': {
+            case 'group-list':
                 let groupListOption = [];
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     groupListOption.push(object.querySelector('input').id);
                 });
                 details.value = groupListOption;
                 break;
-            }
             default:
                 break;
         }
@@ -814,6 +801,7 @@
             const groupAttribute = attributeData[i];
             const groupAttributeElem = document.createElement('div');
             groupAttributeElem.className = 'attribute-group';
+
             for (let j = 0, jLen = groupAttribute.attributes.length; j < jLen; j++) {
                 const attributes = groupAttribute.attributes[j];
                 const childAttributeElem = document.createElement('div');
@@ -829,8 +817,9 @@
 
                 const attributeValue = (attributes.attributeValue === null) ? '' :
                     JSON.parse(attributes.attributeValue);
+
                 switch (attributes.attributeType) {
-                    case 'inputbox': {
+                    case 'inputbox':
                         const inputElem = document.createElement('input');
                         inputElem.type = 'text';
                         inputElem.className = 'z-input';
@@ -868,8 +857,7 @@
                         }
                         childAttributeElem.appendChild(inputElem);
                         break;
-                    }
-                    case 'dropdown': {
+                    case 'dropdown':
                         const selectElem = document.createElement('select');
                         selectElem.id = attributes.attributeId;
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
@@ -886,8 +874,7 @@
                         }
                         childAttributeElem.appendChild(selectElem);
                         break;
-                    }
-                    case 'radio': {
+                    case 'radio':
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
@@ -920,8 +907,7 @@
                             }
                         }
                         break;
-                    }
-                    case 'checkbox': {
+                    case 'checkbox':
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
@@ -957,8 +943,7 @@
                             }
                         }
                         break;
-                    }
-                    case 'custom-code': {
+                    case 'custom-code':
                         let customValueArr = '';
                         if (attributes.value !== null) {
                             customValueArr = attributes.value.split('|');
@@ -1026,7 +1011,6 @@
                         }
                         childAttributeElem.appendChild(inputButtonElem);
                         break;
-                    }
                     default:
                         break;
                 }
@@ -1066,7 +1050,7 @@
                 const attributeValue = (attributes.attributeValue === null) ? '' :
                     JSON.parse(attributes.attributeValue);
                 switch (attributes.attributeType) {
-                    case 'inputbox': {
+                    case 'inputbox':
                         const inputElem = document.createElement('input');
                         inputElem.type = 'text';
                         inputElem.className = 'z-input';
@@ -1083,8 +1067,7 @@
                         }
                         childAttributeElem.appendChild(inputElem);
                         break;
-                    }
-                    case 'dropdown': {
+                    case 'dropdown':
                         const selectElem = document.createElement('input');
                         selectElem.type = 'text';
                         selectElem.className = 'z-input';
@@ -1101,8 +1084,7 @@
                         }
                         childAttributeElem.appendChild(selectElem);
                         break;
-                    }
-                    case 'radio': {
+                    case 'radio':
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
                             const radio = document.createElement('input');
                             radio.type = 'text';
@@ -1119,8 +1101,7 @@
                             childAttributeElem.appendChild(radio);
                         }
                         break;
-                    }
-                    case 'checkbox': {
+                    case 'checkbox':
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
@@ -1160,8 +1141,7 @@
                             }
                         }
                         break;
-                    }
-                    case 'custom-code': {
+                    case 'custom-code':
                         let customValueArr = '';
                         if (attributes.value !== null) {
                             customValueArr = attributes.value.split('|');
@@ -1215,7 +1195,6 @@
                         }
                         childAttributeElem.appendChild(inputButtonElem);
                         break;
-                    }
                     default:
                         break;
                 }

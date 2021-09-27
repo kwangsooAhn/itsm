@@ -76,6 +76,7 @@ insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.att
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/cmdb/attributes/{id}/list-modal', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.ci.read');

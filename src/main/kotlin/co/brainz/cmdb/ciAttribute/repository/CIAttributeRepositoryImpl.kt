@@ -10,6 +10,7 @@ import co.brainz.cmdb.ci.entity.QCIDataEntity
 import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
 import co.brainz.cmdb.ciAttribute.entity.QCIAttributeEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
+import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIAttributeValueDto
@@ -158,5 +159,40 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
             ciAttributeDataList.add(data)
         }
         return ciAttributeDataList
+    }
+
+    /**
+     * Attribute 목록 조회.
+     */
+    override fun findAttributeListNotInGroupList(attributeId: String, ciAttributeSearchCondition: CIAttributeSearchCondition): QueryResults<CIAttributeListDto> {
+        val ciAttribute = QCIAttributeEntity.cIAttributeEntity
+        val query = from(ciAttribute)
+            .select(
+                Projections.constructor(
+                    CIAttributeListDto::class.java,
+                    ciAttribute.attributeId,
+                    ciAttribute.attributeName,
+                    ciAttribute.attributeText,
+                    ciAttribute.attributeType,
+                    ciAttribute.attributeDesc
+                )
+            )
+            .where(
+                ciAttribute.attributeId.notIn(attributeId)
+                    .and(ciAttribute.attributeType.notIn(RestTemplateConstants.AttributeType.GROUP_LIST.code))
+                    .and(
+                        super.like(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
+                            ?.or(super.like(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
+                            ?.or(super.like(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
+                            ?.or(super.like(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
+                    )
+            ).orderBy(ciAttribute.attributeName.asc())
+
+        if (ciAttributeSearchCondition.isPaging) {
+            query.limit(ciAttributeSearchCondition.contentNumPerPage)
+            query.offset((ciAttributeSearchCondition.pageNum - 1) * ciAttributeSearchCondition.contentNumPerPage)
+        }
+
+        return query.fetchResults()
     }
 }
