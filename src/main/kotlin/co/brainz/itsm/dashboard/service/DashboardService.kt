@@ -39,10 +39,12 @@ class DashboardService(
      */
     fun getDashboardStatistic(): List<DashboardStatisticDto> {
         val dashboardStatisticDtoList = mutableListOf<DashboardStatisticDto>()
-        val typeList = listOf(DashboardConstants.StatisticType.TODO.code,
+        val typeList = listOf(
+            DashboardConstants.StatisticType.TODO.code,
             DashboardConstants.StatisticType.RUNNING.code,
             DashboardConstants.StatisticType.MONTHDONE.code,
-            DashboardConstants.StatisticType.DONE.code)
+            DashboardConstants.StatisticType.DONE.code
+        )
 
         val tokenSearchConditionDto = TokenSearchConditionDto(
             userKey = currentSessionUser.getUserKey()
@@ -63,11 +65,15 @@ class DashboardService(
                 DashboardConstants.StatisticType.MONTHDONE.code -> {
                     tokenSearchConditionDto.searchTokenType = WfTokenConstants.SearchType.COMPLETED.code
                     tokenSearchConditionDto.searchFromDt =
-                        LocalDateTime.parse(LocalDateTime.of(today.year, today.month, 1, 0, 0, 0).toString(),
-                            DateTimeFormatter.ISO_DATE_TIME).toString()
+                        LocalDateTime.parse(
+                            LocalDateTime.of(today.year, today.month, 1, 0, 0, 0).toString(),
+                            DateTimeFormatter.ISO_DATE_TIME
+                        ).toString()
                     tokenSearchConditionDto.searchToDt =
-                        LocalDateTime.parse(LocalDateTime.of(today.year, today.month, today.lengthOfMonth(), 23, 59, 59)
-                            .toString(), DateTimeFormatter.ISO_DATE_TIME).toString()
+                        LocalDateTime.parse(
+                            LocalDateTime.of(today.year, today.month, today.lengthOfMonth(), 23, 59, 59)
+                                .toString(), DateTimeFormatter.ISO_DATE_TIME
+                        ).toString()
                 }
                 DashboardConstants.StatisticType.DONE.code -> {
                     tokenSearchConditionDto.searchFromDt = ""

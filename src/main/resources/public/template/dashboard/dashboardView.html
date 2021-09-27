@@ -94,13 +94,13 @@
         </div>
     </div>
     <form id="frmSearch">
-        <input type="hidden" id="searchTokenType" name="searchTokenType" value="token.type.todo" />
-        <input type="hidden" id="searchDocumentId" name="searchDocumentId" value="" />
-        <input type="hidden" id="searchValue" name="searchValue" value="" />
-        <input type="hidden" id="searchFromDt" name="searchFromDt" class="search-date" />
-        <input type="hidden" id="toDt" name="toDt" class="search-date" />
-        <input type="hidden" id="searchToDt" name="searchToDt" class="search-date" />
-        <input type="hidden" id="searchTags" name="searchTags" value="" />
+        <input type="hidden" id="searchTokenType" name="searchTokenType" value="token.type.todo"/>
+        <input type="hidden" id="searchDocumentId" name="searchDocumentId" value=""/>
+        <input type="hidden" id="searchValue" name="searchValue" value=""/>
+        <input type="hidden" id="searchFromDt" name="searchFromDt" class="search-date"/>
+        <input type="hidden" id="toDt" name="toDt" class="search-date"/>
+        <input type="hidden" id="searchToDt" name="searchToDt" class="search-date"/>
+        <input type="hidden" id="searchTags" name="searchTags" value=""/>
     </form>
     <h3 class="sub-title">처리할 문서</h3>
     <div class="scroll-wrap">
@@ -112,9 +112,9 @@
     let offsetCount = 0;
     window.onload = function () {
         setInterval(function () {
-            getStatistic();
-        }, aliceJs.autoRefreshPeriod
-            )
+                getStatistic();
+            }, aliceJs.autoRefreshPeriod
+        )
     }
 
     window.addEventListener('load', function () {
@@ -227,6 +227,7 @@
             }
         })
     }
+
     /* ]]> */
 </script>
 </body>
