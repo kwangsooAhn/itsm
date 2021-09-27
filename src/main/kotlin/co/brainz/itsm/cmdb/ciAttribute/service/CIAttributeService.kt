@@ -91,4 +91,11 @@ class CIAttributeService(
             attributeValue = mapper.writeValueAsString(map["attributeValue"])
         )
     }
+
+    /**
+     * Attribute 목록 조회 (Group List 제외, 자기 자신 제외).
+     */
+    fun getCIAttributeListWithoutGroupList(attributeId: String, ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
+        return ciAttributeService.getCIAttributeListWithoutGroupList(attributeId, ciAttributeSearchCondition)
+    }
 }

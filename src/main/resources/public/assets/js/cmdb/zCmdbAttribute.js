@@ -20,7 +20,8 @@
         {'type': 'dropdown', 'name': 'Dropdown'},
         {'type': 'radio', 'name': 'Radio Button'},
         {'type': 'checkbox', 'name': 'Checkbox'},
-        {'type': 'custom-code', 'name': 'Custom Code'}
+        {'type': 'custom-code', 'name': 'Custom Code'},
+        {'type': 'group-list', 'name': 'Group List'}
     ];
 
     // Validation 목록
@@ -30,11 +31,11 @@
         {'text': 'Number', 'value': 'number'}
     ];
 
-    const numberRegex = /^[-+]?[0-9]*\.?[0-9]+$/;
-    const charRegex = /^[a-zA-Z가-힣]*$/; // 영문자 , 한글
-
     let parent = null;
     let customCodeList = null;
+    let attributeId = '';
+    let attributeMap = new Map(); // 저장된 데이터
+    let attributeMapTemp = new Map(); // 화면에서 사용자가 변경 중인 데이터
 
     /**
      * 초기 데이터 셋팅.
@@ -43,6 +44,7 @@
      */
     function init(target) {
         parent = target;
+        attributeId = document.getElementById('attributeId').value;
 
         // load custom-code list.
         aliceJs.sendXhr({
@@ -68,13 +70,13 @@
             return false;
         }
         parent.innerHTML = '';
+        attributeMap.clear();
+        attributeMapTemp.clear();
         if (parent.previousElementSibling.querySelector('#button_add') !== null) {
             parent.previousElementSibling.querySelector('#button_add').remove();
         }
-        let attributesProperty = {};
-        if (typeof data !== 'undefined' && data !== null) {
-            attributesProperty = data;
-        }
+
+        const attributesProperty = Object.assign({}, data);
         let attributeObject = null;
         switch (attributeType) {
             case 'inputbox':
@@ -91,6 +93,9 @@
                 break;
             case 'custom-code':
                 attributeObject = new CustomCode(attributesProperty);
+                break;
+            case 'group-list':
+                attributeObject = new GroupList(attributesProperty);
                 break;
             default:
                 break;
@@ -127,29 +132,51 @@
         const list = ['', 'char', 'number'];
         const validations = setValidations(list);
         const validationOptions = validations.map(function (validation) {
-            return `<option value='${validation.value}' ${property.validate === validation.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(validation.text)}</option>`;
+            return `<option value='${validation.value}' ` +
+                `${property.validate === validation.value ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(validation.text)}</option>`;
         }).join('');
         const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
-            return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
+            return `<option value='${option.value}' ` +
+                `${property.required === option.value ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '100';
         const minLengthValue = property.minLength !== undefined ? property.minLength : '0';
         this.template =
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span><span class="required"></span></label></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span>` +
+                    `<span class="required"></span>` +
+                `</label>` +
+            `</div>` +
             `<div class="flex-column col-9"><select id="${objectId}-required">${booleanOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.validate')}</span><span class="required"></span></label></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.validate')}</span>` +
+                    `<span class="required"></span>` +
+                `</label>` +
+            `</div>` +
             `<div class="flex-column col-9"><select id="${objectId}-validation">${validationOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxLength')}</span></label></div>` +
-            `<div class="flex-column col-9"><input type="text" class="z-input" id="${objectId}-maxLength" maxlength="100" value="${maxLengthValue}"></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxLength')}</span></label>` +
+            `</div>` +
+            `<div class="flex-column col-9">` +
+            `<input type="text" class="z-input" id="${objectId}-maxLength" maxlength="100" value="${maxLengthValue}">` +
+            `</div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label></div>` +
-            `<div class="flex-column col-9"><input type="text" class="z-input" id="${objectId}-minLength" maxlength="100" value="${minLengthValue}"></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label>` +
+            `</div>` +
+            `<div class="flex-column col-9">` +
+            `<input type="text" class="z-input" id="${objectId}-minLength" maxlength="100" value="${minLengthValue}">` +
+            `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
     }
@@ -163,7 +190,11 @@
     function Dropdown(property) {
         const objectId = attributeTypeList[1].type; // dropdown
         this.template =
-            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add">` +
+                `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                    `<span class="z-icon i-plus"></span>` +
+                `</button>` +
+            `</div>`;
 
         parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
@@ -173,17 +204,31 @@
             let rowId = ZWorkflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-5 mr-4"><input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
-                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
+                `<div class="flex-column col-1">` +
+                    `<label>` +
+                        `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span>` +
+                        `<span class="required"></span>` +
+                    `</label>` +
+                `</div>` +
+                `<div class="flex-column col-5 mr-4">` +
+                    `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
+                `</div>` +
+                `<div class="flex-column col-1"><label>` +
+                    `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
+                `<div class="flex-column col-1">` +
+                    `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
+                        `<span class="z-icon i-delete"></span>` +
+                    `</button>` +
+                `</div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
             const deleteBtn = document.getElementById(rowId + '_delete');
             deleteBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
+                this.parentElement.parentElement.remove();
             });
         });
 
@@ -191,7 +236,7 @@
             property.option.forEach(function () {
                 addBtn.click();
             });
-            document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
+            document.querySelectorAll('#details > .flex-row').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
             });
@@ -207,7 +252,11 @@
     function Radiobox(property) {
         const objectId = attributeTypeList[2].type; // radio
         this.template =
-            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add">` +
+                `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                    `<span class="z-icon i-plus"></span>` +
+                `</button>` +
+            `</div>`;
 
         parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
@@ -217,11 +266,25 @@
             let rowId = ZWorkflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-5 mr-4"><input type="text" class="z-input" maxlength="50" required="true" data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
-                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
+                `<div class="flex-column col-1">` +
+                    `<label>` +
+                        `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span>` +
+                        `<span class="required"></span>` +
+                    `</label>` +
+                `</div>` +
+                `<div class="flex-column col-5 mr-4">` +
+                    `<input type="text" class="z-input" maxlength="50" required="true" ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
+                `</div>` +
+                `<div class="flex-column col-1">` +
+                    `<label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label>` +
+                `</div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
+                `<div class="flex-column col-1">` +
+                    `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
+                        `<span class="z-icon i-delete"></span>` +
+                    `</button>` +
+                `</div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -236,7 +299,7 @@
             property.option.forEach(function () {
                 addBtn.click();
             });
-            document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
+            document.querySelectorAll('#details > .flex-row').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
             });
@@ -252,7 +315,11 @@
     function Checkbox(property) {
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
-            `<div class="float-right" id="button_add"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="float-right" id="button_add">` +
+                `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                    `<span class="z-icon i-plus"></span>` +
+                `</button>` +
+            `</div>`;
 
         parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
 
@@ -262,13 +329,32 @@
             let rowId = ZWorkflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-4 mr-4"><input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
-                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
+                `<div class="flex-column col-1">` +
+                    `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span>` +
+                    `<span class="required"></span></label>` +
+                `</div>` +
+                `<div class="flex-column col-4 mr-4">` +
+                    `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
+                `</div>` +
+                `<div class="flex-column col-1">` +
+                    `<label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label>` +
+                `</div>` +
                 `<div class="flex-column col-4 mr-4"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label></div>` +
-                `<div class="flex-column col-1"><input type="checkbox"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
+                `<div class="flex-column col-1">` +
+                    `<label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label>` +
+                `</div>` +
+                `<div class="flex-column col-1">` +
+                    `<label class="z-checkbox">` +
+                        `<input type="checkbox">` +
+                        `<span></span>` +
+                    `</label>` +
+                `</div>` +
+                `<div class="flex-column col-1">` +
+                    `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
+                        `<span class="z-icon i-delete"></span>` +
+                    `</button>` +
+                `</div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -283,7 +369,7 @@
             property.option.forEach(function () {
                 addBtn.click();
             });
-            document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object, index) {
+            document.querySelectorAll('#details > .flex-row').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
                 object.querySelectorAll('input')[2].checked = property.option[index].checked;
@@ -301,15 +387,19 @@
         const objectId = attributeTypeList[4].type; // custom-code
         // required
         const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
-            return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
+            return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         // custom-code
         const customCodeOptions = customCodeList.data.map(function(option) {
-            return `<option value='${option.customCodeId}' ${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.customCodeName)}</option>`;
+            return `<option value='${option.customCodeId}' ` +
+                `${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.customCodeName)}</option>`;
         }).join('');
 
         const defaultType = property.default !== undefined ? property.default.type : 'none';
-        const defaultValue = property.default !== undefined ? (defaultType === 'code' ? property.default.value.split('|')[0] : property.default.value) : '';
+        const defaultValue = property.default !== undefined ? (defaultType === 'code' ?
+            property.default.value.split('|')[0] : property.default.value) : '';
         const buttonText = property.button !== undefined ? property.button : '';
 
         // session
@@ -317,26 +407,49 @@
             'text': i18n.msg('user.label.name'),
             'value': 'userName'
         }, {'text': i18n.msg('user.label.department'), 'value': 'department'}].map(function (option) {
-            return `<option value='${option.value}' ${(defaultType === 'session' && defaultValue === option.value) ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
+            return `<option value='${option.value}' ` +
+                `${(defaultType === 'session' && defaultValue === option.value) ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
 
         this.template =
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span><span class="required"></span></label></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span>` +
+                    `<span class="required"></span>` +
+                `</label>` +
+            `</div>` +
             `<div class="flex-column col-9"><select id="${objectId}-required">${booleanOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('customCode.label.customCode')}</span></label></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label><span>${i18n.msg('customCode.label.customCode')}</span></label>` +
+            `</div>` +
             `<div class="flex-column col-9"><select id="${objectId}-select">${customCodeOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('cmdb.attribute.label.default')}</span></label></div>` +
-            `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ${defaultType === 'none' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.none')}</span></label></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label><span>${i18n.msg('cmdb.attribute.label.default')}</span></label>` +
+            `</div>` +
+            `<div class="flex-column col-1">` +
+                `<label class="z-radio">` +
+                    `<input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ${defaultType === 'none' ? 'checked=\'true\'' : ''}>` +
+                    `<span></span>` +
+                    `<span class="label">${i18n.msg('cmdb.attribute.label.option.none')}</span>` +
+                `</label>` +
+            `</div>` +
             `<div class="flex-column col-8"></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span></label></div>` +
+            `<div class="flex-column col-1">` +
+                `<label class="z-radio">` +
+                    `<input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}>` +
+                    `<span></span>` +
+                    `<span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span>` +
+                `</label>` +
+            `</div>` +
             `<div class="flex-column col-1"></div>` +
             `<div class="flex-column col-7"><select id="${objectId}-default-session" ${defaultType === 'session' ? '' : 'disabled=\'true\''}>${sessionOptions}</select></div>` +
             `</div>` +
@@ -347,8 +460,12 @@
             `<div class="flex-column col-7"><select id="${objectId}-default-code" ${defaultType === 'code' ? '' : 'disabled=\'true\''}></select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('cmdb.attribute.label.buttonText')}</span></label></div>` +
-            `<div class="flex-column col-9"><input type="text" class="z-input" id="${objectId}-button" maxlength="100" value="${buttonText}"></div>` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label><span>${i18n.msg('cmdb.attribute.label.buttonText')}</span></label>` +
+            `</div>` +
+            `<div class="flex-column col-9">` +
+                `<input type="text" class="z-input" id="${objectId}-button" maxlength="100" value="${buttonText}">` +
+            `</div>` +
             `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -364,7 +481,9 @@
                     let customCodeData = JSON.parse(xhr.responseText);
                     let customCodeDataObject = document.getElementById(objectId + '-default-code');
                     customCodeDataObject.innerHTML = customCodeData.map(function(option) {
-                        return `<option value='${option.key}' ${defaultValue === option.key ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.value)}</option>`;
+                        return `<option value='${option.key}' ` +
+                            `${defaultValue === option.key ? 'selected=\'true\'' : ''}>` +
+                            `${aliceJs.filterXSS(option.value)}</option>`;
                     }).join('');
                     aliceJs.initDesignedSelectTag();
                 },
@@ -400,6 +519,164 @@
             document.getElementById(objectId + '-default-code').disabled = false;
             aliceJs.initDesignedSelectTag();
         });
+    }
+
+    /**
+     * Group list.
+     *
+     * @param {Object} property Attribute 데이터
+     * @constructor
+     */
+    function GroupList(property) {
+        const objectId = attributeTypeList[5].type; // group-list
+        this.template =
+            `<div class="float-right" id="button_add">` +
+                `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                    `<span class="z-icon i-plus"></span>` +
+                `</button>` +
+            `</div>`;
+
+        parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
+
+        const addBtn = document.getElementById(objectId + '_add');
+        addBtn.addEventListener('click', openAttributeListModal, false);
+
+        if (property.value !== undefined && property.value !== null && property.value.length > 0) {
+            // Attribute  목록 조회 - id 만 서버에 담고 있기 때문에 Attribute 명을 가져온다.
+            aliceJs.fetchJson('/rest/cmdb/attributes', {
+                method: 'GET'
+            }).then((attributeData) => {
+                if (attributeData.data.length > 0) {
+                    for (let i = 0; i < attributeData.data.length; i++) {
+                        const attribute = attributeData.data[i];
+                        for (let j = 0; j < property.value.length; j++) {
+                            if (attribute.attributeId === property.value[j]) {
+                                attributeMap.set(attribute.attributeId, attribute.attributeName);
+                                attributeMapTemp.set(attribute.attributeId, attribute.attributeName);
+                                addGroupList({ key: attribute.attributeId, value: attribute.attributeName });
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Group list - 속성 추가
+     */
+    function addGroupList(data) {
+        let rowId = ZWorkflowUtil.generateUUID();
+        let rowElement =
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-12">` +
+                `<input type="text" class="z-input" maxlength="50" readonly="readonly" ` +
+                `id="${data.key}" value="${data.value}">` +
+            `</div>` +
+            `<div class="flex-column col-1">` +
+               `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
+                   `<span class="z-icon i-delete"></span>` +
+               `</button>` +
+            `</div>` +
+            `</div>`;
+        parent.insertAdjacentHTML('beforeend', rowElement);
+
+        const deleteBtn = document.getElementById(rowId + '_delete');
+        deleteBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const attributeKey = this.parentElement.parentElement.querySelector('input[type=text]').id;
+            attributeMap.delete(attributeKey);
+            this.parentElement.parentElement.remove();
+        });
+    }
+
+    /**
+     * Attribute 목록 모달 오픈
+     */
+    function openAttributeListModal() {
+        // 저장된 데이터를 담는다.
+        attributeMapTemp.clear();
+        attributeMap.forEach(function (value, key) {
+            attributeMapTemp.set(key, value);
+        });
+
+        // 모달 내부 template
+        const attributeListModalContent = `<div class="cmdb-class-attribute-list">` +
+                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
+                `maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/>` +
+                `<span id="spanTotalCount" class="search-count"></span>` +
+                `<div class="table-set" id="ciClassAttributeList"></div>` +
+            `</div>`;
+        /**
+         * 세부 속성 검색
+         */
+        const getAttributeList = function (search, showProgressbar) {
+            const url = '/cmdb/attributes/' + attributeId + '/list-modal?search=' + search.trim();
+            aliceJs.fetchText(url, {
+                method: 'GET',
+                showProgressbar: showProgressbar
+            }).then((htmlData) => {
+                document.getElementById('ciClassAttributeList').innerHTML = htmlData;
+                aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
+
+                document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
+                    checkbox.addEventListener('change', function (e) {
+                        if (e.target.checked) {
+                            attributeMapTemp.set(e.target.value, e.target.name);
+                        } else {
+                            attributeMapTemp.delete(e.target.value);
+                        }
+                    });
+                    attributeMapTemp.forEach(function (value, key) {
+                        if (checkbox.value === key) { checkbox.checked = true; }
+                    });
+                });
+
+                // 스크롤바 추가
+                OverlayScrollbars(document.querySelector('.z-list-body'), { className: 'scrollbar' });
+            });
+        };
+
+        const attributeListModal = new modal({
+            title: i18n.msg('cmdb.class.label.attributeList'),
+            body: attributeListModalContent,
+            classes: 'cmdb-class-attribute-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.select'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: function (modal) {
+                    attributeMap.clear();
+                    // 기존 목록 삭제
+                    while (parent.firstChild) {
+                        parent.removeChild(parent.lastChild);
+                    }
+                    // 추가
+                    attributeMapTemp.forEach(function (value, key) {
+                        attributeMap.set(key, value);
+                        addGroupList({ key: key, value: value });
+                    });
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function (modal) {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function () {
+                document.getElementById('attributeSearch').addEventListener('keyup', function () {
+                    getAttributeList(this.value, false);
+                });
+                getAttributeList(document.getElementById('attributeSearch').value, false);
+            }
+        });
+        attributeListModal.show();
     }
 
     /**
@@ -446,7 +723,7 @@
                 break;
             case 'dropdown':
                 let dropdownOption = [];
-                document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
+                document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     dropdownOption.push({
                         text: object.querySelectorAll('input')[0].value.trim(),
                         value: object.querySelectorAll('input')[1].value.trim()
@@ -456,7 +733,7 @@
                 break;
             case 'radio':
                 let radioOption = [];
-                document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
+                document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     radioOption.push({
                         text: object.querySelectorAll('input')[0].value.trim(),
                         value: object.querySelectorAll('input')[1].value.trim()
@@ -466,7 +743,7 @@
                 break;
             case 'checkbox':
                 let checkOption = [];
-                document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
+                document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     checkOption.push({
                         text: object.querySelectorAll('input')[0].value.trim(),
                         value: object.querySelectorAll('input')[1].value.trim(),
@@ -497,6 +774,13 @@
                 };
                 details.button = parent.querySelector('#' + attributeTypeList[4].type + '-button').value;
                 break;
+            case 'group-list':
+                let groupListOption = [];
+                document.querySelectorAll('#details > .flex-row').forEach(function (object) {
+                    groupListOption.push(object.querySelector('input').id);
+                });
+                details.value = groupListOption;
+                break;
             default:
                 break;
         }
@@ -517,6 +801,7 @@
             const groupAttribute = attributeData[i];
             const groupAttributeElem = document.createElement('div');
             groupAttributeElem.className = 'attribute-group';
+
             for (let j = 0, jLen = groupAttribute.attributes.length; j < jLen; j++) {
                 const attributes = groupAttribute.attributes[j];
                 const childAttributeElem = document.createElement('div');
@@ -530,7 +815,9 @@
                 labelElem.appendChild(labelTextElem);
                 childAttributeElem.appendChild(labelElem);
 
-                const attributeValue = (attributes.attributeValue === null) ? '' : JSON.parse(attributes.attributeValue);
+                const attributeValue = (attributes.attributeValue === null) ? '' :
+                    JSON.parse(attributes.attributeValue);
+
                 switch (attributes.attributeType) {
                     case 'inputbox':
                         const inputElem = document.createElement('input');
@@ -634,7 +921,7 @@
                                 chk.id = attributes.attributeId + '-' + opt;
                                 chk.name = 'attribute-checkbox';
                                 chk.value = attributeOption.value;
-                                if (attributes.value != null) {
+                                if (attributes.value !== null) {
                                     if (attributes.value.indexOf(attributeOption.value) > -1) {
                                         chk.checked = true;
                                     }
@@ -760,7 +1047,8 @@
                 labelElem.appendChild(labelTextElem);
                 childAttributeElem.appendChild(labelElem);
 
-                const attributeValue = (attributes.attributeValue === null) ? '' : JSON.parse(attributes.attributeValue);
+                const attributeValue = (attributes.attributeValue === null) ? '' :
+                    JSON.parse(attributes.attributeValue);
                 switch (attributes.attributeType) {
                     case 'inputbox':
                         const inputElem = document.createElement('input');
@@ -828,10 +1116,10 @@
                                 chk.name = 'attribute-checkbox';
                                 chk.value = attributeOption.value;
                                 chk.readOnly = true;
-                                chk.onclick = function() {
+                                chk.onclick = function () {
                                     return false;
                                 };
-                                if (attributes.value != null) {
+                                if (attributes.value !== null) {
                                     if (attributes.value.indexOf(attributeOption.value) > -1) {
                                         chk.checked = true;
                                     }
@@ -918,7 +1206,6 @@
     }
 
     exports.attributeTypeList = attributeTypeList;
-
     exports.init = init;
     exports.makeDetails = makeDetails;
     exports.checkDuplicate = checkDuplicate;
@@ -926,5 +1213,5 @@
     exports.drawEditDetails = drawEditDetails;
     exports.drawViewDetails = drawViewDetails;
 
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule', { value: true });
 })));
