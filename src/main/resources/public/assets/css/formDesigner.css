@@ -6087,6 +6087,7 @@ body.modal-active {
   border: 0.0625rem solid #CFD5D9;
   border-left: none;
   border-right: none;
+  overflow: initial;
 }
 .z-component .z-element .z-dr-table tr td.on {
   display: table-cell;
@@ -6105,7 +6106,7 @@ body.modal-active {
 .z-component .z-element .z-dr-table .z-dr-table-row .z-button-icon {
   padding: 0;
 }
-.z-component .z-element .z-dr-table .z-dr-table-row .z-input, .z-component .z-element .z-dr-table .z-dr-table-row .z-select {
+.z-component .z-element .z-dr-table .z-dr-table-row .z-input {
   padding: 0.4375rem 0;
   margin: 0.25rem 0;
 }
