@@ -220,7 +220,14 @@
       &-count {
         margin-bottom: 0.9375rem; // 15px
       }
+
+      &-header-type { color: $black; }
+
       &-type { color: $gray500; }
+
+      &-table {
+        width: 100%;
+      }
     }
     // 대시보드 > 처리할 문서
     .scroll-wrap {

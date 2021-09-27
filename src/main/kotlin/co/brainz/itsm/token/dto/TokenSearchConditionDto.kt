@@ -12,6 +12,7 @@ data class TokenSearchConditionDto(
     var searchValue: String = "",
     var searchFromDt: String = "",
     var searchToDt: String = "",
+    var documentGroup: String = "",
     var offset: Long = 100,
     var searchTagString: String = "",
     var searchTagSet: Set<String> = mutableSetOf<String>(),

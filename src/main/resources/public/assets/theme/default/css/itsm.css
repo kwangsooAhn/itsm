@@ -2829,8 +2829,14 @@ select {
 .z-itsm-container .z-main-content .z-page-result .statistic-count {
   margin-bottom: 0.9375rem;
 }
+.z-itsm-container .z-main-content .z-page-result .statistic-header-type {
+  color: #000000;
+}
 .z-itsm-container .z-main-content .z-page-result .statistic-type {
   color: #8B9094;
+}
+.z-itsm-container .z-main-content .z-page-result .statistic-table {
+  width: 100%;
 }
 .z-itsm-container .z-main-content .z-page-result .scroll-wrap {
   flex: 1 1 auto;
