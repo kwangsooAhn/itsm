@@ -29,7 +29,7 @@
     window.onload = function () {
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', function () {
-            getList(false);
+            getList();
         });
         getList();
     };
@@ -43,14 +43,25 @@
         const opt = {
             method: 'get',
             url: '/numberingRules?' + urlParam,
+            showProgressbar: false,
             callbackFunc: function (response) {
                 document.getElementById('ruleList').innerHTML = response.responseText;
+                setDateTimeFormat(document.getElementById('ruleList'));
                 OverlayScrollbars(document.querySelector('.z-list-body'), {
                     className: 'scrollbar'
                 });
             }
         };
         aliceJs.sendXhr(opt);
+    }
+
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+        });
     }
     /*]]>*/
 </script>

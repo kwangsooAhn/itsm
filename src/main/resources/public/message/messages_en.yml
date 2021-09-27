@@ -236,6 +236,7 @@ board:
     replyDescription: "You can add a reply."
     searchDescription: "View and manage posts."
     viewDescription: "Inquire detailed information about the post."
+    createCategory: "Please register the category."
 
 # Chart
 chart:

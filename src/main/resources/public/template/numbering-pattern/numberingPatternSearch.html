@@ -45,6 +45,7 @@
         const opt = {
             method: 'get',
             url: '/numberingPatterns?' + urlParam,
+            showProgressbar: false,
             callbackFunc: function (response) {
                 document.getElementById('patternList').innerHTML = response.responseText;
             }

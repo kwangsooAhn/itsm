@@ -140,7 +140,10 @@
                     `<div class="dz-size"><span data-dz-size=""></span></div>` +
                     `<div class="dz-remove" data-dz-remove=""></div>` +
                 `</div>` +
-                `<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress=""></span></div>` +
+                `<div class="dz-progress">` +
+                    `<span class="dz-upload" data-dz-uploadprogress=""></span>` +
+                    `<span class="dz-upload-text float-left" data-dz-uploadprogress="">Uploading</span>` +
+                `</div>` +
                 `<div class="dz-error-message"><span data-dz-errormessage=""></span></div>` +
                 `<div class="dz-success-mark"><span>SUCCESS</span></div>` +
                 `<div class="dz-error-mark"><span>FAILED</span></div>` +
@@ -170,8 +173,8 @@
                 `</div>` +
                 `<div class="dz-size" id="loadedFileSize"><span>${convertedFileSize}</span></div>` +
                 `${options.isView ? `` : 
-                    `<div class="dz-download"><span class="z-icon i-download"></span></div>` +
                     `<div class="dz-remove"><span class="z-icon i-delete"></span></div>`}` +
+                    `<div class="dz-download"><span class="z-icon i-download"></span></div>` +
                 `<input type="hidden" name="loadedFileSeq" value="${file.fileSeq}" />` +
             `</div>` +
         `</div>`;
@@ -184,10 +187,16 @@
         const dropZoneTemplate =
             `<div id="${dragAndDropZoneId}" class="${options.type}">` +
                 `<div class="${addFileBtnWrapClassName}">` +
+                    `<span>${options.dictDefaultMessage}</span>` +
+                    // 타입이 아바타일 경우 개행 추가
+                    `${options.type.indexOf('avatar') === -1 ? `` : `<br>`}` +
+                    // todo: #11252 현재 폼 디자이너 및 신청서는 clickable 옵션 사용이 제한되므로,
+                    //              디자인 차원에서 관련 메시지 및 버튼을 제거합니다.
+                    `${options.isForm ? `` :
                     `<span>${options.clickableLineMessage}</span>` +
                     `<span class="underline ${typeof options.clickable !== 'boolean' ? options.clickable : ''}">` +
                         `${options.clickableMessage}` +
-                    `</span>` +
+                    `</span>`}` +
                 `</div>` +
             `</div>`;
         targetElement.insertAdjacentHTML('beforeend', dropZoneTemplate);
@@ -388,10 +397,7 @@
                     const dropzoneMessage = _this.element.querySelector('.dz-message');
                     // 아이콘 추가
                     const dropzoneIcon = document.createElement('span');
-                    dropzoneIcon.className = 'z-icon i-document-txt';
-
-                    if (_this.isFileExist) { dropzoneIcon.style.display = 'none'; }
-
+                    dropzoneIcon.className = 'z-icon i-upload';
                     dropzoneMessage.insertBefore(dropzoneIcon, dropzoneMessage.firstChild);
                     // browse 버튼 추가
                     const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
@@ -402,17 +408,14 @@
                         if (options.isDropzoneUnder) {
                             dropzoneMessage.style.display = 'none';
                         }
-                        // 파일 추가시 아이콘 숨기기
-                        if (!_this.isFileExist) {
-                            dropzoneMessage.querySelector('.i-document-txt').style.display = 'none';
-                            _this.isFileExist = true;
-                        }
-                        file.previewElement.querySelector('.dz-file-type').src = getFileIcon(file.name, options.isView);
 
+                        file.previewElement.querySelector('.dz-file-type').src = getFileIcon(file.name, options.isView);
                         // 삭제 아이콘 추가
                         const removeIcon = document.createElement('span');
                         removeIcon.className = 'z-icon i-delete';
-                        file.previewElement.querySelector('.dz-remove').appendChild(removeIcon);
+                        const removeButton = file.previewElement.querySelector('.dz-remove');
+                        removeButton.className = 'dz-remove added'
+                        removeButton.appendChild(removeIcon);
 
                         fileUploadValidationCheck(_this, file, options);
                     });
@@ -421,8 +424,6 @@
                         const previewList = _this.element.querySelectorAll(
                             '.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                         if (_this.files.length === 0 && previewList.length === 0) {
-                            const dropzoneMessage = _this.element.querySelector('.dz-message');
-                            dropzoneMessage.querySelector('.i-document-txt').style.display = 'block';
                             _this.isFileExist = false;
                         }
                         if (typeof _this.options.params.userCallback === 'function') {
@@ -601,7 +602,7 @@
         setExtraParam(param);
         initFileUploader(param);
     }
-    
+
     /**
      * 아바타 초기화
      *

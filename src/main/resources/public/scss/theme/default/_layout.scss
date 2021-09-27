@@ -108,6 +108,7 @@
   background-color: transparent;
 }
 
+//작성자 말줄임
 .user-name {
   @include ellipsis(inline-block, 8.75rem); // 140px
 }
@@ -253,12 +254,7 @@
 }
 
 // 역할, 권한, 코드, 패턴, 문서번호, CMDB Type
-.z-auth-content-edit,
-.z-role-content-edit,
-.z-code-content-edit,
-.z-numbering-pattern-content-edit,
-.z-numbering-rule-content-edit,
-.z-cmdb-type-content-edit {
+.z-auth-content-edit {
   height: 41.25rem; // 660px
   margin: 0 0 1.875rem 0; // 30px
   // 스크롤바
@@ -277,14 +273,9 @@
   background-color: $edit-content-bg-color;
 
   .sub-title { margin-top: 2.5rem; } // 40px
-  // select box 크기 고정
-  .custom-setting-top-select,
-  .language-select,
-  .theme-color-select {
-    width: 29.38rem; // 470px
-  }
+
   .select-date-time {
-    width: 19.38rem; // 310px
+    width: calc(100% - 10.0005); // 310px
   }
   .hour-select {
     width: 9.688rem; // 155px
@@ -345,15 +336,6 @@
 
   .attribute {
     margin-left: 4rem;
-  }
-}
-// 업무흐름 관리 > 문서번호
-.z-numbering-rule-content-edit {
-  .select-pattern-type {
-    width: 20rem; // 320px
-  }
-  .pattern-type {
-    width: 7.5rem // 120px
   }
 }
 // CMDB > Class

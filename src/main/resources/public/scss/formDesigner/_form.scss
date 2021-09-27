@@ -296,6 +296,7 @@
         @include border(0.0625rem, solid, $component-drTable-border-color, all);
         border-left: none;
         border-right: none;
+        overflow: initial;
 
         &.on { display: table-cell; }
       }
@@ -313,7 +314,7 @@
       .z-dr-table-row {
         .z-button-icon { padding: 0; }
 
-        .z-input, .z-select {
+        .z-input {
           padding: 0.4375rem 0;
           margin: 0.25rem 0;
         }

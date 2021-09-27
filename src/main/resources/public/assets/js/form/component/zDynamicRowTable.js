@@ -239,6 +239,7 @@ export const dynamicRowTableMixin = {
             .addUI(removeButton);
         row.addUICell(td);
         targetTable.addUIRow(row);
+        aliceJs.initDesignedSelectTag(targetTable.domElement);
     },
     // column Type 에 따른 cell 반환
     getElementByColumnType(column, cellValue, index) {

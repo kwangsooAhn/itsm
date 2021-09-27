@@ -40,6 +40,7 @@
         const opt = {
             method: 'get',
             url: '/roles?' + urlParam,
+            showProgressbar: false,
             callbackFunc: function(response) {
                 document.getElementById('roleList').innerHTML = response.responseText;
                 OverlayScrollbars(document.querySelector('.z-list-body'), { className: 'scrollbar' });

@@ -22,6 +22,7 @@ import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.itsm.numberingRule.entity.NumberingRulePatternMapEntity
 import co.brainz.itsm.numberingRule.repository.NumberingRulePatternMapRepository
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
+import co.brainz.workflow.document.service.WfDocumentService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -36,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class NumberingRuleService(
     private val codeService: CodeService,
+    private val wfDocumentService: WfDocumentService,
     private val numberingRuleRepository: NumberingRuleRepository,
     private val numberingPatternRepository: NumberingPatternRepository,
     private val numberingRulePatternMapRepository: NumberingRulePatternMapRepository
@@ -158,13 +160,11 @@ class NumberingRuleService(
     fun deleteNumberingRule(numberingId: String): String {
         var status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
 
-        when (numberingRuleRepository.getOne(numberingId).latestValue != null) {
-            true -> {
-                status = NumberingRuleConstants.Status.STATUS_ERROR_RULE_USED.code
-            }
-            false -> {
-                numberingRuleRepository.deleteById(numberingId)
-            }
+        // 1. 업무흐름에 해당 문서번호가 사용중인지 체크
+        val documentList = wfDocumentService.getDocumentListByNumberingId(numberingId)
+        when (documentList.isNullOrEmpty()) {
+            true -> numberingRuleRepository.deleteById(numberingId)
+            false -> status = NumberingRuleConstants.Status.STATUS_ERROR_RULE_USED.code
         }
         return status
     }
