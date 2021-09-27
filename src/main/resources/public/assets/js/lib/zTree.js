@@ -78,7 +78,7 @@
         let nodeSelector = options.view === 'modal' ? '.modal_node_selected' : '.node_selected';
         const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
         if (!selectedNode) {
-            aliceAlert.alertWarning(defaults.nodeNameLabel);
+            aliceAlert.alertWarning(options.nodeNameLabel);
             return false;
         }
         let callbackFunc = options.callbackFunc;
