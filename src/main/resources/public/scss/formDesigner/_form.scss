@@ -172,6 +172,7 @@
   .z-element {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     padding: 0.4375rem 0; // 7px 0
+    pointer-events: none;
 
     // inputBox
     .input, .z-input {
