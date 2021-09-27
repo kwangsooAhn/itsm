@@ -21,9 +21,10 @@
             <td style="width:100%;" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(chartList)}" th:each="chart: ${chartList}">
-            <td sec:authorize="hasAuthority('chart.create') || hasAuthority('chart.update')" style="width: 20%;"
-                class="align-left underline pointer" th:onclick="openChartEditModal([[${chart.chartId}]], [[${chart.chartType}]])"
-                th:text="${chart.chartName}">
+            <td style="width: 20%;" class="align-left underline pointer">
+                <a sec:authorize="hasAuthority('chart.update')" th:text="${chart.chartName}"
+                   th:href="@{/charts/{id}/edit(id=${chart?.chartId})}">
+                </a>
             </td>
             <td style="width: 20%;" class="align-left" th:text="#{|chart.${chart.chartType}|}"></td>
             <td style="width: 25%;" class="align-left" th:text="${chart.chartDesc}"></td>

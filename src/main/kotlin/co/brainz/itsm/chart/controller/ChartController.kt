@@ -26,7 +26,7 @@ class ChartController(
     private val chartSearchPage: String = "chart/chartSearch"
     private val chartListPage: String = "chart/chartList"
     private val chartEditPage: String = "chart/chartEdit"
-    private val chartViewPage: String = "chart/chartView"
+    private val chartViewModalPage: String = "chart/chartViewModal"
 
     /**
      * 사용자 정의 차트 목록 검색 화면 호출
@@ -77,6 +77,6 @@ class ChartController(
     @GetMapping("/{chartId}/view")
     fun getChartView(@PathVariable chartId: String, model: Model): String {
         model.addAttribute("chart", chartService.getChartDetail(chartId))
-        return chartViewPage
+        return chartViewModalPage
     }
 }
