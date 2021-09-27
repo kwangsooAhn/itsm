@@ -307,6 +307,7 @@ cmdb:
         validate: "유효성"
         value: "Value"
       searchPlaceholder: "라벨 / 타입 / Attribute 명 / 설명"
+      seq: "정렬 순서"
       type: "타입"
       view: "Attribute"
     msg:
