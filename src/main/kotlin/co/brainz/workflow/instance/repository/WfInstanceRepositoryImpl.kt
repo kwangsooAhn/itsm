@@ -11,6 +11,7 @@ import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
+import co.brainz.itsm.dashboard.constants.DashboardConstants
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.workflow.comment.entity.QWfCommentEntity
@@ -120,6 +121,18 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         builder.and(instance.instanceStatus.`in`(status))
         builder.and(token.tokenStatus.`in`(tokenStatus))
         builder.and(token.element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value))
+        if (tokenSearchConditionDto.documentGroup != "") {
+            if (tokenSearchConditionDto.documentGroup == DashboardConstants.DocumentGroup.ETC.code)
+                builder.and(
+                    document.documentGroup.notIn(
+                        DashboardConstants.DocumentGroup.INCIDENT.code,
+                        DashboardConstants.DocumentGroup.INQUIRY.code,
+                        DashboardConstants.DocumentGroup.REQUEST.code
+                    )
+                )
+            else
+                builder.and(document.documentGroup.eq(tokenSearchConditionDto.documentGroup))
+        }
         builder.and(
             token.assigneeId.eq(tokenSearchConditionDto.userKey)
                 .or(
@@ -198,6 +211,18 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.assigneeId.eq(tokenSearchConditionDto.userKey))
             )
         )
+        if (tokenSearchConditionDto.documentGroup != "") {
+            if (tokenSearchConditionDto.documentGroup == DashboardConstants.DocumentGroup.ETC.code)
+                builder.and(
+                    document.documentGroup.notIn(
+                        DashboardConstants.DocumentGroup.INCIDENT.code,
+                        DashboardConstants.DocumentGroup.INQUIRY.code,
+                        DashboardConstants.DocumentGroup.REQUEST.code
+                    )
+                )
+            else
+                builder.and(document.documentGroup.eq(tokenSearchConditionDto.documentGroup))
+        }
         builder.and(
             token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
         )

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g transform="translate(-6966 -1569)">
+    <rect width="32" height="32" transform="translate(6966 1569)" fill="none"/>
+    <path fill="#ABB0B5" d="M583,1848h-1v-9a10,10,0,0,0-20,0v9h-1a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h22a1,1,0,0,0,1-1v-6A1,1,0,0,0,583,1848Zm-19-9a8,8,0,0,1,16,0v9H564Zm18,15H562v-4h20Z" transform="translate(6410 -258)" />
+  </g>
+</svg>

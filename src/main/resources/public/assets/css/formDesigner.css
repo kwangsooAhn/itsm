@@ -665,6 +665,19 @@ input, button, select, optgroup, textarea {
   word-wrap: normal;
 }
 
+.text-wordWrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-line;
+  white-space: -o-pre-wrap;
+  white-space: -moz-pre-wrap;
+  word-break: break-all;
+}
+
+.text-wordNoWrap {
+  white-space: nowrap;
+}
+
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.9375rem 0;
@@ -6074,6 +6087,7 @@ body.modal-active {
   border: 0.0625rem solid #CFD5D9;
   border-left: none;
   border-right: none;
+  overflow: initial;
 }
 .z-component .z-element .z-dr-table tr td.on {
   display: table-cell;
@@ -6092,7 +6106,7 @@ body.modal-active {
 .z-component .z-element .z-dr-table .z-dr-table-row .z-button-icon {
   padding: 0;
 }
-.z-component .z-element .z-dr-table .z-dr-table-row .z-input, .z-component .z-element .z-dr-table .z-dr-table-row .z-select {
+.z-component .z-element .z-dr-table .z-dr-table-row .z-input {
   padding: 0.4375rem 0;
   margin: 0.25rem 0;
 }

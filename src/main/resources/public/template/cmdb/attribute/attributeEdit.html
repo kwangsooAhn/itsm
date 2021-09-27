@@ -13,6 +13,7 @@
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
+        <input type="hidden" id="attributeId" name="attributeId" th:value="${attribute?.attributeId}"/>
         <div class="flex-column z-edit-row">
             <label for="attributeName">
                 <span th:text="#{cmdb.attribute.label.name}"></span>
@@ -78,22 +79,7 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
-    <script th:src="@{/assets/js/cmdb/zCmdbCore.js}"></script>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
-    <script type="text/javascript">
-        (function() {
-            zCmdbCore.initSession(JSON.stringify({
-                userKey : '[[${#authentication.details.userKey}]]',
-                userId : '[[${#authentication.details.userId}]]',
-                userName: '[[${#authentication.details.userName}]]',
-                email: '[[${#authentication.details.email}]]',
-                position: '[[${#authentication.details.position}]]',
-                department: '[[${#authentication.details.department}]]',
-                officeNumber: '[[${#authentication.details.officeNumber}]]',
-                mobileNumber: '[[${#authentication.details.mobileNumber}]]'
-            }));
-        })();
-    </script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         const STATUS_SUCCESS = '0';

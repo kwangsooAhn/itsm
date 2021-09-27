@@ -143,4 +143,21 @@ class CIAttributeService(
         ciAttributeRepository.deleteById(attributeEntity.attributeId)
         return true
     }
+
+    /**
+     * CI Attribute 목록 조회 (Group List 제외, 자기 자신 제외).
+     */
+    fun getCIAttributeListWithoutGroupList(attributeId: String, ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
+        val queryResult = ciAttributeRepository.findAttributeListWithoutGroupList(attributeId, ciAttributeSearchCondition)
+        return CIAttributeReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = ciAttributeRepository.count(),
+                currentPageNum = ciAttributeSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            )
+        )
+    }
 }
