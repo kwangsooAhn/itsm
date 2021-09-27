@@ -554,7 +554,8 @@
                                 attributeMap.push({
                                     key: attribute.attributeId,
                                     value: attribute.attributeName,
-                                    order: property.option[j].order
+                                    order: property.option[j].order,
+                                    type: attribute.attributeType
                                 });
                             }
                         }
@@ -565,7 +566,7 @@
                     );
                     attributeMapTemp = JSON.parse(JSON.stringify(attributeMap));
                     attributeMap.forEach(function (attr) {
-                        addGroupList({ key: attr.key, value: attr.value, order: attr.order });
+                        addGroupList({ key: attr.key, value: attr.value, order: attr.order, type: attr.type });
                     });
                 }
             });
@@ -579,16 +580,24 @@
         let rowId = ZWorkflowUtil.generateUUID();
         let rowElement =
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-6">` +
+            `<div class="flex-column col-4">` +
                 `<input type="text" class="z-input" maxlength="50" readonly="readonly" ` +
                 `id="${data.key}" value="${data.value}">` +
+            `</div>` +
+            `<div class="flex-column col-1">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.type')}</span>` +
+                `</label>` +
+            `</div>` +
+            `<div class="flex-column col-4">` +
+                `<input type="text" class="z-input" maxlength="50" readonly="readonly" value="${data.type}">` +
             `</div>` +
             `<div class="flex-column col-1">` +
                 `<label>` +
                     `<span class="mr-1">${i18n.msg('cmdb.attribute.label.seq')}</span><span class="required"></span>` +
                 `</label>` +
             `</div>` +
-            `<div class="flex-column col-5">` +
+            `<div class="flex-column col-2">` +
                 `<input type="text" class="z-input" id="${data.key}_order" value="${data.order}" maxlength="50" ` +
                 `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required" />` +
             `</div>` +
@@ -649,7 +658,12 @@
                 document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
                     checkbox.addEventListener('change', function (e) {
                         if (e.target.checked) {
-                            attributeMapTemp.push({ key: e.target.value, value: e.target.name, order: '' });
+                            attributeMapTemp.push({
+                                key: e.target.value,
+                                value: e.target.name,
+                                order: '',
+                                type: e.target.getAttribute('data-attribute-type')
+                            });
                         } else {
                             const removeIndex = attributeMapTemp.findIndex(function(attr) {
                                 return attr.key === e.target.value;
@@ -684,7 +698,7 @@
                     // 추가
                     attributeMap = JSON.parse(JSON.stringify(attributeMapTemp));
                     attributeMapTemp.forEach(function (attr) {
-                        addGroupList({ key: attr.key, value: attr.value, order: attr.order });
+                        addGroupList({ key: attr.key, value: attr.value, order: attr.order, type: attr.type });
                     });
                     modal.hide();
                 }
@@ -809,7 +823,7 @@
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     groupListOption.push({
                         id: object.querySelectorAll('input')[0].id,
-                        order: object.querySelectorAll('input')[1].value.trim()
+                        order: object.querySelectorAll('input')[2].value.trim()
                     });
                 });
                 details.option = groupListOption;
