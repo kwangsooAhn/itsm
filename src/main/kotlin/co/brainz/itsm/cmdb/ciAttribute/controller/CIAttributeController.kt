@@ -8,6 +8,7 @@ package co.brainz.itsm.cmdb.ciAttribute.controller
 
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
+import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,6 +23,7 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
     private val attributeListPage: String = "cmdb/attribute/attributeList"
     private val attributeEditPage: String = "cmdb/attribute/attributeEdit"
     private val attributeViewPage: String = "cmdb/attribute/attributeView"
+    private val attributeListModal: String = "cmdb/attribute/attributeListModal"
 
     /**
      * CI Attribute 관리 검색 화면 호출.
@@ -66,5 +68,21 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
     fun getCIAttributeView(@PathVariable attributeId: String, model: Model): String {
         model.addAttribute("attribute", ciAttributeService.getCIAttribute(attributeId))
         return attributeViewPage
+    }
+
+    /**
+     * CI Attribute 리스트 모달 호출 (Group List 제외, 자기 자신 제외)
+     */
+    @GetMapping("/{attributeId}/list-modal")
+    fun getCIAttributeListModal(@PathVariable attributeId: String, request: HttpServletRequest, model: Model): String {
+        val params = LinkedHashMap<String, Any>()
+        params["search"] = request.getParameter("search")
+        val attributeList = ciAttributeService.getCIAttributeListWithoutGroupList(attributeId, CIAttributeSearchCondition(
+            searchValue = params["search"].toString(),
+            pageNum = 0L,
+            contentNumPerPage = 0L
+        ))
+        model.addAttribute("attributeList", attributeList)
+        return attributeListModal
     }
 }

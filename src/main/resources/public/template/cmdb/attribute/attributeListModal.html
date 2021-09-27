@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<table>
+    <thead class="z-list-head">
+    <tr>
+        <th style="width: 5%;" class="align-center"></th>
+        <th style="width: 25%;" class="align-left" th:text="#{cmdb.attribute.label.name}"></th>
+        <th style="width: 15%;" class="align-center" th:text="#{cmdb.attribute.label.label}"></th>
+        <th style="width: 15%;" class="align-center" th:text="#{cmdb.attribute.label.type}"></th>
+        <th style="width: 40%;" class="align-left" th:text="#{cmdb.attribute.label.description}"></th>
+    </tr>
+    </thead>
+    <tbody id="ciClassAttributeList" class="z-list-body">
+    <tr class="no-data-found-list flex-row align-items-center" th:if="${#arrays.isEmpty(attributeList.data)}">
+        <td style="width: 100%;" class="align-center" th:text="#{common.msg.noData}"></td>
+    </tr>
+    <tr class="attribute-list" th:each="attribute, index : ${attributeList.data}">
+        <td style="width: 5%;" class="align-center">
+            <label class="z-checkbox" th:for="${index.index}" tabindex="0">
+                <input type="checkbox" th:name="${attribute.attributeName}" th:id="${index.index}"
+                       th:data-attribute-type="${attribute.attributeType}" th:value="${attribute.attributeId}">
+                <span></span>
+            </label>
+        </td>
+        <td style="width: 25%;" class="align-left" th:text="${attribute.attributeName}"></td>
+        <td style="width: 15%;" class="align-center" th:text="${attribute.attributeText}"></td>
+        <td style="width: 15%;" class="align-center" th:text="${attribute.attributeType}"></td>
+        <td style="width: 40%;" class="align-left" th:text="${attribute.attributeDesc}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

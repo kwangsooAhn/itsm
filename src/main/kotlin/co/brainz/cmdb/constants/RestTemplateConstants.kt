@@ -39,4 +39,11 @@ object RestTemplateConstants {
         MODIFY("modify"),
         DELETE("delete")
     }
+
+    /**
+     * CI Attribute Type.
+     */
+    enum class AttributeType(val code: String) {
+        GROUP_LIST("group-list")
+    }
 }

@@ -1448,6 +1448,7 @@ insert into awf_url values ('/cmdb/attributes/new', 'get', 'CMDB Attribute 등�
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/{id}/edit', 'get', 'CMDB Attribute 수정 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/{id}/view', 'get', 'CMDB Attribute 보기 화면', 'TRUE');
+insert into awf_url values ('/cmdb/attributes/{id}/list-modal', 'get', 'CMDB Attribute 목록 모달 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/view-pop/attributes', 'get', 'CMDB Class Attribute 모달 리스트 화면', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
@@ -1559,6 +1560,7 @@ insert into awf_url values ('/rest/charts', 'post', '사용자 정의 차트 등
 insert into awf_url values ('/rest/charts/{id}', 'put', '사용자 정의 차트 수정', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}', 'delete', '사용자 정의 차트 삭제', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}/preview', 'post', '사용자 정의 차트 미리보기', 'TRUE');
+insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
@@ -1778,6 +1780,7 @@ insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.att
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/cmdb/attributes/{id}/list-modal', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.ci.read');
