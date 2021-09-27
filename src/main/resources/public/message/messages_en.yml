@@ -306,6 +306,7 @@ cmdb:
         validate: "Validate"
         value: "Value"
       searchPlaceholder: "Label / Type / Attribute Name / Description"
+      seq: "Sort Order"
       type: "Type"
       view: "Attribute"
     msg:

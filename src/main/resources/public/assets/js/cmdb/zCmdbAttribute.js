@@ -34,8 +34,8 @@
     let parent = null;
     let customCodeList = null;
     let attributeId = '';
-    let attributeMap = new Map(); // 저장된 데이터
-    let attributeMapTemp = new Map(); // 화면에서 사용자가 변경 중인 데이터
+    let attributeMap = []; // 저장된 데이터
+    let attributeMapTemp = []; // 화면에서 사용자가 변경 중인 데이터
 
     /**
      * 초기 데이터 셋팅.
@@ -70,8 +70,8 @@
             return false;
         }
         parent.innerHTML = '';
-        attributeMap.clear();
-        attributeMapTemp.clear();
+        attributeMap.length = 0;
+        attributeMapTemp.length = 0;
         if (parent.previousElementSibling.querySelector('#button_add') !== null) {
             parent.previousElementSibling.querySelector('#button_add').remove();
         }
@@ -541,7 +541,7 @@
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', openAttributeListModal, false);
 
-        if (property.value !== undefined && property.value !== null && property.value.length > 0) {
+        if (property.option !== undefined && property.option !== null && property.option.length > 0) {
             // Attribute  목록 조회 - id 만 서버에 담고 있기 때문에 Attribute 명을 가져온다.
             aliceJs.fetchJson('/rest/cmdb/attributes', {
                 method: 'GET'
@@ -549,14 +549,24 @@
                 if (attributeData.data.length > 0) {
                     for (let i = 0; i < attributeData.data.length; i++) {
                         const attribute = attributeData.data[i];
-                        for (let j = 0; j < property.value.length; j++) {
-                            if (attribute.attributeId === property.value[j]) {
-                                attributeMap.set(attribute.attributeId, attribute.attributeName);
-                                attributeMapTemp.set(attribute.attributeId, attribute.attributeName);
-                                addGroupList({ key: attribute.attributeId, value: attribute.attributeName });
+                        for (let j = 0; j < property.option.length; j++) {
+                            if (attribute.attributeId === property.option[j].id) {
+                                attributeMap.push({
+                                    key: attribute.attributeId,
+                                    value: attribute.attributeName,
+                                    order: property.option[j].order
+                                });
                             }
                         }
                     }
+                    // 정렬
+                    attributeMap.sort((a, b) =>
+                        a.order < b.order ? -1 : a.order > b.order ? 1 : 0
+                    );
+                    attributeMapTemp = JSON.parse(JSON.stringify(attributeMap));
+                    attributeMap.forEach(function (attr) {
+                        addGroupList({ key: attr.key, value: attr.value, order: attr.order });
+                    });
                 }
             });
         }
@@ -569,9 +579,18 @@
         let rowId = ZWorkflowUtil.generateUUID();
         let rowElement =
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-12">` +
+            `<div class="flex-column col-6">` +
                 `<input type="text" class="z-input" maxlength="50" readonly="readonly" ` +
                 `id="${data.key}" value="${data.value}">` +
+            `</div>` +
+            `<div class="flex-column col-1">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.seq')}</span><span class="required"></span>` +
+                `</label>` +
+            `</div>` +
+            `<div class="flex-column col-5">` +
+                `<input type="text" class="z-input" id="${data.key}_order" value="${data.order}" maxlength="50" ` +
+                `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required" />` +
             `</div>` +
             `<div class="flex-column col-1">` +
                `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
@@ -580,12 +599,22 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', rowElement);
+        document.getElementById(data.key + '_order').addEventListener('change', function (e) {
+            const attributeKeys = e.target.id.split('_');
+            const changeIndex = attributeMapTemp.findIndex(function(attr) {
+                return attr.key === attributeKeys[0];
+            });
+            attributeMap[changeIndex].order = e.target.value;
+        });
 
         const deleteBtn = document.getElementById(rowId + '_delete');
         deleteBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             const attributeKey = this.parentElement.parentElement.querySelector('input[type=text]').id;
-            attributeMap.delete(attributeKey);
+            const removeIndex = attributeMapTemp.findIndex(function(attr) {
+                return attr.key === attributeKey;
+            });
+            attributeMap.splice(removeIndex, 1);
             this.parentElement.parentElement.remove();
         });
     }
@@ -595,10 +624,8 @@
      */
     function openAttributeListModal() {
         // 저장된 데이터를 담는다.
-        attributeMapTemp.clear();
-        attributeMap.forEach(function (value, key) {
-            attributeMapTemp.set(key, value);
-        });
+        attributeMapTemp.length = 0;
+        attributeMapTemp = JSON.parse(JSON.stringify(attributeMap));
 
         // 모달 내부 template
         const attributeListModalContent = `<div class="cmdb-class-attribute-list">` +
@@ -622,13 +649,16 @@
                 document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
                     checkbox.addEventListener('change', function (e) {
                         if (e.target.checked) {
-                            attributeMapTemp.set(e.target.value, e.target.name);
+                            attributeMapTemp.push({ key: e.target.value, value: e.target.name, order: '' });
                         } else {
-                            attributeMapTemp.delete(e.target.value);
+                            const removeIndex = attributeMapTemp.findIndex(function(attr) {
+                                return attr.key === e.target.value;
+                            });
+                            attributeMapTemp.splice(removeIndex, 1);
                         }
                     });
-                    attributeMapTemp.forEach(function (value, key) {
-                        if (checkbox.value === key) { checkbox.checked = true; }
+                    attributeMapTemp.forEach(function (attr) {
+                        if (checkbox.value === attr.key) { checkbox.checked = true; }
                     });
                 });
 
@@ -646,15 +676,15 @@
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: function (modal) {
-                    attributeMap.clear();
+                    attributeMap.length = 0;
                     // 기존 목록 삭제
                     while (parent.firstChild) {
                         parent.removeChild(parent.lastChild);
                     }
                     // 추가
-                    attributeMapTemp.forEach(function (value, key) {
-                        attributeMap.set(key, value);
-                        addGroupList({ key: key, value: value });
+                    attributeMap = JSON.parse(JSON.stringify(attributeMapTemp));
+                    attributeMapTemp.forEach(function (attr) {
+                        addGroupList({ key: attr.key, value: attr.value, order: attr.order });
                     });
                     modal.hide();
                 }
@@ -777,9 +807,12 @@
             case 'group-list':
                 let groupListOption = [];
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
-                    groupListOption.push(object.querySelector('input').id);
+                    groupListOption.push({
+                        id: object.querySelectorAll('input')[0].id,
+                        order: object.querySelectorAll('input')[1].value.trim()
+                    });
                 });
-                details.value = groupListOption;
+                details.option = groupListOption;
                 break;
             default:
                 break;
