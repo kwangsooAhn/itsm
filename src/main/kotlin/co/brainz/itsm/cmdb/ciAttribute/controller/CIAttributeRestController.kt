@@ -6,10 +6,13 @@
 
 package co.brainz.itsm.cmdb.ciAttribute.controller
 
+import co.brainz.cmdb.dto.CIAttributeReturnDto
+import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -22,6 +25,14 @@ import org.springframework.web.bind.annotation.RestController
 class CIAttributeRestController(private val ciAttributeService: CIAttributeService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+
+    /**
+     * CI Attribute 목록 조회.
+     */
+    @GetMapping("")
+    fun getCIAttributes(ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
+        return ciAttributeService.getCIAttributes(ciAttributeSearchCondition)
+    }
 
     /**
      * CI Attribute 등록.

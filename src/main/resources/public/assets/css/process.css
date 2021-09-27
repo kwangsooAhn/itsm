@@ -665,6 +665,19 @@ input, button, select, optgroup, textarea {
   word-wrap: normal;
 }
 
+.text-wordWrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-line;
+  white-space: -o-pre-wrap;
+  white-space: -moz-pre-wrap;
+  word-break: break-all;
+}
+
+.text-wordNoWrap {
+  white-space: nowrap;
+}
+
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.9375rem 0;
@@ -4212,11 +4225,11 @@ svg path.connector.hidden {
 }
 .z-help-tooltip .z-tooltip-contents {
   position: absolute;
-  left: 0;
+  left: auto;
   visibility: hidden;
   background-color: #FFFFFF;
   color: #339AF0;
-  width: 100%;
+  width: 28.125rem;
   font-size: 0.875rem;
   border: 0.125rem solid #339AF0;
   border-radius: 0.125rem;

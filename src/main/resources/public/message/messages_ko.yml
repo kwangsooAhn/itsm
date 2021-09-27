@@ -237,6 +237,7 @@ board:
     replyDescription: "답글을 추가 할 수 있습니다."
     searchDescription: "게시글을 조회 및 관리합니다."
     viewDescription: "게시글에 대한 상세 정보를 조회합니다."
+    createCategory: "카테고리를 등록해 주세요."
 
 # Chart
 chart:
@@ -484,6 +485,15 @@ dashboard:
   label:
     dashboard: "개인 현황판"
     documentStatus: "신청한 문서 현황"
+    etc: "기타"
+    monthDoneDocument: "월간 처리한 문서"
+    request: "서비스 요청"
+    runningDocument: "진행 중 문서"
+    statistics: "업무 통계"
+    todoDocument: "처리할 문서"
+    doneDocument: "전체 처리한 문서"
+    incident: "장애 신고"
+    inquiry: "단순 문의"
   msg:
     viewDescription: "나의 업무통계 및 처리할 문서를 조회합니다."
   status:
@@ -1384,7 +1394,7 @@ file:
   msg:
     browser: "파일을 직접 찾으세요."
     noAttachFile: "첨부 파일이 없습니다."
-    upload: "업로드하려면 여기에 파일을 놓아 두세요."
+    upload: "업로드하려면 여기로 파일을 드래그하세요."
 
 # Pattern
 pattern:

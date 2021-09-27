@@ -237,6 +237,7 @@ board:
     replyDescription: "You can add a reply."
     searchDescription: "View and manage posts."
     viewDescription: "Inquire detailed information about the post."
+    createCategory: "Please register the category."
 
 # Chart
 chart:
@@ -484,6 +485,15 @@ dashboard:
   label:
     dashboard: "Dashboard"
     documentStatus: "Requested Documents Status"
+    etc: "Etc"
+    monthDoneDocument: "Documents in proceeded Monthly"
+    request: "Service Request"
+    runningDocument: "Document in progress"
+    statistics: "Workflow statistics"
+    todoDocument: "Documents to be processed"
+    doneDocument: "Total Documents in proceeded"
+    incident: "Error Report"
+    inquiry: "inquiry"
   msg:
     viewDescription: "Search my business statistics and documents to be processed."
   status:

@@ -23,7 +23,7 @@ class AliceAuthFailureHandler : AuthenticationFailureHandler {
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val redirectStrategy: RedirectStrategy = DefaultRedirectStrategy()
     private val invalidUserOrPasswordMsgKey = "login.msg.invalidUserOrPassword"
-    private val disableUserMsgKey = "login.msg.diabledUser"
+    private val disableUserMsgKey = "login.msg.disabledUser"
     private val unKnownErrorMsgKey = "login.msg.unKnownError"
 
     override fun onAuthenticationFailure(

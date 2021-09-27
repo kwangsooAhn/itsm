@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
 package co.brainz.itsm.dashboard.controller
 
 import co.brainz.framework.util.CurrentSessionUser
@@ -22,7 +27,6 @@ class DashboardController(
     private val currentSessionUser: CurrentSessionUser,
     private val noticeService: NoticeService
 ) {
-
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val dashboardViewPage: String = "dashboard/dashboardView"
     private val dashboardListPage: String = "dashboard/dashboardStatistic"
@@ -33,6 +37,8 @@ class DashboardController(
     @GetMapping("/view")
     fun getDashboardView(request: HttpServletRequest, model: Model): String {
         model.addAttribute("noticePopUp", noticeService.findNoticePopUp())
+        model.addAttribute("dashboardStatistic", dashboardService.getDashboardStatistic())
+
         return dashboardViewPage
     }
 
