@@ -39,7 +39,10 @@ class DashboardService(
      */
     fun getDashboardStatistic(): List<DashboardStatisticDto> {
         val dashboardStatisticDtoList = mutableListOf<DashboardStatisticDto>()
-        val typeList = listOf(DashboardConstants.StatisticType.TODO.code, DashboardConstants.StatisticType.RUNNING.code, DashboardConstants.StatisticType.MONTHDONE.code, DashboardConstants.StatisticType.DONE.code)
+        val typeList = listOf(DashboardConstants.StatisticType.TODO.code,
+            DashboardConstants.StatisticType.RUNNING.code,
+            DashboardConstants.StatisticType.MONTHDONE.code,
+            DashboardConstants.StatisticType.DONE.code)
 
         val tokenSearchConditionDto = TokenSearchConditionDto(
             userKey = currentSessionUser.getUserKey()

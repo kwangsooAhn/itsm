@@ -10,6 +10,7 @@ object DashboardConstants {
         MONTHDONE("monthDone"),
         DONE("done")
     }
+
     /**
      *  대시보드 업무통계내 문서 그룹 ex> 장애신고/ 단순 문의/ 서비스 요청/ 기타
      */
