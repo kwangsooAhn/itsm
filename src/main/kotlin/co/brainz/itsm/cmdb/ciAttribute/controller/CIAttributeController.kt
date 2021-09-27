@@ -77,7 +77,7 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
     fun getCIAttributeListModal(@PathVariable attributeId: String, request: HttpServletRequest, model: Model): String {
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
-        val attributeList = ciAttributeService.getCIAttributeListNotInGroupList(attributeId, CIAttributeSearchCondition(
+        val attributeList = ciAttributeService.getCIAttributeListWithoutGroupList(attributeId, CIAttributeSearchCondition(
             searchValue = params["search"].toString(),
             pageNum = 0L,
             contentNumPerPage = 0L

@@ -147,8 +147,8 @@ class CIAttributeService(
     /**
      * CI Attribute 목록 조회 (Group List 제외, 자기 자신 제외).
      */
-    fun getCIAttributeListNotInGroupList(attributeId: String, ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
-        val queryResult = ciAttributeRepository.findAttributeListNotInGroupList(attributeId, ciAttributeSearchCondition)
+    fun getCIAttributeListWithoutGroupList(attributeId: String, ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
+        val queryResult = ciAttributeRepository.findAttributeListWithoutGroupList(attributeId, ciAttributeSearchCondition)
         return CIAttributeReturnDto(
             data = queryResult.results,
             paging = AlicePagingData(

@@ -95,7 +95,7 @@ class CIAttributeService(
     /**
      * Attribute 목록 조회 (Group List 제외, 자기 자신 제외).
      */
-    fun getCIAttributeListNotInGroupList(attributeId: String, ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
-        return ciAttributeService.getCIAttributeListNotInGroupList(attributeId, ciAttributeSearchCondition)
+    fun getCIAttributeListWithoutGroupList(attributeId: String, ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
+        return ciAttributeService.getCIAttributeListWithoutGroupList(attributeId, ciAttributeSearchCondition)
     }
 }
