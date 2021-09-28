@@ -47,7 +47,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                 super.like(user.userName, userSearchCondition.searchValue)
                     ?.or(super.like(user.userId, userSearchCondition.searchValue))
                     ?.or(super.like(user.position, userSearchCondition.searchValue))
-                    ?.or(super.like(code.codeValue, userSearchCondition.searchValue))
+                    ?.or(super.like(code.codeName, userSearchCondition.searchValue))
                     ?.or(super.like(user.officeNumber, userSearchCondition.searchValue))
                     ?.or(super.like(user.mobileNumber, userSearchCondition.searchValue))
             )
