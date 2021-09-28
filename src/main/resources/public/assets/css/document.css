@@ -935,6 +935,10 @@ input, button, select, optgroup, textarea {
   display: none;
   /* Chrome, Safari, Opera*/
 }
+.z-document-container .z-document-main.preview .z-element > *:not(.z-input, .z-textarea, .z-text-editor) {
+  pointer-events: auto;
+  cursor: default;
+}
 .z-document-container .z-document-main .z-document-main-header {
   width: 60rem;
   max-width: 60rem;
@@ -1559,7 +1563,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 select {
-  width: inherit;
   height: 2.25rem;
   font-family: inherit;
   font-size: 0.875rem;

@@ -2113,7 +2113,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 select {
-  width: inherit;
   height: 2.25rem;
   font-family: inherit;
   font-size: 0.875rem;
@@ -6111,6 +6110,7 @@ body.modal-active {
 .z-component .z-element .z-dr-table .z-dr-table-row .z-input {
   padding: 0.4375rem 0;
   margin: 0.25rem 0;
+  text-indent: 1rem;
 }
 .z-component .z-element .z-dr-table .no-data-found-list {
   color: #ABB0B5;
