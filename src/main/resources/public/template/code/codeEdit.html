@@ -20,7 +20,8 @@
     <span id="totalCount" class="search-count"></span>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate"
-                sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.add}"></button>
+                sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.add}"
+                th:onclick="|javascript:onCreate()|"></button>
     </div>
 </div>
 <div layout:fragment="pageTree">
@@ -72,7 +73,8 @@
         <div class="z-edit-row flex-column flex-fill">
             <div class="flex-row justify-content-between">
                 <label th:text="#{code.label.codeLang}"></label>
-                <button type="button" class="z-button-icon extra float-right" id="btnCodeLang">
+                <button sec:authorize="hasAuthority('code.create') || hasAuthority('code.update')"
+                        type="button" class="z-button-icon extra float-right" id="btnCodeLang">
                     <span class="z-icon i-plus"></span>
                 </button>
             </div>
@@ -100,7 +102,7 @@
             <div class="col-2 ml-3 mr-5"><select></select></div>
             <label class="required" th:text="#{code.label.codeValue}"></label>
             <input class="z-input flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
-            <button class="z-button-icon extra">
+            <button sec:authorize="hasAuthority('code.create') || hasAuthority('code.update')" class="z-button-icon extra">
                 <span class="z-icon i-delete"></span>
             </button>
         </div>
@@ -122,9 +124,10 @@
 
     window.addEventListener('load', function () {
         observer.set();
-        document.getElementById('btnCreate').addEventListener('click',onCreate);
-        document.getElementById('btnCodeLang').addEventListener('click',drawCodeLang);
 
+        if (document.getElementById('btnCodeLang') !== null) {
+            document.getElementById('btnCodeLang').addEventListener('click',drawCodeLang);
+        }
         OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-page-edit'), {className: 'scrollbar'});
         OverlayScrollbars(document.getElementById('txtCodeDesc'), {className: 'scrollbar'});
@@ -391,11 +394,13 @@
 
         langCodeRow.querySelector('input').value = (typeof param.codeLangValue !== 'undefined') ? param.codeLangValue : '';
         const deleteBtn = langCodeRow.querySelector('button.z-button-icon');
-        deleteBtn.addEventListener('click', function () {
-            const row = deleteBtn.parentNode;
-            row.remove();
-            observer.isChanged = true;
-        });
+        if (deleteBtn !== null) {
+            deleteBtn.addEventListener('click', function () {
+                const row = deleteBtn.parentNode;
+                row.remove();
+                observer.isChanged = true;
+            });
+        }
 
         document.getElementById('codeLang').appendChild(langCodeRow);
         aliceJs.initDesignedSelectTag(document.querySelector('#codeLang'));
