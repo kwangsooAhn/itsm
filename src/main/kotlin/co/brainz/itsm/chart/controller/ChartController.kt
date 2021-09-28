@@ -66,6 +66,7 @@ class ChartController(
     fun getChartEdit(@PathVariable chartId: String, model: Model): String {
         model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.PCode.TYPE.code))
         model.addAttribute("operationList", codeService.selectCodeByParent(ChartConstants.PCode.OPERATION.code))
+        model.addAttribute("rangeList", codeService.selectCodeByParent(ChartConstants.PCode.RANGE.code))
         model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.PCode.UNIT.code))
         model.addAttribute("chart", chartService.getChartDetail(chartId))
         return chartEditPage

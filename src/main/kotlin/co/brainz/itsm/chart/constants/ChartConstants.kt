@@ -14,7 +14,8 @@ object ChartConstants {
     enum class PCode(val code: String) {
         TYPE("chart.type"),
         OPERATION("chart.operation"),
-        UNIT("chart.unit")
+        UNIT("chart.unit"),
+        RANGE("chart.range") // 차트 데이터 대상 기간
     }
 
     /**
