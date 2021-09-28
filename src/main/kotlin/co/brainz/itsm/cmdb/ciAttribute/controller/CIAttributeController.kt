@@ -73,11 +73,13 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
     /**
      * CI Attribute 리스트 모달 호출 (Group List 제외, 자기 자신 제외)
      */
-    @GetMapping("/{attributeId}/list-modal")
-    fun getCIAttributeListModal(@PathVariable attributeId: String, request: HttpServletRequest, model: Model): String {
+    @GetMapping("/list-modal")
+    fun getCIAttributeListModal(request: HttpServletRequest, model: Model): String {
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
-        val attributeList = ciAttributeService.getCIAttributeListWithoutGroupList(attributeId, CIAttributeSearchCondition(
+        params["attributeId"] = request.getParameter("attributeId")
+        val attributeList = ciAttributeService.getCIAttributeListWithoutGroupList(params["attributeId"].toString(),
+            CIAttributeSearchCondition(
             searchValue = params["search"].toString(),
             pageNum = 0L,
             contentNumPerPage = 0L

@@ -647,7 +647,7 @@
          * 세부 속성 검색
          */
         const getAttributeList = function (search, showProgressbar) {
-            const url = '/cmdb/attributes/' + attributeId + '/list-modal?search=' + search.trim();
+            const url = '/cmdb/attributes/list-modal?search=' + search.trim() + '&attributeId=' + attributeId;
             aliceJs.fetchText(url, {
                 method: 'GET',
                 showProgressbar: showProgressbar
