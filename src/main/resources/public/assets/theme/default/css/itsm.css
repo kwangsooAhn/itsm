@@ -1448,6 +1448,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 select {
+  width: inherit;
   height: 2.25rem;
   font-family: inherit;
   font-size: 0.875rem;
