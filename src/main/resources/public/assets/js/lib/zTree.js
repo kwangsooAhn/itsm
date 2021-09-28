@@ -38,6 +38,7 @@
         totalCount: false,                      // 전체 개수 표시여부
         expandTree: true,                       // 전체 펼치기
         classes: 'tree',                        // 모달일 경우 추가되는 class 명
+        nodeNameLabel: '',  // tree에 따로 nodeNameLabel 문구를 지정해주지 않으면 "데이터 을/를 선택하세요"가 출력
         buttons: [{
             content: 'Confirm',
             classes: 'z-button primary',
@@ -76,9 +77,8 @@
     function saveSelectedNode() {
         let nodeSelector = options.view === 'modal' ? '.modal_node_selected' : '.node_selected';
         const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
-
         if (!selectedNode) {
-            aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
+            aliceAlert.alertWarning(options.nodeNameLabel);
             return false;
         }
         let callbackFunc = options.callbackFunc;
@@ -621,6 +621,9 @@
         // 버튼 다국어 처리
         defaults.buttons[0].content = i18n.msg('common.btn.select');
         defaults.buttons[1].content = i18n.msg('common.btn.cancel');
+        
+        // 리스트 미선택시 문구 처리
+        defaults.nodeNameLabel = i18n.msg('common.msg.dataSelect', i18n.msg('common.label.data'));
 
         // 옵션 셋팅
         options = Object.assign({}, defaults, userOptions);

@@ -208,6 +208,14 @@
         //게시판 관리 저장
         function saveBoardAdmin(method) {
             if (isEmpty('boardAdminTitle', 'board.msg.enterBoardTitle')) return;
+
+            if (document.getElementById('categoryYn').checked) {
+                if (categoryList.length === 0) {
+                    aliceAlert.alertWarning(i18n.msg('board.msg.createCategory'));
+                    return;
+                }
+            }
+
             if (document.getElementById('attachYn').checked) {
                 if (isExistInScope('attachFileSize', 1, 1024, 'board.msg.enterAttachFileSize')) return;
             }

@@ -2,71 +2,65 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/defaultLayout">
+      layout:decorate="~{layout/itsm/pageType/commonViewLayout}">
 <head>
     <title th:text="#{report.label.template}"></title>
 </head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
+</th:block>
 <body>
-<th:block layout:fragment="content">
-    <div class="flex-column z-edit">
-        <div class="report-template-header">
-            <div class="header-title flex-row align-items-baseline">
-                <h1 th:text="#{report.label.template}"></h1>
-                <h6 class="description ml-2 pl-2" th:text="#{report.msg.editDescription}"></h6>
-            </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{report.label.template}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{report.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageView">
+    <div class="flex-column z-view-row">
+        <label for="templateName">
+            <span th:text="#{report.label.templateName}"></span>
+        </label>
+        <input type="text" id="templateName" class="z-input" required="true" maxlength="100"
+               th:attr="data-validation-required-name=#{report.label.templateName}"
+               th:value="${template?.templateName}" disabled/>
+    </div>
+    <div class="flex-column z-view-row">
+        <label for="templateDesc">
+            <span th:text="#{report.label.description}"></span>
+        </label>
+        <textarea id="templateDesc" name="templateDesc" class="z-textarea textarea-scroll-wrapper"
+                  maxlength="250" rows="5" th:text="${template?.templateDesc}" disabled></textarea>
+    </div>
+    <div class="flex-column z-view-row">
+        <label class="z-switch">
+            <input type="checkbox" id="automatic" name="automatic"
+                   th:checked="${template?.automatic == true}">
+            <span></span>
+            <span class="z-label" th:text="#{report.label.automatic}"></span>
+        </label>
+    </div>
+    <div class="flex-column z-view-row">
+        <div class="under-bar">
+            <label>
+                <span th:text="#{report.label.chart}"></span>
+            </label>
         </div>
-        <div class="report-template-content-edit">
-            <div class="flex-column z-edit-row">
-                <label for="templateName">
-                    <span th:text="#{report.label.templateName}"></span>
-                    <span class="required"></span>
-                </label>
-                <input type="text" id="templateName" class="z-input" required="true" maxlength="100"
-                       th:attr="data-validation-required-name=#{report.label.templateName}"
-                       th:value="${template?.templateName}"/>
+        <div id="details" class="template">
+            <div class="flex-row justify-content-end">
             </div>
-            <div class="flex-column z-edit-row">
-                <label for="templateDesc">
-                    <span th:text="#{report.label.description}"></span>
-                </label>
-                <textarea id="templateDesc" name="templateDesc" class="z-textarea textarea-scroll-wrapper"
-                          maxlength="250" rows="5" th:text="${template?.templateDesc}"></textarea>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label class="z-switch">
-                    <input type="checkbox" id="automatic" name="automatic"
-                           th:checked="${template?.automatic == true}">
-                    <span></span>
-                    <span class="label" th:text="#{report.label.automatic}"></span>
-                </label>
-            </div>
-            <div class="flex-column z-edit-row">
-                <div class="under-bar">
-                    <label>
-                        <span th:text="#{report.label.chart}"></span>
-                    </label>
-                </div>
-                <div id="details" class="template">
-                    <div class="flex-row justify-content-end">
-                    </div>
-                    <div id="chartList" class="chart"></div>
-                </div>
-            </div>
-            <div class="flex-row justify-content-between z-edit-row">
-                <div class="z-button-list">
-                    <a class="z-button secondary" href="/reports/template/search" th:text="#{common.btn.list}"></a>
-                </div>
-                <div class="z-button-list">
-                    <button class="z-button secondary" onclick="preview()" th:text="#{report.btn.preview}"></button>
-                </div>
-            </div>
+            <div id="chartList" class="chart"></div>
         </div>
     </div>
-</th:block>
+    <div class="flex-row justify-content-between z-view-row">
+        <div class="z-button-list">
+            <a class="z-button secondary" href="/reports/template/search" th:text="#{common.btn.list}"></a>
+        </div>
+        <div class="z-button-list">
+            <button class="z-button secondary" onclick="preview()" th:text="#{report.btn.preview}"></button>
+        </div>
+    </div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
-    <script type="text/javascript" th:inline="javascript">
+<script layout:fragment="pageScript" th:inline="javascript">
         /*<![CDATA[*/
         const STATUS_SUCCESS = '0';
         const STATUS_ERROR_TEMPLATE_NAME_DUPLICATION = '1';
@@ -233,5 +227,4 @@
         }
         /*]]>*/
     </script>
-</th:block>
 </html>

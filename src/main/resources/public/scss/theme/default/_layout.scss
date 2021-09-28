@@ -108,6 +108,7 @@
   background-color: transparent;
 }
 
+//작성자 말줄임
 .user-name {
   @include ellipsis(inline-block, 8.75rem); // 140px
 }

@@ -13,7 +13,7 @@
 </div>
 <div layout:fragment="pageView">
     <div class="flex-column z-view-row">
-        <div class="view-title text-ellipsis">
+        <div class="view-title text-wordWrap">
             <span th:if="${boardAdminInfo.categoryYn && not #strings.isEmpty(boardInfo?.boardCategoryName)}"
                   th:text="#{common.label.bracketOpen}+${boardInfo?.boardCategoryName}+#{common.label.bracketClose}"></span>
             <span th:text="${boardInfo?.boardTitle}"></span>
@@ -21,10 +21,10 @@
     </div>
     <div class="flex-column z-view-row">
         <div class="view-sub-title flex-row justify-content-end">
-            <span class="user-name"
+            <span class="text-wordWrap"
                   th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
             <span class="vertical-bar"></span>
-            <span id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
+            <span class="text-wordNoWrap" id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
         </div>
     </div>
     <div class="horizontal-bar"></div>
