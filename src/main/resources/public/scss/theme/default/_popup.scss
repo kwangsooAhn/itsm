@@ -6,7 +6,7 @@
 .itsm-popup {
   width: 100%;
   height: 100vh;
-  padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
+  padding: 1.875rem 2.5rem 0 2.5rem; // 30px 40px 0 40px
   background-color: $popup-bg-color;
 
   .popup-title {
@@ -29,6 +29,11 @@
   .notice-content-popup {
     &.view {
       height: auto;
+
+      .view-row .z-checkbox {
+        padding-bottom: 1.25rem;
+      }
     }
+
   }
 }
