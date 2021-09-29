@@ -14,6 +14,8 @@ import co.brainz.itsm.chart.dto.ChartListReturnDto
 import co.brainz.itsm.chart.dto.ChartSearchCondition
 import co.brainz.itsm.chart.entity.ChartEntity
 import co.brainz.itsm.chart.respository.ChartRepository
+import co.brainz.itsm.code.dto.CodeDto
+import co.brainz.itsm.code.service.CodeService
 import java.time.LocalDateTime
 import kotlin.math.ceil
 import org.slf4j.Logger
@@ -24,7 +26,8 @@ import org.springframework.stereotype.Service
 @Service
 class ChartService(
     private val chartRepository: ChartRepository,
-    private val chartManagerFactory: ChartManagerFactory
+    private val chartManagerFactory: ChartManagerFactory,
+    private val codeService: CodeService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -112,5 +115,18 @@ class ChartService(
 
         chartRepository.deleteById(chartId)
         return status
+    }
+
+    /**
+     * 차트 설정에서 사용하는 코드 리스트
+     */
+    fun getCodeListForChart(): HashMap<String, MutableList<CodeDto>> {
+        val codeListMap = HashMap<String, MutableList<CodeDto>>()
+        codeListMap["type"] = codeService.selectCodeByParent(ChartConstants.PCode.TYPE.code)
+        codeListMap["operation"] = codeService.selectCodeByParent(ChartConstants.PCode.OPERATION.code)
+        codeListMap["range"] = codeService.selectCodeByParent(ChartConstants.PCode.RANGE.code)
+        codeListMap["unit"] = codeService.selectCodeByParent(ChartConstants.PCode.UNIT.code)
+
+        return codeListMap;
     }
 }

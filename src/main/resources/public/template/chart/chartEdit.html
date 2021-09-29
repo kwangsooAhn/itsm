@@ -38,7 +38,7 @@
             <div class="flex-column z-edit-row col-4">
                 <label class="field-label" th:text="#{chart.label.type}"></label>
                 <select id="typeSelectBox" name="typeSelectBox" onchange="setDisplay(this.value)">
-                    <option th:each="type:${typeList}" th:value="${type.codeValue}"
+                    <option th:each="type:${code.type}" th:value="${type.codeValue}"
                             th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
                 </select>
             </div>
@@ -57,7 +57,7 @@
                 <!--/* 연산 */-->
                 <label class="field-label" th:text="#{chart.label.operation}"></label>
                 <select id="operationSelectBox" name="operationSelectBox">
-                    <option th:each="operation:${operationList}" th:value="${operation.codeValue}"
+                    <option th:each="operation:${code.operation}" th:value="${operation.codeValue}"
                             th:text="${operation.codeName}"
                             th:selected="${operation.codeValue} == ${chart?.operation}"></option>
                 </select>
@@ -66,7 +66,7 @@
                 <!--/* 간격 */-->
                 <label id="periodUnitLabel" class="field-label required" th:text="#{chart.label.periodUnit}"></label>
                 <select id="periodUnitSelectBox" name="periodUnitSelectBox">
-                    <option th:each="unit:${unitList}" th:value="${unit.codeValue}"
+                    <option th:each="unit:${code.unit}" th:value="${unit.codeValue}"
                             th:text="${unit.codeName}" th:selected="${unit.codeValue} == ${chart?.periodUnit}"></option>
                 </select>
             </div>
@@ -77,7 +77,7 @@
                         <label class="field-label required" th:text="#{chart.label.duration}"></label>
                         <div>
                             <select id="rangeType" name="rangeType">
-                                <option th:each="unit:${rangeList}" th:value="${unit.codeValue}"
+                                <option th:each="unit:${code.range}" th:value="${unit.codeValue}"
                                         th:text="${unit.codeName}"
                                         th:selected="${unit.codeValue} == ${chart?.rangeType}"></option>
                             </select>
@@ -253,7 +253,7 @@
             switch (result) {
                 case STATUS_SUCCESS:
                     aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function () {
-                        location.reload();
+                        window.location.href = '/charts/search';
                     });
                     break;
                 default:
@@ -294,7 +294,7 @@
         } else if (target === 'view') {
             setChart(chartType, document.getElementById('propertyJson').value);
         }
-        if (chartId !== undefined) {
+        if (chartId !== null) {
             parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
         }
     }
@@ -304,9 +304,6 @@
             return false
         }
         if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
-            return false
-        }
-        if (isEmpty('durationDigit', 'chart.msg.enterDurationDigit')) {
             return false
         }
         if (document.getElementById('typeSelectBox').value === BASIC_LINE_CHART) {
