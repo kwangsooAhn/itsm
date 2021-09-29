@@ -59,7 +59,8 @@
             <div class="flex-row z-input-button">
                 <input class="z-input inherit" id="typeIcon" name="typeIcon" type="text" readonly>
                 <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
-                <button class="z-button-search z-button form" name="typeIconSelector" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
+                <button sec:authorize="hasAuthority('cmdb.type.create') || hasAuthority('cmdb.type.update')"
+                        class="z-button-search z-button form" name="typeIconSelector" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
         <div class="z-edit-row flex-column">
@@ -68,7 +69,8 @@
                 <input class="z-input inherit" id="typeClass" name="typeClass" type="text" readonly>
                 <input id="typeClassId" name="typeClassId" type="hidden"/>
                 <span class="z-icon i-clear" name="clearClass" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
-                <button class="z-button-search z-button form" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
+                <button sec:authorize="hasAuthority('cmdb.type.create') || hasAuthority('cmdb.type.update')"
+                        class="z-button-search z-button form" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
         <div class="flex-row justify-content-end">
@@ -143,17 +145,32 @@
                     document.getElementById('typeClassId').value = responseJson.classId;
                     document.getElementById('typeClass').value = responseJson.className;
                     if (responseJson.editable) {
-                        document.querySelector('#btnUpdate').removeAttribute('disabled');
-                        document.querySelector('#btnDelete').removeAttribute('disabled');
-                        document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
-                        document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
+                        if (document.querySelector('#btnUpdate') != null) {
+                            document.querySelector('#btnUpdate').removeAttribute('disabled');
+                        }
+                        if (document.querySelector('#btnDelete') != null) {
+                            document.querySelector('#btnDelete').removeAttribute('disabled');
+                        }
+                        if (document.querySelector('button[name=typeIconSelector]') != null) {
+                            document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+                        }
+                        if (document.querySelector('button[name=typeClassSelector]') != null) {
+                            document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
+                        }
                         document.getElementById('typeAlias').readOnly = true;
                     } else {
-                        document.getElementById('btnUpdate').disabled = true;
-                        document.getElementById('btnDelete').disabled = true;
-                        document.getElementById('btnDelete').disabled = true;
-                        document.querySelector('button[name=typeIconSelector]').disabled = true;
-                        document.querySelector('button[name=typeClassSelector]').disabled = true;
+                        if (document.querySelector('#btnUpdate') != null) {
+                            document.getElementById('btnUpdate').disabled = true;
+                        }
+                        if (document.querySelector('#btnDelete') != null) {
+                            document.getElementById('btnDelete').disabled = true;
+                        }
+                        if (document.querySelector('button[name=typeIconSelector]') != null) {
+                            document.querySelector('button[name=typeIconSelector]').disabled = true;
+                        }
+                        if (document.querySelector('button[name=typeClassSelector]') != null) {
+                            document.querySelector('button[name=typeClassSelector]').disabled = true;
+                        }
                     }
                     onEdit();
                     observer.isChanged = false;
@@ -183,11 +200,21 @@
         if (!observer.canPageChange()) {
             return;
         }
-        document.querySelector('#btnUpdate').style.display = 'none';
-        document.querySelector('#btnDelete').style.display = 'none';
-        document.querySelector('#btnRegist').style.display = 'block';
-        document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
-        document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
+        if (document.querySelector('#btnUpdate') != null) {
+            document.querySelector('#btnUpdate').style.display = 'none';
+        }
+        if (document.querySelector('#btnDelete') != null) {
+            document.querySelector('#btnDelete').style.display = 'none';
+        }
+        if (document.querySelector('#btnRegist') != null) {
+            document.querySelector('#btnRegist').style.display = 'block';
+        }
+        if (document.querySelector('button[name=typeIconSelector]') != null) {
+            document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+        }
+        if (document.querySelector('button[name=typeClassSelector]') != null) {
+            document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
+        }
         document.querySelectorAll('input[type=text]:not(.inherit)').forEach(function(object){
             object.value = '';
         });
@@ -203,9 +230,15 @@
     }
 
     function onEdit() {
-        document.querySelector('#btnUpdate').style.display = 'block';
-        document.querySelector('#btnDelete').style.display = 'block';
-        document.querySelector('#btnRegist').style.display = 'none';
+        if (document.querySelector('#btnUpdate') != null) {
+            document.querySelector('#btnUpdate').style.display = 'block';
+        }
+        if (document.querySelector('#btnDelete') != null) {
+            document.querySelector('#btnDelete').style.display = 'block';
+        }
+        if (document.querySelector('#btnRegist') != null) {
+            document.querySelector('#btnRegist').style.display = 'none';
+        }
     }
 
     /** save **/
