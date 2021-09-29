@@ -6,6 +6,7 @@ package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.process.constants.WfProcessConstants
+import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -59,7 +60,10 @@ class ProcessRestController(private val processService: ProcessService) {
         @RequestBody restTemplateProcessElementDto: RestTemplateProcessElementDto,
         @PathVariable processId: String
     ): String {
-        val updated = processService.updateProcessData(processId, restTemplateProcessElementDto)
+        var updated = WfProcessConstants.ResultCode.SUCCESS.code
+        if (restTemplateProcessElementDto.process?.status == RestTemplateConstants.ProcessStatus.EDIT.value) {
+            updated = processService.updateProcessData(processId, restTemplateProcessElementDto)
+        }
         return if (updated == WfProcessConstants.ResultCode.SUCCESS.code) {
             processService.getProcessSimulation(restTemplateProcessElementDto.process!!.id)
         } else {
