@@ -45,9 +45,9 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             )
             .innerJoin(boardAdmin.createUser, user)
             .where(
-                super.like(
+                super.likeIgnoreCase(
                     boardAdmin.boardAdminTitle, boardSearchCondition.searchValue
-                )?.or(super.like(boardAdmin.createUser.userName, boardSearchCondition.searchValue))
+                )?.or(super.likeIgnoreCase(boardAdmin.createUser.userName, boardSearchCondition.searchValue))
             ).orderBy(boardAdmin.createDt.desc())
 
         if (boardSearchCondition.isPaging) {
