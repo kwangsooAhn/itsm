@@ -50,10 +50,10 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
             query.where(download.downloadCategory.eq(downloadSearchCondition.category))
         }
         query.where(
-            super.like(
+            super.likeIgnoreCase(
                 download.downloadTitle, downloadSearchCondition.searchValue
-            )?.or(super.like(fileLoc.originName, downloadSearchCondition.searchValue))
-                ?.or(super.like(download.createUser.userName, downloadSearchCondition.searchValue)),
+            )?.or(super.likeIgnoreCase(fileLoc.originName, downloadSearchCondition.searchValue))
+                ?.or(super.likeIgnoreCase(download.createUser.userName, downloadSearchCondition.searchValue)),
             download.createDt.goe(downloadSearchCondition.formattedFromDt),
             download.createDt.lt(downloadSearchCondition.formattedToDt)
         ).orderBy(download.downloadSeq.desc())
