@@ -61,8 +61,8 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 )
             )
             .where(
-                super.like(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
-                    super.like(notice.createUser.userName, noticeSearchCondition.searchValue)
+                super.likeIgnoreCase(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
+                    super.likeIgnoreCase(notice.createUser.userName, noticeSearchCondition.searchValue)
                 ),
                 notice.createDt.goe(noticeSearchCondition.formattedFromDt),
                 notice.createDt.lt(noticeSearchCondition.formattedToDt)

@@ -51,7 +51,8 @@
         <div class="z-edit-row flex-column flex-fill">
             <div class="flex-row justify-content-between">
                 <label class="required" th:text="#{cmdb.class.label.attributeList}"></label>
-                <button type="button" class="z-button-icon extra float-right"
+                <button sec:authorize="hasAuthority('cmdb.class.create') || hasAuthority('cmdb.class.update')"
+                        type="button" class="z-button-icon extra float-right" id="attribute-add"
                         onclick="openClassAttributeListModal()">
                     <span class="z-icon i-plus"></span>
                 </button>
@@ -128,11 +129,19 @@
                     document.getElementById('txtClassSeq').value = responseJson.classSeq;
 
                     if (responseJson.editable) {
-                        document.getElementById('btnUpdate').removeAttribute('disabled');
-                        document.getElementById('btnDelete').removeAttribute('disabled');
+                        if (document.getElementById('btnUpdate') != null) {
+                            document.getElementById('btnUpdate').removeAttribute('disabled');
+                        }
+                        if (document.getElementById('btnDelete') != null) {
+                            document.getElementById('btnDelete').removeAttribute('disabled');
+                        }
                     } else {
-                        document.getElementById('btnUpdate').disabled = true;
-                        document.getElementById('btnDelete').disabled = true;
+                        if (document.getElementById('btnUpdate') != null) {
+                            document.getElementById('btnUpdate').disabled = true;
+                        }
+                        if (document.getElementById('btnDelete') != null) {
+                            document.getElementById('btnDelete').disabled = true;
+                        }
                     }
                     while (extendsAttributeList.hasChildNodes()) {
                         extendsAttributeList.removeChild(extendsAttributeList.firstChild);
@@ -195,9 +204,15 @@
         }
         classAttributeMap.clear();
 
-        document.getElementById('btnUpdate').style.display = 'none';
-        document.getElementById('btnDelete').style.display = 'none';
-        document.getElementById('btnRegister').style.display = 'block';
+        if (document.getElementById('btnUpdate') != null) {
+            document.getElementById('btnUpdate').style.display = 'none';
+        }
+        if (document.getElementById('btnDelete') != null) {
+            document.getElementById('btnDelete').style.display = 'none';
+        }
+        if (document.getElementById('btnRegister') != null) {
+            document.getElementById('btnRegister').style.display = 'block';
+        }
         document.getElementById('txtClassId').value = '';
         document.getElementById('txtPClassId').value = '';
         document.getElementById('txtClassName').value = '';
@@ -213,9 +228,15 @@
     }
 
     function onEdit() {
-        document.getElementById('btnUpdate').style.display = 'block';
-        document.getElementById('btnDelete').style.display = 'block';
-        document.getElementById('btnRegister').style.display = 'none';
+        if (document.getElementById('btnUpdate') != null) {
+            document.getElementById('btnUpdate').style.display = 'block';
+        }
+        if (document.getElementById('btnDelete') != null) {
+            document.getElementById('btnDelete').style.display = 'block';
+        }
+        if (document.getElementById('btnRegister') != null) {
+            document.getElementById('btnRegister').style.display = 'none';
+        }
     }
 
     /** CMDB Class 등록, 수정 **/
@@ -311,24 +332,29 @@
         inputElem.classList.add('z-input', 'attribute');
         inputElem.readOnly = true;
 
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'z-button-icon extra';
-        const deleteIcon = document.createElement('span');
-        deleteIcon.className = 'z-icon i-delete';
-        deleteBtn.appendChild(deleteIcon);
-        deleteBtn.addEventListener('click', function () {
-            aliceAlert.confirm(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), function () {
-                const row = deleteBtn.parentNode;
-                classAttributeMap.delete(inputElem.id);
-                row.remove();
-                observer.isChanged = true;
-            }, null);
-        });
         divRow.appendChild(inputElem);
         if (editable) {
             inputElem.readOnly = false;
             inputElem.disabled = 'disabled';
-            divRow.appendChild(deleteBtn);
+        }
+
+        if (document.getElementById('attribute-add') != null) {
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'z-button-icon extra';
+            const deleteIcon = document.createElement('span');
+            deleteIcon.className = 'z-icon i-delete';
+            deleteBtn.appendChild(deleteIcon);
+            deleteBtn.addEventListener('click', function () {
+                aliceAlert.confirm(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), function () {
+                    const row = deleteBtn.parentNode;
+                    classAttributeMap.delete(inputElem.id);
+                    row.remove();
+                    observer.isChanged = true;
+                }, null);
+            });
+            if (editable) {
+                divRow.appendChild(deleteBtn);
+            }
         }
         if (editable) {
             document.getElementById('attributeList').appendChild(divRow);

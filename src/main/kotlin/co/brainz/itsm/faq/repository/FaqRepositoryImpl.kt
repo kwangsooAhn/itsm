@@ -49,7 +49,7 @@ class FaqRepositoryImpl(
             )
             .innerJoin(faq.createUser, user)
             .where(
-                super.like(faq.faqTitle, faqSearchCondition.searchValue)
+                super.likeIgnoreCase(faq.faqTitle, faqSearchCondition.searchValue)
                     ?.or(super.inner(faq.faqGroup, faqSearchCondition.groupCodes))
             ).orderBy(faq.faqGroup.asc())
 

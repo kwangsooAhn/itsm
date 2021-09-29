@@ -29,8 +29,8 @@ class AuthRepositoryImpl : QuerydslRepositorySupport(
                 )
             )
             .where(
-                super.like(auth.authName, authSearchCondition.searchValue)
-                    ?.or(super.like(auth.authDesc, authSearchCondition.searchValue))
+                super.likeIgnoreCase(auth.authName, authSearchCondition.searchValue)
+                    ?.or(super.likeIgnoreCase(auth.authDesc, authSearchCondition.searchValue))
             )
             .orderBy(auth.authName.asc())
             .limit(authSearchCondition.contentNumPerPage)

@@ -35,6 +35,7 @@ common:
     createDtDesc: "Order by create date"
     createUser: "Create User"
     customColor: "Custom User Color"
+    data: "data"
     delete: "Delete"
     edit: "Edit"
     endDate: "End date"
@@ -60,7 +61,7 @@ common:
   msg:
     confirmDelete: "Are you sure you want to delete?"
     confirmNotSave: "You have unsaved changes. Do you want to move without saving?"
-    dataSelect: "Please select data."
+    dataSelect: "Please select {0}."
     delete: "Deleted."
     deleteTartget: "Please select target."
     emptyValue: "There is an empty value"
@@ -530,6 +531,7 @@ department:
   label:
     deptList: "department List"
     deptManagement: "department Management"
+    deptName: "department Name"
 
 # Document
 document:
