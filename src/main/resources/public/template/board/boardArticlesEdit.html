@@ -111,7 +111,7 @@
 
     window.onload = function() {
         document.getElementById('boardTitle').focus();
-        if (!replyYn && boardId === null) {
+        if (replyYn || boardId === null) {
             document.getElementById('boardUserInfo').style.display = 'none';
         }
 
