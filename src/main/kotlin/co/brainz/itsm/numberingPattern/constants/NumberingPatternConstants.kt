@@ -11,7 +11,8 @@ object NumberingPatternConstants {
      */
     enum class Status(val code: String) {
         STATUS_SUCCESS("0"),
-        STATUS_ERROR_PATTERN_USED("1")
+        STATUS_ERROR_PATTERN_USED("1"),
+        STATUS_ERROR_DUPLICATE_PATTERN_NAME("2")
     }
 
     /**

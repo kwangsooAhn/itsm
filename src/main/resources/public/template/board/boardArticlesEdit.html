@@ -60,8 +60,6 @@
                         <input type="text" id="spanCreateUserKey" name="spanCreateUserKey" class="z-input" disabled
                                th:value="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"/>
                     </div>
-                </div>
-                <div class="flex-row">
                     <div class="flex-column col-6">
                         <label th:text="#{common.label.createDate}"/>
                         <input type="text" id="spanCreateDt" name="spanCreateDt" class="z-input" disabled
@@ -111,7 +109,7 @@
 
     window.onload = function() {
         document.getElementById('boardTitle').focus();
-        if (boardId === null) {
+        if (replyYn || boardId === null) {
             document.getElementById('boardUserInfo').style.display = 'none';
         }
 
