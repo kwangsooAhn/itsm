@@ -67,56 +67,57 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
     }
 
     /**
-     * 패턴 정보 등록, 수정
+     * 패턴 정보 등록
      */
     @Transactional
-    fun saveNumberingPattern(numberingPatternDto: NumberingPatternDto): String {
+    fun insertNumberingPattern(numberingPatternDto: NumberingPatternDto): String {
         var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
-        val patternValueObj = JsonObject()
-        val patternType = numberingPatternDto.patternType
-        val patternValue = numberingPatternDto.patternValue
-
-        when (patternType) {
-            NumberingPatternConstants.PatternType.TEXT.code -> {
-                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.VALUE.property, patternValue)
-            }
-            NumberingPatternConstants.PatternType.DATE.code -> {
-                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.CODE.property, patternValue)
-            }
-            NumberingPatternConstants.PatternType.SEQUENCE.code -> {
-                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.DIGIT.property, patternValue.toInt())
-                patternValueObj.addProperty(
-                    NumberingPatternConstants.ObjProperty.STARTWITH.property,
-                    NumberingPatternConstants.PatternFixedValue.STARTWITH_KEY.key.toInt()
-                )
-                patternValueObj.addProperty(
-                    NumberingPatternConstants.ObjProperty.FULLFILL.property,
-                    NumberingPatternConstants.PatternFixedValue.FULLFILL_KEY.key
-                )
-                patternValueObj.addProperty(
-                    NumberingPatternConstants.ObjProperty.INITIALINTERVAL.property,
-                    NumberingPatternConstants.PatternFixedValue.INITIALINTERVAL_KEY.key
-                )
-            }
-        }
-
-        val numberingPatternEntity = NumberingPatternEntity(
+        val patternEntity = NumberingPatternEntity(
             numberingPatternDto.patternId,
             numberingPatternDto.patternName,
             numberingPatternDto.patternType,
-            patternValueObj.toString()
+            this.makePatternObject(numberingPatternDto)
         )
 
-        when (numberingPatternEntity.patternId != "" &&
-                numberingPatternRepository.getOne(numberingPatternEntity.patternId).numberingRulePatternMapEntities.size
-                > 0) {
+        when (numberingPatternRepository.existsByPatternName(patternEntity.patternName)) {
+            true -> {
+                status = NumberingPatternConstants.Status.STATUS_ERROR_DUPLICATE_PATTERN_NAME.code
+            }
+            false -> {
+                numberingPatternRepository.save(patternEntity)
+            }
+        }
+
+        return status
+    }
+
+    /**
+     * 패턴 정보 수정
+     */
+    @Transactional
+    fun updateNumberingPattern(numberingPatternDto: NumberingPatternDto): String {
+        var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
+        val numberingPatternEntity = NumberingPatternEntity(
+            numberingPatternDto.patternId,
+            numberingPatternDto.patternName,
+            numberingPatternDto.patternValue,
+            this.makePatternObject(numberingPatternDto)
+        )
+        when (numberingPatternRepository.getOne(numberingPatternEntity.patternId).numberingRulePatternMapEntities.size > 0) {
             true -> {
                 status = NumberingPatternConstants.Status.STATUS_ERROR_PATTERN_USED.code
             }
             false -> {
-                numberingPatternRepository.save(numberingPatternEntity)
+                val existsPattern = numberingPatternRepository.getOne(numberingPatternEntity.patternId)
+                val isExistPattern = existsPattern.patternName == numberingPatternEntity.patternName
+                if (isExistPattern) {
+                    numberingPatternRepository.save(numberingPatternEntity)
+                } else {
+                    status = NumberingPatternConstants.Status.STATUS_ERROR_DUPLICATE_PATTERN_NAME.code
+                }
             }
         }
+
         return status
     }
 
@@ -195,5 +196,40 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
             numberingPatternList.add(numberingPatternListDto)
         }
         return numberingPatternList
+    }
+
+    /**
+     * 패턴 Object 생성
+     */
+    private fun makePatternObject(patternDto: NumberingPatternDto): String {
+        val patternValueObj = JsonObject()
+        val patternType = patternDto.patternType
+        val patternValue = patternDto.patternValue
+
+        when (patternType) {
+            NumberingPatternConstants.PatternType.TEXT.code -> {
+                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.VALUE.property, patternValue)
+            }
+            NumberingPatternConstants.PatternType.DATE.code -> {
+                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.CODE.property, patternValue)
+            }
+            NumberingPatternConstants.PatternType.SEQUENCE.code -> {
+                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.DIGIT.property, patternValue.toInt())
+                patternValueObj.addProperty(
+                    NumberingPatternConstants.ObjProperty.STARTWITH.property,
+                    NumberingPatternConstants.PatternFixedValue.STARTWITH_KEY.key.toInt()
+                )
+                patternValueObj.addProperty(
+                    NumberingPatternConstants.ObjProperty.FULLFILL.property,
+                    NumberingPatternConstants.PatternFixedValue.FULLFILL_KEY.key
+                )
+                patternValueObj.addProperty(
+                    NumberingPatternConstants.ObjProperty.INITIALINTERVAL.property,
+                    NumberingPatternConstants.PatternFixedValue.INITIALINTERVAL_KEY.key
+                )
+            }
+        }
+
+        return patternValueObj.toString()
     }
 }

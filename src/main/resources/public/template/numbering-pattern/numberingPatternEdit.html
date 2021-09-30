@@ -85,6 +85,7 @@
     /*<![CDATA[*/
     const STATUS_SUCCESS = '0';
     const STATUS_ERROR_PATTERN_USED = '1';
+    const STATUS_ERROR_DUPLICATE_PATTERN_NAME = '2';
 
     window.onload = function () {
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
@@ -141,6 +142,9 @@
                         break;
                     case STATUS_ERROR_PATTERN_USED:
                         aliceAlert.alertWarning(i18n.msg('pattern.msg.usedPattern'));
+                        break;
+                    case STATUS_ERROR_DUPLICATE_PATTERN_NAME:
+                        aliceAlert.alertWarning(i18n.msg('pattern.msg.duplicatePatternName'));
                         break;
                     default:
                         aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
