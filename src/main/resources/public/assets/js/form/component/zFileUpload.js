@@ -80,7 +80,7 @@ export const fileUploadMixin = {
         if (validateElem.length > 1) {
             let docDropZoneId = 'dropZoneFiles-' + this.id + '-document';
             validateElem.item(1).setAttribute('id', docDropZoneId);
-            fileOptions.extra.dropZoneFilesId = docDropZoneId;
+            fileOptions.dropZoneFilesId = docDropZoneId;
         }
         zFileUploader.init(fileOptions);
     },

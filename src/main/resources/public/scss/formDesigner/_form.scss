@@ -172,6 +172,7 @@
   .z-element {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     padding: 0.4375rem 0; // 7px 0
+    pointer-events: none;
 
     // inputBox
     .input, .z-input {
@@ -317,6 +318,7 @@
         .z-input {
           padding: 0.4375rem 0;
           margin: 0.25rem 0;
+          text-indent: $element-indent;
         }
       }
       // 데이터 없음
