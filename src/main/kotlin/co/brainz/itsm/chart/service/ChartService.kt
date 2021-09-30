@@ -9,6 +9,7 @@ package co.brainz.itsm.chart.service
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.chart.constants.ChartConstants
+import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.dto.ChartListReturnDto
 import co.brainz.itsm.chart.dto.ChartSearchCondition
@@ -16,6 +17,9 @@ import co.brainz.itsm.chart.entity.ChartEntity
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import kotlin.math.ceil
 import org.slf4j.Logger
@@ -31,6 +35,7 @@ class ChartService(
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 전체 사용자 정의 차트 조회
@@ -94,13 +99,13 @@ class ChartService(
      */
     fun saveChart(chartDto: ChartDto): String {
         val status = ChartConstants.Status.STATUS_SUCCESS.code
-        val chartConfigStr = chartManagerFactory.getChartManager(chartDto.chartType).getChartConfigStr(chartDto)
+        //val chartConfigStr = chartManagerFactory.getChartManager(chartDto.chartType).getChartConfigStr(chartDto)
         val chartEntity = ChartEntity(
             chartId = chartDto.chartId,
             chartType = chartDto.chartType,
             chartName = chartDto.chartName,
             chartDesc = chartDto.chartDesc,
-            chartConfig = chartConfigStr
+            chartConfig = mapper.writeValueAsString(chartDto.chartConfig)
         )
 
         chartRepository.save(chartEntity)
@@ -128,5 +133,9 @@ class ChartService(
         codeListMap["unit"] = codeService.selectCodeByParent(ChartConstants.PCode.UNIT.code)
 
         return codeListMap;
+    }
+
+    fun convertChartConfigToJsonString(chartConfig: ChartConfig): String {
+        return
     }
 }

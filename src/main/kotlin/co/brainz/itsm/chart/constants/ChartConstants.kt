@@ -35,6 +35,7 @@ object ChartConstants {
         DIGIT("digit"),
         UNIT("unit"),
         DURATION("duration"),
+        RANGE("range"),
         PERIOD_UNIT("periodUnit"),
         GROUP("group")
     }

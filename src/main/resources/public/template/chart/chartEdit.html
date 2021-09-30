@@ -411,27 +411,30 @@
             chartName: document.getElementById('chartName').value,
             chartDesc: document.getElementById('chartDesc').value,
             targetTags: tagList,
-            operation: document.getElementById('operationSelectBox').value,
-            range: {
-                type: document.getElementById('rangeType').value,
-                from: document.getElementById('rangeFromDt').value,
-                to: document.getElementById('rangeToDt').value
+            chartConfig: {
+                operation: document.getElementById('operationSelectBox').value,
+                range: {
+                    type: document.getElementById('rangeType').value,
+                    from: document.getElementById('rangeFromDt').value,
+                    to: document.getElementById('rangeToDt').value
+                }
             }
         }
+
         if (method === 'put' && chartId !== undefined) {
             chartInfo.chartId = chartId;
         }
 
         switch (chartInfo.chartType) {
             case BASIC_LINE_CHART:
-                chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
-                chartInfo.group = document.getElementById('targetGroup').value;
+                chartInfo.chartConfig.periodUnit = document.getElementById('periodUnitSelectBox').value;
+                chartInfo.chartConfig.group = document.getElementById('targetGroup').value;
                 break;
             case STACKED_COLUMN_CHART :
             case STACKED_BAR_CHART:
             case LINE_AND_COLUMN_CHART:
             case ACTIVITY_GAUGE_CHART:
-                chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
+                chartInfo.chartConfig.periodUnit = document.getElementById('periodUnitSelectBox').value;
                 break;
         }
         return chartInfo;
