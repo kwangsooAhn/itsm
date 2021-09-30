@@ -113,7 +113,11 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
                 if (isExistPattern) {
                     numberingPatternRepository.save(numberingPatternEntity)
                 } else {
-                    status = NumberingPatternConstants.Status.STATUS_ERROR_DUPLICATE_PATTERN_NAME.code
+                    if (numberingPatternRepository.existsByPatternName(numberingPatternEntity.patternName)) {
+                        status = NumberingPatternConstants.Status.STATUS_ERROR_DUPLICATE_PATTERN_NAME.code
+                    } else {
+                        numberingPatternRepository.save(numberingPatternEntity)
+                    }
                 }
             }
         }
