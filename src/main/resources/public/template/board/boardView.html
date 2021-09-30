@@ -104,21 +104,23 @@
     </div>
 </div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript">
-        /*<![CDATA[ */
-        window.onload = function () {
-            OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
-            OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
-                className: 'scrollbar',
-                textarea: {
-                    dynHeight: false,
-                    dynWidth: false,
-                    inheritedAttrs: "class"
-                }
-            })
-        };
-        /* ]]> */
-    </script>
-</th:block>
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[ */
+    let categoryYn = /*[[${boardAdmin?.categoryYn}]]*/;
+    window.onload = function () {
+        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+            className: 'scrollbar',
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: "class"
+            }
+        })
+        if (!categoryYn && categoryYn !== null) {
+            document.getElementById('category-detail').style.display = 'none';
+        }
+    };
+    /* ]]> */
+</script>
 </html>
