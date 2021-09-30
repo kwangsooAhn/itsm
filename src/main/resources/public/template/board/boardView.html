@@ -57,7 +57,7 @@
                    th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}" disabled>
             <span></span>
         </label>
-        <div id="category-detail" class="category" th:style="${boardAdmin?.categoryYn ? '' : 'display:none'}">
+        <div id="category-detail" class="category" th:if="${boardAdmin?.categoryYn}">
             <div class="flex-row">
                 <div class="category-list">
                     <table class="edit-table">
