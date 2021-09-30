@@ -46,7 +46,7 @@ class NumberingPatternRestController(private val numberingPatternService: Number
      */
     @PostMapping("/", "")
     fun saveNumberingPattern(@RequestBody @Valid numberingPatternDto: NumberingPatternDto): String {
-        return numberingPatternService.saveNumberingPattern(numberingPatternDto)
+        return numberingPatternService.insertNumberingPattern(numberingPatternDto)
     }
 
     /**
@@ -54,7 +54,7 @@ class NumberingPatternRestController(private val numberingPatternService: Number
      */
     @PutMapping("/{patternId}")
     fun updateNumberingPattern(@RequestBody @Valid numberingPatternDto: NumberingPatternDto): String {
-        return numberingPatternService.saveNumberingPattern(numberingPatternDto)
+        return numberingPatternService.updateNumberingPattern(numberingPatternDto)
     }
 
     /**
