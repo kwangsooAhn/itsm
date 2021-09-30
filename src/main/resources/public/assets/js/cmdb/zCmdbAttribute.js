@@ -846,6 +846,9 @@
 
         for (let i = 0, iLen = attributeData.length; i < iLen; i++) {
             const groupAttribute = attributeData[i];
+            const classTitleElem = document.createElement('h3');
+            classTitleElem.className = 'sub-title under-bar bold mt-4';
+            classTitleElem.textContent = groupAttribute.className;
             const groupAttributeElem = document.createElement('div');
             groupAttributeElem.className = 'attribute-group';
 
@@ -1061,9 +1064,9 @@
                     default:
                         break;
                 }
-
                 groupAttributeElem.appendChild(childAttributeElem);
             }
+            target.appendChild(classTitleElem);
             target.appendChild(groupAttributeElem);
         }
         aliceJs.initDesignedSelectTag();
@@ -1079,6 +1082,9 @@
         target.innerHTML = '';
         for (let i = 0, iLen = attributeData.length; i < iLen; i++) {
             const groupAttribute = attributeData[i];
+            const classTitleElem = document.createElement('h3');
+            classTitleElem.className = 'sub-title under-bar bold mt-4';
+            classTitleElem.textContent = groupAttribute.className;
             const groupAttributeElem = document.createElement('div');
             groupAttributeElem.className = 'attribute-group';
             for (let j = 0, jLen = groupAttribute.attributes.length; j < jLen; j++) {
@@ -1247,6 +1253,7 @@
                 }
                 groupAttributeElem.appendChild(childAttributeElem);
             }
+            target.appendChild(classTitleElem);
             target.appendChild(groupAttributeElem);
         }
         aliceJs.initDesignedSelectTag();
