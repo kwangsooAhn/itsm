@@ -22,11 +22,9 @@
         </tr>
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(chartList)}" th:each="chart: ${chartList}">
             <td style="width: 15%;" class="align-left" th:text="#{|chart.${chart.chartType}|}"></td>
-            <td style="width: 15%;" class="align-left underline pointer">
-                <span sec:authorize="hasAuthority('chart.create') || hasAuthority('chart.update')"
-                 th:onclick="openChartViewModal([[${chart.chartId}]], [[${chart.chartType}]], [[${chart.chartName}]])"
-                      th:text="${chart.chartName}"></span>
-            </td>
+            <td style="width: 15%;" class="align-left underline pointer"
+                th:onclick="openChartViewModal([[${chart.chartId}]], [[${chart.chartType}]], [[${chart.chartName}]])"
+                      th:text="${chart.chartName}">
             <td style="width: 25%;" class="align-left" th:text="${chart.chartDesc}"></td>
             <td style="width: 10%;" class="align-center">
                 <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('chart.create') || hasAuthority('chart.update')"
