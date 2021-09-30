@@ -60,7 +60,7 @@
         restSubmit('get', '/cmdb/cis?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
         let ciListTags = document.querySelectorAll('input[name=ciListTags]');
         let ciIdList= (document.querySelectorAll('input[name=ciId]'));
-        for (let i = loopOffSet; i < ciListTags.length; i++) {
+        for (let i = 0; i < ciListTags.length; i++) {
             new zTag(ciListTags[i], {
                 suggestion: false,
                 realtime: false,
