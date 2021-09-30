@@ -98,21 +98,6 @@
         if (patternType !== 'numbering.pattern.date' && isEmpty('txtPatternValue', 'pattern.msg.enterPatternValue')) return;
         if (patternType === 'numbering.pattern.sequence' && isExistInScope('txtPatternValue', 1, 4, 'pattern.msg.enterPatternSequenceValue')) return;
 
-        let patternNames = [];
-        let validList = document.querySelectorAll('td[name=patternName]');
-        for (let i = 0; i < validList.length; i++) {
-            patternNames.push(validList[i].textContent);
-        }
-
-        if (flag === 'post') {
-            for (let i = 0; i < patternNames.length; i++) {
-                if (document.getElementById('txtPatternName').value === patternNames[i]) {
-                    aliceAlert.alertWarning([[#{pattern.msg.duplicatePatternName}]]);
-                    return;
-                }
-            }
-        }
-
         let obj = {};
         obj.patternId = document.getElementById('txtPatternId').value;//패턴 아이디
         obj.patternName = document.getElementById('txtPatternName').value;//패턴 명
