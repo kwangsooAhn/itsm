@@ -57,7 +57,7 @@
                    th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}" disabled>
             <span></span>
         </label>
-        <div id="category-detail" class="category">
+        <div id="category-detail" class="category" th:style="${boardAdmin?.categoryYn ? 'display:block' : 'display:none'}">
             <div class="flex-row">
                 <div class="category-list">
                     <table class="edit-table">
@@ -106,7 +106,6 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[ */
-    let categoryYn = /*[[${boardAdmin?.categoryYn}]]*/;
     window.onload = function () {
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
@@ -117,9 +116,6 @@
                 inheritedAttrs: "class"
             }
         })
-        if (!categoryYn && categoryYn !== null) {
-            document.getElementById('category-detail').style.display = 'none';
-        }
     };
     /* ]]> */
 </script>
