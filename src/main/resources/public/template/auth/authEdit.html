@@ -1,3 +1,8 @@
+<!--
+왼쪽 메뉴바 id와 사용 메뉴 목록 체크박스 id가 중복되어 체크박스 동작 오류 발생함
+체크박스 id에 auth. 를 붙여 중복되지 않도록 처리함
+( #11201 참고 )
+-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -86,6 +91,7 @@
     /*<![CDATA[*/
     let defaultMenuList = [];
     let defaultUrlList = [];
+    const MENUID_PREFIX = 'auth.';
 
     /*[# th:each="defaultUserMenu : ${defaultUserMenuList}"]*/
     defaultMenuList.push(/*[[${defaultUserMenu.codeValue}]]*/);
@@ -201,7 +207,7 @@
 
         let arrMenuId = [];                                         //권한-메뉴
         Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]:checked'), function (item) {
-            arrMenuId.push(item.id);
+            arrMenuId.push(item.id.replace(MENUID_PREFIX,''));
         });
         obj.arrMenuId = arrMenuId;
 
