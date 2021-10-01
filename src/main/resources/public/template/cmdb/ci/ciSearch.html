@@ -34,18 +34,15 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    let loopOffSet = 0;
     window.onload = function () {
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').onkeyup = function() {
-            loopOffSet = 0;
             getList();
         };
         // 태그 조회가 아직 미완성이기 때문에 임시적으로 엔터로 변경한다.
         document.getElementById('tagSearch').onkeyup = function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                loopOffSet = 0;
                 getList();
             }
         };
@@ -68,7 +65,6 @@
                 targetId: ciIdList[i].value
             });
         }
-        loopOffSet = loopOffSet + aliceJs.searchDataCount;
     }
 
     function restSubmit(method, url) {
