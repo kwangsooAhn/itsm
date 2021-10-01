@@ -31,6 +31,12 @@ class ZDocument {
             close: { closable: false },
             onCreate: () => {
                 this.domElement = document.getElementById('documentDrawingBoard');
+
+                // history.back 시 신청서 목록으로 이동
+                window.history.pushState(null, '', location.href);
+                window.onpopstate = function(e) {
+                    location.reload();
+                }
             },
             onHide: () => {
                 this.domElement.innerHTML = '';
