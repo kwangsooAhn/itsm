@@ -319,6 +319,7 @@ class CIClassService(
         }
         classList.reversed().forEach {
             val ciClassDetailValueDto = CIClassDetailValueDto(
+                className = ciClassRepository.findClass(it)?.className,
                 attributes = ciAttributeRepository.findAttributeValueList("", it).toMutableList()
             )
             attributeValueAll.add(ciClassDetailValueDto)
