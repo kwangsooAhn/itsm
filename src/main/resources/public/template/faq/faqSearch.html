@@ -51,9 +51,6 @@
             showProgressbar: false,
             callbackFunc: function (response) {
                 document.getElementById('faqList').innerHTML = response.responseText
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             }
         };
         aliceJs.sendXhr(opt);

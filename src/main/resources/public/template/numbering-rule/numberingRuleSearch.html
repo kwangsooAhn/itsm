@@ -47,9 +47,6 @@
             callbackFunc: function (response) {
                 document.getElementById('ruleList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('ruleList'));
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             }
         };
         aliceJs.sendXhr(opt);
