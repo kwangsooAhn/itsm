@@ -121,11 +121,11 @@
                         authMenu.checked = false;
                         authMenu.disabled = false;
                         for (let i = 0; i < arrMenuList.length; i++) {
-                            if (authMenu.id === arrMenuList[i].menuId) {
+                            if (authMenu.value === arrMenuList[i].menuId) {
                                 authMenu.checked = true;
                             }
                             for (let k = 0; k < defaultMenuList.length; k++) {
-                                if (authMenu.id === defaultMenuList[k]) {
+                                if (authMenu.value === defaultMenuList[k]) {
                                     authMenu.checked = true;
                                     authMenu.disabled = true;
                                 }
