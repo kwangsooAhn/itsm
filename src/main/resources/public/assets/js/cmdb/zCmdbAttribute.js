@@ -675,9 +675,6 @@
                         if (checkbox.value === attr.key) { checkbox.checked = true; }
                     });
                 });
-
-                // 스크롤바 추가
-                OverlayScrollbars(document.querySelector('.z-list-body'), { className: 'scrollbar' });
             });
         };
 

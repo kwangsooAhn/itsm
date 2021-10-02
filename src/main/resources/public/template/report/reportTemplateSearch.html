@@ -53,9 +53,6 @@
             callbackFunc: function (response) {
                 document.getElementById('templateList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('templateList'));
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             }
         };
         aliceJs.sendXhr(opt);

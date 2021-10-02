@@ -45,7 +45,7 @@
 
     &-content {
       background-color: $layout-content-bg-color;
-      height: 100%;
+      height: calc(100vh - 9.75rem);
 
       .z-page-content {
         @include border(0.0625rem,solid,$layout-main-header-border-color,top);
@@ -275,7 +275,7 @@
   .sub-title { margin-top: 2.5rem; } // 40px
 
   .select-date-time {
-    width: calc(100% - 10.0005); // 310px
+    width: calc(100% - 10.0005rem); // 310px
   }
   .hour-select {
     width: 9.688rem; // 155px
