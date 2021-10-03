@@ -908,7 +908,6 @@
         switch(type) {
             case 'group':
                 // class 제목
-                console.log(data);
                 const classTitleElem = document.createElement('h3');
                 classTitleElem.className = 'sub-title under-bar bold mt-4';
                 classTitleElem.textContent = data.className;
@@ -1192,7 +1191,7 @@
         const groupListAttribute = childAttributeGroup.parentNode;
         const attributeGroup = groupListAttribute.parentNode;
         const ciAttribute = attributeGroup.parentNode;
-        const groupIdx = Array.prototype.indexOf.call(ciAttribute.children, attributeGroup);
+        const groupIdx = Array.prototype.indexOf.call(ciAttribute.querySelectorAll('.attribute-group'), attributeGroup);
         const attributeIdx = Array.prototype.indexOf.call(attributeGroup.children, groupListAttribute);
         const addIdx = childAttributeGroup.children.length - 1;
         const addData = JSON.parse(JSON.stringify(
@@ -1223,7 +1222,6 @@
      */
     function drawDetails(target, data, sessionInfo, mode) {
         attributeDetailData = JSON.parse(JSON.stringify(data));
-        console.log(attributeDetailData);
         displayMode = mode;
         target.removeAttribute('onclick');
         target.innerHTML = '';
