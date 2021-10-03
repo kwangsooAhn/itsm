@@ -5,7 +5,7 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-/* _reset.scss
+/* _reset.scss 
  *
  * 파일 경로 : template/_reset.scss
  * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
@@ -151,7 +151,7 @@ input, button, select, optgroup, textarea {
   }
 }
 */
-/* _alignments.scss
+/* _alignments.scss 
  *
  * 파일 경로 : template/utilities/_alignments.scss
  * @description 정렬, 배치 관련 디자인
@@ -291,7 +291,7 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
-/* _columns.scss
+/* _columns.scss 
  *
  * 파일 경로 : template/utilities/_columns.scss
  * @description HTML element column 너비 관련 디자인
@@ -485,6 +485,22 @@ input, button, select, optgroup, textarea {
   padding-left: 1.5625rem;
 }
 
+.pt-6 {
+  padding-top: 1.875rem;
+}
+
+.pr-6 {
+  padding-right: 1.875rem;
+}
+
+.pb-6 {
+  padding-bottom: 1.875rem;
+}
+
+.pl-6 {
+  padding-left: 1.875rem;
+}
+
 .m-0 {
   margin: 0;
 }
@@ -573,6 +589,22 @@ input, button, select, optgroup, textarea {
   margin-left: 1.5625rem;
 }
 
+.mt-6 {
+  margin-top: 1.875rem;
+}
+
+.mr-6 {
+  margin-right: 1.875rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.875rem;
+}
+
+.ml-6 {
+  margin-left: 1.875rem;
+}
+
 .mt-auto {
   margin-top: auto;
 }
@@ -632,7 +664,7 @@ input, button, select, optgroup, textarea {
   font-style: normal;
   font-weight: 900;
 }
-/* _common.scss
+/* _common.scss 
  *
  * 파일 경로 : template/utilities/_common.scss
  * @description 공통으로 사용되는 디자인
@@ -663,6 +695,19 @@ input, button, select, optgroup, textarea {
   white-space: nowrap;
   overflow: hidden;
   word-wrap: normal;
+}
+
+.text-wordWrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-line;
+  white-space: -o-pre-wrap;
+  white-space: -moz-pre-wrap;
+  word-break: break-all;
+}
+
+.text-wordNoWrap {
+  white-space: nowrap;
 }
 
 .horizontal-bar {

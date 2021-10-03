@@ -8,7 +8,7 @@
 // padding
 .p-0 { padding: 0; }
 // pt-0 ~ pt-5, pl-0 ~ pl-5, pb-0 ~ pb-5, pr-0 ~ pr-5
-@for $i from 1 through 5 {
+@for $i from 1 through 6 {
   $padding: $i * 0.3125rem; // 5px 씩 증가
   .pt-#{$i} { padding-top: $padding; }
   .pr-#{$i} { padding-right: $padding; }
@@ -21,7 +21,7 @@
 .m-auto { margin: auto; }
 
 // mt-0 ~ mt-5, ml-0 ~ ml-5, mb-0 ~ mb-5, mr-0 ~ mr-5
-@for $i from 1 through 5 {
+@for $i from 1 through 6 {
   $margin: $i * 0.3125rem; // 5px 씩 증가
   .mt-#{$i} { margin-top: $margin; }
   .mr-#{$i} { margin-right: $margin; }
