@@ -76,10 +76,7 @@
                 <input type="text" class="z-input" id="ciTags" th:value="${ciData?.ciTags}" />
             </div>
             <!-- 세부속성 -->
-            <div class="flex-column edit-row">
-                <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
-            </div>
-            <div id="ciAttributes" th:onclick="zCmdbAttribute.drawDetails(this, [[${ciData?.classes}]], [[${userInfo}]], 'edit');">
+            <div class="flex-column edit-row" id="ciAttributes" th:onclick="zCmdbAttribute.drawDetails(this, [[${ciData?.classes}]], [[${userInfo}]], 'edit');">
             </div>
             <!-- 연관 관계 -->
             <div class="flex-column z-edit-row z-relation-group">

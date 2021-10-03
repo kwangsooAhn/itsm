@@ -98,9 +98,6 @@
                 listBody.innerHTML = response.responseText;
 
                 setDateTimeFormat(listBody);
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             }
         };
         aliceJs.sendXhr(opt);

@@ -30,8 +30,8 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
                 )
             )
             .where(
-                super.like(role.roleName, roleSearchCondition.searchValue)
-                    ?.or(super.like(role.roleDesc, roleSearchCondition.searchValue))
+                super.likeIgnoreCase(role.roleName, roleSearchCondition.searchValue)
+                    ?.or(super.likeIgnoreCase(role.roleDesc, roleSearchCondition.searchValue))
             )
             .orderBy(role.roleName.asc())
             .limit(roleSearchCondition.contentNumPerPage)

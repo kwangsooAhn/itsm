@@ -77,9 +77,6 @@
             callbackFunc: function (response) {
                 document.getElementById('chartList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('chartList'));
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             }
         };
         aliceJs.sendXhr(opt);

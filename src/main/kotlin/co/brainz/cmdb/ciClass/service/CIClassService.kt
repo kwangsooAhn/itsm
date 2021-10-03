@@ -48,7 +48,6 @@ class CIClassService(
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * CMDB CI Class 목록 조회
@@ -310,7 +309,6 @@ class CIClassService(
     }
 
     /**
-     * TODO: API 연동 - Group List 속성 적용 후 삭제 필요
      * Class에 따른 CI 세부 속성 조회
      */
     fun getCIClassAttributes(classId: String): List<CIClassDetailValueDto> {
@@ -333,11 +331,14 @@ class CIClassService(
             for (data in queryResult.results) {
                 ciAttributeDataList.add(data)
             }
-            attributeValueAll.add(CIClassDetailValueDto(attributes = ciAttributeDataList))
+            attributeValueAll.add(CIClassDetailValueDto(
+                className = ciClassRepository.findClass(it)?.className,
+                attributes = ciAttributeDataList
+            ))
         }
         return attributeValueAll.toList()
     }
-    
+
     /**
      * Class에 따른 CI 세부 속성 조회
      */

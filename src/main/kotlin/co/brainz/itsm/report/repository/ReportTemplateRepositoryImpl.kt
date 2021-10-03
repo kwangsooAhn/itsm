@@ -24,7 +24,7 @@ class ReportTemplateRepositoryImpl : QuerydslRepositorySupport(ReportTemplateEnt
         val template = QReportTemplateEntity.reportTemplateEntity
         val query = from(template)
             .where(
-                super.like(template.templateName, reportTemplateCondition.searchValue)
+                super.likeIgnoreCase(template.templateName, reportTemplateCondition.searchValue)
             )
             .orderBy(template.templateName.asc())
         if (reportTemplateCondition.isPaging) {

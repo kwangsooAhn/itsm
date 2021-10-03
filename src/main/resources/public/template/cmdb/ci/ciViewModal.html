@@ -69,10 +69,7 @@
                 <input type="text" id="ciTags" class="z-input col-pct-12 inherit" th:value="${ciData?.ciTags}" readonly/>
             </div>
             <!-- 세부속성 -->
-            <div class="flex-column view-row">
-                <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
-            </div>
-            <div id="ciAttributes" th:onclick="zCmdbAttribute.drawDetails(this, [[${ciData?.classes}]], [[${userInfo}]], 'view');">
+            <div class="flex-column view-row" id="ciAttributes" th:onclick="zCmdbAttribute.drawDetails(this, [[${ciData?.classes}]], [[${userInfo}]], 'view');">
             </div>
         </div>
     </div>

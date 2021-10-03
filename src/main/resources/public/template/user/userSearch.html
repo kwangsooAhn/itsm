@@ -51,9 +51,6 @@
             callbackFunc: function(response) {
                 document.getElementById('userList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('userList'));
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             }
         };
         aliceJs.sendXhr(opt);

@@ -97,10 +97,6 @@
                 callbackFunc: function (response) {
                     document.getElementById('downloadList').innerHTML = response.responseText;
                     setDateTimeFormat(document.getElementById('downloadList'));
-
-                    OverlayScrollbars(document.querySelector('.z-list-body'), {
-                        className: 'scrollbar'
-                    });
                 }
             };
             aliceJs.sendXhr(opt);

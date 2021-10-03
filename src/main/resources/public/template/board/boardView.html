@@ -57,7 +57,7 @@
                    th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}" disabled>
             <span></span>
         </label>
-        <div id="category-detail" class="category">
+        <div id="category-detail" class="category" th:if="${boardAdmin?.categoryYn}">
             <div class="flex-row">
                 <div class="category-list">
                     <table class="edit-table">
@@ -104,21 +104,19 @@
     </div>
 </div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript">
-        /*<![CDATA[ */
-        window.onload = function () {
-            OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
-            OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
-                className: 'scrollbar',
-                textarea: {
-                    dynHeight: false,
-                    dynWidth: false,
-                    inheritedAttrs: "class"
-                }
-            })
-        };
-        /* ]]> */
-    </script>
-</th:block>
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[ */
+    window.onload = function () {
+        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+            className: 'scrollbar',
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: "class"
+            }
+        })
+    };
+    /* ]]> */
+</script>
 </html>
