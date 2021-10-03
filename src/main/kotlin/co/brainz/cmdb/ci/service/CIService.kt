@@ -17,16 +17,14 @@ import co.brainz.cmdb.ci.repository.CIHistoryRepository
 import co.brainz.cmdb.ci.repository.CIInstanceRelationRepository
 import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
-import co.brainz.cmdb.ciClass.constants.CIClassConstants
-import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
+import co.brainz.cmdb.ciClass.service.CIClassService
 import co.brainz.cmdb.ciRelation.entity.CIRelationEntity
 import co.brainz.cmdb.ciRelation.repository.CIRelationRepository
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.constants.RestTemplateConstants
-import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIHistoryDto
@@ -66,6 +64,7 @@ class CIService(
     private val ciHistoryRepository: CIHistoryRepository,
     private val ciDataHistoryRepository: CIDataHistoryRepository,
     private val ciTypeService: CITypeService,
+    private val ciClassService: CIClassService,
     private val wfInstanceRepository: WfInstanceRepository,
     private val ciInstanceRelationRepository: CIInstanceRelationRepository,
     private val aliceUserRepository: AliceUserRepository,
@@ -166,43 +165,9 @@ class CIService(
             ciDetailDto.updateDt = ciEntity.updateDt
             ciDetailDto.ciTags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ciEntity.ciId)
             ciDetailDto.ciRelations = ciRelationRepository.selectByCiId(ciEntity.ciId)
-            ciDetailDto.classes = getAttributeValueAll(ciEntity.ciId, ciEntity.ciTypeEntity.ciClass.classId)
+            ciDetailDto.classes = ciClassService.getCIClassAttributesWithGroupList(ciEntity.ciId, ciEntity.ciTypeEntity.ciClass.classId)
         }
         return ciDetailDto
-    }
-
-    /**
-     * CI 상세 조회 시 관련 Class 전체에 대한 속성, 값을 조회
-     */
-    fun getAttributeValueAll(ciId: String, classId: String): MutableList<CIClassDetailValueDto> {
-        val attributeValueAll = mutableListOf<CIClassDetailValueDto>()
-
-        /**
-         * MEMO
-         *   JPA 에서 recursive 쿼리를 지원하지 않는 관계로 Native Query 사용이 종종 발생.
-         *   아래 정도에서는 recursive 쿼리를 안써도 성능에 문제가 없을 듯 하지만
-         *   정책적인 결정이 필요하다.
-         */
-        val classList = mutableListOf<String>()
-        var targetClass: CIClassEntity?
-        var targetClassId: String = classId
-
-        while (targetClassId != CIClassConstants.CI_CLASS_ROOT_ID) {
-            val resultCiClass = ciClassRepository.findById(targetClassId)
-            if (!resultCiClass.isEmpty) {
-                targetClass = resultCiClass.get()
-                classList.add(targetClass.classId) // 리스트에 더하기
-                targetClassId = targetClass.pClass?.classId ?: CIClassConstants.CI_CLASS_ROOT_ID
-            }
-        }
-
-        classList.asReversed().forEach { it ->
-            val ciClassDetailValueDto = CIClassDetailValueDto(
-                attributes = ciAttributeRepository.findAttributeValueList(ciId, it).toMutableList()
-            )
-            attributeValueAll.add(ciClassDetailValueDto)
-        }
-        return attributeValueAll
     }
 
     /**

@@ -23,7 +23,7 @@ data class CIDetailDto(
     var typeName: String? = null,
     var classId: String? = null,
     var className: String? = null,
-    var classes: List<CIClassDetailValueDto>? = null,
+    var classes: List<CIClassDetailValueForGroupListDto>? = null,
     var ciRelations: MutableList<CIRelationDto>? = null,
     var ciTags: List<AliceTagDto>? = null,
     var createUserKey: String? = null,
@@ -34,4 +34,8 @@ data class CIDetailDto(
 
 class CIClassDetailValueDto(
     var attributes: MutableList<CIAttributeValueDto>? = null
+) : Serializable
+
+class CIClassDetailValueForGroupListDto(
+    var attributes: MutableList<CIAttributeValueGroupListDto>? = null
 ) : Serializable

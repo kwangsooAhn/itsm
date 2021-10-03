@@ -69,7 +69,7 @@
     <div class="flex-column z-view-row">
         <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
     </div>
-    <div id="ciAttributes" th:onclick="zCmdbAttribute.drawViewDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
+    <div id="ciAttributes" th:onclick="zCmdbAttribute.drawDetails(this, [[${ciData?.classes}]], [[${userInfo}]], 'view');">
     </div>
     <!-- 변경 이력 -->
     <div class="flex-column z-view-row">

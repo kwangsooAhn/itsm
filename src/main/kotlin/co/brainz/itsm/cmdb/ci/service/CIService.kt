@@ -7,6 +7,9 @@
 package co.brainz.itsm.cmdb.ci.service
 
 import co.brainz.cmdb.ci.service.CIService
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CIAttributeValueDto
+import co.brainz.cmdb.dto.CIClassDetailValueForGroupListDto
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
@@ -102,12 +105,14 @@ class CIService(
             ciDetailDto.updateUserKey = currentSessionUser.getUserKey()
             ciDetailDto.updateDt = LocalDateTime.now()
 
-            // 임시 테이블의 CI 세부 데이터가 존재할 경우 합치기
+            // CI 데이터 추출
+            val ciClasses = ciClassService.getCIClassAttributesWithGroupList(ciId, map["classId"] as String)
+
+            // 임시 테이블의 CI 세부 데이터 병합
             val ciComponentData =
                 ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
             val tagDataList = mutableListOf<AliceTagDto>()
             val relationList = mutableListOf<CIRelationDto>()
-            val ciClasses = ciClassService.getCIClassAttributes(map["classId"] as String)
             if (ciComponentData != null) {
                 val ciComponentDataValue: Map<String, Any> =
                     mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
@@ -119,31 +124,64 @@ class CIService(
                 }
 
                 // 세부 속성
-                val ciAttributes: List<Map<String, Any>> =
-                    mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType)
-                for (ciClass in ciClasses) {
-                    ciClass.attributes?.forEach { attributeValue ->
-                        run loop@{
-                            ciAttributes.forEach { attribute ->
-                                if (attribute["id"] != null && attribute["value"] != null &&
-                                    attributeValue.attributeId == attribute["id"]
-                                ) {
-                                    attributeValue.value = attribute["value"] as String
-                                    return@loop
-                                }
-                            }
-                        }
-                    }
-                }
+                this.mergeCIClassData(ciClasses,
+                    mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType))
             }
+            ciDetailDto.classes = ciClasses
             ciDetailDto.ciTags = tagDataList
             ciDetailDto.ciRelations = relationList
-            ciDetailDto.classes = ciClasses
         } else { // 삭제, 조회시 DB에 저장된 CI 데이터 조회
             ciDetailDto = getCI(ciId)
         }
 
         return ciDetailDto
+    }
+
+    /**
+     * 임시 테이블의 CI 세부 데이터가 존재할 경우, 데이터 병합
+     */
+    private fun mergeCIClassData(
+        ciClasses: List<CIClassDetailValueForGroupListDto>,
+        ciAttributesData: List<Map<String, Any>>
+    ) {
+        for (ciClass in ciClasses) {
+            ciClass.attributes?.forEach { item ->
+                run loop@{
+                    ciAttributesData.forEach { data ->
+                        if (data["id"] != null && data["value"] != null && item.attributeId == data["id"]) {
+                            item.value = data["value"] as String
+                            // Group List 속성일 경우, 하위 속성들의 값 할당
+                            if (item.attributeType.equals(RestTemplateConstants.AttributeType.GROUP_LIST.code)) {
+                                val childAttributesData: List<Map<String, Any>> =
+                                    mapper.convertValue(data["childAttributes"], listLinkedMapType)
+                                println(childAttributesData)
+                                val ciAttributeDataList = mutableListOf<CIAttributeValueDto>()
+                                childAttributesData.forEach{ cData ->
+                                    run cLoop@{
+                                        item.childAttributes?.forEach { cItem ->
+                                            if (cData["id"] != null && cData["id"] == cItem.attributeId) {
+                                                ciAttributeDataList.add(CIAttributeValueDto(
+                                                    attributeId = cItem.attributeId,
+                                                    attributeName = cItem.attributeName,
+                                                    attributeText = cItem.attributeText,
+                                                    attributeType = cItem.attributeType,
+                                                    attributeOrder = cData["seq"] as Int?,
+                                                    attributeValue = cItem.attributeValue,
+                                                    value = cData["value"] as String
+                                                ))
+                                                return@cLoop
+                                            }
+                                        }
+                                    }
+                                }
+                                item.childAttributes = ciAttributeDataList
+                            }
+                            return@loop
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

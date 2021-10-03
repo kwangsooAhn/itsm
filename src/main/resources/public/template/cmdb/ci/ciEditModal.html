@@ -79,7 +79,7 @@
             <div class="flex-column edit-row">
                 <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
             </div>
-            <div id="ciAttributes" th:onclick="zCmdbAttribute.drawEditDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
+            <div id="ciAttributes" th:onclick="zCmdbAttribute.drawDetails(this, [[${ciData?.classes}]], [[${userInfo}]], 'edit');">
             </div>
             <!-- 연관 관계 -->
             <div class="flex-column z-edit-row z-relation-group">

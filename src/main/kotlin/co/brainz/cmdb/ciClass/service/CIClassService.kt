@@ -13,8 +13,12 @@ import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapPk
 import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassAttributeMapRepository
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CIAttributeValueDto
+import co.brainz.cmdb.dto.CIAttributeValueGroupListDto
 import co.brainz.cmdb.dto.CIClassDetailDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
+import co.brainz.cmdb.dto.CIClassDetailValueForGroupListDto
 import co.brainz.cmdb.dto.CIClassDto
 import co.brainz.cmdb.dto.CIClassListDto
 import co.brainz.cmdb.dto.CIClassReturnDto
@@ -25,6 +29,10 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.itsm.cmdb.ciClass.dto.CIClassTreeReturnDto
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.querydsl.core.QueryResults
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
@@ -40,6 +48,7 @@ class CIClassService(
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * CMDB CI Class 목록 조회
@@ -301,6 +310,7 @@ class CIClassService(
     }
 
     /**
+     * TODO: API 연동 - Group List 속성 적용 후 삭제 필요
      * Class에 따른 CI 세부 속성 조회
      */
     fun getCIClassAttributes(classId: String): List<CIClassDetailValueDto> {
@@ -318,11 +328,105 @@ class CIClassService(
             }
         }
         classList.reversed().forEach {
-            val ciClassDetailValueDto = CIClassDetailValueDto(
-                attributes = ciAttributeRepository.findAttributeValueList("", it).toMutableList()
-            )
-            attributeValueAll.add(ciClassDetailValueDto)
+            val queryResult = ciAttributeRepository.findAttributeValueList("", it)
+            val ciAttributeDataList = mutableListOf<CIAttributeValueDto>()
+            for (data in queryResult.results) {
+                ciAttributeDataList.add(data)
+            }
+            attributeValueAll.add(CIClassDetailValueDto(attributes = ciAttributeDataList))
         }
         return attributeValueAll.toList()
+    }
+    
+    /**
+     * Class에 따른 CI 세부 속성 조회
+     */
+    fun getCIClassAttributesWithGroupList(ciId: String, classId: String): List<CIClassDetailValueForGroupListDto> {
+        val attributeValueAll = mutableListOf<CIClassDetailValueForGroupListDto>()
+        val classList = mutableListOf<String>()
+        var targetClass: CIClassEntity? = null
+        var targetClassId: String = classId
+
+        while (targetClassId != CIClassConstants.CI_CLASS_ROOT_ID) {
+            val resultCiClass = ciClassRepository.findById(targetClassId)
+            if (!resultCiClass.isEmpty) {
+                targetClass = resultCiClass.get()
+                classList.add(targetClass.classId) // 리스트에 더하기
+                targetClassId = targetClass.pClass?.classId ?: CIClassConstants.CI_CLASS_ROOT_ID
+            }
+        }
+        classList.reversed().forEach {
+            val queryResult = ciAttributeRepository.findAttributeValueList(ciId, it)
+            val ciAttributeGroupList = mutableListOf<CIAttributeValueGroupListDto>()
+            for (data in queryResult.results) {
+                var childAttributeList = mutableListOf<CIAttributeValueDto>()
+                if (data.attributeType.equals(RestTemplateConstants.AttributeType.GROUP_LIST.code)) {
+                    val attributeValue = mapper.readValue(data.attributeValue,  LinkedHashMap::class.java)
+                    val attributeOptions: List<Map<String, Any>> = mapper.convertValue( attributeValue["option"],
+                        object : TypeReference<List<Map<String, Any>>>() {})
+                    childAttributeList = this.getChildAttributesForGroupList(data.attributeId, ciId, attributeOptions)
+                }
+                ciAttributeGroupList.add(
+                    CIAttributeValueGroupListDto(
+                        attributeId = data.attributeId,
+                        attributeName = data.attributeName,
+                        attributeText = data.attributeText,
+                        attributeType = data.attributeType,
+                        attributeOrder = data.attributeOrder,
+                        attributeValue = data.attributeValue,
+                        value = data.value,
+                        childAttributes = childAttributeList
+                    )
+                )
+            }
+            val ciClassDetailValueForGroupListDto = CIClassDetailValueForGroupListDto(
+                attributes = ciAttributeGroupList
+            )
+            attributeValueAll.add(ciClassDetailValueForGroupListDto)
+        }
+        return attributeValueAll.toList()
+    }
+    /**
+     * Group List에 포함된 CI 세부 속성 조회
+     */
+    private fun getChildAttributesForGroupList(
+        attributeId: String,
+        ciId: String,
+        options: List<Map<String, Any>>
+    ): MutableList<CIAttributeValueDto> {
+        val attributeIdList = mutableListOf<String>()
+        for (option in options) {
+            attributeIdList.add(option["id"] as String)
+        }
+        val ciAttributeDataList = mutableListOf<CIAttributeValueDto>()
+        // 1. cmdb_attribute 테이블 데이터 조회
+        val ciAttributeQueryResult = ciAttributeRepository.findAttributeListInGroupList(attributeIdList)
+        // 2. cmdb_ci_group_list_data 테이블 데이터가 조회
+        val groupListQueryResult = ciAttributeRepository.findGroupListData(attributeId, ciId)
+        // 3. 데이터가 존재하면 데이터 병합
+        if (groupListQueryResult.total > 0) {
+            for (groupData in groupListQueryResult.results) {
+                loop@ for (attribute in ciAttributeQueryResult.results) {
+                    if (groupData.cAttributeId == attribute.attributeId) {
+                        ciAttributeDataList.add(CIAttributeValueDto(
+                            attributeId = groupData.cAttributeId,
+                            attributeName = attribute.attributeName,
+                            attributeText = attribute.attributeText,
+                            attributeType = attribute.attributeType,
+                            attributeOrder = groupData.cAttributeSeq,
+                            attributeValue = attribute.attributeValue,
+                            value = groupData.cValue
+                        ))
+                        break@loop
+                    }
+                }
+            }
+        } else {
+            // 4. 데이터가 없으면 cmdb_attribute 테이블의 데이터를 이용하여 세부속성 첫번째 그룹을 담음.
+            for (attribute in ciAttributeQueryResult.results) {
+                ciAttributeDataList.add(attribute)
+            }
+        }
+        return ciAttributeDataList
     }
 }
