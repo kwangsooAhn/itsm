@@ -48,6 +48,7 @@ class CIClassService(
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * CMDB CI Class 목록 조회
@@ -381,6 +382,7 @@ class CIClassService(
                 )
             }
             val ciClassDetailValueForGroupListDto = CIClassDetailValueForGroupListDto(
+                className = ciClassRepository.findClass(it)?.className,
                 attributes = ciAttributeGroupList
             )
             attributeValueAll.add(ciClassDetailValueForGroupListDto)

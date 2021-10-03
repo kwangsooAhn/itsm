@@ -18,6 +18,7 @@ import co.brainz.cmdb.ci.repository.CIInstanceRelationRepository
 import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
+import co.brainz.cmdb.ciClass.service.CIClassService
 import co.brainz.cmdb.ciRelation.entity.CIRelationEntity
 import co.brainz.cmdb.ciRelation.repository.CIRelationRepository
 import co.brainz.cmdb.ciType.entity.CITypeEntity

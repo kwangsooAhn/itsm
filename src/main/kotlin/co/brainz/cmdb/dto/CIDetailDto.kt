@@ -38,5 +38,6 @@ class CIClassDetailValueDto(
 ) : Serializable
 
 class CIClassDetailValueForGroupListDto(
+    var className: String? = null,
     var attributes: MutableList<CIAttributeValueGroupListDto>? = null
 ) : Serializable

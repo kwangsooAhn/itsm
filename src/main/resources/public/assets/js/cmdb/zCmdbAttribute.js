@@ -907,6 +907,13 @@
         let elem = null;
         switch(type) {
             case 'group':
+                // class 제목
+                console.log(data);
+                const classTitleElem = document.createElement('h3');
+                classTitleElem.className = 'sub-title under-bar bold mt-4';
+                classTitleElem.textContent = data.className;
+                parent.appendChild(classTitleElem);
+
                 elem = document.createElement('div');
                 elem.className = 'attribute-group';
                 parent.appendChild(elem);
@@ -1216,6 +1223,7 @@
      */
     function drawDetails(target, data, sessionInfo, mode) {
         attributeDetailData = JSON.parse(JSON.stringify(data));
+        console.log(attributeDetailData);
         displayMode = mode;
         target.removeAttribute('onclick');
         target.innerHTML = '';
