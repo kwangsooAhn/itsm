@@ -2756,7 +2756,7 @@ select {
 }
 .z-itsm-container .z-main-content {
   background-color: #FAFAFA;
-  height: 100%;
+  height: calc(100vh - 9.75rem);
 }
 .z-itsm-container .z-main-content .z-page-content {
   border-top: 0.0625rem solid #CFD5D9;
@@ -3322,7 +3322,7 @@ select {
   margin-top: 2.5rem;
 }
 .z-user-content-edit .select-date-time {
-  width: calc(100% - 10.0005);
+  width: calc(100% - 10.0005rem);
 }
 .z-user-content-edit .hour-select {
   width: 9.688rem;
@@ -7673,5 +7673,3 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
-
-/*# sourceMappingURL=itsm.css.map */

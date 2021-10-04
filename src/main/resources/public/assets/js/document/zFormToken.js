@@ -337,8 +337,6 @@ class ZFormToken {
             aliceJs.showTotalCount(document.querySelectorAll('.instance-list').length);
             // 서버에서 전달받은 데이터의 날짜 포맷을 변경
             this.setDateTimeFormat();
-            // 스크롤바
-            OverlayScrollbars(document.querySelector('.z-list-body'), { className: 'scrollbar' });
         });
     }
 

@@ -340,7 +340,7 @@
                         let conditionOperator = childNodes[i].getElementsByTagName('select')[1].value;
                         let conditionValue = childNodes[i].getElementsByTagName('input')[0].value;
                         if (conditionKey === 'use_yn') {
-                            if (conditionValue === 'true' || conditionValue === 'false') {
+                            if (conditionValue.toLowerCase() === 'true' || conditionValue.toLowerCase() === 'false') {
                                 conditionObj.conditionKey = conditionKey;
                                 conditionObj.conditionOperator = conditionOperator;
                                 conditionObj.conditionValue = conditionValue;

@@ -5978,6 +5978,7 @@ body.modal-active {
 .z-component .z-element {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   padding: 0.4375rem 0;
+  pointer-events: none;
 }
 .z-component .z-element .input, .z-component .z-element .z-input {
   width: 100%;
@@ -6109,6 +6110,7 @@ body.modal-active {
 .z-component .z-element .z-dr-table .z-dr-table-row .z-input {
   padding: 0.4375rem 0;
   margin: 0.25rem 0;
+  text-indent: 1rem;
 }
 .z-component .z-element .z-dr-table .no-data-found-list {
   color: #ABB0B5;

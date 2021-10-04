@@ -85,6 +85,7 @@
     /*<![CDATA[*/
     const STATUS_SUCCESS = '0';
     const STATUS_ERROR_PATTERN_USED = '1';
+    const STATUS_ERROR_DUPLICATE_PATTERN_NAME = '2';
 
     window.onload = function () {
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
@@ -96,21 +97,6 @@
         if (isEmpty('txtPatternName', 'pattern.msg.enterPatternName')) return;
         if (patternType !== 'numbering.pattern.date' && isEmpty('txtPatternValue', 'pattern.msg.enterPatternValue')) return;
         if (patternType === 'numbering.pattern.sequence' && isExistInScope('txtPatternValue', 1, 4, 'pattern.msg.enterPatternSequenceValue')) return;
-
-        let patternNames = [];
-        let validList = document.querySelectorAll('td[name=patternName]');
-        for (let i = 0; i < validList.length; i++) {
-            patternNames.push(validList[i].textContent);
-        }
-
-        if (flag === 'post') {
-            for (let i = 0; i < patternNames.length; i++) {
-                if (document.getElementById('txtPatternName').value === patternNames[i]) {
-                    aliceAlert.alertWarning([[#{pattern.msg.duplicatePatternName}]]);
-                    return;
-                }
-            }
-        }
 
         let obj = {};
         obj.patternId = document.getElementById('txtPatternId').value;//패턴 아이디
@@ -141,6 +127,9 @@
                         break;
                     case STATUS_ERROR_PATTERN_USED:
                         aliceAlert.alertWarning(i18n.msg('pattern.msg.usedPattern'));
+                        break;
+                    case STATUS_ERROR_DUPLICATE_PATTERN_NAME:
+                        aliceAlert.alertWarning(i18n.msg('pattern.msg.duplicatePatternName'));
                         break;
                     default:
                         aliceAlert.alertDanger(i18n.msg('common.msg.fail'));

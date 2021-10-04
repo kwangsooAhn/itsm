@@ -8,9 +8,9 @@
         <div class="reply-info flex-row">
             <div class="profile"></div>
             <img class="z-img i-profile-photo mr-2" th:src="${boardComment.avatarPath}" width="32" height="32"/>
-            <h5 class="reply-user-name" th:text="${boardComment.createUser.userName}"></h5>
+            <h5 class="reply-user-name text-wordWrap" th:text="${boardComment.createUser.userName}"></h5>
             <span class="vertical-bar"></span>
-            <h5 class="reply-create-date" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
+            <h5 class="reply-create-date text-wordNoWrap" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
             <div class="ml-auto align-middle z-button-list">
                 <button class="z-button-icon extra" sec:authorize="hasAuthority('board.update')"
                         th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">

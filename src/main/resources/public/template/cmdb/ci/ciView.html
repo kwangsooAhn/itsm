@@ -66,10 +66,7 @@
         <input type="text" id="tags" name="ciDetailTags" class="z-input" th:value="|${ciData.ciTags}|" readonly />
     </div>
     <!-- 세부속성 -->
-    <div class="flex-column z-view-row">
-        <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
-    </div>
-    <div id="ciAttributes" th:onclick="zCmdbAttribute.drawViewDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
+    <div class="flex-column z-view-row" id="ciAttributes" th:onclick="zCmdbAttribute.drawViewDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
     </div>
     <!-- 변경 이력 -->
     <div class="flex-column z-view-row">
@@ -89,7 +86,7 @@
             <tbody>
             <!--no data-->
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciHistoryList)}">
-                <td style="width: 100%;" colspan="5" class="align-left" th:text="#{common.msg.noData}"></td>
+                <td style="width: 100%;" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciHistoryList)}" th:each="ciHistory: ${ciHistoryList}">
                 <td th:if="${#strings.isEmpty(ciHistory.documentNo)}" style="width: 40%;" class="align-left" th:text="#{common.label.emptyData}"></td>
@@ -128,7 +125,6 @@
             </tbody>
         </table>
     </div>
-    <div class="horizontal-bar"></div>
     <div class="flex-row justify-content-start z-view-row">
         <div class="z-button-list">
             <a class="z-button secondary" href="/cmdb/cis/search" th:text="#{common.btn.list}"></a>

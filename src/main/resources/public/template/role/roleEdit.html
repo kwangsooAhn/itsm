@@ -93,7 +93,8 @@
                     th:if="${role?.roleId}" id="btnUpdate"
                     name="btnUpdate"
                     th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-            <button type="button" class="z-button secondary" sec:authorize="hasAuthority('role.delete')" id="btnDelete"
+            <button type="button" class="z-button secondary" sec:authorize="hasAuthority('role.delete')"
+                    th:if="${role?.roleId}" id="btnDelete"
                     name="btnDelete"
                     th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                     th:text="#{common.btn.delete}"></button>
