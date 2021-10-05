@@ -1195,6 +1195,10 @@
         }
     }
 
+    /**
+     * 하위 세부 속성 추가시 (+ 버튼 클릭시) 호출되는 이벤트
+     * @param e 이벤트
+     */
     function addCIAttributeChild(e) {
         e.preventDefault();
 
@@ -1218,6 +1222,10 @@
         });
     }
 
+    /**
+     * 하위 세부 속성 삭제시 (휴지통 버튼 클릭시) 호출되는 이벤트
+     * @param e 이벤트
+     */
     function removeCIAttributeChild(e) {
         e.preventDefault();
         // 삭제
