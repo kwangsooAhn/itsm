@@ -8,6 +8,11 @@
 package co.brainz.itsm.cmdb.ci.dto
 
 import co.brainz.framework.constants.PagingConstants
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.type.CollectionType
+import com.fasterxml.jackson.databind.type.TypeFactory
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.Serializable
 
 /**
@@ -22,6 +27,27 @@ data class CISearchCondition(
     val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
-    val tagArray: List<String>? = if (!tagSearch.isNullOrEmpty()) tagSearch.split(",") else null
+    val tagArray: List<String>? = this.tagStrArray()
     val isPaging = pageNum > 0
+
+    private fun tagStrArray(): List<String> {
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val listLinkedMapType: CollectionType =
+            TypeFactory.defaultInstance().constructCollectionType(
+                List::class.java,
+                TypeFactory.defaultInstance().constructMapType(
+                    LinkedHashMap::class.java,
+                    String::class.java,
+                    Any::class.java
+                )
+            )
+        val tagArray = mutableListOf<String>()
+        if (!tagSearch.isNullOrEmpty()) {
+            val tags: List<Map<String, Any>> = mapper.readValue(tagSearch, listLinkedMapType)
+            tags.forEach {
+                tagArray.add(it["value"] as String)
+            }
+        }
+        return tagArray.toList()
+    }
 }
