@@ -11,7 +11,6 @@ import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIClassAttributeListDto
 import co.brainz.cmdb.dto.CIClassDetailDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
-import co.brainz.cmdb.dto.CIClassDetailValueForGroupListDto
 import co.brainz.cmdb.dto.CIClassDto
 import co.brainz.cmdb.dto.CIClassToAttributeDto
 import co.brainz.framework.util.CurrentSessionUser
@@ -123,14 +122,7 @@ class CIClassService(
     /**
      * CMDB CI 세부 속성 조회
      */
-    fun getCIClassAttributes(classId: String): List<CIClassDetailValueDto> {
-        return ciClassService.getCIClassAttributes(classId)
-    }
-
-    /**
-     * CMDB CI 세부 속성 조회
-     */
-    fun getCIClassAttributesWithGroupList(ciId: String, classId: String): List<CIClassDetailValueForGroupListDto> {
-        return ciClassService.getCIClassAttributesWithGroupList(ciId, classId)
+    fun getCIClassAttributes(ciId: String, classId: String): List<CIClassDetailValueDto> {
+        return ciClassService.getCIClassAttributes(ciId, classId)
     }
 }

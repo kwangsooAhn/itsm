@@ -20,7 +20,10 @@ interface CIAttributeRepositoryCustom : AliceRepositoryCustom {
     fun findAttributeDetail(attributeId: String): CIAttributeDto
     fun findDuplicationAttributeName(attributeName: String, attributeId: String): Long
     fun findAttributeValueList(ciId: String, classId: String): QueryResults<CIAttributeValueDto>
-    fun findAttributeListWithoutGroupList(attributeId: String, ciAttributeSearchCondition: CIAttributeSearchCondition): QueryResults<CIAttributeListDto>
+    fun findAttributeListWithoutGroupList(
+        attributeId: String,
+        ciAttributeSearchCondition: CIAttributeSearchCondition
+    ): QueryResults<CIAttributeListDto>
     fun findAttributeListInGroupList(attributeIdList: MutableList<String>): QueryResults<CIAttributeValueDto>
     fun findGroupListData(attributeId: String, ciId: String): QueryResults<CIGroupListDto>
 }

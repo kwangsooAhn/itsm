@@ -162,7 +162,10 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     /**
      * Attribute 목록 조회 (Group List 제외).
      */
-    override fun findAttributeListWithoutGroupList(attributeId: String, ciAttributeSearchCondition: CIAttributeSearchCondition): QueryResults<CIAttributeListDto> {
+    override fun findAttributeListWithoutGroupList(
+        attributeId: String,
+        ciAttributeSearchCondition: CIAttributeSearchCondition
+    ): QueryResults<CIAttributeListDto> {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
         val query = from(ciAttribute)
             .select(

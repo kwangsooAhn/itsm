@@ -168,7 +168,10 @@ class CIService(
             ciDetailDto.updateDt = ciEntity.updateDt
             ciDetailDto.ciTags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ciEntity.ciId)
             ciDetailDto.ciRelations = ciRelationRepository.selectByCiId(ciEntity.ciId)
-            ciDetailDto.classes = ciClassService.getCIClassAttributesWithGroupList(ciEntity.ciId, ciEntity.ciTypeEntity.ciClass.classId)
+            ciDetailDto.classes = ciClassService.getCIClassAttributes(
+                ciEntity.ciId,
+                ciEntity.ciTypeEntity.ciClass.classId
+            )
         }
         return ciDetailDto
     }

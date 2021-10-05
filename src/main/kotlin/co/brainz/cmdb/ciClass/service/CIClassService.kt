@@ -18,7 +18,6 @@ import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIAttributeValueGroupListDto
 import co.brainz.cmdb.dto.CIClassDetailDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
-import co.brainz.cmdb.dto.CIClassDetailValueForGroupListDto
 import co.brainz.cmdb.dto.CIClassDto
 import co.brainz.cmdb.dto.CIClassListDto
 import co.brainz.cmdb.dto.CIClassReturnDto
@@ -312,39 +311,8 @@ class CIClassService(
     /**
      * Class에 따른 CI 세부 속성 조회
      */
-    fun getCIClassAttributes(classId: String): List<CIClassDetailValueDto> {
+    fun getCIClassAttributes(ciId: String, classId: String): List<CIClassDetailValueDto> {
         val attributeValueAll = mutableListOf<CIClassDetailValueDto>()
-        val classList = mutableListOf<String>()
-        var targetClass: CIClassEntity? = null
-        var targetClassId: String = classId
-
-        while (targetClassId != CIClassConstants.CI_CLASS_ROOT_ID) {
-            val resultCiClass = ciClassRepository.findById(targetClassId)
-            if (!resultCiClass.isEmpty) {
-                targetClass = resultCiClass.get()
-                classList.add(targetClass.classId) // 리스트에 더하기
-                targetClassId = targetClass.pClass?.classId ?: CIClassConstants.CI_CLASS_ROOT_ID
-            }
-        }
-        classList.reversed().forEach {
-            val queryResult = ciAttributeRepository.findAttributeValueList("", it)
-            val ciAttributeDataList = mutableListOf<CIAttributeValueDto>()
-            for (data in queryResult.results) {
-                ciAttributeDataList.add(data)
-            }
-            attributeValueAll.add(CIClassDetailValueDto(
-                className = ciClassRepository.findClass(it)?.className,
-                attributes = ciAttributeDataList
-            ))
-        }
-        return attributeValueAll.toList()
-    }
-
-    /**
-     * Class에 따른 CI 세부 속성 조회
-     */
-    fun getCIClassAttributesWithGroupList(ciId: String, classId: String): List<CIClassDetailValueForGroupListDto> {
-        val attributeValueAll = mutableListOf<CIClassDetailValueForGroupListDto>()
         val classList = mutableListOf<String>()
         var targetClass: CIClassEntity? = null
         var targetClassId: String = classId
@@ -381,14 +349,15 @@ class CIClassService(
                     )
                 )
             }
-            val ciClassDetailValueForGroupListDto = CIClassDetailValueForGroupListDto(
+            val ciClassDetailValueDto = CIClassDetailValueDto(
                 className = ciClassRepository.findClass(it)?.className,
                 attributes = ciAttributeGroupList
             )
-            attributeValueAll.add(ciClassDetailValueForGroupListDto)
+            attributeValueAll.add(ciClassDetailValueDto)
         }
         return attributeValueAll.toList()
     }
+
     /**
      * Group List에 포함된 CI 세부 속성 조회
      */

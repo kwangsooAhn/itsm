@@ -9,7 +9,7 @@ package co.brainz.itsm.cmdb.ci.service
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIAttributeValueDto
-import co.brainz.cmdb.dto.CIClassDetailValueForGroupListDto
+import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
@@ -106,7 +106,7 @@ class CIService(
             ciDetailDto.updateDt = LocalDateTime.now()
 
             // CI 데이터 추출
-            val ciClasses = ciClassService.getCIClassAttributesWithGroupList(ciId, map["classId"] as String)
+            val ciClasses = ciClassService.getCIClassAttributes(ciId, map["classId"] as String)
 
             // 임시 테이블 데이터 조회
             val ciComponentData =
@@ -141,7 +141,7 @@ class CIService(
      * 임시 테이블의 CI 세부 데이터가 존재할 경우, 데이터 병합
      */
     private fun mergeCIClassData(
-        ciClasses: List<CIClassDetailValueForGroupListDto>,
+        ciClasses: List<CIClassDetailValueDto>,
         ciAttributesData: List<Map<String, Any>>
     ) {
         for (ciClass in ciClasses) {
