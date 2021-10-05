@@ -105,9 +105,6 @@
             callbackFunc: function(response) {
                 document.getElementById('boardList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('boardList'));
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             },
             showProgressbar: false
         };

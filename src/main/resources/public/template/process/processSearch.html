@@ -446,9 +446,6 @@
             callbackFunc: function(response) {
                     document.getElementById('processList').innerHTML = response.responseText;
                     setDateTimeFormat(document.getElementById('processList'));
-                    OverlayScrollbars(document.querySelector('.z-list-body'), {
-                        className: 'scrollbar'
-                    });
             }
         };
         aliceJs.sendXhr(opt);

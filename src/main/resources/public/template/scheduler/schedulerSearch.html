@@ -55,9 +55,6 @@
             callbackFunc: function(response) {
                 document.getElementById('schedulerList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('schedulerList'));
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             },
             showProgressbar: false
         };

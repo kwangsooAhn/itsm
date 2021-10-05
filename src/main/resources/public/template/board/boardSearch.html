@@ -57,9 +57,6 @@
             callbackFunc: function(response) {
                 document.getElementById('boardAdminList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('boardAdminList'));
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             },
             showProgressbar: false
         };
