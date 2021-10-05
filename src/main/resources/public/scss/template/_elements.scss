@@ -423,6 +423,7 @@ input, textarea, select {
 
 // select
 select {
+  width: inherit;
   height: 2.25rem; // 36px
   font-family: inherit;
   font-size: $element-font-size;
