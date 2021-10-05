@@ -11,6 +11,7 @@ package co.brainz.itsm.form.service
 
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.form.dto.FormSearchCondition
+import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormDataDto
@@ -55,12 +56,19 @@ class FormService(
      * @param restTemplateFormDto
      * @return Boolean
      */
-    fun saveForm(formId: String, restTemplateFormDto: RestTemplateFormDto): Boolean {
-        restTemplateFormDto.updateDt = LocalDateTime.now()
-        restTemplateFormDto.updateUserKey = currentSessionUser.getUserKey()
+    fun saveForm(formId: String, restTemplateFormDto: RestTemplateFormDto): String {
+        return when (wfFormService.checkFormData(formId = formId, formName = restTemplateFormDto.name)) {
+            WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code -> {
+                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+            }
+            else -> {
+                restTemplateFormDto.updateDt = LocalDateTime.now()
+                restTemplateFormDto.updateUserKey = currentSessionUser.getUserKey()
 
-        logger.info("update form : [{}]", formId)
-        return wfFormService.saveForm(restTemplateFormDto)
+                logger.info("update form : [{}]", formId)
+                wfFormService.saveForm(restTemplateFormDto)
+            }
+        }
     }
 
     /**
@@ -82,17 +90,26 @@ class FormService(
      * @return String 생성된 form ID
      */
     fun createForm(formData: RestTemplateFormDataDto): String {
-        val newFormId = wfFormService.createForm(RestTemplateFormDto(
-            name = formData.name,
-            status = RestTemplateConstants.FormStatus.EDIT.value,
-            desc = formData.desc,
-            editable = true,
-            createUserKey = currentSessionUser.getUserKey(),
-            createDt = LocalDateTime.now(),
-            updateDt = LocalDateTime.now()
-        )).id
-        logger.info("create form : success [{}]", newFormId)
-        return newFormId
+        return when (wfFormService.checkFormData(formId = null, formName = formData.name)) {
+            WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code -> {
+                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+            }
+            else -> {
+                val newFormId = wfFormService.createForm(
+                    RestTemplateFormDto(
+                        name = formData.name,
+                        status = RestTemplateConstants.FormStatus.EDIT.value,
+                        desc = formData.desc,
+                        editable = true,
+                        createUserKey = currentSessionUser.getUserKey(),
+                        createDt = LocalDateTime.now(),
+                        updateDt = LocalDateTime.now()
+                    )
+                ).id
+                logger.info("create form : success [{}]", newFormId)
+                newFormId
+            }
+        }
     }
 
     /**
@@ -115,11 +132,18 @@ class FormService(
      * @param formDataDto
      * @return Boolean
      */
-    fun saveFormData(formId: String, formDataDto: RestTemplateFormDataDto): Boolean {
-        formDataDto.updateDt = LocalDateTime.now()
-        formDataDto.updateUserKey = currentSessionUser.getUserKey()
-        logger.info("save form : [{}]", formId)
-        return wfFormService.saveFormData(formDataDto)
+    fun saveFormData(formId: String, formDataDto: RestTemplateFormDataDto): String {
+        return when (wfFormService.checkFormData(formId = formId, formName = formDataDto.name)) {
+            WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code -> {
+                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+            }
+            else -> {
+                formDataDto.updateDt = LocalDateTime.now()
+                formDataDto.updateUserKey = currentSessionUser.getUserKey()
+                logger.info("save form : [{}]", formId)
+                wfFormService.saveFormData(formDataDto)
+            }
+        }
     }
 
     /**
