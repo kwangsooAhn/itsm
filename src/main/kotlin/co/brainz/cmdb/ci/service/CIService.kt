@@ -9,10 +9,12 @@ package co.brainz.cmdb.ci.service
 import co.brainz.cmdb.ci.entity.CIDataEntity
 import co.brainz.cmdb.ci.entity.CIDataHistoryEntity
 import co.brainz.cmdb.ci.entity.CIEntity
+import co.brainz.cmdb.ci.entity.CIGroupListDataEntity
 import co.brainz.cmdb.ci.entity.CIHistoryEntity
 import co.brainz.cmdb.ci.entity.CIInstanceRelationEntity
 import co.brainz.cmdb.ci.repository.CIDataHistoryRepository
 import co.brainz.cmdb.ci.repository.CIDataRepository
+import co.brainz.cmdb.ci.repository.CIGroupListDataRepository
 import co.brainz.cmdb.ci.repository.CIHistoryRepository
 import co.brainz.cmdb.ci.repository.CIInstanceRelationRepository
 import co.brainz.cmdb.ci.repository.CIRepository
@@ -61,6 +63,7 @@ class CIService(
     private val ciAttributeRepository: CIAttributeRepository,
     private val ciRelationRepository: CIRelationRepository,
     private val ciDataRepository: CIDataRepository,
+    private val ciGroupListDataRepository: CIGroupListDataRepository,
     private val ciHistoryRepository: CIHistoryRepository,
     private val ciDataHistoryRepository: CIDataHistoryRepository,
     private val ciTypeService: CITypeService,
@@ -208,14 +211,29 @@ class CIService(
                 ciEntity = ciRepository.save(ciEntity)
 
                 // CIDataEntity 등록
-                ciDto.ciDataList?.forEach {
+                ciDto.ciDataList?.forEach { ciData ->
+                    val ciAttributeEntity = ciAttributeRepository.getOne(ciData.attributeId)
                     ciDataRepository.save(
                         CIDataEntity(
                             ci = ciEntity,
-                            ciAttribute = ciAttributeRepository.getOne(it.attributeId),
-                            value = it.attributeData
+                            ciAttribute = ciAttributeEntity,
+                            value = ciData.attributeData
                         )
                     )
+                    if (!ciData.childAttributes.isNullOrEmpty()) {
+                        // CIGroupListDataEntity 등록
+                        ciData.childAttributes?.forEach { groupListData ->
+                            ciGroupListDataRepository.save(
+                                CIGroupListDataEntity(
+                                    ci = ciEntity,
+                                    ciAttribute = ciAttributeEntity,
+                                    cAttributeId = groupListData.cAttributeId,
+                                    cAttributeSeq = groupListData.cAttributeSeq,
+                                    cValue = groupListData.cValue
+                                )
+                            )
+                        }
+                    }
                 }
 
                 // CITagEntity 등록
@@ -286,14 +304,29 @@ class CIService(
         ciEntity.ciDataEntities.clear()
         ciDataRepository.flush()
 
-        ciDto.ciDataList?.forEach {
+        ciDto.ciDataList?.forEach { ciData ->
+            val ciAttributeEntity = ciAttributeRepository.getOne(ciData.attributeId)
             ciDataRepository.save(
                 CIDataEntity(
                     ci = ciEntity,
-                    ciAttribute = ciAttributeRepository.getOne(it.attributeId),
-                    value = it.attributeData
+                    ciAttribute = ciAttributeEntity,
+                    value = ciData.attributeData
                 )
             )
+            if (!ciData.childAttributes.isNullOrEmpty()) {
+                ciGroupListDataRepository.deleteByCiId(ciDto.ciId, ciData.attributeId)
+                ciData.childAttributes?.forEach { groupListData ->
+                    ciGroupListDataRepository.save(
+                        CIGroupListDataEntity(
+                            ci = ciEntity,
+                            ciAttribute = ciAttributeEntity,
+                            cAttributeId = groupListData.cAttributeId,
+                            cAttributeSeq = groupListData.cAttributeSeq,
+                            cValue = groupListData.cValue
+                        )
+                    )
+                }
+            }
         }
 
         // CITagEntity Update

@@ -949,6 +949,7 @@
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
                 elem.value = data.value;
+                elem.readOnly = (displayMode === 'view');
                 if (attributeValue !== '') {
                     if (attributeValue.required === 'true') {
                         elem.required = true;
@@ -982,6 +983,7 @@
                 elem = document.createElement('select');
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
+                elem.readOnly = (displayMode === 'view');
                 if (typeof attributeValue.option !== 'undefined') {
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
@@ -1005,6 +1007,9 @@
                         radioGroup.className = 'z-radio';
                         radioGroup.tabindex = 0;
                         radioGroup.htmlFor = radioId + '-' + opt;
+                        if (displayMode === 'view') {
+                            radioGroup.classList.add('readonly');
+                        }
 
                         const radio = document.createElement('input');
                         radio.type = 'radio';
@@ -1040,6 +1045,9 @@
                         chkGroup.className = 'z-checkbox';
                         chkGroup.tabindex = 0;
                         chkGroup.htmlFor = checkboxId + '-' + opt;
+                        if (displayMode === 'view') {
+                            chkGroup.classList.add('readonly');
+                        }
 
                         const chk = document.createElement('input');
                         chk.type = 'checkbox';
@@ -1096,6 +1104,7 @@
                 const customBtnElem = document.createElement('button');
                 customBtnElem.type = 'button';
                 customBtnElem.className = 'z-button form';
+                customBtnElem.disabled = (displayMode === 'view');
                 elem.appendChild(customBtnElem);
 
                 let customData = data.value; // 'key|값'
@@ -1156,12 +1165,14 @@
                     }, '');
                     elem.setAttribute('data-attributeOrder', attributeOrderIds.substr(1));
                     // 추가 버튼
-                    const addBtn = document.createElement('button');
-                    addBtn.type = 'button';
-                    addBtn.className = 'z-button-icon secondary z-button-attribute-add';
-                    addBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
-                    addBtn.addEventListener('click', addCIAttributeChild, false);
-                    elem.appendChild(addBtn);
+                    if (displayMode === 'edit') {
+                        const addBtn = document.createElement('button');
+                        addBtn.type = 'button';
+                        addBtn.className = 'z-button-icon secondary z-button-attribute-add';
+                        addBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
+                        addBtn.addEventListener('click', addCIAttributeChild, false);
+                        elem.appendChild(addBtn);
+                    }
                 }
                 parent.appendChild(elem);
                 return elem;
@@ -1230,193 +1241,6 @@
         makeCIAttribute(attributeDetailData, target, 'root');
         aliceJs.initDesignedSelectTag();
     }
-
-    /**
-     * Attribute 세부 정보 데이터를 토대로 화면에 출력 (View)
-     * @param target 표시할 대상 element
-     * @param attributeData 세부 데이터
-     */
-    /*function drawViewDetails(target, attributeData, userInfo) {
-        target.removeAttribute('onclick');
-        target.innerHTML = '';
-        for (let i = 0, iLen = attributeData.length; i < iLen; i++) {
-            const groupAttribute = attributeData[i];
-            const classTitleElem = document.createElement('h3');
-            classTitleElem.className = 'sub-title under-bar bold mt-4';
-            classTitleElem.textContent = groupAttribute.className;
-            const groupAttributeElem = document.createElement('div');
-            groupAttributeElem.className = 'attribute-group';
-            for (let j = 0, jLen = groupAttribute.attributes.length; j < jLen; j++) {
-                const attributes = groupAttribute.attributes[j];
-                const childAttributeElem = document.createElement('div');
-                childAttributeElem.className = 'flex-column z-view-row attribute';
-                childAttributeElem.setAttribute('data-attributeType', attributes.attributeType);
-                // 라벨
-                const labelElem = document.createElement('label');
-                labelElem.className = 'field-label';
-                const labelTextElem = document.createElement('span');
-                labelTextElem.textContent = attributes.attributeText;
-                labelElem.appendChild(labelTextElem);
-                childAttributeElem.appendChild(labelElem);
-
-                const attributeValue = (attributes.attributeValue === null) ? '' :
-                    JSON.parse(attributes.attributeValue);
-                switch (attributes.attributeType) {
-                    case 'inputbox':
-                        const inputElem = document.createElement('input');
-                        inputElem.type = 'text';
-                        inputElem.className = 'z-input';
-                        inputElem.id = attributes.attributeId;
-                        inputElem.value = attributes.value;
-                        inputElem.readOnly = true;
-                        if (attributeValue !== '') {
-                            if (attributeValue.required === 'true') {
-                                inputElem.required = true;
-                                inputElem.setAttribute('data-validation-required', 'true');
-                                inputElem.setAttribute('data-validation-required-name', attributes.attributeText);
-                                labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
-                            }
-                        }
-                        childAttributeElem.appendChild(inputElem);
-                        break;
-                    case 'dropdown':
-                        const selectElem = document.createElement('input');
-                        selectElem.type = 'text';
-                        selectElem.className = 'z-input';
-                        selectElem.id = attributes.attributeId;
-                        selectElem.readOnly = true;
-
-                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
-                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
-                                const attributeOption = attributeValue.option[opt];
-                                if (attributeOption.value === attributes.value) {
-                                    selectElem.value = attributeOption.text;
-                                }
-                            }
-                        }
-                        childAttributeElem.appendChild(selectElem);
-                        break;
-                    case 'radio':
-                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
-                            const radio = document.createElement('input');
-                            radio.type = 'text';
-                            radio.className = 'z-input';
-                            radio.name = 'attribute-radio';
-                            radio.readOnly = true;
-
-                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
-                                const attributeOption = attributeValue.option[opt];
-                                if (attributeOption.value === attributes.value) {
-                                    radio.value = attributeOption.text;
-                                }
-                            }
-                            childAttributeElem.appendChild(radio);
-                        }
-                        break;
-                    case 'checkbox':
-                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
-                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
-                                const attributeOption = attributeValue.option[opt];
-                                const chkGroup = document.createElement('label');
-                                chkGroup.className = 'z-checkbox';
-                                chkGroup.tabindex = 0;
-                                chkGroup.htmlFor = attributes.attributeId + '-' + opt;
-
-                                const chk = document.createElement('input');
-                                chk.type = 'checkbox';
-                                chk.id = attributes.attributeId + '-' + opt;
-                                chk.name = 'attribute-checkbox';
-                                chk.value = attributeOption.value;
-                                chk.readOnly = true;
-                                chk.onclick = function () {
-                                    return false;
-                                };
-                                if (attributes.value !== null) {
-                                    if (attributes.value.indexOf(attributeOption.value) > -1) {
-                                        chk.checked = true;
-                                    }
-                                } else {
-                                    if (attributeOption.checked) {
-                                        chk.checked = true;
-                                    }
-                                }
-                                chkGroup.appendChild(chk);
-
-                                const chkSpan = document.createElement('span');
-                                chkGroup.appendChild(chkSpan);
-
-                                const chkLabel = document.createElement('span');
-                                chkLabel.className = 'z-label';
-                                chkLabel.textContent = attributeOption.text;
-                                chkGroup.appendChild(chkLabel);
-                                childAttributeElem.appendChild(chkGroup);
-                            }
-                        }
-                        break;
-                    case 'custom-code':
-                        let customValueArr = '';
-                        if (attributes.value !== null) {
-                            customValueArr = attributes.value.split('|');
-                        } else {
-                            customValueArr = attributeValue.default.value.split('|');
-                        }
-                        const inputButtonElem = document.createElement('div');
-                        inputButtonElem.id = attributes.attributeId;
-                        inputButtonElem.className = 'flex-row input-button';
-
-                        const customInputElem = document.createElement('input');
-                        customInputElem.type = 'text';
-                        customInputElem.className = 'z-input col-pct-12 inherit';
-                        customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
-                        customInputElem.readOnly = true;
-                        inputButtonElem.appendChild(customInputElem);
-                        const customBtnElem = document.createElement('button');
-                        customBtnElem.type = 'button';
-                        customBtnElem.className = 'z-button form';
-                        customBtnElem.disabled = true;
-                        inputButtonElem.appendChild(customBtnElem);
-
-                        let customData = attributes.value; // 'key|값'
-                        let defaultValue = '';
-                        if (attributeValue !== '') {
-                            customBtnElem.textContent = attributeValue.button;
-                            // 커스텀 코드 기본 값 넣기
-                            if (attributes.value === '' || attributes.value === null) {
-                                switch (attributeValue.default.type) {
-                                    case 'session':
-                                        if (attributeValue.default.value === 'userName') {
-                                            customData = userInfo.userKey + '|' + userInfo.userName;
-                                            defaultValue = userInfo.userName;
-                                        } else if (attributeValue.default.value === 'department') {
-                                            customData = userInfo.department + '|' + userInfo.departmentName;
-                                            defaultValue = userInfo.departmentName;
-                                        }
-                                        break;
-                                    case 'code':
-                                        customData = attributeValue.default.value;
-                                        defaultValue = customData.split('|')[1];
-                                        break;
-                                    default: //none
-                                        customData = attributeValue.default.type + '|';
-                                        break;
-                                }
-                                customInputElem.value = defaultValue;
-                            }
-                            customInputElem.setAttribute('value', defaultValue);
-                            customInputElem.setAttribute('custom-data', customData);
-                        }
-                        childAttributeElem.appendChild(inputButtonElem);
-                        break;
-                    default:
-                        break;
-                }
-                groupAttributeElem.appendChild(childAttributeElem);
-            }
-            target.appendChild(classTitleElem);
-            target.appendChild(groupAttributeElem);
-        }
-        aliceJs.initDesignedSelectTag();
-    }*/
 
     exports.attributeTypeList = attributeTypeList;
     exports.init = init;

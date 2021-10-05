@@ -108,7 +108,7 @@ class CIService(
             // CI 데이터 추출
             val ciClasses = ciClassService.getCIClassAttributesWithGroupList(ciId, map["classId"] as String)
 
-            // 임시 테이블의 CI 세부 데이터 병합
+            // 임시 테이블 데이터 조회
             val ciComponentData =
                 ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
             val tagDataList = mutableListOf<AliceTagDto>()
@@ -123,7 +123,7 @@ class CIService(
                     tagDataList.add(mapper.convertValue(it, AliceTagDto::class.java))
                 }
 
-                // 세부 속성
+                // CI 세부 속성 변합
                 this.mergeCIClassData(ciClasses,
                     mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType))
             }
@@ -154,7 +154,6 @@ class CIService(
                             if (item.attributeType.equals(RestTemplateConstants.AttributeType.GROUP_LIST.code)) {
                                 val childAttributesData: List<Map<String, Any>> =
                                     mapper.convertValue(data["childAttributes"], listLinkedMapType)
-                                println(childAttributesData)
                                 val ciAttributeDataList = mutableListOf<CIAttributeValueDto>()
                                 childAttributesData.forEach{ cData ->
                                     run cLoop@{
