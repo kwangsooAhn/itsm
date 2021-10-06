@@ -93,11 +93,11 @@
     function deleteForm(formId) {
         aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/forms/' + formId, function(result) {
             if (result === 'true') {
-                aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
+                aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
                     location.reload();
                 });
             } else {
-                aliceAlert.alertDanger('[[#{form.msg.failedFormDelete}]]');
+                aliceAlert.alertDanger(i18n.msg('form.msg.failedFormDelete'));
             }
         });
     }
