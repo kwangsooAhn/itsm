@@ -5,7 +5,7 @@
 
 package co.brainz.workflow
 
-import co.brainz.itsm.token.dto.TokenSearchConditionDto
+import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.token.constants.WfTokenConstants
 import java.time.LocalDateTime
@@ -44,7 +44,7 @@ class WfInstanceServiceTest {
     fun getLatestToken() {
         val tokenDto = wfInstanceService.instance(instanceId)
 
-        val params = TokenSearchConditionDto(
+        val params = TokenSearchCondition(
             userKey = this.userKey,
             searchDocumentId = tokenDto.documentId,
             searchValue = "",
@@ -52,7 +52,7 @@ class WfInstanceServiceTest {
             searchFromDt = LocalDateTime.now().minusYears(1).toString(),
             searchToDt = LocalDateTime.now().toString(),
             offset = 1,
-            searchTagString = ""
+            searchTag = ""
         )
         val instanceDtoList = wfInstanceService.instances(params)
         for (instanceDto in instanceDtoList.data) {

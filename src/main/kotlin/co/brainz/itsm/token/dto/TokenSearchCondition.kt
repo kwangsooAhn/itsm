@@ -15,7 +15,7 @@ import java.io.Serializable
 /**
  * 문서함 목록 검색 DTO
  */
-data class TokenSearchConditionDto(
+data class TokenSearchCondition(
     var userKey: String = "",
     var searchTokenType: String = "",
     var searchDocumentId: String = "",

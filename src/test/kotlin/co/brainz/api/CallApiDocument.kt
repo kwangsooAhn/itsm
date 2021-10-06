@@ -6,7 +6,7 @@
 
 package co.brainz.api
 
-import co.brainz.itsm.token.dto.TokenSearchConditionDto
+import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.token.constants.WfTokenConstants
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -200,7 +200,7 @@ class CallApiDocument {
     @Test
     fun getInstanceHistory() {
         // 완료된 문서 찾기
-        val params = TokenSearchConditionDto(
+        val params = TokenSearchCondition(
             userKey = "0509e09412534a6e98f04ca79abb6424", // ADMIN
             searchDocumentId = "",
             searchValue = "",
@@ -208,7 +208,7 @@ class CallApiDocument {
             searchFromDt = LocalDateTime.now().minusMonths(1).atZone(ZoneOffset.UTC).toString(),
             searchToDt = LocalDateTime.now().atZone(ZoneOffset.UTC).toString(),
             offset = 0,
-            searchTagString = ""
+            searchTag = ""
         )
 
         val instances = wfInstanceService.instances(params)

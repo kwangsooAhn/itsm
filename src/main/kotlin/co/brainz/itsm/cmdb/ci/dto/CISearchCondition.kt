@@ -21,9 +21,9 @@ import java.io.Serializable
  * @param contentNumPerPage : 페이지당 출력되는 건수
  */
 data class CISearchCondition(
-    val searchValue: String? = null,
-    val tagSearch: String? = null,
-    val flag: String? = null,
+    val searchValue: String = "",
+    val tagSearch: String = "",
+    val flag: String = "",
     val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {

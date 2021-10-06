@@ -12,7 +12,7 @@ import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
-import co.brainz.itsm.token.dto.TokenSearchConditionDto
+import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.comment.service.WfCommentService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.document.repository.WfDocumentRepository
@@ -79,31 +79,31 @@ class WfInstanceService(
     /**
      * Search Instances.
      */
-    fun instances(tokenSearchConditionDto: TokenSearchConditionDto): RestTemplateInstanceListReturnDto {
+    fun instances(tokenSearchCondition: TokenSearchCondition): RestTemplateInstanceListReturnDto {
         // Get Document List
-        val queryResults = when (tokenSearchConditionDto.searchTokenType) {
+        val queryResults = when (tokenSearchCondition.searchTokenType) {
             WfTokenConstants.SearchType.REQUESTED.code -> {
                 requestedInstances(
-                    tokenSearchConditionDto
+                    tokenSearchCondition
                 )
             }
             WfTokenConstants.SearchType.PROGRESS.code -> {
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
-                    tokenSearchConditionDto
+                    tokenSearchCondition
                 )
             }
             WfTokenConstants.SearchType.COMPLETED.code -> {
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
-                    tokenSearchConditionDto
+                    tokenSearchCondition
                 )
             }
             else -> {
                 todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
-                    tokenSearchConditionDto
+                    tokenSearchCondition
                 )
             }
         }
@@ -177,8 +177,8 @@ class WfInstanceService(
      * 신청한 문서 조회.
      */
     @Suppress("UNCHECKED_CAST")
-    private fun requestedInstances(tokenSearchConditionDto: TokenSearchConditionDto): QueryResults<WfInstanceListViewDto> =
-        wfInstanceRepository.findRequestedInstances(tokenSearchConditionDto)
+    private fun requestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto> =
+        wfInstanceRepository.findRequestedInstances(tokenSearchCondition)
 
     /**
      * 진행중 / 완료된 문서 조회.
@@ -186,8 +186,8 @@ class WfInstanceService(
     @Suppress("UNCHECKED_CAST")
     private fun relatedInstances(
         status: List<String>?,
-        tokenSearchConditionDto: TokenSearchConditionDto
-    ): QueryResults<WfInstanceListViewDto> = wfInstanceRepository.findRelationInstances(status, tokenSearchConditionDto)
+        tokenSearchCondition: TokenSearchCondition
+    ): QueryResults<WfInstanceListViewDto> = wfInstanceRepository.findRelationInstances(status, tokenSearchCondition)
 
     /**
      * 처리할 문서 조회.
@@ -196,9 +196,9 @@ class WfInstanceService(
     private fun todoInstances(
         status: List<String>?,
         tokenStatus: List<String>?,
-        tokenSearchConditionDto: TokenSearchConditionDto
+        tokenSearchCondition: TokenSearchCondition
     ): QueryResults<WfInstanceListViewDto> =
-        wfInstanceRepository.findTodoInstances(status, tokenStatus, tokenSearchConditionDto)
+        wfInstanceRepository.findTodoInstances(status, tokenStatus, tokenSearchCondition)
 
     /**
      * 인스턴스ID [instanceId] 로 인스턴스 정보를 조회한다.
