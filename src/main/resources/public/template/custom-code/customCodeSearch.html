@@ -54,9 +54,6 @@
             callbackFunc: function(response) {
                 document.getElementById('customCodeList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('customCodeList'));
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             },
             showProgressbar: false
         };
