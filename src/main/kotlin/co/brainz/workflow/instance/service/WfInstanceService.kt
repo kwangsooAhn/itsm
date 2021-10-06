@@ -80,9 +80,6 @@ class WfInstanceService(
      * Search Instances.
      */
     fun instances(tokenSearchConditionDto: TokenSearchConditionDto): RestTemplateInstanceListReturnDto {
-        // String tags -> Set<String>
-        tokenSearchConditionDto.searchTagSet = this.stringToSet(tokenSearchConditionDto.searchTagString.toString())
-
         // Get Document List
         val queryResults = when (tokenSearchConditionDto.searchTokenType) {
             WfTokenConstants.SearchType.REQUESTED.code -> {

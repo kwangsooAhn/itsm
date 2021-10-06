@@ -142,7 +142,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 )
         )
 
-        val query = getInstancesQuery(tokenSearchConditionDto.searchTagSet)
+        val query = getInstancesQuery(tokenSearchConditionDto.tagArray)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -173,7 +173,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 .or(token.tokenAction.isNull)
         )
 
-        val query = getInstancesQuery(tokenSearchConditionDto.searchTagSet)
+        val query = getInstancesQuery(tokenSearchConditionDto.tagArray)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -227,7 +227,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
         )
 
-        val query = getInstancesQuery(tokenSearchConditionDto.searchTagSet)
+        val query = getInstancesQuery(tokenSearchConditionDto.tagArray)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -239,7 +239,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     /**
      * 문서함 목록 조회.
      */
-    private fun getInstancesQuery(tags: Set<String>): JPQLQuery<WfInstanceListViewDto> {
+    private fun getInstancesQuery(tags: List<String>): JPQLQuery<WfInstanceListViewDto> {
         val query = from(token)
             .select(
                 Projections.constructor(
