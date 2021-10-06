@@ -280,19 +280,19 @@
         };
 
         if (jsonData.code === null || jsonData.code.trim() === '') {
-            aliceAlert.alertWarning('[[#{code.msg.enterCode}]]');
+            aliceAlert.alertWarning([[#{code.msg.enterCode}]]);
             return false;
         }
 
         if (jsonData.pCode === null || jsonData.pCode.trim() === '') {
-            aliceAlert.alertWarning('[[#{code.msg.enterPCode}]]');
+            aliceAlert.alertWarning([[#{code.msg.enterPCode}]]);
             return false;
         }
 
         const codeLangList = document.querySelectorAll('input[name=codeLangValue]');
         for (let i = 0; i < codeLangList.length; i++) {
             if (codeLangList[i].value.trim() === "") {
-                aliceAlert.alertWarning('[[#{code.msg.enterCodeLangValue}]]');
+                aliceAlert.alertWarning([[#{code.msg.enterCodeLangValue}]]);
                 return false;
             }
         }
