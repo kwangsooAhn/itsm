@@ -76,7 +76,7 @@
                         id="btnUpdate" name="btnUpdate" th:if="${rule?.numberingId}"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="z-button secondary" sec:authorize="hasAuthority('numbering.rule.delete')"
-                        id="btnDelete" name="btnDelete"
+                        id="btnDelete" name="btnDelete" th:if="${rule?.numberingId}"
                         th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
