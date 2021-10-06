@@ -82,7 +82,7 @@ class FormRestController(private val formService: FormService) {
     fun saveForm(
         @RequestBody restTemplateFormDto: RestTemplateFormDto,
         @PathVariable formId: String
-    ): Boolean {
+    ): String {
         return formService.saveForm(formId, restTemplateFormDto)
     }
 
@@ -94,7 +94,7 @@ class FormRestController(private val formService: FormService) {
      * @return Boolean
      */
     @PutMapping("/{formId}/data")
-    fun saveFormData(@RequestBody formData: RestTemplateFormDataDto, @PathVariable formId: String): Boolean {
+    fun saveFormData(@RequestBody formData: RestTemplateFormDataDto, @PathVariable formId: String): String {
         return formService.saveFormData(formId, formData)
     }
 

@@ -65,6 +65,7 @@ export default class ZInputBoxProperty extends ZProperty {
 
         // enter, tab 입력시
         if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
+            this.panel.validationStatus = false; // 유효성 검증 실패
             return false;
         }
         // keyup 일 경우 type, min, max 체크
@@ -74,9 +75,10 @@ export default class ZInputBoxProperty extends ZProperty {
         }
         // change 일 경우 minLength, maxLength 체크
         if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
-            this.panel.validationStatus = true; // 유효성 검증 실패
+            this.panel.validationStatus = false; // 유효성 검증 실패
             return false;
         }
+
         this.panel.update.call(this.panel, e.target.id, e.target.value);
     }
 }

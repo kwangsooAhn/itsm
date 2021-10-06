@@ -38,6 +38,7 @@
     // form status
     const STATUS_USE = 'form.status.use';
     const STATUS_DESTROY = 'form.status.destroy';
+    const STATUS_ERROR_DUPLICATE_FORM_NAME = "1"
 
     let importFile;
     let offsetCount = 0;
@@ -254,7 +255,11 @@
             url: url,
             params: JSON.stringify(data),
             contentType: 'application/json',
-            callbackFunc: function(response) {
+            callbackFunc: function (response) {
+                if (response.responseText === STATUS_ERROR_DUPLICATE_FORM_NAME) {
+                    aliceAlert.alertWarning(i18n.msg('form.msg.duplicateFormName'));
+                    return false;
+                }
                 if (method === 'POST') {
                     const _width = 1500,
                           _height = 980;
