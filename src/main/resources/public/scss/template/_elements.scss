@@ -460,7 +460,6 @@ select {
 
   // select 태그를 대신해서 보여지는 부분
   .z-select-box {
-    display: flex;
     align-items: center;
     @include absolute(0, 0, 0, 0);
     width: 100%;
@@ -470,11 +469,11 @@ select {
     line-height: $element-line-height;
     color: $element-font-color;
     background-color: $element-bg-color;
-    padding: 0 $element-indent;
     @include borderRadius(0.125rem); // 2px
     @include border($element-border-width, solid, $element-border-color, all);
-    overflow: hidden;
     cursor: pointer;
+    @include ellipsis(block);
+    padding: 0.5625rem 1.75rem 0.5625rem 1rem; // 9px 28px 9px 16px
 
     &:not(.readonly) {
 
@@ -512,6 +511,7 @@ select {
           @include absolute($right: 0.5rem); // 8px
           background: $element-icon-color;
           @include rotate(90);
+          margin-top: -0.1875rem; //3px
         }
       }
     }
@@ -553,7 +553,6 @@ select {
     @include borderRadius(0.125rem); // 2px
     @include boxShadow(0, 0, 0.125rem, 0, $element-shadow-color);
     li {
-      padding: 0.5625rem 0; // 9px
       margin: 0 0.3125rem; // 5px
       text-indent: 0.6875rem; // 11px
       align-items: center;
@@ -561,7 +560,9 @@ select {
       font-size: $element-font-size;
       font-weight: $element-font-weight;
       line-height: $element-line-height;
-      @include ellipsis(flex);
+      padding: 0.5625rem 1.75rem 0.5625rem 0; // 9px 28px 9px 16px
+      @include ellipsis(block);
+
 
       &:hover { background: $element-hover-bg-color; }
 
@@ -577,6 +578,7 @@ select {
         height: 0.438rem; // 7px
         @include backgroundImage($icon-folder-path + 'icon_select_check.svg', auto, no-repeat, center, center);
         content: '';
+        padding-top: 0.9375rem; //15px
       }
     }
   }

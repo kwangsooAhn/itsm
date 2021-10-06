@@ -1598,7 +1598,6 @@ select {
   visibility: hidden;
 }
 .z-select .z-select-box {
-  display: flex;
   align-items: center;
   position: absolute;
   top: 0;
@@ -1612,13 +1611,18 @@ select {
   line-height: 1.2;
   color: #222529;
   background-color: #FFFFFF;
-  padding: 0 1rem;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
   border: 0.0625rem solid #CFD5D9;
-  overflow: hidden;
   cursor: pointer;
+  display: block;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+  padding: 0.5625rem 1.75rem 0.5625rem 1rem;
 }
 .z-select .z-select-box:not(.readonly):hover {
   outline: 0;
@@ -1657,6 +1661,7 @@ select {
   -o-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
+  margin-top: -0.1875rem;
 }
 .z-select .z-select-box.readonly {
   background-color: transparent;
@@ -1699,7 +1704,6 @@ select {
   box-shadow: 0 0 0.125rem 0 #CFD5D9;
 }
 .z-select .z-select-options li {
-  padding: 0.5625rem 0;
   margin: 0 0.3125rem;
   text-indent: 0.6875rem;
   align-items: center;
@@ -1707,7 +1711,8 @@ select {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
-  display: flex;
+  padding: 0.5625rem 1.75rem 0.5625rem 0;
+  display: block;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1734,6 +1739,7 @@ select {
   background-position-x: center;
   background-position-y: center;
   content: "";
+  padding-top: 0.9375rem;
 }
 
 .z-slider {
