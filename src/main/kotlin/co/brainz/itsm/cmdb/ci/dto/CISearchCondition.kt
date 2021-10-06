@@ -27,7 +27,7 @@ data class CISearchCondition(
     val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
-    val tagArray: List<String>? = this.tagStrArray()
+    val tagArray: List<String> = this.tagStrArray()
     val isPaging = pageNum > 0
 
     private fun tagStrArray(): List<String> {

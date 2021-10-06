@@ -7125,7 +7125,8 @@ body.modal-active {
 }
 .tagify {
   position: relative;
-  display: flex;
+  display: inline-flex;
+  width: 100%;
   min-height: 2.25rem;
   align-items: flex-start;
   flex-wrap: wrap;
