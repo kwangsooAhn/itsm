@@ -16,21 +16,21 @@ data class ChartDto(
     var chartType: String = "",
     var chartName: String = "",
     var chartDesc: String? = null,
-    var chartConfig: ChartConfig? = null,
+    var chartConfig: ChartConfig,
     var createDt: LocalDateTime? = null,
     var targetTags: ArrayList<String>? = null,
     var propertyJson: String? = null
 ) : Serializable
 
 data class ChartConfig(
-    var range: ChartRange? = null,
+    var range: ChartRange,
     var operation: String = "",
     var periodUnit: String? = null,
     var group: String? = null
 ) : Serializable
 
 data class ChartRange(
-    var type: String? = null,
+    var type: String,
     @JsonFormat(pattern = "yyyy-MM-dd")
     var from: LocalDate? = null,
     @JsonFormat(pattern = "yyyy-MM-dd")

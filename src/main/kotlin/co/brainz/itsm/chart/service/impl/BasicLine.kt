@@ -23,14 +23,14 @@ class BasicLine(
 
     override fun setChartConfigDetail(chartDto: ChartDto): LinkedHashMap<String, Any?> {
         val chartMap = LinkedHashMap<String, Any?>()
-        chartMap[ChartConstants.ObjProperty.PERIOD_UNIT.property] = chartDto.periodUnit
-        chartMap[ChartConstants.ObjProperty.GROUP.property] = chartDto.group
+        chartMap[ChartConstants.ObjProperty.PERIOD_UNIT.property] = chartDto.chartConfig?.periodUnit
+        chartMap[ChartConstants.ObjProperty.GROUP.property] = chartDto.chartConfig?.group
         return chartMap
     }
 
     override fun setChartDetail(chartDto: ChartDto): ChartDto {
-        chartDto.periodUnit = super.chartConfig[ChartConstants.ObjProperty.PERIOD_UNIT.property] as String
-        chartDto.group = super.chartConfig[ChartConstants.ObjProperty.GROUP.property] as String
+        chartDto.chartConfig?.periodUnit = super.chartConfig.periodUnit
+        chartDto.chartConfig?.group = super.chartConfig.group
         return chartDto
     }
 }

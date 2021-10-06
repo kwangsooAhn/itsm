@@ -25,7 +25,6 @@ class Pie(
     }
 
     override fun setChartDetail(chartDto: ChartDto): ChartDto {
-        chartDto.periodUnit = chartDto.durationUnit
         return chartDto
     }
 }

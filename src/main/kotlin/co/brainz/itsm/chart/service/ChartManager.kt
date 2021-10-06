@@ -8,6 +8,7 @@ package co.brainz.itsm.chart.service
 
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.itsm.chart.constants.ChartConstants
+import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDateTimeDto
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.document.constants.DocumentConstants
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.temporal.ChronoUnit
@@ -32,9 +34,9 @@ abstract class ChartManager(
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    lateinit var chartConfig: Map<String, Any>
+    lateinit var chartConfig: ChartConfig
 
-    fun getChartConfigStr(chartDto: ChartDto): String {
+    /*fun getChartConfigStr(chartDto: ChartDto): String {
         val charFormList = mutableListOf<String>()
         chartDto.targetTags?.forEach { tag ->
             charFormList.add(tag.trim())
@@ -53,16 +55,12 @@ abstract class ChartManager(
         chartMap.putAll(this.setChartConfigDetail((chartDto)))
 
         return mapper.writeValueAsString(chartMap)
-    }
+    }*/
 
     abstract fun setChartConfigDetail(chartDto: ChartDto): LinkedHashMap<String, Any?>
 
     fun getChart(chartDto: ChartDto): ChartDto {
-        this.chartConfig = this.getChartConfigMap(chartDto.chartConfig!!)
-        chartDto.targetTags = this.getChartTargetTags(chartConfig)
-        chartDto.operation = this.chartConfig[ChartConstants.ObjProperty.OPERATION.property] as String
-        chartDto.durationDigit = this.getChartDurationDigit(chartConfig)
-        chartDto.durationUnit = this.getChartDurationUnit(chartConfig)
+        this.chartConfig = chartDto.chartConfig!!
         this.setChartDetail(chartDto)
         chartDto.propertyJson = this.getChartProperty(chartDto)
         return chartDto
@@ -270,7 +268,7 @@ abstract class ChartManager(
                 selectDocList.add(document)
             }
         }
-        when (chart.periodUnit) {
+        when (chart.chartConfig?.periodUnit) {
             ChartConstants.Unit.YEAR.code -> {
                 durationMap = this.getPeriodYear(chartDateTime, documentList)
             }
@@ -389,23 +387,29 @@ abstract class ChartManager(
 
     /**
      * 문서 분리에 기준이 되는 시작일을 구한다.
+     * 종료일은 00시 00분 기준이므로 검색 시 포함하지 않아야 한다.
      */
     private fun getChartDateTime(chart: ChartDto): ChartDateTimeDto {
-        lateinit var startDateTime: LocalDateTime
-        val endDateTime: LocalDateTime? = chart.createDt
+        var startDateTime: LocalDateTime = LocalDateTime.now()
+        var endDateTime: LocalDateTime = LocalDateTime.now()
 
-        when (chart.durationUnit) {
-            ChartConstants.Unit.YEAR.code -> {
-                startDateTime = endDateTime!!.minusYears(chart.durationDigit)
+        when (chart.chartConfig?.range?.type) {
+            ChartConstants.RangeType.BETWEEN.code -> {
+                startDateTime = chart.chartConfig.range.from!!.atStartOfDay()
+                endDateTime = chart.chartConfig.range.to!!.plusDays(1).atStartOfDay()
             }
-            ChartConstants.Unit.MONTH.code -> {
-                startDateTime = endDateTime!!.minusMonths(chart.durationDigit)
+            ChartConstants.RangeType.LAST_MONTH.code -> {
+                val lastMonth = YearMonth.from(LocalDateTime.now().minusMonths(1))
+                startDateTime = lastMonth.atDay(1).atStartOfDay()
+                endDateTime = lastMonth.atEndOfMonth().plusDays(1).atStartOfDay()
             }
-            ChartConstants.Unit.DATE.code -> {
-                startDateTime = endDateTime!!.minusDays(chart.durationDigit)
+            ChartConstants.RangeType.LAST_DAY.code -> {
+                startDateTime = LocalDate.now().minusDays(1).atStartOfDay()
+                endDateTime = LocalDate.now().atStartOfDay()
             }
-            ChartConstants.Unit.HOUR.code -> {
-                startDateTime = endDateTime!!.minusHours(chart.durationDigit)
+            ChartConstants.RangeType.ALL.code -> {
+                startDateTime = LocalDate.of(1975,6,23).atStartOfDay() // 내 생일이다. 문제 있을까? By Jung Hee Chan
+                endDateTime = LocalDateTime.now()
             }
         }
 

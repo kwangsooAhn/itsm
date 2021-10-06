@@ -22,8 +22,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import kotlin.math.ceil
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -33,8 +31,6 @@ class ChartService(
     private val chartManagerFactory: ChartManagerFactory,
     private val codeService: CodeService
 ) {
-
-    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
@@ -59,13 +55,11 @@ class ChartService(
      */
     fun getChartPreviewDetail(chartId: String, chartPreviewDto: ChartDto): ChartDto {
         val chart = chartRepository.findByIdOrNull(chartId)
-        val chartConfigStr =
-            chartManagerFactory.getChartManager(chartPreviewDto.chartType).getChartConfigStr(chartPreviewDto)
         val chartDto = ChartDto(
             chartType = chartPreviewDto.chartType,
             chartName = chartPreviewDto.chartName,
             chartDesc = chartPreviewDto.chartDesc,
-            chartConfig = chartConfigStr
+            chartConfig = chartPreviewDto.chartConfig
         )
         if (chart != null) {
             chartDto.chartId = chart.chartId
@@ -87,7 +81,7 @@ class ChartService(
             chartType = chart.chartType,
             chartName = chart.chartName,
             chartDesc = chart.chartDesc,
-            chartConfig = chart.chartConfig,
+            chartConfig = mapper.readValue(chart.chartConfig, ChartConfig::class.java),
             createDt = chart.createDt
         )
 
@@ -99,7 +93,6 @@ class ChartService(
      */
     fun saveChart(chartDto: ChartDto): String {
         val status = ChartConstants.Status.STATUS_SUCCESS.code
-        //val chartConfigStr = chartManagerFactory.getChartManager(chartDto.chartType).getChartConfigStr(chartDto)
         val chartEntity = ChartEntity(
             chartId = chartDto.chartId,
             chartType = chartDto.chartType,
@@ -132,10 +125,6 @@ class ChartService(
         codeListMap["range"] = codeService.selectCodeByParent(ChartConstants.PCode.RANGE.code)
         codeListMap["unit"] = codeService.selectCodeByParent(ChartConstants.PCode.UNIT.code)
 
-        return codeListMap;
-    }
-
-    fun convertChartConfigToJsonString(chartConfig: ChartConfig): String {
-        return
+        return codeListMap
     }
 }
