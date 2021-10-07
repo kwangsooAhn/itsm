@@ -134,7 +134,7 @@ class CIClassServiceTest {
             val updateAttributes = mutableListOf<String>()
             for (ciClassDto in ciClassDtoList.data) {
                 if (ciClassDto.className == this.className) {
-                    val ciClassAttributeList = ciClassService.getCIClassAttributes(ciClassDto.classId.toString())
+                    val ciClassAttributeList = ciClassService.getCIClassAttributes("", ciClassDto.classId.toString())
                     ciClassAttributeList.forEach { ciClass ->
                         ciClass.attributes?.forEach { attribute ->
                             updateAttributes.add(attribute.attributeId)

@@ -105,7 +105,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             )
 
             .orderBy(ci.ciName.asc())
-        if (ciSearchCondition.tagArray?.isNotEmpty() == true) {
+        if (ciSearchCondition.tagArray.isNotEmpty()) {
             query.where(
                 ci.ciId.`in`(
                     JPAExpressions

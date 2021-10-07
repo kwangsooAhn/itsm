@@ -96,7 +96,7 @@
                             <td style="width:100%" colspan="5" th:text="#{common.msg.noData}"></td>
                         </tr>
                         <tr th:each="category: ${boardAdmin?.categoryList}">
-                            <td class="col-6 align-left" th:text="${category.boardCategoryName}"></td>
+                            <td class="col-6 align-left text-wordWrap" th:text="${category.boardCategoryName}"></td>
                             <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
                             <td class="col-1 align-center">
                                 <th:block th:if="${category.boardCount == 0}">

@@ -42,11 +42,9 @@
         <label class="auth-list" th:text="#{auth.label.menuList}"></label>
         <div class="z-checkbox-list">
             <ul id='menuList'>
-                <li th:each="menu : ${menuList}">
+                <li class="text-ellipsis" th:each="menu : ${menuList}">
                     <label class="z-checkbox" th:for="${menu?.menuId}" tabindex="0">
-                        <input class="auth-list-check" type="checkbox" name="authMenu"
-                               th:id="${menu?.menuId}"
-                               th:value="${menu?.menuId}" disabled>
+                        <input type="checkbox" name="authMenu" th:id="${menu?.menuId}" th:value="${menu?.menuId}" disabled>
                         <span></span>
                         <span class="z-label" th:text="#{|menu.${menu?.menuId}|}"></span>
                     </label>

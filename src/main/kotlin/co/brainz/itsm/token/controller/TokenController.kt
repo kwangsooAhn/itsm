@@ -13,7 +13,7 @@ import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.role.service.RoleService
-import co.brainz.itsm.token.dto.TokenSearchConditionDto
+import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.provider.dto.DocumentSearchCondition
@@ -79,11 +79,11 @@ class TokenController(
     }
 
     @GetMapping("")
-    fun getTokenList(tokenSearchConditionDto: TokenSearchConditionDto, model: Model): String {
-        val result = tokenService.getTokenList(tokenSearchConditionDto)
+    fun getTokenList(tokenSearchCondition: TokenSearchCondition, model: Model): String {
+        val result = tokenService.getTokenList(tokenSearchCondition)
         model.addAttribute("tokenList", result.data)
         model.addAttribute("tokenCount", result.totalCount)
-        return if (tokenSearchConditionDto.isScroll) tokenListFragment else tokenListPage
+        return if (tokenSearchCondition.isScroll) tokenListFragment else tokenListPage
     }
 
     /**

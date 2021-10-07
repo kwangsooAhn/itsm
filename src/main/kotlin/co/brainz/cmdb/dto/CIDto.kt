@@ -33,5 +33,14 @@ data class CIDto(
 data class CIDataDto(
     var ciId: String,
     var attributeId: String,
-    var attributeData: String?
+    var attributeData: String?,
+    var childAttributes: MutableList<CIDataForGroupListDto>? = null
+)
+
+data class CIDataForGroupListDto(
+    var ciId: String,
+    var attributeId: String,
+    val cAttributeId: String,
+    var cAttributeSeq: Int = 0,
+    var cValue: String?
 )

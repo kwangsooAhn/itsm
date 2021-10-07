@@ -64,7 +64,7 @@
         if (element.id === 'fromDt') {
             const toDtValue = document.getElementById('searchToDt').value;
             if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                aliceAlert.alertWarning(i18n.msg("common.msg.selectBeforeDate", toDtValue), function() {
+                aliceAlert.alertWarning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function() {
                     document.getElementById('fromDt').value = searchFromDt;
                     picker.open();
                 });
@@ -74,7 +74,7 @@
         } else {
             const fromDtValue = document.getElementById('fromDt').value;
             if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                aliceAlert.alertWarning(i18n.msg("common.msg.selectAfterDate", fromDtValue), function() {
+                aliceAlert.alertWarning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function() {
                     document.getElementById('searchToDt').value = searchToDt;
                     picker.open();
                 });
@@ -105,9 +105,6 @@
             callbackFunc: function(response) {
                 document.getElementById('boardList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('boardList'));
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             },
             showProgressbar: false
         };

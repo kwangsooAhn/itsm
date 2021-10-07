@@ -74,10 +74,10 @@ class CIClassRestController(private val ciClassService: CIClassService) {
     }
 
     /**
-     * CMDB CI Class에 따른 세부 속성 조회
+     * CMDB CI Class에 따른 세부 속성 조회 (신규 추가)
      */
     @GetMapping("/{classId}/attributes")
     fun getCIClassAttributes(@PathVariable classId: String): List<CIClassDetailValueDto> {
-        return ciClassService.getCIClassAttributes(classId)
+        return ciClassService.getCIClassAttributes("", classId)
     }
 }

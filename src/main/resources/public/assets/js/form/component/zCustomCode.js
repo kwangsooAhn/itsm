@@ -241,7 +241,10 @@ export const customCodeMixin = {
             } else {
                 selectedRadioId = this.value;
             }
-            if (!zValidation.isEmpty(selectedRadioId)) {
+
+            // 세션 값은 selectedRadioId를 받아와도, 해당 값이 커스텀 코드 목록 내에 없을 수 있다.
+            // 따라서 selectedRadioId가 아닌 해당 아이디를 가진 dom 항목이 있을 경우 checked 되도록 해야한다.
+            if (document.getElementById(selectedRadioId)) {
                 document.getElementById(selectedRadioId).checked = true;
             }
             OverlayScrollbars(document.querySelector('.radio-list'), { className: 'scrollbar' });

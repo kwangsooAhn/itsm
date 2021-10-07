@@ -312,11 +312,11 @@
         aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/workflows/' +
             documentId, {}, function(result) {
             if (JSON.parse(result)) {
-                aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
+                aliceAlert.alertSuccess([[#{common.msg.delete}]], function() {
                     location.reload();
                 });
             } else {
-                aliceAlert.alertWarning('[[#{document.msg.launchedInstance}]]');
+                aliceAlert.alertWarning([[#{document.msg.launchedInstance}]]);
             }
         }, false);
     }
@@ -344,9 +344,6 @@
             callbackFunc: function(response) {
                 document.getElementById('documentList').innerHTML = response.responseText;
                 aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                OverlayScrollbars(document.querySelector('.z-list-body'), {
-                    className: 'scrollbar'
-                });
             },
             showProgressbar: false
         };

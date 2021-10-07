@@ -22,7 +22,7 @@
     <form id="searchFrm">
         <input type="text" class="z-input i-search col-5" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{cmdb.ci.label.searchPlaceholder}"/>
-        <input type="text" class="z-input i-search col-3 mr-2" id="tagSearch" name="tagSearch" maxlength="100"
+        <input type="text" class="z-input i-search col-5 mr-2" id="tagSearch" name="tagSearch" maxlength="100"
                th:placeholder="#{cmdb.ci.label.tagPlaceholder}"/>
         <input type="hidden" id="flag" name="flag" value="itsm"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
@@ -43,9 +43,17 @@
         document.getElementById('tagSearch').onkeyup = function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
+
+        new zTag(document.getElementById('tagSearch'), {
+            suggestion: true,
+            realtime: false,
+            tagType: 'ci',
+            targetId: '',
+            callback: function () {
                 getList();
             }
-        };
+        });
+
         getList();
     }
 
@@ -119,9 +127,6 @@
                     ciDetailModal.show();
                 } else {
                     document.getElementById('ciList').innerHTML = response.responseText;
-                    OverlayScrollbars(document.querySelector('.z-list-body'), {
-                        className: 'scrollbar'
-                    });
                 }
             }
         };

@@ -8,7 +8,7 @@ package co.brainz.itsm.dashboard.service
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.dashboard.constants.DashboardConstants
 import co.brainz.itsm.dashboard.dto.DashboardStatisticDto
-import co.brainz.itsm.token.dto.TokenSearchConditionDto
+import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
@@ -46,7 +46,7 @@ class DashboardService(
             DashboardConstants.StatisticType.DONE.code
         )
 
-        val tokenSearchConditionDto = TokenSearchConditionDto(
+        val tokenSearchCondition = TokenSearchCondition(
             userKey = currentSessionUser.getUserKey()
         )
         var dashboardStatisticDto: DashboardStatisticDto
@@ -57,41 +57,41 @@ class DashboardService(
             dashboardStatisticDto = DashboardStatisticDto()
             when (typeList[i]) {
                 DashboardConstants.StatisticType.TODO.code -> {
-                    tokenSearchConditionDto.searchTokenType = WfTokenConstants.SearchType.TODO.code
+                    tokenSearchCondition.searchTokenType = WfTokenConstants.SearchType.TODO.code
                 }
                 DashboardConstants.StatisticType.RUNNING.code -> {
-                    tokenSearchConditionDto.searchTokenType = WfTokenConstants.SearchType.PROGRESS.code
+                    tokenSearchCondition.searchTokenType = WfTokenConstants.SearchType.PROGRESS.code
                 }
                 DashboardConstants.StatisticType.MONTHDONE.code -> {
-                    tokenSearchConditionDto.searchTokenType = WfTokenConstants.SearchType.COMPLETED.code
-                    tokenSearchConditionDto.searchFromDt =
+                    tokenSearchCondition.searchTokenType = WfTokenConstants.SearchType.COMPLETED.code
+                    tokenSearchCondition.searchFromDt =
                         LocalDateTime.parse(
                             LocalDateTime.of(today.year, today.month, 1, 0, 0, 0).toString(),
                             DateTimeFormatter.ISO_DATE_TIME
                         ).toString()
-                    tokenSearchConditionDto.searchToDt =
+                    tokenSearchCondition.searchToDt =
                         LocalDateTime.parse(
                             LocalDateTime.of(today.year, today.month, today.lengthOfMonth(), 23, 59, 59)
                                 .toString(), DateTimeFormatter.ISO_DATE_TIME
                         ).toString()
                 }
                 DashboardConstants.StatisticType.DONE.code -> {
-                    tokenSearchConditionDto.searchFromDt = ""
-                    tokenSearchConditionDto.searchToDt = ""
-                    tokenSearchConditionDto.searchTokenType = WfTokenConstants.SearchType.COMPLETED.code
+                    tokenSearchCondition.searchFromDt = ""
+                    tokenSearchCondition.searchToDt = ""
+                    tokenSearchCondition.searchTokenType = WfTokenConstants.SearchType.COMPLETED.code
                 }
             }
             dashboardStatisticDto.type = typeList[i]
-            tokenSearchConditionDto.documentGroup = ""
-            dashboardStatisticDto.total = tokenService.getTokenList(tokenSearchConditionDto).totalCount
-            tokenSearchConditionDto.documentGroup = DashboardConstants.DocumentGroup.INCIDENT.code
-            dashboardStatisticDto.incident = tokenService.getTokenList(tokenSearchConditionDto).totalCount
-            tokenSearchConditionDto.documentGroup = DashboardConstants.DocumentGroup.INQUIRY.code
-            dashboardStatisticDto.inquiry = tokenService.getTokenList(tokenSearchConditionDto).totalCount
-            tokenSearchConditionDto.documentGroup = DashboardConstants.DocumentGroup.REQUEST.code
-            dashboardStatisticDto.request = tokenService.getTokenList(tokenSearchConditionDto).totalCount
-            tokenSearchConditionDto.documentGroup = DashboardConstants.DocumentGroup.ETC.code
-            dashboardStatisticDto.etc = tokenService.getTokenList(tokenSearchConditionDto).totalCount
+            tokenSearchCondition.documentGroup = ""
+            dashboardStatisticDto.total = tokenService.getTokenList(tokenSearchCondition).totalCount
+            tokenSearchCondition.documentGroup = DashboardConstants.DocumentGroup.INCIDENT.code
+            dashboardStatisticDto.incident = tokenService.getTokenList(tokenSearchCondition).totalCount
+            tokenSearchCondition.documentGroup = DashboardConstants.DocumentGroup.INQUIRY.code
+            dashboardStatisticDto.inquiry = tokenService.getTokenList(tokenSearchCondition).totalCount
+            tokenSearchCondition.documentGroup = DashboardConstants.DocumentGroup.REQUEST.code
+            dashboardStatisticDto.request = tokenService.getTokenList(tokenSearchCondition).totalCount
+            tokenSearchCondition.documentGroup = DashboardConstants.DocumentGroup.ETC.code
+            dashboardStatisticDto.etc = tokenService.getTokenList(tokenSearchCondition).totalCount
 
             dashboardStatisticDtoList.add(dashboardStatisticDto)
         }
