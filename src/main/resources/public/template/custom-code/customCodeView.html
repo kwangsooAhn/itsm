@@ -18,12 +18,12 @@
     <div class="flex-column z-view-row">
         <label th:text="#{customCode.label.type}"></label>
         <div class="flex-row mr-auto">
-            <label class="z-radio mr-4" for="table" tabindex="0">
+            <label class="z-radio" for="table" tabindex="0">
                 <input id="table" name="type" type="radio"
                        th:checked="${customCode?.type == null || customCode?.type == 'table'}"
                        onclick="changeContainer('table')" disabled>
                 <span></span>
-                <span class="z-label" th:text="#{customCode.label.table}"></span>
+                <span class="z-label mr-4" th:text="#{customCode.label.table}"></span>
             </label>
             <label class="z-radio" for="code" tabindex="0">
                 <input id="code" name="type" type="radio"
@@ -100,10 +100,10 @@
                     divRow.classList.add('flex-row', 'z-view-row');
 
                     const conditionInput = document.createElement('input');
-                    conditionInput.classList.add('col-6');
+                    conditionInput.classList.add('z-input', 'col-6');
                     conditionInput.type = 'text';
                     conditionInput.maxLength = 100;
-                    conditionInput.value = getColumnName(data);
+                    conditionInput.value = getColumnName(condition[data].conditionKey);
                     conditionInput.disabled = true;
 
                     const equalSpan = document.createElement('span');
@@ -111,10 +111,10 @@
                     equalSpan.textContent = '=';
 
                     const valueInput = document.createElement('input');
-                    valueInput.classList.add('col-6');
+                    valueInput.classList.add('z-input', 'col-6');
                     valueInput.type = 'text';
                     valueInput.maxLength = 100;
-                    valueInput.value = condition[data];
+                    valueInput.value = condition[data].conditionValue;
                     valueInput.disabled = true;
 
                     divRow.appendChild(conditionInput);
