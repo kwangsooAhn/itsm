@@ -9,7 +9,7 @@ import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.service.DocumentActionService
-import co.brainz.itsm.token.dto.TokenSearchConditionDto
+import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
@@ -100,14 +100,14 @@ class TokenService(
     /**
      * 처리할 문서 리스트 조회.
      *
-     * @param tokenSearchConditionDto
+     * @param tokenSearchCondition
      * @return List<tokenDto>
      */
     fun getTokenList(
-        tokenSearchConditionDto: TokenSearchConditionDto
+        tokenSearchCondition: TokenSearchCondition
     ): RestTemplateInstanceListReturnDto {
-        tokenSearchConditionDto.userKey = currentSessionUser.getUserKey()
-        return wfInstanceService.instances(tokenSearchConditionDto)
+        tokenSearchCondition.userKey = currentSessionUser.getUserKey()
+        return wfInstanceService.instances(tokenSearchCondition)
     }
 
     /**
@@ -117,7 +117,7 @@ class TokenService(
         documentActionService.makeTokenAction(mapper.writeValueAsString(wfTokenService.getTokenData(tokenId)))
 
     fun getTodoTokenCount(): Long = getTokenList(
-        TokenSearchConditionDto(
+        TokenSearchCondition(
             userKey = currentSessionUser.getUserKey(),
             searchTokenType = WfTokenConstants.SearchType.TODO.code
         )

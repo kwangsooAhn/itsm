@@ -50,8 +50,8 @@ class ApiCIClassService(
     /**
      * CI Class 에서 적용된 Attribute 목록 조회
      */
-    fun getCIClassAttributes(classId: String): List<CIClassDetailValueDto> {
-        return ciClassService.getCIClassAttributes(classId)
+    fun getCIClassAttributes(ciId: String, classId: String): List<CIClassDetailValueDto> {
+        return ciClassService.getCIClassAttributes(ciId, classId)
     }
 
     /**

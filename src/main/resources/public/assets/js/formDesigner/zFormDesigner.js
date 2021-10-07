@@ -691,6 +691,8 @@ class ZFormDesigner {
      * @param boolean 저장후  팝업 닫을지 여부
      */
     saveForm(boolean) {
+        const STATUS_SUCCESS = "0"
+        const STATUS_ERROR_DUPLICATE_FORM_NAME = "1"
         // 세부 속성 유효성 검증 실패시 동작을 중지한다.
         if (!this.panel.validationStatus) { return false; }
         // 발행, 사용 상태일 경우, 저장이 불가능하다.
@@ -712,27 +714,33 @@ class ZFormDesigner {
             body: JSON.stringify(saveData),
             showProgressbar: true
         }).then((formData) => {
-            if (formData) {
-                this.data = saveData;
-                this.history.saveHistoryIndex = this.history.undoList.length;
-                this.history.status = 0;
-                this.setFormName();
-                // 팝업 닫기
-                if (boolean) {
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
-                        if (window.opener && !window.opener.closed) {
-                            opener.location.reload();
-                        }
-                        window.close();
-                    });
-                } else {
-                    const date = new Date();
-                    document.getElementById('saveInfo').innerText = i18n.msg('form.msg.saveInfo'
-                        , i18n.userDateTime(date.toISOString()));
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
-                }
-            } else {
-                aliceAlert.alertDanger(i18n.msg('common.label.fail'));
+            switch(formData.toString()) {
+                case STATUS_SUCCESS:
+                    this.data = saveData;
+                    this.history.saveHistoryIndex = this.history.undoList.length;
+                    this.history.status = 0;
+                    this.setFormName();
+                    // 팝업 닫기
+                    if (boolean) {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
+                            if (window.opener && !window.opener.closed) {
+                                opener.location.reload();
+                            }
+                            window.close();
+                        });
+                    } else {
+                        const date = new Date();
+                        document.getElementById('saveInfo').innerText = i18n.msg('form.msg.saveInfo'
+                            , i18n.userDateTime(date.toISOString()));
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
+                    }
+                    break;
+                case STATUS_ERROR_DUPLICATE_FORM_NAME:
+                    aliceAlert.alertWarning(i18n.msg('form.msg.duplicateFormName'));
+                    break;
+                default:
+                    aliceAlert.alertDanger(i18n.msg('common.label.fail'));
+                    break;
             }
         }).catch(err => {
             aliceAlert.alertWarning(err);

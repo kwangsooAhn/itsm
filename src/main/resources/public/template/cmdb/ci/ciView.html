@@ -7,11 +7,12 @@
     <title th:text="#{cmdb.ci.label.ciInquiry}"></title>
 </head>
 <th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
 </th:block>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{cmdb.ci.label.ciInquiry}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{cmdb.ci.msg.searchDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{cmdb.ci.msg.viewDescription}"></h6>
 </div>
 <div layout:fragment="pageView">
     <input type="hidden" id="ciId" th:value="${ciData?.ciId}"/>
@@ -66,7 +67,7 @@
         <input type="text" id="tags" name="ciDetailTags" class="z-input" th:value="|${ciData.ciTags}|" readonly />
     </div>
     <!-- 세부속성 -->
-    <div class="flex-column z-view-row" id="ciAttributes" th:onclick="zCmdbAttribute.drawViewDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
+    <div class="flex-column z-view-row" id="ciAttributes" th:onclick="zCmdbAttribute.drawDetails(this, [[${ciData?.classes}]], [[${userInfo}]], 'view');">
     </div>
     <!-- 변경 이력 -->
     <div class="flex-column z-view-row">

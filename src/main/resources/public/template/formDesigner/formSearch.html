@@ -38,6 +38,7 @@
     // form status
     const STATUS_USE = 'form.status.use';
     const STATUS_DESTROY = 'form.status.destroy';
+    const STATUS_ERROR_DUPLICATE_FORM_NAME = "1"
 
     let importFile;
     let offsetCount = 0;
@@ -93,11 +94,11 @@
     function deleteForm(formId) {
         aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/forms/' + formId, function(result) {
             if (result === 'true') {
-                aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
+                aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
                     location.reload();
                 });
             } else {
-                aliceAlert.alertDanger('[[#{form.msg.failedFormDelete}]]');
+                aliceAlert.alertDanger(i18n.msg('form.msg.failedFormDelete'));
             }
         });
     }
@@ -254,7 +255,11 @@
             url: url,
             params: JSON.stringify(data),
             contentType: 'application/json',
-            callbackFunc: function(response) {
+            callbackFunc: function (response) {
+                if (response.responseText === STATUS_ERROR_DUPLICATE_FORM_NAME) {
+                    aliceAlert.alertWarning(i18n.msg('form.msg.duplicateFormName'));
+                    return false;
+                }
                 if (method === 'POST') {
                     const _width = 1500,
                           _height = 980;

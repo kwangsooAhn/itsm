@@ -19,13 +19,13 @@
                 <tr>
                     <td th:switch="${statistic.type}" class="align-center" rowspan="2">
                         <img th:case="todo" class="z-icon" height="50%" width="50%"
-                             th:src="@{/assets/theme/{theme}/media/icons/dashboard/Icon_todo_document.svg(theme=${#authentication.details.theme})}">
+                             th:src="@{/assets/theme/{theme}/media/icons/dashboard/icon_todo_document.svg(theme=${#authentication.details.theme})}">
                         <img th:case="running" class="z-icon" height="50%" width="50%"
-                             th:src="@{/assets/theme/{theme}/media/icons/dashboard/Icon_running_document.svg(theme=${#authentication.details.theme})}">
+                             th:src="@{/assets/theme/{theme}/media/icons/dashboard/icon_running_document.svg(theme=${#authentication.details.theme})}">
                         <img th:case="monthDone" class="z-icon" height="50%" width="50%"
-                             th:src="@{/assets/theme/{theme}/media/icons/dashboard/Icon_month_done_document.svg(theme=${#authentication.details.theme})}">
+                             th:src="@{/assets/theme/{theme}/media/icons/dashboard/icon_month_done_document.svg(theme=${#authentication.details.theme})}">
                         <img th:case="done" class="z-icon" height="50%" width="50%"
-                             th:src="@{/assets/theme/{theme}/media/icons/dashboard/Icon_done_document.svg(theme=${#authentication.details.theme})}">
+                             th:src="@{/assets/theme/{theme}/media/icons/dashboard/icon_done_document.svg(theme=${#authentication.details.theme})}">
                     </td>
                     <td th:switch="${statistic.type}" colspan="2">
                         <h4 th:case="todo" class="flex-row" th:text="#{dashboard.label.todoDocument}"></h4>

@@ -41,4 +41,14 @@ object WfFormConstants {
         VALIDATE("validate"),
         DISPLAY("display")
     }
+
+    /**
+     * Form Save or Create Status.
+     *
+     * @param code
+     */
+    enum class Status(val code: String) {
+        STATUS_SUCCESS("0"),
+        STATUS_ERROR_DUPLICATE_FORM_NAME("1")
+    }
 }

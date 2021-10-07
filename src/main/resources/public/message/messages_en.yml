@@ -689,6 +689,7 @@ form:
     searchDescription: "View and manage forms."
     selectImportFile: "Please select an import file."
     unique: "Duplicate data cannot be included."
+    duplicateFormName: "Duplicate form name! Please enter other form name."
   form: "Form"
   group: "Group"
   row: "Row"

@@ -13,6 +13,7 @@ import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.form.dto.FormSearchCondition
+import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.entity.WfComponentPropertyEntity
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
@@ -336,9 +337,9 @@ class WfFormService(
      * @return Boolean
      */
     @Transactional
-    fun saveForm(restTemplateFormDto: RestTemplateFormDto): Boolean {
+    fun saveForm(restTemplateFormDto: RestTemplateFormDto): String {
         this.updateFormEntity(restTemplateFormDto)
-        return true
+        return WfFormConstants.Status.STATUS_SUCCESS.code
     }
 
     /**
@@ -347,7 +348,7 @@ class WfFormService(
      * @param formData
      */
     @Transactional
-    fun saveFormData(formData: RestTemplateFormDataDto): Boolean {
+    fun saveFormData(formData: RestTemplateFormDataDto): String {
 
         // Delete
         val groupEntities = formData.id?.let { wfFormGroupRepository.findByFormId(it) }
@@ -421,7 +422,7 @@ class WfFormService(
             }
         }
 
-        return true
+        return WfFormConstants.Status.STATUS_SUCCESS.code
     }
 
     /**
@@ -534,5 +535,29 @@ class WfFormService(
             }
         }
         return wfFormGroupPropertyEntities
+    }
+
+    /**
+     * Check Form Data
+     */
+    fun checkFormData(formId: String?, formName: String): String {
+        var status = WfFormConstants.Status.STATUS_SUCCESS.code
+
+        if (formId == null) {
+            if (wfFormRepository.existsByFormName(formName)) {
+                status = WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+            }
+        } else {
+            val existForm = wfFormRepository.getOne(formId)
+            val isExistForm = existForm.formName == formName
+            if (!isExistForm) {
+                if (wfFormRepository.existsByFormName(formName)) {
+                    status = WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+                }
+            }
+
+        }
+
+        return status
     }
 }
