@@ -101,7 +101,7 @@ abstract class ChartManager(
         val formIds = mutableListOf<String>()
         val documentList = mutableListOf<WfDocumentEntity>()
         val tagTargetIds = mutableListOf<String>()
-        chart.targetTags?.let {
+        chart.chartConfig.tags?.let {
             chartManagerService.getTagValueList(AliceTagConstants.TagType.COMPONENT.code, it).forEach { tag ->
                 tagTargetIds.add(tag.targetId)
             }
@@ -415,7 +415,7 @@ abstract class ChartManager(
 
         return ChartDateTimeDto(
             startDateTime = startDateTime,
-            endDateTime = chart.createDt,
+            endDateTime = endDateTime,
             startYear = startDateTime.year,
             startMonth = startDateTime.monthValue,
             startDays = startDateTime.dayOfMonth,

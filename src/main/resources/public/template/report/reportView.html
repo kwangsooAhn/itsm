@@ -88,7 +88,7 @@
             chartTarget.insertAdjacentHTML('beforeend', element);
 
             setChart(data.chartType, data.propertyJson, data.chartId + '_chart');
-            parsedPropertyJson(data.chartConfig, data.propertyJson);
+            parsedPropertyJson(data.chartType, data.chartConfigStr, data.propertyJson);
         }
 
         /** 하이차트 초기화 */
@@ -97,8 +97,8 @@
         }
 
         /** chartConfig 파싱 진행 **/
-        function parsedPropertyJson(chartConfig, property) {
-            chart.parsedPropertyJson(chartConfig, property);
+        function parsedPropertyJson(chartType, chartConfig, property) {
+            chart.parsedPropertyJson(chartType, chartConfig, property);
         }
         /*]]>*/
     </script>

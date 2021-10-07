@@ -67,7 +67,7 @@ object ChartConstants {
      */
     enum class RangeType(val code: String) {
         BETWEEN("chart.range.between"),
-        LAST_MONTH(",chart.range.last.month"),
+        LAST_MONTH("chart.range.last.month"),
         LAST_DAY("chart.range.last.day"),
         ALL("chart.range.all")
     }

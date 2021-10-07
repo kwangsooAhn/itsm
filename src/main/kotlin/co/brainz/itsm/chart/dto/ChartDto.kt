@@ -18,15 +18,16 @@ data class ChartDto(
     var chartDesc: String? = null,
     var chartConfig: ChartConfig,
     var createDt: LocalDateTime? = null,
-    var targetTags: ArrayList<String>? = null,
-    var propertyJson: String? = null
+    var propertyJson: String? = null,
+    var chartConfigStr: String? = null
 ) : Serializable
 
 data class ChartConfig(
     var range: ChartRange,
     var operation: String = "",
     var periodUnit: String? = null,
-    var group: String? = null
+    var group: String? = null,
+    var tags: ArrayList<String>? = null
 ) : Serializable
 
 data class ChartRange(

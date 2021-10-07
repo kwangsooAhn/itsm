@@ -59,7 +59,8 @@ class ChartService(
             chartType = chartPreviewDto.chartType,
             chartName = chartPreviewDto.chartName,
             chartDesc = chartPreviewDto.chartDesc,
-            chartConfig = chartPreviewDto.chartConfig
+            chartConfig = chartPreviewDto.chartConfig,
+            chartConfigStr = mapper.writeValueAsString(chartPreviewDto.chartConfig)
         )
         if (chart != null) {
             chartDto.chartId = chart.chartId
@@ -82,7 +83,8 @@ class ChartService(
             chartName = chart.chartName,
             chartDesc = chart.chartDesc,
             chartConfig = mapper.readValue(chart.chartConfig, ChartConfig::class.java),
-            createDt = chart.createDt
+            createDt = chart.createDt,
+            chartConfigStr = chart.chartConfig
         )
 
         return chartManagerFactory.getChartManager(chart.chartType).getChart(chartDto)
