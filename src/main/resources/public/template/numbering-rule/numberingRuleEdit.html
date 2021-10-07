@@ -14,7 +14,10 @@
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
         <div class="z-edit-row flex-column">
-            <label th:text="#{rule.label.name}" class="required"></label>
+            <label>
+                <span th:text="#{rule.label.name}"></span>
+                <span class="required"></span>
+            </label>
             <input type="hidden" id="txtRuleId" name="txtRuleId" th:value="${rule?.numberingId}"/>
             <input type="text" class="z-input" id="txtRuleName" name="txtRuleName" maxlength="100"
                    th:value="${rule?.numberingName}"/>
@@ -27,7 +30,10 @@
         <div id="type-select-pattern" class="z-edit-row">
             <div class="z-edit-row flex-column">
                 <div class="under-bar">
-                    <label th:text="#{pattern.label.pattern}" class="required"></label>
+                    <label>
+                        <span th:text="#{pattern.label.pattern}"></span>
+                        <span class="required"></span>
+                    </label>
                     <button type="button" class="z-button-icon extra float-right" onclick="addPattern()">
                         <span class="z-icon i-plus"></span>
                     </button>

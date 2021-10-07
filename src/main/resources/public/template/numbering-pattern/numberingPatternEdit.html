@@ -14,13 +14,19 @@
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
         <div class="z-edit-row flex-column">
-            <label th:text="#{pattern.label.name}" class="required"></label>
+            <label>
+                <span th:text="#{pattern.label.name}"></span>
+                <span class="required"></span>
+            </label>
             <input type="hidden" id="txtPatternId" name="txtPatternId" th:value="${pattern?.patternId}"/>
             <input type="text" class="z-input" id="txtPatternName" name="txtPatternName"
                    th:value="${pattern?.patternName}" maxlength="100"/>
         </div>
         <div class="z-edit-row flex-column">
-            <label th:text="#{pattern.label.type}" class="required"></label>
+            <label>
+                <span th:text="#{pattern.label.type}"></span>
+                <span class="required"></span>
+            </label>
             <div class="flex-row mr-auto">
                 <label class="z-radio">
                     <input id="numbering.pattern.text" name="patternType" type="radio"
@@ -47,12 +53,18 @@
         </div>
         <div th:style="${pattern?.patternType == null || pattern?.patternType == 'numbering.pattern.text' || pattern?.patternType == 'numbering.pattern.sequence' ? '' : 'display: none'}"
              id="type-input-pattern" class="z-edit-row flex-column">
-            <label th:text="#{pattern.label.value}" class="required"></label>
+            <label>
+                <span th:text="#{pattern.label.value}"></span>
+                <span class="required"></span>
+            </label>
             <input type="text" class="z-input" id="txtPatternValue" name="txtPatternValue" maxlength="100"
                    th:value="${pattern?.patternValue}">
         </div>
         <div th:style="${pattern?.patternType == 'numbering.pattern.date' ? '': 'display: none'}" id="type-select-pattern" class="z-edit-row flex-column">
-            <label th:text="#{pattern.label.value}" class="required"></label>
+            <label>
+                <span th:text="#{pattern.label.value}"></span>
+                <span class="required"></span>
+            </label>
             <select id="selectPatternDateValue" name="selectPatternDateValue" class="select-date-time mr-1">
                 <option th:each="date: ${dateList}" th:value="${date.code}"
                         th:text="${date.codeValue}" th:selected="${date.codeValue == pattern?.patternValue}"></option>
