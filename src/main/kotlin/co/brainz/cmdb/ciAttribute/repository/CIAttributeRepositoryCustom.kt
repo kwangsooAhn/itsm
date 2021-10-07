@@ -24,6 +24,7 @@ interface CIAttributeRepositoryCustom : AliceRepositoryCustom {
         attributeId: String,
         ciAttributeSearchCondition: CIAttributeSearchCondition
     ): QueryResults<CIAttributeListDto>
+
     fun findAttributeListInGroupList(attributeIdList: MutableList<String>): QueryResults<CIAttributeValueDto>
     fun findGroupListData(attributeId: String, ciId: String): QueryResults<CIGroupListDto>
 }

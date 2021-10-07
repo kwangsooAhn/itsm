@@ -51,6 +51,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
+import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -179,6 +180,7 @@ class CIService(
     /**
      * CI 등록.
      */
+    @Transactional
     fun createCI(ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
         val existCount = 0L
@@ -277,6 +279,7 @@ class CIService(
     /**
      * CI 업데이트.
      */
+    @Transactional
     fun updateCI(ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
         val findCIEntity = ciRepository.findById(ciDto.ciId)
@@ -317,7 +320,7 @@ class CIService(
                 )
             )
             if (!ciData.childAttributes.isNullOrEmpty()) {
-                ciGroupListDataRepository.deleteByCiId(ciDto.ciId, ciData.attributeId)
+                ciGroupListDataRepository.deleteByCi_CiIdAndCiAttribute_AttributeId(ciDto.ciId, ciData.attributeId)
                 ciData.childAttributes?.forEach { groupListData ->
                     ciGroupListDataRepository.save(
                         CIGroupListDataEntity(
@@ -366,6 +369,7 @@ class CIService(
     /**
      * CI 삭제
      */
+    @Transactional
     fun deleteCI(ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
 

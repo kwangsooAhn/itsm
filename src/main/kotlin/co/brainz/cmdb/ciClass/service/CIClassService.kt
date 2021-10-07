@@ -380,15 +380,17 @@ class CIClassService(
             for (groupData in groupListQueryResult.results) {
                 loop@ for (attribute in ciAttributeQueryResult.results) {
                     if (groupData.cAttributeId == attribute.attributeId) {
-                        ciAttributeDataList.add(CIAttributeValueDto(
-                            attributeId = groupData.cAttributeId,
-                            attributeName = attribute.attributeName,
-                            attributeText = attribute.attributeText,
-                            attributeType = attribute.attributeType,
-                            attributeOrder = groupData.cAttributeSeq,
-                            attributeValue = attribute.attributeValue,
-                            value = groupData.cValue
-                        ))
+                        ciAttributeDataList.add(
+                            CIAttributeValueDto(
+                                attributeId = groupData.cAttributeId,
+                                attributeName = attribute.attributeName,
+                                attributeText = attribute.attributeText,
+                                attributeType = attribute.attributeType,
+                                attributeOrder = groupData.cAttributeSeq,
+                                attributeValue = attribute.attributeValue,
+                                value = groupData.cValue
+                            )
+                        )
                         break@loop
                     }
                 }
