@@ -1886,13 +1886,13 @@ select {
 .z-select .z-select-box:not(.readonly) .z-icon.i-arrow-right {
   position: absolute;
   right: 0.5rem;
+  margin-top: -0.1875rem;
   background: #8B9094;
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
-  margin-top: -0.1875rem;
 }
 .z-select .z-select-box.readonly {
   background-color: transparent;
@@ -1935,8 +1935,8 @@ select {
   box-shadow: 0 0 0.125rem 0 #CFD5D9;
 }
 .z-select .z-select-options li {
-  margin: 0 0.3125rem;
   padding: 0.5625rem 1.75rem 0.5625rem 0;
+  margin: 0 0.3125rem;
   text-indent: 0.6875rem;
   align-items: center;
   font-family: inherit;
@@ -1964,13 +1964,13 @@ select {
   right: 0.9375rem;
   width: 0.625rem;
   height: 0.438rem;
+  padding-top: 0.9375rem;
   background-image: url("../media/icons/icon_select_check.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
   content: "";
-  padding-top: 0.9375rem;
 }
 
 .z-slider {

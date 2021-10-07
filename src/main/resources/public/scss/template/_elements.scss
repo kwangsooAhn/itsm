@@ -471,7 +471,6 @@ select {
     color: $element-font-color;
     background-color: $element-bg-color;
     cursor: pointer;
-
     @include borderRadius(0.125rem); // 2px
     @include border($element-border-width, solid, $element-border-color, all);
     @include ellipsis(block);
@@ -510,9 +509,9 @@ select {
 
         &.i-arrow-right {
           @include absolute($right: 0.5rem); // 8px
+          margin-top: -0.1875rem; //3px
           background: $element-icon-color;
           @include rotate(90);
-          margin-top: -0.1875rem; //3px
         }
       }
     }
@@ -554,15 +553,14 @@ select {
     @include borderRadius(0.125rem); // 2px
     @include boxShadow(0, 0, 0.125rem, 0, $element-shadow-color);
     li {
-      margin: 0 0.3125rem; // 5px
       padding: 0.5625rem 1.75rem 0.5625rem 0; // 9px 28px 9px 16px
+      margin: 0 0.3125rem; // 5px
       text-indent: 0.6875rem; // 11px
       align-items: center;
       font-family: inherit;
       font-size: $element-font-size;
       font-weight: $element-font-weight;
       line-height: $element-line-height;
-
       @include ellipsis(block);
 
       &:hover { background: $element-hover-bg-color; }
@@ -577,9 +575,9 @@ select {
         @include absolute($right: 0.9375rem); // 15px
         width: 0.625rem; // 10px
         height: 0.438rem; // 7px
+        padding-top: 0.9375rem; //15px
         @include backgroundImage($icon-folder-path + 'icon_select_check.svg', auto, no-repeat, center, center);
         content: '';
-        padding-top: 0.9375rem; //15px
       }
     }
   }
