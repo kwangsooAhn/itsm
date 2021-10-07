@@ -1836,24 +1836,24 @@ select {
   bottom: 0;
   left: 0;
   width: 100%;
+  padding: 0.5625rem 1.75rem 0.5625rem 1rem;
   font-family: inherit;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #222529;
   background-color: #FFFFFF;
+  cursor: pointer;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
   border: 0.0625rem solid #CFD5D9;
-  cursor: pointer;
   display: block;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   word-wrap: normal;
-  padding: 0.5625rem 1.75rem 0.5625rem 1rem;
 }
 .z-select .z-select-box:not(.readonly):hover {
   outline: 0;
@@ -1936,13 +1936,13 @@ select {
 }
 .z-select .z-select-options li {
   margin: 0 0.3125rem;
+  padding: 0.5625rem 1.75rem 0.5625rem 0;
   text-indent: 0.6875rem;
   align-items: center;
   font-family: inherit;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
-  padding: 0.5625rem 1.75rem 0.5625rem 0;
   display: block;
   max-width: 100%;
   text-overflow: ellipsis;
