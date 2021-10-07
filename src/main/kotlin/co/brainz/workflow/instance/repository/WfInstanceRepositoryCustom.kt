@@ -5,7 +5,7 @@
 
 package co.brainz.workflow.instance.repository
 
-import co.brainz.itsm.token.dto.TokenSearchConditionDto
+import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
@@ -17,14 +17,14 @@ interface WfInstanceRepositoryCustom {
     fun findTodoInstances(
         status: List<String>?,
         tokenStatus: List<String>?,
-        tokenSearchConditionDto: TokenSearchConditionDto
+        tokenSearchCondition: TokenSearchCondition
     ): QueryResults<WfInstanceListViewDto>
 
-    fun findRequestedInstances(tokenSearchConditionDto: TokenSearchConditionDto): QueryResults<WfInstanceListViewDto>
+    fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto>
 
     fun findRelationInstances(
         status: List<String>?,
-        tokenSearchConditionDto: TokenSearchConditionDto
+        tokenSearchCondition: TokenSearchCondition
     ): QueryResults<WfInstanceListViewDto>
 
     fun findInstanceHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto>

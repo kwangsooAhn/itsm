@@ -114,4 +114,14 @@ function zTag(inputElement, userSettings, tagifySettings) {
             });
         }));
     }
+
+    // 검색조건
+    if (typeof userSettings.callback === 'function') {
+        tagging.on('add', (function () {
+            userSettings.callback();
+        }));
+        tagging.on('remove', (function () {
+            userSettings.callback();
+        }));
+    }
 }

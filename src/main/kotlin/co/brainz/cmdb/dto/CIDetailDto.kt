@@ -34,5 +34,5 @@ data class CIDetailDto(
 
 class CIClassDetailValueDto(
     var className: String? = null,
-    var attributes: MutableList<CIAttributeValueDto>? = null
+    var attributes: MutableList<CIAttributeValueGroupListDto>? = null
 ) : Serializable

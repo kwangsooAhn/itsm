@@ -297,7 +297,7 @@
             chartId, {}, function (result) {
             switch (result) {
                 case STATUS_SUCCESS:
-                    aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function () {
+                    aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
                         location.reload();
                     });
                     break;

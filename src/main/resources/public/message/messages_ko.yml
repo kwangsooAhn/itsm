@@ -316,7 +316,7 @@ cmdb:
       enterAttributeName: "Attribute 명을 입력하세요."
       searchDescription: "CI Attribute을 조회 및 관리합니다."
       selectAttributeType: "타입을 선택하세요."
-      viewDescription: "Attribute에 대한 상세정보를 조회합니다."
+      viewDescription: "Attribute에 대한 상세 정보를 조회합니다."
     btn:
       import: "가져오기"
       export: "내보내기"
@@ -368,6 +368,7 @@ cmdb:
       searchDescription: "CI를 조회 및 관리합니다."
       selectCI: "CI를 선택하세요."
       tag: "태그를 입력하세요."
+      viewDescription: "CI에 대한 상세 정보를 조회합니다."
     btn:
       import: "가져오기"
       export: "내보내기"
@@ -557,7 +558,7 @@ document:
     write: "신청서 작성"
   msg:
     adminSearchDescription: "프로세스와 문서양식을 조합하여 업무흐름을 조회 및 관리합니다."
-    changeStatusEnabled: "상태를 사용으로 변경 하시겠습니까? 임시 상태로 작성된 문서 모두 삭제 됩니다."
+    changeStatusEnabled: "상태를 사용으로 변경 하시겠습니까?<br/>임시 상태로 작성된 문서 모두 삭제 됩니다."
     checkDocument: "문서를 다시 확인하세요."
     checkDuplication: "이미 해당 문서와 프로세스로 생성된 업무흐름이 존재합니다."
     enterBusinessFlowColor: "업무흐름 색상을 입력하세요."

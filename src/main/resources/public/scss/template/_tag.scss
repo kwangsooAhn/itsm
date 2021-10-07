@@ -19,7 +19,8 @@
 
 .tagify {
   @include relative();
-  display: flex;
+  display: inline-flex;
+  width: 100%;
   min-height: 2.25rem; // 36px
   align-items: flex-start;
   flex-wrap: wrap;

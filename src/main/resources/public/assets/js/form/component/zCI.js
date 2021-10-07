@@ -389,56 +389,8 @@ export const ciMixin = {
             instanceId: instanceIdElem.value
         };
         document.querySelectorAll('.attribute').forEach((el) => {
-            let ciAttribute = {};
             const attributeType = el.getAttribute('data-attributeType');
-            switch (attributeType) {
-                case 'inputbox':
-                    const inputElem = el.querySelector('input');
-                    ciAttribute.id = inputElem.id;
-                    ciAttribute.value = inputElem.value;
-                    break;
-                case 'dropdown':
-                    const selectElem = el.querySelector('select');
-                    ciAttribute.id = selectElem.id;
-                    ciAttribute.value = selectElem.value;
-                    break;
-                case 'radio':
-                    const radioElem = el.querySelector('input[name="attribute-radio"]:checked');
-                    if (radioElem !== null) {
-                        ciAttribute.id = radioElem.id.split('-')[0];
-                        ciAttribute.value = radioElem.value;
-                    }
-                    break;
-                case 'checkbox':
-                    let checkValues = [];
-                    let strValues = '';
-                    el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function (chkElem, idx) {
-                        if (idx === 0) {
-                            ciAttribute.id = chkElem.id.split('-')[0];
-                        }
-                        if (chkElem.checked) {
-                            checkValues.push(chkElem.value);
-                        }
-                    });
-                    if (checkValues.length > 0) {
-                        for (let i = 0; i < checkValues.length; i++) {
-                            if (strValues === '') {
-                                strValues = checkValues[i];
-                            } else {
-                                strValues = strValues + ',' + checkValues[i];
-                            }
-                        }
-                    }
-                    ciAttribute.value = strValues;
-                    break;
-                case 'custom-code':
-                    const customElem = el.querySelector('input');
-                    ciAttribute.id = customElem.parentNode.id;
-                    ciAttribute.value = customElem.getAttribute('custom-data');
-                    break;
-                default:
-                    break;
-            }
+            let ciAttribute = this.getCIDataForType(attributeType, el);
             if (Object.keys(ciAttribute).length !== 0) {
                 saveData.values.ciAttributes.push(ciAttribute);
             }
@@ -476,6 +428,69 @@ export const ciMixin = {
                 callbackFunc();
             }
         });
+    },
+    // 타입에 따른 엘리먼트 데이터 조회
+    getCIDataForType(type, el) {
+        let rtn = {};
+        switch (type) {
+            case 'inputbox':
+                const inputElem = el.querySelector('input');
+                rtn.id = inputElem.getAttribute('data-attributeId');
+                rtn.type = type;
+                rtn.value = inputElem.value;
+                break;
+            case 'dropdown':
+                const selectElem = el.querySelector('select');
+                rtn.id = selectElem.getAttribute('data-attributeId');
+                rtn.type = type;
+                rtn.value = selectElem.value;
+                break;
+            case 'radio':
+                const radioElem = el.querySelector('input[name="attribute-radio"]:checked');
+                if (radioElem !== null) {
+                    rtn.id = radioElem.getAttribute('data-attributeId');
+                    rtn.type = type;
+                    rtn.value = radioElem.value;
+                }
+                break;
+            case 'checkbox':
+                let checkValues = [];
+                el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function (chkElem, idx) {
+                    if (idx === 0) {
+                        rtn.id = chkElem.getAttribute('data-attributeId');
+                        rtn.type = type;
+                    }
+                    if (chkElem.checked) {
+                        checkValues.push(chkElem.value);
+                    }
+                });
+                rtn.value = checkValues.join();
+                break;
+            case 'custom-code':
+                const customElem = el.querySelector('input');
+                rtn.id = customElem.parentNode.getAttribute('data-attributeId');
+                rtn.type = type;
+                rtn.value = customElem.getAttribute('custom-data');
+                break;
+            case 'group-list':
+                const groupElem = el.querySelector('.child-attribute-group');
+                rtn.id = groupElem.getAttribute('data-attributeId');
+                rtn.type = type;
+                rtn.value = '';
+                rtn.childAttributes = [];
+                groupElem.querySelectorAll('.child-attribute-row').forEach((rowElem, rowIdx) => {
+                    rowElem.querySelectorAll('.child-attribute').forEach((childElem) => {
+                        const childElemAttributeType = childElem.getAttribute('data-attributeType');
+                        let childAttribute = this.getCIDataForType(childElemAttributeType, childElem);
+                        childAttribute.seq = rowIdx;
+                        rtn.childAttributes.push(childAttribute);
+                    });
+                });
+                break;
+            default:
+                break;
+        }
+        return rtn;
     },
     // 신규 CI 등록 모달
     openRegisterModal() {
@@ -646,7 +661,7 @@ export const ciMixin = {
                         aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id + '&instanceId=' + instanceIdElem.value, {
                             method: 'GET',
                         }).then((ciComponentData) => {
-                            if (ciComponentData === "") {
+                            if (ciComponentData === '') {
                                 aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/relation', {
                                     method: 'GET',
                                 }).then((ciRelations) => {
@@ -885,7 +900,7 @@ export const ciMixin = {
                             method: 'GET'
                         }).then((attributeData) => {
                             const ciAttributeDOMElement = document.getElementById('ciAttributes');
-                            zCmdbAttribute.drawEditDetails(ciAttributeDOMElement, attributeData, SESSION);
+                            zCmdbAttribute.drawDetails(ciAttributeDOMElement, attributeData, SESSION, 'edit');
                         });
 
                     });
@@ -916,7 +931,7 @@ export const ciMixin = {
 
         const relationTypeSelect = document.createElement('select');
         relationTypeSelect.className = 'z-relation-type-select-box mr-1';
-        const relationTypeList = param.codeList
+        const relationTypeList = param.codeList;
         for (let i = 0; i < relationTypeList.length; i++) {
             const selectOption = document.createElement('option');
             selectOption.value = relationTypeList[i].codeValue;

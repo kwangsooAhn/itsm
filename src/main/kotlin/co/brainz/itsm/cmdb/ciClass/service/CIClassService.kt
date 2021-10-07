@@ -122,7 +122,7 @@ class CIClassService(
     /**
      * CMDB CI 세부 속성 조회
      */
-    fun getCIClassAttributes(classId: String): List<CIClassDetailValueDto> {
-        return ciClassService.getCIClassAttributes(classId)
+    fun getCIClassAttributes(ciId: String, classId: String): List<CIClassDetailValueDto> {
+        return ciClassService.getCIClassAttributes(ciId, classId)
     }
 }

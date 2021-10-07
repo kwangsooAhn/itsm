@@ -71,7 +71,7 @@ class ApiCIClassController(
         request: HttpServletRequest,
         @PathVariable classId: String
     ): ResponseEntity<*> {
-        return responseValue(request, apiCIClassService.getCIClassAttributes(classId))
+        return responseValue(request, apiCIClassService.getCIClassAttributes("", classId))
     }
 
     /**
