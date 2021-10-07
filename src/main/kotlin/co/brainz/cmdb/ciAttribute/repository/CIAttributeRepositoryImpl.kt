@@ -7,6 +7,7 @@
 package co.brainz.cmdb.ciAttribute.repository
 
 import co.brainz.cmdb.ci.entity.QCIDataEntity
+import co.brainz.cmdb.ci.entity.QCIGroupListDataEntity
 import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
 import co.brainz.cmdb.ciAttribute.entity.QCIAttributeEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
@@ -14,10 +15,12 @@ import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIAttributeValueDto
+import co.brainz.cmdb.dto.CIGroupListDto
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
@@ -123,7 +126,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     /**
      * Attribute, Value 리스트 조회
      */
-    override fun findAttributeValueList(ciId: String, classId: String): List<CIAttributeValueDto> {
+    override fun findAttributeValueList(ciId: String, classId: String): QueryResults<CIAttributeValueDto> {
         val ciAttributeEntity = QCIAttributeEntity.cIAttributeEntity
         val ciDataEntity = QCIDataEntity.cIDataEntity
         val ciClassAttributeMapEntity = QCIClassAttributeMapEntity.cIClassAttributeMapEntity
@@ -153,18 +156,16 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
             )
             .orderBy(ciClassAttributeMapEntity.attributeOrder.asc())
 
-        val result = query.fetchResults()
-        val ciAttributeDataList = mutableListOf<CIAttributeValueDto>()
-        for (data in result.results) {
-            ciAttributeDataList.add(data)
-        }
-        return ciAttributeDataList
+        return query.fetchResults()
     }
 
     /**
-     * Attribute 목록 조회.
+     * Attribute 목록 조회 (Group List 제외).
      */
-    override fun findAttributeListWithoutGroupList(attributeId: String, ciAttributeSearchCondition: CIAttributeSearchCondition): QueryResults<CIAttributeListDto> {
+    override fun findAttributeListWithoutGroupList(
+        attributeId: String,
+        ciAttributeSearchCondition: CIAttributeSearchCondition
+    ): QueryResults<CIAttributeListDto> {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
         val query = from(ciAttribute)
             .select(
@@ -193,6 +194,52 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
             query.offset((ciAttributeSearchCondition.pageNum - 1) * ciAttributeSearchCondition.contentNumPerPage)
         }
 
+        return query.fetchResults()
+    }
+
+    /**
+     * Attribute 목록 조회 (Group List 에 포함된 속성).
+     */
+    override fun findAttributeListInGroupList(attributeIdList: MutableList<String>): QueryResults<CIAttributeValueDto> {
+        val ciAttribute = QCIAttributeEntity.cIAttributeEntity
+        val query = from(ciAttribute)
+            .select(
+                Projections.constructor(
+                    CIAttributeValueDto::class.java,
+                    ciAttribute.attributeId,
+                    ciAttribute.attributeName,
+                    ciAttribute.attributeText,
+                    ciAttribute.attributeType,
+                    Expressions.asNumber(0),
+                    ciAttribute.attributeValue,
+                    Expressions.asString("")
+                )
+            )
+            .where(
+                ciAttribute.attributeId.`in`(attributeIdList)
+            )
+        return query.fetchResults()
+    }
+
+    /**
+     * Group List 속성의 데이터 조회
+     */
+    override fun findGroupListData(attributeId: String, ciId: String): QueryResults<CIGroupListDto> {
+        val cIGroupListDataEntity = QCIGroupListDataEntity.cIGroupListDataEntity
+        val query = from(cIGroupListDataEntity)
+            .select(
+                Projections.constructor(
+                    CIGroupListDto::class.java,
+                    cIGroupListDataEntity.ci.ciId,
+                    cIGroupListDataEntity.ciAttribute.attributeId,
+                    cIGroupListDataEntity.cAttributeId,
+                    cIGroupListDataEntity.cAttributeSeq,
+                    cIGroupListDataEntity.cValue
+                )
+            ).where(
+                cIGroupListDataEntity.ciAttribute.attributeId.eq(attributeId)
+                    .and(cIGroupListDataEntity.ci.ciId.eq(ciId))
+            )
         return query.fetchResults()
     }
 }
