@@ -7,6 +7,7 @@ package co.brainz.workflow.engine.manager.impl
 
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIDataDto
+import co.brainz.cmdb.dto.CIDataForGroupListDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
@@ -98,11 +99,29 @@ class WfScriptTask(
             mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType)
         ciAttributes.forEach { attribute ->
             if (attribute["id"] != null && attribute["value"] != null) {
+                    // Group List 속성일 경우
+                val ciDataForGroupLists = mutableListOf<CIDataForGroupListDto>()
+                if (attribute["type"] == RestTemplateConstants.AttributeType.GROUP_LIST.code) {
+                    val childAttributes: List<Map<String, Any>> =
+                        mapper.convertValue(attribute["childAttributes"], listLinkedMapType)
+                    childAttributes.forEach { childAttribute ->
+                        ciDataForGroupLists.add(
+                            CIDataForGroupListDto(
+                                ciId = ciId,
+                                attributeId = attribute["id"] as String,
+                                cAttributeId = childAttribute["id"] as String,
+                                cAttributeSeq = childAttribute["seq"] as Int,
+                                cValue = childAttribute["value"] as String
+                            )
+                        )
+                    }
+                }
                 ciDataList.add(
                     CIDataDto(
                         ciId = ciId,
                         attributeId = attribute["id"] as String,
-                        attributeData = attribute["value"] as String
+                        attributeData = attribute["value"] as String,
+                        childAttributes = ciDataForGroupLists
                     )
                 )
             }

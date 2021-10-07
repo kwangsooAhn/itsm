@@ -34,6 +34,28 @@
             @include border($cmdb-ci-attribute-border-width, solid, $cmdb-ci-attribute-border-color, all);
             @include borderRadius($cmdb-ci-attribute-border-radius);
             margin-bottom: 0.625rem; // 10px
+
+            // Group List일 경우, 하위 속성 존재함
+            .child-attribute-group {
+              @include relative();
+              padding-top: 0.625rem; // 10px
+
+              .z-button-attribute-add {
+                @include absolute($top: -1.875rem, $right: 0); //-30px 0
+              }
+
+              .child-attribute-row {
+                background-color: $cmdb-ci-child-attribute-bg-color;
+                padding: 0.3125rem 1.25rem 1.25rem 1.25rem; // 5px 20px 20px 20px
+                @include border($cmdb-ci-child-attribute-border-width, solid, $cmdb-ci-child-attribute-border-color, all);
+                @include borderRadius($cmdb-ci-child-attribute-border-radius);
+                margin-top: 0.625rem; // 10px
+
+                .z-button-attribute-delete {
+                  @include absolute($right: 0.3125rem); //5px
+                }
+              }
+            }
           }
           // 연관 관계
           .z-relation-group {
@@ -72,6 +94,28 @@
             @include border($cmdb-ci-attribute-border-width, solid, $cmdb-ci-attribute-border-color, all);
             @include borderRadius($cmdb-ci-attribute-border-radius);
             margin-bottom: 0.625rem; // 10px
+
+            // Group List일 경우, 하위 속성 존재함
+            .child-attribute-group {
+              @include relative();
+              padding-top: 0.625rem; // 10px
+
+              .z-button-attribute-add {
+                @include absolute($top: -1.875rem, $right: 0); //-30px 0
+              }
+
+              .child-attribute-row {
+                background-color: $cmdb-ci-child-attribute-bg-color;
+                padding: 0.3125rem 1.25rem 1.25rem 1.25rem; // 5px 20px 20px 20px
+                @include border($cmdb-ci-child-attribute-border-width, solid, $cmdb-ci-child-attribute-border-color, all);
+                @include borderRadius($cmdb-ci-child-attribute-border-radius);
+                margin-top: 0.625rem; // 10px
+
+                .z-button-attribute-delete {
+                  @include absolute($right: 0.3125rem); //5px
+                }
+              }
+            }
           }
         }
         // CI 선택 목록

@@ -3060,6 +3060,37 @@ select {
 .z-itsm-container .z-main-content .z-page-view-content .view-text {
   margin: 0;
 }
+.z-itsm-container .z-main-content .z-page-view .attribute-group {
+  background-color: #FAFAFA;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  margin-bottom: 0.625rem;
+}
+.z-itsm-container .z-main-content .z-page-view .attribute-group .child-attribute-group {
+  position: relative;
+  padding-top: 0.625rem;
+}
+.z-itsm-container .z-main-content .z-page-view .attribute-group .child-attribute-group .z-button-attribute-add {
+  position: absolute;
+  top: -1.875rem;
+  right: 0;
+}
+.z-itsm-container .z-main-content .z-page-view .attribute-group .child-attribute-group .child-attribute-row {
+  background-color: #FFFFFF;
+  padding: 0.3125rem 1.25rem 1.25rem 1.25rem;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  margin-top: 0.625rem;
+}
+.z-itsm-container .z-main-content .z-page-view .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete {
+  position: absolute;
+  right: 0.3125rem;
+}
 .z-itsm-container .z-main .z-edit {
   height: 100vh;
 }
@@ -6158,82 +6189,6 @@ body.modal-active {
 .modal-dialog.chart-view-modal .modal-content {
   padding: 0.625rem 1.25rem 2.5rem 1.25rem;
   height: auto;
-}
-.modal-dialog.cmdb-ci-view-modal {
-  width: 62.5rem;
-  height: 53.0625rem;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content {
-  height: calc(53.0625rem - 3.375rem - 5rem);
-  padding: 1.25rem;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit {
-  height: calc(53.0625rem - 3.375rem - 5rem - 3.125rem);
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .edit-form {
-  padding: 0 2.5rem;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .edit-row {
-  margin-top: 0.625rem;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .field-label {
-  margin: 0.625rem 0;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group {
-  background-color: #FAFAFA;
-  padding: 0 1.25rem 1.25rem 1.25rem;
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  margin-bottom: 0.625rem;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view {
-  height: calc(53.0625rem - 3.375rem - 5rem - 3.125rem);
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .view-form {
-  padding: 0 2.5rem;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .view-row {
-  margin-top: 0.625rem;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .field-label {
-  margin: 0.625rem 0;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group {
-  background-color: #FAFAFA;
-  padding: 0 1.25rem 1.25rem 1.25rem;
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  margin-bottom: 0.625rem;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .table-set {
-  margin-top: 2.188rem;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table {
-  width: 100%;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-head tr {
-  color: #222529;
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body {
-  display: block;
-  width: 60rem;
-  height: 32.8125rem;
-  overflow-y: auto;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body .list-row {
-  display: table;
-  width: 100%;
-  height: 3.125rem;
-  line-height: 3.125rem;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .z-list-body .list-row > td {
-  display: inline-block;
-  vertical-align: middle;
 }
 .modal-dialog.product-info-modal {
   width: 26.875rem;
