@@ -416,6 +416,10 @@ abstract class ChartManager(
         return ChartDateTimeDto(
             startDateTime = startDateTime,
             endDateTime = endDateTime,
+            endYear = endDateTime.year,
+            endMonth = endDateTime.monthValue,
+            endDays = endDateTime.dayOfMonth,
+            endHours = endDateTime.hour,
             startYear = startDateTime.year,
             startMonth = startDateTime.monthValue,
             startDays = startDateTime.dayOfMonth,

@@ -44,6 +44,10 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
+    const CHART_YEAR = 'Y';
+    const CHART_MONTH = 'M';
+    const CHART_DAY = 'D';
+    const CHART_HOUR = 'H';
     const PIE_CHART = 'chart.pie';
     const STACKED_COLUMN_CHART = 'chart.stackedColumn';
     const STACKED_BAR_CHART = 'chart.stackedBar';
@@ -104,7 +108,7 @@
                 closable: false,
             },
             onCreate: function () {
-                getChart(chartId);
+                getChart(chartId, chartType);
             }
         };
 
@@ -127,9 +131,18 @@
             callbackFunc: function (response) {
                 document.getElementById('getChart').innerHTML = response.responseText;
                 setChart(chartType, document.getElementById('propertyJson').value);
+                parsedPropertyJson(
+                    chartType,
+                    document.getElementById('chartConfig').value,
+                    document.getElementById('propertyJson').value
+                );
             }
         };
         aliceJs.sendXhr(opt);
+    }
+
+    function parsedPropertyJson(chartType, chartConfig, property) {
+        chart.parsedPropertyJson(chartType, chartConfig, property);
     }
 
     /** 하이차트 초기화 */
