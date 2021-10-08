@@ -647,12 +647,11 @@ input, button, select, optgroup, textarea {
   color: #8B9094;
 }
 
-.required {
-  font-weight: 700;
-}
 .required::after {
   color: #F52525;
   content: "*";
+  font-weight: 700;
+  margin-left: 0.1875rem;
 }
 
 .text-ellipsis {
@@ -7636,5 +7635,3 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
-
-/*# sourceMappingURL=itsm.css.map */
