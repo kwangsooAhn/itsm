@@ -5,14 +5,19 @@
 
 package co.brainz.itsm.dashboard.service
 
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.dashboard.constants.DashboardConstants
+import co.brainz.itsm.dashboard.dto.DashboardGroupCountDto
+import co.brainz.itsm.dashboard.dto.DashboardSearchCondition
 import co.brainz.itsm.dashboard.dto.DashboardStatisticDto
-import co.brainz.itsm.token.dto.TokenSearchCondition
-import co.brainz.itsm.token.service.TokenService
+import co.brainz.itsm.dashboard.repository.DashboardRepository
+import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.token.constants.WfTokenConstants
+import com.querydsl.core.QueryResults
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -22,7 +27,7 @@ import org.springframework.stereotype.Service
 class DashboardService(
     private val wfInstanceService: WfInstanceService,
     private val currentSessionUser: CurrentSessionUser,
-    private val tokenService: TokenService
+    private val dashboardRepository: DashboardRepository
 ) {
 
     /**
@@ -35,7 +40,7 @@ class DashboardService(
     }
 
     /**
-     *  업무통계 데이터 조회
+     *  업무 통계 데이터 조회
      */
     fun getDashboardStatistic(): List<DashboardStatisticDto> {
         val dashboardStatisticDtoList = mutableListOf<DashboardStatisticDto>()
@@ -46,55 +51,84 @@ class DashboardService(
             DashboardConstants.StatisticType.DONE.code
         )
 
-        val tokenSearchCondition = TokenSearchCondition(
-            userKey = currentSessionUser.getUserKey()
-        )
-        var dashboardStatisticDto: DashboardStatisticDto
+        typeList.forEach { type ->
+            val dashboardSearchCondition = DashboardSearchCondition(userKey = currentSessionUser.getUserKey())
+            val dashboardCountList: QueryResults<DashboardGroupCountDto>
+            dashboardCountList = when (type) {
+                DashboardConstants.StatisticType.TODO.code -> this.getTodoStatistic(dashboardSearchCondition)
+                DashboardConstants.StatisticType.RUNNING.code -> this.getRunningStatistic(dashboardSearchCondition)
+                DashboardConstants.StatisticType.MONTHDONE.code -> this.getMonthDoneStatistic(dashboardSearchCondition)
+                DashboardConstants.StatisticType.DONE.code -> this.getDoneStatistic(dashboardSearchCondition)
+                else -> throw AliceException(
+                    AliceErrorConstants.ERR_00005,
+                    AliceErrorConstants.ERR_00005.message + "[Dashboard Statistic Type Error]"
+                )
+            }
 
-        val today = LocalDate.now()
-
-        for (i in 0 until typeList.size) {
-            dashboardStatisticDto = DashboardStatisticDto()
-            when (typeList[i]) {
-                DashboardConstants.StatisticType.TODO.code -> {
-                    tokenSearchCondition.searchTokenType = WfTokenConstants.SearchType.TODO.code
-                }
-                DashboardConstants.StatisticType.RUNNING.code -> {
-                    tokenSearchCondition.searchTokenType = WfTokenConstants.SearchType.PROGRESS.code
-                }
-                DashboardConstants.StatisticType.MONTHDONE.code -> {
-                    tokenSearchCondition.searchTokenType = WfTokenConstants.SearchType.COMPLETED.code
-                    tokenSearchCondition.searchFromDt =
-                        LocalDateTime.parse(
-                            LocalDateTime.of(today.year, today.month, 1, 0, 0, 0).toString(),
-                            DateTimeFormatter.ISO_DATE_TIME
-                        ).toString()
-                    tokenSearchCondition.searchToDt =
-                        LocalDateTime.parse(
-                            LocalDateTime.of(today.year, today.month, today.lengthOfMonth(), 23, 59, 59)
-                                .toString(), DateTimeFormatter.ISO_DATE_TIME
-                        ).toString()
-                }
-                DashboardConstants.StatisticType.DONE.code -> {
-                    tokenSearchCondition.searchFromDt = ""
-                    tokenSearchCondition.searchToDt = ""
-                    tokenSearchCondition.searchTokenType = WfTokenConstants.SearchType.COMPLETED.code
+            val dashboardStatisticDto = DashboardStatisticDto()
+            dashboardStatisticDto.type = type
+            dashboardCountList.results.forEach {
+                dashboardStatisticDto.total += it.count
+                when (it.groupType) {
+                    DashboardConstants.DocumentGroup.INCIDENT.code -> dashboardStatisticDto.incident = it.count
+                    DashboardConstants.DocumentGroup.INQUIRY.code -> dashboardStatisticDto.inquiry = it.count
+                    DashboardConstants.DocumentGroup.REQUEST.code -> dashboardStatisticDto.request = it.count
+                    else -> dashboardStatisticDto.etc = it.count
                 }
             }
-            dashboardStatisticDto.type = typeList[i]
-            tokenSearchCondition.documentGroup = ""
-            dashboardStatisticDto.total = tokenService.getTokenList(tokenSearchCondition).totalCount
-            tokenSearchCondition.documentGroup = DashboardConstants.DocumentGroup.INCIDENT.code
-            dashboardStatisticDto.incident = tokenService.getTokenList(tokenSearchCondition).totalCount
-            tokenSearchCondition.documentGroup = DashboardConstants.DocumentGroup.INQUIRY.code
-            dashboardStatisticDto.inquiry = tokenService.getTokenList(tokenSearchCondition).totalCount
-            tokenSearchCondition.documentGroup = DashboardConstants.DocumentGroup.REQUEST.code
-            dashboardStatisticDto.request = tokenService.getTokenList(tokenSearchCondition).totalCount
-            tokenSearchCondition.documentGroup = DashboardConstants.DocumentGroup.ETC.code
-            dashboardStatisticDto.etc = tokenService.getTokenList(tokenSearchCondition).totalCount
-
             dashboardStatisticDtoList.add(dashboardStatisticDto)
         }
+
         return dashboardStatisticDtoList
+    }
+
+    /**
+     * 처리할 문서 통계
+     */
+    private fun getTodoStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+        dashboardSearchCondition.instanceStatus =
+            WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO)
+        dashboardSearchCondition.tokenStatus =
+            WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO)
+        return dashboardRepository.findTodoStatistic(dashboardSearchCondition)
+    }
+
+    /**
+     * 진행 중 문서 통계
+     */
+    private fun getRunningStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+        dashboardSearchCondition.instanceStatus =
+            WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS)
+        return dashboardRepository.findRunningStatistic(dashboardSearchCondition)
+    }
+
+    /**
+     * 월간 처리 통계
+     */
+    private fun getMonthDoneStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+        dashboardSearchCondition.instanceStatus =
+            WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED)
+
+        // 월간 범위 지정
+        val today = LocalDate.now()
+        dashboardSearchCondition.searchFromDt = LocalDateTime.parse(
+            LocalDateTime.of(today.year, today.month, 1, 0, 0, 0).toString(),
+            DateTimeFormatter.ISO_DATE_TIME
+        ).toString()
+        dashboardSearchCondition.searchToDt =
+            LocalDateTime.parse(
+                LocalDateTime.of(today.year, today.month, today.lengthOfMonth(), 23, 59, 59)
+                    .toString(), DateTimeFormatter.ISO_DATE_TIME
+            ).toString()
+        return dashboardRepository.findMonthDoneStatistic(dashboardSearchCondition)
+    }
+
+    /**
+     * 전체 처리한 문서 통계
+     */
+    private fun getDoneStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+        dashboardSearchCondition.instanceStatus =
+            WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED)
+        return dashboardRepository.findDoneStatistic(dashboardSearchCondition)
     }
 }
