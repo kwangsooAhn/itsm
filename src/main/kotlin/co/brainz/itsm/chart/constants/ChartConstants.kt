@@ -30,11 +30,9 @@ object ChartConstants {
      */
     enum class ObjProperty(val property: String) {
         TYPE("type"),
-        FROM("from"),
         OPERATION("operation"),
         DIGIT("digit"),
         UNIT("unit"),
-        DURATION("duration"),
         RANGE("range"),
         PERIOD_UNIT("periodUnit"),
         GROUP("group")
