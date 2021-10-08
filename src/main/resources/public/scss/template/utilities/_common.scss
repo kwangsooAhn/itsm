@@ -15,10 +15,11 @@
 }
 // 필수 (*) 표시
 .required {
-  font-weight: $font-weight-bold;
   &::after {
     color: $required-color;
     content: '\002a'; // *
+    font-weight: $font-weight-bold;
+    margin-left: 0.1875rem;
   }
 }
 // 말줄임
