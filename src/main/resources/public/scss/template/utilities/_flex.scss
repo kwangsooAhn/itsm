@@ -19,7 +19,7 @@ $flex-align-type: (row, column);
 }
 
 .flex-nowrap {
-  flex-wrap: nowrap;
+  flex-wrap: nowrap !important;
 }
 .flex-wrap {
   flex-wrap: wrap;

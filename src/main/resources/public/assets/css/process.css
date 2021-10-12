@@ -228,7 +228,7 @@ input, button, select, optgroup, textarea {
 }
 
 .flex-nowrap {
-  flex-wrap: nowrap;
+  flex-wrap: nowrap !important;
 }
 
 .flex-wrap {
