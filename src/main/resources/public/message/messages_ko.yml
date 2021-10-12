@@ -10,6 +10,7 @@ common:
     list: "목록"
     logout: "로그아웃"
     modify: "수정"
+    preview: "미리보기"
     print: "인쇄"
     process: "처리"
     register: "등록"
@@ -37,12 +38,15 @@ common:
     data: "데이터"
     delete: "삭제"
     edit: "편집"
+    endDate: "종료일자"
     fail: "실패"
     group: "그룹"
     modify: "수정"
     name: "이름"
     nameAsc: "이름 순"
+    preview: "미리보기"
     searchWord: "검색어를 입력하세요."
+    startDate: "시작일자"
     success: "성공"
     tag: "태그"
     title: "제목"
@@ -241,16 +245,16 @@ board:
 
 # Chart
 chart:
-  btn:
-    preview: "미리보기"
   label:
     all: "전체"
     chartList: "사용자 정의 차트 목록"
     defaultInfo: "기본 정보"
     description: "차트 설명"
     edit: "차트 편집"
+    editDescription: "사용자 정의 차트를 등록하거나 수정, 삭제합니다."
     name: "차트 이름"
     queryInfo: "쿼리 정보"
+    register: "차트 등록"
     targetTags: "대상 태그"
     type: "차트 종류"
     periodUnit: "간격"
@@ -657,7 +661,6 @@ form:
     importFile: "IMPORT 파일"
     lang: "언어"
     name: "양식이름"
-    preview: "미리보기"
     redo: "작업 재실행"
     register: "문서양식 등록"
     saveExit: "저장하고 나가기"
@@ -1116,13 +1119,11 @@ process:
 # Report
 report:
   btn:
-    preview: "미리보기"
     pdf: "PDF"
   label:
     automatic: "자동 생성"
     chart: "사용자 정의 차트"
     description: "설명"
-    preview: "미리보기"
     publishDate: "발행 일시"
     report: "보고서"
     reportName: "보고서 명"

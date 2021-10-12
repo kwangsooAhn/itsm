@@ -12,8 +12,8 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDto
-import co.brainz.itsm.chart.mapper.ChartMapper
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.chart.service.ChartService
 import co.brainz.itsm.report.constants.ReportConstants
@@ -35,7 +35,6 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.lang.Math.ceil
 import java.time.LocalDateTime
 import javax.transaction.Transactional
-import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -51,7 +50,6 @@ class ReportTemplateService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-    private val chartMapper: ChartMapper = Mappers.getMapper(ChartMapper::class.java)
 
     /**
      * 템플릿 목록 조회
@@ -64,7 +62,15 @@ class ReportTemplateService(
             template.charts?.forEach { it ->
                 val chartEntity = chartRepository.findChartEntityByChartId(it.chartId)
                 if (chartEntity != null) {
-                    chartList.add(chartMapper.toChartDto(chartEntity))
+                    chartList.add(
+                        ChartDto(
+                            chartId = chartEntity.chartId!!,
+                            chartName = chartEntity.chartName,
+                            chartType = chartEntity.chartType,
+                            chartDesc = chartEntity.chartDesc,
+                            chartConfig = mapper.readValue(chartEntity.chartConfig, ChartConfig::class.java)
+                        )
+                    )
                 }
             }
             reportTemplateList.add(
@@ -111,7 +117,8 @@ class ReportTemplateService(
                 chartList.add(
                     ChartDto(
                         chartId = chartEntity.chartId,
-                        chartName = chartEntity.chartName
+                        chartName = chartEntity.chartName,
+                        chartConfig = mapper.readValue(chartEntity.chartConfig, ChartConfig::class.java)
                     )
                 )
             }
@@ -218,7 +225,8 @@ class ReportTemplateService(
         )
 
         if (map["charts"] != null) {
-            val chartList: List<Map<String, Any>> = mapper.convertValue(map["charts"], object : TypeReference<List<Map<String, Any>>>() {})
+            val chartList: List<Map<String, Any>> =
+                mapper.convertValue(map["charts"], object : TypeReference<List<Map<String, Any>>>() {})
             val templateMapList = mutableListOf<ReportTemplateMapDto>()
             chartList.forEach { chart ->
                 templateMapList.add(
