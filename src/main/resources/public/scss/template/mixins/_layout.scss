@@ -266,6 +266,7 @@
             font-weight: $font-weight-medium;
             color: $list-head-font-color;
             padding: 0 0.9375rem; // 0 15px
+            line-height: 1.5;
 
             &:first-child { padding-left: 1.25rem; } // 20px
           }
