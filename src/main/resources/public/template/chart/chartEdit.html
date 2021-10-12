@@ -195,14 +195,12 @@
             return false;
         }
         if (element.id === 'rangeFromDt') {
-            const toDtValue = document.getElementById('toDt').value;
+            const toDtValue = document.getElementById('rangeToDt').value;
             if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
                 aliceAlert.alertWarning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
                     document.getElementById('rangeFromDt').value = rangeFromDt;
                     picker.open();
                 });
-            } else {
-                tokenSearch(false);
             }
         } else {
             const fromDtValue = document.getElementById('rangeFromDt').value;
@@ -211,8 +209,6 @@
                     document.getElementById('rangeToDt').value = rangeToDt;
                     picker.open();
                 });
-            } else {
-                tokenSearch(false);
             }
         }
     }

@@ -69,16 +69,18 @@ class ReportService(
         val reportDataEntities = reportDataRepository.getReportDataEntitiesByReport(reportEntity)
         reportDataEntities.forEach { data ->
 
-            // awf_report_data.values 의 cnofig, propertyJson 정보를 분리하여 chartDto를 설정한다.
+            // awf_report_data.values 의 config, propertyJson 정보를 분리하여 chartDto를 설정한다.
             val map = mapper.readValue(data.values, LinkedHashMap::class.java)
             val chart = mapper.convertValue(map["chart"], LinkedHashMap::class.java)
+            val configStr = mapper.writeValueAsString(chart["config"])
 
             val chartDto = ChartDto(
                 chartId = data.chartId!!,
                 chartName = chart["name"] as String,
                 chartType = chart["type"] as String,
                 chartDesc = chart["desc"] as String,
-                chartConfig = mapper.readValue(chart["config"] as String, ChartConfig::class.java),
+                chartConfig = mapper.readValue(configStr, ChartConfig::class.java),
+                chartConfigStr = configStr,
                 createDt = reportEntity.publishDt
             )
 
