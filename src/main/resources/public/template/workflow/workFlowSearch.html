@@ -122,8 +122,9 @@
                     aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
                         if (documentId === undefined) { // 신규 등록일 경우에만 팝업 호출한다.
                             openDocumentDisplay(result);
+                        } else {
+                            location.reload();          
                         }
-                        location.reload();
                     });
                 });
             }
