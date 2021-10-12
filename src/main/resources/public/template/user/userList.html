@@ -8,8 +8,8 @@
 <table class="z-list-table">
     <thead class="z-list-head">
         <tr class="flex-row align-items-center">
-            <th style="width:3.2%;"></th>
-            <th style="width:9.8%;" class="align-left" th:text="#{user.label.name}"></th>
+            <th style="width:3.1%;"></th>
+            <th style="width:9.9%;" class="align-left" th:text="#{user.label.name}"></th>
             <th style="width:10%;" class="align-left" th:text="#{user.label.id}"></th>
             <th style="width:16%;" class="align-left" th:text="#{user.label.email}"></th>
             <th style="width:16%;" class="align-left" th:text="#{user.label.department}"></th>
@@ -24,10 +24,10 @@
             <td style="width:100%" colspan="9" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
-            <td style="width:3.2%;" class="align-right p-0">
+            <td style="width:3.1%;" class="align-right p-0">
                 <img class="z-img i-profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
             </td>
-            <td style="width:9.8%;" class="align-left underline">
+            <td style="width:9.9%;" class="align-left underline">
                 <a sec:authorize="!hasAuthority('user.update')" th:text="${user.userName}"
                    th:href="@{/users/{id}/view(id=${user.userKey})}"></a>
                 <a sec:authorize="hasAuthority('user.update')" th:text="${user.userName}"
