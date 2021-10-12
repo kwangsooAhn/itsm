@@ -188,6 +188,7 @@
         }
         // thead
         &-head {
+          @include border(0.125rem, solid, $list-border-color, bottom);
           tr {
             height: 2.5rem; // 42px
             th {
@@ -195,6 +196,7 @@
               font-weight: $font-weight-medium;
               color: $list-head-font-color;
               padding: 0 0.9375rem; // 0 15px
+              line-height: 1.5;
 
               &:first-child { padding-left: 1.25rem; } // 20px
             }
@@ -203,7 +205,6 @@
         // tbody
         &-body {
           width: 100%;
-          @include border(0.125rem, solid, $list-border-color, top);
           @include border(0.0625rem, solid, $list-border-color, bottom);
           tr {
             height: 2.5625rem; // 41px
