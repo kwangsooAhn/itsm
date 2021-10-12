@@ -485,22 +485,6 @@ input, button, select, optgroup, textarea {
   padding-left: 1.5625rem;
 }
 
-.pt-6 {
-  padding-top: 1.875rem;
-}
-
-.pr-6 {
-  padding-right: 1.875rem;
-}
-
-.pb-6 {
-  padding-bottom: 1.875rem;
-}
-
-.pl-6 {
-  padding-left: 1.875rem;
-}
-
 .m-0 {
   margin: 0;
 }
@@ -587,22 +571,6 @@ input, button, select, optgroup, textarea {
 
 .ml-5 {
   margin-left: 1.5625rem;
-}
-
-.mt-6 {
-  margin-top: 1.875rem;
-}
-
-.mr-6 {
-  margin-right: 1.875rem;
-}
-
-.mb-6 {
-  margin-bottom: 1.875rem;
-}
-
-.ml-6 {
-  margin-left: 1.875rem;
 }
 
 .mt-auto {
