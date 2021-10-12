@@ -5,7 +5,7 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-/* _reset.scss 
+/* _reset.scss
  *
  * 파일 경로 : template/_reset.scss
  * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
@@ -151,7 +151,7 @@ input, button, select, optgroup, textarea {
   }
 }
 */
-/* _alignments.scss 
+/* _alignments.scss
  *
  * 파일 경로 : template/utilities/_alignments.scss
  * @description 정렬, 배치 관련 디자인
@@ -291,7 +291,7 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
-/* _columns.scss 
+/* _columns.scss
  *
  * 파일 경로 : template/utilities/_columns.scss
  * @description HTML element column 너비 관련 디자인
@@ -632,7 +632,7 @@ input, button, select, optgroup, textarea {
   font-style: normal;
   font-weight: 900;
 }
-/* _common.scss 
+/* _common.scss
  *
  * 파일 경로 : template/utilities/_common.scss
  * @description 공통으로 사용되는 디자인
@@ -648,11 +648,12 @@ input, button, select, optgroup, textarea {
   color: #8B9094;
 }
 
+.required {
+  font-weight: 700;
+}
 .required::after {
   color: #F52525;
   content: "*";
-  font-weight: 700;
-  margin-left: 0.1875rem;
 }
 
 .text-ellipsis {
@@ -662,19 +663,6 @@ input, button, select, optgroup, textarea {
   white-space: nowrap;
   overflow: hidden;
   word-wrap: normal;
-}
-
-.text-wordWrap {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  white-space: pre-line;
-  white-space: -o-pre-wrap;
-  white-space: -moz-pre-wrap;
-  word-break: break-all;
-}
-
-.text-wordNoWrap {
-  white-space: nowrap;
 }
 
 .horizontal-bar {
