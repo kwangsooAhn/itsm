@@ -23,6 +23,8 @@
                         <label class="topic" th:each="topic: ${token.topics}" th:text="${topic}"></label>
                     </div>
                 </div>
+                <div th:if="${token.documentStatus} == 'document.status.temporary'"
+                     th:text="#{document.label.tempDocument}" class="document-temp-status"></div>
                 <div class="z-document-row-info">
                     <div class="z-document-detail flex-row align-items-center float-right">
                         <div class="inline-flex align-items-center justify-content-center">

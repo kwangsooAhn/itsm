@@ -200,6 +200,12 @@
           }
         }
       }
+      //임시신청서 상태 표기
+      .document-temp-status {
+        vertical-align: top;
+        font-style: italic;
+        color: $gray400;
+      }
     }
     // TODO: 추후 대시보드 디자인 완료시 아래 부분은 삭제 예정
     // 대시보드 > 소제목

@@ -13,7 +13,6 @@ import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.form.dto.FormSearchCondition
-import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.entity.WfComponentPropertyEntity
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
@@ -555,7 +554,6 @@ class WfFormService(
                     status = WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
                 }
             }
-
         }
 
         return status

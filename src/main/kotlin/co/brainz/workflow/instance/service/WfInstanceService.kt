@@ -152,6 +152,7 @@ class WfInstanceService(
                     instanceId = instance.instanceEntity.instanceId,
                     documentName = instance.documentEntity.documentName,
                     documentDesc = instance.documentEntity.documentDesc,
+                    documentStatus = instance.documentEntity.documentStatus,
                     topics = topics,
                     tags = tagDataList,
                     createDt = instance.instanceEntity.instanceStartDt,

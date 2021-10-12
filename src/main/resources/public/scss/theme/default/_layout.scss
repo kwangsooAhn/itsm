@@ -267,6 +267,12 @@
       color: $description-color;
       margin-top: 0.625rem; // 10px
     }
+    //임시신청서 상태 표기
+    .document-temp-status {
+      vertical-align: top;
+      font-style: italic;
+      color: $gray400;
+    }
   }
 }
 

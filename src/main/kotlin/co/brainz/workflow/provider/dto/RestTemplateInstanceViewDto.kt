@@ -15,6 +15,7 @@ data class RestTemplateInstanceViewDto(
     val instanceId: String,
     val documentName: String,
     val documentDesc: String? = "",
+    val documentStatus: String? = null,
     val elementName: String? = "",
     val topics: MutableList<String>?,
     val tags: List<AliceTagDto>,
