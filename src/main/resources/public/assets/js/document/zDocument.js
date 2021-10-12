@@ -15,6 +15,8 @@ import ZRow from '../form/zRow.js';
 import ZComponent from '../form/zComponent.js';
 import { zFormButton } from './zFormButton.js';
 
+let duplClick = false;
+
 class ZDocument {
     constructor() {}
 
@@ -31,7 +33,6 @@ class ZDocument {
             close: { closable: false },
             onCreate: () => {
                 this.domElement = document.getElementById('documentDrawingBoard');
-
                 // history.back 시 신청서 목록으로 이동
                 window.history.pushState(null, '', location.href);
                 window.onpopstate = function(e) {
@@ -48,6 +49,11 @@ class ZDocument {
      * @param documentId 신청서 아이디
      */
     openDocument(documentId) {
+        if(duplClick) {
+            return;
+        }
+        duplClick = true; //중복 클릭 방지
+
         aliceJs.fetchJson('/rest/documents/' + documentId + '/data', {
             method: 'GET'
         }).then((documentData) => {
@@ -61,6 +67,7 @@ class ZDocument {
             this.makeDocument(this.data.form); // Form 생성
             this.documentModal.show(); // 모달 표시
             aliceJs.initDesignedSelectTag();
+            duplClick = false;
         });
     }
     /**
