@@ -1133,6 +1133,9 @@ input, button, select, optgroup, textarea {
   width: 100%;
   border: none;
 }
+.z-portal-container .z-main .z-main-content .z-list-head {
+  border-bottom: 0.125rem solid #CFD5D9;
+}
 .z-portal-container .z-main .z-main-content .z-list-head tr {
   height: 2.5rem;
 }
@@ -1141,13 +1144,13 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   color: #222529;
   padding: 0 0.9375rem;
+  line-height: 1.5;
 }
 .z-portal-container .z-main .z-main-content .z-list-head tr th:first-child {
   padding-left: 1.25rem;
 }
 .z-portal-container .z-main .z-main-content .z-list-body {
   width: 100%;
-  border-top: 0.125rem solid #CFD5D9;
   border-bottom: 0.0625rem solid #CFD5D9;
 }
 .z-portal-container .z-main .z-main-content .z-list-body tr {
