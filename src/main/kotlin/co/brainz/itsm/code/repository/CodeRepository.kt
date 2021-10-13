@@ -14,5 +14,5 @@ interface CodeRepository : JpaRepository<CodeEntity, String>, CodeRepositoryCust
 
     fun existsByPCode(pCode: CodeEntity = CodeEntity()): Boolean
 
-    fun findByPCodeAndEditableTrueOrderByCodeValue(pCode: CodeEntity): MutableList<CodeEntity>
+    fun findByPCodeOrderByCodeValue(pCode: CodeEntity): MutableList<CodeEntity>
 }

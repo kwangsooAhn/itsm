@@ -67,7 +67,7 @@ class CodeService(
      * 커스텀 코드 관련 코드 리스트 조회.
      */
     fun getCodeListByCustomCode(code: String): MutableList<CodeEntity> {
-        return codeRepository.findByPCodeAndEditableTrueOrderByCodeValue(
+        return codeRepository.findByPCodeOrderByCodeValue(
             codeRepository.findById(code).orElse(CodeEntity(code = code))
         )
     }
