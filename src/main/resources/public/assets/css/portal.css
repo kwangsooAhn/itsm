@@ -3326,7 +3326,7 @@ table tbody tr:hover {
 }
 .z-alert-title {
   padding: 1em;
-  font-size: 0.875rem;
+  font-size: 1rem;
   box-sizing: border-box;
   text-align: center;
 }
@@ -3340,7 +3340,7 @@ table tbody tr:hover {
   display: flex;
   align-items: center;
   min-height: 3.5rem;
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 500;
   line-height: 1.7143;
 }
@@ -3349,7 +3349,7 @@ table tbody tr:hover {
   text-align: right;
 }
 .z-alert-button {
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 500;
   margin: 0 0 0 0.3125rem;
   padding: 0.4375rem 1.5rem;
