@@ -8,6 +8,7 @@ package co.brainz.itsm.chart.service
 
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.itsm.chart.constants.ChartConstants
+import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDateTimeDto
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.document.constants.DocumentConstants
@@ -19,82 +20,28 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.temporal.ChronoUnit
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 abstract class ChartManager(
     private val chartManagerService: ChartManagerService
 ) {
-
-    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    lateinit var chartConfig: Map<String, Any>
-
-    fun getChartConfigStr(chartDto: ChartDto): String {
-        val charFormList = mutableListOf<String>()
-        chartDto.targetTags?.forEach { tag ->
-            charFormList.add(tag.trim())
-        }
-
-        val chartMap = LinkedHashMap<String, Any?>()
-        chartMap[ChartConstants.ObjProperty.TYPE.property] = chartDto.chartType
-        chartMap[ChartConstants.ObjProperty.FROM.property] = charFormList
-        chartMap[ChartConstants.ObjProperty.OPERATION.property] = chartDto.operation
-
-        val durationMap = LinkedHashMap<String, Any>()
-        durationMap[ChartConstants.ObjProperty.DIGIT.property] = chartDto.durationDigit
-        durationMap[ChartConstants.ObjProperty.UNIT.property] = chartDto.durationUnit
-        chartMap[ChartConstants.ObjProperty.DURATION.property] = durationMap
-
-        chartMap.putAll(this.setChartConfigDetail((chartDto)))
-
-        return mapper.writeValueAsString(chartMap)
-    }
+    lateinit var chartConfig: ChartConfig
 
     abstract fun setChartConfigDetail(chartDto: ChartDto): LinkedHashMap<String, Any?>
 
     fun getChart(chartDto: ChartDto): ChartDto {
-        this.chartConfig = this.getChartConfigMap(chartDto.chartConfig!!)
-        chartDto.targetTags = this.getChartTargetTags(chartConfig)
-        chartDto.operation = this.chartConfig[ChartConstants.ObjProperty.OPERATION.property] as String
-        chartDto.durationDigit = this.getChartDurationDigit(chartConfig)
-        chartDto.durationUnit = this.getChartDurationUnit(chartConfig)
+        this.chartConfig = chartDto.chartConfig!!
         this.setChartDetail(chartDto)
         chartDto.propertyJson = this.getChartProperty(chartDto)
         return chartDto
     }
 
     abstract fun setChartDetail(chartDto: ChartDto): ChartDto
-
-    private fun getChartConfigMap(chartConfig: String): Map<String, Any> {
-        return mapper.readValue(chartConfig, object : TypeReference<Map<String, Any>>() {})
-    }
-
-    private fun getChartDurationDigit(chartConfig: Map<String, Any>): Long {
-        val durationMap = this.getChartDuration(chartConfig)
-        return durationMap[ChartConstants.ObjProperty.DIGIT.property].toString().toLong()
-    }
-
-    private fun getChartDurationUnit(chartConfig: Map<String, Any>): String {
-        val durationMap = this.getChartDuration(chartConfig)
-        return durationMap[ChartConstants.ObjProperty.UNIT.property] as String
-    }
-
-    private fun getChartTargetTags(chartConfig: Map<String, Any>): ArrayList<String> {
-        return mapper.convertValue(
-            chartConfig[ChartConstants.ObjProperty.FROM.property],
-            object : TypeReference<ArrayList<String>>() {})
-    }
-
-    private fun getChartDuration(chartConfig: Map<String, Any>): Map<String, Any> {
-        return mapper.convertValue(
-            chartConfig[ChartConstants.ObjProperty.DURATION.property],
-            object : TypeReference<Map<String, Any>>() {})
-    }
 
     /**
      * 차트 생성 관련 JsonArray 생성
@@ -103,7 +50,7 @@ abstract class ChartManager(
         val formIds = mutableListOf<String>()
         val documentList = mutableListOf<WfDocumentEntity>()
         val tagTargetIds = mutableListOf<String>()
-        chart.targetTags?.let {
+        chart.chartConfig.tags?.let {
             chartManagerService.getTagValueList(AliceTagConstants.TagType.COMPONENT.code, it).forEach { tag ->
                 tagTargetIds.add(tag.targetId)
             }
@@ -178,8 +125,7 @@ abstract class ChartManager(
             documentList.forEach { document ->
                 val docYear = document.createDt!!.year
                 val docMonth = document.createDt!!.monthValue
-                val docDateFormat = docYear.toString() + this.addStringFormat(docMonth)
-                when (docDateFormat) {
+                when (docYear.toString() + this.addStringFormat(docMonth)) {
                     dateFormat -> {
                         val docMap = HashMap<String, Any>()
                         docMap["documentId"] = document.documentId
@@ -205,9 +151,7 @@ abstract class ChartManager(
                 val docYear = document.createDt!!.year
                 val docMonth = document.createDt!!.monthValue
                 val docDays = document.createDt!!.dayOfMonth
-                val docDateFormat =
-                    docYear.toString() + this.addStringFormat(docMonth) + this.addStringFormat(docDays)
-                when (docDateFormat) {
+                when (docYear.toString() + this.addStringFormat(docMonth) + this.addStringFormat(docDays)) {
                     dateFormat -> {
                         val docMap = HashMap<String, Any>()
                         docMap["documentId"] = document.documentId
@@ -234,9 +178,7 @@ abstract class ChartManager(
                 val docMonth = document.createDt!!.monthValue
                 val docDays = document.createDt!!.dayOfMonth
                 val docHours = document.createDt!!.hour
-                val docDateFormat =
-                    docYear.toString() + this.addStringFormat(docMonth) + docDays + this.addStringFormat(docHours)
-                when (docDateFormat) {
+                when (docYear.toString() + this.addStringFormat(docMonth) + docDays + this.addStringFormat(docHours)) {
                     dateFormat -> {
                         val docMap = HashMap<String, Any>()
                         docMap["documentId"] = document.documentId
@@ -270,7 +212,7 @@ abstract class ChartManager(
                 selectDocList.add(document)
             }
         }
-        when (chart.periodUnit) {
+        when (chart.chartConfig?.periodUnit) {
             ChartConstants.Unit.YEAR.code -> {
                 durationMap = this.getPeriodYear(chartDateTime, documentList)
             }
@@ -389,29 +331,35 @@ abstract class ChartManager(
 
     /**
      * 문서 분리에 기준이 되는 시작일을 구한다.
+     * 종료일은 00시 00분 기준이므로 검색 시 포함하지 않아야 한다.
      */
     private fun getChartDateTime(chart: ChartDto): ChartDateTimeDto {
-        lateinit var startDateTime: LocalDateTime
-        val endDateTime: LocalDateTime? = chart.createDt
+        var startDateTime: LocalDateTime = LocalDateTime.now()
+        var endDateTime: LocalDateTime = LocalDateTime.now()
 
-        when (chart.durationUnit) {
-            ChartConstants.Unit.YEAR.code -> {
-                startDateTime = endDateTime!!.minusYears(chart.durationDigit)
+        when (chart.chartConfig?.range?.type) {
+            ChartConstants.RangeType.BETWEEN.code -> {
+                startDateTime = chart.chartConfig.range.from!!.atStartOfDay()
+                endDateTime = chart.chartConfig.range.to!!.plusDays(1).atStartOfDay()
             }
-            ChartConstants.Unit.MONTH.code -> {
-                startDateTime = endDateTime!!.minusMonths(chart.durationDigit)
+            ChartConstants.RangeType.LAST_MONTH.code -> {
+                val lastMonth = YearMonth.from(LocalDateTime.now().minusMonths(1))
+                startDateTime = lastMonth.atDay(1).atStartOfDay()
+                endDateTime = lastMonth.atEndOfMonth().plusDays(1).atStartOfDay()
             }
-            ChartConstants.Unit.DATE.code -> {
-                startDateTime = endDateTime!!.minusDays(chart.durationDigit)
+            ChartConstants.RangeType.LAST_DAY.code -> {
+                startDateTime = LocalDate.now().minusDays(1).atStartOfDay()
+                endDateTime = LocalDate.now().atStartOfDay()
             }
-            ChartConstants.Unit.HOUR.code -> {
-                startDateTime = endDateTime!!.minusHours(chart.durationDigit)
+            ChartConstants.RangeType.ALL.code -> {
+                startDateTime = LocalDate.of(1975,6,23).atStartOfDay() // 내 생일이다. 문제 있을까? By Jung Hee Chan
+                endDateTime = LocalDateTime.now()
             }
         }
 
         return ChartDateTimeDto(
             startDateTime = startDateTime,
-            endDateTime = chart.createDt,
+            endDateTime = endDateTime,
             startYear = startDateTime.year,
             startMonth = startDateTime.monthValue,
             startDays = startDateTime.dayOfMonth,

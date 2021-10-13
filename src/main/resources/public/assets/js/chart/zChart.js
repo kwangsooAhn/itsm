@@ -165,8 +165,9 @@ function ZChart(container, chartType, chartProperty) {
 
 Object.assign(ZChart.prototype, {
     /** chartConfig 파싱 진행 **/
-    parsedPropertyJson: function (chartConfig, property) {
+    parsedPropertyJson: function (chartType, chartConfig, property) {
         let chartConfigJson = JSON.parse(chartConfig);
+        chartConfigJson.type = chartType;
         let propertyJson = JSON.parse(property);
 
         /** Get propertyJson Data **/

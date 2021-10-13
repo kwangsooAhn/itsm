@@ -6,7 +6,9 @@
 
 package co.brainz.itsm.chart.dto
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class ChartDto(
@@ -14,13 +16,24 @@ data class ChartDto(
     var chartType: String = "",
     var chartName: String = "",
     var chartDesc: String? = null,
-    var chartConfig: String? = null,
+    var chartConfig: ChartConfig,
     var createDt: LocalDateTime? = null,
-    var targetTags: ArrayList<String>? = null,
+    var propertyJson: String? = null,
+    var chartConfigStr: String? = null
+) : Serializable
+
+data class ChartConfig(
+    var range: ChartRange,
     var operation: String = "",
-    var durationDigit: Long = 0,
-    var durationUnit: String = "",
     var periodUnit: String? = null,
     var group: String? = null,
-    var propertyJson: String? = null
+    var tags: ArrayList<String>? = null
+) : Serializable
+
+data class ChartRange(
+    var type: String,
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    var from: LocalDate? = null,
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    var to: LocalDate? = null
 ) : Serializable

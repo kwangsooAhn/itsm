@@ -10,6 +10,7 @@ common:
     list: "LIST"
     logout: "LOGOUT"
     modify: "MODIFY"
+    preview: "PREVIEW"
     print: "PRINT"
     process: "PROCESS"
     register: "REGISTER"
@@ -37,12 +38,15 @@ common:
     data: "data"
     delete: "Delete"
     edit: "Edit"
+    endDate: "End date"
     fail: "Fail"
     group: "Group"
     modify: "Modify"
     name: "Name"
     nameAsc: "Order by name"
+    preview: "Preview"
     searchWord: "Please enter your search term"
+    startDate: "Start date"
     success: "Success"
     tag: "Tag"
     title: "Title"
@@ -241,16 +245,16 @@ board:
 
 # Chart
 chart:
-  btn:
-    preview: "PREVIEW"
   label:
     all: "All"
     chartList: "User Custom Chart List"
     defaultInfo: "Default Info"
     description: "Chart Description"
     edit: "Chart Edit"
+    editDescription: "Register or Edit for custom chart."
     name: "Chart Name"
     queryInfo: "Query Info"
+    register: "New Chart"
     targetTags: "Target Tags"
     type: "Chart Type"
     periodUnit: "PeriodUnit"
@@ -656,7 +660,6 @@ form:
     importFile: "IMPORT File"
     lang: "Language"
     name: "Form Name"
-    preview: "Preview"
     redo: "Redo"
     register: "Form Register"
     saveExit: "Save and Exit"
@@ -709,7 +712,6 @@ form:
     time: "Time"
     ci: "CI"
   help:
-    component-placeholder: "Typing '/' for add component."
     custom-code-default: "You can set the default value displayed on the component.<br/>'Session' prints the user's session information.<br/>'Custom Code Data' prints the data of the code defined by the user."
     custom-code: "You can select a custom code list of user-defined code sets."
     date-default: "You can set the default value displayed on the component.<br/>'Now' prints the current date.<br/>'days after' means +, -date from current date.<br/>The last item is used to show a specific date as fixed."
@@ -1116,13 +1118,11 @@ process:
 # Report
 report:
   btn:
-    preview: "Preview"
     pdf: "PDF"
   label:
     automatic: "Automatic generation"
     chart: "Chart"
     description: "Description"
-    preview: "Preview"
     publishDate: "Publish Date"
     report: "Report"
     reportName: "Report Name"

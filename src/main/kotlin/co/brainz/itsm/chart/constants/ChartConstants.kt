@@ -14,7 +14,8 @@ object ChartConstants {
     enum class PCode(val code: String) {
         TYPE("chart.type"),
         OPERATION("chart.operation"),
-        UNIT("chart.unit")
+        UNIT("chart.unit"),
+        RANGE("chart.range") // 차트 데이터 대상 기간
     }
 
     /**
@@ -29,11 +30,10 @@ object ChartConstants {
      */
     enum class ObjProperty(val property: String) {
         TYPE("type"),
-        FROM("from"),
         OPERATION("operation"),
         DIGIT("digit"),
         UNIT("unit"),
-        DURATION("duration"),
+        RANGE("range"),
         PERIOD_UNIT("periodUnit"),
         GROUP("group")
     }
@@ -58,6 +58,16 @@ object ChartConstants {
         MONTH("M"),
         DATE("D"),
         HOUR("H")
+    }
+
+    /**
+     * chart range type
+     */
+    enum class RangeType(val code: String) {
+        BETWEEN("chart.range.between"),
+        LAST_MONTH("chart.range.last.month"),
+        LAST_DAY("chart.range.last.day"),
+        ALL("chart.range.all")
     }
 
     /**

@@ -9,25 +9,29 @@ package co.brainz.itsm.chart.service
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.chart.constants.ChartConstants
+import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.dto.ChartListReturnDto
 import co.brainz.itsm.chart.dto.ChartSearchCondition
 import co.brainz.itsm.chart.entity.ChartEntity
 import co.brainz.itsm.chart.respository.ChartRepository
+import co.brainz.itsm.code.dto.CodeDto
+import co.brainz.itsm.code.service.CodeService
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import kotlin.math.ceil
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
 class ChartService(
     private val chartRepository: ChartRepository,
-    private val chartManagerFactory: ChartManagerFactory
+    private val chartManagerFactory: ChartManagerFactory,
+    private val codeService: CodeService
 ) {
-
-    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 전체 사용자 정의 차트 조회
@@ -51,13 +55,12 @@ class ChartService(
      */
     fun getChartPreviewDetail(chartId: String, chartPreviewDto: ChartDto): ChartDto {
         val chart = chartRepository.findByIdOrNull(chartId)
-        val chartConfigStr =
-            chartManagerFactory.getChartManager(chartPreviewDto.chartType).getChartConfigStr(chartPreviewDto)
         val chartDto = ChartDto(
             chartType = chartPreviewDto.chartType,
             chartName = chartPreviewDto.chartName,
             chartDesc = chartPreviewDto.chartDesc,
-            chartConfig = chartConfigStr
+            chartConfig = chartPreviewDto.chartConfig,
+            chartConfigStr = mapper.writeValueAsString(chartPreviewDto.chartConfig)
         )
         if (chart != null) {
             chartDto.chartId = chart.chartId
@@ -79,8 +82,9 @@ class ChartService(
             chartType = chart.chartType,
             chartName = chart.chartName,
             chartDesc = chart.chartDesc,
-            chartConfig = chart.chartConfig,
-            createDt = chart.createDt
+            chartConfig = mapper.readValue(chart.chartConfig, ChartConfig::class.java),
+            createDt = chart.createDt,
+            chartConfigStr = chart.chartConfig
         )
 
         return chartManagerFactory.getChartManager(chart.chartType).getChart(chartDto)
@@ -91,13 +95,12 @@ class ChartService(
      */
     fun saveChart(chartDto: ChartDto): String {
         val status = ChartConstants.Status.STATUS_SUCCESS.code
-        val chartConfigStr = chartManagerFactory.getChartManager(chartDto.chartType).getChartConfigStr(chartDto)
         val chartEntity = ChartEntity(
             chartId = chartDto.chartId,
             chartType = chartDto.chartType,
             chartName = chartDto.chartName,
             chartDesc = chartDto.chartDesc,
-            chartConfig = chartConfigStr
+            chartConfig = mapper.writeValueAsString(chartDto.chartConfig)
         )
 
         chartRepository.save(chartEntity)
@@ -112,5 +115,18 @@ class ChartService(
 
         chartRepository.deleteById(chartId)
         return status
+    }
+
+    /**
+     * 차트 설정에서 사용하는 코드 리스트
+     */
+    fun getCodeListForChart(): HashMap<String, MutableList<CodeDto>> {
+        val codeListMap = HashMap<String, MutableList<CodeDto>>()
+        codeListMap["type"] = codeService.selectCodeByParent(ChartConstants.PCode.TYPE.code)
+        codeListMap["operation"] = codeService.selectCodeByParent(ChartConstants.PCode.OPERATION.code)
+        codeListMap["range"] = codeService.selectCodeByParent(ChartConstants.PCode.RANGE.code)
+        codeListMap["unit"] = codeService.selectCodeByParent(ChartConstants.PCode.UNIT.code)
+
+        return codeListMap
     }
 }
