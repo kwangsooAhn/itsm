@@ -216,9 +216,9 @@ insert into awf_code values ('assignee.type.candidate.groups', 'assignee.type', 
 insert into awf_code values ('assignee.type.candidate.users', 'assignee.type', null, '담당자 후보목록', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document', 'root', null, '신청서', null, false, true, 1, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.group', 'document', null, '신청서 목록', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.incident', 'document.group', '장애문의', '장애문의', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.inquiry', 'document.group', '단순문의', '단순문의', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.request', 'document.group', '서비스요청', '서비스요청', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.incident', 'document.group', '장애문의', '장애문의', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.inquiry', 'document.group', '단순문의', '단순문의', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.request', 'document.group', '서비스요청', '서비스요청', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status', 'document', null, '신청서 상태', null, false, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.temporary', 'document.status', '임시', '임시', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', '폐기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -239,6 +239,19 @@ insert into awf_code values ('faq.category.techSupport', 'faq.category', null, '
 insert into awf_code values ('form', 'root', null, '문서양식', null, false, true, 1, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('form.lang', 'form', null, '문서양식 언어', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('form.lang.ko', 'form.lang', null, '한국어', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template', 'form', null, '템플릿', null, true, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 단순문의 */
+insert into awf_code values ('form.template.serviceDesk.inquiry', 'form.template', 'form.template.serviceDesk.inquiry', '서비스데스크 - 단순문의', '', true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 단순문의 - 서비스 항목*/
+insert into awf_code values ('form.template.serviceDesk.inquiry.category', 'form.template.serviceDesk.inquiry', 'form.template.serviceDesk.inquiry.category', '서비스 항목', '단순문의 서비스 항목', true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.none', 'form.template.serviceDesk.inquiry.category', 'none', '선택 안함', '', true, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.server', 'form.template.serviceDesk.inquiry.category', 'server', '서버', '', true, true, 5, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.network', 'form.template.serviceDesk.inquiry.category', 'network', '네트워크', '', true, true, 5, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.security', 'form.template.serviceDesk.inquiry.category', 'security', '보안', '', true, true, 5, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.dbms', 'form.template.serviceDesk.inquiry.category', 'dbms', '데이터베이스', '', true, true, 5, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.contract', 'form.template.serviceDesk.inquiry.category', 'contract', '계약', '', true, true, 5, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.etc', 'form.template.serviceDesk.inquiry.category', 'none', '기타', '', true, true, 5, 7, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 insert into awf_code values ('numbering', 'root', null, '문서번호 규칙 패턴', null, false, true, 1, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('numbering.pattern', 'numbering', null, '문서규칙 패턴', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('numbering.pattern.format', 'numbering.pattern', null, '문서규칙 포맷', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -388,7 +401,10 @@ COMMENT ON COLUMN awf_custom_code.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_custom_code.update_dt IS '수정일';
 
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용자 이름 검색', 'table', 'awf_user', 'user_name', 'user_key', null, '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0009', '사용자 부서 검색', 'code', null, null, null, 'department.group', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288ab777dd21b50177dd52781e0000', '데이터베이스', 'code', null, null, null, 'cmdb.db.kind', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0010', '서비스데스크 - 단순문의 : 서비스 항목', 'code', null, null, null, 'form.template.serviceDesk.inquiry.category', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 /**
  * 사용자정의코드테이블
  */
@@ -932,16 +948,17 @@ insert into awf_role values ('document', '문서처리', '', '0509e09412534a6e98
 insert into awf_role values ('document.manager', '문서처리 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('board.admin.manager', '게시판 관리자', '게시판 관리자', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('role.all', '역할 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_role values ('service.manager', '서비스요청 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('notice.all', '공지사항 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('users.general', '사용자일반', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('role.view', '역할 사용자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_role values ('service.user', '서비스요청 사용자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('notice.view', '공지사항 사용자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('admin', '관리자', '전체관리자', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('users.manager', '사용자관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('faq.all', 'FAQ관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('auth.all', '권한 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 단순 문의 */
+insert into awf_role values ('serviceDesk.assignee', '서비스데스크 담당자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_role values ('serviceDesk.manager', '서비스데스크 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 역할권한매핑
@@ -1107,54 +1124,6 @@ insert into awf_role_auth_map values ('role.view', 'role.read');
 insert into awf_role_auth_map values ('role.view', 'role.create');
 insert into awf_role_auth_map values ('role.view', 'role.delete');
 insert into awf_role_auth_map values ('role.view', 'role.update');
-insert into awf_role_auth_map values ('service.manager', 'notice.read');
-insert into awf_role_auth_map values ('service.manager', 'faq.create');
-insert into awf_role_auth_map values ('service.manager', 'faq.update');
-insert into awf_role_auth_map values ('service.manager', 'faq.delete');
-insert into awf_role_auth_map values ('service.manager', 'form.read');
-insert into awf_role_auth_map values ('service.manager', 'user.read');
-insert into awf_role_auth_map values ('service.manager', 'user.create');
-insert into awf_role_auth_map values ('service.manager', 'role.create');
-insert into awf_role_auth_map values ('service.manager', 'role.update');
-insert into awf_role_auth_map values ('service.manager', 'process.delete');
-insert into awf_role_auth_map values ('service.manager', 'process.update');
-insert into awf_role_auth_map values ('service.manager', 'process.create');
-insert into awf_role_auth_map values ('service.manager', 'process.read');
-insert into awf_role_auth_map values ('service.manager', 'form.delete');
-insert into awf_role_auth_map values ('service.manager', 'form.update');
-insert into awf_role_auth_map values ('service.manager', 'form.create');
-insert into awf_role_auth_map values ('service.manager', 'user.update');
-insert into awf_role_auth_map values ('service.manager', 'user.delete');
-insert into awf_role_auth_map values ('service.manager', 'faq.read');
-insert into awf_role_auth_map values ('service.manager', 'notice.update');
-insert into awf_role_auth_map values ('service.manager', 'notice.delete');
-insert into awf_role_auth_map values ('service.manager', 'notice.create');
-insert into awf_role_auth_map values ('service.manager', 'role.read');
-insert into awf_role_auth_map values ('service.manager', 'role.delete');
-insert into awf_role_auth_map values ('service.user', 'form.read');
-insert into awf_role_auth_map values ('service.user', 'user.delete');
-insert into awf_role_auth_map values ('service.user', 'faq.delete');
-insert into awf_role_auth_map values ('service.user', 'user.read');
-insert into awf_role_auth_map values ('service.user', 'faq.update');
-insert into awf_role_auth_map values ('service.user', 'user.create');
-insert into awf_role_auth_map values ('service.user', 'user.update');
-insert into awf_role_auth_map values ('service.user', 'faq.create');
-insert into awf_role_auth_map values ('service.user', 'faq.read');
-insert into awf_role_auth_map values ('service.user', 'process.delete');
-insert into awf_role_auth_map values ('service.user', 'process.update');
-insert into awf_role_auth_map values ('service.user', 'process.create');
-insert into awf_role_auth_map values ('service.user', 'process.read');
-insert into awf_role_auth_map values ('service.user', 'form.delete');
-insert into awf_role_auth_map values ('service.user', 'form.update');
-insert into awf_role_auth_map values ('service.user', 'form.create');
-insert into awf_role_auth_map values ('service.user', 'role.delete');
-insert into awf_role_auth_map values ('service.user', 'role.update');
-insert into awf_role_auth_map values ('service.user', 'notice.update');
-insert into awf_role_auth_map values ('service.user', 'notice.delete');
-insert into awf_role_auth_map values ('service.user', 'role.create');
-insert into awf_role_auth_map values ('service.user', 'role.read');
-insert into awf_role_auth_map values ('service.user', 'notice.create');
-insert into awf_role_auth_map values ('service.user', 'notice.read');
 insert into awf_role_auth_map values ('users.general', 'board.read');
 insert into awf_role_auth_map values ('users.general', 'code.read');
 insert into awf_role_auth_map values ('users.general', 'notice.read');
@@ -1192,7 +1161,40 @@ insert into awf_role_auth_map values ('users.manager', 'notice.create');
 insert into awf_role_auth_map values ('users.manager', 'role.read');
 insert into awf_role_auth_map values ('users.manager', 'role.create');
 insert into awf_role_auth_map values ('users.manager', 'role.update');
-
+/*단순문의 - 서비스데스크 담당자, 서비스데스크 관리자*/
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'board.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'code.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'notice.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'faq.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'token.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'token.create');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.create');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'download.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'notice.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'faq.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'faq.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'faq.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'form.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'user.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'user.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'role.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'role.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'process.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'process.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'process.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'process.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'form.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'form.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'form.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'user.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'user.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'faq.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'notice.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'notice.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'notice.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'role.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'role.delete');
 
 /**
  * 문서번호패턴맵핑
@@ -3887,9 +3889,22 @@ insert into awf_code_lang values ('document.status.use', 'use', 'en');
 insert into awf_code_lang values ('document.displayType.editable', 'Editable', 'en');
 insert into awf_code_lang values ('document.displayType.readonly', 'Readonly', 'en');
 insert into awf_code_lang values ('document.displayType.hidden', 'Hidden', 'en');
-insert into awf_code_lang values ('servicedesk.incident', 'Disability Inquiry', 'en');
-insert into awf_code_lang values ('servicedesk.inquiry', 'Simple Inquiry', 'en');
-insert into awf_code_lang values ('servicedesk.request', 'Service Request', 'en');
+insert into awf_code_lang values ('document.group.incident', 'Disability Inquiry', 'en');
+insert into awf_code_lang values ('document.group.inquiry', 'Simple Inquiry', 'en');
+insert into awf_code_lang values ('document.group.request', 'Service Request', 'en');
+insert into awf_code_lang values ('form.template', 'Template', 'en');
+/* 단순문의 */
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry', 'ServiceDesk - Simple Inquiry', 'en');
+/* 단순문의 - 서비스 항목*/
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category', 'Service Category', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.none', '- Choose Category -', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.server', 'Server', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.network', 'Network', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.security', 'Security', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.dbms', 'Database', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.contract', 'Contract', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.etc', 'ETC', 'en');
+
 /**
  * 사용자 지정 테이블
  */
