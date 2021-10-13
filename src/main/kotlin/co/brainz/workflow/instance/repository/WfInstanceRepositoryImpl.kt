@@ -121,18 +121,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         builder.and(instance.instanceStatus.`in`(status))
         builder.and(token.tokenStatus.`in`(tokenStatus))
         builder.and(token.element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value))
-        if (tokenSearchCondition.documentGroup != "") {
-            if (tokenSearchCondition.documentGroup == DashboardConstants.DocumentGroup.ETC.code)
-                builder.and(
-                    document.documentGroup.notIn(
-                        DashboardConstants.DocumentGroup.INCIDENT.code,
-                        DashboardConstants.DocumentGroup.INQUIRY.code,
-                        DashboardConstants.DocumentGroup.REQUEST.code
-                    )
-                )
-            else
-                builder.and(document.documentGroup.eq(tokenSearchCondition.documentGroup))
-        }
         builder.and(
             token.assigneeId.eq(tokenSearchCondition.userKey)
                 .or(
@@ -211,18 +199,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey))
             )
         )
-        if (tokenSearchCondition.documentGroup != "") {
-            if (tokenSearchCondition.documentGroup == DashboardConstants.DocumentGroup.ETC.code)
-                builder.and(
-                    document.documentGroup.notIn(
-                        DashboardConstants.DocumentGroup.INCIDENT.code,
-                        DashboardConstants.DocumentGroup.INQUIRY.code,
-                        DashboardConstants.DocumentGroup.REQUEST.code
-                    )
-                )
-            else
-                builder.and(document.documentGroup.eq(tokenSearchCondition.documentGroup))
-        }
         builder.and(
             token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
         )
