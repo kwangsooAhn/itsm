@@ -3126,6 +3126,7 @@ svg path.connector.hidden {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
+  width: 100%;
 }
 .z-button-switch-group.vertical .z-button-switch:not(:first-child),
 .z-button-switch-group.vertical .z-button-toggle:not(:first-child),
