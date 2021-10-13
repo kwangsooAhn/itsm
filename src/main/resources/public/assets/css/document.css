@@ -2119,7 +2119,7 @@ select {
     width: 210mm;
   }
 }
-/* _modal.scss 
+/* _modal.scss
  *
  * 파일 경로 : template/_modal.scss
  * @description 모달 디자인
@@ -2157,7 +2157,7 @@ body.modal-active {
   top: 4em;
   right: 0;
   left: 0;
-  width: 34.38rem;
+  width: 26.875rem;
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
   border: 0.0625rem solid #CFD5D9;
@@ -2177,7 +2177,6 @@ body.modal-active {
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog .modal-content {
-  height: calc(22.5rem - 3.375rem - 5rem);
   overflow: auto;
 }
 .modal-wrapper .modal-dialog .modal-bottom {

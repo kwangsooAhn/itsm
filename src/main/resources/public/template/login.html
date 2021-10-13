@@ -82,7 +82,7 @@
         rsa.setPublic(keyModule, keyExponent);
         const authFailedMsg = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
         if (authFailedMsg !== null) {
-            aliceAlert.alertWarning(i18n.msg(authFailedMsg), function() {
+            zAlert.warning(i18n.msg(authFailedMsg), function() {
                 document.getElementById('uid').focus();
             });
         } else {
@@ -161,10 +161,10 @@
                         location.href = '/login';
                         break;
                     case STATUS_SAME_AS_CURRENT_PASSWORD:
-                        aliceAlert.alertWarning(i18n.msg('user.msg.sameAsCurrentPassword'))
+                        zAlert.warning(i18n.msg('user.msg.sameAsCurrentPassword'))
                         break;
                     case STATUS_NOT_EQUAL_NOW_PASSWORD:
-                        aliceAlert.alertWarning(i18n.msg('user.msg.notEqualNowPassword'))
+                        zAlert.warning(i18n.msg('user.msg.notEqualNowPassword'))
                         break;
                     default :
                         break;
@@ -194,7 +194,7 @@
                 return false;
             }
             if (!ipAccessCheck(ipList, clientIp, ipSeparator)) {
-                aliceAlert.alertWarning([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
+                zAlert.warning([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
                 return false;
             }
             document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());

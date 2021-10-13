@@ -1262,7 +1262,7 @@
                     conditionInput.value = '';
                     fileInput.value = '';
                 } else {
-                    aliceAlert.alertWarning(i18n.msg('process.msg.duplicateData'));
+                    zAlert.warning(i18n.msg('process.msg.duplicateData'));
                 }
             });
 

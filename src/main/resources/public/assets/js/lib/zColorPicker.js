@@ -36,7 +36,7 @@ function zColorPicker(targetElement, options) {
     // input box
     targetElement.classList.add('z-color-input');
     this.inputEl = targetElement;
-    // 기존 저장된 색상 : 사용자가 색상을 변경하더라도, 사용자 색상을 저장하지 않고 color picker를 닫으면 원래 색상으로 변경되어야 한다. 
+    // 기존 저장된 색상 : 사용자가 색상을 변경하더라도, 사용자 색상을 저장하지 않고 color picker를 닫으면 원래 색상으로 변경되어야 한다.
     this.savedValue = targetElement.value.toUpperCase();
     // 사용자에 의해 변경 중인 색상
     this.value = targetElement.value.toUpperCase() || 'transparent';
@@ -79,7 +79,7 @@ function zColorPicker(targetElement, options) {
     pickerModal.className = 'z-color-picker-modal';
     wrapperContainer.appendChild(pickerModal);
     this.modalEl = pickerModal;
-    
+
     // 서버에 저장된 사용자 색상 조회
     aliceJs.fetchText('/rest/users/colors', {
         method: 'GET'
@@ -105,7 +105,7 @@ function zColorPicker(targetElement, options) {
         if (self.isOpen) {
             // 사용자 색상이 저장된 색상과 다를 경우 알림창을 띄워 사용자에게 확인 요청
             if (JSON.stringify(self.savedCustomColors) !== JSON.stringify(self.customColors)) {
-                aliceAlert.confirm(i18n.msg('user.msg.customColorSave'), () => {
+                zAlert.confirm(i18n.msg('user.msg.customColorSave'), () => {
                     // 색상 초기화
                     self.resetCustomColor();
                     // 닫기
@@ -138,7 +138,7 @@ Object.assign(zColorPicker.prototype, {
         if (this.modalEl.classList.contains('active')) {
             // 경고창 - 색상을 선택하세요.
             if (!this.selectedEl) {
-                aliceAlert.alertWarning(i18n.msg('common.msg.selectColor'));
+                zAlert.warning(i18n.msg('common.msg.selectColor'));
                 return false;
             }
 
@@ -162,7 +162,7 @@ Object.assign(zColorPicker.prototype, {
             !aliceJs.clickInsideElement(e, 'gmodal-active')) {
             // 사용자 색상이 저장된 색상과 다를 경우 알림창을 띄워 사용자에게 확인 요청
             if (JSON.stringify(this.savedCustomColors) !== JSON.stringify(this.customColors)) {
-                aliceAlert.confirm(i18n.msg('user.msg.customColorSave'), () => {
+                zAlert.confirm(i18n.msg('user.msg.customColorSave'), () => {
                     // 색상 초기화
                     this.resetCustomColor();
                     // 닫기
@@ -240,7 +240,7 @@ Object.assign(zColorPicker.prototype, {
             template += `</div>`;
         }
         paletteContainer.insertAdjacentHTML('beforeend', template);
-        
+
         // 이벤트 등록
         this.selectedEl = paletteContainer.querySelector('.selected');
         paletteContainer.querySelectorAll('.z-palette-item').forEach((item) => {
@@ -298,7 +298,7 @@ Object.assign(zColorPicker.prototype, {
         customColorControlContainer.className = 'z-custom-color-control-container';
         paletteContainer.appendChild(customColorControlContainer);
         this.customColorControlContainerEl = customColorControlContainer;
-        
+
         // 사용자 색상 control 영역 출력
         this.drawCustomColorControl();
     },
@@ -355,7 +355,7 @@ Object.assign(zColorPicker.prototype, {
             colorText.textContent = str;
             customColorControl.appendChild(colorText);
         });
-        
+
         // 버튼 그룹
         let bottomButtonList = document.createElement('div');
         bottomButtonList.className = 'z-button-list justify-content-end';
@@ -377,7 +377,7 @@ Object.assign(zColorPicker.prototype, {
         cancelButton.addEventListener('click', () => {
             // 알림창 - 사용자 색상이 아직 저장되지 않았습니다.
             if (JSON.stringify(this.savedCustomColors) !== JSON.stringify(this.customColors)) {
-                aliceAlert.confirm(i18n.msg('user.msg.customColorSave'), () => {
+                zAlert.confirm(i18n.msg('user.msg.customColorSave'), () => {
                     // 색상 초기화
                     this.resetCustomColor();
                     // 사용자 색상 control 영역 닫기
@@ -434,7 +434,7 @@ Object.assign(zColorPicker.prototype, {
 
         // 사용자 색상이 저장된 색상과 다를 경우 알림창을 띄워 사용자에게 확인 요청
         if (JSON.stringify(this.savedCustomColors) !== JSON.stringify(this.customColors)) {
-            aliceAlert.confirm(i18n.msg('user.msg.customColorSave'), () => {
+            zAlert.confirm(i18n.msg('user.msg.customColorSave'), () => {
                 // 색상 초기화
                 this.resetCustomColor();
                 // 닫기
@@ -636,11 +636,11 @@ Object.assign(zColorPicker.prototype, {
             return !isRgbValid;
         });
         if (!isRgbValid) { return false; }
-        
+
         // hex 자동 변경
         const hexColor = this.rgbToHex(this.rEl.value, this.gEl.value, this.bEl.value);
         this.hexEl.value = hexColor;
-        
+
         // 물방울 변경
         this.waterDropEl.style.setProperty('--data-color', hexColor);
         if (!this.waterDropEl.classList.contains('on')) {
@@ -657,7 +657,7 @@ Object.assign(zColorPicker.prototype, {
 
         // hex 유효성 검증
         if (!this.options.hexReg.test(e.target.value)) { return false; }
-        
+
         // rgb 입력
         const rgbColor = this.hexToRGB(e.target.value);
         this.rEl.value = rgbColor[0];
@@ -703,4 +703,3 @@ Object.assign(zColorPicker.prototype, {
         return rgb;
     }
 });
-

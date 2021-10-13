@@ -78,7 +78,7 @@
         let nodeSelector = options.view === 'modal' ? '.modal_node_selected' : '.node_selected';
         const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
         if (!selectedNode) {
-            aliceAlert.alertWarning(options.nodeNameLabel);
+            zAlert.warning(options.nodeNameLabel);
             return false;
         }
         let callbackFunc = options.callbackFunc;
@@ -621,7 +621,7 @@
         // 버튼 다국어 처리
         defaults.buttons[0].content = i18n.msg('common.btn.select');
         defaults.buttons[1].content = i18n.msg('common.btn.cancel');
-        
+
         // 리스트 미선택시 문구 처리
         defaults.nodeNameLabel = i18n.msg('common.msg.dataSelect', i18n.msg('common.label.data'));
 

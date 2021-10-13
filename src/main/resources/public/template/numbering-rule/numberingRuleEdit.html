@@ -77,7 +77,7 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="z-button secondary" sec:authorize="hasAuthority('numbering.rule.delete')"
                         id="btnDelete" name="btnDelete" th:if="${rule?.numberingId}"
-                        th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
         </div>
@@ -132,7 +132,7 @@
         if (flag === 'post') {
             for (let i = 0; i < ruleNames.length; i++) {
                 if (document.getElementById('txtRuleName').value === ruleNames[i]) {
-                    aliceAlert.alertWarning([[#{rule.msg.duplicateRuleName}]]);
+                    zAlert.warning([[#{rule.msg.duplicateRuleName}]]);
                     return;
                 }
             }
@@ -148,7 +148,7 @@
 
         document.querySelectorAll('option:checked').forEach(elem => patternTypeList.push(elem.getAttribute('name')));
         if (!patternTypeList.includes('numbering.pattern.sequence')) {
-            aliceAlert.alertWarning(i18n.msg('rule.msg.selectSequence'));
+            zAlert.warning(i18n.msg('rule.msg.selectSequence'));
             return;
         }
 
@@ -169,15 +169,15 @@
             callbackFunc: function (response) {
                 switch (response.responseText) {
                     case STATUS_SUCCESS:
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                        zAlert.success(i18n.msg('common.msg.save'), function () {
                             window.location.href = '/numberingRules/search';
                         });
                         break;
                     case STATUS_ERROR_RULE_USED:
-                        aliceAlert.alertWarning(i18n.msg('rule.msg.usedRule'));
+                        zAlert.warning(i18n.msg('rule.msg.usedRule'));
                         break;
                     default:
-                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
             }
@@ -193,15 +193,15 @@
             callbackFunc: function (response) {
                 switch (response.responseText) {
                     case STATUS_SUCCESS:
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                        zAlert.success(i18n.msg('common.msg.delete'), function () {
                             window.location.href = '/numberingRules/search';
                         });
                         break;
                     case STATUS_ERROR_RULE_USED:
-                        aliceAlert.alertWarning(i18n.msg('rule.msg.usedRule'));
+                        zAlert.warning(i18n.msg('rule.msg.usedRule'));
                         break;
                     default:
-                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
             }
@@ -212,7 +212,7 @@
     function addPattern() {
         let validPatternList = document.querySelectorAll('#patternList div.z-edit-row.flex-row')
         if (validPatternList.length >= maxCount) {
-            aliceAlert.alertWarning(i18n.msg('rule.msg.addPattern', maxCount));
+            zAlert.warning(i18n.msg('rule.msg.addPattern', maxCount));
             return;
         }
 

@@ -201,7 +201,7 @@ export const customCodeMixin = {
                             this.UIElement.UIComponent.UIElement.UIInput.domElement.dispatchEvent(new Event('change'));
                         }
                     });
-                    isChekced ? selectModal.hide() : aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect', i18n.msg('common.label.data')));
+                    isChekced ? selectModal.hide() : zAlert.warning(i18n.msg('common.msg.dataSelect', i18n.msg('common.label.data')));
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),

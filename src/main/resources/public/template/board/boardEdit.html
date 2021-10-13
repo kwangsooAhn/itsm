@@ -201,7 +201,7 @@
 
         //게시판 관리 삭제
         function deleteBoardAdmin() {
-            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/boards/' +
+            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/boards/' +
                 boardAdminId);
         }
 
@@ -211,7 +211,7 @@
 
             if (document.getElementById('categoryYn').checked) {
                 if (categoryList.length === 0) {
-                    aliceAlert.alertWarning(i18n.msg('board.msg.createCategory'));
+                    zAlert.warning(i18n.msg('board.msg.createCategory'));
                     return;
                 }
             }
@@ -259,7 +259,7 @@
                 callbackFunc: function (response) {
                     let result = response.responseText === "true" ? true : false;
                     if (result) {
-                        aliceAlert.alertSuccess(resultMsg, function () {
+                        zAlert.success(resultMsg, function () {
                             location.href = '/boards/search';
                         });
                     } else {
@@ -268,7 +268,7 @@
                         } else {
                             resultMsg = i18n.msg('board.msg.duplicateBoardAdminTitle');
                         }
-                        aliceAlert.alertWarning(resultMsg);
+                        zAlert.warning(resultMsg);
                     }
                 },
                 showProgressbar: false
@@ -310,7 +310,7 @@
             if (categoryList.some(function(category) {
                 return category.boardCategoryName === document.getElementById('boardCategoryName').value;
             })) {
-                aliceAlert.alertWarning(i18n.msg('validation.msg.dataNotDuplicate'));
+                zAlert.warning(i18n.msg('validation.msg.dataNotDuplicate'));
                 return;
             }
 

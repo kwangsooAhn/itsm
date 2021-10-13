@@ -122,7 +122,7 @@ export default class ZColumnProperty extends ZProperty {
         this.UITabPanel.panelGroup = new UIDiv().setUIClass('z-panels');
         this.UITabPanel.addUI(this.UITabPanel.tabGroup).addUI(this.UITabPanel.panelGroup);
         this.UIElement.addUI(this.UITabPanel);
-        
+
         // this.value 에 따라서 tab 추가
         this.value.forEach((item, index) => {
             this.addColumn(item, index);
@@ -282,7 +282,7 @@ export default class ZColumnProperty extends ZProperty {
         if (index === -1) { return false; }
 
         if (this.value.length === 1) {
-            aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'));
+            zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'));
         } else {
             this.UITabPanel.tabGroup.removeUI(this.tabs[index]);
             this.tabs.splice(index, 1);

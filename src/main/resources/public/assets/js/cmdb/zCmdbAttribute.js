@@ -739,7 +739,7 @@
                 let labelObject = detailsObject[i].querySelectorAll('input')[0];
                 let valueObject = detailsObject[i].querySelectorAll('input')[1];
                 if (labels.indexOf(labelObject.value.trim()) > -1 || values.indexOf(valueObject.value.trim()) > -1) {
-                    aliceAlert.alertWarning(i18n.msg('validation.msg.dataNotDuplicate'));
+                    zAlert.warning(i18n.msg('validation.msg.dataNotDuplicate'));
                     isValid = false;
                     break;
                 }
