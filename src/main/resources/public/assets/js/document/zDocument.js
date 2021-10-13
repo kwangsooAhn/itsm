@@ -171,29 +171,60 @@ class ZDocument {
         return array;
     }
     /**
-     * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
+     *  처리버튼 눌렀을 시 필수값 체크
      */
-    processAction(actionType) {
+    requiredCheck(actionType) {
         // 유효성 체크
         const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
-        if (!validationUncheckActionType.includes(actionType) && zValidation.hasDOMElementError(this.domElement)) {
+        const typeCheck = validationUncheckActionType.includes(actionType);
+        if (!typeCheck && zValidation.hasDOMElementError(this.domElement)) {
             return false;
         }
-        // DR 테이블, CI 테이블 필수인 경우 row를 1개 이상 등록하라는 경고 후 포커싱
         let validationCheck = true;
-        const validationCheckTables = document.querySelectorAll('table[data-validation-required="true"]');
-        for (let i = 0; i < validationCheckTables.length; i ++) {
-            const table = validationCheckTables[i];
-            if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
-                validationCheck = false;
-                aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
-                    table.focus();
-                });
-                return false;
+
+        if (!typeCheck) {
+            const requiredElements =
+                document.querySelectorAll('input[data-validation-required="true"],textarea[data-validation-required="true"]');
+            for (let i = 0; i < requiredElements.length; i++) {
+
+                if (!zValidation.isRequired(requiredElements[i])) {
+                    validationCheck = false;
+                    break;
+
+                }
+            }
+
+
+            // DR 테이블, CI 테이블 필수인 경우 row를 1개 이상 등록하라는 경고 후 포커싱
+            if (!validationCheck) {
+                const validationCheckTables = document.querySelectorAll('table[data-validation-required="true"]');
+                for (let i = 0; i < validationCheckTables.length; i++) {
+                    const table = validationCheckTables[i];
+                    if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
+                        validationCheck = false;
+                        aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'), function () {
+                            table.focus();
+                        });
+                        return false;
+                    }
+                }
             }
         }
         if (!validationCheck) { return false; }
-        
+
+    }
+
+
+
+    /**
+     * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
+     */
+    processAction(actionType) {
+
+       if(this.requiredCheck(actionType) == false){
+           return false;
+       }
+
         const saveData = {
             'documentId': this.data.documentId,
             'instanceId': this.data.instanceId,
