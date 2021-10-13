@@ -91,7 +91,7 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button sec:authorize="hasAuthority('code.delete')"
                         class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
         </div>
@@ -280,19 +280,19 @@
         };
 
         if (jsonData.code === null || jsonData.code.trim() === '') {
-            aliceAlert.alertWarning([[#{code.msg.enterCode}]]);
+            zAlert.warning([[#{code.msg.enterCode}]]);
             return false;
         }
 
         if (jsonData.pCode === null || jsonData.pCode.trim() === '') {
-            aliceAlert.alertWarning([[#{code.msg.enterPCode}]]);
+            zAlert.warning([[#{code.msg.enterPCode}]]);
             return false;
         }
 
         const codeLangList = document.querySelectorAll('input[name=codeLangValue]');
         for (let i = 0; i < codeLangList.length; i++) {
             if (codeLangList[i].value.trim() === "") {
-                aliceAlert.alertWarning([[#{code.msg.enterCodeLangValue}]]);
+                zAlert.warning([[#{code.msg.enterCodeLangValue}]]);
                 return false;
             }
         }
@@ -305,7 +305,7 @@
             if (typeof codeLangData[selectValue] === 'undefined') {
                 codeLangData[selectValue] = codeLangValue;
             } else {
-                aliceAlert.alertWarning(i18n.msg('code.msg.selectNotDuplicateLang'));
+                zAlert.warning(i18n.msg('code.msg.selectNotDuplicateLang'));
                 return false;
             }
         }
@@ -327,24 +327,24 @@
                 switch (response.responseText) {
                     case STATUS_SUCCESS:
                         tree.setTreeExpandNode(sessionKey);
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
+                        zAlert.success(i18n.msg('common.msg.register'), function () {
                             window.location.href = '/codes/edit';
                         });
                         break;
                     case STATUS_SUCCESS_EDIT_CODE:
                         tree.setTreeExpandNode(sessionKey);
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function () {
+                        zAlert.success(i18n.msg('common.msg.modify'), function () {
                             window.location.href = '/codes/edit';
                         });
                         break;
                     case STATUS_ERROR_CODE_P_CODE_NOT_EXIST:
-                        aliceAlert.alertWarning(i18n.msg('code.msg.pCodeNotExist'));
+                        zAlert.warning(i18n.msg('code.msg.pCodeNotExist'));
                         break;
                     case STATUS_ERROR_CODE_DUPLICATION:
-                        aliceAlert.alertWarning(i18n.msg('code.msg.duplicateCode'));
+                        zAlert.warning(i18n.msg('code.msg.duplicateCode'));
                         break;
                     default:
-                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
             }
@@ -362,15 +362,15 @@
                 switch (response.responseText) {
                     case STATUS_SUCCESS:
                         tree.setTreeExpandNode(sessionKey);
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                        zAlert.success(i18n.msg('common.msg.delete'), function () {
                             window.location.href = '/codes/edit';
                         });
                         break;
                     case STATUS_ERROR_CODE_P_CODE_USED:
-                        aliceAlert.alertWarning(i18n.msg('code.msg.referenceCodeExist'));
+                        zAlert.warning(i18n.msg('code.msg.referenceCodeExist'));
                         break;
                     default:
-                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
             }

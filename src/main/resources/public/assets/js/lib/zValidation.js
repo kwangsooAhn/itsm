@@ -183,7 +183,7 @@ class ZValidation {
         }
         //유효성 검증 실패시
         if (this.alert) { // 알림창 사용시
-            aliceAlert.alertWarning(message, () => {
+            zAlert.warning(message, () => {
                 this.addDOMElementError(element);
                 if (typeof callback === 'function') {
                     callback();

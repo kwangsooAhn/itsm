@@ -63,7 +63,7 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     });
     //elmNode.appendChild(table);
     console.info(data);
-    aliceAlert.alertWarning(data.message);
+    zAlert.warning(data.message);
 };
 
 /*!
@@ -219,7 +219,7 @@ aliceJs.sendXhr = function (option) {
         }
 
     } catch (e) {
-        aliceAlert.alertDanger('Error creating the XMLHttpRequest object.');
+        zAlert.danger('Error creating the XMLHttpRequest object.');
         return;
     }
 
@@ -508,14 +508,14 @@ function dateFormatFromNow(date) {
 aliceJs.thumbnail = function(options) {
     /**
      * 썸네일 저장
-     * 
+     *
      * @param targetId 대상 input
      */
     const saveThumbnail = function(targetId) {
         // image 미선택 시 알림창 출력
         let selectedFile = document.querySelector('.z-thumbnail.selected');
         if (!selectedFile) {
-            aliceAlert.alertWarning(i18n.msg('image.msg.fileSelect'));
+            zAlert.warning(i18n.msg('image.msg.fileSelect'));
             return false;
         }
         const targetElem = document.getElementById(targetId);
@@ -553,7 +553,7 @@ aliceJs.thumbnail = function(options) {
 
     /**
      * 썸네일 content.
-     * 
+     *
      * @param files 파일목록
      * @return content html
      */
@@ -617,7 +617,7 @@ aliceJs.thumbnail = function(options) {
                     }
                 }
             }
-        } else { 
+        } else {
             // 썸네일이 존재하지 않을 경우 안내 문구 표시
             const thumbnailNodataTemplate = `
                 <div class="z-thumbnail-nodata align-center">

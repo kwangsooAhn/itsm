@@ -67,7 +67,7 @@
 
         // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
         if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
-            aliceAlert.alertWarning(i18n.msg('process.msg.selectImportFile'));
+            zAlert.warning(i18n.msg('process.msg.selectImportFile'));
             return false;
         }
         return true;
@@ -89,15 +89,15 @@
                 processInfo.processId = processId;
                 processInfo.processStatus = isDestroy ? STATUS_DESTROY : document.getElementById('process_status').value;
                 isEnabled ? restSubmit('PUT', '/rest/processes/' + processId, processInfo)
-                    : aliceAlert.alertWarning(i18n.msg('process.msg.failedDestroy'));
+                    : zAlert.warning(i18n.msg('process.msg.failedDestroy'));
             }
         }
     }
 
     // 프로세스 삭제
     function deleteProcess(processId) {
-        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/process/' + processId, function() {
-            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/process/' + processId, function() {
+            zAlert.success(i18n.msg('common.msg.delete'), function() {
                 window.close();
             });
         });
@@ -278,10 +278,10 @@
                     let resultCode = resultToJson.result;
                     switch (resultCode.toString()) {
                         case RESPONSE_DUPLICATION:
-                            aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                            zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
                             return;
                         case RESPONSE_FAIL:
-                            aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                            zAlert.warning(i18n.msg('common.msg.fail'));
                             return;
                         default:
                             sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
@@ -292,10 +292,10 @@
                 } else if (method === "PUT") {
                     switch (result) {
                         case RESPONSE_DUPLICATION:
-                            aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                            zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
                             return;
                         case RESPONSE_FAIL:
-                            aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                            zAlert.warning(i18n.msg('common.msg.fail'));
                             return;
                     }
                 }
@@ -351,13 +351,13 @@
             ZWorkflowUtil.import(importFile, processInfo, 'process', function (resultCode) {
                 switch (resultCode.toString()) {
                     case RESPONSE_DUPLICATION:
-                        aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                        zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
                         return false;
                     case RESPONSE_FAIL:
-                        aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                        zAlert.warning(i18n.msg('common.msg.fail'));
                         return false;
                     default:
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                        zAlert.success(i18n.msg('common.msg.save'), function () {
                             location.reload();
                             return true;
                         });

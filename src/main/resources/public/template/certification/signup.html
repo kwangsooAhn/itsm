@@ -154,18 +154,18 @@
             callbackFunc: function(response) {
                 switch (response.responseText) {
                     case STATUS_SUCCESS:
-                        aliceAlert.alertSuccess([[#{user.msg.signUp}]], function() {
+                        zAlert.success([[#{user.msg.signUp}]], function() {
                             location.href = '/login';
                         });
                         break;
                     case STATUS_ERROR_USER_ID_DUPLICATION:
-                        aliceAlert.alertWarning([[#{user.msg.sameUserId}]]);
+                        zAlert.warning([[#{user.msg.sameUserId}]]);
                         break;
                     case STATUS_ERROR_EMAIL_DUPLICATION:
-                        aliceAlert.alertWarning([[#{user.msg.sameEmail}]]);
+                        zAlert.warning([[#{user.msg.sameEmail}]]);
                         break;
                     default :
-                        aliceAlert.alertDanger([[#{user.msg.signUpFail}]]);
+                        zAlert.danger([[#{user.msg.signUpFail}]]);
                         break;
                 }
             }

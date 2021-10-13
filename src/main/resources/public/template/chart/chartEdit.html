@@ -197,7 +197,7 @@
         if (element.id === 'rangeFromDt') {
             const toDtValue = document.getElementById('rangeToDt').value;
             if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                aliceAlert.alertWarning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
+                zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
                     document.getElementById('rangeFromDt').value = rangeFromDt;
                     picker.open();
                 });
@@ -205,7 +205,7 @@
         } else {
             const fromDtValue = document.getElementById('rangeFromDt').value;
             if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                aliceAlert.alertWarning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
+                zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
                     document.getElementById('rangeToDt').value = rangeToDt;
                     picker.open();
                 });
@@ -240,12 +240,12 @@
             restSubmit(method, url, chartInfo, function (result) {
                 switch (result) {
                     case STATUS_SUCCESS:
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                        zAlert.success(i18n.msg('common.msg.save'), function () {
                             location.href = '/charts/search';
                         });
                         break;
                     default:
-                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
             });
@@ -256,16 +256,16 @@
      * chart 삭제
      */
     function deleteChart() {
-        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/charts/' +
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/charts/' +
             chartId, {}, function (result) {
             switch (result) {
                 case STATUS_SUCCESS:
-                    aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function () {
+                    zAlert.success('[[#{common.msg.delete}]]', function () {
                         window.location.href = '/charts/search';
                     });
                     break;
                 default:
-                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                    zAlert.danger(i18n.msg('common.msg.fail'));
                     break;
             }
         });

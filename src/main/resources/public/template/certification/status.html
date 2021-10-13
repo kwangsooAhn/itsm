@@ -85,7 +85,7 @@
             url: url,
             params: new FormData(document.getElementById('sendForm')),
             callbackFunc: function() {
-                aliceAlert.alertWarning(i18n.msg('authentication.msg.resentAuthentication') + '\n' + i18n.msg('authentication.msg.emailCheck'));
+                zAlert.warning(i18n.msg('authentication.msg.resentAuthentication') + '\n' + i18n.msg('authentication.msg.emailCheck'));
             }
         };
         aliceJs.sendXhr(opt)

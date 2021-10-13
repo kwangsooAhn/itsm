@@ -208,7 +208,7 @@
             }
             drawCondition();
         } else {
-            aliceAlert.alertWarning(i18n.msg('customCode.msg.addCondition', searchColumnLength));
+            zAlert.warning(i18n.msg('customCode.msg.addCondition', searchColumnLength));
         }
     }
 
@@ -248,7 +248,7 @@
         deleteIcon.className = 'z-icon i-delete';
         deleteBtn.appendChild(deleteIcon);
         deleteBtn.addEventListener('click', function () {
-            aliceAlert.confirm(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
+            zAlert.confirm(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
                 const row = deleteBtn.parentNode;
                 const conditionElems = document.querySelectorAll('input[name=conditionValue]');
                 if (conditionElems.length === 1) {
@@ -304,7 +304,7 @@
             }
             for (let i = 0; i < conditionElems.length; i++) {
                 if (conditionElems[i].value.trim() === '') {
-                    aliceAlert.alertWarning(i18n.msg('customCode.msg.enterCondition'));
+                    zAlert.warning(i18n.msg('customCode.msg.enterCondition'));
                     conditionElems[i].focus();
                     return false;
                 }
@@ -346,7 +346,7 @@
                                 conditionObj.conditionValue = conditionValue;
                                 conditionDataArr.push(conditionObj);
                             } else {
-                                aliceAlert.alertWarning(i18n.msg('customCode.msg.checkUseYnValue'));
+                                zAlert.warning(i18n.msg('customCode.msg.checkUseYnValue'));
                                 return false;
                             }
                         } else {
@@ -358,7 +358,7 @@
                         for (let k = 0; k < i; k++) {
                             let childConditionKey = childNodes[k].getElementsByTagName('select')[0].value;
                             if (conditionKey === childConditionKey) {
-                                aliceAlert.alertWarning(i18n.msg('customCode.msg.selectNotDuplicateSearchColumn'));
+                                zAlert.warning(i18n.msg('customCode.msg.selectNotDuplicateSearchColumn'));
                                 return false;
                             }
                         }
@@ -373,7 +373,7 @@
                 restSubmit(method, '/rest/custom-codes', data);
             }
         } else if (method === 'delete') {
-            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'');
+            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'');
         }
     }
 
@@ -388,35 +388,35 @@
                 if (method === 'post' || method === 'put') {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            zAlert.success(i18n.msg('common.msg.save'), function () {
                                 location.href = '/custom-codes/search';
                             });
                             break;
                         case STATUS_ERROR_CUSTOM_CODE_USED:
-                            aliceAlert.alertSuccess(i18n.msg('customCode.msg.customCodeUsed'));
+                            zAlert.success(i18n.msg('customCode.msg.customCodeUsed'));
                             break;
                         case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
-                            aliceAlert.alertWarning(i18n.msg('customCode.msg.duplicateCustomCodeName'));
+                            zAlert.warning(i18n.msg('customCode.msg.duplicateCustomCodeName'));
                             break;
                         case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
-                            aliceAlert.alertWarning(i18n.msg('customCode.msg.pCodeNotExist'));
+                            zAlert.warning(i18n.msg('customCode.msg.pCodeNotExist'));
                             break;
                         default :
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                            zAlert.danger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 } else if (method === 'delete') {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                            zAlert.success(i18n.msg('common.msg.delete'), function () {
                                 location.href = '/custom-codes/search';
                             });
                             break;
                         case STATUS_ERROR_CUSTOM_CODE_USED:
-                            aliceAlert.alertWarning(i18n.msg('customCode.msg.customCodeUsed'));
+                            zAlert.warning(i18n.msg('customCode.msg.customCodeUsed'));
                             break;
                         default:
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                            zAlert.danger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 }

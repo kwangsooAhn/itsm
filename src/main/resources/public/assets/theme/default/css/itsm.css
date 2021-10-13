@@ -3724,17 +3724,17 @@ select {
   color: #1959AC;
 }
 
-/* _alerts.scss 
+/* _alerts.scss
  *
  * 파일 경로 : template/_alerts.scss
  * @description 알림 모달
  * @author jy.lim
  * @version 1.0
  */
-.gmodal-active {
+.z-alert-active {
   overflow: hidden !important;
 }
-.gmodal-wrapper {
+.z-alert-wrapper {
   display: none;
   position: fixed;
   top: 0;
@@ -3743,11 +3743,11 @@ select {
   left: 0;
   overflow: auto;
 }
-.gmodal-wrapper.gmodal-active {
+.z-alert-wrapper.z-alert-active {
   display: block;
   z-index: 999999;
 }
-.gmodal-backdrop {
+.z-alert-backdrop {
   position: fixed;
   top: 0;
   right: 0;
@@ -3756,41 +3756,24 @@ select {
   background: rgba(139, 144, 148, 0.5);
   z-index: 999999;
 }
-.gmodal-dialog {
-  position: absolute;
-  top: 8em;
-  right: 0;
-  left: 0;
+.z-alert-dialog {
   width: 100%;
-  max-width: 26.875rem;
   line-height: 1;
   padding: 1.5625rem;
-  margin: 0 auto 2em auto;
-  box-sizing: border-box;
-  border: 0.0625rem solid #CFD5D9;
-  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
-  -moz-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
-  box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  background: #FFFFFF;
-  z-index: 999999;
 }
-.gmodal-title {
+.z-alert-title {
   padding: 1em;
   font-size: 0.875rem;
   box-sizing: border-box;
   text-align: center;
 }
-.gmodal-body {
+.z-alert-body {
   min-height: 3.4375rem;
   padding: 0 0 0 3.875rem;
-  margin-bottom: 2rem;
   box-sizing: border-box;
   overflow: auto;
 }
-.gmodal-message {
+.z-alert-message {
   display: flex;
   align-items: center;
   min-height: 3.5rem;
@@ -3798,53 +3781,53 @@ select {
   font-weight: 500;
   line-height: 1.7143;
 }
-.gmodal-buttons {
+.z-alert-buttons {
   box-sizing: border-box;
   text-align: right;
 }
-.gmodal-button {
+.z-alert-button {
   font-size: 0.875rem;
   font-weight: 500;
   margin: 0 0 0 0.3125rem;
   padding: 0.4375rem 1.5rem;
   border: 0.0625rem solid #CFD5D9;
 }
-.gmodal-icon-success {
+.z-alert-icon-success {
   background-image: url("../../../media/icons/alert/icon_alert_success.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
-.gmodal-icon-info {
+.z-alert-icon-info {
   background-image: url("../../../media/icons/alert/icon_alert_info.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
-.gmodal-icon-warning {
+.z-alert-icon-warning {
   background-image: url("../../../media/icons/alert/icon_alert_warning.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
-.gmodal-icon-danger {
+.z-alert-icon-danger {
   background-image: url("../../../media/icons/alert/icon_alert_danger.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
-.gmodal-icon-confirm {
+.z-alert-icon-confirm {
   background-image: url("../../../media/icons/alert/icon_alert_confirm.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
-.gmodal-icon-email {
+.z-alert-icon-email {
   background-image: url("../../../media/icons/alert/icon_alert_email.svg");
   background-size: auto;
   background-repeat: no-repeat;
@@ -5919,7 +5902,7 @@ span.modal_node_selected label {
   text-align: right;
 }
 
-/* _modal.scss 
+/* _modal.scss
  *
  * 파일 경로 : template/_modal.scss
  * @description 모달 디자인
@@ -5957,7 +5940,7 @@ body.modal-active {
   top: 4em;
   right: 0;
   left: 0;
-  width: 34.38rem;
+  width: 26.875rem;
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
   border: 0.0625rem solid #CFD5D9;
@@ -5977,7 +5960,6 @@ body.modal-active {
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog .modal-content {
-  height: calc(22.5rem - 3.375rem - 5rem);
   overflow: auto;
 }
 .modal-wrapper .modal-dialog .modal-bottom {

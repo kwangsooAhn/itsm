@@ -34,7 +34,7 @@ class ZFormDesigner {
         }).then((customData) => {
             FORM.CUSTOM_CODE = customData.data;
         }).catch(err => {
-            aliceAlert.alertWarning(err);
+            zAlert.warning(err);
         });
 
         // 초기화
@@ -170,7 +170,7 @@ class ZFormDesigner {
                         // component 선택
                         component.UIElement.domElement.dispatchEvent(new Event('click'));
                     }
-                    
+
                     // drag & drop시 추가된 디자인 제거
                     if (zValidation.isDefined(evt.clone) && evt.clone.classList.contains('placeholder')) {
                         evt.clone.classList.remove('placeholder');
@@ -203,7 +203,7 @@ class ZFormDesigner {
 
             this.form.UIElement.domElement.dispatchEvent(new Event('click')); // 폼 속성 패널 출력
         }).catch(err => {
-            aliceAlert.alertWarning(err);
+            zAlert.warning(err);
         });
 
         document.addEventListener('click', this.onLeftClickHandler.bind(this), false);
@@ -550,7 +550,7 @@ class ZFormDesigner {
 
         aliceJs.moveObject(object.children, oldIndex, newIndex);
         object.sort(0); // 재정렬
-        
+
         return object.children[newIndex]; // 변경된 객체
     }
     /**
@@ -698,7 +698,7 @@ class ZFormDesigner {
         // 발행, 사용 상태일 경우, 저장이 불가능하다.
         const deployableStatus = ['form.status.publish', 'form.status.use'];
         if (deployableStatus.includes(this.data.status)) {
-            aliceAlert.alertWarning(i18n.msg('common.msg.onlySaveInEdit'));
+            zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
             return false;
         }
         // 저장할 데이터 가져오기
@@ -722,7 +722,7 @@ class ZFormDesigner {
                     this.setFormName();
                     // 팝업 닫기
                     if (boolean) {
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
+                        zAlert.success(i18n.msg('common.msg.save'), () => {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
@@ -732,18 +732,18 @@ class ZFormDesigner {
                         const date = new Date();
                         document.getElementById('saveInfo').innerText = i18n.msg('form.msg.saveInfo'
                             , i18n.userDateTime(date.toISOString()));
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
+                        zAlert.success(i18n.msg('common.msg.save'));
                     }
                     break;
                 case STATUS_ERROR_DUPLICATE_FORM_NAME:
-                    aliceAlert.alertWarning(i18n.msg('form.msg.duplicateFormName'));
+                    zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
                     break;
                 default:
-                    aliceAlert.alertDanger(i18n.msg('common.label.fail'));
+                    zAlert.danger(i18n.msg('common.label.fail'));
                     break;
             }
         }).catch(err => {
-            aliceAlert.alertWarning(err);
+            zAlert.warning(err);
         });
     }
 
@@ -814,7 +814,7 @@ class ZFormDesigner {
             showProgressbar: true
         }).then((formId) => {
             if (formId) {
-                aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
+                zAlert.success(i18n.msg('common.msg.save'), () => {
                     if (window.opener && !window.opener.closed) {
                         opener.location.reload();
                     }
@@ -822,10 +822,10 @@ class ZFormDesigner {
                     location.href = '/forms/' + formId + '/edit';
                 });
             } else {
-                aliceAlert.alertDanger(i18n.msg('common.label.fail'));
+                zAlert.danger(i18n.msg('common.label.fail'));
             }
         }).catch(err => {
-            aliceAlert.alertWarning(err);
+            zAlert.warning(err);
         });
     }
     /**
@@ -898,4 +898,3 @@ class ZFormDesigner {
 }
 
 export const zFormDesigner = new ZFormDesigner();
-
