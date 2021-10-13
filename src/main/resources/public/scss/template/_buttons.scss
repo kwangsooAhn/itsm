@@ -334,6 +334,7 @@
     .z-button-toggle {
       flex: 0 1 auto;
       @include borderRadius($button-border-radius); // 1px
+      width: 100%;
     }
     // Prevent double borders when buttons are next to each other
     .z-button-switch:not(:first-child),
