@@ -251,10 +251,14 @@
     width: 100%;
     height: 100%;
     padding: 1.975rem; // 30px
-
+    //신청서 문서이름
+    .document-name {
+      font-size: $font-size-l;
+      font-weight: $font-weight-medium;
+    }
     // 신청서 > 아이콘
     .document-icon {
-      @include absolute($top: 3.75rem,$left: 23.125rem); // 60px 370px
+      @include absolute($top: 2rem,$right: 1rem); // 32px 16px
       overflow: hidden;
     }
     // 신청서 > 설명
@@ -269,9 +273,14 @@
     }
     //임시신청서 상태 표기
     .document-temp-status {
-      vertical-align: top;
-      font-style: italic;
-      color: $gray400;
+      width: 5.3125rem; //85px
+      height: 2.0625rem; //33px
+      padding: 0.4rem; //6px
+      vertical-align: text-top;
+      font-size: 0.8rem;
+      color: $white;
+      background-color: $gray300;
+      @include borderRadius($tag-border-radius); // 8px
     }
   }
 }

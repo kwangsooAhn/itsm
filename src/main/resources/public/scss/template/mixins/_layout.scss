@@ -202,12 +202,16 @@
       }
       //임시신청서 상태 표기
       .document-temp-status {
-        vertical-align: top;
-        font-style: italic;
-        color: $gray400;
+        width: 5.3125rem; //85px
+        height: 2.0625rem; //33px
+        font-size: 0.8rem;
+        color: $white;
+        background-color: $gray300;
+        text-align: center;
+        padding-top: 10px;
+        @include borderRadius($tag-border-radius); // 8px
       }
     }
-    // TODO: 추후 대시보드 디자인 완료시 아래 부분은 삭제 예정
     // 대시보드 > 소제목
     .sub-title {
       margin: 1.25rem 0; // 20px 0

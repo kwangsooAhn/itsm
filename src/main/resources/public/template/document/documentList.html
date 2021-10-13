@@ -16,9 +16,9 @@
              sec:authorize="hasAuthority('document.create')" th:onclick="zDocument.openDocument([[${document.documentId}]])">
             <div class="document-column">
                 <div>
-                    <h3 th:text="${document.documentName}" class="text-ellipsis"></h3>
+                    <span th:text="${document.documentName}" class="text-ellipsis document-name mr-2"></span>
                     <span th:if="${document.documentStatus} == 'document.status.temporary'"
-                          th:text="#{document.label.tempDocument}" class="document-temp-status"> </span>
+                          th:text="#{document.label.tempDocument}" class="document-temp-status mt-1"> </span>
                 </div>
                 <label th:text="${document.documentDesc}" class="document-description text-ellipsis"></label>
                 <div class="document-icon">

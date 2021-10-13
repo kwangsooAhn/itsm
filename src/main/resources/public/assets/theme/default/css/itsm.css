@@ -2814,9 +2814,16 @@ select {
   margin-top: 3.5rem;
 }
 .z-itsm-container .z-main-content .z-page-result .z-document-row .document-temp-status {
-  vertical-align: top;
-  font-style: italic;
-  color: #ABB0B5;
+  width: 5.3125rem;
+  height: 2.0625rem;
+  font-size: 0.8rem;
+  color: #FFFFFF;
+  background-color: #CFD5D9;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
 }
 .z-itsm-container .z-main-content .z-page-result .sub-title {
   margin: 1.25rem 0;
@@ -3308,10 +3315,14 @@ select {
   height: 100%;
   padding: 1.975rem;
 }
+.z-document-content .document-column .document-name {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
 .z-document-content .document-column .document-icon {
   position: absolute;
-  top: 3.75rem;
-  left: 23.125rem;
+  top: 2rem;
+  right: 1rem;
   overflow: hidden;
 }
 .z-document-content .document-column .document-description {
@@ -3324,9 +3335,16 @@ select {
   margin-top: 0.625rem;
 }
 .z-document-content .document-column .document-temp-status {
-  vertical-align: top;
-  font-style: italic;
-  color: #ABB0B5;
+  width: 5.3125rem;
+  height: 2.0625rem;
+  padding: 0.4rem;
+  vertical-align: text-top;
+  font-size: 0.8rem;
+  color: #FFFFFF;
+  background-color: #CFD5D9;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
 }
 
 .z-token-content,
