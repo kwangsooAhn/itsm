@@ -12,7 +12,7 @@ interface CodeRepository : JpaRepository<CodeEntity, String>, CodeRepositoryCust
 
     fun existsByPCodeAndEditableTrue(pCode: CodeEntity): Boolean
 
-    fun existsByCodeAndPCodeAndEditableTrue(code: String, pCode: CodeEntity = CodeEntity()): Boolean
+    fun existsByPCode(pCode: CodeEntity = CodeEntity()): Boolean
 
     fun findByPCodeAndEditableTrueOrderByCodeValue(pCode: CodeEntity): MutableList<CodeEntity>
 }
