@@ -15,9 +15,9 @@ object DashboardConstants {
      *  대시보드 업무통계내 문서 그룹 ex> 장애신고/ 단순 문의/ 서비스 요청/ 기타
      */
     enum class DocumentGroup(val code: String) {
-        INCIDENT("servicedesk.incident"),
-        INQUIRY("servicedesk.inquiry"),
-        REQUEST("servicedesk.request"),
-        ETC("servicedesk.etc")
+        INCIDENT("document.group.incident"),
+        INQUIRY("document.group.inquiry"),
+        REQUEST("document.group.request"),
+        ETC("document.group.etc")
     }
 }
