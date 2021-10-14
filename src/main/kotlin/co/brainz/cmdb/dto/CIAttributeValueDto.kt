@@ -18,7 +18,7 @@ data class CIAttributeValueDto(
     var value: String? = null
 ) : Serializable
 
-class CIAttributeValueGroupListDto (
+class CIAttributeValueGroupListDto(
     val attributeId: String = "",
     val attributeName: String = "",
     val attributeText: String = "",
@@ -26,5 +26,5 @@ class CIAttributeValueGroupListDto (
     val attributeOrder: Int? = 0,
     val attributeValue: String? = null,
     var value: String? = null,
-    var childAttributes: MutableList<CIAttributeValueDto>? =  mutableListOf()
+    var childAttributes: MutableList<CIAttributeValueDto>? = mutableListOf()
 ) : Serializable

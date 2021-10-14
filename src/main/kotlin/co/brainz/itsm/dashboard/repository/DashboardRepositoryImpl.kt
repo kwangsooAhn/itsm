@@ -21,10 +21,10 @@ import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
-import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
+import org.springframework.stereotype.Repository
 
 @Repository
 class DashboardRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::class.java), DashboardRepositoryCustom {

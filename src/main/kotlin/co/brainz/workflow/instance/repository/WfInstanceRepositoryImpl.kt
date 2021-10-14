@@ -11,7 +11,6 @@ import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
-import co.brainz.itsm.dashboard.constants.DashboardConstants
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.comment.entity.QWfCommentEntity

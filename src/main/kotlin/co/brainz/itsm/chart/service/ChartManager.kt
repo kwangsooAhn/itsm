@@ -352,7 +352,7 @@ abstract class ChartManager(
                 endDateTime = LocalDate.now().atStartOfDay()
             }
             ChartConstants.RangeType.ALL.code -> {
-                startDateTime = LocalDate.of(1975,6,23).atStartOfDay() // 내 생일이다. 문제 있을까? By Jung Hee Chan
+                startDateTime = LocalDate.of(1975, 6, 23).atStartOfDay() // 내 생일이다. 문제 있을까? By Jung Hee Chan
                 endDateTime = LocalDateTime.now()
             }
         }
