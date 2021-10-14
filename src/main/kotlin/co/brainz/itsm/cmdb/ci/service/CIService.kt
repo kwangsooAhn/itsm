@@ -175,7 +175,7 @@ class CIService(
         attribute: CIAttributeValueGroupListDto
     ): MutableList<CIAttributeValueDto> {
         val ciAttributeDataList = mutableListOf<CIAttributeValueDto>()
-        childData.forEach{ cData ->
+        childData.forEach { cData ->
             run cLoop@{
                 attribute.childAttributes?.forEach { cItem ->
                     if (cData["id"] != null && cData["id"] == cItem.attributeId) {
