@@ -216,9 +216,9 @@ insert into awf_code values ('assignee.type.candidate.groups', 'assignee.type', 
 insert into awf_code values ('assignee.type.candidate.users', 'assignee.type', null, '담당자 후보목록', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document', 'root', null, '신청서', null, false, true, 1, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.group', 'document', null, '신청서 목록', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.incident', 'document.group', '장애문의', '장애문의', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.inquiry', 'document.group', '단순문의', '단순문의', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.request', 'document.group', '서비스요청', '서비스요청', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.incident', 'document.group', '장애문의', '장애문의', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.inquiry', 'document.group', '단순문의', '단순문의', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.request', 'document.group', '서비스요청', '서비스요청', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status', 'document', null, '신청서 상태', null, false, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.temporary', 'document.status', '임시', '임시', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', '폐기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -239,6 +239,19 @@ insert into awf_code values ('faq.category.techSupport', 'faq.category', null, '
 insert into awf_code values ('form', 'root', null, '문서양식', null, false, true, 1, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('form.lang', 'form', null, '문서양식 언어', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('form.lang.ko', 'form.lang', null, '한국어', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template', 'form', null, '템플릿', null, true, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 단순문의 */
+insert into awf_code values ('form.template.serviceDesk.inquiry', 'form.template', 'form.template.serviceDesk.inquiry', '서비스데스크 - 단순문의', '', true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 단순문의 - 서비스 항목*/
+insert into awf_code values ('form.template.serviceDesk.inquiry.category', 'form.template.serviceDesk.inquiry', 'form.template.serviceDesk.inquiry.category', '서비스 항목', '단순문의 서비스 항목', true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.none', 'form.template.serviceDesk.inquiry.category', 'none', '선택 안함', '', true, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.server', 'form.template.serviceDesk.inquiry.category', 'server', '서버', '', true, true, 5, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.network', 'form.template.serviceDesk.inquiry.category', 'network', '네트워크', '', true, true, 5, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.security', 'form.template.serviceDesk.inquiry.category', 'security', '보안', '', true, true, 5, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.dbms', 'form.template.serviceDesk.inquiry.category', 'dbms', '데이터베이스', '', true, true, 5, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.contract', 'form.template.serviceDesk.inquiry.category', 'contract', '계약', '', true, true, 5, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.etc', 'form.template.serviceDesk.inquiry.category', 'etc', '기타', '', true, true, 5, 7, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 insert into awf_code values ('numbering', 'root', null, '문서번호 규칙 패턴', null, false, true, 1, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('numbering.pattern', 'numbering', null, '문서규칙 패턴', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('numbering.pattern.format', 'numbering.pattern', null, '문서규칙 포맷', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -388,7 +401,10 @@ COMMENT ON COLUMN awf_custom_code.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_custom_code.update_dt IS '수정일';
 
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용자 이름 검색', 'table', 'awf_user', 'user_name', 'user_key', null, '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0009', '사용자 부서 검색', 'code', null, null, null, 'department.group', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288ab777dd21b50177dd52781e0000', '데이터베이스', 'code', null, null, null, 'cmdb.db.kind', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0010', '서비스데스크 - 단순문의 : 서비스 항목', 'code', null, null, null, 'form.template.serviceDesk.inquiry.category', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 /**
  * 사용자정의코드테이블
  */
@@ -932,16 +948,17 @@ insert into awf_role values ('document', '문서처리', '', '0509e09412534a6e98
 insert into awf_role values ('document.manager', '문서처리 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('board.admin.manager', '게시판 관리자', '게시판 관리자', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('role.all', '역할 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_role values ('service.manager', '서비스요청 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('notice.all', '공지사항 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('users.general', '사용자일반', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('role.view', '역할 사용자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_role values ('service.user', '서비스요청 사용자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('notice.view', '공지사항 사용자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('admin', '관리자', '전체관리자', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('users.manager', '사용자관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('faq.all', 'FAQ관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('auth.all', '권한 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 단순 문의 */
+insert into awf_role values ('serviceDesk.assignee', '서비스데스크 담당자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_role values ('serviceDesk.manager', '서비스데스크 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 역할권한매핑
@@ -1107,54 +1124,6 @@ insert into awf_role_auth_map values ('role.view', 'role.read');
 insert into awf_role_auth_map values ('role.view', 'role.create');
 insert into awf_role_auth_map values ('role.view', 'role.delete');
 insert into awf_role_auth_map values ('role.view', 'role.update');
-insert into awf_role_auth_map values ('service.manager', 'notice.read');
-insert into awf_role_auth_map values ('service.manager', 'faq.create');
-insert into awf_role_auth_map values ('service.manager', 'faq.update');
-insert into awf_role_auth_map values ('service.manager', 'faq.delete');
-insert into awf_role_auth_map values ('service.manager', 'form.read');
-insert into awf_role_auth_map values ('service.manager', 'user.read');
-insert into awf_role_auth_map values ('service.manager', 'user.create');
-insert into awf_role_auth_map values ('service.manager', 'role.create');
-insert into awf_role_auth_map values ('service.manager', 'role.update');
-insert into awf_role_auth_map values ('service.manager', 'process.delete');
-insert into awf_role_auth_map values ('service.manager', 'process.update');
-insert into awf_role_auth_map values ('service.manager', 'process.create');
-insert into awf_role_auth_map values ('service.manager', 'process.read');
-insert into awf_role_auth_map values ('service.manager', 'form.delete');
-insert into awf_role_auth_map values ('service.manager', 'form.update');
-insert into awf_role_auth_map values ('service.manager', 'form.create');
-insert into awf_role_auth_map values ('service.manager', 'user.update');
-insert into awf_role_auth_map values ('service.manager', 'user.delete');
-insert into awf_role_auth_map values ('service.manager', 'faq.read');
-insert into awf_role_auth_map values ('service.manager', 'notice.update');
-insert into awf_role_auth_map values ('service.manager', 'notice.delete');
-insert into awf_role_auth_map values ('service.manager', 'notice.create');
-insert into awf_role_auth_map values ('service.manager', 'role.read');
-insert into awf_role_auth_map values ('service.manager', 'role.delete');
-insert into awf_role_auth_map values ('service.user', 'form.read');
-insert into awf_role_auth_map values ('service.user', 'user.delete');
-insert into awf_role_auth_map values ('service.user', 'faq.delete');
-insert into awf_role_auth_map values ('service.user', 'user.read');
-insert into awf_role_auth_map values ('service.user', 'faq.update');
-insert into awf_role_auth_map values ('service.user', 'user.create');
-insert into awf_role_auth_map values ('service.user', 'user.update');
-insert into awf_role_auth_map values ('service.user', 'faq.create');
-insert into awf_role_auth_map values ('service.user', 'faq.read');
-insert into awf_role_auth_map values ('service.user', 'process.delete');
-insert into awf_role_auth_map values ('service.user', 'process.update');
-insert into awf_role_auth_map values ('service.user', 'process.create');
-insert into awf_role_auth_map values ('service.user', 'process.read');
-insert into awf_role_auth_map values ('service.user', 'form.delete');
-insert into awf_role_auth_map values ('service.user', 'form.update');
-insert into awf_role_auth_map values ('service.user', 'form.create');
-insert into awf_role_auth_map values ('service.user', 'role.delete');
-insert into awf_role_auth_map values ('service.user', 'role.update');
-insert into awf_role_auth_map values ('service.user', 'notice.update');
-insert into awf_role_auth_map values ('service.user', 'notice.delete');
-insert into awf_role_auth_map values ('service.user', 'role.create');
-insert into awf_role_auth_map values ('service.user', 'role.read');
-insert into awf_role_auth_map values ('service.user', 'notice.create');
-insert into awf_role_auth_map values ('service.user', 'notice.read');
 insert into awf_role_auth_map values ('users.general', 'board.read');
 insert into awf_role_auth_map values ('users.general', 'code.read');
 insert into awf_role_auth_map values ('users.general', 'notice.read');
@@ -1192,7 +1161,76 @@ insert into awf_role_auth_map values ('users.manager', 'notice.create');
 insert into awf_role_auth_map values ('users.manager', 'role.read');
 insert into awf_role_auth_map values ('users.manager', 'role.create');
 insert into awf_role_auth_map values ('users.manager', 'role.update');
-
+/*단순문의 - 서비스데스크 담당자, 서비스데스크 관리자*/
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'board.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'code.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'notice.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'faq.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'token.create');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'token.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.delete');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.update');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'document.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'document.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'document.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'document.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'token.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'token.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'notice.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'notice.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'notice.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'notice.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'faq.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'faq.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'faq.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'faq.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'download.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'download.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'download.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'download.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'board.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'board.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'board.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'board.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'report.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'report.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'report.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'report.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'process.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'process.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'process.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'process.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'form.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'form.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'form.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'form.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'custom.code.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'custom.code.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'custom.code.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'custom.code.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'image.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'image.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'image.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'image.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'numbering.pattern.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'numbering.pattern.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'numbering.pattern.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'numbering.pattern.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'numbering.rule.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'numbering.rule.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'numbering.rule.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'numbering.rule.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'cmdb.ci.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'user.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'role.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'auth.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'code.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'code.update');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'code.read');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'code.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'scheduler.read');
 
 /**
  * 문서번호패턴맵핑
@@ -2527,10 +2565,16 @@ COMMENT ON COLUMN wf_form.form_id IS '문서양식아이디';
 COMMENT ON COLUMN wf_form.form_name IS '문서양식이름';
 COMMENT ON COLUMN wf_form.form_desc IS '문서양식설명';
 COMMENT ON COLUMN wf_form.form_status IS '문서양식상태';
+COMMENT ON COLUMN wf_form.form_display_option IS '문서양식세부속성';
+COMMENT ON COLUMN wf_form.form_category IS '문서양식카테고리';
 COMMENT ON COLUMN wf_form.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_form.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_form.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_form.update_dt IS '수정일시';
+
+INSERT INTO wf_form VALUES ('csr0000000000000000000000000001f', '서비스 데스크 - 단순문의', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}','process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO wf_form VALUES ('csr0000000000000000000000000002f', '서비스 데스크 - 단순문의 - 만족도', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}','process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 /**
  * 문서양식 그룹정보
  */
@@ -2549,6 +2593,17 @@ COMMENT ON TABLE wf_form_group IS '문서양식 그룹정보';
 COMMENT ON COLUMN wf_form_group.form_group_id IS '문서양식 그룹아이디';
 COMMENT ON COLUMN wf_form_group.form_group_name IS '문서양식 그룹이름';
 COMMENT ON COLUMN wf_form_group.form_id IS '문서양식아이디';
+
+/* 서비스데스크 - 단순문의 */
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c7832447201e1','제목','csr0000000000000000000000000001f');
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c7832480101e2','신청내역','csr0000000000000000000000000001f');
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c7832527e0203','접수내역','csr0000000000000000000000000001f');
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c783258080214','처리내역','csr0000000000000000000000000001f');
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c78325ca80225','승인 / 반려 내역','csr0000000000000000000000000001f');
+/* 서비스데스크 - 단순문의 - 만족도 */
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c78334c07023c','제목','csr0000000000000000000000000002f');
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c78334f3a0244','만족도평가','csr0000000000000000000000000002f');
+
 /**
  * 문서양식 그룹 세부정보
  */
@@ -2566,6 +2621,24 @@ COMMENT ON TABLE wf_form_group_property IS '문서양식 그룹 세부정보';
 COMMENT ON COLUMN wf_form_group_property.form_group_id IS '문서양식 그룹아이디';
 COMMENT ON COLUMN wf_form_group_property.property_type IS '속성 타입';
 COMMENT ON COLUMN wf_form_group_property.property_options IS '속성 값';
+
+/* 서비스데스크 - 단순문의 */
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c7832447201e1','display','{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c7832447201e1','label','{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c7832480101e2','display','{"displayOrder":1,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c7832480101e2','label','{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"신청내역"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c7832527e0203','display','{"displayOrder":2,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c7832527e0203','label','{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"접수내역"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c783258080214','display','{"displayOrder":3,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c783258080214','label','{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"처리내역"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78325ca80225','display','{"displayOrder":4,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78325ca80225','label','{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 내역"}');
+/* 서비스데스크 - 단순문의 - 만족도 */
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78334c07023c','display','{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78334c07023c','label','{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78334f3a0244','display','{"displayOrder":1,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78334f3a0244','label','{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"만족도 평가"}');
+
 /**
  * 문서양식 ROW 정보
  */
@@ -2583,6 +2656,35 @@ COMMENT ON TABLE wf_form_row IS '문서양식 ROW 정보';
 COMMENT ON COLUMN wf_form_row.form_row_id IS '문서양식 ROW 아이디';
 COMMENT ON COLUMN wf_form_row.form_group_id IS '문서양식 그룹아이디';
 COMMENT ON COLUMN wf_form_row.row_display_option IS 'ROW 출력용 속성';
+
+/* 서비스데스크 - 단순문의 */
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c783244ca01e5','g028b21f7c780ba6017c7832447201e1','{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c783245d801e8','g028b21f7c780ba6017c7832447201e1','{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c7832470e01eb','g028b21f7c780ba6017c7832447201e1','{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c7832485c01ed','g028b21f7c780ba6017c7832480101e2','{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78324a3801f2','g028b21f7c780ba6017c7832480101e2','{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78324c4301f7','g028b21f7c780ba6017c7832480101e2','{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78324e2701fc','g028b21f7c780ba6017c7832480101e2','{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78324f5001ff','g028b21f7c780ba6017c7832480101e2','{"displayOrder":4,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c783250730203','g028b21f7c780ba6017c7832480101e2','{"displayOrder":5,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c783251820206','g028b21f7c780ba6017c7832480101e2','{"displayOrder":6,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c783252db020a','g028b21f7c780ba6017c7832527e0203','{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c783254ac020f','g028b21f7c780ba6017c7832527e0203','{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c783255fa0212','g028b21f7c780ba6017c7832527e0203','{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c783256e80215','g028b21f7c780ba6017c7832527e0203','{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c783258800219','g028b21f7c780ba6017c783258080214','{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c7832599c021c','g028b21f7c780ba6017c783258080214','{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78325ab4021f','g028b21f7c780ba6017c783258080214','{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78325bc30222','g028b21f7c780ba6017c783258080214','{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78325d040226','g028b21f7c780ba6017c78325ca80225','{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78325e11022a','g028b21f7c780ba6017c78325ca80225','{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+/* 서비스데스크 - 단순문의 - 만족도 */
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78334c66023d','g028b21f7c780ba6017c78334c07023c','{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78334d6a0240','g028b21f7c780ba6017c78334c07023c','{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78334e7b0243','g028b21f7c780ba6017c78334c07023c','{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c78334fa80245','g028b21f7c780ba6017c78334f3a0244','{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('r028b21f7c780ba6017c783350b00248','g028b21f7c780ba6017c78334f3a0244','{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+
 /**
  * 프로세스정보
  */
@@ -2610,6 +2712,10 @@ COMMENT ON COLUMN wf_process.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_process.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_process.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_process.update_dt IS '수정일시';
+
+INSERT INTO wf_process VALUES ('csr0000000000000000000000000001p','서비스 데스크 - 단순문의','process.status.use','','0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO wf_process VALUES ('csr0000000000000000000000000002p','서비스 데스크 - 단순문의 - 만족도','process.status.use','','0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 /**
  * 신청서정보
  */
@@ -2656,6 +2762,12 @@ COMMENT ON COLUMN wf_document.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_document.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_document.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_document.update_dt IS '수정일시';
+
+/* 서비스데스크 - 단순문의 */
+INSERT INTO wf_document VALUES ('csr0000000000000000000000000001d','서비스 데스크 - 단순문의','','csr0000000000000000000000000001p','csr0000000000000000000000000001f','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form','document.group.inquiry','img_document_11.png',false,'0509e09412534a6e98f04ca79abb6424', now(),NULL,NULL);
+/* 서비스데스크 - 단순문의 - 만족도 */
+INSERT INTO wf_document VALUES ('csr0000000000000000000000000002d','서비스 데스크 - 단순문의 - 만족도','','csr0000000000000000000000000002p','csr0000000000000000000000000002f','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424', now(),NULL,NULL);
+
 /**
  * 인스턴스정보
  */
@@ -2735,6 +2847,39 @@ COMMENT ON COLUMN wf_component.component_type IS '컴포넌트종류';
 COMMENT ON COLUMN wf_component.mapping_id IS '매핑아이디';
 COMMENT ON COLUMN wf_component.is_topic IS '토픽여부';
 COMMENT ON COLUMN wf_component.form_id IS '폼 아이디';
+
+/* 서비스데스크 - 단순문의 */
+INSERT INTO wf_component VALUES ('ae3e2a000d67b4e2e8d83bf36c81260a','image','z-logo',false,'r028b21f7c780ba6017c783244ca01e5','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('aa83af616d59cc86c565a0282153c236','label','z-document-title',false,'r028b21f7c780ba6017c783245d801e8','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('aeaba514c85489bea2ae4c588df41f03','divider','',false,'r028b21f7c780ba6017c7832470e01eb','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('ad15aab4783f55533c6c1f183a4b60cc','inputBox','z-requester',false,'r028b21f7c780ba6017c7832485c01ed','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('ae4f48236ecf493eb0212d77ac14c360','customCode','z-requester-department',false,'r028b21f7c780ba6017c7832485c01ed','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a71d2d6094b2920f87ba8eaf025af1c3','inputBox','z-requester-phone',false,'r028b21f7c780ba6017c78324a3801f2','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a4a100bbcd9907aae4e260c8bfa3b45f','inputBox','z-requester-email',false,'r028b21f7c780ba6017c78324a3801f2','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a115df4520fea935e4482784064c7a51','dateTime','z-request-date',false,'r028b21f7c780ba6017c78324c4301f7','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a0c3e8d18663483284b7e9fe83d0b824','dateTime','z-request-deadline',false,'r028b21f7c780ba6017c78324c4301f7','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a75c85bba7aa722f9dcbcbcfad0b6ac7','inputBox','z-request-title',false,'r028b21f7c780ba6017c78324e2701fc','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('ade3320b3bc9dca17651e4c0cdef89e4','customCode','z-request-category',false,'r028b21f7c780ba6017c78324f5001ff','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a3b140da99dbfb49beb7fa3db09042b4','textArea','z-request-content',false,'r028b21f7c780ba6017c783250730203','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a9404877fabbd09dc2603f78283fa155','fileUpload','z-request-file',false,'r028b21f7c780ba6017c783251820206','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('ab6d29d8ef257f93de98c655fbaab22a','inputBox','z-acceptor',false,'r028b21f7c780ba6017c783252db020a','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('ab266326aa59ed5bb4411da4142aa24a','customCode','z-acceptor-department',false,'r028b21f7c780ba6017c783252db020a','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a8e347190f51b1b05200f34d9e8b8ab0','dateTime','z-accept-date',false,'r028b21f7c780ba6017c783254ac020f','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a71977859617f137f589108c24fa7845','textArea','z-accept-content',false,'r028b21f7c780ba6017c783255fa0212','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('acc02e1f2f51aa01649b6e06f7b35ec4','customCode','z-processor',false,'r028b21f7c780ba6017c783256e80215','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a83a54dfec6c65dc5983272ec9a956ce','dateTime','z-process-date',false,'r028b21f7c780ba6017c783258800219','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('ae07bae262c57399a4ee8b3dea2fcbab','textArea','z-process-content',false,'r028b21f7c780ba6017c7832599c021c','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a27c22d07de4231ab41863dab45450f1','fileUpload','z-process-file',false,'r028b21f7c780ba6017c78325ab4021f','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a4c410628aa58b1863935b4056395b80','customCode','z-approver',false,'r028b21f7c780ba6017c78325bc30222','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('a10c935dbdf1c30b34dfabe5ebc0ba73','dateTime','z-approve-date',false,'r028b21f7c780ba6017c78325d040226','csr0000000000000000000000000001f');
+INSERT INTO wf_component VALUES ('ab97abfd66b5654e3f525e617df9afaf','textArea','z-approve-content',false,'r028b21f7c780ba6017c78325e11022a','csr0000000000000000000000000001f');
+/* 서비스데스크 - 단순문의 - 만족도 */
+INSERT INTO wf_component VALUES ('a605df0d26f09a3d20caaea3977a5c64','image','z-logo',false,'r028b21f7c780ba6017c78334c66023d','csr0000000000000000000000000002f');
+INSERT INTO wf_component VALUES ('ae54c20fd574a57845fffaa7bb936eb4','label','z-document-title',false,'r028b21f7c780ba6017c78334d6a0240','csr0000000000000000000000000002f');
+INSERT INTO wf_component VALUES ('a7cc83ce97c50faa754c702bf018c505','divider','',false,'r028b21f7c780ba6017c78334e7b0243','csr0000000000000000000000000002f');
+INSERT INTO wf_component VALUES ('ac69d66f3ec394b36215cd2ee3983292','radio','z-satisfaction',false,'r028b21f7c780ba6017c78334fa80245','csr0000000000000000000000000002f');
+INSERT INTO wf_component VALUES ('ad2996c39febdc13b32d08354169d6ac','textArea','z-satisfaction-content',false,'r028b21f7c780ba6017c783350b00248','csr0000000000000000000000000002f');
+
 /**
  * 컴포넌트 세부속성
  */
@@ -2752,6 +2897,126 @@ COMMENT ON TABLE wf_component_property IS '컴포넌트 세부속성';
 COMMENT ON COLUMN wf_component_property.component_id IS '컴포넌트 아이디';
 COMMENT ON COLUMN wf_component_property.property_type IS '속성 타입';
 COMMENT ON COLUMN wf_component_property.property_options IS '속성 값';
+
+/* 서비스데스크 - 단순문의 */
+INSERT INTO wf_component_property VALUES ('ae3e2a000d67b4e2e8d83bf36c81260a','validation','{"required":false}');
+INSERT INTO wf_component_property VALUES ('ae3e2a000d67b4e2e8d83bf36c81260a','label','{"position":"hidden","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
+INSERT INTO wf_component_property VALUES ('ae3e2a000d67b4e2e8d83bf36c81260a','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('ae3e2a000d67b4e2e8d83bf36c81260a','element','{"columnWidth":"12","path":"file:///logo.png","width":"155","height":"26","align":"left"}');
+INSERT INTO wf_component_property VALUES ('aa83af616d59cc86c565a0282153c236','label','{"position":"left","fontSize":"40","fontColor":"#222529","bold":false,"italic":false,"underline":false,"align":"center","text":"단순문의"}');
+INSERT INTO wf_component_property VALUES ('aa83af616d59cc86c565a0282153c236','element','{"columnWidth":"0","labelWidth":"10","text":"","fontSize":"12","align":"left","fontOption":"","fontOptionBold":"N","fontOptionItalic":"N","fontOptionUnderline":"N","fontColor":"#8B9094"}');
+INSERT INTO wf_component_property VALUES ('aa83af616d59cc86c565a0282153c236','validation','{"required":false}');
+INSERT INTO wf_component_property VALUES ('aa83af616d59cc86c565a0282153c236','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('aeaba514c85489bea2ae4c588df41f03','element','{"columnWidth":"12","thickness":"3","color":"#CFD5D9","type":"solid"}');
+INSERT INTO wf_component_property VALUES ('aeaba514c85489bea2ae4c588df41f03','label','{"position":"hidden","fontSize":"14","fontColor":"#CFD5D9","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
+INSERT INTO wf_component_property VALUES ('aeaba514c85489bea2ae4c588df41f03','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('aeaba514c85489bea2ae4c588df41f03','validation','{"required":false}');
+INSERT INTO wf_component_property VALUES ('ad15aab4783f55533c6c1f183a4b60cc','element','{"placeholder":"","columnWidth":"9","defaultValueSelect":"select|userName"}');
+INSERT INTO wf_component_property VALUES ('ad15aab4783f55533c6c1f183a4b60cc','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"신청자"}');
+INSERT INTO wf_component_property VALUES ('ad15aab4783f55533c6c1f183a4b60cc','validation','{"validationType":"none","required":true,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('ad15aab4783f55533c6c1f183a4b60cc','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('ae4f48236ecf493eb0212d77ac14c360','validation','{"required":true}');
+INSERT INTO wf_component_property VALUES ('ae4f48236ecf493eb0212d77ac14c360','display','{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('ae4f48236ecf493eb0212d77ac14c360','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"신청부서"}');
+INSERT INTO wf_component_property VALUES ('ae4f48236ecf493eb0212d77ac14c360','element','{"columnWidth":"9","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0009|session|department"}');
+INSERT INTO wf_component_property VALUES ('a71d2d6094b2920f87ba8eaf025af1c3','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"전화번호"}');
+INSERT INTO wf_component_property VALUES ('a71d2d6094b2920f87ba8eaf025af1c3','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a71d2d6094b2920f87ba8eaf025af1c3','validation','{"validationType":"phone","required":false,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('a71d2d6094b2920f87ba8eaf025af1c3','element','{"placeholder":"","columnWidth":"9","defaultValueSelect":"select|officeNumber"}');
+INSERT INTO wf_component_property VALUES ('a4a100bbcd9907aae4e260c8bfa3b45f','display','{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a4a100bbcd9907aae4e260c8bfa3b45f','validation','{"validationType":"email","required":false,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('a4a100bbcd9907aae4e260c8bfa3b45f','element','{"placeholder":"","columnWidth":"9","defaultValueSelect":"select|email"}');
+INSERT INTO wf_component_property VALUES ('a4a100bbcd9907aae4e260c8bfa3b45f','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"메일주소"}');
+INSERT INTO wf_component_property VALUES ('a115df4520fea935e4482784064c7a51','validation','{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('a115df4520fea935e4482784064c7a51','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"신청일시"}');
+INSERT INTO wf_component_property VALUES ('a115df4520fea935e4482784064c7a51','element','{"columnWidth":"9","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('a115df4520fea935e4482784064c7a51','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a0c3e8d18663483284b7e9fe83d0b824','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"완료희망일시"}');
+INSERT INTO wf_component_property VALUES ('a0c3e8d18663483284b7e9fe83d0b824','display','{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a0c3e8d18663483284b7e9fe83d0b824','validation','{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('a0c3e8d18663483284b7e9fe83d0b824','element','{"columnWidth":"9","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('a75c85bba7aa722f9dcbcbcfad0b6ac7','validation','{"validationType":"none","required":true,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('a75c85bba7aa722f9dcbcbcfad0b6ac7','element','{"placeholder":"제목을 입력하세요.","columnWidth":"10","defaultValueSelect":"input|"}');
+INSERT INTO wf_component_property VALUES ('a75c85bba7aa722f9dcbcbcfad0b6ac7','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a75c85bba7aa722f9dcbcbcfad0b6ac7','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"제목"}');
+INSERT INTO wf_component_property VALUES ('ade3320b3bc9dca17651e4c0cdef89e4','validation','{"required":true}');
+INSERT INTO wf_component_property VALUES ('ade3320b3bc9dca17651e4c0cdef89e4','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"서비스 항목"}');
+INSERT INTO wf_component_property VALUES ('ade3320b3bc9dca17651e4c0cdef89e4','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('ade3320b3bc9dca17651e4c0cdef89e4','element','{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0010|code|form.template.serviceDesk.inquiry.category.etc|etc"}');
+INSERT INTO wf_component_property VALUES ('a3b140da99dbfb49beb7fa3db09042b4','element','{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
+INSERT INTO wf_component_property VALUES ('a3b140da99dbfb49beb7fa3db09042b4','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a3b140da99dbfb49beb7fa3db09042b4','validation','{"required":true,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('a3b140da99dbfb49beb7fa3db09042b4','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"내용"}');
+INSERT INTO wf_component_property VALUES ('a9404877fabbd09dc2603f78283fa155','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a9404877fabbd09dc2603f78283fa155','validation','{"required":false}');
+INSERT INTO wf_component_property VALUES ('a9404877fabbd09dc2603f78283fa155','element','{"columnWidth":"10","align":"left"}');
+INSERT INTO wf_component_property VALUES ('a9404877fabbd09dc2603f78283fa155','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"첨부파일"}');
+INSERT INTO wf_component_property VALUES ('ab6d29d8ef257f93de98c655fbaab22a','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"접수자"}');
+INSERT INTO wf_component_property VALUES ('ab6d29d8ef257f93de98c655fbaab22a','element','{"placeholder":"","columnWidth":"9","defaultValueSelect":"select|userName"}');
+INSERT INTO wf_component_property VALUES ('ab6d29d8ef257f93de98c655fbaab22a','validation','{"validationType":"none","required":true,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('ab6d29d8ef257f93de98c655fbaab22a','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('ab266326aa59ed5bb4411da4142aa24a','display','{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('ab266326aa59ed5bb4411da4142aa24a','validation','{"required":true}');
+INSERT INTO wf_component_property VALUES ('ab266326aa59ed5bb4411da4142aa24a','element','{"columnWidth":"9","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0009|session|department"}');
+INSERT INTO wf_component_property VALUES ('ab266326aa59ed5bb4411da4142aa24a','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"접수부서"}');
+INSERT INTO wf_component_property VALUES ('a8e347190f51b1b05200f34d9e8b8ab0','element','{"columnWidth":"10","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('a8e347190f51b1b05200f34d9e8b8ab0','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"접수일시"}');
+INSERT INTO wf_component_property VALUES ('a8e347190f51b1b05200f34d9e8b8ab0','validation','{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('a8e347190f51b1b05200f34d9e8b8ab0','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a71977859617f137f589108c24fa7845','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a71977859617f137f589108c24fa7845','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"접수의견"}');
+INSERT INTO wf_component_property VALUES ('a71977859617f137f589108c24fa7845','validation','{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('a71977859617f137f589108c24fa7845','element','{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
+INSERT INTO wf_component_property VALUES ('acc02e1f2f51aa01649b6e06f7b35ec4','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('acc02e1f2f51aa01649b6e06f7b35ec4','validation','{"required":true}');
+INSERT INTO wf_component_property VALUES ('acc02e1f2f51aa01649b6e06f7b35ec4','element','{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0008|session|userName"}');
+INSERT INTO wf_component_property VALUES ('acc02e1f2f51aa01649b6e06f7b35ec4','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"처리자"}');
+INSERT INTO wf_component_property VALUES ('a83a54dfec6c65dc5983272ec9a956ce','element','{"columnWidth":"10","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('a83a54dfec6c65dc5983272ec9a956ce','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a83a54dfec6c65dc5983272ec9a956ce','validation','{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('a83a54dfec6c65dc5983272ec9a956ce','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"처리일시"}');
+INSERT INTO wf_component_property VALUES ('ae07bae262c57399a4ee8b3dea2fcbab','validation','{"required":true,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('ae07bae262c57399a4ee8b3dea2fcbab','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('ae07bae262c57399a4ee8b3dea2fcbab','element','{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
+INSERT INTO wf_component_property VALUES ('ae07bae262c57399a4ee8b3dea2fcbab','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"처리내용"}');
+INSERT INTO wf_component_property VALUES ('a27c22d07de4231ab41863dab45450f1','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a27c22d07de4231ab41863dab45450f1','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"첨부파일"}');
+INSERT INTO wf_component_property VALUES ('a27c22d07de4231ab41863dab45450f1','element','{"columnWidth":"10","align":"left"}');
+INSERT INTO wf_component_property VALUES ('a27c22d07de4231ab41863dab45450f1','validation','{"required":false}');
+INSERT INTO wf_component_property VALUES ('a4c410628aa58b1863935b4056395b80','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a4c410628aa58b1863935b4056395b80','validation','{"required":true}');
+INSERT INTO wf_component_property VALUES ('a4c410628aa58b1863935b4056395b80','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"승인자"}');
+INSERT INTO wf_component_property VALUES ('a4c410628aa58b1863935b4056395b80','element','{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0008|session|userName"}');
+INSERT INTO wf_component_property VALUES ('a10c935dbdf1c30b34dfabe5ebc0ba73','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a10c935dbdf1c30b34dfabe5ebc0ba73','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 일시"}');
+INSERT INTO wf_component_property VALUES ('a10c935dbdf1c30b34dfabe5ebc0ba73','element','{"columnWidth":"10","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('a10c935dbdf1c30b34dfabe5ebc0ba73','validation','{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('ab97abfd66b5654e3f525e617df9afaf','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 의견"}');
+INSERT INTO wf_component_property VALUES ('ab97abfd66b5654e3f525e617df9afaf','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('ab97abfd66b5654e3f525e617df9afaf','validation','{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('ab97abfd66b5654e3f525e617df9afaf','element','{"columnWidth":"10","rows":"3","placeholder":""}');
+/* 서비스데스크 - 단순문의 - 만족도 */
+INSERT INTO wf_component_property VALUES ('a605df0d26f09a3d20caaea3977a5c64','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a605df0d26f09a3d20caaea3977a5c64','validation','{"required":false}');
+INSERT INTO wf_component_property VALUES ('a605df0d26f09a3d20caaea3977a5c64','element','{"columnWidth":"12","path":"file:///logo.png","width":"155","height":"26","align":"left"}');
+INSERT INTO wf_component_property VALUES ('a605df0d26f09a3d20caaea3977a5c64','label','{"position":"hidden","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
+INSERT INTO wf_component_property VALUES ('ae54c20fd574a57845fffaa7bb936eb4','label','{"position":"left","fontSize":"40","fontColor":"#222529","bold":false,"italic":false,"underline":false,"align":"center","text":"단순문의"}');
+INSERT INTO wf_component_property VALUES ('ae54c20fd574a57845fffaa7bb936eb4','validation','{"required":false}');
+INSERT INTO wf_component_property VALUES ('ae54c20fd574a57845fffaa7bb936eb4','element','{"columnWidth":"0","labelWidth":"10","text":"","fontSize":"12","align":"left","fontOption":"","fontOptionBold":"N","fontOptionItalic":"N","fontOptionUnderline":"N","fontColor":"#8B9094"}');
+INSERT INTO wf_component_property VALUES ('ae54c20fd574a57845fffaa7bb936eb4','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a7cc83ce97c50faa754c702bf018c505','element','{"columnWidth":"12","thickness":"3","color":"#CFD5D9","type":"solid"}');
+INSERT INTO wf_component_property VALUES ('a7cc83ce97c50faa754c702bf018c505','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a7cc83ce97c50faa754c702bf018c505','validation','{"required":false}');
+INSERT INTO wf_component_property VALUES ('a7cc83ce97c50faa754c702bf018c505','label','{"position":"hidden","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
+INSERT INTO wf_component_property VALUES ('ac69d66f3ec394b36215cd2ee3983292','display','{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('ac69d66f3ec394b36215cd2ee3983292','validation','{"required":true}');
+INSERT INTO wf_component_property VALUES ('ac69d66f3ec394b36215cd2ee3983292','element','{"position":"left","columnWidth":"10","align":"horizontal","options":[{"name":"매우불만족","value":"1"},{"name":"불만족","value":"2"},{"name":"보통","value":"3"},{"name":"만족","value":"4"},{"name":"매우만족","value":"5"}]}');
+INSERT INTO wf_component_property VALUES ('ac69d66f3ec394b36215cd2ee3983292','label','{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"만족도"}');
+INSERT INTO wf_component_property VALUES ('ad2996c39febdc13b32d08354169d6ac','validation','{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('ad2996c39febdc13b32d08354169d6ac','element','{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
+INSERT INTO wf_component_property VALUES ('ad2996c39febdc13b32d08354169d6ac','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"평가의견"}');
+INSERT INTO wf_component_property VALUES ('ad2996c39febdc13b32d08354169d6ac','display','{"displayOrder":0,"columnWidth":"12"}');
+
 /**
  * 컴포넌트세부설정
  */
@@ -2800,6 +3065,30 @@ COMMENT ON COLUMN wf_element.element_desc IS '엘리먼트설명';
 COMMENT ON COLUMN wf_element.notification IS '알람여부';
 COMMENT ON COLUMN wf_element.element_config IS '엘리먼트설정데이터';
 COMMENT ON COLUMN wf_element.display_info IS '출력정보';
+
+/* 서비스데스크 - 단순문의 */
+INSERT INTO wf_element VALUES ('ae077d4b051dd0ba41c0faed6e8ad930','csr0000000000000000000000000001p','commonStart','시작','',false,'','{"width":40,"height":40,"position-x":190,"position-y":300}');
+INSERT INTO wf_element VALUES ('adab84bb124390e77008596eab4c9e6c','csr0000000000000000000000000001p','arrowConnector','','',false,'','{}');
+INSERT INTO wf_element VALUES ('a55083f4bc4491059cfa4d0fc7dd6b4b','csr0000000000000000000000000001p','userTask','신청서 작성','',false,'','{"width":160,"height":40,"position-x":330,"position-y":300}');
+INSERT INTO wf_element VALUES ('aa83352b102d7b1d4ae48e7e59f5c912','csr0000000000000000000000000001p','arrowConnector','','',false,'','{}');
+INSERT INTO wf_element VALUES ('ad120e2076402481c51d6fdc476ab7f1','csr0000000000000000000000000001p','userTask','신청서 검토','',true,'','{"width":160,"height":40,"position-x":530,"position-y":300}');
+INSERT INTO wf_element VALUES ('ae78ad81861f188dcaac632ee907b1e3','csr0000000000000000000000000001p','arrowConnector','','',false,'','{}');
+INSERT INTO wf_element VALUES ('a7d36f300cb8f98b4d6f2ff4d18d40c3','csr0000000000000000000000000001p','manualTask','접수','',false,'','{"width":160,"height":40,"position-x":730,"position-y":300}');
+INSERT INTO wf_element VALUES ('ae1377ec5a5f3cbefcbfcfe2e972d8ef','csr0000000000000000000000000001p','arrowConnector','','',false,'','{}');
+INSERT INTO wf_element VALUES ('a2c82c19d4a250782639f98c3861c5b3','csr0000000000000000000000000001p','userTask','처리','',false,'','{"width":160,"height":40,"position-x":930,"position-y":300}');
+INSERT INTO wf_element VALUES ('a4a3d299994a7d7fb2704622df38bd92','csr0000000000000000000000000001p','arrowConnector','','',false,'','{}');
+INSERT INTO wf_element VALUES ('ab9d23c048f2a125da0dad37ade2d3c7','csr0000000000000000000000000001p','userTask','승인','',true,'','{"width":160,"height":40,"position-x":930,"position-y":380}');
+INSERT INTO wf_element VALUES ('aa8ecd60b3dcb9f6a21b4a0353a59587','csr0000000000000000000000000001p','arrowConnector','','',false,'','{}');
+INSERT INTO wf_element VALUES ('a7f89253a73e08d2b9a1d9eb5d932cda','csr0000000000000000000000000001p','signalSend','만족도 평가','',false,'','{"width":40,"height":40,"position-x":1080,"position-y":380}');
+INSERT INTO wf_element VALUES ('a674b7ea4f80e97a20986505cbba8f9f','csr0000000000000000000000000001p','arrowConnector','','',false,'','{}');
+INSERT INTO wf_element VALUES ('a0a15f45c89c31277d2833346c329a15','csr0000000000000000000000000001p','commonEnd','종료','',false,'','{"width":40,"height":40,"position-x":1170,"position-y":380}');
+/* 서비스데스크 - 단순문의 - 만족도 */
+INSERT INTO wf_element VALUES ('ade2bd4055242cc12cdb86666f413698','csr0000000000000000000000000002p','commonStart','시작','',false,'','{"width":40,"height":40,"position-x":480,"position-y":370}');
+INSERT INTO wf_element VALUES ('aa8ecdf36b3f398e2047d267b00e78b0','csr0000000000000000000000000002p','arrowConnector','','',false,'','{}');
+INSERT INTO wf_element VALUES ('a69041dce1c4f1a0d5bee6a380553ae8','csr0000000000000000000000000002p','userTask','만족도 평가','',true,'','{"width":160,"height":40,"position-x":680,"position-y":370}');
+INSERT INTO wf_element VALUES ('a25435ee42c720b51c63b7105886f698','csr0000000000000000000000000002p','arrowConnector','','',false,'','{}');
+INSERT INTO wf_element VALUES ('a00a18b2e30774df2a305dbaba690bbe','csr0000000000000000000000000002p','commonEnd','종료','',false,'','{"width":40,"height":40,"position-x":880,"position-y":370}');
+
 /**
  * 문서출력정보
  */
@@ -2822,6 +3111,32 @@ COMMENT ON COLUMN wf_document_display.document_id IS '신청서아이디';
 COMMENT ON COLUMN wf_document_display.form_group_id IS '문서그룹아이디';
 COMMENT ON COLUMN wf_document_display.element_id IS '엘리먼트아이디';
 COMMENT ON COLUMN wf_document_display.display IS '엘리먼트별컴포넌트출력정보';
+
+/* 서비스데스크 - 단순문의 */
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832447201e1','a55083f4bc4491059cfa4d0fc7dd6b4b','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832447201e1','ad120e2076402481c51d6fdc476ab7f1','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832447201e1','a2c82c19d4a250782639f98c3861c5b3','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832447201e1','ab9d23c048f2a125da0dad37ade2d3c7','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832480101e2','a55083f4bc4491059cfa4d0fc7dd6b4b','document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832480101e2','ad120e2076402481c51d6fdc476ab7f1','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832480101e2','a2c82c19d4a250782639f98c3861c5b3','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832480101e2','ab9d23c048f2a125da0dad37ade2d3c7','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832527e0203','a55083f4bc4491059cfa4d0fc7dd6b4b','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832527e0203','ad120e2076402481c51d6fdc476ab7f1','document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832527e0203','a2c82c19d4a250782639f98c3861c5b3','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c7832527e0203','ab9d23c048f2a125da0dad37ade2d3c7','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c783258080214','a55083f4bc4491059cfa4d0fc7dd6b4b','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c783258080214','ad120e2076402481c51d6fdc476ab7f1','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c783258080214','a2c82c19d4a250782639f98c3861c5b3','document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c783258080214','ab9d23c048f2a125da0dad37ade2d3c7','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c78325ca80225','a55083f4bc4491059cfa4d0fc7dd6b4b','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c78325ca80225','ad120e2076402481c51d6fdc476ab7f1','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c78325ca80225','a2c82c19d4a250782639f98c3861c5b3','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028b21f7c780ba6017c78325ca80225','ab9d23c048f2a125da0dad37ade2d3c7','document.displayType.editable');
+/* 서비스데스크 - 단순문의 - 만족도 */
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000002d','g028b21f7c780ba6017c78334c07023c','a69041dce1c4f1a0d5bee6a380553ae8','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000002d','g028b21f7c780ba6017c78334f3a0244','a69041dce1c4f1a0d5bee6a380553ae8','document.displayType.editable');
+
 /**
  * 엘리먼트세부설정
  */
@@ -2844,6 +3159,103 @@ COMMENT ON COLUMN wf_element_data.attribute_id IS '속성아이디';
 COMMENT ON COLUMN wf_element_data.attribute_value IS '속성값';
 COMMENT ON COLUMN wf_element_data.attribute_order IS '속성순서';
 COMMENT ON COLUMN wf_element_data.attribute_required IS '속성필수값';
+/* 서비스데스크 - 단순문의 */
+INSERT INTO wf_element_data VALUES ('adab84bb124390e77008596eab4c9e6c','action-name','',0,false);
+INSERT INTO wf_element_data VALUES ('adab84bb124390e77008596eab4c9e6c','action-value','',1,false);
+INSERT INTO wf_element_data VALUES ('adab84bb124390e77008596eab4c9e6c','is-default','N',2,false);
+INSERT INTO wf_element_data VALUES ('adab84bb124390e77008596eab4c9e6c','condition-value','',3,false);
+INSERT INTO wf_element_data VALUES ('adab84bb124390e77008596eab4c9e6c','start-id','ae077d4b051dd0ba41c0faed6e8ad930',4,true);
+INSERT INTO wf_element_data VALUES ('adab84bb124390e77008596eab4c9e6c','start-name','시작',5,false);
+INSERT INTO wf_element_data VALUES ('adab84bb124390e77008596eab4c9e6c','end-id','a55083f4bc4491059cfa4d0fc7dd6b4b',6,true);
+INSERT INTO wf_element_data VALUES ('adab84bb124390e77008596eab4c9e6c','end-name','신청서 작성',7,false);
+INSERT INTO wf_element_data VALUES ('a55083f4bc4491059cfa4d0fc7dd6b4b','assignee-type','assignee.type.candidate.groups',0,true);
+INSERT INTO wf_element_data VALUES ('a55083f4bc4491059cfa4d0fc7dd6b4b','assignee','users.general',1,true);
+INSERT INTO wf_element_data VALUES ('a55083f4bc4491059cfa4d0fc7dd6b4b','reject-id','',2,false);
+INSERT INTO wf_element_data VALUES ('a55083f4bc4491059cfa4d0fc7dd6b4b','withdraw','N',3,false);
+INSERT INTO wf_element_data VALUES ('aa83352b102d7b1d4ae48e7e59f5c912','action-name','신청서 등록',0,false);
+INSERT INTO wf_element_data VALUES ('aa83352b102d7b1d4ae48e7e59f5c912','action-value','progress',1,false);
+INSERT INTO wf_element_data VALUES ('aa83352b102d7b1d4ae48e7e59f5c912','is-default','N',2,false);
+INSERT INTO wf_element_data VALUES ('aa83352b102d7b1d4ae48e7e59f5c912','condition-value','',3,false);
+INSERT INTO wf_element_data VALUES ('aa83352b102d7b1d4ae48e7e59f5c912','start-id','a55083f4bc4491059cfa4d0fc7dd6b4b',4,true);
+INSERT INTO wf_element_data VALUES ('aa83352b102d7b1d4ae48e7e59f5c912','start-name','신청서 작성',5,false);
+INSERT INTO wf_element_data VALUES ('aa83352b102d7b1d4ae48e7e59f5c912','end-id','ad120e2076402481c51d6fdc476ab7f1',6,true);
+INSERT INTO wf_element_data VALUES ('aa83352b102d7b1d4ae48e7e59f5c912','end-name','신청서 검토',7,false);
+INSERT INTO wf_element_data VALUES ('ad120e2076402481c51d6fdc476ab7f1','assignee-type','assignee.type.candidate.groups',0,true);
+INSERT INTO wf_element_data VALUES ('ad120e2076402481c51d6fdc476ab7f1','assignee','serviceDesk.assignee',1,true);
+INSERT INTO wf_element_data VALUES ('ad120e2076402481c51d6fdc476ab7f1','reject-id','',2,false);
+INSERT INTO wf_element_data VALUES ('ad120e2076402481c51d6fdc476ab7f1','withdraw','N',3,false);
+INSERT INTO wf_element_data VALUES ('ae78ad81861f188dcaac632ee907b1e3','action-name','접수',0,false);
+INSERT INTO wf_element_data VALUES ('ae78ad81861f188dcaac632ee907b1e3','action-value','progress',1,false);
+INSERT INTO wf_element_data VALUES ('ae78ad81861f188dcaac632ee907b1e3','is-default','N',2,false);
+INSERT INTO wf_element_data VALUES ('ae78ad81861f188dcaac632ee907b1e3','condition-value','',3,false);
+INSERT INTO wf_element_data VALUES ('ae78ad81861f188dcaac632ee907b1e3','start-id','ad120e2076402481c51d6fdc476ab7f1',4,true);
+INSERT INTO wf_element_data VALUES ('ae78ad81861f188dcaac632ee907b1e3','start-name','신청서 검토',5,false);
+INSERT INTO wf_element_data VALUES ('ae78ad81861f188dcaac632ee907b1e3','end-id','a7d36f300cb8f98b4d6f2ff4d18d40c3',6,true);
+INSERT INTO wf_element_data VALUES ('ae78ad81861f188dcaac632ee907b1e3','end-name','접수',7,false);
+INSERT INTO wf_element_data VALUES ('a7d36f300cb8f98b4d6f2ff4d18d40c3','complete-action','',0,false);
+INSERT INTO wf_element_data VALUES ('ae1377ec5a5f3cbefcbfcfe2e972d8ef','action-name','',0,false);
+INSERT INTO wf_element_data VALUES ('ae1377ec5a5f3cbefcbfcfe2e972d8ef','action-value','',1,false);
+INSERT INTO wf_element_data VALUES ('ae1377ec5a5f3cbefcbfcfe2e972d8ef','is-default','N',2,false);
+INSERT INTO wf_element_data VALUES ('ae1377ec5a5f3cbefcbfcfe2e972d8ef','condition-value','',3,false);
+INSERT INTO wf_element_data VALUES ('ae1377ec5a5f3cbefcbfcfe2e972d8ef','start-id','a7d36f300cb8f98b4d6f2ff4d18d40c3',4,true);
+INSERT INTO wf_element_data VALUES ('ae1377ec5a5f3cbefcbfcfe2e972d8ef','start-name','접수',5,false);
+INSERT INTO wf_element_data VALUES ('ae1377ec5a5f3cbefcbfcfe2e972d8ef','end-id','a2c82c19d4a250782639f98c3861c5b3',6,true);
+INSERT INTO wf_element_data VALUES ('ae1377ec5a5f3cbefcbfcfe2e972d8ef','end-name','처리',7,false);
+INSERT INTO wf_element_data VALUES ('a2c82c19d4a250782639f98c3861c5b3','assignee-type','assignee.type.assignee',0,true);
+INSERT INTO wf_element_data VALUES ('a2c82c19d4a250782639f98c3861c5b3','assignee','z-processor',1,true);
+INSERT INTO wf_element_data VALUES ('a2c82c19d4a250782639f98c3861c5b3','reject-id','',2,false);
+INSERT INTO wf_element_data VALUES ('a2c82c19d4a250782639f98c3861c5b3','withdraw','N',3,false);
+INSERT INTO wf_element_data VALUES ('a4a3d299994a7d7fb2704622df38bd92','action-name','승인요청',0,false);
+INSERT INTO wf_element_data VALUES ('a4a3d299994a7d7fb2704622df38bd92','action-value','progress',1,false);
+INSERT INTO wf_element_data VALUES ('a4a3d299994a7d7fb2704622df38bd92','is-default','N',2,false);
+INSERT INTO wf_element_data VALUES ('a4a3d299994a7d7fb2704622df38bd92','condition-value','',3,false);
+INSERT INTO wf_element_data VALUES ('a4a3d299994a7d7fb2704622df38bd92','start-id','a2c82c19d4a250782639f98c3861c5b3',4,true);
+INSERT INTO wf_element_data VALUES ('a4a3d299994a7d7fb2704622df38bd92','start-name','처리',5,false);
+INSERT INTO wf_element_data VALUES ('a4a3d299994a7d7fb2704622df38bd92','end-id','ab9d23c048f2a125da0dad37ade2d3c7',6,true);
+INSERT INTO wf_element_data VALUES ('a4a3d299994a7d7fb2704622df38bd92','end-name','승인',7,false);
+INSERT INTO wf_element_data VALUES ('ab9d23c048f2a125da0dad37ade2d3c7','assignee-type','assignee.type.assignee',0,true);
+INSERT INTO wf_element_data VALUES ('ab9d23c048f2a125da0dad37ade2d3c7','assignee','z-approver',1,true);
+INSERT INTO wf_element_data VALUES ('ab9d23c048f2a125da0dad37ade2d3c7','reject-id','a2c82c19d4a250782639f98c3861c5b3',2,false);
+INSERT INTO wf_element_data VALUES ('ab9d23c048f2a125da0dad37ade2d3c7','withdraw','N',3,false);
+INSERT INTO wf_element_data VALUES ('aa8ecd60b3dcb9f6a21b4a0353a59587','action-name','승인',0,false);
+INSERT INTO wf_element_data VALUES ('aa8ecd60b3dcb9f6a21b4a0353a59587','action-value','progress',1,false);
+INSERT INTO wf_element_data VALUES ('aa8ecd60b3dcb9f6a21b4a0353a59587','is-default','N',2,false);
+INSERT INTO wf_element_data VALUES ('aa8ecd60b3dcb9f6a21b4a0353a59587','condition-value','',3,false);
+INSERT INTO wf_element_data VALUES ('aa8ecd60b3dcb9f6a21b4a0353a59587','start-id','ab9d23c048f2a125da0dad37ade2d3c7',4,true);
+INSERT INTO wf_element_data VALUES ('aa8ecd60b3dcb9f6a21b4a0353a59587','start-name','승인',5,false);
+INSERT INTO wf_element_data VALUES ('aa8ecd60b3dcb9f6a21b4a0353a59587','end-id','a7f89253a73e08d2b9a1d9eb5d932cda',6,true);
+INSERT INTO wf_element_data VALUES ('aa8ecd60b3dcb9f6a21b4a0353a59587','end-name','만족도 평가',7,false);
+INSERT INTO wf_element_data VALUES ('a7f89253a73e08d2b9a1d9eb5d932cda','target-document-list','csr0000000000000000000000000002d',0,true);
+INSERT INTO wf_element_data VALUES ('a674b7ea4f80e97a20986505cbba8f9f','action-name','',0,false);
+INSERT INTO wf_element_data VALUES ('a674b7ea4f80e97a20986505cbba8f9f','action-value','',1,false);
+INSERT INTO wf_element_data VALUES ('a674b7ea4f80e97a20986505cbba8f9f','is-default','N',2,false);
+INSERT INTO wf_element_data VALUES ('a674b7ea4f80e97a20986505cbba8f9f','condition-value','',3,false);
+INSERT INTO wf_element_data VALUES ('a674b7ea4f80e97a20986505cbba8f9f','start-id','a7f89253a73e08d2b9a1d9eb5d932cda',4,true);
+INSERT INTO wf_element_data VALUES ('a674b7ea4f80e97a20986505cbba8f9f','start-name','만족도 평가',5,false);
+INSERT INTO wf_element_data VALUES ('a674b7ea4f80e97a20986505cbba8f9f','end-id','a0a15f45c89c31277d2833346c329a15',6,true);
+INSERT INTO wf_element_data VALUES ('a674b7ea4f80e97a20986505cbba8f9f','end-name','종료',7,false);
+/* 서비스데스크 - 단순문의 - 만족도 */
+INSERT INTO wf_element_data VALUES ('aa8ecdf36b3f398e2047d267b00e78b0','action-name','',0,false);
+INSERT INTO wf_element_data VALUES ('aa8ecdf36b3f398e2047d267b00e78b0','action-value','',1,false);
+INSERT INTO wf_element_data VALUES ('aa8ecdf36b3f398e2047d267b00e78b0','is-default','N',2,false);
+INSERT INTO wf_element_data VALUES ('aa8ecdf36b3f398e2047d267b00e78b0','condition-value','',3,false);
+INSERT INTO wf_element_data VALUES ('aa8ecdf36b3f398e2047d267b00e78b0','start-id','ade2bd4055242cc12cdb86666f413698',4,true);
+INSERT INTO wf_element_data VALUES ('aa8ecdf36b3f398e2047d267b00e78b0','start-name','시작',5,false);
+INSERT INTO wf_element_data VALUES ('aa8ecdf36b3f398e2047d267b00e78b0','end-id','a69041dce1c4f1a0d5bee6a380553ae8',6,true);
+INSERT INTO wf_element_data VALUES ('aa8ecdf36b3f398e2047d267b00e78b0','end-name','만족도 평가',7,false);
+INSERT INTO wf_element_data VALUES ('a69041dce1c4f1a0d5bee6a380553ae8','assignee-type','assignee.type.assignee',0,true);
+INSERT INTO wf_element_data VALUES ('a69041dce1c4f1a0d5bee6a380553ae8','assignee','z-requester',1,true);
+INSERT INTO wf_element_data VALUES ('a69041dce1c4f1a0d5bee6a380553ae8','reject-id','',2,false);
+INSERT INTO wf_element_data VALUES ('a69041dce1c4f1a0d5bee6a380553ae8','withdraw','N',3,false);
+INSERT INTO wf_element_data VALUES ('a25435ee42c720b51c63b7105886f698','action-name','만족도 평가',0,false);
+INSERT INTO wf_element_data VALUES ('a25435ee42c720b51c63b7105886f698','action-value','progress',1,false);
+INSERT INTO wf_element_data VALUES ('a25435ee42c720b51c63b7105886f698','is-default','N',2,false);
+INSERT INTO wf_element_data VALUES ('a25435ee42c720b51c63b7105886f698','condition-value','',3,false);
+INSERT INTO wf_element_data VALUES ('a25435ee42c720b51c63b7105886f698','start-id','a69041dce1c4f1a0d5bee6a380553ae8',4,true);
+INSERT INTO wf_element_data VALUES ('a25435ee42c720b51c63b7105886f698','start-name','만족도 평가',5,false);
+INSERT INTO wf_element_data VALUES ('a25435ee42c720b51c63b7105886f698','end-id','a00a18b2e30774df2a305dbaba690bbe',6,true);
+INSERT INTO wf_element_data VALUES ('a25435ee42c720b51c63b7105886f698','end-name','종료',7,false);
+
 /**
  * 엘리먼트타입이 ScripTask인 경우 세부 설정.
  */
@@ -2909,6 +3321,66 @@ COMMENT ON COLUMN awf_tag.tag_id IS '태그아이디';
 COMMENT ON COLUMN awf_tag.tag_type IS '태그타입';
 COMMENT ON COLUMN awf_tag.tag_value IS '태그내용';
 COMMENT ON COLUMN awf_tag.target_id IS '태그대상아이디';
+
+/* 단순문의 */
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157913004c','component','로고','ae3e2a000d67b4e2e8d83bf36c81260a');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157914004d','component','z-logo','ae3e2a000d67b4e2e8d83bf36c81260a');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15791a004f','component','제목','aa83af616d59cc86c565a0282153c236');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15791b0050','component','z-document-title','aa83af616d59cc86c565a0282153c236');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579290054','component','신청자','ad15aab4783f55533c6c1f183a4b60cc');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15792a0055','component','z-requester','ad15aab4783f55533c6c1f183a4b60cc');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15792c0056','component','신청부서','ae4f48236ecf493eb0212d77ac14c360');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15792d0057','component','z-requester-department','ae4f48236ecf493eb0212d77ac14c360');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579360059','component','전화번호','a71d2d6094b2920f87ba8eaf025af1c3');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157937005a','component','z-requester-phone','a71d2d6094b2920f87ba8eaf025af1c3');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157939005b','component','이메일','a4a100bbcd9907aae4e260c8bfa3b45f');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15793a005c','component','z-requester-email','a4a100bbcd9907aae4e260c8bfa3b45f');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157946005e','component','신청일시','a115df4520fea935e4482784064c7a51');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157947005f','component','z-request-date','a115df4520fea935e4482784064c7a51');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579490060','component','완료희망일시','a0c3e8d18663483284b7e9fe83d0b824');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579490061','component','z-request-deadline','a0c3e8d18663483284b7e9fe83d0b824');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579520063','component','z-request-title','a75c85bba7aa722f9dcbcbcfad0b6ac7');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579530064','component','제목','a75c85bba7aa722f9dcbcbcfad0b6ac7');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579590066','component','z-request-category','ade3320b3bc9dca17651e4c0cdef89e4');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579590067','component','서비스항목','ade3320b3bc9dca17651e4c0cdef89e4');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15795a0068','component','category','ade3320b3bc9dca17651e4c0cdef89e4');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15795f006a','component','내용','a3b140da99dbfb49beb7fa3db09042b4');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157960006b','component','z-request-content','a3b140da99dbfb49beb7fa3db09042b4');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157965006d','component','첨부파일','a9404877fabbd09dc2603f78283fa155');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157966006e','component','z-request-file','a9404877fabbd09dc2603f78283fa155');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15796e0071','component','접수자','ab6d29d8ef257f93de98c655fbaab22a');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15796f0072','component','z-acceptor','ab6d29d8ef257f93de98c655fbaab22a');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579700073','component','접수부서','ab266326aa59ed5bb4411da4142aa24a');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579710074','component','z-acceptor-department','ab266326aa59ed5bb4411da4142aa24a');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579790076','component','접수일시','a8e347190f51b1b05200f34d9e8b8ab0');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15797a0077','component','z-accept-date','a8e347190f51b1b05200f34d9e8b8ab0');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15797f0079','component','접수의견','a71977859617f137f589108c24fa7845');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15797f007a','component','z-accept-content','a71977859617f137f589108c24fa7845');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157984007c','component','처리자','acc02e1f2f51aa01649b6e06f7b35ec4');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157985007d','component','z-processor','acc02e1f2f51aa01649b6e06f7b35ec4');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15798d0080','component','처리일시','a83a54dfec6c65dc5983272ec9a956ce');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15798e0081','component','z-process-date','a83a54dfec6c65dc5983272ec9a956ce');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579930083','component','처리내용','ae07bae262c57399a4ee8b3dea2fcbab');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579940084','component','z-process-content','ae07bae262c57399a4ee8b3dea2fcbab');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579990086','component','첨부파일','a27c22d07de4231ab41863dab45450f1');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15799a0087','component','z-process-file','a27c22d07de4231ab41863dab45450f1');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579a00089','component','승인자','a4c410628aa58b1863935b4056395b80');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579a1008a','component','z-approver','a4c410628aa58b1863935b4056395b80');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579a9008d','component','승인일시','a10c935dbdf1c30b34dfabe5ebc0ba73');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579aa008e','component','반려일시','a10c935dbdf1c30b34dfabe5ebc0ba73');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579ab008f','component','z-approve-date','a10c935dbdf1c30b34dfabe5ebc0ba73');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579b20091','component','승인의견','ab97abfd66b5654e3f525e617df9afaf');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579b30092','component','반려의견','ab97abfd66b5654e3f525e617df9afaf');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579b40093','component','z-approve-content','ab97abfd66b5654e3f525e617df9afaf');
+/* 서비스데스크 - 단순문의 - 만족도 */
+INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c78334c7e023e','component','로고','a605df0d26f09a3d20caaea3977a5c64');
+INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c78334c9c023f','component','z-logo','a605df0d26f09a3d20caaea3977a5c64');
+INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c78334d900241','component','제목','ae54c20fd574a57845fffaa7bb936eb4');
+INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c78334db70242','component','z-document-title','ae54c20fd574a57845fffaa7bb936eb4');
+INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c78334fd20246','component','만족도','ac69d66f3ec394b36215cd2ee3983292');
+INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c78334ff20247','component','z-satisfaction','ac69d66f3ec394b36215cd2ee3983292');
+INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c783350cb0249','component','만족도평가의견','ad2996c39febdc13b32d08354169d6ac');
+INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c783350f1024a','component','z-satisfaction-content','ad2996c39febdc13b32d08354169d6ac');
 
 /**
  * 토큰정보
@@ -3887,9 +4359,22 @@ insert into awf_code_lang values ('document.status.use', 'use', 'en');
 insert into awf_code_lang values ('document.displayType.editable', 'Editable', 'en');
 insert into awf_code_lang values ('document.displayType.readonly', 'Readonly', 'en');
 insert into awf_code_lang values ('document.displayType.hidden', 'Hidden', 'en');
-insert into awf_code_lang values ('servicedesk.incident', 'Disability Inquiry', 'en');
-insert into awf_code_lang values ('servicedesk.inquiry', 'Simple Inquiry', 'en');
-insert into awf_code_lang values ('servicedesk.request', 'Service Request', 'en');
+insert into awf_code_lang values ('document.group.incident', 'Disability Inquiry', 'en');
+insert into awf_code_lang values ('document.group.inquiry', 'Simple Inquiry', 'en');
+insert into awf_code_lang values ('document.group.request', 'Service Request', 'en');
+insert into awf_code_lang values ('form.template', 'Template', 'en');
+/* 단순문의 */
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry', 'ServiceDesk - Simple Inquiry', 'en');
+/* 단순문의 - 서비스 항목*/
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category', 'Service Category', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.none', '- Choose Category -', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.server', 'Server', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.network', 'Network', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.security', 'Security', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.dbms', 'Database', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.contract', 'Contract', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.etc', 'ETC', 'en');
+
 /**
  * 사용자 지정 테이블
  */
@@ -3911,6 +4396,8 @@ COMMENT ON COLUMN awf_user_custom.custom_value IS '값';
 /**
  * 보고서 설정 테이블 (템플릿)
  */
+DROP TABLE IF EXISTS awf_report_template cascade;
+
 create table awf_report_template (
     template_id varchar(128) NOT NULL,
     template_name varchar(128) NOT NULL,
@@ -3938,6 +4425,8 @@ COMMENT ON COLUMN awf_report_template.update_dt IS '수정일시';
 /**
  * 보고서 설정 차트 매핑 테이블
  */
+DROP TABLE IF EXISTS awf_report_template_map cascade;
+
 create table awf_report_template_map (
     template_id varchar(128) NOT NULL,
     chart_id varchar(128) NOT NULL,
@@ -3952,6 +4441,8 @@ COMMENT ON COLUMN awf_report_template_map.chart_id IS '차트아이디';
 /**
  * 보고서 조회 테이블
  */
+DROP TABLE IF EXISTS awf_report cascade;
+
 create table awf_report (
     report_id varchar(128) NOT NULL,
     template_id varchar(128) NOT NULL,
@@ -3971,6 +4462,8 @@ COMMENT ON COLUMN awf_report.publish_dt IS '발행일시';
 /**
  * 보고서 조회 데이터 테이블
  */
+DROP TABLE IF EXISTS awf_report_data cascade;
+
 create table awf_report_data (
     data_id varchar(128) NOT NULL,
     report_id varchar(128) NOT NULL,

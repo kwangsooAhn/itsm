@@ -23,7 +23,12 @@ COMMENT ON COLUMN wf_form.form_id IS '문서양식아이디';
 COMMENT ON COLUMN wf_form.form_name IS '문서양식이름';
 COMMENT ON COLUMN wf_form.form_desc IS '문서양식설명';
 COMMENT ON COLUMN wf_form.form_status IS '문서양식상태';
+COMMENT ON COLUMN wf_form.form_display_option IS '문서양식세부속성';
+COMMENT ON COLUMN wf_form.form_category IS '문서양식카테고리';
 COMMENT ON COLUMN wf_form.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_form.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_form.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_form.update_dt IS '수정일시';
+
+INSERT INTO wf_form VALUES ('csr0000000000000000000000000001f', '서비스 데스크 - 단순문의', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}','process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO wf_form VALUES ('csr0000000000000000000000000002f', '서비스 데스크 - 단순문의 - 만족도', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}','process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
