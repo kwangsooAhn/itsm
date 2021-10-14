@@ -94,7 +94,8 @@
 
     function restSubmit(method, url, isScroll) {
         aliceJs.fetchJson(url, {
-            method: method
+            method: method,
+            showProgressbar: true
         }).then((imageList) => {
             if (creatable === 'true') {
                 addThumbnailUpload();
