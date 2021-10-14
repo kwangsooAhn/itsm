@@ -345,12 +345,12 @@
             deleteIcon.className = 'z-icon i-delete';
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {
-                zAlert.confirm(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), function () {
+                zAlert.confirm(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), () => {
                     const row = deleteBtn.parentNode;
                     classAttributeMap.delete(inputElem.id);
                     row.remove();
                     observer.isChanged = true;
-                }, null);
+                });
             });
             if (editable) {
                 divRow.appendChild(deleteBtn);
