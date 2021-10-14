@@ -2814,16 +2814,13 @@ select {
   margin-top: 3.5rem;
 }
 .z-itsm-container .z-main-content .z-page-result .z-document-row .document-temp-status {
-  width: 5.3125rem;
-  height: 2.0625rem;
-  font-size: 0.8rem;
+  padding: 0.625rem;
+  font-size: 0.875rem;
   color: #FFFFFF;
   background-color: #CFD5D9;
-  text-align: center;
-  padding-top: 10px;
-  border-radius: 0.25rem;
-  -webkit-border-radius: 0.25rem;
-  -moz-border-radius: 0.25rem;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
 }
 .z-itsm-container .z-main-content .z-page-result .sub-title {
   margin: 1.25rem 0;
@@ -3335,16 +3332,13 @@ select {
   margin-top: 0.625rem;
 }
 .z-document-content .document-column .document-temp-status {
-  width: 5.3125rem;
-  height: 2.0625rem;
-  padding: 0.4rem;
-  vertical-align: text-top;
-  font-size: 0.8rem;
+  padding: 0.625rem;
+  font-size: 0.875rem;
   color: #FFFFFF;
   background-color: #CFD5D9;
-  border-radius: 0.25rem;
-  -webkit-border-radius: 0.25rem;
-  -moz-border-radius: 0.25rem;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
 }
 
 .z-token-content,

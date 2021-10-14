@@ -202,14 +202,11 @@
       }
       //임시신청서 상태 표기
       .document-temp-status {
-        width: 5.3125rem; //85px
-        height: 2.0625rem; //33px
-        font-size: 0.8rem;
+        padding: 0.625rem; // 10px
+        font-size: $font-size-xs; // 14px
         color: $white;
         background-color: $gray300;
-        text-align: center;
-        padding-top: 10px;
-        @include borderRadius($tag-border-radius); // 8px
+        @include borderRadius(0.5rem); // 8px
       }
     }
     // 대시보드 > 소제목
