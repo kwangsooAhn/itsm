@@ -1,11 +1,11 @@
-/* _alerts.scss 
+/* _alerts.scss
  *
  * 파일 경로 : template/_alerts.scss
  * @description 알림 모달
  * @author jy.lim
  * @version 1.0
  */
-.gmodal {
+.z-alert {
   &-active {
     overflow: hidden !important;
   }
@@ -15,7 +15,7 @@
     @include fixed(0, 0, 0, 0);
     overflow: auto;
 
-    &.gmodal-active {
+    &.z-alert-active {
       display: block;
       z-index: $z-index-alert;
     }
@@ -28,18 +28,9 @@
   }
 
   &-dialog {
-    @include absolute(8em, 0, null, 0);
     width: 100%;
-    max-width: 26.875rem;
     line-height: 1;
     padding: 1.5625rem; // 25px
-    margin: 0 auto 2em auto;
-    box-sizing: $alert-box-sizing;
-    @include border($alert-border-width, solid, $alert-border-color, all);
-    @include boxShadow(0, 0.125rem, 0.75rem, 0, $alert-box-shadow-color);
-    @include borderRadius(0.0625rem); // 1px
-    background: $alert-bg-color;
-    z-index: $z-index-alert;
   }
 
   &-title {
@@ -52,7 +43,6 @@
   &-body {
     min-height: 3.4375rem;    //55px
     padding: 0 0 0 3.875rem;  // 0 0 0 62px
-    margin-bottom: 2rem;      // 32px
     box-sizing: $alert-box-sizing;
     overflow: auto;
   }

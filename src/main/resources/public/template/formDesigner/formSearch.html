@@ -17,6 +17,7 @@
 </div>
 <div layout:fragment="pageSearching">
     <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
+    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''form.delete'')')}"/>
     <form id="searchFrm">
         <input type="text" id="searchValue" name="searchValue" class="z-input i-search col-5 mr-2" maxlength="100"
                th:placeholder="#{form.label.searchPlaceholder}"/>
@@ -39,6 +40,8 @@
     const STATUS_USE = 'form.status.use';
     const STATUS_DESTROY = 'form.status.destroy';
     const STATUS_ERROR_DUPLICATE_FORM_NAME = "1"
+    const deletable = document.getElementById('deletable').value;
+    const updatable = document.getElementById('updatable').value;
 
     let importFile;
     let offsetCount = 0;
@@ -65,7 +68,7 @@
 
         // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
         if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
-            aliceAlert.alertWarning(i18n.msg('form.msg.selectImportFile'));
+            zAlert.warning(i18n.msg('form.msg.selectImportFile'));
             return false;
         }
         return true;
@@ -84,7 +87,7 @@
                 formInfo.id = formId;
                 formInfo.status = isDestroy ? STATUS_DESTROY : document.getElementById('form_status').value;
                 isEditable ? restSubmit('PUT', '/rest/forms/' + formId, formInfo)
-                    : aliceAlert.alertWarning(i18n.msg('form.msg.failedDestroy'));
+                    : zAlert.warning(i18n.msg('form.msg.failedDestroy'));
 
             }
         }
@@ -92,13 +95,13 @@
 
     // 폼 삭제
     function deleteForm(formId) {
-        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/forms/' + formId, function(result) {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/forms/' + formId, function(result) {
             if (result === 'true') {
-                aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
+                zAlert.success(i18n.msg('common.msg.delete'), function() {
                     location.reload();
                 });
             } else {
-                aliceAlert.alertDanger(i18n.msg('form.msg.failedFormDelete'));
+                zAlert.danger(i18n.msg('form.msg.failedFormDelete'));
             }
         });
     }
@@ -158,23 +161,27 @@
                         // 버튼 설정
                         if (!isView) {
                             // 수정
-                            options.buttons.push({
-                                content: i18n.msg('common.btn.modify'),
-                                classes: 'z-button primary',
-                                bindKey: false,
-                                callback: function(modal) {
-                                    saveForm(responseObject.id, false, true);
-                                }
-                            });
+                            if (updatable === 'true') {
+                                options.buttons.push({
+                                    content: i18n.msg('common.btn.modify'),
+                                    classes: 'z-button primary',
+                                    bindKey: false,
+                                    callback: function (modal) {
+                                        saveForm(responseObject.id, false, true);
+                                    }
+                                });
+                            }
                             // 삭제
-                            options.buttons.push({
-                                content: i18n.msg('common.btn.delete'),
-                                classes: 'z-button secondary',
-                                bindKey: false,
-                                callback: function(modal) {
-                                    deleteForm(responseObject.id);
-                                }
-                            });
+                            if (deletable === 'true') {
+                                options.buttons.push({
+                                    content: i18n.msg('common.btn.delete'),
+                                    classes: 'z-button secondary',
+                                    bindKey: false,
+                                    callback: function (modal) {
+                                        deleteForm(responseObject.id);
+                                    }
+                                });
+                            }
                         } else if (responseObject.status === STATUS_USE) {
                             // 폐기
                             options.buttons.push({
@@ -257,7 +264,7 @@
             contentType: 'application/json',
             callbackFunc: function (response) {
                 if (response.responseText === STATUS_ERROR_DUPLICATE_FORM_NAME) {
-                    aliceAlert.alertWarning(i18n.msg('form.msg.duplicateFormName'));
+                    zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
                     return false;
                 }
                 if (method === 'POST') {
@@ -319,12 +326,12 @@
             };
             ZWorkflowUtil.import(importFile, formInfo, 'form', function (result) {
                 if (result) {
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                    zAlert.success(i18n.msg('common.msg.save'), function () {
                         location.reload();
                     });
                     return true;
                 } else {
-                    aliceAlert.alertDanger(i18n.msg('common.label.fail'));
+                    zAlert.danger(i18n.msg('common.label.fail'));
                     return false;
                 }
             });

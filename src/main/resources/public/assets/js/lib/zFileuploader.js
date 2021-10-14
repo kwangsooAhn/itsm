@@ -222,10 +222,10 @@
                 a.remove();
                 window.URL.revokeObjectURL(url);
             } else {
-                aliceAlert.alertWarning(i18n.msg('file.msg.noAttachFile'));
+                zAlert.warning(i18n.msg('file.msg.noAttachFile'));
             }
         }).catch(err => {
-            aliceAlert.alertWarning(err);
+            zAlert.warning(err);
         });
     }
 
@@ -288,10 +288,10 @@
                 if (options.isDropzoneUnder) {
                     dropzone.element.querySelector('.dz-message').style.display = 'block';
                 }
-                aliceAlert.alertWarning(i18n.msg('fileupload.msg.extensionNotAvailable'));
+                zAlert.warning(i18n.msg('fileupload.msg.extensionNotAvailable'));
             } else if (file.size > options.dropZoneMaxFileSize * 1024 * 1024) {
                 dropzone.removeFile(file);
-                aliceAlert.alert(i18n.msg('fileupload.msg.maxFileSize', options.dropZoneMaxFileSize));
+                zAlert.info(i18n.msg('fileupload.msg.maxFileSize', options.dropZoneMaxFileSize));
             } else if (options.dropZoneMaxFiles !== null && dropzone.files.length > options.dropZoneMaxFiles) {
                 if (options.type === 'avatar' && options.dropZoneMaxFiles === 1) {
                     if (dropzone.files.length > 1) {
@@ -301,7 +301,7 @@
                     document.getElementById('avatarUUID').value = options.fileName;
                 } else {
                     dropzone.removeFile(file);
-                    aliceAlert.alert(i18n.msg('fileupload.msg.maxFileCount', options.dropZoneMaxFiles));
+                    zAlert.info(i18n.msg('fileupload.msg.maxFileCount', options.dropZoneMaxFiles));
                 }
             }
         });

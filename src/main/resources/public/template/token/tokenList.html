@@ -17,7 +17,9 @@
                 <div class="z-document-row-content">
                     <div class="z-document-title flex-row align-items-center">
                         <h3 th:text="${token.documentName}" class="mr-2 text-ellipsis"></h3>
-                        <span th:text="${token.documentNo}" class="z-document-numbering text-ellipsis"></span>
+                        <span th:text="${token.documentNo}" class="z-document-numbering text-ellipsis mr-2"></span>
+                        <span th:if="${token.documentStatus} == 'document.status.temporary'"
+                              th:text="#{document.label.tempDocument}" class="document-temp-status"></span>
                     </div>
                     <div class="z-document-topic">
                         <label class="topic" th:each="topic: ${token.topics}" th:text="${topic}"></label>
@@ -26,7 +28,8 @@
                 <div class="z-document-row-info">
                     <div class="z-document-detail flex-row align-items-center float-right">
                         <div class="inline-flex align-items-center justify-content-center">
-                            <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.avatarPath}" width="32" height="32">
+                            <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.avatarPath}"
+                                 width="32" height="32">
                             <span class="user-name" th:text="${token.createUserName}"></span>
                         </div>
                         <span class="vertical-bar"></span>
@@ -35,7 +38,8 @@
                         <span class="element-name" th:text="${token.elementName}"></span>
                     </div>
                     <div class="z-document-tag align-right">
-                        <input type="text" name="tokenTagList" class="align-left text-ellipsis" th:value="${token.tags}" readonly></input>
+                        <input type="text" name="tokenTagList" class="align-left text-ellipsis" th:value="${token.tags}"
+                               readonly></input>
                     </div>
                 </div>
             </div>

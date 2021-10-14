@@ -193,7 +193,7 @@ class ZFormToken {
             const table = validationCheckTables[i];
             if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
                 validationCheck = false;
-                aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
+                zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
                     table.focus();
                 });
                 return false;
@@ -225,7 +225,7 @@ class ZFormToken {
             body: JSON.stringify(saveData)
         }).then(rtn => {
             if (rtn === 'true') {
-                aliceAlert.alertSuccess(i18n.msg(actionMsg),  () => {
+                zAlert.success(i18n.msg(actionMsg),  () => {
                     if (zValidation.isDefined(window.opener)) {
                         opener.location.reload();
                         window.close();
@@ -234,7 +234,7 @@ class ZFormToken {
                     }
                 });
             } else {
-                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -346,7 +346,7 @@ class ZFormToken {
     saveRelatedDoc(target) {
         let checked = document.querySelectorAll('input[name=chk]:checked');
         if (checked.length === 0) {
-            aliceAlert.alertWarning(i18n.msg('token.msg.selectToken'));
+            zAlert.warning(i18n.msg('token.msg.selectToken'));
         } else {
             let jsonArray = [];
             for (let i = 0; i < checked.length; i++) {
@@ -368,7 +368,7 @@ class ZFormToken {
                     this.makeTab();
                     target.hide();
                 } else {
-                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         }
@@ -379,7 +379,7 @@ class ZFormToken {
      * @param data 삭제시 필요한 데이터
      */
     removeRelatedDoc(data) {
-        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
             aliceJs.fetchText('/rest/folders/' + data.folderId, {
                 method: 'DELETE',
                 headers: {
@@ -388,11 +388,11 @@ class ZFormToken {
                 body: JSON.stringify(data)
             }).then((rtn) => {
                 if (rtn === 'true') {
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), () => {
+                    zAlert.success(i18n.msg('common.msg.delete'), () => {
                         document.getElementById('relatedDoc' + data.instanceId).remove();
                     });
                 } else {
-                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         });
@@ -416,7 +416,7 @@ class ZFormToken {
         if (!zValidation.isDefined(commentElem)) { return false; }
 
         if (zValidation.isEmpty(commentElem.value)) {
-            aliceAlert.alertWarning(i18n.msg('comment.msg.enterComments'));
+            zAlert.warning(i18n.msg('comment.msg.enterComments'));
             return false;
         }
         // 저장
@@ -434,7 +434,7 @@ class ZFormToken {
             if (rtn === 'true') {
                 this.makeTab();
             } else {
-                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -443,7 +443,7 @@ class ZFormToken {
      * 댓글 삭제
      */
     removeComment(commentId) {
-        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
             aliceJs.fetchText('/rest/comments/' + commentId, {
                 method: 'DELETE',
                 headers: {
@@ -451,11 +451,11 @@ class ZFormToken {
                 }
             }).then((rtn) => {
                 if (rtn === 'true') {
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), () => {
+                    zAlert.success(i18n.msg('common.msg.delete'), () => {
                         document.getElementById('comment' + commentId).remove();
                     });
                 } else {
-                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         });

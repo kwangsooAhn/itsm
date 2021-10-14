@@ -323,7 +323,7 @@ export const ciMixin = {
         if (!zValidation.isEmpty(ciData)) {
             const alertMsg = (ciData.actionType === CI.ACTION_TYPE.REGISTER || ciData.actionType === CI.ACTION_TYPE.MODIFY) ?
                 'cmdb.ci.msg.deleteEditableCI' : 'cmdb.ci.msg.deleteReadableCI';
-            aliceAlert.confirm(i18n.msg(alertMsg),  () => {
+            zAlert.confirm(i18n.msg(alertMsg),  () => {
                 if (ciData.actionType === CI.ACTION_TYPE.REGISTER || ciData.actionType === CI.ACTION_TYPE.MODIFY) {
                     // action 타입이 Register, Modify 일 경우, wf_component_ci_data 테이블에 데이터 삭제
                     aliceJs.fetchText('/rest/cmdb/cis/data?ciId=' + ciData.ciId + '&componentId=' + this.id, {
@@ -405,7 +405,7 @@ export const ciMixin = {
             for (let k = 0; k < i; k++) {
                 if (saveData.values.relatedCIData[i].targetCIId == saveData.values.relatedCIData[k].targetCIId &&
                     saveData.values.relatedCIData[i].relationType == saveData.values.relatedCIData[k].relationType) {
-                    aliceAlert.alertWarning(i18n.msg('cmdb.ci.msg.duplicateRelatedCIData'));
+                    zAlert.warning(i18n.msg('cmdb.ci.msg.duplicateRelatedCIData'));
                     return;
                 }
             }
@@ -529,7 +529,7 @@ export const ciMixin = {
                     classes: 'z-button secondary',
                     bindKey: false,
                     callback: (modal) => {
-                        aliceAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
+                        zAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
                             modal.hide();
                         });
                     }
@@ -622,7 +622,7 @@ export const ciMixin = {
                     classes: 'z-button secondary',
                     bindKey: false,
                     callback:  (modal) => {
-                        aliceAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
+                        zAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
                             modal.hide();
                         });
                     }
@@ -761,7 +761,7 @@ export const ciMixin = {
                     if (isChecked) {
                         modal.hide();
                     } else {
-                        aliceAlert.alertWarning(i18n.msg('cmdb.ci.msg.selectCI'));
+                        zAlert.warning(i18n.msg('cmdb.ci.msg.selectCI'));
                     }
                 }
             }, {
@@ -907,7 +907,7 @@ export const ciMixin = {
                     document.getElementById('typeName').value = response.dataset.name;
                     document.getElementById('typeId').value = response.id;
                 } else {
-                    aliceAlert.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableType'));
+                    zAlert.warning(i18n.msg('cmdb.type.msg.selectAvailableType'));
                 }
             }
         });

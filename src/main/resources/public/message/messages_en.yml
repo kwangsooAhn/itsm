@@ -557,6 +557,7 @@ document:
     register: "Service Request Registration"
     searchPlaceholder: "Document name / Document description"
     status: "Service Request Status"
+    tempDocument: "Temporary Application"
     type: "Document Type"
     write: "Service Request Write"
   msg:

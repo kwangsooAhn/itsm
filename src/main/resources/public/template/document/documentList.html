@@ -15,7 +15,11 @@
         <div class="card" th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}"
              sec:authorize="hasAuthority('document.create')" th:onclick="zDocument.openDocument([[${document.documentId}]])">
             <div class="document-column">
-                <h3 th:text="${document.documentName}" class="text-ellipsis"></h3>
+                <div class="flex-row align-items-center" >
+                    <span th:text="${document.documentName}" class="text-ellipsis document-name mr-2"></span>
+                    <span th:if="${document.documentStatus} == 'document.status.temporary'"
+                          th:text="#{document.label.tempDocument}" class="document-temp-status"> </span>
+                </div>
                 <label th:text="${document.documentDesc}" class="document-description text-ellipsis"></label>
                 <div class="document-icon">
                     <img class="z-img i-document-icon" th:src="${document.documentIcon}"/>

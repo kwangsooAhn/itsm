@@ -192,7 +192,7 @@ class ZDocument {
             const table = validationCheckTables[i];
             if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
                 validationCheck = false;
-                aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
+                zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
                     table.focus();
                 });
                 return false;
@@ -223,7 +223,7 @@ class ZDocument {
             body: JSON.stringify(saveData)
         }).then(rtn => {
             if (rtn === 'true') {
-                aliceAlert.alertSuccess(i18n.msg(actionMsg),  () => {
+                zAlert.success(i18n.msg(actionMsg),  () => {
                     if (zValidation.isDefined(window.opener)) {
                         opener.location.reload();
                         window.close();
@@ -232,7 +232,7 @@ class ZDocument {
                     }
                 });
             } else {
-                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }

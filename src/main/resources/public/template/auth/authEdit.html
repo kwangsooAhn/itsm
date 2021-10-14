@@ -81,7 +81,7 @@
                     th:text="#{common.btn.modify}"></button>
             <button sec:authorize="hasAuthority('auth.delete')"
                     class="z-button secondary" th:if="${auth?.authId}" type="button" id="btnDelete" name="btnDelete"
-                    th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                    th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                     th:text="#{common.btn.delete}"></button>
         </div>
     </div>
@@ -187,13 +187,13 @@
         if (flag === 'post') {
             for (let i = 0; i < authIds.length; i++) {
                 if (document.getElementById('txtAuthId').value === authIds[i]) {
-                    aliceAlert.alertWarning([[#{auth.msg.duplicateAuthId}]]);
+                    zAlert.warning([[#{auth.msg.duplicateAuthId}]]);
                     return;
                 }
             }
             for (let i = 0; i < authNames.length; i++) {
                 if (document.getElementById('txtAuthName').value === authNames[i]) {
-                    aliceAlert.alertWarning([[#{auth.msg.duplicateAuthName}]]);
+                    zAlert.warning([[#{auth.msg.duplicateAuthName}]]);
                     return;
                 }
             }
@@ -230,7 +230,7 @@
             params: authJson,
             contentType: 'application/json',
             callbackFunc: function () {
-                aliceAlert.alertSuccess([[#{common.msg.save}]], function () {
+                zAlert.success([[#{common.msg.save}]], function () {
                     window.location.href = '/auths/search';
                 });
             }
@@ -245,7 +245,7 @@
             method: 'delete',
             url: '/rest/auths/' + document.getElementById('txtAuthId').value,
             callbackFunc: function () {
-                aliceAlert.alertSuccess([[#{common.msg.delete}]], function () {
+                zAlert.success([[#{common.msg.delete}]], function () {
                     window.location.href = '/auths/search';
                 });
             }
