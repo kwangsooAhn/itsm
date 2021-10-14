@@ -182,11 +182,9 @@ class ZFormToken {
      *  저장시 유효성 체크
      */
     saveValidationCheck() {
-
-
         let isValid = true;
         const requiredElements =
-            document.querySelectorAll('input[data-validation-required="true"],textarea[data-validation-required="true"]');
+            document.querySelectorAll('input[data-validation-required="true"]:not([readonly]),textarea[data-validation-required="true"]:not([readonly])');
 
         for (let i = 0; i < requiredElements.length; i++) {
             if (!zValidation.isRequired(requiredElements[i])) {
