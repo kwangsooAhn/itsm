@@ -177,29 +177,53 @@ class ZFormToken {
         });
         return array;
     }
+
+    /**
+     *  저장시 유효성 체크
+     */
+    saveValidationCheck() {
+        let isValid = true;
+        const requiredElements =
+            document.querySelectorAll('input[data-validation-required="true"]:not([readonly]),textarea[data-validation-required="true"]:not([readonly])');
+
+        for (let i = 0; i < requiredElements.length; i++) {
+            if (!zValidation.isRequired(requiredElements[i])) {
+                isValid = false;
+                break;
+            }
+        }
+
+        // TODO: 텍스트에디터 필수 체크
+
+        // DR 테이블, CI 테이블 필수인 경우 row를 1개 이상 등록하라는 경고 후 포커싱
+        if (isValid) {
+            const validationCheckTables = document.querySelectorAll('table[data-validation-required="true"]');
+            for (let i = 0; i < validationCheckTables.length; i++) {
+                const table = validationCheckTables[i];
+                if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
+                    isValid = false;
+                    zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
+                        table.focus();
+                    });
+                    break;
+                }
+            }
+        }
+        if (zValidation.hasDOMElementError(this.domElement)) { return false; }
+        return isValid;
+    }
+
     /**
      * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
      */
     processAction(actionType) {
-        // 유효성 체크
+        // 아래 상태를 가질 경우 유효성 체크를 진행하지 않음
         const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
-        if (!validationUncheckActionType.includes(actionType) && zValidation.hasDOMElementError(this.domElement)) {
+
+        const isActionTypeCheck = validationUncheckActionType.includes(actionType);
+        if (!isActionTypeCheck && !this.saveValidationCheck()) {
             return false;
         }
-        // DR 테이블, CI 테이블 필수인 경우 row를 1개 이상 등록하라는 경고 후 포커싱
-        let validationCheck = true;
-        const validationCheckTables = document.querySelectorAll('table[data-validation-required="true"]');
-        for (let i = 0; i < validationCheckTables.length; i ++) {
-            const table = validationCheckTables[i];
-            if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
-                validationCheck = false;
-                aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
-                    table.focus();
-                });
-                return false;
-            }
-        }
-        if (!validationCheck) { return false; }
 
         const saveData = {
             'documentId': this.data.documentId,
@@ -225,7 +249,7 @@ class ZFormToken {
             body: JSON.stringify(saveData)
         }).then(rtn => {
             if (rtn === 'true') {
-                aliceAlert.alertSuccess(i18n.msg(actionMsg),  () => {
+                zAlert.success(i18n.msg(actionMsg),  () => {
                     if (zValidation.isDefined(window.opener)) {
                         opener.location.reload();
                         window.close();
@@ -234,7 +258,7 @@ class ZFormToken {
                     }
                 });
             } else {
-                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -346,7 +370,7 @@ class ZFormToken {
     saveRelatedDoc(target) {
         let checked = document.querySelectorAll('input[name=chk]:checked');
         if (checked.length === 0) {
-            aliceAlert.alertWarning(i18n.msg('token.msg.selectToken'));
+            zAlert.warning(i18n.msg('token.msg.selectToken'));
         } else {
             let jsonArray = [];
             for (let i = 0; i < checked.length; i++) {
@@ -368,7 +392,7 @@ class ZFormToken {
                     this.makeTab();
                     target.hide();
                 } else {
-                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         }
@@ -379,7 +403,7 @@ class ZFormToken {
      * @param data 삭제시 필요한 데이터
      */
     removeRelatedDoc(data) {
-        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
             aliceJs.fetchText('/rest/folders/' + data.folderId, {
                 method: 'DELETE',
                 headers: {
@@ -388,11 +412,11 @@ class ZFormToken {
                 body: JSON.stringify(data)
             }).then((rtn) => {
                 if (rtn === 'true') {
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), () => {
+                    zAlert.success(i18n.msg('common.msg.delete'), () => {
                         document.getElementById('relatedDoc' + data.instanceId).remove();
                     });
                 } else {
-                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         });
@@ -416,7 +440,7 @@ class ZFormToken {
         if (!zValidation.isDefined(commentElem)) { return false; }
 
         if (zValidation.isEmpty(commentElem.value)) {
-            aliceAlert.alertWarning(i18n.msg('comment.msg.enterComments'));
+            zAlert.warning(i18n.msg('comment.msg.enterComments'));
             return false;
         }
         // 저장
@@ -434,7 +458,7 @@ class ZFormToken {
             if (rtn === 'true') {
                 this.makeTab();
             } else {
-                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -443,7 +467,7 @@ class ZFormToken {
      * 댓글 삭제
      */
     removeComment(commentId) {
-        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
             aliceJs.fetchText('/rest/comments/' + commentId, {
                 method: 'DELETE',
                 headers: {
@@ -451,11 +475,11 @@ class ZFormToken {
                 }
             }).then((rtn) => {
                 if (rtn === 'true') {
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), () => {
+                    zAlert.success(i18n.msg('common.msg.delete'), () => {
                         document.getElementById('comment' + commentId).remove();
                     });
                 } else {
-                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         });
