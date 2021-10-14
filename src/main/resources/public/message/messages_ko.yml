@@ -558,6 +558,7 @@ document:
     register: "신청서 등록"
     searchPlaceholder: "문서 이름 / 문서 설명"
     status: "신청서 상태"
+    tempDocument: "임시 신청서"
     type: "업무흐름 구분"
     write: "신청서 작성"
   msg:

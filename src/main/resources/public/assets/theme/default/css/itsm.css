@@ -2819,6 +2819,15 @@ select {
   max-width: 23.75rem;
   margin-top: 3.5rem;
 }
+.z-itsm-container .z-main-content .z-page-result .z-document-row .document-temp-status {
+  padding: 0.625rem;
+  font-size: 0.875rem;
+  color: #FFFFFF;
+  background-color: #CFD5D9;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+}
 .z-itsm-container .z-main-content .z-page-result .sub-title {
   margin: 1.25rem 0;
 }
@@ -3312,10 +3321,14 @@ select {
   height: 100%;
   padding: 1.975rem;
 }
+.z-document-content .document-column .document-name {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
 .z-document-content .document-column .document-icon {
   position: absolute;
-  top: 3.75rem;
-  left: 23.125rem;
+  top: 2rem;
+  right: 1rem;
   overflow: hidden;
 }
 .z-document-content .document-column .document-description {
@@ -3326,6 +3339,15 @@ select {
   font-weight: 400;
   color: #8B9094;
   margin-top: 0.625rem;
+}
+.z-document-content .document-column .document-temp-status {
+  padding: 0.625rem;
+  font-size: 0.875rem;
+  color: #FFFFFF;
+  background-color: #CFD5D9;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
 }
 
 .z-token-content,
