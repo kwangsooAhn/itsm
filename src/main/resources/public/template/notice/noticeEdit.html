@@ -30,7 +30,7 @@
                 <div id="dropZoneUploadedFiles"></div>
             </div>
             <div class="flex-column z-edit-row">
-                <label th:text="#{common.label.writer}"></label>
+                <label th:text="#{common.label.createUser}"></label>
                 <input type="text" class="z-input" th:value="${notice?.createUserName} ? ${notice.createUserName} : ${#authentication.details.userName}"
                        disabled/>
             </div>

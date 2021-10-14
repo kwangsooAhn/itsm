@@ -924,7 +924,7 @@ menu:
     chart: "사용자 정의 차트"
     parent: "보고서"
     report: "보고서 조회"
-    template: "템플릿 설정"
+    template: "보고서 템플릿"
   setting:
     editMyInfo: "자기정보 수정"
   token:
