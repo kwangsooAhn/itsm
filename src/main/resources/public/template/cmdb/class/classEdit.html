@@ -68,7 +68,7 @@
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.update')"
                         class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
-                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
+                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.delete')"
                         class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
