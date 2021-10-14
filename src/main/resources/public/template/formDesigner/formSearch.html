@@ -17,6 +17,7 @@
 </div>
 <div layout:fragment="pageSearching">
     <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
+    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''form.delete'')')}"/>
     <form id="searchFrm">
         <input type="text" id="searchValue" name="searchValue" class="z-input i-search col-5 mr-2" maxlength="100"
                th:placeholder="#{form.label.searchPlaceholder}"/>
@@ -39,6 +40,8 @@
     const STATUS_USE = 'form.status.use';
     const STATUS_DESTROY = 'form.status.destroy';
     const STATUS_ERROR_DUPLICATE_FORM_NAME = "1"
+    const deletable = document.getElementById('deletable').value;
+    const updatable = document.getElementById('updatable').value;
 
     let importFile;
     let offsetCount = 0;
@@ -158,23 +161,27 @@
                         // 버튼 설정
                         if (!isView) {
                             // 수정
-                            options.buttons.push({
-                                content: i18n.msg('common.btn.modify'),
-                                classes: 'z-button primary',
-                                bindKey: false,
-                                callback: function(modal) {
-                                    saveForm(responseObject.id, false, true);
-                                }
-                            });
+                            if (updatable === 'true') {
+                                options.buttons.push({
+                                    content: i18n.msg('common.btn.modify'),
+                                    classes: 'z-button primary',
+                                    bindKey: false,
+                                    callback: function (modal) {
+                                        saveForm(responseObject.id, false, true);
+                                    }
+                                });
+                            }
                             // 삭제
-                            options.buttons.push({
-                                content: i18n.msg('common.btn.delete'),
-                                classes: 'z-button secondary',
-                                bindKey: false,
-                                callback: function(modal) {
-                                    deleteForm(responseObject.id);
-                                }
-                            });
+                            if (deletable === 'true') {
+                                options.buttons.push({
+                                    content: i18n.msg('common.btn.delete'),
+                                    classes: 'z-button secondary',
+                                    bindKey: false,
+                                    callback: function (modal) {
+                                        deleteForm(responseObject.id);
+                                    }
+                                });
+                            }
                         } else if (responseObject.status === STATUS_USE) {
                             // 폐기
                             options.buttons.push({
