@@ -59,7 +59,7 @@
         // image 미선택 시 알림창 출력
         const selectedImage = document.querySelector('.z-thumbnail.selected');
         if (!selectedImage) {
-            aliceAlert.alertWarning(i18n.msg('form.msg.fileSelect'));
+            zAlert.warning(i18n.msg('form.msg.fileSelect'));
             return false;
         }
         if (window.opener && !window.opener.closed) {

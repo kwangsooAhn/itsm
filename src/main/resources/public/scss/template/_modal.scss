@@ -1,11 +1,10 @@
-/* _modal.scss 
+/* _modal.scss
  *
  * 파일 경로 : template/_modal.scss
  * @description 모달 디자인
  * @author wdj
  * @version 1.0
  */
-
 
 body.modal-active {
   overflow: hidden !important;
@@ -42,9 +41,8 @@ body.modal-active {
       color: $modal-header-font-color;
       padding: 1.125rem 0 0 1.25rem; // 18px 0 0 20px
     }
-    
+
     .modal-content {
-      height: calc(#{$modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
       overflow: auto;
     }
 

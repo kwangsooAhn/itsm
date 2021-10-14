@@ -7,6 +7,7 @@ package co.brainz.itsm.report.service
 
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.chart.service.ChartManagerFactory
@@ -67,18 +68,22 @@ class ReportService(
         val chartDataList = mutableListOf<ChartDto>()
         val reportDataEntities = reportDataRepository.getReportDataEntitiesByReport(reportEntity)
         reportDataEntities.forEach { data ->
-            val chartDto = ChartDto(
-                chartId = data.chartId!!
-            )
-            // awf_report_data.values 의 cnofig, propertyJson 정보를 분리하여 chartDto를 설정한다.
+
+            // awf_report_data.values 의 config, propertyJson 정보를 분리하여 chartDto를 설정한다.
             val map = mapper.readValue(data.values, LinkedHashMap::class.java)
             val chart = mapper.convertValue(map["chart"], LinkedHashMap::class.java)
+            val configStr = mapper.writeValueAsString(chart["config"])
 
-            chartDto.chartName = chart["name"] as String
-            chartDto.chartType = chart["type"] as String
-            chartDto.chartDesc = chart["desc"] as String
-            chartDto.chartConfig = mapper.writeValueAsString(chart["config"])
-            chartDto.createDt = reportEntity.publishDt
+            val chartDto = ChartDto(
+                chartId = data.chartId!!,
+                chartName = chart["name"] as String,
+                chartType = chart["type"] as String,
+                chartDesc = chart["desc"] as String,
+                chartConfig = mapper.readValue(configStr, ChartConfig::class.java),
+                chartConfigStr = configStr,
+                createDt = reportEntity.publishDt
+            )
+
             chartDataList.add(chartManagerFactory.getChartManager(chartDto.chartType).getChart(chartDto))
         }
 

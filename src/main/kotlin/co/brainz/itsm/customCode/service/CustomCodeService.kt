@@ -8,6 +8,7 @@ package co.brainz.itsm.customCode.service
 
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.component.service.ComponentService
@@ -246,7 +247,7 @@ class CustomCodeService(
             }
         }
         if (isContinue && customCodeDto.type == CustomCodeConstants.Type.CODE.code &&
-            !codeRepository.existsByCodeAndPCodeAndEditableTrue(customCodeDto.pCode!!)
+            !codeRepository.existsByPCode(CodeEntity(code = customCodeDto.pCode!!))
         ) {
             code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST.code
         }

@@ -96,7 +96,7 @@
             <button type="button" class="z-button secondary" sec:authorize="hasAuthority('role.delete')"
                     th:if="${role?.roleId}" id="btnDelete"
                     name="btnDelete"
-                    th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                    th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                     th:text="#{common.btn.delete}"></button>
         </div>
     </div>
@@ -174,13 +174,13 @@
         if (flag === 'post') {
             for (let i = 0; i < roleIds.length; i++) {
                 if (document.getElementById('txtRoleId').value === roleIds[i]) {
-                    aliceAlert.alertWarning([[#{role.msg.duplicateRoleId}]]);
+                    zAlert.warning([[#{role.msg.duplicateRoleId}]]);
                     return;
                 }
             }
             for (let i = 0; i < roleNames.length; i++) {
                 if (document.getElementById('txtRoleName').value === roleNames[i]) {
-                    aliceAlert.alertWarning([[#{role.msg.duplicateRoleName}]]);
+                    zAlert.warning([[#{role.msg.duplicateRoleName}]]);
                     return;
                 }
             }
@@ -197,7 +197,7 @@
         });
 
         if (arrAuthId.length === 0) {
-            aliceAlert.alertWarning([[#{role.msg.selectAuth}]]);
+            zAlert.warning([[#{role.msg.selectAuth}]]);
             return;
         }
 
@@ -212,7 +212,7 @@
             params: JSON.stringify(obj),
             contentType: 'application/json',
             callbackFunc: function () {
-                aliceAlert.alertSuccess([[#{common.msg.save}]], function () {
+                zAlert.success([[#{common.msg.save}]], function () {
                     window.location.href = '/roles/search';
                 });
             }
@@ -228,15 +228,15 @@
             callbackFunc: function (response) {
                 switch (response.responseText) {
                     case "true":
-                        aliceAlert.alertSuccess([[#{common.msg.delete}]], function () {
+                        zAlert.success([[#{common.msg.delete}]], function () {
                             window.location.href = '/roles/search';
                         });
                         break;
                     case "false":
-                        aliceAlert.alertDanger(i18n.msg('common.label.delete') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
+                        zAlert.danger(i18n.msg('common.label.delete') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
                         break;
                     default :
-                        aliceAlert.alertDanger([[#{common.msg.fail}]]);
+                        zAlert.danger([[#{common.msg.fail}]]);
                         break;
                 }
             }

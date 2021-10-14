@@ -62,9 +62,9 @@ insert into awf_code values ('assignee.type.candidate.groups', 'assignee.type', 
 insert into awf_code values ('assignee.type.candidate.users', 'assignee.type', null, '담당자 후보목록', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document', 'root', null, '신청서', null, false, true, 1, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.group', 'document', null, '신청서 목록', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.incident', 'document.group', '장애문의', '장애문의', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.inquiry', 'document.group', '단순문의', '단순문의', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.request', 'document.group', '서비스요청', '서비스요청', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.incident', 'document.group', '장애문의', '장애문의', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.inquiry', 'document.group', '단순문의', '단순문의', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.request', 'document.group', '서비스요청', '서비스요청', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status', 'document', null, '신청서 상태', null, false, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.temporary', 'document.status', '임시', '임시', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', '폐기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -85,6 +85,19 @@ insert into awf_code values ('faq.category.techSupport', 'faq.category', null, '
 insert into awf_code values ('form', 'root', null, '문서양식', null, false, true, 1, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('form.lang', 'form', null, '문서양식 언어', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('form.lang.ko', 'form.lang', null, '한국어', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template', 'form', null, '템플릿', null, true, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 단순문의 */
+insert into awf_code values ('form.template.serviceDesk.inquiry', 'form.template', 'form.template.serviceDesk.inquiry', '서비스데스크 - 단순문의', '', true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 단순문의 - 서비스 항목*/
+insert into awf_code values ('form.template.serviceDesk.inquiry.category', 'form.template.serviceDesk.inquiry', 'form.template.serviceDesk.inquiry.category', '서비스 항목', '단순문의 서비스 항목', true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.none', 'form.template.serviceDesk.inquiry.category', 'none', '선택 안함', '', true, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.server', 'form.template.serviceDesk.inquiry.category', 'server', '서버', '', true, true, 5, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.network', 'form.template.serviceDesk.inquiry.category', 'network', '네트워크', '', true, true, 5, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.security', 'form.template.serviceDesk.inquiry.category', 'security', '보안', '', true, true, 5, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.dbms', 'form.template.serviceDesk.inquiry.category', 'dbms', '데이터베이스', '', true, true, 5, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.contract', 'form.template.serviceDesk.inquiry.category', 'contract', '계약', '', true, true, 5, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.inquiry.category.etc', 'form.template.serviceDesk.inquiry.category', 'etc', '기타', '', true, true, 5, 7, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 insert into awf_code values ('numbering', 'root', null, '문서번호 규칙 패턴', null, false, true, 1, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('numbering.pattern', 'numbering', null, '문서규칙 패턴', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('numbering.pattern.format', 'numbering.pattern', null, '문서규칙 포맷', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -186,6 +199,11 @@ insert into awf_code values ('chart.unit.year', 'chart.unit', 'Y', '년', null, 
 insert into awf_code values ('chart.unit.month', 'chart.unit', 'M', '월', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.unit.day', 'chart.unit', 'D', '일', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.unit.hour', 'chart.unit', 'H', '시간', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.range', 'chart', null, 'CHART RANGE', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.range.between', 'chart.range', 'chart.range.between', '기간 지정', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.range.last.month', 'chart.range', 'chart.range.last.month', '지난 달', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.range.last.day', 'chart.range', 'chart.range.last.day', '어제', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.range.all', 'chart.range', 'chart.range.all', '전체', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('instance', 'root', null, '인스턴스', null, true, true, 1, 15, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('instance.platform', 'instance', null, '인스턴스 플랫폼', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('instance.platform.itsm', 'instance.platform', 'ITSM', 'ITSM', null, faLse, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);

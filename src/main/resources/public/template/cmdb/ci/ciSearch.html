@@ -34,11 +34,9 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    let loopOffSet = 0;
     window.onload = function () {
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').onkeyup = function() {
-            loopOffSet = 0;
             getList();
         };
 
@@ -63,7 +61,7 @@
         restSubmit('get', '/cmdb/cis?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
         let ciListTags = document.querySelectorAll('input[name=ciListTags]');
         let ciIdList= (document.querySelectorAll('input[name=ciId]'));
-        for (let i = loopOffSet; i < ciListTags.length; i++) {
+        for (let i = 0; i < ciListTags.length; i++) {
             new zTag(ciListTags[i], {
                 suggestion: false,
                 realtime: false,
@@ -71,7 +69,6 @@
                 targetId: ciIdList[i].value
             });
         }
-        loopOffSet = loopOffSet + aliceJs.searchDataCount;
     }
 
     function restSubmit(method, url) {

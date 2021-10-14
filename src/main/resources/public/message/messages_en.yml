@@ -6,10 +6,11 @@ common:
     check: "CHECK"
     close: "CLOSE"
     delete: "DELETE"
-    editUserInfo: "Edit User"
+    editUserInfo: "Edit profile"
     list: "LIST"
     logout: "LOGOUT"
     modify: "MODIFY"
+    preview: "PREVIEW"
     print: "PRINT"
     process: "PROCESS"
     register: "REGISTER"
@@ -19,7 +20,7 @@ common:
     saveAs: "SAVE AS"
     select: "SELECT"
     terminate: "TERMINATE"
-    update: "UPDATE"
+    toModify: "MODIFY"
     withdraw: "WITHDRAW"
   label:
     attachFile: "Attach file"
@@ -37,18 +38,20 @@ common:
     data: "data"
     delete: "Delete"
     edit: "Edit"
+    endDate: "End date"
     fail: "Fail"
     group: "Group"
     modify: "Modify"
     name: "Name"
     nameAsc: "Order by name"
+    preview: "Preview"
     searchWord: "Please enter your search term"
+    startDate: "Start date"
     success: "Success"
     tag: "Tag"
     title: "Title"
     totalCountWithoutCondition: "({0}) data total {1}"
     totalPageNum: "total {0} page"
-    update: "Update"
     updateDate: "Update Date"
     updateUser: "Update User"
     writeDate: "Write Date"
@@ -241,16 +244,16 @@ board:
 
 # Chart
 chart:
-  btn:
-    preview: "PREVIEW"
   label:
     all: "All"
     chartList: "User Custom Chart List"
     defaultInfo: "Default Info"
     description: "Chart Description"
     edit: "Chart Edit"
+    editDescription: "Register or Edit for custom chart."
     name: "Chart Name"
     queryInfo: "Query Info"
+    register: "New Chart"
     targetTags: "Target Tags"
     type: "Chart Type"
     periodUnit: "PeriodUnit"
@@ -553,6 +556,7 @@ document:
     register: "Service Request Registration"
     searchPlaceholder: "Document name / Document description"
     status: "Service Request Status"
+    tempDocument: "Temporary Application"
     type: "Document Type"
     write: "Service Request Write"
   msg:
@@ -656,7 +660,6 @@ form:
     importFile: "IMPORT File"
     lang: "Language"
     name: "Form Name"
-    preview: "Preview"
     redo: "Redo"
     register: "Form Register"
     saveExit: "Save and Exit"
@@ -709,7 +712,6 @@ form:
     time: "Time"
     ci: "CI"
   help:
-    component-placeholder: "Typing '/' for add component."
     custom-code-default: "You can set the default value displayed on the component.<br/>'Session' prints the user's session information.<br/>'Custom Code Data' prints the data of the code defined by the user."
     custom-code: "You can select a custom code list of user-defined code sets."
     date-default: "You can set the default value displayed on the component.<br/>'Now' prints the current date.<br/>'days after' means +, -date from current date.<br/>The last item is used to show a specific date as fixed."
@@ -946,7 +948,7 @@ menu:
 notice:
   label:
     edit: "Notice Edit"
-    endDt: "End Date"
+    endDateTime: "End Date"
     height: "Height"
     notice: "Notice"
     noticePeriod: "Notice Period"
@@ -956,7 +958,7 @@ notice:
     popUpPeriodToday: "Do not open this popup today"
     register : "Notice Register"
     searchPlaceholder: "Title / User"
-    strtDt: "Start Date"
+    startDateTime: "Start Date"
     topNoticeSettings: "Top Notice Settings"
     view: "Notice View"
     width: "Width"
@@ -989,14 +991,14 @@ notification:
 # Portal
 portal:
   btn:
-    main: "Portal Main"
+    main: "To portal main"
   label:
     bottomPhrase: "Can't find what you're looking for?"
     browserGuidePhrase: "Your web browser is not supported. Please use the browser below."
     chrome: "Chrome"
     firefox: "Firefox"
     login: "Log In"
-    main: "Main Page"
+    main: "To ITSM"
     mainPhrase: "Technical Support"
     msEdge: "MS Edge"
     safari: "Safari"
@@ -1116,13 +1118,11 @@ process:
 # Report
 report:
   btn:
-    preview: "Preview"
     pdf: "PDF"
   label:
     automatic: "Automatic generation"
     chart: "Chart"
     description: "Description"
-    preview: "Preview"
     publishDate: "Publish Date"
     report: "Report"
     reportName: "Report Name"

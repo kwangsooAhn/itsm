@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<input type="hidden" id="propertyJson" name="propertyJson" th:value="|${chart?.propertyJson}|"/>
+<input type="hidden" id="chartConfig" name="chartConfig" th:value="|${chart?.chartConfigStr}|"/>
+<div class="flex-column z-edit-row mt-2">
+    <div id="container" class="chart-content-view"/>
+</div>
+</body>
+</html>

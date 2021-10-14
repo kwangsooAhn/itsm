@@ -200,8 +200,15 @@
           }
         }
       }
+      //임시신청서 상태 표기
+      .document-temp-status {
+        padding: 0.625rem; // 10px
+        font-size: $font-size-xs; // 14px
+        color: $white;
+        background-color: $gray300;
+        @include borderRadius(0.5rem); // 8px
+      }
     }
-    // TODO: 추후 대시보드 디자인 완료시 아래 부분은 삭제 예정
     // 대시보드 > 소제목
     .sub-title {
       margin: 1.25rem 0; // 20px 0
@@ -259,6 +266,7 @@
       }
       // thead
       &-head {
+        @include border(calc(#{$list-border-width} * 2), solid, $list-border-color, bottom);
         tr {
           height: 2.5rem; // 42px
           th {
@@ -266,6 +274,7 @@
             font-weight: $font-weight-medium;
             color: $list-head-font-color;
             padding: 0 0.9375rem; // 0 15px
+            line-height: 1.5;
 
             &:first-child { padding-left: 1.25rem; } // 20px
           }
@@ -275,7 +284,6 @@
       &-body {
         width: 100%;
         height: 100%;
-        @include border(calc(#{$list-border-width} * 2), solid, $list-border-color, top);
         @include border($list-border-width, solid, $list-border-color, bottom);
         tr {
           height: 2.5625rem; // 41px

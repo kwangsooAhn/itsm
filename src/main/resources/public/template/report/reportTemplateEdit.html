@@ -79,7 +79,7 @@
                 <button class="z-button primary" th:if="${template?.templateId}"
                         sec:authorize="hasAuthority('report.update')"
                         onclick="actionTemplate('put')" th:text="#{common.btn.modify}"></button>
-                <button class="z-button secondary" onclick="preview()" th:text="#{report.btn.preview}"></button>
+                <button class="z-button secondary" onclick="preview()" th:text="#{common.btn.preview}"></button>
                 <button class="z-button secondary" th:if="${template?.templateId}"
                         sec:authorize="hasAuthority('report.delete')"
                         onclick="actionTemplate('delete')" th:text="#{common.btn.delete}"></button>
@@ -149,7 +149,7 @@
         let charts = [];
         chartElement.querySelectorAll('select[name=chart]').forEach((item) => {
             if (charts.includes(item.value)) {
-                aliceAlert.alertWarning(i18n.msg('report.msg.duplicateChart'));
+                zAlert.warning(i18n.msg('report.msg.duplicateChart'));
                 isValid = false;
             }
             if (item.value !== '') {
@@ -157,7 +157,7 @@
             }
         });
         if (isValid && charts.length === 0) {
-            aliceAlert.alertWarning(i18n.msg('report.msg.emptyChart'));
+            zAlert.warning(i18n.msg('report.msg.emptyChart'));
             isValid = false;
         }
         return isValid;
@@ -192,7 +192,7 @@
                 restSubmit(method, url, data);
             }
         } else if (method === 'delete') {
-            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/reports/template/' + /*[[${template?.templateId}]]*/'');
+            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/reports/template/' + /*[[${template?.templateId}]]*/'');
         }
     }
 
@@ -208,26 +208,26 @@
                 if (method === 'post' || method === 'put') {
                     switch (result.code) {
                         case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            zAlert.success(i18n.msg('common.msg.save'), function () {
                                 location.href = '/reports/template/search';
                             });
                             break;
                         case STATUS_ERROR_TEMPLATE_NAME_DUPLICATION:
-                            aliceAlert.alertSuccess(i18n.msg('report.msg.templateNameUsed'));
+                            zAlert.success(i18n.msg('report.msg.templateNameUsed'));
                             break;
                         default :
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                            zAlert.danger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 } else if (method === 'delete') {
                     switch (result.code) {
                         case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                            zAlert.success(i18n.msg('common.msg.delete'), function () {
                                 location.href = '/reports/template/search';
                             });
                             break;
                         default:
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                            zAlert.danger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 }

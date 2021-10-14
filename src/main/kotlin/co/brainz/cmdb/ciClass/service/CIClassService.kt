@@ -331,8 +331,8 @@ class CIClassService(
             for (data in queryResult.results) {
                 var childAttributeList = mutableListOf<CIAttributeValueDto>()
                 if (data.attributeType.equals(RestTemplateConstants.AttributeType.GROUP_LIST.code)) {
-                    val attributeValue = mapper.readValue(data.attributeValue,  LinkedHashMap::class.java)
-                    val attributeOptions: List<Map<String, Any>> = mapper.convertValue( attributeValue["option"],
+                    val attributeValue = mapper.readValue(data.attributeValue, LinkedHashMap::class.java)
+                    val attributeOptions: List<Map<String, Any>> = mapper.convertValue(attributeValue["option"],
                         object : TypeReference<List<Map<String, Any>>>() {})
                     childAttributeList = this.getChildAttributesForGroupList(data.attributeId, ciId, attributeOptions)
                 }

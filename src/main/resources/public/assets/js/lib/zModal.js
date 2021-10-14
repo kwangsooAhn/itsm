@@ -49,7 +49,7 @@
         onCreate: function() {},
         onDestroy: function() {}
     };
-    
+
     /**
      * 특정 클래스 목록 조회
      * @param el 대상객체
@@ -123,10 +123,7 @@
         };
 
         this.onKeyPress = function(e) {
-            if (
-                typeof window.currentModal !== 'undefined' &&
-                window.currentModal instanceof gModal
-            ) {
+            if (typeof window.currentModal !== 'undefined') {
                 let _that = window.currentModal;
                 if (!_that.display) return;
                 let keyCode = e.keyCode || e.which;
@@ -203,7 +200,7 @@
                 }
 
                 if (typeof this.options.close.location === 'undefined' ||
-                    this.options.close.location == 'in') {
+                    this.options.close.location === 'in') {
                     close.className = 'modal-close-in';
                     dialog.appendChild(close);
                 } else {

@@ -148,8 +148,7 @@ class ZValidation {
         if (typeof HTMLElement === 'object') {
             return object instanceof HTMLElement;
         } else {
-            return object && typeof object === 'object' &&
-                object !== null && object.nodeType === 1 &&
+            return object && typeof object === 'object' && true && object.nodeType === 1 &&
                 typeof object.nodeName === 'string';
         }
     }
@@ -184,7 +183,7 @@ class ZValidation {
         }
         //유효성 검증 실패시
         if (this.alert) { // 알림창 사용시
-            aliceAlert.alertWarning(message, () => {
+            zAlert.warning(message, () => {
                 this.addDOMElementError(element);
                 if (typeof callback === 'function') {
                     callback();

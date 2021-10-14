@@ -236,7 +236,7 @@ ZWorkflowUtil.export = function(id, type) {
     }).then((data) => {
         // TODO: #11116 isTopic 같은 boolean 데이터가 화면에 전달될때 topic 으로 전달됨
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-            aliceAlert.alertDanger(i18n.msg('form.msg.failedExport'));
+            zAlert.danger(i18n.msg('form.msg.failedExport'));
             return false;
         }
         // 버전 정보
@@ -544,7 +544,7 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                     callbackFunc(result);
                 }
             } else {
-                aliceAlert.alertDanger(i18n.msg('validation.msg.checkImportFormat'));
+                zAlert.danger(i18n.msg('validation.msg.checkImportFormat'));
                 return false;
             }
         });
@@ -553,4 +553,3 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
         console.error(e);
     }
 };
-

@@ -30,7 +30,7 @@
                 <div id="dropZoneUploadedFiles"></div>
             </div>
             <div class="flex-column z-edit-row">
-                <label th:text="#{common.label.writer}"></label>
+                <label th:text="#{common.label.createUser}"></label>
                 <input type="text" class="z-input" th:value="${notice?.createUserName} ? ${notice.createUserName} : ${#authentication.details.userName}"
                        disabled/>
             </div>
@@ -61,11 +61,11 @@
                 </div>
                 <div class="flex-row">
                     <div class="flex-column col-6 mr-4">
-                        <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
+                        <label th:text="#{notice.label.startDateTime}" for="popStrtDt"></label>
                         <input type="text" id="popStrtDt" name="popStrtDt" class="z-input i-date-picker date col-pct-12" />
                     </div>
                     <div class="flex-column col-6">
-                        <label th:text="#{notice.label.endDt}" for="popEndDt"></label>
+                        <label th:text="#{notice.label.endDateTime}" for="popEndDt"></label>
                         <input type="text" id="popEndDt" name="popEndDt" class="z-input i-date-picker date col-pct-12" />
                     </div>
                 </div>
@@ -81,11 +81,11 @@
             <div id="topNoticeTab" class="flex-column z-edit-row">
                 <div class="flex-row">
                     <div class="flex-column col-6 mr-4">
-                        <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
+                        <label th:text="#{notice.label.startDateTime}" for="popStrtDt"></label>
                         <input type="text" id="topNoticeStrtDt" class="z-input i-date-picker date col-pct-12" name="topNoticeStrtDt"/>
                     </div>
                     <div class="flex-column col-6">
-                        <label th:text="#{notice.label.endDt}" for="popEndDt"></label>
+                        <label th:text="#{notice.label.endDateTime}" for="popEndDt"></label>
                         <input type="text" id="topNoticeEndDt" class="z-input i-date-picker date col-pct-12" name="topNoticeEndDt"/>
                     </div>
                 </div>
@@ -232,7 +232,7 @@
     }
 
     function deleteNotice() {
-        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/notices/' + [[${notice?.noticeNo}]]);
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/notices/' + [[${notice?.noticeNo}]]);
     }
 
     function restSubmit(method, url, data) {
@@ -243,19 +243,19 @@
             contentType: 'application/json',
             callbackFunc: function() {
                 if (method === 'post') {
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
+                    zAlert.success(i18n.msg('common.msg.register'), function () {
                         window.location.href = '/notices/search';
                     });
                 } else if (method === 'put') {
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function () {
+                    zAlert.success(i18n.msg('common.msg.modify'), function () {
                         window.location = '/notices/search';
                     });
                 } else if (method === 'delete') {
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
                         window.location = '/notices/search';
                     });
                 } else {
-                    aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                    zAlert.warning(i18n.msg('common.msg.fail'));
                 }
             }
         };

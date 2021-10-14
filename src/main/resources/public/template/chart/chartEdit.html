@@ -1,85 +1,415 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
-    <meta charset="UTF-8">
+    <title th:text="${chart != null} ? #{chart.label.edit} : #{chart.label.register}"></title>
 </head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
+    <script th:src="@{/assets/js/chart/zChart.js}"></script>
+</th:block>
 <body>
-<div class="flex-column edit-row">
-    <label class="field-label" th:text="#{chart.label.type}"></label>
-    <select id="typeSelectBox" name="typeSelectBox" class="col-3" onchange="setDisplay(this.value)">
-        <option th:each="type:${typeList}" th:value="${type.codeValue}"
-                th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
-    </select>
+<div layout:fragment="pageTitle">
+    <h1 th:text="${chart != null} ? #{chart.label.edit} : #{chart.label.register}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{chart.msg.searchDescription}"></h6>
 </div>
-<input type="hidden" id="propertyJson" name="propertyJson" th:value="${chart?.propertyJson}"/>
-<input type="hidden" id="chartConfig" name="chartConfig" th:value="${chart?.chartConfig}"/>
-<div class="flex-column edit-row mt-2">
-    <div id="container" class="chart-content-view"/>
-</div>
-<div class="flex-column edit-row mt-2">
-    <h4 class="sub-title under-bar bold" th:text="#{chart.label.defaultInfo}"/>
-</div>
-<div class="flex-column edit-row">
-    <label class="field-label required" th:text="#{chart.label.name}"/>
-    <input type="text" id="chartName" name="chartName" class="z-input" th:value="${chart?.chartName}" maxlength="100"/>
-</div>
-<div class="flex-column edit-row">
-    <label class="field-label" th:text="#{chart.label.description}"/>
-    <input type="text" id="chartDesc" name="chartDesc" class="z-input" th:value="${chart?.chartDesc}" maxlength="100"/>
-</div>
-<div class="flex-column edit-row mt-2">
-    <h4 class="sub-title under-bar bold" th:text="#{chart.label.queryInfo}"/>
-</div>
-<div class="flex-column edit-row">
-    <div class="flex-row">
-        <!-- 차트 대상 태그 -->
-        <div class="flex-column col-6 mr-4">
-            <label class="field-label required" th:text="#{chart.label.targetTags}"/>
-            <input type="text" id="targetTags" name="targetTags" class="z-input col-pct-12" th:value="${chart?.targetTags}"/>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <div class="flex-column z-edit-row">
+            <h4 class="sub-title under-bar bold" th:text="#{common.label.preview}"></h4>
         </div>
-        <!-- 연산 -->
-        <div class="flex-column col-6">
-            <label class="field-label" th:text="#{chart.label.operation}"/>
-            <select id="operationSelectBox" name="operationSelectBox">
-                <option th:each="operation:${operationList}" th:value="${operation.codeValue}"
-                        th:text="${operation.codeName}"
-                        th:selected="${operation.codeValue} == ${chart?.operation}"></option>
-            </select>
+        <div class="flex-column z-edit-row">
+            <div id="container" class="chart-content-view"></div>
         </div>
-    </div>
-</div>
-<div class="flex-column edit-row">
-    <div class="flex-row">
-        <div class="flex-column col-6 mr-4">
-            <label class="field-label required" th:text="#{chart.label.duration}"/>
-            <div>
-                <input type="text" id="durationDigit" name="durationDigit" th:value="${chart?.durationDigit}"
-                       onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100"
-                       class="z-input align-right col-2"/>
-                <select id="durationUnitSelectBox" name="durationUnitSelectBox" class="col-2">
-                    <option th:each="unit:${unitList}" th:value="${unit.codeValue}"
-                            th:text="${unit.codeName}"
-                            th:selected="${unit.codeValue} == ${chart?.durationUnit}"></option>
+        <form id="frm" method="post">
+            <input type="hidden" id="propertyJson" name="propertyJson" th:value="|${chart?.propertyJson}|"/>
+            <input type="hidden" id="chartConfig" name="chartConfig" th:value="|${chart?.chartConfigStr}|"/>
+            <div class="flex-column z-edit-row">
+                <h4 class="sub-title under-bar bold" th:text="#{chart.label.defaultInfo}"></h4>
+            </div>
+            <div class="flex-column z-edit-row col-4">
+                <label class="field-label" th:text="#{chart.label.type}"></label>
+                <select id="typeSelectBox" name="typeSelectBox" onchange="setDisplay(this.value)">
+                    <option th:each="type:${code.type}" th:value="${type.codeValue}"
+                            th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
                 </select>
             </div>
-        </div>
-        <div class="flex-column col-6">
-            <label id="periodUnitLabel" class="field-label required" th:text="#{chart.label.periodUnit}"/>
-            <select id="periodUnitSelectBox" name="periodUnitSelectBox" class="col-2">
-                <option th:each="unit:${unitList}" th:value="${unit.codeValue}"
-                        th:text="${unit.codeName}" th:selected="${unit.codeValue} == ${chart?.periodUnit}"></option>
-            </select>
-        </div>
-    </div>
-</div>
-<div class="flex-column edit-row">
-    <div class="flex-row">
-        <div class="flex-column col-6">
-            <label id="groupLabel" name="groupLabel" class="field-label required"
-                   th:text="#{chart.label.group}"></label>
-            <input type="text" id="targetGroup" name="targetGroup" class="z-input" th:value="${chart?.group}" maxlength="100"/>
-        </div>
+            <div class="flex-column z-edit-row col-4">
+                <label class="field-label required" th:text="#{chart.label.name}"></label>
+                <input type="text" id="chartName" name="chartName" class="z-input" th:value="${chart?.chartName}"
+                       maxlength="100"/>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label class="field-label" th:text="#{chart.label.description}"></label>
+                <input type="text" id="chartDesc" name="chartDesc" class="z-input" th:value="${chart?.chartDesc}"
+                       maxlength="100"/>
+            </div>
+            <div class="flex-column z-edit-row">
+                <h4 class="sub-title under-bar bold" th:text="#{chart.label.queryInfo}"></h4>
+            </div>
+            <div class="flex-column z-edit-row col-3">
+                <!--/* 연산 */-->
+                <label class="field-label" th:text="#{chart.label.operation}"></label>
+                <select id="operationSelectBox" name="operationSelectBox">
+                    <option th:each="operation:${code.operation}" th:value="${operation.codeValue}"
+                            th:text="${operation.codeName}"
+                            th:selected="${operation.codeValue} == ${chart?.chartConfig?.operation}"></option>
+                </select>
+            </div>
+            <div class="flex-column z-edit-row col-3" id="periodUnit">
+                <!--/* 간격 */-->
+                <label id="periodUnitLabel" class="field-label required" th:text="#{chart.label.periodUnit}"></label>
+                <select id="periodUnitSelectBox" name="periodUnitSelectBox">
+                    <option th:each="unit:${code.unit}" th:value="${unit.codeValue}"
+                            th:text="${unit.codeName}"
+                            th:selected="${unit.codeValue} == ${chart?.chartConfig?.periodUnit}"></option>
+                </select>
+            </div>
+            <div class="z-edit-row">
+                <div class="flex-row">
+                    <!--/* 기간 */-->
+                    <div class="flex-column col-3 mr-5">
+                        <label class="field-label required" th:text="#{chart.label.duration}"></label>
+                        <div>
+                            <select id="rangeType" name="rangeType">
+                                <option th:each="unit:${code.range}" th:value="${unit.codeValue}"
+                                        th:text="${unit.codeName}"
+                                        th:selected="${unit.codeValue} == ${chart?.chartConfig?.range?.type}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--/* 기간 수동 설정 시 날짜 간격 입력 */-->
+                    <div id="rangeDate" class="flex-row">
+                        <div class="flex-column col-3 mr-2">
+                            <label class="field-label required" th:text="#{common.label.startDate}"></label>
+                            <div>
+                                <input type="text" class="z-input i-date-picker search-date" id="rangeFromDt"
+                                       name="rangeFromDt" th:value="${chart?.chartConfig?.range?.from}"/>
+                            </div>
+                        </div>
+                        <div class="flex-column col-3">
+                            <label class="field-label required" th:text="#{common.label.endDate}"></label>
+                            <div>
+                                <input type="text" class="z-input i-date-picker search-date" id="rangeToDt"
+                                       name="rangeToDt" th:value="${chart?.chartConfig?.range?.to}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-column z-edit-row">
+                <!--/* 차트 대상 태그 */-->
+                <div class="flex-column col-6 mr-4">
+                    <label class="field-label required" th:text="#{chart.label.targetTags}"></label>
+                    <input type="text" id="targetTags" name="targetTags" class="z-input col-pct-12"
+                           th:value="${chart?.chartConfig?.tags}"/>
+                </div>
+            </div>
+            <div class="flex-column z-edit-row">
+                <!--/* 그룹 */-->
+                <div class="flex-column col-6">
+                    <label id="groupLabel" class="field-label required" th:text="#{chart.label.group}"></label>
+                    <input type="text" id="targetGroup" name="targetGroup" class="z-input"
+                           th:value="${chart?.chartConfig?.group}" maxlength="100"/>
+                </div>
+            </div>
+            <div class="flex-row justify-content-between z-edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/charts/search" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list">
+                    <button sec:authorize="hasAuthority('chart.create')" th:if="!${chart?.chartId}" type="button"
+                            id="insert"
+                            class="z-button primary" onclick="saveChart('post')" th:text="#{common.btn.register}">
+                    </button>
+                    <button sec:authorize="hasAuthority('chart.update')" th:if="${chart?.chartId}" type="button"
+                            id="update"
+                            class="z-button primary" onclick="saveChart('put')" th:text="#{common.btn.modify}">
+                    </button>
+                    <button type="button" id="preview" class="z-button secondary"
+                            onclick="previewChart()" th:text="#{common.btn.preview}">
+                    </button>
+                    <button sec:authorize="hasAuthority('chart.delete')" th:if="${chart?.chartId}" type="button"
+                            id="delete"
+                            class="z-button secondary" onclick="deleteChart()" th:text="#{common.btn.delete}">
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 </body>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    const chartId = [[${chart?.chartId}]];
+    const STATUS_SUCCESS = '0';
+    const CHART_YEAR = 'Y';
+    const CHART_MONTH = 'M';
+    const CHART_DAY = 'D';
+    const CHART_HOUR = 'H';
+    const PIE_CHART = 'chart.pie';
+    const STACKED_COLUMN_CHART = 'chart.stackedColumn';
+    const STACKED_BAR_CHART = 'chart.stackedBar';
+    const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
+    const BASIC_LINE_CHART = 'chart.basicLine';
+    const ACTIVITY_GAUGE_CHART = 'chart.activityGauge';
+    let chart = null;
+    let rangeFromDt = i18n.getDate({'months': -1});
+    let rangeToDt = i18n.getDate();
+
+    window.onload = function () {
+        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+        // date picker 초기화
+        const fromDtElement = document.getElementById('rangeFromDt');
+        const toDtElement = document.getElementById('rangeToDt');
+        if (!fromDtElement.value || !toDtElement.value) {
+            fromDtElement.value = rangeFromDt;
+            toDtElement.value = rangeToDt;
+        }
+        zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
+        zDateTimePicker.initDatePicker(toDtElement, setDatePicker);
+
+        // range select event
+        document.getElementById('rangeType').addEventListener('change', (e) => {
+            if (e.target.value !== 'chart.range.between') {
+                document.getElementById('rangeDate').style.visibility = 'hidden';
+            } else {
+                document.getElementById('rangeDate').style.visibility = 'visible';
+            }
+        });
+        document.getElementById('rangeType').dispatchEvent(new Event('change'));
+
+        // chart 초기화
+        getChart([[${chart?.chartId}]], [[${chart?.chartType}]]);
+    };
+
+    function setDatePicker(element, picker) {
+        if (typeof picker === 'undefined') {
+            return false;
+        }
+        if (element.id === 'rangeFromDt') {
+            const toDtValue = document.getElementById('rangeToDt').value;
+            if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
+                zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
+                    document.getElementById('rangeFromDt').value = rangeFromDt;
+                    picker.open();
+                });
+            }
+        } else {
+            const fromDtValue = document.getElementById('rangeFromDt').value;
+            if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
+                zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
+                    document.getElementById('rangeToDt').value = rangeToDt;
+                    picker.open();
+                });
+            }
+        }
+    }
+
+    /**
+     * chart preview
+     */
+    function previewChart() {
+        if (isValidation() && isValidation()) {
+            let chartInfo = setChartInfo();
+            restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
+                let responseJson = JSON.parse(response);
+                setChart(responseJson.chartType, responseJson.propertyJson);
+                parsedPropertyJson(responseJson.chartType, responseJson.chartConfigStr, responseJson.propertyJson);
+            }, false);
+        }
+    }
+
+    /**
+     * chart 저장 / 수정
+     */
+    function saveChart(method) {
+        if (isValidation() && isValidation()) {
+            let chartInfo = setChartInfo(method, chartId);
+            let url = '/rest/charts';
+            if (chartInfo.chartId !== undefined) {
+                url += '/' + chartId;
+            }
+            restSubmit(method, url, chartInfo, function (result) {
+                switch (result) {
+                    case STATUS_SUCCESS:
+                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                            location.href = '/charts/search';
+                        });
+                        break;
+                    default:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                }
+            });
+        }
+    }
+
+    /**
+     * chart 삭제
+     */
+    function deleteChart() {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/charts/' +
+            chartId, {}, function (result) {
+            switch (result) {
+                case STATUS_SUCCESS:
+                    zAlert.success('[[#{common.msg.delete}]]', function () {
+                        window.location.href = '/charts/search';
+                    });
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+            }
+        });
+    }
+
+    /**
+     * REST API
+     */
+    function restSubmit(method, url, data, result, isShowProgressbar) {
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function (response) {
+                result(response.responseText);
+            },
+            showProgressbar: isShowProgressbar
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    function getChart(chartId, chartType) {
+        setDisplay(document.getElementById('typeSelectBox').value);
+        let targetTags = document.getElementById('targetTags').value;
+        document.getElementById('targetTags').value = targetTags.substring(1, targetTags.length - 1);
+        new zTag(document.querySelector('input[name=targetTags]'), {
+            suggestion: false,
+            realtime: false,
+            tagType: 'chart',
+            targetId: chartId
+        });
+        if (chartId !== null) {
+            parsedPropertyJson(
+                document.getElementById('typeSelectBox').value,
+                document.getElementById('chartConfig').value,
+                document.getElementById('propertyJson').value);
+        }
+    }
+
+    // 화면 필수값 검증
+    function isValidation() {
+        if (isEmpty('chartName', 'chart.msg.enterChartName')) {
+            return false;
+        }
+        if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
+            return false;
+        }
+        if (document.getElementById('typeSelectBox').value === BASIC_LINE_CHART) {
+            if (isEmpty('targetGroup', 'chart.msg.enterTargetGroup')) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function setDisplay(value) {
+        // 연산자 박스 출력
+        let operationSelectBox = document.getElementById('operationSelectBox');
+        for (let i = 0; i < operationSelectBox.options.length; i++) {
+            if (value === ACTIVITY_GAUGE_CHART) {
+                if (operationSelectBox.options[i].value === 'count') {
+                    operationSelectBox.options[i].style.display = 'none';
+                } else {
+                    operationSelectBox.options[i].selected = true;
+                }
+            } else {
+                if (operationSelectBox.options.length !== 2) {
+                    let countOption = document.createElement('option');
+                    countOption.text = i18n.msg('chart.option.text.count');
+                    countOption.value = i18n.msg('chart.option.text.value');
+                    operationSelectBox.add(countOption);
+                }
+            }
+        }
+
+        if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
+            // 2021-10-06 By Jung Hee Chan
+            // 기간 항목은 드롭박스에 디자인이 입혀지면서 div 가 새로 생김. 이것까지 숨기거나 보여주려면 처리를 아래와 같이 추가.
+            document.getElementById('periodUnit').style.display = '';
+            Array.from(document.getElementById('periodUnit').children).forEach((child) => {
+                child.style.display = '';
+            });
+            if (value === BASIC_LINE_CHART) {
+                document.getElementById('groupLabel').style.display = 'block';
+                document.getElementById('targetGroup').style.display = 'block';
+            } else {
+                document.getElementById('groupLabel').style.display = 'none';
+                document.getElementById('targetGroup').style.display = 'none';
+            }
+        } else {
+            document.getElementById('periodUnit').style.display = 'none';
+            Array.from(document.getElementById('periodUnit').children).forEach((child) => {
+                child.style.display = 'none';
+            });
+            document.getElementById('groupLabel').style.display = 'none';
+            document.getElementById('targetGroup').style.display = 'none';
+        }
+
+        // 차트 새로 그리기
+        setChart(value, document.getElementById('propertyJson').value);
+    }
+
+    /** 하이차트 초기화 */
+    function setChart(chartType, property) {
+        chart = new ZChart('container', chartType, property);
+    }
+
+    /** chartConfig 파싱 진행 **/
+    function parsedPropertyJson(chartType, chartConfig, property) {
+        chart.parsedPropertyJson(chartType, chartConfig, property);
+    }
+
+    // 전송할 데이터 셋팅
+    function setChartInfo(method, chartId) {
+        let tagList = [];
+        JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
+            tagList.push(tag.value);
+        });
+
+        let chartInfo = {
+            chartType: document.getElementById('typeSelectBox').value,
+            chartName: document.getElementById('chartName').value,
+            chartDesc: document.getElementById('chartDesc').value,
+            targetTags: tagList,
+            chartConfig: {
+                range: {
+                    type: document.getElementById('rangeType').value,
+                    from: document.getElementById('rangeFromDt').value,
+                    to: document.getElementById('rangeToDt').value
+                },
+                operation: document.getElementById('operationSelectBox').value,
+                periodUnit: document.getElementById('periodUnitSelectBox').value,
+                group: document.getElementById('targetGroup').value,
+                tags: tagList
+            },
+            chartConfigStr: ''
+        };
+
+        if (method === 'put' && chartId !== undefined) {
+            chartInfo.chartId = chartId;
+        }
+
+        return chartInfo;
+    }
+</script>
 </html>

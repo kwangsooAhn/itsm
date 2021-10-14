@@ -102,7 +102,7 @@
         <input type="hidden" id="searchToDt" name="searchToDt" class="search-date"/>
         <input type="hidden" id="searchTags" name="searchTags" value=""/>
     </form>
-    <h3 class="sub-title">처리할 문서</h3>
+    <h3 class="sub-title" th:text="#{dashboard.label.todoDocument}"></h3>
     <div class="scroll-wrap">
         <div id="tokenList"></div>
     </div>
@@ -139,13 +139,6 @@
         }
         urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
         restSubmit('get', '/tokens?' + urlParam, isScroll);
-        document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
-            new zTag(tagInput, {
-                suggestion: false,
-                realtime: false,
-                tagType: 'instance'
-            });
-        });
     }
 
     function restSubmit(method, url, isScroll) {
@@ -162,7 +155,14 @@
                     let tempDiv = document.createElement('div');
                     tempDiv.innerHTML = response.responseText;
                     setDateTimeFormat(tempDiv);
-                    document.querySelector('.dashboard-content .card-list').insertAdjacentHTML('beforeend', tempDiv.innerHTML);
+                    tempDiv.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
+                        new zTag(tagInput, {
+                            suggestion: false,
+                            realtime: false,
+                            tagType: 'instance'
+                        });
+                    });
+                    document.querySelector('.card-list').insertAdjacentHTML('beforeend', tempDiv.innerHTML);
                 } else {
                     document.getElementById('tokenList').innerHTML = response.responseText;
                     setDateTimeFormat(document.getElementById('tokenList'));
@@ -180,6 +180,13 @@
                                 }
                             }
                         }
+                    });
+                    document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
+                        new zTag(tagInput, {
+                            suggestion: false,
+                            realtime: false,
+                            tagType: 'instance'
+                        });
                     });
                 }
             }

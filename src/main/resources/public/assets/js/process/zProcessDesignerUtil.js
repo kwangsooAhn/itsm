@@ -265,13 +265,13 @@
             let resultCode = response.responseText;
             switch (resultCode) {
                 case RESPONSE_DUPLICATION:
-                    aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                    zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
                     return;
                 case RESPONSE_FAIL:
-                    aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                    zAlert.warning(i18n.msg('common.msg.fail'));
                     return;
                 default:
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
+                    zAlert.success(i18n.msg('common.msg.save'));
                     isEdited = false;
                     savedData = JSON.parse(JSON.stringify(zProcessDesigner.data));
                     if (savedData.process.status === 'process.status.publish' ||
@@ -325,7 +325,7 @@
             let nameTextObject = document.getElementById('newProcessName');
             if (nameTextObject.value.trim() === '') {
                 nameTextObject.classList.add('error');
-                aliceAlert.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
+                zAlert.warning(i18n.msg('common.msg.requiredEnter'), function() {
                     nameTextObject.focus();
                 });
                 return false;
@@ -350,13 +350,13 @@
                     let resultCode = resultToJson.result;
                     switch (resultCode.toString()) {
                         case RESPONSE_DUPLICATION:
-                            aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                            zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
                             return;
                         case RESPONSE_FAIL:
-                            aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                            zAlert.warning(i18n.msg('common.msg.fail'));
                             return;
                         default:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            zAlert.success(i18n.msg('common.msg.save'), function () {
                                 opener.location.reload();
 
                                 window.name = 'process_' + processId + '_edit';
@@ -990,12 +990,12 @@ function valdationCheck() {
     let commonStartCount = 0;
 
     if (deployableStatus.indexOf(zProcessDesigner.initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
-        aliceAlert.alertWarning(i18n.msg('common.msg.onlySaveInEdit'));
+        zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
         return false;
     }
     if (zProcessDesigner.isView) return false;
     if (zProcessDesigner.data.process.name.toString().trim() === '') {
-        aliceAlert.alertWarning(i18n.msg('process.msg.enterProcessName'));
+        zAlert.warning(i18n.msg('process.msg.enterProcessName'));
         return false;
     }
 
@@ -1010,7 +1010,7 @@ function valdationCheck() {
                     if (requiredList.indexOf(key) > -1) {
                         if (totalElements[i][key].toString().trim() === '') {
                             const errorElem = document.getElementById(totalElements[i].id);
-                            aliceAlert.alertWarning(i18n.msg('process.msg.enterRequired',
+                            zAlert.warning(i18n.msg('process.msg.enterRequired',
                                 i18n.msg('process.designer.attribute.' + totalElements[i].type)));
                             zProcessDesigner.setSelectedElement(d3.select(errorElem));
                             zProcessDesigner.setElementMenu(d3.select(errorElem));
@@ -1023,7 +1023,7 @@ function valdationCheck() {
                         if (requiredList.indexOf(key) > -1) {
                             if (totalElements[i].data[key].toString().trim() === '') {
                                 const errorElem = document.getElementById(totalElements[i].id);
-                                aliceAlert.alertWarning(i18n.msg('process.msg.enterRequired',
+                                zAlert.warning(i18n.msg('process.msg.enterRequired',
                                     i18n.msg('process.designer.attribute.' + totalElements[i].type)));
                                 zProcessDesigner.setSelectedElement(d3.select(errorElem));
                                 zProcessDesigner.setElementMenu(d3.select(errorElem));
@@ -1035,7 +1035,7 @@ function valdationCheck() {
             }
         }
         if (commonStartCount !== 1) {
-            aliceAlert.alertWarning(i18n.msg('process.msg.startElementMustOne'));
+            zAlert.warning(i18n.msg('process.msg.startElementMustOne'));
             return false;
         }
         return true;

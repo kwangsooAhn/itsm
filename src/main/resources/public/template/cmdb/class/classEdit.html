@@ -68,10 +68,10 @@
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.update')"
                         class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
-                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
+                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.delete')"
                         class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
         </div>
@@ -245,7 +245,7 @@
         if (isEmpty('txtClassName', 'cmdb.class.msg.enterClassName')) return;
         if (isEmpty('txtClassSeq', 'cmdb.class.msg.enterClassSeq')) return;
         if (document.getElementsByName('attribute').length === 0) {
-            aliceAlert.alertWarning(i18n.msg('cmdb.class.msg.enterAttributeList'));
+            zAlert.warning(i18n.msg('cmdb.class.msg.enterAttributeList'));
             return;
         }
         let attributeList = [];
@@ -277,17 +277,17 @@
             callbackFunc: function (response) {
                 switch (response.responseText) {
                     case STATUS_SUCCESS:
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
+                        zAlert.success(i18n.msg('common.msg.register'), function () {
                             window.location.href = '/cmdb/class/edit';
                         });
                         break;
                     case STATUS_SUCCESS_EDIT_CLASS:
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.update'), function () {
+                        zAlert.success(i18n.msg('common.msg.update'), function () {
                             window.location.href = '/cmdb/class/edit';
                         });
                         break;
                     default:
-                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
             }
@@ -303,15 +303,15 @@
             callbackFunc: function (response) {
                 switch (response.responseText) {
                     case STATUS_SUCCESS:
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                        zAlert.success(i18n.msg('common.msg.delete'), function () {
                             window.location.href = '/cmdb/class/edit';
                         });
                         break;
                     case STATUS_FAILE_CLASS_HAVE_TYPE:
-                        aliceAlert.alertDanger(i18n.msg('cmdb.class.msg.relatedTypes'));
+                        zAlert.danger(i18n.msg('cmdb.class.msg.relatedTypes'));
                         break;
                     default:
-                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                        zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
             }
@@ -345,7 +345,7 @@
             deleteIcon.className = 'z-icon i-delete';
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {
-                aliceAlert.confirm(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), function () {
+                zAlert.confirm(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), function () {
                     const row = deleteBtn.parentNode;
                     classAttributeMap.delete(inputElem.id);
                     row.remove();

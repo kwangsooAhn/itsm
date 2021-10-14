@@ -1,6 +1,8 @@
 /**
  * 보고서 조회 테이블
  */
+DROP TABLE IF EXISTS awf_report cascade;
+
 create table awf_report (
     report_id varchar(128) NOT NULL,
     template_id varchar(128) NOT NULL,

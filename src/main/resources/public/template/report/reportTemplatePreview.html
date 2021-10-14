@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="report/reportCore">
 <head>
-    <title th:text="#{report.label.preview}"></title>
+    <title th:text="#{common.label.preview}"></title>
 </head>
 <th:block layout:fragment="css">
     <link th:href="@{/assets/css/report.css}" rel="stylesheet"/>
@@ -95,7 +95,7 @@
             chartTarget.insertAdjacentHTML('beforeend', element);
 
             setChart(data.chartType, data.propertyJson, data.chartId + '_chart');
-            parsedPropertyJson(data.chartConfig, data.propertyJson);
+            parsedPropertyJson(data.chartType, data.chartConfig, data.propertyJson);
         }
 
         /** 하이차트 초기화 */
@@ -244,8 +244,9 @@
         }
 
         /** chartConfig 파싱 진행 **/
-        function parsedPropertyJson(chartConfig, property) {
-            let chartConfigJson = JSON.parse(chartConfig);
+        function parsedPropertyJson(chartType, chartConfig, property) {
+            let chartConfigJson = chartConfig; // JSON.parse(chartConfig);
+            chartConfigJson.type = chartType;
             let propertyJson = JSON.parse(property);
 
             /** Get propertyJson Data **/

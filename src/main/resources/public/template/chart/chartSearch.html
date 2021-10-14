@@ -7,7 +7,6 @@
     <title th:text="#{chart.label.chartList}"></title>
 </head>
 <th:block layout:fragment="pageHead">
-    <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
@@ -35,7 +34,7 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" sec:authorize="hasAuthority('chart.create')"
-                th:text="#{common.btn.add}" th:onclick="openChartEditModal()"></button>
+                th:text="#{common.btn.add}" onclick="location.href='/charts/new'"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
@@ -45,7 +44,6 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    const STATUS_SUCCESS = '0';
     const CHART_YEAR = 'Y';
     const CHART_MONTH = 'M';
     const CHART_DAY = 'D';
@@ -56,7 +54,6 @@
     const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
     const BASIC_LINE_CHART = 'chart.basicLine';
     const ACTIVITY_GAUGE_CHART = 'chart.activityGauge';
-    let chart = null;
 
     window.onload = function () {
         document.getElementById('searchTypeName').addEventListener('change', function () {
@@ -83,97 +80,12 @@
     }
 
     /**
-     * REST API
-     */
-    function restSubmit(method, url, data, result, isShowProgressbar) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                result(response.responseText);
-            },
-            showProgressbar: isShowProgressbar
-        };
-        aliceJs.sendXhr(opt);
-    }
-
-    /**
      * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
      */
     function setDateTimeFormat(elem) {
         elem.querySelectorAll('.date-time').forEach(dt => {
             dt.textContent = i18n.userDateTime(dt.textContent.trim());
         });
-    }
-
-    /**
-     * Chart edit 화면 호출 (Modal)
-     */
-    function openChartEditModal(chartId, chartType) {
-        const deletable = document.getElementById('deletable').value
-        let modalOptions = {
-            title: i18n.msg('chart.label.edit'),
-            body: createModalContent(),
-            classes: 'chart-edit-modal',
-            buttons: [
-                {
-                    content: (chartId !== undefined) ? i18n.msg('common.btn.save') : i18n.msg('common.btn.register'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function (modal) {
-                        let method = (chartId !== undefined) ? 'put' : 'post'
-                        saveChart(method, chartId)
-                    }
-                }],
-            close: {
-                closable: false,
-            },
-            onCreate: function (modal) {
-                OverlayScrollbars(document.querySelector('.chart-edit-content'), {className: 'scrollbar'});
-                getChart(chartId, chartType, 'edit');
-            }
-        };
-
-        if (deletable === 'true' && chartId !== undefined) {
-            modalOptions.buttons.push({
-                content: i18n.msg('common.btn.delete'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: function (modal) {
-                    deleteChart(chartId);
-                }
-            });
-        }
-
-        modalOptions.buttons.push({
-            content: i18n.msg('chart.btn.preview'),
-            classes: 'z-button secondary',
-            bindKey: false,
-            callback: function (modal) {
-                if (emptyValidation() && isValidation()) {
-                    let chartInfo = setChartInfo()
-                    restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
-                        let responseJson = JSON.parse(response);
-                        setChart(responseJson.chartType, responseJson.propertyJson);
-                        parsedPropertyJson(responseJson.chartConfig, responseJson.propertyJson);
-                    }, false);
-                }
-            }
-        });
-
-        modalOptions.buttons.push({
-            content: i18n.msg('common.btn.cancel'),
-            classes: 'z-button secondary',
-            bindKey: false,
-            callback: function (modal) {
-                modal.hide();
-            }
-        });
-
-        const chartEditModal = new modal(modalOptions);
-        chartEditModal.show();
     }
 
     /**
@@ -196,7 +108,7 @@
                 closable: false,
             },
             onCreate: function () {
-                getChart(chartId, chartType, 'view');
+                getChart(chartId, chartType);
             }
         };
 
@@ -210,143 +122,27 @@
             `</div>`;
     }
 
-    function getChart(chartId, chartType, target) {
-        let strUrl = '/charts';
-        if (typeof chartId === 'undefined') {
-            strUrl += '/new';
-        } else {
-            strUrl += '/' + chartId + '/' + target;
-        }
-
+    function getChart(chartId, chartType) {
         const opt = {
             method: 'get',
-            url: strUrl,
+            url: '/charts/' + chartId + '/view',
             contentType: 'application/json',
             showProgressbar: false,
             callbackFunc: function (response) {
                 document.getElementById('getChart').innerHTML = response.responseText;
-                if (target === 'edit') {
-                    setDisplay(document.getElementById('typeSelectBox').value);
-                    let targetTags = document.getElementById('targetTags').value
-                    document.getElementById('targetTags').value = targetTags.substring(1, targetTags.length - 1);
-                  new zTag(document.querySelector('input[name=targetTags]'),{
-                        suggestion: false,
-                        realtime: false,
-                        tagType: 'chart',
-                        targetId: chartId
-                    });
-                } else if (target === 'view') {
-                    setChart(chartType, document.getElementById('propertyJson').value);
-                }
-                if (chartId !== undefined) {
-                    parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
-                }
+                setChart(chartType, document.getElementById('propertyJson').value);
+                parsedPropertyJson(
+                    chartType,
+                    document.getElementById('chartConfig').value,
+                    document.getElementById('propertyJson').value
+                );
             }
         };
         aliceJs.sendXhr(opt);
     }
 
-    function emptyValidation() {
-        if (isEmpty('chartName', 'chart.msg.enterChartName')) {
-            return false
-        }
-        if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
-            return false
-        }
-        if (isEmpty('durationDigit', 'chart.msg.enterDurationDigit')) {
-            return false
-        }
-        if (document.getElementById('typeSelectBox').value === BASIC_LINE_CHART) {
-            if (isEmpty('targetGroup', 'chart.msg.enterTargetGroup')) {
-                return false
-            }
-        }
-        return true;
-    }
-
-    /**
-     * chart 저장 / 수정
-     */
-    function saveChart(method, chartId) {
-        if (emptyValidation() && isValidation()) {
-            let chartInfo = setChartInfo(method, chartId);
-            let url = '/rest/charts';
-            if (chartInfo.chartId !== undefined) {
-                url += '/' + chartId;
-            }
-            restSubmit(method, url, chartInfo, function (result) {
-                switch (result) {
-                    case STATUS_SUCCESS:
-                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
-                            location.reload()
-                        });
-                        break;
-                    default:
-                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                        break;
-                }
-            })
-        }
-    }
-
-    /**
-     * chart 삭제
-     */
-    function deleteChart(chartId) {
-        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/charts/' +
-            chartId, {}, function (result) {
-            switch (result) {
-                case STATUS_SUCCESS:
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
-                        location.reload();
-                    });
-                    break;
-                default:
-                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                    break;
-            }
-        })
-    }
-
-    function setDisplay(value) {
-        // 연산자 박스 출력
-        let operationSelectBox = document.getElementById('operationSelectBox');
-        for (let i = 0; i < operationSelectBox.options.length; i++) {
-            if (value === ACTIVITY_GAUGE_CHART) {
-                if (operationSelectBox.options[i].value === 'count') {
-                    operationSelectBox.options[i].style.display = 'none';
-                } else {
-                    operationSelectBox.options[i].selected = true;
-                }
-            } else {
-                if (operationSelectBox.options.length !== 2) {
-                    let countOption = document.createElement('option');
-                    countOption.text = i18n.msg('chart.option.text.count');
-                    countOption.value = i18n.msg('chart.option.text.value');
-                    operationSelectBox.add(countOption);
-                }
-            }
-        }
-        aliceJs.initDesignedSelectTag();
-
-        if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
-            document.getElementById('periodUnitLabel').style.display = 'block';
-            document.getElementById('periodUnitSelectBox').style.display = 'block';
-            if (value === BASIC_LINE_CHART) {
-                document.getElementById('groupLabel').style.display = 'block';
-                document.getElementById('targetGroup').style.display = 'block';
-            } else {
-                document.getElementById('groupLabel').style.display = 'none';
-                document.getElementById('targetGroup').style.display = 'none';
-            }
-        } else {
-            document.getElementById('periodUnitLabel').style.display = 'none';
-            document.getElementById('periodUnitSelectBox').style.display = 'none';
-            document.getElementById('groupLabel').style.display = 'none';
-            document.getElementById('targetGroup').style.display = 'none';
-        }
-        // 차트 새로 그리기
-        setChart(value, document.getElementById('propertyJson').value);
+    function parsedPropertyJson(chartType, chartConfig, property) {
+        chart.parsedPropertyJson(chartType, chartConfig, property);
     }
 
     /** 하이차트 초기화 */
@@ -354,79 +150,6 @@
         chart = new ZChart('container', chartType, property);
     }
 
-    /** chartConfig 파싱 진행 **/
-    function parsedPropertyJson(chartConfig, property) {
-        chart.parsedPropertyJson(chartConfig, property);
-    }
-
-    // 화면 필수값 검증
-    function isValidation() {
-        let isValid = true;
-        let chartType = document.getElementById('typeSelectBox').value;
-        if (chartType === BASIC_LINE_CHART || chartType === STACKED_COLUMN_CHART) {
-            let periodUnit = document.getElementById('periodUnitSelectBox').value;
-            let durationUnit = document.getElementById('durationUnitSelectBox').value;
-            switch (durationUnit) {
-                case CHART_MONTH:
-                    if (periodUnit === CHART_YEAR) {
-                        isValid = false;
-                        aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                        return false;
-                    }
-                    break;
-                case CHART_DAY:
-                    if (periodUnit === CHART_YEAR || periodUnit === CHART_MONTH) {
-                        isValid = false;
-                        aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                        return false;
-                    }
-                    break;
-                case CHART_HOUR:
-                    if (periodUnit === CHART_YEAR || periodUnit === CHART_MONTH || periodUnit === CHART_DAY) {
-                        isValid = false;
-                        aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                        return false;
-                    }
-                    break;
-            }
-        }
-        return isValid;
-    }
-
-    // 전송할 데이터 셋팅
-    function setChartInfo(method, chartId) {
-        let tagList = [];
-        JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
-            tagList.push(tag.value);
-        });
-
-        let chartInfo = {
-            chartType: document.getElementById('typeSelectBox').value,
-            chartName: document.getElementById('chartName').value,
-            chartDesc: document.getElementById('chartDesc').value,
-            targetTags: tagList,
-            operation: document.getElementById('operationSelectBox').value,
-            durationDigit: document.getElementById('durationDigit').value,
-            durationUnit: document.getElementById('durationUnitSelectBox').value
-        }
-        if (method === 'put' && chartId !== undefined) {
-            chartInfo.chartId = chartId;
-        }
-
-        switch (chartInfo.chartType) {
-            case BASIC_LINE_CHART:
-                chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
-                chartInfo.group = document.getElementById('targetGroup').value;
-                break;
-            case STACKED_COLUMN_CHART :
-            case STACKED_BAR_CHART:
-            case LINE_AND_COLUMN_CHART:
-            case ACTIVITY_GAUGE_CHART:
-                chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
-                break;
-        }
-        return chartInfo;
-    }
     /*]]>*/
 </script>
 </html>
