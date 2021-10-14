@@ -1,6 +1,8 @@
 /**
  * 보고서 조회 데이터 테이블
  */
+DROP TABLE IF EXISTS awf_report_data cascade;
+
 create table awf_report_data (
     data_id varchar(128) NOT NULL,
     report_id varchar(128) NOT NULL,
