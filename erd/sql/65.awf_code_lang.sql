@@ -14,7 +14,7 @@ CREATE TABLE awf_code_lang
 
 COMMENT ON TABLE awf_code_lang IS '다국어 코드 정보';
 COMMENT ON COLUMN awf_code_lang.code IS '코드';
-COMMENT ON COLUMN awf_code_lang.code_value IS '코드 값';
+COMMENT ON COLUMN awf_code_lang.code_name IS '코드 값';
 COMMENT ON COLUMN awf_code_lang.lang IS '언어';
 
 insert into awf_code_lang values ('document.status.temporary', 'temporary', 'en');
