@@ -377,44 +377,46 @@ class WfFormService(
 
         // Insert component, attribute
         for (group in formData.group.orEmpty()) {
-            val wfFormGroupPropertyEntities: MutableList<WfFormGroupPropertyEntity> = mutableListOf()
-            val currentGroup = wfFormGroupRepository.save(
-                WfFormGroupEntity(
-                    formGroupId = group.id,
-                    formGroupName = group.name!!,
-                    form = resultFormEntity
-                )
-            )
-
-            wfFormGroupPropertyEntities.addAll(this.getFormGroupProperty(currentGroup, group))
-
-            if (wfFormGroupPropertyEntities.isNotEmpty()) {
-                wfFormGroupPropertyRepository.saveAll(wfFormGroupPropertyEntities)
-            }
-
-            group.row.let {
-                for (row in it) {
-                    val currentRow = wfFormRowRepository.save(
-                        WfFormRowEntity(
-                            formRowId = row.id,
-                            formGroup = currentGroup,
-                            rowDisplayOption = objMapper.writeValueAsString(row.display)
-                        )
+            if (group.id.isNotBlank()) {
+                val wfFormGroupPropertyEntities: MutableList<WfFormGroupPropertyEntity> = mutableListOf()
+                val currentGroup = wfFormGroupRepository.save(
+                    WfFormGroupEntity(
+                        formGroupId = group.id,
+                        formGroupName = group.name!!,
+                        form = resultFormEntity
                     )
-                    row.component.let { components ->
-                        val wfComponentPropertyEntities: MutableList<WfComponentPropertyEntity> = mutableListOf()
-                        for (component in components) {
-                            val resultComponentEntity =
-                                this.saveComponent(currentRow, resultFormEntity, component)
-                            wfComponentPropertyEntities.addAll(
-                                this.getComponentData(
-                                    resultComponentEntity,
-                                    component
-                                )
+                )
+
+                wfFormGroupPropertyEntities.addAll(this.getFormGroupProperty(currentGroup, group))
+
+                if (wfFormGroupPropertyEntities.isNotEmpty()) {
+                    wfFormGroupPropertyRepository.saveAll(wfFormGroupPropertyEntities)
+                }
+
+                group.row.let {
+                    for (row in it) {
+                        val currentRow = wfFormRowRepository.save(
+                            WfFormRowEntity(
+                                formRowId = row.id,
+                                formGroup = currentGroup,
+                                rowDisplayOption = objMapper.writeValueAsString(row.display)
                             )
-                        }
-                        if (wfComponentPropertyEntities.isNotEmpty()) {
-                            wfComponentPropertyRepository.saveAll(wfComponentPropertyEntities)
+                        )
+                        row.component.let { components ->
+                            val wfComponentPropertyEntities: MutableList<WfComponentPropertyEntity> = mutableListOf()
+                            for (component in components) {
+                                val resultComponentEntity =
+                                    this.saveComponent(currentRow, resultFormEntity, component)
+                                wfComponentPropertyEntities.addAll(
+                                    this.getComponentData(
+                                        resultComponentEntity,
+                                        component
+                                    )
+                                )
+                            }
+                            if (wfComponentPropertyEntities.isNotEmpty()) {
+                                wfComponentPropertyRepository.saveAll(wfComponentPropertyEntities)
+                            }
                         }
                     }
                 }
@@ -448,11 +450,13 @@ class WfFormService(
         }
 
         for (group in restTemplateFormDataDto.group.orEmpty()) {
-            group.id = UUID.randomUUID().toString().replace("-", "")
-            for (row in group.row) {
-                row.id = UUID.randomUUID().toString().replace("-", "")
-                for (component in row.component) {
-                    component.id = UUID.randomUUID().toString().replace("-", "")
+            if (group.id.isNotBlank()) {
+                group.id = UUID.randomUUID().toString().replace("-", "")
+                for (row in group.row) {
+                    row.id = UUID.randomUUID().toString().replace("-", "")
+                    for (component in row.component) {
+                        component.id = UUID.randomUUID().toString().replace("-", "")
+                    }
                 }
             }
         }
