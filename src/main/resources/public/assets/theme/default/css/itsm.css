@@ -3026,8 +3026,9 @@ select {
 }
 .z-itsm-container .z-main-content .card-list .document-card {
   min-width: auto;
-  width: calc((100% - 3.75rem) / 3);
+  width: 30.625rem;
   min-height: 11.5625rem;
+  margin-right: 1.875rem;
 }
 .z-itsm-container .z-main-content .card-list .no-data-found {
   width: 100%;
@@ -3318,7 +3319,6 @@ select {
 }
 
 .z-document-content {
-  padding: 1.875rem 1.875rem 0 3.75rem;
   background-color: #FFFFFF;
 }
 .z-document-content .document-column {
