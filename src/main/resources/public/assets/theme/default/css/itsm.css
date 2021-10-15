@@ -2820,8 +2820,8 @@ select {
   margin-top: 3.5rem;
 }
 .z-itsm-container .z-main-content .z-page-result .z-document-row .document-temp-status {
-  padding: 0.625rem;
-  font-size: 0.875rem;
+  padding: 0.375rem;
+  font-size: 0.75rem;
   color: #FFFFFF;
   background-color: #CFD5D9;
   border-radius: 0.5rem;
