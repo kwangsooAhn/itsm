@@ -12,7 +12,7 @@
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
     <th:block th:fragment="list">
-        <div class="card" th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}"
+        <div class="card document-card" th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}"
              sec:authorize="hasAuthority('document.create')" th:onclick="zDocument.openDocument([[${document.documentId}]])">
             <div class="document-column">
                 <div class="flex-row align-items-center" >

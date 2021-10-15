@@ -483,6 +483,13 @@
         }
       }
     }
+
+    //신청서 카드 (한 줄에 3개씩 출력)
+    .document-card {
+      min-width: auto;
+      width: calc((100% - 3.75rem) / 3);
+    }
+
     // 데이터 없을 때
     .no-data-found {
       width: 100%;

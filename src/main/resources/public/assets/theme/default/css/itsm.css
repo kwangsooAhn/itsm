@@ -3024,6 +3024,10 @@ select {
 .z-itsm-container .z-main-content .card-list .card .document-column h3 {
   width: 28rem;
 }
+.z-itsm-container .z-main-content .card-list .document-card {
+  min-width: auto;
+  width: calc((100% - 3.75rem) / 3);
+}
 .z-itsm-container .z-main-content .card-list .no-data-found {
   width: 100%;
   background-color: #FAFAFA;
