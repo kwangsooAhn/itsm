@@ -19,6 +19,7 @@ class ZDocument {
     constructor() {
         this.isOpen = false;
     }
+
     /**
      * 신청서를 표시하는 모달 생성
      */
@@ -32,6 +33,7 @@ class ZDocument {
             close: { closable: false },
             onCreate: () => {
                 this.domElement = document.getElementById('documentDrawingBoard');
+
                 // history.back 시 신청서 목록으로 이동
                 window.history.pushState(null, '', location.href);
                 window.onpopstate = function(e) {
@@ -176,29 +178,55 @@ class ZDocument {
         });
         return array;
     }
+
+    /**
+     *  저장시 유효성 체크
+     */
+    saveValidationCheck() {
+        if (zValidation.hasDOMElementError(this.domElement)) { return false; }
+
+        let isValid = true;
+        const requiredElements =
+            document.querySelectorAll('input[data-validation-required="true"],textarea[data-validation-required="true"]');
+
+        for (let i = 0; i < requiredElements.length; i++) {
+            if (!zValidation.isRequired(requiredElements[i])) {
+                isValid = false;
+                break;
+            }
+        }
+
+        // TODO: 텍스트에디터 필수 체크
+
+        // DR 테이블, CI 테이블 필수인 경우 row를 1개 이상 등록하라는 경고 후 포커싱
+        if (isValid) {
+            const validationCheckTables = document.querySelectorAll('table[data-validation-required="true"]');
+            for (let i = 0; i < validationCheckTables.length; i++) {
+                const table = validationCheckTables[i];
+                if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
+                    isValid = false;
+                    zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
+                        table.focus();
+                    });
+                    break;
+                }
+            }
+        }
+
+        return isValid;
+    }
+
     /**
      * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
      */
     processAction(actionType) {
         // 유효성 체크
         const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
-        if (!validationUncheckActionType.includes(actionType) && zValidation.hasDOMElementError(this.domElement)) {
+
+        const isActionTypeCheck = validationUncheckActionType.includes(actionType);
+        if (!isActionTypeCheck && !this.saveValidationCheck()) {
             return false;
         }
-        // DR 테이블, CI 테이블 필수인 경우 row를 1개 이상 등록하라는 경고 후 포커싱
-        let validationCheck = true;
-        const validationCheckTables = document.querySelectorAll('table[data-validation-required="true"]');
-        for (let i = 0; i < validationCheckTables.length; i ++) {
-            const table = validationCheckTables[i];
-            if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
-                validationCheck = false;
-                zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
-                    table.focus();
-                });
-                return false;
-            }
-        }
-        if (!validationCheck) { return false; }
         
         const saveData = {
             'documentId': this.data.documentId,
