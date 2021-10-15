@@ -23,6 +23,18 @@ insert into awf_code_lang values ('document.status.use', 'use', 'en');
 insert into awf_code_lang values ('document.displayType.editable', 'Editable', 'en');
 insert into awf_code_lang values ('document.displayType.readonly', 'Readonly', 'en');
 insert into awf_code_lang values ('document.displayType.hidden', 'Hidden', 'en');
-insert into awf_code_lang values ('servicedesk.incident', 'Disability Inquiry', 'en');
-insert into awf_code_lang values ('servicedesk.inquiry', 'Simple Inquiry', 'en');
-insert into awf_code_lang values ('servicedesk.request', 'Service Request', 'en');
+insert into awf_code_lang values ('document.group.incident', 'Disability Inquiry', 'en');
+insert into awf_code_lang values ('document.group.inquiry', 'Simple Inquiry', 'en');
+insert into awf_code_lang values ('document.group.request', 'Service Request', 'en');
+insert into awf_code_lang values ('form.template', 'Template', 'en');
+/* 단순문의 */
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry', 'ServiceDesk - Simple Inquiry', 'en');
+/* 단순문의 - 서비스 항목*/
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category', 'Service Category', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.none', '- Choose Category -', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.server', 'Server', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.network', 'Network', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.security', 'Security', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.dbms', 'Database', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.contract', 'Contract', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.etc', 'ETC', 'en');

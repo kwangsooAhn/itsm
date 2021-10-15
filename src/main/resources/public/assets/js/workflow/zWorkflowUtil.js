@@ -84,6 +84,7 @@ ZWorkflowUtil.polyfill = function() {
  * @param data 데이터
  * @return {string} XML 문자열
  */
+ZWorkflowUtil.NULL_CHECK_TYPE = ['group', 'tags'];
 ZWorkflowUtil.objectToXML = function(data) {
     let xml = '';
     Object.keys(data).forEach(function(key) {
@@ -104,7 +105,11 @@ ZWorkflowUtil.objectToXML = function(data) {
             });
             // 빈 배열일 경우에도 태그 추가
             if (data[key].length === 0) {
-                xml += '<' + key + '><![CDATA[]]></' + key + '>';
+                if (ZWorkflowUtil.NULL_CHECK_TYPE.includes(key)) {
+                    xml += '<' + key + '>null</' + key + '>';
+                } else {
+                    xml += '<' + key + '><![CDATA[]]></' + key + '>';
+                }
             }
         } else if (data[key] && typeof data[key] === 'object') {
             xml += ZWorkflowUtil.objectToXML(data[key]);

@@ -16,8 +16,8 @@
             <div class="z-document-row flex-fill flex-row justify-content-between">
                 <div class="z-document-row-content">
                     <div class="z-document-title flex-row align-items-center">
-                        <h3 th:text="${token.documentName}" class="mr-2 text-ellipsis"></h3>
-                        <span th:text="${token.documentNo}" class="z-document-numbering text-ellipsis mr-2"></span>
+                        <h3 th:text="${token.documentName}" class="mr-2 text-wordWrap"></h3>
+                        <span th:text="${token.documentNo}" class="z-document-numbering text-wordWrap mr-2"></span>
                         <span th:if="${token.documentStatus} == 'document.status.temporary'"
                               th:text="#{document.label.tempDocument}" class="document-temp-status"></span>
                     </div>

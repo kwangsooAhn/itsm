@@ -1,6 +1,8 @@
 /**
  * 보고서 설정 차트 매핑 테이블
  */
+DROP TABLE IF EXISTS awf_report_template_map cascade;
+
 create table awf_report_template_map (
     template_id varchar(128) NOT NULL,
     chart_id varchar(128) NOT NULL,

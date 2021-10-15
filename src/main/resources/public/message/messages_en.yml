@@ -6,7 +6,7 @@ common:
     check: "CHECK"
     close: "CLOSE"
     delete: "DELETE"
-    editUserInfo: "Edit User"
+    editUserInfo: "Edit profile"
     list: "LIST"
     logout: "LOGOUT"
     modify: "MODIFY"
@@ -20,7 +20,7 @@ common:
     saveAs: "SAVE AS"
     select: "SELECT"
     terminate: "TERMINATE"
-    update: "UPDATE"
+    toModify: "MODIFY"
     withdraw: "WITHDRAW"
   label:
     attachFile: "Attach file"
@@ -52,7 +52,6 @@ common:
     title: "Title"
     totalCountWithoutCondition: "({0}) data total {1}"
     totalPageNum: "total {0} page"
-    update: "Update"
     updateDate: "Update Date"
     updateUser: "Update User"
     writeDate: "Write Date"
@@ -949,7 +948,7 @@ menu:
 notice:
   label:
     edit: "Notice Edit"
-    endDt: "End Date"
+    endDateTime: "End Date"
     height: "Height"
     notice: "Notice"
     noticePeriod: "Notice Period"
@@ -959,7 +958,7 @@ notice:
     popUpPeriodToday: "Do not open this popup today"
     register : "Notice Register"
     searchPlaceholder: "Title / User"
-    strtDt: "Start Date"
+    startDateTime: "Start Date"
     topNoticeSettings: "Top Notice Settings"
     view: "Notice View"
     width: "Width"
@@ -992,14 +991,14 @@ notification:
 # Portal
 portal:
   btn:
-    main: "Portal Main"
+    main: "To portal main"
   label:
     bottomPhrase: "Can't find what you're looking for?"
     browserGuidePhrase: "Your web browser is not supported. Please use the browser below."
     chrome: "Chrome"
     firefox: "Firefox"
     login: "Log In"
-    main: "Main Page"
+    main: "To ITSM"
     mainPhrase: "Technical Support"
     msEdge: "MS Edge"
     safari: "Safari"

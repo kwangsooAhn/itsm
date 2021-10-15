@@ -16,3 +16,13 @@ COMMENT ON TABLE wf_form_group IS '문서양식 그룹정보';
 COMMENT ON COLUMN wf_form_group.form_group_id IS '문서양식 그룹아이디';
 COMMENT ON COLUMN wf_form_group.form_group_name IS '문서양식 그룹이름';
 COMMENT ON COLUMN wf_form_group.form_id IS '문서양식아이디';
+
+/* 서비스데스크 - 단순문의 */
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c7832447201e1','제목','csr0000000000000000000000000001f');
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c7832480101e2','신청내역','csr0000000000000000000000000001f');
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c7832527e0203','접수내역','csr0000000000000000000000000001f');
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c783258080214','처리내역','csr0000000000000000000000000001f');
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c78325ca80225','승인 / 반려 내역','csr0000000000000000000000000001f');
+/* 서비스데스크 - 단순문의 - 만족도 */
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c78334c07023c','제목','csr0000000000000000000000000002f');
+INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c78334f3a0244','만족도평가','csr0000000000000000000000000002f');
