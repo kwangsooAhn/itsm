@@ -258,7 +258,7 @@
     }
     // 신청서 > 아이콘
     .document-icon {
-      @include absolute($top: 2rem,$right: 1rem); // 32px 16px
+      @include absolute($top: 3rem,$right: -1rem);
       overflow: hidden;
     }
     // 신청서 > 설명

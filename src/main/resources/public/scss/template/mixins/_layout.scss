@@ -488,6 +488,7 @@
     .document-card {
       min-width: auto;
       width: calc((100% - 3.75rem) / 3);
+      min-height: 11.5625rem;
     }
 
     // 데이터 없을 때

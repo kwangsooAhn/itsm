@@ -3027,6 +3027,7 @@ select {
 .z-itsm-container .z-main-content .card-list .document-card {
   min-width: auto;
   width: calc((100% - 3.75rem) / 3);
+  min-height: 11.5625rem;
 }
 .z-itsm-container .z-main-content .card-list .no-data-found {
   width: 100%;
@@ -3331,8 +3332,8 @@ select {
 }
 .z-document-content .document-column .document-icon {
   position: absolute;
-  top: 2rem;
-  right: 1rem;
+  top: 3rem;
+  right: -1rem;
   overflow: hidden;
 }
 .z-document-content .document-column .document-description {
