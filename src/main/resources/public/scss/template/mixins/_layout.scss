@@ -484,11 +484,11 @@
       }
     }
 
-    //신청서 카드 (한 줄에 3개씩 출력)
+    //신청서 > 카드
     .document-card {
       min-width: auto;
       width: calc((100% - 3.75rem) / 3);
-      min-height: 11.5625rem;
+      min-height: 11.5625rem; //185px
     }
 
     // 데이터 없을 때
