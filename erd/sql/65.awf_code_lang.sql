@@ -50,4 +50,4 @@ insert into awf_code_lang values ('chart.type.pie', 'Pie Chart', 'en');
 insert into awf_code_lang values ('chart.type.stackedColumn', 'Stacked Column Chart', 'en');
 insert into awf_code_lang values ('chart.type.stackedBar', 'Stacked Bar Chart', 'en');
 insert into awf_code_lang values ('chart.type.lineAndColumn', 'Line and Column Chart', 'en');
-insert into awf_code_lang values ('echart.type.activityGauge', 'Activity Gauge Chart', 'en');
+insert into awf_code_lang values ('chart.type.activityGauge', 'Activity Gauge Chart', 'en');
