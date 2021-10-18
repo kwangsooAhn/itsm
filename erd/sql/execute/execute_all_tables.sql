@@ -1232,6 +1232,7 @@ insert into awf_role_auth_map values ('serviceDesk.manager', 'code.read');
 insert into awf_role_auth_map values ('serviceDesk.manager', 'code.create');
 insert into awf_role_auth_map values ('serviceDesk.manager', 'scheduler.read');
 
+
 /**
  * 문서번호패턴맵핑
  */
@@ -2603,7 +2604,6 @@ INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c78325ca80225','승인 / �
 /* 서비스데스크 - 단순문의 - 만족도 */
 INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c78334c07023c','제목','csr0000000000000000000000000002f');
 INSERT INTO wf_form_group VALUES ('g028b21f7c780ba6017c78334f3a0244','만족도평가','csr0000000000000000000000000002f');
-
 /**
  * 문서양식 그룹 세부정보
  */
@@ -3136,7 +3136,6 @@ INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000001d','g028
 /* 서비스데스크 - 단순문의 - 만족도 */
 INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000002d','g028b21f7c780ba6017c78334c07023c','a69041dce1c4f1a0d5bee6a380553ae8','document.displayType.readonly');
 INSERT INTO wf_document_display VALUES ('csr0000000000000000000000000002d','g028b21f7c780ba6017c78334f3a0244','a69041dce1c4f1a0d5bee6a380553ae8','document.displayType.editable');
-
 /**
  * 엘리먼트세부설정
  */
@@ -3159,6 +3158,7 @@ COMMENT ON COLUMN wf_element_data.attribute_id IS '속성아이디';
 COMMENT ON COLUMN wf_element_data.attribute_value IS '속성값';
 COMMENT ON COLUMN wf_element_data.attribute_order IS '속성순서';
 COMMENT ON COLUMN wf_element_data.attribute_required IS '속성필수값';
+
 /* 서비스데스크 - 단순문의 */
 INSERT INTO wf_element_data VALUES ('adab84bb124390e77008596eab4c9e6c','action-name','',0,false);
 INSERT INTO wf_element_data VALUES ('adab84bb124390e77008596eab4c9e6c','action-value','',1,false);
@@ -4342,7 +4342,7 @@ DROP TABLE IF EXISTS awf_code_lang cascade;
 CREATE TABLE awf_code_lang
 (
     code varchar(100) NOT NULL,
-    code_value varchar(256),
+    code_name varchar(256),
     lang varchar(100) NOT NULL,
     CONSTRAINT awf_code_lang_pk PRIMARY KEY (code, lang),
     CONSTRAINT awf_code_lang_fk FOREIGN KEY (code) REFERENCES awf_code (code)
@@ -4350,7 +4350,7 @@ CREATE TABLE awf_code_lang
 
 COMMENT ON TABLE awf_code_lang IS '다국어 코드 정보';
 COMMENT ON COLUMN awf_code_lang.code IS '코드';
-COMMENT ON COLUMN awf_code_lang.code_value IS '코드 값';
+COMMENT ON COLUMN awf_code_lang.code_name IS '코드 이름';
 COMMENT ON COLUMN awf_code_lang.lang IS '언어';
 
 insert into awf_code_lang values ('document.status.temporary', 'temporary', 'en');
@@ -4374,6 +4374,19 @@ insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.se
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.dbms', 'Database', 'en');
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.contract', 'Contract', 'en');
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.etc', 'ETC', 'en');
+/* 차트 */
+insert into awf_code_lang values ('chart.operation.percent', 'percent', 'en');
+insert into awf_code_lang values ('chart.operation.count', 'count', 'en');
+insert into awf_code_lang values ('chart.unit.year', 'year', 'en');
+insert into awf_code_lang values ('chart.unit.month', 'month', 'en');
+insert into awf_code_lang values ('chart.unit.hour', 'hour', 'en');
+insert into awf_code_lang values ('chart.unit.day', 'day', 'en');
+insert into awf_code_lang values ('chart.type.basicLine', 'Basic Line Chart', 'en');
+insert into awf_code_lang values ('chart.type.pie', 'Pie Chart', 'en');
+insert into awf_code_lang values ('chart.type.stackedColumn', 'Stacked Column Chart', 'en');
+insert into awf_code_lang values ('chart.type.stackedBar', 'Stacked Bar Chart', 'en');
+insert into awf_code_lang values ('chart.type.lineAndColumn', 'Line and Column Chart', 'en');
+insert into awf_code_lang values ('chart.type.activityGauge', 'Activity Gauge Chart', 'en');
 
 /**
  * 사용자 지정 테이블

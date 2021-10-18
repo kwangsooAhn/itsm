@@ -71,7 +71,7 @@
             <input type="hidden" id="prev-document-status" name="prev-document-status" th:value="${documentData?.documentStatus}"/>
             <select id="document-status">
                 <option th:each="status:${statusList}" th:value="${status.code}"
-                        th:text="${status.codeValue}" th:selected="${status.code} == ${documentData?.documentStatus}"></option>
+                        th:text="${status.codeName}" th:selected="${status.code} == ${documentData?.documentStatus}"></option>
             </select>
             <!-- API 활성화 -->
             <label class="field-label" th:text="#{document.label.apiEnable}" for="api-enable"></label>

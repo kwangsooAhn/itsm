@@ -60,7 +60,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
                     code.createDt,
                     code.level,
                     code.seqNum,
-                    codeLang.codeValue,
+                    codeLang.codeName,
                     codeLang.lang
                 )
             )
