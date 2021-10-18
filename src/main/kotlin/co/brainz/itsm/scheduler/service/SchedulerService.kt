@@ -23,6 +23,8 @@ import co.brainz.itsm.scheduler.dto.SchedulerDto
 import co.brainz.itsm.scheduler.dto.SchedulerListDto
 import co.brainz.itsm.scheduler.dto.SchedulerListReturnDto
 import co.brainz.itsm.scheduler.dto.SchedulerSearchCondition
+import java.io.File
+import java.nio.file.Paths
 import java.time.Instant
 import javax.transaction.Transactional
 import kotlin.math.ceil
@@ -101,6 +103,17 @@ class SchedulerService(
             schedulerDto.taskName,
             schedulerDto.taskId
         )
+
+        if (schedulerDto.taskType == "jar") {
+            val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
+                schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
+            }
+            if (fileExist == false) {
+                returnValue = "4"
+                return returnValue
+            }
+        }
+
         when (existCount) {
             0L -> {
                 var scheduleTaskEntity = AliceScheduleTaskEntity(
@@ -143,6 +156,15 @@ class SchedulerService(
             schedulerDto.taskName,
             schedulerDto.taskId
         )
+        if (schedulerDto.taskType == "jar") {
+            val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
+                schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
+            }
+            if (fileExist == false) {
+                returnValue = "4"
+                return returnValue
+            }
+        }
         when (existCount) {
             0L -> {
                 scheduleTaskEntity.taskName = schedulerDto.taskName
@@ -237,5 +259,16 @@ class SchedulerService(
 
     fun getSchedulerHistory(taskId: String): List<AliceScheduleHistoryEntity> {
         return aliceScheduleHistoryRepository.findScheduleHistoryByTaskId(taskId, ItsmConstants.SEARCH_DATA_COUNT)
+    }
+
+    private fun validateJarFile(src: String, executeCommand: String): Boolean {
+        val jarName = executeCommand.replace(" ", "").replace("java-jar", "")
+        var jarPath = src
+        if (jarPath.startsWith("/", true)) {
+            jarPath = jarPath.substring(1)
+        }
+        val jarDir = AliceConstants.SCHEDULE_PLUGINS_HOME + File.separator + jarPath + File.separator + jarName
+
+        return Paths.get(jarDir).toFile().exists()
     }
 }

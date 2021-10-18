@@ -1201,6 +1201,7 @@ scheduler:
     scheduleDescription: "스케줄 세부 정보와 이력을 확인할 수 있습니다."
     searchDescription: "반복적인 작업을 등록하여 관리합니다."
     useSchedule: "사용중인 스케줄입니다."
+    jarNotExist: "JAR 파일이 존재하지 않습니다."
   status:
     true: "사용"
     false: "미사용"
