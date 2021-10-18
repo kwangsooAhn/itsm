@@ -2962,6 +2962,7 @@ select {
   display: flex;
   flex: 1;
   padding: 0 1.875rem;
+  width: 50%;
 }
 .z-itsm-container .z-main-content .z-page-column-item:first-child {
   padding-left: 3.75rem;
@@ -5553,6 +5554,10 @@ ul.tree li {
   display: block;
   line-height: 1.875rem;
   padding-right: 0.125rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
 ul.tree ul {
   position: relative;
