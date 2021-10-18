@@ -200,14 +200,16 @@
                         }
                     });
 
+                    const searchValue = document.getElementById('searchValue').value;
+
                     if (isNotEmpty('searchValue')) {
                         document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-title > a').forEach(function(data) {
-                            const regex = new RegExp(document.getElementById('searchValue').value, 'gi');
-                            data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + document.getElementById('searchValue').value + "</span>");
+                            const regex = new RegExp(searchValue, 'gi');
+                            data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + searchValue + "</span>");
                         });
                         document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach(function(data) {
-                            const regex = new RegExp(document.getElementById('searchValue').value, 'gi');
-                            data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + document.getElementById('searchValue').value + "</span>");
+                            const regex = new RegExp(searchValue, 'gi');
+                            data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + searchValue + "</span>");
                         });
                     }
                 }
