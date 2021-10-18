@@ -19,6 +19,7 @@ import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeJar
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeQuery
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.constants.ItsmConstants
+import co.brainz.itsm.scheduler.constants.SchedulerConstants
 import co.brainz.itsm.scheduler.dto.SchedulerDto
 import co.brainz.itsm.scheduler.dto.SchedulerListDto
 import co.brainz.itsm.scheduler.dto.SchedulerListReturnDto
@@ -98,18 +99,18 @@ class SchedulerService(
      * 스케줄 등록.
      */
     fun insertScheduler(schedulerDto: SchedulerDto): String {
-        var returnValue = "0"
+        var returnValue = SchedulerConstants.Status.STATUS_SUCCESS.code
         val existCount = aliceScheduleTaskRepository.findDuplicationTaskName(
             schedulerDto.taskName,
             schedulerDto.taskId
         )
 
-        if (schedulerDto.taskType == "jar") {
+        if (schedulerDto.taskType == SchedulerConstants.Types.JAR.type) {
             val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
                 schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
             }
             if (fileExist == false) {
-                returnValue = "4"
+                returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
                 return returnValue
             }
         }
@@ -137,7 +138,7 @@ class SchedulerService(
                     aliceScheduleTaskService.addTaskToScheduler(scheduleTaskEntity)
                 }
             }
-            else -> returnValue = "2"
+            else -> returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_NAME_DUPLICATION.code
         }
         return returnValue
     }
@@ -146,7 +147,7 @@ class SchedulerService(
      * 스케줄 수정.
      */
     fun updateScheduler(schedulerDto: SchedulerDto): String {
-        var returnValue = "0"
+        var returnValue = SchedulerConstants.Status.STATUS_SUCCESS.code
         var scheduleTaskEntity =
             aliceScheduleTaskRepository.findByIdOrNull(schedulerDto.taskId!!) ?: throw AliceException(
                 AliceErrorConstants.ERR_00005,
@@ -156,12 +157,12 @@ class SchedulerService(
             schedulerDto.taskName,
             schedulerDto.taskId
         )
-        if (schedulerDto.taskType == "jar") {
+        if (schedulerDto.taskType == SchedulerConstants.Types.JAR.type) {
             val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
                 schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
             }
             if (fileExist == false) {
-                returnValue = "4"
+                returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
                 return returnValue
             }
         }
@@ -185,7 +186,7 @@ class SchedulerService(
                     aliceScheduleTaskService.addTaskToScheduler(scheduleTaskEntity)
                 }
             }
-            else -> returnValue = "2"
+            else -> returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_NAME_DUPLICATION.code
         }
         return returnValue
     }
@@ -197,7 +198,7 @@ class SchedulerService(
     fun deleteScheduler(taskId: String): String {
         aliceScheduleTaskService.removeTaskFromScheduler(taskId)
         aliceScheduleTaskRepository.deleteById(taskId)
-        return "0"
+        return SchedulerConstants.Status.STATUS_SUCCESS.code
     }
 
     fun getSchedulerDtoToEntity(schedulerDto: SchedulerDto): AliceScheduleTaskEntity {
@@ -223,7 +224,7 @@ class SchedulerService(
      * 스케줄 즉시 실행.
      */
     fun immediateExecuteScheduler(schedulerDto: SchedulerDto): String {
-        var returnValue = "0"
+        var returnValue = SchedulerConstants.Status.STATUS_SUCCESS.code
         val taskInfo = getSchedulerDtoToEntity(schedulerDto)
         when (schedulerDto.taskType) {
             AliceConstants.ScheduleTaskType.QUERY.code -> {
@@ -238,7 +239,7 @@ class SchedulerService(
                 } catch (e: Exception) {
                     logger.error("Failed to load class. [{}]", schedulerDto.executeClass)
                     e.printStackTrace()
-                    returnValue = "3"
+                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                 }
             }
             AliceConstants.ScheduleTaskType.JAR.code -> {
@@ -250,7 +251,7 @@ class SchedulerService(
                 } catch (e: Exception) {
                     logger.error("Failed to load jar. [{}]", schedulerDto.executeCommand)
                     e.printStackTrace()
-                    returnValue = "3"
+                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                 }
             }
         }
@@ -262,13 +263,22 @@ class SchedulerService(
     }
 
     private fun validateJarFile(src: String, executeCommand: String): Boolean {
-        val jarName = executeCommand.replace(" ", "").replace("java-jar", "")
+        val jarName = executeCommand.replace(" ", "")
         var jarPath = src
         if (jarPath.startsWith("/", true)) {
             jarPath = jarPath.substring(1)
         }
-        val jarDir = AliceConstants.SCHEDULE_PLUGINS_HOME + File.separator + jarPath + File.separator + jarName
-
-        return Paths.get(jarDir).toFile().exists()
+        val jarDir = AliceConstants.SCHEDULE_PLUGINS_HOME + File.separator + jarPath
+        val files = Paths.get(jarDir).toFile()
+        if (jarName.substring(jarName.length - 3, jarName.length) == SchedulerConstants.Types.JAR.type) {
+            files.walk().forEach { file ->
+                if (file.extension == SchedulerConstants.Types.JAR.type) {
+                    if (jarName.contains(file.name)) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
     }
 }
