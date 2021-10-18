@@ -1340,10 +1340,10 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   cursor: default;
 }
 .z-input.error {
-  border: 0.0625rem solid #F52525;
+  border: 0.0625rem solid #F52525 !important;
 }
 .z-input.success {
-  border: 0.0625rem solid #76BD26;
+  border: 0.0625rem solid #76BD26 !important;
 }
 .z-input-clear {
   position: relative;
@@ -1477,10 +1477,10 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   cursor: default;
 }
 .z-textarea.error {
-  border: 0.0625rem solid #F52525;
+  border: 0.0625rem solid #F52525 !important;
 }
 .z-textarea.success {
-  border: 0.0625rem solid #76BD26;
+  border: 0.0625rem solid #76BD26 !important;
 }
 
 .z-switch {

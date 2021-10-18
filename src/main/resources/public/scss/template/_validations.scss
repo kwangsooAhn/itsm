@@ -32,7 +32,7 @@
     }
   }
   &.error {
-    @include border($element-border-width, solid, $validation-error-bg-color, all);
+    @include border($element-border-width, solid, $validation-error-bg-color !important, all);
     color: $validation-error-font-color;
     background-color: $validation-error-bg-color;
     @include backgroundImage('#{$icon-folder-path}validation/icon_error.svg', null, no-repeat, 1rem, center, null);
