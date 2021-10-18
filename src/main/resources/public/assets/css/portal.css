@@ -1100,6 +1100,9 @@ input, button, select, optgroup, textarea {
 .z-portal-container .z-main .z-main-content .z-main-card .z-card-list .z-card-row .z-card-item-title a {
   color: #222529;
 }
+.z-portal-container .z-main .z-main-content .z-main-card .z-card-list .z-card-row .z-card-item-title a .keyword {
+  color: #339AF0;
+}
 .z-portal-container .z-main .z-main-content .z-main-card .z-card-list .z-card-row .z-card-item-content {
   font-size: 1rem;
   font-weight: 400;
