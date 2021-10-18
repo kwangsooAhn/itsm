@@ -55,8 +55,8 @@ class CodeService(
         }
         val findCodeList = codeRepository.findCodeByPCodeIn(codes, lang)
         for (codeDto in findCodeList) {
-            if (codeDto.codeLangValue != null && codeDto.lang != null) {
-                codeDto.codeValue = codeDto.codeLangValue
+            if (codeDto.codeLangName != null && codeDto.lang != null) {
+                codeDto.codeName = codeDto.codeLangName
             }
         }
         codeList.addAll(findCodeList)
@@ -197,7 +197,7 @@ class CodeService(
                 codeLangRepository.save(
                     CodeLangEntity(
                         code = codeDetailDto.code,
-                        codeValue = it.value,
+                        codeName = it.value,
                         lang = it.key
                     )
                 )
@@ -256,7 +256,7 @@ class CodeService(
                 codeLangRepository.save(
                     CodeLangEntity(
                         code = codeDetailDto.code,
-                        codeValue = it.value,
+                        codeName = it.value,
                         lang = it.key
                     )
                 )

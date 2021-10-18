@@ -1123,10 +1123,12 @@ table tr td, table tr th {
 .z-table tr.z-table-head {
   height: 2rem;
   font-weight: 500;
-  text-indent: 1rem;
   border-top: 0.0625rem solid #CFD5D9;
   border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
   background-color: #F5F5F5;
+}
+.z-table tr th, .z-table tr td {
+  padding: 0 0.5rem;
 }
 
 span {
@@ -1229,10 +1231,10 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   cursor: default;
 }
 .z-input.error {
-  border: 0.0625rem solid #F52525;
+  border: 0.0625rem solid #F52525 !important;
 }
 .z-input.success {
-  border: 0.0625rem solid #76BD26;
+  border: 0.0625rem solid #76BD26 !important;
 }
 .z-input-clear {
   position: relative;
@@ -1366,10 +1368,10 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   cursor: default;
 }
 .z-textarea.error {
-  border: 0.0625rem solid #F52525;
+  border: 0.0625rem solid #F52525 !important;
 }
 .z-textarea.success {
-  border: 0.0625rem solid #76BD26;
+  border: 0.0625rem solid #76BD26 !important;
 }
 
 .z-switch {
@@ -2960,6 +2962,7 @@ select {
   display: flex;
   flex: 1;
   padding: 0 1.875rem;
+  width: 50%;
 }
 .z-itsm-container .z-main-content .z-page-column-item:first-child {
   padding-left: 3.75rem;
@@ -3919,7 +3922,7 @@ select {
   background: #339AF0;
 }
 .z-validation.error {
-  border: 0.0625rem solid #FEF2EB;
+  border: 0.0625rem solid #FEF2EB !important;
   color: #F52525;
   background-color: #FEF2EB;
   background-image: url("../../../media/icons/validation/icon_error.svg");
@@ -5483,7 +5486,7 @@ select {
   font-weight: bold;
 }
 .ql-wrapper-container .ql-container.error {
-  border: 0.0625rem solid #F52525;
+  border: 0.0625rem solid #F52525 !important;
 }
 .ql-wrapper-container.ql-border-disabled .ql-toolbar.ql-snow {
   border-color: transparent;
@@ -5551,6 +5554,10 @@ ul.tree li {
   display: block;
   line-height: 1.875rem;
   padding-right: 0.125rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
 ul.tree ul {
   position: relative;
