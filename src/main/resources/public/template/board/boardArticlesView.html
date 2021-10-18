@@ -66,7 +66,7 @@
             <button class="z-button secondary"
                     th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.delete'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
-                    th:onclick="deleteBoard('delete')"
+                    th:onclick="deleteBoard()"
                     th:text="#{common.btn.delete}">
             </button>
         </div>
@@ -119,9 +119,23 @@
         }
 
         //게시판 삭제
-        function deleteBoard(method) {
-            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete',
-                '/rest/boards/articles/' + boardId);
+        function deleteBoard() {
+            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+                aliceJs.fetchText('/rest/boards/articles/' + boardId, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((rtn) => {
+                    if (rtn === 'true' || rtn === '') {
+                        zAlert.success(i18n.msg('common.msg.delete'), () => {
+                            location.href = '/boards/articles/search/param?boardAdminId=' + boardAdminId;
+                        });
+                    } else {
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                    }
+                });
+            })
         }
 
         //게시판 댓글 저장
@@ -177,7 +191,7 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function (response) {
-                    if (method === 'put' || method === 'post' || method === 'delete') {
+                    if (method === 'put' || method === 'post') {
                         zAlert.success(resultMsg, function () {
                             if (url.indexOf('/rest/boards/articles/comments') !== -1) {
                                 document.getElementById('boardComments').value = '';
