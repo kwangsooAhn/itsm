@@ -4342,7 +4342,7 @@ DROP TABLE IF EXISTS awf_code_lang cascade;
 CREATE TABLE awf_code_lang
 (
     code varchar(100) NOT NULL,
-    code_name varchar(256),
+    code_name varchar(128),
     lang varchar(100) NOT NULL,
     CONSTRAINT awf_code_lang_pk PRIMARY KEY (code, lang),
     CONSTRAINT awf_code_lang_fk FOREIGN KEY (code) REFERENCES awf_code (code)
