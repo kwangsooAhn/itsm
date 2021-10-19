@@ -92,12 +92,6 @@ common:
         finish: "처리 완료"
         running: "진행 중"
         waiting: "대기 중"
-    faq:
-      category:
-        all: "전체"
-        etc: "기타"
-        setting: "설정"
-        techSupport: "기술 지원"
 
 # Auth
 auth:
@@ -603,10 +597,6 @@ download:
     searchDescription: "자료를 조회 및 관리합니다."
     selectCategory: "분류를 선택하세요."
     viewDescription: "자료에 대한 상세 정보를 조회합니다."
-  category:
-    all: "전체"
-    companyPolicy: "회사 규정"
-    etc: "기타"
 
 # Error
 error:

@@ -21,7 +21,7 @@
                     <span class="required"></span>
                 </label>
                 <select id="faqGroup" name="faqGroup" required="required">
-                    <option th:each="faqGroup :${faqGroupList}" th:text="#{|common.code.${faqGroup.code}|}"
+                    <option th:each="faqGroup :${faqGroupList}" th:text="${faqGroup.codeName}"
                             th:value="${faqGroup.code}" th:selected="${faqGroup.code} == ${faq?.faqGroup}">
                     </option>
                 </select>
