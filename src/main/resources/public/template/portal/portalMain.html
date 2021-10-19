@@ -200,16 +200,22 @@
                         }
                     });
 
-                    const searchValue = document.getElementById('searchValue').value;
-
+                    /*
+                     * 포탈 검색 시, 검색한 내용 파란글씨로 출력
+                     */
                     if (isNotEmpty('searchValue')) {
+                        const searchValue = document.getElementById('searchValue').value;
                         document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-title > a').forEach(function(data) {
+                            const searchTarget = data.innerHTML;
                             const regex = new RegExp(searchValue, 'gi');
-                            data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + searchValue + "</span>");
+                            const resultTarget = regex.exec(searchTarget);
+                            data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + resultTarget + "</span>");
                         });
                         document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach(function(data) {
+                            const searchTarget = data.innerHTML;
                             const regex = new RegExp(searchValue, 'gi');
-                            data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + searchValue + "</span>");
+                            const resultTarget = regex.exec(searchTarget);
+                            data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + resultTarget + "</span>");
                         });
                     }
                 }
