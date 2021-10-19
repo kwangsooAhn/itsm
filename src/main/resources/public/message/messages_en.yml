@@ -92,12 +92,6 @@ common:
         finish: "finish"
         running: "running"
         waiting: "waiting"
-    faq:
-      category:
-        all: "All"
-        etc: "Etc"
-        setting: "Setting"
-        techSupport: "Tech support"
 
 # Auth
 auth:
@@ -602,10 +596,6 @@ download:
     searchDescription: "Search and manage data."
     selectCategory: "Please select a category."
     viewDescription: "Inquire detailed information about the data."
-  category:
-    all: "All"
-    companyPolicy: "Company Policy"
-    etc: "ETC"
 
 # Error
 error:

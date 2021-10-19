@@ -146,7 +146,25 @@
                     restSubmit(method, url, data);
                 }
             } else if (method === 'delete') {
-                zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/cmdb/attributes/' + /*[[${attribute?.attributeId}]]*/'');
+                zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
+                    aliceJs.fetchText('/rest/cmdb/attributes/' + /*[[${attribute?.attributeId}]]*/'', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    }).then((rtn) => {
+                        switch (rtn) {
+                            case STATUS_SUCCESS:
+                                zAlert.success(i18n.msg('common.msg.delete'), function () {
+                                    location.href = '/cmdb/attributes/search';
+                                });
+                                break;
+                            default:
+                                zAlert.danger(i18n.msg('common.msg.fail'));
+                                break;
+                        }
+                    });
+                });
             }
         }
 
@@ -157,31 +175,18 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
-                    if (method === 'post' || method === 'put') {
-                        switch (response.responseText) {
-                            case STATUS_SUCCESS:
-                                zAlert.success(i18n.msg('common.msg.save'), function () {
-                                    location.href = '/cmdb/attributes/search';
-                                });
-                                break;
-                            case STATUS_ERROR_CMDB_ATTRIBUTE_NAME_DUPLICATION:
-                                zAlert.success(i18n.msg('cmdb.attribute.msg.attributeNameUsed'));
-                                break;
-                            default :
-                                zAlert.danger(i18n.msg('common.msg.fail'));
-                                break;
-                        }
-                    } else if (method === 'delete'){
-                        switch (response.responseText) {
-                            case STATUS_SUCCESS:
-                                zAlert.success(i18n.msg('common.msg.delete'), function () {
-                                    location.href = '/cmdb/attributes/search';
-                                });
-                                break;
-                            default:
-                                zAlert.danger(i18n.msg('common.msg.fail'));
-                                break;
-                        }
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            zAlert.success(i18n.msg('common.msg.save'), function () {
+                                location.href = '/cmdb/attributes/search';
+                            });
+                            break;
+                        case STATUS_ERROR_CMDB_ATTRIBUTE_NAME_DUPLICATION:
+                            zAlert.success(i18n.msg('cmdb.attribute.msg.attributeNameUsed'));
+                            break;
+                        default :
+                            zAlert.danger(i18n.msg('common.msg.fail'));
+                            break;
                     }
                 }
             };

@@ -133,38 +133,6 @@
             return isValid;
         }
 
-        // Action
-        function actionTemplate(method) {
-            if (method === 'post' || method === 'put') {
-                if (isValidRequiredAll() && isValid()) {
-                    let data = {
-                        templateId: '',
-                        templateName: document.querySelector('#templateName').value,
-                        templateDesc: document.querySelector('#templateDesc').value,
-                        automatic: document.querySelector('#automatic').checked
-                    }
-                    let url = '/rest/reports/template';
-                    if (method === 'put') {
-                        url += '/' + /*[[${template?.templateId}]]*/'';
-                        data.templateId = /*[[${template?.templateId}]]*/'';
-                    }
-                    let charts = []
-                    let chartElement = document.querySelector('#chartList')
-                    chartElement.querySelectorAll('select[name=chart]').forEach((item, index) => {
-                        let chart = {
-                            id: item.value,
-                            order: index + 1
-                        }
-                        charts.push(chart);
-                    });
-                    data.charts = charts
-                    restSubmit(method, url, data);
-                }
-            } else if (method === 'delete') {
-                zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/reports/template/' + /*[[${template?.templateId}]]*/'');
-            }
-        }
-
         // Ajax 통신
         function restSubmit(method, url, data) {
             const opt = {

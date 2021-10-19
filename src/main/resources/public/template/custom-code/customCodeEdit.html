@@ -248,7 +248,7 @@
         deleteIcon.className = 'z-icon i-delete';
         deleteBtn.appendChild(deleteIcon);
         deleteBtn.addEventListener('click', function () {
-            zAlert.confirm(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
+            zAlert.confirm(i18n.msg('customCode.msg.confirmDeleteCondition'), () => {
                 const row = deleteBtn.parentNode;
                 const conditionElems = document.querySelectorAll('input[name=conditionValue]');
                 if (conditionElems.length === 1) {
@@ -256,8 +256,7 @@
                     conditionLabel.removeChild(conditionLabel.children[1]);
                 }
                 row.remove();
-
-            }, null);
+            });
         });
 
         divRow.appendChild(keySelect);
@@ -373,40 +372,14 @@
                 restSubmit(method, '/rest/custom-codes', data);
             }
         } else if (method === 'delete') {
-            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'');
-        }
-    }
-
-    //REST API
-    function restSubmit(method, url, data) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                if (method === 'post' || method === 'put') {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            zAlert.success(i18n.msg('common.msg.save'), function () {
-                                location.href = '/custom-codes/search';
-                            });
-                            break;
-                        case STATUS_ERROR_CUSTOM_CODE_USED:
-                            zAlert.success(i18n.msg('customCode.msg.customCodeUsed'));
-                            break;
-                        case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
-                            zAlert.warning(i18n.msg('customCode.msg.duplicateCustomCodeName'));
-                            break;
-                        case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
-                            zAlert.warning(i18n.msg('customCode.msg.pCodeNotExist'));
-                            break;
-                        default :
-                            zAlert.danger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                } else if (method === 'delete') {
-                    switch (response.responseText) {
+            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+                aliceJs.fetchText('/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }).then((rtn) => {
+                    switch (rtn) {
                         case STATUS_SUCCESS:
                             zAlert.success(i18n.msg('common.msg.delete'), function () {
                                 location.href = '/custom-codes/search';
@@ -419,6 +392,37 @@
                             zAlert.danger(i18n.msg('common.msg.fail'));
                             break;
                     }
+                });
+            });
+        }
+    }
+
+    //REST API
+    function restSubmit(method, url, data) {
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function (response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                            location.href = '/custom-codes/search';
+                        });
+                        break;
+                    case STATUS_ERROR_CUSTOM_CODE_USED:
+                        zAlert.success(i18n.msg('customCode.msg.customCodeUsed'));
+                        break;
+                    case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
+                        zAlert.warning(i18n.msg('customCode.msg.duplicateCustomCodeName'));
+                        break;
+                    case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
+                        zAlert.warning(i18n.msg('customCode.msg.pCodeNotExist'));
+                        break;
+                    default :
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
                 }
             }
         };

@@ -100,7 +100,7 @@
         <div class="z-edit-row flex-row align-items-center">
             <label class="required" th:text="#{'code.label.lang'}"></label>
             <div class="col-2 ml-3 mr-5"><select></select></div>
-            <label class="required" th:text="#{code.label.codeValue}"></label>
+            <label class="required" th:text="#{code.label.name}"></label>
             <input class="z-input flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
             <button sec:authorize="hasAuthority('code.create') || hasAuthority('code.update')" class="z-button-icon extra">
                 <span class="z-icon i-delete"></span>
