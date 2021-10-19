@@ -9,9 +9,10 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.itsm.comment.dto.InstanceCommentDto
+import co.brainz.itsm.comment.service.CommentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
@@ -28,7 +29,8 @@ class InstanceService(
     private val folderService: FolderService,
     private val wfInstanceService: WfInstanceService,
     private val wfTokenService: WfTokenService,
-    private val aliceTagService: AliceTagService
+    private val aliceTagService: AliceTagService,
+    private val commentService: CommentService
 ) {
     private val mapper: ObjectMapper =
         ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -50,9 +52,9 @@ class InstanceService(
         return wfTokenService.getToken(tokenId).instanceId
     }
 
-    fun getInstanceComments(instanceId: String): List<RestTemplateCommentDto> {
-        val commentsDto = wfInstanceService.getInstanceComments(instanceId)
-        val moreInfoAddCommentsDto: MutableList<RestTemplateCommentDto> = mutableListOf()
+    fun getInstanceComments(instanceId: String): List<InstanceCommentDto> {
+        val commentsDto = commentService.getInstanceComments(instanceId)
+        val moreInfoAddCommentsDto: MutableList<InstanceCommentDto> = mutableListOf()
         commentsDto.forEach {
             val user = aliceUserRepository.getOne(it.createUserKey!!)
             val avatarPath = userDetailsService.makeAvatarPath(user)

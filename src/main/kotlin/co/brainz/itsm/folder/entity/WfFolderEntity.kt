@@ -1,4 +1,4 @@
-package co.brainz.workflow.folder.entity
+package co.brainz.itsm.folder.entity
 
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import java.io.Serializable

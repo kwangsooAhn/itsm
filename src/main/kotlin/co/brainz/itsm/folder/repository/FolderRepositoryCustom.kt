@@ -1,7 +1,7 @@
-package co.brainz.workflow.folder.repository
+package co.brainz.itsm.folder.repository
 
 import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceDto
 
-interface WfFolderRepositoryCustom {
+interface FolderRepositoryCustom {
     fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateRelatedInstanceDto>
 }

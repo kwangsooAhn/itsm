@@ -1,4 +1,4 @@
-package co.brainz.workflow.comment.entity
+package co.brainz.itsm.comment.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
