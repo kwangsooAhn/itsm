@@ -95,9 +95,6 @@ common:
     faq:
       category:
         all: "All"
-        etc: "Etc"
-        setting: "Setting"
-        techSupport: "Tech support"
 
 # Auth
 auth:
@@ -604,8 +601,6 @@ download:
     viewDescription: "Inquire detailed information about the data."
   category:
     all: "All"
-    companyPolicy: "Company Policy"
-    etc: "ETC"
 
 # Error
 error:

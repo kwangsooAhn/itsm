@@ -95,9 +95,6 @@ common:
     faq:
       category:
         all: "전체"
-        etc: "기타"
-        setting: "설정"
-        techSupport: "기술 지원"
 
 # Auth
 auth:
@@ -605,8 +602,6 @@ download:
     viewDescription: "자료에 대한 상세 정보를 조회합니다."
   category:
     all: "전체"
-    companyPolicy: "회사 규정"
-    etc: "기타"
 
 # Error
 error:
