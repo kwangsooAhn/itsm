@@ -5,15 +5,17 @@ import java.time.LocalDateTime
 
 data class FolderDto(
     val folderId: String?,
-    val instanceId: String,
-    val relatedType: String?,
+    val instanceId: String?,
     val tokenId: String? = null,
+    val relatedType: String?,
     val documentNo: String?,
     val documentName: String?,
-    var createUserKey: String?,
-    val createDt: LocalDateTime? = null,
+    val documentColor: String?,
+    val instanceCreateUserKey: String?,
+    val instanceCreateUserName: String?,
     val instanceStartDt: LocalDateTime?,
     val instanceEndDt: LocalDateTime?,
-    val instanceCreateUserKey: String?,
-    val instanceCreateUserName: String?
+    val instanceStatus: String?,
+    var topics: MutableList<String>? = null,
+    var avatarPath: String? = null
 ) : Serializable

@@ -25,27 +25,26 @@ GET /rest/instances/{instanceId}/comments
 {
   "responseCode": 200,
   "errorMessage": "OK",
-  "data": {
-    "instanceId": "71b48ef3ccca47a09c5a9c038d8b7a2a",
-    "comments": [
-      {
-        "commentId": "2c9180ab7b369096017b3780d1f80001",
-        "content": "잘 작성하셨습니다.",
-        "createUserName": "정희찬",
-        "createUserKey": "2c9180ab7b2a039b017b2a15b1f40001",
-        "createDt": "2021-08-11T23:16:34.277465",
-        "avatarPath": "/assets/media/images/avatar/img_avatar_01.png"    
-      },
-      {
-        "commentId": "2c9180ab7b369096017b3780d1f80001",
-        "content": "정리가 잘 되었네요.",
-        "createUserName": "정희찬",
-        "createUserKey": "2c9180ab7b2a039b017b2a15b1f40001",
-        "createDt": "2021-08-11T23:16:34.277465",
-        "avatarPath": "/assets/media/images/avatar/img_avatar_01.png"
-      }
-    ]
-  }
+  "data": [
+    {
+      "instanceId": "71b48ef3ccca47a09c5a9c038d8b7a2a",
+      "commentId": "2c9180ab7b369096017b3780d1f80001",
+      "content": "잘 작성하셨습니다.",
+      "createUserName": "정희찬",
+      "createUserKey": "2c9180ab7b2a039b017b2a15b1f40001",
+      "createDt": "2021-08-11T23:16:34.277465",
+      "avatarPath": "/assets/media/images/avatar/img_avatar_01.png"    
+    },
+    {
+      "instanceId": "71b48ef3ccca47a09c5a9c038d8b7a2a",
+      "commentId": "2c9180ab7b369096017b3780d1f80001",
+      "content": "정리가 잘 되었네요.",
+      "createUserName": "정희찬",
+      "createUserKey": "2c9180ab7b2a039b017b2a15b1f40001",
+      "createDt": "2021-08-11T23:16:34.277465",
+      "avatarPath": "/assets/media/images/avatar/img_avatar_01.png"
+    }
+  ]
 }
 ```
 

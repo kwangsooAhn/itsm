@@ -33,39 +33,40 @@ GET /rest/folders/{folderId}
 {
   "responseCode": 200,
   "errorMessage": "OK",
-  "data": {
-    "folderId": "299b4b55c11c4f809531a95eb3d8f670",
-    "instances": [
-      {
-        "instanceId": "71b48ef3ccca47a09c5a9c038d8b7a2a",
-        "tokenId": "2c9180ab7b369096017b3780d1f80001",
-        "documentNo": "Test-20210811-001",
-        "documentName": "김성민_테스트_001",
-        "documentColor": "#4C64D4",
-        "createUserName": "정희찬",
-        "createUserKey": "2c9180ab7b2a039b017b2a15b1f40001",
-        "startDt": "2021-08-11T23:16:34.277465",
-        "endDt": "",
-        "status": "running",
-        "topics": ["tag1", "tag2"],
-        "avatarPath": "/assets/media/images/avatar/img_avatar_01.png"    
-      },
-      {
-        "instanceId": "fe7e4cd9e6b849f09782f2b357769ff3",
-        "tokenId": "2c9180ab7b3bb6ec017b3e59b1220003",
-        "documentNo": "Test-20210811-001",
-        "documentName": "김성민_테스트_001",
-        "documentColor": "#4C64D4",
-        "createUserName": "정희찬",
-        "createUserKey": "2c9180ab7b2a039b017b2a15b1f40001",
-        "startDt": "2021-08-11T23:16:34.277465",
-        "endDt": "2021-08-23T23:16:34.277465",
-        "status": "finish",
-        "topics": ["tag3", "tag4"],
-        "avatarPath": "/assets/media/images/avatar/img_avatar_01.png"
-      }
-    ]
-  }
+  "data": [
+    {
+      "folderId": "299b4b55c11c4f809531a95eb3d8f670",
+      "instanceId": "71b48ef3ccca47a09c5a9c038d8b7a2a",
+      "tokenId": "2c9180ab7b369096017b3780d1f80001",
+      "relatedType": "reference",
+      "documentNo": "Test-20210811-001",
+      "documentName": "김성민_테스트_001",
+      "documentColor": "#4C64D4",
+      "instanceCreateUserKey": "2c9180ab7b2a039b017b2a15b1f40001",
+      "instanceCreateUserName": "정희찬",
+      "instanceStartDt": "2021-08-11T23:16:34.277465",
+      "instanceEndDt": "",
+      "status": "running",
+      "topics": ["topic1", "topic2"],
+      "avatarPath": "/assets/media/images/avatar/img_avatar_01.png"    
+    },
+    {
+      "folderId": "299b4b55c11c4f809531a95eb3d8f670",
+      "instanceId": "fe7e4cd9e6b849f09782f2b357769ff3",
+      "tokenId": "2c9180ab7b3bb6ec017b3e59b1220003",
+      "relatedType": "reference",
+      "documentNo": "Test-20210811-001",
+      "documentName": "김성민_테스트_001",
+      "documentColor": "#4C64D4",
+      "instanceCreateUserKey": "2c9180ab7b2a039b017b2a15b1f40001",
+      "instanceCreateUserName": "정희찬",
+      "instanceStartDt": "2021-08-11T23:16:34.277465",
+      "instanceEndDt": "2021-08-23T23:16:34.277465",
+      "status": "finish",
+      "topics": ["topic3", "topic4"],
+      "avatarPath": "/assets/media/images/avatar/img_avatar_01.png"
+    }
+  ]
 }
 ```
 
@@ -88,10 +89,8 @@ POST /rest/folders/
 
 ```json
 {
-  "data": {
-    "folderId": "299b4b55c11c4f809531a95eb3d8f670",
-    "instanceId": "71b48ef3ccca47a09c5a9c038d8b7a2a"
-  }
+  "folderId": "299b4b55c11c4f809531a95eb3d8f670",
+  "instanceId": "71b48ef3ccca47a09c5a9c038d8b7a2a"
 }
 ```
 

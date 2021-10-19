@@ -37,15 +37,15 @@ class CommentService(
      */
     fun setComment(instanceCommentDto: InstanceCommentDto): Boolean {
         instanceCommentDto.createUserKey = currentSessionUser.getUserKey()
-        val wfCommentEntity = WfCommentEntity(
+        val commentEntity = WfCommentEntity(
             commentId = "",
             content = instanceCommentDto.content,
             createDt = LocalDateTime.now()
         )
-        wfCommentEntity.aliceUserEntity =
+        commentEntity.aliceUserEntity =
             aliceUserRepository.findAliceUserEntityByUserKey(instanceCommentDto.createUserKey.toString())
-        wfCommentEntity.instance = instanceCommentDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
-        commentRepository.save(wfCommentEntity)
+        commentEntity.instance = instanceCommentDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
+        commentRepository.save(commentEntity)
         return true
     }
 

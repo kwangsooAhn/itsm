@@ -11,7 +11,6 @@ import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDataDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
-import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceViewDto
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -47,12 +46,12 @@ class FolderService(
     /**
      * [tokenId]의 관련 문서 조회
      */
-    fun getRelatedInstance(tokenId: String): List<RestTemplateRelatedInstanceViewDto>? {
+    fun getRelatedInstance(tokenId: String): List<FolderDto>? {
         val relatedInstances = folderRepository.findRelatedDocumentListByTokenId(tokenId)
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
-        val relatedInstanceList: MutableList<RestTemplateRelatedInstanceViewDto> = mutableListOf()
+        val relatedInstanceList: MutableList<FolderDto> = mutableListOf()
         for (relatedInstance in relatedInstances) {
-            val relatedInstanceViewDto = RestTemplateRelatedInstanceViewDto(
+            val relatedInstanceViewDto = FolderDto(
                 folderId = relatedInstance.folderId,
                 instanceId = relatedInstance.instanceId,
                 relatedType = relatedInstance.relatedType,
@@ -60,8 +59,6 @@ class FolderService(
                 documentNo = relatedInstance.documentNo,
                 documentName = relatedInstance.documentName,
                 documentColor = relatedInstance.documentColor,
-                createUserKey = relatedInstance.createUserKey,
-                createDt = relatedInstance.createDt,
                 instanceStartDt = relatedInstance.instanceStartDt,
                 instanceEndDt = relatedInstance.instanceEndDt,
                 instanceStatus = relatedInstance.instanceStatus,
@@ -89,7 +86,7 @@ class FolderService(
             relatedInstanceList.add(relatedInstanceViewDto)
         }
 
-        val moreInfoAddRelatedInstance: MutableList<RestTemplateRelatedInstanceViewDto> = mutableListOf()
+        val moreInfoAddRelatedInstance: MutableList<FolderDto> = mutableListOf()
         relatedInstanceList.forEach {
             val user = aliceUserRepository.getOne(it.instanceCreateUserKey!!)
             val avatarPath = userDetailsService.makeAvatarPath(user)
@@ -102,32 +99,20 @@ class FolderService(
     fun getFolderId(tokenId: String): String? {
         val tokenEntity = wfTokenRepository.findById(tokenId)
         val originFolder = tokenEntity.get().instance.folders
-        lateinit var folderDto: FolderDto
+        lateinit var folderId: String
         originFolder!!.forEach {
             if (it.relatedType == FolderConstants.RelatedType.ORIGIN.code) {
-                folderDto = FolderDto(
-                    folderId = it.folderId,
-                    instanceId = it.instance.instanceId,
-                    relatedType = it.relatedType,
-                    createUserKey = it.createUserKey,
-                    createDt = it.createDt,
-                    documentNo = null,
-                    documentName = null,
-                    instanceStartDt = null,
-                    instanceEndDt = null,
-                    instanceCreateUserKey = null,
-                    instanceCreateUserName = null
-                )
+                folderId = it.folderId
             }
         }
 
-        return folderDto.folderId
+        return folderId
     }
 
     fun insertFolderDto(folderDto: FolderDto): Boolean {
         val wfFolderEntity = WfFolderEntity(
             folderId = folderDto.folderId!!,
-            instance = wfInstanceRepository.findByInstanceId(folderDto.instanceId)!!,
+            instance = wfInstanceRepository.findByInstanceId(folderDto.instanceId!!)!!,
             relatedType = folderDto.relatedType ?: FolderConstants.RelatedType.REFERENCE.code,
             createUserKey = currentSessionUser.getUserKey(),
             createDt = LocalDateTime.now()
@@ -154,10 +139,10 @@ class FolderService(
         )
     }
 
-    fun deleteInstanceInFolder(folderId: String, folderDto: FolderDto): Boolean {
+    fun deleteInstanceInFolder(folderId: String, instanceId: String): Boolean {
         val wfFolderEntity = WfFolderEntity(
             folderId = folderId,
-            instance = wfInstanceRepository.findByInstanceId(folderDto.instanceId)!!
+            instance = wfInstanceRepository.findByInstanceId(instanceId)!!
         )
         folderRepository.delete(wfFolderEntity)
         return true
