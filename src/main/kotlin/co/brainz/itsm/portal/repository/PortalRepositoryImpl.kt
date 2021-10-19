@@ -39,7 +39,10 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         Expressions.asString("notice")
                     )
                 )
-                .where(super.likeIgnoreCase(notice.noticeTitle, searchValue))
+                .where(
+                    super.likeIgnoreCase(notice.noticeTitle, searchValue)
+                        ?.or(super.likeIgnoreCase(notice.noticeContents, searchValue))
+                )
                 .fetch()
 
         val faqList =
@@ -55,7 +58,9 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         Expressions.asString("faq")
                     )
                 )
-                .where(super.likeIgnoreCase(faq.faqTitle, searchValue))
+                .where(super.likeIgnoreCase(faq.faqTitle, searchValue)
+                    ?.or(super.likeIgnoreCase(faq.faqContent, searchValue))
+                )
                 .fetch()
 
         val downloadList =
