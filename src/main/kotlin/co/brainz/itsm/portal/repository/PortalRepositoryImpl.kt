@@ -39,7 +39,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         Expressions.asString("notice")
                     )
                 )
-                .where(super.like(notice.noticeTitle, searchValue))
+                .where(super.likeIgnoreCase(notice.noticeTitle, searchValue))
                 .fetch()
 
         val faqList =
@@ -55,7 +55,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         Expressions.asString("faq")
                     )
                 )
-                .where(super.like(faq.faqTitle, searchValue))
+                .where(super.likeIgnoreCase(faq.faqTitle, searchValue))
                 .fetch()
 
         val downloadList =
@@ -71,7 +71,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         Expressions.asString("download")
                     )
                 )
-                .where(super.like(download.downloadTitle, searchValue))
+                .where(super.likeIgnoreCase(download.downloadTitle, searchValue))
                 .fetch()
 
         var list = mutableListOf<PortalDto>()
