@@ -20,7 +20,7 @@
             <select id="downloadCategory">
                 <option th:each="category: ${categoryList}"
                         th:value="${category.code}"
-                        th:text="#{${category.code}}"
+                        th:text="${category.codeName}"
                         th:selected="${category.code} == ${download?.downloadCategory}"></option>
             </select>
         </div>

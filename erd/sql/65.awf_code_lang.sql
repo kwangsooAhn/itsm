@@ -51,3 +51,10 @@ insert into awf_code_lang values ('chart.type.stackedColumn', 'Stacked Column Ch
 insert into awf_code_lang values ('chart.type.stackedBar', 'Stacked Bar Chart', 'en');
 insert into awf_code_lang values ('chart.type.lineAndColumn', 'Line and Column Chart', 'en');
 insert into awf_code_lang values ('chart.type.activityGauge', 'Activity Gauge Chart', 'en');
+/* 자료실 */
+insert into awf_code_lang values ('download.category.companyPolicy', 'Company Policy', 'en');
+insert into awf_code_lang values ('download.category.etc', 'Etc', 'en');
+/* FAQ */
+insert into awf_code_lang values ('faq.category.etc', 'Etc', 'en');
+insert into awf_code_lang values ('faq.category.setting', 'Setting', 'en');
+insert into awf_code_lang values ('faq.category.techSupport', 'Tech support', 'en');
