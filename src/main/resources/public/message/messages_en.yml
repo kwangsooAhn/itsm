@@ -1190,6 +1190,7 @@ scheduler:
     scheduleDescription: "Check the schedule details and history."
     searchDescription: "Register and manage repetitive tasks."
     useSchedule: "Schedule in use."
+    jarNotExist: "JAR file does not exist."
   status:
     true: "Use"
     false: "UnUsed"
