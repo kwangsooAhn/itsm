@@ -201,25 +201,29 @@
                     });
 
                     /*
-                     * 포탈 검색 시, 검색한 내용 파란글씨로 출력
+                     * 포탈 검색 시, 검색한 내용 색상 변경
                      */
                     if (isNotEmpty('searchValue')) {
-                        const searchValue = document.getElementById('searchValue').value;
                         document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-title > a').forEach((data) => {
-                            data.innerHTML = data.innerHTML.replace(new RegExp(searchValue, 'gi'), (matchedText) => {
-                                return '<span class="keyword">' + matchedText + '</span>';
-                            });
+                            regExpSearch(data);
+                        });
+                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach((data) => {
+                            regExpSearch(data);
                         });
 
-                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach((data) => {
-                            data.innerHTML = data.innerHTML.replace(new RegExp(searchValue, 'gi'), (matchedText) => {
-                                return '<span class="keyword">' + matchedText + '</span>';
-                            });
-                        });
                     }
                 }
             }
             aliceJs.sendXhr(opt);
+        }
+
+        function regExpSearch(data) {
+            const searchValue = document.getElementById('searchValue').value;
+
+                data.innerHTML = data.innerHTML.replace(new RegExp(searchValue, 'gi'), (matchedText) => {
+                    return '<span class="keyword">' + matchedText + '</span>';
+                });
+
         }
 
         function getDataTemplate(data) {
