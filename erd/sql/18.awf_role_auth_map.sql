@@ -199,7 +199,7 @@ insert into awf_role_auth_map values ('users.manager', 'notice.create');
 insert into awf_role_auth_map values ('users.manager', 'role.read');
 insert into awf_role_auth_map values ('users.manager', 'role.create');
 insert into awf_role_auth_map values ('users.manager', 'role.update');
-/*단순문의 - 서비스데스크 담당자, 서비스데스크 관리자*/
+/* 단순문의 - 서비스데스크 담당자, 서비스데스크 관리자 */
 insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.read');
 insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.create');
 insert into awf_role_auth_map values ('serviceDesk.assignee', 'token.create');
@@ -208,7 +208,7 @@ insert into awf_role_auth_map values ('serviceDesk.manager', 'document.create');
 insert into awf_role_auth_map values ('serviceDesk.manager', 'document.read');
 insert into awf_role_auth_map values ('serviceDesk.manager', 'token.create');
 insert into awf_role_auth_map values ('serviceDesk.manager', 'token.read');
-/*장애관리 - 장애 담당자, 장애 관리자*/
+/* 장애관리 - 장애 담당자, 장애 관리자 */
 insert into awf_role_auth_map values ('incident.assignee', 'document.read');
 insert into awf_role_auth_map values ('incident.assignee', 'document.create');
 insert into awf_role_auth_map values ('incident.assignee', 'token.create');
@@ -217,3 +217,20 @@ insert into awf_role_auth_map values ('incident.manager', 'document.create');
 insert into awf_role_auth_map values ('incident.manager', 'document.read');
 insert into awf_role_auth_map values ('incident.manager', 'token.create');
 insert into awf_role_auth_map values ('incident.manager', 'token.read');
+/* 변경관리 - 담당자, 관리자 */
+insert into awf_role_auth_map values ('application.change.assignee', 'document.read');
+insert into awf_role_auth_map values ('application.change.assignee', 'document.create');
+insert into awf_role_auth_map values ('application.change.assignee', 'token.create');
+insert into awf_role_auth_map values ('application.change.assignee', 'token.read');
+insert into awf_role_auth_map values ('application.change.manager', 'document.create');
+insert into awf_role_auth_map values ('application.change.manager', 'document.read');
+insert into awf_role_auth_map values ('application.change.manager', 'token.create');
+insert into awf_role_auth_map values ('application.change.manager', 'token.read');
+insert into awf_role_auth_map values ('infra.change.assignee', 'document.read');
+insert into awf_role_auth_map values ('infra.change.assignee', 'document.create');
+insert into awf_role_auth_map values ('infra.change.assignee', 'token.create');
+insert into awf_role_auth_map values ('infra.change.assignee', 'token.read');
+insert into awf_role_auth_map values ('infra.change.manager', 'document.create');
+insert into awf_role_auth_map values ('infra.change.manager', 'document.read');
+insert into awf_role_auth_map values ('infra.change.manager', 'token.create');
+insert into awf_role_auth_map values ('infra.change.manager', 'token.read');
