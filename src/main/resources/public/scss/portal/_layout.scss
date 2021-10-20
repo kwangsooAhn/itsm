@@ -141,7 +141,10 @@
               &-title {
                 padding-bottom: 0.5rem; // 8px
 
-                a { color: $headings-font-color; }
+                a { color: $headings-font-color;
+
+                  .keyword { color: $keyword-font-color; }
+                }
               }
 
               &-content {

@@ -440,11 +440,13 @@ class UIHorizontalRule extends UIElement {
 
     setUIThickness(value) {
         this.domElement.style.borderTopWidth = value;
+        return this;
     }
 
     setUIStyle(color, type) {
         this.domElement.style.borderTopColor = color;
         this.domElement.style.borderTopStyle = type;
+        return this;
     }
 }
 
