@@ -217,9 +217,11 @@
             aliceJs.sendXhr(opt);
         }
 
+        /*
+         * 검색 내용 치환 함수 생성
+         */
         function regExpSearch(data) {
             const searchValue = document.getElementById('searchValue').value;
-
                 data.innerHTML = data.innerHTML.replace(new RegExp(searchValue, 'gi'), (matchedText) => {
                     return '<span class="keyword">' + matchedText + '</span>';
                 });
