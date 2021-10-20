@@ -35,7 +35,6 @@ class ZFormToken {
         this.sortFormObject(this.formDataJson);
         // 화면 출력
         this.makeForm(this.formDataJson);
-        this.makeTab();
     }
     /**
      * Form 의 구성요소 3가지(Group, Row, Component)를 출력 순서로 정렬한다.
@@ -92,44 +91,6 @@ class ZFormToken {
         } else { // component
             this.addObjectByType(FORM.LAYOUT.COMPONENT, data, parent, index);
         }
-    }
-    /**
-     * 탭 생성 : 우측 문서 정보, 의견, 태그 영역
-     * @param tokenId 토큰 ID
-     */
-    makeTab() {
-        // 탭 생성
-        aliceJs.fetchText('/tokens/' + this.data.tokenId + '/edit-tab?mode=' + (this.editable ? 'edit' : 'view'), {
-            method: 'GET'
-        }).then((htmlData) => {
-            this.propertiesElement.innerHTML = htmlData;
-
-            // 탭 이벤트
-            document.querySelectorAll('.z-token-tab').forEach((tab) => {
-                tab.addEventListener('click', this.selectTokenTab, false);
-            });
-
-            const selectedTabId = sessionStorage.getItem('alice_token-tab-selected') ?
-                sessionStorage.getItem('alice_token-tab-selected') : 'tokenInformation';
-            document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
-
-            // 날짜 초기화
-            this.setDateTimeFormat();
-
-            // 스크롤바
-            OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
-
-            // 디자인된 selectbox
-            aliceJs.initDesignedSelectTag();
-
-            // 태그 초기화
-            new zTag(document.getElementById('tokenTags'), {
-                suggestion: this.editable,
-                realtime: this.editable,
-                tagType: 'instance',
-                targetId: this.data.instanceId
-            });
-        });
     }
     /**
      * form, group, row, component 타입에 따른 객체 추가

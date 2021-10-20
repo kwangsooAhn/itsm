@@ -28,7 +28,57 @@
                 </div>
             </div>
         </form>
-        <div class="z-token-properties flex-column" id="documentProperties"></div>
+        <!-- 탭 영역 -->
+        <div class="z-token-properties flex-column" id="documentProperties">
+            <div class="z-token-tabs">
+                <h5 class="z-token-tab align-center pointer active" data-target-contents="tokenInformation" th:text="#{token.label.information}"></h5>
+                <h5 class="z-token-tab align-center pointer" data-target-contents="tokenComment" th:text="#{common.label.comment}"></h5>
+                <h5 class="z-token-tab align-center pointer" data-target-contents="tokenTag" th:text="#{common.label.tag}"></h5>
+            </div>
+            <div class="z-token-panels">
+                <div class="z-token-panel on" id="tokenInformation">
+                    <!-- 문서이력 -->
+                    <div class="z-token-history">
+                        <label class="z-token-history-sub-title" th:text="#{token.label.history}"></label>
+                        <table class="z-token-history-table">
+                            <thead>
+                            <tr class="flex-row align-items-center">
+                                <th style="width: 35%;" class="align-left" th:text="#{token.label.startDt}"></th>
+                                <th style="width: 25%;" class="align-left" th:text="#{token.label.elementName}"></th>
+                                <th style="width: 20%;" class="align-left" th:text="#{token.label.assignee}"></th>
+                                <th style="width: 20%;" class="align-left" th:text="#{token.label.process}"></th>
+                            </tr>
+                            </thead>
+                            <tbody id="history">
+                            <tr class="flex-row align-items-center"></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 관련문서 -->
+                    <div class="z-token-related" id="related">
+                        <label class="z-token-related-sub-title" th:text="#{token.label.relatedInstance}"></label>
+                        <div class="z-token-related-item flex-row justify-content-center align-items-center z-document-add">
+                            <button class="z-button-icon" th:onclick="zFormToken.openRelatedDocModal()">
+                                <span class="z-icon i-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 댓글 -->
+                <div class="z-token-panel z-token-comment" id="tokenComment">
+                    <div class="z-comment-add flex-row align-items-start">
+                        <textarea id="commentValue" class="z-textarea textarea-scroll-wrapper flex-fill mr-1" maxlength="200" rows="2" th:placeholder="#{comment.msg.enterComments}"></textarea>
+                        <button class="z-button secondary" th:onclick="zFormToken.saveComment()" th:text="#{common.btn.register}" th:disabled="${mode == 'view'}"></button>
+                    </div>
+                </div>
+                <!-- 태그 -->
+                <div class="z-token-panel z-token-tag" id="tokenTag">
+                    <div class="tag-input">
+                        <input type="text" class="z-input" id="tokenTags" th:readonly="${mode == 'view'}" />
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- 관련 문서 모달-->
     <template id="relatedTokenModalTemplate">
@@ -47,6 +97,7 @@
         /*<![CDATA[*/
         import { zFormToken } from "../../assets/js/document/zFormToken.js";
         import { zFormButton } from "../../assets/js/document/zFormButton.js";
+        import { zFormTokenTab } from "../../assets/js/document/zFormTokenTab.js";
         import { SESSION } from '../../assets/js/lib/zConstants.js';
         const userSession = {
             userKey : '[[${#authentication.details.userKey}]]',
@@ -70,6 +121,7 @@
 
             zFormToken.init(formDataJson, true);
             zFormButton.init(formDataJson, zFormToken);
+            zFormTokenTab.init(formDataJson, true);
 
             window.zFormToken = zFormToken;
         });
