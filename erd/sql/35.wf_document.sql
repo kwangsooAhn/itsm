@@ -46,6 +46,13 @@ COMMENT ON COLUMN wf_document.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_document.update_dt IS '수정일시';
 
 /* 서비스데스크 - 단순문의 */
-INSERT INTO wf_document VALUES ('csr0000000000000000000000000001d','서비스 데스크 - 단순문의','','csr0000000000000000000000000001p','csr0000000000000000000000000001f','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form','document.group.inquiry','img_document_11.png',false,'0509e09412534a6e98f04ca79abb6424', now(),NULL,NULL);
+INSERT INTO wf_document VALUES ('4028b21f7c90d996017c91ae7987004f','서비스 데스크 - 단순문의','','4028b21f7c9698f4017c96a70ded0000','4028b21f7c9698f4017c973010230003','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form','document.group.inquiry','img_document_11.png',false,'0509e09412534a6e98f04ca79abb6424', now(),NULL,NULL);
 /* 서비스데스크 - 단순문의 - 만족도 */
-INSERT INTO wf_document VALUES ('csr0000000000000000000000000002d','서비스 데스크 - 단순문의 - 만족도','','csr0000000000000000000000000002p','csr0000000000000000000000000002f','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424', now(),NULL,NULL);
+INSERT INTO wf_document VALUES ('4028b21f7c90d996017c91aeff1b0050','서비스 데스크 - 단순문의 - 만족도','','4028b21f7c9698f4017c96c5630c0002','4028b21f7c9698f4017c9731ebae004e','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424', now(),NULL,NULL);
+/* 서비스데스크 - 장애신고 */
+INSERT INTO wf_document VALUES ('4028b21f7c9adb6a017c9b18489900c9','서비스 데스크 - 장애신고','','4028b21f7c81a928017c81aa9dc60000','4028b21f7c90d996017c91af9dcf0051','document.status.use','40125c91714df6c325714e053c890125','#FFAC47','application-form','document.group.incident','img_document_04.png',false,'0509e09412534a6e98f04ca79abb6424', now(),NULL,NULL);
+/* 서비스데스크 - 장애신고 - 만족도 */
+INSERT INTO wf_document VALUES ('4028b21f7c9b6b1e017c9bedbe8a0012','서비스 데스크 - 장애신고 - 만족도','','4028b21f7c9b6b1e017c9bdf04cb0011','4028b21f7c90d996017c914bce270002','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424', now(),NULL,NULL);
+/* 서비스데스크 - 서비스요청 */
+
+/* 서비스데스크 - 서비스요청 - 만족도 */

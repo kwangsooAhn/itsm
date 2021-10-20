@@ -97,7 +97,27 @@ insert into awf_code values ('form.template.serviceDesk.inquiry.category.securit
 insert into awf_code values ('form.template.serviceDesk.inquiry.category.dbms', 'form.template.serviceDesk.inquiry.category', 'dbms', '데이터베이스', '', true, true, 5, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('form.template.serviceDesk.inquiry.category.contract', 'form.template.serviceDesk.inquiry.category', 'contract', '계약', '', true, true, 5, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('form.template.serviceDesk.inquiry.category.etc', 'form.template.serviceDesk.inquiry.category', 'etc', '기타', '', true, true, 5, 7, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-
+/* 장애신고 */
+insert into awf_code values ('form.template.serviceDesk.incident', 'form.template', 'form.template.serviceDesk.incident', '서비스데스크 - 장애신고', '', true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 장애신고 - 장애 유형 */
+insert into awf_code values ('form.template.serviceDesk.incident.category', 'form.template.serviceDesk.incident', 'form.template.serviceDesk.incident.category', '장애유형', '장애신고서 장애유형', true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.incident.category.none', 'form.template.serviceDesk.incident.category', 'none', '선택 안함', '', true, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.incident.category.system', 'form.template.serviceDesk.incident.category', 'system', '시스템 장애', '', true, true, 5, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.incident.category.infrastructure', 'form.template.serviceDesk.incident.category', 'infrastructure', '기반구조 장애', '', true, true, 5, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.incident.category.technology', 'form.template.serviceDesk.incident.category', 'technology', '기술적 장애', '', true, true, 5, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.incident.category.operation', 'form.template.serviceDesk.incident.category', 'operation', '운영 장애', '', true, true, 5, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.incident.category.human', 'form.template.serviceDesk.incident.category', 'human', '인적 장애', '', true, true, 5, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 서비스요청 */
+insert into awf_code values ('form.template.serviceDesk.request', 'form.template', 'form.template.serviceDesk.request', '서비스데스크 - 서비스요청', '', true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 서비스요청 - 요청 구분 */
+insert into awf_code values ('form.template.serviceDesk.request.category', 'form.template.serviceDesk.request', 'form.template.serviceDesk.request.category', '요청구분', '서비스요청서 요청구분', true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.request.category.service', 'form.template.serviceDesk.request.category', 'service', '서비스 요청', '', true, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.request.category.security', 'form.template.serviceDesk.request.category', 'security', '보안 요청', '', true, true, 5, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.request.category.development', 'form.template.serviceDesk.request.category', 'development', '개발 요청', '', true, true, 5, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.request.category.material', 'form.template.serviceDesk.request.category', 'material', '자료 요청', '', true, true, 5, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.request.category.work', 'form.template.serviceDesk.request.category', 'work', '작업 요청', '', true, true, 5, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('form.template.serviceDesk.request.category.etc', 'form.template.serviceDesk.request.category', 'etc', '기타', '', true, true, 5, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 문서번호 */
 insert into awf_code values ('numbering', 'root', null, '문서번호 규칙 패턴', null, false, true, 1, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('numbering.pattern', 'numbering', null, '문서규칙 패턴', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('numbering.pattern.format', 'numbering.pattern', null, '문서규칙 포맷', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
