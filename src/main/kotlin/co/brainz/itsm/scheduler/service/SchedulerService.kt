@@ -305,7 +305,7 @@ class SchedulerService(
     }
 
     private fun validateClassFile(executeClass: String): Boolean {
-        val classSrc = executeClass.replace("co.brainz.framework.scheduling.task.", "")
+        val classSrc = executeClass.replace(SchedulerConstants.Directory.ADDRESS.code, "")
         val className = classSrc.plus("." + SchedulerConstants.Extension.CLASS.extension)
         val classDir =
             AliceConstants.SCHEDULE_PLUGINS_HOME + File.separator + classSrc + File.separator + className

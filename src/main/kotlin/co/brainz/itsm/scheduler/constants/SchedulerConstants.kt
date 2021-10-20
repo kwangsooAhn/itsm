@@ -29,4 +29,11 @@ object SchedulerConstants {
         JAR("jar"),
         CLASS("kt")
     }
+
+    /**
+     * 스케줄러 상위 디렉토리
+     */
+    enum class Directory(val code: String) {
+        ADDRESS("co.brainz.framework.scheduling.task.")
+    }
 }
