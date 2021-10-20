@@ -49,7 +49,9 @@ export const dividerMixin = {
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIHorizontalRule = new UIHorizontalRule().setUIClass('z-divider').setUIId('divider' + this.id);
+        element.UIHorizontalRule = new UIHorizontalRule().setUIClass('z-divider').setUIId('divider' + this.id)
+            .setUIThickness(this._element.thickness + UNIT.PX)
+            .setUIStyle(this._element.color, this._element.type);
         element.addUI(element.UIHorizontalRule);
         return element;
     },
