@@ -96,9 +96,20 @@
 
     // 프로세스 삭제
     function deleteProcess(processId) {
-        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/process/' + processId, function() {
-            zAlert.success(i18n.msg('common.msg.delete'), function() {
-                window.close();
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+            aliceJs.fetchText('/rest/process/' + processId, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then((rtn) => {
+                if (rtn === 'true') {
+                    zAlert.success(i18n.msg('common.msg.delete'), () => {
+                        location.reload();
+                    });
+                } else {
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                }
             });
         });
     }

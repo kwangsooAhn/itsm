@@ -23,6 +23,11 @@ ul.tree {
     display: block;
     line-height: $tree-line-height;
     padding-right: 0.125rem; // 2px
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    word-wrap: normal;
   }
   // Level 2
   // -------------------------

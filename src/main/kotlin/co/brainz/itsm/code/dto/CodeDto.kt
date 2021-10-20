@@ -18,6 +18,6 @@ data class CodeDto(
     var createDt: LocalDateTime? = null,
     var level: Int? = null,
     var seqNum: Int? = null,
-    val codeLangValue: String? = null,
+    val codeLangName: String? = null,
     val lang: String? = null
 ) : Serializable

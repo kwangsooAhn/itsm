@@ -18,6 +18,7 @@ zAlert.makeAlertModal = function (alertType, message, callbackFunc) {
                     callbackFunc();
                 }
                 modal.hide();
+                modal.destroy();
             }
         }],
         close: {
@@ -75,11 +76,8 @@ zAlert.danger = function (message, callbackFunc) {
  *
  * @param message message
  * @param okCallbackFunc ok 시 callback function
- * @param cancelCallbackFunc cancel 시 callback function
- * @param params okCallbackFunc 에 전달하는 param
  */
-zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
-    let params = Array.prototype.slice.call(arguments, 3);
+zAlert.confirm = function (message, okCallbackFunc) {
     const myModal = new modal({
         message: message,
         body: `<div class="z-alert-dialog"><div class="z-alert-body z-alert-icon-confirm">
@@ -91,7 +89,7 @@ zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
                 bindKey: false, /* no key! */
                 callback: function (modal) {
                     if (typeof okCallbackFunc === 'function') {
-                        okCallbackFunc.apply(null, params);
+                        okCallbackFunc();
                     }
                     modal.hide();
                     return true;
@@ -102,9 +100,6 @@ zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
                 classes: 'z-alert-button z-button secondary',
                 bindKey: false, /* no key! */
                 callback: function (modal) {
-                    if (typeof cancelCallbackFunc === 'function') {
-                        cancelCallbackFunc();
-                    }
                     modal.hide();
                     return false;
                 }

@@ -403,7 +403,7 @@ class ZFormToken {
      * @param data 삭제시 필요한 데이터
      */
     removeRelatedDoc(data) {
-        zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
             aliceJs.fetchText('/rest/folders/' + data.folderId, {
                 method: 'DELETE',
                 headers: {
@@ -484,7 +484,7 @@ class ZFormToken {
             });
         });
     }
-    
+
     /**
      * 문서 인쇄
      */

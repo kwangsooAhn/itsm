@@ -20,8 +20,8 @@ data class CodeLangEntity(
     @Id @Column(name = "code", length = 100)
     var code: String,
 
-    @Column(name = "code_value", length = 256)
-    var codeValue: String? = null,
+    @Column(name = "code_name", length = 128)
+    var codeName: String? = null,
 
     @Id @Column(name = "lang", length = 100)
     var lang: String

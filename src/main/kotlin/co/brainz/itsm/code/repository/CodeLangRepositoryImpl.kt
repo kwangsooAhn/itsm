@@ -20,7 +20,7 @@ class CodeLangRepositoryImpl : QuerydslRepositorySupport(CodeLangEntity::class.j
                 Projections.constructor(
                     CodeLangDto::class.java,
                     codeLang.code,
-                    codeLang.codeValue,
+                    codeLang.codeName,
                     codeLang.lang
                 )
             )

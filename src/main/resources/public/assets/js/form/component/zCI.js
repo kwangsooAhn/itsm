@@ -192,34 +192,52 @@ export const ciMixin = {
         if (this.elementIsEditable) {
             // CI 컴포넌트 편집 가능여부가 true 일때 = 구분, CI 아이콘, CI Type, CI 이름, CI 설명, 편집 아이콘,  row 삭제 아이콘  7개
             return [
-                { id: 'actionType', type: 'readonly',    columnWidth: '1', name: 'form.label.actionType', class: 'align-left first-column' },
-                { id: 'ciId',       type: 'hidden',      columnWidth: '0', name: '', class: '' },
-                { id: 'ciNo',       type: 'hidden',      columnWidth: '0', name: '', class: '' },
-                { id: 'ciIcon',     type: 'hidden',      columnWidth: '0', name: '', class: '' },
-                { id: 'ciIconData', type: 'image',       columnWidth: '1', name: '', class:'align-left' },
-                { id: 'typeId',     type: 'hidden',      columnWidth: '0', name: '', class: '' },
-                { id: 'typeName',   type: 'editable',    columnWidth: '3', name: 'cmdb.ci.label.type', class: 'align-left' },
-                { id: 'ciName',     type: 'editable',    columnWidth: '3', name: 'cmdb.ci.label.name', class: 'align-left' },
-                { id: 'ciDesc',     type: 'editable',    columnWidth: '4', name: 'cmdb.ci.label.description', class: 'align-left' },
-                { id: 'classId',    type: 'hidden',      columnWidth: '0', name: '', class: '' },
-                { id: 'editIcon',   type: 'icon-edit',   columnWidth: '1', name: '', class: 'align-center' },
-                { id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column' }
+                {
+                    id: 'actionType',
+                    type: 'readonly',
+                    columnWidth: '1',
+                    name: 'form.label.actionType',
+                    class: 'align-left first-column'
+                },
+                {id: 'ciId', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'ciNo', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'ciIcon', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'ciIconData', type: 'image', columnWidth: '1', name: '', class: 'align-left'},
+                {id: 'typeId', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'typeName', type: 'editable', columnWidth: '3', name: 'cmdb.ci.label.type', class: 'align-left'},
+                {id: 'ciName', type: 'editable', columnWidth: '3', name: 'cmdb.ci.label.name', class: 'align-left'},
+                {
+                    id: 'ciDesc',
+                    type: 'editable',
+                    columnWidth: '4',
+                    name: 'cmdb.ci.label.description',
+                    class: 'align-left'
+                },
+                {id: 'classId', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'editIcon', type: 'icon-edit', columnWidth: '1', name: '', class: 'align-center'},
+                {id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column'}
             ];
         } else {
             // CI 컴포넌트 편집 가능여부가 false 일때 =  CI 아이콘, CI Type , CI 이름, 세부 정보 조회 아이콘, row 삭제 아이콘  5개
             return [
-                { id: 'actionType', type: 'hidden',      columnWidth: '0', name: 'form.label.actionType', class: '' },
-                { id: 'ciId',       type: 'hidden',      columnWidth: '0', name: '', class: '' },
-                { id: 'ciNo',       type: 'hidden',      columnWidth: '0', name: '', class: '' },
-                { id: 'ciIcon',     type: 'hidden',      columnWidth: '0', name: '', class: '' },
-                { id: 'ciIconData', type: 'image',       columnWidth: '1', name: '', class: 'align-left  first-column' },
-                { id: 'typeId',     type: 'hidden',      columnWidth: '0', name: '', class: '' },
-                { id: 'typeName',   type: 'editable',    columnWidth: '3', name: 'cmdb.ci.label.type', class: 'align-left' },
-                { id: 'ciName',     type: 'editable',    columnWidth: '4', name: 'cmdb.ci.label.name', class: 'align-left' },
-                { id: 'ciDesc',     type: 'editable',    columnWidth: '4', name: 'cmdb.ci.label.description', class: 'align-left' },
-                { id: 'classId',    type: 'hidden',      columnWidth: '0', name: '', class: '' },
-                { id: 'searchIcon', type: 'icon-search', columnWidth: '1', name: '', class: 'align-center' },
-                { id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column' }
+                {id: 'actionType', type: 'hidden', columnWidth: '0', name: 'form.label.actionType', class: ''},
+                {id: 'ciId', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'ciNo', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'ciIcon', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'ciIconData', type: 'image', columnWidth: '1', name: '', class: 'align-left  first-column'},
+                {id: 'typeId', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'typeName', type: 'editable', columnWidth: '3', name: 'cmdb.ci.label.type', class: 'align-left'},
+                {id: 'ciName', type: 'editable', columnWidth: '4', name: 'cmdb.ci.label.name', class: 'align-left'},
+                {
+                    id: 'ciDesc',
+                    type: 'editable',
+                    columnWidth: '4',
+                    name: 'cmdb.ci.label.description',
+                    class: 'align-left'
+                },
+                {id: 'classId', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'searchIcon', type: 'icon-search', columnWidth: '1', name: '', class: 'align-center'},
+                {id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column'}
             ];
         }
     },
@@ -323,7 +341,7 @@ export const ciMixin = {
         if (!zValidation.isEmpty(ciData)) {
             const alertMsg = (ciData.actionType === CI.ACTION_TYPE.REGISTER || ciData.actionType === CI.ACTION_TYPE.MODIFY) ?
                 'cmdb.ci.msg.deleteEditableCI' : 'cmdb.ci.msg.deleteReadableCI';
-            zAlert.confirm(i18n.msg(alertMsg),  () => {
+            zAlert.confirm(i18n.msg(alertMsg), () => {
                 if (ciData.actionType === CI.ACTION_TYPE.REGISTER || ciData.actionType === CI.ACTION_TYPE.MODIFY) {
                     // action 타입이 Register, Modify 일 경우, wf_component_ci_data 테이블에 데이터 삭제
                     aliceJs.fetchText('/rest/cmdb/cis/data?ciId=' + ciData.ciId + '&componentId=' + this.id, {
@@ -370,11 +388,11 @@ export const ciMixin = {
      */
     getRegisterCIData(actionType) {
         const ciKeys = ['ciId', 'ciNo', 'ciIcon', 'ciIconData', 'typeId', 'typeName', 'ciName', 'ciDesc', 'classId'];
-        const ciData = { ciStatus: CI.STATUS.USE, actionType: actionType };
+        const ciData = {ciStatus: CI.STATUS.USE, actionType: actionType};
         ciKeys.forEach((key) => {
             const domElement = document.getElementById(key);
             if (zValidation.isDefined(domElement)) {
-                ciData[key] =  domElement.value;
+                ciData[key] = domElement.value;
             }
         });
         return ciData;
@@ -385,7 +403,7 @@ export const ciMixin = {
         const saveData = {
             ciId: data.ciId,
             componentId: this.id,
-            values: { ciAttributes: [], ciTags: [], relatedCIData: [] },
+            values: {ciAttributes: [], ciTags: [], relatedCIData: []},
             instanceId: instanceIdElem.value
         };
         document.querySelectorAll('.attribute').forEach((el) => {
@@ -507,13 +525,17 @@ export const ciMixin = {
                     bindKey: false,
                     callback: (modal) => {
                         // TODO: 유효성 검증 - CI 리팩토링 후 zValidation.js 모듈 사용하도록 처리
-                        if (!isValidRequiredAll(modal) || !hasErrorClass()) { return false; }
+                        if (!isValidRequiredAll(modal) || !hasErrorClass()) {
+                            return false;
+                        }
                         // CI 저장 데이터 조회
                         const ciData = this.getRegisterCIData(CI.ACTION_TYPE.REGISTER);
                         // 테이블 row 추가
                         this.addCITableRow(this.UIElement.UIComponent.UIElement.UITable, ciData);
                         // value 추가
-                        if (zValidation.isEmpty(this._value)) { this.value = []; }
+                        if (zValidation.isEmpty(this._value)) {
+                            this.value = [];
+                        }
 
                         const newValue = JSON.parse(JSON.stringify(this.value));
                         newValue.push(ciData);
@@ -537,7 +559,7 @@ export const ciMixin = {
                 close: {
                     closable: false,
                 },
-                onCreate:(modal) => {
+                onCreate: (modal) => {
                     let param = {};
                     const newCIId = ZWorkflowUtil.generateUUID();
                     document.getElementById('ciId').value = newCIId;
@@ -602,7 +624,9 @@ export const ciMixin = {
                     bindKey: false,
                     callback: (modal) => {
                         // TODO: 유효성 검증 - CI 리팩토링 후 zValidation.js 모듈 사용하도록 처리
-                        if (!isValidRequiredAll(modal) || !hasErrorClass()) { return false; }
+                        if (!isValidRequiredAll(modal) || !hasErrorClass()) {
+                            return false;
+                        }
                         // CI 저장 데이터 조회
                         const ciData = this.getRegisterCIData(data.actionType);
                         // 테이블 row 변경
@@ -621,13 +645,13 @@ export const ciMixin = {
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback:  (modal) => {
+                    callback: (modal) => {
                         zAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
                             modal.hide();
                         });
                     }
                 }],
-                close: { closable: false, },
+                close: {closable: false,},
                 onCreate: async (modal) => {
                     let param = {};
                     // 수정된 데이터가 존재할 경우 수정 데이터로 변경
@@ -754,7 +778,9 @@ export const ciMixin = {
                                 }
                             });
                             this.addCITableRow(this.UIElement.UIComponent.UIElement.UITable, ci);
-                            if (zValidation.isEmpty(this._value)) { this.value = []; }
+                            if (zValidation.isEmpty(this._value)) {
+                                this.value = [];
+                            }
                             this.value.push(ci);
                         }
                     });
@@ -804,7 +830,7 @@ export const ciMixin = {
             aliceJs.showTotalCount(document.getElementById('ciListCount').value, 'ciListTotalCount');
             // 태그 초기화
             let ciListTags = document.querySelectorAll('.cmdb-ci-list-modal input[name=ciListTags]');
-            let ciIdList= (document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]'));
+            let ciIdList = (document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]'));
             for (let i = 0; i < ciListTags.length; i++) {
                 new zTag(ciListTags[i], {
                     suggestion: false,
@@ -845,7 +871,7 @@ export const ciMixin = {
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 }],
-                close: { closable: false },
+                close: {closable: false},
                 onCreate: (modal) => {
                     // 세부 데이터가 존재할 경우
                     document.getElementById('ciAttributes').click();
@@ -885,7 +911,7 @@ export const ciMixin = {
             text: 'typeName',
             selectedValue: typeId,
             rootAvailable: false,
-            callbackFunc: function(response) {
+            callbackFunc: function (response) {
                 if (response.id !== 'root') {
                     // 아이콘과 클래스가 없을 경우, 타입 변경시 기본 값을 추가해준다.
                     aliceJs.fetchJson('/rest/cmdb/types/' + response.id, {

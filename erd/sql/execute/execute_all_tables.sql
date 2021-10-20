@@ -414,7 +414,6 @@ insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용�
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0009', '사용자 부서 검색', 'code', null, null, null, 'department.group', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288ab777dd21b50177dd52781e0000', '데이터베이스', 'code', null, null, null, 'cmdb.db.kind', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0010', '서비스데스크 - 단순문의 : 서비스 항목', 'code', null, null, null, 'form.template.serviceDesk.inquiry.category', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0011', '서비스데스크 - 장애신고 : 장애유형', 'code', null, null, null, 'form.template.serviceDesk.incident.category', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 사용자정의코드테이블
@@ -970,9 +969,6 @@ insert into awf_role values ('auth.all', '권한 관리자', '', '0509e09412534a
 /* 단순 문의 */
 insert into awf_role values ('serviceDesk.assignee', '서비스데스크 담당자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('serviceDesk.manager', '서비스데스크 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-/* 장애 관리 */
-insert into awf_role values ('incident.assignee', '장애 담당자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_role values ('incident.manager', '장애 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 역할권한매핑
@@ -1176,10 +1172,18 @@ insert into awf_role_auth_map values ('users.manager', 'role.read');
 insert into awf_role_auth_map values ('users.manager', 'role.create');
 insert into awf_role_auth_map values ('users.manager', 'role.update');
 /*단순문의 - 서비스데스크 담당자, 서비스데스크 관리자*/
-insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.read');
-insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.create');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'board.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'code.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'notice.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'faq.read');
 insert into awf_role_auth_map values ('serviceDesk.assignee', 'token.create');
 insert into awf_role_auth_map values ('serviceDesk.assignee', 'token.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.delete');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.update');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.create');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'document.delete');
+insert into awf_role_auth_map values ('serviceDesk.manager', 'document.update');
 insert into awf_role_auth_map values ('serviceDesk.manager', 'document.create');
 insert into awf_role_auth_map values ('serviceDesk.manager', 'document.read');
 insert into awf_role_auth_map values ('serviceDesk.manager', 'token.create');
@@ -3224,6 +3228,7 @@ COMMENT ON COLUMN wf_element_data.attribute_id IS '속성아이디';
 COMMENT ON COLUMN wf_element_data.attribute_value IS '속성값';
 COMMENT ON COLUMN wf_element_data.attribute_order IS '속성순서';
 COMMENT ON COLUMN wf_element_data.attribute_required IS '속성필수값';
+
 /* 서비스데스크 - 단순문의 */
 INSERT INTO wf_element_data VALUES ('337ab138ae9e4250b41be736e0a09c5b','assignee-type','assignee.type.assignee',0,true);
 INSERT INTO wf_element_data VALUES ('337ab138ae9e4250b41be736e0a09c5b','assignee','z-approver',1,true);
@@ -4436,7 +4441,7 @@ DROP TABLE IF EXISTS awf_code_lang cascade;
 CREATE TABLE awf_code_lang
 (
     code varchar(100) NOT NULL,
-    code_value varchar(256),
+    code_name varchar(128),
     lang varchar(100) NOT NULL,
     CONSTRAINT awf_code_lang_pk PRIMARY KEY (code, lang),
     CONSTRAINT awf_code_lang_fk FOREIGN KEY (code) REFERENCES awf_code (code)
@@ -4444,7 +4449,7 @@ CREATE TABLE awf_code_lang
 
 COMMENT ON TABLE awf_code_lang IS '다국어 코드 정보';
 COMMENT ON COLUMN awf_code_lang.code IS '코드';
-COMMENT ON COLUMN awf_code_lang.code_value IS '코드 값';
+COMMENT ON COLUMN awf_code_lang.code_name IS '코드 이름';
 COMMENT ON COLUMN awf_code_lang.lang IS '언어';
 
 insert into awf_code_lang values ('document.status.temporary', 'temporary', 'en');
@@ -4478,7 +4483,26 @@ insert into awf_code_lang values ('form.template.serviceDesk.incident.category.i
 insert into awf_code_lang values ('form.template.serviceDesk.incident.category.technology', 'Technology error', 'en');
 insert into awf_code_lang values ('form.template.serviceDesk.incident.category.operation', 'Operation error', 'en');
 insert into awf_code_lang values ('form.template.serviceDesk.incident.category.human', 'Human error', 'en');
-
+/* 차트 */
+insert into awf_code_lang values ('chart.operation.percent', 'percent', 'en');
+insert into awf_code_lang values ('chart.operation.count', 'count', 'en');
+insert into awf_code_lang values ('chart.unit.year', 'year', 'en');
+insert into awf_code_lang values ('chart.unit.month', 'month', 'en');
+insert into awf_code_lang values ('chart.unit.hour', 'hour', 'en');
+insert into awf_code_lang values ('chart.unit.day', 'day', 'en');
+insert into awf_code_lang values ('chart.type.basicLine', 'Basic Line Chart', 'en');
+insert into awf_code_lang values ('chart.type.pie', 'Pie Chart', 'en');
+insert into awf_code_lang values ('chart.type.stackedColumn', 'Stacked Column Chart', 'en');
+insert into awf_code_lang values ('chart.type.stackedBar', 'Stacked Bar Chart', 'en');
+insert into awf_code_lang values ('chart.type.lineAndColumn', 'Line and Column Chart', 'en');
+insert into awf_code_lang values ('chart.type.activityGauge', 'Activity Gauge Chart', 'en');
+/* 자료실 */
+insert into awf_code_lang values ('download.category.companyPolicy', 'Company Policy', 'en');
+insert into awf_code_lang values ('download.category.etc', 'Etc', 'en');
+/* FAQ */
+insert into awf_code_lang values ('faq.category.etc', 'Etc', 'en');
+insert into awf_code_lang values ('faq.category.setting', 'Setting', 'en');
+insert into awf_code_lang values ('faq.category.techSupport', 'Tech support', 'en');
 /**
  * 사용자 지정 테이블
  */

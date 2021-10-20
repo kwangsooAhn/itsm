@@ -93,11 +93,12 @@ table {
     &.z-table-head {
       height: 2rem; // 32px
       font-weight: $table-head-font-weight;
-      text-indent: $element-indent;
       @include border($element-border-width, solid, $element-border-color, top);
       @include border(calc(#{$element-border-width} * 2), solid, $element-border-color, bottom);
       background-color: $table-head-bg-color;
     }
+
+    th, td {padding: 0 0.5rem}
   }
 }
 // span
@@ -214,11 +215,11 @@ input, textarea, select {
   }
 
   &.error {
-    @include border($validation-error-border-width, solid, $validation-error-border-color, all);
+    @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
   }
 
   &.success {
-    @include border($validation-success-border-width, solid, $validation-success-border-color, all);
+    @include border($validation-success-border-width, solid, $validation-success-border-color !important, all);
   }
 
   &-clear {
@@ -350,11 +351,11 @@ input, textarea, select {
   }
 
   &.error {
-    @include border($validation-error-border-width, solid, $validation-error-border-color, all);
+    @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
   }
 
   &.success {
-    @include border($validation-success-border-width, solid, $validation-success-border-color, all);
+    @include border($validation-success-border-width, solid, $validation-success-border-color !important, all);
   }
 }
 
