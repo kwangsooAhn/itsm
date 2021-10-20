@@ -205,38 +205,20 @@
                      */
                     if (isNotEmpty('searchValue')) {
                         const searchValue = document.getElementById('searchValue').value;
-                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-title > a').forEach(function(data) {
+                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-title > a').forEach((data) => {
                             data.innerHTML = data.innerHTML.replace(new RegExp(searchValue, 'gi'), (matchedText) => {
                                 return '<span class="keyword">' + matchedText + '</span>';
-                            })
-
-                            /*let searchTarget = data.innerHTML;
-                            const regex = new RegExp(searchValue, 'gi');
-                            console.log(regex.lastIndex);
-                            const matchTarget = searchTarget.match(regex);
-                            const resultTarget = regex.exec(searchTarget);
-                            if ( matchTarget !== null) {
-                                for (let i in matchTarget) {
-                                    for (let j in matchTarget) {
-                                        // const startIndex = regex.lastIndex;
-                                        // const originalTarget = searchTarget.substring(startIndex, searchValue[searchValue.length-1]);
-
-                                        searchTarget = data.textContent.replace(matchTarget[j], "<span class='keyword'>" + matchTarget[i] + "</span>");
-                                        data.innerHTML = searchTarget;
-                                    }
-                                }
-                            }*/
-
+                            });
                         });
-                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach(function(data) {
-                            const searchTarget = data.innerHTML;
-                            const regex = new RegExp(searchValue, 'gi');
-                            const resultTarget = regex.exec(searchTarget);
-                            data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + resultTarget + "</span>");
+
+                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach((data) => {
+                            data.innerHTML = data.innerHTML.replace(new RegExp(searchValue, 'gi'), (matchedText) => {
+                                return '<span class="keyword">' + matchedText + '</span>';
+                            });
                         });
                     }
                 }
-            };
+            }
             aliceJs.sendXhr(opt);
         }
 
