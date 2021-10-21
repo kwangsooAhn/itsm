@@ -314,6 +314,7 @@ cmdb:
       searchDescription: "CI Attribute manage posts."
       selectAttributeType: "Please select the type."
       viewDescription: "Inquires detailed information about the attribute."
+      editDescription: "Register, modify, or delete information on attribute."
     btn:
       import: "Import"
       export: "Export"
