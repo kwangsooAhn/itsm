@@ -355,11 +355,29 @@
         const executeCycleType = document.getElementById('executeCycleType').value;
         if (executeCycleType === 'cron') {
             if (isEmpty('cronExpression', 'common.msg.requiredEnter')) { return false; }
+            if (cronSplit('cronExpression', 'scheduler.msg.cron')) { return false; }
         } else { // fixedDelay, fixedRate
             if (isEmpty('executeCyclePeriod', 'common.msg.requiredEnter')) { return false; }
             if (isExistMinValue('executeCyclePeriod', 60000, 'common.msg.minValue')) { return false; }
         }
         return true;
+    }
+    /** 크론 표현식 검사 **/
+    function cronSplit(cronExpression,msg, callbackFunc) {
+        const elem = document.getElementById(cronExpression);
+        const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+            elem.focus();
+        };
+        let cron = elem.value.split(' ');
+        if( cron.length > 6 ){
+             zAlert.warning(i18n.msg(msg),callback);
+             return true;
+        }else if ( cron.length < 6) {
+
+        }
+
+        return false;
+
     }
 
     /** Rest API 호출 **/
