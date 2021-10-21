@@ -56,7 +56,7 @@
 
     // 폼 리스트 조회
     function getList(pageNum = 1) {
-        restSearchSubmit('GET', '/forms?searchValue=' + document.getElementById('searchValue').value + '&pageNum=' + pageNum);
+        restSearchSubmit('GET', '/forms?searchValue=' + encodeURIComponent(document.getElementById('searchValue').value) + '&pageNum=' + pageNum);
     }
 
     // 유효성 검증
