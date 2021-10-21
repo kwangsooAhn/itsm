@@ -109,6 +109,9 @@
                     const equalSpan = document.createElement('span');
                     equalSpan.classList.add('equal', 'align-center', 'col-1');
                     equalSpan.value = getColumnName(condition[data].conditionOperator);
+                    equalSpan.type = 'text';
+
+
                     equalSpan.value !== "equal" ? equalSpan.textContent = '!=' : equalSpan.textContent = '=';
 
                     const valueInput = document.createElement('input');
