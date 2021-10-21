@@ -144,7 +144,7 @@
                 `${property.required === option.value ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
-        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '999';
+        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '100';
         const minLengthValue = property.minLength !== undefined ? property.minLength : '0';
         this.template =
             `<div class="flex-row mt-2">` +
@@ -760,6 +760,7 @@
      */
     function setDetails(attributeType) {
         let details = {};
+        const inputMaxLength = 100;
         switch (attributeType) {
             case 'inputbox':
                 details.validate = parent.querySelector('#' + attributeTypeList[0].type + '-validation').value;
@@ -771,7 +772,7 @@
                     zAlert.warning(i18n.msg('cmdb.attribute.msg.comepareWithMaxLength'));
                     return false;
                 }
-                if(parseInt(details.maxLength) > 999) {
+                if(parseInt(details.maxLength) > inputMaxLength) {
                     zAlert.warning(i18n.msg('cmdb.attribute.msg.maxLength'));
                     return false;
                 }
