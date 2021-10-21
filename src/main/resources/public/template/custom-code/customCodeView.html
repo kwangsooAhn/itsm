@@ -111,9 +111,6 @@
                     equalSpan.value = getColumnName(condition[data].conditionOperator);
                     equalSpan.type = 'text';
 
-
-                    equalSpan.value !== "equal" ? equalSpan.textContent = '!=' : equalSpan.textContent = '=';
-
                     const valueInput = document.createElement('input');
                     valueInput.classList.add('z-input', 'col-6');
                     valueInput.type = 'text';
