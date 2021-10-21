@@ -1191,6 +1191,7 @@ scheduler:
     searchDescription: "Register and manage repetitive tasks."
     useSchedule: "Schedule in use."
     jarNotExist: "JAR file does not exist."
+    classNotExist: "ClASS file does not exist."
   status:
     true: "Use"
     false: "UnUsed"
