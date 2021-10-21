@@ -74,3 +74,32 @@ INSERT INTO wf_document_display VALUES ('4028b21f7c9adb6a017c9b18489900c9','4028
 /* 서비스데스크 - 장애신고 - 만족도 */
 INSERT INTO wf_document_display VALUES ('4028b21f7c9b6b1e017c9bedbe8a0012','4028b21f7c90d996017c914da7aa0021','36dad342725848f7ab1453e309ef0aa1','document.displayType.readonly');
 INSERT INTO wf_document_display VALUES ('4028b21f7c9b6b1e017c9bedbe8a0012','4028b21f7c90d996017c914da8270029','36dad342725848f7ab1453e309ef0aa1','document.displayType.editable');
+/* 서비스데스크 - 서비스요청 */
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca054465a0001','cc4048cd712147b8af4016e647e69b14','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca054465a0001','04195a896b4a4c5f8c2e8d221c536bc8','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca054465a0001','0c98f0917c7347418933aab46b8b7823','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca054465a0001','898c51972e9c45e49646c3797165411d','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca054465a0001','6774c1370d614d47bb3b9b0ec33b9c10','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca054470f000a','cc4048cd712147b8af4016e647e69b14','document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca054470f000a','04195a896b4a4c5f8c2e8d221c536bc8','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca054470f000a','0c98f0917c7347418933aab46b8b7823','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca054470f000a','898c51972e9c45e49646c3797165411d','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca054470f000a','6774c1370d614d47bb3b9b0ec33b9c10','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca05448d20027','cc4048cd712147b8af4016e647e69b14','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca05448d20027','04195a896b4a4c5f8c2e8d221c536bc8','document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca05448d20027','0c98f0917c7347418933aab46b8b7823','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca05448d20027','898c51972e9c45e49646c3797165411d','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca05448d20027','6774c1370d614d47bb3b9b0ec33b9c10','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca05449e00039','cc4048cd712147b8af4016e647e69b14','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca05449e00039','04195a896b4a4c5f8c2e8d221c536bc8','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca05449e00039','0c98f0917c7347418933aab46b8b7823','document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca05449e00039','898c51972e9c45e49646c3797165411d','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca05449e00039','6774c1370d614d47bb3b9b0ec33b9c10','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca0544af6004d','cc4048cd712147b8af4016e647e69b14','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca0544af6004d','04195a896b4a4c5f8c2e8d221c536bc8','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca0544af6004d','0c98f0917c7347418933aab46b8b7823','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca0544af6004d','898c51972e9c45e49646c3797165411d','document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028b21f7c9ff7c8017ca0544af6004d','6774c1370d614d47bb3b9b0ec33b9c10','document.displayType.editable');
+/* 서비스데스크 - 서비스요청 - 만족도 */
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca04d16830000','4028b21f7c90d996017c914eec300040','3914bb0a2d32423885ab84339bf391d5','document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca04d16830000','4028b21f7c90d996017c914eecb30048','3914bb0a2d32423885ab84339bf391d5','document.displayType.editable');
