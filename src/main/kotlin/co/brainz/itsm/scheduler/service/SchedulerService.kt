@@ -105,13 +105,24 @@ class SchedulerService(
             schedulerDto.taskId
         )
 
-        if (schedulerDto.taskType == SchedulerConstants.Types.JAR.type) {
-            val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
-                schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
+        when (schedulerDto.taskType) {
+            SchedulerConstants.Types.JAR.type -> {
+                val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
+                    schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
+                }
+                if (fileExist == false) {
+                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
+                    return returnValue
+                }
             }
-            if (fileExist == false) {
-                returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
-                return returnValue
+            SchedulerConstants.Types.CLASS.type -> {
+                val fileExist = schedulerDto.executeClass?.let { executeClass ->
+                    this.validateClassFile(executeClass)
+                }
+                if (fileExist == false) {
+                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
+                    return returnValue
+                }
             }
         }
 
@@ -157,13 +168,24 @@ class SchedulerService(
             schedulerDto.taskName,
             schedulerDto.taskId
         )
-        if (schedulerDto.taskType == SchedulerConstants.Types.JAR.type) {
-            val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
-                schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
+        when (schedulerDto.taskType) {
+            SchedulerConstants.Types.JAR.type -> {
+                val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
+                    schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
+                }
+                if (fileExist == false) {
+                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
+                    return returnValue
+                }
             }
-            if (fileExist == false) {
-                returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
-                return returnValue
+            SchedulerConstants.Types.CLASS.type -> {
+                val fileExist = schedulerDto.executeClass?.let { executeClass ->
+                    this.validateClassFile(executeClass)
+                }
+                if (fileExist == false) {
+                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
+                    return returnValue
+                }
             }
         }
         when (existCount) {
@@ -272,7 +294,7 @@ class SchedulerService(
         val files = Paths.get(jarDir).toFile()
         if (jarName.substring(jarName.length - 3, jarName.length) == SchedulerConstants.Types.JAR.type) {
             files.walk().forEach { file ->
-                if (file.extension == SchedulerConstants.Types.JAR.type) {
+                if (file.extension == SchedulerConstants.Extension.JAR.extension) {
                     if (jarName.contains(file.name)) {
                         return true
                     }
@@ -280,5 +302,13 @@ class SchedulerService(
             }
         }
         return false
+    }
+
+    private fun validateClassFile(executeClass: String): Boolean {
+        val classSrc = executeClass.replace(SchedulerConstants.Directory.ADDRESS.code, "")
+        val className = classSrc.plus("." + SchedulerConstants.Extension.CLASS.extension)
+        val classDir =
+            AliceConstants.SCHEDULE_PLUGINS_HOME + File.separator + classSrc + File.separator + className
+        return File(classDir).exists()
     }
 }

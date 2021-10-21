@@ -164,6 +164,7 @@
     const STATUS_ERROR_SCHEDULE_NAME_DUPLICATION = '2';
     const STATUS_ERROR_SCHEDULER_EXECUTE = '3';
     const STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST = '4';
+    const STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST = '5';
 
     window.onload = function() {
         changeContainer(document.getElementById('taskType').value);
@@ -386,6 +387,9 @@
                             break;
                         case STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST:
                             zAlert.warning(i18n.msg('scheduler.msg.jarNotExist'));
+                            break;
+                        case STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST:
+                            zAlert.warning(i18n.msg('scheduler.msg.classNotExist'));
                             break;
                         default :
                             zAlert.danger(i18n.msg('common.msg.fail'));
