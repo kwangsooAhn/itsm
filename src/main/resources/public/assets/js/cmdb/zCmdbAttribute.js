@@ -144,7 +144,7 @@
                 `${property.required === option.value ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
-        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '100';
+        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '999';
         const minLengthValue = property.minLength !== undefined ? property.minLength : '0';
         this.template =
             `<div class="flex-row mt-2">` +
@@ -766,6 +766,15 @@
                 details.required = parent.querySelector('#' + attributeTypeList[0].type + '-required').value;
                 details.maxLength = parent.querySelector('#' + attributeTypeList[0].type + '-maxLength').value;
                 details.minLength = parent.querySelector('#' + attributeTypeList[0].type + '-minLength').value;
+
+                if(parseInt(details.maxLength) <= parseInt(details.minLength)) {
+                    zAlert.warning(i18n.msg('cmdb.attribute.msg.comepareWithMaxLength'));
+                    return false;
+                }
+                if(parseInt(details.maxLength) > 999) {
+                    zAlert.warning(i18n.msg('cmdb.attribute.msg.maxLength'));
+                    return false;
+                }
                 break;
             case 'dropdown':
                 let dropdownOption = [];

@@ -142,7 +142,13 @@
                         url += '/' + /*[[${attribute?.attributeId}]]*/'';
                         data.attributeId = /*[[${attribute?.attributeId}]]*/'';
                     }
-                    data.attributeValue = zCmdbAttribute.setDetails(data.attributeType);
+
+                    let tempDetails = zCmdbAttribute.setDetails(data.attributeType);
+                    if (!tempDetails) {
+                        return false;
+                    }else {
+                        data.attributeValue = tempDetails;
+                    }
                     restSubmit(method, url, data);
                 }
             } else if (method === 'delete') {
