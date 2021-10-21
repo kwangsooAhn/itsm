@@ -2266,6 +2266,10 @@ select {
   pointer-events: none;
 }
 
+.z-view-hover {
+  pointer-events: none;
+}
+
 textarea {
   min-height: 7.5rem;
   resize: vertical;
