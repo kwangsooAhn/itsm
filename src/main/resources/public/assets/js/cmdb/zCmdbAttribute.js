@@ -170,8 +170,7 @@
                 `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxLength')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="text" class="z-input" id="${objectId}-maxLength" maxlength="100" value="${maxLengthValue}"` +
-            `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">` +
+            `<input type="number" class="z-input" id="${objectId}-maxLength" max="100" value="${maxLengthValue}">` +
             `</div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
@@ -179,8 +178,7 @@
                 `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="text" class="z-input" id="${objectId}-minLength" maxlength="100" value="${minLengthValue}"` +
-            `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">` +
+            `<input type="number" class="z-input" id="${objectId}-minLength" max="100" value="${minLengthValue}">` +
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
