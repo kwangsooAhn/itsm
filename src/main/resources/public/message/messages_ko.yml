@@ -314,6 +314,7 @@ cmdb:
       searchDescription: "CI 속성항목을 조회 및 관리합니다."
       selectAttributeType: "데이터 타입을 선택하세요."
       viewDescription: "속성항목에 대한 상세 정보를 조회합니다."
+      editDescription: "속성항목에 대한 내용을 등록하거나 수정, 삭제합니다."
     btn:
       import: "가져오기"
       export: "내보내기"
