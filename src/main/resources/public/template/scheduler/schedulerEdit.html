@@ -355,7 +355,7 @@
         const executeCycleType = document.getElementById('executeCycleType').value;
         if (executeCycleType === 'cron') {
             if (isEmpty('cronExpression', 'common.msg.requiredEnter')) { return false; }
-            if (cronSplit('cronExpression', 'scheduler.msg.cron')) { return false; }
+            if (cronSplit('cronExpression', 'scheduler.msg.cronValue')) { return false; }
         } else { // fixedDelay, fixedRate
             if (isEmpty('executeCyclePeriod', 'common.msg.requiredEnter')) { return false; }
             if (isExistMinValue('executeCyclePeriod', 60000, 'common.msg.minValue')) { return false; }
@@ -364,16 +364,21 @@
     }
     /** 크론 표현식 검사 **/
     function cronSplit(cronExpression,msg, callbackFunc) {
-        const elem = document.getElementById(cronExpression);
+        let elem = document.getElementById(cronExpression);
+        let cron = elem.value.split(' ');
+
         const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
             elem.focus();
         };
-        let cron = elem.value.split(' ');
-        if( cron.length > 6 ){
+        if ( cron.length > 6 ){
              zAlert.warning(i18n.msg(msg),callback);
              return true;
-        }else if ( cron.length < 6) {
-
+        }
+        else if ( cron.length < 6) {
+            for(let i = cron.length; i < 6; i++) {
+                cron.push('*')
+            }
+           elem.value = cron.join(' ');
         }
 
         return false;
