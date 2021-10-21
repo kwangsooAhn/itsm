@@ -5,8 +5,8 @@
 
 package co.brainz.workflow
 
-import co.brainz.itsm.comment.dto.InstanceCommentDto
-import co.brainz.itsm.comment.service.CommentService
+import co.brainz.itsm.instance.dto.InstanceCommentDto
+import co.brainz.itsm.instance.service.InstanceService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.Assumptions.assumingThat
@@ -30,7 +30,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class WfCommentServiceTest {
 
     @Autowired
-    private lateinit var commentService: CommentService
+    private lateinit var instanceService: InstanceService
 
     lateinit var userKey: String
     lateinit var instanceId: String
@@ -54,14 +54,14 @@ class WfCommentServiceTest {
             content = this.commentContent,
             createUserKey = this.userKey
         )
-        assumeTrue(commentService.setComment(commentDto))
+        assumeTrue(instanceService.setComment(commentDto))
     }
 
     @Test
     @DisplayName("Comment 목록 조회")
     @Order(2)
     fun b_getComment() {
-        val comments = commentService.getInstanceComments(this.instanceId)
+        val comments = instanceService.getComments(this.instanceId)
         assumeTrue(!comments.isNullOrEmpty())
         assumingThat(
             comments.isNotEmpty()
@@ -72,7 +72,7 @@ class WfCommentServiceTest {
     @DisplayName("Comment 삭제")
     @Order(3)
     fun c_deleteComment() {
-        val comments = commentService.getInstanceComments(this.instanceId)
+        val comments = instanceService.getComments(this.instanceId)
         var commentId = ""
         comments.forEach { comment ->
             if (comment.content == this.commentContent) {
@@ -81,6 +81,6 @@ class WfCommentServiceTest {
         }
         assumingThat(
             commentId.isNotEmpty()
-        ) { assumeTrue(commentService.deleteComment(commentId)) }
+        ) { assumeTrue(instanceService.deleteComment(this.instanceId, commentId)) }
     }
 }

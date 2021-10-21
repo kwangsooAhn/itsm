@@ -1,7 +1,7 @@
-package co.brainz.itsm.comment.mapper
+package co.brainz.itsm.instance.mapper
 
-import co.brainz.itsm.comment.dto.InstanceCommentDto
-import co.brainz.itsm.comment.entity.WfCommentEntity
+import co.brainz.itsm.instance.dto.InstanceCommentDto
+import co.brainz.itsm.instance.entity.WfCommentEntity
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.Mappings

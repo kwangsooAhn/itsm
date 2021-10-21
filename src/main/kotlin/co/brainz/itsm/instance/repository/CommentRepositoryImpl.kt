@@ -1,7 +1,7 @@
-package co.brainz.itsm.comment.repository
+package co.brainz.itsm.instance.repository
 
-import co.brainz.itsm.comment.entity.QWfCommentEntity
-import co.brainz.itsm.comment.entity.WfCommentEntity
+import co.brainz.itsm.instance.entity.QWfCommentEntity
+import co.brainz.itsm.instance.entity.WfCommentEntity
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 

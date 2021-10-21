@@ -11,8 +11,6 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagService
-import co.brainz.itsm.comment.dto.InstanceCommentDto
-import co.brainz.itsm.comment.service.CommentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.itsm.token.dto.TokenSearchCondition
@@ -51,7 +49,6 @@ class WfInstanceService(
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
-    private val commentService: CommentService,
     private val wfDocumentRepository: WfDocumentRepository,
     private val numberingRuleService: NumberingRuleService,
     private val aliceUserRepository: AliceUserRepository,
@@ -304,13 +301,6 @@ class WfInstanceService(
 
         logger.debug("Latest token: {}", tokenDto)
         return tokenDto
-    }
-
-    /**
-     * Get Instance Comments.
-     */
-    fun getInstanceComments(instanceId: String): List<InstanceCommentDto> {
-        return commentService.getInstanceComments(instanceId)
     }
 
     /**

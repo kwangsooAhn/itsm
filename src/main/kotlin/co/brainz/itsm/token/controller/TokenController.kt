@@ -132,13 +132,13 @@ class TokenController(
     @GetMapping("{tokenId}/view")
     fun getDocumentView(@PathVariable tokenId: String, model: Model): String {
         model.addAttribute("tokenId", tokenId)
-        model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
+        //model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         //model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
         val instanceId = instanceService.getInstanceId(tokenId)!!
         val folderId = folderService.getFolderId(tokenId)
         model.addAttribute("folderId", folderId)
         model.addAttribute("instanceId", instanceId)
-        model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
+        model.addAttribute("commentList", instanceService.getComments(instanceId))
         model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
         model.addAttribute("documentNo", instanceService.getInstance(instanceId).documentNo)
         return tokenViewPage
@@ -166,7 +166,7 @@ class TokenController(
     @GetMapping("/{tokenId}/print")
     fun getDocumentPrint(@PathVariable tokenId: String, model: Model, request: HttpServletRequest): String {
         model.addAttribute("time", LocalDateTime.now())
-        model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
+        model.addAttribute("instanceHistory", instanceService.getInstanceHistoryByTokenId(tokenId))
         model.addAttribute(
             "documentNo",
             instanceService.getInstance(instanceService.getInstanceId(tokenId)!!).documentNo

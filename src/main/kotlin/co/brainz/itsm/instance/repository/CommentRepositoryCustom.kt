@@ -1,6 +1,6 @@
-package co.brainz.itsm.comment.repository
+package co.brainz.itsm.instance.repository
 
-import co.brainz.itsm.comment.entity.WfCommentEntity
+import co.brainz.itsm.instance.entity.WfCommentEntity
 
 interface CommentRepositoryCustom {
     fun findByInstanceId(instanceId: String): MutableList<WfCommentEntity>

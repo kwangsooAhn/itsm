@@ -6,7 +6,7 @@
 package co.brainz.workflow.instance.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.itsm.comment.entity.WfCommentEntity
+import co.brainz.itsm.instance.entity.WfCommentEntity
 import co.brainz.itsm.folder.entity.WfFolderEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.token.entity.WfTokenEntity

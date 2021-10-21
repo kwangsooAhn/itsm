@@ -1,4 +1,4 @@
-package co.brainz.itsm.comment.dto
+package co.brainz.itsm.instance.dto
 
 import java.io.Serializable
 import java.time.LocalDateTime

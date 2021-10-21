@@ -8,6 +8,7 @@
  * https://www.brainz.co.kr
  */
 import { zValidation } from '../lib/zValidation.js';
+import { SESSION } from '../lib/zConstants.js';
 
 class ZFormTokenTab {
     constructor() {}
@@ -37,29 +38,11 @@ class ZFormTokenTab {
     /**
      * 탭 생성 : 우측 문서 정보, 의견, 태그 영역
      */
-    clearTab() {
-        // 문서이력
-        document.getElementById('history').childNodes.innerHTML = '';
-        // 관련문서
-        document.querySelectorAll('#related .z-token-related-item:not(.z-document-add)').forEach((aTag) => {
-            aTag.remove();
-        });
-        // 댓글
-        document.querySelectorAll('#tokenComment .z-token-comment-item').forEach((comment) => {
-            comment.remove();
-        })
-        // 태그
-        document.querySelector('#tokenTag .tag-input').innerHTML = '';
-    }
-    /**
-     * 탭 생성 : 우측 문서 정보, 의견, 태그 영역
-     */
     reloadTab() {
-        this.clearTab();
-        //this.reloadHistory();
+        this.reloadHistory();
         this.reloadRelatedInstance();
-        //this.reloadTokenComment();
-        //this.reloadTokenTag();
+        this.reloadTokenComment();
+        this.reloadTokenTag();
 
         // 스크롤바
         OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
@@ -189,7 +172,6 @@ class ZFormTokenTab {
             }).then((rtn) => {
                 if (rtn === 'true') {
                     target.hide();
-                    this.clearTab();
                     this.reloadTab();
                 } else {
                     zAlert.danger(i18n.msg('common.msg.fail'));
@@ -237,7 +219,7 @@ class ZFormTokenTab {
     /**
      * 댓글 저장
      */
-    saveComment() {
+    saveComments() {
         const commentElem = document.getElementById('commentValue');
         if (!zValidation.isDefined(commentElem)) { return false; }
 
@@ -246,19 +228,16 @@ class ZFormTokenTab {
             return false;
         }
         // 저장
-        const saveCommentData = {
-            instanceId: this.data.instanceId,
-            content: commentElem.value
-        };
-        aliceJs.fetchText('/rest/comments', {
+        aliceJs.fetchText('/rest/instances/' + this.instanceId + '/comments', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(saveCommentData)
+            body: commentElem.value
         }).then((rtn) => {
             if (rtn === 'true') {
-                this.makeTab();
+                document.getElementById('commentValue').value = '';
+                this.reloadTab();
             } else {
                 zAlert.danger(i18n.msg('common.msg.fail'));
             }
@@ -269,7 +248,7 @@ class ZFormTokenTab {
      */
     removeComment(commentId) {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
-            aliceJs.fetchText('/rest/comments/' + commentId, {
+            aliceJs.fetchText('/rest/instances/' + this.instanceId + '/comments/' + commentId, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -286,24 +265,30 @@ class ZFormTokenTab {
         });
     }
     reloadHistory() {
-        aliceJs.fetchJson('/rest/instances', {
+        // 문서이력 clear
+        document.getElementById('history').childNodes.innerHTML = '';
+
+        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/history', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(jsonArray)
+            }
         }).then((rtn) => {
-            if (rtn === 'true') {
-                // TODO: 관련 문서 추가시 화면을 전체 그려주는 구조 변경 필요
-                // 서버 단일 조회 구현 필요 > WfFolderRepositoryImpl.kt - findRelatedDocumentListByTokenId 로직 확인 필요.. (조인하는게 너무 많아서 구조가 이상함)
-                this.makeTab();
-                target.hide();
+            if (rtn) {
+                rtn.forEach((token) => {
+                    document.getElementById('history').innerHTML = this.makeHistoryFragment(token);
+                })
             } else {
                 zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
     reloadRelatedInstance() {
+        // 관련문서 clear
+        document.querySelectorAll('#related .z-token-related-item:not(.z-document-add)').forEach((aTag) => {
+            aTag.remove();
+        });
+
         aliceJs.fetchJson('/rest/folders/' + this.folderId, {
             method: 'GET',
             headers: {
@@ -321,10 +306,32 @@ class ZFormTokenTab {
             }
         });
     }
-    reloadTokenComment() {}
-    reloadTokenTag() {}
+    reloadTokenComment() {
+        // 댓글 clear
+        document.querySelectorAll('#tokenComments .z-token-comment-item').forEach((comment) => {
+            comment.remove();
+        });
+
+        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/comments', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((rtn) => {
+            if (rtn) {
+                rtn.forEach((comment) => {
+                    document.querySelector('#tokenComments').lastElementChild.insertAdjacentElement('beforebegin', this.makeCommentsFragment(comment));
+                })
+            } else {
+                zAlert.danger(i18n.msg('common.msg.fail'));
+            }
+        });
+    }
+    reloadTokenTag() {
+        // 태그 clear
+        document.querySelector('#tokenTag .tag-input').innerHTML = '';
+    }
     makeRelatedInstanceFragment(instance) {
-        let div = document.createElement('div');
         let htmlString =
         `<div class="z-token-related-item flex-row" id="relatedDoc` + instance.instanceId + `">` +
             `<div class="z-document-color" style="background-color: ` + instance.documentColor + `"></div>` +
@@ -364,6 +371,47 @@ class ZFormTokenTab {
             `</div>` +
         `</div>`;
 
+        return this.makeElementFromString(htmlString);
+    }
+    makeHistoryFragment(token) {
+        let htmlString =
+        `<tr class="flex-row align-items-center">` +
+            `<td style="width: 35%;" class="align-left date-time" name="tokenDt">` + token.tokenStartDt + `</td>` +
+            `<td style="width: 25%;" class="align-left">` + token.elementName + `</td>` +
+            `<td style="width: 20%;" class="align-left">` + token.assigneeName + `</td>` +
+            `<td style="width: 20%;" class="align-left">` + i18n.msg(token.tokenAction) + `</td>` +
+        `</tr>`;
+
+        return htmlString;
+    }
+    makeCommentsFragment(comment) {
+        let htmlString =
+            `<div class="z-token-comment-item flex-column" id="comment` + comment.commentId + `">` +
+                `<div class="z-comment-row-info flex-row align-items-center">` +
+                    `<div class="flex-row align-items-center">` +
+                        `<img class="z-img i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
+                        `<h6 class="z-user-name pl-2">` + comment.createUserName + `</h6>` +
+                    `</div>` +
+                    `<h6 class="z-comment-time date-time">` + comment.createDt + `</h6>` +
+                    `<div class="ml-auto">`
+        if (SESSION.userKey === comment.createUserKey && this.editable) {
+                        htmlString +=
+                        `<button class="z-button-icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
+                            `<span class="z-icon i-delete"></span>` +
+                        `</button>`
+        }
+                    htmlString +=
+                    `</div>` +
+                `</div>` +
+                `<div class="z-comment-row-content">` +
+                    `<h6 class="text-ellipsis">` + comment.content + `</h6>` +
+                `</div>` +
+            `</div>`
+
+        return this.makeElementFromString(htmlString);
+    }
+    makeElementFromString(htmlString) {
+        let div = document.createElement('div');
         div.innerHTML = htmlString;
         return div.firstElementChild;
     }

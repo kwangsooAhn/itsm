@@ -32,7 +32,7 @@
         <div class="z-token-properties flex-column" id="documentProperties">
             <div class="z-token-tabs">
                 <h5 class="z-token-tab align-center pointer active" data-target-contents="tokenInformation" th:text="#{token.label.information}"></h5>
-                <h5 class="z-token-tab align-center pointer" data-target-contents="tokenComment" th:text="#{common.label.comment}"></h5>
+                <h5 class="z-token-tab align-center pointer" data-target-contents="tokenComments" th:text="#{common.label.comment}"></h5>
                 <h5 class="z-token-tab align-center pointer" data-target-contents="tokenTag" th:text="#{common.label.tag}"></h5>
             </div>
             <div class="z-token-panels">
@@ -65,10 +65,10 @@
                     </div>
                 </div>
                 <!-- 댓글 -->
-                <div class="z-token-panel z-token-comment" id="tokenComment">
+                <div class="z-token-panel z-token-comment" id="tokenComments">
                     <div class="z-comment-add flex-row align-items-start">
                         <textarea id="commentValue" class="z-textarea textarea-scroll-wrapper flex-fill mr-1" maxlength="200" rows="2" th:placeholder="#{comment.msg.enterComments}"></textarea>
-                        <button class="z-button secondary" th:onclick="zFormToken.saveComment()" th:text="#{common.btn.register}" th:disabled="${mode == 'view'}"></button>
+                        <button class="z-button secondary" th:onclick="zFormTokenTab.saveComments()" th:text="#{common.btn.register}" th:disabled="${mode == 'view'}"></button>
                     </div>
                 </div>
                 <!-- 태그 -->
