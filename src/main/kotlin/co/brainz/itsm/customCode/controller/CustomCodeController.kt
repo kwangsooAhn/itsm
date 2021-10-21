@@ -80,6 +80,8 @@ class CustomCodeController(
     fun getCustomCodeView(@PathVariable customCodeId: String, model: Model): String {
         val customCodeDto = customCodeService.getCustomCodeDetail(customCodeId)
         model.addAttribute("customCode", customCodeDto)
+        model.addAttribute("operatorList",
+            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE))
         if (customCodeDto.type == CustomCodeConstants.Type.TABLE.code) {
             model.addAttribute(
                 "customCodeColumnList",
