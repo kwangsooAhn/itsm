@@ -83,8 +83,8 @@
             const detailObject = document.querySelector('#details');
             detailObject.querySelectorAll('input').forEach(function(object) { object.disabled = true; });
             detailObject.querySelectorAll('select').forEach(function(object) { object.disabled = true; });
-            detailObject.querySelectorAll('button').forEach(function(object) { object.disabled = true; });
             detailObject.querySelectorAll('.z-select-box').forEach(function(object) { object.classList.add('disabled-select')});
+            detailObject.querySelectorAll('button').forEach(function(object) { object.disabled = true; });
             detailObject.querySelectorAll('button').forEach(function(object) { object.remove('.z-button.icon') });
 
             OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
