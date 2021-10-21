@@ -148,10 +148,10 @@
             }
         });
         new zTag(document.querySelector('input[name=ciDetailTags]'),{
-            suggestion: false,
-            realtime: false,
+            suggestion: true,
+            realtime: true,
             tagType: 'ci',
-            targetId: ''
+            targetId: document.getElementById('ciId').value
         });
         // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
         document.querySelectorAll('.date-time').forEach(dt => {

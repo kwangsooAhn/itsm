@@ -104,12 +104,12 @@ function zTag(inputElement, userSettings, tagifySettings) {
                 // DOM 에 tag id  값 추가하기.
                 document.querySelector('tag[value="' + tag.detail.data.value + '"]').setAttribute('id', tagId);
                 // tagify 데이터에 tag id 값 추가하기.
-                tag.detail.tagify.tagData(tag.detail.tagify.getTagElmByValue(tag.detail.data.value), {id: tagId});
+                tag.detail.tagify.tagData(tag.detail.tagify.getTagElmByValue(tag.detail.data.value), {tagId: tagId});
             });
         }));
 
         tagging.on('remove', (function (tag) {
-            aliceJs.fetchText(TAG_URL + '/' + tag.detail.data.id, {
+            aliceJs.fetchText(TAG_URL + '/' + tag.detail.data.tagId, {
                 method: 'DELETE'
             });
         }));
