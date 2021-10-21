@@ -144,33 +144,36 @@ class ZFormToken {
      */
     saveValidationCheck() {
         let isValid = true;
-        const requiredElements =
-            document.querySelectorAll('input[data-validation-required="true"]:not([readonly]),textarea[data-validation-required="true"]:not([readonly])');
-
-        for (let i = 0; i < requiredElements.length; i++) {
-            if (!zValidation.isRequired(requiredElements[i])) {
-                isValid = false;
-                break;
+        // 1. displayType 이 편집 가능일 경우
+        const parentElements =
+            document.querySelectorAll('.z-group-tooltip[data-displaytype="document.displayType.editable"]');
+        outer : for (let i = 0; i < parentElements.length; i++) {
+            // 2. 필수값 검증
+            const requiredElements = parentElements[i]
+                .querySelectorAll('input[data-validation-required="true"],textarea[data-validation-required="true"]');
+            for (let j = 0; j < requiredElements.length; j++) {
+                if (!zValidation.isRequired(requiredElements[j])) {
+                    isValid = false;
+                    break outer;
+                }
             }
-        }
-
-        // TODO: 텍스트에디터 필수 체크
-
-        // DR 테이블, CI 테이블 필수인 경우 row를 1개 이상 등록하라는 경고 후 포커싱
-        if (isValid) {
-            const validationCheckTables = document.querySelectorAll('table[data-validation-required="true"]');
-            for (let i = 0; i < validationCheckTables.length; i++) {
-                const table = validationCheckTables[i];
+            // 3. 테이블 필수값 검증
+            const requiredTableElements =
+                parentElements[i].querySelectorAll('table[data-validation-required="true"]');
+            for (let j = 0; j < requiredTableElements.length; j++) {
+                const table = requiredTableElements[j];
+                // row를 1개 이상 등록하라는 경고 후 포커싱
                 if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
                     isValid = false;
                     zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
                         table.focus();
                     });
-                    break;
+                    break outer;
                 }
             }
+            // TODO: 4. 텍스트에디터 필수 체크
+
         }
-        if (zValidation.hasDOMElementError(this.domElement)) { return false; }
         return isValid;
     }
 

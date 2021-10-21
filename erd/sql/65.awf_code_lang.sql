@@ -38,6 +38,26 @@ insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.se
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.dbms', 'Database', 'en');
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.contract', 'Contract', 'en');
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.etc', 'ETC', 'en');
+/* 장애신고 */
+insert into awf_code_lang values ('form.template.serviceDesk.incident', 'ServiceDesk - Incident', 'en');
+/* 장애신고 - 장애 유형 */
+insert into awf_code_lang values ('form.template.serviceDesk.incident.category', 'Incident Category', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.incident.category.none', '- Choose Category -', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.incident.category.system', 'System Error', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.incident.category.infrastructure', 'Infrastructure error', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.incident.category.technology', 'Technology error', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.incident.category.operation', 'Operation error', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.incident.category.human', 'Human error', 'en');
+/* 서비스요청 */
+insert into awf_code_lang values ('form.template.serviceDesk.request', 'ServiceDesk - Service Request', 'en');
+/* 서비스요청 - 요청 구분 */
+insert into awf_code_lang values ('form.template.serviceDesk.request.category', 'Service Request Category', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.request.category.service', 'Service Request', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.request.category.security', 'Security Request', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.request.category.development', 'Development Request', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.request.category.material', 'Material Request', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.request.category.work', 'Work Request', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.request.category.etc', 'ETC', 'en');
 /* 차트 */
 insert into awf_code_lang values ('chart.operation.percent', 'percent', 'en');
 insert into awf_code_lang values ('chart.operation.count', 'count', 'en');

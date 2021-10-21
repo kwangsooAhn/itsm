@@ -200,15 +200,32 @@
                         }
                     });
 
+                    /*
+                     * 포탈 검색 시, 검색한 내용 색상 변경
+                     */
                     if (isNotEmpty('searchValue')) {
-                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach(function(data) {
-                            const regex = new RegExp(document.getElementById('searchValue').value, 'gi');
-                            data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + document.getElementById('searchValue').value + "</span>");
+                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-title > a').forEach((data) => {
+                            regExpSearch(data);
                         });
+                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach((data) => {
+                            regExpSearch(data);
+                        });
+
                     }
                 }
-            };
+            }
             aliceJs.sendXhr(opt);
+        }
+
+        /*
+         * 검색 내용 치환 함수 생성
+         */
+        function regExpSearch(data) {
+            const searchValue = document.getElementById('searchValue').value;
+                data.innerHTML = data.innerHTML.replace(new RegExp(searchValue, 'gi'), (matchedText) => {
+                    return '<span class="keyword">' + matchedText + '</span>';
+                });
+
         }
 
         function getDataTemplate(data) {
