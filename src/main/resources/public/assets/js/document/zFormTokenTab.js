@@ -41,7 +41,7 @@ class ZFormTokenTab {
         // 문서이력
         document.getElementById('history').childNodes.innerHTML = '';
         // 관련문서
-        document.querySelectorAll('#related a').forEach((aTag) => {
+        document.querySelectorAll('#related .z-token-related-item:not(.z-document-add)').forEach((aTag) => {
             aTag.remove();
         });
         // 댓글
@@ -61,9 +61,6 @@ class ZFormTokenTab {
         //this.reloadTokenComment();
         //this.reloadTokenTag();
 
-        // 날짜 초기화
-        this.setDateTimeFormat();
-
         // 스크롤바
         OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
 
@@ -71,12 +68,12 @@ class ZFormTokenTab {
         aliceJs.initDesignedSelectTag();
 
         // 태그 초기화
-        new zTag(document.getElementById('tokenTags'), {
+/*        new zTag(document.getElementById('tokenTags'), {
             suggestion: this.editable,
             realtime: this.editable,
             tagType: 'instance',
             targetId: this.instanceId
-        });
+        });*/
         // });
     }
 
@@ -160,14 +157,12 @@ class ZFormTokenTab {
      * @param showProgressbar ProgressBar 표시여부
      */
     getRelatedDoc(search, showProgressbar) {
-        aliceJs.fetchText('/tokens/view-pop/documents?searchValue=' + search.trim() + '&tokenId=' + this.data.tokenId, {
+        aliceJs.fetchText('/tokens/view-pop/documents?searchValue=' + search.trim() + '&tokenId=' + this.tokenId, {
             method: 'GET',
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('instanceList').innerHTML = htmlData;
             aliceJs.showTotalCount(document.querySelectorAll('.instance-list').length);
-            // 서버에서 전달받은 데이터의 날짜 포맷을 변경
-            this.setDateTimeFormat();
         });
     }
     /**
@@ -181,7 +176,7 @@ class ZFormTokenTab {
             let jsonArray = [];
             for (let i = 0; i < checked.length; i++) {
                 let jsonObject = {};
-                jsonObject.folderId = this.data.folderId;
+                jsonObject.folderId = this.folderId;
                 jsonObject.instanceId = checked[i].value;
                 jsonArray.push(jsonObject);
             }
@@ -193,10 +188,9 @@ class ZFormTokenTab {
                 body: JSON.stringify(jsonArray)
             }).then((rtn) => {
                 if (rtn === 'true') {
-                    // TODO: 관련 문서 추가시 화면을 전체 그려주는 구조 변경 필요
-                    // 서버 단일 조회 구현 필요 > WfFolderRepositoryImpl.kt - findRelatedDocumentListByTokenId 로직 확인 필요.. (조인하는게 너무 많아서 구조가 이상함)
-                    this.makeTab();
                     target.hide();
+                    this.clearTab();
+                    this.reloadTab();
                 } else {
                     zAlert.danger(i18n.msg('common.msg.fail'));
                 }
@@ -206,20 +200,22 @@ class ZFormTokenTab {
 
     /**
      * 관련 문서 삭제
-     * @param data 삭제시 필요한 데이터
+     * @param folderId 삭제 대상 폴더 아이디
+     * @param instanceId 삭제 대상 인스턴스
      */
-    removeRelatedDoc(data) {
+    removeRelatedDoc(folderId, instanceId) {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchText('/rest/folders/' + data.folderId, {
+            aliceJs.fetchText('/rest/folders/' + folderId + '/instances/' + instanceId, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+                }
             }).then((rtn) => {
                 if (rtn === 'true') {
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
-                        document.getElementById('relatedDoc' + data.instanceId).remove();
+                        if (document.getElementById('relatedDoc' + instanceId)) {
+                            document.getElementById('relatedDoc' + instanceId).remove();
+                        }
                     });
                 } else {
                     zAlert.danger(i18n.msg('common.msg.fail'));
@@ -237,6 +233,7 @@ class ZFormTokenTab {
         const _top = Math.ceil((window.screen.height - _height) / 4);
         window.open('/tokens/' + tokenId + '/view', 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150) + ', left=' + _left + ', top=' + _top);
     }
+
     /**
      * 댓글 저장
      */
@@ -314,9 +311,11 @@ class ZFormTokenTab {
             }
         }).then((rtn) => {
             if (rtn) {
-                rtn.data.forEach((instance) => {
+                rtn.forEach((instance) => {
                     document.querySelector('#related label').insertAdjacentElement('afterend', this.makeRelatedInstanceFragment(instance));
                 })
+                // 날짜 표기 변경
+                this.setDateTimeFormat();
             } else {
                 zAlert.danger(i18n.msg('common.msg.fail'));
             }
@@ -327,45 +326,46 @@ class ZFormTokenTab {
     makeRelatedInstanceFragment(instance) {
         let div = document.createElement('div');
         let htmlString =
-        `<div className="z-token-related-item flex-row" id="'relatedDoc'` + instance.instanceId + `">` +
-            `<div className="z-document-color" style="background-color: ` + instance.documentColor + `"></div>` +
-            `<div className="z-document-row flex-column">` +
-                `<div className="z-document-row-content flex-row justify-content-between">` +
-                    `<a onclick="zFormToken.openTokenEditPop('` + instance.tokenId + `')">` +
-                        `<div className="z-document-title flex-row align-items-center">` +
+        `<div class="z-token-related-item flex-row" id="relatedDoc` + instance.instanceId + `">` +
+            `<div class="z-document-color" style="background-color: ` + instance.documentColor + `"></div>` +
+            `<div class="z-document-row flex-column">` +
+                `<div class="z-document-row-content flex-row justify-content-between">` +
+                    `<a onclick="zFormTokenTab.openTokenEditPop('` + instance.tokenId + `')">` +
+                        `<div class="z-document-title flex-row align-items-center">` +
                             `<h6>` + instance.documentName + `</h6>` +
                             `<h6>` + instance.documentNo + `</h6>` +
                         `</div>` +
                     `</a>`;
-        if (this.editable === 'edit') {
+        if (this.editable) {
             htmlString +=
-                    `<button type="button" className="z-button-icon"` +
-                        `onclick="zFormToken.removeRelatedDoc({ folderId: ` + instance.folderId + `, instanceId: ` + instance.instanceId + ` })">` +
-                        `<span className="z-icon i-delete"></span>` +
+                    `<button type="button" class="z-button-icon"` +
+                        `onclick="zFormTokenTab.removeRelatedDoc('` + instance.folderId + `', '` + instance.instanceId + `')">` +
+                        `<span class="z-icon i-delete"></span>` +
                     `</button>`;
         }
         htmlString +=
                 `</div>` +
-                `<div className="z-document-row-topic">`;
-        instance.topics.forEach((topic) => {
-            htmlString += `<h6 className="text-ellipsis">` + topic + `</h6>`;
+                `<div class="z-document-row-topic">`;
+        instance.topics?.forEach((topic) => {
+            htmlString += `<h6 class="text-ellipsis">` + topic + `</h6>`;
         })
         htmlString +=
                 `</div>` +
-                `<div className="z-document-row-info flex-row align-items-center">` +
-                    `<div className="flex-row align-items-center">` +
-                        `<img className="z-img i-profile-photo mr-2" src="` + instance.avatarPath + `" width="30" height="30"/>` +
-                        `<h6 className="pl-2">` + instance.instanceCreateUserName + `</h6>` +
+                `<div class="z-document-row-info flex-row align-items-center">` +
+                    `<div class="flex-row align-items-center">` +
+                        `<img class="z-img i-profile-photo mr-2" src="` + instance.avatarPath + `" width="30" height="30"/>` +
+                        `<h6 class="pl-2">` + instance.instanceCreateUserName + `</h6>` +
                     `</div>` +
-                    `<span className="vertical-bar"></span>` +
-                    `<h6 className="dateFormatFromNow">` + instance.instanceStartDt + `</h6>` +
-                    `<span className="vertical-bar"></span>` +
+                    `<span class="vertical-bar"></span>` +
+                    `<h6 class="dateFormatFromNow">` + instance.instanceStartDt + `</h6>` +
+                    `<span class="vertical-bar"></span>` +
                     `<h6>` +  i18n.msg('common.code.token.status.' + instance.instanceStatus) + `</h6>` +
                 `</div>` +
             `</div>` +
         `</div>`;
 
-        return div.innerHTML = htmlString;
+        div.innerHTML = htmlString;
+        return div.firstElementChild;
     }
 }
 

@@ -58,7 +58,7 @@
                     <div class="z-token-related" id="related">
                         <label class="z-token-related-sub-title" th:text="#{token.label.relatedInstance}"></label>
                         <div class="z-token-related-item flex-row justify-content-center align-items-center z-document-add">
-                            <button class="z-button-icon" th:onclick="zFormToken.openRelatedDocModal()">
+                            <button class="z-button-icon" th:onclick="zFormTokenTab.openRelatedDocModal()">
                                 <span class="z-icon i-plus"></span>
                             </button>
                         </div>
@@ -124,6 +124,7 @@
             zFormTokenTab.init(formDataJson, true);
 
             window.zFormToken = zFormToken;
+            window.zFormTokenTab = zFormTokenTab;
         });
         /*]]>*/
     </script>

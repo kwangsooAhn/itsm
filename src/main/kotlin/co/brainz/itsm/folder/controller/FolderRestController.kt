@@ -1,6 +1,6 @@
 package co.brainz.itsm.folder.controller
 
-import co.brainz.itsm.folder.dto.FolderDto
+import co.brainz.itsm.folder.dto.InstanceInFolderDto
 import co.brainz.itsm.folder.service.FolderService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,22 +17,17 @@ class FolderRestController(
 ) {
 
     @GetMapping("{folderId}")
-    fun getFolder(
-        @PathVariable folderId: String
-    ): List<FolderDto>? {
-        return folderService.getRelatedInstance(folderId)
+    fun getFolder(@PathVariable folderId: String): List<InstanceInFolderDto>? {
+        return folderService.getFolder(folderId)
     }
 
     @PostMapping("")
-    fun insertFolderDto(@RequestBody folderDto: FolderDto): Boolean {
-        return folderService.insertFolderDto(folderDto)
+    fun insertFolderDto(@RequestBody instanceInFolderDtoList: List<InstanceInFolderDto>): Boolean {
+        return folderService.insertFolderDto(instanceInFolderDtoList)
     }
 
     @DeleteMapping("/{folderId}/instances/{instanceId}")
-    fun deleteFolder(
-        @PathVariable folderId: String,
-        @PathVariable instanceId: String
-    ): Boolean {
+    fun deleteFolder(@PathVariable folderId: String, @PathVariable instanceId: String): Boolean {
         return folderService.deleteInstanceInFolder(folderId, instanceId)
     }
 }

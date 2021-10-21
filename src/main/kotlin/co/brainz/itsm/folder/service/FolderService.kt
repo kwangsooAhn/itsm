@@ -4,7 +4,7 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.folder.constants.FolderConstants
-import co.brainz.itsm.folder.dto.FolderDto
+import co.brainz.itsm.folder.dto.InstanceInFolderDto
 import co.brainz.itsm.folder.entity.WfFolderEntity
 import co.brainz.itsm.folder.repository.FolderRepository
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -43,15 +43,20 @@ class FolderService(
         )
     }
 
+    fun getFolderByTokenId(tokenId: String): List<InstanceInFolderDto>? {
+        val folderId = folderRepository.findFolderIdByTokenId(tokenId)
+        return getFolder(folderId)
+    }
+
     /**
-     * [tokenId]의 관련 문서 조회
+     * [folderId]의 관련 문서 조회
      */
-    fun getRelatedInstance(tokenId: String): List<FolderDto>? {
-        val relatedInstances = folderRepository.findRelatedDocumentListByTokenId(tokenId)
+    fun getFolder(folderId: String): List<InstanceInFolderDto>? {
+        val relatedInstances = folderRepository.findRelatedDocumentListByFolderId(folderId)
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
-        val relatedInstanceList: MutableList<FolderDto> = mutableListOf()
+        val relatedInstanceList: MutableList<InstanceInFolderDto> = mutableListOf()
         for (relatedInstance in relatedInstances) {
-            val relatedInstanceViewDto = FolderDto(
+            val relatedInstanceViewDto = InstanceInFolderDto(
                 folderId = relatedInstance.folderId,
                 instanceId = relatedInstance.instanceId,
                 relatedType = relatedInstance.relatedType,
@@ -86,7 +91,7 @@ class FolderService(
             relatedInstanceList.add(relatedInstanceViewDto)
         }
 
-        val moreInfoAddRelatedInstance: MutableList<FolderDto> = mutableListOf()
+        val moreInfoAddRelatedInstance: MutableList<InstanceInFolderDto> = mutableListOf()
         relatedInstanceList.forEach {
             val user = aliceUserRepository.getOne(it.instanceCreateUserKey!!)
             val avatarPath = userDetailsService.makeAvatarPath(user)
@@ -109,15 +114,17 @@ class FolderService(
         return folderId
     }
 
-    fun insertFolderDto(folderDto: FolderDto): Boolean {
-        val wfFolderEntity = WfFolderEntity(
-            folderId = folderDto.folderId!!,
-            instance = wfInstanceRepository.findByInstanceId(folderDto.instanceId!!)!!,
-            relatedType = folderDto.relatedType ?: FolderConstants.RelatedType.REFERENCE.code,
-            createUserKey = currentSessionUser.getUserKey(),
-            createDt = LocalDateTime.now()
-        )
-        folderRepository.save(wfFolderEntity)
+    fun insertFolderDto(folderDtoList: List<InstanceInFolderDto>): Boolean {
+        folderDtoList.forEach {
+            val wfFolderEntity = WfFolderEntity(
+                folderId = it.folderId!!,
+                instance = wfInstanceRepository.findByInstanceId(it.instanceId!!)!!,
+                relatedType = it.relatedType ?: FolderConstants.RelatedType.REFERENCE.code,
+                createUserKey = currentSessionUser.getUserKey(),
+                createDt = LocalDateTime.now()
+            )
+            folderRepository.save(wfFolderEntity)
+        }
         return true
     }
 

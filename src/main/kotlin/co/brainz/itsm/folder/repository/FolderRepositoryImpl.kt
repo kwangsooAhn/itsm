@@ -15,20 +15,11 @@ import org.springframework.stereotype.Repository
 @Repository
 class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.java), FolderRepositoryCustom {
 
-    override fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateRelatedInstanceDto> {
+    override fun findRelatedDocumentListByFolderId(folderId: String): List<RestTemplateRelatedInstanceDto> {
         val folder = QWfFolderEntity.wfFolderEntity
         val user = QAliceUserEntity.aliceUserEntity
         val token = QWfTokenEntity.wfTokenEntity
         val document = QWfDocumentEntity.wfDocumentEntity
-        val queryTokenId = JPAExpressions.select(folder.folderId)
-            .from(folder, token)
-            .where(
-                folder.instance.eq(token.instance).and(token.tokenId.eq(tokenId)).and(
-                    folder.relatedType.eq(
-                        "origin"
-                    )
-                )
-            )
 
         return from(folder)
             .select(
@@ -59,10 +50,25 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
             .innerJoin(folder.instance.document, document)
             .leftJoin(user).on(folder.instance.instanceCreateUser.userKey.eq(user.userKey))
             .where(
-                folder.folderId.eq(queryTokenId)
+                folder.folderId.eq(folderId)
             )
             .where(folder.relatedType.eq("reference").or(folder.relatedType.eq("related")))
             .orderBy(folder.instance.instanceStartDt.asc())
             .fetch()
+    }
+
+    override fun findFolderIdByTokenId(tokenId: String): String {
+        val folder = QWfFolderEntity.wfFolderEntity
+        val token = QWfTokenEntity.wfTokenEntity
+
+        return from(folder, token)
+            .select(folder.folderId)
+            .where(
+                folder.instance.eq(token.instance).and(token.tokenId.eq(tokenId)).and(
+                    folder.relatedType.eq(
+                        "origin"
+                    )
+                )
+            ).fetchOne()
     }
 }

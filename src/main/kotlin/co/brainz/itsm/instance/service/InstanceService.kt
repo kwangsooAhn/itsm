@@ -75,7 +75,7 @@ class InstanceService(
         val allInstanceList = wfInstanceService.getAllInstanceListAndSearch(this.getInstanceId(tokenId)!!, searchValue)
 
         if (!allInstanceList.isNullOrEmpty()) {
-            val relatedInstanceList = folderService.getRelatedInstance(tokenId)
+            val relatedInstanceList = folderService.getFolderByTokenId(tokenId)
             val relatedInstanceIds = mutableListOf<String>()
             relatedInstanceList?.forEach { relatedInstance ->
                 relatedInstance.instanceId?.let { relatedInstanceIds.add(it) }

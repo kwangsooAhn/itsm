@@ -3,7 +3,7 @@ package co.brainz.itsm.folder.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class FolderDto(
+data class InstanceInFolderDto(
     val folderId: String?,
     val instanceId: String?,
     val tokenId: String? = null,
