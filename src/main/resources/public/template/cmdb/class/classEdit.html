@@ -401,6 +401,8 @@
                     getAttributeList(this.value, false);
                 });
                 getAttributeList(document.getElementById('attributeSearch').value, true);
+
+                OverlayScrollbars(document.querySelector('.z-list-body'), {className: 'scrollbar'});
             }
         });
         classAttributeListModal.show();
