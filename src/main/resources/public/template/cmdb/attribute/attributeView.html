@@ -87,6 +87,8 @@
             detailObject.querySelectorAll('button').forEach(function(object) { object.disabled = true; });
             detailObject.querySelectorAll('.i-delete').forEach(function(object) { object.parentElement.remove() });
 
+            document.querySelectorAll('.i-plus').forEach(function(object) { object.parentElement.remove() });
+
             OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
                 className: 'scrollbar',
