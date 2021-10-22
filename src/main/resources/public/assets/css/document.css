@@ -2035,6 +2035,10 @@ select {
   pointer-events: none;
 }
 
+.z-view-hover {
+  pointer-events: none;
+}
+
 /* _print.scss 
  *
  * 파일 경로 : document/_print.scss

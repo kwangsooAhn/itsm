@@ -2449,6 +2449,10 @@ select {
   pointer-events: none;
 }
 
+.z-view-hover {
+  pointer-events: none;
+}
+
 label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;

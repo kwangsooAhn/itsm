@@ -1924,6 +1924,10 @@ select {
   pointer-events: none;
 }
 
+.z-view-hover {
+  pointer-events: none;
+}
+
 .z-checkbox-all {
   display: table-cell;
 }
