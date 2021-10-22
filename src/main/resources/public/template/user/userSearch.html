@@ -40,7 +40,7 @@
     };
 
     function getList(pageNum = 1) {
-        restSearchSubmit('get', '/users?searchValue=' + document.getElementById('searchValue').value + '&pageNum=' + pageNum);
+        restSearchSubmit('get', '/users?searchValue=' + encodeURIComponent(document.getElementById('searchValue').value) + '&pageNum=' + pageNum);
     }
 
     function restSearchSubmit(method, url) {

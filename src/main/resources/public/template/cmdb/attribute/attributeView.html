@@ -83,7 +83,11 @@
             const detailObject = document.querySelector('#details');
             detailObject.querySelectorAll('input').forEach(function(object) { object.disabled = true; });
             detailObject.querySelectorAll('select').forEach(function(object) { object.disabled = true; });
+            detailObject.querySelectorAll('.z-select-box').forEach(function(object) { object.classList.add('disabled-select') });
             detailObject.querySelectorAll('button').forEach(function(object) { object.disabled = true; });
+            detailObject.querySelectorAll('.i-delete').forEach(function(object) { object.parentElement.remove() });
+
+            document.querySelectorAll('.i-plus').forEach(function(object) { object.parentElement.remove() });
 
             OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {

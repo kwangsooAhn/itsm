@@ -214,7 +214,7 @@
 
     function drawCondition(param) {
         const divRow = document.createElement('div');
-        divRow.classList.add('flex-row', 'z-edit-row');
+        divRow.classList.add('flex-row', 'z-edit-row', 'justify-content-between');
 
         const keySelect = document.createElement('select');
         keySelect.classList.add('condition');
@@ -224,6 +224,8 @@
             option.selected = (typeof param !== 'undefined') ? (param.conditionKey === option.value) : '';
             keySelect.appendChild(option);
         }
+        keySelect.classList.add('col-3');
+
         const operatorSelect = document.createElement('select');
         const operatorList = /*[[${operatorList}]]*/'';
         for (let i = 0; i < operatorList.length; i++) {
@@ -233,7 +235,7 @@
             selectOption.selected = (typeof param !== 'undefined') ? (param.conditionOperator === selectOption.value) : '';
             operatorSelect.appendChild(selectOption);
         }
-        operatorSelect.classList.add('ml-1', 'mr-1');
+        operatorSelect.classList.add('col-3');
 
         const valueInput = document.createElement('input');
         valueInput.classList.add('z-input', 'condition');
@@ -241,6 +243,7 @@
         valueInput.name = 'conditionValue';
         valueInput.maxLength = 100;
         valueInput.value = (typeof param !== 'undefined') ? param.conditionValue : '';
+        valueInput.classList.add('col-3');
 
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'z-button-icon extra';

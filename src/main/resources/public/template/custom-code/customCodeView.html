@@ -107,8 +107,14 @@
                     conditionInput.disabled = true;
 
                     const equalSpan = document.createElement('span');
-                    equalSpan.classList.add('equal', 'ml-1', 'mr-1');
-                    equalSpan.textContent = '=';
+                    equalSpan.classList.add('equal', 'align-center', 'col-1');
+                    equalSpan.value = getColumnName(condition[data].conditionOperator);
+                    const operatorList = /*[[${operatorList}]]*/'';
+                    for (let i = 0; i < operatorList.length; i++) {
+                        if (equalSpan.value === operatorList[i].codeValue) {
+                            equalSpan.textContent = operatorList[i].codeName;
+                        }
+                    }
 
                     const valueInput = document.createElement('input');
                     valueInput.classList.add('z-input', 'col-6');
