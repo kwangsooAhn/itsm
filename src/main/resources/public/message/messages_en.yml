@@ -315,7 +315,7 @@ cmdb:
       selectAttributeType: "Please select the type."
       viewDescription: "Inquires detailed information about the attribute."
       editDescription: "Register, modify, or delete information on attribute."
-      maxLength: "Please enter max length below 100."
+      maxLength: "Please enter max length below 1000."
       comepareWithMaxLength: "Enter a number max length is greater than min length."
     btn:
       import: "Import"
