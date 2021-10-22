@@ -142,7 +142,11 @@
                         url += '/' + /*[[${attribute?.attributeId}]]*/'';
                         data.attributeId = /*[[${attribute?.attributeId}]]*/'';
                     }
+
                     data.attributeValue = zCmdbAttribute.setDetails(data.attributeType);
+                    if(!data.attributeValue) {
+                        return false;
+                    }
                     restSubmit(method, url, data);
                 }
             } else if (method === 'delete') {

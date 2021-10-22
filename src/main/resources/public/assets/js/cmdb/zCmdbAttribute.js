@@ -39,6 +39,8 @@
     let attributeId = '';
     let attributeMap = []; // 저장된 데이터
     let attributeMapTemp = []; // 화면에서 사용자가 변경 중인 데이터
+    const inputTypeAttributeDefaultMaxLength = 1000;
+    const inputTypeAttributeDefaultMinLength = 0;
 
     /**
      * 초기 데이터 셋팅.
@@ -144,8 +146,8 @@
                 `${property.required === option.value ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
-        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '100';
-        const minLengthValue = property.minLength !== undefined ? property.minLength : '0';
+        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : inputTypeAttributeDefaultMaxLength;
+        const minLengthValue = property.minLength !== undefined ? property.minLength : inputTypeAttributeDefaultMinLength;
         this.template =
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4">` +
@@ -170,7 +172,7 @@
                 `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxLength')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="text" class="z-input" id="${objectId}-maxLength" maxlength="100" value="${maxLengthValue}">` +
+            `<input type="number" class="z-input" id="${objectId}-maxLength" max="1000" value="${maxLengthValue}">` +
             `</div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
@@ -178,7 +180,7 @@
                 `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="text" class="z-input" id="${objectId}-minLength" maxlength="100" value="${minLengthValue}">` +
+            `<input type="number" class="z-input" id="${objectId}-minLength" max="1000" min="0" value="${minLengthValue}">` +
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -764,6 +766,15 @@
                 details.required = parent.querySelector('#' + attributeTypeList[0].type + '-required').value;
                 details.maxLength = parent.querySelector('#' + attributeTypeList[0].type + '-maxLength').value;
                 details.minLength = parent.querySelector('#' + attributeTypeList[0].type + '-minLength').value;
+
+                if(parseInt(details.maxLength) <= parseInt(details.minLength)) {
+                    zAlert.warning(i18n.msg('cmdb.attribute.msg.comepareWithMaxLength'));
+                    return false;
+                }
+                if(parseInt(details.maxLength) > inputTypeAttributeDefaultMaxLength) {
+                    zAlert.warning(i18n.msg('cmdb.attribute.msg.maxLength'));
+                    return false;
+                }
                 break;
             case 'dropdown':
                 let dropdownOption = [];
