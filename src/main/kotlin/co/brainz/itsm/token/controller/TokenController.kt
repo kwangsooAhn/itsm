@@ -98,6 +98,7 @@ class TokenController(
         val instanceId = instanceService.getInstanceId(tokenId)!!
         model.addAttribute("folderId", folderService.getFolderId(tokenId))
         model.addAttribute("instanceId", instanceId)
+        model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
         model.addAttribute("documentNo", instanceService.getInstance(instanceId).documentNo)
         return tokenEditPage
     }

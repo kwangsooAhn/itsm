@@ -7,8 +7,8 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { zValidation } from '../lib/zValidation.js';
 import { SESSION } from '../lib/zConstants.js';
+import { zValidation } from '../lib/zValidation.js';
 
 class ZFormTokenTab {
     constructor() {}
@@ -34,6 +34,13 @@ class ZFormTokenTab {
         document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
 
         this.reloadTab();
+
+        new zTag(document.getElementById('tokenTags'), {
+            suggestion: true,
+            realtime: true,
+            tagType: 'instance',
+            targetId: this.instanceId
+        });
     }
     /**
      * 탭 생성 : 우측 문서 정보, 의견, 태그 영역
@@ -42,22 +49,9 @@ class ZFormTokenTab {
         this.reloadHistory();
         this.reloadRelatedInstance();
         this.reloadTokenComment();
-        this.reloadTokenTag();
 
-        // 스크롤바
         OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
-
-        // 디자인된 selectbox
         aliceJs.initDesignedSelectTag();
-
-        // 태그 초기화
-/*        new zTag(document.getElementById('tokenTags'), {
-            suggestion: this.editable,
-            realtime: this.editable,
-            tagType: 'instance',
-            targetId: this.instanceId
-        });*/
-        // });
     }
 
     /**
@@ -98,8 +92,59 @@ class ZFormTokenTab {
             element.textContent = i18n.userDateTime(element.textContent);
         });
     }
+
     /**
-     * 관련 문서 모달 오픈
+     * String 형태의 HTML 데이터를 Element 로 변환
+     * @param htmlString
+     * @return {Element}
+     */
+    makeElementFromString(htmlString) {
+        let div = document.createElement('div');
+        div.innerHTML = htmlString;
+        return div.firstElementChild;
+    }
+    /***************************************************************************************************************
+     * 문서이력 조회
+     ***************************************************************************************************************/
+    reloadHistory() {
+        // 문서이력 clear
+        document.getElementById('history').childNodes.innerHTML = '';
+
+        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/history', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((rtn) => {
+            if (rtn) {
+                rtn.forEach((token) => {
+                    document.getElementById('history').innerHTML = this.makeHistoryFragment(token);
+                })
+            } else {
+                zAlert.danger(i18n.msg('common.msg.fail'));
+            }
+        });
+    }
+
+    /**
+     * 문서이력 리스트 화면 조각
+     * @param token 서버에서 응답받은 Token 리스트에서 1개의 정보
+     * @return {string} innerHTML 로 넣을 수 있는 String.
+     */
+    makeHistoryFragment(token) {
+        return `<tr class="flex-row align-items-center">` +
+            `<td style="width: 35%;" class="align-left date-time" name="tokenDt">` + token.tokenStartDt + `</td>` +
+            `<td style="width: 25%;" class="align-left">` + token.elementName + `</td>` +
+            `<td style="width: 20%;" class="align-left">` + token.assigneeName + `</td>` +
+            `<td style="width: 20%;" class="align-left">` + i18n.msg(token.tokenAction) + `</td>` +
+            `</tr>`;
+    }
+    /***************************************************************************************************************
+     * 관련문서 처리 로직
+     * - 이것도 사실 파일을 분리했으면 좋겠다. 그치만, 문서조회 팝업의 전체의 구조 및 디자인 변경을 하게 되면 그때 같이 하자.
+     ***************************************************************************************************************/
+    /**
+     * 관련 문서 모달 오픈 : 관련문서를 찾기 위한 모달
      */
     openRelatedDocModal() {
         const relatedTokenModalTemplate = document.getElementById('relatedTokenModalTemplate');
@@ -112,7 +157,8 @@ class ZFormTokenTab {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    this.saveRelatedDoc(modal);
+                    this.saveRelatedDoc();
+                    modal.hide();
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
@@ -135,7 +181,8 @@ class ZFormTokenTab {
         relatedTokenModal.show();
     }
     /**
-     * 관련 문서 조회
+     * 관련 문서 조회 : 현재 조회한 문서와 관련이 있는 문서를 조회
+     *
      * @param search 검색어
      * @param showProgressbar ProgressBar 표시여부
      */
@@ -149,9 +196,9 @@ class ZFormTokenTab {
         });
     }
     /**
-     * 관련 문서 저장
+     * 관련 문서 저장 : 선택한 문서를 관련문서로 저장
      */
-    saveRelatedDoc(target) {
+    saveRelatedDoc() {
         let checked = document.querySelectorAll('input[name=chk]:checked');
         if (checked.length === 0) {
             zAlert.warning(i18n.msg('token.msg.selectToken'));
@@ -171,7 +218,6 @@ class ZFormTokenTab {
                 body: JSON.stringify(jsonArray)
             }).then((rtn) => {
                 if (rtn === 'true') {
-                    target.hide();
                     this.reloadTab();
                 } else {
                     zAlert.danger(i18n.msg('common.msg.fail'));
@@ -179,7 +225,6 @@ class ZFormTokenTab {
             });
         }
     }
-
     /**
      * 관련 문서 삭제
      * @param folderId 삭제 대상 폴더 아이디
@@ -205,9 +250,8 @@ class ZFormTokenTab {
             });
         });
     }
-
     /**
-     * 문서 팝업 오픈 (tokenView.html)
+     * 관련문서 세부내용 조회를 위해 팝업 오픈 (tokenView.html)
      */
     openTokenEditPop(tokenId) {
         const _width = 1500, _height = 920;
@@ -216,6 +260,79 @@ class ZFormTokenTab {
         window.open('/tokens/' + tokenId + '/view', 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150) + ', left=' + _left + ', top=' + _top);
     }
 
+    /**
+     * 관련문서 재로딩
+     */
+    reloadRelatedInstance() {
+        document.querySelectorAll('#related .z-token-related-item:not(.z-document-add)').forEach((aTag) => {
+            aTag.remove();  // 관련문서 clear
+        });
+
+        aliceJs.fetchJson('/rest/folders/' + this.folderId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((rtn) => {
+            if (rtn) {
+                rtn.forEach((instance) => {
+                    document.querySelector('#related label').insertAdjacentElement('afterend', this.makeRelatedInstanceFragment(instance));
+                })
+                // 날짜 표기 변경
+                this.setDateTimeFormat();
+            } else {
+                zAlert.danger(i18n.msg('common.msg.fail'));
+            }
+        });
+    }
+
+    /**
+     * 관련문서 부분 화면 조각
+     * @param instance 서버에서 응답받은 관련문서(instance) 1개의 데이터
+     * @return {Element} 만들어진 HTML Element
+     */
+    makeRelatedInstanceFragment(instance) {
+        let htmlString =
+            `<div class="z-token-related-item flex-row" id="relatedDoc` + instance.instanceId + `">` +
+            `<div class="z-document-color" style="background-color: ` + instance.documentColor + `"></div>` +
+            `<div class="z-document-row flex-column">` +
+            `<div class="z-document-row-content flex-row justify-content-between">` +
+            `<a onclick="zFormTokenTab.openTokenEditPop('` + instance.tokenId + `')">` +
+            `<div class="z-document-title flex-row align-items-center">` +
+            `<h6>` + instance.documentName + `</h6>` +
+            `<h6>` + instance.documentNo + `</h6>` +
+            `</div>` +
+            `</a>` +
+            `<button type="button" class="z-button-icon"` +
+            `onclick="zFormTokenTab.removeRelatedDoc('` + instance.folderId + `', '` + instance.instanceId + `')">` +
+            `<span class="z-icon i-delete"></span>` +
+            `</button>` +
+            `</div>` +
+            `<div class="z-document-row-topic">`;
+        instance.topics?.forEach((topic) => {
+            htmlString += `<h6 class="text-ellipsis">` + topic + `</h6>`;
+        })
+        htmlString +=
+            `</div>` +
+            `<div class="z-document-row-info flex-row align-items-center">` +
+            `<div class="flex-row align-items-center">` +
+            `<img class="z-img i-profile-photo mr-2" src="` + instance.avatarPath + `" width="30" height="30"/>` +
+            `<h6 class="pl-2">` + instance.instanceCreateUserName + `</h6>` +
+            `</div>` +
+            `<span class="vertical-bar"></span>` +
+            `<h6 class="dateFormatFromNow">` + instance.instanceStartDt + `</h6>` +
+            `<span class="vertical-bar"></span>` +
+            `<h6>` +  i18n.msg('common.code.token.status.' + instance.instanceStatus) + `</h6>` +
+            `</div>` +
+            `</div>` +
+            `</div>`;
+
+        return this.makeElementFromString(htmlString);
+    }
+    /***************************************************************************************************************
+     * 댓글 처리 로직
+     * - 이것도 사실 파일을 분리했으면 좋겠다. 그치만, 문서조회 팝업의 전체의 구조 및 디자인 변경을 하게 되면 그때 같이 하자.
+     ***************************************************************************************************************/
     /**
      * 댓글 저장
      */
@@ -227,7 +344,6 @@ class ZFormTokenTab {
             zAlert.warning(i18n.msg('comment.msg.enterComments'));
             return false;
         }
-        // 저장
         aliceJs.fetchText('/rest/instances/' + this.instanceId + '/comments', {
             method: 'POST',
             headers: {
@@ -264,52 +380,12 @@ class ZFormTokenTab {
             });
         });
     }
-    reloadHistory() {
-        // 문서이력 clear
-        document.getElementById('history').childNodes.innerHTML = '';
-
-        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/history', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then((rtn) => {
-            if (rtn) {
-                rtn.forEach((token) => {
-                    document.getElementById('history').innerHTML = this.makeHistoryFragment(token);
-                })
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
-            }
-        });
-    }
-    reloadRelatedInstance() {
-        // 관련문서 clear
-        document.querySelectorAll('#related .z-token-related-item:not(.z-document-add)').forEach((aTag) => {
-            aTag.remove();
-        });
-
-        aliceJs.fetchJson('/rest/folders/' + this.folderId, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then((rtn) => {
-            if (rtn) {
-                rtn.forEach((instance) => {
-                    document.querySelector('#related label').insertAdjacentElement('afterend', this.makeRelatedInstanceFragment(instance));
-                })
-                // 날짜 표기 변경
-                this.setDateTimeFormat();
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
-            }
-        });
-    }
+    /**
+     * 댓글 재로딩
+     */
     reloadTokenComment() {
-        // 댓글 clear
         document.querySelectorAll('#tokenComments .z-token-comment-item').forEach((comment) => {
-            comment.remove();
+            comment.remove();  // 댓글 clear
         });
 
         aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/comments', {
@@ -327,93 +403,37 @@ class ZFormTokenTab {
             }
         });
     }
-    reloadTokenTag() {
-        // 태그 clear
-        document.querySelector('#tokenTag .tag-input').innerHTML = '';
-    }
-    makeRelatedInstanceFragment(instance) {
-        let htmlString =
-        `<div class="z-token-related-item flex-row" id="relatedDoc` + instance.instanceId + `">` +
-            `<div class="z-document-color" style="background-color: ` + instance.documentColor + `"></div>` +
-            `<div class="z-document-row flex-column">` +
-                `<div class="z-document-row-content flex-row justify-content-between">` +
-                    `<a onclick="zFormTokenTab.openTokenEditPop('` + instance.tokenId + `')">` +
-                        `<div class="z-document-title flex-row align-items-center">` +
-                            `<h6>` + instance.documentName + `</h6>` +
-                            `<h6>` + instance.documentNo + `</h6>` +
-                        `</div>` +
-                    `</a>`;
-        if (this.editable) {
-            htmlString +=
-                    `<button type="button" class="z-button-icon"` +
-                        `onclick="zFormTokenTab.removeRelatedDoc('` + instance.folderId + `', '` + instance.instanceId + `')">` +
-                        `<span class="z-icon i-delete"></span>` +
-                    `</button>`;
-        }
-        htmlString +=
-                `</div>` +
-                `<div class="z-document-row-topic">`;
-        instance.topics?.forEach((topic) => {
-            htmlString += `<h6 class="text-ellipsis">` + topic + `</h6>`;
-        })
-        htmlString +=
-                `</div>` +
-                `<div class="z-document-row-info flex-row align-items-center">` +
-                    `<div class="flex-row align-items-center">` +
-                        `<img class="z-img i-profile-photo mr-2" src="` + instance.avatarPath + `" width="30" height="30"/>` +
-                        `<h6 class="pl-2">` + instance.instanceCreateUserName + `</h6>` +
-                    `</div>` +
-                    `<span class="vertical-bar"></span>` +
-                    `<h6 class="dateFormatFromNow">` + instance.instanceStartDt + `</h6>` +
-                    `<span class="vertical-bar"></span>` +
-                    `<h6>` +  i18n.msg('common.code.token.status.' + instance.instanceStatus) + `</h6>` +
-                `</div>` +
-            `</div>` +
-        `</div>`;
 
-        return this.makeElementFromString(htmlString);
-    }
-    makeHistoryFragment(token) {
-        let htmlString =
-        `<tr class="flex-row align-items-center">` +
-            `<td style="width: 35%;" class="align-left date-time" name="tokenDt">` + token.tokenStartDt + `</td>` +
-            `<td style="width: 25%;" class="align-left">` + token.elementName + `</td>` +
-            `<td style="width: 20%;" class="align-left">` + token.assigneeName + `</td>` +
-            `<td style="width: 20%;" class="align-left">` + i18n.msg(token.tokenAction) + `</td>` +
-        `</tr>`;
-
-        return htmlString;
-    }
+    /**
+     * 댓글 출력을 위한 화면 코드 조각
+     * @param comment 댓글 1개 정보
+     * @return {Element} 그려진 HTML Element
+     */
     makeCommentsFragment(comment) {
         let htmlString =
             `<div class="z-token-comment-item flex-column" id="comment` + comment.commentId + `">` +
-                `<div class="z-comment-row-info flex-row align-items-center">` +
-                    `<div class="flex-row align-items-center">` +
-                        `<img class="z-img i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
-                        `<h6 class="z-user-name pl-2">` + comment.createUserName + `</h6>` +
-                    `</div>` +
-                    `<h6 class="z-comment-time date-time">` + comment.createDt + `</h6>` +
-                    `<div class="ml-auto">`
-        if (SESSION.userKey === comment.createUserKey && this.editable) {
-                        htmlString +=
-                        `<button class="z-button-icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
-                            `<span class="z-icon i-delete"></span>` +
-                        `</button>`
+            `<div class="z-comment-row-info flex-row align-items-center">` +
+            `<div class="flex-row align-items-center">` +
+            `<img class="z-img i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
+            `<h6 class="z-user-name pl-2">` + comment.createUserName + `</h6>` +
+            `</div>` +
+            `<h6 class="z-comment-time date-time">` + comment.createDt + `</h6>` +
+            `<div class="ml-auto">`
+        if (SESSION.userKey === comment.createUserKey) {
+            htmlString +=
+                `<button class="z-button-icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
+                `<span class="z-icon i-delete"></span>` +
+                `</button>`
         }
-                    htmlString +=
-                    `</div>` +
-                `</div>` +
-                `<div class="z-comment-row-content">` +
-                    `<h6 class="text-ellipsis">` + comment.content + `</h6>` +
-                `</div>` +
+        htmlString +=
+            `</div>` +
+            `</div>` +
+            `<div class="z-comment-row-content">` +
+            `<h6 class="text-ellipsis">` + comment.content + `</h6>` +
+            `</div>` +
             `</div>`
 
         return this.makeElementFromString(htmlString);
-    }
-    makeElementFromString(htmlString) {
-        let div = document.createElement('div');
-        div.innerHTML = htmlString;
-        return div.firstElementChild;
     }
 }
 
