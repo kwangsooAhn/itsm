@@ -143,11 +143,9 @@
                         data.attributeId = /*[[${attribute?.attributeId}]]*/'';
                     }
 
-                    let tempDetails = zCmdbAttribute.setDetails(data.attributeType);
-                    if (!tempDetails) {
+                    data.attributeValue = zCmdbAttribute.setDetails(data.attributeType);
+                    if(!data.attributeValue) {
                         return false;
-                    }else {
-                        data.attributeValue = tempDetails;
                     }
                     restSubmit(method, url, data);
                 }
