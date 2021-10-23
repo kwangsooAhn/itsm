@@ -24,22 +24,29 @@ class ZFormTokenTab {
         this.tokenId = formDataJson.tokenId;
         this.folderId = formDataJson.folderId;
         this.editable = editable;
-        // 탭 이벤트
-        document.querySelectorAll('.z-token-tab').forEach((tab) => {
-            tab.addEventListener('click', this.selectTokenTab, false);
-        });
 
-        const selectedTabId = sessionStorage.getItem('alice_token-tab-selected') ?
-            sessionStorage.getItem('alice_token-tab-selected') : 'tokenInformation';
-        document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
+        // 탭 생성
+        aliceJs.fetchText('/tokens/' + this.tokenId + '/tokenTab', {
+            method: 'GET'
+        }).then((htmlData) => {
+            this.propertiesElement.innerHTML = htmlData;
+            // 탭 이벤트
+            document.querySelectorAll('.z-token-tab').forEach((tab) => {
+                tab.addEventListener('click', this.selectTokenTab, false);
+            });
 
-        this.reloadTab();
+            const selectedTabId = sessionStorage.getItem('alice_token-tab-selected') ?
+                sessionStorage.getItem('alice_token-tab-selected') : 'tokenInformation';
+            document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
 
-        new zTag(document.getElementById('tokenTags'), {
-            suggestion: true,
-            realtime: true,
-            tagType: 'instance',
-            targetId: this.instanceId
+            this.reloadTab();
+
+            new zTag(document.getElementById('tokenTags'), {
+                suggestion: true,
+                realtime: true,
+                tagType: 'instance',
+                targetId: this.instanceId
+            });
         });
     }
     /**

@@ -46,8 +46,7 @@ class TokenController(
     private val tokenPrintPage: String = "token/tokenPrint"
     private val tokenPopUpPage: String = "token/tokenPopUp"
     private val tokenInstanceListPage: String = "token/tokenInstanceList"
-    private val tokenTab: String = "token/tokenTab"
-    private val tokenViewTab: String = "token/tokenViewTab"
+    private val tokenTabPage: String = "token/tokenTab"
 
     /**
      * 처리할 문서 리스트 호출 화면.
@@ -94,35 +93,13 @@ class TokenController(
      */
     @GetMapping("{tokenId}/edit")
     fun getDocumentEdit(@PathVariable tokenId: String, model: Model): String {
-        model.addAttribute("tokenId", tokenId)
         val instanceId = instanceService.getInstanceId(tokenId)!!
+        model.addAttribute("tokenId", tokenId)
         model.addAttribute("folderId", folderService.getFolderId(tokenId))
         model.addAttribute("instanceId", instanceId)
-        model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
         model.addAttribute("documentNo", instanceService.getInstance(instanceId).documentNo)
         return tokenEditPage
     }
-
-    /**
-     * [tokenId] 문서의 오른쪽 정보를 보여주는 탭 정보를 조회한다.
-     * 편집 가능할 경우 mode = edit , 편집 불가일 경우 mode = view
-     */
-    /*@GetMapping("{tokenId}/edit-tab")
-    fun getDocumentEditTab(
-        @PathVariable tokenId: String,
-        @RequestParam(value = "mode", defaultValue = "edit") mode: String,
-        model: Model
-    ): String {
-        val instanceId = instanceService.getInstanceId(tokenId)!!
-        model.addAttribute("instanceId", instanceId)
-        model.addAttribute("folderId", folderService.getFolderId(tokenId))
-        model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
-        model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
-        model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
-        model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
-        model.addAttribute("mode", mode)
-        return tokenTab
-    }*/
 
     /**
      * 처리할 문서 상세 화면 : 편집 불가.
@@ -133,33 +110,12 @@ class TokenController(
     @GetMapping("{tokenId}/view")
     fun getDocumentView(@PathVariable tokenId: String, model: Model): String {
         model.addAttribute("tokenId", tokenId)
-        //model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
-        //model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
         val instanceId = instanceService.getInstanceId(tokenId)!!
-        val folderId = folderService.getFolderId(tokenId)
-        model.addAttribute("folderId", folderId)
+        model.addAttribute("folderId", folderService.getFolderId(tokenId))
         model.addAttribute("instanceId", instanceId)
-        model.addAttribute("commentList", instanceService.getComments(instanceId))
-        model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
         model.addAttribute("documentNo", instanceService.getInstance(instanceId).documentNo)
         return tokenViewPage
     }
-
-    /**
-     * [tokenId] 문서의 오른쪽 정보를 보여주는 탭 정보를 조회한다. view
-     * TODO 이건 그냥 만들어둔거. 관련 html  은 아직 없다. view 를 어떻게 될지 확인하고 추가 작업해야한다.
-     */
-/*    @GetMapping("{tokenId}/view-tab")
-    fun getDocumentViewTab(@PathVariable tokenId: String, model: Model): String {
-        val instanceId = instanceService.getInstanceId(tokenId)!!
-        model.addAttribute("instanceId", instanceId)
-        model.addAttribute("folderId", folderService.getFolderId(tokenId))
-        model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
-        //model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
-        model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
-        model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
-        return tokenViewTab
-    }*/
 
     /**
      * 처리할 문서 인쇄 화면.
@@ -176,7 +132,7 @@ class TokenController(
     }
 
     /**
-     * 관련문서 팝업 생성
+     * 보기전용 팝업 생성
      */
     @GetMapping("/{tokenId}/view-pop")
     fun getTokenPopUp(@PathVariable tokenId: String, model: Model): String {
@@ -187,7 +143,7 @@ class TokenController(
     }
 
     /**
-     * 관련문서 팝업 문서 리스트 출력
+     * 문서 조회 리스트 출력
      */
     @GetMapping("/view-pop/documents")
     fun getAllInstanceListAndSearch(
@@ -197,5 +153,11 @@ class TokenController(
     ): String {
         model.addAttribute("instanceList", instanceService.getAllInstanceListAndSearch(tokenId, searchValue))
         return tokenInstanceListPage
+    }
+
+    @GetMapping("{tokenId}/tokenTab")
+    fun getDocumentEditTab(@PathVariable tokenId: String, model: Model): String {
+        model.addAttribute("tagList", instanceService.getInstanceTags(instanceService.getInstanceId(tokenId)!!))
+        return tokenTabPage
     }
 }
