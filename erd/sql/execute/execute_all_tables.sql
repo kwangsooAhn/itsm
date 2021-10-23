@@ -424,6 +424,7 @@ insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용�
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0009', '사용자 부서 검색', 'code', null, null, null, 'department.group', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288ab777dd21b50177dd52781e0000', '데이터베이스', 'code', null, null, null, 'cmdb.db.kind', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0010', '서비스데스크 - 단순문의 : 서비스 항목', 'code', null, null, null, 'form.template.serviceDesk.inquiry.category', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0011', '서비스데스크 - 장애신고 : 장애유형', 'code', null, null, null, 'form.template.serviceDesk.incident.category', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0012', '서비스데스크 - 서비스요청 : 요청구분', 'code', null, null, null, 'form.template.serviceDesk.request.category', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
@@ -1153,15 +1154,15 @@ insert into awf_role_auth_map values ('role.view', 'role.read');
 insert into awf_role_auth_map values ('role.view', 'role.create');
 insert into awf_role_auth_map values ('role.view', 'role.delete');
 insert into awf_role_auth_map values ('role.view', 'role.update');
-insert into awf_role_auth_map values ('users.general', 'board.read');
-insert into awf_role_auth_map values ('users.general', 'code.read');
-insert into awf_role_auth_map values ('users.general', 'notice.read');
-insert into awf_role_auth_map values ('users.general', 'faq.read');
 insert into awf_role_auth_map values ('users.general', 'token.read');
 insert into awf_role_auth_map values ('users.general', 'token.create');
 insert into awf_role_auth_map values ('users.general', 'document.read');
 insert into awf_role_auth_map values ('users.general', 'document.create');
+insert into awf_role_auth_map values ('users.general', 'notice.read');
+insert into awf_role_auth_map values ('users.general', 'faq.read');
 insert into awf_role_auth_map values ('users.general', 'download.read');
+insert into awf_role_auth_map values ('users.general', 'board.read');
+insert into awf_role_auth_map values ('users.general', 'code.read');
 insert into awf_role_auth_map values ('users.manager', 'process.create');
 insert into awf_role_auth_map values ('users.manager', 'process.delete');
 insert into awf_role_auth_map values ('users.manager', 'role.delete');
@@ -1191,18 +1192,10 @@ insert into awf_role_auth_map values ('users.manager', 'role.read');
 insert into awf_role_auth_map values ('users.manager', 'role.create');
 insert into awf_role_auth_map values ('users.manager', 'role.update');
 /* 단순문의 - 서비스데스크 담당자, 서비스데스크 관리자 */
-insert into awf_role_auth_map values ('serviceDesk.assignee', 'board.read');
-insert into awf_role_auth_map values ('serviceDesk.assignee', 'code.read');
-insert into awf_role_auth_map values ('serviceDesk.assignee', 'notice.read');
-insert into awf_role_auth_map values ('serviceDesk.assignee', 'faq.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.read');
+insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.create');
 insert into awf_role_auth_map values ('serviceDesk.assignee', 'token.create');
 insert into awf_role_auth_map values ('serviceDesk.assignee', 'token.read');
-insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.read');
-insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.delete');
-insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.update');
-insert into awf_role_auth_map values ('serviceDesk.assignee', 'document.create');
-insert into awf_role_auth_map values ('serviceDesk.manager', 'document.delete');
-insert into awf_role_auth_map values ('serviceDesk.manager', 'document.update');
 insert into awf_role_auth_map values ('serviceDesk.manager', 'document.create');
 insert into awf_role_auth_map values ('serviceDesk.manager', 'document.read');
 insert into awf_role_auth_map values ('serviceDesk.manager', 'token.create');
@@ -1655,7 +1648,8 @@ insert into awf_url values ('/rest/faqs/{id}', 'get', 'FAQ 상세 조회', 'TRUE
 insert into awf_url values ('/rest/faqs/{id}', 'delete', 'FAQ 삭제 처리', 'TRUE');
 insert into awf_url values ('/rest/filenameextensions', 'get', '파일 확장자목록', 'FALSE');
 insert into awf_url values ('/rest/folders', 'post', '폴더 등록', 'FALSE');
-insert into awf_url values ('/rest/folders/{id}', 'delete', '폴더 삭제', 'FALSE');
+insert into awf_url values ('/rest/folders/{folderId}/instances/{instanceId}', 'delete', '폴더 삭제', false);
+insert into awf_url values ('/rest/folders/{folderId}', 'get', '폴더조회', false);
 insert into awf_url values ('/rest/forms/{id}', 'delete', '폼 디자이너 삭제', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'get', '폼 디자이너 세부 정보 불러오기', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
@@ -1666,6 +1660,10 @@ insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE'
 insert into awf_url values ('/rest/images/{id}', 'get', '이미지 조회', 'FALSE');
 insert into awf_url values ('/rest/images/{id}', 'delete', '이미지 삭제', 'TRUE');
 insert into awf_url values ('/rest/images', 'get', '이미지 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{instanceId}/history', 'get', '문서 이력조회', false);
+insert into awf_url values ('/rest/instances/{instanceId}/comments', 'get', '댓글 조회', false);
+insert into awf_url values ('/rest/instances/{instanceId}/comments', 'post', '댓글 등록', false);
+insert into awf_url values ('/rest/instances/{instanceId}/comments/{commentId}', 'delete', '댓글 삭제', false);
 insert into awf_url values ('/rest/notices', 'post', '공지사항 등록', 'TRUE');
 insert into awf_url values ('/rest/notices/{id}', 'delete', '공지사항 삭제', 'TRUE');
 insert into awf_url values ('/rest/notices/{id}', 'put', '공지사항 수정', 'TRUE');
@@ -1733,11 +1731,10 @@ insert into awf_url values ('/tokens', 'get', '처리할 문서 리스트 조회
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');
 insert into awf_url values ('/tokens/view-pop/documents', 'get', '관련문서 리스트', 'TRUE');
 insert into awf_url values ('/tokens/{id}/edit', 'get', '', 'TRUE');
-insert into awf_url values ('/tokens/{id}/edit-tab', 'get', '문서 오른쪽 탭 정보', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view', 'get', '', 'TRUE');
-insert into awf_url values ('/tokens/{id}/view-tab', 'get', '문서 오른쪽 탭 정보', 'TRUE');
 insert into awf_url values ('/tokens/{id}/print', 'get', '처리할 문서 프린트 화면', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view-pop', 'get', '관련문서 팝업 화면', 'TRUE');
+insert into awf_url values ('/tokens/{tokenId}/tokenTab','get','문서조회 탭화면', true);
 insert into awf_url values ('/users', 'get', '사용자 조회 목록 화면', 'TRUE');
 insert into awf_url values ('/users/new', 'get', '사용자 등록 화면', 'TRUE');
 insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 등 메인이 되는 조회 화면', 'TRUE');
@@ -1934,10 +1931,6 @@ insert into awf_url_auth_map values ('/process/{id}/view', 'get', 'process.updat
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.create');
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.update');
 insert into awf_url_auth_map values ('/process/{id}/status', 'get', 'document.read');
-
-
-
-
 insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.read');
 insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.create');
 insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.update');
@@ -1960,7 +1953,6 @@ insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'repo
 insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.update');
 insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.delete');
 insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.read');
-
 insert into awf_url_auth_map values ('/reports/template/new', 'get', 'report.create');
 insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.create');
 insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.update');
@@ -1977,14 +1969,7 @@ insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 're
 insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.delete');
 insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.read');
 insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.update');
-
 insert into awf_url_auth_map values ('/rest/reports/template/{id}', 'post', 'report.create');
-
-
-
-
-
-
 insert into awf_url_auth_map values ('/rest/auths', 'post', 'auth.create');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.delete');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.update');
@@ -2203,10 +2188,9 @@ insert into awf_url_auth_map values ('/tokens/search', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens/view-pop/documents', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens/view-pop/documents', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/edit', 'get', 'token.create');
-insert into awf_url_auth_map values ('/tokens/{id}/edit-tab', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens/{id}/view', 'get', 'token.read');
-insert into awf_url_auth_map values ('/tokens/{id}/view-tab', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/print', 'get', 'token.read');
+insert into awf_url_auth_map values ('/tokens/{tokenId}/tokenTab', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'token.create');
 insert into awf_url_auth_map values ('/users', 'get', 'user.update');
@@ -2803,6 +2787,7 @@ INSERT INTO wf_form_row VALUES ('4028b21f7c90d996017c914eec670044','4028b21f7c90
 INSERT INTO wf_form_row VALUES ('4028b21f7c90d996017c914eec970047','4028b21f7c90d996017c914eec300040','{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b21f7c90d996017c914eecc30049','4028b21f7c90d996017c914eecb30048','{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b21f7c90d996017c914eecf3004c','4028b21f7c90d996017c914eecb30048','{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+
 /**
  * 프로세스정보
  */
