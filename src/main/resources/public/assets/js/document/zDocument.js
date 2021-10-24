@@ -7,7 +7,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { FORM, DOCUMENT, SESSION } from '../lib/zConstants.js';
+
+import { ZSession } from '../lib/zSession.js';
+import { FORM, DOCUMENT } from '../lib/zConstants.js';
 import { zValidation } from '../lib/zValidation.js';
 import ZForm from '../form/zForm.js';
 import ZGroup from '../form/zGroup.js';
@@ -236,7 +238,7 @@ class ZDocument {
             'instanceId': this.data.instanceId,
             'tokenId': (zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : ''),
             'isComplete': (actionType !== 'save'),
-            'assigneeId': (actionType === 'save') ? SESSION['userKey'] : '',
+            'assigneeId': (actionType === 'save') ? ZSession.get('userKey') : '',
             'assigneeType': (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : '',
             'action': actionType
         };

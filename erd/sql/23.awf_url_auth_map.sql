@@ -321,6 +321,8 @@ insert into awf_url_auth_map values ('/rest/custom-codes', 'get', 'custom.code.u
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'custom.code.delete');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.update');
+insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'token.read');
+insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'delete', 'custom.code.delete');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.create');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.update');

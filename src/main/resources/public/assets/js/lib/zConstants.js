@@ -7,8 +7,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-// 사용자 세션 정보
-export const SESSION = {};
 // 단위
 export const UNIT = {
     PX: 'px',

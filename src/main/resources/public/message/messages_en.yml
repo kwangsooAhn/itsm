@@ -454,6 +454,7 @@ customCode:
     register: "Custom Code Register"
     searchColumn: "Search Column Name"
     searchPlaceholder: "Custom Code Name"
+    sessionKey: "Session Key"
     table: "Table"
     targetTable: "Target Table Name"
     type: "Type"

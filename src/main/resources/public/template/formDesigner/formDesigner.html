@@ -12,30 +12,27 @@
     <script th:src="@{/assets/vendors/sortableJS/sortable.js}"></script>
     <script type="module">
         // 사용자 세션 정보 저장
-        import { SESSION } from '../../assets/js/lib/zConstants.js';
+        import { ZSession } from '../../assets/js/lib/zSession.js';
+        import { zValidation } from '../../assets/js/lib/zValidation.js';
         import { zFormDesigner } from '../../assets/js/formDesigner/zFormDesigner.js';
 
-        const userSession = {
-            userKey : '[[${#authentication.details.userKey}]]',
-            userId : '[[${#authentication.details.userId}]]',
-            userName: '[[${#authentication.details.userName}]]',
-            email: '[[${#authentication.details.email}]]',
-            position: '[[${#authentication.details.position}]]',
-            department: '[[${#authentication.details.department}]]',
-            officeNumber: '[[${#authentication.details.officeNumber}]]',
-            mobileNumber: '[[${#authentication.details.mobileNumber}]]'
-        };
-        if (userSession['department'] !== '') {
-            aliceJs.fetchJson('/rest/codes/' + userSession['department'], {
+        ZSession.add('userKey', '[[${#authentication.details.userKey}]]');
+        ZSession.add('userId', '[[${#authentication.details.userId}]]');
+        ZSession.add('userName', '[[${#authentication.details.userName}]]');
+        ZSession.add('email', '[[${#authentication.details.email}]]');
+        ZSession.add('position', '[[${#authentication.details.position}]]');
+        ZSession.add('department', '[[${#authentication.details.department}]]');
+        ZSession.add('officeNumber', '[[${#authentication.details.officeNumber}]]');
+        ZSession.add('mobileNumber', '[[${#authentication.details.mobileNumber}]]');
+
+        if (!zValidation.isEmpty(ZSession.get('department'))) {
+            aliceJs.fetchJson('/rest/codes/' + ZSession.get('department'), {
                 method: 'GET'
             }).then((codeData) => {
-                userSession['departmentName'] = codeData.codeName;
-                Object.assign(SESSION, userSession);
+                ZSession.add('departmentName', codeData.codeName);
             });
-        } else {
-            Object.assign(SESSION, userSession);
         }
-        console.log('[[${isView}]]');
+
         zFormDesigner.initForm('[[${formId}]]');
         window.zFormDesigner = zFormDesigner;
         console.log(zFormDesigner);

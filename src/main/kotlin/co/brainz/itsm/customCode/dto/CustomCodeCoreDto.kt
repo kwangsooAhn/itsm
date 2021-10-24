@@ -16,5 +16,6 @@ data class CustomCodeCoreDto(
     var searchColumn: String? = null,
     var valueColumn: String? = null,
     var pCode: String? = null,
-    var condition: String? = null
+    var condition: String? = null,
+    var sessionKey: String? = null
 )

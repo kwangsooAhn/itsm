@@ -10,7 +10,8 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM } from '../../lib/zConstants.js';
+import { FORM } from '../../lib/zConstants.js';
+import { ZSession } from '../../lib/zSession.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIButton, UIDiv, UIInput, UISpan } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -44,7 +45,7 @@ export const customCodeMixin = {
         this._value = this.data.value || '${default}'; // 서버에 저장되는 값은 키 값만 저장된다. 왜냐하면 assignee Id 로 key만 전달되어야 하기 떄문이다.
 
         // customCode|none|없음  customCode|session|세션값  customCode|code|코드값|코드명
-        if (zValidation.isEmpty(this._element.defaultValueCustomCode)) {
+        if (zValidation.isEmpty(this._element.defaultValueCustomCode) && FORM.CUSTOM_CODE.length > 0) {
             this._element.defaultValueCustomCode = FORM.CUSTOM_CODE[0].customCodeId + '|' + FORM.CUSTOM.NONE + '|';
         }
     },
@@ -92,7 +93,7 @@ export const customCodeMixin = {
                     this.value = '';
                     break;
                 case FORM.CUSTOM.SESSION:
-                    this.value = SESSION['userKey'] || '';
+                    this.value = ZSession.get('userKey') || '';
                     break;
                 case FORM.CUSTOM.CODE:
                     this.value = defaultValues[2];
@@ -149,7 +150,7 @@ export const customCodeMixin = {
                     target.setUIValue('');
                     break;
                 case FORM.CUSTOM.SESSION:
-                    target.setUIValue(SESSION[defaultValues[2]] || '');
+                    target.setUIValue(ZSession.get(defaultValues[2]) || '');
                     break;
                 case FORM.CUSTOM.CODE:
                     target.setUIValue(defaultValues[3]);
@@ -157,12 +158,20 @@ export const customCodeMixin = {
             }
         } else {
             // key|value
-            aliceJs.fetchJson('/rest/custom-codes/' + defaultValues[0], {
-                method: 'GET'
-            }).then((customCodeData) => {
-                const selectedCustomData = customCodeData.find((item) => item.key === this.value);
-                target.setUIValue(selectedCustomData.value);
-            });
+            if (defaultValues[1] === FORM.CUSTOM.CODE) {
+                aliceJs.fetchJson('/rest/custom-codes/' + defaultValues[0], {
+                    method: 'GET'
+                }).then((customCodeData) => {
+                    if (!zValidation.isEmpty(customCodeData)) {
+                        const selectedCustomData = customCodeData.find((item) => item.key === this.value);
+                        target.setUIValue(selectedCustomData.value);
+                    } else {
+                        target.setUIValue('');
+                    }
+                });
+            } else {
+                target.setUIValue(this.value);
+            }
         }
     },
     // input box 값 변경시 이벤트 핸들러
@@ -172,6 +181,7 @@ export const customCodeMixin = {
 
         const customData = e.target.getAttribute('data-custom-data').split('|');
         this.value = customData[2];
+        console.log(this.value);
     },
 
     // 커스텀 코드 모달
@@ -224,6 +234,7 @@ export const customCodeMixin = {
         });
         selectModal.show();
     },
+
     getCustomCode() { // 서버에서 데이터 가져오기
         const defaultValues = this.elementDefaultValueCustomCode.split('|');
         let url = '/custom-codes/' + defaultValues[0] + '/search';

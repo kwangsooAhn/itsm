@@ -45,20 +45,27 @@
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
     <script type="module">
         /*<![CDATA[*/
+        import { ZSession } from '../../assets/js/lib/zSession.js';
+        import { zValidation } from '../../assets/js/lib/zValidation.js';
         import { zFormToken } from "../../assets/js/document/zFormToken.js";
         import { zFormButton } from "../../assets/js/document/zFormButton.js";
-        import { SESSION } from '../../assets/js/lib/zConstants.js';
-        const userSession = {
-            userKey : '[[${#authentication.details.userKey}]]',
-            userId : '[[${#authentication.details.userId}]]',
-            userName: '[[${#authentication.details.userName}]]',
-            email: '[[${#authentication.details.email}]]',
-            position: '[[${#authentication.details.position}]]',
-            department: '[[${#authentication.details.department}]]',
-            officeNumber: '[[${#authentication.details.officeNumber}]]',
-            mobileNumber: '[[${#authentication.details.mobileNumber}]]'
-        };
-        Object.assign(SESSION, userSession);
+
+        ZSession.add('userKey', '[[${#authentication.details.userKey}]]');
+        ZSession.add('userId', '[[${#authentication.details.userId}]]');
+        ZSession.add('userName', '[[${#authentication.details.userName}]]');
+        ZSession.add('email', '[[${#authentication.details.email}]]');
+        ZSession.add('position', '[[${#authentication.details.position}]]');
+        ZSession.add('department', '[[${#authentication.details.department}]]');
+        ZSession.add('officeNumber', '[[${#authentication.details.officeNumber}]]');
+        ZSession.add('mobileNumber', '[[${#authentication.details.mobileNumber}]]');
+
+        if (!zValidation.isEmpty(ZSession.get('department'))) {
+            aliceJs.fetchJson('/rest/codes/' + ZSession.get('department'), {
+                method: 'GET'
+            }).then((codeData) => {
+                ZSession.add('departmentName', codeData.codeName);
+            });
+        }
 
         // 문서 생성
         aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {

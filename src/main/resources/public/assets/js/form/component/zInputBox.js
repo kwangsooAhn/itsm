@@ -13,7 +13,8 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM } from '../../lib/zConstants.js';
+import { ZSession } from '../../lib/zSession.js';
+import { FORM } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv, UIInput } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
@@ -167,7 +168,7 @@ export const inputBoxMixin = {
             if (defaultValues[0] === 'input') {
                 return defaultValues[1];
             } else {  // 자동일경우 : select|userKey
-                return SESSION[defaultValues[1]] || '';
+                return ZSession.get(defaultValues[1]) || '';
             }
         } else {
             return this.value;
