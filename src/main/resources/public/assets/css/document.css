@@ -1426,6 +1426,13 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   background: #8B9094;
   cursor: pointer;
 }
+.z-input::-webkit-outer-spin-button, .z-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.z-input[type=number] {
+  -moz-appearance: textfield;
+}
 
 .z-textarea {
   font-family: inherit;
@@ -2032,6 +2039,10 @@ select {
   transform: translate(4px, 9px) scale(1);
 }
 .z-radio.readonly, .z-radio.disabled {
+  pointer-events: none;
+}
+
+.z-view-hover {
   pointer-events: none;
 }
 

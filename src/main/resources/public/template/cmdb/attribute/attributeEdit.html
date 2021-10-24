@@ -9,7 +9,7 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{cmdb.attribute.label.view}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{cmdb.attribute.msg.viewDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{cmdb.attribute.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
@@ -142,7 +142,11 @@
                         url += '/' + /*[[${attribute?.attributeId}]]*/'';
                         data.attributeId = /*[[${attribute?.attributeId}]]*/'';
                     }
+
                     data.attributeValue = zCmdbAttribute.setDetails(data.attributeType);
+                    if(!data.attributeValue) {
+                        return false;
+                    }
                     restSubmit(method, url, data);
                 }
             } else if (method === 'delete') {

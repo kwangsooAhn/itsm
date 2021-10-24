@@ -263,12 +263,12 @@
             zAlert.warning([[#{cmdb.type.msg.enterTypeName}]]);
             return false;
         }
-        if (jsonData.typeSeq === null || jsonData.typeSeq.trim() === '') {
-            zAlert.warning([[#{cmdb.type.msg.enterTypeSeq}]]);
-            return false;
-        }
         if (jsonData.typeAlias === null || jsonData.typeAlias.trim() === '') {
             zAlert.warning([[#{cmdb.type.msg.enterTypeAlias}]]);
+            return false;
+        }
+        if (jsonData.typeSeq === null || jsonData.typeSeq.trim() === '') {
+            zAlert.warning([[#{cmdb.type.msg.enterTypeSeq}]]);
             return false;
         }
         let url = '/rest/cmdb/types';
