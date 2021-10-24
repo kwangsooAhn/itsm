@@ -291,6 +291,18 @@ input, textarea, select {
       }
     }
   }
+
+  // input type=number 증감 화살표 숨기기
+  /* Chrome, Safari, Edge */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  /* Firefox */
+  &[type=number] {
+    -moz-appearance: textfield;
+  }
 }
 
 // textarea
@@ -900,4 +912,8 @@ select {
   &.disabled {
     pointer-events: none;
   }
+}
+
+.z-view-hover {
+  pointer-events: none;
 }

@@ -54,7 +54,7 @@
             <span th:text="#{cmdb.ci.label.description}"></span>
         </label>
         <textarea id="ciDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="500"
-                  th:text="${ciData?.ciDesc}" readonly></textarea>
+                  th:text="${ciData?.ciDesc}" disabled></textarea>
     </div>
     <!--클래스 -->
     <div class="flex-column z-view-row">
@@ -140,7 +140,7 @@
         // 스크롤바 추가
         OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelectorAll('textarea'), {
-            className: 'scrollbar',
+            className: 'scrollbar z-view-hover',
             textarea: {
                 dynHeight: false,
                 dynWidth: false,
@@ -148,10 +148,10 @@
             }
         });
         new zTag(document.querySelector('input[name=ciDetailTags]'),{
-            suggestion: false,
-            realtime: false,
+            suggestion: true,
+            realtime: true,
             tagType: 'ci',
-            targetId: ''
+            targetId: document.getElementById('ciId').value
         });
         // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
         document.querySelectorAll('.date-time').forEach(dt => {
