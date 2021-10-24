@@ -362,10 +362,11 @@
         }
         return true;
     }
+
     /** 크론 표현식 검사 **/
     function cronSplit(cronExpression,msg, callbackFunc) {
         let elem = document.getElementById(cronExpression);
-        let cron = elem.value.split(' ');
+        let cron = elem.value.trim(' ').split(' ');
 
         const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
             elem.focus();
