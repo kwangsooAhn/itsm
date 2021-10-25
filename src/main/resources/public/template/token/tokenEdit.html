@@ -28,17 +28,9 @@
                 </div>
             </div>
         </form>
+        <!-- 탭 영역 -->
         <div class="z-token-properties flex-column" id="documentProperties"></div>
     </div>
-    <!-- 관련 문서 모달-->
-    <template id="relatedTokenModalTemplate">
-        <div class="related-instance-list">
-            <input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
-                   th:placeholder="#{token.label.relatedInstancePlaceholder}"/>
-            <span id="spanTotalCount" class="search-count"></span>
-            <div class="table-set" id="instanceList"></div>
-        </div>
-    </template>
 </th:block>
 </body>
 <th:block layout:fragment="script">
@@ -49,6 +41,7 @@
         import { zValidation } from '../../assets/js/lib/zValidation.js';
         import { zFormToken } from "../../assets/js/document/zFormToken.js";
         import { zFormButton } from "../../assets/js/document/zFormButton.js";
+        import { zFormTokenTab } from "../../assets/js/document/zFormTokenTab.js";
 
         ZSession.add('userKey', '[[${#authentication.details.userKey}]]');
         ZSession.add('userId', '[[${#authentication.details.userId}]]');
@@ -77,8 +70,10 @@
 
             zFormToken.init(formDataJson, true);
             zFormButton.init(formDataJson, zFormToken);
+            zFormTokenTab.init(formDataJson, true);
 
             window.zFormToken = zFormToken;
+            window.zFormTokenTab = zFormTokenTab;
         });
         /*]]>*/
     </script>

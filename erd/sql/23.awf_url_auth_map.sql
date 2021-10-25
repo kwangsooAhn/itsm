@@ -184,10 +184,6 @@ insert into awf_url_auth_map values ('/process/{id}/view', 'get', 'process.updat
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.create');
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.update');
 insert into awf_url_auth_map values ('/process/{id}/status', 'get', 'document.read');
-
-
-
-
 insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.read');
 insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.create');
 insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.update');
@@ -210,7 +206,6 @@ insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'repo
 insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.update');
 insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.delete');
 insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.read');
-
 insert into awf_url_auth_map values ('/reports/template/new', 'get', 'report.create');
 insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.create');
 insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.update');
@@ -227,14 +222,7 @@ insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 're
 insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.delete');
 insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.read');
 insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.update');
-
 insert into awf_url_auth_map values ('/rest/reports/template/{id}', 'post', 'report.create');
-
-
-
-
-
-
 insert into awf_url_auth_map values ('/rest/auths', 'post', 'auth.create');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.delete');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.update');
@@ -455,10 +443,9 @@ insert into awf_url_auth_map values ('/tokens/search', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens/view-pop/documents', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens/view-pop/documents', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/edit', 'get', 'token.create');
-insert into awf_url_auth_map values ('/tokens/{id}/edit-tab', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens/{id}/view', 'get', 'token.read');
-insert into awf_url_auth_map values ('/tokens/{id}/view-tab', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/print', 'get', 'token.read');
+insert into awf_url_auth_map values ('/tokens/{tokenId}/tokenTab', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'token.create');
 insert into awf_url_auth_map values ('/users', 'get', 'user.update');

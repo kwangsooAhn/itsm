@@ -1,9 +1,9 @@
-package co.brainz.workflow.folder.repository
+package co.brainz.itsm.folder.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.itsm.folder.entity.QWfFolderEntity
+import co.brainz.itsm.folder.entity.WfFolderEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
-import co.brainz.workflow.folder.entity.QWfFolderEntity
-import co.brainz.workflow.folder.entity.WfFolderEntity
 import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceDto
 import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.types.ExpressionUtils
@@ -13,22 +13,13 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.java), WfFolderRepositoryCustom {
+class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.java), FolderRepositoryCustom {
 
-    override fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateRelatedInstanceDto> {
+    override fun findRelatedDocumentListByFolderId(folderId: String): List<RestTemplateRelatedInstanceDto> {
         val folder = QWfFolderEntity.wfFolderEntity
         val user = QAliceUserEntity.aliceUserEntity
         val token = QWfTokenEntity.wfTokenEntity
         val document = QWfDocumentEntity.wfDocumentEntity
-        val queryTokenId = JPAExpressions.select(folder.folderId)
-            .from(folder, token)
-            .where(
-                folder.instance.eq(token.instance).and(token.tokenId.eq(tokenId)).and(
-                    folder.relatedType.eq(
-                        "origin"
-                    )
-                )
-            )
 
         return from(folder)
             .select(
@@ -59,10 +50,25 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
             .innerJoin(folder.instance.document, document)
             .leftJoin(user).on(folder.instance.instanceCreateUser.userKey.eq(user.userKey))
             .where(
-                folder.folderId.eq(queryTokenId)
+                folder.folderId.eq(folderId)
             )
             .where(folder.relatedType.eq("reference").or(folder.relatedType.eq("related")))
             .orderBy(folder.instance.instanceStartDt.asc())
             .fetch()
+    }
+
+    override fun findFolderIdByTokenId(tokenId: String): String {
+        val folder = QWfFolderEntity.wfFolderEntity
+        val token = QWfTokenEntity.wfTokenEntity
+
+        return from(folder, token)
+            .select(folder.folderId)
+            .where(
+                folder.instance.eq(token.instance).and(token.tokenId.eq(tokenId)).and(
+                    folder.relatedType.eq(
+                        "origin"
+                    )
+                )
+            ).fetchOne()
     }
 }

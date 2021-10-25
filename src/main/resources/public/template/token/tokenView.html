@@ -28,6 +28,7 @@
                 </div>
             </div>
         </form>
+        <!-- 탭 영역 -->
         <div class="z-token-properties flex-column" id="documentProperties"></div>
     </div>
 </th:block>
@@ -35,12 +36,11 @@
 <th:block layout:fragment="script">
     <script type="module">
         /*<![CDATA[*/
-        import { zFormToken } from "../../assets/js/document/zFormToken.js";
-        import { zFormButton } from "../../assets/js/document/zFormButton.js";
         import { ZSession } from '../../assets/js/lib/zSession.js';
         import { zValidation } from '../../assets/js/lib/zValidation.js';
         import { zFormToken } from "../../assets/js/document/zFormToken.js";
         import { zFormButton } from "../../assets/js/document/zFormButton.js";
+        import { zFormTokenTab } from "../../assets/js/document/zFormTokenTab.js";
 
         ZSession.add('userKey', '[[${#authentication.details.userKey}]]');
         ZSession.add('userId', '[[${#authentication.details.userId}]]');
@@ -69,8 +69,10 @@
 
             zFormToken.init(formDataJson, false);
             zFormButton.init(formDataJson, zFormToken);
+            zFormTokenTab.init(formDataJson, false);
 
             window.zFormToken = zFormToken;
+            window.zFormTokenTab = zFormTokenTab;
         });
         /*]]>*/
     </script>

@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
 <div class="z-token-tabs">
     <h5 class="z-token-tab align-center pointer active" data-target-contents="tokenInformation" th:text="#{token.label.information}"></h5>
-    <h5 class="z-token-tab align-center pointer" data-target-contents="tokenComment" th:text="#{common.label.comment}"></h5>
+    <h5 class="z-token-tab align-center pointer" data-target-contents="tokenComments" th:text="#{common.label.comment}"></h5>
     <h5 class="z-token-tab align-center pointer" data-target-contents="tokenTag" th:text="#{common.label.tag}"></h5>
 </div>
 <div class="z-token-panels">
     <div class="z-token-panel on" id="tokenInformation">
+        <!-- 문서이력 -->
         <div class="z-token-history">
             <label class="z-token-history-sub-title" th:text="#{token.label.history}"></label>
             <table class="z-token-history-table">
@@ -23,94 +18,40 @@
                 </tr>
                 </thead>
                 <tbody id="history">
-                <tr class="flex-row align-items-center" th:each="tokenHistory : ${instanceHistory}">
-                    <td style="width: 35%;" class="align-left date-time" th:name="tokenDt" th:text="${tokenHistory.tokenStartDt}"/>
-                    <td style="width: 25%;" class="align-left" th:text="${tokenHistory.elementName}"></td>
-                    <td style="width: 20%;" class="align-left" th:text="${tokenHistory.assigneeName}"></td>
-                    <td style="width: 20%;" class="align-left" th:if="${#strings.isEmpty(tokenHistory.tokenAction)}"></td>
-                    <td style="width: 20%;" class="align-left" th:unless="${#strings.isEmpty(tokenHistory.tokenAction)}" th:text="#{${tokenHistory.tokenAction}}"></td>
-                </tr>
+                <tr class="flex-row align-items-center"></tr>
                 </tbody>
             </table>
         </div>
-        <div class="z-token-related">
+        <!-- 관련문서 -->
+        <div class="z-token-related" id="related">
             <label class="z-token-related-sub-title" th:text="#{token.label.relatedInstance}"></label>
-            <th:block th:each="rInstance: ${relatedInstance}">
-                <div class="z-token-related-item flex-row" th:id="'relatedDoc' + ${rInstance.instanceId}">
-                    <div class="z-document-color" th:style="|background-color: ${rInstance.documentColor}|"></div>
-                    <div class="z-document-row flex-column">
-                        <div class="z-document-row-content flex-row justify-content-between">
-                            <a th:onclick="zFormToken.openTokenEditPop([[${rInstance.tokenId}]])">
-                                <div class="z-document-title flex-row align-items-center">
-                                    <h6 th:text="${rInstance.documentName}"></h6>
-                                    <h6 th:text="${rInstance.documentNo}"></h6>
-                                </div>
-                            </a>
-                            <!-- 편집 가능할 경우에만 버튼이 표시됨 -->
-                            <th:block th:if="${mode} == 'edit'">
-                                <button type="button" class="z-button-icon"
-                                        th:onclick="zFormToken.removeRelatedDoc({ folderId: [[${rInstance.folderId}]], instanceId: [[${rInstance.instanceId}]] })">
-                                    <span class="z-icon i-delete"></span>
-                                </button>
-                            </th:block>
-                        </div>
-                        <div class="z-document-row-topic">
-                            <h6 class="text-ellipsis" th:each="topic: ${rInstance.topics}" th:text="${topic}"></h6>
-                        </div>
-                        <div class="z-document-row-info flex-row align-items-center">
-                            <div class="flex-row align-items-center">
-                                <img class="z-img i-profile-photo mr-2" th:src="@{${rInstance.avatarPath}}" width="30" height="30"/>
-                                <h6 class="pl-2" th:text="${rInstance.instanceCreateUserName}"></h6>
-                            </div>
-                            <span class="vertical-bar"></span>
-                            <h6 class="dateFormatFromNow" th:text="${rInstance.instanceStartDt}"></h6>
-                            <span class="vertical-bar"></span>
-                            <h6 th:text="#{|common.code.token.status.${rInstance.instanceStatus}|}"></h6>
-                        </div>
-                    </div>
-                </div>
-            </th:block>
-            <!-- 편집 가능할 경우에만 버튼이 표시됨 -->
-            <th:block th:if="${mode} == 'edit'">
-                <div class="z-token-related-item flex-row justify-content-center align-items-center z-document-add">
-                <button class="z-button-icon" th:onclick="zFormToken.openRelatedDocModal()">
+            <div class="z-token-related-item flex-row justify-content-center align-items-center z-document-add">
+                <button class="z-button-icon" th:onclick="zFormTokenTab.openRelatedDocModal()">
                     <span class="z-icon i-plus"></span>
                 </button>
             </div>
-            </th:block>
         </div>
     </div>
-    <div class="z-token-panel z-token-comment" id="tokenComment">
-        <th:block th:each="comment : ${commentList}">
-            <div class="z-token-comment-item flex-column" th:id="'comment' + ${comment.commentId}">
-                <div class="z-comment-row-info flex-row align-items-center">
-                    <div class="flex-row align-items-center">
-                        <img class="z-img i-profile-photo mr-2" th:src="@{${comment.avatarPath}}" width="30" height="30"/>
-                        <h6 class="z-user-name pl-2" th:text="${comment.createUserName}"></h6>
-                    </div>
-                    <h6 class="z-comment-time date-time" th:text="${comment.createDt}"></h6>
-                    <div class="ml-auto">
-                        <button th:if="${#authentication.details.userKey} == ${comment.createUserKey} and ${mode} == 'edit'" class="z-button-icon"
-                                th:attr="onclick=|zFormToken.removeComment('${comment.commentId}')|">
-                            <span class="z-icon i-delete"></span>
-                        </button>
-                    </div>
-                </div>
-                <div class="z-comment-row-content">
-                    <h6 class="text-ellipsis" th:text="${comment.content}"></h6>
-                </div>
-            </div>
-        </th:block>
+    <!-- 댓글 -->
+    <div class="z-token-panel z-token-comment" id="tokenComments">
         <div class="z-comment-add flex-row align-items-start">
             <textarea id="commentValue" class="z-textarea textarea-scroll-wrapper flex-fill mr-1" maxlength="200" rows="2" th:placeholder="#{comment.msg.enterComments}"></textarea>
-            <button class="z-button secondary" th:onclick="zFormToken.saveComment()" th:text="#{common.btn.register}" th:disabled="${mode == 'view'}"></button>
+            <button class="z-button secondary" th:onclick="zFormTokenTab.saveComments()" th:text="#{common.btn.register}"></button>
         </div>
     </div>
+    <!-- 태그 -->
     <div class="z-token-panel z-token-tag" id="tokenTag">
         <div class="tag-input">
-            <input type="text" class="z-input" id="tokenTags" th:value="${tagList}" th:readonly="${mode == 'view'}" />
+            <input type="text" class="z-input" id="tokenTags" th:value="${tagList}" />
         </div>
     </div>
 </div>
-</body>
-</html>
+<!-- 관련 문서 모달-->
+<template id="relatedTokenModalTemplate">
+    <div class="related-instance-list">
+        <input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
+               th:placeholder="#{token.label.relatedInstancePlaceholder}"/>
+        <span id="spanTotalCount" class="search-count"></span>
+        <div class="table-set" id="instanceList"></div>
+    </div>
+</template>

@@ -1,10 +1,9 @@
-package co.brainz.workflow.provider.dto
+package co.brainz.itsm.instance.dto
 
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class RestTemplateCommentDto(
-    var tokenId: String? = null,
+data class InstanceCommentDto(
     var instanceId: String? = null,
     var commentId: String? = null,
     var content: String? = null,
