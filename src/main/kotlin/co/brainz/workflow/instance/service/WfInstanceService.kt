@@ -127,7 +127,7 @@ class WfInstanceService(
                 ) {
                     if (instance.tokenEntity.tokenId == tokenData.component.tokenId) {
                         topicComponentIds.add(tokenData.component.componentId)
-                        topics.add(tokenData.value)
+                        topics.add(tokenData.value.replace(WfInstanceConstants.TOKEN_DATA_DEFAULT,""))
                     }
                 }
             }

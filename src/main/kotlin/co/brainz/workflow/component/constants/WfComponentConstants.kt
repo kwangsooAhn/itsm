@@ -10,22 +10,20 @@ object WfComponentConstants {
 
     // component type code 값.
     enum class ComponentTypeCode(val code: String) {
-        TEXT("inputbox"),
-        TEXT_AREA("textbox"),
+        TEXT("inputBox"),
+        TEXT_AREA("textArea"),
         SELECT("dropdown"),
         RADIO("radio"),
-        CHECKBOX("checkbox"),
+        CHECKBOX("checkBox"),
         LABEL("label"),
         IMAGE("image"),
         DIVIDER("divider"),
         DATE("date"),
         TIME("time"),
-        DATETIME("datetime"),
-        FILEUPLOAD("fileupload"),
-        CUSTOM_CODE("custom-code"),
-        DR_TABLE("dynamic-row-table"),
-        ACCORDION_START("accordion-start"),
-        ACCORDION_END("accordion-end"),
+        DATETIME("dateTime"),
+        FILEUPLOAD("fileUpload"),
+        CUSTOM_CODE("customCode"),
+        DR_TABLE("dynamicRowTable"),
         CI("ci");
     }
 
@@ -37,22 +35,20 @@ object WfComponentConstants {
 
     // topicDisplay 가 true 이면 목록 화면에 출력하는 대상 component type.
     enum class ComponentType(val code: String, val topicDisplay: Boolean) {
-        TEXT("inputbox", true),
-        TEXT_AREA("textbox", false),
+        TEXT("inputBox", true),
+        TEXT_AREA("textBox", false),
         SELECT("dropdown", false),
         RADIO("radio", false),
-        CHECKBOX("checkbox", false),
+        CHECKBOX("checkBox", false),
         LABEL("label", false),
         IMAGE("image", false),
         DIVIDER("divider", false),
         DATE("date", false),
         TIME("time", false),
-        DATETIME("datetime", false),
-        FILEUPLOAD("fileupload", false),
-        CUSTOM_CODE("custom-code", false),
-        DR_TABLE("dynamic-row-table", false),
-        ACCORDION_START("accordion-start", false),
-        ACCORDION_END("accordion-end", false),
+        DATETIME("dateTime", false),
+        FILEUPLOAD("fileUpload", false),
+        CUSTOM_CODE("customCode", false),
+        DR_TABLE("dynamicRowTable", false),
         CI("ci", false);
 
         companion object {
