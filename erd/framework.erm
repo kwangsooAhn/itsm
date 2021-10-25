@@ -2577,7 +2577,7 @@
 			<args></args>
 			<char_semantics>false</char_semantics>
 			<description></description>
-			<logical_name>세션 키</logical_name>
+			<logical_name>세션 사용 시 기본 값</logical_name>
 			<physical_name>session_key</physical_name>
 			<type>varchar(n)</type>
 		</word>

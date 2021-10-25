@@ -181,7 +181,6 @@ export const customCodeMixin = {
 
         const customData = e.target.getAttribute('data-custom-data').split('|');
         this.value = customData[2];
-        console.log(this.value);
     },
 
     // 커스텀 코드 모달

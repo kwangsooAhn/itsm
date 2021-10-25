@@ -31,7 +31,7 @@ COMMENT ON COLUMN awf_custom_code.search_column IS '검색컬럼';
 COMMENT ON COLUMN awf_custom_code.value_column IS '값컬럼';
 COMMENT ON COLUMN awf_custom_code.p_code IS '부모코드';
 COMMENT ON COLUMN awf_custom_code.condition IS '조건';
-COMMENT ON COLUMN awf_custom_code.session_key IS '세션 키';
+COMMENT ON COLUMN awf_custom_code.session_key IS '세션 사용 시 기본 값';
 COMMENT ON COLUMN awf_custom_code.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_custom_code.create_dt IS '등록일';
 COMMENT ON COLUMN awf_custom_code.update_user_key IS '수정자';
