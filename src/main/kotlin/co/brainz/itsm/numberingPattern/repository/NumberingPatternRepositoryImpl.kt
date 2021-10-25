@@ -40,6 +40,8 @@ class NumberingPatternRepositoryImpl(
                 super.like(pattern.patternName, numberingPatternSearchCondition.searchValue)
             )
             .orderBy(pattern.patternName.desc())
+            .limit(numberingPatternSearchCondition.contentNumPerPage)
+            .offset((numberingPatternSearchCondition.pageNum - 1) * numberingPatternSearchCondition.contentNumPerPage)
             .fetchResults()
 
         for (data in query.results) {
