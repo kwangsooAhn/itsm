@@ -11,10 +11,11 @@ package co.brainz.workflow.provider.dto
 
 import co.brainz.framework.tag.dto.AliceTagDto
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
 import java.time.LocalDateTime
 
-class RestTemplateFormDataDto(
+data class RestTemplateFormDataDto(
     var id: String? = "",
     var name: String = "",
     var status: String? = "",
@@ -28,7 +29,7 @@ class RestTemplateFormDataDto(
     val group: MutableList<FormGroupDto>? = mutableListOf()
 ) : Serializable
 
-class FormGroupDto(
+data class FormGroupDto(
     var id: String = "",
     var name: String? = "",
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -40,19 +41,20 @@ class FormGroupDto(
     var row: MutableList<FormRowDto> = mutableListOf()
 ) : Serializable
 
-class FormRowDto(
+data class FormRowDto(
     var id: String = "",
     var display: LinkedHashMap<String, Any> = LinkedHashMap(),
     val component: MutableList<FormComponentDto> = mutableListOf()
 ) : Serializable
 
-class FormComponentDto(
+data class FormComponentDto(
     var id: String = "",
     val type: String = "",
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var mapId: String = "",
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var value: String? = null,
+    @get:JsonProperty(value="isTopic")
     var isTopic: Boolean = false,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var tags: List<AliceTagDto>? = null,
