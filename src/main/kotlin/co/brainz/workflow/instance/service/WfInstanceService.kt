@@ -11,19 +11,17 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.itsm.token.dto.TokenSearchCondition
-import co.brainz.workflow.comment.service.WfCommentService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
-import co.brainz.workflow.folder.service.WfFolderService
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDataDto
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
-import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
@@ -51,11 +49,10 @@ class WfInstanceService(
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfCommentService: WfCommentService,
     private val wfDocumentRepository: WfDocumentRepository,
     private val numberingRuleService: NumberingRuleService,
     private val aliceUserRepository: AliceUserRepository,
-    private val wfFolderService: WfFolderService,
+    private val folderService: FolderService,
     private val aliceTagService: AliceTagService,
     private val userDetailsService: AliceUserDetailsService
 ) {
@@ -236,12 +233,12 @@ class WfInstanceService(
         )
         val instance = wfInstanceRepository.save(instanceEntity)
         instance.let {
-            val folders = wfFolderService.createFolder(instance)
+            val folders = folderService.createFolder(instance)
             instance.folders = mutableListOf(folders)
             instance.pTokenId?.let { id ->
                 val parentToken = wfTokenRepository.getOne(id)
-                wfFolderService.createRelatedFolder(parentToken.instance, instance)
-                wfFolderService.createRelatedFolder(instance, parentToken.instance)
+                folderService.insertInstance(parentToken.instance, instance)
+                folderService.insertInstance(instance, parentToken.instance)
             }
         }
 
@@ -304,13 +301,6 @@ class WfInstanceService(
 
         logger.debug("Latest token: {}", tokenDto)
         return tokenDto
-    }
-
-    /**
-     * Get Instance Comments.
-     */
-    fun getInstanceComments(instanceId: String): List<RestTemplateCommentDto> {
-        return wfCommentService.getInstanceComments(instanceId)
     }
 
     /**

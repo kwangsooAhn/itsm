@@ -5,8 +5,7 @@
 
 package co.brainz.workflow
 
-import co.brainz.workflow.comment.service.WfCommentService
-import co.brainz.workflow.provider.dto.RestTemplateCommentDto
+import co.brainz.itsm.instance.service.InstanceService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.Assumptions.assumingThat
@@ -30,7 +29,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class WfCommentServiceTest {
 
     @Autowired
-    private lateinit var wfCommentService: WfCommentService
+    private lateinit var instanceService: InstanceService
 
     lateinit var userKey: String
     lateinit var instanceId: String
@@ -48,20 +47,14 @@ class WfCommentServiceTest {
     @DisplayName("Comment 등록")
     @Order(1)
     fun a_insertComment() {
-        val commentDto = RestTemplateCommentDto(
-            instanceId = this.instanceId,
-            commentId = "",
-            content = this.commentContent,
-            createUserKey = this.userKey
-        )
-        assumeTrue(wfCommentService.insertComment(commentDto))
+        assumeTrue(instanceService.setComment(this.instanceId, this.commentContent))
     }
 
     @Test
     @DisplayName("Comment 목록 조회")
     @Order(2)
     fun b_getComment() {
-        val comments = wfCommentService.getInstanceComments(this.instanceId)
+        val comments = instanceService.getComments(this.instanceId)
         assumeTrue(!comments.isNullOrEmpty())
         assumingThat(
             comments.isNotEmpty()
@@ -72,7 +65,7 @@ class WfCommentServiceTest {
     @DisplayName("Comment 삭제")
     @Order(3)
     fun c_deleteComment() {
-        val comments = wfCommentService.getInstanceComments(this.instanceId)
+        val comments = instanceService.getComments(this.instanceId)
         var commentId = ""
         comments.forEach { comment ->
             if (comment.content == this.commentContent) {
@@ -81,6 +74,6 @@ class WfCommentServiceTest {
         }
         assumingThat(
             commentId.isNotEmpty()
-        ) { assumeTrue(wfCommentService.deleteComment(commentId)) }
+        ) { assumeTrue(instanceService.deleteComment(this.instanceId, commentId)) }
     }
 }

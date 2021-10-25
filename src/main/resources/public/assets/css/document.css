@@ -964,12 +964,12 @@ input, button, select, optgroup, textarea {
   width: 38.13rem;
   background-color: #FFFFFF;
   border-left: 0.0625rem solid #CFD5D9;
-  padding: 0 4.0625rem;
   overflow: hidden;
 }
 .z-document-container .z-token-properties .z-token-tabs {
   display: flex;
   margin-top: 2rem;
+  padding: 0 4.0625rem;
 }
 .z-document-container .z-token-properties .z-token-tabs .z-token-tab {
   color: #ABB0B5;
@@ -987,6 +987,7 @@ input, button, select, optgroup, textarea {
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-panel {
   display: none;
+  padding: 0 4.0625rem;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-panel.on {
   display: block;

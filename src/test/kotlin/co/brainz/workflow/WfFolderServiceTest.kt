@@ -5,11 +5,10 @@
 
 package co.brainz.workflow
 
-import co.brainz.workflow.folder.constants.WfFolderConstants
-import co.brainz.workflow.folder.service.WfFolderService
+import co.brainz.itsm.folder.service.FolderService
 import co.brainz.workflow.token.service.WfTokenService
 import javax.transaction.Transactional
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
@@ -33,7 +32,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class WfFolderServiceTest {
 
     @Autowired
-    private lateinit var wfFolderService: WfFolderService
+    private lateinit var folderService: FolderService
 
     @Autowired
     private lateinit var wfTokenService: WfTokenService
@@ -53,8 +52,8 @@ class WfFolderServiceTest {
         Assumptions.assumingThat(
             tokenDto.tokenId.isNotEmpty()
         ) {
-            val folderDto = wfFolderService.getOriginFolder(tokenId)
-            assertEquals(folderDto.relatedType, WfFolderConstants.RelatedType.ORIGIN.code)
+            val folderDto = folderService.getFolderId(tokenId)
+            assertNotNull(folderDto)
         }
     }
 }

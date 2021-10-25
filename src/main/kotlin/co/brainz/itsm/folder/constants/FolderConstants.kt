@@ -1,6 +1,6 @@
-package co.brainz.workflow.folder.constants
+package co.brainz.itsm.folder.constants
 
-class WfFolderConstants {
+class FolderConstants {
     /**
      * Instance type in folder.
      */

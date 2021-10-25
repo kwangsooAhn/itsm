@@ -59,12 +59,12 @@
     width: $layout-properties-width;
     background-color: $layout-properties-bg-color;
     @include border($layout-properties-border-width, solid, $layout-properties-border-color, left);
-    padding: 0 4.0625rem;
     overflow: hidden;
 
     .z-token-tabs {
       display: flex;
       margin-top: 2rem; // 32px
+      padding: 0 4.0625rem;
 
       .z-token-tab {
         color: $token-tab-color;
@@ -86,6 +86,7 @@
 
       .z-token-panel {
         display: none;
+        padding: 0 4.0625rem;
 
         &.on { display: block; }
 

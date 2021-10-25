@@ -1,8 +1,9 @@
 package co.brainz.itsm.folder.controller
 
+import co.brainz.itsm.folder.dto.InstanceInFolderDto
 import co.brainz.itsm.folder.service.FolderService
-import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -15,16 +16,18 @@ class FolderRestController(
     private val folderService: FolderService
 ) {
 
-    @PostMapping("")
-    fun createFolder(@RequestBody restTemplateFolderDto: List<RestTemplateFolderDto>): Boolean {
-        return folderService.createFolder(restTemplateFolderDto)
+    @GetMapping("{folderId}")
+    fun getFolder(@PathVariable folderId: String): List<InstanceInFolderDto>? {
+        return folderService.getFolder(folderId)
     }
 
-    @DeleteMapping("/{folderId}")
-    fun deleteFolder(
-        @PathVariable folderId: String,
-        @RequestBody restTemplateFolderDto: RestTemplateFolderDto
-    ): Boolean {
-        return folderService.deleteFolder(folderId, restTemplateFolderDto)
+    @PostMapping("")
+    fun insertFolderDto(@RequestBody instanceInFolderDtoList: List<InstanceInFolderDto>): Boolean {
+        return folderService.insertFolderDto(instanceInFolderDtoList)
+    }
+
+    @DeleteMapping("/{folderId}/instances/{instanceId}")
+    fun deleteFolder(@PathVariable folderId: String, @PathVariable instanceId: String): Boolean {
+        return folderService.deleteInstanceInFolder(folderId, instanceId)
     }
 }

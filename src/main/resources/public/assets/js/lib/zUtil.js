@@ -1293,3 +1293,14 @@ aliceJs.getCookie = function(name) {
     }
     return '';
 };
+
+/**
+ * String 형태의 HTML 데이터를 Element 로 변환
+ * @param htmlString
+ * @return {Element}
+ */
+aliceJs.makeElementFromString = function(htmlString) {
+    let div = document.createElement('div');
+    div.innerHTML = htmlString;
+    return div.firstElementChild;
+}
