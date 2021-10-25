@@ -364,26 +364,30 @@
     }
 
     /** 크론 표현식 검사 **/
-    function cronSplit(cronExpression,msg, callbackFunc) {
+    function cronSplit(cronExpression, msg, callbackFunc) {
         let elem = document.getElementById(cronExpression);
         let cron = elem.value.trim(' ').split(' ');
 
-        const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
-            elem.focus();
-        };
-        if ( cron.length > 6 ){
-             zAlert.warning(i18n.msg(msg),callback);
-             return true;
-        }
-        else if ( cron.length < 6) {
-            for(let i = cron.length; i < 6; i++) {
-                cron.push('*')
+        for(let i = 0; i <cron.length; i++) {
+            if (cron[i] === '') {
+                cron.splice(i, 1);
+                i--;
             }
-           elem.value = cron.join(' ');
         }
 
-        return false;
+        if (cron.length > 6) {
+            zAlert.warning(i18n.msg(msg), (typeof callbackFunc ==='function') ? callbackFunc : function () {
+                elem.focus();
+            });
+            return true;
+        } else if (cron.length < 6) {
+            for (let i = cron.length; i < 6; i++) {
+                cron.push('*');
+            }
+        }
 
+        elem.value = cron.join(' ');
+        return false;
     }
 
     /** Rest API 호출 **/
