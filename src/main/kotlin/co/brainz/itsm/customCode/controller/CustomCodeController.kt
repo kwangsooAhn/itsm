@@ -66,6 +66,8 @@ class CustomCodeController(
         model.addAttribute("customCodeColumnList", customCodeService.getCustomCodeColumnList())
         model.addAttribute("operatorList",
                             codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE))
+        model.addAttribute("sessionKeyList",
+            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_SESSION_KEY_P_CODE))
         return customCodeEditPage
     }
 
@@ -82,6 +84,8 @@ class CustomCodeController(
         model.addAttribute("customCode", customCodeDto)
         model.addAttribute("operatorList",
             codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE))
+        model.addAttribute("sessionKeyList",
+            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_SESSION_KEY_P_CODE))
         if (customCodeDto.type == CustomCodeConstants.Type.TABLE.code) {
             model.addAttribute(
                 "customCodeColumnList",
@@ -105,6 +109,8 @@ class CustomCodeController(
         model.addAttribute("customCodeColumnList", customCodeService.getCustomCodeColumnList())
         model.addAttribute("operatorList",
                             codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE))
+        model.addAttribute("sessionKeyList",
+            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_SESSION_KEY_P_CODE))
         return customCodeEditPage
     }
 

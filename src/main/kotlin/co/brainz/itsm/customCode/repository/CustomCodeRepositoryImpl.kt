@@ -32,6 +32,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                     customCode.customCodeId,
                     customCode.type,
                     customCode.customCodeName,
+                    customCode.sessionKey,
                     Expressions.numberPath(Long::class.java, "0"),
                     customCode.createDt,
                     customCode.createUser.userName
@@ -66,7 +67,8 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                     customCode.searchColumn,
                     customCode.valueColumn,
                     customCode.pCode,
-                    customCode.condition
+                    customCode.condition,
+                    customCode.sessionKey
                 )
             )
             .where(
@@ -82,7 +84,8 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             searchColumn = result.results[0].searchColumn,
             valueColumn = result.results[0].valueColumn,
             pCode = result.results[0].pCode,
-            condition = result.results[0].condition
+            condition = result.results[0].condition,
+            sessionKey = result.results[0].sessionKey
         )
     }
 }

@@ -82,6 +82,17 @@
             <input type="text" id="pCode" class="z-input" maxlength="100" th:value="${customCode?.pCode}" disabled>
         </div>
     </div>
+    <div class="flex-column z-view-row">
+        <label for="sessionKey">
+            <span th:text="#{customCode.label.sessionKey}"></span>
+        </label>
+        <select class="z-select readonly" id="sessionKey">
+            <option value="" th:text="#{customCode.label.notSelect}" selected="selected"></option>
+            <option th:each="code: ${sessionKeyList}" th:value="${code.codeValue}"
+                    th:text="${code.codeName}"
+                    th:selected="${code.codeValue} == ${customCode?.sessionKey}"></option>
+        </select>
+    </div>
     <div class="flex-row justify-content-start z-view-row">
         <div class="z-button-list">
             <a class="z-button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>

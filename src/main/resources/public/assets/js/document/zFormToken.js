@@ -10,12 +10,13 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+import { DOCUMENT, FORM } from '../lib/zConstants.js';
+import { zValidation } from '../lib/zValidation.js';
+import { ZSession } from '../lib/zSession.js';
 import ZComponent from '../form/zComponent.js';
 import ZForm from '../form/zForm.js';
 import ZGroup from '../form/zGroup.js';
 import ZRow from '../form/zRow.js';
-import { DOCUMENT, FORM, SESSION } from '../lib/zConstants.js';
-import { zValidation } from '../lib/zValidation.js';
 
 class ZFormToken {
     constructor() {}
@@ -194,7 +195,7 @@ class ZFormToken {
             'instanceId': this.data.instanceId,
             'tokenId': (zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : ''),
             'isComplete': (actionType !== 'save'),
-            'assigneeId' : (actionType === 'save') ? SESSION['userKey'] : '',
+            'assigneeId' : (actionType === 'save') ? ZSession.get('userKey') : '',
             'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : '',
             'action': actionType
         };

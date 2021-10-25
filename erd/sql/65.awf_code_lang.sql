@@ -78,3 +78,12 @@ insert into awf_code_lang values ('download.category.etc', 'Etc', 'en');
 insert into awf_code_lang values ('faq.category.etc', 'Etc', 'en');
 insert into awf_code_lang values ('faq.category.setting', 'Setting', 'en');
 insert into awf_code_lang values ('faq.category.techSupport', 'Tech support', 'en');
+/* 커스텀 코드 */
+insert into awf_code_lang values ('customCode.sessionKey.userKey', 'User Key', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.userId', 'User ID', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.userName', 'Username', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.email', 'Email', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.position', 'Position', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.departmentName', 'Department', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.officeNumber', 'Office Number', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.mobileNumber', 'Mobile', 'en');

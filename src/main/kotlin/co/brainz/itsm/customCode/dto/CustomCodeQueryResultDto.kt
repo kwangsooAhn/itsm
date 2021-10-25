@@ -21,6 +21,7 @@ data class CustomCodeQueryResultDto(
     var valueColumnName: String? = null,
     var pCode: String? = null,
     var condition: String? = null,
+    var sessionKey: String? = null,
     var createDt: LocalDateTime? = null,
     var createUserName: String? = null,
     var updateDt: LocalDateTime? = null,

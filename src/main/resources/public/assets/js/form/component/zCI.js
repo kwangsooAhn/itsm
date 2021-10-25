@@ -10,7 +10,8 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CI, UNIT, SESSION } from '../../lib/zConstants.js';
+import { ZSession } from '../../lib/zSession.js';
+import { FORM, CI, UNIT } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIButton, UIDiv, UITable, UIRow, UICell, UIImg, UISpan, UIInput } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -651,7 +652,7 @@ export const ciMixin = {
                         });
                     }
                 }],
-                close: {closable: false,},
+                close: {closable: false, },
                 onCreate: async (modal) => {
                     let param = {};
                     // 수정된 데이터가 존재할 경우 수정 데이터로 변경
@@ -926,7 +927,7 @@ export const ciMixin = {
                             method: 'GET'
                         }).then((attributeData) => {
                             const ciAttributeDOMElement = document.getElementById('ciAttributes');
-                            zCmdbAttribute.drawDetails(ciAttributeDOMElement, attributeData, SESSION, 'edit');
+                            zCmdbAttribute.drawDetails(ciAttributeDOMElement, attributeData, ZSession.getAll(), 'edit');
                         });
 
                     });

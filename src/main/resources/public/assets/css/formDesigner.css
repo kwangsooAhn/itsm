@@ -1846,6 +1846,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   -moz-border-radius: 0.125rem;
   padding: 0 1rem;
   vertical-align: middle;
+  /* Chrome, Safari, Edge */
+  /* Firefox */
 }
 .z-input::placeholder {
   color: #ABB0B5;
@@ -2593,6 +2595,10 @@ select {
   transform: translate(4px, 9px) scale(1);
 }
 .z-radio.readonly, .z-radio.disabled {
+  pointer-events: none;
+}
+
+.z-view-hover {
   pointer-events: none;
 }
 

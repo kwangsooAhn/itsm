@@ -37,5 +37,8 @@ data class CustomCodeEntity(
     var pCode: String? = null,
 
     @Column(name = "condition", length = 512)
-    var condition: String? = null
+    var condition: String? = null,
+
+    @Column(name = "session_key", length = 128)
+    var sessionKey: String? = null
 ) : Serializable, AliceMetaEntity()
