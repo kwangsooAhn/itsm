@@ -100,16 +100,6 @@ class ZFormTokenTab {
         });
     }
 
-    /**
-     * String 형태의 HTML 데이터를 Element 로 변환
-     * @param htmlString
-     * @return {Element}
-     */
-    makeElementFromString(htmlString) {
-        let div = document.createElement('div');
-        div.innerHTML = htmlString;
-        return div.firstElementChild;
-    }
     /***************************************************************************************************************
      * 문서이력 조회
      ***************************************************************************************************************/
@@ -126,7 +116,7 @@ class ZFormTokenTab {
             if (rtn) {
                 rtn.forEach((token) => {
                     document.getElementById('history').innerHTML = this.makeHistoryFragment(token);
-                })
+                });
             } else {
                 zAlert.danger(i18n.msg('common.msg.fail'));
             }
@@ -284,7 +274,7 @@ class ZFormTokenTab {
             if (rtn) {
                 rtn.forEach((instance) => {
                     document.querySelector('#related label').insertAdjacentElement('afterend', this.makeRelatedInstanceFragment(instance));
-                })
+                });
                 // 날짜 표기 변경
                 this.setDateTimeFormat();
             } else {
@@ -316,9 +306,11 @@ class ZFormTokenTab {
             `</button>` +
             `</div>` +
             `<div class="z-document-row-topic">`;
-        instance.topics?.forEach((topic) => {
-            htmlString += `<h6 class="text-ellipsis">` + topic + `</h6>`;
-        })
+        if (zValidation.isEmpty(instance.topics)) {
+            instance.topics?.forEach((topic) => {
+                htmlString += `<h6 class="text-ellipsis">` + topic + `</h6>`;
+            });
+        }
         htmlString +=
             `</div>` +
             `<div class="z-document-row-info flex-row align-items-center">` +
@@ -334,7 +326,7 @@ class ZFormTokenTab {
             `</div>` +
             `</div>`;
 
-        return this.makeElementFromString(htmlString);
+        return aliceJs.makeElementFromString(htmlString);
     }
     /***************************************************************************************************************
      * 댓글 처리 로직
@@ -404,7 +396,7 @@ class ZFormTokenTab {
             if (rtn) {
                 rtn.forEach((comment) => {
                     document.querySelector('#tokenComments').lastElementChild.insertAdjacentElement('beforebegin', this.makeCommentsFragment(comment));
-                })
+                });
             } else {
                 zAlert.danger(i18n.msg('common.msg.fail'));
             }
@@ -425,12 +417,12 @@ class ZFormTokenTab {
             `<h6 class="z-user-name pl-2">` + comment.createUserName + `</h6>` +
             `</div>` +
             `<h6 class="z-comment-time date-time">` + comment.createDt + `</h6>` +
-            `<div class="ml-auto">`
+            `<div class="ml-auto">`;
         if (SESSION.userKey === comment.createUserKey) {
             htmlString +=
                 `<button class="z-button-icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
                 `<span class="z-icon i-delete"></span>` +
-                `</button>`
+                `</button>`;
         }
         htmlString +=
             `</div>` +
@@ -438,9 +430,9 @@ class ZFormTokenTab {
             `<div class="z-comment-row-content">` +
             `<h6 class="text-ellipsis">` + comment.content + `</h6>` +
             `</div>` +
-            `</div>`
+            `</div>`;
 
-        return this.makeElementFromString(htmlString);
+        return aliceJs.makeElementFromString(htmlString);
     }
 }
 
