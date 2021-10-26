@@ -367,27 +367,25 @@
     function cronSplit(cronExpression, callbackFunc) {
         let elem = document.getElementById(cronExpression);
         let regex = /(([0-5]?[0-9])|[,*\/\-])\s+(([0-5]?[0-9])|[,*\/\-])\s+(([0-2]?[0-9])|[,*\/\-])\s+(([1-3]?[0-9])|[,*\/\-?LW])\s+(([0-1]?[0-9])|[,*\/\-])\s+([0-6]|[,*?#L])/;
-        let cron = elem.value.replace(/ +/g, " ").trim(' ').split(' '); //공백 제거 및 배열로 저장
+        let cronValue = elem.value.replace(/ +/g, " ").trim(' ').split(' '); //공백 제거 및 배열로 저장
         const callback = (typeof callbackFunc ==='function') ? callbackFunc : function () {
             elem.focus();
         };
-
-        if (cron.length > 6) {
+        if (cronValue.length > 6) {
             zAlert.warning(i18n.msg('scheduler.msg.cronValue'), callback);
             return true;
         }
         if(regex.test(elem.value) == false) {
-            if (cron.length < 6) {
+            if (cronValue.length < 6) {
                 for (let i = cron.length; i < 6; i++) {
-                    cron.push('*');
+                    cronValue.push('*');
                 }
-            } else{
+            } else {
                 zAlert.warning(i18n.msg('scheduler.msg.cronError'), callback);
                 return true;
             }
         }
-
-        elem.value = cron.join(' ');
+        elem.value = cronValue.join(' ');
         return false;
     }
 
