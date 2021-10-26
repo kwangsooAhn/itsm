@@ -17,6 +17,7 @@ import ZProperty from '../zProperty.js';
 import { UIButton, UICell, UICheckbox, UIDiv, UIInput, UILabel, UIRadioButton,
     UIRow, UISpan, UITable } from '../../../lib/zUI.js';
 import { FORM } from '../../../lib/zConstants.js';
+import { zValidation } from '../../../lib/zValidation.js';
 
 const propertyExtends = {
     /* 추가되는 기본 속성외에 속성이 없음 */
@@ -63,14 +64,12 @@ export default class ZOptionListProperty extends ZProperty {
         const header = new UIRow(optionTable).setUIClass('z-table-head').addUIClass('z-option-table-header');
         optionTable.addUIRow(header);
 
-        const checkedTD = new UICell(header).setUICSSText('width: 10%');
         const nameTD = new UICell(header).setUITextContent(i18n.msg('form.properties.optionList.name'));
         const valueTD = new UICell(header).setUITextContent(i18n.msg('form.properties.optionList.value'));
 
         // 마이너스 버튼 추가
         const removeTD = new UICell(header).setUICSSText('width: 15%;');
 
-        header.addUICell(checkedTD);
         header.addUICell(nameTD);
         header.addUICell(valueTD);
         header.addUICell(removeTD);
@@ -120,13 +119,17 @@ export default class ZOptionListProperty extends ZProperty {
         const nameTD = new UICell(optionRow);
         nameTD.inputName =  new UIInput()
             .setUIPlaceholder(i18n.msg('form.properties.optionList.namePlaceholder'))
-            .setUIValue(option.name).onUIChange(this.updateProperty.bind(this));
+            .setUIValue(option.name).onUIChange(this.updateProperty.bind(this))
+            .setUIValue(option.name).onUIKeyUp(this.updateProperty.bind(this))
+            .setUIAttribute('data-validation-max-length', this.validation.maxLength);
         nameTD.addUI(nameTD.inputName);
 
         const valueTD = new UICell(optionRow);
         valueTD.inputValue =  new UIInput()
             .setUIPlaceholder(i18n.msg('form.properties.optionList.valuePlaceholder'))
-            .setUIValue(option.value).onUIChange(this.updateProperty.bind(this));
+            .setUIValue(option.value).onUIChange(this.updateProperty.bind(this))
+            .setUIValue(option.name).onUIKeyUp(this.updateProperty.bind(this))
+            .setUIAttribute('data-validation-max-length', this.validation.maxLength);
         valueTD.addUI(valueTD.inputValue);
 
         const removeTD = new UICell(optionRow);
@@ -148,6 +151,12 @@ export default class ZOptionListProperty extends ZProperty {
     updateProperty(e) {
         e.stopPropagation();
         e.preventDefault();
+
+        // 유효성 검증
+        // keyup 일 경우 type, min, max 체크
+        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
+            return false;
+        }
 
         this.panel.update.call(this.panel, this.key, this.getPropertyValue(this.UIElement.UIOptionTable.domElement));
     }
