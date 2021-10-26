@@ -36,11 +36,11 @@ object WfComponentConstants {
     // topicDisplay 가 true 이면 목록 화면에 출력하는 대상 component type.
     enum class ComponentType(val code: String, val topicDisplay: Boolean) {
         TEXT("inputBox", true),
-        TEXT_AREA("textBox", false),
+        TEXT_AREA("textArea", false),
         SELECT("dropdown", false),
         RADIO("radio", false),
         CHECKBOX("checkBox", false),
-        LABEL("label", false),
+        LABEL("label", true),
         IMAGE("image", false),
         DIVIDER("divider", false),
         DATE("date", false),

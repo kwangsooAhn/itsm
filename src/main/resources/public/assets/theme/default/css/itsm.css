@@ -2823,6 +2823,8 @@ select {
 .z-itsm-container .z-main-content .z-page-result .z-document-row-content .z-document-topic .topic {
   font-size: 1rem;
   font-weight: 400;
+  display: block;
+  margin-bottom: 0.625rem;
 }
 .z-itsm-container .z-main-content .z-page-result .z-document-row-info .z-document-detail .user-name,
 .z-itsm-container .z-main-content .z-page-result .z-document-row-info .z-document-detail .create-dt,
