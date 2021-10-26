@@ -287,18 +287,16 @@ class UISelect extends UIElement {
     }
 
     setUIOptions(options) {
-        const selected = this.domElement.value;
         while (this.domElement.children.length > 0) {
             this.domElement.removeChild(this.domElement.firstChild);
         }
-
         for (const index in options) {
             const option = document.createElement('option');
             option.value = options[index].value;
+            option.selected = options[index].checked || false;
             option.innerHTML = options[index].name;
             this.domElement.appendChild(option);
         }
-        this.domElement.value = selected;
 
         return this;
     }

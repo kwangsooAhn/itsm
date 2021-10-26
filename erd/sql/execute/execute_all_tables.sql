@@ -3212,7 +3212,7 @@ INSERT INTO wf_component_property VALUES ('a7cc83ce97c50faa754c702bf018c505','va
 INSERT INTO wf_component_property VALUES ('a7cc83ce97c50faa754c702bf018c505','label','{"position":"hidden","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
 INSERT INTO wf_component_property VALUES ('ac69d66f3ec394b36215cd2ee3983292','display','{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('ac69d66f3ec394b36215cd2ee3983292','validation','{"required":true}');
-INSERT INTO wf_component_property VALUES ('ac69d66f3ec394b36215cd2ee3983292','element','{"position":"left","columnWidth":"10","align":"horizontal","options":[{"name":"매우불만족","value":"1"},{"name":"불만족","value":"2"},{"name":"보통","value":"3"},{"name":"만족","value":"4"},{"name":"매우만족","value":"5"}]}');
+INSERT INTO wf_component_property VALUES ('ac69d66f3ec394b36215cd2ee3983292','element','{"position":"left","columnWidth":"10","align":"horizontal","options":[{"name":"매우불만족","value":"1", "checked": false},{"name":"불만족","value":"2", "checked": false},{"name":"보통","value":"3", "checked": false},{"name":"만족","value":"4", "checked": false},{"name":"매우만족","value":"5", "checked": true}]}');
 INSERT INTO wf_component_property VALUES ('ac69d66f3ec394b36215cd2ee3983292','label','{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"만족도"}');
 INSERT INTO wf_component_property VALUES ('ad2996c39febdc13b32d08354169d6ac','validation','{"required":false,"minLength":"0","maxLength":"512"}');
 INSERT INTO wf_component_property VALUES ('ad2996c39febdc13b32d08354169d6ac','element','{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
@@ -3277,7 +3277,7 @@ INSERT INTO wf_component_property VALUES ('a2052b72aef1717cc785ead95c9b583c','va
 INSERT INTO wf_component_property VALUES ('a2052b72aef1717cc785ead95c9b583c','element','{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
 INSERT INTO wf_component_property VALUES ('a20925ede2aee30d0c74c4647c0c46dd','display','{"displayOrder":1,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('a20925ede2aee30d0c74c4647c0c46dd','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"장애인지경로"}');
-INSERT INTO wf_component_property VALUES ('a20925ede2aee30d0c74c4647c0c46dd','element','{"columnWidth":"9","options":[{"name":"선택 안함","value":"none"},{"name":"전화 통화","value":"phone"},{"name":"서비스 포탈 및 모바일 애플리케이션","value":"portal"},{"name":"라이브 채팅 및 챗봇","value":"chatting"},{"name":"이메일","value":"email"},{"name":"대면","value":"interview"},{"name":"소셜 미디어","value":"sns"},{"name":"모니터링툴 자동 등록","value":"automatic"}]}');
+INSERT INTO wf_component_property VALUES ('a20925ede2aee30d0c74c4647c0c46dd','element','{"columnWidth":"9","options":[{"name":"선택 안함","value":"none","checked": true},{"name":"전화 통화","value":"phone","checked": false},{"name":"서비스 포탈 및 모바일 애플리케이션","value":"portal","checked": false},{"name":"라이브 채팅 및 챗봇","value":"chatting","checked": false},{"name":"이메일","value":"email","checked": false},{"name":"대면","value":"interview","checked": false},{"name":"소셜 미디어","value":"sns","checked": false},{"name":"모니터링툴 자동 등록","value":"automatic","checked": false}]}');
 INSERT INTO wf_component_property VALUES ('a20925ede2aee30d0c74c4647c0c46dd','validation','{"required":true}');
 INSERT INTO wf_component_property VALUES ('a371d3cfecb547e4aff813ce0fca711c','label','{"position":"hidden","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
 INSERT INTO wf_component_property VALUES ('a371d3cfecb547e4aff813ce0fca711c','display','{"displayOrder":0,"columnWidth":"12"}');
@@ -3285,7 +3285,7 @@ INSERT INTO wf_component_property VALUES ('a371d3cfecb547e4aff813ce0fca711c','va
 INSERT INTO wf_component_property VALUES ('a371d3cfecb547e4aff813ce0fca711c','element','{"columnWidth":"12","path":"file:///logo.png","width":"155","height":"26","align":"left"}');
 INSERT INTO wf_component_property VALUES ('a6b76adaa1172d77d2b6cd62ad98db34','display','{"displayOrder":1,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('a6b76adaa1172d77d2b6cd62ad98db34','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"긴급도"}');
-INSERT INTO wf_component_property VALUES ('a6b76adaa1172d77d2b6cd62ad98db34','element','{"columnWidth":"9","options":[{"name":"매우 낮음","value":"0"},{"name":"낮음","value":"1"},{"name":"중간","value":"2"},{"name":"높음","value":"3"},{"name":"매우 높음","value":"4"}]}');
+INSERT INTO wf_component_property VALUES ('a6b76adaa1172d77d2b6cd62ad98db34','element','{"columnWidth":"9","options":[{"name":"매우 낮음","value":"0","checked": false},{"name":"낮음","value":"1","checked": false},{"name":"중간","value":"2","checked": false},{"name":"높음","value":"3","checked": false},{"name":"매우 높음","value":"4","checked": true}]}');
 INSERT INTO wf_component_property VALUES ('a6b76adaa1172d77d2b6cd62ad98db34','validation','{"required":true}');
 INSERT INTO wf_component_property VALUES ('a6eb123ed5ac913c55035f15bb30efce','validation','{"required":true,"minDateTime":"","maxDateTime":""}');
 INSERT INTO wf_component_property VALUES ('a6eb123ed5ac913c55035f15bb30efce','display','{"displayOrder":0,"columnWidth":"12"}');
@@ -3318,7 +3318,7 @@ INSERT INTO wf_component_property VALUES ('ae79624833414ab3a3ff37582c234aa2','di
 INSERT INTO wf_component_property VALUES ('aee06d995cbcad83c98df177479242c9','validation','{"required":true}');
 INSERT INTO wf_component_property VALUES ('aee06d995cbcad83c98df177479242c9','display','{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('aee06d995cbcad83c98df177479242c9','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"장애등급"}');
-INSERT INTO wf_component_property VALUES ('aee06d995cbcad83c98df177479242c9','element','{"columnWidth":"9","options":[{"name":"1등급","value":"1"},{"name":"2등급","value":"2"},{"name":"3등급","value":"3"},{"name":"4등급","value":"4"}]}');
+INSERT INTO wf_component_property VALUES ('aee06d995cbcad83c98df177479242c9','element','{"columnWidth":"9","options":[{"name":"1등급","value":"1","checked": true},{"name":"2등급","value":"2","checked": false},{"name":"3등급","value":"3","checked": false},{"name":"4등급","value":"4","checked": false}]}');
 INSERT INTO wf_component_property VALUES ('afd603a99e8287aa40706c175c697ae7','label','{"position":"top","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"관련 CI"}');
 INSERT INTO wf_component_property VALUES ('afd603a99e8287aa40706c175c697ae7','display','{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('afd603a99e8287aa40706c175c697ae7','validation','{"required":false}');
@@ -3366,7 +3366,7 @@ INSERT INTO wf_component_property VALUES ('d2d8114f31bb47608d1facc6f03e18ac','el
 INSERT INTO wf_component_property VALUES ('d2d8114f31bb47608d1facc6f03e18ac','label','{"position":"hidden","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
 INSERT INTO wf_component_property VALUES ('5904fbf514df42cbb8d859799d8e7f3f','display','{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('5904fbf514df42cbb8d859799d8e7f3f','validation','{"required":true}');
-INSERT INTO wf_component_property VALUES ('5904fbf514df42cbb8d859799d8e7f3f','element','{"position":"left","columnWidth":"10","align":"horizontal","options":[{"name":"매우불만족","value":"1"},{"name":"불만족","value":"2"},{"name":"보통","value":"3"},{"name":"만족","value":"4"},{"name":"매우만족","value":"5"}]}');
+INSERT INTO wf_component_property VALUES ('5904fbf514df42cbb8d859799d8e7f3f','element','{"position":"left","columnWidth":"10","align":"horizontal","options":[{"name":"매우불만족","value":"1", "checked": false},{"name":"불만족","value":"2", "checked": false},{"name":"보통","value":"3", "checked": false},{"name":"만족","value":"4", "checked": false},{"name":"매우만족","value":"5", "checked": true}]}');
 INSERT INTO wf_component_property VALUES ('5904fbf514df42cbb8d859799d8e7f3f','label','{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"만족도"}');
 INSERT INTO wf_component_property VALUES ('207f974ae4654e7f8331526c504d0152','display','{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('207f974ae4654e7f8331526c504d0152','validation','{"required":false,"minLength":"0","maxLength":"512"}');

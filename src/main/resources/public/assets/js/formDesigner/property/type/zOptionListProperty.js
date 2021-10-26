@@ -14,7 +14,8 @@
  * https://www.brainz.co.kr
  */
 import ZProperty from '../zProperty.js';
-import { UIButton, UICell, UICheckbox, UIDiv, UIInput, UIRow, UISpan, UITable } from '../../../lib/zUI.js';
+import { UIButton, UICell, UICheckbox, UIDiv, UIInput, UILabel, UIRadioButton,
+    UIRow, UISpan, UITable } from '../../../lib/zUI.js';
 import { FORM } from '../../../lib/zConstants.js';
 import { zValidation } from '../../../lib/zValidation.js';
 
@@ -23,8 +24,9 @@ const propertyExtends = {
 };
 
 export default class ZOptionListProperty extends ZProperty {
-    constructor(key, name, value) {
+    constructor(key, name, value, flag) {
         super(key, name, 'optionListProperty', value);
+        this.multipleSelect = flag; // 다중 선택 여부
     }
 
     /**
@@ -62,12 +64,14 @@ export default class ZOptionListProperty extends ZProperty {
         const header = new UIRow(optionTable).setUIClass('z-table-head').addUIClass('z-option-table-header');
         optionTable.addUIRow(header);
 
+        const checkedTD = new UICell(header).setUICSSText('width: 12%');
         const nameTD = new UICell(header).setUITextContent(i18n.msg('form.properties.optionList.name'));
         const valueTD = new UICell(header).setUITextContent(i18n.msg('form.properties.optionList.value'));
 
         // 마이너스 버튼 추가
         const removeTD = new UICell(header).setUICSSText('width: 15%;');
 
+        header.addUICell(checkedTD);
         header.addUICell(nameTD);
         header.addUICell(valueTD);
         header.addUICell(removeTD);
@@ -91,6 +95,29 @@ export default class ZOptionListProperty extends ZProperty {
     }
 
     makeRow(optionRow, option) {
+        const checkedTD = new UICell(optionRow);
+        // 다중 선택 가능하면 checkbox 형태이고, 아니면 radio 버튼 형태로 표시
+        const checkedId = ZWorkflowUtil.generateUUID();
+        checkedTD.labelGroup = new UILabel()
+            .setUIFor(checkedId);
+        checkedTD.addUI(checkedTD.labelGroup);
+        if (this.multipleSelect) {
+            checkedTD.labelGroup.addUIClass('z-checkbox');
+            checkedTD.labelGroup.checbox = new UICheckbox(option.checked || false)
+                .setUIId(checkedId)
+                .setUIAttribute('value', option.value)
+                .onUIChange(this.updateProperty.bind(this));
+            checkedTD.labelGroup.addUI(checkedTD.labelGroup.checbox);
+        } else {
+            checkedTD.labelGroup.addUIClass('z-radio');
+            checkedTD.labelGroup.radio = new UIRadioButton(option.checked || false)
+                .setUIId(checkedId)
+                .setUIAttribute('name', 'z-option-radio')
+                .onUIChange(this.updateProperty.bind(this));
+            checkedTD.labelGroup.addUI(checkedTD.labelGroup.radio);
+        }
+        checkedTD.labelGroup.addUI(new UISpan());
+
         const nameTD = new UICell(optionRow);
         nameTD.inputName =  new UIInput()
             .setUIPlaceholder(i18n.msg('form.properties.optionList.namePlaceholder'))
@@ -114,6 +141,7 @@ export default class ZOptionListProperty extends ZProperty {
         removeTD.removeButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-clear'));
         removeTD.addUI(removeTD.removeButton);
 
+        optionRow.addUICell(checkedTD);
         optionRow.addUICell(nameTD);
         optionRow.addUICell(valueTD);
         optionRow.addUICell(removeTD);
@@ -132,8 +160,7 @@ export default class ZOptionListProperty extends ZProperty {
             return false;
         }
 
-        const optionTable = e.target.parentNode.parentNode.parentNode;
-        this.panel.update.call(this.panel, this.key, this.getPropertyValue(optionTable));
+        this.panel.update.call(this.panel, this.key, this.getPropertyValue(this.UIElement.UIOptionTable.domElement));
     }
 
     // 옵션 추가 버튼 클릭 이벤트
@@ -183,9 +210,10 @@ export default class ZOptionListProperty extends ZProperty {
         for (let row of optionTable.rows) {
             const tdList = row.cells;
             if (row.sectionRowIndex > 0 && !row.classList.contains('no-data-found-list')) {
-                let itemName = tdList[0].children[0].value;
-                let itemValue = tdList[1].children[0].value;
-                propertyValue.push({name: itemName, value: itemValue});
+                let itemChecked = tdList[0].children[0].children[0].checked;
+                let itemName = tdList[1].children[0].value;
+                let itemValue = tdList[2].children[0].value;
+                propertyValue.push({ name: itemName, value: itemValue, checked: itemChecked});
             }
         }
         return propertyValue;

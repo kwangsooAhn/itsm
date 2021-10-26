@@ -283,11 +283,13 @@ export const dynamicRowTableMixin = {
     },
     // column Type - dropdown
     getDropDownForColumn(column, cellValue) {
-        const selectOptionValue = cellValue === '${default}' ? column.columnElement.options[0].value : cellValue;
-        return new UISelect()
+        const selectbox = new UISelect()
             .setUIOptions(column.columnElement.options)
-            .setUIValue(selectOptionValue)
             .onUIChange(this.updateValue.bind(this));
+        if (cellValue !== '${default}') {
+            selectbox.setUIValue(cellValue);
+        }
+        return selectbox;
     },
     getDateForColumn(column, cellValue, index) {
         let dateWrapper = new UIDiv().setUIClass('z-element');
@@ -511,10 +513,13 @@ export const dynamicRowTableMixin = {
             return false;
         }
         const newValue = JSON.parse(JSON.stringify(this.value));
-        const rowIndex = e.target.parentNode.parentNode.rowIndex - 1; // 헤더 제외
-        const cellIndex = e.target.parentNode.cellIndex;
-        newValue[rowIndex][cellIndex] = e.target.value;
-
+        const changeValue = (e.target instanceof HTMLSelectElement) ? e.target.options[e.target.selectedIndex].value :
+            e.target.value;
+        const cellElement = (e.target instanceof HTMLSelectElement) ? e.target.parentNode.parentNode :
+            e.target.parentNode;
+        const rowIndex = cellElement.parentNode.rowIndex - 1; // 헤더 제외
+        const cellIndex = cellElement.cellIndex;
+        newValue[rowIndex][cellIndex] = changeValue;
         this.value = newValue;
     },
     updateDateTimeValue(e) {

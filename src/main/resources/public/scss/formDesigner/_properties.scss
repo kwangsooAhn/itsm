@@ -236,6 +236,10 @@
   .z-option-table {
 
     .z-option-table-row {
+      td { padding: 0; }
+
+      .z-checkbox, .z-radio { margin: 0 0 0 0.5rem; } // 8px
+
       .z-input {
         width: 85%;
         padding: 0.75rem;
