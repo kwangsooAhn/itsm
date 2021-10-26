@@ -446,10 +446,9 @@ class ZValidation {
         let rtn = true;
 
         if (target.hasAttribute('data-validation-type') &&
-            target.getAttribute('data-validation-type') !== '') {
-            if (KEY_UP_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
-                rtn = this.emit(target.getAttribute('data-validation-type'), target);
-            }
+            target.getAttribute('data-validation-type') !== '' &&
+            KEY_UP_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
+            rtn = this.emit(target.getAttribute('data-validation-type'), target);
         }
         if (rtn && target.hasAttribute('data-validation-min') &&
             target.getAttribute('data-validation-min') !== '') {
@@ -481,12 +480,10 @@ class ZValidation {
         let rtn = true;
 
         if (target.hasAttribute('data-validation-type') &&
-            target.getAttribute('data-validation-type') !== '') {
-            if (CHANGE_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
-                rtn = this.emit(target.getAttribute('data-validation-type'), target);
-            }
+            target.getAttribute('data-validation-type') !== '' &&
+            CHANGE_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
+            rtn = this.emit(target.getAttribute('data-validation-type'), target);
         }
-
         if (target.hasAttribute('data-validation-required') &&
             target.getAttribute('data-validation-required') !== 'false') {
             rtn = this.emit('required', target);
