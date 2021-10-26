@@ -8,6 +8,8 @@
  * https://www.brainz.co.kr
  */
 
+const KEY_UP_VALID_TYPE = ['char', 'number', 'phone'];
+const CHANGE_VALID_TYPE = ['email'];
 class ZValidation {
     constructor(options = { alert: true }) {
         // 알림창 사용 여부가 false일 경우 DOM을 검색하여 'error-msg' class를 찾아서 에러 메시지를 표기한다.
@@ -16,7 +18,7 @@ class ZValidation {
         this.regex = Object.assign({}, {
             number: /^[-+]?[0-9]*\.?[0-9]+$/, // 숫자
             integer: /^[0-9]*$/,              // 정수
-            char: /^[a-zA-Z가-힣]*$/,          // 영문자, 한글
+            char: /^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]*$/,          // 영문자, 한글
             specialChar: /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/, // 특수문자
             email: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
             blank: /^\s*$/,
@@ -28,6 +30,7 @@ class ZValidation {
 
         // 이벤트 등록
         this.on('number', this.isNumber);
+        this.on('phone', this.isNumber);
         this.on('integer', this.isInteger);
         this.on('char', this.isChar);
         this.on('specialChar', this.isSpecialChar);
@@ -443,7 +446,8 @@ class ZValidation {
         let rtn = true;
 
         if (target.hasAttribute('data-validation-type') &&
-            target.getAttribute('data-validation-type') !== '') {
+            target.getAttribute('data-validation-type') !== '' &&
+            KEY_UP_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
             rtn = this.emit(target.getAttribute('data-validation-type'), target);
         }
         if (rtn && target.hasAttribute('data-validation-min') &&
@@ -475,6 +479,11 @@ class ZValidation {
 
         let rtn = true;
 
+        if (target.hasAttribute('data-validation-type') &&
+            target.getAttribute('data-validation-type') !== '' &&
+            CHANGE_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
+            rtn = this.emit(target.getAttribute('data-validation-type'), target);
+        }
         if (target.hasAttribute('data-validation-required') &&
             target.getAttribute('data-validation-required') !== 'false') {
             rtn = this.emit('required', target);
