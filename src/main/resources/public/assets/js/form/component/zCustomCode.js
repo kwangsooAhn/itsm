@@ -247,7 +247,7 @@ export const customCodeMixin = {
             if (document.getElementById(selectedRadioId)) {
                 document.getElementById(selectedRadioId).checked = true;
             }
-            OverlayScrollbars(document.querySelector('.radio-list'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
         });
     },
     // 서버에서 가져온 데이터에서 검색하기
