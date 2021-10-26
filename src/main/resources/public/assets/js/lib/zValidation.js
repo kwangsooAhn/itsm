@@ -16,7 +16,7 @@ class ZValidation {
         this.regex = Object.assign({}, {
             number: /^[-+]?[0-9]*\.?[0-9]+$/, // 숫자
             integer: /^[0-9]*$/,              // 정수
-            char: /^[a-zA-Z가-힣]*$/,          // 영문자, 한글
+            char: /^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]*$/,          // 영문자, 한글
             specialChar: /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/, // 특수문자
             email: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
             blank: /^\s*$/,
@@ -28,6 +28,7 @@ class ZValidation {
 
         // 이벤트 등록
         this.on('number', this.isNumber);
+        this.on('phone', this.isNumber);
         this.on('integer', this.isInteger);
         this.on('char', this.isChar);
         this.on('specialChar', this.isSpecialChar);
