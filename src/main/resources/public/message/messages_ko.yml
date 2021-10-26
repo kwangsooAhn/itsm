@@ -1202,6 +1202,7 @@ scheduler:
     searchDescription: "반복적인 작업을 등록하여 관리합니다."
     useSchedule: "사용중인 스케줄입니다."
     cronValue : "크론은 6개의 field까지 입력이 가능합니다."
+    cronError : "정확한 크론표현식을 입력하세요."
   status:
     true: "사용"
     false: "미사용"

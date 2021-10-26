@@ -1201,6 +1201,7 @@ scheduler:
     searchDescription: "Register and manage repetitive tasks."
     useSchedule: "Schedule in use."
     cronValue : "Cron can be entered up to 6 fields."
+    cronError : "Enter the correct Cron expression."
   status:
     true: "Use"
     false: "UnUsed"
