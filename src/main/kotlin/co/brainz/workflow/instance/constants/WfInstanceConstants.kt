@@ -22,5 +22,7 @@ class WfInstanceConstants {
                 WfTokenConstants.SearchType.COMPLETED -> listOf(Status.FINISH.code)
             }
         }
+
+        const val TOKEN_DATA_DEFAULT: String = "\${default}"
     }
 }

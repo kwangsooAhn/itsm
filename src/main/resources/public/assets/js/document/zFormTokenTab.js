@@ -7,7 +7,7 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { SESSION } from '../lib/zConstants.js';
+import { ZSession } from '../lib/zSession.js';
 import { zValidation } from '../lib/zValidation.js';
 
 class ZFormTokenTab {
@@ -418,7 +418,7 @@ class ZFormTokenTab {
             `</div>` +
             `<h6 class="z-comment-time date-time">` + comment.createDt + `</h6>` +
             `<div class="ml-auto">`;
-        if (SESSION.userKey === comment.createUserKey) {
+        if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=
                 `<button class="z-button-icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
                 `<span class="z-icon i-delete"></span>` +
