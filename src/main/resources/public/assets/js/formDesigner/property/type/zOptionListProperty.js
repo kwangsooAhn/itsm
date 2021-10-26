@@ -64,7 +64,7 @@ export default class ZOptionListProperty extends ZProperty {
         const header = new UIRow(optionTable).setUIClass('z-table-head').addUIClass('z-option-table-header');
         optionTable.addUIRow(header);
 
-        const checkedTD = new UICell(header).setUICSSText('width: 10%');
+        const checkedTD = new UICell(header).setUICSSText('width: 12%');
         const nameTD = new UICell(header).setUITextContent(i18n.msg('form.properties.optionList.name'));
         const valueTD = new UICell(header).setUITextContent(i18n.msg('form.properties.optionList.value'));
 
