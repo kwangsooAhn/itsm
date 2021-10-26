@@ -8,6 +8,8 @@
  * https://www.brainz.co.kr
  */
 
+const KEY_UP_VALID_TYPE = ['char', 'number', 'phone'];
+const CHANGE_VALID_TYPE = ['email'];
 class ZValidation {
     constructor(options = { alert: true }) {
         // 알림창 사용 여부가 false일 경우 DOM을 검색하여 'error-msg' class를 찾아서 에러 메시지를 표기한다.
@@ -445,7 +447,9 @@ class ZValidation {
 
         if (target.hasAttribute('data-validation-type') &&
             target.getAttribute('data-validation-type') !== '') {
-            rtn = this.emit(target.getAttribute('data-validation-type'), target);
+            if (KEY_UP_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
+                rtn = this.emit(target.getAttribute('data-validation-type'), target);
+            }
         }
         if (rtn && target.hasAttribute('data-validation-min') &&
             target.getAttribute('data-validation-min') !== '') {
@@ -475,6 +479,13 @@ class ZValidation {
         if (!this.isDefined(target)) { return true; } // 정의된 값인지 체크
 
         let rtn = true;
+
+        if (target.hasAttribute('data-validation-type') &&
+            target.getAttribute('data-validation-type') !== '') {
+            if (CHANGE_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
+                rtn = this.emit(target.getAttribute('data-validation-type'), target);
+            }
+        }
 
         if (target.hasAttribute('data-validation-required') &&
             target.getAttribute('data-validation-required') !== 'false') {
