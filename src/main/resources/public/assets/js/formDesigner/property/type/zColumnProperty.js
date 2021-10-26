@@ -449,8 +449,14 @@ export default class ZColumnProperty extends ZProperty {
     // 컬럼 세부 속성 - input
     getPropertyForColumnTypeDropdown(option, id) {
         return [
-            new ZGroupProperty('group.columnElement')
-                .addProperty(new ZOptionListProperty(id + '|columnElement.options', 'element.options', option.columnElement.options))
+            new ZGroupProperty('group.columnElement').addProperty(
+                new ZOptionListProperty(
+                    id + '|columnElement.options',
+                    'element.options',
+                    option.columnElement.options,
+                    false
+                )
+            )
         ];
     }
     getPropertyForColumnTypeDate(option, id) {
