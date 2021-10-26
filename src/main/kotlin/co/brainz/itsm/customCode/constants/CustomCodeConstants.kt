@@ -23,6 +23,11 @@ object CustomCodeConstants {
     const val CUSTOM_CODE_OPERATOR_P_CODE = "customCode.operator"
 
     /**
+     * 커스텀 코드 세션 사용 시 기본 값 p_code.
+     */
+    const val CUSTOM_CODE_SESSION_KEY_P_CODE = "customCode.sessionKey"
+
+    /**
      * 사용자 정의 코드 편집 상태.
      */
     enum class Status(val code: String) {

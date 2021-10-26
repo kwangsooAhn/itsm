@@ -10,7 +10,8 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, UNIT, SESSION } from '../../lib/zConstants.js';
+import { ZSession } from '../../lib/zSession.js';
+import { FORM, UNIT } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv, UICell, UIRow, UIInput, UISpan, UITable, UIButton, UISelect } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -267,7 +268,7 @@ export const dynamicRowTableMixin = {
             if (defaultValues[0] === 'input') {
                 defaultValue = defaultValues[1];
             } else {  // 자동일경우 : select|userKey
-                defaultValue = SESSION[defaultValues[1]] || '';
+                defaultValue = ZSession.get(defaultValues[1]) || '';
             }
         }
         return new UIInput().setUIPlaceholder(column.columnElement.placeholder)

@@ -44,10 +44,10 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                 )
             )
             .where(
-                super.like(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
-                    ?.or(super.like(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
-                    ?.or(super.like(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
-                    ?.or(super.like(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
+                super.likeIgnoreCase(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
+                    ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
             ).orderBy(ciAttribute.attributeName.asc())
 
         if (ciAttributeSearchCondition.isPaging) {

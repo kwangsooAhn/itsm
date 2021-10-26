@@ -354,9 +354,18 @@ insert into awf_code values ('customCode', 'root', null, '커스텀코드', null
 insert into awf_code values ('customCode.type', 'customCode', null, '신청서 목록', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('customCode.type.table', 'customCode.type', 'table', '테이블', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('customCode.type.code', 'customCode.type', 'code', '코드', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('customCode.operator', 'customCode', null, '연산자', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.operator', 'customCode', null, '연산자', null, true, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('customCode.operator.equal', 'customCode.operator', 'equal', '=', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('customCode.operator.notEqual', 'customCode.operator', 'notEqual', '!=', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.sessionKey', 'customCode', null, '세션 사용 시 기본 값', null, true, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.sessionKey.userKey', 'customCode.sessionKey', 'userKey', '사용자 키', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.sessionKey.userId', 'customCode.sessionKey', 'userId', '아이디', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.sessionKey.userName', 'customCode.sessionKey', 'userName', '사용자 이름', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.sessionKey.email', 'customCode.sessionKey', 'email', '이메일', null, true, true, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.sessionKey.position', 'customCode.sessionKey', 'position', '직책', null, true, true, 3, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.sessionKey.departmentName', 'customCode.sessionKey', 'departmentName', '부서', null, true, true, 3, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.sessionKey.officeNumber', 'customCode.sessionKey', 'officeNumber', '사무실 번호', null, true, true, 3, 7, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.sessionKey.mobileNumber', 'customCode.sessionKey', 'mobileNumber', '휴대폰 번호', null, true, true, 3, 8, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart', 'root', null, 'CHART', null, false, true, 1, 14, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type', 'chart', null, 'CHART TYPE', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type.basicLine', 'chart.type', 'chart.basicLine', 'Basic Line Chart', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -390,20 +399,21 @@ DROP TABLE IF EXISTS awf_custom_code cascade;
 
 CREATE TABLE awf_custom_code
 (
-	custom_code_id varchar(128) NOT NULL,
-	custom_code_name varchar(128) NOT NULL,
-	type varchar(128) DEFAULT 'table' NOT NULL,
-	target_table varchar(128),
-	search_column varchar(128),
-	value_column varchar(128),
-	p_code varchar(128),
-	condition varchar(512),
-	create_user_key varchar(128),
-	create_dt timestamp,
-	update_user_key varchar(128),
-	update_dt timestamp,
-	CONSTRAINT awf_custom_code_pk PRIMARY KEY (custom_code_id),
-	CONSTRAINT awf_custom_code_uk UNIQUE (custom_code_name)
+    custom_code_id varchar(128) NOT NULL,
+    custom_code_name varchar(128) NOT NULL,
+    type varchar(128) DEFAULT 'table' NOT NULL,
+    target_table varchar(128),
+    search_column varchar(128),
+    value_column varchar(128),
+    p_code varchar(128),
+    condition varchar(512),
+    session_key varchar(128),
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT awf_custom_code_pk PRIMARY KEY (custom_code_id),
+    CONSTRAINT awf_custom_code_uk UNIQUE (custom_code_name)
 );
 
 COMMENT ON TABLE awf_custom_code IS '사용자정의코드';
@@ -415,17 +425,18 @@ COMMENT ON COLUMN awf_custom_code.search_column IS '검색컬럼';
 COMMENT ON COLUMN awf_custom_code.value_column IS '값컬럼';
 COMMENT ON COLUMN awf_custom_code.p_code IS '부모코드';
 COMMENT ON COLUMN awf_custom_code.condition IS '조건';
+COMMENT ON COLUMN awf_custom_code.session_key IS '세션 사용 시 기본 값';
 COMMENT ON COLUMN awf_custom_code.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_custom_code.create_dt IS '등록일';
 COMMENT ON COLUMN awf_custom_code.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_custom_code.update_dt IS '수정일';
 
-insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용자 이름 검색', 'table', 'awf_user', 'user_name', 'user_key', null, '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0009', '사용자 부서 검색', 'code', null, null, null, 'department.group', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_custom_code values ('40288ab777dd21b50177dd52781e0000', '데이터베이스', 'code', null, null, null, 'cmdb.db.kind', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0010', '서비스데스크 - 단순문의 : 서비스 항목', 'code', null, null, null, 'form.template.serviceDesk.inquiry.category', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0011', '서비스데스크 - 장애신고 : 장애유형', 'code', null, null, null, 'form.template.serviceDesk.incident.category', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0012', '서비스데스크 - 서비스요청 : 요청구분', 'code', null, null, null, 'form.template.serviceDesk.request.category', '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용자 이름 검색', 'table', 'awf_user', 'user_name', 'user_key', null, '[]', 'userName', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0009', '사용자 부서 검색', 'code', null, null, null, 'department.group', null ,'departmentName', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288ab777dd21b50177dd52781e0000', '데이터베이스', 'code', null, null, null, 'cmdb.db.kind', null ,'', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0010', '서비스데스크 - 단순문의 : 서비스 항목', 'code', null, null, null, 'form.template.serviceDesk.inquiry.category', null ,'', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0011', '서비스데스크 - 장애신고 : 장애유형', 'code', null, null, null, 'form.template.serviceDesk.incident.category', null ,'', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0012', '서비스데스크 - 서비스요청 : 요청구분', 'code', null, null, null, 'form.template.serviceDesk.request.category', null ,'', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 사용자정의코드테이블
@@ -2056,6 +2067,8 @@ insert into awf_url_auth_map values ('/rest/custom-codes', 'get', 'custom.code.u
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'custom.code.delete');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.update');
+insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'token.read');
+insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'delete', 'custom.code.delete');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.create');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.update');

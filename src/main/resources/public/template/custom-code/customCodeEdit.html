@@ -96,6 +96,17 @@
                        th:disabled="${customCode?.pCode != null}">
             </div>
         </div>
+        <div class="flex-column z-edit-row">
+            <label for="sessionKey">
+                <span th:text="#{customCode.label.sessionKey}"></span>
+            </label>
+            <select class="z-select" id="sessionKey">
+                <option value="" th:text="#{customCode.label.notSelect}" selected="selected"></option>
+                <option th:each="code: ${sessionKeyList}" th:value="${code.codeValue}"
+                        th:text="${code.codeName}"
+                        th:selected="${code.codeValue} == ${customCode?.sessionKey}"></option>
+            </select>
+        </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="z-button-list">
                 <a class="z-button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
@@ -325,9 +336,11 @@
         if (method === 'post' || method === 'put') {
             const type = getTypeId();
             if (emptyCheck(type)) {
+                const sessionKeySelectBox = document.getElementById('sessionKey');
                 let data = {
                     customCodeName: document.getElementById('customCodeName').value,
                     type: type,
+                    sessionKey: sessionKeySelectBox.options[sessionKeySelectBox.selectedIndex].value
                 };
                 if (type === 'table') {
                     data.targetTable = document.getElementById('targetTable').value;
