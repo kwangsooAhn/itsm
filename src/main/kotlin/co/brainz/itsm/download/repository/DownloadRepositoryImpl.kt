@@ -84,11 +84,9 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
                     download.downloadId,
                     download.downloadTitle,
                     download.downloadCategory,
-                    code.codeName.`as`("downloadCategoryName"),
                     download.createDt
                 )
             )
-            .leftJoin(code).on(code.code.eq(download.downloadCategory))
             .leftJoin(fileMap).on(download.downloadId.eq(fileMap.ownId))
             .leftJoin(fileLoc).on(fileMap.fileLocEntity.fileSeq.eq(fileLoc.fileSeq))
             .orderBy(download.createDt.desc())
