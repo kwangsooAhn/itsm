@@ -39,6 +39,7 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
                     DownloadListDto::class.java,
                     download.downloadId,
                     download.downloadSeq,
+                    download.downloadCategory,
                     code.codeName.`as`("downloadCategoryName"),
                     download.downloadTitle,
                     download.views,
@@ -82,6 +83,7 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
                     PortalTopDto::class.java,
                     download.downloadId,
                     download.downloadTitle,
+                    download.downloadCategory,
                     code.codeName.`as`("downloadCategoryName"),
                     download.createDt
                 )
