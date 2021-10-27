@@ -101,17 +101,14 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                     !originSelectTag.classList.contains('readonly') && originSelectTag.options.length > 0) {
                     designedSelectBox.addEventListener('click', (function (e) {
                         e.stopPropagation();
-                        let clickedSelect = e.target;
-
-                        // 폼 디자이너에서 선택 시 속성창 출력을 위해서
-                        // 상위 DOM 객체에 이벤트 전달
-                        clickedSelect.parentElement.click();
+                        let clickedSelect = aliceJs.clickInsideElement(e, 'z-select-box');
 
                         document.querySelectorAll('div.z-select-box.active').forEach(function (selectTag) {
                             if (selectTag !== clickedSelect) {
                                 selectTag.classList.remove('active');
                             }
                         });
+
                         // toggle
                         if (clickedSelect.classList.contains('active')) {
                             clickedSelect.classList.remove('active');

@@ -1195,6 +1195,8 @@ scheduler:
     scheduleDescription: "Check the schedule details and history."
     searchDescription: "Register and manage repetitive tasks."
     useSchedule: "Schedule in use."
+    cronValue : "Cron can be entered up to 6 fields."
+    cronError : "Enter the correct Cron expression."
   status:
     true: "Use"
     false: "UnUsed"
@@ -1208,14 +1210,13 @@ scheduler:
     fixedRate: "• FIXED_RATE sets a fixed time from when the previous operation started..<br/><br/>
     • Millisecond (ms) is specified as the basic unit, and 1000 milliseconds is specified as 1 second.<br/><br/>
     • A minimum of 60000 milliseconds (1 minute) and a maximum of 10 digits can be entered."
-    cron: "• Basically, it has the format of ' * * * * * * * ', and consists of a total of 7 fields.<br/><br/>
+    cron: "• Basically, it has the format of ' * * * * * * ', and consists of a total of 7 fields.<br/><br/>
     • The first field: Defines Seconds and has an allowable range of 0 to 59.<br/><br/>
     • The second field: Defines Minutes and has an allowable range of 0 to 59.<br/><br/>
     • The third field: defines the hours and has an allowable range of 0 to 23.<br/><br/>
     • The Fourth field: Defines Day of month and has an allowable range of 1 to 31.<br/><br/>
     • The Fifth field: Defines the month and has an allowable range of 1 to 12 or JAN to DEC.<br/><br/>
-    • The Sixth field: Defines the day of the week and has an allowable range of 0 to 6 or SUN to SAT.<br/><br/>
-    • The Seventh field: Defines Year, and has an allowable range of 1970-2099 or omitted."
+    • The Sixth field: Defines the day of the week and has an allowable range of 0 to 6 or SUN to SAT."
 
 # Token
 token:

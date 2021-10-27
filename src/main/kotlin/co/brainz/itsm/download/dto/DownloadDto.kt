@@ -13,6 +13,7 @@ data class DownloadDto(
     var downloadId: String = "",
     var downloadSeq: Long = 0,
     var downloadCategory: String = "",
+    var downloadCategoryName: String = "",
     var downloadTitle: String = "",
     var fileSeqList: List<Long>? = null,
     var delFileSeqList: List<Long>? = null,

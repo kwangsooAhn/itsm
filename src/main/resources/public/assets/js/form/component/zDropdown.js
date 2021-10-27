@@ -48,12 +48,14 @@ export const dropdownMixin = {
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        const selectOptionValue = this._value || this.element.options[0].value;
         element.UIDropdown = new UISelect()
             .setUIOptions(this.element.options)
-            .setUIValue(selectOptionValue)
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIDropdown);
+
+        if (this._value !== '') {
+            element.UIDropdown.setUIValue(this._value);
+        }
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
@@ -125,7 +127,7 @@ export const dropdownMixin = {
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions)),
+                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, false)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];

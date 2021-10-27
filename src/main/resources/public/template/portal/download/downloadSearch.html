@@ -15,8 +15,7 @@
         <div class="z-page-search pb-4">
             <form id="searchFrm">
                 <select id="category" name="category" class="col-3">
-                    <option value="" th:text="#{download.category.all}"></option>
-                    <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
+                    <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="${category.codeName}"></option>
                 </select>
                 <input type="text" id="searchValue" name="searchValue" class="z-input i-search col-5" maxlength="100"
                        th:placeholder="#{download.label.searchPlaceholder}"/>

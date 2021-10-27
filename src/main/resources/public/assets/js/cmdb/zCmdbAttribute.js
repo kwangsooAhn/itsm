@@ -1089,7 +1089,6 @@
                 }
                 return elem;
             case 'custom-code':
-                // TODO: custom code 모달로 변경 필요
                 const customCodeId = ZWorkflowUtil.generateUUID();
                 let customValueArr = '';
                 if (data.value !== null) {
@@ -1103,24 +1102,25 @@
                 elem = document.createElement('div');
                 elem.id = customCodeId;
                 elem.setAttribute('data-attributeId', data.attributeId);
-                elem.className = 'flex-row input-button';
+                elem.className = 'z-custom-code flex-row';
 
                 const customInputElem = document.createElement('input');
                 customInputElem.type = 'text';
-                customInputElem.className = 'z-input col-pct-12 inherit';
+                customInputElem.className = 'z-input z-input-button col-pct-12 inherit';
                 customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
                 customInputElem.readOnly = true;
                 elem.appendChild(customInputElem);
 
                 const customBtnElem = document.createElement('button');
                 customBtnElem.type = 'button';
-                customBtnElem.className = 'z-button form';
+                customBtnElem.className = 'secondary z-button';
                 customBtnElem.disabled = (displayMode === 'view');
+                customBtnElem.setAttribute('data-custom-code', attributeValue.customCode);
                 elem.appendChild(customBtnElem);
 
                 let customData = data.value; // 'key|값'
-                let defaultValue = '';
                 if (attributeValue !== '') {
+                    let defaultValue = '';
                     customBtnElem.textContent = attributeValue.button;
                     // 커스텀 코드 기본 값 넣기
                     if (data.value === '' || data.value === null) {
@@ -1144,19 +1144,8 @@
                         }
                         customInputElem.value = defaultValue;
                     }
-                    customInputElem.setAttribute('value', defaultValue);
-                    customInputElem.setAttribute('custom-data', customData);
-
-                    customBtnElem.addEventListener('click', function () {
-                        const customCodeData = {
-                            componentId: customCodeId,
-                            componentValue: customInputElem.getAttribute('custom-data')
-                        };
-                        const itemName = 'alice_custom-codes-search-' + customCodeId;
-                        sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
-                        let url = '/custom-codes/' + attributeValue.customCode + '/search';
-                        window.open(url, itemName, 'width=500, height=655');
-                    });
+                    customInputElem.setAttribute('data-custom-data', customData);
+                    customBtnElem.addEventListener('click', openCustomCodeModal, false);
                 }
                 parent.appendChild(elem);
                 return elem;
@@ -1203,6 +1192,111 @@
                 return elem;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 커스텀 코드 모달 
+     * @param e 이벤트
+     */
+    function openCustomCodeModal(e) {
+        e.stopPropagation();
+
+        const customGroup = e.target.parentNode;
+        const customInput = customGroup.querySelector('.z-input-button');
+        let customCodeData = {
+            componentId: customGroup.id,
+            componentValue: customInput.getAttribute('data-custom-data'),
+            customCode: e.target.getAttribute('data-custom-code')
+        };
+        const storageName = 'alice_custom-codes-search-' + customGroup.id;
+        sessionStorage.setItem(storageName, JSON.stringify(customCodeData));
+
+        const selectModal = new modal({
+            title: i18n.msg('form.label.customCodeTarget'),
+            body: getSelectModalContent(),
+            classes: 'custom-code-list',
+            buttons: [{
+                content: i18n.msg('common.btn.add'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: () => {
+                    let isChekced = false;
+                    document.getElementsByName('customCode').forEach((chkElem) => {
+                        if (chkElem.checked) {
+                            isChekced = true;
+                            const customData = chkElem.id + '|' + chkElem.value;
+                            customInput.setAttribute('data-custom-data', customData);
+                            customInput.value = chkElem.value;
+                        }
+                    });
+                    isChekced ? selectModal.hide() :
+                        zAlert.warning(i18n.msg('common.msg.dataSelect', i18n.msg('common.label.data')));
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: (modal) => {
+                    modal.hide();
+                }
+            }],
+            close: { closable: false },
+            onCreate: function (modal) {
+                getCustomCode(customCodeData);
+                document.getElementById('search').addEventListener('keyup', (e) => {
+                    e.preventDefault();
+                    searchCustomCode();
+                });
+            }
+        });
+        selectModal.show();
+    }
+
+    function getSelectModalContent() {
+        return `<div class="flex-column view-row">` +
+            `<div class="flex-row justify-content-start input-search">` +
+            `<input class="z-input i-search col-5 " type="text" id="search" placeholder="${i18n.msg('customCode.msg.enterSearchTerm')}">` +
+            `<span id="ciListTotalCount" class="search-count"></span>` +
+            `</div>` +
+            `</div>` +
+            `<div class="custom-code-main" id="customCodeList"></div>`;
+    }
+
+    /**
+     * 서버에서 데이터 호출
+     */
+    function getCustomCode(data) {
+        const defaultValues = data.componentValue.split('|');
+        let url = '/custom-codes/' + data.customCode + '/search';
+        aliceJs.fetchText(url, {
+            method: 'GET',
+            showProgressbar: true
+        }).then((htmlData) => {
+            document.getElementById('customCodeList').innerHTML = htmlData;
+            // 세션 값은 selectedRadioId를 받아와도, 해당 값이 커스텀 코드 목록 내에 없을 수 있다.
+            // 따라서 selectedRadioId가 아닌 해당 아이디를 가진 dom 항목이 있을 경우 checked 되도록 해야한다.
+            if (document.getElementById(defaultValues[0])) {
+                document.getElementById(defaultValues[0]).checked = true;
+            }
+            OverlayScrollbars(document.querySelector('.radio-list'), { className: 'scrollbar' });
+        });
+    }
+
+    /**
+     * 서버에서 가져온 데이터내에서 검색
+     */
+    function searchCustomCode() {
+        const searchValue = document.getElementById('search').value;
+        const customCodeList = document.getElementsByName('custom-code-list');
+
+        for (let i = 0; i < customCodeList.length; i++) {
+            let code = customCodeList[i].getElementsByClassName('label');
+            if (code[0].innerHTML.indexOf(searchValue) != -1) {
+                customCodeList[i].style.display = '';
+            } else {
+                customCodeList[i].style.display = 'none';
+            }
         }
     }
 

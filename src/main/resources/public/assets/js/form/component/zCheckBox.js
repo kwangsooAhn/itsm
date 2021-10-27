@@ -128,8 +128,8 @@ export const checkBoxMixin = {
     makeCheckbox(object) {
         const checkedValueList = this.value.split('|');
         for (let i = 0; i < this.element.options.length; i++) {
-            let checkedYn = false;
-            if (this.element.options[i].value !== '') {
+            let checkedYn = (this.element.options[i].checked || false);
+            if (this._value !== '' && this.element.options[i].value !== '') {
                 checkedYn = checkedValueList.indexOf(this.element.options[i].value) !== -1 ? true : false;
             }
             const checkboxId = 'checkbox'
@@ -184,7 +184,7 @@ export const checkBoxMixin = {
                     { 'name': 'i-display-position-left', 'value': 'left' },
                     { 'name': 'i-display-position-right', 'value': 'right' },
                 ]))
-                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions)),
+                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, true)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
