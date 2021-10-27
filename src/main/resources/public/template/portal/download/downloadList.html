@@ -20,7 +20,7 @@
         <th:block th:fragment="list">
             <tr th:each="download : ${downloadList}">
                 <td style="width:5%;" class="align-center" th:text="|${download.downloadSeq}|"></td>
-                <td style="width:10%;" class="align-center" th:text="#{${download.downloadCategory}}"></td>
+                <td style="width:10%;" class="align-center" th:text="${download.downloadCategoryName}"></td>
                 <td style="width:45%;" class="align-left underline">
                     <a th:text="${download.downloadTitle}"
                        th:href="@{/portals/downloads/{id}/view(id=${download.downloadId})}">

@@ -12,6 +12,7 @@ import java.time.LocalDateTime
 data class DownloadListDto(
     var downloadId: String = "",
     var downloadSeq: Long = 0,
+    var downloadCategory: String = "",
     var downloadCategoryName: String = "",
     var downloadTitle: String = "",
     var views: Int = 0,
