@@ -399,21 +399,21 @@ DROP TABLE IF EXISTS awf_custom_code cascade;
 
 CREATE TABLE awf_custom_code
 (
-    custom_code_id varchar(128) NOT NULL,
-    custom_code_name varchar(128) NOT NULL,
-    type varchar(128) DEFAULT 'table' NOT NULL,
-    target_table varchar(128),
-    search_column varchar(128),
-    value_column varchar(128),
-    p_code varchar(128),
-    condition varchar(512),
+	custom_code_id varchar(128) NOT NULL,
+	custom_code_name varchar(128) NOT NULL,
+	type varchar(128) DEFAULT 'table' NOT NULL,
+	target_table varchar(128),
+	search_column varchar(128),
+	value_column varchar(128),
+	p_code varchar(128),
+	condition varchar(512),
     session_key varchar(128),
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_custom_code_pk PRIMARY KEY (custom_code_id),
-    CONSTRAINT awf_custom_code_uk UNIQUE (custom_code_name)
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT awf_custom_code_pk PRIMARY KEY (custom_code_id),
+	CONSTRAINT awf_custom_code_uk UNIQUE (custom_code_name)
 );
 
 COMMENT ON TABLE awf_custom_code IS '사용자정의코드';
@@ -2577,6 +2577,7 @@ INSERT INTO wf_form VALUES ('4028b21f7c90d996017c91af9dcf0051', '서비스데스
 INSERT INTO wf_form VALUES ('4028b21f7c90d996017c914bce270002', '서비스데스크 - 장애신고 - 만족도', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}','process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_form VALUES ('4028b21f7c9cc269017c9cc8cbf60001', '서비스 데스크 - 서비스요청', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}','process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_form VALUES ('4028b21f7c90d996017c914e27340030', '서비스데스크 - 서비스요청 - 만족도', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}','process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO wf_form VALUES ('4028b8817cbfc7a7017cc08f7b0b0763', '인프라변경관리', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}', 'process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 문서양식 그룹정보
@@ -2624,6 +2625,16 @@ INSERT INTO wf_form_group VALUES ('4028b21f7c9ff7c8017ca0544af6004d','승인 / �
 /* 서비스데스크 - 서비스요청 - 만족도 */
 INSERT INTO wf_form_group VALUES ('4028b21f7c90d996017c914eec300040','제목','4028b21f7c90d996017c914e27340030');
 INSERT INTO wf_form_group VALUES ('4028b21f7c90d996017c914eecb30048','만족도평가','4028b21f7c90d996017c914e27340030');
+/* 인프라변경관리 */
+INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a5670ae8', '제목', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a59a0af2', '신청내역', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a6360b0f', '접수내역', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a6a10b25', '변경  자문 회의록', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a6eb0b35', '변경 계획서', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a77f0b54', '변경 계획서 승인 내역', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a79f0b5b', '변경 결과서', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a7d90b68', 'PIR', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a81b0b77', '최종 검토 의견', '4028b8817cbfc7a7017cc08f7b0b0763');
 
 /**
  * 문서양식 그룹 세부정보
@@ -2691,6 +2702,25 @@ INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914eec300040','d
 INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914eec300040','label','{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
 INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914eecb30048','display','{"displayOrder":1,"isAccordionUsed":true,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914eecb30048','label','{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"만족도 평가"}');
+/* 인프라변경관리 */
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a5670ae8', 'display', '{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a5670ae8', 'label', '{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a59a0af2', 'display', '{"displayOrder":1,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a59a0af2', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"신청내역"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a6360b0f', 'display', '{"displayOrder":2,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a6360b0f', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"접수내역"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a6a10b25', 'display', '{"displayOrder":3,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a6a10b25', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"변경  자문 회의록"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a6eb0b35', 'display', '{"displayOrder":4,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a6eb0b35', 'label', '{"visibility":true,"fontColor":"rgba(141, 146, 153, 1)","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"변경 계획서"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a77f0b54', 'display', '{"displayOrder":5,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a77f0b54', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"변경 계획서 승인 내역"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a79f0b5b', 'display', '{"displayOrder":6,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a79f0b5b', 'label', '{"visibility":true,"fontColor":"rgba(141, 146, 153, 1)","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"변경 결과서"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a7d90b68', 'display', '{"displayOrder":7,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a7d90b68', 'label', '{"visibility":true,"fontColor":"rgba(141, 146, 153, 1)","fontSize":"20","bold":false,"italic":false,"underline":false,"align":"left","text":"PIR"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a81b0b77', 'display', '{"displayOrder":8,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a81b0b77', 'label', '{"visibility":true,"fontColor":"rgba(141, 146, 153, 1)","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"최종 검토 의견"}');
 
 /**
  * 문서양식 ROW 정보
@@ -2800,6 +2830,49 @@ INSERT INTO wf_form_row VALUES ('4028b21f7c90d996017c914eec670044','4028b21f7c90
 INSERT INTO wf_form_row VALUES ('4028b21f7c90d996017c914eec970047','4028b21f7c90d996017c914eec300040','{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b21f7c90d996017c914eecc30049','4028b21f7c90d996017c914eecb30048','{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b21f7c90d996017c914eecf3004c','4028b21f7c90d996017c914eecb30048','{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+/* 인프라변경관리 */
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a56d0ae9', '4028b8817cbfc7a7017cc095a5670ae8', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a5800aec', '4028b8817cbfc7a7017cc095a5670ae8', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a58d0af0', '4028b8817cbfc7a7017cc095a5670ae8', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a5a20af3', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a5c30af8', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a5e00afd', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a5fd0b02', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a60a0b05', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":4,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a61b0b09', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":5,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6290b0c', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":6,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a63b0b10', '4028b8817cbfc7a7017cc095a6360b0f', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a64c0b13', '4028b8817cbfc7a7017cc095a6360b0f', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6650b18', '4028b8817cbfc7a7017cc095a6360b0f', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a67e0b1d', '4028b8817cbfc7a7017cc095a6360b0f', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6950b22', '4028b8817cbfc7a7017cc095a6360b0f', '{"displayOrder":4,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6a60b26', '4028b8817cbfc7a7017cc095a6a10b25', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6b40b29', '4028b8817cbfc7a7017cc095a6a10b25', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6c20b2c', '4028b8817cbfc7a7017cc095a6a10b25', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6cf0b2f', '4028b8817cbfc7a7017cc095a6a10b25', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6db0b32', '4028b8817cbfc7a7017cc095a6a10b25', '{"displayOrder":4,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6f10b36', '4028b8817cbfc7a7017cc095a6eb0b35', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6fd0b37', '4028b8817cbfc7a7017cc095a6eb0b35', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a71b0b3c', '4028b8817cbfc7a7017cc095a6eb0b35', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7280b3f', '4028b8817cbfc7a7017cc095a6eb0b35', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7330b42', '4028b8817cbfc7a7017cc095a6eb0b35', '{"displayOrder":4,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a73f0b45', '4028b8817cbfc7a7017cc095a6eb0b35', '{"displayOrder":5,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a74b0b48', '4028b8817cbfc7a7017cc095a6eb0b35', '{"displayOrder":6,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7570b4b', '4028b8817cbfc7a7017cc095a6eb0b35', '{"displayOrder":7,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7630b4e', '4028b8817cbfc7a7017cc095a6eb0b35', '{"displayOrder":8,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7720b51', '4028b8817cbfc7a7017cc095a6eb0b35', '{"displayOrder":9,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7840b55', '4028b8817cbfc7a7017cc095a77f0b54', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7910b58', '4028b8817cbfc7a7017cc095a77f0b54', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7a30b5c', '4028b8817cbfc7a7017cc095a79f0b5b', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7b00b5f', '4028b8817cbfc7a7017cc095a79f0b5b', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7bd0b62', '4028b8817cbfc7a7017cc095a79f0b5b', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7ca0b65', '4028b8817cbfc7a7017cc095a79f0b5b', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7e00b69', '4028b8817cbfc7a7017cc095a7d90b68', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a7f90b6e', '4028b8817cbfc7a7017cc095a7d90b68', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a8060b71', '4028b8817cbfc7a7017cc095a7d90b68', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a8120b74', '4028b8817cbfc7a7017cc095a7d90b68', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a8200b78', '4028b8817cbfc7a7017cc095a81b0b77', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a82a0b7b', '4028b8817cbfc7a7017cc095a81b0b77', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 
 /**
  * 프로세스정보
@@ -2835,6 +2908,7 @@ INSERT INTO wf_process VALUES ('4028b21f7c81a928017c81aa9dc60000','서비스데�
 INSERT INTO wf_process VALUES ('4028b21f7c9b6b1e017c9bdf04cb0011','서비스데스크 - 장애신고 - 만족도','process.status.use','','0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_process VALUES ('4028b21f7c9ff7c8017ca0549ef00057','서비스데스크 - 서비스요청','process.status.use','','0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_process VALUES ('4028b21f7c9cc269017c9cc76a5e0000','서비스데스크 - 서비스요청 - 만족도','process.status.use','','0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO wf_process VALUES ('4028b8817cbfc7a7017cc0db1a8c0bc3', '인프라변경관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 신청서정보
@@ -2895,6 +2969,8 @@ INSERT INTO wf_document VALUES ('4028b21f7c9b6b1e017c9bedbe8a0012','서비스데
 INSERT INTO wf_document VALUES ('4028b21f7c9ff7c8017ca06bde520058','서비스데스크 - 서비스요청','','4028b21f7c9ff7c8017ca0549ef00057','4028b21f7c9cc269017c9cc8cbf60001','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form','document.group.request','img_document_01.png',false,'0509e09412534a6e98f04ca79abb6424', now(),NULL,NULL);
 /* 서비스데스크 - 서비스요청 - 만족도 */
 INSERT INTO wf_document VALUES ('4028b21f7c9ff7c8017ca04d16830000','서비스데스크 - 서비스요청 - 만족도','','4028b21f7c9cc269017c9cc76a5e0000','4028b21f7c90d996017c914e27340030','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424', now(),NULL,NULL);
+/* 인프라변경관리 */
+INSERT INTO wf_document VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '인프라변경관리', '', '4028b8817cbfc7a7017cc0db1a8c0bc3', '4028b8817cbfc7a7017cc08f7b0b0763', 'document.status.use', '4028b25d7886e2d801788704dd8e0002', '#76BD26', 'workflow', '', null, false, '0509e09412534a6e98f04ca79abb6424', '2021-10-27 08:38:14.548600', null, null);
 
 /**
  * 인스턴스정보
@@ -3081,7 +3157,57 @@ INSERT INTO wf_component VALUES ('90eedeed14494ea4b17d98bd4e8d0a69','label','z-d
 INSERT INTO wf_component VALUES ('8f33d3a207b04bb886a87e1e01859500','divider','',false,'4028b21f7c90d996017c914eec970047','4028b21f7c90d996017c914e27340030');
 INSERT INTO wf_component VALUES ('0986886e23a044659c7bb280347064d2','radio','z-satisfaction',false,'4028b21f7c90d996017c914eecc30049','4028b21f7c90d996017c914e27340030');
 INSERT INTO wf_component VALUES ('5e203c7bace44cb58e1c38cee9372404','textArea','z-satisfaction-content',false,'4028b21f7c90d996017c914eecf3004c','4028b21f7c90d996017c914e27340030');
-
+/* 인프라변경관리 */
+INSERT INTO wf_component VALUES ('b5e06a4da8914e08b63a589fe16578db', 'image', 'z-logo', false, '4028b8817cbfc7a7017cc095a56d0ae9', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('44026fa563f649779f65f52dc0bfd0d6', 'label', 'z-change-infra-document-title', false, '4028b8817cbfc7a7017cc095a5800aec', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('a70e12f4514b4377bc9a94eb0f80deeb', 'divider', '', false, '4028b8817cbfc7a7017cc095a58d0af0', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('6df0771bb8a94deda97d0d6ba42ef01e', 'inputBox', 'z-requester', false, '4028b8817cbfc7a7017cc095a5a20af3', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('1a4024f7913e426383187d6bcc7962af', 'customCode', 'z-requester-department', false, '4028b8817cbfc7a7017cc095a5a20af3', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('11ed46ce208341fd842be00ced0e0381', 'inputBox', 'z-requester-phone', false, '4028b8817cbfc7a7017cc095a5c30af8', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('a50504ee81204910a1e13782987b4f89', 'inputBox', 'z-requester-email', false, '4028b8817cbfc7a7017cc095a5c30af8', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('610a36dd4d28448f9ca09623962d64e5', 'dateTime', 'z-request-date', false, '4028b8817cbfc7a7017cc095a5e00afd', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('9bbb34c9d2fe40ba802ee9f674210fe5', 'dateTime', 'z-request-deadline', false, '4028b8817cbfc7a7017cc095a5e00afd', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('c520f41591ca4c18bc89b08e5b58a78b', 'inputBox', 'z-request-title', true, '4028b8817cbfc7a7017cc095a5fd0b02', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('5aa56cbcd2ab48bbbcffd0ba53af499c', 'customCode', 'z-request-category', false, '4028b8817cbfc7a7017cc095a60a0b05', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('654a2e1cbdf14f39a883ff4ab168046c', 'textArea', 'z-request-content', false, '4028b8817cbfc7a7017cc095a61b0b09', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('41ff46f9f19d4e92853118fa1e914877', 'fileUpload', 'z-request-file', false, '4028b8817cbfc7a7017cc095a6290b0c', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('2c260851462b40ea82949561ed0f2b68', 'dateTime', 'z-accept-date', false, '4028b8817cbfc7a7017cc095a63b0b10', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('9e79bf1880094800b3b3d68044f40538', 'inputBox', 'z-change-infra-acceptor', false, '4028b8817cbfc7a7017cc095a64c0b13', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('59ffe940a3464a9ca3683224f7038c41', 'customCode', 'z-change-infra-acceptor-department', false, '4028b8817cbfc7a7017cc095a64c0b13', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('88660c980418450baf87a6d7ef510626', 'customCode', 'z-change-infra-processor', false, '4028b8817cbfc7a7017cc095a6650b18', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('f12492917ac64f418c37cfa98c4ab02d', 'customCode', 'z-change-infra-processor-department', false, '4028b8817cbfc7a7017cc095a6650b18', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('24f2a648a5ba458d9224a61c0cb1cdb0', 'dropdown', 'z-change-infra-impact', false, '4028b8817cbfc7a7017cc095a67e0b1d', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('15cd0e737e9c41c5a27132cfa18f370a', 'dropdown', 'z-change-infra-urgency', false, '4028b8817cbfc7a7017cc095a67e0b1d', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('bb38d2e37255417b8f61e0947e224974', 'textArea', 'z-change-infra-accept-content', false, '4028b8817cbfc7a7017cc095a6950b22', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('c7e485828f2b4c85a7cba5d6b3646b16', 'dateTime', 'z-change-infra-changeControlBoard-date', false, '4028b8817cbfc7a7017cc095a6a60b26', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('6deb6fcad6124c9a907fc4850285e342', 'inputBox', 'z-change-infra-changeControlBoard-meetingRoom', false, '4028b8817cbfc7a7017cc095a6b40b29', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('1d2ea0820d514512a1e3837e04fbc84b', 'inputBox', 'z-change-infra-changeControlBoard-subject', false, '4028b8817cbfc7a7017cc095a6c20b2c', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('2cb51de14f824f62bf9d5f634d276fdc', 'textArea', 'z-change-infra-changeControlBoard-consultation', false, '4028b8817cbfc7a7017cc095a6cf0b2f', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('c27d14120e1044a5b70fe4372ed78c2e', 'textArea', 'z-change-infra-changeControlBoard-result', false, '4028b8817cbfc7a7017cc095a6db0b32', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('3d5bb59a5b264430b2a8d1b19f6741ae', 'dateTime', 'z-change-infra-changePlan-date', false, '4028b8817cbfc7a7017cc095a6f10b36', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('e6d73057dd5a4b2a8cf01e15d3793eca', 'dateTime', 'z-change-infra-changePlan-expected-start-date', false, '4028b8817cbfc7a7017cc095a6fd0b37', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('afe2bec3307442f0be22af203e233f2f', 'dateTime', 'z-change-infra-changePlan-expected-end-date', false, '4028b8817cbfc7a7017cc095a6fd0b37', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('f5595e73f0654239aab9e66f71c528cc', 'radio', 'z-change-infra-changePlan-service-interruption', false, '4028b8817cbfc7a7017cc095a71b0b3c', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('b16f8424688f4e608d1f7b71f1aaf4b5', 'textArea', 'z-change-infra-changePlan-changeContents', false, '4028b8817cbfc7a7017cc095a7280b3f', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('2692ffba732d496498bd2f53f35016f9', 'textArea', 'z-change-infra-changePlan-recovery-failure-plan', false, '4028b8817cbfc7a7017cc095a7330b42', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('961037311d5c4201b869c642abdbf394', 'textArea', 'z-change-infra-changePlan-planContents', false, '4028b8817cbfc7a7017cc095a73f0b45', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('3c8cd6bf769041a68c628c1eb1fa2bd2', 'textArea', 'z-change-infra-changePlan-etc', false, '4028b8817cbfc7a7017cc095a74b0b48', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('f5081a7fd40d46da9b65daf5645906a0', 'ci', 'z-process-relation-ci', false, '4028b8817cbfc7a7017cc095a7570b4b', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('663450c3389c465584685365602dd961', 'fileUpload', 'z-change-infra-changePlan-fileupload', false, '4028b8817cbfc7a7017cc095a7630b4e', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('2437c9c99fc14cb895f2290519515a7b', 'customCode', 'z-change-infra-changePlan-approver', false, '4028b8817cbfc7a7017cc095a7720b51', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('1991ff59e63246ccb13a7946379b14e7', 'dateTime', 'z-change-infra-changePlan-approve-date', false, '4028b8817cbfc7a7017cc095a7840b55', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('51ac11434d1a4c0ca87b4930ffce047c', 'textArea', 'z-change-infra-changePlan-approve-content', false, '4028b8817cbfc7a7017cc095a7910b58', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('5e32d98e8bcd4e8e9cc8cdaea9ee45ff', 'dateTime', 'z-change-infra-changeResult-process-date', false, '4028b8817cbfc7a7017cc095a7a30b5c', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('1c9cb6326b104af88ff79743ce63bcce', 'radio', 'z-change-infra-result', false, '4028b8817cbfc7a7017cc095a7b00b5f', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('45fdeda567e449849075599eaa4a8c06', 'textArea', 'z-change-infra-changeResult-content', false, '4028b8817cbfc7a7017cc095a7bd0b62', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('3f2ea69c92bd42a5a903b0d8884b19ab', 'fileUpload', 'z-change-infra-changeResult-fileupload', false, '4028b8817cbfc7a7017cc095a7ca0b65', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('061ec27ed5e3446db15b256afb694f7b', 'dateTime', 'z-change-infra-postImplementationReview-start-date', false, '4028b8817cbfc7a7017cc095a7e00b69', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('a09757a1c1bb40e381e491474bd8ce75', 'dateTime', 'z-change-infra-postImplementationReview-end-date', false, '4028b8817cbfc7a7017cc095a7e00b69', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('6a78f0ee60434ebab14d1b2854057e4c', 'radio', 'z-change-infra-postImplementationReview-result', false, '4028b8817cbfc7a7017cc095a7f90b6e', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('7ce9995e0c2c40c18b8404f73684bd5d', 'textArea', 'z-change-infra-postImplementationReview-content', false, '4028b8817cbfc7a7017cc095a8060b71', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('9312d808fce84d5fb061a99e6d779c4d', 'customCode', 'z-change-infra-complete-reviewer', false, '4028b8817cbfc7a7017cc095a8120b74', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('d189734cda47408ca2a33a4d6b8d04b2', 'dateTime', 'z-change-infra-complete-review-date', false, '4028b8817cbfc7a7017cc095a8200b78', '4028b8817cbfc7a7017cc08f7b0b0763');
+INSERT INTO wf_component VALUES ('60b0b5ffba4047bbb2f2779f40df84ac', 'textArea', 'z-change-infra-complete-review', false, '4028b8817cbfc7a7017cc095a82a0b7b', '4028b8817cbfc7a7017cc08f7b0b0763');
 /**
  * 컴포넌트 세부속성
  */
@@ -3496,13 +3622,213 @@ INSERT INTO wf_component_property VALUES ('8f33d3a207b04bb886a87e1e01859500','el
 INSERT INTO wf_component_property VALUES ('8f33d3a207b04bb886a87e1e01859500','label','{"position":"hidden","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
 INSERT INTO wf_component_property VALUES ('0986886e23a044659c7bb280347064d2','display','{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('0986886e23a044659c7bb280347064d2','validation','{"required":true}');
-INSERT INTO wf_component_property VALUES ('0986886e23a044659c7bb280347064d2','element','{"position":"left","columnWidth":"10","align":"horizontal","options":[{"name":"매우불만족","value":"1"},{"name":"불만족","value":"2"},{"name":"보통","value":"3"},{"name":"만족","value":"4"},{"name":"매우만족","value":"5"}]}');
+INSERT INTO wf_component_property VALUES ('0986886e23a044659c7bb280347064d2','element','{"position":"left","columnWidth":"10","align":"horizontal","options":[{"name":"매우불만족","value":"1", "checked": false},{"name":"불만족","value":"2", "checked": false},{"name":"보통","value":"3", "checked": false},{"name":"만족","value":"4", "checked": false},{"name":"매우만족","value":"5", "checked": true}]}');
 INSERT INTO wf_component_property VALUES ('0986886e23a044659c7bb280347064d2','label','{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"만족도"}');
 INSERT INTO wf_component_property VALUES ('5e203c7bace44cb58e1c38cee9372404','display','{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('5e203c7bace44cb58e1c38cee9372404','validation','{"required":false,"minLength":"0","maxLength":"512"}');
 INSERT INTO wf_component_property VALUES ('5e203c7bace44cb58e1c38cee9372404','element','{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
 INSERT INTO wf_component_property VALUES ('5e203c7bace44cb58e1c38cee9372404','label','{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"평가의견"}');
-
+/* 인프라변경관리 */
+INSERT INTO wf_component_property VALUES ('b5e06a4da8914e08b63a589fe16578db', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('b5e06a4da8914e08b63a589fe16578db', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES ('b5e06a4da8914e08b63a589fe16578db', 'element', '{"columnWidth":"12","path":"file:///logo.png","width":"155","height":"26","align":"left"}');
+INSERT INTO wf_component_property VALUES ('b5e06a4da8914e08b63a589fe16578db', 'label', '{"position":"hidden","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
+INSERT INTO wf_component_property VALUES ('44026fa563f649779f65f52dc0bfd0d6', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('44026fa563f649779f65f52dc0bfd0d6', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES ('44026fa563f649779f65f52dc0bfd0d6', 'element', '{"columnWidth":"0","labelWidth":"10","text":"","fontSize":"12","align":"left","fontOption":"","fontOptionBold":"N","fontOptionItalic":"N","fontOptionUnderline":"N","fontColor":"#8B9094"}');
+INSERT INTO wf_component_property VALUES ('44026fa563f649779f65f52dc0bfd0d6', 'label', '{"position":"left","fontSize":"40","fontColor":"#222529","bold":false,"italic":false,"underline":false,"align":"center","text":"인프라변경관리서"}');
+INSERT INTO wf_component_property VALUES ('a70e12f4514b4377bc9a94eb0f80deeb', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a70e12f4514b4377bc9a94eb0f80deeb', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES ('a70e12f4514b4377bc9a94eb0f80deeb', 'element', '{"columnWidth":"12","thickness":"3","color":"#CFD5D9","type":"solid"}');
+INSERT INTO wf_component_property VALUES ('a70e12f4514b4377bc9a94eb0f80deeb', 'label', '{"position":"hidden","fontSize":"14","fontColor":"#CFD5D9","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
+INSERT INTO wf_component_property VALUES ('6df0771bb8a94deda97d0d6ba42ef01e', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('6df0771bb8a94deda97d0d6ba42ef01e', 'validation', '{"validationType":"none","required":true,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('6df0771bb8a94deda97d0d6ba42ef01e', 'element', '{"placeholder":"","columnWidth":"9","defaultValueSelect":"select|userName"}');
+INSERT INTO wf_component_property VALUES ('6df0771bb8a94deda97d0d6ba42ef01e', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"신청자"}');
+INSERT INTO wf_component_property VALUES ('1a4024f7913e426383187d6bcc7962af', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('1a4024f7913e426383187d6bcc7962af', 'validation', '{"required":true}');
+INSERT INTO wf_component_property VALUES ('1a4024f7913e426383187d6bcc7962af', 'element', '{"columnWidth":"9","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0009|session|department"}');
+INSERT INTO wf_component_property VALUES ('1a4024f7913e426383187d6bcc7962af', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"신청부서"}');
+INSERT INTO wf_component_property VALUES ('11ed46ce208341fd842be00ced0e0381', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('11ed46ce208341fd842be00ced0e0381', 'validation', '{"validationType":"phone","required":false,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('11ed46ce208341fd842be00ced0e0381', 'element', '{"placeholder":"","columnWidth":"9","defaultValueSelect":"select|officeNumber"}');
+INSERT INTO wf_component_property VALUES ('11ed46ce208341fd842be00ced0e0381', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"전화번호"}');
+INSERT INTO wf_component_property VALUES ('a50504ee81204910a1e13782987b4f89', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a50504ee81204910a1e13782987b4f89', 'validation', '{"validationType":"email","required":false,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('a50504ee81204910a1e13782987b4f89', 'element', '{"placeholder":"","columnWidth":"9","defaultValueSelect":"select|email"}');
+INSERT INTO wf_component_property VALUES ('a50504ee81204910a1e13782987b4f89', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"메일주소"}');
+INSERT INTO wf_component_property VALUES ('610a36dd4d28448f9ca09623962d64e5', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('610a36dd4d28448f9ca09623962d64e5', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('610a36dd4d28448f9ca09623962d64e5', 'element', '{"columnWidth":"9","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('610a36dd4d28448f9ca09623962d64e5', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"신청일시"}');
+INSERT INTO wf_component_property VALUES ('9bbb34c9d2fe40ba802ee9f674210fe5', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('9bbb34c9d2fe40ba802ee9f674210fe5', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('9bbb34c9d2fe40ba802ee9f674210fe5', 'element', '{"columnWidth":"9","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('9bbb34c9d2fe40ba802ee9f674210fe5', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"완료희망일시"}');
+INSERT INTO wf_component_property VALUES ('c520f41591ca4c18bc89b08e5b58a78b', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('c520f41591ca4c18bc89b08e5b58a78b', 'validation', '{"validationType":"none","required":true,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('c520f41591ca4c18bc89b08e5b58a78b', 'element', '{"placeholder":"제목을 입력하세요.","columnWidth":"10","defaultValueSelect":"input|"}');
+INSERT INTO wf_component_property VALUES ('c520f41591ca4c18bc89b08e5b58a78b', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"제목"}');
+INSERT INTO wf_component_property VALUES ('5aa56cbcd2ab48bbbcffd0ba53af499c', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('5aa56cbcd2ab48bbbcffd0ba53af499c', 'validation', '{"required":true}');
+INSERT INTO wf_component_property VALUES ('5aa56cbcd2ab48bbbcffd0ba53af499c', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0012|code|form.template.serviceDesk.request.category.service|service"}');
+INSERT INTO wf_component_property VALUES ('5aa56cbcd2ab48bbbcffd0ba53af499c', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"요청구분"}');
+INSERT INTO wf_component_property VALUES ('654a2e1cbdf14f39a883ff4ab168046c', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('654a2e1cbdf14f39a883ff4ab168046c', 'validation', '{"required":true,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('654a2e1cbdf14f39a883ff4ab168046c', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
+INSERT INTO wf_component_property VALUES ('654a2e1cbdf14f39a883ff4ab168046c', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"내용"}');
+INSERT INTO wf_component_property VALUES ('41ff46f9f19d4e92853118fa1e914877', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('41ff46f9f19d4e92853118fa1e914877', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES ('41ff46f9f19d4e92853118fa1e914877', 'element', '{"columnWidth":"10","align":"left"}');
+INSERT INTO wf_component_property VALUES ('41ff46f9f19d4e92853118fa1e914877', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"첨부파일"}');
+INSERT INTO wf_component_property VALUES ('2c260851462b40ea82949561ed0f2b68', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('2c260851462b40ea82949561ed0f2b68', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('2c260851462b40ea82949561ed0f2b68', 'element', '{"columnWidth":"10","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('2c260851462b40ea82949561ed0f2b68', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"접수일시"}');
+INSERT INTO wf_component_property VALUES ('9e79bf1880094800b3b3d68044f40538', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('9e79bf1880094800b3b3d68044f40538', 'validation', '{"validationType":"none","required":true,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('9e79bf1880094800b3b3d68044f40538', 'element', '{"placeholder":"","columnWidth":"9","defaultValueSelect":"select|userName"}');
+INSERT INTO wf_component_property VALUES ('9e79bf1880094800b3b3d68044f40538', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"접수자"}');
+INSERT INTO wf_component_property VALUES ('59ffe940a3464a9ca3683224f7038c41', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('59ffe940a3464a9ca3683224f7038c41', 'validation', '{"required":true}');
+INSERT INTO wf_component_property VALUES ('59ffe940a3464a9ca3683224f7038c41', 'element', '{"columnWidth":"9","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0009|session|department"}');
+INSERT INTO wf_component_property VALUES ('59ffe940a3464a9ca3683224f7038c41', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"접수부서"}');
+INSERT INTO wf_component_property VALUES ('88660c980418450baf87a6d7ef510626', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('88660c980418450baf87a6d7ef510626', 'validation', '{"required":true}');
+INSERT INTO wf_component_property VALUES ('88660c980418450baf87a6d7ef510626', 'element', '{"columnWidth":"9","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0008|none|"}');
+INSERT INTO wf_component_property VALUES ('88660c980418450baf87a6d7ef510626', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"처리자"}');
+INSERT INTO wf_component_property VALUES ('f12492917ac64f418c37cfa98c4ab02d', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('f12492917ac64f418c37cfa98c4ab02d', 'validation', '{"required":true}');
+INSERT INTO wf_component_property VALUES ('f12492917ac64f418c37cfa98c4ab02d', 'element', '{"columnWidth":"9","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0009|none|"}');
+INSERT INTO wf_component_property VALUES ('f12492917ac64f418c37cfa98c4ab02d', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"처리부서"}');
+INSERT INTO wf_component_property VALUES ('24f2a648a5ba458d9224a61c0cb1cdb0', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('24f2a648a5ba458d9224a61c0cb1cdb0', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES ('24f2a648a5ba458d9224a61c0cb1cdb0', 'element', '{"columnWidth":"9","options":[{"name":"낮음","value":"1","checked":false},{"name":"중간","value":"2","checked":false},{"name":"높음","value":"3","checked":false},{"name":"아주높음","value":"4","checked":false}]}');
+INSERT INTO wf_component_property VALUES ('24f2a648a5ba458d9224a61c0cb1cdb0', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"영향도"}');
+INSERT INTO wf_component_property VALUES ('15cd0e737e9c41c5a27132cfa18f370a', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('15cd0e737e9c41c5a27132cfa18f370a', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES ('15cd0e737e9c41c5a27132cfa18f370a', 'element', '{"columnWidth":"9","options":[{"name":"1일 이내 처리","value":"1","checked":false},{"name":"3일 이내 처리","value":"3","checked":false},{"name":"7일 이내 처리","value":"7","checked":false},{"name":"7일 이상","value":"8","checked":false}]}');
+INSERT INTO wf_component_property VALUES ('15cd0e737e9c41c5a27132cfa18f370a', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"긴급도"}');
+INSERT INTO wf_component_property VALUES ('bb38d2e37255417b8f61e0947e224974', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('bb38d2e37255417b8f61e0947e224974', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('bb38d2e37255417b8f61e0947e224974', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
+INSERT INTO wf_component_property VALUES ('bb38d2e37255417b8f61e0947e224974', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"접수의견"}');
+INSERT INTO wf_component_property VALUES ('c7e485828f2b4c85a7cba5d6b3646b16', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('c7e485828f2b4c85a7cba5d6b3646b16', 'validation', '{"required":false,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('c7e485828f2b4c85a7cba5d6b3646b16', 'element', '{"columnWidth":"10","defaultValueRadio":"none"}');
+INSERT INTO wf_component_property VALUES ('c7e485828f2b4c85a7cba5d6b3646b16', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"회의일시"}');
+INSERT INTO wf_component_property VALUES ('6deb6fcad6124c9a907fc4850285e342', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('6deb6fcad6124c9a907fc4850285e342', 'validation', '{"validationType":"none","required":false,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('6deb6fcad6124c9a907fc4850285e342', 'element', '{"placeholder":"","columnWidth":"10","defaultValueSelect":"input|"}');
+INSERT INTO wf_component_property VALUES ('6deb6fcad6124c9a907fc4850285e342', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"회의장소"}');
+INSERT INTO wf_component_property VALUES ('1d2ea0820d514512a1e3837e04fbc84b', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('1d2ea0820d514512a1e3837e04fbc84b', 'validation', '{"validationType":"none","required":false,"minLength":"0","maxLength":"100"}');
+INSERT INTO wf_component_property VALUES ('1d2ea0820d514512a1e3837e04fbc84b', 'element', '{"placeholder":"","columnWidth":"10","defaultValueSelect":"input|"}');
+INSERT INTO wf_component_property VALUES ('1d2ea0820d514512a1e3837e04fbc84b', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"주제"}');
+INSERT INTO wf_component_property VALUES ('2cb51de14f824f62bf9d5f634d276fdc', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('2cb51de14f824f62bf9d5f634d276fdc', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('2cb51de14f824f62bf9d5f634d276fdc', 'element', '{"columnWidth":"10","rows":"3","placeholder":""}');
+INSERT INTO wf_component_property VALUES ('2cb51de14f824f62bf9d5f634d276fdc', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"협의사항"}');
+INSERT INTO wf_component_property VALUES ('c27d14120e1044a5b70fe4372ed78c2e', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('c27d14120e1044a5b70fe4372ed78c2e', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('c27d14120e1044a5b70fe4372ed78c2e', 'element', '{"columnWidth":"10","rows":"3","placeholder":""}');
+INSERT INTO wf_component_property VALUES ('c27d14120e1044a5b70fe4372ed78c2e', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"회의결과"}');
+INSERT INTO wf_component_property VALUES ('3d5bb59a5b264430b2a8d1b19f6741ae', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('3d5bb59a5b264430b2a8d1b19f6741ae', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('3d5bb59a5b264430b2a8d1b19f6741ae', 'element', '{"columnWidth":"10","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('3d5bb59a5b264430b2a8d1b19f6741ae', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"작성일시"}');
+INSERT INTO wf_component_property VALUES ('e6d73057dd5a4b2a8cf01e15d3793eca', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('e6d73057dd5a4b2a8cf01e15d3793eca', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('e6d73057dd5a4b2a8cf01e15d3793eca', 'element', '{"columnWidth":"9","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('e6d73057dd5a4b2a8cf01e15d3793eca', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"변경 예정 시작일시"}');
+INSERT INTO wf_component_property VALUES ('afe2bec3307442f0be22af203e233f2f', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('afe2bec3307442f0be22af203e233f2f', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('afe2bec3307442f0be22af203e233f2f', 'element', '{"columnWidth":"9","defaultValueRadio":"dateTime|1|"}');
+INSERT INTO wf_component_property VALUES ('afe2bec3307442f0be22af203e233f2f', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"변경 예정 종료일시"}');
+INSERT INTO wf_component_property VALUES ('f5595e73f0654239aab9e66f71c528cc', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('f5595e73f0654239aab9e66f71c528cc', 'validation', '{"required":true}');
+INSERT INTO wf_component_property VALUES ('f5595e73f0654239aab9e66f71c528cc', 'element', '{"position":"left","columnWidth":10,"align":"horizontal","options":[{"name":"중단","value":"stop"},{"name":"미중단","value":"online"}]}');
+INSERT INTO wf_component_property VALUES ('f5595e73f0654239aab9e66f71c528cc', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"서비스 중단"}');
+INSERT INTO wf_component_property VALUES ('b16f8424688f4e608d1f7b71f1aaf4b5', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('b16f8424688f4e608d1f7b71f1aaf4b5', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('b16f8424688f4e608d1f7b71f1aaf4b5', 'element', '{"columnWidth":"10","rows":"3","placeholder":""}');
+INSERT INTO wf_component_property VALUES ('b16f8424688f4e608d1f7b71f1aaf4b5', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"변경작업계획"}');
+INSERT INTO wf_component_property VALUES ('2692ffba732d496498bd2f53f35016f9', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('2692ffba732d496498bd2f53f35016f9', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('2692ffba732d496498bd2f53f35016f9', 'element', '{"columnWidth":"10","rows":"3","placeholder":""}');
+INSERT INTO wf_component_property VALUES ('2692ffba732d496498bd2f53f35016f9', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"실패시복구방안"}');
+INSERT INTO wf_component_property VALUES ('961037311d5c4201b869c642abdbf394', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('961037311d5c4201b869c642abdbf394', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('961037311d5c4201b869c642abdbf394', 'element', '{"columnWidth":"10","rows":"3","placeholder":""}');
+INSERT INTO wf_component_property VALUES ('961037311d5c4201b869c642abdbf394', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"시험계획"}');
+INSERT INTO wf_component_property VALUES ('3c8cd6bf769041a68c628c1eb1fa2bd2', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('3c8cd6bf769041a68c628c1eb1fa2bd2', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('3c8cd6bf769041a68c628c1eb1fa2bd2', 'element', '{"columnWidth":"10","rows":"3","placeholder":""}');
+INSERT INTO wf_component_property VALUES ('3c8cd6bf769041a68c628c1eb1fa2bd2', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"기타의견"}');
+INSERT INTO wf_component_property VALUES ('f5081a7fd40d46da9b65daf5645906a0', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('f5081a7fd40d46da9b65daf5645906a0', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES ('f5081a7fd40d46da9b65daf5645906a0', 'element', '{"columnWidth":"10","isEditable":false}');
+INSERT INTO wf_component_property VALUES ('f5081a7fd40d46da9b65daf5645906a0', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"관련 CI"}');
+INSERT INTO wf_component_property VALUES ('663450c3389c465584685365602dd961', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('663450c3389c465584685365602dd961', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES ('663450c3389c465584685365602dd961', 'element', '{"columnWidth":"10","align":"left"}');
+INSERT INTO wf_component_property VALUES ('663450c3389c465584685365602dd961', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"첨부파일"}');
+INSERT INTO wf_component_property VALUES ('2437c9c99fc14cb895f2290519515a7b', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('2437c9c99fc14cb895f2290519515a7b', 'validation', '{"required":true}');
+INSERT INTO wf_component_property VALUES ('2437c9c99fc14cb895f2290519515a7b', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0008|none|"}');
+INSERT INTO wf_component_property VALUES ('2437c9c99fc14cb895f2290519515a7b', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"승인자"}');
+INSERT INTO wf_component_property VALUES ('1991ff59e63246ccb13a7946379b14e7', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('1991ff59e63246ccb13a7946379b14e7', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('1991ff59e63246ccb13a7946379b14e7', 'element', '{"columnWidth":"10","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('1991ff59e63246ccb13a7946379b14e7', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"승인일시"}');
+INSERT INTO wf_component_property VALUES ('51ac11434d1a4c0ca87b4930ffce047c', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('51ac11434d1a4c0ca87b4930ffce047c', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('51ac11434d1a4c0ca87b4930ffce047c', 'element', '{"columnWidth":"10","rows":"3","placeholder":""}');
+INSERT INTO wf_component_property VALUES ('51ac11434d1a4c0ca87b4930ffce047c', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"승인 의견"}');
+INSERT INTO wf_component_property VALUES ('5e32d98e8bcd4e8e9cc8cdaea9ee45ff', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('5e32d98e8bcd4e8e9cc8cdaea9ee45ff', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('5e32d98e8bcd4e8e9cc8cdaea9ee45ff', 'element', '{"columnWidth":"10","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('5e32d98e8bcd4e8e9cc8cdaea9ee45ff', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"변경 결과서 작성일시"}');
+INSERT INTO wf_component_property VALUES ('1c9cb6326b104af88ff79743ce63bcce', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('1c9cb6326b104af88ff79743ce63bcce', 'validation', '{"required":true}');
+INSERT INTO wf_component_property VALUES ('1c9cb6326b104af88ff79743ce63bcce', 'element', '{"position":"left","columnWidth":10,"align":"horizontal","options":[{"name":"성공 종결","value":"sucess"},{"name":"실패 종결","value":""}]}');
+INSERT INTO wf_component_property VALUES ('1c9cb6326b104af88ff79743ce63bcce', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"변경작업결과"}');
+INSERT INTO wf_component_property VALUES ('45fdeda567e449849075599eaa4a8c06', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('45fdeda567e449849075599eaa4a8c06', 'validation', '{"required":true,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('45fdeda567e449849075599eaa4a8c06', 'element', '{"columnWidth":"10","rows":"3","placeholder":""}');
+INSERT INTO wf_component_property VALUES ('45fdeda567e449849075599eaa4a8c06', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"내용"}');
+INSERT INTO wf_component_property VALUES ('3f2ea69c92bd42a5a903b0d8884b19ab', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('3f2ea69c92bd42a5a903b0d8884b19ab', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES ('3f2ea69c92bd42a5a903b0d8884b19ab', 'element', '{"columnWidth":"10","align":"left"}');
+INSERT INTO wf_component_property VALUES ('3f2ea69c92bd42a5a903b0d8884b19ab', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"첨부파일"}');
+INSERT INTO wf_component_property VALUES ('061ec27ed5e3446db15b256afb694f7b', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('061ec27ed5e3446db15b256afb694f7b', 'validation', '{"required":false,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('061ec27ed5e3446db15b256afb694f7b', 'element', '{"columnWidth":"9","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('061ec27ed5e3446db15b256afb694f7b', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"모니터링 시작일시"}');
+INSERT INTO wf_component_property VALUES ('a09757a1c1bb40e381e491474bd8ce75', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('a09757a1c1bb40e381e491474bd8ce75', 'validation', '{"required":false,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('a09757a1c1bb40e381e491474bd8ce75', 'element', '{"columnWidth":"9","defaultValueRadio":"dateTime|1|"}');
+INSERT INTO wf_component_property VALUES ('a09757a1c1bb40e381e491474bd8ce75', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"모니터링종료일시"}');
+INSERT INTO wf_component_property VALUES ('6a78f0ee60434ebab14d1b2854057e4c', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('6a78f0ee60434ebab14d1b2854057e4c', 'validation', '{"required":true}');
+INSERT INTO wf_component_property VALUES ('6a78f0ee60434ebab14d1b2854057e4c', 'element', '{"position":"left","columnWidth":10,"align":"horizontal","options":[{"name":"성공","value":"sucess"},{"name":"실패","value":""}]}');
+INSERT INTO wf_component_property VALUES ('6a78f0ee60434ebab14d1b2854057e4c', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"결과"}');
+INSERT INTO wf_component_property VALUES ('7ce9995e0c2c40c18b8404f73684bd5d', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('7ce9995e0c2c40c18b8404f73684bd5d', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('7ce9995e0c2c40c18b8404f73684bd5d', 'element', '{"columnWidth":"10","rows":"3","placeholder":""}');
+INSERT INTO wf_component_property VALUES ('7ce9995e0c2c40c18b8404f73684bd5d', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"내용"}');
+INSERT INTO wf_component_property VALUES ('9312d808fce84d5fb061a99e6d779c4d', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('9312d808fce84d5fb061a99e6d779c4d', 'validation', '{"required":true}');
+INSERT INTO wf_component_property VALUES ('9312d808fce84d5fb061a99e6d779c4d', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0008|none|"}');
+INSERT INTO wf_component_property VALUES ('9312d808fce84d5fb061a99e6d779c4d', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"검토자"}');
+INSERT INTO wf_component_property VALUES ('d189734cda47408ca2a33a4d6b8d04b2', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('d189734cda47408ca2a33a4d6b8d04b2', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
+INSERT INTO wf_component_property VALUES ('d189734cda47408ca2a33a4d6b8d04b2', 'element', '{"columnWidth":"10","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES ('d189734cda47408ca2a33a4d6b8d04b2', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"최종 검토일시"}');
+INSERT INTO wf_component_property VALUES ('60b0b5ffba4047bbb2f2779f40df84ac', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES ('60b0b5ffba4047bbb2f2779f40df84ac', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES ('60b0b5ffba4047bbb2f2779f40df84ac', 'element', '{"columnWidth":"10","rows":"3","placeholder":""}');
+INSERT INTO wf_component_property VALUES ('60b0b5ffba4047bbb2f2779f40df84ac', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"최종 검토의견"}');
 /**
  * 컴포넌트세부설정
  */
@@ -3643,6 +3969,35 @@ INSERT INTO wf_element VALUES ('3914bb0a2d32423885ab84339bf391d5','4028b21f7c9cc
 INSERT INTO wf_element VALUES ('cc5734c370864f15be79c750c9ffffdb','4028b21f7c9cc269017c9cc76a5e0000','commonStart','시작','',false,'','{"width":40,"height":40,"position-x":460,"position-y":370}');
 INSERT INTO wf_element VALUES ('d855698cb2c7443194b03eb17fe69522','4028b21f7c9cc269017c9cc76a5e0000','arrowConnector','','',false,'','{}');
 INSERT INTO wf_element VALUES ('f9a7329b5cd24001b532265ee88ad3ee','4028b21f7c9cc269017c9cc76a5e0000','commonEnd','종료','',false,'','{"width":40,"height":40,"position-x":900,"position-y":370}');
+/* 인프라변경관리 */
+INSERT INTO wf_element VALUES ('0844d2fc0cfc45238f24f0a09a328f0a', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '', '', false, '', '{"mid-point":[-458,20]}');
+INSERT INTO wf_element VALUES ('0c5465de1a8a480a9ac919b79b29569f', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '', '', false, '', '{}');
+INSERT INTO wf_element VALUES ('0e1c6a483d1f415eb1dd91c0348f13dd', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'manualTask', '접수', '', false, '', '{"width":160,"height":40,"position-x":-203,"position-y":220}');
+INSERT INTO wf_element VALUES ('0f188cf2587b488293d6c22b74258167', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '승인', '', false, '', '{"mid-point":[327,390],"text-point":[73,-105]}');
+INSERT INTO wf_element VALUES ('139f55357c1242cc89a0a8162734bae6', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'userTask', '최종검토', '', true, '', '{"width":160,"height":40,"position-x":1384,"position-y":393}');
+INSERT INTO wf_element VALUES ('32f0d926786441ee84b6d56bf2f0fd08', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'commonStart', '시작', '', false, '', '{"width":40,"height":40,"position-x":-578,"position-y":20}');
+INSERT INTO wf_element VALUES ('3d56aaee23934e179d2c0ba8e0c860a2', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '자체처리', '', false, '', '{"text-point":[-65,-4]}');
+INSERT INTO wf_element VALUES ('432255a7eae9415085f38348d6445468', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '구성관리', '', false, '', '{"text-point":[-59,-44]}');
+INSERT INTO wf_element VALUES ('474cccfff5344196ade87e3479910a6f', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '', '', false, '', '{}');
+INSERT INTO wf_element VALUES ('4b7e284e81014cfda64de39550895647', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'userTask', '처리', '', true, '', '{"width":160,"height":40,"position-x":327,"position-y":220}');
+INSERT INTO wf_element VALUES ('4f2a50e6b49a4e1fab1a9866277a6996', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'exclusiveGateway', '', '', false, '', '{"width":34,"height":34,"position-x":776,"position-y":218}');
+INSERT INTO wf_element VALUES ('515b32b1032c48d48b0cb7f304701aec', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', 'PIR 작성', '', false, '', '{"text-point":[0,22]}');
+INSERT INTO wf_element VALUES ('58d6f5e75a5543ab96bc0fa1fe2637c7', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'userTask', '변경계획서 검토', '', true, '', '{"width":160,"height":40,"position-x":177,"position-y":390.0000305175781}');
+INSERT INTO wf_element VALUES ('6366778fd60e4a2d913e0d84f80bd11c', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '', '', false, '', '{}');
+INSERT INTO wf_element VALUES ('697ba85cf98c4d9083f83bd5dd66639f', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'userTask', '변경계획서 작성', '', true, '', '{"width":160,"height":40,"position-x":27,"position-y":220}');
+INSERT INTO wf_element VALUES ('7de6a641ac754f48be50f40c63bb1ef5', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'subprocess', '구성관리', '', false, '', '{"width":152,"height":40,"position-x":637,"position-y":140}');
+INSERT INTO wf_element VALUES ('89d3605de19d491ea6590640b94461d4', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '검토완료', '', false, '', '{"text-point":[14,-66]}');
+INSERT INTO wf_element VALUES ('8b8564b9f8164971bee112f0a73e66f3', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'userTask', '변경결과서 작성', '', true, '', '{"width":160,"height":40,"position-x":952,"position-y":220}');
+INSERT INTO wf_element VALUES ('996c1c14b95643b1b0a22436f2dee6ea', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'exclusiveGateway', '', '', false, '', '{"width":34,"height":34,"position-x":517,"position-y":220}');
+INSERT INTO wf_element VALUES ('9d30b4b0fa3e4b9190c5042e379e59f6', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'commonEnd', '종료', '', false, '', '{"width":40,"height":40,"position-x":1384,"position-y":43}');
+INSERT INTO wf_element VALUES ('9deadc6cdd6947eebcac777abaa8338b', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '', '', false, '', '{}');
+INSERT INTO wf_element VALUES ('a0bfeb6307bf9d5c6c71db3c5e3232df', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '접수', '', false, '', '{"text-point":[10,8]}');
+INSERT INTO wf_element VALUES ('a94aaf66757795501eacedd06a5b3295', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '검토요청', '', false, '', '{"mid-point":[1194,393],"text-point":[7,26]}');
+INSERT INTO wf_element VALUES ('baae90a53e39457480d0b2139622e1d2', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'manualTask', '자체처리', '', false, '', '{"width":160,"height":40,"position-x":637,"position-y":290}');
+INSERT INTO wf_element VALUES ('be6990d4bd1f4c3586df37fe147b2dea', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'userTask', 'PIR', '', false, '', '{"width":160,"height":40,"position-x":1192,"position-y":220}');
+INSERT INTO wf_element VALUES ('c9c7ed6d193b4fd58b726668cbddccae', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'userTask', '이관문서검토', '', false, '', '{"width":160,"height":40,"position-x":-458,"position-y":220}');
+INSERT INTO wf_element VALUES ('e15d71bd48bc485f860d2abb70d8d16e', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '승인요청', '', false, '', '{"mid-point":[177,220],"text-point":[60,66]}');
+INSERT INTO wf_element VALUES ('e2c199ab8f4a4c2ab7cdfc67073b3340', '4028b8817cbfc7a7017cc0db1a8c0bc3', 'arrowConnector', '', '', false, '', '{}');
 
 /**
  * 문서출력정보
@@ -3749,6 +4104,70 @@ INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca06bde520058','4028
 /* 서비스데스크 - 서비스요청 - 만족도 */
 INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca04d16830000','4028b21f7c90d996017c914eec300040','3914bb0a2d32423885ab84339bf391d5','document.displayType.readonly');
 INSERT INTO wf_document_display VALUES ('4028b21f7c9ff7c8017ca04d16830000','4028b21f7c90d996017c914eecb30048','3914bb0a2d32423885ab84339bf391d5','document.displayType.editable');
+/* 인프라변경관리 */
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a5670ae8', 'c9c7ed6d193b4fd58b726668cbddccae', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a5670ae8', '697ba85cf98c4d9083f83bd5dd66639f', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a5670ae8', '58d6f5e75a5543ab96bc0fa1fe2637c7', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a5670ae8', '4b7e284e81014cfda64de39550895647', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a5670ae8', '8b8564b9f8164971bee112f0a73e66f3', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a5670ae8', 'be6990d4bd1f4c3586df37fe147b2dea', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a5670ae8', '139f55357c1242cc89a0a8162734bae6', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a59a0af2', 'c9c7ed6d193b4fd58b726668cbddccae', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a59a0af2', '697ba85cf98c4d9083f83bd5dd66639f', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a59a0af2', '58d6f5e75a5543ab96bc0fa1fe2637c7', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a59a0af2', '4b7e284e81014cfda64de39550895647', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a59a0af2', '8b8564b9f8164971bee112f0a73e66f3', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a59a0af2', 'be6990d4bd1f4c3586df37fe147b2dea', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a59a0af2', '139f55357c1242cc89a0a8162734bae6', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6360b0f', 'c9c7ed6d193b4fd58b726668cbddccae', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6360b0f', '697ba85cf98c4d9083f83bd5dd66639f', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6360b0f', '58d6f5e75a5543ab96bc0fa1fe2637c7', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6360b0f', '4b7e284e81014cfda64de39550895647', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6360b0f', '8b8564b9f8164971bee112f0a73e66f3', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6360b0f', 'be6990d4bd1f4c3586df37fe147b2dea', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6360b0f', '139f55357c1242cc89a0a8162734bae6', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6a10b25', 'c9c7ed6d193b4fd58b726668cbddccae', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6a10b25', '697ba85cf98c4d9083f83bd5dd66639f', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6a10b25', '58d6f5e75a5543ab96bc0fa1fe2637c7', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6a10b25', '4b7e284e81014cfda64de39550895647', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6a10b25', '8b8564b9f8164971bee112f0a73e66f3', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6a10b25', 'be6990d4bd1f4c3586df37fe147b2dea', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6a10b25', '139f55357c1242cc89a0a8162734bae6', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6eb0b35', 'c9c7ed6d193b4fd58b726668cbddccae', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6eb0b35', '697ba85cf98c4d9083f83bd5dd66639f', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6eb0b35', '58d6f5e75a5543ab96bc0fa1fe2637c7', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6eb0b35', '4b7e284e81014cfda64de39550895647', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6eb0b35', '8b8564b9f8164971bee112f0a73e66f3', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6eb0b35', 'be6990d4bd1f4c3586df37fe147b2dea', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a6eb0b35', '139f55357c1242cc89a0a8162734bae6', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a77f0b54', 'c9c7ed6d193b4fd58b726668cbddccae', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a77f0b54', '697ba85cf98c4d9083f83bd5dd66639f', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a77f0b54', '58d6f5e75a5543ab96bc0fa1fe2637c7', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a77f0b54', '4b7e284e81014cfda64de39550895647', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a77f0b54', '8b8564b9f8164971bee112f0a73e66f3', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a77f0b54', 'be6990d4bd1f4c3586df37fe147b2dea', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a77f0b54', '139f55357c1242cc89a0a8162734bae6', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a79f0b5b', 'c9c7ed6d193b4fd58b726668cbddccae', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a79f0b5b', '697ba85cf98c4d9083f83bd5dd66639f', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a79f0b5b', '58d6f5e75a5543ab96bc0fa1fe2637c7', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a79f0b5b', '4b7e284e81014cfda64de39550895647', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a79f0b5b', '8b8564b9f8164971bee112f0a73e66f3', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a79f0b5b', 'be6990d4bd1f4c3586df37fe147b2dea', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a79f0b5b', '139f55357c1242cc89a0a8162734bae6', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a7d90b68', 'c9c7ed6d193b4fd58b726668cbddccae', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a7d90b68', '697ba85cf98c4d9083f83bd5dd66639f', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a7d90b68', '58d6f5e75a5543ab96bc0fa1fe2637c7', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a7d90b68', '4b7e284e81014cfda64de39550895647', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a7d90b68', '8b8564b9f8164971bee112f0a73e66f3', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a7d90b68', 'be6990d4bd1f4c3586df37fe147b2dea', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a7d90b68', '139f55357c1242cc89a0a8162734bae6', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a81b0b77', 'c9c7ed6d193b4fd58b726668cbddccae', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a81b0b77', '697ba85cf98c4d9083f83bd5dd66639f', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a81b0b77', '58d6f5e75a5543ab96bc0fa1fe2637c7', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a81b0b77', '4b7e284e81014cfda64de39550895647', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a81b0b77', '8b8564b9f8164971bee112f0a73e66f3', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a81b0b77', 'be6990d4bd1f4c3586df37fe147b2dea', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '4028b8817cbfc7a7017cc095a81b0b77', '139f55357c1242cc89a0a8162734bae6', 'document.displayType.editable');
 
 /**
  * 엘리먼트세부설정
@@ -4114,7 +4533,7 @@ INSERT INTO wf_element_data VALUES ('8a2ff6fdb21d4602a2c4c365798469c4','end-name
 INSERT INTO wf_element_data VALUES ('8a2ff6fdb21d4602a2c4c365798469c4','is-default','N',5,false);
 INSERT INTO wf_element_data VALUES ('8a2ff6fdb21d4602a2c4c365798469c4','start-id','898c51972e9c45e49646c3797165411d',6,true);
 INSERT INTO wf_element_data VALUES ('8a2ff6fdb21d4602a2c4c365798469c4','start-name','승인요청',7,false);
-INSERT INTO wf_element_data VALUES ('9cde4a46cd8c42d8af2d45ba77721091','sub-document-id','',0,true);
+INSERT INTO wf_element_data VALUES ('9cde4a46cd8c42d8af2d45ba77721091','sub-document-id','4028b8817cbfc7a7017cc0e65b260bdf',0,true);
 INSERT INTO wf_element_data VALUES ('a71a9701104d441c8b8f73d4afd88f6e','action-name','자체 처리',0,false);
 INSERT INTO wf_element_data VALUES ('a71a9701104d441c8b8f73d4afd88f6e','action-value','self_complete',1,false);
 INSERT INTO wf_element_data VALUES ('a71a9701104d441c8b8f73d4afd88f6e','is-default','N',2,false);
@@ -4190,6 +4609,152 @@ INSERT INTO wf_element_data VALUES ('d855698cb2c7443194b03eb17fe69522','start-id
 INSERT INTO wf_element_data VALUES ('d855698cb2c7443194b03eb17fe69522','start-name','시작',5,false);
 INSERT INTO wf_element_data VALUES ('d855698cb2c7443194b03eb17fe69522','end-id','3914bb0a2d32423885ab84339bf391d5',6,true);
 INSERT INTO wf_element_data VALUES ('d855698cb2c7443194b03eb17fe69522','end-name','만족도 평가',7,false);
+/* 인프라변경관리 */
+INSERT INTO wf_element_data VALUES ('0844d2fc0cfc45238f24f0a09a328f0a', 'action-name', '', 0, false);
+INSERT INTO wf_element_data VALUES ('0844d2fc0cfc45238f24f0a09a328f0a', 'action-value', '', 1, false);
+INSERT INTO wf_element_data VALUES ('0844d2fc0cfc45238f24f0a09a328f0a', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('0844d2fc0cfc45238f24f0a09a328f0a', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('0844d2fc0cfc45238f24f0a09a328f0a', 'start-id', '32f0d926786441ee84b6d56bf2f0fd08', 4, true);
+INSERT INTO wf_element_data VALUES ('0844d2fc0cfc45238f24f0a09a328f0a', 'start-name', '시작', 5, false);
+INSERT INTO wf_element_data VALUES ('0844d2fc0cfc45238f24f0a09a328f0a', 'end-id', 'c9c7ed6d193b4fd58b726668cbddccae', 6, true);
+INSERT INTO wf_element_data VALUES ('0844d2fc0cfc45238f24f0a09a328f0a', 'end-name', '이관문서검토', 7, false);
+INSERT INTO wf_element_data VALUES ('0c5465de1a8a480a9ac919b79b29569f', 'action-name', '', 0, false);
+INSERT INTO wf_element_data VALUES ('0c5465de1a8a480a9ac919b79b29569f', 'action-value', '', 1, false);
+INSERT INTO wf_element_data VALUES ('0c5465de1a8a480a9ac919b79b29569f', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('0c5465de1a8a480a9ac919b79b29569f', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('0c5465de1a8a480a9ac919b79b29569f', 'start-id', '4f2a50e6b49a4e1fab1a9866277a6996', 4, true);
+INSERT INTO wf_element_data VALUES ('0c5465de1a8a480a9ac919b79b29569f', 'start-name', '', 5, false);
+INSERT INTO wf_element_data VALUES ('0c5465de1a8a480a9ac919b79b29569f', 'end-id', '8b8564b9f8164971bee112f0a73e66f3', 6, true);
+INSERT INTO wf_element_data VALUES ('0c5465de1a8a480a9ac919b79b29569f', 'end-name', '변경결과서 작성', 7, false);
+INSERT INTO wf_element_data VALUES ('0e1c6a483d1f415eb1dd91c0348f13dd', 'complete-action', '', 0, false);
+INSERT INTO wf_element_data VALUES ('0f188cf2587b488293d6c22b74258167', 'action-name', '승인', 0, false);
+INSERT INTO wf_element_data VALUES ('0f188cf2587b488293d6c22b74258167', 'action-value', 'plan-approval', 1, false);
+INSERT INTO wf_element_data VALUES ('0f188cf2587b488293d6c22b74258167', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('0f188cf2587b488293d6c22b74258167', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('0f188cf2587b488293d6c22b74258167', 'start-id', '58d6f5e75a5543ab96bc0fa1fe2637c7', 4, true);
+INSERT INTO wf_element_data VALUES ('0f188cf2587b488293d6c22b74258167', 'start-name', '변경계획서 검토', 5, false);
+INSERT INTO wf_element_data VALUES ('0f188cf2587b488293d6c22b74258167', 'end-id', '4b7e284e81014cfda64de39550895647', 6, true);
+INSERT INTO wf_element_data VALUES ('0f188cf2587b488293d6c22b74258167', 'end-name', '처리', 7, false);
+INSERT INTO wf_element_data VALUES ('139f55357c1242cc89a0a8162734bae6', 'assignee-type', 'assignee.type.assignee', 0, true);
+INSERT INTO wf_element_data VALUES ('139f55357c1242cc89a0a8162734bae6', 'assignee', 'z-change-infra-complete-reviewer', 1, true);
+INSERT INTO wf_element_data VALUES ('139f55357c1242cc89a0a8162734bae6', 'reject-id', '', 2, false);
+INSERT INTO wf_element_data VALUES ('139f55357c1242cc89a0a8162734bae6', 'withdraw', 'Y', 3, false);
+INSERT INTO wf_element_data VALUES ('3d56aaee23934e179d2c0ba8e0c860a2', 'action-name', '자체처리', 0, false);
+INSERT INTO wf_element_data VALUES ('3d56aaee23934e179d2c0ba8e0c860a2', 'action-value', 'infra-self', 1, false);
+INSERT INTO wf_element_data VALUES ('3d56aaee23934e179d2c0ba8e0c860a2', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('3d56aaee23934e179d2c0ba8e0c860a2', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('3d56aaee23934e179d2c0ba8e0c860a2', 'start-id', '996c1c14b95643b1b0a22436f2dee6ea', 4, true);
+INSERT INTO wf_element_data VALUES ('3d56aaee23934e179d2c0ba8e0c860a2', 'start-name', '', 5, false);
+INSERT INTO wf_element_data VALUES ('3d56aaee23934e179d2c0ba8e0c860a2', 'end-id', 'baae90a53e39457480d0b2139622e1d2', 6, true);
+INSERT INTO wf_element_data VALUES ('3d56aaee23934e179d2c0ba8e0c860a2', 'end-name', '자체처리', 7, false);
+INSERT INTO wf_element_data VALUES ('432255a7eae9415085f38348d6445468', 'action-name', '구성관리', 0, false);
+INSERT INTO wf_element_data VALUES ('432255a7eae9415085f38348d6445468', 'action-value', 'cfg', 1, false);
+INSERT INTO wf_element_data VALUES ('432255a7eae9415085f38348d6445468', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('432255a7eae9415085f38348d6445468', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('432255a7eae9415085f38348d6445468', 'start-id', '996c1c14b95643b1b0a22436f2dee6ea', 4, true);
+INSERT INTO wf_element_data VALUES ('432255a7eae9415085f38348d6445468', 'start-name', '', 5, false);
+INSERT INTO wf_element_data VALUES ('432255a7eae9415085f38348d6445468', 'end-id', '7de6a641ac754f48be50f40c63bb1ef5', 6, true);
+INSERT INTO wf_element_data VALUES ('432255a7eae9415085f38348d6445468', 'end-name', '구성관리', 7, false);
+INSERT INTO wf_element_data VALUES ('474cccfff5344196ade87e3479910a6f', 'action-name', '', 0, false);
+INSERT INTO wf_element_data VALUES ('474cccfff5344196ade87e3479910a6f', 'action-value', '', 1, false);
+INSERT INTO wf_element_data VALUES ('474cccfff5344196ade87e3479910a6f', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('474cccfff5344196ade87e3479910a6f', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('474cccfff5344196ade87e3479910a6f', 'start-id', '4b7e284e81014cfda64de39550895647', 4, true);
+INSERT INTO wf_element_data VALUES ('474cccfff5344196ade87e3479910a6f', 'start-name', '처리', 5, false);
+INSERT INTO wf_element_data VALUES ('474cccfff5344196ade87e3479910a6f', 'end-id', '996c1c14b95643b1b0a22436f2dee6ea', 6, true);
+INSERT INTO wf_element_data VALUES ('474cccfff5344196ade87e3479910a6f', 'end-name', '', 7, false);
+INSERT INTO wf_element_data VALUES ('4b7e284e81014cfda64de39550895647', 'assignee-type', 'assignee.type.assignee', 0, true);
+INSERT INTO wf_element_data VALUES ('4b7e284e81014cfda64de39550895647', 'assignee', 'z-change-infra-processor', 1, true);
+INSERT INTO wf_element_data VALUES ('4b7e284e81014cfda64de39550895647', 'reject-id', '', 2, false);
+INSERT INTO wf_element_data VALUES ('4b7e284e81014cfda64de39550895647', 'withdraw', 'N', 3, false);
+INSERT INTO wf_element_data VALUES ('4f2a50e6b49a4e1fab1a9866277a6996', 'condition-item', '#{action}', 0, true);
+INSERT INTO wf_element_data VALUES ('515b32b1032c48d48b0cb7f304701aec', 'action-name', 'PIR 작성', 0, false);
+INSERT INTO wf_element_data VALUES ('515b32b1032c48d48b0cb7f304701aec', 'action-value', 'pir', 1, false);
+INSERT INTO wf_element_data VALUES ('515b32b1032c48d48b0cb7f304701aec', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('515b32b1032c48d48b0cb7f304701aec', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('515b32b1032c48d48b0cb7f304701aec', 'start-id', '8b8564b9f8164971bee112f0a73e66f3', 4, true);
+INSERT INTO wf_element_data VALUES ('515b32b1032c48d48b0cb7f304701aec', 'start-name', '변경결과서 작성', 5, false);
+INSERT INTO wf_element_data VALUES ('515b32b1032c48d48b0cb7f304701aec', 'end-id', 'be6990d4bd1f4c3586df37fe147b2dea', 6, true);
+INSERT INTO wf_element_data VALUES ('515b32b1032c48d48b0cb7f304701aec', 'end-name', 'PIR', 7, false);
+INSERT INTO wf_element_data VALUES ('58d6f5e75a5543ab96bc0fa1fe2637c7', 'assignee-type', 'assignee.type.assignee', 0, true);
+INSERT INTO wf_element_data VALUES ('58d6f5e75a5543ab96bc0fa1fe2637c7', 'assignee', 'z-change-infra-changePlan-approver', 1, true);
+INSERT INTO wf_element_data VALUES ('58d6f5e75a5543ab96bc0fa1fe2637c7', 'reject-id', '697ba85cf98c4d9083f83bd5dd66639f', 2, false);
+INSERT INTO wf_element_data VALUES ('58d6f5e75a5543ab96bc0fa1fe2637c7', 'withdraw', 'Y', 3, false);
+INSERT INTO wf_element_data VALUES ('6366778fd60e4a2d913e0d84f80bd11c', 'action-name', '', 0, false);
+INSERT INTO wf_element_data VALUES ('6366778fd60e4a2d913e0d84f80bd11c', 'action-value', '', 1, false);
+INSERT INTO wf_element_data VALUES ('6366778fd60e4a2d913e0d84f80bd11c', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('6366778fd60e4a2d913e0d84f80bd11c', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('6366778fd60e4a2d913e0d84f80bd11c', 'start-id', 'baae90a53e39457480d0b2139622e1d2', 4, true);
+INSERT INTO wf_element_data VALUES ('6366778fd60e4a2d913e0d84f80bd11c', 'start-name', '자체처리', 5, false);
+INSERT INTO wf_element_data VALUES ('6366778fd60e4a2d913e0d84f80bd11c', 'end-id', '4f2a50e6b49a4e1fab1a9866277a6996', 6, true);
+INSERT INTO wf_element_data VALUES ('6366778fd60e4a2d913e0d84f80bd11c', 'end-name', '', 7, false);
+INSERT INTO wf_element_data VALUES ('697ba85cf98c4d9083f83bd5dd66639f', 'assignee-type', 'assignee.type.assignee', 0, true);
+INSERT INTO wf_element_data VALUES ('697ba85cf98c4d9083f83bd5dd66639f', 'assignee', 'z-change-infra-processor', 1, true);
+INSERT INTO wf_element_data VALUES ('697ba85cf98c4d9083f83bd5dd66639f', 'reject-id', '', 2, false);
+INSERT INTO wf_element_data VALUES ('697ba85cf98c4d9083f83bd5dd66639f', 'withdraw', 'N', 3, false);
+INSERT INTO wf_element_data VALUES ('7de6a641ac754f48be50f40c63bb1ef5', 'sub-document-id', '', 0, true);
+INSERT INTO wf_element_data VALUES ('89d3605de19d491ea6590640b94461d4', 'action-name', '검토완료', 0, false);
+INSERT INTO wf_element_data VALUES ('89d3605de19d491ea6590640b94461d4', 'action-value', 'infra-review-complete', 1, false);
+INSERT INTO wf_element_data VALUES ('89d3605de19d491ea6590640b94461d4', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('89d3605de19d491ea6590640b94461d4', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('89d3605de19d491ea6590640b94461d4', 'start-id', '139f55357c1242cc89a0a8162734bae6', 4, true);
+INSERT INTO wf_element_data VALUES ('89d3605de19d491ea6590640b94461d4', 'start-name', '최종검토', 5, false);
+INSERT INTO wf_element_data VALUES ('89d3605de19d491ea6590640b94461d4', 'end-id', '9d30b4b0fa3e4b9190c5042e379e59f6', 6, true);
+INSERT INTO wf_element_data VALUES ('89d3605de19d491ea6590640b94461d4', 'end-name', '종료', 7, false);
+INSERT INTO wf_element_data VALUES ('8b8564b9f8164971bee112f0a73e66f3', 'assignee-type', 'assignee.type.assignee', 0, true);
+INSERT INTO wf_element_data VALUES ('8b8564b9f8164971bee112f0a73e66f3', 'assignee', 'z-change-infra-processor', 1, true);
+INSERT INTO wf_element_data VALUES ('8b8564b9f8164971bee112f0a73e66f3', 'reject-id', '', 2, false);
+INSERT INTO wf_element_data VALUES ('8b8564b9f8164971bee112f0a73e66f3', 'withdraw', 'N', 3, false);
+INSERT INTO wf_element_data VALUES ('996c1c14b95643b1b0a22436f2dee6ea', 'condition-item', '#{action}', 0, true);
+INSERT INTO wf_element_data VALUES ('9deadc6cdd6947eebcac777abaa8338b', 'action-name', '', 0, false);
+INSERT INTO wf_element_data VALUES ('9deadc6cdd6947eebcac777abaa8338b', 'action-value', '', 1, false);
+INSERT INTO wf_element_data VALUES ('9deadc6cdd6947eebcac777abaa8338b', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('9deadc6cdd6947eebcac777abaa8338b', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('9deadc6cdd6947eebcac777abaa8338b', 'start-id', '0e1c6a483d1f415eb1dd91c0348f13dd', 4, true);
+INSERT INTO wf_element_data VALUES ('9deadc6cdd6947eebcac777abaa8338b', 'start-name', '접수', 5, false);
+INSERT INTO wf_element_data VALUES ('9deadc6cdd6947eebcac777abaa8338b', 'end-id', '697ba85cf98c4d9083f83bd5dd66639f', 6, true);
+INSERT INTO wf_element_data VALUES ('9deadc6cdd6947eebcac777abaa8338b', 'end-name', '변경계획서 작성', 7, false);
+INSERT INTO wf_element_data VALUES ('a0bfeb6307bf9d5c6c71db3c5e3232df', 'action-name', '접수', 0, false);
+INSERT INTO wf_element_data VALUES ('a0bfeb6307bf9d5c6c71db3c5e3232df', 'action-value', 'infra-accept', 1, false);
+INSERT INTO wf_element_data VALUES ('a0bfeb6307bf9d5c6c71db3c5e3232df', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('a0bfeb6307bf9d5c6c71db3c5e3232df', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('a0bfeb6307bf9d5c6c71db3c5e3232df', 'start-id', 'c9c7ed6d193b4fd58b726668cbddccae', 4, true);
+INSERT INTO wf_element_data VALUES ('a0bfeb6307bf9d5c6c71db3c5e3232df', 'start-name', '이관문서검토', 5, false);
+INSERT INTO wf_element_data VALUES ('a0bfeb6307bf9d5c6c71db3c5e3232df', 'end-id', '0e1c6a483d1f415eb1dd91c0348f13dd', 6, true);
+INSERT INTO wf_element_data VALUES ('a0bfeb6307bf9d5c6c71db3c5e3232df', 'end-name', '접수', 7, false);
+INSERT INTO wf_element_data VALUES ('a94aaf66757795501eacedd06a5b3295', 'action-name', '검토요청', 0, false);
+INSERT INTO wf_element_data VALUES ('a94aaf66757795501eacedd06a5b3295', 'action-value', 'infra-review-request', 1, false);
+INSERT INTO wf_element_data VALUES ('a94aaf66757795501eacedd06a5b3295', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('a94aaf66757795501eacedd06a5b3295', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('a94aaf66757795501eacedd06a5b3295', 'start-id', 'be6990d4bd1f4c3586df37fe147b2dea', 4, true);
+INSERT INTO wf_element_data VALUES ('a94aaf66757795501eacedd06a5b3295', 'start-name', 'PIR', 5, false);
+INSERT INTO wf_element_data VALUES ('a94aaf66757795501eacedd06a5b3295', 'end-id', '139f55357c1242cc89a0a8162734bae6', 6, true);
+INSERT INTO wf_element_data VALUES ('a94aaf66757795501eacedd06a5b3295', 'end-name', '최종검토', 7, false);
+INSERT INTO wf_element_data VALUES ('baae90a53e39457480d0b2139622e1d2', 'complete-action', '', 0, false);
+INSERT INTO wf_element_data VALUES ('be6990d4bd1f4c3586df37fe147b2dea', 'assignee-type', 'assignee.type.assignee', 0, true);
+INSERT INTO wf_element_data VALUES ('be6990d4bd1f4c3586df37fe147b2dea', 'assignee', 'z-change-infra-processor', 1, true);
+INSERT INTO wf_element_data VALUES ('be6990d4bd1f4c3586df37fe147b2dea', 'reject-id', '8b8564b9f8164971bee112f0a73e66f3', 2, false);
+INSERT INTO wf_element_data VALUES ('be6990d4bd1f4c3586df37fe147b2dea', 'withdraw', 'Y', 3, false);
+INSERT INTO wf_element_data VALUES ('c9c7ed6d193b4fd58b726668cbddccae', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
+INSERT INTO wf_element_data VALUES ('c9c7ed6d193b4fd58b726668cbddccae', 'assignee', 'infra.change.assignee', 1, true);
+INSERT INTO wf_element_data VALUES ('c9c7ed6d193b4fd58b726668cbddccae', 'reject-id', '', 2, false);
+INSERT INTO wf_element_data VALUES ('c9c7ed6d193b4fd58b726668cbddccae', 'withdraw', 'N', 3, false);
+INSERT INTO wf_element_data VALUES ('e15d71bd48bc485f860d2abb70d8d16e', 'action-name', '승인요청', 0, false);
+INSERT INTO wf_element_data VALUES ('e15d71bd48bc485f860d2abb70d8d16e', 'action-value', 'plan-request', 1, false);
+INSERT INTO wf_element_data VALUES ('e15d71bd48bc485f860d2abb70d8d16e', 'is-default', 'N', 2, false);
+INSERT INTO wf_element_data VALUES ('e15d71bd48bc485f860d2abb70d8d16e', 'condition-value', '', 3, false);
+INSERT INTO wf_element_data VALUES ('e15d71bd48bc485f860d2abb70d8d16e', 'start-id', '697ba85cf98c4d9083f83bd5dd66639f', 4, true);
+INSERT INTO wf_element_data VALUES ('e15d71bd48bc485f860d2abb70d8d16e', 'start-name', '변경계획서 작성', 5, false);
+INSERT INTO wf_element_data VALUES ('e15d71bd48bc485f860d2abb70d8d16e', 'end-id', '58d6f5e75a5543ab96bc0fa1fe2637c7', 6, true);
+INSERT INTO wf_element_data VALUES ('e15d71bd48bc485f860d2abb70d8d16e', 'end-name', '변경계획서 검토', 7, false);
+INSERT INTO wf_element_data VALUES ('e2c199ab8f4a4c2ab7cdfc67073b3340', 'action-value', '', 0, false);
+INSERT INTO wf_element_data VALUES ('e2c199ab8f4a4c2ab7cdfc67073b3340', 'is-default', 'N', 1, false);
+INSERT INTO wf_element_data VALUES ('e2c199ab8f4a4c2ab7cdfc67073b3340', 'condition-value', '', 2, false);
+INSERT INTO wf_element_data VALUES ('e2c199ab8f4a4c2ab7cdfc67073b3340', 'start-id', '7de6a641ac754f48be50f40c63bb1ef5', 3, true);
+INSERT INTO wf_element_data VALUES ('e2c199ab8f4a4c2ab7cdfc67073b3340', 'start-name', '구성관리', 4, false);
+INSERT INTO wf_element_data VALUES ('e2c199ab8f4a4c2ab7cdfc67073b3340', 'end-id', '4f2a50e6b49a4e1fab1a9866277a6996', 5, true);
+INSERT INTO wf_element_data VALUES ('e2c199ab8f4a4c2ab7cdfc67073b3340', 'end-name', '', 6, false);
+INSERT INTO wf_element_data VALUES ('e2c199ab8f4a4c2ab7cdfc67073b3340', 'action-name', '', 7, false);
 
 /**
  * 엘리먼트타입이 ScripTask인 경우 세부 설정.
@@ -4469,6 +5034,106 @@ INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914eecd3004b','component','z-sa
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914eecd3000f','component','z-serviceDesk-change-satisfaction','0986886e23a044659c7bb280347064d2');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914eecf9004d','component','만족도평가의견','5e203c7bace44cb58e1c38cee9372404');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914eecfe004e','component','z-satisfaction-content','5e203c7bace44cb58e1c38cee9372404');
+/* 인프라변경관리 */
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5700aea', 'component', '로고', 'b5e06a4da8914e08b63a589fe16578db');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5720aeb', 'component', 'z-logo', 'b5e06a4da8914e08b63a589fe16578db');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5810aed', 'component', '제목', '44026fa563f649779f65f52dc0bfd0d6');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5830aee', 'component', 'z-change-infra-document-title', '44026fa563f649779f65f52dc0bfd0d6');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5850aef', 'component', 'z-change-infra', '44026fa563f649779f65f52dc0bfd0d6');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a58f0af1', 'component', '', 'a70e12f4514b4377bc9a94eb0f80deeb');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5a40af4', 'component', '신청자', '6df0771bb8a94deda97d0d6ba42ef01e');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5a60af5', 'component', 'z-change-infra-requester', '6df0771bb8a94deda97d0d6ba42ef01e');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5aa0af6', 'component', '신청부서', '1a4024f7913e426383187d6bcc7962af');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5ac0af7', 'component', 'z-change-infra-requester-department', '1a4024f7913e426383187d6bcc7962af');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5c50af9', 'component', '전화번호', '11ed46ce208341fd842be00ced0e0381');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5c70afa', 'component', 'z-change-infra-requester-phone', '11ed46ce208341fd842be00ced0e0381');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5cb0afb', 'component', '이메일', 'a50504ee81204910a1e13782987b4f89');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5cd0afc', 'component', 'z-change-infra-requester-email', 'a50504ee81204910a1e13782987b4f89');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5e20afe', 'component', '신청일시', '610a36dd4d28448f9ca09623962d64e5');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5e40aff', 'component', 'z-change-infra-request-date', '610a36dd4d28448f9ca09623962d64e5');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5e80b00', 'component', '완료희망일시', '9bbb34c9d2fe40ba802ee9f674210fe5');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5ea0b01', 'component', 'z-change-infra-request-deadline', '9bbb34c9d2fe40ba802ee9f674210fe5');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5fe0b03', 'component', '제목', 'c520f41591ca4c18bc89b08e5b58a78b');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5ff0b04', 'component', 'z-change-infra-request-title', 'c520f41591ca4c18bc89b08e5b58a78b');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a60c0b06', 'component', '요청 구분', '5aa56cbcd2ab48bbbcffd0ba53af499c');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a60d0b07', 'component', 'z-change-infra-category', '5aa56cbcd2ab48bbbcffd0ba53af499c');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a60e0b08', 'component', 'z-change-infra-request-category', '5aa56cbcd2ab48bbbcffd0ba53af499c');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a61d0b0a', 'component', '내용', '654a2e1cbdf14f39a883ff4ab168046c');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a61e0b0b', 'component', 'z-change-infra-request-content', '654a2e1cbdf14f39a883ff4ab168046c');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a62a0b0d', 'component', '첨부파일', '41ff46f9f19d4e92853118fa1e914877');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a62d0b0e', 'component', 'z-change-infra-request-file', '41ff46f9f19d4e92853118fa1e914877');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a63d0b11', 'component', '접수일시', '2c260851462b40ea82949561ed0f2b68');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a63f0b12', 'component', 'z-change-infra-accept-date', '2c260851462b40ea82949561ed0f2b68');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a64e0b14', 'component', '접수자', '9e79bf1880094800b3b3d68044f40538');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a64f0b15', 'component', 'z-change-infra-acceptor', '9e79bf1880094800b3b3d68044f40538');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6530b16', 'component', '접수부서', '59ffe940a3464a9ca3683224f7038c41');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6540b17', 'component', 'z-change-infra-acceptor-department', '59ffe940a3464a9ca3683224f7038c41');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6670b19', 'component', '처리자', '88660c980418450baf87a6d7ef510626');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6680b1a', 'component', 'z-change-infra-processor', '88660c980418450baf87a6d7ef510626');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a66c0b1b', 'component', '처리부서', 'f12492917ac64f418c37cfa98c4ab02d');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a66e0b1c', 'component', 'z-change-infra-processor-department', 'f12492917ac64f418c37cfa98c4ab02d');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6800b1e', 'component', '영향도', '24f2a648a5ba458d9224a61c0cb1cdb0');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6810b1f', 'component', 'z-change-infra-impact', '24f2a648a5ba458d9224a61c0cb1cdb0');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6840b20', 'component', '긴급도', '15cd0e737e9c41c5a27132cfa18f370a');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6850b21', 'component', 'z-change-infra-urgency', '15cd0e737e9c41c5a27132cfa18f370a');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6960b23', 'component', '접수의견', 'bb38d2e37255417b8f61e0947e224974');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6980b24', 'component', 'z-change-infra-accept-content', 'bb38d2e37255417b8f61e0947e224974');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6a70b27', 'component', 'ccb회의일시', 'c7e485828f2b4c85a7cba5d6b3646b16');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6a90b28', 'component', 'z-change-infra-changeControlBoard-date', 'c7e485828f2b4c85a7cba5d6b3646b16');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6b60b2a', 'component', 'z-change-infra-changeControlBoard-meetingRoom', '6deb6fcad6124c9a907fc4850285e342');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6b70b2b', 'component', 'ccb회의장소', '6deb6fcad6124c9a907fc4850285e342');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6c30b2d', 'component', 'ccb주제', '1d2ea0820d514512a1e3837e04fbc84b');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6c50b2e', 'component', 'z-change-infra-changeControlBoard-subject', '1d2ea0820d514512a1e3837e04fbc84b');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6d00b30', 'component', 'ccb협의사항', '2cb51de14f824f62bf9d5f634d276fdc');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6d20b31', 'component', 'z-change-infra-changeControlBoard-consultation', '2cb51de14f824f62bf9d5f634d276fdc');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6dd0b33', 'component', 'ccb회의결과', 'c27d14120e1044a5b70fe4372ed78c2e');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6df0b34', 'component', 'z-change-infra-changeControlBoard-result', 'c27d14120e1044a5b70fe4372ed78c2e');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a6fe0b38', 'component', '변경예정시작일시', 'e6d73057dd5a4b2a8cf01e15d3793eca');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7000b39', 'component', 'z-change-infra-changePlan-expected-start-date', 'e6d73057dd5a4b2a8cf01e15d3793eca');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7040b3a', 'component', '변경예정종료일시', 'afe2bec3307442f0be22af203e233f2f');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7060b3b', 'component', 'z-change-infra-changePlan-expected-end-date', 'afe2bec3307442f0be22af203e233f2f');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a71c0b3d', 'component', '서비스중단', 'f5595e73f0654239aab9e66f71c528cc');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a71d0b3e', 'component', 'z-change-infra-changePlan-service-interruption', 'f5595e73f0654239aab9e66f71c528cc');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7290b40', 'component', '변경작업계획', 'b16f8424688f4e608d1f7b71f1aaf4b5');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a72b0b41', 'component', 'z-change-infra-changePlan-changeContents', 'b16f8424688f4e608d1f7b71f1aaf4b5');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7340b43', 'component', '실패시복구방안', '2692ffba732d496498bd2f53f35016f9');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7360b44', 'component', 'z-change-infra-changePlan-recovery-failure-plan', '2692ffba732d496498bd2f53f35016f9');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7400b46', 'component', '시험계획', '961037311d5c4201b869c642abdbf394');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7410b47', 'component', 'z-change-infra-changePlan-planContents', '961037311d5c4201b869c642abdbf394');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a74c0b49', 'component', '기타의견', '3c8cd6bf769041a68c628c1eb1fa2bd2');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a74e0b4a', 'component', 'z-change-infra-changePlan-etc', '3c8cd6bf769041a68c628c1eb1fa2bd2');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7590b4c', 'component', '변경계획서인프라변경CI', 'f5081a7fd40d46da9b65daf5645906a0');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a75a0b4d', 'component', 'z-change-infra-changePlan-process-relation-ci', 'f5081a7fd40d46da9b65daf5645906a0');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7640b4f', 'component', '변경계획서첨부파일', '663450c3389c465584685365602dd961');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7660b50', 'component', 'z-change-infra-changePlan-fileupload', '663450c3389c465584685365602dd961');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7730b52', 'component', '변경계획서승인자', '2437c9c99fc14cb895f2290519515a7b');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7750b53', 'component', 'z-change-infra-changePlan-approver', '2437c9c99fc14cb895f2290519515a7b');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7850b56', 'component', '변경계획서승인일시', '1991ff59e63246ccb13a7946379b14e7');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7870b57', 'component', 'z-change-infra-changePlan-approve-date', '1991ff59e63246ccb13a7946379b14e7');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7930b59', 'component', '변경계획서승인의견', '51ac11434d1a4c0ca87b4930ffce047c');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7940b5a', 'component', 'z-change-infra-changePlan-approve-content', '51ac11434d1a4c0ca87b4930ffce047c');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7a50b5d', 'component', '변경결과서작성일시', '5e32d98e8bcd4e8e9cc8cdaea9ee45ff');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7a60b5e', 'component', 'z-change-infra-changeResult-process-date', '5e32d98e8bcd4e8e9cc8cdaea9ee45ff');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7b10b60', 'component', '변경작업결과', '1c9cb6326b104af88ff79743ce63bcce');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7b30b61', 'component', 'z-change-infra-result', '1c9cb6326b104af88ff79743ce63bcce');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7be0b63', 'component', '변경작업결과내용', '45fdeda567e449849075599eaa4a8c06');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7c10b64', 'component', 'z-change-infra-changeResult-content', '45fdeda567e449849075599eaa4a8c06');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7cc0b66', 'component', '변경작업결과첨부파일', '3f2ea69c92bd42a5a903b0d8884b19ab');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7cd0b67', 'component', 'z-change-infra-changeResult-fileupload', '3f2ea69c92bd42a5a903b0d8884b19ab');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7e10b6a', 'component', 'PIR모니터링시작일시', '061ec27ed5e3446db15b256afb694f7b');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7e30b6b', 'component', 'z-change-infra-postImplementationReview-start-date', '061ec27ed5e3446db15b256afb694f7b');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7e70b6c', 'component', 'PIR모니터링종료일시', 'a09757a1c1bb40e381e491474bd8ce75');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7e90b6d', 'component', 'z-change-infra-postImplementationReview-end-date', 'a09757a1c1bb40e381e491474bd8ce75');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7fb0b6f', 'component', 'PIR모니터링결과', '6a78f0ee60434ebab14d1b2854057e4c');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7fc0b70', 'component', 'z-change-infra-postImplementationReview-result', '6a78f0ee60434ebab14d1b2854057e4c');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a8070b72', 'component', 'PIR모니터링내용', '7ce9995e0c2c40c18b8404f73684bd5d');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a8080b73', 'component', 'z-change-infra-postImplementationReview-content', '7ce9995e0c2c40c18b8404f73684bd5d');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a8130b75', 'component', '변경결과서검토자', '9312d808fce84d5fb061a99e6d779c4d');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a8140b76', 'component', 'z-change-infra-complete-reviewer', '9312d808fce84d5fb061a99e6d779c4d');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a8210b79', 'component', '최종검토일시', 'd189734cda47408ca2a33a4d6b8d04b2');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a8220b7a', 'component', 'z-change-infra-complete-review-date', 'd189734cda47408ca2a33a4d6b8d04b2');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a82b0b7c', 'component', '최종검토의견', '60b0b5ffba4047bbb2f2779f40df84ac');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a82c0b7d', 'component', 'z-change-infra-complete-review', '60b0b5ffba4047bbb2f2779f40df84ac');
 
 /**
  * 토큰정보
@@ -5502,6 +6167,16 @@ insert into awf_code_lang values ('download.category.etc', 'Etc', 'en');
 insert into awf_code_lang values ('faq.category.etc', 'Etc', 'en');
 insert into awf_code_lang values ('faq.category.setting', 'Setting', 'en');
 insert into awf_code_lang values ('faq.category.techSupport', 'Tech support', 'en');
+/* 커스텀 코드 */
+insert into awf_code_lang values ('customCode.sessionKey.userKey', 'User Key', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.userId', 'User ID', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.userName', 'Username', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.email', 'Email', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.position', 'Position', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.departmentName', 'Department', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.officeNumber', 'Office Number', 'en');
+insert into awf_code_lang values ('customCode.sessionKey.mobileNumber', 'Mobile', 'en');
+
 /**
  * 사용자 지정 테이블
  */
