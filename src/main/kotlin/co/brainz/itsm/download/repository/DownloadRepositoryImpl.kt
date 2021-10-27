@@ -74,8 +74,6 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         val download = QDownloadEntity.downloadEntity
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
-        val code = QCodeEntity.codeEntity
-
 
         return from(download).distinct()
             .select(

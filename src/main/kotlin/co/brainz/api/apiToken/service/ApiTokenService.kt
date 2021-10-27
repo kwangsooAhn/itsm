@@ -93,7 +93,7 @@ class ApiTokenService(
         }
         val refreshToken = params["refresh_token"].toString()
 
-        var status: HttpStatus? = null
+        val status: HttpStatus?
         val value = LinkedHashMap<String, Any>()
         val refreshTokenEntity = apiTokenRepository.findRefreshToken(refreshToken)
         when (refreshTokenEntity) {

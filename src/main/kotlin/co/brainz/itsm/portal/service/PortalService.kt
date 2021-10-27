@@ -62,7 +62,7 @@ class PortalService(
             true -> codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE)
             false -> codeRepository.getOne(category)
         }
-        val faqAll = faqRepository.findFaqs(FaqSearchCondition(null,null,0,0))
+        val faqAll = faqRepository.findFaqs(FaqSearchCondition(null, null, 0, 0))
         val faqList = faqAll.results
 
         var selectedFaq = FaqListDto()

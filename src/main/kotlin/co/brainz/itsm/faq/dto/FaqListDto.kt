@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 data class FaqListDto(
     var faqId: String = "",
     var faqGroup: String = "",
-    var faqGroupName : String = "",
+    var faqGroupName: String = "",
     var faqTitle: String = "",
     var faqContent: String = "",
     var createDt: LocalDateTime? = null,

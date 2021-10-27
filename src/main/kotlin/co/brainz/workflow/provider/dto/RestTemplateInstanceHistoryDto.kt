@@ -11,7 +11,7 @@ data class RestTemplateInstanceHistoryDto(
     val elementName: String?,
     val elementType: String?,
     val tokenStatus: String?,
-    @JsonSetter(nulls= Nulls.AS_EMPTY)
+    @JsonSetter(nulls = Nulls.AS_EMPTY)
     val tokenAction: String?,
     val assigneeId: String?,
     val assigneeName: String?

@@ -314,7 +314,7 @@ class CIClassService(
     fun getCIClassAttributes(ciId: String, classId: String): List<CIClassDetailValueDto> {
         val attributeValueAll = mutableListOf<CIClassDetailValueDto>()
         val classList = mutableListOf<String>()
-        var targetClass: CIClassEntity? = null
+        var targetClass: CIClassEntity?
         var targetClassId: String = classId
 
         while (targetClassId != CIClassConstants.CI_CLASS_ROOT_ID) {

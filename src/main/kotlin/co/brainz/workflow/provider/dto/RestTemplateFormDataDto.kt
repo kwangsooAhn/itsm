@@ -54,7 +54,7 @@ data class FormComponentDto(
     var mapId: String = "",
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var value: String? = null,
-    @get:JsonProperty(value="isTopic")
+    @get:JsonProperty(value = "isTopic")
     var isTopic: Boolean = false,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var tags: List<AliceTagDto>? = null,
