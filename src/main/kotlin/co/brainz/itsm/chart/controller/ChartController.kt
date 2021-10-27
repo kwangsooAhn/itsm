@@ -69,10 +69,21 @@ class ChartController(
     }
 
     /**
-     * chart 보기 화면 호출
+     * chart 설정 보기 화면 호출
      */
     @GetMapping("/{chartId}/view")
     fun getChartView(@PathVariable chartId: String, model: Model): String {
+        model.addAttribute("view", true)
+        model.addAttribute("code", chartService.getCodeListForChart())
+        model.addAttribute("chart", chartService.getChartDetail(chartId))
+        return chartEditPage
+    }
+
+    /**
+     * chart 미리보기 화면 호출
+     */
+    @GetMapping("/{chartId}/preview")
+    fun getChartPreview(@PathVariable chartId: String, model: Model): String {
         model.addAttribute("chart", chartService.getChartDetail(chartId))
         return chartViewModalPage
     }

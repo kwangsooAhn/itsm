@@ -68,9 +68,10 @@ class ReportController(
 
     @GetMapping("/template/{templateId}/view")
     fun getReportTemplateView(@PathVariable templateId: String, model: Model): String {
+        model.addAttribute("view", true)
         model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
         model.addAttribute("template", reportTemplateService.getReportTemplateDetail(templateId))
-        return templateViewPage
+        return templateEditPage
     }
 
     @GetMapping("/template/preview")

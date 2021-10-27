@@ -23,14 +23,14 @@
             </label>
             <input type="text" id="templateName" class="z-input" required="true" maxlength="100"
                    th:attr="data-validation-required-name=#{report.label.templateName}"
-                   th:value="${template?.templateName}"/>
+                   th:value="${template?.templateName}" th:readonly="${view}"/>
         </div>
         <div class="flex-column z-edit-row">
             <label for="templateDesc">
                 <span th:text="#{report.label.description}"></span>
             </label>
             <textarea id="templateDesc" name="templateDesc" class="z-textarea textarea-scroll-wrapper"
-                      maxlength="250" rows="5" th:text="${template?.templateDesc}"></textarea>
+                      maxlength="250" rows="5" th:text="${template?.templateDesc}" th:readonly="${view}"></textarea>
         </div>
         <div class="flex-column z-edit-row">
             <label for="reportName">
@@ -43,12 +43,12 @@
                 </div>
             </label>
             <input type="text" id="reportName" class="z-input" maxlength="100"
-                   th:value="${template?.reportName}"/>
+                   th:value="${template?.reportName}" th:readonly="${view}"/>
         </div>
         <div class="flex-column z-edit-row">
             <label class="z-switch">
                 <input type="checkbox" id="automatic" name="automatic"
-                       th:checked="${template?.automatic == true}">
+                       th:checked="${template?.automatic == true}" th:disabled="${view}">
                 <span></span>
                 <span class="z-label" th:text="#{report.label.automatic}"></span>
             </label>
@@ -61,7 +61,7 @@
             </div>
             <div id="details" class="template">
                 <div class="flex-row justify-content-end">
-                    <button type="button" class="z-button-icon extra" onclick="addChart()">
+                    <button type="button" class="z-button-icon extra" onclick="addChart()" th:if="!${view}">
                         <span class="z-icon i-plus"></span>
                     </button>
                 </div>
@@ -126,19 +126,27 @@
                 return `<option value="${option.chartId}" ${property.chartId === option.chartId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.chartName)}</option>`;
             }).join('');
             let rowId = ZWorkflowUtil.generateUUID();
-            let rowElement =
+
+            let rowElement = [[${view}]] ?
+                `<div class="flex-row mt-2">` +
+                `<div class="flex-column col-11"><select name="chart" id="${rowId}_chart" class="readonly">${options}</select></div>` +
+                `<div class="flex-column col-1"></div>` +
+                `</div>` :
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-11"><select name="chart" id="${rowId}_chart">${options}</select></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
-                `</div>`;
+                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
+                `<span class="z-icon i-delete"></span></button></div></div>`;
+
             target.insertAdjacentHTML('beforeend', rowElement);
+            aliceJs.initDesignedSelectTag();
 
             const deleteBtn = document.getElementById(rowId + '_delete');
-            deleteBtn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                this.parentElement.parentElement.remove();
-            });
-            aliceJs.initDesignedSelectTag();
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    this.parentElement.parentElement.remove();
+                });
+            }
         }
     }
 

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/itsm/pageType/commonViewLayout}">
 <head>
     <title th:text="#{report.label.template}"></title>
@@ -21,19 +20,19 @@
         </label>
         <input type="text" id="templateName" class="z-input" required="true" maxlength="100"
                th:attr="data-validation-required-name=#{report.label.templateName}"
-               th:value="${template?.templateName}" disabled/>
+               th:value="${template?.templateName}" readonly/>
     </div>
     <div class="flex-column z-view-row">
         <label for="templateDesc">
             <span th:text="#{report.label.description}"></span>
         </label>
         <textarea id="templateDesc" name="templateDesc" class="z-textarea textarea-scroll-wrapper"
-                  maxlength="250" rows="5" th:text="${template?.templateDesc}" disabled></textarea>
+                  maxlength="250" rows="5" th:text="${template?.templateDesc}" readonly></textarea>
     </div>
     <div class="flex-column z-view-row">
         <label class="z-switch">
             <input type="checkbox" id="automatic" name="automatic"
-                   th:checked="${template?.automatic == true}">
+                   th:checked="${template?.automatic == true}" disabled>
             <span></span>
             <span class="z-label" th:text="#{report.label.automatic}"></span>
         </label>
@@ -55,7 +54,7 @@
             <a class="z-button secondary" href="/reports/template/search" th:text="#{common.btn.list}"></a>
         </div>
         <div class="z-button-list">
-            <button class="z-button secondary" onclick="preview()" th:text="#{report.btn.preview}"></button>
+            <button class="z-button secondary" onclick="preview()" th:text="#{common.btn.preview}"></button>
         </div>
     </div>
 </div>
@@ -99,17 +98,19 @@
                 property = data;
             }
 
-            const options = chartList['data'].map(function (option) {
-                return `<option value="${option.chartId}" ${property.chartId === option.chartId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.chartName)}</option>`;
-            }).join('');
-            let rowId = ZWorkflowUtil.generateUUID();
-            let rowElement =
-                `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-11"><select name="chart" id="${rowId}_chart">${options}</select></div>` +
-                `<div class="flex-column col-1"></div>` +
-                `</div>`;
-            target.insertAdjacentHTML('beforeend', rowElement);
-            aliceJs.initDesignedSelectTag();
+            if (chartList != null) {
+                const options = chartList.map(function (option) {
+                    return `<option value="${option.chartId}" ${property.chartId === option.chartId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.chartName)}</option>`;
+                }).join('');
+                let rowId = ZWorkflowUtil.generateUUID();
+                let rowElement =
+                    `<div class="flex-row mt-2">` +
+                    `<div class="flex-column col-11"><select name="chart" id="${rowId}_chart" class="readonly">${options}</select></div>` +
+                    `<div class="flex-column col-1"></div>` +
+                    `</div>`;
+                target.insertAdjacentHTML('beforeend', rowElement);
+                aliceJs.initDesignedSelectTag();
+            }
         }
 
         // 유효성 검사(중복 차트 체크)
