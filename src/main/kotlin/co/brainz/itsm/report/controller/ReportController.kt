@@ -34,7 +34,6 @@ class ReportController(
     private val templateSearchPage: String = "report/reportTemplateSearch"
     private val templateListPage: String = "report/reportTemplateList"
     private val templateEditPage: String = "report/reportTemplateEdit"
-    private val templateViewPage: String = "report/reportTemplateView"
     private val templatePreviewPage: String = "report/reportTemplatePreview"
     private val reportSearchPage: String = "report/reportSearch"
     private val reportListPage: String = "report/reportList"
