@@ -489,7 +489,7 @@ export const ciMixin = {
                 const customElem = el.querySelector('input');
                 rtn.id = customElem.parentNode.getAttribute('data-attributeId');
                 rtn.type = type;
-                rtn.value = customElem.getAttribute('custom-data');
+                rtn.value = customElem.getAttribute('data-custom-data');
                 break;
             case 'group-list':
                 const groupElem = el.querySelector('.child-attribute-group');
