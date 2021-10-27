@@ -16,7 +16,7 @@
     <input type="hidden" name="isRole" sec:authorize="!hasAuthority('download.update')" th:value="false"/>
     <form id="searchFrm">
         <select id="category" name="category" class="col-3">
-            <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
+            <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="${category.codeName}"></option>
         </select>
         <input type="text" class="z-input i-search col-3" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
         <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt" />

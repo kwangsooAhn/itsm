@@ -8,6 +8,7 @@ package co.brainz.itsm.faq.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.faq.constants.FaqConstants
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchCondition
@@ -30,6 +31,7 @@ class FaqRepositoryImpl(
     override fun findFaqs(faqSearchCondition: FaqSearchCondition): QueryResults<FaqListDto> {
         val faq = QFaqEntity.faqEntity
         val user = QAliceUserEntity.aliceUserEntity
+        val code = QCodeEntity.codeEntity
         if (faqSearchCondition.searchValue?.isNotBlank() == true) {
             faqSearchCondition.groupCodes =
                 messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, faqSearchCondition.searchValue)
@@ -41,12 +43,14 @@ class FaqRepositoryImpl(
                     FaqListDto::class.java,
                     faq.faqId,
                     faq.faqGroup,
+                    code.codeName.`as`("faqGroupName"),
                     faq.faqTitle,
                     faq.faqContent,
                     faq.createDt,
                     faq.createUser.userName
                 )
             )
+            .leftJoin(code).on(code.code.eq(faq.faqGroup))
             .innerJoin(faq.createUser, user)
             .where(
                 super.likeIgnoreCase(faq.faqTitle, faqSearchCondition.searchValue)
@@ -82,18 +86,21 @@ class FaqRepositoryImpl(
     override fun findFaq(faqId: String): FaqListDto {
         val faq = QFaqEntity.faqEntity
         val user = QAliceUserEntity.aliceUserEntity
+        val code = QCodeEntity.codeEntity
         return from(faq)
             .select(
                 Projections.constructor(
                     FaqListDto::class.java,
                     faq.faqId,
                     faq.faqGroup,
+                    code.codeName.`as`("faqGroupName"),
                     faq.faqTitle,
                     faq.faqContent,
                     faq.createDt,
                     faq.createUser.userName
                 )
             )
+            .leftJoin(code).on(code.code.eq(faq.faqGroup))
             .innerJoin(faq.createUser, user)
             .where(faq.faqId.eq(faqId))
             .fetchOne()

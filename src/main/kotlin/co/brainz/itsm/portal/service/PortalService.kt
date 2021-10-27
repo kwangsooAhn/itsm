@@ -6,8 +6,12 @@
 
 package co.brainz.itsm.portal.service
 
+import co.brainz.itsm.code.repository.CodeRepository
+import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.download.repository.DownloadRepository
+import co.brainz.itsm.faq.constants.FaqConstants
 import co.brainz.itsm.faq.dto.FaqListDto
+import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.faq.repository.FaqRepository
 import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.portal.dto.PortalListReturnDto
@@ -22,7 +26,9 @@ class PortalService(
     private val noticeRepository: NoticeRepository,
     private val faqRepository: FaqRepository,
     private val downloadRepository: DownloadRepository,
-    private val portalRepository: PortalRepository
+    private val portalRepository: PortalRepository,
+    private val codeRepository: CodeRepository,
+    private val codeService: CodeService
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -45,7 +51,7 @@ class PortalService(
 
     fun getFaqCategories(faqId: String?): LinkedHashMap<String, Any> {
         val faqInfo = LinkedHashMap<String, Any>()
-        faqInfo["faqCategory"] = faqRepository.getAllFaqGroupList()
+        faqInfo["faqCategory"] = codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE)
         faqInfo["faqId"] = faqId ?: ""
         return faqInfo
     }
@@ -53,23 +59,11 @@ class PortalService(
     fun getFaqList(category: String, faqId: String): LinkedHashMap<String, Any> {
         val faqInfo = LinkedHashMap<String, Any>()
         faqInfo["faqGroupList"] = when (category.isBlank()) {
-            true -> faqRepository.getAllFaqGroupList()
-            false -> faqRepository.getFaqGroupList(category)
+            true -> codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE)
+            false -> codeRepository.getOne(category)
         }
-        val faqAll = faqRepository.getFaqList()
-        val faqList = mutableListOf<FaqListDto>()
-        faqAll.forEach { faq ->
-            faqList.add(
-                FaqListDto(
-                    faqId = faq.faqId,
-                    faqGroup = faq.faqGroup,
-                    faqTitle = faq.faqTitle,
-                    faqContent = faq.faqContent,
-                    createDt = null,
-                    createUserName = ""
-                )
-            )
-        }
+        val faqAll = faqRepository.findFaqs(FaqSearchCondition(null,null,0,0))
+        val faqList = faqAll.results
 
         var selectedFaq = FaqListDto()
         if (faqId.isNotEmpty()) {

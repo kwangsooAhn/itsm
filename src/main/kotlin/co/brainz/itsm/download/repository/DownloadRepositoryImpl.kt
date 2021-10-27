@@ -9,6 +9,7 @@ package co.brainz.itsm.download.repository
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.fileTransaction.entity.QAliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.QAliceFileOwnMapEntity
+import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.download.dto.DownloadListDto
 import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.entity.DownloadEntity
@@ -28,6 +29,7 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
         val user = QAliceUserEntity.aliceUserEntity
+        val code = QCodeEntity.codeEntity
 
         val query = from(download).distinct()
             .leftJoin(fileMap).on(download.downloadId.eq(fileMap.ownId))
@@ -38,6 +40,7 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
                     download.downloadId,
                     download.downloadSeq,
                     download.downloadCategory,
+                    code.codeName.`as`("downloadCategoryName"),
                     download.downloadTitle,
                     download.views,
                     Expressions.numberPath(Long::class.java, "0"),
@@ -45,6 +48,7 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
                     download.createUser.userName
                 )
             )
+            .leftJoin(code).on(code.code.eq(download.downloadCategory))
             .innerJoin(download.createUser, user)
         if (downloadSearchCondition.category?.isNotEmpty() == true) {
             query.where(download.downloadCategory.eq(downloadSearchCondition.category))
@@ -70,6 +74,8 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         val download = QDownloadEntity.downloadEntity
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
+        val code = QCodeEntity.codeEntity
+
 
         return from(download).distinct()
             .select(
