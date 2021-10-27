@@ -6072,10 +6072,10 @@ body.modal-active {
 }
 .modal-dialog.form-import, .modal-dialog.process-import {
   width: 37.5rem;
-  height: 37.5rem;
+  height: 31.25rem;
 }
 .modal-dialog.form-import .modal-content, .modal-dialog.process-import .modal-content {
-  height: calc(37.5rem - 3.375rem - 5rem);
+  height: calc(31.25rem - 3.375rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.form-import .modal-content .field-label, .modal-dialog.process-import .modal-content .field-label {
