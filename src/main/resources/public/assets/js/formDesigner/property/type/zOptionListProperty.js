@@ -130,7 +130,7 @@ export default class ZOptionListProperty extends ZProperty {
         valueTD.inputValue =  new UIInput()
             .setUIPlaceholder(i18n.msg('form.properties.optionList.valuePlaceholder'))
             .setUIValue(option.value).onUIChange(this.updateProperty.bind(this))
-            .setUIValue(option.name).onUIKeyUp(this.updateProperty.bind(this))
+            .setUIValue(option.value).onUIKeyUp(this.updateProperty.bind(this))
             .setUIAttribute('data-validation-max-length', this.validation.maxLength);
         valueTD.addUI(valueTD.inputValue);
 
