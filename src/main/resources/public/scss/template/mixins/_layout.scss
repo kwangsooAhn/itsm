@@ -180,6 +180,8 @@
             .topic {
               font-size: $font-size-s; // 16px
               font-weight: $font-weight-regular;
+              display: block;
+              margin-bottom: 0.625rem;
             }
           }
         }

@@ -18,9 +18,7 @@ class ApiWorkflowDataStructure {
 
     private val apiExcludedComponentType: Array<String> = arrayOf(
         WfComponentConstants.ComponentTypeCode.DIVIDER.code,
-        WfComponentConstants.ComponentTypeCode.LABEL.code,
-        WfComponentConstants.ComponentTypeCode.ACCORDION_START.code,
-        WfComponentConstants.ComponentTypeCode.ACCORDION_END.code
+        WfComponentConstants.ComponentTypeCode.LABEL.code
     )
 
     /**

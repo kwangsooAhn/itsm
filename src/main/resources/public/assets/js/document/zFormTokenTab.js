@@ -7,8 +7,8 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { zValidation } from '../lib/zValidation.js';
 import { ZSession } from '../lib/zSession.js';
+import { zValidation } from '../lib/zValidation.js';
 
 class ZFormTokenTab {
     constructor() {}

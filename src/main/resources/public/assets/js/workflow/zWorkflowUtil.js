@@ -106,13 +106,15 @@ ZWorkflowUtil.objectToXML = function(data) {
             // 빈 배열일 경우에도 태그 추가
             if (data[key].length === 0) {
                 if (ZWorkflowUtil.NULL_CHECK_TYPE.includes(key)) {
-                    xml += '<' + key + '>null</' + key + '>';
+                    xml += '<' + key + '></' + key + '>';
                 } else {
                     xml += '<' + key + '><![CDATA[]]></' + key + '>';
                 }
             }
         } else if (data[key] && typeof data[key] === 'object') {
             xml += ZWorkflowUtil.objectToXML(data[key]);
+        } else if (data[key] === null) {
+            xml += 'null';
         } else {
             xml += '<![CDATA[' + data[key] + ']]>';
         }
@@ -239,7 +241,6 @@ ZWorkflowUtil.export = function(id, type) {
     aliceJs.fetchJson(exportUrl, {
         method: 'GET'
     }).then((data) => {
-        // TODO: #11116 isTopic 같은 boolean 데이터가 화면에 전달될때 topic 으로 전달됨
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
             zAlert.danger(i18n.msg('form.msg.failedExport'));
             return false;
@@ -355,8 +356,10 @@ ZWorkflowUtil.XMLToObject = function(data) {
                         }
                         obj[nodeName].push(ZWorkflowUtil.XMLToObject(item));
                     }
-                } else if (item.nodeType === Node.CDATA_SECTION_NODE) {
+                } else if (item.nodeType === Node.CDATA_SECTION_NODE) { // <!CDATA[[ … ]]>.
                     obj = ['true', 'false'].includes(item.nodeValue) ? (item.nodeValue === 'true') : item.nodeValue;
+                } else if (item.nodeType === Node.TEXT_NODE && item.nodeValue.trim() === 'null') {
+                    obj = null;
                 }
             }
         }
