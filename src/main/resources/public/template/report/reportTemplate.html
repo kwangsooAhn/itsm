@@ -86,13 +86,25 @@
             </div>
         </div>
     </div>
+    <template id="chartListTemplate">
+        <div class="flex-row mt-2">
+            <div class="flex-column col-11">
+                <select name="chart" th:classappend="${view}?'readonly':''"></select>
+            </div>
+            <div class="flex-column col-1">
+                <button th:if="!${view}" type="button" class="z-button-icon extra">
+                    <span class="z-icon i-delete"></span>
+                </button>
+            </div>
+        </div>
+    </template>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
     const STATUS_SUCCESS = '0';
     const STATUS_ERROR_TEMPLATE_NAME_DUPLICATION = '1';
-    const chartList = /*[[${chartList}]]*/ null;
+    const chartListData = /*[[${chartList}]]*/ null;
     const data = /*[[${template}]]*/ null;
     window.onload = function () {
         if (data !== null) {
@@ -102,16 +114,18 @@
         }
 
         OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
-            className: 'scrollbar',
-            resize: 'vertical',
-            sizeAutoCapable: true,
-            textarea: {
-                dynHeight: false,
-                dynWidth: false,
-                inheritedAttrs: "class"
-            }
-        });
+        if (![[${view}]]) {
+            OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
+        }
     };
 
     // Chart 추가
@@ -121,32 +135,27 @@
         if (typeof data !== 'undefined' && data !== null) {
             property = data;
         }
-        if (chartList != null) {
-            const options = chartList.map(function (option) {
+        if (chartListData != null) {
+            const options = chartListData.map(function (option) {
                 return `<option value="${option.chartId}" ${property.chartId === option.chartId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.chartName)}</option>`;
             }).join('');
             let rowId = ZWorkflowUtil.generateUUID();
 
-            let rowElement = [[${view}]] ?
-                `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-11"><select name="chart" id="${rowId}_chart" class="readonly">${options}</select></div>` +
-                `<div class="flex-column col-1"></div>` +
-                `</div>` :
-                `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-11"><select name="chart" id="${rowId}_chart">${options}</select></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
-                `<span class="z-icon i-delete"></span></button></div></div>`;
-
-            target.insertAdjacentHTML('beforeend', rowElement);
-            aliceJs.initDesignedSelectTag();
-
-            const deleteBtn = document.getElementById(rowId + '_delete');
-            if (deleteBtn) {
-                deleteBtn.addEventListener('click', function (e) {
+            const chartListDom = document.getElementById('chartListTemplate').content.cloneNode(true);
+            let buttonElement = chartListDom.querySelector('button')
+            let selectElement = chartListDom.querySelector('select')
+            selectElement.setAttribute('id', rowId + '_chart')
+            selectElement.innerHTML = options
+            if (buttonElement) {
+                buttonElement.setAttribute('id', rowId + '_delete');
+                buttonElement.addEventListener('click', function (e) {
                     e.stopPropagation();
                     this.parentElement.parentElement.remove();
                 });
             }
+
+            target.appendChild(chartListDom);
+            aliceJs.initDesignedSelectTag();
         }
     }
 

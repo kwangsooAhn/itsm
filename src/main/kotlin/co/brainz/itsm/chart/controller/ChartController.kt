@@ -25,7 +25,7 @@ class ChartController(
 
     private val chartSearchPage: String = "chart/chartSearch"
     private val chartListPage: String = "chart/chartList"
-    private val chartEditPage: String = "chart/chartEdit"
+    private val chartPage: String = "chart/chart"
     private val chartViewModalPage: String = "chart/chartViewModal"
 
     /**
@@ -53,9 +53,10 @@ class ChartController(
      */
     @GetMapping("/new")
     fun getChartNew(model: Model): String {
+        model.addAttribute("view", false)
         model.addAttribute("code", chartService.getCodeListForChart())
         model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.PCode.UNIT.code))
-        return chartEditPage
+        return chartPage
     }
 
     /**
@@ -63,9 +64,10 @@ class ChartController(
      */
     @GetMapping("/{chartId}/edit")
     fun getChartEdit(@PathVariable chartId: String, model: Model): String {
+        model.addAttribute("view", false)
         model.addAttribute("code", chartService.getCodeListForChart())
         model.addAttribute("chart", chartService.getChartDetail(chartId))
-        return chartEditPage
+        return chartPage
     }
 
     /**
@@ -76,7 +78,7 @@ class ChartController(
         model.addAttribute("view", true)
         model.addAttribute("code", chartService.getCodeListForChart())
         model.addAttribute("chart", chartService.getChartDetail(chartId))
-        return chartEditPage
+        return chartPage
     }
 
     /**
