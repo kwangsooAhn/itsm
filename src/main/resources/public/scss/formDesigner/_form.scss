@@ -243,6 +243,11 @@
       }
     }
 
+    // fileuploader 컴포넌트
+    .file-uploader-view {
+      @include border($element-border-width, solid, $element-border-color, left);
+    }
+
     // CI 컴포넌트
     .z-ci-table {
       width: 100%;

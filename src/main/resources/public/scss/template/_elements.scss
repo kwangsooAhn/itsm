@@ -153,7 +153,7 @@ input, textarea, select {
 }
 .z-input {
   height: 2.25rem; // 36px
-  font-family: inherit;
+  font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
   line-height: $element-line-height;
@@ -309,13 +309,13 @@ input, textarea, select {
 // overlay scroll로 인한 div와의 중복 디자인을 방지하기 위해
 // outer div에 대해 예외 처리
 .z-textarea {
-    font-family: inherit;
-    font-size: $element-font-size;
-    font-weight: $element-font-weight;
-    line-height: $element-line-height;
-    color: $element-font-color;
-    background-color: $element-bg-color;
-    padding: 0.5rem $element-indent; // 들여쓰기 8px 16px
+  font-family: $element-font-family;
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $element-font-color;
+  background-color: $element-bg-color;
+  padding: 0.5rem $element-indent; // 들여쓰기 8px 16px
   &:not(.os-textarea) {
     @include border($element-border-width, solid, $element-border-color, all);
     @include borderRadius($element-border-radius);
@@ -375,7 +375,7 @@ input, textarea, select {
 .z-switch {
   @include relative();
   height: 1.125rem; // 18px
-  font-family: inherit;
+  font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
   line-height: $element-line-height;
@@ -438,7 +438,7 @@ input, textarea, select {
 select {
   width: inherit;
   height: 2.25rem; // 36px
-  font-family: inherit;
+  font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
   line-height: $element-line-height;
@@ -460,7 +460,6 @@ select {
      - z-select-box : select 태그를 대신해서 보여지는 부분
      - z-select-options : z-select-box 클릭 시 보여지는 option 리스트 부분
 */
-
 .z-select {
   display: inline-block;
   @include relative();
@@ -478,7 +477,7 @@ select {
     @include absolute(0, 0, 0, 0);
     width: 100%;
     padding: 0.5625rem 1.75rem 0.5625rem 1rem; // 9px 28px 9px 16px
-    font-family: inherit;
+    font-family: $element-font-family;
     font-size: $element-font-size;
     font-weight: $element-font-weight;
     line-height: $element-line-height;

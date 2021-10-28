@@ -707,7 +707,7 @@ input, button, select, optgroup, textarea {
 :root {
   --data-column: 12;
   --data-row: 2;
-  --data-align: flex-start ;
+  --data-align: flex-start;
 }
 
 /* _icons.scss
@@ -1834,7 +1834,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 
 .z-input {
   height: 2.25rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1991,7 +1991,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 .z-textarea {
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2051,7 +2051,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-switch {
   position: relative;
   height: 1.125rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2125,7 +2125,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 select {
   width: inherit;
   height: 2.25rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2171,7 +2171,7 @@ select {
   left: 0;
   width: 100%;
   padding: 0.5625rem 1.75rem 0.5625rem 1rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -4452,6 +4452,9 @@ select {
   height: 100%;
 }
 .file-uploader-view .file-uploader-list .text-no-file {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
   color: #ABB0B5;
 }
 .file-uploader-view .dropzone.dz-uploaded {
@@ -4472,6 +4475,7 @@ select {
 }
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details {
   display: inline-flex;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
 }
@@ -6044,6 +6048,9 @@ body.modal-active {
 }
 .z-component .z-element .z-imagebox[src=""] + .z-imagebox-placeholder {
   display: block;
+}
+.z-component .z-element .file-uploader-view {
+  border-left: 0.0625rem solid #CFD5D9;
 }
 .z-component .z-element .z-ci-table {
   width: 100%;
