@@ -150,8 +150,10 @@
         const documentIconElem = document.getElementById('document-icon-content');
         if (type === 'workflow') {
             groupElem.selectedIndex = 0;
+            groupElem.nextSibling.classList.add('disabled-select');
             documentIconElem.classList.remove('on');
         } else {
+            groupElem.nextSibling.classList.remove('disabled-select');
             documentIconElem.classList.add('on');
         }
     }
