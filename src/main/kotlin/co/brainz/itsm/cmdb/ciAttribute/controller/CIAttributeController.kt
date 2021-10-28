@@ -21,8 +21,7 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
 
     private val attributeSearchPage: String = "cmdb/attribute/attributeSearch"
     private val attributeListPage: String = "cmdb/attribute/attributeList"
-    private val attributeEditPage: String = "cmdb/attribute/attributeEdit"
-    private val attributeViewPage: String = "cmdb/attribute/attributeView"
+    private val attributePage: String = "cmdb/attribute/attribute"
     private val attributeListModal: String = "cmdb/attribute/attributeListModal"
 
     /**
@@ -48,8 +47,9 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
      * CI Attribute 등록 화면 호출.
      */
     @GetMapping("/new")
-    fun getCIAttributeNew(): String {
-        return attributeEditPage
+    fun getCIAttributeNew(model: Model): String {
+        model.addAttribute("view", false)
+        return attributePage
     }
 
     /**
@@ -58,7 +58,8 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
     @GetMapping("/{attributeId}/edit")
     fun getCIAttributeEdit(@PathVariable attributeId: String, model: Model): String {
         model.addAttribute("attribute", ciAttributeService.getCIAttribute(attributeId))
-        return attributeEditPage
+        model.addAttribute("view", false)
+        return attributePage
     }
 
     /**
@@ -67,7 +68,8 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
     @GetMapping("/{attributeId}/view")
     fun getCIAttributeView(@PathVariable attributeId: String, model: Model): String {
         model.addAttribute("attribute", ciAttributeService.getCIAttribute(attributeId))
-        return attributeViewPage
+        model.addAttribute("view", true)
+        return attributePage
     }
 
     /**
@@ -78,12 +80,14 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
         params["attributeId"] = request.getParameter("attributeId")
-        val attributeList = ciAttributeService.getCIAttributeListWithoutGroupList(params["attributeId"].toString(),
+        val attributeList = ciAttributeService.getCIAttributeListWithoutGroupList(
+            params["attributeId"].toString(),
             CIAttributeSearchCondition(
-            searchValue = params["search"].toString(),
-            pageNum = 0L,
-            contentNumPerPage = 0L
-        ))
+                searchValue = params["search"].toString(),
+                pageNum = 0L,
+                contentNumPerPage = 0L
+            )
+        )
         model.addAttribute("attributeList", attributeList)
         return attributeListModal
     }
