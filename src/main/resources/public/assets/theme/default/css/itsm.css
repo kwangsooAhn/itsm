@@ -6427,7 +6427,7 @@ body.modal-active {
 .modal-dialog.z-thumbnail-preview .modal-content .z-thumbnail-preview-image {
   width: 100%;
   height: 100%;
-  background-size: auto;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
 }
