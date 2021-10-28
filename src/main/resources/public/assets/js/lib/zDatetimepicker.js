@@ -523,7 +523,6 @@
                 if ((this.hourType === '12' && Number(inputValue) >= 1 && Number(inputValue) <= 12) ||
                     (this.hourType !== '12' && Number(inputValue) >= 0 && Number(inputValue) <= 23)) {
                     rtn = true;
-                    console.log(this.hourType);
                 }
             }
             if (rtn) {
