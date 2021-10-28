@@ -20,9 +20,6 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.token.service.WfTokenService
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
@@ -38,8 +35,6 @@ class InstanceService(
     private val wfInstanceRepository: WfInstanceRepository,
     private val commentRepository: CommentRepository
 ) {
-    private val mapper: ObjectMapper =
-        ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
     private val commentMapper: CommentMapper = Mappers.getMapper(CommentMapper::class.java)
 
     fun getInstanceHistory(instanceId: String): List<RestTemplateInstanceHistoryDto>? {
@@ -121,7 +116,7 @@ class InstanceService(
             createDt = LocalDateTime.now()
         )
         commentEntity.aliceUserEntity =
-            aliceUserRepository.findAliceUserEntityByUserKey(createUserKey.toString())
+            aliceUserRepository.findAliceUserEntityByUserKey(createUserKey)
         commentEntity.instance = wfInstanceRepository.findByInstanceId(instanceId)
         commentRepository.save(commentEntity)
         return true
@@ -130,7 +125,7 @@ class InstanceService(
     /**
      * Delete Comment.
      */
-    fun deleteComment(instanceId:String, commentId: String): Boolean {
+    fun deleteComment(instanceId: String, commentId: String): Boolean {
         commentRepository.deleteById(commentId)
         return true
     }
