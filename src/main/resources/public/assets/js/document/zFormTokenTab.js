@@ -115,7 +115,7 @@ class ZFormTokenTab {
         }).then((rtn) => {
             if (rtn) {
                 rtn.forEach((token) => {
-                    document.getElementById('history').innerHTML = this.makeHistoryFragment(token);
+                    document.getElementById('history').insertAdjacentHTML('beforeend', this.makeHistoryFragment(token));
                 });
             } else {
                 zAlert.danger(i18n.msg('common.msg.fail'));
