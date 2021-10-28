@@ -149,3 +149,26 @@ INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a8060b71', '4028b8817cb
 INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a8120b74', '4028b8817cbfc7a7017cc095a7d90b68', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a8200b78', '4028b8817cbfc7a7017cc095a81b0b77', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a82a0b7b', '4028b8817cbfc7a7017cc095a81b0b77', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+/* 구성관리 */
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b8eb0662', '4028b8817cc50161017cc531b8e50661', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b8f70665', '4028b8817cc50161017cc531b8e50661', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b9060669', '4028b8817cc50161017cc531b8e50661', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b918066c', '4028b8817cc50161017cc531b913066b', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b9360671', '4028b8817cc50161017cc531b913066b', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b9510676', '4028b8817cc50161017cc531b913066b', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b96e067b', '4028b8817cc50161017cc531b913066b', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b97d067e', '4028b8817cc50161017cc531b913066b', '{"displayOrder":4,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b98f0681', '4028b8817cc50161017cc531b913066b', '{"displayOrder":5,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b99e0684', '4028b8817cc50161017cc531b913066b', '{"displayOrder":6,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b9ab0687', '4028b8817cc50161017cc531b913066b', '{"displayOrder":7,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b9c0068b', '4028b8817cc50161017cc531b9bb068a', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b9db0690', '4028b8817cc50161017cc531b9bb068a', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b9e90693', '4028b8817cc50161017cc531b9bb068a', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531b9f80696', '4028b8817cc50161017cc531b9bb068a', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531ba0b069a', '4028b8817cc50161017cc531ba050699', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531ba19069d', '4028b8817cc50161017cc531ba050699', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531ba2906a0', '4028b8817cc50161017cc531ba050699', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531ba3906a3', '4028b8817cc50161017cc531ba050699', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531ba4506a6', '4028b8817cc50161017cc531ba050699', '{"displayOrder":4,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531ba5806aa', '4028b8817cc50161017cc531ba5406a9', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cc50161017cc531ba6206ad', '4028b8817cc50161017cc531ba5406a9', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');

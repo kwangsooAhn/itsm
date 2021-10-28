@@ -54,3 +54,10 @@ INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a77f0b54', '변경 �
 INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a79f0b5b', '변경 결과서', '4028b8817cbfc7a7017cc08f7b0b0763');
 INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a7d90b68', 'PIR', '4028b8817cbfc7a7017cc08f7b0b0763');
 INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a81b0b77', '최종 검토 의견', '4028b8817cbfc7a7017cc08f7b0b0763');
+/* 구성관리 */
+INSERT INTO wf_form_group VALUES ('4028b8817cc50161017cc531b8e50661', '제목', '4028b8817cc50161017cc5082b460002');
+INSERT INTO wf_form_group VALUES ('4028b8817cc50161017cc531b913066b', '신청내역', '4028b8817cc50161017cc5082b460002');
+INSERT INTO wf_form_group VALUES ('4028b8817cc50161017cc531b9bb068a', '접수내역', '4028b8817cc50161017cc5082b460002');
+INSERT INTO wf_form_group VALUES ('4028b8817cc50161017cc531ba050699', '처리내역', '4028b8817cc50161017cc5082b460002');
+INSERT INTO wf_form_group VALUES ('4028b8817cc50161017cc531ba5406a9', '승인 / 반려 내역', '4028b8817cc50161017cc5082b460002');
+

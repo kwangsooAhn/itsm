@@ -48,3 +48,6 @@ insert into awf_role values ('application.change.assignee', '어플리케이션 
 insert into awf_role values ('application.change.manager', '어플리케이션 변경 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('infra.change.assignee', '인프라 변경 담당자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('infra.change.manager', '인프라 변경 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 구성관리 */
+INSERT INTO awf_role VALUES ('configuration.change.manager', '구성관리 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_role VALUES ('configuration.change.assignee', '구성관리 담당자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
