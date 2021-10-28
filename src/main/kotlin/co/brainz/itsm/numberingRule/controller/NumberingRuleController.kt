@@ -25,8 +25,7 @@ class NumberingRuleController(
 ) {
     private val numberingRuleSearchPage = "numbering-rule/numberingRuleSearch"
     private val numberingRuleListPage: String = "numbering-rule/numberingRuleList"
-    private val numberingRuleEditPage: String = "numbering-rule/numberingRuleEdit"
-    private val numberingRuleViewPage: String = "numbering-rule/numberingRuleView"
+    private val numberingRulePage: String = "numbering-rule/numberingRule"
 
     /**
      * 문서번호 검색화면
@@ -53,7 +52,8 @@ class NumberingRuleController(
     @GetMapping("/new")
     fun getNumberingRuleNew(request: HttpServletRequest, model: Model): String {
         model.addAttribute("patternList", numberingPatternService.getPatternNameList())
-        return numberingRuleEditPage
+        model.addAttribute("view", false)
+        return numberingRulePage
     }
 
     /**
@@ -64,7 +64,8 @@ class NumberingRuleController(
         model.addAttribute("patternList", numberingPatternService.getPatternNameList())
         model.addAttribute("rule", numberingRuleService.getNumberingRuleDetail(numberingRuleId))
         model.addAttribute("byPatternOrder", Comparator.comparing(NumberingPatternMapDto::patternOrder))
-        return numberingRuleViewPage
+        model.addAttribute("view", true)
+        return numberingRulePage
     }
 
     /**
@@ -75,6 +76,7 @@ class NumberingRuleController(
         model.addAttribute("patternList", numberingPatternService.getPatternNameList())
         model.addAttribute("rule", numberingRuleService.getNumberingRuleDetail(numberingRuleId))
         model.addAttribute("byPatternOrder", Comparator.comparing(NumberingPatternMapDto::patternOrder))
-        return numberingRuleEditPage
+        model.addAttribute("view", false)
+        return numberingRulePage
     }
 }
