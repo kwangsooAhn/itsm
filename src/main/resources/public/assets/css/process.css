@@ -1511,7 +1511,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 
 .z-input {
   height: 2.25rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1668,7 +1668,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 .z-textarea {
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1728,7 +1728,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-switch {
   position: relative;
   height: 1.125rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1802,7 +1802,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 select {
   width: inherit;
   height: 2.25rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1848,7 +1848,7 @@ select {
   left: 0;
   width: 100%;
   padding: 0.5625rem 1.75rem 0.5625rem 1rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;

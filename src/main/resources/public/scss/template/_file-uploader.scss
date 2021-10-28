@@ -380,6 +380,9 @@
       height: 100%;
       // 첨부 파일 미존재시
       .text-no-file {
+        font-family: $file-uploader-view-font-family;
+        font-size: $file-uploader-view-font-size;
+        font-weight: $file-uploader-view-font-weight;
         color: $file-uploader-no-date-font-color;
       }
     }
@@ -404,6 +407,7 @@
 
           .dz-details {
             display: inline-flex;
+            font-family: $file-uploader-view-font-family;
             font-size: $file-uploader-view-font-size;
             font-weight: $file-uploader-view-font-weight;
 
