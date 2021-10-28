@@ -369,7 +369,7 @@
             minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this, { minutes: -1 }), false);
             minuteGroup.appendChild(minuteArrowDown);
             // create minute end -------------------------------------------------------------------
-
+            _this.hourType = '24';
             // 12 시간제일 경우 am/pm
             if (minuteFormatArr.length === 2) {
                 _this.hourType = '12';
@@ -521,7 +521,7 @@
             // 24 시간제 0 ~ 23 까지만 입력가능
             if (numberRegex.test(inputValue)) { // 숫자 여부 체크
                 if ((this.hourType === '12' && Number(inputValue) >= 1 && Number(inputValue) <= 12) ||
-                    (this.hourType === '24' && Number(inputValue) >= 0 && Number(inputValue) <= 23)) {
+                    (this.hourType !== '12' && Number(inputValue) >= 0 && Number(inputValue) <= 23)) {
                     rtn = true;
                 }
             }
