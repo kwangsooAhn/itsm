@@ -28,7 +28,7 @@ class ScheduleTaskTypeJar(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun getRunnable(taskInfo: AliceScheduleTaskEntity, isImmediately: Boolean): Runnable? {
-        var runnable: Runnable? = null
+        var runnable: Runnable?
 
         var jarPath = taskInfo.src ?: ""
         if (jarPath.startsWith("/", true)) {

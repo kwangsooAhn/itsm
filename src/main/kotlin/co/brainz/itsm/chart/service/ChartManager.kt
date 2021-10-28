@@ -35,7 +35,7 @@ abstract class ChartManager(
     abstract fun setChartConfigDetail(chartDto: ChartDto): LinkedHashMap<String, Any?>
 
     fun getChart(chartDto: ChartDto): ChartDto {
-        this.chartConfig = chartDto.chartConfig!!
+        this.chartConfig = chartDto.chartConfig
         this.setChartDetail(chartDto)
         chartDto.propertyJson = this.getChartProperty(chartDto)
         return chartDto
@@ -67,7 +67,7 @@ abstract class ChartManager(
             if (form.formStatus == WfFormConstants.FormStatus.USE.value ||
                 form.formStatus == WfFormConstants.FormStatus.PUBLISH.value
             ) {
-                form.document?.forEach { document ->
+                form.document.forEach { document ->
                     if (document.documentStatus == WfDocumentConstants.Status.USE.code &&
                         document.documentType == DocumentConstants.DocumentType.APPLICATION_FORM.value
                     ) {
@@ -212,7 +212,7 @@ abstract class ChartManager(
                 selectDocList.add(document)
             }
         }
-        when (chart.chartConfig?.periodUnit) {
+        when (chart.chartConfig.periodUnit) {
             ChartConstants.Unit.YEAR.code -> {
                 durationMap = this.getPeriodYear(chartDateTime, documentList)
             }
@@ -337,7 +337,7 @@ abstract class ChartManager(
         var startDateTime: LocalDateTime = LocalDateTime.now()
         var endDateTime: LocalDateTime = LocalDateTime.now()
 
-        when (chart.chartConfig?.range?.type) {
+        when (chart.chartConfig.range.type) {
             ChartConstants.RangeType.BETWEEN.code -> {
                 startDateTime = chart.chartConfig.range.from!!.atStartOfDay()
                 endDateTime = chart.chartConfig.range.to!!.plusDays(1).atStartOfDay()

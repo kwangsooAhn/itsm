@@ -190,13 +190,6 @@ class CIService(
         when (existCount) {
             0L -> {
 
-                // 추후 CIEntity 에서 class_id 를 삭제하는 경우
-                // 화면이나 워크플로우 엔진에서 먼저 삭제하는 동안 처리될 수 있도록 임시로 타입으로 찾는 로직.
-                val ciClassEntity = when (ciDto.classId.isNullOrEmpty()) {
-                    true -> ciTypeRepository.getOne(ciDto.typeId).ciClass
-                    false -> ciClassRepository.getOne(ciDto.classId)
-                }
-
                 // CIEntity 등록
                 var ciEntity = CIEntity(
                     ciId = ciDto.ciId,
