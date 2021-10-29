@@ -265,7 +265,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                         .from(tag)
                         .where(
                             (tag.tagType.eq(AliceTagConstants.TagType.INSTANCE.code))
-                                .and(tag.tagValue.`in`(tags))
+                                .and(tag.tagValue.toLowerCase().`in`(tags))
                         )
                 )
             )

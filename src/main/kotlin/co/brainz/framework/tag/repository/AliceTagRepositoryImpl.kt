@@ -61,7 +61,7 @@ class AliceTagRepositoryImpl : QuerydslRepositorySupport(AliceTagEntity::class.j
                 tag.tagValue
             )
             .where(
-                (super.like(tag.tagValue, tagValue))
+                (super.likeIgnoreCase(tag.tagValue, tagValue))
                     ?.and(tag.tagType.eq(tagType))
             )
             .limit(AliceTagConstants.TAG_SUGGESTION_MAX_COUNT)
