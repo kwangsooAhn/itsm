@@ -32,6 +32,8 @@ INSERT INTO wf_process VALUES ('4028b21f7c81a928017c81aa9dc60000','서비스데�
 INSERT INTO wf_process VALUES ('4028b21f7c9b6b1e017c9bdf04cb0011','서비스데스크 - 장애신고 - 만족도','process.status.use','','0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_process VALUES ('4028b21f7c9ff7c8017ca0549ef00057','서비스데스크 - 서비스요청','process.status.use','','0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_process VALUES ('4028b21f7c9cc269017c9cc76a5e0000','서비스데스크 - 서비스요청 - 만족도','process.status.use','','0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO wf_process VALUES ('4028b8817cbfc7a7017cc0db1a8c0bc3', '인프라변경관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO wf_process VALUES ('4028b8817cc50161017cc5079e850000', '구성관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into wf_process values('4028b22f7cba6866017cbb63a53c08f8', '어플리케이션 변경관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424',  now(), null, null);
+INSERT INTO wf_process VALUES ('2c9180837c94c0f3017c977775530001','서비스데스크 - 구성관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO wf_process VALUES ('2c9180867cc31a25017cc5c08e2f0120','서비스데스크 - 구성관리 - 만족도', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO wf_process VALUES ('4028b8817cbfc7a7017cc0db1a8c0bc3','인프라 변경관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO wf_process VALUES ('4028b8817cc50161017cc5079e850000','구성관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT into wf_process VALUES ('4028b22f7cba6866017cbb63a53c08f8','어플리케이션 변경관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424',  now(), null, null);
