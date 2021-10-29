@@ -40,10 +40,10 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             )
             .innerJoin(customCode.createUser, user)
             .where(
-                super.like(customCode.type, customCodeSearchCondition.searchType)
+                super.eq(customCode.type, customCodeSearchCondition.searchType)
             )
             .where(
-                super.like(customCode.customCodeName, customCodeSearchCondition.searchValue)
+                super.likeIgnoreCase(customCode.customCodeName, customCodeSearchCondition.searchValue)
             )
             .orderBy(customCode.customCodeName.asc())
         if (customCodeSearchCondition.isPaging) {

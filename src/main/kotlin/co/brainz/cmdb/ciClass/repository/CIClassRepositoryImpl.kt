@@ -56,8 +56,8 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
             )
             .rightJoin(ciClass.pClass, ciClass).on(ciClass.pClass.classId.eq(ciClass.classId))
             .where(
-                super.like(ciClass.className, searchDto.search)
-                    ?.or(super.like(ciClass.classDesc, searchDto.search))
+                super.likeIgnoreCase(ciClass.className, searchDto.search)
+                    ?.or(super.likeIgnoreCase(ciClass.classDesc, searchDto.search))
             ).orderBy(ciClass.classLevel.asc(), ciClass.classSeq.asc(), ciClass.className.asc())
         if (searchDto.limit != null) {
             query.limit(searchDto.limit)
@@ -73,8 +73,8 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
         return from(ciClass)
             .select(ciClass)
             .where(
-                super.like(ciClass.className, search)
-                    ?.or(super.like(ciClass.classDesc, search))
+                super.likeIgnoreCase(ciClass.className, search)
+                    ?.or(super.likeIgnoreCase(ciClass.classDesc, search))
             ).orderBy(ciClass.classLevel.asc(), ciClass.classSeq.asc(), ciClass.className.asc())
             .fetchResults()
     }

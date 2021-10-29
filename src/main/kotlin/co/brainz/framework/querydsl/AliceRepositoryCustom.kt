@@ -26,6 +26,7 @@ interface AliceRepositoryCustom {
     /**
      * like 쿼리
      */
+
     fun like(entityValue: StringPath, input: String?): BooleanExpression? {
         val filteredInput = this.filtered(input)
         return if (filteredInput == null) {
