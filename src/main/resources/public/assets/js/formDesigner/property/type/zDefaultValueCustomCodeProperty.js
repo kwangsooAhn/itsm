@@ -10,25 +10,25 @@
  *
  * https://www.brainz.co.kr
  */
-import { FORM } from '../../../lib/zConstants.js';
-import { UIDiv, UILabel, UIRadioButton, UISpan, UISelect } from '../../../lib/zUI.js';
-import { zValidation } from '../../../lib/zValidation.js';
+import {FORM} from '../../../lib/zConstants.js';
+import {UIDiv, UILabel, UIRadioButton, UISpan, UISelect} from '../../../lib/zUI.js';
+import {zValidation} from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
 
 const propertyExtends = {
     options: [
-        { name: 'form.properties.option.none', value: FORM.CUSTOM.NONE },
-        { name: 'form.properties.default.session', value: FORM.CUSTOM.SESSION },
-        { name: 'form.properties.default.code', value: FORM.CUSTOM.CODE }
+        {name: 'form.properties.option.none', value: FORM.CUSTOM.NONE},
+        {name: 'form.properties.default.session', value: FORM.CUSTOM.SESSION},
+        {name: 'form.properties.default.code', value: FORM.CUSTOM.CODE}
     ],
-    selectOptions : [
-        { name: 'form.properties.userKey', value: 'userKey' },
-        { name: 'form.properties.userId', value: 'userId' },
-        { name: 'form.properties.userName', value: 'userName' },
-        { name: 'form.properties.email', value: 'email' },
-        { name: 'form.properties.jobPosition', value: 'position' },
-        { name: 'form.properties.department', value: 'department' },
-        { name: 'form.properties.officeNumber', value: 'officeNumber' }
+    selectOptions: [
+        {name: 'form.properties.userKey', value: 'userKey'},
+        {name: 'form.properties.userId', value: 'userId'},
+        {name: 'form.properties.userName', value: 'userName'},
+        {name: 'form.properties.email', value: 'email'},
+        {name: 'form.properties.jobPosition', value: 'position'},
+        {name: 'form.properties.department', value: 'department'},
+        {name: 'form.properties.officeNumber', value: 'officeNumber'}
     ]
 };
 
@@ -130,11 +130,12 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     }
 
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {}
+    afterEvent() {
+    }
 
     // 커스텀 코드 조회
     getCustomCode(id) {
-        return FORM.CUSTOM_CODE.find(function(data) {
+        return FORM.CUSTOM_CODE.find(function (data) {
             return data.customCodeId === id;
         });
     }
@@ -146,15 +147,16 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             method: 'GET'
         });
         for (let i = 0; i < customCodeData.length; i++) {
-            if(zValidation.isEmpty(customCodeData[i].name)) {
+            if (zValidation.isEmpty(customCodeData[i].name)) {
                 customCodeData[i].name = customCodeData[i].value;
             }
-                customCodeData[i].value = customCodeData[i].key;
+            customCodeData[i].value = customCodeData[i].key;
             customCodeDataOption.push(customCodeData[i]);
         }
-        const customDataOptionValue =  zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
+        const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
         UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
     }
+
     // 커스텀 코드 변경시 커스텀 코드 데이터 select box를 업데이트 한다.
     async updateCustomCodeData(e) {
         const matchCustomCode = this.getCustomCode(e.target.value);
@@ -179,9 +181,9 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
 
         const curRadioElem = this.UIElement.UIGroup.domElement.querySelector('input[type=radio]:checked');
         const customCodeId = this.UIElement.UISelect.domElement.value;
-        const radioType= curRadioElem.getAttribute('data-value');
+        const radioType = curRadioElem.getAttribute('data-value');
         const matchCustomCode = this.getCustomCode(customCodeId);
-        const codeSelectBox= this.UIElement.UIGroup['UIRadioGroup2'].UISelect.domElement;
+        const codeSelectBox = this.UIElement.UIGroup['UIRadioGroup2'].UISelect.domElement;
         switch (radioType) {
             case FORM.CUSTOM.NONE:
                 this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType + '|');
