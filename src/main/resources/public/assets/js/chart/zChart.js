@@ -23,7 +23,13 @@ function ZChart(container, chartType, chartProperty) {
     // highcharts 기본 옵션
     let options = {
         chart: {type: 'line'},
-        title: {text: ''},
+        title: {
+            text: '',
+            style: {
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+            }
+        },
         subtitle: {text: ''},
         credits: {enabled: false},
         xAxis: {},

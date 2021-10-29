@@ -116,7 +116,7 @@ const properties = [
     'border', 'borderLeft', 'borderTop', 'borderRight', 'borderBottom', 'borderColor',
     'display', 'overflow', 'margin', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom',
     'padding', 'paddingLeft', 'paddingTop', 'paddingRight', 'paddingBottom', 'color',
-    'background', 'backgroundColor', 'opacity', 'fontSize', 'fontWeight', 'fontStyle', 'textAlign',
+    'background', 'backgroundColor', 'opacity', 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'textAlign',
     'textDecoration', 'textTransform', 'cursor', 'zIndex',
 ];
 properties.forEach(function (property) {

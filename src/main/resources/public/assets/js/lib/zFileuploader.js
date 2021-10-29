@@ -193,7 +193,7 @@
                     // todo: #11252 현재 폼 디자이너 및 신청서는 clickable 옵션 사용이 제한되므로,
                     //              디자인 차원에서 관련 메시지 및 버튼을 제거합니다.
                     `${options.isForm ? `` :
-                    `<span>${options.clickableLineMessage}</span>` +
+                        `<span>${options.clickableLineMessage}</span>` +
                     `<span class="underline ${typeof options.clickable !== 'boolean' ? options.clickable : ''}">` +
                         `${options.clickableMessage}` +
                     `</span>`}` +
@@ -355,16 +355,9 @@
                     _this.isFileExist = files.length > 0;
                     // 파일이 존재하지 않으면
                     if (!_this.isFileExist && options.isView) {
-                        const noFileStr = options.isForm ? document.createElement('input') :
-                            document.createElement('span');
+                        const noFileStr = document.createElement('span');
                         noFileStr.className = 'text-no-file text-ellipsis';
-                        // form-designer 또는 신청서일 때
-                        if (options.isForm) {
-                            noFileStr.placeholder = i18n.msg('file.msg.noAttachFile');
-                            noFileStr.disabled = true;
-                        } else {
-                            noFileStr.textContent = i18n.msg('file.msg.noAttachFile');
-                        }
+                        noFileStr.textContent = i18n.msg('file.msg.noAttachFile');
                         dropZoneUploadedFiles.appendChild(noFileStr);
                     }
 
@@ -414,7 +407,7 @@
                         const removeIcon = document.createElement('span');
                         removeIcon.className = 'z-icon i-delete';
                         const removeButton = file.previewElement.querySelector('.dz-remove');
-                        removeButton.className = 'dz-remove added'
+                        removeButton.className = 'dz-remove added';
                         removeButton.appendChild(removeIcon);
 
                         fileUploadValidationCheck(_this, file, options);

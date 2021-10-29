@@ -1694,7 +1694,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 
 .z-input {
   height: 2.25rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1851,7 +1851,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 .z-textarea {
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1911,7 +1911,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-switch {
   position: relative;
   height: 1.125rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1985,7 +1985,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 select {
   width: inherit;
   height: 2.25rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2031,7 +2031,7 @@ select {
   left: 0;
   width: 100%;
   padding: 0.5625rem 1.75rem 0.5625rem 1rem;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -4304,6 +4304,9 @@ table tbody tr:hover {
   height: 100%;
 }
 .file-uploader-view .file-uploader-list .text-no-file {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
   color: #ABB0B5;
 }
 .file-uploader-view .dropzone.dz-uploaded {
@@ -4324,6 +4327,7 @@ table tbody tr:hover {
 }
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details {
   display: inline-flex;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
 }
@@ -5148,6 +5152,8 @@ body.modal-active {
   font-weight: 500;
   color: #222529;
   padding: 1.125rem 0 0 1.25rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .modal-wrapper .modal-dialog .modal-content {
   overflow: auto;

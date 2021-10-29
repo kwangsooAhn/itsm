@@ -279,6 +279,7 @@
         const previewModalHeader = previewModal.wrapper.querySelector('.modal-header');
         if (previewModalHeader !== null) {
             previewModalHeader.textContent = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
+            previewModalHeader.classList.add('text-ellipsis');
         }
 
         // 내부 이미지 경로 변경

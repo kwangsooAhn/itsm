@@ -59,10 +59,6 @@ export const fileUploadMixin = {
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
-        // 신청서 양식 편집 화면에 따른 처리
-        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
-            this.UIElement.UIComponent.UIElement.UIFileUpload.addUIClass('disabled');
-        }
         let fileOptions = {
             formId: 'frm',
             ownId: '',
@@ -75,6 +71,29 @@ export const fileUploadMixin = {
             fileDataIds: this.value,
             userCallback: this.updateValue.bind(this) // 파일업로드, 파일삭제시 호출되는 callback 함수
         };
+        // 신청서 양식 편집 화면에 따른 처리
+        // 읽기 전용일 경우
+        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+            this.UIElement.UIComponent.UIElement.clearUI();
+            const UIViewFileUpload = new UIDiv().setUIClass('z-fileupload')
+                .addUIClass('file-uploader-view')
+                .setUIId('fileupload' + this.id);
+            // 파일 목록
+            UIViewFileUpload.UIFileList = new UIDiv().setUIClass('file-uploader-list');
+            UIViewFileUpload.addUI(UIViewFileUpload.UIFileList);
+            // dropzone
+            UIViewFileUpload.UIFileList.dropZoneFiles = new UIDiv().setUIId('dropZoneFiles-' + this.id);
+            UIViewFileUpload.UIFileList.addUI(UIViewFileUpload.UIFileList.dropZoneFiles);
+
+            UIViewFileUpload.UIFileList.dropZoneUploadedFiles = new UIDiv().setUIId('dropZoneUploadedFiles-' + this.id);
+            UIViewFileUpload.UIFileList.addUI(UIViewFileUpload.UIFileList.dropZoneUploadedFiles);
+
+            this.UIElement.UIComponent.UIElement.UIFileUpload = UIViewFileUpload;
+            this.UIElement.UIComponent.UIElement.addUI(UIViewFileUpload);
+
+            fileOptions.editor = false;
+            fileOptions.isView = true;
+        }
         // 미리보기 시 dropzone 중복을 방지하기 위해 id 재구성
         let validateElem = document.querySelectorAll('#dropZoneFiles-' + this.id);
         if (validateElem.length > 1) {

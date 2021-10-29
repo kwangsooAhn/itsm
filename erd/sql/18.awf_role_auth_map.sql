@@ -11,7 +11,6 @@ CREATE TABLE awf_role_auth_map
 	CONSTRAINT awf_role_auth_map_pk PRIMARY KEY (role_id, auth_id),
 	CONSTRAINT awf_role_auth_map_fk1 FOREIGN KEY (role_id) REFERENCES awf_role (role_id),
 	CONSTRAINT awf_role_auth_map_fk2 FOREIGN KEY (auth_id) REFERENCES awf_auth (auth_id)
-	
 );
 
 COMMENT ON TABLE awf_role_auth_map IS '역할권한매핑';
@@ -234,3 +233,12 @@ insert into awf_role_auth_map values ('infra.change.manager', 'document.create')
 insert into awf_role_auth_map values ('infra.change.manager', 'document.read');
 insert into awf_role_auth_map values ('infra.change.manager', 'token.create');
 insert into awf_role_auth_map values ('infra.change.manager', 'token.read');
+/* 구성관리 - 구성관리 담당자, 관리자 */
+INSERT INTO awf_role_auth_map  VALUES ('configuration.change.manager', 'document.create');
+INSERT INTO awf_role_auth_map  VALUES ('configuration.change.manager', 'document.read');
+INSERT INTO awf_role_auth_map  VALUES ('configuration.change.manager', 'token.create');
+INSERT INTO awf_role_auth_map  VALUES ('configuration.change.manager', 'token.read');
+INSERT INTO awf_role_auth_map  VALUES ('configuration.change.assignee', 'document.create');
+INSERT INTO awf_role_auth_map  VALUES ('configuration.change.assignee', 'document.read');
+INSERT INTO awf_role_auth_map  VALUES ('configuration.change.assignee', 'token.create');
+INSERT INTO awf_role_auth_map  VALUES ('configuration.change.assignee', 'token.read');

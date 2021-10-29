@@ -695,7 +695,7 @@ input, button, select, optgroup, textarea {
 :root {
   --data-column: 12;
   --data-row: 2;
-  --data-align: flex-start ;
+  --data-align: flex-start;
 }
 
 /* _icons.scss
