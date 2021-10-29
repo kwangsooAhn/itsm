@@ -1,81 +1,79 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+<html layout:decorate="~{layout/itsm/pageType/commonEditLayout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${boardAdmin?.boardAdminId != null} ? #{board.label.boardEdit} : #{board.label.boardRegister}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{board.label.board}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{board.msg.adminEditDescription}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="${view} ? #{board.msg.adminViewDescription} : #{board.msg.adminEditDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <div class="flex-column z-edit-row">
         <label for="boardAdminTitle">
-            <span th:text="#{board.label.name}"></span>
-            <span class="required"></span>
+            <span th:classappend="${view} ? '' : 'required'" th:text="#{board.label.name}"></span>
         </label>
-        <input type="text" id="boardAdminTitle" maxlength="70" th:value="${boardAdmin?.boardAdminTitle}"
-               class="z-input" required="required"/>
+        <input class="z-input" id="boardAdminTitle" maxlength="70" required="required"
+               th:readonly="${view}" th:value="${boardAdmin?.boardAdminTitle}" type="text"/>
     </div>
     <div class="flex-column z-edit-row">
         <label class="z-switch">
             <span class="z-label" th:text="#{board.label.useYn}"></span>
-            <input type="checkbox" id="boardUseYn" name="boardUseYn"
-                   th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}">
+            <input id="boardUseYn" name="boardUseYn" th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}"
+                   th:disabled="${view}" type="checkbox">
             <span></span>
         </label>
     </div>
     <div class="flex-column z-edit-row">
-        <label th:text="#{board.label.order}" for="boardAdminSort"></label>
-        <input class="z-input col-6" id="boardAdminSort" name="boardAdminSort" type="text"
-               th:value="${boardAdmin?.boardAdminSort}" maxlength="2"
-               onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+        <label for="boardAdminSort" th:text="#{board.label.order}"></label>
+        <input class="z-input col-6" id="boardAdminSort" maxlength="2" name="boardAdminSort"
+               th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'" th:readonly="${view}"
+               th:value="${boardAdmin?.boardAdminSort}" type="text"/>
     </div>
     <div class="flex-column z-edit-row">
-        <label th:text="#{board.label.desc}" for="boardAdminDesc"></label>
-        <textarea id="boardAdminDesc" name="boardAdminDesc" class="z-textarea textarea-scroll-wrapper"
-                  maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
+        <label for="boardAdminDesc" th:text="#{board.label.desc}"></label>
+        <textarea class="z-textarea textarea-scroll-wrapper" id="boardAdminDesc" maxlength="2048"
+                  name="boardAdminDesc" rows="7" th:readonly="${view}" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
     </div>
     <div class="flex-column z-edit-row">
         <label class="z-switch">
             <span class="z-label" th:text="#{board.label.replyYn}"></span>
-            <input type="checkbox" id="replyYn" name="replyYn"
-                   th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}">
+            <input id="replyYn" name="replyYn" th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}"
+                   th:disabled="${view}" type="checkbox">
             <span></span>
         </label>
     </div>
     <div class="flex-column z-edit-row">
         <label class="z-switch">
             <span class="z-label" th:text="#{board.label.commentYn}"></span>
-            <input type="checkbox" id="commentYn" name="commentYn"
-                   th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}">
+            <input id="commentYn" name="commentYn" th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}"
+                   th:disabled="${view}" type="checkbox">
             <span></span>
         </label>
     </div>
     <div class="flex-column z-edit-row">
         <label class="z-switch">
             <span class="z-label" th:text="#{board.label.category}"></span>
-            <input type="checkbox" id="categoryYn" name="categoryYn"
+            <input id="categoryYn" name="categoryYn" onchange="setDisplay('category-detail', this.checked)"
                    th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}"
-                   onchange="setDisplay('category-detail', this.checked)">
+                   th:disabled="${view}" type="checkbox">
             <span></span>
         </label>
-        <div id="category-detail" class="category">
+        <div class="category" id="category-detail">
             <div class="flex-row">
                 <div class="flex-column col-6 mr-2">
                     <label for="boardCategoryName">
-                        <span th:text="#{board.label.categoryName}"></span>
-                        <span class="required"></span>
+                        <span th:classappend="${view} ? 'readonly' : ''" th:text="#{board.label.categoryName}"></span>
                     </label>
-                    <input type="text" id="boardCategoryName" class="z-input" maxlength="100" required="required"/>
+                    <input class="z-input" id="boardCategoryName" maxlength="100" required="required" th:readonly="${view}" type="text"/>
                 </div>
                 <div class="flex-column col-5 mr-2">
-                    <label th:text="#{board.label.order}" for="boardCategorySort"></label>
-                    <input type="text" id="boardCategorySort" class="z-input" maxlength="2"
-                           onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                    <label for="boardCategorySort" th:text="#{board.label.order}"></label>
+                    <input class="z-input" id="boardCategorySort" maxlength="2" th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'"
+                           th:readonly="${view}" type="text"/>
                 </div>
                 <div class="flex-column justify-content-end col-1">
                     <button class="z-button secondary" onclick="addBoardCategory('post')" th:text="#{common.btn.add}"></button>
@@ -91,16 +89,16 @@
                             <th class="col-1 align-center"></th>
                         </tr>
                         </thead>
-                        <tbody id="boardCategoryList" class="edit-table-tbody">
+                        <tbody class="edit-table-tbody" id="boardCategoryList">
                         <tr class="no-data-found-list align-center" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
-                            <td style="width:100%" colspan="5" th:text="#{common.msg.noData}"></td>
+                            <td colspan="5" style="width:100%" th:text="#{common.msg.noData}"></td>
                         </tr>
                         <tr th:each="category: ${boardAdmin?.categoryList}">
                             <td class="col-6 align-left text-wordWrap" th:text="${category.boardCategoryName}"></td>
                             <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
                             <td class="col-1 align-center">
                                 <th:block th:if="${category.boardCount == 0}">
-                                    <button type="button" class="z-button-icon extra" th:onclick="deleteBoardCategory(this, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])">
+                                    <button class="z-button-icon extra" th:onclick="deleteBoardCategory(this, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])" type="button">
                                         <span class="z-icon i-delete" ></span>
                                     </button>
                                 </th:block>
@@ -115,32 +113,31 @@
     <div class="flex-column z-edit-row">
         <label class="z-switch">
             <span class="z-label" th:text="#{board.label.attachFileYn}"></span>
-            <input type="checkbox" id="attachYn" name="attachYn"
+            <input id="attachYn" name="attachYn" onchange="setDisplay('attachFileSize', this.checked)"
                    th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}"
-                   onchange="setDisplay('attachFileSize', this.checked)">
+                   th:disabled="${view}" type="checkbox">
             <span></span>
         </label>
     </div>
     <div class="flex-column z-edit-row">
         <label for="attachFileSize">
-            <span th:text="#{board.label.attachFileSize}"></span>
-            <span class="required"></span>
+            <span th:classappend="${view} ? '' : 'required'" th:text="#{board.label.attachFileSize}"></span>
         </label>
-        <input class="z-input col-6 i-mb" id="attachFileSize" name="attachFileSize" type="text"
-               th:value="${boardAdmin?.attachFileSize}" maxlength="4"
-               onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+        <input class="z-input col-6 i-mb" id="attachFileSize" maxlength="4" name="attachFileSize"
+               th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'"
+               th:value="${boardAdmin?.attachFileSize}" type="text"/>
     </div>
     <div class="flex-row justify-content-between z-edit-row">
         <div class="z-button-list">
             <a class="z-button secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
         </div>
         <div class="z-button-list">
-            <button sec:authorize="hasAuthority('board.admin.create')" th:unless="${boardAdmin?.boardAdminId}"
-                    onclick="saveBoardAdmin('post')" class="z-button primary" th:text="#{common.btn.register}"></button>
-            <button sec:authorize="hasAuthority('board.admin.update')" th:if="${boardAdmin?.boardAdminId}"
-                    onclick="saveBoardAdmin('put')" class="z-button primary" th:text="#{common.btn.modify}"></button>
-            <button sec:authorize="hasAuthority('board.admin.delete')" th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin()"
-                    th:disabled="${!boardAdmin.enabled}" class="z-button secondary" th:text="#{common.btn.delete}"></button>
+            <button class="z-button primary" onclick="saveBoardAdmin('post')"
+                    sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.register}" th:unless="${boardAdmin?.boardAdminId}"></button>
+            <button class="z-button primary" onclick="saveBoardAdmin('put')"
+                    sec:authorize="hasAuthority('board.admin.update')" th:if="${boardAdmin?.boardAdminId}" th:text="#{common.btn.modify}"></button>
+            <button class="z-button secondary" onclick="deleteBoardAdmin()" sec:authorize="hasAuthority('board.admin.delete')"
+                    th:disabled="${!boardAdmin.enabled}" th:if="${boardAdmin?.boardAdminId}" th:text="#{common.btn.delete}"></button>
         </div>
     </div>
 </div>

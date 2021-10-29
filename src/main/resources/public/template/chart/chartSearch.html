@@ -125,7 +125,7 @@
     function getChart(chartId, chartType) {
         const opt = {
             method: 'get',
-            url: '/charts/' + chartId + '/view',
+            url: '/charts/' + chartId + '/preview',
             contentType: 'application/json',
             showProgressbar: false,
             callbackFunc: function (response) {

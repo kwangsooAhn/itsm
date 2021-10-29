@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/itsm/pageType/commonEditLayout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{cmdb.attribute.label.view}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{cmdb.attribute.label.view}"></h1>
+    <h6 class="description ml-2 pl-2"
+        th:text="${view} ? #{cmdb.attribute.msg.viewDescription} : #{cmdb.attribute.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <input id="attributeId" name="attributeId" th:value="${attribute?.attributeId}" type="hidden"/>
+        <div class="flex-column z-edit-row">
+            <label for="attributeName">
+                <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.name}"></span>
+            </label>
+            <input class="z-input" id="attributeName" maxlength="100" required="true"
+                   th:attr="data-validation-required-name=#{cmdb.attribute.label.name}"
+                   th:readonly="${view}" th:value="${attribute?.attributeName}" type="text"/>
+        </div>
+        <div class="flex-column z-edit-row">
+            <label for="attributeDesc">
+                <span th:text="#{cmdb.attribute.label.description}"></span>
+            </label>
+            <textarea class="z-textarea textarea-scroll-wrapper" id="attributeDesc" maxlength="250"
+                      name="attributeDesc" rows="5" th:readonly="${view}"
+                      th:text="${attribute?.attributeDesc}"></textarea>
+        </div>
+        <div class="flex-column z-edit-row">
+            <label for="attributeText">
+                <span th:text="#{cmdb.attribute.label.label}"></span>
+            </label>
+            <input class="z-input" id="attributeText" maxlength="100" th:readonly="${view}"
+                   th:value="${attribute?.attributeText}"
+                   type="text"/>
+        </div>
+        <div class="flex-column z-edit-row">
+            <label for="mappingId">
+                <span th:text="#{cmdb.attribute.label.mappingId}"></span>
+            </label>
+            <input class="z-input" id="mappingId" maxlength="100" th:readonly="${view}"
+                   th:value="${attribute?.mappingId}" type="text"/>
+        </div>
+        <div class="flex-column z-edit-row">
+            <label for="attributeType">
+                <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.type}"></span>
+            </label>
+            <select id="attributeType" onchange="changeType(this)" th:classappend="${view} ? 'readonly' : ''">
+            </select>
+        </div>
+        <div class="flex-column z-edit-row">
+            <div class="under-bar">
+                <label>
+                    <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.details}"></span>
+                </label>
+            </div>
+            <div class="attribute" id="details"></div>
+        </div>
+        <div class="flex-row justify-content-between z-edit-row">
+            <div class="z-button-list">
+                <a class="z-button secondary" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
+            </div>
+            <div class="z-button-list">
+                <button class="z-button primary" onclick="actionAttribute('post')"
+                        sec:authorize="hasAuthority('cmdb.attribute.create')"
+                        th:if="${attribute == null}" th:text="#{common.btn.register}"></button>
+                <button class="z-button primary" onclick="actionAttribute('put')"
+                        sec:authorize="hasAuthority('cmdb.attribute.update')"
+                        th:if="${attribute?.attributeId}" th:text="#{common.btn.modify}"></button>
+                <button class="z-button secondary" onclick="actionAttribute('delete')"
+                        sec:authorize="hasAuthority('cmdb.attribute.delete')"
+                        th:disabled="${!attribute.enabled}" th:if="${attribute?.attributeId}"
+                        th:text="#{common.btn.delete}"></button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<th:block layout:fragment="pageScript">
+<script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
+<script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
+<script th:inline="javascript" type="text/javascript">
+    /*<![CDATA[*/
+    const STATUS_SUCCESS = '0';
+    const STATUS_ERROR_CMDB_ATTRIBUTE_NAME_DUPLICATION = '1';
+    const attributeData = /*[[${attribute?.attributeValue}]]*/ null;
+
+    window.onload = function () {
+        const attributeType = /*[[${attribute?.attributeType}]]*/ null;
+        let attributeTypeObject = document.getElementById('attributeType');
+        for (let i = 0; i < zCmdbAttribute.attributeTypeList.length; i++) {
+            const option = document.createElement('option');
+            option.text = zCmdbAttribute.attributeTypeList[i].name;
+            option.value = zCmdbAttribute.attributeTypeList[i].type;
+            if (attributeType != null && option.value === attributeType) {
+                option.setAttribute('selected', 'true');
+            }
+            attributeTypeObject.add(option);
+        }
+
+        // Attribute Details
+        zCmdbAttribute.init(document.getElementById('details'));
+        changeType(attributeTypeObject, true);
+
+        aliceJs.initDesignedSelectTag();
+        OverlayScrollbars(document.querySelectorAll('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+            className: 'scrollbar',
+            resize: 'vertical',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: 'class'
+            }
+        });
+    };
+
+    function changeType(object, isInit) {
+        let data = null;
+        if (isInit) {
+            data = JSON.parse(attributeData);
+        }
+        zCmdbAttribute.makeDetails(object.value, data);
+
+        if ([[${view}]]) {
+            const detailObject = document.getElementById('details');
+            detailObject.querySelectorAll('select').forEach(function (object) {
+                object.classList.add('readonly');
+            });
+            detailObject.querySelectorAll('button').forEach(function (object) {
+                object.disabled = true;
+            });
+            detailObject.querySelectorAll('.i-delete').forEach(function (object) {
+                object.parentElement.remove();
+            });
+            if (document.getElementById('button_add')) {
+                document.getElementById('button_add').remove();
+            }
+            detailObject.querySelectorAll('span.required').forEach(function (object) {
+                object.remove()
+            });
+            detailObject.querySelectorAll('input').forEach(function (object) {
+                object.readOnly = true;
+                if(object.type === 'radio') {
+                    object.classList.add('readonly');
+                    object.disabled = true;
+                }
+            });
+        }
+    }
+
+    function actionAttribute(method) {
+        if (method === 'post' || method === 'put') {
+            if (isValidRequiredAll() && zCmdbAttribute.checkDuplicate(document.querySelector('#attributeType').value)) {
+                let data = {
+                    attributeId: '',
+                    attributeName: document.querySelector('#attributeName').value,
+                    attributeType: document.querySelector('#attributeType').value,
+                    attributeText: document.querySelector('#attributeText').value,
+                    mappingId: document.querySelector('#mappingId').value,
+                    attributeDesc: document.querySelector('#attributeDesc').value
+                };
+                let url = '/rest/cmdb/attributes';
+                if (method === 'put') {
+                    url += '/' + /*[[${attribute?.attributeId}]]*/'';
+                    data.attributeId = /*[[${attribute?.attributeId}]]*/'';
+                }
+
+                data.attributeValue = zCmdbAttribute.setDetails(data.attributeType);
+                if (!data.attributeValue) {
+                    return false;
+                }
+                restSubmit(method, url, data);
+            }
+        } else if (method === 'delete') {
+            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+                aliceJs.fetchText('/rest/cmdb/attributes/' + /*[[${attribute?.attributeId}]]*/'', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }).then((rtn) => {
+                    switch (rtn) {
+                        case STATUS_SUCCESS:
+                            zAlert.success(i18n.msg('common.msg.delete'), function () {
+                                location.href = '/cmdb/attributes/search';
+                            });
+                            break;
+                        default:
+                            zAlert.danger(i18n.msg('common.msg.fail'));
+                            break;
+                    }
+                });
+            });
+        }
+    }
+
+    function restSubmit(method, url, data) {
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function (response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                            location.href = '/cmdb/attributes/search';
+                        });
+                        break;
+                    case STATUS_ERROR_CMDB_ATTRIBUTE_NAME_DUPLICATION:
+                        zAlert.success(i18n.msg('cmdb.attribute.msg.attributeNameUsed'));
+                        break;
+                    default :
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    /*]]>*/
+</script>
+</th:block>
+</html>
