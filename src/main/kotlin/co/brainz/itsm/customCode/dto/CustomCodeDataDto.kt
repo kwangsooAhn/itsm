@@ -10,5 +10,6 @@ import java.io.Serializable
 
 data class CustomCodeDataDto(
     var key: String,
-    var value: String
+    var value: String,
+    var name: String
 ) : Serializable

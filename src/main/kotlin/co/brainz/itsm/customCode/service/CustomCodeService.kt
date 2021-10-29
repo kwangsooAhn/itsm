@@ -275,7 +275,7 @@ class CustomCodeService(
         }
         if (dataList.size > 0) {
             for (data in dataList) {
-                val customCodeDataDto = CustomCodeDataDto(key = "", value = "")
+                val customCodeDataDto = CustomCodeDataDto(key = "", value = "", name = "")
                 val dataFields = data::class.java.declaredFields
                 for (dataField in dataFields) {
                     if (dataField.isAnnotationPresent(Column::class.java)) {
@@ -308,7 +308,7 @@ class CustomCodeService(
         val customDataList = mutableListOf<CustomCodeDataDto>()
         val dataList = customCode.pCode?.let { codeService.getCodeListByCustomCode(it) }
         dataList?.forEach {
-            customDataList.add(CustomCodeDataDto(key = it.code, value = it.codeValue!!))
+            customDataList.add(CustomCodeDataDto(key = it.code, value = it.codeValue!!, name = it.codeName!!))
         }
         return customDataList
     }

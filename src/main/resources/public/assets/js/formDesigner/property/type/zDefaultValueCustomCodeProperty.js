@@ -146,8 +146,10 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             method: 'GET'
         });
         for (let i = 0; i < customCodeData.length; i++) {
-            customCodeData[i].name = customCodeData[i].value;
-            customCodeData[i].value = customCodeData[i].key;
+            if(zValidation.isEmpty(customCodeData[i].name)) {
+                customCodeData[i].name = customCodeData[i].value;
+            }
+                customCodeData[i].value = customCodeData[i].key;
             customCodeDataOption.push(customCodeData[i]);
         }
         const customDataOptionValue =  zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
