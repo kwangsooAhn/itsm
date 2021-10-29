@@ -17,7 +17,7 @@
 <div layout:fragment="pageSearching">
     <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
            th:placeholder="#{cmdb.class.label.searchPlaceholder}"/>
-    <span id="totalCount" class="z-search-count"></span>
+    <span id="totalCount" class="search-count"></span>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate" onclick="onCreate();"
                 sec:authorize="hasAuthority('cmdb.class.create')" th:text="#{common.btn.add}"></button>
@@ -164,7 +164,7 @@
                             drawAttribute({
                                 key: data.attributeId,
                                 value: data.attributeName
-                            }, 'attribute', responseJson.editable);
+                            }, 'attribute', true);
                         });
                     }
                     onEdit();
@@ -333,10 +333,6 @@
         inputElem.readOnly = true;
 
         divRow.appendChild(inputElem);
-        if (editable) {
-            inputElem.readOnly = false;
-            inputElem.disabled = 'disabled';
-        }
 
         if (document.getElementById('attribute-add') != null) {
             const deleteBtn = document.createElement('button');
@@ -358,6 +354,7 @@
         }
         if (editable) {
             document.getElementById('attributeList').appendChild(divRow);
+            inputElem.readOnly = true;
         } else {
             document.getElementById('extendsAttributeList').appendChild(divRow);
         }
@@ -408,7 +405,7 @@
 
     function createModalContent() {
         return `<div class="cmdb-class-attribute-list">` +
-            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="z-search-count"></span>` +
+            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +
             `</div>`;
     }
@@ -424,7 +421,7 @@
             showProgressbar: showProgressbar,
             callbackFunc: function (response) {
                 document.getElementById('ciClassAttributeList').innerHTML = response.responseText;
-                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+                OverlayScrollbars(document.querySelector('.z-list-body'), {className: 'scrollbar'});
                 aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
                 document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
                     checkbox.addEventListener('change', function (e) {
@@ -436,7 +433,7 @@
                     });
                     classAttributeMap.forEach(function (value, key) {
                         if (checkbox.value === key) {
-                            checkbox.checked = true;
+                            checkbox.disabled = true;
                         }
                     });
                 });
