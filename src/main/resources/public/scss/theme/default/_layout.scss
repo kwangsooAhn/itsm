@@ -58,6 +58,7 @@
         flex-direction: row;
         padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
         .z-search-count {
+          font-family: $layout-header-search-font-family;
           font-weight: $layout-header-search-font-weight;
           font-size: 0.875rem;
           color: $layout-header-search-color;

@@ -127,6 +127,7 @@
 
   .z-element-icon-text {
     display: block;
+    font-weight: $element-icon-font-weight;
     color: map-get($element-icon, 'default', 'font');
   }
 

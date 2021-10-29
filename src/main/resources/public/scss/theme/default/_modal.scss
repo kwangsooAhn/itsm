@@ -10,19 +10,13 @@
 
       .table-set {
         margin-top: 2.188rem; // 35px
-        table {
-          width: 100%;
-          .z-list-head {
-            tr {
-              color: $list-head-font-color;
-              @include border(calc(#{$list-border-width} * 2), solid, $list-border-color, bottom);
-            }
-          }
-          .z-list-body {
+        .z-table {
+          .z-table-body {
             display: block;
             width: 60rem; // 960px
             height: 21.75rem; // 348px
             overflow-y: auto;
+            border: none;
             .list-row {
               display: table;
               width: 100%;
@@ -137,22 +131,13 @@
         padding: 0 1.25rem; // 0 20px
         overflow-y: auto;
 
-        table {
-          tr {
-            th, td {
-              font-weight: $font-weight-regular;
-              font-size: $font-size-s; // 16px
-              padding: 0 1.5rem 0.625rem 0; // 0 24px 10px 0
-              overflow: initial; // selectbox 짤림 현상 방지
-            }
-            th {
-              &.column-title {
-                vertical-align: bottom;
-                padding-bottom: 0.625rem; // 10px
-              }
-              width: 6.25rem; // 100px
-              min-width: 6.25rem; // 100px
-            }
+        .z-table {
+          width: auto;
+          .z-table-body { border: none; }
+
+          th, td {
+            padding: 0 1.5rem 0.625rem 0; // 0 24px 10px 0
+            overflow: initial; // selectbox 짤림 현상 방지
           }
         }
       }
@@ -176,19 +161,13 @@
         margin-top: 0.9375rem; // 15px
         .table-set {
           margin-top: 2.188rem; // 35px
-          table {
-            width: 100%;
-            .z-list-head {
-              tr {
-                color: $list-head-font-color;
-                @include border(calc(#{$list-border-width} * 2), solid, $list-border-color, bottom);
-              }
-            }
-            .z-list-body {
+          .z-table {
+            .z-table-body {
               display: block;
               width: 60rem; // 960px
               height: 32.8125rem; // 525px
               overflow-y: auto;
+              border: none;
               .attribute-list,
               .instance-list {
                 display: flex;

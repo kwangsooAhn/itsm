@@ -125,16 +125,12 @@ $component-selected-imagebox-bg-color:             $white;
 //////////////////////// CI 컴포넌트 /////////////////////////////
 $component-ciTable-bg-color:                       $white;
 $component-ciTable-border-color:                   $gray300;
-$component-ciTable-header-font-weight:             $font-weight-bold;
-$component-ciTable-header-font-color:              $gray400;
-$component-ciTable-header-bg-color:                $neutral100;
 $component-ciTable-noData-font-color:              $gray400;
 $component-ciTable-noData-bg-color:                $white;
 
 //////////////////////// DR Table 컴포넌트 /////////////////////////
 $component-drTable-bg-color:                       $white;
 $component-drTable-border-color:                   $gray300;
-$component-drTable-header-bg-color:                $neutral100;
 $component-drTable-noData-font-color:              $gray400;
 $component-drTable-noData-bg-color:                $white;
 
@@ -155,7 +151,9 @@ $save-as-modal-height:                             25.63rem; // 410px
 $property-font-size:                               $font-size-xs; // 14px
 
 $property-group-label-color:                       $gray800;
+$property-group-label-font-family:                 $font-family-m;
 $property-group-label-font-size:                   $font-size-s; // 16px
+$property-group-label-font-weight:                 $font-weight-medium;
 
 $property-label-color:                             $gray500;
 $property-label-font-size:                         $font-size-xs; // 14px
@@ -169,16 +167,6 @@ $button-tab: (
   'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
   'disabled': ('font': $neutral200, 'background': $neutral200, 'border': $neutral200)
 );
-
-$property-option-tb-color:                         $gray400;
-$property-option-tb-font-weight:                   $font-weight-regular;
-
-$property-option-tb-header-color:                  $gray300;
-$property-option-tb-header-bg-color:               $neutral100;
-$property-option-tb-header-font-weight:            $font-weight-medium;
-
-$property-option-tb-content-btn-color:             $gray400;
-$property-option-tb-content-btn-hv-color:          $blue500;
 
 $property-panel-border-color:                      $gray300;
 $property-panel-border-width:                      0.0625rem;

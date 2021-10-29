@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<table class="z-list-table">
-    <thead class="z-list-head">
+<table class="z-table">
+    <thead class="z-table-head">
         <tr class="flex-row align-items-center">
             <th style="width:3.1%;"></th>
             <th style="width:9.9%;" class="align-left" th:text="#{user.label.name}"></th>
@@ -19,12 +19,12 @@
             <th style="width:15%;" class="align-left" th:text="#{user.label.signUpDate}"></th>
         </tr>
     </thead>
-    <tbody class="z-list-body">
+    <tbody class="z-table-body">
         <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(userList)}">
             <td style="width:100%" colspan="9" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
-            <td style="width:3.1%;" class="align-right p-0">
+            <td style="width:3.1%;" class="align-right p-0 text-clip">
                 <img class="z-img i-profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
             </td>
             <td style="width:9.9%;" class="align-left underline">

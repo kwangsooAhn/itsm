@@ -37,7 +37,7 @@ export const propertyExtends = {
             fontSize: '14',
             fontColor: 'rgba(141, 146, 153, 1)',
             align: 'left',
-            bold: true,
+            bold: false,
             italic: false,
             underline: false
         },

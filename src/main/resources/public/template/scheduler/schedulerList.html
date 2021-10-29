@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<table class="z-list-table">
-    <thead class="z-list-head">
+<table class="z-table">
+    <thead class="z-table-head">
         <tr class="flex-row align-items-center">
             <th style="width: 20%" class="align-left" th:text="#{scheduler.label.name}"></th>
             <th style="width: 5%" class="align-center" th:text="#{scheduler.label.status}"></th>
@@ -18,7 +18,7 @@
             <th style="width: 8%" class="align-center" th:text="#{scheduler.label.result}"></th>
         </tr>
     </thead>
-    <tbody class="z-list-body">
+    <tbody class="z-table-body">
         <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(schedulerList)}">
             <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>

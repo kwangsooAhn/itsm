@@ -58,10 +58,9 @@ export default class ZOptionListProperty extends ZProperty {
 
         // 옵션 리스트
         const optionTable = new UITable()
-            .setUIClass('z-table')
-            .addUIClass('z-option-table');
+            .setUIClass('z-option-table');
 
-        const header = new UIRow(optionTable).setUIClass('z-table-head').addUIClass('z-option-table-header');
+        const header = new UIRow(optionTable).setUIClass('z-option-table-header');
         optionTable.addUIRow(header);
 
         const checkedTD = new UICell(header).setUICSSText('width: 12%');

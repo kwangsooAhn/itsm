@@ -98,7 +98,7 @@
         }
 
         if (typeof extraParam.clickableLineMessage === 'undefined') {
-            extraParam.clickableLineMessage = i18n.msg('file.label.or') + ' ';
+            extraParam.clickableLineMessage = ' ' + i18n.msg('file.label.or') + ' ';
         }
 
         if (typeof extraParam.clickableMessage === 'undefined') {

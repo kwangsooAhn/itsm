@@ -34,6 +34,7 @@
   &-edit {
     display: flex;
     flex-direction: column;
+    font-family: $file-uploader-font-family;
     // 제목
     .file-uploader-title {
       font-size: $file-uploader-font-size;
@@ -71,6 +72,7 @@
             @include ellipsis();
             text-align: left;
             .dz-clickable {
+              font-weight: $dropzone-clickable-font-weight;
               color: $dropzone-clickable-font-color;
               cursor: pointer;
             }
@@ -363,6 +365,7 @@
     display: flex;
     align-items: center;
     min-height: 3.125rem; // 50px
+    font-family: $file-uploader-font-family;
     padding: 0.125rem 1.25rem; // 2px 20px
     // 제목
     .file-uploader-title {
@@ -380,7 +383,6 @@
       height: 100%;
       // 첨부 파일 미존재시
       .text-no-file {
-        font-family: $file-uploader-view-font-family;
         font-size: $file-uploader-view-font-size;
         font-weight: $file-uploader-view-font-weight;
         color: $file-uploader-no-date-font-color;
@@ -407,7 +409,6 @@
 
           .dz-details {
             display: inline-flex;
-            font-family: $file-uploader-view-font-family;
             font-size: $file-uploader-view-font-size;
             font-weight: $file-uploader-view-font-weight;
 

@@ -17,7 +17,7 @@
 <div layout:fragment="pageSearching">
     <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
            th:placeholder="#{cmdb.class.label.searchPlaceholder}"/>
-    <span id="totalCount" class="search-count"></span>
+    <span id="totalCount" class="z-search-count"></span>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate" onclick="onCreate();"
                 sec:authorize="hasAuthority('cmdb.class.create')" th:text="#{common.btn.add}"></button>
@@ -408,7 +408,7 @@
 
     function createModalContent() {
         return `<div class="cmdb-class-attribute-list">` +
-            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
+            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="z-search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +
             `</div>`;
     }
@@ -424,7 +424,7 @@
             showProgressbar: showProgressbar,
             callbackFunc: function (response) {
                 document.getElementById('ciClassAttributeList').innerHTML = response.responseText;
-                OverlayScrollbars(document.querySelector('.z-list-body'), {className: 'scrollbar'});
+                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
                 aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
                 document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
                     checkbox.addEventListener('change', function (e) {

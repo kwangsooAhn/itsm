@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<table>
-    <thead class="z-list-head">
+<table class="z-table">
+    <thead class="z-table-head">
     <tr>
         <th style="width: 5%;" class="align-center"></th>
         <th style="width: 25%;" class="align-left" th:text="#{cmdb.attribute.label.name}"></th>
@@ -14,12 +14,12 @@
         <th style="width: 40%;" class="align-left" th:text="#{cmdb.attribute.label.description}"></th>
     </tr>
     </thead>
-    <tbody id="ciClassAttributeList" class="z-list-body">
+    <tbody id="ciClassAttributeList" class="z-table-body">
     <tr class="no-data-found-list flex-row align-items-center" th:if="${#arrays.isEmpty(attributeList)}">
         <td style="width: 100%;" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>
     <tr class="attribute-list" th:each="attribute, index : ${attributeList}">
-        <td style="width: 5%;" class="align-center">
+        <td style="width: 5%;" class="align-center text-clip">
             <label class="z-checkbox" th:for="${index.index}" tabindex="0">
                 <input type="checkbox" th:name="${attribute.attributeName}" th:id="${index.index}"
                        th:value="${attribute.attributeId}" th:disabled="${attribute.extends == true}">

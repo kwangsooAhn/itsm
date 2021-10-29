@@ -5,6 +5,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  width: 100%;
   padding: 0.625rem 0.75rem; // 10px 12px;
   @include border(0.0625rem, solid, $gray300, bottom); // 1px
   &:first-child { @include border(0.0625rem, solid, $layout-properties-panel-header-border-color, top); }
@@ -12,7 +13,9 @@
   // 라벨
   .property-group-label {
     width: 100%;
+    font-family: $property-group-label-font-family;
     font-size: $property-group-label-font-size;
+    font-weight: $property-group-label-font-weight;
     color: $property-group-label-color;
   }
 }
@@ -207,7 +210,7 @@
               @include rotate(180);
             }
             &.z-clear {
-              background: $property-option-tb-content-btn-color
+              background: $element-icon-color;
             }
           }
         }
@@ -234,33 +237,8 @@
   }
   // 옵션
   .z-option-table {
-
     .z-option-table-row {
       td { padding: 0; }
-
-      .z-checkbox, .z-radio { margin: 0 0 0 0.5rem; } // 8px
-
-      .z-input {
-        width: 85%;
-        padding: 0.75rem;
-        margin: 0.25rem; // 4px
-        // 입력된 값이 있으면
-        &:not(:placeholder-shown):not(:focus) {
-          border-color: transparent;
-        }
-      }
-
-      .z-button-icon {
-        .z-icon {
-          display: block;
-          margin: 0 auto;
-          background: $property-option-tb-content-btn-color;
-          pointer-events: none;
-        }
-        &:hover {
-          .z-icon { background: $property-option-tb-content-btn-hv-color; }
-        }
-      }
     }
   }
 }

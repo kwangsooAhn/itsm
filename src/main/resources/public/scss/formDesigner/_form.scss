@@ -38,6 +38,7 @@
     display: table;
     width: 100%;
     min-height: 2.5rem; // 40px
+    font-weight: $font-weight-medium;
     padding: 0 0.625rem 0 0.625rem; // 0 10px 0 10px
     margin: 0 0 0.9375rem 0; // 0 0 15px 0
     &.off { display: none; }
@@ -163,6 +164,7 @@
   .z-component-label {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     justify-content: var(--data-align);
+    font-weight: $font-weight-medium;
     padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
 
     &.on { display: flex; }
@@ -250,9 +252,7 @@
 
     // CI 컴포넌트
     .z-ci-table {
-      width: 100%;
       background-color: $component-ciTable-bg-color;
-      border: none;
       tr {
         td {
           display: none;
@@ -264,14 +264,8 @@
           &.on { display: table-cell; }
         }
       }
-      // 제목
-      .z-ci-table-header {
-        height: 2rem;
-        background-color: $component-ciTable-header-bg-color;
-        td {
-          color: $component-ciTable-header-font-color;
-          font-weight: $component-ciTable-header-font-weight;
-        }
+      .z-ci-table-row {
+        color: $element-font-color;
       }
       // 데이터 없음
       .no-data-found-list {
@@ -294,9 +288,7 @@
 
     // DR 테이블 컴포넌트
     .z-dr-table {
-      width: 100%;
       background-color: $component-drTable-bg-color;
-      border: none;
       tr td {
         padding: 0 0.3125rem 0 0; // 0 5px 0 0
         @include border(0.0625rem, solid, $component-drTable-border-color, all);
@@ -308,9 +300,7 @@
       }
       // 제목
       .z-dr-table-header {
-        height: 2rem;
         @include border(0.125rem, solid, $component-drTable-border-color, bottom);
-        background-color: $component-drTable-header-bg-color;
         td { padding: 0.6875rem 0.3125rem 0.6875rem 0; } // 11px 5px 11px 0
         .z-dr-table-header-cell {
           padding: 0 $element-indent;
@@ -328,6 +318,7 @@
       }
       // 데이터 없음
       .no-data-found-list {
+        height: 2.5625rem; // 41px
         color: $component-drTable-noData-font-color;
         background-color: $component-drTable-noData-bg-color;
         pointer-events: none;

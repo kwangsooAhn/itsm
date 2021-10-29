@@ -28,7 +28,7 @@
 </div>
 <div layout:fragment="pageList">
     <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''report.delete'')')}"/>
-    <div class="z-list-content" id="templateList"></div>
+    <div class="z-list-content flex-row" id="templateList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">

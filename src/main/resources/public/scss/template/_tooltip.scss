@@ -33,9 +33,10 @@
     @include absolute($left: $tooltip-contents-left);
     visibility: hidden;
     background-color: $tooltip-contents-background;
+    font-family: $tooltip-font-family;
+    font-size: $tooltip-font-size;
     color: $tooltip-contents-color;
     width: $tooltip-contents-width;
-    font-size: $tooltip-font-size;
     @include border($tooltip-border-width, solid, $tooltip-border-color, all);
     @include borderRadius($tooltip-border-radius); // 2px
     padding: $tooltip-contents-padding;
