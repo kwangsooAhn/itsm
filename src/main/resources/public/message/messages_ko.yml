@@ -1198,6 +1198,8 @@ scheduler:
     useSchedule: "사용중인 스케줄입니다."
     cronValue : "크론은 6개의 field까지 입력이 가능합니다."
     cronError : "정확한 크론표현식을 입력하세요."
+    jarNotExist: "JAR 파일이 존재하지 않습니다."
+    classNotExist: "Class 파일이 존재하지 않습니다."
   status:
     true: "사용"
     false: "미사용"

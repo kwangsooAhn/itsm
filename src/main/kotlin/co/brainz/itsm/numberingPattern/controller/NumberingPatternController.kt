@@ -25,8 +25,7 @@ class NumberingPatternController(
 ) {
     private val numberingPatternSearchPage: String = "numbering-pattern/numberingPatternSearch"
     private val numberingPatternListPage: String = "numbering-pattern/numberingPatternList"
-    private val numberingPatternEditPage: String = "numbering-pattern/numberingPatternEdit"
-    private val numberingPatternViewPage: String = "numbering-pattern/numberingPatternView"
+    private val numberingPatternPage: String = "numbering-pattern/numberingPattern"
 
     /**
      * 패턴 검색 화면
@@ -57,7 +56,8 @@ class NumberingPatternController(
     fun getNumberingPatternNew(request: HttpServletRequest, model: Model): String {
         val dateList = codeService.selectCodeByParent(NumberingPatternConstants.DEFAULT_DATE_FORMAT_PARENT_CODE)
         model.addAttribute("dateList", dateList)
-        return numberingPatternEditPage
+        model.addAttribute("view", false)
+        return numberingPatternPage
     }
 
     /**
@@ -68,7 +68,8 @@ class NumberingPatternController(
         val dateList = codeService.selectCodeByParent(NumberingPatternConstants.DEFAULT_DATE_FORMAT_PARENT_CODE)
         model.addAttribute("dateList", dateList)
         model.addAttribute("pattern", numberingPatternService.getNumberingPatternsDetail(numberingPatternId))
-        return numberingPatternEditPage
+        model.addAttribute("view", false)
+        return numberingPatternPage
     }
 
     /**
@@ -81,6 +82,7 @@ class NumberingPatternController(
             codeService.selectCodeByParent(NumberingPatternConstants.DEFAULT_DATE_FORMAT_PARENT_CODE)
         )
         model.addAttribute("pattern", numberingPatternService.getNumberingPatternsDetail(numberingPatternId))
-        return numberingPatternViewPage
+        model.addAttribute("view", true)
+        return numberingPatternPage
     }
 }

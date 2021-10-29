@@ -21,9 +21,8 @@ class AuthController(
 
     val logger = LoggerFactory.getLogger(AuthController::class.java)
     private val authSearchPage: String = "auth/authSearch"
-    private val authEditPage: String = "auth/authEdit"
+    private val authPage: String = "auth/auth"
     private val authListPage: String = "auth/authList"
-    private val authViewPage: String = "auth/authView"
 
     /**
      * 권한 검색 화면
@@ -51,7 +50,8 @@ class AuthController(
     fun getAuthNew(request: HttpServletRequest, model: Model): String {
         model.addAttribute("menuList", authService.getMenuList())
         model.addAttribute("urlList", authService.getUrlList())
-        return authEditPage
+        model.addAttribute("view", false)
+        return authPage
     }
 
     /**
@@ -64,7 +64,8 @@ class AuthController(
         model.addAttribute("defaultUserUrlList", codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code))
         model.addAttribute("menuList", authService.getMenuList())
         model.addAttribute("urlList", authService.getUrlList())
-        return authEditPage
+        model.addAttribute("view", false)
+        return authPage
     }
 
     /**
@@ -77,6 +78,7 @@ class AuthController(
         model.addAttribute("defaultUserUrlList", codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code))
         model.addAttribute("menuList", authService.getMenuList())
         model.addAttribute("urlList", authService.getUrlList())
-        return authViewPage
+        model.addAttribute("view", true)
+        return authPage
     }
 }

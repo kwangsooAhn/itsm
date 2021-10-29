@@ -33,8 +33,7 @@ class ReportController(
 
     private val templateSearchPage: String = "report/reportTemplateSearch"
     private val templateListPage: String = "report/reportTemplateList"
-    private val templateEditPage: String = "report/reportTemplateEdit"
-    private val templateViewPage: String = "report/reportTemplateView"
+    private val reportTemplatePage: String = "report/reportTemplate"
     private val templatePreviewPage: String = "report/reportTemplatePreview"
     private val reportSearchPage: String = "report/reportSearch"
     private val reportListPage: String = "report/reportList"
@@ -55,22 +54,25 @@ class ReportController(
 
     @GetMapping("/template/new")
     fun getReportTemplateNew(model: Model): String {
+        model.addAttribute("view", false)
         model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
-        return templateEditPage
+        return reportTemplatePage
     }
 
     @GetMapping("/template/{templateId}/edit")
     fun getReportTemplateEdit(@PathVariable templateId: String, model: Model): String {
+        model.addAttribute("view", false)
         model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
         model.addAttribute("template", reportTemplateService.getReportTemplateDetail(templateId))
-        return templateEditPage
+        return reportTemplatePage
     }
 
     @GetMapping("/template/{templateId}/view")
     fun getReportTemplateView(@PathVariable templateId: String, model: Model): String {
+        model.addAttribute("view", true)
         model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
         model.addAttribute("template", reportTemplateService.getReportTemplateDetail(templateId))
-        return templateViewPage
+        return reportTemplatePage
     }
 
     @GetMapping("/template/preview")

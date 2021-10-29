@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html layout:decorate="~{layout/itsm/pageType/commonEditLayout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{role.label.role}"></title>
 </head>
@@ -14,39 +14,39 @@
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
         <div class="z-edit-row flex-column">
-            <label th:text="#{role.label.id}" class="required"></label>
-            <input type="text" class="z-input" id="txtRoleId" name="txtRoleId" maxlength="100"
-                   th:value="${role?.roleId}"/>
+            <label th:classappend="${view} ? '' : 'required'" th:text="#{role.label.id}"></label>
+            <input class="z-input" id="txtRoleId" maxlength="100" name="txtRoleId" th:readonly="${view}"
+                   th:value="${role?.roleId}" type="text"/>
         </div>
         <div class="z-edit-row flex-column">
-            <label th:text="#{role.label.name}" class="required"></label>
-            <input type="text" class="z-input" id="txtRoleName" name="txtRoleName" maxlength="100"
-                   th:value="${role?.roleName}"/>
+            <label th:classappend="${view} ? '' : 'required'" th:text="#{role.label.name}"></label>
+            <input class="z-input" id="txtRoleName" maxlength="100" name="txtRoleName" th:readonly="${view}"
+                   th:value="${role?.roleName}" type="text"/>
         </div>
         <div class="z-edit-row flex-column">
             <label th:text="#{role.label.desc}"></label>
-            <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7"
-                      class="z-textarea textarea-scroll-wrapper" th:text="${role?.roleDesc}"></textarea>
+            <textarea class="z-textarea textarea-scroll-wrapper" id="txtRoleDesc" maxlength="200" name="txtRoleDesc"
+                      rows="7" th:readonly="${view}" th:text="${role?.roleDesc}"></textarea>
         </div>
         <div class="z-edit-row flex-column">
             <div class="flex-row">
                 <div class="flex-row">
-                    <label th:text="#{role.label.auth}" class="required"></label>
+                    <label class="required" th:text="#{role.label.auth}"></label>
                 </div>
-                <div class="ml-auto">
+                <div class="ml-auto" th:if="!${view}">
                     <label class="z-checkbox z-checkbox-all p1-1">
-                        <input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"/>
+                        <input id="selectAll" name="selectAll" onclick="selectAll()" type="checkbox"/>
                         <span></span>
-                        <span class="z-label" th:text="#{role.btn.selectAll}"/>
+                        <span class="z-label" th:text="#{role.btn.selectAll}"></span>
                     </label>
                 </div>
             </div>
             <div class="z-checkbox-list">
                 <ul>
                     <li class="text-ellipsis" th:each="auth : ${authList}">
-                        <label class="z-checkbox" th:for="${auth?.authId}" tabindex="0">
-                            <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}"
-                                   th:checked="${auth?.authDesc == 'checked'}">
+                        <label class="z-checkbox" tabindex="0" th:for="${auth?.authId}">
+                            <input name="roleAuth" th:checked="${auth?.authDesc == 'checked'}" th:disabled="${view}" th:id="${auth?.authId}"
+                                   th:value="${auth?.authName}" type="checkbox">
                             <span></span>
                             <span class="z-label" th:text="${auth?.authName}"></span>
                         </label>
@@ -54,30 +54,30 @@
                 </ul>
             </div>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="z-edit-row flex-column" th:if="${role?.roleId}">
             <label th:text="#{common.label.createUser}"></label>
-            <input type="text" class="z-input" id="spanCreateUserKey" name="spanCreateUserKey"
-                   th:value="${role?.createUserName}" disabled/>
+            <input class="z-input" id="spanCreateUserKey" name="spanCreateUserKey"
+                   readonly th:value="${role?.createUserName}" type="text"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="z-edit-row flex-column" th:if="${role?.roleId}">
             <label th:text="#{common.label.createDate}"></label>
-            <input type="text" class="z-input" id="spanCreateDt" name="spanCreateDt" th:value="${role?.createDt}"
-                   disabled/>
+            <input class="z-input" id="spanCreateDt" name="spanCreateDt" readonly
+                   th:value="${role?.createDt}" type="text"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="z-edit-row flex-column" th:if="${role?.roleId}">
             <label th:text="#{common.label.updateUser}"></label>
-            <input type="text" class="z-input" id="spanUpdateUserKey" name="spanUpdateUserKey"
-                   th:value="${role?.updateUserName}" disabled/>
+            <input class="z-input" id="spanUpdateUserKey" name="spanUpdateUserKey"
+                   readonly th:value="${role?.updateUserName}" type="text"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="z-edit-row flex-column" th:if="${role?.roleId}">
             <label th:text="#{common.label.updateDate}"></label>
-            <input type="text" class="z-input" id="spanUpdateDt" name="spanUpdateDt" th:value="${role?.updateDt}"
-                   disabled/>
+            <input class="z-input" id="spanUpdateDt" name="spanUpdateDt" readonly
+                   th:value="${role?.updateDt}" type="text"/>
         </div>
         <div class="z-edit-row flex-column">
             <label th:text="#{role.label.referenceCount}"></label>
-            <input type="text" class="z-input" id="userRoleMapCount" name="userRoleMapCount"
-                   th:value="${role?.userRoleMapCount}" disabled/>
+            <input class="z-input" id="userRoleMapCount" name="userRoleMapCount"
+                   readonly th:value="${role?.userRoleMapCount}" type="text"/>
         </div>
     </div>
     <div class="flex-row justify-content-between z-edit-row">
@@ -85,24 +85,24 @@
             <a class="z-button secondary" href="/roles/search" th:text="#{common.btn.list}"></a>
         </div>
         <div class="z-button-list">
-            <button type="button" class="z-button primary" sec:authorize="hasAuthority('role.create')"
-                    th:if="!${role?.roleId}" id="btnRegist"
-                    name="btnRegist"
-                    th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-            <button type="button" class="z-button primary" sec:authorize="hasAuthority('role.update')"
-                    th:if="${role?.roleId}" id="btnUpdate"
-                    name="btnUpdate"
-                    th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-            <button type="button" class="z-button secondary" sec:authorize="hasAuthority('role.delete')"
-                    th:if="${role?.roleId}" id="btnDelete"
-                    name="btnDelete"
+            <button class="z-button primary" id="btnRegist" name="btnRegist"
+                    sec:authorize="hasAuthority('role.create')" th:if="!${role?.roleId}"
+                    th:onclick="|javascript:onSave('post')|"
+                    th:text="#{common.btn.register}" type="button"></button>
+            <button class="z-button primary" id="btnUpdate" name="btnUpdate"
+                    sec:authorize="hasAuthority('role.update')" th:if="${role?.roleId}"
+                    th:onclick="|javascript:onSave('put')|"
+                    th:text="#{common.btn.modify}" type="button"></button>
+            <button class="z-button secondary" id="btnDelete" name="btnDelete"
+                    sec:authorize="hasAuthority('role.delete')" th:if="${role?.roleId}"
                     th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
-                    th:text="#{common.btn.delete}"></button>
+                    th:text="#{common.btn.delete}"
+                    type="button"></button>
         </div>
     </div>
 </div>
 </body>
-<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+<script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
     window.onload = function () {
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
