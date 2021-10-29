@@ -19,7 +19,7 @@ interface AliceRepositoryCustom {
         return if (filteredInput == null) {
             null
         } else {
-            entityValue.likeIgnoreCase("%$filteredInput%", '\\')
+            entityValue.likeIgnoreCase("%${filteredInput.trim()}%", '\\')
         }
     }
 
@@ -31,7 +31,7 @@ interface AliceRepositoryCustom {
         return if (filteredInput == null) {
             null
         } else {
-            entityValue.like("%$filteredInput%", '\\')
+            entityValue.like("%${filteredInput.trim()}%", '\\')
         }
     }
 
