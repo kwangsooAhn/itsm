@@ -368,6 +368,7 @@ cmdb:
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
       tag: "Please enter a tag."
+        viewDescription: "Retrieve detailed information about a CI.."
     btn:
       import: "Import"
       export: "Export"
@@ -1197,6 +1198,8 @@ scheduler:
     useSchedule: "Schedule in use."
     cronValue : "Cron can be entered up to 6 fields."
     cronError : "Enter the correct Cron expression."
+    jarNotExist: "JAR file does not exist."
+    classNotExist: "ClASS file does not exist."
   status:
     true: "Use"
     false: "UnUsed"
@@ -1348,7 +1351,6 @@ user:
     ※ Do not include your ID.<br/><br/>
     ※ Do not include your email ID.<br/><br/>
     ※ Do not allow spaces.<br/>"
-
 
 # Validation
 validation:
