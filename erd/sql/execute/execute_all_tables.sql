@@ -3191,7 +3191,7 @@ INSERT INTO wf_document VALUES ('4028b21f7c9ff7c8017ca04d16830000','서비스데
 /* 서비스데스크 - 구성관리 */
 INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc7a779d70523', '서비스데스크 - 구성관리', '', '2c9180837c94c0f3017c977775530001', '2c9180867cc31a25017cc7a069e301a5', 'document.status.use', '40125c91714df6c325714e053c890125', '#64BBF6', 'application-form', '', 'img_document_03.png', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 /* 서비스데스크 - 구성관리 - 만족도 */
-INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc5ca1a9f0145', '서비스데스크 - 구성관리 - 만족도', '', '2c9180867cc31a25017cc5c08e2f0120', '2c9180867cc31a25017cc5c7268f0122', 'document.status.use', '40125c91714df6c325714e053c890125', '#BDBDBD', 'workflow', '', null, false, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc5ca1a9f0145', '서비스데스크 - 구성관리 - 만족도', '', '2c9180867cc31a25017cc5c08e2f0120', '2c9180867cc31a25017cc5c7268f0122', 'document.status.use', '40288ab7772dae0301772dbca28a0004', '#BDBDBD', 'workflow', '', null, false, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 /* 인프라 변경관리 */
 INSERT INTO wf_document VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '인프라 변경관리', '', '4028b8817cbfc7a7017cc0db1a8c0bc3', '4028b8817cbfc7a7017cc08f7b0b0763', 'document.status.use', '4028b25d7886e2d801788704dd8e0002', '#76BD26', 'workflow', '', null, false, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 /* 구성관리 */
@@ -6237,6 +6237,8 @@ COMMENT ON TABLE wf_element_script_data IS '엘리먼트(ScriptTask)세부설정
 COMMENT ON COLUMN wf_element_script_data.element_id IS '엘리먼트아이디';
 COMMENT ON COLUMN wf_element_script_data.script_id IS '스크립트아이디';
 COMMENT ON COLUMN wf_element_script_data.script_value IS '속성값';
+
+INSERT INTO wf_element_script_data VALUES ('93b6aaeb1e2d4dcdbe42b7bd783d8b1d', '4028b8817ccaccd4017ccb341213007a', '{"action":[],"target-mapping-id":"z-change-configuration-ci"}');
 /**
  * 문서폴더정보
  */
