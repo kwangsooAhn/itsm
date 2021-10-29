@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head></head>
 <body>
-<table>
-    <thead>
-        <tr>
+<table class="z-table flex-column">
+    <thead class="z-table-head">
+        <tr class="flex-row">
             <th style="width:5%;" th:text="#{download.label.seq}"></th>
             <th style="width:10%;" th:text="#{download.label.category}"></th>
             <th style="width:45%;" th:text="#{common.label.title}"></th>
@@ -13,7 +13,7 @@
             <th style="width:10%;" th:text="#{download.label.views}"></th>
         </tr>
     </thead>
-    <tbody class="z-list-body">
+    <tbody class="z-table-body">
         <tr class="no-data-found-list" th:if="${#arrays.isEmpty(downloadList)}">
             <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>

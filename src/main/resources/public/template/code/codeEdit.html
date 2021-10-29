@@ -17,7 +17,7 @@
 <div layout:fragment="pageSearching">
     <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
            th:placeholder="#{code.label.searchPlaceholder}"/>
-    <span id="totalCount" class="search-count"></span>
+    <span id="totalCount" class="z-search-count"></span>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate"
                 sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.add}"

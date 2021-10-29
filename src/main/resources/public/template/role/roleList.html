@@ -2,15 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<table class="z-list-table">
-    <thead class="z-list-head">
+<table class="z-table">
+    <thead class="z-table-head">
         <tr class="flex-row align-items-center">
             <th style="width:25%;" class="align-left" th:text="#{role.label.name}"></th>
             <th style="width:25%;" class="align-left" th:text="#{role.label.id}"></th>
             <th style="width:50%;" class="align-left" th:text="#{role.label.desc}"></th>
         </tr>
     </thead>
-    <tbody class="z-list-body">
+    <tbody class="z-table-body">
     <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(roleList)}">
         <td style="width:100%" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>

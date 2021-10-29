@@ -173,68 +173,24 @@
         @include border(0.0625rem, solid, $main-header-border-color, bottom); // 1px
 
         .z-page-title { padding: 2.5rem 0; }  // 40px 0
+        .z-page-search {
+          .z-search-count {
+            font-family: $layout-header-search-font-family;
+            font-weight: $layout-header-search-font-weight;
+            font-size: 0.875rem;
+            color: $layout-header-search-color;
+          }
+        }
       }
 
       // 페이징
-      .z-list {
-        &-content {
-          padding: 3.375rem 13.75rem 0 13.75rem; // 54px 220px
-          height: $content-list-height;
-        }
-        // 테이블
-        &-table {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          width: 100%;
+      .z-list-content {
+        padding: 3.375rem 13.75rem 0 13.75rem; // 54px 220px
+        height: $content-list-height;
+
+        .z-table {
+          @include relative();
           border: none;
-        }
-        // thead
-        &-head {
-          @include border(0.125rem, solid, $list-border-color, bottom);
-          tr {
-            height: 2.5rem; // 42px
-            th {
-              font-size: $font-size-s;
-              font-weight: $font-weight-medium;
-              color: $list-head-font-color;
-              padding: 0 0.9375rem; // 0 15px
-              line-height: 1.5;
-
-              &:first-child { padding-left: 1.25rem; } // 20px
-            }
-          }
-        }
-        // tbody
-        &-body {
-          width: 100%;
-          @include border(0.0625rem, solid, $list-border-color, bottom);
-          tr {
-            height: 2.5625rem; // 41px
-            // 마우스 오버시 배경 색상
-            &:hover { background-color: $list-hover-bg-color; }
-            // 선택된 경우
-            &.active {
-              background-color: $list-active-bg-color;
-              td { color: $list-active-font-color; }
-            }
-            td {
-              font-size: $font-size-xs;
-              font-weight: $font-weight-regular;
-              color: $list-body-font-color;
-              padding: 0 0.9375rem; // 0 15px
-              line-height: initial; // 소문자 글자 짤림현상 방지
-
-              &:first-child { padding-left: 1.25rem; } // 20px
-
-              a { color: $list-body-font-color; }
-            }
-          }
-          // 데이터 없을때
-          .no-data-found-list {
-            background-color: $no-data-found-list-bg;
-            pointer-events: none;
-          }
         }
       }
 

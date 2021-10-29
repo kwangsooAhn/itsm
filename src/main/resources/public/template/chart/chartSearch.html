@@ -39,7 +39,7 @@
 </div>
 <div layout:fragment="pageList">
     <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''chart.delete'')')}"/>
-    <div class="z-list-content" id="chartList"></div>
+    <div class="z-list-content flex-row" id="chartList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">

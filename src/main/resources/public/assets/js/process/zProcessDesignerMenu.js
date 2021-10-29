@@ -1269,6 +1269,7 @@
             const addDataRow = function(conditionValue, fileValue) {
                 let dataBody = inputObject.parentNode.parentNode.querySelector('tbody');
                 let row = document.createElement('tr');
+                row.className = 'z-option-table-row';
                 let conditionColumn = document.createElement('td');
                 conditionColumn.className = 'condition-txt';
                 conditionColumn.textContent = conditionValue;
@@ -1281,7 +1282,7 @@
                 // 삭제 버튼
                 let btnDel = document.createElement('button');
                 btnDel.type = 'button';
-                btnDel.className = 'z-button-icon extra';
+                btnDel.className = 'z-button-icon';
 
                 let btnIcon = document.createElement('span');
                 btnIcon.className = 'z-icon i-delete';
@@ -1310,9 +1311,10 @@
 
             // table
             let dataTable = document.createElement('table');
-            dataTable.className = 'script-data';
+            dataTable.className = 'z-option-table script-data';
             let thead = document.createElement('thead');
             let headRow = document.createElement('tr');
+            headRow.className = 'z-option-table-header';
             let headValueColumn = document.createElement('th');
             headValueColumn.style.width = '40%';
             let headReturnColumn = document.createElement('th');
@@ -1394,6 +1396,7 @@
         const addDataRow = function(dataVal, dataText) {
             let dataBody = inputObject.parentNode.querySelector('tbody');
             let row = document.createElement('tr');
+            row.className = 'z-option-table-row';
             let nameColumn = document.createElement('td');
             nameColumn.textContent = dataText;
             let hiddenInput = document.createElement('input');
@@ -1406,7 +1409,7 @@
             // 삭제 버튼
             let btnDel = document.createElement('button');
             btnDel.type = 'button';
-            btnDel.className = 'z-button-icon extra';
+            btnDel.className = 'z-button-icon';
 
             let btnIcon = document.createElement('span');
             btnIcon.className = 'z-icon i-delete';
@@ -1451,9 +1454,10 @@
         propertiesDiv.appendChild(selectRow);
 
         let dataTable = document.createElement('table');
-        dataTable.className = 'candidate-table';
+        dataTable.className = 'z-option-table candidate-table';
         let thead = document.createElement('thead');
         let headRow = document.createElement('tr');
+        headRow.className = 'z-option-table-header';
         let headNameColumn = document.createElement('th');
         headNameColumn.textContent = i18n.msg('common.label.name');
         headNameColumn.style.width = '82%';

@@ -83,73 +83,6 @@ input, button, select, optgroup, textarea {
   --data-color: "";
 }
 
-/*
-@mixin defaultListTemplate() {
-  .list {
-    a, button { cursor: pointer; }
-    // 테이블
-    &-table {
-      position: relative;
-      display: inline-table;
-      width: 100%;
-    }
-    // thead
-    &-head {
-      tr {
-        height: 2.125rem; // 34px
-        border-bottom: 0.125rem solid map-get($grays, "default"); // 2px
-
-        th {
-          font-size: 1.125rem; // 18px
-          font-weight: $font-weight-medium;
-          color: map-get($blacks, "light");
-          padding: 0 0.9375rem; // 0 15px
-
-          &:first-child { padding-left: 1.25rem; } // 20px
-        }
-      }
-    }
-    // tbody
-    &-body {
-      position: absolute;
-      width: 100%;
-      height: 33.75rem; // 540px
-      tr {
-        height: 3.375rem; //54px
-        // 마우스 오버시 배경 색상
-        &:hover { background-color: $list-hover-bg-color; }
-        // 선택된 경우
-        &.active {
-          background-color: $list-active-bg-color;
-
-          td { color: $list-active-font-color; }
-        }
-
-        td {
-          font-size: 1rem; // 16px
-          font-weight: $font-weight-regular;
-          color: map-get($grays, "dark");
-          padding: 0 0.9375rem; // 0 15px
-          line-height: initial; // 소문자 글자 짤림현상 방지
-
-          &:first-child { padding-left: 1.25rem; } // 20px
-
-          a { color: map-get($grays, "dark"); }
-        }
-      }
-      // 데이터 없을때
-      .no-data-found-list {
-        background-color: $no-data-found-list-bg;
-        pointer-events: none;
-      }
-    }
-    // tree
-    &-tree {
-      height: 37.88rem; // 606px
-    }
-  }
-}
-*/
 /* _alignments.scss 
  *
  * 파일 경로 : template/utilities/_alignments.scss
@@ -654,6 +587,10 @@ input, button, select, optgroup, textarea {
   margin-left: 0.1875rem;
 }
 
+.text-clip {
+  text-overflow: clip;
+}
+
 .text-ellipsis {
   display: inline-block;
   max-width: 100%;
@@ -1081,23 +1018,13 @@ a:active {
 }
 
 table {
+  width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: #222529;
-  background-color: transparent;
-  border: 0.0625rem solid transparent;
+  line-height: 1.5;
 }
-table tr {
-  height: 2.5rem;
-}
-table tr th {
-  font-weight: 500;
-}
-table tr td, table tr th {
+table td, table th {
   display: table-cell;
   max-width: 100%;
   text-overflow: ellipsis;
@@ -1108,27 +1035,101 @@ table tr td, table tr th {
 }
 
 .z-table {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #222529;
+  background-color: transparent;
+  border: none;
+}
+.z-table td, .z-table th {
+  padding: 0 0.9375rem;
+}
+.z-table td:first-child, .z-table th:first-child {
+  padding-left: 1.25rem;
+}
+.z-table td a, .z-table th a {
+  color: #222529;
+}
+.z-table th {
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #222529;
+}
+.z-table .z-table-head {
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+}
+.z-table .z-table-head tr {
+  height: 2.5rem;
+}
+.z-table .z-table-body {
   width: 100%;
+  height: 100%;
+  border-bottom: 0.0625rem solid #CFD5D9;
+}
+.z-table .z-table-body tr {
+  height: 2.5625rem;
+}
+.z-table .z-table-body tr:hover {
+  background-color: #EEEEEE;
+}
+.z-table .z-table-body tr.active {
+  background-color: #E3F5FC;
+}
+.z-table .z-table-body tr.active td {
+  color: #1959AC;
+}
+.z-table .z-table-body .no-data-found-list {
+  pointer-events: none;
+}
+
+.z-option-table {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #ABB0B5;
+  background-color: transparent;
   border: none;
-  border-collapse: collapse;
 }
-.z-table tr {
+.z-option-table tr {
   border-bottom: 0.0625rem solid #CFD5D9;
   border-left: none;
   border-right: none;
+  height: 2.5rem;
 }
-.z-table tr.z-table-head {
+.z-option-table tr th, .z-option-table tr td {
+  padding: 0 0.5rem;
+}
+.z-option-table tr.z-option-table-header {
   height: 2rem;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1rem;
   font-weight: 500;
+  color: #ABB0B5;
   border-top: 0.0625rem solid #CFD5D9;
   border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
   background-color: #F5F5F5;
 }
-.z-table tr th, .z-table tr td {
-  padding: 0 0.5rem;
+.z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
+  margin: 0 0 0 0.5rem;
+}
+.z-option-table tr.z-option-table-row .z-input {
+  width: 85%;
+  padding: 0.75rem;
+  margin: 0.25rem;
+}
+.z-option-table tr.z-option-table-row .z-input:not(:placeholder-shown):not(:focus) {
+  border-color: transparent;
+}
+.z-option-table tr.z-option-table-row .z-button-icon .z-icon {
+  display: block;
+  margin: 0 auto;
+  background: #ABB0B5;
+  pointer-events: none;
+}
+.z-option-table tr.z-option-table-row .z-button-icon:hover .z-icon {
+  background: #339AF0;
 }
 
 span {
@@ -1137,10 +1138,10 @@ span {
 }
 
 label {
-  font-family: inherit;
-  color: #222529;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  color: #8B9094;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .input-button {
@@ -2791,6 +2792,7 @@ select {
   padding: 0 3.75rem 1.25rem 3.75rem;
 }
 .z-itsm-container .z-main-content .z-page-search .z-search-count {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-weight: 700;
   font-size: 0.875rem;
   color: #8B9094;
@@ -2908,67 +2910,14 @@ select {
   padding: 0 3.75rem 1.25rem 3.75rem;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-content {
-  display: flex;
   flex: 1;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-content a, .z-itsm-container .z-main-content .z-page-list .z-list-content button {
   cursor: pointer;
 }
-.z-itsm-container .z-main-content .z-page-list .z-list-table {
+.z-itsm-container .z-main-content .z-page-list .z-table {
   position: relative;
-  flex-direction: column;
-  width: 100%;
   border: none;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-head {
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-head tr {
-  height: 2.5rem;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-head tr th {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #222529;
-  padding: 0 0.9375rem;
-  line-height: 1.5;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-head tr th:first-child {
-  padding-left: 1.25rem;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-body {
-  width: 100%;
-  height: 100%;
-  border-bottom: 0.0625rem solid #CFD5D9;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-body tr {
-  height: 2.5625rem;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-body tr:hover {
-  background-color: #EEEEEE;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-body tr.active {
-  background-color: #E3F5FC;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-body tr.active td {
-  color: #1959AC;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-body tr td {
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: #222529;
-  padding: 0 0.9375rem;
-  line-height: initial;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-body tr td:first-child {
-  padding-left: 1.25rem;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-body tr td a {
-  color: #222529;
-}
-.z-itsm-container .z-main-content .z-page-list .z-list-body .no-data-found-list {
-  background-color: #FAFAFA;
-  pointer-events: none;
 }
 .z-itsm-container .z-main-content .z-page-list .z-list-tree {
   height: 37.88rem;
@@ -3079,7 +3028,8 @@ select {
   margin-top: 1.875rem;
 }
 .z-itsm-container .z-main-content .z-page-view-sub-title {
-  font-size: 1rem;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #8B9094;
   padding: 0 1.25rem;
@@ -3165,7 +3115,8 @@ select {
   border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 .z-itsm-container .z-main .view-sub-title {
-  font-size: 1rem;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #8B9094;
   padding: 0 1.25rem;
@@ -4364,11 +4315,12 @@ select {
 .file-uploader-edit {
   display: flex;
   flex-direction: column;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
 }
 .file-uploader-edit .file-uploader-title {
   font-size: 0.875rem;
-  font-weight: 500;
-  color: #222529;
+  font-weight: 700;
+  color: #8B9094;
   margin: 0.5625rem 0 0.5625rem 0;
 }
 .file-uploader-edit .dropzone {
@@ -4410,6 +4362,7 @@ select {
   text-align: left;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap .dz-clickable {
+  font-weight: 700;
   color: #339AF0;
   cursor: pointer;
 }
@@ -4754,6 +4707,7 @@ select {
   display: flex;
   align-items: center;
   min-height: 3.125rem;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   padding: 0.125rem 1.25rem;
 }
 .file-uploader-view .file-uploader-title {
@@ -4770,7 +4724,6 @@ select {
   height: 100%;
 }
 .file-uploader-view .file-uploader-list .text-no-file {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #ABB0B5;
@@ -4793,7 +4746,6 @@ select {
 }
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details {
   display: inline-flex;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
 }
@@ -5614,6 +5566,10 @@ ul.tree ul li:last-child:before {
   top: 0.9375rem;
   bottom: 0;
 }
+ul.tree label {
+  color: #222529;
+}
+
 img.exp_col {
   cursor: pointer;
 }
@@ -6033,26 +5989,20 @@ body.modal-active {
 .modal-dialog.scheduler-list-modal .modal-content .table-set {
   margin-top: 2.188rem;
 }
-.modal-dialog.scheduler-list-modal .modal-content .table-set table {
-  width: 100%;
-}
-.modal-dialog.scheduler-list-modal .modal-content .table-set table .z-list-head tr {
-  color: #222529;
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
-}
-.modal-dialog.scheduler-list-modal .modal-content .table-set table .z-list-body {
+.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body {
   display: block;
   width: 60rem;
   height: 21.75rem;
   overflow-y: auto;
+  border: none;
 }
-.modal-dialog.scheduler-list-modal .modal-content .table-set table .z-list-body .list-row {
+.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body .list-row {
   display: table;
   width: 100%;
   height: 2.125rem;
   line-height: 2.125rem;
 }
-.modal-dialog.scheduler-list-modal .modal-content .table-set table .z-list-body .list-row > td {
+.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body .list-row > td {
   display: inline-block;
   max-width: 22.5rem;
   vertical-align: middle;
@@ -6138,19 +6088,15 @@ body.modal-active {
   padding: 0 1.25rem;
   overflow-y: auto;
 }
-.modal-dialog.document-display .modal-content .document-display-content table tr th, .modal-dialog.document-display .modal-content .document-display-content table tr td {
-  font-weight: 400;
-  font-size: 1rem;
+.modal-dialog.document-display .modal-content .document-display-content .z-table {
+  width: auto;
+}
+.modal-dialog.document-display .modal-content .document-display-content .z-table .z-table-body {
+  border: none;
+}
+.modal-dialog.document-display .modal-content .document-display-content .z-table th, .modal-dialog.document-display .modal-content .document-display-content .z-table td {
   padding: 0 1.5rem 0.625rem 0;
   overflow: initial;
-}
-.modal-dialog.document-display .modal-content .document-display-content table tr th {
-  width: 6.25rem;
-  min-width: 6.25rem;
-}
-.modal-dialog.document-display .modal-content .document-display-content table tr th.column-title {
-  vertical-align: bottom;
-  padding-bottom: 0.625rem;
 }
 .modal-dialog.cmdb-class-attribute-modal, .modal-dialog.token-list {
   width: 62.5rem;
@@ -6170,32 +6116,22 @@ body.modal-active {
 .modal-dialog.token-list .modal-content .related-instance-list .table-set {
   margin-top: 2.188rem;
 }
-.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table,
-.modal-dialog.token-list .modal-content .related-instance-list .table-set table {
-  width: 100%;
-}
-.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table .z-list-head tr,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table .z-list-head tr, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table .z-list-head tr,
-.modal-dialog.token-list .modal-content .related-instance-list .table-set table .z-list-head tr {
-  color: #222529;
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
-}
-.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table .z-list-body,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table .z-list-body, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table .z-list-body,
-.modal-dialog.token-list .modal-content .related-instance-list .table-set table .z-list-body {
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set .z-table .z-table-body, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
+.modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body {
   display: block;
   width: 60rem;
   height: 32.8125rem;
   overflow-y: auto;
+  border: none;
 }
-.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table .z-list-body .attribute-list,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table .z-list-body .instance-list,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table .z-list-body .attribute-list,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table .z-list-body .instance-list, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table .z-list-body .attribute-list,
-.modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table .z-list-body .instance-list,
-.modal-dialog.token-list .modal-content .related-instance-list .table-set table .z-list-body .attribute-list,
-.modal-dialog.token-list .modal-content .related-instance-list .table-set table .z-list-body .instance-list {
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set .z-table .z-table-body .instance-list, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .instance-list {
   display: flex;
   width: 100%;
   height: 3.125rem;
@@ -6490,9 +6426,10 @@ body.modal-active {
   left: auto;
   visibility: hidden;
   background-color: #FFFFFF;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
   color: #339AF0;
   width: 28.125rem;
-  font-size: 0.875rem;
   border: 0.125rem solid #339AF0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -6964,6 +6901,9 @@ body.modal-active {
   margin: 0.0625rem 0.9375rem 0.0625rem 0;
   vertical-align: middle;
 }
+.reply-list:empty {
+  border-color: transparent;
+}
 .reply-list .reply-info {
   align-items: center;
 }
@@ -7031,7 +6971,8 @@ body.modal-active {
   border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 .itsm-popup .view-sub-title {
-  font-size: 1rem;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #8B9094;
   padding: 0 1.25rem;

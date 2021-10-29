@@ -265,7 +265,7 @@ export const customCodeMixin = {
         return `<div class="flex-column view-row">` +
             `<div class="flex-row justify-content-start input-search">` +
             `<input class="z-input i-search col-5 " type="text" id="search" placeholder="${i18n.msg('customCode.msg.enterSearchTerm')}">` +
-            `<span id="ciListTotalCount" class="search-count"></span>` +
+            `<span id="ciListTotalCount" class="z-search-count"></span>` +
             `</div>` +
             `</div>` +
             `<div class="custom-code-main" id="customCodeList"></div>`;

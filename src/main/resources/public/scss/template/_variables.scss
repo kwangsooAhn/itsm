@@ -144,14 +144,25 @@ $headings-font-weight:                        $font-weight-medium;
 $headings-line-height:                        1.2;
 
 // label
-$label-font-color:                            $gray800;
+$label-font-family:                           $font-family-s;
+$label-font-color:                            $gray500;
 $label-font-size:                             $font-size-xs;
-$label-font-weight:                           $font-weight-medium;
+$label-font-weight:                           $font-weight-bold;
 
 // table
-$table-head-font-color:                       $gray400;
+$table-head-font-family:                      $font-family-m;
+$table-head-font-size:                        $font-size-s;
+$table-head-font-color:                       $gray800;
 $table-head-font-weight:                      $font-weight-medium;
-$table-head-bg-color:                         $neutral100;
+$table-row-hover-bg-color:                    $neutral200;
+$table-row-active-font-color:                 $blue700;
+$table-row-active-bg-color:                   $blue100;
+
+$option-table-font-color:                     $gray400;
+$option-table-header-font-color:              $gray400;
+$option-table-header-bg-color:                $neutral100;
+$option-table-icon-color:                     $gray400;
+$option-table-icon-hover-color:               $blue500;
 
 // button, a
 $button-font-family:                          $font-family-s;
@@ -242,9 +253,6 @@ $layout-header-search-font-weight:           $font-weight-bold;
 
 $layout-properties-width:                    18.75rem; // 300px
 
-// 리스트
-$list-border-color:                          $gray300;
-$list-border-width:                          0.0625rem; // 1px
 // 리스트 - 마우스 오버시
 $list-hover-bg-color:                        $neutral200;
 // 리스트 - 데이터 없을때
@@ -281,9 +289,10 @@ $column-count: 12;
 $column-init: 5rem; // 80px
 
 //////////////////////////////// fileuploader ////////////////////////////////
+$file-uploader-font-family:                  $font-family-s;
 $file-uploader-font-size:                    $font-size-xs;
-$file-uploader-font-color:                   $gray800;
-$file-uploader-font-weight:                  $font-weight-medium;
+$file-uploader-font-color:                   $gray500;
+$file-uploader-font-weight:                  $font-weight-bold;
 $file-uploader-icon-color:                   $gray500;
 // drag and drop 영역
 $dropzone-font-size:                         $font-size-xs;
@@ -300,6 +309,8 @@ $dropzone-focus-color:                       $blue700;
 
 // browse click 버튼
 $dropzone-clickable-font-color:              $blue500;
+$dropzone-clickable-font-weight:             $font-weight-bold;
+
 // 미리보기
 $file-uploader-preview-height:               4.5rem; // 72px
 $file-uploader-preview-radius:               0.0625rem; // 1px
@@ -313,7 +324,6 @@ $file-uploader-font-size:                    $font-size-xs;
 // 파일 미존재시
 $file-uploader-no-date-font-color:           $gray400;
 // view 모드
-$file-uploader-view-font-family:             $font-family-s;
 $file-uploader-view-font-size:               $font-size-xs;
 $file-uploader-view-font-color:              $gray800;
 $file-uploader-view-font-weight:             $font-weight-regular;
@@ -533,6 +543,7 @@ $thumbnail-nodata-font-color:                $gray500;
 
 /////////////////////////////// tooltip ///////////////////////////////
 $tooltip-help-margin:                        0.3125rem; // 5px
+$tooltip-font-family:                        $font-family-s;
 $tooltip-font-size:                          $font-size-xs;
 $tooltip-contents-background:                $white;
 $tooltip-contents-color:                     $blue500;

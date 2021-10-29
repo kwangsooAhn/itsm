@@ -26,6 +26,8 @@
     @include border($reply-content-border-width, solid, $reply-content-border-color, bottom);
     @include verticalBar(1.25rem, 1.25rem, $reply-content-border-width solid $reply-content-border-color, 0.0625rem 0.9375rem 0.0625rem 0);
     margin-top: 0.0625rem; // -1px
+    // 댓글이 없으면 라인 생략
+    &:empty { border-color: transparent; }
     .reply {
       &-info {
         align-items: center;
