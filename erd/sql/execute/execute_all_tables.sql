@@ -391,15 +391,15 @@ insert into awf_code values ('instance', 'root', null, '인스턴스', null, tru
 insert into awf_code values ('instance.platform', 'instance', null, '인스턴스 플랫폼', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('instance.platform.itsm', 'instance.platform', 'ITSM', 'ITSM', null, faLse, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('instance.platform.api', 'instance.platform', 'API', 'API', null, faLse, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO AWF_CODE VALUES('form.template.changeControl', 'form.template', 'form.template.changeControl.app', '변경관리', '', true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:21:20.765', NULL, NULL);
-INSERT INTO AWF_CODE VALUES('form.template.changeControl.app', 'form.template.changeControl', 'form.template.changeControl.app.relatedService', '어플리케이션 변경관리', '', true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:22:21.526', NULL, NULL);
-INSERT INTO AWF_CODE VALUES('form.template.changeControl.app.relatedService.homepage', 'form.template.changeControl.app.relatedService', 'homepage', '홈페이지', '', true, true, 6, 1, '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:24:32.039', '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:41:53.508');
-INSERT INTO AWF_CODE VALUES('form.template.changeControl.app.relatedService.DigitalAproval', 'form.template.changeControl.app.relatedService', 'digitalApproval', '전자결재시스템', '', true, true, 6, 2, '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:29:28.780', '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:42:23.336');
-INSERT INTO AWF_CODE VALUES('form.template.changeControl.app.relatedService.accessManage', 'form.template.changeControl.app.relatedService', 'accessManage', '출입관리시스템', '', true, true, 6, 3, '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:30:36.694', '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:42:38.306');
-INSERT INTO AWF_CODE VALUES('form.template.changeControl.app.relatedService.ERP', 'form.template.changeControl.app.relatedService', 'erp', 'ERP', '', true, true, 6, 4, '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:31:01.022', '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:42:51.560');
-INSERT INTO AWF_CODE VALUES('form.template.changeControl.app.relatedService.itsm', 'form.template.changeControl.app.relatedService', 'itsm', 'ITSM', '', true, true, 6, 5, '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:31:26.711', '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:43:02.309');
-INSERT INTO AWF_CODE VALUES('form.template.changeControl.app.relatedService.etc', 'form.template.changeControl.app.relatedService', 'etc', '기타', '', true, true, 6, 6, '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:32:01.793', '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:43:11.125');
-INSERT INTO AWF_CODE VALUES('form.template.changeControl.app.relatedService', 'form.template.changeControl.app', 'form.template.changeControl.app.relatedService', '관련 서비스', '어플리케이션 변경관리 관련서비스 ', true, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:23:15.062', '0509e09412534a6e98f04ca79abb6424', '2021-10-19 05:44:43.768');
+insert into awf_code values('form.template.changeControl', 'form.template', 'form.template.changeControl.app', '변경관리', '', true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values('form.template.changeControl.app', 'form.template.changeControl', 'form.template.changeControl.app.relatedService', '어플리케이션 변경관리', '', true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values('form.template.changeControl.app.relatedService.homepage', 'form.template.changeControl.app.relatedService', 'homepage', '홈페이지', '', true, true, 6, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values('form.template.changeControl.app.relatedService.DigitalAproval', 'form.template.changeControl.app.relatedService', 'digitalApproval', '전자결재시스템', '', true, true, 6, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values('form.template.changeControl.app.relatedService.accessManage', 'form.template.changeControl.app.relatedService', 'accessManage', '출입관리시스템', '', true, true, 6, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values('form.template.changeControl.app.relatedService.ERP', 'form.template.changeControl.app.relatedService', 'erp', 'ERP', '', true, true, 6, 4, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values('form.template.changeControl.app.relatedService.itsm', 'form.template.changeControl.app.relatedService', 'itsm', 'ITSM', '', true, true, 6, 5, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values('form.template.changeControl.app.relatedService.etc', 'form.template.changeControl.app.relatedService', 'etc', '기타', '', true, true, 6, 6, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values('form.template.changeControl.app.relatedService', 'form.template.changeControl.app', 'form.template.changeControl.app.relatedService', '관련 서비스', '어플리케이션 변경관리 관련서비스 ', true, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 
 /**
  * 사용자정의코드
@@ -2600,7 +2600,7 @@ INSERT INTO wf_form VALUES ('4028b21f7c9cc269017c9cc8cbf60001', '서비스 데�
 INSERT INTO wf_form VALUES ('4028b21f7c90d996017c914e27340030', '서비스데스크 - 서비스요청 - 만족도', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}','process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_form VALUES ('4028b8817cbfc7a7017cc08f7b0b0763', '인프라변경관리', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}', 'process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_form VALUES ('4028b8817cc50161017cc5082b460002', '구성관리', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}', 'process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert INTO wf_form values('4028b22f7c9c4aee017c9c4e15870000', '어플리케이션 변경관리', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}', 'process', '0509e09412534a6e98f04ca79abb6424', '2021-10-20 06:05:35.459', '0509e09412534a6e98f04ca79abb6424', '2021-10-28 05:50:18.282');
+insert INTO wf_form values('4028b22f7c9c4aee017c9c4e15870000', '어플리케이션 변경관리', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}', 'process', '0509e09412534a6e98f04ca79abb6424',  now(), null, null);
 
 
 /**
@@ -3071,7 +3071,7 @@ INSERT INTO wf_process VALUES ('4028b21f7c9ff7c8017ca0549ef00057','서비스데�
 INSERT INTO wf_process VALUES ('4028b21f7c9cc269017c9cc76a5e0000','서비스데스크 - 서비스요청 - 만족도','process.status.use','','0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_process VALUES ('4028b8817cbfc7a7017cc0db1a8c0bc3', '인프라변경관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_process VALUES ('4028b8817cc50161017cc5079e850000', '구성관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into wf_process values('4028b22f7cba6866017cbb63a53c08f8', '어플리케이션 변경관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424', '2021-10-26 06:57:22.200', '0509e09412534a6e98f04ca79abb6424', '2021-10-28 05:52:52.496');
+insert into wf_process values('4028b22f7cba6866017cbb63a53c08f8', '어플리케이션 변경관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424',  now(), null, null);
 
 /**
  * 신청서정보
@@ -3137,7 +3137,7 @@ INSERT INTO wf_document VALUES ('4028b8817cbfc7a7017cc0e65b260bdf', '인프라�
 /* 구성관리 */
 INSERT INTO wf_document VALUES ('4028b8817cc50161017cc53233c206b0', '구성관리', '', '4028b8817cc50161017cc5079e850000', '4028b8817cc50161017cc5082b460002', 'document.status.use', '40288ab777f04ed90177f05e5ad7000a', '#A95EEB', 'workflow', '', null, false, '0509e09412534a6e98f04ca79abb6424', now(),NULL,NULL);
 /*어플리케이션 변경관리*/
-INSERT INTO wf_document VALUES('4028b22f7cc55c1a017cc5775d10026b', '어플리케이션 변경관리', '', '4028b22f7cba6866017cbb63a53c08f8', '4028b22f7c9c4aee017c9c4e15870000', 'document.status.use', '4028b25d7886e2d801788704dd8e0002', '#2578CE', 'workflow', 'servicedesk.request', NULL, false, '0509e09412534a6e98f04ca79abb6424', '2021-10-28 05:55:06.554', NULL, NULL);
+INSERT INTO wf_document VALUES('4028b22f7cc55c1a017cc5775d10026b', '어플리케이션 변경관리', '', '4028b22f7cba6866017cbb63a53c08f8', '4028b22f7c9c4aee017c9c4e15870000', 'document.status.use', '4028b25d7886e2d801788704dd8e0002', '#2578CE', 'workflow', 'servicedesk.request', NULL, false, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 
 /**
  * 인스턴스정보
