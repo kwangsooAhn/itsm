@@ -6354,7 +6354,7 @@ INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c783350f1024a','component','z-sa
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b06137c0067','component','로고','a371d3cfecb547e4aff813ce0fca711c');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b0613820068','component','z-logo','a371d3cfecb547e4aff813ce0fca711c');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b0613b6006a','component','제목','e90e4131007f470490a2ffaff402ba2f');
-INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b0613bd006b','component','z-document-title','e90e4131007f470490a2ffaff402ba2f');
+INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b0613bd006b','component','z-serviceDesk-incident','e90e4131007f470490a2ffaff402ba2f');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061436006f','component','신청자','77e97f770393455a97c645f7562b3b53');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b06143d0070','component','z-requester','77e97f770393455a97c645f7562b3b53');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b06144a0071','component','신청부서','fee68572b7bb4e04b1f27d0cdfe9ad7a');
@@ -6434,7 +6434,7 @@ INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da865002f','component','z-sa
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca054467d0003','component','로고','5d0b0faef24e429ba271e1bb2175d2ff');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05446840004','component','z-logo','5d0b0faef24e429ba271e1bb2175d2ff');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05446bb0006','component','제목','7811e5a93319403698481a00386f8b5e');
-INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05446c00007','component','z-document-title','7811e5a93319403698481a00386f8b5e');
+INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05446c00007','component','z-serviceDesk-change','7811e5a93319403698481a00386f8b5e');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05446e90009','component','','c2972b99571a448ebdb8b2f981412060');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544728000c','component','신청자','93d2c6c791ac4824bf94add769417fe4');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca054472e000d','component','z-requester','93d2c6c791ac4824bf94add769417fe4');
@@ -6563,7 +6563,7 @@ INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad40013a', 'component', 'z-
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad46013c', 'component', '', 'fe52f458eb184a85b9d10e11c7d7ba93');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad4e013f', 'component', '만족도', 'b91ace9a5b0c40e79e6dd1478e01f429');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad4f0140', 'component', 'z-satisfaction', 'b91ace9a5b0c40e79e6dd1478e01f429');
-INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad500141', 'component', 'z-serviceDesk-inquiry-satisfaction', 'b91ace9a5b0c40e79e6dd1478e01f429');
+INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad500141', 'component', 'z-serviceDesk-configuration-satisfaction', 'b91ace9a5b0c40e79e6dd1478e01f429');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad540143', 'component', 'z-satisfaction-content', 'e7443376cc47464881005fd34a32e062');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad550144', 'component', '만족도평가의견', 'e7443376cc47464881005fd34a32e062');
 /* 인프라변경관리 */
@@ -6781,7 +6781,7 @@ INSERT INTO awf_tag VALUES('4028b22f7cc06c7f017cc0c0c2e20125', 'component', 'z-a
 INSERT INTO awf_tag VALUES('4028b22f7cc55c1a017cc5731fc8019f', 'component', '로고', '29041c29517b41ddb1f0b2b60d08452f');
 INSERT INTO awf_tag VALUES('4028b22f7cc55c1a017cc5731fd101a0', 'component', 'z-logo', '29041c29517b41ddb1f0b2b60d08452f');
 INSERT INTO awf_tag VALUES('4028b22f7cc55c1a017cc573201e01a2', 'component', '제목', '824ad6c23d964dd294e561dfc5d04e47');
-INSERT INTO awf_tag VALUES('4028b22f7cc55c1a017cc573202701a3', 'component', 'z-change-application-title', '824ad6c23d964dd294e561dfc5d04e47');
+INSERT INTO awf_tag VALUES('4028b22f7cc55c1a017cc573202701a3', 'component', 'z-change-application', '824ad6c23d964dd294e561dfc5d04e47');
 INSERT INTO awf_tag VALUES('4028b22f7cc55c1a017cc573207f01a5', 'component', '', '8430f76f10fb494fb5761ef9423df85c');
 INSERT INTO awf_tag VALUES('4028b22f7cc55c1a017cc573210501a8', 'component', 'z-change-application-requester', '2871ac7774464835b08f4d6cab4b96b5');
 INSERT INTO awf_tag VALUES('4028b22f7cc55c1a017cc573211101a9', 'component', '신청자', '2871ac7774464835b08f4d6cab4b96b5');
@@ -7799,6 +7799,39 @@ COMMENT ON COLUMN awf_chart.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_chart.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_chart.update_dt IS '수정일시';
 
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4659dde0000', 'chart.stackedColumn', '월간 유형별 등록 건수', '월별로 서비스데스크 유형별 등록 건수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-serviceDesk-inquiry","z-serviceDesk-incident","z-serviceDesk-change","z-serviceDesk-configuration"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd46affee0001', 'chart.stackedColumn', '월간 유형별 완료 건수', '월별로 서비스데스크 유형별 완료 건수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-serviceDesk-inquiry-approve-date","z-serviceDesk-incident-approve-date","z-serviceDesk-change-approve-date","z-serviceDesk-configuration-approve-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd47752aa0002', 'chart.stackedColumn', '월간 납기준수율 - 단순문의', '월별로 서비스데스크- 단순문의 납기준수율 건수(성공/실패)를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"percent","periodUnit":"M","group":"","tags":["z-serviceDesk-inquiry-request-deadline","z-serviceDesk-inquiry-approve-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4902183000a', 'chart.stackedColumn', '월간 납기준수율 - 장애관리', '월별로 서비스데스크- 장애관리 납기준수율 건수(성공/실패)를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"percent","periodUnit":"M","group":"","tags":["z-serviceDesk-incident-request-deadline","z-serviceDesk-incident-approve-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd47827cb0003', 'chart.stackedColumn', '월간 납기준수율 - 변경관리', '월별로 서비스데스크- 변경관리 납기준수율 건수(성공/실패)를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"percent","periodUnit":"M","group":"","tags":["z-serviceDesk-change-request-deadline","z-serviceDesk-change-approve-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd478d0a10004', 'chart.stackedColumn', '월간 납기준수율 - 구성관리', '월별로 서비스데스크- 구성관리 납기준수율 건수(성공/실패)를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"percent","periodUnit":"M","group":"","tags":["z-serviceDesk-configuration-request-deadline","z-serviceDesk-configuration-approve-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd479a9890005', 'chart.pie', '년간 만족도 평가', '월별로 단순문의, 장애관리, 변경관리, 구성관리의 만족도 평가 값의 건수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"Y","group":"","tags":["z-serviceDesk-inquiry-satisfaction","z-serviceDesk-incident-satisfaction","z-serviceDesk-change-satisfaction","z-serviceDesk-configuration-satisfaction"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4838b2e0007', 'chart.stackedColumn', '월간 단순문의 만족도 평가', '월별로 단순문의 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-serviceDesk-inquiry-satisfaction"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd48588b50008', 'chart.stackedColumn', '월간 장애관리 만족도 평가', '월별로 장애관리 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-serviceDesk-incident-satisfaction"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4863bfc0009', 'chart.stackedColumn', '월간 변경관리 만족도 평가', '월별로 변경관리 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-serviceDesk-change-satisfaction"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd47a4c0d0006', 'chart.stackedColumn', '월간 구성관리 만족도 평가', '월별로 구성관리 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-serviceDesk-configuration-satisfaction"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd49b24ea000b', 'chart.basicLine', '월간 장애 등록건수', '월별로 장애관리 등록 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"장애등록건수","tags":["z-incident"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd49c25e2000c', 'chart.basicLine', '월간 장애 완료건수', '월별로 장애관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"장애완료건수","tags":["z-incident-approve-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd49d1ef3000d', 'chart.stackedColumn', '월간 장애등급별 건수', '월별로 장애등급(1,2,3,4 등급)별로  등록건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-incident-level"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd49e0d34000e', 'chart.stackedColumn', '월간 장애관리 납기 준수율', '월별로 장애관리 납기준수율 건수(성공/실패)를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-incident-request-deadline","z-incident-approve-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd49f3a34000f', 'chart.basicLine', '월간 문제관리 등록건수', '월별로 문제관리 등록 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"문제관리등록건수","tags":["z-problem"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd49fec730010', 'chart.basicLine', '월간 문제관리 완료건수', '월별로 문제관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"문제관리완료건수","tags":["z-problem-approve-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a092020011', 'chart.stackedColumn', '월간 문제관리 납기 준수율', '월별로 문제관리 납기준수율 건수(성공/실패)를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-problem-request-deadline","z-problem-approve-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a2b5c90012', 'chart.basicLine', '월간 인프라변경관리 등록건수', '월별로 인프라변경관리 등록 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"인프라변경관리등록","tags":["z-change-infra"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a3758c0013', 'chart.basicLine', '월간 인프라변경관리 완료건수', '월별로 인프라변경관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"인프라변경관리완료","tags":["z-change-infra-complete-review-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a41aee0014', 'chart.stackedColumn', '월간 인프라변경관리 작업결과 건수', '월별로 인프라변경관리 작업결과(성공/실패)를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-change-infra-result"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a4c4570015', 'chart.stackedColumn', '월간 인프라변경관리 납기 준수율', '월별로 인프라변경관리 납기준수율 건수(성공/실패)를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-change-infra-request-deadline","z-change-infra-complete-review-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a70cef0016', 'chart.basicLine', '월간 어플리케이션변경관리 등록건수', '월별로 어플리케이션변경관리 등록 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"어플리케이션변경관리등록건수","tags":["z-change-application"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a7b2f10017', 'chart.basicLine', '월간 어플리케이션변경관리 완료건수', '월별로 어플리케이션변경관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"어플리케이션변경관리완료","tags":["z-change-application-complete-review-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a8cc9b0019', 'chart.stackedColumn', '월간 어플리케이션변경관리 납기 준수율', '월별로 어플리케이션변경관리 납기준수율 건수(성공/실패)를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-change-application-request-deadline","z-change-application-complete-review-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a831ea0018', 'chart.stackedColumn', '월간 어플리케이션변경관리 작업결과 건수', '월별로 어플리케이션변경관리 작업결과(성공/실패)를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"Y","group":"","tags":["z-change-application-result"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a99f18001a', 'chart.basicLine', '월간 구성관리 등록건수', '월별로 구성관리 등록 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"구성관리등록건수","tags":["z-change-configuration"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4aa4abf001b', 'chart.basicLine', '월간 구성관리 완료건수', '월별로 구성관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"구성관리완료","tags":["z-change-configuration-approve-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4ab4915001c', 'chart.stackedColumn', '월간 구성관리 납기 준수율', '월별로 구성관리 납기준수율 건수(성공/실패)를 확인한다.', '{"range":{"type":"chart.range.between","from":"2021-01-01","to":"2021-12-31"},"operation":"count","periodUnit":"M","group":"","tags":["z-change-configuration-request-deadline","z-change-configuration-approve-date"]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 /**
  * 차트설정
  */
@@ -8009,6 +8042,17 @@ COMMENT ON COLUMN awf_report_template.create_dt IS '생성일시';
 COMMENT ON COLUMN awf_report_template.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_report_template.update_dt IS '수정일시';
 
+INSERT INTO awf_report_template VALUES ('4028b8817cd4629c017cd4c47c49001d', '2021년 월간 서비스데스크 현황', '유형별 등록 건수/ 유형별 완료 건수/ 유형별 평균 처리 시간/ 납기준수율/ 년간 만족도 평가/
+단순문의 만족도 평가/ 장애관리 만족도 평가/ 변경관리 만족도 평가/ 구성관리 만족도 평가로
+월간 서비스 데스크 현황을 확인 할 수 있다.', '2021년 월간 서비스데스크 현황', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_report_template VALUES ('4028b8817cd4629c017cd4eced9e001e', '2021년 월간 장애관리 현황', '월간 장애등급별 등록건수, 월간 장애등급별 완료건수, 월간 장애관리 납기 준수율을 확인 할 수 있다.', '2021년 월간 장애관리 현황', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_report_template VALUES ('4028b8817cd4629c017cd4f0c3150020', '2021년 월간 문제관리 현황', '월간 문제관리 등록건수, 월간 문제관리 완료건수, 월간 문제관리 납기 준수율 확인 할수 있다.', '2021년 월간 문제관리 현황', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_report_template VALUES ('4028b8817cd4629c017cd4f1df090021', '2021년 월간 인프라변경관리 현황', '월간 인프라변경관리 등록건수, 월간 인프라변경관리 완료건수, 월간 인프라변경관리 작업결과 건수
+월간 인프라변경관리 납기 준수율을 확인 할 수 있다.
+', '2021년 월간 인프라변경관리 현황', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_report_template VALUES ('4028b8817cd4629c017cd4f485300022', '2021년 월간 구성관리 현황', '월간 구성관리 등록건수, 월간 구성관리 완료건수, 월간 구성관리 납기 준수율 확인 할수 있다.', '2021년 월간 구성관리 현황', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_report_template VALUES ('4028b8817cd4629c017cd50244af00a4', '2021년 월간 어플리케이션변경관리 현황', '월간 어플리케이션변경관리 등록건수, 월간 어플리케이션변경관리 완료건수, 월간 어플리케이션변경관리 작업결과 건수
+월간 어플리케이션변경관리 납기 준수율을 확인 할 수 있다.', '2021년 월간 어플리케이션변경관리 현황', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 /**
  * 보고서 설정 차트 매핑 테이블
  */
@@ -8025,6 +8069,35 @@ COMMENT ON TABLE awf_report_template_map IS '보고서 템플릿 차트 정보';
 COMMENT ON COLUMN awf_report_template_map.template_id IS '템플릿아이디';
 COMMENT ON COLUMN awf_report_template_map.chart_id IS '차트아이디';
 
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4c47c49001d', '4028b8817cd4629c017cd4659dde0000', 1);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4c47c49001d', '4028b8817cd4629c017cd46affee0001', 2);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4c47c49001d', '4028b8817cd4629c017cd47752aa0002', 3);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4c47c49001d', '4028b8817cd4629c017cd4902183000a', 4);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4c47c49001d', '4028b8817cd4629c017cd47827cb0003', 5);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4c47c49001d', '4028b8817cd4629c017cd478d0a10004', 6);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4c47c49001d', '4028b8817cd4629c017cd479a9890005', 7);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4c47c49001d', '4028b8817cd4629c017cd4838b2e0007', 8);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4c47c49001d', '4028b8817cd4629c017cd48588b50008', 9);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4c47c49001d', '4028b8817cd4629c017cd4863bfc0009', 10);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4c47c49001d', '4028b8817cd4629c017cd47a4c0d0006', 11);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4eced9e001e', '4028b8817cd4629c017cd49b24ea000b', 1);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4eced9e001e', '4028b8817cd4629c017cd49c25e2000c', 2);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4eced9e001e', '4028b8817cd4629c017cd49d1ef3000d', 3);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4eced9e001e', '4028b8817cd4629c017cd49e0d34000e', 4);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4f0c3150020', '4028b8817cd4629c017cd49f3a34000f', 1);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4f0c3150020', '4028b8817cd4629c017cd49fec730010', 2);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4f0c3150020', '4028b8817cd4629c017cd4a092020011', 3);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4f1df090021', '4028b8817cd4629c017cd4a2b5c90012', 1);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4f1df090021', '4028b8817cd4629c017cd4a3758c0013', 2);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4f1df090021', '4028b8817cd4629c017cd4a41aee0014', 3);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4f1df090021', '4028b8817cd4629c017cd4a4c4570015', 4);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4f485300022', '4028b8817cd4629c017cd4a99f18001a', 1);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4f485300022', '4028b8817cd4629c017cd4aa4abf001b', 2);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd4f485300022', '4028b8817cd4629c017cd4ab4915001c', 3);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd50244af00a4', '4028b8817cd4629c017cd4a70cef0016', 1);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd50244af00a4', '4028b8817cd4629c017cd4a7b2f10017', 2);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd50244af00a4', '4028b8817cd4629c017cd4a831ea0018', 3);
+INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd50244af00a4', '4028b8817cd4629c017cd4a8cc9b0019', 4);
 /**
  * 보고서 조회 테이블
  */
