@@ -189,6 +189,7 @@ class ZFormTokenTab {
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('instanceList').innerHTML = htmlData;
+            OverlayScrollbars(document.getElementById('instanceList'), {className: 'scrollbar'});
             aliceJs.showTotalCount(document.querySelectorAll('.instance-list').length);
         });
     }
