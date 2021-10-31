@@ -6106,7 +6106,7 @@ body.modal-active {
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content, .modal-dialog.token-list .modal-content {
   height: calc(53.0625rem - 3.375rem - 5rem);
-  padding: 0.625rem 1.25rem 2.5rem 1.25rem;
+  padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list,
 .modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list,
@@ -6123,7 +6123,7 @@ body.modal-active {
 .modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body {
   display: block;
   width: 60rem;
-  height: 32.8125rem;
+  height: 35.313rem;
   overflow-y: auto;
   border: none;
 }

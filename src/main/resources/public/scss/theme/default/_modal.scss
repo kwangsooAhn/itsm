@@ -152,7 +152,7 @@
 
     .modal-content {
       height: calc(#{$token-list-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
-      padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
+      padding: 0.625rem 1.25rem; // 10px 20px
 
       // 관련문서 목록
       // CMDB > Class > AttributeList 목록
@@ -165,7 +165,7 @@
             .z-table-body {
               display: block;
               width: 60rem; // 960px
-              height: 32.8125rem; // 525px
+              height: 35.313rem; // 565px
               overflow-y: auto;
               border: none;
               .attribute-list,

@@ -943,41 +943,24 @@ input, button, select, optgroup, textarea {
   color: #8B9094;
   margin: 1.75rem 0 0.375rem 0;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-history-table {
-  width: 100%;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table th, .z-document-container .z-token-properties .z-token-panels .z-token-history-table td {
+  padding: 0 0.625rem;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-history-table thead {
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table .z-table-head {
   background-color: #F5F5F5;
   border-top: 0.0625rem solid #CFD5D9;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-history-table thead tr {
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table .z-table-head tr {
   height: 2rem;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-history-table th, .z-document-container .z-token-properties .z-token-panels .z-token-history-table td {
-  display: table-cell;
-  max-width: 100%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  word-wrap: normal;
-  padding: 0 0.625rem;
-}
-.z-document-container .z-token-properties .z-token-panels .z-token-history-table th {
-  font-size: 0.875rem;
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table .z-table-head tr th {
   color: #ABB0B5;
-  font-weight: 700;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-history-table td {
-  color: #222529;
-}
-.z-document-container .z-token-properties .z-token-panels .z-token-history-table tbody {
-  width: 100%;
-  border-top: calc(0.0625rem * 2) solid #CFD5D9;
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table .z-table-body {
+  border: none;
   overflow-y: auto;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-history-table tbody tr {
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table .z-table-body tr {
   width: 100%;
   border-bottom: 0.0625rem solid #CFD5D9;
 }

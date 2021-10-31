@@ -32,14 +32,10 @@ $token-tab-selected-border-width:            0.188rem; // 3px
 $token-tab-sub-title-color:                  $gray500;
 
 // 처리이력 테이블
-$token-history-table-font-family:            $font-family-s;
-$token-history-table-font-size:              $font-size-xs;
 $token-history-table-border-color:           $gray300;
 $token-history-table-border-width:           0.0625rem; // 1px
 $token-history-thead-color:                  $gray400;
-$token-history-thead-font-weight:            $font-weight-bold;
 $token-history-thead-bg-color:               $neutral100;
-$token-history-tbody-color:                  $gray800;
 
 // 관련 문서
 $token-related-border-color:                 $gray300;
