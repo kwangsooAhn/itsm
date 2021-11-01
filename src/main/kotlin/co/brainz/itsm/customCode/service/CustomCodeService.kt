@@ -322,7 +322,7 @@ class CustomCodeService(
                 if (codeDto.codeLangName != null && codeDto.lang != null) {
                     codeName = codeDto.codeLangName
                 }
-                if (it.code == codeDto.code) {
+                if (it.code.equals(codeDto.code)) {
                     customDataList.add(CustomCodeDataDto(key = it.code, value = it.codeValue!!, name = codeName))
                 }
             }
