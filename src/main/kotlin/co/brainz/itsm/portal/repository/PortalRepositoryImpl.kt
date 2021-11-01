@@ -73,7 +73,6 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         download.downloadId,
                         download.downloadTitle,
                         download.downloadCategory,
-                        code.codeName.`as`("downloadCategoryName"),
                         download.createDt,
                         download.updateDt,
                         Expressions.asString("download")
