@@ -1304,3 +1304,35 @@ aliceJs.makeElementFromString = function(htmlString) {
     div.innerHTML = htmlString;
     return div.firstElementChild;
 }
+
+/**
+ * Excel 다운로드
+ *
+ * @param option 옵션
+ */
+aliceJs.fetchDownload = function(option) {
+    let url = option.url
+    let fileName = (option.fileName === undefined || option.fileName === null) ? '' : option.fileName;
+    aliceJs.doFetch(url, {
+        method: 'GET',
+        showProgressBar: true
+    }).then(response => {
+       if (fileName === '') {
+           fileName = response.headers.get('Content-Disposition').split(';')[1].split('=')[1];
+       }
+       return response.blob()
+    }).then(blob => {
+        if (typeof blob == 'object') {
+            const a = document.createElement('a');
+            const url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = fileName;
+            document.body.append(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        }
+    }).catch(err => {
+        zAlert.warning(err);
+    });
+}
