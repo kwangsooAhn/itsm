@@ -19,19 +19,20 @@ interface AliceRepositoryCustom {
         return if (filteredInput == null) {
             null
         } else {
-            entityValue.likeIgnoreCase("%$filteredInput%", '\\')
+            entityValue.likeIgnoreCase("%${filteredInput.trim()}%", '\\')
         }
     }
 
     /**
      * like 쿼리
      */
+
     fun like(entityValue: StringPath, input: String?): BooleanExpression? {
         val filteredInput = this.filtered(input)
         return if (filteredInput == null) {
             null
         } else {
-            entityValue.like("%$filteredInput%", '\\')
+            entityValue.like("%${filteredInput.trim()}%", '\\')
         }
     }
 

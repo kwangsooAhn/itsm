@@ -21,10 +21,10 @@ class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleT
         val schedule = QAliceScheduleTaskEntity.aliceScheduleTaskEntity
         val query = from(schedule)
             .where(
-                super.like(schedule.taskName, schedulerSearchCondition.searchValue)
-                    ?.or(super.like(schedule.taskType, schedulerSearchCondition.searchValue))
-                    ?.or(super.like(schedule.executeCycleType, schedulerSearchCondition.searchValue))
-                    ?.or(super.like(schedule.executeClass, schedulerSearchCondition.searchValue))
+                super.likeIgnoreCase(schedule.taskName, schedulerSearchCondition.searchValue)
+                    ?.or(super.likeIgnoreCase(schedule.taskType, schedulerSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(schedule.executeCycleType, schedulerSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(schedule.executeClass, schedulerSearchCondition.searchValue))
             )
             .orderBy(schedule.taskName.asc())
 

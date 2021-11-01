@@ -22,8 +22,8 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
             .leftJoin(process.updateUser).fetchJoin()
         if (processSearchCondition.searchValue?.isNotEmpty() == true) {
             query.where(
-                process.processName.contains(processSearchCondition.searchValue)
-                    .or(process.processDesc.contains(processSearchCondition.searchValue))
+                process.processName.containsIgnoreCase(processSearchCondition.searchValue.trim())
+                    .or(process.processDesc.containsIgnoreCase(processSearchCondition.searchValue.trim()))
             )
         }
         if (processSearchCondition.statusArray?.isNotEmpty() == true) {

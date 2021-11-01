@@ -33,7 +33,7 @@ class NumberingRuleRepositoryImpl : QuerydslRepositorySupport(NumberingRuleEntit
                 )
             )
             .where(
-                super.like(rule.numberingName, numberingRuleSearchCondition.searchValue)
+                super.likeIgnoreCase(rule.numberingName, numberingRuleSearchCondition.searchValue)
             )
             .orderBy(rule.numberingName.desc())
             .limit(numberingRuleSearchCondition.contentNumPerPage)

@@ -63,7 +63,7 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
             .rightJoin(ciType.pType, ciType).on(ciType.pType.typeId.eq(ciType.typeId))
             .innerJoin(ciType.ciClass)
             .where(
-                super.like(
+                super.likeIgnoreCase(
                     ciType.typeName, searchDto.search
                 )
             )
@@ -82,7 +82,7 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
         return from(ciType)
             .select(ciType)
             .where(
-                super.like(
+                super.likeIgnoreCase(
                     ciType.typeName, search
                 )
             )
