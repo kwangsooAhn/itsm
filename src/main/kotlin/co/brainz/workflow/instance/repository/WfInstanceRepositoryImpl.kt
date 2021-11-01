@@ -265,7 +265,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                         .from(tag)
                         .where(
                             (tag.tagType.eq(AliceTagConstants.TagType.INSTANCE.code))
-                                .and(tag.tagValue.`in`(tags))
+                                .and(tag.tagValue.toLowerCase().`in`(tags))
                         )
                 )
             )
@@ -293,7 +293,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             val componentSub = QWfComponentEntity("componentSub")
             val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
             builder.and(
-                instance.instanceCreateUser.userName.contains(searchValue)
+                instance.instanceCreateUser.userName.containsIgnoreCase(searchValue.trim())
                     .or(
                         token.tokenId.`in`(
                             JPAExpressions
@@ -316,12 +316,12 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                                                 componentSub.componentType.`in`(componentTypeForTopicDisplay)
                                             )
                                     ),
-                                    tokenDataSub.value.contains(searchValue)
+                                    tokenDataSub.value.containsIgnoreCase(searchValue.trim())
                                 )
                         )
                     )
                     .or(
-                        instance.documentNo.contains(searchValue)
+                        instance.documentNo.containsIgnoreCase(searchValue.trim())
                     )
             )
         }

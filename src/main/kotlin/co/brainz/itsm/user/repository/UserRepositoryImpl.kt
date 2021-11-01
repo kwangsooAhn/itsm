@@ -48,8 +48,8 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     ?.or(super.likeIgnoreCase(user.userId, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.position, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(code.codeName, userSearchCondition.searchValue))
-                    ?.or(super.like(user.officeNumber, userSearchCondition.searchValue))
-                    ?.or(super.like(user.mobileNumber, userSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(user.officeNumber, userSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(user.mobileNumber, userSearchCondition.searchValue))
             )
             .orderBy(user.userName.asc())
 

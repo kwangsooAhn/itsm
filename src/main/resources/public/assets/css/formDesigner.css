@@ -5377,6 +5377,8 @@ body.modal-active {
   font-weight: 500;
   color: #222529;
   padding: 1.125rem 0 0 1.25rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .modal-wrapper .modal-dialog .modal-content {
   overflow: auto;

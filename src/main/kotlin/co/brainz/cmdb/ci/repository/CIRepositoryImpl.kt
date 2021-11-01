@@ -96,11 +96,11 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             .where(
                 (!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
                     .and(
-                        super.like(ci.ciName, ciSearchCondition.searchValue)
-                            ?.or(super.like(ci.ciNo, ciSearchCondition.searchValue))
-                            ?.or(super.like(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
-                            ?.or(super.like(cmdbClass.className, ciSearchCondition.searchValue))
-                            ?.or(super.like(ci.ciDesc, ciSearchCondition.searchValue))
+                        super.likeIgnoreCase(ci.ciName, ciSearchCondition.searchValue)
+                            ?.or(super.likeIgnoreCase(ci.ciNo, ciSearchCondition.searchValue))
+                            ?.or(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
+                            ?.or(super.likeIgnoreCase(cmdbClass.className, ciSearchCondition.searchValue))
+                            ?.or(super.likeIgnoreCase(ci.ciDesc, ciSearchCondition.searchValue))
                     )
             )
 

@@ -8,8 +8,8 @@
         <!-- 문서이력 -->
         <div class="z-token-history">
             <label class="z-token-history-sub-title" th:text="#{token.label.history}"></label>
-            <table class="z-token-history-table">
-                <thead>
+            <table class="z-table z-token-history-table">
+                <thead class="z-table-head">
                 <tr class="flex-row align-items-center">
                     <th style="width: 35%;" class="align-left" th:text="#{token.label.startDt}"></th>
                     <th style="width: 25%;" class="align-left" th:text="#{token.label.elementName}"></th>
@@ -17,7 +17,7 @@
                     <th style="width: 20%;" class="align-left" th:text="#{token.label.process}"></th>
                 </tr>
                 </thead>
-                <tbody id="history"></tbody>
+                <tbody class="z-table-body" id="history"></tbody>
             </table>
         </div>
         <!-- 관련문서 -->

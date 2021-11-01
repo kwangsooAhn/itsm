@@ -42,7 +42,7 @@ data class TokenSearchCondition(
             )
         val tagArray = mutableListOf<String>()
         if (!searchTag.isNullOrEmpty()) {
-            val tags: List<Map<String, Any>> = mapper.readValue(searchTag, listLinkedMapType)
+            val tags: List<Map<String, Any>> = mapper.readValue(searchTag.toLowerCase(), listLinkedMapType)
             tags.forEach {
                 tagArray.add(it["value"] as String)
             }

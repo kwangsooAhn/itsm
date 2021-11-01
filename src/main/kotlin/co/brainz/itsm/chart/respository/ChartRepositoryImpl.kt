@@ -35,7 +35,7 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
             )
             .innerJoin(chart.createUser, user)
             .where(
-                super.like(chart.chartType, chartSearchCondition.searchGroupName)
+                super.eq(chart.chartType, chartSearchCondition.searchGroupName)
             ).orderBy(chart.chartName.asc())
         if (chartSearchCondition.isPaging) {
             query.limit(chartSearchCondition.contentNumPerPage)

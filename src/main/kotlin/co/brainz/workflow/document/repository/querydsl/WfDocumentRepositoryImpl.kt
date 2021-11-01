@@ -42,18 +42,18 @@ class WfDocumentRepositoryImpl :
                 } else {
                     super.eq(document.documentStatus, documentSearchCondition.searchDocumentStatus)
                 },
-                super.like(document.documentName, documentSearchCondition.searchDocuments)
+                super.likeIgnoreCase(document.documentName, documentSearchCondition.searchDocuments)
                     ?.or(
-                        super.like(
+                        super.likeIgnoreCase(
                             document.documentDesc,
                             documentSearchCondition.searchDocuments
                         )
                     ),
-                super.like(
+                super.likeIgnoreCase(
                     document.process.processName,
                     documentSearchCondition.searchProcessName
                 ),
-                super.like(document.form.formName, documentSearchCondition.searchFormName)
+                super.likeIgnoreCase(document.form.formName, documentSearchCondition.searchFormName)
             ).orderBy(document.documentName.asc())
 
         if (documentSearchCondition.isPaging) {

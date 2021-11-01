@@ -37,7 +37,7 @@ class NumberingPatternRepositoryImpl(
                 )
             )
             .where(
-                super.like(pattern.patternName, numberingPatternSearchCondition.searchValue)
+                super.likeIgnoreCase(pattern.patternName, numberingPatternSearchCondition.searchValue)
             )
             .orderBy(pattern.patternName.desc())
             .limit(numberingPatternSearchCondition.contentNumPerPage)

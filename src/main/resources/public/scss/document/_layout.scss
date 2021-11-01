@@ -113,35 +113,23 @@
           }
 
           &-table {
-            width: 100%;
-            font-family: $token-history-table-font-family;
-            font-size: $token-history-table-font-size;
-
-            thead {
-              background-color: $token-history-thead-bg-color;
-              @include border($token-history-table-border-width, solid, $token-history-table-border-color, top);
-
-              tr { height: 2rem; } // 32px
-            }
-
             th, td {
-              @include ellipsis(table-cell);
               padding: 0 0.625rem; // 0 10px
             }
 
-            th {
-              font-size: $token-history-table-font-size;
-              color: $token-history-thead-color;
-              font-weight: $token-history-thead-font-weight;
+            .z-table-head {
+              background-color: $token-history-thead-bg-color;
+              @include border($token-history-table-border-width, solid, $token-history-table-border-color, top);
+
+              tr {
+                height: 2rem; // 32px
+
+                th { color: $token-history-thead-color; }
+              }
             }
 
-            td {
-              color: $token-history-tbody-color;
-            }
-
-            tbody {
-              width: 100%;
-              @include border(calc(#{$token-history-table-border-width} * 2), solid, $token-history-table-border-color, top);
+            .z-table-body {
+              border: none;
               overflow-y: auto;
 
               tr {
