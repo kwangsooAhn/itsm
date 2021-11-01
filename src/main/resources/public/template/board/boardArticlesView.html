@@ -110,6 +110,7 @@
                 content: (boardId !== "") ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
             });
 
+            OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelector('.view'), {className: 'scrollbar'});
         };
 
