@@ -162,7 +162,7 @@ class WfProcessService(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[Process Entity]"
         )
-        if (processEntity.processStatus == WfProcessConstants.Status.PUBLISH.code ||
+        if (processEntity.processStatus == WfProcessConstants.Status.USE.code ||
             processEntity.processStatus == WfProcessConstants.Status.DESTROY.code
         ) {
             return false

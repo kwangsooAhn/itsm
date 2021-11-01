@@ -17,7 +17,6 @@ import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.entity.WfComponentPropertyEntity
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
-import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.form.mapper.WfFormMapper
@@ -48,7 +47,6 @@ import org.springframework.stereotype.Service
 class WfFormService(
     private val wfFormRepository: WfFormRepository,
     private val wfComponentRepository: WfComponentRepository,
-    private val wfDocumentRepository: WfDocumentRepository,
     private val aliceUserRepository: AliceUserRepository,
     private val aliceTagRepository: AliceTagRepository,
     private val wfFormGroupRepository: WfFormGroupRepository,
@@ -78,9 +76,7 @@ class WfFormService(
             when (restTemplateDto.status) {
                 WfFormConstants.FormStatus.EDIT.value,
                 WfFormConstants.FormStatus.PUBLISH.value -> restTemplateDto.editable = true
-                WfFormConstants.FormStatus.USE.value -> {
-                    restTemplateDto.editable = !wfFormRepository.findFormDocumentExist(restTemplateDto.id)
-                }
+                WfFormConstants.FormStatus.USE.value -> restTemplateDto.editable = false
             }
             formList.add(restTemplateDto)
         }
@@ -320,9 +316,7 @@ class WfFormService(
      */
     @Transactional
     fun deleteForm(formId: String): Boolean {
-        val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
-        val documentEntity = wfDocumentRepository.findByForm(formEntity)
-        if (documentEntity == null) {
+        if (!wfFormRepository.findFormDocumentExist(formId)) {
             wfFormRepository.removeWfFormEntityByFormId(formId)
             return true
         }
