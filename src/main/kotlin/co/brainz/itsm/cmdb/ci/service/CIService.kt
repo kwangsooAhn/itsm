@@ -183,6 +183,7 @@ class CIService(
                             CIAttributeValueDto(
                                 attributeId = cItem.attributeId,
                                 attributeName = cItem.attributeName,
+                                attributeDesc = cItem.attributeDesc,
                                 attributeText = cItem.attributeText,
                                 attributeType = cItem.attributeType,
                                 attributeOrder = cData["seq"] as Int?,
