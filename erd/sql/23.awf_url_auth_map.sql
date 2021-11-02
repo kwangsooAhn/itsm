@@ -350,6 +350,7 @@ insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.creat
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.create');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.update');
+insert into awf_url_auth_map values ('/rest/forms/{id}', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/images', 'put', 'image.update');
 insert into awf_url_auth_map values ('/rest/images', 'post', 'image.create');
 insert into awf_url_auth_map values ('/rest/images/{id}', 'delete', 'image.delete');
