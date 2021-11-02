@@ -22,7 +22,7 @@
         <td style="width: 5%;" class="align-center text-clip">
             <label class="z-checkbox" th:for="${index.index}" tabindex="0">
                 <input type="checkbox" th:name="${attribute.attributeName}" th:id="${index.index}"
-                       th:value="${attribute.attributeId}" th:disabled="${attribute.extends == true}">
+                       th:value="${attribute.attributeId}" th:disabled="${attribute.extends == true}" th:checked="${attribute.extends == true}">
                 <span></span>
             </label>
         </td>
