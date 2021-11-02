@@ -16,7 +16,13 @@ import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
+import co.brainz.framework.download.excel.ExcelComponent
+import co.brainz.framework.download.excel.dto.ExcelCellVO
+import co.brainz.framework.download.excel.dto.ExcelRowVO
+import co.brainz.framework.download.excel.dto.ExcelSheetVO
+import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
@@ -32,14 +38,17 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
 class CIService(
+    private val aliceMessageSource: AliceMessageSource,
     private val ciService: CIService,
     private val ciClassService: CIClassService,
     private val ciComponentDataRepository: CIComponentDataRepository,
-    private val currentSessionUser: CurrentSessionUser
+    private val currentSessionUser: CurrentSessionUser,
+    private val excelComponent: ExcelComponent
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -278,5 +287,58 @@ class CIService(
         } else {
             null
         }
+    }
+
+    /**
+     * CI 조회 Excel 다운로드
+     */
+    fun getCIsExcelDownload(ciSearchCondition: CISearchCondition): ResponseEntity<ByteArray> {
+        val returnDto = ciService.getCIs(ciSearchCondition)
+        val excelVO = ExcelVO(
+            sheets = mutableListOf(
+                ExcelSheetVO(
+                    rows = mutableListOf(
+                        ExcelRowVO(
+                            cells = listOf(
+                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.ciNo")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.type")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.name")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.description")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.tag"))
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        returnDto.data.forEach { result ->
+            excelVO.sheets[0].rows.add(
+                ExcelRowVO(
+                    cells = mutableListOf(
+                        ExcelCellVO(value = result.ciNo),
+                        ExcelCellVO(value = result.typeName),
+                        ExcelCellVO(value = result.ciName),
+                        ExcelCellVO(value = result.ciDesc ?: ""),
+                        ExcelCellVO(value = this.tagToString(result.ciTags))
+                    )
+                )
+            )
+        }
+        return excelComponent.download(excelVO)
+    }
+
+    /**
+     * CI 태그 목록을 String 변경
+     */
+    fun tagToString(tags: List<AliceTagDto>?): String {
+        var tagStr = ""
+        tags?.forEachIndexed { index, tag ->
+            if (index > 0) {
+                tagStr += ", "
+            }
+            tagStr += tag.tagValue
+        }
+        return tagStr
     }
 }

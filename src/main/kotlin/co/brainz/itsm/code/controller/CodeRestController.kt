@@ -4,6 +4,7 @@ import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeReturnDto
 import co.brainz.itsm.code.service.CodeService
 import javax.validation.Valid
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -67,5 +68,16 @@ class CodeRestController(private val codeService: CodeService) {
     @DeleteMapping("/{code}")
     fun deleteCode(@PathVariable code: String): String {
         return codeService.deleteCode(code)
+    }
+
+    /**
+     * 코드 데이터 목록 조회 Excel 다운로드
+     */
+    @GetMapping("/excel")
+    fun getCodeListExcelDownload(
+        @RequestParam(value = "search", defaultValue = "") search: String,
+        @RequestParam(value = "pCode", defaultValue = "") pCode: String
+    ): ResponseEntity<ByteArray> {
+        return codeService.getCodeListExcelDownload(search, pCode)
     }
 }

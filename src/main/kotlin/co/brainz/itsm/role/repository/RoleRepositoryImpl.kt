@@ -20,7 +20,7 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
 
     override fun findRoleSearch(roleSearchCondition: RoleSearchCondition): QueryResults<RoleListDto> {
         val role = QAliceRoleEntity.aliceRoleEntity
-        return from(role)
+        val query = from(role)
             .select(
                 Projections.constructor(
                     RoleListDto::class.java,
@@ -34,8 +34,10 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
                     ?.or(super.likeIgnoreCase(role.roleDesc, roleSearchCondition.searchValue))
             )
             .orderBy(role.roleName.asc())
-            .limit(roleSearchCondition.contentNumPerPage)
-            .offset((roleSearchCondition.pageNum - 1) * roleSearchCondition.contentNumPerPage)
-            .fetchResults()
+        if (roleSearchCondition.isPaging) {
+            query.limit(roleSearchCondition.contentNumPerPage)
+            query.offset((roleSearchCondition.pageNum - 1) * roleSearchCondition.contentNumPerPage)
+        }
+        return query.fetchResults()
     }
 }

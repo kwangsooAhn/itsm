@@ -57,7 +57,7 @@ class RoleController(private val roleService: RoleService) {
      * 역할 편집 화면
      */
     @GetMapping("/{roleId}/edit")
-    fun getRoleList(@PathVariable roleId: String, model: Model): String {
+    fun getRoleEdit(@PathVariable roleId: String, model: Model): String {
         model.addAttribute("role", roleService.getRoleDetail(roleId))
         model.addAttribute("authList", roleService.selectAuthList())
         model.addAttribute("view", false)

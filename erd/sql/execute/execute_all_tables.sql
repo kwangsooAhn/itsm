@@ -1639,6 +1639,7 @@ insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'post', 'CI 컴포넌트
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'get', 'CI 컴포넌트 - CI 컴포넌트 세부 정보 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/relation', 'get', 'CI 연관 관계 데이터 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/data', 'delete', 'CI 컴포넌트 - CI 세부 정보 삭제', 'FALSE');
+insert into awf_url values ('/rest/cmdb/cis/excel', 'get', 'CI 조회 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
@@ -1652,6 +1653,7 @@ insert into awf_url values ('/rest/cmdb/types/{id}', 'put', 'CMDB Type 수정', 
 insert into awf_url values ('/rest/cmdb/types/{id}', 'delete', 'CMDB Type 삭제', 'TRUE');
 insert into awf_url values ('/rest/codes', 'post', '코드 등록', 'TRUE');
 insert into awf_url values ('/rest/codes', 'get', '코드 전체 조회', 'TRUE');
+insert into awf_url values ('/rest/codes/excel', 'get', '코드 조회 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'get', '코드 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'delete', '코드 삭제', 'TRUE');
@@ -1687,6 +1689,7 @@ insert into awf_url values ('/rest/forms/{id}/data', 'get', '폼 디자이너 �
 insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
 insert into awf_url values ('/rest/forms', 'post', '폼 디자이너 기본 정보 저장 / 다른 이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}', 'put', '폼 디자이너 기본 정보 수정', 'TRUE');
+insert into awf_url values ('/rest/forms/{id}', 'get', '폼 디자이너 기본 정보 조회', true);
 insert into awf_url values ('/rest/images', 'post', '이미지 업로드', 'TRUE');
 insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE');
 insert into awf_url values ('/rest/images/{id}', 'get', '이미지 조회', 'FALSE');
@@ -1727,6 +1730,7 @@ insert into awf_url values ('/rest/process/{id}/simulation', 'put', '프로세�
 insert into awf_url values ('/rest/processes/{id}/data', 'get', '프로세스 기본데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/roles', 'post', '역할 등록', 'TRUE');
 insert into awf_url values ('/rest/roles', 'get', '역할 전체 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/roles/excel', 'get', '역할 조회 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/roles/{id}', 'get', '역할 상제 정보 조회', 'TRUE');
 insert into awf_url values ('/rest/roles/{id}', 'put', '역할 수정', 'TRUE');
 insert into awf_url values ('/rest/roles/{id}', 'delete', '역할 삭제', 'TRUE');
@@ -2030,6 +2034,10 @@ insert into awf_url_auth_map values ('/rest/charts/{id}', 'put', 'chart.update')
 insert into awf_url_auth_map values ('/rest/charts/{id}', 'delete', 'chart.delete');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.create');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.update');
+insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'code.read');
+insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'code.create');
+insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'code.update');
+insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'code.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.update');
@@ -2048,6 +2056,10 @@ insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'delete', 'cmdb.
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}/attributes', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}/attributes', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.ci.read');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.read');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.create');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.update');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.update');
@@ -2095,6 +2107,10 @@ insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.create'
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.update');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.read');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.delete');
+insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'role.read');
+insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'role.create');
+insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'role.update');
+insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'role.delete');
 insert into awf_url_auth_map values ('/rest/workflows', 'post', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'document.admin.create');
@@ -2129,6 +2145,7 @@ insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.creat
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.create');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.update');
+insert into awf_url_auth_map values ('/rest/forms/{id}', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/images', 'put', 'image.update');
 insert into awf_url_auth_map values ('/rest/images', 'post', 'image.create');
 insert into awf_url_auth_map values ('/rest/images/{id}', 'delete', 'image.delete');

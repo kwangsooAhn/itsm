@@ -7,9 +7,11 @@ package co.brainz.itsm.role.controller
 
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.dto.RoleListReturnDto
+import co.brainz.itsm.role.dto.RoleSearchCondition
 import co.brainz.itsm.role.service.RoleService
 import javax.validation.Valid
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -66,5 +68,13 @@ class RoleRestController(private val roleService: RoleService) {
     @DeleteMapping("/{roleId}")
     fun deleteRole(@PathVariable roleId: String): String {
         return roleService.deleteRole(roleId)
+    }
+
+    /**
+     * 역할 목록 조회 Excel 다운로드
+     */
+    @GetMapping("/excel")
+    fun getRoleListExcelDownload(roleSearchCondition: RoleSearchCondition): ResponseEntity<ByteArray> {
+        return roleService.getRoleListExcelDownload(roleSearchCondition)
     }
 }

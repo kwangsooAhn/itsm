@@ -61,6 +61,8 @@ dependencies {
     implementation("org.apache.httpcomponents:httpcore:4.4.13")
     implementation("org.apache.httpcomponents:httpclient:4.5.11")
     implementation("com.google.code.gson:gson:2.8.2")
+    implementation("org.apache.poi:poi:5.0.0")
+    implementation("org.apache.poi:poi-ooxml:5.0.0")
     runtimeOnly("org.postgresql:postgresql")
 
     // Junit 5 설정
