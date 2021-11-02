@@ -251,6 +251,10 @@ insert into awf_url_auth_map values ('/rest/charts/{id}', 'put', 'chart.update')
 insert into awf_url_auth_map values ('/rest/charts/{id}', 'delete', 'chart.delete');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.create');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.update');
+insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'code.read');
+insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'code.create');
+insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'code.update');
+insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'code.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.update');
@@ -269,6 +273,10 @@ insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'delete', 'cmdb.
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}/attributes', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}/attributes', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.ci.read');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.read');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.create');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.update');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.update');
@@ -316,6 +324,10 @@ insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.create'
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.update');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.read');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.delete');
+insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'role.read');
+insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'role.create');
+insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'role.update');
+insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'role.delete');
 insert into awf_url_auth_map values ('/rest/workflows', 'post', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'document.admin.create');

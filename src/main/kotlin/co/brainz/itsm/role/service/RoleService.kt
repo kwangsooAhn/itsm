@@ -14,6 +14,12 @@ import co.brainz.framework.auth.repository.AliceAuthRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.download.excel.ExcelComponent
+import co.brainz.framework.download.excel.dto.ExcelCellVO
+import co.brainz.framework.download.excel.dto.ExcelRowVO
+import co.brainz.framework.download.excel.dto.ExcelSheetVO
+import co.brainz.framework.download.excel.dto.ExcelVO
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
@@ -23,14 +29,17 @@ import co.brainz.itsm.role.dto.RoleSearchCondition
 import co.brainz.itsm.role.repository.RoleRepository
 import javax.transaction.Transactional
 import kotlin.math.ceil
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
 class RoleService(
+    private val aliceMessageSource: AliceMessageSource,
     private val roleRepository: RoleRepository,
     private val authRepository: AliceAuthRepository,
     private val roleAuthMapRepository: AliceRoleAuthMapRepository,
-    private val userRoleMapRepository: AliceUserRoleMapRepository
+    private val userRoleMapRepository: AliceUserRoleMapRepository,
+    private val excelComponent: ExcelComponent
 ) {
     /**
      * 상단 전체 역할정보를 가져온다.
@@ -187,5 +196,39 @@ class RoleService(
             )
         }
         return roleDetailDtoList
+    }
+
+    /**
+     * 역할 목록 Excel 다운로드
+     */
+    fun getRoleListExcelDownload(roleSearchCondition: RoleSearchCondition): ResponseEntity<ByteArray> {
+        val queryResult = roleRepository.findRoleSearch(roleSearchCondition)
+        val excelVO = ExcelVO(
+            sheets = mutableListOf(
+                ExcelSheetVO(
+                    rows = mutableListOf(
+                        ExcelRowVO(
+                            cells = listOf(
+                                ExcelCellVO(value = aliceMessageSource.getMessage("role.label.name")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("role.label.id")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("role.label.desc"))
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        queryResult.results.forEach { result ->
+            excelVO.sheets[0].rows.add(
+                ExcelRowVO(
+                    cells = mutableListOf(
+                        ExcelCellVO(value = result.roleName),
+                        ExcelCellVO(value = result.roleId),
+                        ExcelCellVO(value = result.roleDesc ?: "")
+                    )
+                )
+            )
+        }
+        return excelComponent.download(excelVO)
     }
 }

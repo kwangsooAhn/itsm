@@ -27,6 +27,10 @@
         <input type="hidden" id="flag" name="flag" value="itsm"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" id="btnExcelDownload" name="btnExcelDownload" th:onclick="|javascript:onExcelDownload()|"
+                sec:authorize="hasAuthority('cmdb.ci.create')" th:text="#{common.btn.export}"></button>
+    </div>
 </div>
 <div layout:fragment="pageList">
     <div class="z-list-content flex-row" id="ciList"></div>
@@ -127,6 +131,13 @@
             }
         };
         aliceJs.sendXhr(opt);
+    }
+
+    function onExcelDownload() {
+        aliceJs.fetchDownload({
+            url: '/rest/cmdb/cis/excel?' + aliceJs.serialize(document.getElementById('searchFrm')),
+            fileName: i18n.msg('cmdb.ci.label.ciInquiry') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
+        });
     }
     /*]]>*/
 </script>

@@ -19,9 +19,12 @@
            th:placeholder="#{code.label.searchPlaceholder}"/>
     <span id="totalCount" class="z-search-count"></span>
     <div class="ml-auto">
-        <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate"
+        <button type="button" class="z-button primary" id="btnCreate" name="btnCreate"
                 sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.add}"
                 th:onclick="|javascript:onCreate()|"></button>
+        <button type="button" class="z-button secondary" id="btnExcelDownload" name="btnExcelDownload"
+                sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.export}"
+                th:onclick="|javascript:onExcelDownload()|"></button>
     </div>
 </div>
 <div layout:fragment="pageTree">
@@ -418,6 +421,14 @@
                 drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeValue});
             }
         }
+    }
+
+    function onExcelDownload() {
+        const search = encodeURIComponent(document.getElementById('searchValue').value);
+        aliceJs.fetchDownload({
+            url: '/rest/codes/excel?search=' + search,
+            fileName: i18n.msg('code.label.code') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
+        });
     }
     /*]]>*/
 </script>

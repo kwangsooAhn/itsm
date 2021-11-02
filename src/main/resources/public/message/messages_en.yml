@@ -7,6 +7,7 @@ common:
     close: "CLOSE"
     delete: "DELETE"
     editUserInfo: "Edit profile"
+    export: "EXPORT"
     list: "LIST"
     logout: "LOGOUT"
     modify: "MODIFY"

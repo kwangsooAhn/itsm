@@ -6,6 +6,12 @@
 package co.brainz.itsm.code.service
 
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.download.excel.ExcelComponent
+import co.brainz.framework.download.excel.dto.ExcelCellVO
+import co.brainz.framework.download.excel.dto.ExcelRowVO
+import co.brainz.framework.download.excel.dto.ExcelSheetVO
+import co.brainz.framework.download.excel.dto.ExcelVO
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
@@ -23,14 +29,17 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.querydsl.core.QueryResults
 import javax.transaction.Transactional
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
 class CodeService(
+    private val aliceMessageSource: AliceMessageSource,
     private val codeRepository: CodeRepository,
     private val codeLangRepository: CodeLangRepository,
-    private val currentSessionUser: CurrentSessionUser
+    private val currentSessionUser: CurrentSessionUser,
+    private val excelComponent: ExcelComponent
 ) {
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -308,5 +317,45 @@ class CodeService(
             codeList.add(child)
             getChildCode(allList, child, codeList)
         }
+    }
+
+    /**
+     * 트리 조회 Excel 다운로드.
+     */
+    fun getCodeListExcelDownload(search: String, pCode: String): ResponseEntity<ByteArray> {
+        val results = this.getCodeList(search, pCode)
+        val excelVO = ExcelVO(
+            sheets = mutableListOf(
+                ExcelSheetVO(
+                    rows = mutableListOf(
+                        ExcelRowVO(
+                            cells = listOf(
+                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.code")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.pCode")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.name")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.codeValue")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.seqNum")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.description"))
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        results.data.forEach { result ->
+            excelVO.sheets[0].rows.add(
+                ExcelRowVO(
+                    cells = mutableListOf(
+                        ExcelCellVO(value = result.code),
+                        ExcelCellVO(value = result.pCode),
+                        ExcelCellVO(value = result.codeName ?: ""),
+                        ExcelCellVO(value = result.codeValue ?: ""),
+                        ExcelCellVO(value = result.seqNum ?: ""),
+                        ExcelCellVO(value = result.codeDesc ?: "")
+                    )
+                )
+            )
+        }
+        return excelComponent.download(excelVO)
     }
 }
