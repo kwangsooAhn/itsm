@@ -700,7 +700,7 @@ class ZFormDesigner {
                     if (optionListType.includes(component.type)) {
                         for (let options of component.element.options) {
                             //필수 값 체크
-                            if(options.name === '' || options.value === '') {
+                            if(zValidation.isEmpty(options.name) || zValidation.isEmpty(options.value)) {
                                 zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
                                 isVaild = false;
                                 break outer;
@@ -712,7 +712,7 @@ class ZFormDesigner {
                         for (let columns of component.element.columns) {
                             for (let option of columns.columnElement.options) {
                                 //필수 값 체크
-                                if(option.name === '' || option.value === '') {
+                                if(zValidation.isEmpty(option.name) || zValidation.isEmpty(option.value)) {
                                     zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
                                     isVaild = false;
                                     break outer;
@@ -737,10 +737,10 @@ class ZFormDesigner {
         if (!this.panel.validationStatus) { return false; }
         // 발행, 사용 상태일 경우, 저장이 불가능하다.
         const deployableStatus = ['form.status.publish', 'form.status.use'];
-        if (deployableStatus.includes(this.data.status)) {
-            zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
-            return false;
-        }
+        // if (deployableStatus.includes(this.data.status)) {
+        //     zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
+        //     return false;
+        // }
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
         console.debug(saveData);
