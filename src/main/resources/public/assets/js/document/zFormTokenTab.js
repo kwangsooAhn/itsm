@@ -92,11 +92,17 @@ class ZFormTokenTab {
      */
     setDateTimeFormat() {
         document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
-            element.textContent = dateFormatFromNow(element.textContent);
+            if (!element.classList.contains('active')) {
+                element.classList.add('active');
+                element.textContent = dateFormatFromNow(element.textContent);
+            }
         });
 
         document.querySelectorAll('.date-time').forEach((element) => {
-            element.textContent = i18n.userDateTime(element.textContent);
+            if (!element.classList.contains('active')) {
+                element.classList.add('active');
+                element.textContent = i18n.userDateTime(element.textContent);
+            }
         });
     }
 
