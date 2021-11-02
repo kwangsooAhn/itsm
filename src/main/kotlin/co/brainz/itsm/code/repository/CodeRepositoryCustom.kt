@@ -15,4 +15,6 @@ interface CodeRepositoryCustom : AliceRepositoryCustom {
     fun findByCodeAll(): QueryResults<CodeEntity>
 
     fun findCodeDetail(search: String): CodeDetailDto
+
+    fun findCodeByCodeLang(pCode: String, lang: String?) : List<CodeDto>
 }

@@ -6,8 +6,11 @@
 
 package co.brainz.itsm.customCode.service
 
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.code.service.CodeService
@@ -41,6 +44,7 @@ import javax.persistence.Column
 import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.springframework.data.domain.Sort
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -53,7 +57,8 @@ class CustomCodeService(
     private val userRepository: UserRepository,
     private val componentService: ComponentService,
     private val codeRepository: CodeRepository,
-    private val codeService: CodeService
+    private val codeService: CodeService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
@@ -275,7 +280,7 @@ class CustomCodeService(
         }
         if (dataList.size > 0) {
             for (data in dataList) {
-                val customCodeDataDto = CustomCodeDataDto(key = "", value = "")
+                val customCodeDataDto = CustomCodeDataDto(key = "", value = "", name = "")
                 val dataFields = data::class.java.declaredFields
                 for (dataField in dataFields) {
                     if (dataField.isAnnotationPresent(Column::class.java)) {
@@ -307,8 +312,20 @@ class CustomCodeService(
     private fun getCodeTypeData(customCode: CustomCodeCoreDto): MutableList<CustomCodeDataDto> {
         val customDataList = mutableListOf<CustomCodeDataDto>()
         val dataList = customCode.pCode?.let { codeService.getCodeListByCustomCode(it) }
+        val lang = currentSessionUser.getUserDto()?.lang
+        val findCode = codeRepository.findCodeByCodeLang(customCode.pCode!!, lang)
+
         dataList?.forEach {
-            customDataList.add(CustomCodeDataDto(key = it.code, value = it.codeValue!!))
+            var codeName = it.codeName!!
+
+            for (codeDto in findCode) {
+                if (codeDto.codeLangName != null && codeDto.lang != null) {
+                    codeName = codeDto.codeLangName
+                }
+                if (it.code.equals(codeDto.code)) {
+                    customDataList.add(CustomCodeDataDto(key = it.code, value = it.codeValue!!, name = codeName))
+                }
+            }
         }
         return customDataList
     }
