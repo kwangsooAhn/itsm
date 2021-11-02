@@ -686,6 +686,49 @@ class ZFormDesigner {
             }
         }
     }
+    
+    /**
+     * 저장 전 유효성 검증
+     */
+    saveValidationCheck(saveData) {
+        let isVaild = true;
+        let optionListType = ['radio', 'checkBox', 'dropdown'];
+
+        outer : for (let group of saveData.group) {
+            for (let row of group.row) {
+                for (let component of row.component) {
+                    if (optionListType.includes(component.type)) {
+                        for (let options of component.element.options) {
+                            //필수 값 체크
+                            if(options.name === '' || options.value === '') {
+                                zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
+                                isVaild = false;
+                                console.log('위쪽 필수값체크: ' +isVaild);
+                                break outer;
+
+                            }
+                        }
+                    }
+                    if(component.type === 'dynamicRowTable') {
+                        for (let columns of component.element.columns) {
+                            for (let option of columns.columnElement.options) {
+                                //필수 값 체크
+                                if(option.name === '' || option.value === '') {
+                                    zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
+                                    isVaild = false;
+                                    console.log('아래쪽 필수값체크: ' +isVaild);
+                                    break outer;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        console.log('함수 나갈때 : '+isVaild);
+        return isVaild;
+    }
+
     /**
      * 폼 저장
      * @param boolean 저장후  팝업 닫을지 여부
@@ -704,7 +747,10 @@ class ZFormDesigner {
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
         console.debug(saveData);
-
+        // '편집' 상태에서 '발행' or '사용' 상태로 저장하려는 경우 유효성 검증
+        if (this.data.status === 'form.status.edit' && deployableStatus.includes(this.form.status)) {
+            if(!this.saveValidationCheck(saveData)) { return false; }
+        }
         // 저장
         aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
             method: 'PUT',
