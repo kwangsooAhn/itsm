@@ -217,7 +217,7 @@ class ZFormTokenTab {
                 body: JSON.stringify(jsonArray)
             }).then((rtn) => {
                 if (rtn === 'true') {
-                    this.reloadTab();
+                    this.reloadRelatedInstance();
                 } else {
                     zAlert.danger(i18n.msg('common.msg.fail'));
                 }
