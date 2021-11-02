@@ -54,53 +54,122 @@ a:active {
 
 // table
 table {
+  width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0; // 테이블 요소 사이의 간격을 제거
-  font-family: inherit;
+  line-height: 1.5;
+
+  td, th {
+    @include ellipsis(table-cell);
+    vertical-align: middle;
+  }
+}
+.z-table {
+  font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
   color: $element-font-color;
   background-color: transparent;
-  @include border($element-border-width, solid, transparent, all);
+  border: none;
 
-  tr {
-    height: 2.5rem; // 40px
+  td, th {
+    padding: 0 0.9375rem; // 0 15px
+    &:first-child { padding-left: 1.25rem; } // 20px
 
-    th {
-      font-weight: $table-head-font-weight;
+    a { color: $element-font-color; }
+  }
+
+  th {
+    font-family: $table-head-font-family;
+    font-size: $table-head-font-size;
+    font-weight: $table-head-font-weight;
+    color: $table-head-font-color;
+  }
+
+  .z-table-head {
+    @include border(calc(#{$element-border-width} * 2), solid, $element-border-color, bottom);
+    tr { height: 2.5rem; } // 42px
+  }
+
+  .z-table-body {
+    width: 100%;
+    height: 100%;
+    @include border($element-border-width, solid, $element-border-color, bottom);
+    tr {
+      height: 2.5625rem; // 41px
+
+      // 마우스 오버시 배경 색상
+      &:hover { background-color: $table-row-hover-bg-color; }
+
+      // 선택된 경우
+      &.active {
+        background-color: $table-row-active-bg-color;
+        td { color: $table-row-active-font-color; }
+      }
     }
-
-    td, th {
-      @include ellipsis(table-cell);
-      vertical-align: middle;
+    // 데이터 없을때
+    .no-data-found-list {
+      pointer-events: none;
     }
   }
 }
-.z-table {
-  width: 100%;
+.z-option-table {
+  font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
-  color: $table-head-font-color;
+  color: $option-table-font-color;
+  background-color: transparent;
   border: none;
-  border-collapse: collapse;
 
   tr {
     @include border($element-border-width, solid, $element-border-color, bottom);
     border-left: none;
     border-right: none;
+    height: 2.5rem; // 40px
 
-    &.z-table-head {
+    th, td { padding: 0 0.5rem; }
+
+    &.z-option-table-header {
       height: 2rem; // 32px
+      font-family: $table-head-font-family;
+      font-size: $table-head-font-size;
       font-weight: $table-head-font-weight;
+      color: $option-table-header-font-color;
       @include border($element-border-width, solid, $element-border-color, top);
       @include border(calc(#{$element-border-width} * 2), solid, $element-border-color, bottom);
-      background-color: $table-head-bg-color;
+      background-color: $option-table-header-bg-color;
     }
 
-    th, td {padding: 0 0.5rem}
+    &.z-option-table-row {
+
+      .z-checkbox, .z-radio { margin: 0 0 0 0.5rem; } // 8px
+
+      .z-input {
+        width: 85%;
+        padding: 0.75rem;
+        margin: 0.25rem; // 4px
+        // 입력된 값이 있으면
+        &:not(:placeholder-shown):not(:focus) {
+          border-color: transparent;
+        }
+      }
+
+      .z-button-icon {
+        .z-icon {
+          display: block;
+          margin: 0 auto;
+          background: $option-table-icon-color;
+          pointer-events: none;
+        }
+        &:hover {
+          .z-icon { background: $option-table-icon-hover-color; }
+        }
+      }
+    }
   }
 }
+
 // span
 span {
   font-family: inherit;
@@ -108,7 +177,7 @@ span {
 }
 // label
 label {
-  font-family: inherit;
+  font-family: $label-font-family;
   color: $label-font-color;
   font-size: $label-font-size;
   font-weight: $label-font-weight;

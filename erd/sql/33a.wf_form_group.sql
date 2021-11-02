@@ -44,6 +44,15 @@ INSERT INTO wf_form_group VALUES ('4028b21f7c9ff7c8017ca0544af6004d','승인 / �
 /* 서비스데스크 - 서비스요청 - 만족도 */
 INSERT INTO wf_form_group VALUES ('4028b21f7c90d996017c914eec300040','제목','4028b21f7c90d996017c914e27340030');
 INSERT INTO wf_form_group VALUES ('4028b21f7c90d996017c914eecb30048','만족도평가','4028b21f7c90d996017c914e27340030');
+/* 서비스데스크 - 구성관리 */
+INSERT INTO wf_form_group VALUES ('2c9180867cc31a25017cc7a68e9204d3', '제목', '2c9180867cc31a25017cc7a069e301a5');
+INSERT INTO wf_form_group VALUES ('2c9180867cc31a25017cc7a68ea004dc', '신청내역', '2c9180867cc31a25017cc7a069e301a5');
+INSERT INTO wf_form_group VALUES ('2c9180867cc31a25017cc7a68ece0500', '접수내역', '2c9180867cc31a25017cc7a069e301a5');
+INSERT INTO wf_form_group VALUES ('2c9180867cc31a25017cc7a68edf050c', '처리내역', '2c9180867cc31a25017cc7a069e301a5');
+INSERT INTO wf_form_group VALUES ('2c9180867cc31a25017cc7a68eef0519', '승인내역', '2c9180867cc31a25017cc7a069e301a5');
+/* 서비스데스크 - 구성관리 - 만족도 */
+INSERT INTO wf_form_group VALUES ('2c9180867cc31a25017cc5c8ad340134', '제목', '2c9180867cc31a25017cc5c7268f0122');
+INSERT INTO wf_form_group VALUES ('2c9180867cc31a25017cc5c8ad4b013d', '만족도평가', '2c9180867cc31a25017cc5c7268f0122');
 /* 인프라변경관리 */
 INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a5670ae8', '제목', '4028b8817cbfc7a7017cc08f7b0b0763');
 INSERT INTO wf_form_group VALUES ('4028b8817cbfc7a7017cc095a59a0af2', '신청내역', '4028b8817cbfc7a7017cc08f7b0b0763');

@@ -31,7 +31,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
         return from(code)
             .select(code)
             .where(
-                super.like(
+                super.likeIgnoreCase(
                     code.code, search
                 )
             )
@@ -90,5 +90,30 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
             )
             .where(code.code.eq(search))
             .fetchOne()
+    }
+
+    override fun findCodeByCodeLang(pCodes: String, lang: String?): List<CodeDto> {
+        val code = QCodeEntity.codeEntity
+        val codeLang = QCodeLangEntity.codeLangEntity
+        return from(code)
+            .select(
+                Projections.constructor(
+                    CodeDto::class.java,
+                    code.code,
+                    code.pCode.code,
+                    code.codeValue,
+                    code.codeName,
+                    code.codeDesc,
+                    code.editable,
+                    code.createDt,
+                    code.level,
+                    code.seqNum,
+                    codeLang.codeName,
+                    codeLang.lang
+                )
+            )
+            .leftJoin(codeLang).on(code.code.eq(codeLang.code), codeLang.lang.eq(lang))
+            .where(code.pCode.code.`in`(pCodes).and(code.useYn.eq(true)))
+            .fetch()
     }
 }

@@ -21,7 +21,7 @@
 
 aliceJs.initDesignedSelectTag = function (targetDOM) {
     if (!targetDOM) targetDOM = document;
-    targetDOM.querySelectorAll('select').forEach(function(originSelectTag) {
+    targetDOM.querySelectorAll('select').forEach(function (originSelectTag) {
         if (originSelectTag.style.display !== 'none') {
             // 이미 그려진 경우 초기화.
             if (originSelectTag.parentElement.classList.contains('z-select')) {
@@ -74,7 +74,9 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
 
             if (originSelectTag.classList.contains('readonly')) {
                 designedSelectBox.classList.add('readonly');
-                designedSelectBoxText.innerText = originSelectTag.options[originSelectTag.selectedIndex].text;
+                if (originSelectTag.options[originSelectTag.selectedIndex]) {
+                    designedSelectBoxText.innerText = originSelectTag.options[originSelectTag.selectedIndex].text;
+                }
             } else {
                 // z-select-option : 옵션 리스트용 박스 만들기
                 let ulElement = document.createElement('ul');
@@ -94,7 +96,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                     options.appendChild(liElement.cloneNode(true));
                 }
                 ulElement.appendChild(options);
-                OverlayScrollbars(ulElement, { className: 'inner-scrollbar' });
+                OverlayScrollbars(ulElement, {className: 'inner-scrollbar'});
 
                 // z-select-box 클릭 이벤트
                 if (!originSelectTag.disabled && !originSelectTag.classList.contains('disabled') &&
@@ -121,7 +123,9 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                     ulElement.querySelectorAll('li').forEach(function (liOption) {
                         liOption.addEventListener('click', function (clickedOption) {
                             clickedOption.stopPropagation();
-                            clickedOption.target.parentElement.querySelectorAll('li').forEach(function (li) {li.classList.remove('selected');});
+                            clickedOption.target.parentElement.querySelectorAll('li').forEach(function (li) {
+                                li.classList.remove('selected');
+                            });
                             clickedOption.target.classList.add('selected');
                             designedSelectBoxText.innerText = liOption.innerText;
                             // 선택된 값을 원본 select 에 적용.

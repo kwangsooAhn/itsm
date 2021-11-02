@@ -26,9 +26,8 @@ class SchedulerController(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     private val schedulerSearchPage: String = "scheduler/schedulerSearch"
-    private val schedulerEditPage: String = "scheduler/schedulerEdit"
+    private val schedulerPage: String = "scheduler/scheduler"
     private val schedulerListPage: String = "scheduler/schedulerList"
-    private val schedulerViewPage: String = "scheduler/schedulerView"
     private val schedulerHistoryListModal: String = "scheduler/schedulerHistoryListModal"
 
     /**
@@ -60,7 +59,8 @@ class SchedulerController(
             "executeCycleTypeList",
             codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE)
         )
-        return schedulerEditPage
+        model.addAttribute("view", false)
+        return schedulerPage
     }
 
     /**
@@ -74,7 +74,8 @@ class SchedulerController(
             codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE)
         )
         model.addAttribute("schedule", schedulerService.getSchedulerDetail(taskId))
-        return schedulerViewPage
+        model.addAttribute("view", true)
+        return schedulerPage
     }
 
     /**
@@ -88,7 +89,8 @@ class SchedulerController(
             codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE)
         )
         model.addAttribute("schedule", schedulerService.getSchedulerDetail(taskId))
-        return schedulerEditPage
+        model.addAttribute("view", false)
+        return schedulerPage
     }
 
     /**

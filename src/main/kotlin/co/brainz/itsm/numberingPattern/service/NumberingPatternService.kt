@@ -73,10 +73,10 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
     fun insertNumberingPattern(numberingPatternDto: NumberingPatternDto): String {
         var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
         val patternEntity = NumberingPatternEntity(
-            numberingPatternDto.patternId,
-            numberingPatternDto.patternName,
-            numberingPatternDto.patternType,
-            this.makePatternObject(numberingPatternDto)
+            patternId = numberingPatternDto.patternId,
+            patternName = numberingPatternDto.patternName,
+            patternType = numberingPatternDto.patternType,
+            patternValue = this.makePatternObject(numberingPatternDto)
         )
 
         when (numberingPatternRepository.existsByPatternName(patternEntity.patternName)) {
@@ -98,10 +98,10 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
     fun updateNumberingPattern(numberingPatternDto: NumberingPatternDto): String {
         var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
         val numberingPatternEntity = NumberingPatternEntity(
-            numberingPatternDto.patternId,
-            numberingPatternDto.patternName,
-            numberingPatternDto.patternValue,
-            this.makePatternObject(numberingPatternDto)
+            patternId = numberingPatternDto.patternId,
+            patternName = numberingPatternDto.patternName,
+            patternType = numberingPatternDto.patternType,
+            patternValue = this.makePatternObject(numberingPatternDto)
         )
         when (numberingPatternRepository.getOne(numberingPatternEntity.patternId).numberingRulePatternMapEntities.size > 0) {
             true -> {

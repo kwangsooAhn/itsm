@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+<html layout:decorate="layout/itsm/pageType/pagingListLayout"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="layout/itsm/pageType/pagingListLayout">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{form.label.form}"></title>
 </head>
@@ -16,22 +16,22 @@
     <h6 class="description ml-2 pl-2" th:text="#{form.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
-    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''form.delete'')')}"/>
+    <input id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}" type="hidden"/>
+    <input id="deletable" th:value="${#authorization.expression('hasAuthority(''form.delete'')')}" type="hidden"/>
     <form id="searchFrm">
-        <input type="text" id="searchValue" name="searchValue" class="z-input i-search col-5 mr-2" maxlength="100"
-               th:placeholder="#{form.label.searchPlaceholder}"/>
+        <input class="z-input i-search col-5 mr-2" id="searchValue" maxlength="100" name="searchValue" th:placeholder="#{form.label.searchPlaceholder}"
+               type="text"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button primary" onclick="openFormRegister();"
-                sec:authorize="hasAuthority('form.create')" th:text="#{common.btn.add}"></button>
-        <button type="button" class="z-button secondary" onclick="openFormImport();"
-                sec:authorize="hasAuthority('form.create')" th:text="#{form.btn.import}"></button>
+        <button class="z-button primary" onclick="openFormRegister();" sec:authorize="hasAuthority('form.create')"
+                th:text="#{common.btn.add}" type="button"></button>
+        <button class="z-button secondary" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')"
+                th:text="#{form.btn.import}" type="button"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="z-list-content" id="formList"></div>
+    <div class="z-list-content flex-row" id="formList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
@@ -88,7 +88,6 @@
                 formInfo.status = isDestroy ? STATUS_DESTROY : document.getElementById('form_status').value;
                 isEditable ? restSubmit('PUT', '/rest/forms/' + formId, formInfo)
                     : zAlert.warning(i18n.msg('form.msg.failedDestroy'));
-
             }
         }
     }
@@ -129,7 +128,7 @@
         if (formId !== undefined) { // 수정
             aliceJs.sendXhr({
                 method: 'GET',
-                url: '/rest/forms/' + formId + '/data',
+                url: '/rest/forms/' + formId,
                 callbackFunc: function(xhr) {
                     let responseObject = JSON.parse(xhr.responseText);
                     responseObject.isView = isView;
@@ -264,7 +263,6 @@
     // REST API
     function restSubmit(method, url, data) {
         const opt = {
-            method: method,
             method: method,
             url: url,
             params: JSON.stringify(data),

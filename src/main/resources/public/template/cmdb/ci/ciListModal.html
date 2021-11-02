@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
     <input type="hidden" id="ciListCount" th:value="${ciListCount}"/>
-    <table class="z-list-table">
-        <thead class="z-list-head">
+    <table class="z-table">
+        <thead class="z-table-head">
             <tr>
                 <th style="width: 5%;" class="align-center"></th>
                 <th style="width: 15%;" class="align-left" th:text="#{cmdb.ci.label.seqNum}"></th>
@@ -16,13 +16,13 @@
                 <th style="width: 25%;" class="align-left" th:text="#{cmdb.ci.label.tag}"></th>
             </tr>
         </thead>
-        <tbody class="z-list-body">
+        <tbody class="z-table-body">
         <tr class="no-data-found-list flex-row align-items-center" th:if="${#arrays.isEmpty(ciList)}">
             <td style="width: 100%;" colspan="9" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
         <th:block th:unless="${#arrays.isEmpty(ciList)}" th:each="ciData, index: ${ciList}">
             <tr class="list-row"  th:id="|ciRow${ciData.ciId}|">
-                <td style="width: 5%;" class="align-center" id="ciId">
+                <td style="width: 5%;" class="align-center text-clip" id="ciId">
                     <label class="z-checkbox" th:for="${index.index}" tabindex="0">
                         <input type="checkbox" th:name="${ciData.ciName}" th:id="${index.index}" th:value="${ciData.ciId}"/>
                         <span></span>

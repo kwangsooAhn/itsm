@@ -26,8 +26,7 @@ class CustomCodeController(
 
     private val customCodeSearchPage: String = "custom-code/customCodeSearch"
     private val customCodeListPage: String = "custom-code/customCodeList"
-    private val customCodeEditPage: String = "custom-code/customCodeEdit"
-    private val customCodeViewPage: String = "custom-code/customCodeView"
+    private val customCodePage: String = "custom-code/customCode"
     private val documentCustomCodePage: String = "custom-code/customCodeModal"
 
     /**
@@ -62,13 +61,18 @@ class CustomCodeController(
      */
     @GetMapping("/new")
     fun getCustomCodeNew(model: Model): String {
+        model.addAttribute("view", false)
         model.addAttribute("customCodeTableList", customCodeService.getCustomCodeTableList())
         model.addAttribute("customCodeColumnList", customCodeService.getCustomCodeColumnList())
-        model.addAttribute("operatorList",
-                            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE))
-        model.addAttribute("sessionKeyList",
-            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_SESSION_KEY_P_CODE))
-        return customCodeEditPage
+        model.addAttribute(
+            "operatorList",
+            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE)
+        )
+        model.addAttribute(
+            "sessionKeyList",
+            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_SESSION_KEY_P_CODE)
+        )
+        return customCodePage
     }
 
     /**
@@ -80,19 +84,20 @@ class CustomCodeController(
      */
     @GetMapping("/{customCodeId}/view")
     fun getCustomCodeView(@PathVariable customCodeId: String, model: Model): String {
+        model.addAttribute("view", true)
         val customCodeDto = customCodeService.getCustomCodeDetail(customCodeId)
         model.addAttribute("customCode", customCodeDto)
-        model.addAttribute("operatorList",
-            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE))
-        model.addAttribute("sessionKeyList",
-            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_SESSION_KEY_P_CODE))
-        if (customCodeDto.type == CustomCodeConstants.Type.TABLE.code) {
-            model.addAttribute(
-                "customCodeColumnList",
-                customCodeService.getCustomCodeColumnList(customCodeDto.targetTable)
-            )
-        }
-        return customCodeViewPage
+        model.addAttribute("customCodeTableList", customCodeService.getCustomCodeTableList())
+        model.addAttribute("customCodeColumnList", customCodeService.getCustomCodeColumnList())
+        model.addAttribute(
+            "operatorList",
+            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE)
+        )
+        model.addAttribute(
+            "sessionKeyList",
+            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_SESSION_KEY_P_CODE)
+        )
+        return customCodePage
     }
 
     /**
@@ -104,14 +109,19 @@ class CustomCodeController(
      */
     @GetMapping("/{customCodeId}/edit")
     fun getCustomCodeEdit(@PathVariable customCodeId: String, model: Model): String {
+        model.addAttribute("view", false)
         model.addAttribute("customCode", customCodeService.getCustomCodeDetail(customCodeId))
         model.addAttribute("customCodeTableList", customCodeService.getCustomCodeTableList())
         model.addAttribute("customCodeColumnList", customCodeService.getCustomCodeColumnList())
-        model.addAttribute("operatorList",
-                            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE))
-        model.addAttribute("sessionKeyList",
-            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_SESSION_KEY_P_CODE))
-        return customCodeEditPage
+        model.addAttribute(
+            "operatorList",
+            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE)
+        )
+        model.addAttribute(
+            "sessionKeyList",
+            codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_SESSION_KEY_P_CODE)
+        )
+        return customCodePage
     }
 
     /**

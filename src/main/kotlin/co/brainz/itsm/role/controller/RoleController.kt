@@ -21,9 +21,8 @@ class RoleController(private val roleService: RoleService) {
 
     private val logger = LoggerFactory.getLogger(RoleController::class.java)
     private val roleSearchPage: String = "role/roleSearch"
-    private val roleEditPage: String = "role/roleEdit"
+    private val rolePage: String = "role/role"
     private val roleListPage: String = "role/roleList"
-    private val roleViewPage: String = "role/roleView"
 
     /**
      * 역할 검색 화면
@@ -50,17 +49,19 @@ class RoleController(private val roleService: RoleService) {
     @GetMapping("/new")
     fun getRoleNew(request: HttpServletRequest, model: Model): String {
         model.addAttribute("authList", roleService.selectAuthList())
-        return roleEditPage
+        model.addAttribute("view", false)
+        return rolePage
     }
 
     /**
      * 역할 편집 화면
      */
     @GetMapping("/{roleId}/edit")
-    fun getRoleList(@PathVariable roleId: String, model: Model): String {
+    fun getRoleEdit(@PathVariable roleId: String, model: Model): String {
         model.addAttribute("role", roleService.getRoleDetail(roleId))
         model.addAttribute("authList", roleService.selectAuthList())
-        return roleEditPage
+        model.addAttribute("view", false)
+        return rolePage
     }
 
     /**
@@ -70,6 +71,7 @@ class RoleController(private val roleService: RoleService) {
     fun getRoleView(@PathVariable roleId: String, model: Model): String {
         model.addAttribute("role", roleService.getRoleDetail(roleId))
         model.addAttribute("authList", roleService.selectAuthList())
-        return roleViewPage
+        model.addAttribute("view", true)
+        return rolePage
     }
 }

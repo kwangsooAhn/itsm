@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html layout:decorate="~{layout/itsm/pageType/commonEditLayout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{pattern.label.pattern}"></title>
 </head>
@@ -14,48 +14,65 @@
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
         <div class="z-edit-row flex-column">
-            <label th:text="#{pattern.label.name}" class="required"></label>
-            <input type="hidden" id="txtPatternId" name="txtPatternId" th:value="${pattern?.patternId}"/>
-            <input type="text" class="z-input" id="txtPatternName" name="txtPatternName"
-                   th:value="${pattern?.patternName}" maxlength="100"/>
+            <label th:classappend="${view}? '': 'required'" th:text="#{pattern.label.name}"></label>
+            <input id="txtPatternId" name="txtPatternId" th:value="${pattern?.patternId}" type="hidden"/>
+            <input class="z-input" id="txtPatternName" maxlength="100" name="txtPatternName"
+                   th:readonly="${view}" th:value="${pattern?.patternName}" type="text"/>
         </div>
         <div class="z-edit-row flex-column">
-            <label th:text="#{pattern.label.type}" class="required"></label>
+            <label th:classappend="${view}? '': 'required'" th:text="#{pattern.label.type}"></label>
             <div class="flex-row mr-auto">
                 <label class="z-radio">
-                    <input id="numbering.pattern.text" name="patternType" type="radio"
-                           onclick="changePatternValueInput('numbering.pattern.text')"
-                           th:checked="${pattern?.patternType == null || pattern?.patternType == 'numbering.pattern.text'}">
+                    <input id="numbering.pattern.text" name="patternType"
+                           th:checked="${pattern?.patternType == null || pattern?.patternType == 'numbering.pattern.text'}"
+                           th:classappend="${view} ? 'readonly'"
+                           th:disabled="${view}"
+                           th:onclick="${view} ? '' : 'changePatternValueInput(\'numbering.pattern.text\')'"
+                           th:readonly="${view}"
+                           type="radio">
                     <span></span>
                     <span class="z-label  mr-4" th:text="#{pattern.type.text}"></span>
                 </label>
                 <label class="z-radio">
-                    <input id="numbering.pattern.date" name="patternType" type="radio"
-                           onclick="changePatternValueInput('numbering.pattern.date')"
-                           th:checked="${pattern?.patternType == 'numbering.pattern.date'}">
+                    <input id="numbering.pattern.date" name="patternType"
+                           th:checked="${pattern?.patternType == 'numbering.pattern.date'}"
+                           th:classappend="${view} ? 'readonly'"
+                           th:disabled="${view}"
+                           th:onclick="${view} ? '' : 'changePatternValueInput(\'numbering.pattern.date\')'"
+                           th:readonly="${view}"
+                           type="radio">
                     <span></span>
                     <span class="z-label mr-4" th:text="#{pattern.type.date}"></span>
                 </label>
                 <label class="z-radio">
-                    <input id="numbering.pattern.sequence" name="patternType" type="radio"
-                           onclick="changePatternValueInput('numbering.pattern.sequence')"
-                           th:checked="${pattern?.patternType == 'numbering.pattern.sequence'}">
+                    <input id="numbering.pattern.sequence" name="patternType"
+                           th:checked="${pattern?.patternType == 'numbering.pattern.sequence'}"
+                           th:classappend="${view} ? 'readonly'"
+                           th:disabled="${view}"
+                           th:onclick="${view} ? '' : 'changePatternValueInput(\'numbering.pattern.sequence\')'"
+                           th:readonly="${view}"
+                           type="radio">
                     <span></span>
                     <span class="z-label" th:text="#{pattern.type.sequence}"></span>
                 </label>
             </div>
         </div>
-        <div th:style="${pattern?.patternType == null || pattern?.patternType == 'numbering.pattern.text' || pattern?.patternType == 'numbering.pattern.sequence' ? '' : 'display: none'}"
-             id="type-input-pattern" class="z-edit-row flex-column">
-            <label th:text="#{pattern.label.value}" class="required"></label>
-            <input type="text" class="z-input" id="txtPatternValue" name="txtPatternValue" maxlength="100"
-                   th:value="${pattern?.patternValue}">
+        <div class="z-edit-row flex-column"
+             id="type-input-pattern"
+             th:style="${pattern?.patternType == null || pattern?.patternType == 'numbering.pattern.text' || pattern?.patternType == 'numbering.pattern.sequence' ? '' : 'display: none'}">
+            <label th:classappend="${view}? '': 'required'" th:text="#{pattern.label.value}"></label>
+            <input class="z-input" id="txtPatternValue" maxlength="100" name="txtPatternValue"
+                   th:readonly="${view}"
+                   th:value="${pattern?.patternValue}" type="text">
         </div>
-        <div th:style="${pattern?.patternType == 'numbering.pattern.date' ? '': 'display: none'}" id="type-select-pattern" class="z-edit-row flex-column">
-            <label th:text="#{pattern.label.value}" class="required"></label>
-            <select id="selectPatternDateValue" name="selectPatternDateValue" class="select-date-time mr-1">
-                <option th:each="date: ${dateList}" th:value="${date.code}"
-                        th:text="${date.codeValue}" th:selected="${date.codeValue == pattern?.patternValue}"></option>
+        <div class="z-edit-row flex-column"
+             id="type-select-pattern"
+             th:style="${pattern?.patternType == 'numbering.pattern.date' ? '': 'display: none'}">
+            <label th:classappend="${view}? '': 'required'" th:text="#{pattern.label.value}"></label>
+            <select class="select-date-time mr-1" id="selectPatternDateValue" name="selectPatternDateValue"
+                    th:classappend="${view} ? 'readonly' : ''">
+                <option th:each="date: ${dateList}" th:selected="${date.codeValue == pattern?.patternValue}"
+                        th:text="${date.codeValue}" th:value="${date.code}"></option>
             </select>
         </div>
         <div class="flex-row justify-content-between z-edit-row">
@@ -63,25 +80,26 @@
                 <a class="z-button secondary" href="/numberingPatterns/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="z-button-list">
-                <button type="button" class="z-button primary" th:if="!${pattern?.patternId}"
+                <button class="z-button primary" id="btnRegist" name="btnRegist"
                         sec:authorize="hasAuthority('numbering.pattern.create')"
-                        id="btnRegist" name="btnRegist"
-                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-                <button type="button" class="z-button primary" th:if="${pattern?.patternId}"
+                        th:if="!${pattern?.patternId}" th:onclick="|javascript:onSave('post')|"
+                        th:text="#{common.btn.register}" type="button"></button>
+                <button class="z-button primary" id="btnUpdate" name="btnUpdate"
                         sec:authorize="hasAuthority('numbering.pattern.update')"
-                        id="btnUpdate" name="btnUpdate"
-                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="z-button secondary"
-                        sec:authorize="hasAuthority('numbering.pattern.delete')"
-                        id="btnDelete" name="btnDelete" th:if="${pattern?.patternId}"
+                        th:if="${pattern?.patternId}" th:onclick="|javascript:onSave('put')|"
+                        th:text="#{common.btn.modify}" type="button"></button>
+                <button class="z-button secondary" id="btnDelete"
+                        name="btnDelete"
+                        sec:authorize="hasAuthority('numbering.pattern.delete')" th:if="${pattern?.patternId}"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
-                        th:text="#{common.btn.delete}"></button>
+                        th:text="#{common.btn.delete}"
+                        type="button"></button>
             </div>
         </div>
     </div>
 </div>
 </body>
-<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+<script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
     const STATUS_SUCCESS = '0';
     const STATUS_ERROR_PATTERN_USED = '1';

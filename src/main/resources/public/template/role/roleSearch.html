@@ -15,12 +15,14 @@
     <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{role.msg.searchPlaceholder}"/>
     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     <div class="ml-auto">
-        <button type="button" class="z-button secondary" id="btnSearch" name="btnSearch" onclick="location.href='/roles/new'"
+        <button type="button" class="z-button primary" id="btnAdd" name="btnAdd" onclick="location.href='/roles/new'"
                 sec:authorize="hasAuthority('role.create')" th:text="#{common.btn.add}"></button>
+        <button type="button" class="z-button secondary" id="btnExcelDownload" name="btnExcelDownload" th:onclick="|javascript:onExcelDownload()|"
+                sec:authorize="hasAuthority('role.create')" th:text="#{common.btn.export}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="z-list-content" id="roleList"></div>
+    <div class="z-list-content flex-row" id="roleList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
@@ -46,6 +48,15 @@
             }
         };
         aliceJs.sendXhr(opt);
+    }
+
+    function onExcelDownload() {
+        console.log('Excel Download')
+        const searchValue = encodeURIComponent(document.getElementById('searchValue').value);
+        aliceJs.fetchDownload({
+            url: '/rest/roles/excel?searchValue=' + searchValue,
+            fileName: i18n.msg('role.label.role') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
+        });
     }
     /*]]>*/
 </script>

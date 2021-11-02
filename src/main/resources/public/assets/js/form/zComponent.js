@@ -328,7 +328,7 @@ export default class ZComponent {
     makeLabel() {
         const label = new UILabel().setUIClass('z-component-label')
             .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
-            .setUICSSText(`text-align: ${this.labelAlign}; font-family: ${this.getFontFamily(this.labelFontSize)}`)
+            .setUICSSText(`text-align: ${this.labelAlign}; font-family: ${this.getFontFamily(this.labelFontSize)};`)
             .setUIProperty('--data-align', this.getLabelAlign(this.labelAlign))
             .setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
         // 라벨 문구

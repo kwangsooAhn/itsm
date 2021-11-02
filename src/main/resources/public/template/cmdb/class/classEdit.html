@@ -164,7 +164,7 @@
                             drawAttribute({
                                 key: data.attributeId,
                                 value: data.attributeName
-                            }, 'attribute', responseJson.editable);
+                            }, 'attribute', true);
                         });
                     }
                     onEdit();
@@ -333,10 +333,6 @@
         inputElem.readOnly = true;
 
         divRow.appendChild(inputElem);
-        if (editable) {
-            inputElem.readOnly = false;
-            inputElem.disabled = 'disabled';
-        }
 
         if (document.getElementById('attribute-add') != null) {
             const deleteBtn = document.createElement('button');
@@ -358,6 +354,7 @@
         }
         if (editable) {
             document.getElementById('attributeList').appendChild(divRow);
+            inputElem.readOnly = true;
         } else {
             document.getElementById('extendsAttributeList').appendChild(divRow);
         }
@@ -437,6 +434,7 @@
                     classAttributeMap.forEach(function (value, key) {
                         if (checkbox.value === key) {
                             checkbox.checked = true;
+                            checkbox.disabled = true;
                         }
                     });
                 });

@@ -72,7 +72,7 @@ export default class ZGroup {
         // 라벨
         groupTooltip.UIGroup.UILabel.setUIFor('chk-' + accordionId)
             .addUIClass((this.labelVisibility ? 'on' : 'off')) // 라벨 사용여부: 라벨 숨김 또는 보임
-            .setUICSSText(`text-align: ${this.labelAlign};`);
+            .setUICSSText(`text-align: ${this.labelAlign}; font-family: ${this.getFontFamily(this.labelFontSize)};`);
         // 라벨 텍스트
         const groupLabelCssText = `color:${this.labelFontColor};` +
             `font-size:${this.labelFontSize + UNIT.PX};` +
@@ -242,7 +242,8 @@ export default class ZGroup {
 
     set labelFontSize(size) {
         this._label.fontSize = size;
-        this.UIElement.UIGroup.UILabel.UILabelText.setUIFontSize(size + UNIT.PX);
+        this.UIElement.UIGroup.UILabel.UILabelText
+            .setUIFontSize(size + UNIT.PX).setUIFontFamily(this.getFontFamily(size));
     }
 
     get labelFontSize() {
@@ -260,8 +261,9 @@ export default class ZGroup {
 
     set labelFontOptionBold(boolean) {
         this._label.bold = boolean;
+        console.log('여기 안타니?');
         this.UIElement.UIGroup.UILabel.UILabelText
-            .setUIFontWeight((boolean === 'true' ? 'bold' : ''));
+            .setUIFontWeight((boolean ? 'bold' : ''));
     }
 
     get labelFontOptionBold() {
@@ -271,7 +273,7 @@ export default class ZGroup {
     set labelFontOptionItalic(boolean) {
         this._label.italic = boolean;
         this.UIElement.UIGroup.UILabel.UILabelText
-            .setUIFontStyle((boolean === 'true' ? 'italic' : ''));
+            .setUIFontStyle((boolean ? 'italic' : ''));
     }
 
     get labelFontOptionItalic() {
@@ -281,7 +283,7 @@ export default class ZGroup {
     set labelFontOptionUnderline(boolean) {
         this._label.underline = boolean;
         this.UIElement.UIGroup.UILabel.UILabelText
-            .setUITextDecoration((boolean === 'true' ? 'underline' : ''));
+            .setUITextDecoration((boolean ? 'underline' : ''));
     }
 
     get labelFontOptionUnderline() {
@@ -303,6 +305,13 @@ export default class ZGroup {
 
     get propertyName() {
         return this._propertyName;
+    }
+
+    /**
+     * 라벨 폰트 패밀리
+     */
+    getFontFamily(fontSize) {
+        return (Number(fontSize) < 16) ? '맑은고딕' : 'Noto Sans KR';
     }
 
     // 세부 속성

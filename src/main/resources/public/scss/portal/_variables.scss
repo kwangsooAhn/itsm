@@ -67,7 +67,8 @@ $view-title-font-size:                       $font-size-m; // 18px
 $view-title-font-weight:                     $font-weight-medium;
 $view-title-font-color:                      $gray800;
 
-$view-sub-title-font-size:                   $font-size-s; // 16px
+$view-sub-title-font-family:                 $font-family-s;
+$view-sub-title-font-size:                   $font-size-xs; // 14px
 $view-sub-title-font-weight:                 $font-weight-regular;
 $view-sub-title-font-color:                  $gray500;
 
@@ -177,5 +178,4 @@ $notice-pinned-color:                         $blue100;
 // 리스트 항목명
 $list-head-font-color:                        $gray800;
 $list-body-font-color:                        $gray800;
-$list-border-color:                           $gray300;
 

@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<table class="z-list-table">
-    <thead class="z-list-head">
+<table class="z-table">
+    <thead class="z-table-head">
         <tr class="flex-row align-items-center">
             <th style="width: 4%;"></th>
             <th style="width: 21%;" class="align-left" th:text="#{cmdb.ci.label.ciNo}"></th>
@@ -16,7 +16,7 @@
             <th style="width: 25%;" class="align-left" th:text="#{cmdb.ci.label.tag}"></th>
         </tr>
     </thead>
-    <tbody class="z-list-body">
+    <tbody class="z-table-body">
         <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciList)}">
             <td style="width: 100%;" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>

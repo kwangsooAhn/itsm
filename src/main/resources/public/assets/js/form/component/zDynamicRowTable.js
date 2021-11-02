@@ -59,7 +59,8 @@ export const dynamicRowTableMixin = {
 
         // 테이블
         element.UITable = new UITable()
-            .setUIClass('z-dr-table')
+            .setUIClass('z-option-table')
+            .addUIClass('z-dr-table')
             .addUIClass('mt-2')
             .setUIId('drTable' + this.id)
             .setUIAttribute('tabindex', '-1')
@@ -155,7 +156,7 @@ export const dynamicRowTableMixin = {
     },
     makeTable(table) {
         // 테이블 제목
-        const row = new UIRow(table).setUIClass('z-dr-table-header');
+        const row = new UIRow(table).setUIClass('z-option-table-header').addUIClass('z-dr-table-header');
         table.addUIRow(row);
 
         this.elementColumns.forEach((column) => {

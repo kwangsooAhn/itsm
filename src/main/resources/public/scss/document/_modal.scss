@@ -121,19 +121,13 @@
         // CI 선택 목록
         .table-set {
           margin-top: 2.188rem; // 35px
-          table {
-            width: 100%;
-            .z-list-head {
-              tr {
-                color: $list-head-font-color;
-                @include border(calc(#{$list-border-width} * 2), solid, $list-border-color, bottom);
-              }
-            }
-            .z-list-body {
+          .z-table {
+            .z-table-body {
               display: block;
               width: 60rem; // 960px
               height: 32.8125rem; // 525px
               overflow-y: auto;
+              border: none;
               .list-row {
                 display: table;
                 width: 100%;

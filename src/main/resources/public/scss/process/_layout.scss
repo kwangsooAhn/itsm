@@ -153,6 +153,7 @@
             }
             // 내용
             .details {
+              font-family: $simulation-report-content-font-family;
               font-size: $simulation-report-content-font-size;
               font-weight: $simulation-report-content-font-weight;
               color: $simulation-report-content-font-color;
@@ -201,6 +202,7 @@
 
     // element 명
     .properties-group-title {
+      font-family: $property-group-label-font-family;
       font-size: $property-group-label-font-size;
       color: $property-group-label-color;
       margin: 1.563rem 1.563rem 0 1.563rem; // 25px 25px 0 25px
@@ -263,6 +265,7 @@
     .process-info-main {
       margin: 1.25rem 1.563rem; // 20px 25px
       .process-info-title {
+        font-family: $property-group-label-font-family;
         font-size: $property-group-label-font-size;
         color: $property-group-label-color;
       }

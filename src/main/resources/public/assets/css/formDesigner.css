@@ -84,73 +84,6 @@ input, button, select, optgroup, textarea {
   --data-color: "";
 }
 
-/*
-@mixin defaultListTemplate() {
-  .list {
-    a, button { cursor: pointer; }
-    // 테이블
-    &-table {
-      position: relative;
-      display: inline-table;
-      width: 100%;
-    }
-    // thead
-    &-head {
-      tr {
-        height: 2.125rem; // 34px
-        border-bottom: 0.125rem solid map-get($grays, "default"); // 2px
-
-        th {
-          font-size: 1.125rem; // 18px
-          font-weight: $font-weight-medium;
-          color: map-get($blacks, "light");
-          padding: 0 0.9375rem; // 0 15px
-
-          &:first-child { padding-left: 1.25rem; } // 20px
-        }
-      }
-    }
-    // tbody
-    &-body {
-      position: absolute;
-      width: 100%;
-      height: 33.75rem; // 540px
-      tr {
-        height: 3.375rem; //54px
-        // 마우스 오버시 배경 색상
-        &:hover { background-color: $list-hover-bg-color; }
-        // 선택된 경우
-        &.active {
-          background-color: $list-active-bg-color;
-
-          td { color: $list-active-font-color; }
-        }
-
-        td {
-          font-size: 1rem; // 16px
-          font-weight: $font-weight-regular;
-          color: map-get($grays, "dark");
-          padding: 0 0.9375rem; // 0 15px
-          line-height: initial; // 소문자 글자 짤림현상 방지
-
-          &:first-child { padding-left: 1.25rem; } // 20px
-
-          a { color: map-get($grays, "dark"); }
-        }
-      }
-      // 데이터 없을때
-      .no-data-found-list {
-        background-color: $no-data-found-list-bg;
-        pointer-events: none;
-      }
-    }
-    // tree
-    &-tree {
-      height: 37.88rem; // 606px
-    }
-  }
-}
-*/
 /* _alignments.scss 
  *
  * 파일 경로 : template/utilities/_alignments.scss
@@ -653,6 +586,10 @@ input, button, select, optgroup, textarea {
   content: "*";
   font-weight: 700;
   margin-left: 0.1875rem;
+}
+
+.text-clip {
+  text-overflow: clip;
 }
 
 .text-ellipsis {
@@ -1746,23 +1683,13 @@ a:active {
 }
 
 table {
+  width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: #222529;
-  background-color: transparent;
-  border: 0.0625rem solid transparent;
+  line-height: 1.5;
 }
-table tr {
-  height: 2.5rem;
-}
-table tr th {
-  font-weight: 500;
-}
-table tr td, table tr th {
+table td, table th {
   display: table-cell;
   max-width: 100%;
   text-overflow: ellipsis;
@@ -1773,27 +1700,101 @@ table tr td, table tr th {
 }
 
 .z-table {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #222529;
+  background-color: transparent;
+  border: none;
+}
+.z-table td, .z-table th {
+  padding: 0 0.9375rem;
+}
+.z-table td:first-child, .z-table th:first-child {
+  padding-left: 1.25rem;
+}
+.z-table td a, .z-table th a {
+  color: #222529;
+}
+.z-table th {
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #222529;
+}
+.z-table .z-table-head {
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+}
+.z-table .z-table-head tr {
+  height: 2.5rem;
+}
+.z-table .z-table-body {
   width: 100%;
+  height: 100%;
+  border-bottom: 0.0625rem solid #CFD5D9;
+}
+.z-table .z-table-body tr {
+  height: 2.5625rem;
+}
+.z-table .z-table-body tr:hover {
+  background-color: #EEEEEE;
+}
+.z-table .z-table-body tr.active {
+  background-color: #E3F5FC;
+}
+.z-table .z-table-body tr.active td {
+  color: #1959AC;
+}
+.z-table .z-table-body .no-data-found-list {
+  pointer-events: none;
+}
+
+.z-option-table {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #ABB0B5;
+  background-color: transparent;
   border: none;
-  border-collapse: collapse;
 }
-.z-table tr {
+.z-option-table tr {
   border-bottom: 0.0625rem solid #CFD5D9;
   border-left: none;
   border-right: none;
+  height: 2.5rem;
 }
-.z-table tr.z-table-head {
+.z-option-table tr th, .z-option-table tr td {
+  padding: 0 0.5rem;
+}
+.z-option-table tr.z-option-table-header {
   height: 2rem;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1rem;
   font-weight: 500;
+  color: #ABB0B5;
   border-top: 0.0625rem solid #CFD5D9;
   border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
   background-color: #F5F5F5;
 }
-.z-table tr th, .z-table tr td {
-  padding: 0 0.5rem;
+.z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
+  margin: 0 0 0 0.5rem;
+}
+.z-option-table tr.z-option-table-row .z-input {
+  width: 85%;
+  padding: 0.75rem;
+  margin: 0.25rem;
+}
+.z-option-table tr.z-option-table-row .z-input:not(:placeholder-shown):not(:focus) {
+  border-color: transparent;
+}
+.z-option-table tr.z-option-table-row .z-button-icon .z-icon {
+  display: block;
+  margin: 0 auto;
+  background: #ABB0B5;
+  pointer-events: none;
+}
+.z-option-table tr.z-option-table-row .z-button-icon:hover .z-icon {
+  background: #339AF0;
 }
 
 span {
@@ -1802,10 +1803,10 @@ span {
 }
 
 label {
-  font-family: inherit;
-  color: #222529;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  color: #8B9094;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .input-button {
@@ -4046,11 +4047,12 @@ select {
 .file-uploader-edit {
   display: flex;
   flex-direction: column;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
 }
 .file-uploader-edit .file-uploader-title {
   font-size: 0.875rem;
-  font-weight: 500;
-  color: #222529;
+  font-weight: 700;
+  color: #8B9094;
   margin: 0.5625rem 0 0.5625rem 0;
 }
 .file-uploader-edit .dropzone {
@@ -4092,6 +4094,7 @@ select {
   text-align: left;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap .dz-clickable {
+  font-weight: 700;
   color: #339AF0;
   cursor: pointer;
 }
@@ -4436,6 +4439,7 @@ select {
   display: flex;
   align-items: center;
   min-height: 3.125rem;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   padding: 0.125rem 1.25rem;
 }
 .file-uploader-view .file-uploader-title {
@@ -4452,7 +4456,6 @@ select {
   height: 100%;
 }
 .file-uploader-view .file-uploader-list .text-no-file {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #ABB0B5;
@@ -4475,7 +4478,6 @@ select {
 }
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details {
   display: inline-flex;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
 }
@@ -5375,6 +5377,8 @@ body.modal-active {
   font-weight: 500;
   color: #222529;
   padding: 1.125rem 0 0 1.25rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .modal-wrapper .modal-dialog .modal-content {
   overflow: auto;
@@ -5591,9 +5595,10 @@ body.modal-active {
   left: 0;
   visibility: hidden;
   background-color: #FFFFFF;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
   color: #339AF0;
   width: 100%;
-  font-size: 0.875rem;
   border: 0.125rem solid #339AF0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -5859,6 +5864,7 @@ body.modal-active {
   display: table;
   width: 100%;
   min-height: 2.5rem;
+  font-weight: 500;
   padding: 0 0.625rem 0 0.625rem;
   margin: 0 0 0.9375rem 0;
 }
@@ -5975,6 +5981,7 @@ body.modal-active {
 .z-component .z-component-label {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   justify-content: var(--data-align);
+  font-weight: 500;
   padding: 0.4375rem 0.938rem 0.4375rem 0;
 }
 .z-component .z-component-label.on {
@@ -6053,9 +6060,7 @@ body.modal-active {
   border-left: 0.0625rem solid #CFD5D9;
 }
 .z-component .z-element .z-ci-table {
-  width: 100%;
   background-color: #FFFFFF;
-  border: none;
 }
 .z-component .z-element .z-ci-table tr td {
   display: none;
@@ -6067,13 +6072,8 @@ body.modal-active {
 .z-component .z-element .z-ci-table tr td.on {
   display: table-cell;
 }
-.z-component .z-element .z-ci-table .z-ci-table-header {
-  height: 2rem;
-  background-color: #F5F5F5;
-}
-.z-component .z-element .z-ci-table .z-ci-table-header td {
-  color: #ABB0B5;
-  font-weight: 700;
+.z-component .z-element .z-ci-table .z-ci-table-row {
+  color: #222529;
 }
 .z-component .z-element .z-ci-table .no-data-found-list {
   color: #ABB0B5;
@@ -6090,9 +6090,7 @@ body.modal-active {
   width: 100%;
 }
 .z-component .z-element .z-dr-table {
-  width: 100%;
   background-color: #FFFFFF;
-  border: none;
 }
 .z-component .z-element .z-dr-table tr td {
   padding: 0 0.3125rem 0 0;
@@ -6105,9 +6103,7 @@ body.modal-active {
   display: table-cell;
 }
 .z-component .z-element .z-dr-table .z-dr-table-header {
-  height: 2rem;
   border-bottom: 0.125rem solid #CFD5D9;
-  background-color: #F5F5F5;
 }
 .z-component .z-element .z-dr-table .z-dr-table-header td {
   padding: 0.6875rem 0.3125rem 0.6875rem 0;
@@ -6124,6 +6120,7 @@ body.modal-active {
   text-indent: 1rem;
 }
 .z-component .z-element .z-dr-table .no-data-found-list {
+  height: 2.5625rem;
   color: #ABB0B5;
   background-color: #FFFFFF;
   pointer-events: none;
@@ -6191,6 +6188,7 @@ body.modal-active {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  width: 100%;
   padding: 0.625rem 0.75rem;
   border-bottom: 0.0625rem solid #CFD5D9;
 }
@@ -6199,7 +6197,9 @@ body.modal-active {
 }
 .property-group .property-group-label {
   width: 100%;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
+  font-weight: 500;
   color: #222529;
 }
 
@@ -6374,7 +6374,7 @@ body.modal-active {
   transform: rotate(180deg);
 }
 .property .z-tab-panel .z-panels .z-panel .z-button-icon .z-icon.z-clear {
-  background: #ABB0B5;
+  background: #8B9094;
 }
 .property .z-tab-panel .z-panels .z-panel .z-button-switch-group .z-button-switch,
 .property .z-tab-panel .z-panels .z-panel .z-button-switch-group .z-button-toggle,
@@ -6390,24 +6390,4 @@ body.modal-active {
 }
 .property .z-option-table .z-option-table-row td {
   padding: 0;
-}
-.property .z-option-table .z-option-table-row .z-checkbox, .property .z-option-table .z-option-table-row .z-radio {
-  margin: 0 0 0 0.5rem;
-}
-.property .z-option-table .z-option-table-row .z-input {
-  width: 85%;
-  padding: 0.75rem;
-  margin: 0.25rem;
-}
-.property .z-option-table .z-option-table-row .z-input:not(:placeholder-shown):not(:focus) {
-  border-color: transparent;
-}
-.property .z-option-table .z-option-table-row .z-button-icon .z-icon {
-  display: block;
-  margin: 0 auto;
-  background: #ABB0B5;
-  pointer-events: none;
-}
-.property .z-option-table .z-option-table-row .z-button-icon:hover .z-icon {
-  background: #339AF0;
 }

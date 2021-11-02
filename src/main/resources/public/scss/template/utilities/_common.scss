@@ -22,16 +22,20 @@
     margin-left: 0.1875rem;
   }
 }
+// 글자 자르기
+.text-clip {
+  text-overflow: clip;
+}
 // 말줄임
 .text-ellipsis {
   @include ellipsis();
 }
 //줄바꿈
-.text-wordWrap{
+.text-wordWrap {
   @include wordWrap();
 }
 //줄바꿈제거
-.text-wordNoWrap{
+.text-wordNoWrap {
   white-space: nowrap;
 }
 // 가로 선

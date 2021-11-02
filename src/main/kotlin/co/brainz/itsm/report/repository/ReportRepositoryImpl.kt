@@ -33,7 +33,7 @@ class ReportRepositoryImpl : QuerydslRepositorySupport(ReportEntity::class.java)
                 )
             )
             .where(
-                super.like(report.templateId, reportSearchCondition.searchTemplate)
+                super.eq(report.templateId, reportSearchCondition.searchTemplate)
             )
             .orderBy(report.publishDt.desc())
         if (reportSearchCondition.isPaging) {

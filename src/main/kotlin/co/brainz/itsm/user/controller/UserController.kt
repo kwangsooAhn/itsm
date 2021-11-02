@@ -43,8 +43,7 @@ class UserController(
     private val userSearchPage: String = "user/userSearch"
     private val userListPage: String = "user/userList"
     private val userEditSelfPage: String = "user/userEditSelf"
-    private val userEditPage: String = "user/userEdit"
-    private val userViewPage: String = "user/userView"
+    private val userPage: String = "user/user"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -114,11 +113,13 @@ class UserController(
             }
             UserConstants.UserEdit.EDIT.code -> {
                 model.addAttribute("roles", roleService.getAllRolesToUserCheck(userEntity))
-                returnUrl = userEditPage
+                model.addAttribute("view", false)
+                returnUrl = userPage
             }
             UserConstants.UserEdit.VIEW.code -> {
                 model.addAttribute("roles", roleService.getAllRolesToUserCheck(userEntity))
-                returnUrl = userViewPage
+                model.addAttribute("view", true)
+                returnUrl = userPage
             }
         }
 
@@ -138,7 +139,8 @@ class UserController(
         model.addAttribute("langList", allCodes["langList"])
         model.addAttribute("dateList", allCodes["dateList"])
         model.addAttribute("timeList", allCodes["timeList"])
+        model.addAttribute("view", false)
 
-        return userEditPage
+        return userPage
     }
 }

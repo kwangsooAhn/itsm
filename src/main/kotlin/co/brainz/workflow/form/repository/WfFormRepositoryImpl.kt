@@ -28,8 +28,8 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
             .leftJoin(form.updateUser).fetchJoin()
         if (formSearchCondition.searchValue?.isNotEmpty() == true) {
             query.where(
-                form.formName.contains(formSearchCondition.searchValue)
-                    .or(form.formDesc.contains(formSearchCondition.searchValue))
+                form.formName.containsIgnoreCase(formSearchCondition.searchValue.trim())
+                    .or(form.formDesc.containsIgnoreCase(formSearchCondition.searchValue.trim()))
             )
         }
         if (formSearchCondition.statusArray?.isNotEmpty() == true) {

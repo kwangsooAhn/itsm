@@ -12,7 +12,7 @@ const DEFAULT_OPTIONS = {
     activeArrowClass : 'active', // 유효한 화살표용 클래스 이름
     pageNumSelector : 'div.z-paging-numbers a', // 페이지 번호 목록 셀렉터
     selectedPage : 'selected-page' // 선택된 페이지 번호용 클래스 이름
-}
+};
 export default class ZPaging {
     constructor(options) {
         this.options = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -59,7 +59,7 @@ export default class ZPaging {
                 if (span.innerText === currentPageNum) {
                     span.classList.add(this.options.selectedPage);
                 }
-            })
+            });
             return true;
         }
 
@@ -74,9 +74,9 @@ export default class ZPaging {
         for (let i = startPageNum; i <= endPageNum; i++) {
             // anchor tag
             let newAnchor = document.createElement('a');
-            newAnchor.setAttribute('href', 'javascript:getList(' + i + ')')
+            newAnchor.setAttribute('href', 'javascript:getList(' + i + ')');
             newAnchor.innerText = '' + i;
-            document.querySelector('div.z-paging-numbers').appendChild(newAnchor)
+            document.querySelector('div.z-paging-numbers').appendChild(newAnchor);
             // 현재 페이지면 클래스 추가
             if (currentPageNum === i) {
                 newAnchor.classList.add(this.options.selectedPage);
@@ -87,16 +87,16 @@ export default class ZPaging {
         document.querySelectorAll('a.z-paging-arrow').forEach( arrow => {
             arrow.classList.remove(this.options.activeArrowClass);
             arrow.removeAttribute('href');
-        })
+        });
 
         // 3-1) Start 화살표 처리 (제일 앞에 있는 '페이지 목록' 이동)
         if (endPageNum > this.options.numOfPageNums) {
-            this.makePagingArrow('pagingStartArrow', 1)
+            this.makePagingArrow('pagingStartArrow', 1);
         }
 
         // 3-2) Prev 화살표 처리 (바로 앞에 있는 '페이지 목록' 이동)
         if (endPageNum > this.options.numOfPageNums) {
-            this.makePagingArrow('pagingPrevArrow', startPageNum - 1)
+            this.makePagingArrow('pagingPrevArrow', startPageNum - 1);
         }
 
         // 3-3) End 화살표 처리 (제일 마지막 '페이지 목록' 이동)
@@ -106,12 +106,12 @@ export default class ZPaging {
 
         // 3-4) Next 화살표 처리 (바로 다음 '페이지 목록' 이동)
         if (totalPageNum > endPageNum) {
-            this.makePagingArrow('pagingNextArrow',endPageNum + 1)
+            this.makePagingArrow('pagingNextArrow', endPageNum + 1);
         }
 
         // 스크롤바는 paging이 아니지만 옵져버가 새로 계산할 때마다 필요하기 때문에 임시로 이 곳에 작성.
         // 팀장님께서 다시 정리하신다고 하셨음.! by.mo
-        OverlayScrollbars(document.querySelector('.z-list-body'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-main'), {className: 'scrollbar'});
     }
 

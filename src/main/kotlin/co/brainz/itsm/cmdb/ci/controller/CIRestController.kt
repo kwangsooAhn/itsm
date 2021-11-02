@@ -10,9 +10,11 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
+import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.service.CIService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -75,5 +77,13 @@ class CIRestController(private val ciService: CIService) {
     @GetMapping("/{ciId}/relation")
     fun getCIRelations(@PathVariable ciId: String): List<CIRelationDto> {
         return ciService.getCIRelation(ciId)
+    }
+
+    /**
+     * CI 조회 Excel 다운로드
+     */
+    @GetMapping("/excel")
+    fun getCIsExcelDownload(ciSearchCondition: CISearchCondition): ResponseEntity<ByteArray> {
+        return ciService.getCIsExcelDownload(ciSearchCondition)
     }
 }

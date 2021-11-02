@@ -645,7 +645,7 @@
         const attributeListModalContent = `<div class="cmdb-class-attribute-list">` +
                 `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
                 `maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/>` +
-                `<span id="spanTotalCount" class="search-count"></span>` +
+                `<span id="spanTotalCount" class="z-search-count"></span>` +
                 `<div class="table-set" id="ciClassAttributeList"></div>` +
             `</div>`;
         /**
@@ -1257,7 +1257,7 @@
         return `<div class="flex-column view-row">` +
             `<div class="flex-row justify-content-start input-search">` +
             `<input class="z-input i-search col-5 " type="text" id="search" placeholder="${i18n.msg('customCode.msg.enterSearchTerm')}">` +
-            `<span id="ciListTotalCount" class="search-count"></span>` +
+            `<span id="ciListTotalCount" class="z-search-count"></span>` +
             `</div>` +
             `</div>` +
             `<div class="custom-code-main" id="customCodeList"></div>`;

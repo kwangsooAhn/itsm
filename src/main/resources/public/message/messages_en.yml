@@ -7,6 +7,7 @@ common:
     close: "CLOSE"
     delete: "DELETE"
     editUserInfo: "Edit profile"
+    export: "EXPORT"
     list: "LIST"
     logout: "LOGOUT"
     modify: "MODIFY"
@@ -368,6 +369,7 @@ cmdb:
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
       tag: "Please enter a tag."
+        viewDescription: "Retrieve detailed information about a CI.."
     btn:
       import: "Import"
       export: "Export"
@@ -707,7 +709,7 @@ form:
     time: "Time"
     ci: "CI"
   help:
-    custom-code-default: "You can set the default value displayed on the component.<br/>'Session' prints the user's session information.<br/>'Custom Code Data' prints the data of the code defined by the user."
+    custom-code-default: "You can set the default value displayed on the component.<br/>'None' prints the default value is not output.<br/>'Session' prints the user's session information.<br/>'Code' prints the data of the code defined by the user."
     custom-code: "You can select a custom code list of user-defined code sets."
     date-default: "You can set the default value displayed on the component.<br/>'Now' prints the current date.<br/>'days after' means +, -date from current date.<br/>The last item is used to show a specific date as fixed."
     datetime-default: "You can set the default value displayed on the component.<br/>'Now' prints the current date time.<br/>'days/hours later' means +, - date/hour from current date time.<br/>The last item is used to show a specific date time as fixed."
@@ -1197,6 +1199,8 @@ scheduler:
     useSchedule: "Schedule in use."
     cronValue : "Cron can be entered up to 6 fields."
     cronError : "Enter the correct Cron expression."
+    jarNotExist: "JAR file does not exist."
+    classNotExist: "ClASS file does not exist."
   status:
     true: "Use"
     false: "UnUsed"
@@ -1348,7 +1352,6 @@ user:
     ※ Do not include your ID.<br/><br/>
     ※ Do not include your email ID.<br/><br/>
     ※ Do not allow spaces.<br/>"
-
 
 # Validation
 validation:

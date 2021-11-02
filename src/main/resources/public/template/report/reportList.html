@@ -3,14 +3,14 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head></head>
 <body>
-<table class="z-list-table">
-    <thead class="z-list-head">
+<table class="z-table">
+    <thead class="z-table-head">
     <tr class="flex-row align-items-center">
         <th style="width:70%;" class="align-left" th:text="#{report.label.reportName}"></th>
         <th style="width:30%;" class="align-center" th:text="#{report.label.publishDate}"></th>
     </tr>
     </thead>
-    <tbody class="z-list-body">
+    <tbody class="z-table-body">
     <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(reportList)}">
         <td style="width:100%" colspan="2" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>

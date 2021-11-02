@@ -81,7 +81,8 @@ $simulation-report-border-radius:                  0.0625rem; // 1px
 $simulation-report-title-font-size:                $font-size-m; // 18px
 $simulation-report-title-font-weight:              $font-weight-medium;
 $simulation-report-title-font-color:               $gray800;
-$simulation-report-content-font-size:              $font-size-s; // 16px
+$simulation-report-content-font-family:            $font-family-s;
+$simulation-report-content-font-size:              $font-size-xs; // 14px
 $simulation-report-content-font-weight:            $font-weight-regular;
 $simulation-report-content-font-color:             $gray800;
 
@@ -101,6 +102,7 @@ $layout-properties-box-shadow-color:               $gray300;
 
 // 세부 속성명
 $property-group-label-color:                       $gray800;
+$property-group-label-font-family:                 $font-family-m;
 $property-group-label-font-size:                   $font-size-s; // 16px
 $property-label-color:                             $gray500;
 $property-label-font-size:                         $font-size-xs; // 14px

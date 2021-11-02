@@ -4,10 +4,10 @@
 ( #11201 참고 )
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html layout:decorate="~{layout/itsm/pageType/commonEditLayout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{auth.label.auth}"></title>
 </head>
@@ -19,27 +19,27 @@
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
         <div class="z-edit-row flex-column">
-            <label th:text="#{auth.label.authId}" class="required"></label>
-            <input id="txtAuthId" name="txtAuthId" class="z-input" type="text" maxlength="100"
-                   th:value="${auth?.authId}">
+            <label class="required" th:text="#{auth.label.authId}"></label>
+            <input class="z-input" id="txtAuthId" maxlength="100" name="txtAuthId" th:readonly="${view}"
+                   th:value="${auth?.authId}" type="text">
         </div>
         <div class="z-edit-row flex-column">
-            <label th:text="#{auth.label.authName}" class="required"></label>
-            <input id="txtAuthName" name="txtAuthName" class="z-input" type="text" maxlength="100"
-                   th:value="${auth?.authName}">
+            <label class="required" th:text="#{auth.label.authName}"></label>
+            <input class="z-input" id="txtAuthName" maxlength="100" name="txtAuthName" th:readonly="${view}"
+                   th:value="${auth?.authName}" type="text">
         </div>
         <div class="z-edit-row flex-column">
             <label th:text="#{auth.label.authDesc}"></label>
-            <textarea id="txtAuthDesc" name="txtAuthDesc" class="z-textarea textarea-scroll-wrapper"
-                      maxlength="200" rows="7" th:text="${auth?.authDesc}"></textarea>
+            <textarea class="z-textarea textarea-scroll-wrapper" id="txtAuthDesc" maxlength="200"
+                      name="txtAuthDesc" rows="7" th:readonly="${view}" th:text="${auth?.authDesc}"></textarea>
         </div>
         <div class="z-edit-row flex-column">
             <label th:text="#{auth.label.urlList}"></label>
             <div class="z-checkbox-list">
                 <ul>
                     <li class="text-ellipsis" th:each="url : ${urlList}">
-                        <label class="z-checkbox" th:for="${url?.url}" tabindex="0">
-                            <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
+                        <label class="z-checkbox" tabindex="0" th:for="${url?.url}">
+                            <input name="authUrl" th:disabled="${view}" th:id="${url?.url}" th:value="${url?.url}" type="checkbox">
                             <span></span>
                             <span class="z-label" th:text="|[${url?.method}] ${url?.url}|"></span>
                         </label>
@@ -52,8 +52,8 @@
             <div class="z-checkbox-list">
                 <ul id='menuList'>
                     <li class="text-ellipsis" th:each="menu : ${menuList}">
-                        <label class="z-checkbox" th:for="${'auth.'+menu?.menuId}" tabindex="0">
-                            <input type="checkbox" name="authMenu" th:id="${'auth.'+menu?.menuId}" th:value="${menu?.menuId}">
+                        <label class="z-checkbox" tabindex="0" th:for="${'auth.'+menu?.menuId}">
+                            <input name="authMenu" th:disabled="${view}" th:id="${'auth.'+menu?.menuId}" th:value="${menu?.menuId}" type="checkbox">
                             <span></span>
                             <span class="z-label" th:text="#{|menu.${menu?.menuId}|}"></span>
                         </label>
@@ -63,8 +63,8 @@
         </div>
         <div class="z-edit-row flex-column">
             <label th:text="#{auth.label.referenceCount}"></label>
-            <input id="roleAuthMapCount" name="roleAuthMapCount" class="z-input" type="text"
-                   th:value="${auth?.roleAuthMapCount}" disabled>
+            <input class="z-input" id="roleAuthMapCount" name="roleAuthMapCount" readonly
+                   th:value="${auth?.roleAuthMapCount}" type="text">
         </div>
     </div>
     <div class="flex-row justify-content-between z-edit-row">
@@ -72,22 +72,22 @@
             <a class="z-button secondary" href="/auths/search" th:text="#{common.btn.list}"></a>
         </div>
         <div class="z-button-list">
-            <button sec:authorize="hasAuthority('auth.create')"
-                    class="z-button primary" th:if="!${auth?.authId}" type="button" id="btnRegist" name="btnRegist"
-                    th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-            <button sec:authorize="hasAuthority('auth.update')"
-                    class="z-button primary" th:if="${auth?.authId}" type="button" id="btnUpdate" name="btnUpdate"
-                    th:onclick="|javascript:onSave('put')|"
-                    th:text="#{common.btn.modify}"></button>
-            <button sec:authorize="hasAuthority('auth.delete')"
-                    class="z-button secondary" th:if="${auth?.authId}" type="button" id="btnDelete" name="btnDelete"
-                    th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
-                    th:text="#{common.btn.delete}"></button>
+            <button class="z-button primary"
+                    id="btnRegist" name="btnRegist" sec:authorize="hasAuthority('auth.create')" th:if="!${auth?.authId}" th:onclick="|javascript:onSave('post')|"
+                    th:text="#{common.btn.register}" type="button"></button>
+            <button class="z-button primary"
+                    id="btnUpdate" name="btnUpdate" sec:authorize="hasAuthority('auth.update')" th:if="${auth?.authId}" th:onclick="|javascript:onSave('put')|"
+                    th:text="#{common.btn.modify}"
+                    type="button"></button>
+            <button class="z-button secondary"
+                    id="btnDelete" name="btnDelete" sec:authorize="hasAuthority('auth.delete')" th:if="${auth?.authId}" th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                    th:text="#{common.btn.delete}"
+                    type="button"></button>
         </div>
     </div>
 </div>
 </body>
-<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+<script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
     let defaultMenuList = [];
     let defaultUrlList = [];
@@ -119,7 +119,7 @@
                     let arrMenuList = responseJson.arrMenuList;
                     Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function (authMenu) {
                         authMenu.checked = false;
-                        authMenu.disabled = false;
+                        if (![[${view}]]) authMenu.disabled = false;
                         for (let i = 0; i < arrMenuList.length; i++) {
                             if (authMenu.value === arrMenuList[i].menuId) {
                                 authMenu.checked = true;
@@ -136,7 +136,7 @@
                     let arrUrlList = responseJson.arrUrlList;
                     Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]'), function (authUrl) {
                         authUrl.checked = false;
-                        authUrl.disabled = false;
+                        if (![[${view}]]) authUrl.disabled = false;
                         for (let i = 0; i < arrUrlList.length; i++) {
                             if (authUrl.id === arrUrlList[i].url) {
                                 authUrl.checked = true;
@@ -256,7 +256,8 @@
     /** 삭제 버튼 활성, 비활성화 */
     function disabledButton(count) {
         let btn = document.getElementById('btnDelete');
-        if (count !== 0) {
+        if (!btn) return;
+        if (count !== 0 && btn) {
             btn.disabled = 'disabled';
         } else {
             btn.disabled = false;

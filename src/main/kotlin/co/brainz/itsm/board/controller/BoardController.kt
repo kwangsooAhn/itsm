@@ -27,8 +27,7 @@ class BoardController(
 
     private val boardSearchPage: String = "board/boardSearch"
     private val boardListPage: String = "board/boardList"
-    private val boardEditPage: String = "board/boardEdit"
-    private val boardViewPage: String = "board/boardView"
+    private val boardPage: String = "board/board"
     private val boardArticlesSearchPage: String = "board/boardArticlesSearch"
     private val boardArticlesListPage: String = "board/boardArticlesList"
     private val boardArticlesEditPage: String = "board/boardArticlesEdit"
@@ -66,7 +65,8 @@ class BoardController(
      */
     @GetMapping("/new")
     fun getBoardNew(model: Model): String {
-        return boardEditPage
+        model.addAttribute("view", false)
+        return boardPage
     }
 
     /**
@@ -79,7 +79,8 @@ class BoardController(
     @GetMapping("/{boardAdminId}/view")
     fun getBoardView(@PathVariable boardAdminId: String, model: Model): String {
         model.addAttribute("boardAdmin", boardService.getBoardDetail(boardAdminId))
-        return boardViewPage
+        model.addAttribute("view", true)
+        return boardPage
     }
 
     /**
@@ -92,7 +93,8 @@ class BoardController(
     @GetMapping("/{boardAdminId}/edit")
     fun getBoardEdit(@PathVariable boardAdminId: String, model: Model): String {
         model.addAttribute("boardAdmin", boardService.getBoardDetail(boardAdminId))
-        return boardEditPage
+        model.addAttribute("view", false)
+        return boardPage
     }
 
     /**
