@@ -3673,7 +3673,7 @@ svg path.connector.hidden {
   background: transparent;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track {
-  background: #FAFAFA;
+  background: #F5F5F5;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -3766,7 +3766,7 @@ svg path.connector.hidden {
   background: transparent;
 }
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track {
-  background: #FAFAFA;
+  background: #F5F5F5;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -3878,7 +3878,7 @@ svg path.connector.hidden {
   overflow: auto;
 }
 .ql-container .ql-editor::-webkit-scrollbar-track {
-  background-color: #FAFAFA;
+  background-color: #F5F5F5;
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
@@ -4513,7 +4513,7 @@ body.modal-active {
   font-size: 1.5rem;
   font-weight: 500;
   color: #222529;
-  padding: 1.25rem 0 1.25rem 1.25rem;
+  padding: 1.25rem;
   text-overflow: ellipsis;
   overflow: hidden;
   border-bottom: 2px solid #EBF1F5;

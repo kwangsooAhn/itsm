@@ -93,13 +93,11 @@
     .modal-content {
       height: calc(#{$document-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
       padding: 1.25rem; // 20px
-      overflow: hidden;
 
       .workflow-content {
         width: calc(#{$document-edit-modal-width} - 2.5rem); // 너비에서 여백만큼 빼준다.
         height: calc(#{$document-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 2.5rem); // 높이에서 여백만큼 빼준다.
         padding: 0 1.25rem; // 0 20px
-        overflow-y: auto;
       }
 
       .field-label {

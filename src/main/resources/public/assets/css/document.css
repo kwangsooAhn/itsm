@@ -2173,7 +2173,7 @@ body.modal-active {
   font-size: 1.5rem;
   font-weight: 500;
   color: #222529;
-  padding: 1.25rem 0 1.25rem 1.25rem;
+  padding: 1.25rem;
   text-overflow: ellipsis;
   overflow: hidden;
   border-bottom: 2px solid #EBF1F5;
