@@ -737,10 +737,10 @@ class ZFormDesigner {
         if (!this.panel.validationStatus) { return false; }
         // 발행, 사용 상태일 경우, 저장이 불가능하다.
         const deployableStatus = ['form.status.publish', 'form.status.use'];
-        // if (deployableStatus.includes(this.data.status)) {
-        //     zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
-        //     return false;
-        // }
+        if (deployableStatus.includes(this.data.status)) {
+            zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
+            return false;
+        }
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
         console.debug(saveData);
