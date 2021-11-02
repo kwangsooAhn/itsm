@@ -75,16 +75,7 @@
             window.zFormToken = zFormToken;
             window.zFormTokenTab = zFormTokenTab;
 
-            OverlayScrollbars(document.querySelectorAll('.z-textarea'), {
-                className: 'scrollbar',
-                resize: 'vertical',
-                sizeAutoCapable: true,
-                textarea: {
-                    dynHeight: false,
-                    dynWidth: false,
-                    inheritedAttrs: "class"
-                }
-            });
+            OverlayScrollbars(document.querySelectorAll('.z-textarea'), {className: 'inner-scrollbar'});
         });
         /*]]>*/
     </script>
