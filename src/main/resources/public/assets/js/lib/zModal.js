@@ -220,18 +220,17 @@
                 }
                 dialog.appendChild(title);
             }
+
+            let body = document.createElement('div');
+            body.className = 'modal-content';
             if (this.options.body instanceof Element || (this.options.body instanceof Object &&
                 this.options.body instanceof DocumentFragment)) {
-                let body = document.createElement('div');
-                body.className = 'modal-content';
                 body.appendChild(this.options.body);
-                dialog.appendChild(body);
             } else if (typeof this.options.body === 'string' && this.options.body !== '') {
-                let body = document.createElement('div');
-                body.className = 'modal-content';
                 body.innerHTML = this.options.body;
-                dialog.appendChild(body);
             }
+            dialog.appendChild(body);
+
             // 버튼
             if (this.options.buttons.length > 0) {
                 let buttons = document.createElement('div');

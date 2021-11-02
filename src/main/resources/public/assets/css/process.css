@@ -2464,7 +2464,7 @@ svg path.connector.hidden {
   stroke-width: 0;
 }
 
-/* _buttons.scss 
+/* _buttons.scss
  *
  * 적용 규칙  (자세한 건 UX팀 정승녕 팀장님과 협의)
  * (1) 버튼 1개인 경우 : Secondary
@@ -2493,14 +2493,13 @@ svg path.connector.hidden {
   text-decoration: none;
   user-select: none;
   white-space: nowrap;
-  vertical-align: middle;
   overflow: visible;
   cursor: pointer;
   border: 0.0625rem solid transparent;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
-  padding: 0.5625rem 0.9375rem;
+  padding: 0.4375rem 0.9375rem;
 }
 .z-button:focus, .z-button:hover,
 .z-button-icon:focus,
@@ -4491,7 +4490,7 @@ body.modal-active {
   bottom: 0;
   left: 0;
   z-index: 5000;
-  background-color: rgba(139, 144, 148, 0.5);
+  background-color: rgba(99, 104, 108, 0.6);
 }
 .modal-wrapper .modal-dialog {
   position: absolute;
@@ -4501,34 +4500,37 @@ body.modal-active {
   width: 26.875rem;
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #CFD5D9;
-  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
-  -moz-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
-  box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
+  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+  -moz-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+  box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
   z-index: 5000;
 }
 .modal-wrapper .modal-dialog .modal-header {
-  height: 3.375rem;
+  height: 3.875rem;
   font-size: 1.5rem;
   font-weight: 500;
   color: #222529;
-  padding: 1.125rem 0 0 1.25rem;
+  padding: 1.25rem 0 1.25rem 1.25rem;
   text-overflow: ellipsis;
   overflow: hidden;
+  border-bottom: 2px solid #EBF1F5;
+  border-radius: 0.25rem 0.25rem 0 0;
+  -webkit-border-radius: 0.25rem 0.25rem 0 0;
+  -moz-border-radius: 0.25rem 0.25rem 0 0;
 }
 .modal-wrapper .modal-dialog .modal-content {
   overflow: auto;
 }
 .modal-wrapper .modal-dialog .modal-bottom {
   height: 5rem;
-  padding: 0 1.25rem 1.25rem 0;
+  padding: 1.25rem 1.25rem;
 }
 
 .modal-dialog.save-as .modal-content {
-  height: calc(25.63rem - 3.375rem - 5rem);
+  height: calc(25.63rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -4674,7 +4676,7 @@ body.modal-active {
   height: 48.44rem;
 }
 .modal-dialog.z-thumbnail-file .modal-content {
-  height: calc(48.44rem - 3.375rem - 5rem);
+  height: calc(48.44rem - 3.875rem - 5rem);
 }
 .modal-dialog.z-thumbnail-file .modal-content .z-thumbnail-main .z-thumbnail {
   width: 14.375rem;

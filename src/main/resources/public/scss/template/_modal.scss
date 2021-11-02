@@ -29,9 +29,8 @@ body.modal-active {
     width: $modal-width;
     margin: 0 auto 2em auto;
     background-color: $modal-bg-color;
-    @include border($modal-border-width, solid, $modal-border-color, all);
     @include boxShadow(0, 0.125rem, 0.75rem, 0, $modal-box-shadow-color);
-    @include borderRadius(0.0625rem); // 1px
+    @include borderRadius(0.25rem); // 4px
     z-index: $z-index-between-alert-modal;
 
     .modal-header {
@@ -39,9 +38,11 @@ body.modal-active {
       font-size: $modal-header-font-size;
       font-weight: $modal-header-font-weight;
       color: $modal-header-font-color;
-      padding: 1.125rem 0 0 1.25rem; // 18px 0 0 20px
+      padding: 1.25rem 0 1.25rem 1.25rem; // 20px 0 20px 20px
       text-overflow: ellipsis;
       overflow: hidden;
+      @include border(2px, solid, $modal-header-border, bottom);
+      @include borderRadius(0.25rem 0.25rem 0 0); // 4px
     }
 
     .modal-content {
@@ -50,7 +51,7 @@ body.modal-active {
 
     .modal-bottom {
       height: $modal-bottom-height;
-      padding: 0 1.25rem 1.25rem 0; // 20px
+      padding: 1.25rem 1.25rem; // 20px
     }
   }
 }
