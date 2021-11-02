@@ -703,7 +703,6 @@ class ZFormDesigner {
                             if(options.name === '' || options.value === '') {
                                 zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
                                 isVaild = false;
-                                console.log('위쪽 필수값체크: ' +isVaild);
                                 break outer;
 
                             }
@@ -716,7 +715,6 @@ class ZFormDesigner {
                                 if(option.name === '' || option.value === '') {
                                     zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
                                     isVaild = false;
-                                    console.log('아래쪽 필수값체크: ' +isVaild);
                                     break outer;
                                 }
                             }
@@ -725,7 +723,6 @@ class ZFormDesigner {
                 }
             }
         }
-        console.log('함수 나갈때 : '+isVaild);
         return isVaild;
     }
 
