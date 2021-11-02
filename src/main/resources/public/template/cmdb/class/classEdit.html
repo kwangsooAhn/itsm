@@ -433,6 +433,7 @@
                     });
                     classAttributeMap.forEach(function (value, key) {
                         if (checkbox.value === key) {
+                            checkbox.checked = true;
                             checkbox.disabled = true;
                         }
                     });
