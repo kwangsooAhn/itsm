@@ -30,7 +30,9 @@ INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78325ca80225','l
 /* 서비스데스크 - 단순문의 - 만족도 */
 INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78334c07023c','display','{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78334c07023c','label','{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
-INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78334f3a0244','display','{"displayOrder":1,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7ce3c1c2017ce435961500b4','display','{"displayOrder":1,"isAccordionUsed":false,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7ce3c1c2017ce435961500b4','label','{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
+INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78334f3a0244','display','{"displayOrder":2,"isAccordionUsed":true,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES ('g028b21f7c780ba6017c78334f3a0244','label','{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"만족도 평가"}');
 /* 서비스데스크 - 장애신고 */
 INSERT INTO wf_form_group_property VALUES ('4028b21f7c9adb6a017c9b0613610065','display','{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
@@ -46,7 +48,9 @@ INSERT INTO wf_form_group_property VALUES ('4028b21f7c9adb6a017c9b061a8b00bf','l
 /* 서비스데스크 - 장애신고 - 만족도 */
 INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914da7aa0021','display','{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914da7aa0021','label','{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
-INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914da8270029','display','{"displayOrder":1,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b21f7ce3c1c2017ce435961500b5','display','{"displayOrder":1,"isAccordionUsed":false,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b21f7ce3c1c2017ce435961500b5','label','{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
+INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914da8270029','display','{"displayOrder":2,"isAccordionUsed":true,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914da8270029','label','{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"만족도 평가"}');
 /* 서비스데스크 - 서비스요청 */
 INSERT INTO wf_form_group_property VALUES ('4028b21f7c9ff7c8017ca054465a0001','display','{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
@@ -62,7 +66,9 @@ INSERT INTO wf_form_group_property VALUES ('4028b21f7c9ff7c8017ca0544af6004d','l
 /* 서비스데스크 - 서비스요청 - 만족도 */
 INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914eec300040','display','{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914eec300040','label','{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
-INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914eecb30048','display','{"displayOrder":1,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b21f7ce3c1c2017ce435961500b6','display','{"displayOrder":1,"isAccordionUsed":false,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b21f7ce3c1c2017ce435961500b6','label','{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
+INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914eecb30048','display','{"displayOrder":2,"isAccordionUsed":true,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES ('4028b21f7c90d996017c914eecb30048','label','{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"만족도 평가"}');
 /* 서비스데스크 - 구성관리 */
 INSERT INTO wf_form_group_property VALUES ('2c9180867cc31a25017cc7a68e9204d3', 'display', '{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
@@ -78,7 +84,9 @@ INSERT INTO wf_form_group_property VALUES ('2c9180867cc31a25017cc7a68eef0519', '
 /* 서비스데스크 - 구성관리 - 만족도 */
 INSERT INTO wf_form_group_property VALUES ('2c9180867cc31a25017cc5c8ad340134', 'display', '{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES ('2c9180867cc31a25017cc5c8ad340134', 'label', '{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
-INSERT INTO wf_form_group_property VALUES ('2c9180867cc31a25017cc5c8ad4b013d', 'display', '{"displayOrder":1,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b21f7ce3c1c2017ce435961500b7', 'display','{"displayOrder":1,"isAccordionUsed":false,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES ('4028b21f7ce3c1c2017ce435961500b7', 'label','{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
+INSERT INTO wf_form_group_property VALUES ('2c9180867cc31a25017cc5c8ad4b013d', 'display', '{"displayOrder":2,"isAccordionUsed":true,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES ('2c9180867cc31a25017cc5c8ad4b013d', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"만족도 평가"}');
 /* 인프라변경관리 */
 INSERT INTO wf_form_group_property VALUES ('4028b8817cbfc7a7017cc095a5670ae8', 'display', '{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
@@ -139,4 +147,25 @@ insert into wf_form_group_property values('4028b22f7cc55c1a017cc5733093020f', 'l
 insert into wf_form_group_property values('4028b22f7cc55c1a017cc5733292021d', 'display', '{"displayOrder":7,"isAccordionUsed":true,"margin":"10 0 10 0"}');
 insert into wf_form_group_property values('4028b22f7cc55c1a017cc5733292021d', 'label', '{"visibility":true,"fontColor":"rgba(141, 146, 153, 1)","fontSize":"20","bold":false,"italic":false,"underline":false,"align":"left","text":"단위 테스트 내역"}');
 insert into wf_form_group_property values('4028b22f7cc55c1a017cc573342c0228', 'display', '{"displayOrder":8,"isAccordionUsed":true,"margin":"10 0 10 0"}');
-
+/* 문제관리 */
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b45bbb0815', 'display', '{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b45bbb0815', 'label', '{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b45c93081e', 'display', '{"displayOrder":1,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b45c93081e', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"신청내역"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b45ff30843', 'display', '{"displayOrder":2,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b45ff30843', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"접수내역"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b461580853', 'display', '{"displayOrder":3,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b461580853', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"해결내역서"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b463150868', 'display', '{"displayOrder":4,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b463150868', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 내역"}');
+/* 장애관리 */
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b6490a08d9', 'display', '{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b6490a08d9', 'label', '{"visibility":false,"fontColor":"#222529","fontSize":"14","bold":false,"italic":false,"underline":false,"align":"center","text":""}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b64a0a08e3', 'display', '{"displayOrder":1,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b64a0a08e3', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"신청내역"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b64d9f090b', 'display', '{"displayOrder":2,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b64d9f090b', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"접수내역"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b64ea60917', 'display', '{"displayOrder":3,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b64ea60917', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"처리내역"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b6510d0933', 'display', '{"displayOrder":4,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+insert into wf_form_group_property values('4028b21c7cdffb67017ce0b6510d0933', 'label', '{"visibility":true,"fontColor":"#8B9094","fontSize":"20","bold":true,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 내역"}');

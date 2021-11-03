@@ -15,8 +15,8 @@ import co.brainz.cmdb.ci.entity.CIHistoryEntity
 import co.brainz.cmdb.ci.entity.CIInstanceRelationEntity
 import co.brainz.cmdb.ci.repository.CIDataHistoryRepository
 import co.brainz.cmdb.ci.repository.CIDataRepository
-import co.brainz.cmdb.ci.repository.CIGroupListDataRepository
 import co.brainz.cmdb.ci.repository.CIGroupListDataHistoryRepository
+import co.brainz.cmdb.ci.repository.CIGroupListDataRepository
 import co.brainz.cmdb.ci.repository.CIHistoryRepository
 import co.brainz.cmdb.ci.repository.CIInstanceRelationRepository
 import co.brainz.cmdb.ci.repository.CIRepository
@@ -461,7 +461,7 @@ class CIService(
                 }
             }
             val ciAttributeQueryResult = ciAttributeRepository.findAttributeListInGroupList(childAttributeIdList)
-            ciEntity.ciGroupListDataEntities.forEach{ data ->
+            ciEntity.ciGroupListDataEntities.forEach { data ->
                 loop@ for (attribute in ciAttributeQueryResult.results) {
                     if (attribute.attributeId == data.cAttributeId) {
                         ciGroupListDataHistoryList.add(

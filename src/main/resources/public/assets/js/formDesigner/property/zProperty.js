@@ -128,7 +128,7 @@ export default class ZProperty {
         }
         // 필수 여부
         if (this.validation.required) {
-            label.addUI(new UISpan().setUIClass('required').addUIClass('ml-1'));
+            label.addUI(new UISpan().setUIClass('required'));
         }
         // 툴팁(도움말) 기능 추가
         const helpText = help || this.help;
