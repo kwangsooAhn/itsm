@@ -68,6 +68,7 @@ export const ciMixin = {
             this.UIElement.UIComponent.UIElement.domElement.querySelectorAll('button').forEach((elem) => {
                 elem.disabled = true;
             });
+            this.UIElement.UIComponent.UIElement.domElement.querySelector('span.i-search').closest('button').disabled = false;
         }
     },
     // set, get
