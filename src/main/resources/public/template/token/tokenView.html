@@ -50,6 +50,7 @@
         ZSession.add('department', '[[${#authentication.details.department}]]');
         ZSession.add('officeNumber', '[[${#authentication.details.officeNumber}]]');
         ZSession.add('mobileNumber', '[[${#authentication.details.mobileNumber}]]');
+        ZSession.add('departmentName', '');
 
         if (!zValidation.isEmpty(ZSession.get('department'))) {
             aliceJs.fetchJson('/rest/codes/' + ZSession.get('department'), {
