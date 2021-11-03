@@ -7081,7 +7081,7 @@ body.modal-active {
   cursor: inherit;
 }
 .tagify:read-only > .tagify__input {
-  visibility: hidden;
+  display: none;
 }
 .tagify:read-only .tagify__tag__removeBtn {
   display: none;

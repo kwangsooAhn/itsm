@@ -2312,15 +2312,15 @@ body.modal-active {
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set .z-table .z-table-body {
   display: block;
   width: 60rem;
-  height: 32.8125rem;
+  height: 34.6875rem;
   overflow-y: auto;
   border: none;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set .z-table .z-table-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set .z-table .z-table-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set .z-table .z-table-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set .z-table .z-table-body .list-row {
   display: table;
   width: 100%;
-  height: 3.125rem;
-  line-height: 3.125rem;
+  height: 2.188rem;
+  line-height: 2.188rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set .z-table .z-table-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set .z-table .z-table-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set .z-table .z-table-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set .z-table .z-table-body .list-row > td {
   display: inline-block;
@@ -2459,7 +2459,7 @@ body.modal-active {
   cursor: inherit;
 }
 .tagify:read-only > .tagify__input {
-  visibility: hidden;
+  display: none;
 }
 .tagify:read-only .tagify__tag__removeBtn {
   display: none;

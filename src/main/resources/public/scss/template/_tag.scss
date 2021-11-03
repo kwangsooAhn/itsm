@@ -36,7 +36,7 @@
     cursor: inherit;
 
     > .tagify__input {
-      visibility: hidden;
+      display: none;
     }
 
     .tagify__tag__removeBtn {
