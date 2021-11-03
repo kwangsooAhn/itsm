@@ -686,44 +686,46 @@ class ZFormDesigner {
             }
         }
     }
+    /**
+     * 옵션 목록 필수 값 체크
+     */
+    optionListEmptyCheck(options) {
+        if (zValidation.isEmpty(options.name) || zValidation.isEmpty(options.value)) {
+            zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
+            return false;
+        }
+        return true;
+    }
     
     /**
      * 저장 전 유효성 검증
      */
     saveValidationCheck(saveData) {
-        let isVaild = true;
-        let optionListType = ['radio', 'checkBox', 'dropdown'];
+        // 세부 속성 유효성 검증 실패시 동작을 중지한다.
+        if (!this.panel.validationStatus) { return false; }
 
-        outer : for (let group of saveData.group) {
+        const optionListType = ['radio', 'checkBox', 'dropdown'];
+
+        for (let group of saveData.group) {
             for (let row of group.row) {
                 for (let component of row.component) {
                     if (optionListType.includes(component.type)) {
                         for (let options of component.element.options) {
                             //필수 값 체크
-                            if(zValidation.isEmpty(options.name) || zValidation.isEmpty(options.value)) {
-                                zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
-                                isVaild = false;
-                                break outer;
-
-                            }
+                            if(!this.optionListEmptyCheck(options)) { return false; }
                         }
-                    }
-                    if(component.type === 'dynamicRowTable') {
+                    } else if (component.type === 'dynamicRowTable') {
                         for (let columns of component.element.columns) {
-                            for (let option of columns.columnElement.options) {
+                            for (let options of columns.columnElement.options) {
                                 //필수 값 체크
-                                if(zValidation.isEmpty(option.name) || zValidation.isEmpty(option.value)) {
-                                    zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
-                                    isVaild = false;
-                                    break outer;
-                                }
+                                if(!this.optionListEmptyCheck(options)) { return false; }
                             }
                         }
                     }
                 }
             }
         }
-        return isVaild;
+        return true;
     }
 
     /**
