@@ -10,16 +10,16 @@
  * https://www.brainz.co.kr
  */
 
+import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
+import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/zDefaultValueCustomCodeProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { ZSession } from '../../lib/zSession.js';
-import { zValidation } from '../../lib/zValidation.js';
 import { UIButton, UIDiv, UIInput, UISpan } from '../../lib/zUI.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
-import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
-import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
-import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/zDefaultValueCustomCodeProperty.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -239,6 +239,7 @@ export const customCodeMixin = {
                     e.preventDefault();
                     this.searchCustomCode();
                 });
+                OverlayScrollbars(document.querySelectorAll('.modal-content'), {className: 'scrollbar'});
             }
         });
         selectModal.show();
