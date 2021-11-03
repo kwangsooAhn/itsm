@@ -5984,10 +5984,10 @@ body.modal-active {
 
 .modal-dialog.scheduler-list-modal {
   width: 62.5rem;
-  height: 37.5rem;
+  height: 38.125rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content {
-  height: calc(37.5rem - 3.875rem - 5rem);
+  height: calc(38.125rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content .table-set {
@@ -7100,6 +7100,9 @@ body.modal-active {
 }
 .tagify.z-input > .tagify__input:not(:first-child) {
   padding: 0.25rem;
+}
+.tagify.z-input > .tagify__input {
+  display: block;
 }
 .tagify.z-input .tagify__tag__removeBtn {
   display: inherit;

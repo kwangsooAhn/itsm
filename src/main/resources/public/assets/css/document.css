@@ -2479,6 +2479,9 @@ body.modal-active {
 .tagify.z-input > .tagify__input:not(:first-child) {
   padding: 0.25rem;
 }
+.tagify.z-input > .tagify__input {
+  display: block;
+}
 .tagify.z-input .tagify__tag__removeBtn {
   display: inherit;
 }
