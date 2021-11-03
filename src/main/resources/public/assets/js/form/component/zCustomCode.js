@@ -93,7 +93,20 @@ export const customCodeMixin = {
                     this.value = '';
                     break;
                 case FORM.CUSTOM.SESSION:
-                    this.value = ZSession.get('userKey') || '';
+                    if (!zValidation.isEmpty(ZSession.get(defaultValues[2]))) {
+                        aliceJs.fetchJson('/rest/custom-codes/' + defaultValues[0], {
+                            method: 'GET'
+                        }).then((customCodeData) => {
+                            if (!zValidation.isEmpty(customCodeData)) {
+                                const selectedCustomData = customCodeData.find((item) =>
+                                    item.value === ZSession.get(defaultValues[2])
+                                );
+                                this.value = selectedCustomData.key;
+                            }
+                        });
+                    } else {
+                        this.value = '';
+                    }
                     break;
                 case FORM.CUSTOM.CODE:
                     this.value = defaultValues[2];
@@ -156,22 +169,18 @@ export const customCodeMixin = {
                     target.setUIValue(defaultValues[3]);
                     break;
             }
-        } else {
-            // key|value
-            if (defaultValues[1] === FORM.CUSTOM.CODE) {
-                aliceJs.fetchJson('/rest/custom-codes/' + defaultValues[0], {
-                    method: 'GET'
-                }).then((customCodeData) => {
-                    if (!zValidation.isEmpty(customCodeData)) {
-                        const selectedCustomData = customCodeData.find((item) => item.key === this.value);
-                        target.setUIValue(selectedCustomData.value);
-                    } else {
-                        target.setUIValue('');
-                    }
-                });
-            } else {
-                target.setUIValue(this.value);
-            }
+        } else if (!zValidation.isEmpty(this.value)) {
+            aliceJs.fetchJson('/rest/custom-codes/' + defaultValues[0], {
+                method: 'GET'
+            }).then((customCodeData) => {
+                if (!zValidation.isEmpty(customCodeData)) {
+                    const selectedCustomData = customCodeData.find((item) => item.key === this.value);
+                    target.setUIValue(zValidation.isEmpty(selectedCustomData.name) ? selectedCustomData.value :
+                        selectedCustomData.name);
+                } else {
+                    target.setUIValue('');
+                }
+            });
         }
     },
     // input box 값 변경시 이벤트 핸들러
@@ -206,7 +215,8 @@ export const customCodeMixin = {
                         if (chkElem.checked) {
                             isChekced = true;
                             const customData = customCodeData.componentValue.split('|')[0] + '|code|' + chkElem.id + '|' + chkElem.value;
-                            this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', customData).setUIValue(chkElem.value);
+                            const labelText = chkElem.parentNode.querySelector('.label').textContent;
+                            this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', customData).setUIValue(labelText);
                             this.UIElement.UIComponent.UIElement.UIInput.domElement.dispatchEvent(new Event('change'));
                         }
                     });

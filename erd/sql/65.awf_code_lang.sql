@@ -37,7 +37,7 @@ insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.ne
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.security', 'Security', 'en');
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.dbms', 'Database', 'en');
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.contract', 'Contract', 'en');
-insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.etc', 'ETC', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.inquiry.category.etc', 'Etc', 'en');
 /* 장애신고 */
 insert into awf_code_lang values ('form.template.serviceDesk.incident', 'ServiceDesk - Incident', 'en');
 /* 장애신고 - 장애 유형 */
@@ -57,7 +57,7 @@ insert into awf_code_lang values ('form.template.serviceDesk.request.category.se
 insert into awf_code_lang values ('form.template.serviceDesk.request.category.development', 'Development Request', 'en');
 insert into awf_code_lang values ('form.template.serviceDesk.request.category.material', 'Material Request', 'en');
 insert into awf_code_lang values ('form.template.serviceDesk.request.category.work', 'Work Request', 'en');
-insert into awf_code_lang values ('form.template.serviceDesk.request.category.etc', 'ETC', 'en');
+insert into awf_code_lang values ('form.template.serviceDesk.request.category.etc', 'Etc', 'en');
 /* 차트 */
 insert into awf_code_lang values ('chart.operation.percent', 'percent', 'en');
 insert into awf_code_lang values ('chart.operation.count', 'count', 'en');
