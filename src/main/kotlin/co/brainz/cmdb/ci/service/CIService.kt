@@ -10,16 +10,17 @@ import co.brainz.cmdb.ci.entity.CIDataEntity
 import co.brainz.cmdb.ci.entity.CIDataHistoryEntity
 import co.brainz.cmdb.ci.entity.CIEntity
 import co.brainz.cmdb.ci.entity.CIGroupListDataEntity
+import co.brainz.cmdb.ci.entity.CIGroupListDataHistoryEntity
 import co.brainz.cmdb.ci.entity.CIHistoryEntity
 import co.brainz.cmdb.ci.entity.CIInstanceRelationEntity
 import co.brainz.cmdb.ci.repository.CIDataHistoryRepository
 import co.brainz.cmdb.ci.repository.CIDataRepository
 import co.brainz.cmdb.ci.repository.CIGroupListDataRepository
+import co.brainz.cmdb.ci.repository.CIGroupListDataHistoryRepository
 import co.brainz.cmdb.ci.repository.CIHistoryRepository
 import co.brainz.cmdb.ci.repository.CIInstanceRelationRepository
 import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
-import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciClass.service.CIClassService
 import co.brainz.cmdb.ciRelation.entity.CIRelationEntity
 import co.brainz.cmdb.ciRelation.repository.CIRelationRepository
@@ -60,13 +61,13 @@ import org.springframework.stereotype.Service
 class CIService(
     private val ciRepository: CIRepository,
     private val ciTypeRepository: CITypeRepository,
-    private val ciClassRepository: CIClassRepository,
     private val ciAttributeRepository: CIAttributeRepository,
     private val ciRelationRepository: CIRelationRepository,
     private val ciDataRepository: CIDataRepository,
     private val ciGroupListDataRepository: CIGroupListDataRepository,
     private val ciHistoryRepository: CIHistoryRepository,
     private val ciDataHistoryRepository: CIDataHistoryRepository,
+    private val ciGroupListDataHistoryRepository: CIGroupListDataHistoryRepository,
     private val ciTypeService: CITypeService,
     private val ciClassService: CIClassService,
     private val wfInstanceRepository: WfInstanceRepository,
@@ -448,6 +449,45 @@ class CIService(
         }
         if (ciDataHistoryList.isNotEmpty()) {
             ciDataHistoryRepository.saveAll(ciDataHistoryList)
+        }
+
+        // CI Group List Data History
+        val ciGroupListDataHistoryList = mutableListOf<CIGroupListDataHistoryEntity>()
+        if (ciEntity.ciGroupListDataEntities.isNotEmpty()) {
+            val childAttributeIdList = mutableListOf<String>()
+            for (data in ciEntity.ciGroupListDataEntities) {
+                if (!childAttributeIdList.contains(data.cAttributeId)) {
+                    childAttributeIdList.add(data.cAttributeId)
+                }
+            }
+            val ciAttributeQueryResult = ciAttributeRepository.findAttributeListInGroupList(childAttributeIdList)
+            ciEntity.ciGroupListDataEntities.forEach{ data ->
+                loop@ for (attribute in ciAttributeQueryResult.results) {
+                    if (attribute.attributeId == data.cAttributeId) {
+                        ciGroupListDataHistoryList.add(
+                            CIGroupListDataHistoryEntity(
+                                dataHistoryId = "",
+                                seq = historySeq,
+                                ciId = ciEntity.ciId,
+                                attributeId = data.ciAttribute.attributeId,
+                                cAttributeId = data.cAttributeId,
+                                cAttributeSeq = data.cAttributeSeq,
+                                cAttributeName = attribute.attributeName,
+                                cAttributeDesc = attribute.attributeDesc,
+                                cAttributeType = attribute.attributeType,
+                                cAttributeText = attribute.attributeText,
+                                cAttributeValue = attribute.attributeValue,
+                                cValue = data.cValue
+                            )
+                        )
+                        break@loop
+                    }
+                }
+            }
+        }
+
+        if (ciGroupListDataHistoryList.isNotEmpty()) {
+            ciGroupListDataHistoryRepository.saveAll(ciGroupListDataHistoryList)
         }
     }
 

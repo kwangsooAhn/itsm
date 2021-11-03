@@ -16,7 +16,8 @@
                     <label class="z-radio" th:for="${customCode.key}" tabindex="0">
                         <input type="radio" name="customCode" th:id="${customCode.key}" th:value="${customCode.value}"/>
                         <span></span>
-                        <span class="label" th:text="${customCode.value}"></span>
+                        <span class="label" th:if="${customCode.name == ''}" th:text="${customCode.value}"></span>
+                        <span class="label" th:unless="${customCode.name == ''}" th:text="${customCode.name}"></span>
                     </label>
                 </li>
                 <li id="no-data" th:style="${#arrays.isEmpty(customCodeDataList)} ? '' : 'display: none'">
