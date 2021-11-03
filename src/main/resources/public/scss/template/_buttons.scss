@@ -1,4 +1,4 @@
-/* _buttons.scss 
+/* _buttons.scss
  *
  * 적용 규칙  (자세한 건 UX팀 정승녕 팀장님과 협의)
  * (1) 버튼 1개인 경우 : Secondary
@@ -29,12 +29,11 @@
   text-decoration: none;
   user-select: none;
   white-space: nowrap;
-  vertical-align: middle;
   overflow:visible;
   cursor: pointer;
   @include border($button-border-width, solid, transparent, all);
   @include borderRadius($button-border-radius);
-  padding: 0.5625rem 0.9375rem; // 9px 15px
+  padding: 0.4375rem 0.9375rem; // 7px 15px
 
   &:focus,
   &:hover {

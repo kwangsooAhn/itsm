@@ -255,6 +255,7 @@
                     for (let i = 0; i < executeTimeEle.length; i++) {
                         executeTimeEle[i].textContent = i18n.userDateTime(executeTimeEle[i].textContent);
                     }
+                    OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
                 });
             }
         };

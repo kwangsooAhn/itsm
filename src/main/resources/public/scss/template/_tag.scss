@@ -36,7 +36,7 @@
     cursor: inherit;
 
     > .tagify__input {
-      visibility: hidden;
+      display: none;
     }
 
     .tagify__tag__removeBtn {
@@ -57,6 +57,10 @@
       &:not(:first-child) {
         padding: 0.25rem;
       }
+    }
+
+    > .tagify__input {
+      display: block;
     }
 
     .tagify__tag__removeBtn {

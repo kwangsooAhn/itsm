@@ -93,13 +93,11 @@
     .modal-content {
       height: calc(#{$document-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
       padding: 1.25rem; // 20px
-      overflow: hidden;
 
       .workflow-content {
         width: calc(#{$document-edit-modal-width} - 2.5rem); // 너비에서 여백만큼 빼준다.
         height: calc(#{$document-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 2.5rem); // 높이에서 여백만큼 빼준다.
         padding: 0 1.25rem; // 0 20px
-        overflow-y: auto;
       }
 
       .field-label {
@@ -160,7 +158,7 @@
       .related-instance-list {
         margin-top: 0.9375rem; // 15px
         .table-set {
-          margin-top: 2.188rem; // 35px
+          margin-top: 1.875rem; // 30px
           .z-table {
             .z-table-body {
               display: block;
@@ -172,8 +170,8 @@
               .instance-list {
                 display: flex;
                 width: 100%;
-                height: 3.125rem; // 50px
-                line-height: 3.125rem; // 50px
+                height: 2.188rem; // 35px
+                line-height: 2.188rem; // 35px
               }
             }
           }

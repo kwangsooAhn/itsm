@@ -275,7 +275,7 @@ $scrollbar-color:                            $neutral300;
 // scrollbar 모서리 곡선
 $scrollbar-border-radius:                    0.5rem; // 8px
 // scrollbar 배경 색상
-$scrollbar-bg-color:                         $neutral50;
+$scrollbar-bg-color:                         $neutral100;
 // scrollbar hover, click 이동시 색상
 $scrollbar-hover-color:                      $gray300;
 // dark 테마 스크롤바 (메뉴 사용)
@@ -431,20 +431,21 @@ $tree-selected-bg-color:                     transparent;
 $tree-hover-bg-color:                        $blue100;
 
 ///////////////////////////////// modal //////////////////////////////
-$modal-backdrop-bg-color:                    hexToRGBA($gray500, 0.5);
+$modal-backdrop-bg-color:                    hexToRGBA($gray600, 0.6);
 $modal-border-color:                         $gray300;
 $modal-border-width:                         0.0625rem; // 1px
 $modal-bg-color:                             $white;
-$modal-box-shadow-color:                     $gray400;
+$modal-box-shadow-color:                     $gray600;
 
 $modal-width:                                26.875rem; // 430px
 $modal-height:                               22.5rem; // 360px
 
 // 모달 제목
-$modal-header-height:                        3.375rem; // 54px
+$modal-header-height:                        3.875rem; // 62px
 $modal-header-font-size:                     1.5rem; // 24px
 $modal-header-font-color:                    $gray800;
 $modal-header-font-weight:                   $font-weight-medium;
+$modal-header-border:                        $gray100;
 
 // 모달 버튼 영역
 $modal-bottom-height:                        5rem; // 80px

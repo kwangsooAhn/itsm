@@ -278,8 +278,10 @@
         // 이미지 파일명 제목 표시
         const previewModalHeader = previewModal.wrapper.querySelector('.modal-header');
         if (previewModalHeader !== null) {
-            previewModalHeader.textContent = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
-            previewModalHeader.classList.add('text-ellipsis');
+            let imageName = document.createElement('span');
+            imageName.textContent = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
+            imageName.classList.add('text-ellipsis');
+            previewModalHeader.appendChild(imageName);
         }
 
         // 내부 이미지 경로 변경

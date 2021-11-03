@@ -2150,7 +2150,7 @@ body.modal-active {
   bottom: 0;
   left: 0;
   z-index: 5000;
-  background-color: rgba(139, 144, 148, 0.5);
+  background-color: rgba(99, 104, 108, 0.6);
 }
 .modal-wrapper .modal-dialog {
   position: absolute;
@@ -2160,30 +2160,33 @@ body.modal-active {
   width: 26.875rem;
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #CFD5D9;
-  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
-  -moz-box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
-  box-shadow: 0 0.125rem 0.75rem 0 #ABB0B5;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
+  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+  -moz-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+  box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
   z-index: 5000;
 }
 .modal-wrapper .modal-dialog .modal-header {
-  height: 3.375rem;
+  height: 3.875rem;
   font-size: 1.5rem;
   font-weight: 500;
   color: #222529;
-  padding: 1.125rem 0 0 1.25rem;
+  padding: 1.25rem;
   text-overflow: ellipsis;
   overflow: hidden;
+  border-bottom: 2px solid #EBF1F5;
+  border-radius: 0.25rem 0.25rem 0 0;
+  -webkit-border-radius: 0.25rem 0.25rem 0 0;
+  -moz-border-radius: 0.25rem 0.25rem 0 0;
 }
 .modal-wrapper .modal-dialog .modal-content {
   overflow: auto;
 }
 .modal-wrapper .modal-dialog .modal-bottom {
   height: 5rem;
-  padding: 0 1.25rem 1.25rem 0;
+  padding: 1.25rem 1.25rem;
 }
 
 .modal-wrapper.modal-active {
@@ -2195,11 +2198,11 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content {
-  height: calc(53.0625rem - 3.375rem - 5rem);
+  height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit {
-  height: calc(53.0625rem - 3.375rem - 5rem - 3.125rem);
+  height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem);
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .edit-form {
   padding: 0 2.5rem;
@@ -2261,7 +2264,7 @@ body.modal-active {
   width: 21.8125rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view {
-  height: calc(53.0625rem - 3.375rem - 5rem - 3.125rem);
+  height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem);
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .view-form {
   padding: 0 2.5rem;
@@ -2309,15 +2312,15 @@ body.modal-active {
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set .z-table .z-table-body {
   display: block;
   width: 60rem;
-  height: 32.8125rem;
+  height: 34.6875rem;
   overflow-y: auto;
   border: none;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set .z-table .z-table-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set .z-table .z-table-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set .z-table .z-table-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set .z-table .z-table-body .list-row {
   display: table;
   width: 100%;
-  height: 3.125rem;
-  line-height: 3.125rem;
+  height: 2.188rem;
+  line-height: 2.188rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set .z-table .z-table-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set .z-table .z-table-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set .z-table .z-table-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set .z-table .z-table-body .list-row > td {
   display: inline-block;
@@ -2335,7 +2338,7 @@ body.modal-active {
   height: 44.19rem;
 }
 .modal-wrapper .modal-dialog.tree .modal-content {
-  height: calc(44.19rem - 3.375rem - 5rem);
+  height: calc(44.19rem - 3.875rem - 5rem);
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog.tree .modal-content div {
@@ -2352,7 +2355,7 @@ body.modal-active {
   height: 46.875rem;
 }
 .modal-wrapper .modal-dialog.custom-code-list .modal-content {
-  height: calc(46.875rem - 3.125rem - 6.25rem);
+  height: calc(46.875rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 0.625rem 1.25rem;
 }
 .modal-wrapper .modal-dialog.custom-code-list .modal-content .field-label {
@@ -2456,7 +2459,7 @@ body.modal-active {
   cursor: inherit;
 }
 .tagify:read-only > .tagify__input {
-  visibility: hidden;
+  display: none;
 }
 .tagify:read-only .tagify__tag__removeBtn {
   display: none;
@@ -2475,6 +2478,9 @@ body.modal-active {
 }
 .tagify.z-input > .tagify__input:not(:first-child) {
   padding: 0.25rem;
+}
+.tagify.z-input > .tagify__input {
+  display: block;
 }
 .tagify.z-input .tagify__tag__removeBtn {
   display: inherit;

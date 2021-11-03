@@ -5,10 +5,10 @@
       layout:decorate="layout/itsm/pageType/pagingListLayout">
 <head>
     <title th:text="#{document.label.businessFlow}"></title>
-    <th:block layout:fragment="pageHead">
-        <script th:src="@{/assets/js/lib/zColorPicker.js}"></script>
-    </th:block>
 </head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/lib/zColorPicker.js}"></script>
+</th:block>
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{document.label.businessFlow}"></h1>
@@ -208,7 +208,7 @@
                     }
 
                     // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.workflow-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                     OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
                         className: 'inner-scrollbar',
                         resize: 'vertical',

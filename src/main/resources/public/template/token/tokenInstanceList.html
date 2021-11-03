@@ -5,31 +5,23 @@
 </head>
 <body>
 <table class="z-table" id="instanceTable">
-    <colgroup>
-        <col width="5%">
-        <col width="20%">
-        <col width="20%">
-        <col width="20%">
-        <col width="20%">
-        <col width="15%">
-    </colgroup>
     <thead class="z-table-head">
         <tr>
-            <th style="width:5%;"  class="align-center"></th>
+            <th style="width:8%;"  class="align-center"></th>
             <th style="width:20%;" class="align-left" th:text="#{document.label.docNo}"></th>
             <th style="width:20%;" class="align-left" th:text="#{document.label.name}"></th>
             <th style="width:20%;" class="align-left" th:text="#{token.label.startDt}"></th>
             <th style="width:20%;" class="align-left" th:text="#{token.label.endDt}"></th>
-            <th style="width:15%;" class="align-left" th:text="#{common.label.createUser}"></th>
+            <th style="width:12%;" class="align-left" th:text="#{common.label.createUser}"></th>
         </tr>
     </thead>
-    <tbody id="instanceList" class="z-table-body">
+    <tbody id="instanceListBody" class="z-table-body">
         <tr class="no-data-found-list flex-row justify-content-center align-items-center"
             th:if="${#arrays.isEmpty(instanceList)}">
             <td style="width:100%" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr class="instance-list" th:each="instance, index : ${instanceList}">
-            <td style="width:5%;" class="align-center">
+            <td style="width:8%;" class="align-center">
                 <label class="z-checkbox" th:for="${index.index}" tabindex="0">
                     <input type="checkbox" name="chk" th:id="${index.index}"
                            th:value="${instance.instanceId}" th:checked="${instance.related == null || instance.related == true}"
@@ -40,7 +32,7 @@
             <td style="width:20%;" class="align-left" th:text="${instance.documentName}"></td>
             <td style="width:20%;" class="date-time align-left" th:text="${instance.instanceStartDt}"/>
             <td style="width:20%;" class="date-time align-left" th:text="${instance.instanceEndDt}"/>
-            <td style="width:15%;" class="align-left" th:text="${instance.instanceCreateUserName}"></td>
+            <td style="width:12%;" class="align-left" th:text="${instance.instanceCreateUserName}"></td>
         </tr>
     </tbody>
 </table>
