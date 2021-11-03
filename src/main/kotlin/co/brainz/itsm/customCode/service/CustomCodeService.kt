@@ -6,11 +6,9 @@
 
 package co.brainz.itsm.customCode.service
 
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.code.service.CodeService
@@ -44,7 +42,6 @@ import javax.persistence.Column
 import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.springframework.data.domain.Sort
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
