@@ -696,7 +696,6 @@ class ZFormDesigner {
         }
         return true;
     }
-    
     /**
      * 저장 전 유효성 검증
      */
