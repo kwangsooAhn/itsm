@@ -241,7 +241,7 @@ board:
 chart:
   label:
     all: "전체"
-    chart: "사용자 정의 차트 목록"
+    chart: "사용자 정의 차트"
     defaultInfo: "기본 정보"
     description: "차트 설명"
     edit: "차트 편집"
