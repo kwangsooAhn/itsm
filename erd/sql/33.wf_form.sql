@@ -41,4 +41,5 @@ INSERT INTO wf_form VALUES ('2c9180867cc31a25017cc5c7268f0122', '서비스데스
 INSERT INTO wf_form VALUES ('4028b8817cbfc7a7017cc08f7b0b0763', '인프라변경관리', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}', 'process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_form VALUES ('4028b8817cc50161017cc5082b460002', '구성관리', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}', 'process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO wf_form VALUES ('4028b22f7c9c4aee017c9c4e15870000', '어플리케이션 변경관리', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}', 'process', '0509e09412534a6e98f04ca79abb6424',  now(), null, null);
-
+INSERT INTO wf_form VALUES ('4028b21c7cdffb67017ce0b3fce307b7', '문제관리', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}', 'process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO wf_form VALUES ('4028b21c7cdffb67017ce0b5f9920873', '장애관리', '', 'form.status.use', '{"width":"960","margin":"0 0 0 0","padding":"15 15 15 15"}', 'process', '0509e09412534a6e98f04ca79abb6424', now(), null, null);

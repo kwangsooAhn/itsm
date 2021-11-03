@@ -88,3 +88,16 @@ insert into wf_form_group values('4028b22f7cc55c1a017cc5733701023d', '현업테�
 insert into wf_form_group values('4028b22f7cc55c1a017cc573390a024b', '릴리즈 결과 입력', '4028b22f7c9c4aee017c9c4e15870000');
 insert into wf_form_group values('4028b22f7cc55c1a017cc5733ac10257', '변경 완료 보고', '4028b22f7c9c4aee017c9c4e15870000');
 insert into wf_form_group values('4028b22f7cc55c1a017cc5733c560264', '최종 검토 의견', '4028b22f7c9c4aee017c9c4e15870000');
+/* 문제관리 */
+INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b45bbb0815', '제목', '4028b21c7cdffb67017ce0b3fce307b7');
+INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b45c93081e', '신청내역', '4028b21c7cdffb67017ce0b3fce307b7');
+INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b45ff30843', '접수내역', '4028b21c7cdffb67017ce0b3fce307b7');
+INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b461580853', '해결내역', '4028b21c7cdffb67017ce0b3fce307b7');
+INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b463150868', '승인 / 반려 내역', '4028b21c7cdffb67017ce0b3fce307b7');
+/* 장애관리 */
+INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b6490a08d9', '제목', '4028b21c7cdffb67017ce0b5f9920873');
+INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b64a0a08e3', '신청내역', '4028b21c7cdffb67017ce0b5f9920873');
+INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b64d9f090b', '접수내역', '4028b21c7cdffb67017ce0b5f9920873');
+INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b64ea60917', '처리내역', '4028b21c7cdffb67017ce0b5f9920873');
+INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b6510d0933', '승인 / 반려 내역', '4028b21c7cdffb67017ce0b5f9920873');
+
