@@ -726,7 +726,6 @@ class ZFormDesigner {
         }
         return true;
     }
-
     /**
      * 폼 저장
      * @param boolean 저장후  팝업 닫을지 여부
