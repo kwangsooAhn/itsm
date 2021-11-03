@@ -258,6 +258,7 @@ chart:
     doc: "Document"
     docCases: "Documents Cases"
     docRatio: "Documents Ratio"
+    searchPlaceholder: "Chart Name"
   option:
     label:
       subTitle: "User custom chart report"
