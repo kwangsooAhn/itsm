@@ -11,6 +11,7 @@ import java.io.Serializable
 data class CIAttributeValueDto(
     val attributeId: String = "",
     val attributeName: String = "",
+    val attributeDesc: String? = null,
     val attributeText: String = "",
     val attributeType: String? = null,
     val attributeOrder: Int? = 0,
@@ -21,6 +22,7 @@ data class CIAttributeValueDto(
 class CIAttributeValueGroupListDto(
     val attributeId: String = "",
     val attributeName: String = "",
+    val attributeDesc: String? = null,
     val attributeText: String = "",
     val attributeType: String? = null,
     val attributeOrder: Int? = 0,

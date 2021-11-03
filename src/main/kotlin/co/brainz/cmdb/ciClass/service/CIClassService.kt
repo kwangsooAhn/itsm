@@ -340,6 +340,7 @@ class CIClassService(
                     CIAttributeValueGroupListDto(
                         attributeId = data.attributeId,
                         attributeName = data.attributeName,
+                        attributeDesc = data.attributeDesc,
                         attributeText = data.attributeText,
                         attributeType = data.attributeType,
                         attributeOrder = data.attributeOrder,
@@ -384,6 +385,7 @@ class CIClassService(
                             CIAttributeValueDto(
                                 attributeId = groupData.cAttributeId,
                                 attributeName = attribute.attributeName,
+                                attributeDesc = attribute.attributeDesc,
                                 attributeText = attribute.attributeText,
                                 attributeType = attribute.attributeType,
                                 attributeOrder = groupData.cAttributeSeq,

@@ -74,4 +74,12 @@ data class CIEntity(
         orphanRemoval = true
     )
     val ciDataEntities = mutableListOf<CIDataEntity>()
+
+    @OneToMany(
+        mappedBy = "ci",
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.REMOVE],
+        orphanRemoval = true
+    )
+    val ciGroupListDataEntities = mutableListOf<CIGroupListDataEntity>()
 }
