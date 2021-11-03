@@ -241,7 +241,7 @@ board:
 chart:
   label:
     all: "All"
-    chartList: "User Custom Chart List"
+    chartt: "User Custom Chart"
     defaultInfo: "Default Info"
     description: "Chart Description"
     edit: "Chart Edit"
