@@ -2355,7 +2355,7 @@ body.modal-active {
   height: 46.875rem;
 }
 .modal-wrapper .modal-dialog.custom-code-list .modal-content {
-  height: calc(46.875rem - 3.125rem - 6.25rem);
+  height: calc(46.875rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 0.625rem 1.25rem;
 }
 .modal-wrapper .modal-dialog.custom-code-list .modal-content .field-label {

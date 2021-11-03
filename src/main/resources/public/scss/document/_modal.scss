@@ -178,7 +178,7 @@
       height: $custom-code-modal-height;
 
       .modal-content {
-        height: calc(#{$custom-code-modal-height} - #{$custom-code-modal-header-height} - #{$custom-code-modal-bottom-height});
+        height: calc(#{$custom-code-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
         padding: 0.625rem 1.25rem 0.625rem 1.25rem; // 10px 20px 20px 20px
 
         .field-label {
