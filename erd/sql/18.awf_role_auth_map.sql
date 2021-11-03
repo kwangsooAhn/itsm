@@ -242,3 +242,12 @@ INSERT INTO awf_role_auth_map  VALUES ('configuration.change.assignee', 'documen
 INSERT INTO awf_role_auth_map  VALUES ('configuration.change.assignee', 'document.read');
 INSERT INTO awf_role_auth_map  VALUES ('configuration.change.assignee', 'token.create');
 INSERT INTO awf_role_auth_map  VALUES ('configuration.change.assignee', 'token.read');
+/* 문제관리 - 문제관리 담당자, 관리자 */
+INSERT INTO awf_role_auth_map  VALUES ('problem.manager', 'document.create');
+INSERT INTO awf_role_auth_map  VALUES ('problem.manager', 'document.read');
+INSERT INTO awf_role_auth_map  VALUES ('problem.manager', 'token.create');
+INSERT INTO awf_role_auth_map  VALUES ('problem.manager', 'token.read');
+INSERT INTO awf_role_auth_map  VALUES ('problem.assignee', 'document.create');
+INSERT INTO awf_role_auth_map  VALUES ('problem.assignee', 'document.read');
+INSERT INTO awf_role_auth_map  VALUES ('problem.assignee', 'token.create');
+INSERT INTO awf_role_auth_map  VALUES ('problem.assignee', 'token.read');

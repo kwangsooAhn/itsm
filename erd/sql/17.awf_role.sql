@@ -51,3 +51,6 @@ insert into awf_role values ('infra.change.manager', '인프라 변경 관리자
 /* 구성관리 */
 INSERT INTO awf_role VALUES ('configuration.change.manager', '구성관리 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('configuration.change.assignee', '구성관리 담당자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 문제관리 */
+INSERT INTO awf_role VALUES ('problem.manager', '문제관리 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_role VALUES ('problem.assignee', '문제관리 담당자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
