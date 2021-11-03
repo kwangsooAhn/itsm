@@ -421,7 +421,7 @@
             showProgressbar: showProgressbar,
             callbackFunc: function (response) {
                 document.getElementById('ciClassAttributeList').innerHTML = response.responseText;
-                OverlayScrollbars(document.querySelector('.z-list-body'), {className: 'scrollbar'});
+                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
                 aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
                 document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
                     checkbox.addEventListener('change', function (e) {
