@@ -78,6 +78,7 @@ class ReportTemplateService(
                     templateId = template.templateId,
                     templateName = template.templateName,
                     createDt = template.createDt,
+                    createUserName = template.createUser?.userName,
                     automatic = template.automatic,
                     templateDesc = template.templateDesc,
                     charts = chartList

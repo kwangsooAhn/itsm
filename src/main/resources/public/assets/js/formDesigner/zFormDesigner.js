@@ -687,12 +687,19 @@ class ZFormDesigner {
         }
     }
     /**
-     * 폼 저장
-     * @param boolean 저장후  팝업 닫을지 여부
+     * 옵션 목록 필수 값 체크
      */
-    saveForm(boolean) {
-        const STATUS_SUCCESS = '0';
-        const STATUS_ERROR_DUPLICATE_FORM_NAME = '1';
+    optionListEmptyCheck(options) {
+        if (zValidation.isEmpty(options.name) || zValidation.isEmpty(options.value)) {
+            zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
+            return false;
+        }
+        return true;
+    }
+    /**
+     * 저장 전 상태 체크 및 유효성 검증
+     */
+    saveValidationCheck(saveData) {
         // 세부 속성 유효성 검증 실패시 동작을 중지한다.
         if (!this.panel.validationStatus) { return false; }
         // 발행, 사용 상태일 경우, 저장이 불가능하다.
@@ -701,9 +708,46 @@ class ZFormDesigner {
             zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
             return false;
         }
+        // '편집' 상태에서 '발행' or '사용' 상태로 저장하려는 경우 유효성 검증
+        const optionListType = ['radio', 'checkBox', 'dropdown'];
+
+        if (this.data.status === 'form.status.edit' && deployableStatus.includes(this.form.status)) {
+            for (let group of saveData.group) {
+                for (let row of group.row) {
+                    for (let component of row.component) {
+                        if (optionListType.includes(component.type)) {
+                            for (let options of component.element.options) {
+                                //필수 값 체크
+                                if(!this.optionListEmptyCheck(options)) { return false; }
+                            }
+                        } else if (component.type === 'dynamicRowTable') {
+                            for (let columns of component.element.columns) {
+                                for (let options of columns.columnElement.options) {
+                                    //필수 값 체크
+                                    if(!this.optionListEmptyCheck(options)) { return false; }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    /**
+     * 폼 저장
+     * @param boolean 저장후  팝업 닫을지 여부
+     */
+    saveForm(boolean) {
+        const STATUS_SUCCESS = '0';
+        const STATUS_ERROR_DUPLICATE_FORM_NAME = '1';
+
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
         console.debug(saveData);
+
+        // 저장 가능한 상태인지 체크
+        if(!this.saveValidationCheck(saveData)) { return false; }
 
         // 저장
         aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {

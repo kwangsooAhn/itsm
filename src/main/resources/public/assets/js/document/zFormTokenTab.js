@@ -92,11 +92,17 @@ class ZFormTokenTab {
      */
     setDateTimeFormat() {
         document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
-            element.textContent = dateFormatFromNow(element.textContent);
+            if (!element.classList.contains('active')) {
+                element.classList.add('active');
+                element.textContent = dateFormatFromNow(element.textContent);
+            }
         });
 
         document.querySelectorAll('.date-time').forEach((element) => {
-            element.textContent = i18n.userDateTime(element.textContent);
+            if (!element.classList.contains('active')) {
+                element.classList.add('active');
+                element.textContent = i18n.userDateTime(element.textContent);
+            }
         });
     }
 
@@ -189,6 +195,7 @@ class ZFormTokenTab {
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('instanceList').innerHTML = htmlData;
+            this.setDateTimeFormat();
             OverlayScrollbars(document.getElementById('instanceList'), {className: 'scrollbar'});
             aliceJs.showTotalCount(document.querySelectorAll('.instance-list').length);
         });
@@ -216,7 +223,7 @@ class ZFormTokenTab {
                 body: JSON.stringify(jsonArray)
             }).then((rtn) => {
                 if (rtn === 'true') {
-                    this.reloadTab();
+                    this.reloadRelatedInstance();
                 } else {
                     zAlert.danger(i18n.msg('common.msg.fail'));
                 }

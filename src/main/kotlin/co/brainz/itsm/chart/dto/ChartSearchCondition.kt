@@ -11,6 +11,7 @@ import java.io.Serializable
 
 data class ChartSearchCondition(
     val searchGroupName: String? = null,
+    val searchValue: String? = null,
     val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {

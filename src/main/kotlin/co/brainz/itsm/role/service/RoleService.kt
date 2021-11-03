@@ -177,7 +177,7 @@ class RoleService(
      * 전체 역할 목록 조회 및 사용자가 가지고 있는 역할 체크
      */
     fun getAllRolesToUserCheck(userEntity: AliceUserEntity?): MutableList<RoleDetailDto> {
-        val allRoles = roleRepository.findRoleSearch(RoleSearchCondition("")).results
+        val allRoles = roleRepository.findAll()
         val userRoleIds = mutableListOf<String>()
         if (userEntity != null) {
             val userRoles = this.getUserRoles(userEntity.userKey)
