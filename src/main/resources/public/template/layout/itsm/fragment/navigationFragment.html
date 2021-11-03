@@ -49,9 +49,11 @@
 			getTodoTokenCount(true);
 
 			// 제품 정보 모달창 출력
-			document.getElementById('config.product').children[0].removeAttribute("href");
-			document.getElementById('config.product').children[0].onclick = function () {
-				openProductInfoModal();
+			if (document.getElementById('config.product') !== null) {
+				document.getElementById('config.product').children[0].removeAttribute("href");
+				document.getElementById('config.product').children[0].onclick = function () {
+					openProductInfoModal();
+				}
 			}
 		});
 
