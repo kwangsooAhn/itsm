@@ -66,7 +66,7 @@ export const ciMixin = {
         if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
             // 모든 버튼을 disabled 처리
             this.UIElement.UIComponent.UIElement.domElement.querySelectorAll('button').forEach((elem) => {
-                elem.disabled = true;
+                elem.disabled = !elem.querySelector('span.i-search');
             });
         }
     },
