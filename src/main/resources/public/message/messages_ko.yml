@@ -688,6 +688,8 @@ form:
     selectImportFile: "IMPORT 파일을 선택하세요."
     unique: "중복된 데이터는 포함할 수 없습니다."
     duplicateFormName: "중복되는 문서양식 이름이 있습니다.<br>다른 문서양식 이름을 입력하세요."
+    duplicateOptionsName: "옵션 목록에 중복되는 이름이 있습니다."
+    duplicateOptionsValue: "옵션 목록에 중복되는 값이 있습니다."
   form: "Form"
   group: "Group"
   row: "Row"
