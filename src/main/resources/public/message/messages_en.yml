@@ -570,6 +570,7 @@ document:
     launchedInstance: "There is an instance started and cannot be deleted."
     lengthMax: "Please enter less than {0} characters."
     lengthMin: "Please enter at least {0} characters."
+    nameDuplication: "the duplication name document. check document."
     process: "It has been processed."
     requiredFileupload: "Please upload a file."
     searchDescription: "Inquire and apply for a document"
