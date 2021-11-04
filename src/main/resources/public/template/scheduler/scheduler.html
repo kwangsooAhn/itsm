@@ -371,7 +371,7 @@
             if (isEmpty('cronExpression', 'common.msg.requiredEnter')) {
                 return false;
             }
-            if (cronSplit('cronExpression')) {
+            if (cronSplit()) {
                 return false;
             }
         } else { // fixedDelay, fixedRate
@@ -386,27 +386,28 @@
     }
 
     /** 크론 표현식 검사 **/
-    function cronSplit(cronExpression, callbackFunc) {
-        let elem = document.getElementById(cronExpression);
-        let regex = new RegExp(/^(\*|([1-5]?[0-9])) (\*|([1-5]?[0-9])) (\*|(1[0-9]|2[0-3])) (\*|([12]?[0-9]|3[0-1])) (\*|([1-9]|1[0-2])|(jan)|(feb)|(mar)|(apr)|(may)|(jun)|(jul)|(aug)|(sep)|(oct)|(nov)|(dec)) (\*|([0-6])|(sun)|(mon)|(tue)|(wed)|(thu)|(fri)|(sat))$/i);
-        let cronValue = elem.value.replace(/ +/g, " ").trim().split(' '); //공백 제거 및 배열로 저장
-        const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
-            elem.focus();
-        };
+    function cronSplit() {
+        let elem = document.getElementById('cronExpression');
+        let regex = new RegExp(/^(\*|([1-5]?[0-9])) (\*|([1-5]?[0-9])) (\*|(1[0-9]|2[0-3])) (\?|\*|([12]?[0-9]|3[0-1])) (\*|([1-9]|1[0-2])|(jan)|(feb)|(mar)|(apr)|(may)|(jun)|(jul)|(aug)|(sep)|(oct)|(nov)|(dec)) (\?|\*|([0-6])|(sun)|(mon)|(tue)|(wed)|(thu)|(fri)|(sat))$/i);
+        //공백 제거 및 배열로 저장
+        let cronValue = elem.value.replace(/ +/g, " ").trim().split(' ');
 
         if (cronValue.length > 6) {
-            zAlert.warning(i18n.msg('scheduler.msg.cronValue'), callback);
+            zAlert.warning(i18n.msg('scheduler.msg.cronValue'), function () {
+                elem.focus();
+            });
             return true;
-        }
-        if (cronValue.length < 6) {
+        } else {
             for (let i = cronValue.length; i < 6; i++) {
                 cronValue.push('*');
             }
+            elem.value = cronValue.join(' ');
         }
-        elem.value = cronValue.join(' ');
 
         if (!regex.test(elem.value)) {
-            zAlert.warning(i18n.msg('scheduler.msg.cronError'), callback);
+            zAlert.warning(i18n.msg('scheduler.msg.cronError'), function () {
+                elem.focus();
+            });
             return true;
         }
 
