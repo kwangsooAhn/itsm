@@ -392,7 +392,9 @@
         let cronValue = elem.value.replace(/ +/g, " ").trim().split(' ');
 
         if (cronValue.length > 6) {
-            zAlert.warning(i18n.msg('scheduler.msg.cronValue'));
+            zAlert.warning(i18n.msg('scheduler.msg.cronValue'), function () {
+                elem.focus();
+            });
             return true;
         } else {
             for (let i = cronValue.length; i < 6; i++) {
@@ -402,7 +404,9 @@
         }
 
         if (!regex.test(elem.value)) {
-            zAlert.warning(i18n.msg('scheduler.msg.cronError'));
+            zAlert.warning(i18n.msg('scheduler.msg.cronError'), function () {
+                elem.focus();
+            });
             return true;
         }
 
