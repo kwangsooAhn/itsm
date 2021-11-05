@@ -265,7 +265,7 @@ class WfDocumentService(
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateDocumentDto.documentId)
         val form = WfFormEntity(formId = restTemplateDocumentDto.formId)
         val process = WfProcessEntity(processId = restTemplateDocumentDto.processId)
-        val duplicateDocument = wfDocumentRepository.findDuplicationDocumentName(
+        val duplicateDocument = wfDocumentRepository.findDuplicationDocumentName (
             restTemplateDocumentDto.documentName,
             restTemplateDocumentDto.documentId
         )
@@ -287,7 +287,7 @@ class WfDocumentService(
                 wfDocumentEntity.documentIcon = restTemplateDocumentDto.documentIcon
             }
             else -> {
-                throw AliceException(
+                throw AliceException (
                     AliceErrorConstants.ERR_00004,
                     aliceMessageSource.getMessage("document.msg.nameDuplication")
                 )

@@ -10,9 +10,7 @@ import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import com.querydsl.core.QueryResults
-import org.springframework.stereotype.Repository
 
-@Repository
 interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
     /**
      * 신청서 목록을 조회 후 리턴
