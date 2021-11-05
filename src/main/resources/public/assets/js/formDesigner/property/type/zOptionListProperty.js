@@ -125,7 +125,7 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
-            .setUIId('optionName');
+            .setUIAttribute('name','optionName');
         nameTD.addUI(nameTD.inputName);
 
         const valueTD = new UICell(optionRow);
@@ -136,7 +136,7 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
-            .setUIId('optionValue');
+            .setUIAttribute('name','optionValue');
         valueTD.addUI(valueTD.inputValue);
 
         const removeTD = new UICell(optionRow);
@@ -165,23 +165,26 @@ export default class ZOptionListProperty extends ZProperty {
             return false;
         }
         // change 일 경우 minLength, maxLength & 중복 값 체크
-        let optionListName
-            = this.getPropertyValue(this.UIElement.UIOptionTable.domElement).slice(0, -1).map(v => v.name);
-        let optionListValue
-            = this.getPropertyValue(this.UIElement.UIOptionTable.domElement).slice(0, -1).map(v => v.value);
-
         if (e.type === 'change') {
             if (!zValidation.changeValidationCheck(e.target)) { return false; }
 
-            if (e.target.id === 'optionName') {
-                if (optionListName.includes(zValidation.getDOMElementValue(e.target))) {
-                    zAlert.warning(i18n.msg('form.msg.duplicateOptionsName'));
-                    return false;
+            let isValid = true;
+            let optionListName
+                = this.getPropertyValue(this.UIElement.UIOptionTable.domElement)
+                .map(v => v.name).filter(optName => optName === e.target.value)
+            let optionListValue
+                = this.getPropertyValue(this.UIElement.UIOptionTable.domElement)
+                .map(v => v.value).filter(optValue => optValue === e.target.value)
+
+            if (e.target.name === 'optionName') {
+                if (optionListName.length > 1) {
+                    isValid = false;
+                    zValidation.setDOMElementError(isValid, e.target, i18n.msg('form.msg.duplicateOptionsName'))
                 }
-            }else if (e.target.id === 'optionValue') {
-                if (optionListValue.includes(zValidation.getDOMElementValue(e.target))) {
-                    zAlert.warning(i18n.msg('form.msg.duplicateOptionsValue'));
-                    return false;
+            } else if (e.target.name === 'optionValue') {
+                if (optionListValue.length > 1) {
+                    isValid = false;
+                    zValidation.setDOMElementError(isValid, e.target, i18n.msg('form.msg.duplicateOptionsValue'))
                 }
             }
         }
