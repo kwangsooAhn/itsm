@@ -1174,6 +1174,7 @@ input, button, select, optgroup, textarea {
   font-weight: 400;
   color: #8B9094;
   padding: 0 1.25rem;
+  line-height: 1.5;
 }
 .z-portal-container .z-main .z-main-content .z-main-view .view-content {
   font-size: 1rem;
@@ -1437,6 +1438,10 @@ input, button, select, optgroup, textarea {
   animation-timing-function: ease-out;
   animation-iteration-count: 1;
   animation-direction: normal;
+}
+
+.notice-pinned {
+  background-color: #E3F5FC;
 }
 
 /* _elements.scss
