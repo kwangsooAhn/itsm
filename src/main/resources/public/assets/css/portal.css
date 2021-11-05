@@ -1788,7 +1788,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   flex-basis: 100%;
 }
 .z-input-button .z-button-search {
-  margin-left: -0.0625rem;
+  margin-left: 1rem;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
