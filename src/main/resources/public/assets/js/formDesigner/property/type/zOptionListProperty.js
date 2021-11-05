@@ -124,7 +124,8 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIValue(option.name).onUIKeyUp(this.updateProperty.bind(this))
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
-            .setUIAttribute('data-validation-required-name', i18n.msg(this.name));
+            .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
+            .setUIId('optionName');
         nameTD.addUI(nameTD.inputName);
 
         const valueTD = new UICell(optionRow);
@@ -134,7 +135,8 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIValue(option.value).onUIKeyUp(this.updateProperty.bind(this))
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
-            .setUIAttribute('data-validation-required-name', i18n.msg(this.name));
+            .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
+            .setUIId('optionValue');
         valueTD.addUI(valueTD.inputValue);
 
         const removeTD = new UICell(optionRow);
@@ -162,11 +164,27 @@ export default class ZOptionListProperty extends ZProperty {
         if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
             return false;
         }
-        // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
-            return false;
-        }
+        // change 일 경우 minLength, maxLength & 중복 값 체크
+        let optionListName
+            = this.getPropertyValue(this.UIElement.UIOptionTable.domElement).slice(0, -1).map(v => v.name);
+        let optionListValue
+            = this.getPropertyValue(this.UIElement.UIOptionTable.domElement).slice(0, -1).map(v => v.value);
 
+        if (e.type === 'change') {
+            if (!zValidation.changeValidationCheck(e.target)) { return false; }
+
+            if (e.target.id === 'optionName') {
+                if (optionListName.includes(zValidation.getDOMElementValue(e.target))) {
+                    zAlert.warning(i18n.msg('form.msg.duplicateOptionsName'));
+                    return false;
+                }
+            }else if (e.target.id === 'optionValue') {
+                if (optionListValue.includes(zValidation.getDOMElementValue(e.target))) {
+                    zAlert.warning(i18n.msg('form.msg.duplicateOptionsValue'));
+                    return false;
+                }
+            }
+        }
         this.panel.update.call(this.panel, this.key, this.getPropertyValue(this.UIElement.UIOptionTable.domElement));
     }
 

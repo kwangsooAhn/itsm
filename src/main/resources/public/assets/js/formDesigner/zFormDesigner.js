@@ -697,22 +697,6 @@ class ZFormDesigner {
         return true;
     }
     /**
-     * 옵션 목록 중복 값 체크
-     */
-    optionListDuplicationCheck(options, option) {
-        let checkName = options.filter(o => o.name === option.name);
-        let checkValue = options.filter(o => o.value === option.value);
-        if (checkName.length !== 1) {
-            zAlert.warning(i18n.msg('form.msg.duplicateOptionsName'));
-            return false;
-        }
-        if (checkValue.length !== 1) {
-            zAlert.warning(i18n.msg('form.msg.duplicateOptionsValue'));
-            return false;
-        }
-        return true;
-    }
-    /**
      * 저장 전 상태 체크 및 유효성 검증
      */
     saveValidationCheck(saveData) {
@@ -735,16 +719,12 @@ class ZFormDesigner {
                             for (let options of component.element.options) {
                                 //필수 값 체크
                                 if(!this.optionListEmptyCheck(options)) { return false; }
-                                //중복 값 체크
-                                if(!this.optionListDuplicationCheck(component.element.options, options)) { return false; }
                             }
                         } else if (component.type === 'dynamicRowTable') {
                             for (let columns of component.element.columns) {
                                 for (let options of columns.columnElement.options) {
                                     //필수 값 체크
                                     if(!this.optionListEmptyCheck(options)) { return false; }
-                                    //중복 값 체크
-                                    if(!this.optionListDuplicationCheck(columns.columnElement.options, options)) { return false; }
                                 }
                             }
                         }
