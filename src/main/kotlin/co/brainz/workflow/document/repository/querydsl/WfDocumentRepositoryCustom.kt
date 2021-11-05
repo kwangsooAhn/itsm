@@ -30,5 +30,5 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
     /**
      * 신청서 중복체크
      */
-    fun findDuplicationDocumentName(documentName: String, documentId: String): Long
+    fun existsByDocumentName(documentName: String, documentId: String): Boolean
 }

@@ -114,13 +114,16 @@ class WfDocumentRepositoryImpl :
             .fetch()
     }
 
-    override fun findDuplicationDocumentName(documentName: String, documentId: String): Long {
+    override fun existsByDocumentName(documentName: String, documentId: String): Boolean {
         val documentEntity = QWfDocumentEntity.wfDocumentEntity
         val query = from(documentEntity)
             .where(documentEntity.documentName.eq(documentName))
         if (documentId.isNotEmpty()) {
             query.where(!documentEntity.documentId.eq(documentId))
         }
-        return query.fetchCount()
+        if (query.fetchCount() > 0) {
+            return true
+        }
+        return false
     }
 }

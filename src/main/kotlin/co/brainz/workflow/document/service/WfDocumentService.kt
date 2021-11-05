@@ -20,7 +20,6 @@ import co.brainz.workflow.document.entity.WfDocumentDisplayEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
-import co.brainz.workflow.document.repository.querydsl.WfDocumentRepositoryCustom
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.repository.WfElementRepository
@@ -198,57 +197,64 @@ class WfDocumentService(
         val selectedForm = wfFormRepository.getOne(formId)
         val selectedProcess = wfProcessRepository.getOne(processId)
         val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
-        val duplicateDocument = wfDocumentRepository.existsByDocumentName(restTemplateDocumentDto.documentName)
+        val duplicateDocument = wfDocumentRepository.existsByDocumentName(
+            restTemplateDocumentDto.documentName,
+            restTemplateDocumentDto.documentId
+        )
         if (selectedDocument != null) {
             throw AliceException(
                 AliceErrorConstants.ERR_00004,
                 aliceMessageSource.getMessage("document.msg.checkDuplication")
             )
         }
-        if (duplicateDocument) {
-            throw AliceException(
-                AliceErrorConstants.ERR_00004,
-                aliceMessageSource.getMessage("document.msg.nameDuplication")
-            )
-        }
-
         val form = WfFormEntity(formId = formId)
         val process = WfProcessEntity(processId = processId)
-        val documentEntity = WfDocumentEntity(
-            documentId = restTemplateDocumentDto.documentId,
-            documentType = restTemplateDocumentDto.documentType,
-            documentName = restTemplateDocumentDto.documentName,
-            documentDesc = restTemplateDocumentDto.documentDesc,
-            form = form,
-            process = process,
-            createDt = restTemplateDocumentDto.createDt,
-            createUserKey = restTemplateDocumentDto.createUserKey,
-            documentStatus = restTemplateDocumentDto.documentStatus,
-            apiEnable = restTemplateDocumentDto.apiEnable,
-            numberingRule = numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
-                .get(),
-            documentColor = restTemplateDocumentDto.documentColor,
-            documentGroup = restTemplateDocumentDto.documentGroup,
-            documentIcon = restTemplateDocumentDto.documentIcon
-        )
-        val dataEntity = wfDocumentRepository.save(documentEntity)
-        this.createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
-        this.updateFormAndProcessStatus(dataEntity)
+        when (!duplicateDocument) {
+            true -> {
+                val documentEntity = WfDocumentEntity(
+                    documentId = restTemplateDocumentDto.documentId,
+                    documentType = restTemplateDocumentDto.documentType,
+                    documentName = restTemplateDocumentDto.documentName,
+                    documentDesc = restTemplateDocumentDto.documentDesc,
+                    form = form,
+                    process = process,
+                    createDt = restTemplateDocumentDto.createDt,
+                    createUserKey = restTemplateDocumentDto.createUserKey,
+                    documentStatus = restTemplateDocumentDto.documentStatus,
+                    apiEnable = restTemplateDocumentDto.apiEnable,
+                    numberingRule = numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
+                        .get(),
+                    documentColor = restTemplateDocumentDto.documentColor,
+                    documentGroup = restTemplateDocumentDto.documentGroup,
+                    documentIcon = restTemplateDocumentDto.documentIcon
+                )
 
-        return RestTemplateDocumentDto(
-            documentId = dataEntity.documentId,
-            documentType = dataEntity.documentType,
-            documentName = dataEntity.documentName,
-            documentDesc = dataEntity.documentDesc,
-            formId = dataEntity.form.formId,
-            processId = dataEntity.process.processId,
-            createDt = dataEntity.createDt,
-            createUserKey = dataEntity.createUserKey,
-            documentNumberingRuleId = dataEntity.numberingRule.numberingId,
-            documentColor = dataEntity.documentColor,
-            documentGroup = dataEntity.documentGroup,
-            documentIcon = dataEntity.documentIcon
-        )
+                val dataEntity = wfDocumentRepository.save(documentEntity)
+                this.createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
+                this.updateFormAndProcessStatus(dataEntity)
+
+                return RestTemplateDocumentDto(
+                    documentId = dataEntity.documentId,
+                    documentType = dataEntity.documentType,
+                    documentName = dataEntity.documentName,
+                    documentDesc = dataEntity.documentDesc,
+                    formId = dataEntity.form.formId,
+                    processId = dataEntity.process.processId,
+                    createDt = dataEntity.createDt,
+                    createUserKey = dataEntity.createUserKey,
+                    documentNumberingRuleId = dataEntity.numberingRule.numberingId,
+                    documentColor = dataEntity.documentColor,
+                    documentGroup = dataEntity.documentGroup,
+                    documentIcon = dataEntity.documentIcon
+                )
+            }
+            else -> {
+                throw AliceException(
+                    AliceErrorConstants.ERR_00004,
+                    aliceMessageSource.getMessage("document.msg.nameDuplication")
+                )
+            }
+        }
     }
 
     /**
@@ -265,12 +271,12 @@ class WfDocumentService(
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateDocumentDto.documentId)
         val form = WfFormEntity(formId = restTemplateDocumentDto.formId)
         val process = WfProcessEntity(processId = restTemplateDocumentDto.processId)
-        val duplicateDocument = wfDocumentRepository.findDuplicationDocumentName (
+        val duplicateDocument = wfDocumentRepository.existsByDocumentName(
             restTemplateDocumentDto.documentName,
             restTemplateDocumentDto.documentId
         )
-        when (duplicateDocument) {
-            0L -> {
+        when (!duplicateDocument) {
+            true -> {
                 wfDocumentEntity.documentType = restTemplateDocumentDto.documentType
                 wfDocumentEntity.documentName = restTemplateDocumentDto.documentName
                 wfDocumentEntity.documentDesc = restTemplateDocumentDto.documentDesc
