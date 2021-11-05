@@ -90,6 +90,9 @@ file.upload.dir: D:\\files
 # Extend Image URL Path
 file.image.uri: /fileImages
 
+# schedule plugins directory
+schedule.plugins.dir: C:\\plugins
+
 # IP 접근 제한 기능 설정
 ip.access.control: true
 

@@ -30,6 +30,7 @@ import java.time.Instant
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.stereotype.Service
@@ -46,6 +47,9 @@ class SchedulerService(
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+
+    @Value("\${schedule.plugins.dir}")
+    private val pluginsDir: String? = null
 
     /**
      * 스케줄 목록 조회.
@@ -109,8 +113,8 @@ class SchedulerService(
             SchedulerConstants.Types.JAR.type -> {
                 val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
                     schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
-                }
-                if (fileExist == false) {
+                } ?: false
+                if (!fileExist) {
                     returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
                     return returnValue
                 }
@@ -118,8 +122,8 @@ class SchedulerService(
             SchedulerConstants.Types.CLASS.type -> {
                 val fileExist = schedulerDto.executeClass?.let { executeClass ->
                     this.validateClassFile(executeClass)
-                }
-                if (fileExist == false) {
+                } ?: false
+                if (!fileExist) {
                     returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
                     return returnValue
                 }
@@ -172,8 +176,8 @@ class SchedulerService(
             SchedulerConstants.Types.JAR.type -> {
                 val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
                     schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
-                }
-                if (fileExist == false) {
+                } ?: false
+                if (!fileExist) {
                     returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
                     return returnValue
                 }
@@ -181,8 +185,8 @@ class SchedulerService(
             SchedulerConstants.Types.CLASS.type -> {
                 val fileExist = schedulerDto.executeClass?.let { executeClass ->
                     this.validateClassFile(executeClass)
-                }
-                if (fileExist == false) {
+                } ?: false
+                if (!fileExist) {
                     returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
                     return returnValue
                 }
@@ -253,27 +257,41 @@ class SchedulerService(
                 taskInfo.executeQuery?.let { scheduleTaskTypeQuery.executeQuery(taskInfo, true) }
             }
             AliceConstants.ScheduleTaskType.CLASS.code -> {
-                try {
-                    val runnable = scheduleTaskTypeClass.getRunnable(taskInfo, true)
-                    if (runnable != null) {
-                        scheduler.schedule(runnable, Instant.now())
+                val fileExist = schedulerDto.executeClass?.let { executeClass ->
+                    this.validateClassFile(executeClass)
+                } ?: false
+                if (fileExist) {
+                    try {
+                        val runnable = scheduleTaskTypeClass.getRunnable(taskInfo, true)
+                        if (runnable != null) {
+                            scheduler.schedule(runnable, Instant.now())
+                        }
+                    } catch (e: Exception) {
+                        logger.error("Failed to load class. [{}]", schedulerDto.executeClass)
+                        e.printStackTrace()
+                        returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                     }
-                } catch (e: Exception) {
-                    logger.error("Failed to load class. [{}]", schedulerDto.executeClass)
-                    e.printStackTrace()
-                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
+                } else {
+                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
                 }
             }
             AliceConstants.ScheduleTaskType.JAR.code -> {
-                try {
-                    val runnable = scheduleTaskTypeJar.getRunnable(taskInfo, true)
-                    if (runnable != null) {
-                        scheduler.schedule(runnable, Instant.now())
+                val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
+                    schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
+                } ?: false
+                if (fileExist) {
+                    try {
+                        val runnable = scheduleTaskTypeJar.getRunnable(taskInfo, true)
+                        if (runnable != null) {
+                            scheduler.schedule(runnable, Instant.now())
+                        }
+                    } catch (e: Exception) {
+                        logger.error("Failed to load jar. [{}]", schedulerDto.executeCommand)
+                        e.printStackTrace()
+                        returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                     }
-                } catch (e: Exception) {
-                    logger.error("Failed to load jar. [{}]", schedulerDto.executeCommand)
-                    e.printStackTrace()
-                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
+                } else {
+                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
                 }
             }
         }
@@ -290,7 +308,7 @@ class SchedulerService(
         if (jarPath.startsWith("/", true)) {
             jarPath = jarPath.substring(1)
         }
-        val jarDir = AliceConstants.SCHEDULE_PLUGINS_HOME + File.separator + jarPath
+        val jarDir = pluginsDir + File.separator + jarPath
         val files = Paths.get(jarDir).toFile()
         if (jarName.substring(jarName.length - 3, jarName.length) == SchedulerConstants.Types.JAR.type) {
             files.walk().forEach { file ->
@@ -307,8 +325,7 @@ class SchedulerService(
     private fun validateClassFile(executeClass: String): Boolean {
         val classSrc = executeClass.replace(SchedulerConstants.Directory.ADDRESS.code, "")
         val className = classSrc.plus("." + SchedulerConstants.Extension.CLASS.extension)
-        val classDir =
-            AliceConstants.SCHEDULE_PLUGINS_HOME + File.separator + classSrc + File.separator + className
+        val classDir = pluginsDir + File.separator + classSrc + File.separator + className
         return File(classDir).exists()
     }
 }
