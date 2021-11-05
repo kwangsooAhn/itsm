@@ -482,3 +482,6 @@
 .slide-up {
   @include animation(0s, 0.3s, slideUp, ease-out);
 }
+
+// 공지사항 상단 공지
+.notice-pinned { background-color: $notice-pinned-color; }
