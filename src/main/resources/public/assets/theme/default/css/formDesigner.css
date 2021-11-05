@@ -1586,12 +1586,12 @@ input, button, select, optgroup, textarea {
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-checkbox {
   color: #64BBF6 !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-radio input[type=radio] + span::before,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-checkbox input[type=radio] + span::before {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-radio input[type=radio] + span::beFORM.DISPLAY_TYPE.EDITABLE,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-checkbox input[type=radio] + span::beFORM.DISPLAY_TYPE.EDITABLE {
   border-color: #64BBF6 !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-radio input[type=checkbox] + span::before,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-checkbox input[type=checkbox] + span::before {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-radio input[type=checkbox] + span::beFORM.DISPLAY_TYPE.EDITABLE,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-checkbox input[type=checkbox] + span::beFORM.DISPLAY_TYPE.EDITABLE {
   border-color: #64BBF6 !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow,
