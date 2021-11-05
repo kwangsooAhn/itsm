@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <query>
-       <node id="getExistsCmdbCIList">
+       <node id="getSmsList">
+              SELECT rsl.z_myid,
+                     rsl.z_myhost,
+                     rsl.z_mydesc,
+                     rsl.z_myip,
+                     rsl.z_mymac,
+                     rsl.z_svrserial,
+                     rsl.z_svrmodel,
+                     rsc.z_indexid  AS sms_cpu_z_indexid,
+                     rsc.z_descript AS sms_cpu_z_descript,
+                     rsm.z_indexid  AS sms_mem_z_indexid,
+                     rsm.z_nsize    AS sms_mem_z_nsize,
+                     rsd.z_indexid  AS sms_disk_z_indexid,
+                     rsd.z_nsize    AS sms_disk_z_nsize,
+                     rsn.z_indexid  AS sms_nic_z_indexid,
+                     rsn.z_nicname  AS sms_nic_z_nicname,
+                     rsn.z_speed    AS sms_nic_z_speed
+              FROM   rt_sms_list rsl
+              left outer join rt_sms_moninvcpu rsc ON rsl.z_myid = rsc.z_listid
+              left outer join rt_sms_moninvmem rsm ON rsl.z_myid = rsm.z_listid
+              left outer join rt_sms_moninvdisk rsd ON rsl.z_myid = rsd.z_listid
+              left outer join rt_sms_moninvnic rsn ON rsl.z_myid = rsn.z_listid
+              ORDER  BY rsl.z_myid, rsc.z_indexid, rsm.z_indexid, rsd.z_indexid, rsn.z_indexid
+       </node>
+       <node id="getNmsList">
+              select z_myid, z_myhost, z_mydesc, z_myip, z_mymac, z_serial, z_totifnum, z_actifnum, z_iosver
+              from rt_nms_list
+              order by z_myid
+       </node>
+       <node id="getDbmsList">
+              select z_myid, z_myhost, z_mydesc, z_myip, z_mymac, z_dbname
+              from rt_dbms_list
+              order by z_myid
+       </node>
+       <node id="getCmdbCIListInMappingIds">
               select ci_id, ci_no, ci_name, ci_status, type_id, ci_desc, mapping_id
               from cmdb_ci
               where mapping_id in (?)
@@ -10,14 +44,27 @@
               from cmdb_ci_data
               where ci_id in (?)
        </node>
-       <node id="getITSMCMDBTypeList">
-              select * from cmdb_type where type_alias in (?)
+       <node id="getExistsCmdbCIGroupListDataList">
+              select ci_id, attribute_id, c_attribute_id, c_attribute_seq, c_value
+              from cmdb_ci_group_list_data
+              where ci_id in (?)
        </node>
-       <node id="getITSMCMDBAttributeList">
-              select clam.class_id, ca.* from cmdb_class_attribute_map clam
+       <node id="getCmdbTypeListInTypeAlias">
+              select type_id, p_type_id, type_name, type_desc, type_alias, type_level, class_id, type_icon
+              from cmdb_type where type_alias in (?)
+       </node>
+       <node id="getCMDBAttributeListInClassIds">
+              select clam.class_id, ca.mapping_id, ca.attribute_id, ca.attribute_name, ca.attribute_desc, ca.attribute_type, ca.attribute_text, ca.attribute_value
+              from cmdb_class_attribute_map clam
               inner join cmdb_attribute ca
               on clam.attribute_id = ca.attribute_id
               and clam.class_id in (?)
+              order by clam.attribute_order
+       </node>
+       <node id="getCMDBAttributeListInAttributeIds">
+              select ca.mapping_id, ca.attribute_id, ca.attribute_name, ca.attribute_desc, ca.attribute_type, ca.attribute_text, ca.attribute_value
+              from cmdb_attribute ca
+              where attribute_id in (?)
        </node>
        <node id="getLastCINoToService">
               select ci_no from cmdb_ci
@@ -25,7 +72,7 @@
               order by ci_no desc
               limit 1
        </node>
-       <node id="getITSMCMDBCIHistory">
+       <node id="getCmdbCIHistoryInCIIds">
               with history as (
                   select ci.ci_id, coalesce(max(seq), 0) as seq
                   from cmdb_ci ci left join cmdb_ci_history cch
@@ -40,7 +87,7 @@
               and ci.ci_id = history.ci_id
               and ci.ci_id in (?)
        </node>
-       <node id="getITSMCMDMCIDataHistory">
+       <node id="getCmdbCIDataHistory">
               with history as (
                   select ci.ci_id, coalesce(max(seq), 0) as seq
                   from cmdb_ci ci left join cmdb_ci_data_history data_history
@@ -54,6 +101,23 @@
               where ccd.attribute_id = ca.attribute_id
               and ccd.ci_id = hi.ci_id
               and ccd.ci_id in (?)
+       </node>
+       <node id="getCmdbCIGroupListDataHistory">
+              with history as (
+                  select ci.ci_id, coalesce(max(seq), 0) as seq
+                  from cmdb_ci ci left join cmdb_ci_group_list_data_history group_list_data_history
+                  on ci.ci_id = group_list_data_history.ci_id
+                  where ci.ci_id in (?)
+                  group by ci.ci_id
+              )
+              select ccgld.ci_id, hi.seq, ccgld.attribute_id, ca.attribute_id as c_attribute_id, ccgld.c_attribute_seq
+                   , ca.attribute_name as c_attribute_name, ca.attribute_desc as c_attribute_desc
+                   , ca.attribute_type as c_attribute_type, ca.attribute_text as c_attribute_text
+                   , ca.attribute_value as c_attribute_value, ccgld.c_value
+              from cmdb_ci_group_list_data ccgld, cmdb_attribute ca, history hi
+              where ccgld.c_attribute_id = ca.attribute_id
+              and ccgld.ci_id = hi.ci_id
+              and ccgld.ci_id in (?)
        </node>
        <node id="deleteCmdbCIData">
               delete from cmdb_ci_data where ci_id in (?)
@@ -76,12 +140,22 @@
        <node id="insertCIData">
               insert into cmdb_ci_data (ci_id, attribute_id, value) values (?, ?, ?)
        </node>
+       <node id="insertCIGroupListData">
+              insert into cmdb_ci_group_list_data (ci_id, attribute_id, c_attribute_id, c_attribute_seq, c_value) values (?, ?, ?, ?, ?)
+       </node>
+       <node id="deleteCmdbCIGroupListData">
+              delete from cmdb_ci_group_list_data where ci_id in (?)
+       </node>
        <node id="insertCIHistory">
-              insert into cmdb_ci_history (history_id, ci_id, seq, ci_no, ci_name, ci_status, type_id, class_id, ci_icon, ci_desc, interlink, apply_dt)
-              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+              insert into cmdb_ci_history (history_id, ci_id, seq, ci_no, ci_name, ci_status, type_id, class_id, ci_icon, ci_desc, interlink)
+              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
        </node>
        <node id="insertCIDataHistory">
               insert into cmdb_ci_data_history (data_history_id, ci_id, seq, attribute_id, attribute_name, attribute_desc, attribute_type, attribute_text, attribute_value, value)
               values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       </node>
+       <node id="insertCIGroupListDataHistory">
+              insert into cmdb_ci_group_list_data_history (data_history_id, seq, ci_id, attribute_id, c_attribute_id, c_attribute_seq, c_attribute_name, c_attribute_desc, c_attribute_type, c_attribute_text, c_attribute_value, c_value)
+              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
        </node>
 </query>

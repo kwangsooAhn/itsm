@@ -1,0 +1,194 @@
+[
+  {
+    "query-id": "getSmsList",
+    "ci-type": "SERVER",
+    "ci-no-prefix": "Zenius_SMS_",
+    "ci-mapping-id-prefix": "sms_",
+    "ci-mapping-id": "z_myid",
+    "ci": [
+      {
+        "ci-column": "name",
+        "query-column": "z_myhost"
+      },
+      {
+        "ci-column": "desc",
+        "query-column": "z_mydesc"
+      }
+    ],
+    "attribute": [
+      {
+        "type": "inputbox",
+        "mapping-id": "ip",
+        "query-column": "z_myip"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "mac",
+        "query-column": "z_mymac"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "serial",
+        "query-column": "z_svrserial"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "model",
+        "query-column": "z_svrmodel"
+      },
+      {
+        "type": "group-list",
+        "mapping-id": "sms_cpu",
+        "query-column-list": [
+          {
+            "mapping-id": "index",
+            "query-column": "sms_cpu_z_indexid"
+          },
+          {
+            "mapping-id": "cpu_descript",
+            "query-column": "sms_cpu_z_descript"
+          }
+        ]
+      },
+      {
+        "type": "group-list",
+        "mapping-id": "sms_mem",
+        "query-column-list": [
+          {
+            "mapping-id": "index",
+            "query-column": "sms_mem_z_indexid"
+          },
+          {
+            "mapping-id": "mem_nsize",
+            "query-column": "sms_mem_z_nsize"
+          }
+        ]
+      },
+      {
+        "type": "group-list",
+        "mapping-id": "sms_disk",
+        "query-column-list": [
+          {
+            "mapping-id": "index",
+            "query-column": "sms_disk_z_indexid"
+          },
+          {
+            "mapping-id": "disk_nsize",
+            "query-column": "sms_disk_z_nsize"
+          }
+        ]
+      },
+      {
+        "type": "group-list",
+        "mapping-id": "sms_nic",
+        "query-column-list": [
+          {
+            "mapping-id": "index",
+            "query-column": "sms_nic_z_indexid"
+          },
+          {
+            "mapping-id": "nic_nicname",
+            "query-column": "sms_nic_z_nicname"
+          },
+          {
+            "mapping-id": "nic_speed",
+            "query-column": "sms_nic_z_speed"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "query-id": "getNmsList",
+    "ci-type": "NETWORK",
+    "ci-no-prefix": "Zenius_NMS_",
+    "ci-mapping-id-prefix": "nms_",
+    "ci-mapping-id": "z_myid",
+    "ci": [
+      {
+        "ci-column": "name",
+        "query-column": "z_myhost"
+      },
+      {
+        "ci-column": "desc",
+        "query-column": "z_mydesc"
+      }
+    ],
+    "attribute": [
+      {
+        "type": "inputbox",
+        "mapping-id": "ip",
+        "query-column": "z_myip"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "mac",
+        "query-column": "z_mymac"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "serial",
+        "query-column": "z_serial"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "zid",
+        "query-column": "z_myid"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "totifnum",
+        "query-column": "z_totifnum"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "actifnum",
+        "query-column": "z_actifnum"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "iosver",
+        "query-column": "z_iosver"
+      }
+    ]
+  },
+  {
+    "query-id": "getDbmsList",
+    "ci-type": "DATABASE",
+    "ci-no-prefix": "Zenius_DBMS_",
+    "ci-mapping-id-prefix": "dbms_",
+    "ci-mapping-id": "z_myid",
+    "ci": [
+      {
+        "ci-column": "name",
+        "query-column": "z_myhost"
+      },
+      {
+        "ci-column": "desc",
+        "query-column": "z_mydesc"
+      }
+    ],
+    "attribute": [
+      {
+        "type": "inputbox",
+        "mapping-id": "ip",
+        "query-column": "z_myip"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "mac",
+        "query-column": "z_mymac"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "zid",
+        "query-column": "z_myid"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "version",
+        "query-column": "z_dbname"
+      }
+    ]
+  }
+]
