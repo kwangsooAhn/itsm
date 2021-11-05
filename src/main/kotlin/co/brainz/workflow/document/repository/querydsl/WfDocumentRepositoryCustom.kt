@@ -10,7 +10,9 @@ import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import com.querydsl.core.QueryResults
+import org.springframework.stereotype.Repository
 
+@Repository
 interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
     /**
      * 신청서 목록을 조회 후 리턴
@@ -26,4 +28,9 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
      * 문서번호로 신청서 목록 조회
      */
     fun getDocumentListByNumberingId(numberingId: String): List<WfDocumentEntity>
+
+    /**
+     * 신청서 중복체크
+     */
+    fun findDuplicationDocumentName(documentName: String, documentId: String): Long
 }
