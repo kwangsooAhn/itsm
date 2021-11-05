@@ -167,12 +167,9 @@ export default class ZOptionListProperty extends ZProperty {
         // change 일 경우 minLength, maxLength & 중복 값 체크
         if (e.type === 'change') {
             let isValid = true;
-            let optionListName
-                = this.getPropertyValue(this.UIElement.UIOptionTable.domElement)
-                .map(v => v.name).filter(optName => optName === e.target.value)
-            let optionListValue
-                = this.getPropertyValue(this.UIElement.UIOptionTable.domElement)
-                .map(v => v.value).filter(optValue => optValue === e.target.value)
+            let propertyValue = this.getPropertyValue(this.UIElement.UIOptionTable.domElement);
+            let optionListName = propertyValue.map(v => v.name).filter(optName => optName === e.target.value);
+            let optionListValue = propertyValue.map(v => v.value).filter(optValue => optValue === e.target.value);
 
             if (!zValidation.changeValidationCheck(e.target)) { return false; }
             if (e.target.name === 'optionName') {
