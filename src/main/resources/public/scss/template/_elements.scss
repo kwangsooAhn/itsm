@@ -269,7 +269,7 @@ input, textarea, select {
     background-color: $element-readonly-bg-color;
     background-image: none;
     border: none;
-    @include border($element-readonly-border-width, solid, $element-readonly-border-color, left);
+    @include border($element-readonly-border-width, solid, $element-readonly-border-color, bottom);
     @include borderRadius(0);
     pointer-events: none;
     cursor: default;
@@ -341,7 +341,7 @@ input, textarea, select {
     }
 
     .z-button-search {
-      margin-left: -0.0625rem;
+      margin-left: 1rem; // 16px
       @include borderRadius(0.25rem);
 
       &:focus,
@@ -416,7 +416,7 @@ input, textarea, select {
   &:read-only:not(:disabled):not(.os-host-textarea) {
     background-color: $element-readonly-bg-color;
     border: none;
-    @include border($element-readonly-border-width, solid, $element-readonly-border-color, left);
+    @include border($element-readonly-border-width, solid, $element-readonly-border-color, all);
     @include borderRadius(0);
     pointer-events: none;
     cursor: default;
@@ -602,7 +602,7 @@ select {
     &.readonly {
       background-color: $element-readonly-bg-color;
       border: none;
-      @include border($element-readonly-border-width, solid, $element-readonly-border-color, left);
+      @include border($element-readonly-border-width, solid, $element-readonly-border-color, bottom);
       @include borderRadius(0);
       pointer-events: none;
       cursor: default;
