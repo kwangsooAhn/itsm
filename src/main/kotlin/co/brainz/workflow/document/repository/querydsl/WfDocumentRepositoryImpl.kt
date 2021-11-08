@@ -113,4 +113,14 @@ class WfDocumentRepositoryImpl :
             .where(document.numberingRule.numberingId.eq(numberingId))
             .fetch()
     }
+
+    override fun existsByDocumentName(documentName: String, documentId: String): Boolean {
+        val documentEntity = QWfDocumentEntity.wfDocumentEntity
+        val query = from(documentEntity)
+            .where(documentEntity.documentName.eq(documentName))
+        if (documentId.isNotEmpty()) {
+            query.where(!documentEntity.documentId.eq(documentId))
+        }
+        return query.fetchCount() > 0
+    }
 }
