@@ -10,7 +10,7 @@ import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
-import co.brainz.workflow.provider.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping

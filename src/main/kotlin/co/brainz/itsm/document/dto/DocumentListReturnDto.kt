@@ -4,12 +4,12 @@
  *
  */
 
-package co.brainz.workflow.provider.dto
+package co.brainz.itsm.document.dto
 
 import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
-data class RestTemplateDocumentListReturnDto(
-    val data: List<RestTemplateDocumentListDto> = emptyList(),
+data class DocumentListReturnDto(
+    val data: List<DocumentListDto> = emptyList(),
     val paging: AlicePagingData
 ) : Serializable

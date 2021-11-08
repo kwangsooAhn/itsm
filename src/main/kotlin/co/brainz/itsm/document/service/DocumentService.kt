@@ -15,11 +15,11 @@ import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.workflow.document.service.WfDocumentService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentListReturnDto
+import co.brainz.itsm.document.dto.DocumentListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
@@ -45,7 +45,7 @@ class DocumentService(
      * @return List<RestTemplateDocumentListDto>
      */
     fun getDocumentList(documentSearchCondition: DocumentSearchCondition):
-            RestTemplateDocumentListReturnDto {
+            DocumentListReturnDto {
         // 업무흐름을 관리하는 사용자라면 신청서 상태가 임시, 사용을 볼 수가 있다.
         val aliceUserDto = currentSessionUser.getUserDto()
         if (aliceUserDto!!.grantedAuthorises != null) {

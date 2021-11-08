@@ -16,7 +16,7 @@ import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
-import co.brainz.workflow.provider.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller

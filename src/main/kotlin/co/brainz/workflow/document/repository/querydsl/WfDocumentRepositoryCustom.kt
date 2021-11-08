@@ -7,7 +7,7 @@ package co.brainz.workflow.document.repository.querydsl
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.workflow.document.entity.WfDocumentEntity
-import co.brainz.workflow.provider.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import com.querydsl.core.QueryResults
 

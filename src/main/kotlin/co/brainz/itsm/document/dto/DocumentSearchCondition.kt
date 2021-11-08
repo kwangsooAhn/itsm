@@ -1,4 +1,4 @@
-package co.brainz.workflow.provider.dto
+package co.brainz.itsm.document.dto
 
 import co.brainz.framework.constants.PagingConstants
 import java.io.Serializable

@@ -36,12 +36,12 @@ import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.process.repository.WfProcessRepository
-import co.brainz.workflow.provider.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentListReturnDto
+import co.brainz.itsm.document.dto.DocumentListDto
+import co.brainz.itsm.document.dto.DocumentListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.util.ArrayDeque
 import kotlin.math.ceil
@@ -75,11 +75,11 @@ class WfDocumentService(
      *
      * @return List<RestTemplateDocumentDto>
      */
-    fun documents(documentSearchCondition: DocumentSearchCondition): RestTemplateDocumentListReturnDto {
+    fun documents(documentSearchCondition: DocumentSearchCondition): DocumentListReturnDto {
         val queryResult = wfDocumentRepository.findByDocuments(documentSearchCondition)
-        val documentReturnList = mutableListOf<RestTemplateDocumentListDto>()
+        val documentReturnList = mutableListOf<DocumentListDto>()
         for (data in queryResult.results) {
-            val documentData = RestTemplateDocumentListDto(
+            val documentData = DocumentListDto(
                 documentId = data.documentId,
                 documentType = data.documentType,
                 documentName = data.documentName,
@@ -99,7 +99,7 @@ class WfDocumentService(
             documentReturnList.add(documentData)
         }
 
-        return RestTemplateDocumentListReturnDto(
+        return DocumentListReturnDto(
             data = documentReturnList,
             paging = AlicePagingData(
                 totalCount = queryResult.total,

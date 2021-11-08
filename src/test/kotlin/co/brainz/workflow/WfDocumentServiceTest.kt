@@ -6,7 +6,7 @@
 package co.brainz.workflow
 
 import co.brainz.workflow.document.service.WfDocumentService
-import co.brainz.workflow.provider.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled

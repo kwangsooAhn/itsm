@@ -6,8 +6,8 @@
 
 package co.brainz.itsm.document.controller
 
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.document.service.DocumentService
-import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping

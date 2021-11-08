@@ -9,7 +9,7 @@ import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
-import co.brainz.workflow.provider.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections

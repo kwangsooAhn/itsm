@@ -7,8 +7,8 @@ package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.itsm.document.service.DocumentService
-import co.brainz.workflow.provider.dto.DocumentSearchCondition
-import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
+import co.brainz.itsm.document.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.DocumentListDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -38,7 +38,7 @@ class DocumentRestController(
     @GetMapping("/", "")
     fun getDocuments(
         documentSearchCondition: DocumentSearchCondition
-    ): List<RestTemplateDocumentListDto> {
+    ): List<DocumentListDto> {
         return documentService.getDocumentList(documentSearchCondition).data
     }
 }
