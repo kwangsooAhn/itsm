@@ -689,6 +689,8 @@ form:
     selectImportFile: "Please select an import file."
     unique: "Duplicate data cannot be included."
     duplicateFormName: "Duplicate form name! Please enter other form name."
+    duplicateOptionsName: "Duplicate options name. Please enter other options name."
+    duplicateOptionsValue: "Duplicate options value. Please enter other options value."
   form: "Form"
   group: "Group"
   row: "Row"
