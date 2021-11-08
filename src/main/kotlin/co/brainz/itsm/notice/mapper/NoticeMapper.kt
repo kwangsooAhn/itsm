@@ -17,6 +17,7 @@ import org.mapstruct.Mappings
 @Mapper
 interface NoticeMapper {
     @Mappings(
+        Mapping(target = "createUserKey", ignore = true),
         Mapping(source = "createUser.userName", target = "createUserName")
     )
     fun toNoticePopupDto(noticeEntity: NoticeEntity): NoticePopupDto
@@ -27,6 +28,7 @@ interface NoticeMapper {
         Mapping(target = "createUserKey", ignore = true),
         Mapping(target = "updateUserKey", ignore = true),
         Mapping(target = "fileSeq", ignore = true),
+        Mapping(target = "delFileSeq", ignore = true),
         Mapping(source = "createUser.userName", target = "createUserName")
     )
     fun toNoticeDto(noticeEntity: NoticeEntity): NoticeDto

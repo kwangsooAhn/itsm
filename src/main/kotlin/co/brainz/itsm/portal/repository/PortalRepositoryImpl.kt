@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.portal.repository
 
-import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.entity.QDownloadEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
@@ -26,7 +25,6 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
         val notice = QNoticeEntity.noticeEntity
         val faq = QFaqEntity.faqEntity
         val download = QDownloadEntity.downloadEntity
-        val code = QCodeEntity.codeEntity
 
         val noticeList =
             from(notice)
@@ -60,8 +58,9 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         Expressions.asString("faq")
                     )
                 )
-                .where(super.likeIgnoreCase(faq.faqTitle, searchValue)
-                    ?.or(super.likeIgnoreCase(faq.faqContent, searchValue))
+                .where(
+                    super.likeIgnoreCase(faq.faqTitle, searchValue)
+                        ?.or(super.likeIgnoreCase(faq.faqContent, searchValue))
                 )
                 .fetch()
 

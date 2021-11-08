@@ -36,10 +36,10 @@ class ExcelComponent(
 
         // TODO: CellStyle 이 존재할 경우 추가
 
-        excelVO.sheets.forEachIndexed { index, sheetVO ->
-            val sheet = workbook.createSheet(sheetVO.sheetName ?: "Sheet${index + 1}")
-            sheetVO.rows.forEachIndexed { index, rowsVO ->
-                val row = sheet.createRow(index)
+        excelVO.sheets.forEachIndexed { sheetsIndex, sheetVO ->
+            val sheet = workbook.createSheet(sheetVO.sheetName ?: "Sheet${sheetsIndex + 1}")
+            sheetVO.rows.forEachIndexed { rowsIndex, rowsVO ->
+                val row = sheet.createRow(rowsIndex)
                 rowsVO.cells?.forEachIndexed { index, cellVO ->
                     val cell = row.createCell(index)
                     excelCellComponent.setValue(cell, cellVO.value)

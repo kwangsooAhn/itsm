@@ -185,7 +185,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             this.getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
         var componentMappingId = ""
         var componentMappingType = ""
-        token.instance.document.form.components?.forEach { component ->
+        token.instance.document.form.components.forEach { component ->
             if (component.mappingId.isNotEmpty() && component.mappingId == assigneeMappingId) {
                 componentMappingType = component.componentType
                 componentMappingId = component.componentId

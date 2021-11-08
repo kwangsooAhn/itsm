@@ -16,5 +16,5 @@ interface CodeRepositoryCustom : AliceRepositoryCustom {
 
     fun findCodeDetail(search: String): CodeDetailDto
 
-    fun findCodeByCodeLang(pCode: String, lang: String?): List<CodeDto>
+    fun findCodeByCodeLang(pCodes: String, lang: String?): List<CodeDto>
 }

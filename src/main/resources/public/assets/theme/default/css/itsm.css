@@ -2778,7 +2778,7 @@ select {
 }
 .z-itsm-container .z-main-content {
   background-color: #FAFAFA;
-  height: calc(100vh - 9.75rem);
+  height: calc(100vh - 8.5rem);
 }
 .z-itsm-container .z-main-content .z-page-content {
   border-top: 0.0625rem solid #CFD5D9;
@@ -3287,7 +3287,7 @@ select {
 }
 
 .z-document-content {
-  padding: 1.875rem 0.9375rem 0 3.75rem;
+  padding: 0 0.9375rem 0 3.75rem;
   background-color: #FFFFFF;
 }
 .z-document-content .document-column {
@@ -3327,7 +3327,7 @@ select {
 
 .z-token-content,
 .z-dashboard-content {
-  padding: 1.875rem 1.875rem 0 3.75rem;
+  padding: 0 1.875rem 0 3.75rem;
   background-color: #FFFFFF;
 }
 
@@ -3394,7 +3394,7 @@ select {
 }
 
 .z-image-content-edit {
-  padding: 3.125rem 3.75rem;
+  padding: 0 3.75rem;
   background-color: #FFFFFF;
 }
 
@@ -6195,7 +6195,7 @@ body.modal-active {
   margin: 0.625rem 0;
 }
 
-/* _thumbnail.scss 
+/* _thumbnail.scss
  *
  * 파일 경로 : template/_thumbnail.scss
  * @description 썸네일 디자인
@@ -6207,7 +6207,6 @@ body.modal-active {
   font-size: 0.875rem;
   font-weight: 500;
   color: #8B9094;
-  height: 100%;
   padding: 0;
 }
 .z-thumbnail-main .z-thumbnail {

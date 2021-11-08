@@ -5,9 +5,9 @@
 
 package co.brainz.itsm.document.controller
 
+import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -27,11 +27,11 @@ class WorkFlowRestController(
     /**
      * 업무흐름 등록.
      *
-     * @param restTemplateDocumentDto
+     * @param documentDto
      * */
     @PostMapping("")
-    fun workFlowDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): String? {
-        return documentService.createDocument(restTemplateDocumentDto)
+    fun workFlowDocument(@RequestBody documentDto: DocumentDto): String? {
+        return documentService.createDocument(documentDto)
     }
 
     /**
@@ -50,7 +50,7 @@ class WorkFlowRestController(
      * @param documentId
      */
     @GetMapping("/{documentId}")
-    fun getWorkFlow(@PathVariable documentId: String): RestTemplateDocumentDto {
+    fun getWorkFlow(@PathVariable documentId: String): DocumentDto {
         return documentService.getDocument(documentId)
     }
 
@@ -58,17 +58,17 @@ class WorkFlowRestController(
      * 신청서 수정
      *
      * @param documentId
-     * @param restTemplateDocumentDto
+     * @param documentDto
      * */
     @PutMapping("/{documentId}")
     fun updateWorkFlow(
         @PathVariable documentId: String,
-        @RequestBody restTemplateDocumentDto: RestTemplateDocumentDto,
+        @RequestBody documentDto: DocumentDto,
         @RequestParam(value = "isDeleteData", defaultValue = "false") isDeleteData: String
     ): String? {
         val params = LinkedHashMap<String, Any>()
         params["isDeleteData"] = isDeleteData
-        return documentService.updateDocument(restTemplateDocumentDto, params)
+        return documentService.updateDocument(documentDto, params)
     }
 
     /**

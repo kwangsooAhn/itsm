@@ -22,7 +22,8 @@ interface WfTokenMapper {
         Mapping(target = "fileDataIds", ignore = true),
         Mapping(target = "parentTokenId", ignore = true),
         Mapping(target = "processId", ignore = true),
-        Mapping(target = "actions", ignore = true)
+        Mapping(target = "actions", ignore = true),
+        Mapping(target = "instancePlatform", ignore = true)
     )
     fun toTokenDto(wfTokenEntity: WfTokenEntity): RestTemplateTokenDto
 

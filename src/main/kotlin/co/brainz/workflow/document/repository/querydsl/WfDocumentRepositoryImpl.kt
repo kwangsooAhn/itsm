@@ -6,11 +6,11 @@
 package co.brainz.workflow.document.repository.querydsl
 
 import co.brainz.itsm.document.constants.DocumentConstants
+import co.brainz.itsm.document.dto.DocumentDto
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
-import co.brainz.workflow.provider.dto.DocumentSearchCondition
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -21,9 +21,30 @@ class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentRepositoryCustom {
 
     override fun findByDocuments(documentSearchCondition: DocumentSearchCondition):
-            QueryResults<WfDocumentEntity> {
+            QueryResults<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
         val query = from(document)
+            .select(
+                Projections.constructor(
+                    DocumentDto::class.java,
+                    document.documentId,
+                    document.documentType,
+                    document.documentName,
+                    document.documentDesc,
+                    document.documentStatus,
+                    document.process.processId,
+                    document.form.formId,
+                    document.numberingRule.numberingId,
+                    document.documentColor,
+                    document.documentGroup,
+                    document.apiEnable,
+                    document.createUserKey,
+                    document.createDt,
+                    document.updateUserKey,
+                    document.updateDt,
+                    document.documentIcon
+                )
+            )
             .join(document.process)
             .join(document.form)
             .join(document.numberingRule)
@@ -64,13 +85,13 @@ class WfDocumentRepositoryImpl :
         return query.fetchResults()
     }
 
-    override fun findAllByDocuments(searchDto: DocumentSearchCondition):
-            MutableList<RestTemplateDocumentDto> {
+    override fun findAllByDocuments(documentSearchCondition: DocumentSearchCondition):
+            MutableList<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
         val query = from(document)
             .select(
                 Projections.constructor(
-                    RestTemplateDocumentDto::class.java,
+                    DocumentDto::class.java,
                     document.documentId,
                     document.documentType,
                     document.documentName,
@@ -90,7 +111,7 @@ class WfDocumentRepositoryImpl :
                 )
             )
             .where(
-                if (searchDto.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
+                if (documentSearchCondition.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
                     document.documentStatus.`in`(
                         WfDocumentConstants.Status.USE.code,
                         WfDocumentConstants.Status.TEMPORARY.code,
