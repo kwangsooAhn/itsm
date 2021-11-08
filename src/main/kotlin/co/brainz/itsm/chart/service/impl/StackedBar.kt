@@ -23,12 +23,12 @@ class StackedBar(
 
     override fun setChartConfigDetail(chartDto: ChartDto): LinkedHashMap<String, Any?> {
         val chartMap = LinkedHashMap<String, Any?>()
-        chartMap[ChartConstants.ObjProperty.PERIOD_UNIT.property] = chartDto.chartConfig?.periodUnit
+        chartMap[ChartConstants.ObjProperty.PERIOD_UNIT.property] = chartDto.chartConfig.periodUnit
         return chartMap
     }
 
     override fun setChartDetail(chartDto: ChartDto): ChartDto {
-        chartDto.chartConfig?.periodUnit = super.chartConfig.periodUnit
+        chartDto.chartConfig.periodUnit = super.chartConfig.periodUnit
         return chartDto
     }
 }

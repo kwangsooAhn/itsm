@@ -2778,7 +2778,7 @@ select {
 }
 .z-itsm-container .z-main-content {
   background-color: #FAFAFA;
-  height: calc(100vh - 9.75rem);
+  height: calc(100vh - 8.5rem);
 }
 .z-itsm-container .z-main-content .z-page-content {
   border-top: 0.0625rem solid #CFD5D9;

@@ -14,7 +14,10 @@ import org.mapstruct.Mappings
 @Mapper
 interface UserMapper {
     @Mappings(
-        Mapping(target = "avatarPath", ignore = true)
+        Mapping(target = "avatarPath", ignore = true),
+        Mapping(target = "avatarId", ignore = true),
+        Mapping(target = "avatarSize", ignore = true),
+        Mapping(target = "totalCount", ignore = true)
     )
     fun toUserDto(aliceUserEntity: AliceUserEntity): UserDto
 }

@@ -11,6 +11,7 @@ import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
+import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentListReturnDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.form.dto.FormSearchCondition
@@ -22,7 +23,6 @@ import co.brainz.workflow.document.service.WfDocumentService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
@@ -61,7 +61,6 @@ class DocumentService(
             }
         }
         val queryResult = wfDocumentRepository.findByDocuments(documentSearchCondition)
-
         val documentList = DocumentListReturnDto(
             data = queryResult.results,
             paging = AlicePagingData(
@@ -89,21 +88,21 @@ class DocumentService(
      * @return List<DocumentDto>
      */
     fun getDocumentAll(documentSearchCondition: DocumentSearchCondition):
-            List<RestTemplateDocumentDto> {
+            List<DocumentDto> {
         return wfDocumentService.allDocuments(documentSearchCondition)
     }
 
     /**
      * 신청서 조회.
      */
-    fun getDocument(documentId: String): RestTemplateDocumentDto {
+    fun getDocument(documentId: String): DocumentDto {
         return wfDocumentService.getDocument(documentId)
     }
 
     /**
      * 업무흐름 조회.
      */
-    fun getDocumentAdmin(documentId: String): RestTemplateDocumentDto {
+    fun getDocumentAdmin(documentId: String): DocumentDto {
         return wfDocumentService.getDocument(documentId)
     }
 
@@ -119,30 +118,30 @@ class DocumentService(
     /**
      * 신청서 생성.
      *
-     * @param restTemplateDocumentDto
+     * @param documentDto
      * @return String?
      */
-    fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
-        restTemplateDocumentDto.createUserKey = currentSessionUser.getUserKey()
-        restTemplateDocumentDto.createDt = LocalDateTime.now()
-        val dataDto = wfDocumentService.createDocument(restTemplateDocumentDto)
+    fun createDocument(documentDto: DocumentDto): String? {
+        documentDto.createUserKey = currentSessionUser.getUserKey()
+        documentDto.createDt = LocalDateTime.now()
+        val dataDto = wfDocumentService.createDocument(documentDto)
         return dataDto.documentId
     }
 
     /**
      * Update Document.
      *
-     * @param restTemplateDocumentDto
+     * @param documentDto
      * @return Boolean
      */
     fun updateDocument(
-        restTemplateDocumentDto: RestTemplateDocumentDto,
+        documentDto: DocumentDto,
         params: LinkedHashMap<String, Any>
     ): String? {
-        val documentId = restTemplateDocumentDto.documentId
-        restTemplateDocumentDto.updateUserKey = currentSessionUser.getUserKey()
-        restTemplateDocumentDto.updateDt = LocalDateTime.now()
-        wfDocumentService.updateDocument(restTemplateDocumentDto, params)
+        val documentId = documentDto.documentId
+        documentDto.updateUserKey = currentSessionUser.getUserKey()
+        documentDto.updateDt = LocalDateTime.now()
+        wfDocumentService.updateDocument(documentDto, params)
         return documentId
     }
 

@@ -9,6 +9,7 @@ import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
@@ -16,7 +17,6 @@ import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
-import co.brainz.itsm.document.dto.DocumentSearchCondition
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller

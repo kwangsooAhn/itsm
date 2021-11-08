@@ -45,7 +45,7 @@
 
     &-content {
       background-color: $layout-content-bg-color;
-      height: calc(100vh - 9.75rem);
+      height: calc(100vh - 8.5rem);
 
       .z-page-content {
         @include border(0.0625rem,solid,$layout-main-header-border-color,top);

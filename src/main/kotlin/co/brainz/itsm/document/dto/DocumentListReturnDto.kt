@@ -10,6 +10,6 @@ import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
 data class DocumentListReturnDto(
-    val data: List<DocumentListDto> = emptyList(),
+    val data: List<DocumentDto> = emptyList(),
     val paging: AlicePagingData
 ) : Serializable

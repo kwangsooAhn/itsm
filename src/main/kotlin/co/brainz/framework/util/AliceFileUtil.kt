@@ -87,8 +87,8 @@ open class AliceFileUtil(
      * 이미지 사이즈 조정.
      */
     fun resizeBufferedImage(image: BufferedImage, type: String): BufferedImage {
-        var scaledWidth = 0
-        var scaledHeight = 0
+        var scaledWidth: Int
+        var scaledHeight: Int
         when (type) {
             FileConstants.Type.ICON.code -> {
                 scaledWidth = this.thumbnailIconWidth

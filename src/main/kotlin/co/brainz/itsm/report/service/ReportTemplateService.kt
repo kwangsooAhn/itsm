@@ -64,7 +64,7 @@ class ReportTemplateService(
                 if (chartEntity != null) {
                     chartList.add(
                         ChartDto(
-                            chartId = chartEntity.chartId!!,
+                            chartId = chartEntity.chartId,
                             chartName = chartEntity.chartName,
                             chartType = chartEntity.chartType,
                             chartDesc = chartEntity.chartDesc,

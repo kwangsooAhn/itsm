@@ -12,6 +12,7 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
+import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
@@ -37,7 +38,6 @@ import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.util.ArrayDeque
 import org.slf4j.LoggerFactory
@@ -70,7 +70,7 @@ class WfDocumentService(
      *
      * @return List<RestTemplateDocumentDto>
      */
-    fun allDocuments(searchListDto: DocumentSearchCondition): List<RestTemplateDocumentDto> {
+    fun allDocuments(searchListDto: DocumentSearchCondition): List<DocumentDto> {
         return wfDocumentRepository.findAllByDocuments(searchListDto)
     }
 
@@ -80,9 +80,9 @@ class WfDocumentService(
      * @param documentId
      * @return RestTemplateDocumentDto
      */
-    fun getDocument(documentId: String): RestTemplateDocumentDto {
+    fun getDocument(documentId: String): DocumentDto {
         val document = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-        return RestTemplateDocumentDto(
+        return DocumentDto(
             documentId = document.documentId,
             documentType = document.documentType,
             documentName = document.documentName,
@@ -141,13 +141,13 @@ class WfDocumentService(
     /**
      * Create Document.
      *
-     * @param restTemplateDocumentDto
+     * @param documentDto
      * @return RestTemplateDocumentDto
      */
     @Transactional
-    fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): RestTemplateDocumentDto {
-        val formId = restTemplateDocumentDto.formId
-        val processId = restTemplateDocumentDto.processId
+    fun createDocument(documentDto: DocumentDto): DocumentDto {
+        val formId = documentDto.formId
+        val processId = documentDto.processId
         val selectedForm = wfFormRepository.getOne(formId)
         val selectedProcess = wfProcessRepository.getOne(processId)
         val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
@@ -160,33 +160,33 @@ class WfDocumentService(
         val form = WfFormEntity(formId = formId)
         val process = WfProcessEntity(processId = processId)
         if (!wfDocumentRepository.existsByDocumentName(
-                restTemplateDocumentDto.documentName,
-                restTemplateDocumentDto.documentId
+                documentDto.documentName,
+                documentDto.documentId
             )
         ) {
             val documentEntity = WfDocumentEntity(
-                documentId = restTemplateDocumentDto.documentId,
-                documentType = restTemplateDocumentDto.documentType,
-                documentName = restTemplateDocumentDto.documentName,
-                documentDesc = restTemplateDocumentDto.documentDesc,
+                documentId = documentDto.documentId,
+                documentType = documentDto.documentType,
+                documentName = documentDto.documentName,
+                documentDesc = documentDto.documentDesc,
                 form = form,
                 process = process,
-                createDt = restTemplateDocumentDto.createDt,
-                createUserKey = restTemplateDocumentDto.createUserKey,
-                documentStatus = restTemplateDocumentDto.documentStatus,
-                apiEnable = restTemplateDocumentDto.apiEnable,
-                numberingRule = numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
+                createDt = documentDto.createDt,
+                createUserKey = documentDto.createUserKey,
+                documentStatus = documentDto.documentStatus,
+                apiEnable = documentDto.apiEnable,
+                numberingRule = numberingRuleRepository.findById(documentDto.documentNumberingRuleId)
                     .get(),
-                documentColor = restTemplateDocumentDto.documentColor,
-                documentGroup = restTemplateDocumentDto.documentGroup,
-                documentIcon = restTemplateDocumentDto.documentIcon
+                documentColor = documentDto.documentColor,
+                documentGroup = documentDto.documentGroup,
+                documentIcon = documentDto.documentIcon
             )
 
             val dataEntity = wfDocumentRepository.save(documentEntity)
             this.createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
             this.updateFormAndProcessStatus(dataEntity)
 
-            return RestTemplateDocumentDto(
+            return DocumentDto(
                 documentId = dataEntity.documentId,
                 documentType = dataEntity.documentType,
                 documentName = dataEntity.documentName,
@@ -211,37 +211,37 @@ class WfDocumentService(
     /**
      * Update Document.
      *
-     * @param restTemplateDocumentDto
+     * @param documentDto
      * @return Boolean
      */
     @Transactional
     fun updateDocument(
-        restTemplateDocumentDto: RestTemplateDocumentDto,
+        documentDto: DocumentDto,
         params: LinkedHashMap<String, Any>
     ): Boolean {
-        val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateDocumentDto.documentId)
-        val form = WfFormEntity(formId = restTemplateDocumentDto.formId)
-        val process = WfProcessEntity(processId = restTemplateDocumentDto.processId)
+        val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentDto.documentId)
+        val form = WfFormEntity(formId = documentDto.formId)
+        val process = WfProcessEntity(processId = documentDto.processId)
 
         if (!wfDocumentRepository.existsByDocumentName(
-                restTemplateDocumentDto.documentName,
-                restTemplateDocumentDto.documentId
+                documentDto.documentName,
+                documentDto.documentId
             )
         ) {
-            wfDocumentEntity.documentType = restTemplateDocumentDto.documentType
-            wfDocumentEntity.documentName = restTemplateDocumentDto.documentName
-            wfDocumentEntity.documentDesc = restTemplateDocumentDto.documentDesc
-            wfDocumentEntity.documentStatus = restTemplateDocumentDto.documentStatus
-            wfDocumentEntity.updateUserKey = restTemplateDocumentDto.updateUserKey
-            wfDocumentEntity.updateDt = restTemplateDocumentDto.updateDt
+            wfDocumentEntity.documentType = documentDto.documentType
+            wfDocumentEntity.documentName = documentDto.documentName
+            wfDocumentEntity.documentDesc = documentDto.documentDesc
+            wfDocumentEntity.documentStatus = documentDto.documentStatus
+            wfDocumentEntity.updateUserKey = documentDto.updateUserKey
+            wfDocumentEntity.updateDt = documentDto.updateDt
             wfDocumentEntity.form = form
             wfDocumentEntity.process = process
-            wfDocumentEntity.apiEnable = restTemplateDocumentDto.apiEnable
+            wfDocumentEntity.apiEnable = documentDto.apiEnable
             wfDocumentEntity.numberingRule =
-                numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
-            wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor
-            wfDocumentEntity.documentGroup = restTemplateDocumentDto.documentGroup
-            wfDocumentEntity.documentIcon = restTemplateDocumentDto.documentIcon
+                numberingRuleRepository.findById(documentDto.documentNumberingRuleId).get()
+            wfDocumentEntity.documentColor = documentDto.documentColor
+            wfDocumentEntity.documentGroup = documentDto.documentGroup
+            wfDocumentEntity.documentIcon = documentDto.documentIcon
         } else {
             throw AliceException(
                 AliceErrorConstants.ERR_00004,

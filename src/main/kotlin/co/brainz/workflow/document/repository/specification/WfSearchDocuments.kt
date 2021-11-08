@@ -1,11 +1,11 @@
 package co.brainz.workflow.document.repository.specification
 
 import co.brainz.framework.specification.AliceSpecification
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
-import co.brainz.itsm.document.dto.DocumentSearchCondition
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Join

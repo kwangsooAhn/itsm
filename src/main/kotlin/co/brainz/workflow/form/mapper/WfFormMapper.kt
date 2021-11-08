@@ -27,6 +27,8 @@ interface WfFormMapper {
         Mapping(target = "name", ignore = true),
         Mapping(target = "status", ignore = true),
         Mapping(target = "desc", ignore = true),
+        Mapping(target = "display", ignore = true),
+        Mapping(target = "category", ignore = true),
         Mapping(target = "editable", ignore = true),
         Mapping(target = "createUserKey", ignore = true),
         Mapping(target = "createUserName", ignore = true),
