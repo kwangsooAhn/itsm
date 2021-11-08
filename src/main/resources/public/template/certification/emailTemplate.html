@@ -41,7 +41,9 @@
 	    <div class="email-contents">
 	        <pre class="intro" th:text="${intro}"></pre>
 	        <pre class="message" th:text="${message}"></pre>
+			<th:block th:if="${not #strings.isEmpty(text)}">
 	        <a class="certificate-link" th:href="${link}" th:text="${text}"></a>
+			</th:block>
 	    </div>
 	</div>
 </body>
