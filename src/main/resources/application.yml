@@ -119,8 +119,7 @@ file.upload.dir: /root/files
 spring:
   profiles: hcjung
   datasource:
-    #url: jdbc:log4jdbc:postgresql://10.0.10.175:32783/itsm
-    url: jdbc:log4jdbc:postgresql://10.0.10.175:32784/itsm
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32783/itsm
   jpa:
     show-sql: false
     properties.hibernate.format_sql: false
