@@ -197,10 +197,6 @@ class WfDocumentService(
         val selectedForm = wfFormRepository.getOne(formId)
         val selectedProcess = wfProcessRepository.getOne(processId)
         val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
-        val duplicateDocument = wfDocumentRepository.existsByDocumentName(
-            restTemplateDocumentDto.documentName,
-            restTemplateDocumentDto.documentId
-        )
         if (selectedDocument != null) {
             throw AliceException(
                 AliceErrorConstants.ERR_00004,
@@ -209,51 +205,52 @@ class WfDocumentService(
         }
         val form = WfFormEntity(formId = formId)
         val process = WfProcessEntity(processId = processId)
-        when (!duplicateDocument) {
-            true -> {
-                val documentEntity = WfDocumentEntity(
-                    documentId = restTemplateDocumentDto.documentId,
-                    documentType = restTemplateDocumentDto.documentType,
-                    documentName = restTemplateDocumentDto.documentName,
-                    documentDesc = restTemplateDocumentDto.documentDesc,
-                    form = form,
-                    process = process,
-                    createDt = restTemplateDocumentDto.createDt,
-                    createUserKey = restTemplateDocumentDto.createUserKey,
-                    documentStatus = restTemplateDocumentDto.documentStatus,
-                    apiEnable = restTemplateDocumentDto.apiEnable,
-                    numberingRule = numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
-                        .get(),
-                    documentColor = restTemplateDocumentDto.documentColor,
-                    documentGroup = restTemplateDocumentDto.documentGroup,
-                    documentIcon = restTemplateDocumentDto.documentIcon
-                )
+        if (!wfDocumentRepository.existsByDocumentName(
+                restTemplateDocumentDto.documentName,
+                restTemplateDocumentDto.documentId
+            )
+        ) {
+            val documentEntity = WfDocumentEntity(
+                documentId = restTemplateDocumentDto.documentId,
+                documentType = restTemplateDocumentDto.documentType,
+                documentName = restTemplateDocumentDto.documentName,
+                documentDesc = restTemplateDocumentDto.documentDesc,
+                form = form,
+                process = process,
+                createDt = restTemplateDocumentDto.createDt,
+                createUserKey = restTemplateDocumentDto.createUserKey,
+                documentStatus = restTemplateDocumentDto.documentStatus,
+                apiEnable = restTemplateDocumentDto.apiEnable,
+                numberingRule = numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
+                    .get(),
+                documentColor = restTemplateDocumentDto.documentColor,
+                documentGroup = restTemplateDocumentDto.documentGroup,
+                documentIcon = restTemplateDocumentDto.documentIcon
+            )
 
-                val dataEntity = wfDocumentRepository.save(documentEntity)
-                this.createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
-                this.updateFormAndProcessStatus(dataEntity)
+            val dataEntity = wfDocumentRepository.save(documentEntity)
+            this.createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
+            this.updateFormAndProcessStatus(dataEntity)
 
-                return RestTemplateDocumentDto(
-                    documentId = dataEntity.documentId,
-                    documentType = dataEntity.documentType,
-                    documentName = dataEntity.documentName,
-                    documentDesc = dataEntity.documentDesc,
-                    formId = dataEntity.form.formId,
-                    processId = dataEntity.process.processId,
-                    createDt = dataEntity.createDt,
-                    createUserKey = dataEntity.createUserKey,
-                    documentNumberingRuleId = dataEntity.numberingRule.numberingId,
-                    documentColor = dataEntity.documentColor,
-                    documentGroup = dataEntity.documentGroup,
-                    documentIcon = dataEntity.documentIcon
-                )
-            }
-            else -> {
-                throw AliceException(
-                    AliceErrorConstants.ERR_00004,
-                    aliceMessageSource.getMessage("document.msg.nameDuplication")
-                )
-            }
+            return RestTemplateDocumentDto(
+                documentId = dataEntity.documentId,
+                documentType = dataEntity.documentType,
+                documentName = dataEntity.documentName,
+                documentDesc = dataEntity.documentDesc,
+                formId = dataEntity.form.formId,
+                processId = dataEntity.process.processId,
+                createDt = dataEntity.createDt,
+                createUserKey = dataEntity.createUserKey,
+                documentNumberingRuleId = dataEntity.numberingRule.numberingId,
+                documentColor = dataEntity.documentColor,
+                documentGroup = dataEntity.documentGroup,
+                documentIcon = dataEntity.documentIcon
+            )
+        } else {
+            throw AliceException(
+                AliceErrorConstants.ERR_00004,
+                aliceMessageSource.getMessage("document.msg.nameDuplication")
+            )
         }
     }
 
@@ -271,33 +268,31 @@ class WfDocumentService(
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateDocumentDto.documentId)
         val form = WfFormEntity(formId = restTemplateDocumentDto.formId)
         val process = WfProcessEntity(processId = restTemplateDocumentDto.processId)
-        val duplicateDocument = wfDocumentRepository.existsByDocumentName(
-            restTemplateDocumentDto.documentName,
-            restTemplateDocumentDto.documentId
-        )
-        when (!duplicateDocument) {
-            true -> {
-                wfDocumentEntity.documentType = restTemplateDocumentDto.documentType
-                wfDocumentEntity.documentName = restTemplateDocumentDto.documentName
-                wfDocumentEntity.documentDesc = restTemplateDocumentDto.documentDesc
-                wfDocumentEntity.documentStatus = restTemplateDocumentDto.documentStatus
-                wfDocumentEntity.updateUserKey = restTemplateDocumentDto.updateUserKey
-                wfDocumentEntity.updateDt = restTemplateDocumentDto.updateDt
-                wfDocumentEntity.form = form
-                wfDocumentEntity.process = process
-                wfDocumentEntity.apiEnable = restTemplateDocumentDto.apiEnable
-                wfDocumentEntity.numberingRule =
-                    numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
-                wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor
-                wfDocumentEntity.documentGroup = restTemplateDocumentDto.documentGroup
-                wfDocumentEntity.documentIcon = restTemplateDocumentDto.documentIcon
-            }
-            else -> {
-                throw AliceException (
-                    AliceErrorConstants.ERR_00004,
-                    aliceMessageSource.getMessage("document.msg.nameDuplication")
-                )
-            }
+
+        if (!wfDocumentRepository.existsByDocumentName(
+                restTemplateDocumentDto.documentName,
+                restTemplateDocumentDto.documentId
+            )
+        ) {
+            wfDocumentEntity.documentType = restTemplateDocumentDto.documentType
+            wfDocumentEntity.documentName = restTemplateDocumentDto.documentName
+            wfDocumentEntity.documentDesc = restTemplateDocumentDto.documentDesc
+            wfDocumentEntity.documentStatus = restTemplateDocumentDto.documentStatus
+            wfDocumentEntity.updateUserKey = restTemplateDocumentDto.updateUserKey
+            wfDocumentEntity.updateDt = restTemplateDocumentDto.updateDt
+            wfDocumentEntity.form = form
+            wfDocumentEntity.process = process
+            wfDocumentEntity.apiEnable = restTemplateDocumentDto.apiEnable
+            wfDocumentEntity.numberingRule =
+                numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
+            wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor
+            wfDocumentEntity.documentGroup = restTemplateDocumentDto.documentGroup
+            wfDocumentEntity.documentIcon = restTemplateDocumentDto.documentIcon
+        } else {
+            throw AliceException(
+                AliceErrorConstants.ERR_00004,
+                aliceMessageSource.getMessage("document.msg.nameDuplication")
+            )
         }
         if (params["isDeleteData"].toString().toBoolean()) {
             logger.debug("Delete Instance Data... (Document Id: {})", wfDocumentEntity.documentId)
