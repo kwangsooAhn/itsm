@@ -262,18 +262,7 @@ export const ciMixin = {
                     .setUICSSText(`width:${tdWidth}%;`)
                     .addUI(new UIImg().setUISrc(data[option.id]).setUIWidth('20' + UNIT.PX).setUIHeight('20' + UNIT.PX));
             case 'icon-edit': // CI 등록 / 수정
-                if (data.actionType === CI.ACTION_TYPE.DELETE) {
-                    const viewButton = new UIButton()
-                        .setUIClass('z-button-icon')
-                        .addUIClass('extra')
-                        .setUIAttribute('data-type', data.actionType)
-                        .onUIClick(this.openViewModal.bind(this, data.ciId))
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
-
-                    return new UICell(row).setUIClass(tdClassName)
-                        .setUICSSText(`width:${tdWidth}%;`)
-                        .addUI(viewButton);
-                } else {
+                if (data.actionType === CI.ACTION_TYPE.MODIFY) {
                     const editButton = new UIButton()
                         .setUIClass('z-button-icon')
                         .addUIClass('extra')
@@ -284,6 +273,17 @@ export const ciMixin = {
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
                         .addUI(editButton);
+                } else {
+                    const viewButton = new UIButton()
+                        .setUIClass('z-button-icon')
+                        .addUIClass('extra')
+                        .setUIAttribute('data-type', data.actionType)
+                        .onUIClick(this.openViewModal.bind(this, data.ciId))
+                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
+
+                    return new UICell(row).setUIClass(tdClassName)
+                        .setUICSSText(`width:${tdWidth}%;`)
+                        .addUI(viewButton);
                 }
             case 'icon-search': // CI 상세 조회
                 const searchButton = new UIButton()
