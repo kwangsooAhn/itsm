@@ -4550,7 +4550,7 @@ body.modal-active {
   resize: none;
 }
 
-/* _thumbnail.scss 
+/* _thumbnail.scss
  *
  * 파일 경로 : template/_thumbnail.scss
  * @description 썸네일 디자인
@@ -4562,7 +4562,6 @@ body.modal-active {
   font-size: 0.875rem;
   font-weight: 500;
   color: #8B9094;
-  height: 100%;
   padding: 0.625rem;
 }
 .z-thumbnail-main .z-thumbnail {
