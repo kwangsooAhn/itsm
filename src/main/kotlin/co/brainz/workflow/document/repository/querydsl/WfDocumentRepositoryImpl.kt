@@ -121,6 +121,6 @@ class WfDocumentRepositoryImpl :
         if (documentId.isNotEmpty()) {
             query.where(!documentEntity.documentId.eq(documentId))
         }
-        return if (query.fetchCount() > 0) true else false
+        return query.fetchCount() > 0
     }
 }
