@@ -50,6 +50,7 @@ export const checkBoxMixin = {
         const element = new UIDiv()
             .setUIClass('z-element')
             .addUIClass('align-left')
+            .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIProperty('--data-column', this.elementColumnWidth);
         return this.makeCheckbox(element);
     },
@@ -157,6 +158,7 @@ export const checkBoxMixin = {
                 object['UILabel' + i].addUI(object['UILabel' + i].UISpan);
                 object.addUI(object['UILabel' + i]);
             }
+            // object.setUIAttribute('data-validation-required', this.validationRequired);
         }
         return object;
     },
