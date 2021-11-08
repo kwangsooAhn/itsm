@@ -125,7 +125,8 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
-            .setUIAttribute('name','optionName');
+            .setUIAttribute('name','optionName')
+            .onUIFocusout(this.updateProperty.bind(this));
         nameTD.addUI(nameTD.inputName);
 
         const valueTD = new UICell(optionRow);
@@ -136,7 +137,8 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
-            .setUIAttribute('name','optionValue');
+            .setUIAttribute('name','optionValue')
+            .onUIFocusout(this.updateProperty.bind(this));
         valueTD.addUI(valueTD.inputValue);
 
         const removeTD = new UICell(optionRow);
@@ -166,7 +168,6 @@ export default class ZOptionListProperty extends ZProperty {
         }
         // change 일 경우 minLength, maxLength & 중복 값 체크
         if (e.type === 'change') {
-            let isValid = true;
             let propertyValue = this.getPropertyValue(this.UIElement.UIOptionTable.domElement);
             let optionListName = propertyValue.map(v => v.name).filter(optName => optName === e.target.value);
             let optionListValue = propertyValue.map(v => v.value).filter(optValue => optValue === e.target.value);
@@ -174,13 +175,17 @@ export default class ZOptionListProperty extends ZProperty {
             if (!zValidation.changeValidationCheck(e.target)) { return false; }
             if (e.target.name === 'optionName') {
                 if (optionListName.length > 1) {
-                    isValid = false;
-                    zValidation.setDOMElementError(isValid, e.target, i18n.msg('form.msg.duplicateOptionsName'))
+                    zAlert.warning(i18n.msg('form.msg.duplicateOptionsName'), function () {
+                        e.target.focus();
+                        return false;
+                    })
                 }
             } else if (e.target.name === 'optionValue') {
                 if (optionListValue.length > 1) {
-                    isValid = false;
-                    zValidation.setDOMElementError(isValid, e.target, i18n.msg('form.msg.duplicateOptionsValue'))
+                    zAlert.warning(i18n.msg('form.msg.duplicateOptionsValue'), function () {
+                        e.target.focus();
+                        return false;
+                    })
                 }
             }
         }
