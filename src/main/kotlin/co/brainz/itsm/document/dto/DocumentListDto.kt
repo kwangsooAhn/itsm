@@ -18,6 +18,5 @@ data class DocumentListDto(
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
     var updateDt: LocalDateTime? = null,
-    var documentIcon: String? = null,
-    var totalCount: Long = 0
+    var documentIcon: String? = null
 ) : Serializable

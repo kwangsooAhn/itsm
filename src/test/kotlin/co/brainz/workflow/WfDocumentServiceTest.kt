@@ -5,8 +5,8 @@
 
 package co.brainz.workflow
 
-import co.brainz.workflow.document.service.WfDocumentService
 import co.brainz.itsm.document.dto.DocumentSearchCondition
+import co.brainz.workflow.document.service.WfDocumentService
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
@@ -31,21 +31,6 @@ class WfDocumentServiceTest {
     @BeforeEach
     fun init() {
         this.userKey = "40288ab26fa3219e016fa32231230000"
-    }
-
-    @Test
-    @DisplayName("신청서 목록 조회시 전체 갯수 비교")
-    @Order(1)
-    fun getOffsetDocuments() {
-        val searchListDto = DocumentSearchCondition(
-            pageNum = 1L
-        )
-        val documentList = wfDocumentService.documents(searchListDto)
-        if (documentList.data.isNotEmpty()) {
-            assumeTrue(documentList.data[0].totalCount > documentList.data.size)
-        } else {
-            assumeTrue(documentList.data.isEmpty())
-        }
     }
 
     @Test

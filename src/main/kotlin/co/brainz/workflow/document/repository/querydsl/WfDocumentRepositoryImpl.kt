@@ -6,10 +6,11 @@
 package co.brainz.workflow.document.repository.querydsl
 
 import co.brainz.itsm.document.constants.DocumentConstants
+import co.brainz.itsm.document.dto.DocumentListDto
+import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
-import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
@@ -21,9 +22,29 @@ class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentRepositoryCustom {
 
     override fun findByDocuments(documentSearchCondition: DocumentSearchCondition):
-            QueryResults<WfDocumentEntity> {
+            QueryResults<DocumentListDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
         val query = from(document)
+            .select(
+                Projections.constructor(
+                    DocumentListDto::class.java,
+                    document.documentId,
+                    document.documentType,
+                    document.documentName,
+                    document.documentDesc,
+                    document.documentStatus,
+                    document.process.processId,
+                    document.form.formId,
+                    document.numberingRule.numberingId,
+                    document.documentColor,
+                    document.documentGroup,
+                    document.createUserKey,
+                    document.createDt,
+                    document.updateUserKey,
+                    document.updateDt,
+                    document.documentIcon
+                )
+            )
             .join(document.process)
             .join(document.form)
             .join(document.numberingRule)
