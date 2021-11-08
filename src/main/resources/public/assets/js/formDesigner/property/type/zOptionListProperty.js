@@ -173,20 +173,18 @@ export default class ZOptionListProperty extends ZProperty {
             let optionListValue = propertyValue.map(v => v.value).filter(optValue => optValue === e.target.value);
 
             if (!zValidation.changeValidationCheck(e.target)) { return false; }
-            if (e.target.name === 'optionName') {
-                if (optionListName.length > 1) {
-                    zAlert.warning(i18n.msg('form.msg.duplicateOptionsName'), function () {
-                        e.target.focus();
-                        return false;
-                    })
-                }
-            } else if (e.target.name === 'optionValue') {
-                if (optionListValue.length > 1) {
-                    zAlert.warning(i18n.msg('form.msg.duplicateOptionsValue'), function () {
-                        e.target.focus();
-                        return false;
-                    })
-                }
+            if (e.target.name === 'optionName' && optionListName.length > 1) {
+                zAlert.warning(i18n.msg('form.msg.duplicateOptionsName'), function () {
+                    e.target.value = '';
+                    e.target.focus();
+                    return false;
+                })
+            } else if (e.target.name === 'optionValue' && optionListValue.length > 1) {
+                zAlert.warning(i18n.msg('form.msg.duplicateOptionsValue'), function () {
+                    e.target.value = '';
+                    e.target.focus();
+                    return false;
+                })
             }
         }
         this.panel.update.call(this.panel, this.key, this.getPropertyValue(this.UIElement.UIOptionTable.domElement));
