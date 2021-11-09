@@ -414,20 +414,9 @@ class ZFormTokenTab {
     /**
      * 댓글 출력을 위한 화면 코드 조각
      * @param comment 댓글 1개 정보
-     * @return comment 치환된 댓글
-     */
-    checkComment(comment) {
-        comment = comment.replace(/\</g, "&lt;");
-        comment = comment.replace(/\>/g, "&gt;");
-        return comment;
-    }
-    /**
-     * 댓글 출력을 위한 화면 코드 조각
-     * @param comment 댓글 1개 정보
      * @return {Element} 그려진 HTML Element
      */
     makeCommentsFragment(comment) {
-        comment.content = this.checkComment(comment.content);
         let htmlString =
             `<div class="z-token-comment-item flex-column" id="comment` + comment.commentId + `">` +
             `<div class="z-comment-row-info flex-row align-items-center">` +
@@ -447,7 +436,7 @@ class ZFormTokenTab {
             `</div>` +
             `</div>` +
             `<div class="z-comment-row-content">` +
-            `<h6 class="text-ellipsis">` + comment.content + `</h6>` +
+            `<h6 class="text-ellipsis">` + `${aliceJs.filterXSS(comment.content)}` + `</h6>` +
             `</div>` +
             `</div>`;
 
