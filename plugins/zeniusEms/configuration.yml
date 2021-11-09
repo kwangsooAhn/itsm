@@ -1,58 +1,19 @@
-connection:
-  itsm:
-    host: 10.0.10.175
-    port: 32784
+connections:
+  -
+    id: itsm
+    type: storage
     database: itsm
-    username: 97iU8ckIQyNKR+jJF7xz/w==
+    host: "10.0.10.175"
     password: 64TAJlkjjxtS6FXzG0tTNA==
-  ems:
-    host: 10.0.10.98
-    port: 5432
+    port: 32784
+    username: 97iU8ckIQyNKR+jJF7xz/w==
+  -
+    id: ems
+    type: collection
     database: zenius
-    username: 5Sl8Ykqf0ITR/tROEQt/Nw==
+    host: "10.0.10.98"
     password: i90G/efxKIKOGlSJw372pyxQoaDvs6Gx
-query:
-  timeoutSec: 10
-service: ["sms", "nms", "dbms"]
-
-data:
-  sms:
-    table: rt_sms_list
-    mappingId: z_myid
-    cmdbTypeAlias: SERVER
-    ci:
-      name: z_myhost
-      desc: z_mydesc
-    mapping:
-      ip: z_myip
-      mac: z_mymac
-      modal: z_svrmodel
-      serial: z_svrserial
-      zid: z_myid
-  nms:
-    table: rt_nms_list
-    mappingId: z_myid
-    cmdbTypeAlias: NETWORK
-    ci:
-      name: z_myhost
-      desc: z_mydesc
-    mapping:
-      ip: z_myip
-      mac: z_mymac
-      serial: z_serial
-      zid: z_myid
-      totifnum: z_totifnum
-      actifnum: z_actifnum
-      iosver: z_iosver
-  dbms:
-    table: rt_dbms_list
-    mappingId: z_myid
-    cmdbTypeAlias: DATABASE
-    ci:
-      name: z_myhost
-      desc: z_mydesc
-    mapping:
-      ip: z_myip
-      mac: z_mymac
-      zid: z_myid
-      version: z_dbname
+    port: 5432
+    username: 5Sl8Ykqf0ITR/tROEQt/Nw==
+options:
+  query-timeout-sec: 10
