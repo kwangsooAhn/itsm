@@ -4264,8 +4264,8 @@ INSERT INTO wf_component_property VALUES ('4e119dcb8ec242b59dd49029bdae8645', 'v
 INSERT INTO wf_component_property VALUES ('4e119dcb8ec242b59dd49029bdae8645', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요"}');
 INSERT INTO wf_component_property VALUES ('4e119dcb8ec242b59dd49029bdae8645', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"내용"}');
 INSERT INTO wf_component_property VALUES ('3535d8c155c848ffbd3a403508ed611f', 'display', '{"displayOrder":0,"columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES ('3535d8c155c848ffbd3a403508ed611f', 'validation', '{"required":true}');
-INSERT INTO wf_component_property VALUES ('3535d8c155c848ffbd3a403508ed611f', 'element', '{"columnWidth":"12","isEditable":true}');
+INSERT INTO wf_component_property VALUES ('3535d8c155c848ffbd3a403508ed611f', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES ('3535d8c155c848ffbd3a403508ed611f', 'element', '{"columnWidth":"12","isEditable":false}');
 INSERT INTO wf_component_property VALUES ('3535d8c155c848ffbd3a403508ed611f', 'label', '{"position":"top","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"CI 변경대상"}');
 INSERT INTO wf_component_property VALUES ('dca608e7e5e84a32a56b8beafaafb5ba', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('dca608e7e5e84a32a56b8beafaafb5ba', 'validation', '{"required":false}');
@@ -4475,7 +4475,7 @@ INSERT INTO wf_component_property VALUES ('3c8cd6bf769041a68c628c1eb1fa2bd2', 'e
 INSERT INTO wf_component_property VALUES ('3c8cd6bf769041a68c628c1eb1fa2bd2', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"기타의견"}');
 INSERT INTO wf_component_property VALUES ('f5081a7fd40d46da9b65daf5645906a0', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('f5081a7fd40d46da9b65daf5645906a0', 'validation', '{"required":false}');
-INSERT INTO wf_component_property VALUES ('f5081a7fd40d46da9b65daf5645906a0', 'element', '{"columnWidth":"10","isEditable":true}');
+INSERT INTO wf_component_property VALUES ('f5081a7fd40d46da9b65daf5645906a0', 'element', '{"columnWidth":"10","isEditable":false}');
 INSERT INTO wf_component_property VALUES ('f5081a7fd40d46da9b65daf5645906a0', 'label', '{"position":"left","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"관련 CI"}');
 INSERT INTO wf_component_property VALUES ('663450c3389c465584685365602dd961', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('663450c3389c465584685365602dd961', 'validation', '{"required":false}');
@@ -4587,8 +4587,8 @@ INSERT INTO wf_component_property VALUES ('00e10066faa54f94bd23df057869749e', 'v
 INSERT INTO wf_component_property VALUES ('00e10066faa54f94bd23df057869749e', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
 INSERT INTO wf_component_property VALUES ('00e10066faa54f94bd23df057869749e', 'label', '{"position":"left","fontSize":"14","fontColor":"#8B9094","bold":false,"italic":false,"underline":false,"align":"left","text":"내용"}');
 INSERT INTO wf_component_property VALUES ('a3297470ddb04ca4801a240fa8280514', 'display', '{"displayOrder":0,"columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES ('a3297470ddb04ca4801a240fa8280514', 'validation', '{"required":true}');
-INSERT INTO wf_component_property VALUES ('a3297470ddb04ca4801a240fa8280514', 'element', '{"columnWidth":"12","isEditable":true}');
+INSERT INTO wf_component_property VALUES ('a3297470ddb04ca4801a240fa8280514', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES ('a3297470ddb04ca4801a240fa8280514', 'element', '{"columnWidth":"12","isEditable":false}');
 INSERT INTO wf_component_property VALUES ('a3297470ddb04ca4801a240fa8280514', 'label', '{"position":"top","fontSize":"14","fontColor":"rgba(141, 146, 153, 1)","bold":false,"italic":false,"underline":false,"align":"left","text":"CI 변경대상"}');
 INSERT INTO wf_component_property VALUES ('9608d22755d74400b9a83ee63e3375c5', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES ('9608d22755d74400b9a83ee63e3375c5', 'validation', '{"required":false}');
