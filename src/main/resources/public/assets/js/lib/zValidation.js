@@ -132,7 +132,7 @@ class ZValidation {
                 // 동일한 이름을 가진 엘리먼트 중 체크된 항목의 값을 반환
                 const name = element.getAttribute('name');
                 const elements = document.getElementsByName(name);
-                return Array.from(elements).filter((item) => item.checked).map((item) => item.value).join('|');
+                return elements.filter((item) => item.checked).map((item) => item.value).join('|');
             }
         } else if (element instanceof HTMLSelectElement) {
             return element.options[element.selectedIndex].value;
