@@ -11,7 +11,6 @@ import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDateTimeDto
 import co.brainz.itsm.chart.dto.ChartDto
-import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.form.constants.WfFormConstants
@@ -64,13 +63,9 @@ abstract class ChartManager(
 
         val formList = chartManagerService.getFormList(formIds)
         formList.forEach { form ->
-            if (form.formStatus == WfFormConstants.FormStatus.USE.value ||
-                form.formStatus == WfFormConstants.FormStatus.PUBLISH.value
-            ) {
+            if (form.formStatus != WfFormConstants.FormStatus.EDIT.value) {
                 form.document.forEach { document ->
-                    if (document.documentStatus == WfDocumentConstants.Status.USE.code &&
-                        document.documentType == DocumentConstants.DocumentType.APPLICATION_FORM.value
-                    ) {
+                    if (document.documentStatus != WfDocumentConstants.Status.TEMPORARY.code) {
                         document.instance?.forEach { instance ->
                             if (instance.instanceStatus == WfInstanceConstants.Status.FINISH.code) {
                                 documentList.add(document)
