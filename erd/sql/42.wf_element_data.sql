@@ -1031,7 +1031,6 @@ INSERT INTO wf_element_data VALUES ('f70909de72024d879161a9ccf7c85abe', 'start-i
 INSERT INTO wf_element_data VALUES ('f70909de72024d879161a9ccf7c85abe', 'start-name', 'APP 변경관리 이관', 5, false);
 INSERT INTO wf_element_data VALUES ('f70909de72024d879161a9ccf7c85abe', 'end-id', 'b3433f66728645ceb0aa075bef0bc94e', 6, true);
 INSERT INTO wf_element_data VALUES ('f70909de72024d879161a9ccf7c85abe', 'end-name', '', 7, false);
-
 /* 장애관리 */
 INSERT INTO wf_element_data VALUES ('01dd1632e0954ae1ae58f5f621cbd6a3','complete-action','',0,false);
 INSERT INTO wf_element_data VALUES ('04f71a998f7741169f8d352ca6b5cbe5', 'action-name', 'INFRA 변경관리 이관', 0, false);
