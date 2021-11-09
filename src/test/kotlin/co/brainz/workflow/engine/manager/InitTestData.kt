@@ -247,7 +247,7 @@ class InitTestData {
                             )
                             components.add(componentEntity)
                         }
-                        formEntity.components!!.addAll(components)
+                        formEntity.components.addAll(components)
                         forms.add(formEntity)
                     }
                     wfFormRepository.saveAll(forms)

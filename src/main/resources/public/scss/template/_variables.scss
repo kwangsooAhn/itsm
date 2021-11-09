@@ -62,7 +62,7 @@ $element-font-color:                          $gray800;
 $element-font-weight:                         $font-weight-regular;
 $element-line-height:                         1.2;
 $element-bg-color:                            $white;
-$element-border-color:                        $gray300;
+$element-border-color:                        $gray400;
 $element-border-width:                        0.0625rem; // 1px
 $element-border:                              $element-border-width solid $element-border-color;
 $element-border-radius:                       0.125rem; // 2px
@@ -104,7 +104,7 @@ $element-disabled-border:                     $element-disabled-border-width sol
 // element readonly 시 사용하는 디자인 변수
 $element-readonly-font-color:                 $gray800;
 $element-readonly-bg-color:                   transparent;
-$element-readonly-border-color:               $gray400;
+$element-readonly-border-color:               $gray300;
 $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:                     $element-readonly-border-width solid $element-readonly-border-color;
 

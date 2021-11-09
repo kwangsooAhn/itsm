@@ -38,12 +38,16 @@ interface AliceUserAuthMapper {
         Mapping(target = "avatarType", ignore = true),
         Mapping(target = "avatarValue", ignore = true),
         Mapping(target = "uploaded", ignore = true),
-        Mapping(target = "uploadedLocation", ignore = true)
+        Mapping(target = "uploadedLocation", ignore = true),
+        Mapping(target = "userCustomEntities", ignore = true)
     )
     fun toAliceUserEntity(aliceUserDto: AliceUserDto): AliceUserEntity
 
     @Mappings(
-        Mapping(target = "avatarPath", ignore = true)
+        Mapping(target = "avatarPath", ignore = true),
+        Mapping(target = "avatarId", ignore = true),
+        Mapping(target = "avatarSize", ignore = true),
+        Mapping(target = "totalCount", ignore = true)
     )
     fun toUserDto(aliceUserEntity: AliceUserEntity): UserDto
 

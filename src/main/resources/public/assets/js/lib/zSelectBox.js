@@ -54,10 +54,6 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
             let designedSelectBoxText = document.createElement('span');
             designedSelectBoxText.className = 'z-select-box-label';
             designedSelectBox.appendChild(designedSelectBoxText);
-            // z-select-box - 아이콘
-            let designedSelectBoxIcon = document.createElement('span');
-            designedSelectBoxIcon.className = 'z-icon i-arrow-right';
-            designedSelectBox.appendChild(designedSelectBoxIcon);
 
             // 인위적으로 추가되는 z-select-box 는 div 라서 focus 효과가 없다.
             // 원본 select tag 의 포커스를 active 클래스를 이용해서 전파.
@@ -78,6 +74,11 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                     designedSelectBoxText.innerText = originSelectTag.options[originSelectTag.selectedIndex].text;
                 }
             } else {
+                // z-select-box - 아이콘
+                let designedSelectBoxIcon = document.createElement('span');
+                designedSelectBoxIcon.className = 'z-icon i-arrow-right';
+                designedSelectBox.appendChild(designedSelectBoxIcon);
+
                 // z-select-option : 옵션 리스트용 박스 만들기
                 let ulElement = document.createElement('ul');
                 ulElement.classList.add('z-select-options');

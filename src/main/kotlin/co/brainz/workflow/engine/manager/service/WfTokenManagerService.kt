@@ -252,7 +252,7 @@ class WfTokenManagerService(
     fun saveToken(wfTokenDto: WfTokenDto): WfTokenEntity {
         val wfTokenEntity = WfTokenEntity(
             tokenId = "",
-            tokenStatus = WfTokenConstants.Status.RUNNING.code ?: wfTokenDto.tokenStatus!!,
+            tokenStatus = WfTokenConstants.Status.RUNNING.code,
             tokenStartDt = LocalDateTime.now(),
             instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
             element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
@@ -332,7 +332,7 @@ class WfTokenManagerService(
         documentId.forEach {
             val document = documentRepository.findDocumentEntityByDocumentId(it)
             val tokenDataList = mutableListOf<WfTokenDataDto>()
-            document.form.components!!.forEach { component ->
+            document.form.components.forEach { component ->
                 if (component.mappingId.isNotBlank() && keyPairMappingIdAndTokenData[component.mappingId] != null) {
                     val value = keyPairMappingIdAndTokenData[component.mappingId] as String
                     val data = WfTokenDataDto(componentId = component.componentId, value = value)
@@ -362,7 +362,7 @@ class WfTokenManagerService(
     ): List<WfTokenDataDto> {
         val keyPairMappingIdAndTokenData = this.getTokenDataByMappingId(subProcessToken)
         val componentIdAndTokenData = mutableMapOf<String, String>()
-        mainProcessToken.instance.document.form.components!!.forEach {
+        mainProcessToken.instance.document.form.components.forEach {
             if (it.mappingId.isNotBlank() && keyPairMappingIdAndTokenData[it.mappingId] != null) {
                 componentIdAndTokenData[it.componentId] = keyPairMappingIdAndTokenData[it.mappingId] as String
             }
@@ -401,14 +401,14 @@ class WfTokenManagerService(
      *  - 토큰 데이터 중 위의 컴포넌트 목록에 포함된 데이터를 Map형태로 저장 (key: mappingId, value: tokenData value)
      */
     private fun getTokenDataByMappingId(token: WfTokenEntity): MutableMap<String, String> {
-        val component = token.instance.document.form.components?.filter {
+        val component = token.instance.document.form.components.filter {
             it.mappingId.isNotBlank()
         }
-        val keyPairComponentIdToMappingId = component?.associateBy({ it.componentId }, { it.mappingId })
+        val keyPairComponentIdToMappingId = component.associateBy({ it.componentId }, { it.mappingId })
         val keyPairMappingIdToTokenDataValue = mutableMapOf<String, String>()
         token.tokenDataEntities.forEach {
             val componentId = it.component.componentId
-            if (keyPairComponentIdToMappingId?.get(componentId) != null) {
+            if (keyPairComponentIdToMappingId.get(componentId) != null) {
                 val mappingId = keyPairComponentIdToMappingId[componentId] as String
                 keyPairMappingIdToTokenDataValue[mappingId] = it.value
             }

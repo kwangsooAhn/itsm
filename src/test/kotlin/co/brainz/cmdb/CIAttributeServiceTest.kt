@@ -122,7 +122,6 @@ class CIAttributeServiceTest {
     @DisplayName("Attribute 수정")
     @Order(5)
     fun updateAttribute() {
-        val params = LinkedHashMap<String, Any>()
         val attributeDtoList = ciAttributeService.getCIAttributes(CIAttributeSearchCondition(
             searchValue = this.attributeName
         ))

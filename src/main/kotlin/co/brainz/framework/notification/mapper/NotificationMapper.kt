@@ -13,7 +13,8 @@ interface NotificationMapper {
         Mapping(target = "receivedUser", ignore = true),
         Mapping(target = "createDt", ignore = true),
         Mapping(target = "updateDt", ignore = true),
-        Mapping(target = "createUser", ignore = true)
+        Mapping(target = "createUser", ignore = true),
+        Mapping(target = "updateUser", ignore = true)
     )
     fun toNotificationEntity(notificationDto: NotificationDto): NotificationEntity
 }

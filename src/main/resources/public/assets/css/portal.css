@@ -617,24 +617,24 @@ input, button, select, optgroup, textarea {
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.9375rem 0;
-  background-color: #CFD5D9;
+  background-color: #ABB0B5;
 }
 
 .vertical-bar {
   width: 1.875rem;
   min-height: 1.875rem;
-  border-right: 0.0625rem solid #CFD5D9;
+  border-right: 0.0625rem solid #ABB0B5;
   margin: 0 1.875rem 0 0;
   vertical-align: middle;
 }
 
 .under-bar {
-  border-bottom: 0.0625rem solid #CFD5D9;
+  border-bottom: 0.0625rem solid #ABB0B5;
   padding-bottom: 0.625rem;
   margin-bottom: 0.625rem;
 }
 .under-bar .bold {
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
 }
 
 .pointer {
@@ -1543,7 +1543,7 @@ table td, table th {
   color: #222529;
 }
 .z-table .z-table-head {
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
 }
 .z-table .z-table-head tr {
   height: 2.5rem;
@@ -1551,7 +1551,7 @@ table td, table th {
 .z-table .z-table-body {
   width: 100%;
   height: 100%;
-  border-bottom: 0.0625rem solid #CFD5D9;
+  border-bottom: 0.0625rem solid #ABB0B5;
 }
 .z-table .z-table-body tr {
   height: 2.5625rem;
@@ -1578,7 +1578,7 @@ table td, table th {
   border: none;
 }
 .z-option-table tr {
-  border-bottom: 0.0625rem solid #CFD5D9;
+  border-bottom: 0.0625rem solid #ABB0B5;
   border-left: none;
   border-right: none;
   height: 2.5rem;
@@ -1592,8 +1592,8 @@ table td, table th {
   font-size: 1rem;
   font-weight: 500;
   color: #ABB0B5;
-  border-top: 0.0625rem solid #CFD5D9;
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+  border-top: 0.0625rem solid #ABB0B5;
+  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
   background-color: #F5F5F5;
 }
 .z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
@@ -1661,7 +1661,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   line-height: 1.2;
   color: #222529;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #CFD5D9;
+  border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -1704,7 +1704,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   background-color: transparent;
   background-image: none;
   border: none;
-  border-left: 0.0625rem solid #ABB0B5;
+  border-bottom: 0.0625rem solid #CFD5D9;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -1788,7 +1788,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   flex-basis: 100%;
 }
 .z-input-button .z-button-search {
-  margin-left: -0.0625rem;
+  margin-left: 1rem;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
@@ -1821,7 +1821,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   padding: 0.5rem 1rem;
 }
 .z-textarea:not(.os-textarea) {
-  border: 0.0625rem solid #CFD5D9;
+  border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -1847,7 +1847,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
   background-color: transparent;
   border: none;
-  border-left: 0.0625rem solid #ABB0B5;
+  border: 0.0625rem solid #CFD5D9;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -1952,7 +1952,7 @@ select {
   line-height: 1.2;
   color: #222529;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #CFD5D9;
+  border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -2002,7 +2002,7 @@ select {
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
-  border: 0.0625rem solid #CFD5D9;
+  border: 0.0625rem solid #ABB0B5;
   display: block;
   max-width: 100%;
   text-overflow: ellipsis;
@@ -2052,7 +2052,7 @@ select {
 .z-select .z-select-box.readonly {
   background-color: transparent;
   border: none;
-  border-left: 0.0625rem solid #ABB0B5;
+  border-bottom: 0.0625rem solid #CFD5D9;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -2076,7 +2076,7 @@ select {
   z-index: 5000;
   padding: 0.25rem 0;
   margin: 0;
-  border: 0.0625rem solid #CFD5D9;
+  border: 0.0625rem solid #ABB0B5;
   background-color: #FFFFFF;
   max-height: 25rem;
   color: #222529;
@@ -2216,7 +2216,7 @@ select {
   margin-left: 2%;
 }
 .z-slider .z-input:read-only:not(:disabled) {
-  border: 0.0625rem solid #CFD5D9;
+  border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -2246,7 +2246,7 @@ select {
   width: 1.125rem;
   height: 1.125rem;
   margin-bottom: 0.125rem;
-  border: 0.0625rem solid #CFD5D9;
+  border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -2339,7 +2339,7 @@ select {
   width: 1.125rem;
   height: 1.125rem;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #CFD5D9;
+  border: 0.0625rem solid #ABB0B5;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -2365,7 +2365,7 @@ select {
   cursor: pointer;
 }
 .z-radio input[type=radio]:not(:disabled):checked + span::before, .z-radio input[type=radio]:not(.readonly):checked + span::before {
-  border-color: #CFD5D9;
+  border-color: #ABB0B5;
 }
 .z-radio input[type=radio]:not(:disabled):checked + span::after, .z-radio input[type=radio]:not(.readonly):checked + span::after {
   background-color: #339AF0;
@@ -3372,7 +3372,7 @@ summary:focus {
   padding: 0.375rem 0.375rem 0.375rem 2.5rem;
 }
 .z-validation.default {
-  border: 0.0625rem solid #CFD5D9;
+  border: 0.0625rem solid #ABB0B5;
   color: #222529;
   background-color: #FFFFFF;
   background-image: url("../media/icons/validation/icon_default.svg");
@@ -3819,7 +3819,7 @@ summary:focus {
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.625rem 0;
-  background-color: #CFD5D9;
+  background-color: #ABB0B5;
 }
 
 .file-uploader-edit {
@@ -3841,7 +3841,7 @@ summary:focus {
   display: grid;
   grid-template-columns: 3.125rem auto;
   height: 4.5rem;
-  border: 0.0625rem solid #CFD5D9;
+  border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -3903,7 +3903,7 @@ summary:focus {
   position: relative;
   height: 4.5rem;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #CFD5D9;
+  border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -4705,8 +4705,8 @@ summary:focus {
   width: 0.375rem;
   height: 3.5rem;
   margin: auto 0;
-  border-top: 0.0625rem solid #CFD5D9;
-  border-bottom: 0.0625rem solid #CFD5D9;
+  border-top: 0.0625rem solid #ABB0B5;
+  border-bottom: 0.0625rem solid #ABB0B5;
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;

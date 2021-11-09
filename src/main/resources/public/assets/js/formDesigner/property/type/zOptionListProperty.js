@@ -124,7 +124,9 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIValue(option.name).onUIKeyUp(this.updateProperty.bind(this))
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
-            .setUIAttribute('data-validation-required-name', i18n.msg(this.name));
+            .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
+            .setUIAttribute('name','optionName')
+            .onUIFocusout(this.updateProperty.bind(this));
         nameTD.addUI(nameTD.inputName);
 
         const valueTD = new UICell(optionRow);
@@ -134,7 +136,9 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIValue(option.value).onUIKeyUp(this.updateProperty.bind(this))
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
-            .setUIAttribute('data-validation-required-name', i18n.msg(this.name));
+            .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
+            .setUIAttribute('name','optionValue')
+            .onUIFocusout(this.updateProperty.bind(this));
         valueTD.addUI(valueTD.inputValue);
 
         const removeTD = new UICell(optionRow);
@@ -162,11 +166,27 @@ export default class ZOptionListProperty extends ZProperty {
         if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
             return false;
         }
-        // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
-            return false;
-        }
+        // change 일 경우 minLength, maxLength & 중복 값 체크
+        if (e.type === 'change') {
+            let propertyValue = this.getPropertyValue(this.UIElement.UIOptionTable.domElement);
+            let optionListName = propertyValue.map(v => v.name).filter(optName => optName === e.target.value);
+            let optionListValue = propertyValue.map(v => v.value).filter(optValue => optValue === e.target.value);
 
+            if (!zValidation.changeValidationCheck(e.target)) { return false; }
+            if (e.target.name === 'optionName' && optionListName.length > 1) {
+                zAlert.warning(i18n.msg('form.msg.duplicateOptionsName'), function () {
+                    e.target.value = '';
+                    e.target.focus();
+                    return false;
+                })
+            } else if (e.target.name === 'optionValue' && optionListValue.length > 1) {
+                zAlert.warning(i18n.msg('form.msg.duplicateOptionsValue'), function () {
+                    e.target.value = '';
+                    e.target.focus();
+                    return false;
+                })
+            }
+        }
         this.panel.update.call(this.panel, this.key, this.getPropertyValue(this.UIElement.UIOptionTable.domElement));
     }
 

@@ -16,6 +16,7 @@ import java.io.InputStreamReader
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 
@@ -27,6 +28,9 @@ class ScheduleTaskTypeJar(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    @Value("\${schedule.plugins.dir}")
+    private val pluginsDir: String? = null
+
     fun getRunnable(taskInfo: AliceScheduleTaskEntity, isImmediately: Boolean): Runnable? {
         var runnable: Runnable?
 
@@ -34,7 +38,7 @@ class ScheduleTaskTypeJar(
         if (jarPath.startsWith("/", true)) {
             jarPath = jarPath.substring(1)
         }
-        val jarDir = AliceConstants.SCHEDULE_PLUGINS_HOME + File.separator + jarPath
+        val jarDir = pluginsDir + File.separator + jarPath
 
         // command list
         val commands = taskInfo.executeCommand?.split(" ")
