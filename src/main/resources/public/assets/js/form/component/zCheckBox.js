@@ -144,6 +144,7 @@ export const checkBoxMixin = {
             object['UILabel' + i].UICheckbox = new UICheckbox(checkedYn)
                 .setUIId(checkboxId)
                 .setUIAttribute('value', this.element.options[i].value)
+                .setUIAttribute('name', this.id)
                 .onUIClick(this.updateValue.bind(this));
             object['UILabel' + i].UISpan = new UISpan().setUITextContent(this.element.options[i].name);
 

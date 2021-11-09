@@ -234,9 +234,9 @@ class ZDocument {
                 parentElements[i].querySelectorAll('.z-element[data-validation-required="true"]');
             for (let l = 0; l < requiredCheckedElements.length; l++) {
                 // 필수값 체크가 필요한 체크박스 또는 라디오
-                if (requiredCheckedElements[l].querySelectorAll('input[type=checkbox]:checked, input[type=radio]:checked').length === 0 ) {
+                const validateItem = requiredCheckedElements[l].querySelector('input[type=checkbox], input[type=radio]');
+                if (!zValidation.isRequired(validateItem)) {
                     isValid = false;
-                    zAlert.warning(i18n.msg('common.msg.requiredSelect'));
                     break outer;
                 }
             }
