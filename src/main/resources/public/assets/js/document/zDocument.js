@@ -201,6 +201,7 @@ class ZDocument {
                     break outer;
                 }
             }
+
             // 3. 테이블 필수값 검증
             const requiredTableElements =
                 parentElements[i].querySelectorAll('table[data-validation-required="true"]');
@@ -215,8 +216,30 @@ class ZDocument {
                     break outer;
                 }
             }
-            // TODO: 4. 텍스트에디터 필수 체크
-
+            // 4. 텍스트에디터 필수 체크
+            const requiredTextEditorElements =
+                parentElements[i].querySelectorAll('.z-text-editor[data-validation-required="true"]');
+            for (let k = 0; k < requiredTextEditorElements.length; k++) {
+                // 해당 text editor 내부에 입력된 텍스트가 있는지 확인 (공백 포함)
+                if (requiredTextEditorElements[k].querySelector('p').textContent.length === 0) {
+                    isValid = false;
+                    zAlert.warning(i18n.msg('common.msg.requiredEnter'), function() {
+                        requiredTextEditorElements[k].focus();
+                    });
+                    break outer;
+                }
+            }
+            // 5. 라디오 / 체크박스 필수 체크
+            const requiredCheckedElements =
+                parentElements[i].querySelectorAll('.z-element[data-validation-required="true"]');
+            for (let l = 0; l < requiredCheckedElements.length; l++) {
+                // 필수값 체크가 필요한 체크박스 또는 라디오
+                if (requiredCheckedElements[l].querySelectorAll('input[type=checkbox]:checked, input[type=radio]:checked').length === 0 ) {
+                    isValid = false;
+                    zAlert.warning(i18n.msg('common.msg.requiredSelect'));
+                    break outer;
+                }
+            }
         }
         return isValid;
     }
@@ -229,6 +252,8 @@ class ZDocument {
         const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
 
         const isActionTypeCheck = validationUncheckActionType.includes(actionType);
+
+
         if (!isActionTypeCheck && !this.saveValidationCheck()) {
             return false;
         }
