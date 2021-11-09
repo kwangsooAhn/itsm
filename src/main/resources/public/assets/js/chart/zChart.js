@@ -22,6 +22,7 @@
 function ZChart(container, chartType, chartProperty) {
     // highcharts 기본 옵션
     let options = {
+        global: { useUTC: false }, // 로컬 시간대를 보여주기 위한 설정
         chart: {type: 'line'},
         title: {
             text: '',
@@ -195,15 +196,20 @@ Object.assign(ZChart.prototype, {
         // 라인차트, 컬럼차트용
         let pointInterval = 1; // time
         let pointIntervalUnit = undefined; //  highcharts 기본값
+        let dateTimeFormat = '%Y-%m-%d %H:%M:%S'; // YYYY-MM-DD HH:MI:SS
         if (typeof chartConfigJson.periodUnit !== 'undefined') {
             if (chartConfigJson.periodUnit === CHART_YEAR) {
                 pointIntervalUnit = 'year';
+                dateTimeFormat = '%Y'; // YYYY
             } else if (chartConfigJson.periodUnit === CHART_MONTH) {
                 pointIntervalUnit = 'month';
+                dateTimeFormat = '%Y-%m'; // YYYY-MM
             } else if (chartConfigJson.periodUnit === CHART_DAY) {
                 pointIntervalUnit = 'day';
+                dateTimeFormat = '%Y-%m-%d'; // YYYY-MM-DD
             } else {  // time
                 pointInterval = 3600 * 1000;
+                dateTimeFormat = '%Y-%m-%d %H'; // YYYY-MM-DD HH
             }
         }
         // 데이터상 현재 시리즈는 1개만 전달됨
@@ -248,7 +254,14 @@ Object.assign(ZChart.prototype, {
                 break;
             case BASIC_LINE_CHART:
                 this.chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
-
+                // 시간 포맷
+                this.chart.xAxis[0].update({
+                    labels: {
+                        formatter: function() {
+                            return Highcharts.dateFormat(dateTimeFormat, this.value);
+                        }
+                    }
+                }, false);
                 this.chart.series[0].update({
                     pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
                     pointInterval: pointInterval,
@@ -295,7 +308,14 @@ Object.assign(ZChart.prototype, {
             case STACKED_BAR_CHART:
             case LINE_AND_COLUMN_CHART:
                 this.chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
-
+                // 시간 포맷
+                this.chart.xAxis[0].update({
+                    labels: {
+                        formatter: function() {
+                            return Highcharts.dateFormat(dateTimeFormat, this.value);
+                        }
+                    }
+                }, false);
                 this.chart.series[0].update({
                     pointStart: Date.UTC(getYear, getMonth, getDay, getHour),
                     pointInterval: pointInterval,
