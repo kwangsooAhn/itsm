@@ -411,7 +411,6 @@ class ZFormTokenTab {
             }
         });
     }
-
     /**
      * 댓글 출력을 위한 화면 코드 조각
      * @param comment 댓글 1개 정보
@@ -437,7 +436,7 @@ class ZFormTokenTab {
             `</div>` +
             `</div>` +
             `<div class="z-comment-row-content">` +
-            `<h6 class="text-ellipsis">` + comment.content + `</h6>` +
+            `<h6 class="text-ellipsis">` + `${aliceJs.filterXSS(comment.content)}` + `</h6>` +
             `</div>` +
             `</div>`;
 
