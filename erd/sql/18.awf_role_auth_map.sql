@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS awf_role_auth_map cascade;
 
 CREATE TABLE awf_role_auth_map
 (
-    role_id varchar(100) NOT NULL,	
+	role_id varchar(100) NOT NULL,
 	auth_id varchar(100) NOT NULL,
 	CONSTRAINT awf_role_auth_map_pk PRIMARY KEY (role_id, auth_id),
 	CONSTRAINT awf_role_auth_map_fk1 FOREIGN KEY (role_id) REFERENCES awf_role (role_id),
