@@ -453,6 +453,12 @@
                         case STATUS_ERROR_SCHEDULER_EXECUTE:
                             zAlert.warning(i18n.msg('common.msg.fail'));
                             break;
+                        case STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST:
+                            zAlert.warning(i18n.msg('scheduler.msg.jarNotExist'));
+                            break;
+                        case STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST:
+                            zAlert.warning(i18n.msg('scheduler.msg.classNotExist'));
+                            break;
                         default:
                             zAlert.danger(i18n.msg('common.msg.fail'));
                             break;
