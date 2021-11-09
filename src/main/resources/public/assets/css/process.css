@@ -3723,6 +3723,9 @@ svg path.connector.hidden {
 .textarea-scroll-wrapper {
   display: block;
 }
+.textarea-scroll-wrapper.scrollbar > .os-scrollbar-vertical {
+  bottom: 0;
+}
 
 .inner-scrollbar > .os-scrollbar-horizontal {
   right: 0.625rem;

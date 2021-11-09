@@ -119,6 +119,11 @@
 // textarea scrollbar
 .textarea-scroll-wrapper {
   display: block;
+  &.scrollbar {
+    >.os-scrollbar-vertical {
+      bottom: 0;
+    }
+  }
 }
 // element 내부 scrollbar
 .inner-scrollbar {

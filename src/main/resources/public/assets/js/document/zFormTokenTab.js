@@ -47,6 +47,17 @@ class ZFormTokenTab {
                 tagType: 'instance',
                 targetId: this.instanceId
             });
+
+            OverlayScrollbars(document.getElementById('commentValue'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: 'class'
+                }
+            });
         });
     }
     /**
