@@ -2382,6 +2382,18 @@ body.modal-active {
   border: 0.0625rem solid #FFFFFF;
 }
 
+.z-component-tooltip {
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+.z-component .z-component-label {
+  padding-left: 1rem;
+}
+.z-component .z-element {
+  padding-right: 1rem;
+}
+
 .z-group.accordion .z-group-accordion-checkBox:checked ~ .row-tooltip:not(.off):last-child {
   border-bottom: 0.0625rem solid #CFD5D9;
 }
