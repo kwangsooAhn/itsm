@@ -1888,8 +1888,13 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  pointer-events: none;
   cursor: default;
+}
+.z-input:read-only:not(:disabled):not(.tagify):hover, .z-input:read-only:not(:disabled):not(.tagify):focus {
+  border-bottom: 0.0625rem solid #CFD5D9;
+  webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 .z-input:disabled {
   color: #ABB0B5;
@@ -2031,9 +2036,14 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  pointer-events: none;
   cursor: default;
   resize: none;
+}
+.z-textarea:read-only:not(:disabled):not(.os-host-textarea):hover, .z-textarea:read-only:not(:disabled):not(.os-host-textarea):focus {
+  border: 0.0625rem solid #CFD5D9;
+  webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 .z-textarea:disabled {
   color: #ABB0B5;
@@ -2236,8 +2246,20 @@ select {
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  pointer-events: none;
   cursor: default;
+}
+.z-select .z-select-box .z-select-box-label {
+  height: auto;
+  border: none;
+  width: 100%;
+  padding: 0;
+  vertical-align: unset;
+}
+.z-select .z-select-box .z-select-box-label:hover, .z-select .z-select-box .z-select-box-label:focus {
+  border: none;
+  webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 .z-select .z-select-box.disabled-select {
   color: #ABB0B5;
@@ -6118,7 +6140,7 @@ body.modal-active {
 .z-component .z-element .z-dr-table .z-dr-table-row .z-button-icon {
   padding: 0;
 }
-.z-component .z-element .z-dr-table .z-dr-table-row .z-input {
+.z-component .z-element .z-dr-table .z-dr-table-row .z-input:not(.z-select-box-label) {
   padding: 0.4375rem 0;
   margin: 0.25rem 0;
   text-indent: 1rem;
