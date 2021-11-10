@@ -51,6 +51,7 @@ export const radioMixin = {
         const element = new UIDiv()
             .setUIClass('z-element')
             .addUIClass('align-left')
+            .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIProperty('--data-column', this.elementColumnWidth);
         return this.makeRadioButton(element);
     },

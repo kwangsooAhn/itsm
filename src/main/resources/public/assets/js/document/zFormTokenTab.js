@@ -301,6 +301,8 @@ class ZFormTokenTab {
                 rtn.forEach((instance) => {
                     document.querySelector('#related label').insertAdjacentElement('afterend', this.makeRelatedInstanceFragment(instance));
                 });
+                // 날짜 표기 변경
+                this.setDateTimeFormat();
             } else {
                 zAlert.danger(i18n.msg('common.msg.fail'));
             }

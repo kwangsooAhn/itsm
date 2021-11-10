@@ -1,25 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-        layout:decorator="formDesigner/formCore">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="~{formDesigner/formCore}">
 <head>
     <title th:text="#{common.label.preview}"></title>
 </head>
-<th:block layout:fragment="css">
-    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
-</th:block>
-<th:block layout:fragment="script">
-    <script th:src="@{/assets/js/document/zDocument.js}"></script>
-    <script type="text/javascript">
-        /*<![CDATA[*/
-        window.onload = function() {
-            let data = sessionStorage.getItem(window.name);
-            aliceForm.init(aliceDocument.drawDocument, data);
-        };
-        /*]]>*/
-    </script>
-</th:block>
-<body>
 <th:block layout:fragment="content">
     <form id="frm" name="frm">
         <div class="z-document-container">
@@ -32,5 +17,16 @@
         </div>
     </form>
 </th:block>
-</body>
+<th:block layout:fragment="pageScript">
+    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/js/document/zDocument.js}"></script>
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            let data = sessionStorage.getItem(window.name);
+            aliceForm.init(aliceDocument.drawDocument, data);
+        };
+        /*]]>*/
+    </script>
+</th:block>
 </html>

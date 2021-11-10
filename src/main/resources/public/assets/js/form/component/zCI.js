@@ -829,7 +829,7 @@ export const ciMixin = {
         }).then((htmlData) => {
             document.getElementById('ciList').innerHTML = htmlData;
             // 카운트 변경
-            aliceJs.showTotalCount(document.getElementById('ciListCount').value, 'ciListTotalCount');
+            aliceJs.showTotalCount(document.querySelectorAll('.ci-list').length, 'ciListTotalCount');
             // 태그 초기화
             let ciListTags = document.querySelectorAll('.cmdb-ci-list-modal input[name=ciListTags]');
             let ciIdList = (document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]'));
@@ -842,7 +842,7 @@ export const ciMixin = {
                 });
             }
             // 스크롤바
-            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('#ciList .z-table-body'), {className: 'scrollbar'});
             // 이미 선택된 CI 들은 선택 불가능
             if (Array.isArray(this.value) && this.value.length > 0) {
                 const ciChkElems = document.querySelectorAll('input[type=checkbox]');
