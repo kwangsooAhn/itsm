@@ -51,7 +51,9 @@ export const textAreaMixin = {
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UITextArea = new UITextArea().setUIPlaceholder(this.elementPlaceholder)
+        element.UITextArea = new UITextArea().addUIClass('textarea-scroll-wrapper')
+            .addUIClass('align-left')
+            .setUIPlaceholder(this.elementPlaceholder)
             .setUIProperty('--data-row', this.elementRows)
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIValue(this.value)
@@ -66,6 +68,17 @@ export const textAreaMixin = {
         if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UITextArea.setUIReadOnly(true);
         }
+        // 스크롤바 추가
+        OverlayScrollbars(this.UIElement.UIComponent.UIElement.UITextArea.domElement, {
+            className: 'scrollbar',
+            resize: 'vertical',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: ['class', 'style']
+            }
+        });
     },
     // set, get
     set element(element) {
@@ -85,7 +98,9 @@ export const textAreaMixin = {
     },
     set elementRows(rows) {
         this._element.rows = rows;
-        this.UIElement.UIComponent.UIElement.UITextArea.setUIProperty('--data-row', rows);
+        const UIElement = this.UIElement.UIComponent.UIElement;
+        UIElement.domElement.firstChild.style.setProperty('--data-row', rows);
+        UIElement.UITextArea.setUIProperty('--data-row', rows);
     },
     get elementRows() {
         return this._element.rows;
