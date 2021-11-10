@@ -52,6 +52,7 @@ export const textAreaMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         element.UITextArea = new UITextArea().addUIClass('textarea-scroll-wrapper')
+            .addUIClass('align-left')
             .setUIPlaceholder(this.elementPlaceholder)
             .setUIProperty('--data-row', this.elementRows)
             .setUIAttribute('data-validation-required', this.validationRequired)
@@ -75,7 +76,7 @@ export const textAreaMixin = {
             textarea: {
                 dynHeight: false,
                 dynWidth: false,
-                inheritedAttrs: 'class'
+                inheritedAttrs: ['class', 'style']
             }
         });
     },
@@ -97,7 +98,9 @@ export const textAreaMixin = {
     },
     set elementRows(rows) {
         this._element.rows = rows;
-        this.UIElement.UIComponent.UIElement.UITextArea.setUIProperty('--data-row', rows);
+        const UIElement = this.UIElement.UIComponent.UIElement;
+        UIElement.domElement.firstChild.style.setProperty('--data-row', rows);
+        UIElement.UITextArea.setUIProperty('--data-row', rows);
     },
     get elementRows() {
         return this._element.rows;
