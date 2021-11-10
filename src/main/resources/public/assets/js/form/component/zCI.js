@@ -829,7 +829,7 @@ export const ciMixin = {
         }).then((htmlData) => {
             document.getElementById('ciList').innerHTML = htmlData;
             // 카운트 변경
-            aliceJs.showTotalCount(document.getElementById('ciListCount').value, 'ciListTotalCount');
+            aliceJs.showTotalCount(document.querySelectorAll('.ci-list').length, 'ciListTotalCount');
             // 태그 초기화
             let ciListTags = document.querySelectorAll('.cmdb-ci-list-modal input[name=ciListTags]');
             let ciIdList = (document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]'));
