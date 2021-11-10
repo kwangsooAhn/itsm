@@ -26,7 +26,8 @@ import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '12',
-        isEditable: false
+        isEditable: false,
+        isReadable: true
     },
     validation: {
         required: false // 필수값 여부
@@ -99,6 +100,20 @@ export const ciMixin = {
     },
     get elementIsEditable() {
         return this._element.isEditable;
+    },
+    set elementIsReadable(boolean) {
+        this._element.isReadable = boolean;
+
+        this.UIElement.UIComponent.UIElement.clearUI();
+        // 버튼 목록
+        this.UIElement.UIComponent.UIElement.UIButtonGroup = this.makeCIButton();
+        this.UIElement.UIComponent.UIElement.addUI(this.UIElement.UIComponent.UIElement.UIButtonGroup);
+        // 테이블
+        this.UIElement.UIComponent.UIElement.UITable = this.makeCITable();
+        this.UIElement.UIComponent.UIElement.addUI(this.UIElement.UIComponent.UIElement.UITable);
+    },
+    get elementIsReadable() {
+        return this._element.isReadable;
     },
     set validation(validation) {
         this._validation = validation;
@@ -191,7 +206,36 @@ export const ciMixin = {
         return table;
     },
     getCITableData() {
-        if (this.elementIsEditable) {
+        console.log(this.elementIsReadable)
+        if (this.elementIsReadable) {
+            // CI 컴포넌트 편집 가능여부가 true 일때 = 구분, CI 아이콘, CI Type, CI 이름, CI 설명, 편집 아이콘,  row 삭제 아이콘  7개
+            return [
+                {
+                    id: 'actionType',
+                    type: 'readonly',
+                    columnWidth: '1',
+                    name: 'form.label.actionType',
+                    class: 'align-left first-column'
+                },
+                {id: 'ciId', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'ciNo', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'ciIcon', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'ciIconData', type: 'image', columnWidth: '1', name: '', class: 'align-left'},
+                {id: 'typeId', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'typeName', type: 'editable', columnWidth: '3', name: 'cmdb.ci.label.type', class: 'align-left'},
+                {id: 'ciName', type: 'editable', columnWidth: '3', name: 'cmdb.ci.label.name', class: 'align-left'},
+                {
+                    id: 'ciDesc',
+                    type: 'editable',
+                    columnWidth: '4',
+                    name: 'cmdb.ci.label.description',
+                    class: 'align-left'
+                },
+                {id: 'classId', type: 'hidden', columnWidth: '0', name: '', class: ''},
+                {id: 'searchIcon', type: 'icon-search', columnWidth: '1', name: '', class: 'align-center'},
+                {id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column'}
+            ];
+        } else if (this.elementIsEditable) {
             // CI 컴포넌트 편집 가능여부가 true 일때 = 구분, CI 아이콘, CI Type, CI 이름, CI 설명, 편집 아이콘,  row 삭제 아이콘  7개
             return [
                 {
@@ -262,7 +306,7 @@ export const ciMixin = {
                     .setUICSSText(`width:${tdWidth}%;`)
                     .addUI(new UIImg().setUISrc(data[option.id]).setUIWidth('20' + UNIT.PX).setUIHeight('20' + UNIT.PX));
             case 'icon-edit': // CI 등록 / 수정
-                if (data.actionType === CI.ACTION_TYPE.DELETE || document.querySelector('div.z-group-tooltip').hasAttributes('data-displaytype', 'document.displayType.readonly')) {
+                if (data.actionType === CI.ACTION_TYPE.DELETE) {
                     const viewButton = new UIButton()
                         .setUIClass('z-button-icon')
                         .addUIClass('extra')
@@ -272,7 +316,7 @@ export const ciMixin = {
 
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
-                        .addUI(viewButton);
+                        .addUI(editButton);
                 } else {
                     const editButton = new UIButton()
                         .setUIClass('z-button-icon')
