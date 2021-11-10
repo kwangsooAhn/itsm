@@ -262,18 +262,7 @@ export const ciMixin = {
                     .setUICSSText(`width:${tdWidth}%;`)
                     .addUI(new UIImg().setUISrc(data[option.id]).setUIWidth('20' + UNIT.PX).setUIHeight('20' + UNIT.PX));
             case 'icon-edit': // CI 등록 / 수정
-                if (data.actionType === CI.ACTION_TYPE.MODIFY) {
-                    const editButton = new UIButton()
-                        .setUIClass('z-button-icon')
-                        .addUIClass('extra')
-                        .setUIAttribute('data-type', data.actionType)
-                        .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-edit'));
-
-                    return new UICell(row).setUIClass(tdClassName)
-                        .setUICSSText(`width:${tdWidth}%;`)
-                        .addUI(editButton);
-                } else {
+                if (data.actionType === CI.ACTION_TYPE.DELETE || document.querySelector('div.z-group-tooltip').hasAttributes('data-displaytype', 'document.displayType.readonly')) {
                     const viewButton = new UIButton()
                         .setUIClass('z-button-icon')
                         .addUIClass('extra')
@@ -284,6 +273,17 @@ export const ciMixin = {
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
                         .addUI(viewButton);
+                } else {
+                    const editButton = new UIButton()
+                        .setUIClass('z-button-icon')
+                        .addUIClass('extra')
+                        .setUIAttribute('data-type', data.actionType)
+                        .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
+                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-edit'));
+
+                    return new UICell(row).setUIClass(tdClassName)
+                        .setUICSSText(`width:${tdWidth}%;`)
+                        .addUI(editButton);
                 }
             case 'icon-search': // CI 상세 조회
                 const searchButton = new UIButton()
