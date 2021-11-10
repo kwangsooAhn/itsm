@@ -68,7 +68,7 @@ export const customCodeMixin = {
             .setUIClass('secondary')
             .addUIClass('z-button-icon')
             .onUIClick(this.openCustomCodeModal.bind(this))
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-folder'));
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
