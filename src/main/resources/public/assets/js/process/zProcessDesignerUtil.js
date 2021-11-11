@@ -988,8 +988,8 @@ function validationCheck() {
     let deployableStatus = ['process.status.publish', 'process.status.use'];
     let nowStatus = zProcessDesigner.data.process.status;
     let commonStartCount = 0;
-
-    if (deployableStatus.indexOf(zProcessDesigner.initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
+    // 발행, 사용 상태일 경우, 저장이 불가능하다.
+    if (deployableStatus.includes(zProcessDesigner.initialStatus)) {
         zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
         return false;
     }
