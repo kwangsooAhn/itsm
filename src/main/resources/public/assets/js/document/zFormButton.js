@@ -91,12 +91,14 @@ class ZFormButton {
             if (zValidation.isEmpty(btn.name)) { return false; }
             const UIActionTopButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
                 .addUIClass('primary')
-                .onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
+                .setUIAttribute('data-process-action', btn.value)
+                .onUIClick(this.zForm.processAction.bind(this.zForm));
             UIButtonTopGroup.addUI(UIActionTopButton);
 
             const UIActionBottomButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
                 .addUIClass('primary')
-                .onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
+                .setUIAttribute('data-process-action', btn.value)
+                .onUIClick(this.zForm.processAction.bind(this.zForm));
             UIButtonBottomGroup.addUI(UIActionBottomButton);
         });
         this.actionButtonTopElement.appendChild(UIButtonTopGroup.domElement);

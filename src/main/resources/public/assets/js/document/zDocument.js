@@ -247,7 +247,10 @@ class ZDocument {
     /**
      * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
      */
-    processAction(actionType) {
+    processAction() {
+        console.log(e.target);
+
+        const actionType = e.target.getAttribute('data-process-action');
         // 유효성 체크
         const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
 
@@ -278,7 +281,8 @@ class ZDocument {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(saveData)
+            body: JSON.stringify(saveData),
+            showProgressbar: true
         }).then(rtn => {
             if (rtn === 'true') {
                 zAlert.success(i18n.msg(actionMsg),  () => {

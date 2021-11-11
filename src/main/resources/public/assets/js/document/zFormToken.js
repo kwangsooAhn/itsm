@@ -233,7 +233,8 @@ class ZFormToken {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(saveData)
+            body: JSON.stringify(saveData),
+            showProgressbar: true
         }).then(rtn => {
             if (rtn === 'true') {
                 zAlert.success(i18n.msg(actionMsg),  () => {
