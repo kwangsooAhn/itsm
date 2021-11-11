@@ -259,7 +259,7 @@
      * save process.
      */
     function saveProcess() {
-        if(!valdationCheck()) return false;
+        if(!validationCheck()) return false;
         zProcessDesigner.resetElementPosition();
         save(function (response) {
             let resultCode = response.responseText;
@@ -980,7 +980,7 @@
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
 
-function valdationCheck() {
+function validationCheck() {
     let typeList = ['commonStart', `timerStart`, 'signalSend', 'manualTask', 'userTask', 'scriptTask', 'arrowConnector',
         'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd'];
     let totalElements = zProcessDesigner.data.elements;
