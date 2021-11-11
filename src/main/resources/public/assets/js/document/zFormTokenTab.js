@@ -453,7 +453,7 @@ class ZFormTokenTab {
             `</div>` +
             `</div>` +
             `<div class="z-comment-row-content">` +
-            `<h6 class="text-ellipsis">` + `${aliceJs.filterXSS(comment.content)}` + `</h6>` +
+            `<h6 class="text-wordWrap">` + `${aliceJs.filterXSS(comment.content)}` + `</h6>` +
             `</div>` +
             `</div>`;
 
