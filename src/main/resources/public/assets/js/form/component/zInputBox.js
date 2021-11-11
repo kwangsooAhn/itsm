@@ -57,7 +57,8 @@ export const inputBoxMixin = {
     makeElement() {
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
-        element.UIInputbox = new UIInput().setUIPlaceholder(this.elementPlaceholder)
+        element.UIInputbox = new UIInput().addUIClass('text-ellipsis')
+            .setUIPlaceholder(this.elementPlaceholder)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.getDefaultValue())
             .setUIAttribute('data-validation-required', this.validationRequired)

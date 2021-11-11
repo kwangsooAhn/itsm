@@ -159,7 +159,7 @@
     Object.assign(Picker.prototype, {
         // Picker open.
         open: function() {
-            if (!this.el.classList.contains('active')) {
+            if (!this.target.readOnly && !this.el.classList.contains('active')) {
                 this.el.classList.add('active');
                 this.setPosition();
                 // Detects the target if it's the picker element, if not, closes the picker

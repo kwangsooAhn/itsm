@@ -17,7 +17,7 @@
     <input type="hidden" sec:authorize="!hasAuthority('report.create') && !hasAuthority('report.update')"
            th:name="isRole" th:value="false"/>
     <form id="searchFrm">
-        <input type="text" id="searchValue" name="searchValue" class="z-input i-search col-5 mr-2" maxlength="100"
+        <input type="text" id="searchValue" name="searchValue" class="z-input i-search text-ellipsis col-5 mr-2" maxlength="100"
                th:placeholder="#{report.label.searchPlaceholder}"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
@@ -123,7 +123,9 @@
      */
     function setDateTimeFormat(elem) {
         elem.querySelectorAll('.date-time').forEach(dt => {
-            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = userDateTime;
+            dt.setAttribute('title', userDateTime);
         });
     }
 

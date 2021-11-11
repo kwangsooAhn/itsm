@@ -20,9 +20,9 @@
     <input type="hidden" sec:authorize="!hasAuthority('cmdb.ci.create') && !hasAuthority('cmdb.ci.update')"
            th:name="isRole" th:value="false"/>
     <form id="searchFrm">
-        <input type="text" class="z-input i-search col-5" id="searchValue" name="searchValue" maxlength="100"
+        <input type="text" class="z-input text-ellipsis i-search col-5" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{cmdb.ci.label.searchPlaceholder}"/>
-        <input type="text" class="z-input i-search col-5 mr-2" id="tagSearch" name="tagSearch" maxlength="100"
+        <input type="text" class="z-input text-ellipsis i-search col-5 mr-2" id="tagSearch" name="tagSearch" maxlength="100"
                th:placeholder="#{cmdb.ci.label.tagPlaceholder}"/>
         <input type="hidden" id="flag" name="flag" value="itsm"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
