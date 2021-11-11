@@ -19,9 +19,9 @@
                       th:text="#{document.label.tempDocument}" class="document-temp-status"></span>
                 </div>
                 <div class="flex-row align-items-center">
-                    <span th:text="${document.documentName}" class="text-ellipsis document-name"></span>
+                    <span th:text="${document.documentName}" class="text-ellipsis document-name" th:title="${document.documentName}"></span>
                 </div>
-                <label th:text="${document.documentDesc}" class="document-description text-ellipsis"></label>
+                <label th:text="${document.documentDesc}" class="document-description text-ellipsis" th:title="${document.documentDesc}"></label>
                 <div class="document-icon">
                     <img class="z-img i-document-icon" th:src="${document.documentIcon}"/>
                 </div>

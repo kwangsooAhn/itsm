@@ -24,7 +24,7 @@
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
             <td width="25%" class="align-left">
                 <div class="document-color-circle" th:style="|background-color:${document.documentColor}|"></div>
-                <span th:text="${document.documentName}" title="${document.documentName}"></span>
+                <span th:text="${document.documentName}" th:title="${document.documentName}"></span>
             </td>
             <td style="width: 10%;" class="align-left" th:if="${document.documentType} == 'application-form'" th:text="#{document.type.applicationForm}" th:title="#{document.type.applicationForm}"></td>
             <td style="width: 10%;" class="align-left" th:unless="${document.documentType} == 'application-form'" th:text="#{document.type.workflow}" th:title="#{document.type.workflow}"></td>
