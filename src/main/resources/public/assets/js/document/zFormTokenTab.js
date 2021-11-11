@@ -48,6 +48,7 @@ class ZFormTokenTab {
                 targetId: this.instanceId
             });
 
+            OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
             OverlayScrollbars(document.getElementById('commentValue'), {
                 className: 'scrollbar',
                 resize: 'vertical',
@@ -58,18 +59,20 @@ class ZFormTokenTab {
                     inheritedAttrs: 'class'
                 }
             });
+            aliceJs.initDesignedSelectTag();
         });
     }
     /**
      * 탭 생성 : 우측 문서 정보, 의견, 태그 영역
      */
     reloadTab() {
-        this.reloadHistory();
-        this.reloadRelatedInstance();
-        this.reloadTokenComment();
-
-        OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
-        aliceJs.initDesignedSelectTag();
+        const history = this.reloadHistory();
+        const relatedInstance = this.reloadRelatedInstance();
+        const comment = this.reloadTokenComment();
+        Promise.all([history, relatedInstance, comment]).then(() => {
+            // 날짜 표기 변경
+            this.setDateTimeFormat();
+        });
     }
 
     /**
@@ -124,9 +127,9 @@ class ZFormTokenTab {
      ***************************************************************************************************************/
     reloadHistory() {
         // 문서이력 clear
-        document.getElementById('history').childNodes.innerHTML = '';
+        document.getElementById('history').innerHTML = '';
 
-        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/history', {
+        return aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/history', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -237,7 +240,10 @@ class ZFormTokenTab {
                 body: JSON.stringify(jsonArray)
             }).then((rtn) => {
                 if (rtn === 'true') {
-                    this.reloadRelatedInstance();
+                    this.reloadRelatedInstance().then(() => {
+                        // 날짜 표기 변경
+                        this.setDateTimeFormat();
+                    });
                 } else {
                     zAlert.danger(i18n.msg('common.msg.fail'));
                 }
@@ -287,7 +293,7 @@ class ZFormTokenTab {
             aTag.remove();  // 관련문서 clear
         });
 
-        aliceJs.fetchJson('/rest/folders/' + this.folderId, {
+        return aliceJs.fetchJson('/rest/folders/' + this.folderId, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -409,7 +415,7 @@ class ZFormTokenTab {
             comment.remove();  // 댓글 clear
         });
 
-        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/comments', {
+        return aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/comments', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -449,7 +455,7 @@ class ZFormTokenTab {
             `</div>` +
             `</div>` +
             `<div class="z-comment-row-content">` +
-            `<h6 class="text-ellipsis" title="${aliceJs.filterXSS(comment.content)}">` +
+            `<h6 class="text-wordWrap" title="${aliceJs.filterXSS(comment.content)}">` +
                 `${aliceJs.filterXSS(comment.content)}` +
             `</h6>` +
             `</div>` +
