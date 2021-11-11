@@ -1948,6 +1948,10 @@ select {
   pointer-events: none;
   cursor: default;
 }
+.z-select .z-select-box.disabled-select .z-select-box-label {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+}
 .z-select .z-select-options {
   display: none;
   list-style: none;

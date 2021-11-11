@@ -28,11 +28,11 @@
                            th:disabled="${instance.related == null || instance.related == true}">
                     <span></span>
                 </label>
-            <td style="width:20%;" class="align-left" th:text="${instance.documentNo}"></td>
-            <td style="width:20%;" class="align-left" th:text="${instance.documentName}"></td>
-            <td style="width:20%;" class="date-time align-left" th:text="${instance.instanceStartDt}"/>
-            <td style="width:20%;" class="date-time align-left" th:text="${instance.instanceEndDt}"/>
-            <td style="width:12%;" class="align-left" th:text="${instance.instanceCreateUserName}"></td>
+            <td style="width:20%;" class="align-left" th:text="${instance.documentNo}" th:title="${instance.documentNo}"></td>
+            <td style="width:20%;" class="align-left" th:text="${instance.documentName}" th:title="${instance.documentName}"></td>
+            <td style="width:20%;" class="date-time align-left" th:text="${instance.instanceStartDt}" th:title="${instance.instanceStartDt}"></td>
+            <td style="width:20%;" class="date-time align-left" th:text="${instance.instanceEndDt}" th:title="${instance.instanceEndDt}"></td>
+            <td style="width:12%;" class="align-left" th:text="${instance.instanceCreateUserName}" th:title="${instance.instanceCreateUserName}"></td>
         </tr>
     </tbody>
 </table>

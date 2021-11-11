@@ -17,12 +17,12 @@
         <tr class="flex-row align-items-center" th:each="auth : ${authList}">
             <td style="width:25%;" class="align-left underline">
                 <a sec:authorize="!hasAuthority('auth.update')" th:text="${auth.authName}"
-                   th:href="@{/auths/{id}/view(id=${auth.authId})}"></a>
+                   th:href="@{/auths/{id}/view(id=${auth.authId})}" th:title="${auth.authName}"></a>
                 <a sec:authorize="hasAuthority('auth.update')" th:text="${auth.authName}"
-                   th:href="@{/auths/{id}/edit(id=${auth.authId})}"></a>
+                   th:href="@{/auths/{id}/edit(id=${auth.authId})}" th:title="${auth.authName}"></a>
             </td>
-            <td style="width:25%;" class="align-left" id="authId" name="authId" th:text="${auth.authId}"></td>
-            <td style="width:50%;" class="align-left" id="authDesc" name="authDesc" th:text="${auth.authDesc}"></td>
+            <td style="width:25%;" class="align-left" id="authId" name="authId" th:text="${auth.authId}" th:title="${auth.authId}"></td>
+            <td style="width:50%;" class="align-left" id="authDesc" name="authDesc" th:text="${auth.authDesc}" th:title="${auth.authDesc}"></td>
         </tr>
     </tbody>
 </table>

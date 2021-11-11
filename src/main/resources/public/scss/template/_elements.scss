@@ -638,6 +638,11 @@ select {
       @include border($element-disabled-border-width, solid, $element-disabled-border-color, all);
       pointer-events: none;
       cursor: default;
+
+      .z-select-box-label {
+        color: $element-disabled-font-color;
+        background-color: $element-disabled-bg-color;
+      }
     }
   }
 

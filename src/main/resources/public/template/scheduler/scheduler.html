@@ -17,7 +17,7 @@
             <label for="taskName">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.name}"></span>
             </label>
-            <input class="z-input" id="taskName" maxlength="100" required="required" th:readonly="${view}"
+            <input class="z-input text-ellipsis" id="taskName" maxlength="100" required="required" th:readonly="${view}"
                    th:value="${schedule?.taskName}" type="text"/>
         </div>
         <div class="flex-column z-edit-row">
@@ -57,14 +57,14 @@
                 <label>
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.class}"></span>
                 </label>
-                <input class="z-input" id="executeClass" maxlength="100" required="required" th:readonly="${view}"
+                <input class="z-input text-ellipsis" id="executeClass" maxlength="100" required="required" th:readonly="${view}"
                        th:value="${schedule?.executeClass}" type="text"/>
             </div>
             <div class="flex-column z-edit-row">
                 <label>
                     <span th:text="#{scheduler.label.args}"></span>
                 </label>
-                <input class="z-input" id="args" maxlength="100" th:readonly="${view}" th:value="${schedule?.args}" type="text" />
+                <input class="z-input text-ellipsis" id="args" maxlength="100" th:readonly="${view}" th:value="${schedule?.args}" type="text" />
             </div>
         </div>
         <!-- 타입: jar -->
@@ -73,14 +73,14 @@
                 <label>
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.src}"></span>
                 </label>
-                <input class="z-input" id="src" maxlength="250" required="required" th:readonly="${view}"
+                <input class="z-input text-ellipsis" id="src" maxlength="250" required="required" th:readonly="${view}"
                        th:value="${schedule?.src}" type="text"/>
             </div>
             <div class="flex-column z-edit-row">
                 <label>
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.command}"></span>
                 </label>
-                <input class="z-input" id="executeCommand" maxlength="500" required="required" th:readonly="${view}"
+                <input class="z-input text-ellipsis" id="executeCommand" maxlength="500" required="required" th:readonly="${view}"
                        th:value="${schedule?.executeCommand}" type="text"/>
             </div>
         </div>
@@ -119,7 +119,7 @@
             <label for="cronExpression">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.cronExpression}"></span>
             </label>
-            <input class="z-input" id="cronExpression" maxlength="100" required="required" th:readonly="${view}"
+            <input class="z-input text-ellipsis" id="cronExpression" maxlength="100" required="required" th:readonly="${view}"
                    th:value="${schedule?.cronExpression}" type="text"/>
         </div>
         <div class="flex-column z-edit-row" id="executeCycleType-fixed-container"
@@ -127,7 +127,7 @@
             <label for="executeCyclePeriod">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.executeCyclePeriod}"></span>
             </label>
-            <input class="z-input" id="executeCyclePeriod" maxlength="10" required="required" th:onkeydown="${view} ? '' : 'return onlyNumber(event)'"
+            <input class="z-input text-ellipsis" id="executeCyclePeriod" maxlength="10" required="required" th:onkeydown="${view} ? '' : 'return onlyNumber(event)'"
                    th:onkeyup="${view} ? '' : 'aliceJs.removeChar(event)'" th:readonly="${view}"
                    th:value="${schedule?.executeCyclePeriod}" type="text"/>
         </div>
@@ -253,7 +253,9 @@
                     document.getElementById('historyList').innerHTML = content;
                     let executeTimeEle = document.querySelectorAll('td[name=executeTime]');
                     for (let i = 0; i < executeTimeEle.length; i++) {
-                        executeTimeEle[i].textContent = i18n.userDateTime(executeTimeEle[i].textContent);
+                        const excuteTime = i18n.userDateTime(executeTimeEle[i].textContent);
+                        executeTimeEle[i].textContent = excuteTime;
+                        executeTimeEle[i].setAttribute('title', excuteTime);
                     }
                     OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
                 });

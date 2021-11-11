@@ -119,7 +119,9 @@
                             }
                             let contentText = document.createElement('span');
                             contentText.className = 'text-ellipsis';
-                            contentText.textContent = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
+                            const contentAnchorText = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
+                            contentText.textContent = contentAnchorText;
+                            contentText.setAttribute('title', contentAnchorText);
                             contentAnchor.appendChild(contentText);
                             cell.appendChild(contentAnchor);
                             row.appendChild(cell);

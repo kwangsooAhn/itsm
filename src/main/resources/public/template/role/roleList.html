@@ -17,13 +17,13 @@
         <tr class="flex-row align-items-center" th:each="role : ${roleList}">
             <td style="width:25%;" class="align-left underline">
                 <a sec:authorize="!hasAuthority('notice.update')" th:text="${role.roleName}"
-                   th:href="@{/roles/{id}/view(id=${role.roleId})}">
+                   th:href="@{/roles/{id}/view(id=${role.roleId})}" th:title="${role.roleName}">
                 </a>
                 <a sec:authorize="hasAuthority('notice.update')" th:text="${role.roleName}"
-                   th:href="@{/roles/{id}/edit(id=${role.roleId})}"></a>
+                   th:href="@{/roles/{id}/edit(id=${role.roleId})}" th:title="${role.roleName}"></a>
             </td>
-            <td style="width:25%;" class="align-left" id="roleId" name="roleId" th:text="${role.roleId}"></td>
-            <td style="width:50%;" class="align-left" id="roleDesc" name="roleDesc" th:text="${role.roleDesc}"></td>
+            <td style="width:25%;" class="align-left" id="roleId" name="roleId" th:text="${role.roleId}" th:title="${role.roleId}"></td>
+            <td style="width:50%;" class="align-left" id="roleDesc" name="roleDesc" th:text="${role.roleDesc}" th:title="${role.roleDesc}"></td>
         </tr>
     </tbody>
 </table>

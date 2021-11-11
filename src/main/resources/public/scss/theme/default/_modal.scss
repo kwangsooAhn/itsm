@@ -131,7 +131,11 @@
 
         .z-table {
           width: auto;
-          .z-table-body { border: none; }
+
+          .z-table-body {
+            border: none;
+            tr:hover { background-color: transparent; }
+          }
 
           th, td {
             padding: 0 1.5rem 0.625rem 0; // 0 24px 10px 0

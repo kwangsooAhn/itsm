@@ -12,7 +12,7 @@
     <h6 class="description ml-2 pl-2" th:text="#{pattern.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+    <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
            th:placeholder="#{pattern.msg.searchPlaceholder}"/>
     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     <div class="ml-auto">

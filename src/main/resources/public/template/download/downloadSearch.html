@@ -18,7 +18,7 @@
         <select id="category" name="category" class="col-3">
             <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="${category.codeName}"></option>
         </select>
-        <input type="text" class="z-input i-search col-3" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
+        <input type="text" class="z-input text-ellipsis i-search col-3" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
         <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt" />
         <span>~</span>
         <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
@@ -110,7 +110,9 @@
      */
     function setDateTimeFormat(elem) {
         elem.querySelectorAll('.date-time').forEach(dt => {
-            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = userDateTime;
+            dt.setAttribute('title', userDateTime);
         });
     }
     /*]]>*/
