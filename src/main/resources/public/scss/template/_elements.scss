@@ -271,8 +271,13 @@ input, textarea, select {
     border: none;
     @include border($element-readonly-border-width, solid, $element-readonly-border-color, bottom);
     @include borderRadius(0);
-    pointer-events: none;
     cursor: default;
+
+    &:hover,
+    &:focus {
+      @include border($element-readonly-border-width, solid, $element-readonly-border-color, bottom);
+      @include resetBoxShadow();
+    }
   }
 
   &:disabled {
@@ -418,9 +423,14 @@ input, textarea, select {
     border: none;
     @include border($element-readonly-border-width, solid, $element-readonly-border-color, all);
     @include borderRadius(0);
-    pointer-events: none;
     cursor: default;
     resize: none;
+
+    &:hover,
+    &:focus {
+      @include border($element-readonly-border-width, solid, $element-readonly-border-color, all);
+      @include resetBoxShadow();
+    }
   }
 
   &:disabled {
@@ -604,8 +614,21 @@ select {
       border: none;
       @include border($element-readonly-border-width, solid, $element-readonly-border-color, bottom);
       @include borderRadius(0);
-      pointer-events: none;
       cursor: default;
+    }
+
+    .z-select-box-label {
+      height: auto;
+      border: none;
+      width: 100%;
+      padding: 0;
+      vertical-align: unset;
+
+      &:hover,
+      &:focus {
+        border: none;
+        @include resetBoxShadow();
+      }
     }
 
     // disabled
@@ -615,6 +638,11 @@ select {
       @include border($element-disabled-border-width, solid, $element-disabled-border-color, all);
       pointer-events: none;
       cursor: default;
+
+      .z-select-box-label {
+        color: $element-disabled-font-color;
+        background-color: $element-disabled-bg-color;
+      }
     }
   }
 

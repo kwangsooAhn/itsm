@@ -9,16 +9,16 @@
         <div class="z-card-item-box">
             <h5 class="z-card-item-title underline text-ellipsis" th:switch="${portalList.tableName}">
                 <a th:case="#{'notice'}" th:href="@{/portals/notices/{id}/view(id=${portalList.portalId})}"
-                   th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a>
+                   th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}" th:title="${portalList.portalTitle}"></a>
                 <a th:case="#{'faq'}" th:href="@{/portals/faqs/{id}/view(id=${portalList.portalId})}"
-                   th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a>
+                   th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}" th:title="${portalList.portalTitle}"></a>
                 <a th:case="#{'download'}" th:href="@{/portals/downloads/{id}/view(id=${portalList.portalId})}"
                    th:if="${portalList.portalTitle != null}"
-                   th:text="${portalList.portalTitle}"></a>
+                   th:text="${portalList.portalTitle}" th:title="${portalList.portalTitle}"></a>
             </h5>
             <div class="z-card-item-content" th:switch="${portalList.tableName}">
-                <div class="text-ellipsis" th:case="#{'download'}" th:text="#{${portalList.portalContent}}"></div>
-                <div class="text-ellipsis" th:case="*" th:text="${portalList.portalContent}"></div>
+                <div class="text-ellipsis" th:case="#{'download'}" th:text="#{${portalList.portalContent}}" th:title="#{${portalList.portalContent}}"></div>
+                <div class="text-ellipsis" th:case="*" th:text="${portalList.portalContent}" th:title="${portalList.portalContent}"></div>
             </div>
         </div>
     </div>

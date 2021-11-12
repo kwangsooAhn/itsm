@@ -26,13 +26,13 @@
                     <span></span>
                 </label>
             </td>
-            <td style="width: 25%;" class="align-left" id="ciNo" th:text="${ciData?.ciNo}"></td>
+            <td style="width: 25%;" class="align-left" id="ciNo" th:text="${ciData?.ciNo}" th:title="${ciData?.ciNo}"></td>
             <td style="width: 0%; display: none;" id="ciIcon" th:text="${ciData.ciIcon}"></td>
             <td style="width: 0%; display: none;" id="ciIconData" th:text="${ciData.ciIconData}"></td>
             <td style="width: 0%; display: none;" id="typeId" th:text="${ciData.typeId}"></td>
-            <td style="width: 15%;" class="align-left" id="typeName" th:text="${ciData.typeName}"></td>
-            <td style="width: 15%;" class="align-left" id="ciName" th:text="${ciData.ciName}"></td>
-            <td style="width: 25%;" class="align-left" id="ciDesc" th:text="${ciData.ciDesc}"></td>
+            <td style="width: 15%;" class="align-left" id="typeName" th:text="${ciData.typeName}" th:title="${ciData.typeName}"></td>
+            <td style="width: 15%;" class="align-left" id="ciName" th:text="${ciData.ciName}" th:title="${ciData.ciName}"></td>
+            <td style="width: 25%;" class="align-left" id="ciDesc" th:text="${ciData.ciDesc}" th:title="${ciData.ciDesc}"></td>
             <td style="width: 0%; display: none;" id="classId" th:text="${ciData.classId}"></td>
             <td style="width: 15%;" class="align-left">
                 <div class="tag-group align-middle">

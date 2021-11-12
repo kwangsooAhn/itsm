@@ -17,12 +17,12 @@
     </tr>
     <th:block th:each="schedulerHistory, index : ${schedulerHistoryList}">
         <tr class="list-row">
-            <td style="width: 15%;" class="align-center" th:text="${schedulerHistory.historySeq}"></td>
+            <td style="width: 15%;" class="align-center" th:text="${schedulerHistory.historySeq}" th:title="${schedulerHistory.historySeq}"></td>
             <td style="width: 10%;" class="align-center" th:if="${schedulerHistory.immediatelyExecute == true }" th:text="O"></td>
             <td style="width: 10%;" class="align-center" th:if="${schedulerHistory.immediatelyExecute == false }" th:text="X"></td>
-            <td style="width: 25%;" class="align-center" th:name="executeTime" th:text="${schedulerHistory.executeTime}"></td>
-            <td style="width: 10%;" class="align-center" th:text="#{'scheduler.result.' + ${schedulerHistory.result}}"></td>
-            <td style="width: 40%;" class="align-left" th:text="${schedulerHistory.errorMessage}"></td>
+            <td style="width: 25%;" class="align-center" th:name="executeTime" th:text="${schedulerHistory.executeTime}" th:title="${schedulerHistory.executeTime}"></td>
+            <td style="width: 10%;" class="align-center" th:text="#{'scheduler.result.' + ${schedulerHistory.result}}" th:title="#{'scheduler.result.' + ${schedulerHistory.result}}"></td>
+            <td style="width: 40%;" class="align-left" th:text="${schedulerHistory.errorMessage}" th:title="${schedulerHistory.errorMessage}"></td>
         </tr>
     </th:block>
     </tbody>

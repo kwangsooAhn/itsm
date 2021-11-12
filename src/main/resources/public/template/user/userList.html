@@ -29,17 +29,17 @@
             </td>
             <td style="width:9.9%;" class="align-left underline">
                 <a sec:authorize="!hasAuthority('user.update')" th:text="${user.userName}"
-                   th:href="@{/users/{id}/view(id=${user.userKey})}"></a>
+                   th:href="@{/users/{id}/view(id=${user.userKey})}" th:title="${user.userName}"></a>
                 <a sec:authorize="hasAuthority('user.update')" th:text="${user.userName}"
-                   th:href="@{/users/{id}/edit(id=${user.userKey})}"></a>
+                   th:href="@{/users/{id}/edit(id=${user.userKey})}" th:title="${user.userName}"></a>
             </td>
-            <td style="width:10%;" class="align-left" th:text="${user.userId}"></td>
-            <td style="width:16%;" class="align-left" th:text="${user.email}"></td>
-            <td style="width:16%;" class="align-left" th:text="${user.department}"></td>
-            <td style="width:10%;" class="align-left" th:text="${user.position}"></td>
-            <td style="width:10%;" class="align-left" th:text="${user.officeNumber}"></td>
-            <td style="width:10%;" class="align-left" th:text="${user.mobileNumber}"></td>
-            <td style="width:15%;" class="align-left date-time" th:text="${user.createDt}"></td>
+            <td style="width:10%;" class="align-left" th:text="${user.userId}" th:title="${user.userId}"></td>
+            <td style="width:16%;" class="align-left" th:text="${user.email}" th:title="${user.email}"></td>
+            <td style="width:16%;" class="align-left" th:text="${user.department}" th:title="${user.department}"></td>
+            <td style="width:10%;" class="align-left" th:text="${user.position}" th:title="${user.position}"></td>
+            <td style="width:10%;" class="align-left" th:text="${user.officeNumber}" th:title="${user.officeNumber}"></td>
+            <td style="width:10%;" class="align-left" th:text="${user.mobileNumber}" th:title="${user.mobileNumber}"></td>
+            <td style="width:15%;" class="align-left date-time" th:text="${user.createDt}" th:title="${user.createDt}"></td>
         </tr>
     </tbody>
 </table>

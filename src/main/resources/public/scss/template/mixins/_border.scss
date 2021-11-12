@@ -17,6 +17,13 @@
   }
 }
 
+// 그림자 초기화
+@mixin resetBoxShadow() {
+  webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
 // 내부 border
 @mixin insideBorder($thickness: 2px, $color: #ffffff) {
   @include boxShadow(0, 0, 0, $thickness, $color, true);

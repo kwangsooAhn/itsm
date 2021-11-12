@@ -272,7 +272,8 @@ export const dynamicRowTableMixin = {
                 defaultValue = ZSession.get(defaultValues[1]) || '';
             }
         }
-        return new UIInput().setUIPlaceholder(column.columnElement.placeholder)
+        return new UIInput().addUIClass('text-ellipsis')
+            .setUIPlaceholder(column.columnElement.placeholder)
             .setUIValue(defaultValue)
             .setUIRequired(column.columnValidation.required)
             .setUIAttribute('data-validation-required', column.columnValidation.required)
@@ -303,6 +304,7 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('data-validation-min-date', this._element.columns[index].columnValidation.minDate)
             .setUIAttribute('data-validation-max-date', this._element.columns[index].columnValidation.maxDate);
         dateWrapper.addUI(date);
+
         zDateTimePicker.initDatePicker(date.domElement, this.updateDateTimeValue.bind(this));
         return dateWrapper;
     },
@@ -530,7 +532,8 @@ export const dynamicRowTableMixin = {
         const newValue = JSON.parse(JSON.stringify(this.value));
         const rowIndex = e.parentNode.parentNode.parentNode.parentNode.rowIndex - 1; // 헤더 제외
         const cellIndex = e.parentNode.parentNode.parentNode.cellIndex;
-        newValue[rowIndex][cellIndex] = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, e.getAttribute('type').replace('Picker', ''), e.value);
+        newValue[rowIndex][cellIndex] = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT,
+            e.getAttribute('type').replace('Picker', ''), e.value);
 
         this.value = newValue;
     },

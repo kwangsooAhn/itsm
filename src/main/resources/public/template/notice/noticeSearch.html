@@ -15,7 +15,7 @@
     <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>
     <input type="hidden" name="isRole" sec:authorize="!hasAuthority('notice.update')" th:value="false"/>
     <form id="searchFrm">
-        <input type="text" class="z-input i-search col-5" id="searchValue" name="searchValue" maxlength="100"
+        <input type="text" class="z-input i-search col-5 text-ellipsis" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{notice.label.searchPlaceholder}"/>
         <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
         <span>~</span>
@@ -117,41 +117,43 @@
     function setDateTimeFormat(elem) {
         elem.querySelectorAll('.date-time').forEach(dt => {
             const dtList = dt.textContent.split('~');
+            let userDateTime = '';
             if (dtList.length > 1) {
                 if (dtList[0] !== 'null') {
-                    dt.textContent = i18n.userDateTime(dtList[0].trim())
+                    userDateTime = i18n.userDateTime(dtList[0].trim())
                         + ' ~ ' + i18n.userDateTime(dtList[1].trim());
-                } else {
-                    dt.textContent = '';
                 }
             } else {
-                dt.textContent = i18n.userDateTime(dtList[0].trim());
+                userDateTime = i18n.userDateTime(dtList[0].trim());
             }
+            dt.textContent = userDateTime;
+            dt.setAttribute('title', userDateTime);
         });
     }
 
     // Tr 동적 데이터 만들기
     function getDataTemplate(data) {
-        let div = document.querySelector('.z-table-body .os-content');
-        let tr = document.createElement('tr');
+        const div = document.querySelector('.z-table-body .os-content');
+        const tr = document.createElement('tr');
         tr.className = 'flex-row align-items-center';
 
-        let tdNoticeTitle = document.createElement('td');
+        const tdNoticeTitle = document.createElement('td');
         tdNoticeTitle.style.width = '30%';
         tdNoticeTitle.className = 'align-left underline';
-        let aNoticeTitle = document.createElement('a');
+        const aNoticeTitle = document.createElement('a');
         if (document.getElementsByName('isRole')[0].value === 'true') {
             aNoticeTitle.href = '/notices/'+ data.noticeNo +'/edit';
         } else {
             aNoticeTitle.href = '/notices/'+ data.noticeNo +'/view';
         }
         aNoticeTitle.innerText = data.noticeTitle;
+        aNoticeTitle.setAttribute('title', data.noticeTitle);
         tdNoticeTitle.appendChild(aNoticeTitle);
 
-        let tdPopYn = document.createElement('td');
+        const tdPopYn = document.createElement('td');
         tdPopYn.style.width = '5%';
         tdPopYn.className = 'align-center';
-        let aPopYn = document.createElement('a');
+        const aPopYn = document.createElement('a');
         if (data.popYn === true) {
             const popYnBtn = document.createElement('button');
             popYnBtn.type = 'button';
@@ -166,28 +168,35 @@
             tdPopYn.appendChild(aPopYn);
         }
 
-        let tdUserName = document.createElement('td');
+        const tdUserName = document.createElement('td');
         tdUserName.innerText = data.createUserName;
+        tdUserName.setAttribute('title', data.createUserName);
         tdUserName.style.width = '10%';
         tdUserName.className = 'align-center';
 
-        let tdPopDt = document.createElement('td');
+        const tdPopDt = document.createElement('td');
         if (i18n.userDateTime(data.popStrtDt) !== '') {
-            tdPopDt.innerText = i18n.userDateTime(data.popStrtDt) + ' ~ ' + i18n.userDateTime(data.popStrtDt);
+            const userDateTime = i18n.userDateTime(data.popStrtDt) + ' ~ ' + i18n.userDateTime(data.popStrtDt);
+            tdPopDt.innerText = userDateTime;
+            tdPopDt.setAttribute('title', userDateTime);
         }
         tdPopDt.style.width = '20%';
         tdPopDt.className = 'align-left';
 
-        let tdNoticeDt = document.createElement('td');
+        const tdNoticeDt = document.createElement('td');
         if (i18n.userDateTime(data.topNoticeStrtDt) !== '') {
-            tdNoticeDt.innerText = i18n.userDateTime(data.topNoticeStrtDt) + ' ~ ' +
+            const userDateTime = i18n.userDateTime(data.topNoticeStrtDt) + ' ~ ' +
                 i18n.userDateTime(data.topNoticeEndDt);
+            tdNoticeDt.innerText = userDateTime;
+            tdNoticeDt.setAttribute('title', userDateTime);
         }
         tdNoticeDt.style.width = '20%';
         tdNoticeDt.className = 'align-left';
 
-        let tdCreateDt = document.createElement('td');
-        tdCreateDt.innerText = i18n.userDateTime(data.createDt);
+        const tdCreateDt = document.createElement('td');
+        const userDateTime = i18n.userDateTime(data.createDt);
+        tdCreateDt.innerText = userDateTime;
+        tdCreateDt.setAttribute('title', userDateTime);
         tdCreateDt.style.width = '15%';
         tdCreateDt.className = 'align-left';
 
