@@ -259,7 +259,7 @@
      * save process.
      */
     function saveProcess() {
-        if(!valdationCheck()) return false;
+        if(!validationCheck()) return false;
         zProcessDesigner.resetElementPosition();
         save(function (response) {
             let resultCode = response.responseText;
@@ -980,26 +980,28 @@
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
 
-function valdationCheck() {
+function validationCheck() {
     let typeList = ['commonStart', `timerStart`, 'signalSend', 'manualTask', 'userTask', 'scriptTask', 'arrowConnector',
-        'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd'];
+        'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd', 'subprocess'];
     let totalElements = zProcessDesigner.data.elements;
     let requiredList = [];
     let deployableStatus = ['process.status.publish', 'process.status.use'];
     let nowStatus = zProcessDesigner.data.process.status;
     let commonStartCount = 0;
-
-    if (deployableStatus.indexOf(zProcessDesigner.initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
+    // 발행, 사용 상태일 경우, 저장이 불가능하다.
+    if (deployableStatus.includes(zProcessDesigner.initialStatus)) {
         zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
         return false;
     }
     if (zProcessDesigner.isView) return false;
-    if (zProcessDesigner.data.process.name.toString().trim() === '') {
-        zAlert.warning(i18n.msg('process.msg.enterProcessName'));
-        return false;
-    }
 
-    if (deployableStatus.indexOf(nowStatus) > -1) {
+    // '편집' 상태에서 '발행' or '사용' 상태로 저장하려는 경우 유효성 검증
+    if (zProcessDesigner.initialStatus === 'process.status.edit' && deployableStatus.includes(nowStatus)) {
+        if (zProcessDesigner.data.process.name.toString().trim() === '') {
+            zAlert.warning(i18n.msg('process.msg.enterProcessName'));
+            return false;
+        }
+
         for (let i = 0; i < totalElements.length; i++) {
             if(totalElements[i].type === 'commonStart') {
                 commonStartCount++;

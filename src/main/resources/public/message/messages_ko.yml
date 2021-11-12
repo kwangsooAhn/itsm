@@ -71,7 +71,7 @@ common:
     minValue: "최소 입력값은 {0} 입니다."
     modify: "수정되었습니다."
     noData: "데이터가 없습니다."
-    onlySaveInEdit: "발행/사용 단계에서는 수정이 불가합니다.<br>편집상태로 변경후 수정하세요."
+    onlySaveInEdit: "발행/사용 단계에서는 수정이 불가합니다."
     processedOrDelete: "이미 처리되었거나 삭제되었습니다."
     register: "등록되었습니다."
     required: "{0} 을(를) 입력하세요."
