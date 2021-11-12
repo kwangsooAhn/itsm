@@ -21,15 +21,15 @@
             <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr class="flex-row align-items-center" th:each="board : ${boardList}">
-            <td style="width:10%;" class="align-left" th:text="${board.boardSeq}"></td>
-            <td style="width:15%;" class="align-left" th:if="${board.categoryYn}" th:text="${board.boardCategoryName}"></td>
+            <td style="width:10%;" class="align-left" th:text="${board.boardSeq}" th:title="${board.boardSeq}"></td>
+            <td style="width:15%;" class="align-left" th:if="${board.categoryYn}" th:text="${board.boardCategoryName}" th:title="${board.boardCategoryName}"></td>
             <td style="width:30%;" class="align-left underline">
-                <a th:href="@{/boards/articles/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
+                <a th:href="@{/boards/articles/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}" th:title="${board.boardTitle}"></a>
             </td>
-            <td style="width:10%;" class="align-left" th:text="${board.replyCount}"></td>
-            <td style="width:10%;" class="align-left" th:text="${board.readCount}"></td>
-            <td style="width:10%;" class="align-left" th:text="${board.createUserName}"></td>
-            <td style="width:15%;" class="align-left date-time" th:text="${board.createDt}"></td>
+            <td style="width:10%;" class="align-left" th:text="${board.replyCount}" th:title="${board.replyCount}"></td>
+            <td style="width:10%;" class="align-left" th:text="${board.readCount}" th:title="${board.readCount}"></td>
+            <td style="width:10%;" class="align-left" th:text="${board.createUserName}" th:title="${board.createUserName}"></td>
+            <td style="width:15%;" class="align-left date-time" th:text="${board.createDt}" th:title="${board.createDt}"></td>
         </tr>
     </tbody>
 </table>

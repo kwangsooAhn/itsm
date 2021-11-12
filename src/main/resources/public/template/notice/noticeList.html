@@ -17,10 +17,10 @@
         <tr class="flex-row align-items-center notice-pinned " th:each="topNotice: ${topNoticeList}">
             <td style="width:30%;" class="align-left underline">
                 <a sec:authorize="!hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
-                   th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}">
+                   th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}" th:title="${topNotice.noticeTitle}">
                 </a>
                 <a sec:authorize="hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
-                   th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}"></a>
+                   th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}" th:title="${topNotice.noticeTitle}"></a>
             </td>
             <td style="width:5%;" th:if="${topNotice.popYn}" class="align-center">
                 <button type="button" class="z-button-icon form" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
@@ -28,10 +28,10 @@
                 </button>
             </td>
             <td style="width:5%;" class="align-center" th:unless="${topNotice.popYn}"></td>
-            <td style="width:10%;" class="align-center" th:text="${topNotice?.createUserName}"></td>
-            <td style="width:20%;" class="align-left date-time" th:text="${topNotice.popStartDt} + '~' + ${topNotice.popEndDt}"></td>
-            <td style="width:20%;" class="align-left date-time" th:text="${topNotice.topNoticeStartDt} + '~' + ${topNotice.topNoticeEndDt}"></td>
-            <td style="width:15%;" class="align-left date-time" th:text="${topNotice.createDt}"></td>
+            <td style="width:10%;" class="align-center" th:text="${topNotice?.createUserName}" th:title="${topNotice?.createUserName}"></td>
+            <td style="width:20%;" class="align-left date-time" th:text="${topNotice.popStartDt} + '~' + ${topNotice.popEndDt}" th:title="${topNotice.popStartDt} + '~' + ${topNotice.popEndDt}"></td>
+            <td style="width:20%;" class="align-left date-time" th:text="${topNotice.topNoticeStartDt} + '~' + ${topNotice.topNoticeEndDt}" th:title="${topNotice.topNoticeStartDt} + '~' + ${topNotice.topNoticeEndDt}"></td>
+            <td style="width:15%;" class="align-left date-time" th:text="${topNotice.createDt}" th:title="${topNotice.createDt}"></td>
         </tr>
         <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(noticeList)}">
             <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
@@ -39,9 +39,9 @@
         <tr class="flex-row align-items-center" th:each="notice : ${noticeList}">
             <td style="width:30%;" class="align-left underline">
                 <a sec:authorize="!hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
-                   th:href="@{/notices/{id}/view(id=${notice.noticeNo})}"></a>
+                   th:href="@{/notices/{id}/view(id=${notice.noticeNo})}" th:title="${notice.noticeTitle}"></a>
                 <a sec:authorize="hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
-                   th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}"></a>
+                   th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}" th:title="${notice.noticeTitle}"></a>
             </td>
             <td style="width:5%;" class="align-center" th:if="${notice.popYn}">
                 <button type="button" class="z-button-icon form" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">
@@ -49,10 +49,10 @@
                 </button>
             </td>
             <td style="width:5%;" class="align-center" th:unless="${notice.popYn}"></td>
-            <td style="width:10%;" class="align-center" id="userName" th:text="${notice?.createUserName}"></td>
-            <td style="width:20%;" class="align-left date-time" th:text="${notice.popStartDt} + '~' + ${notice.popEndDt}"></td>
-            <td style="width:20%;" class="align-left date-time" th:text="${notice.topNoticeStartDt} + '~' + ${notice.topNoticeEndDt}"></td>
-            <td style="width:15%;" class="align-left date-time" th:text="${notice.createDt}"></td>
+            <td style="width:10%;" class="align-center" id="userName" th:text="${notice?.createUserName}" th:title="${notice?.createUserName}"></td>
+            <td style="width:20%;" class="align-left date-time" th:text="${notice.popStartDt} + '~' + ${notice.popEndDt}" th:title="${notice.popStartDt} + '~' + ${notice.popEndDt}"></td>
+            <td style="width:20%;" class="align-left date-time" th:text="${notice.topNoticeStartDt} + '~' + ${notice.topNoticeEndDt}" th:title="${notice.topNoticeStartDt} + '~' + ${notice.topNoticeEndDt}"></td>
+            <td style="width:15%;" class="align-left date-time" th:text="${notice.createDt}" th:title="${notice.createDt}"></td>
         </tr>
     </tbody>
 </table>

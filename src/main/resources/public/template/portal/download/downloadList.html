@@ -19,16 +19,16 @@
         </tr>
         <th:block th:fragment="list">
             <tr th:each="download : ${downloadList}">
-                <td style="width:5%;" class="align-center" th:text="|${download.downloadSeq}|"></td>
-                <td style="width:10%;" class="align-center" th:text="${download.downloadCategoryName}"></td>
+                <td style="width:5%;" class="align-center" th:text="|${download.downloadSeq}|" th:title="|${download.downloadSeq}|"></td>
+                <td style="width:10%;" class="align-center" th:text="${download.downloadCategoryName}" th:title="${download.downloadCategoryName}"></td>
                 <td style="width:45%;" class="align-left underline">
                     <a th:text="${download.downloadTitle}"
-                       th:href="@{/portals/downloads/{id}/view(id=${download.downloadId})}">
+                       th:href="@{/portals/downloads/{id}/view(id=${download.downloadId})}" th:title="${download.downloadTitle}">
                     </a>
                 </td>
-                <td style="width:10%;" class="align-center" th:text="${download.createUserName}"></td>
-                <td style="width:20%;" class="align-center date-time" th:text="${download.createDt}"></td>
-                <td style="width:10%;" class="align-center" th:text="${download.views}"></td>
+                <td style="width:10%;" class="align-center" th:text="${download.createUserName}" th:title="${download.createUserName}"></td>
+                <td style="width:20%;" class="align-center date-time" th:text="${download.createDt}" th:title="${download.createDt}"></td>
+                <td style="width:10%;" class="align-center" th:text="${download.views}" th:title="${download.views}"></td>
             </tr>
         </th:block>
     </tbody>

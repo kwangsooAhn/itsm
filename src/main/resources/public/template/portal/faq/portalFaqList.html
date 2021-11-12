@@ -11,10 +11,10 @@
 			<span class="z-icon i-minus"></span>
 		</summary>
 		<details class="z-faq-row" th:each="faqT:${faqs.faqList}" th:if="${faqT.faqGroup} == ${faqGroup.code}" th:id="${faqT.faqId}">
-			<summary class="z-faq-row-title" th:text="${faqT.faqTitle}"></summary>
+			<summary class="z-faq-row-title" th:text="${faqT.faqTitle}" th:title="${faqT.faqTitle}"></summary>
 			<div class="horizontal-bar"></div>
 			<div class="z-faq-row-content" th:each="faqC:${faqs.faqList}" th:if="${faqC.faqId} == ${faqT.faqId}">
-				<p class="text-ellipsis" th:text="${faqC.faqContent}"></p>
+				<p class="text-ellipsis" th:text="${faqC.faqContent}" th:title="${faqC.faqContent}"></p>
 			</div>
 		</details>
 	</details>

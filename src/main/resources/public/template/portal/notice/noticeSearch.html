@@ -14,7 +14,7 @@
         </div>
         <div class="z-page-search pb-4">
             <form id="searchFrm">
-                <input type="text" class="z-input i-search col-5" id="searchValue" name="searchValue" maxlength="100"
+                <input type="text" class="z-input i-search text-ellipsis col-5" id="searchValue" name="searchValue" maxlength="100"
                        th:placeholder="#{notice.label.searchPlaceholder}"/>
                 <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
                 <span>~</span>
@@ -108,7 +108,9 @@
      */
     function setDateTimeFormat(elem) {
         elem.querySelectorAll('.date-time').forEach(dt => {
-            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = userDateTime;
+            dt.setAttribute('title', userDateTime);
         });
     }
     /* ]]> */

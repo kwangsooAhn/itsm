@@ -703,7 +703,7 @@ INSERT INTO wf_element_data VALUES ('37ce97795586439598cd17b45e720b90', 'end-id'
 INSERT INTO wf_element_data VALUES ('37ce97795586439598cd17b45e720b90', 'end-name', '종료', 7, false);
 INSERT INTO wf_element_data VALUES ('5f629b416cb54226a18d856e16751efe', 'assignee-type', 'assignee.type.assignee', 0, true);
 INSERT INTO wf_element_data VALUES ('5f629b416cb54226a18d856e16751efe', 'assignee', 'z-change-configuration-processor', 1, true);
-INSERT INTO wf_element_data VALUES ('5f629b416cb54226a18d856e16751efe', 'reject-id', '5f629b416cb54226a18d856e16751efe', 2, false);
+INSERT INTO wf_element_data VALUES ('5f629b416cb54226a18d856e16751efe', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('5f629b416cb54226a18d856e16751efe', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('6e0f9fd19ff24a51bac27876ef7fa90b', 'action-name', '승인요청', 0, false);
 INSERT INTO wf_element_data VALUES ('6e0f9fd19ff24a51bac27876ef7fa90b', 'action-value', 'cfg-approval-request', 1, false);
@@ -717,7 +717,7 @@ INSERT INTO wf_element_data VALUES ('71ba463683f144e581bb845c8391d50d', 'complet
 INSERT INTO wf_element_data VALUES ('93b6aaeb1e2d4dcdbe42b7bd783d8b1d', 'script-type', 'script.type.cmdb', 0, true);
 INSERT INTO wf_element_data VALUES ('ad39ef1ac5f446d7a054f1cddd7c49e8', 'assignee-type', 'assignee.type.assignee', 0, true);
 INSERT INTO wf_element_data VALUES ('ad39ef1ac5f446d7a054f1cddd7c49e8', 'assignee', 'z-change-configuration-approver', 1, true);
-INSERT INTO wf_element_data VALUES ('ad39ef1ac5f446d7a054f1cddd7c49e8', 'reject-id', '', 2, false);
+INSERT INTO wf_element_data VALUES ('ad39ef1ac5f446d7a054f1cddd7c49e8', 'reject-id', '5f629b416cb54226a18d856e16751efe', 2, false);
 INSERT INTO wf_element_data VALUES ('ad39ef1ac5f446d7a054f1cddd7c49e8', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('af1f90ba64234741806e7f6b061ee6c1', 'action-name', '승인', 0, false);
 INSERT INTO wf_element_data VALUES ('af1f90ba64234741806e7f6b061ee6c1', 'action-value', 'cfg-approval', 1, false);

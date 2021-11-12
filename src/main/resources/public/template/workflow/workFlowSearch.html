@@ -23,13 +23,13 @@
             <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
         </select>
         <label for="searchDocuments"></label>
-        <input type="text" class="z-input i-search" maxlength="100" id="searchDocuments"
+        <input type="text" class="z-input i-search text-ellipsis" maxlength="100" id="searchDocuments"
                name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}"/>
         <label for="searchProcessName"></label>
-        <input type="text" class="z-input i-search" maxlength="100" id="searchProcessName"
+        <input type="text" class="z-input i-search text-ellipsis" maxlength="100" id="searchProcessName"
                name="searchProcessName" th:placeholder="#{document.label.process}"/>
         <label for="searchFormName"></label>
-        <input type="text" class="z-input i-search mr-2" maxlength="100" id="searchFormName"
+        <input type="text" class="z-input i-search text-ellipsis mr-2" maxlength="100" id="searchFormName"
                name="searchFormName" th:placeholder="#{document.label.form}"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>

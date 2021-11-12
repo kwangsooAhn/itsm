@@ -18,9 +18,9 @@
     </tr>
     <tr class="flex-row align-items-center" th:each="class : ${classList}">
         <td style="width:33%;" class="align-left" th:id="${class.classId}" name="className"
-            th:text="${class.className}"></td>
-        <td style="width:33%;" class="align-left" id="classDesc" name="classDesc" th:text="${class.classDesc}"></td>
-        <td style="width:34%;" class="align-left" id="pClassId" name="pClassId" th:text="${class.pClassId}"></td>
+            th:text="${class.className}" th:title="${class.className}"></td>
+        <td style="width:33%;" class="align-left" id="classDesc" name="classDesc" th:text="${class.classDesc}" th:title="${class.classDesc}"></td>
+        <td style="width:34%;" class="align-left" id="pClassId" name="pClassId" th:text="${class.pClassId}" th:title="${class.pClassId}"></td>
     </tr>
     </tbody>
 </table>
