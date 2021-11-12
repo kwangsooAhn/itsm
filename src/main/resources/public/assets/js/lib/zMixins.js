@@ -142,23 +142,38 @@ export const toolTipMenuMixin = {
         tooltipMenu.addUI(tooltipMenu.UIUl);
         return tooltipMenu;
     },
+
+    /**
+     * 복사한 객제의 ID를 신규로 변경
+     * @param data
+     */
+    replaceCopyObjectToNewId(data) {
+        if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
+            data.id = ZWorkflowUtil.generateUUID();
+            data.row.forEach( (r) => {
+                this.replaceCopyObjectToNewId(r);
+            });
+        } else if (Object.prototype.hasOwnProperty.call(data, 'component')) { // row
+            data.id = ZWorkflowUtil.generateUUID();
+            data.component.forEach( (c) => {
+                this.replaceCopyObjectToNewId(c);
+            });
+        } else { // component
+            data.id = ZWorkflowUtil.generateUUID();
+        }
+    },
     /**
      * group, row, component 객체 복제
      */
     copyObject(e) {
-        if (e) { // tooltip 선택시 drag & drop 이벤트 중지
-            e.stopPropagation();
-            e.preventDefault();
-        }
-        
         // 부모 타입이 row이고, 컴포넌트 최대 개수를 초과할 경우 추가되지 않는다.
         if (this.UIElement instanceof UIComponentTooltip &&
             this.parent.children.length >= FORM.MAX_COMPONENT_IN_ROW) {
             return false;
         }
         // 복사본 생성
-        const cloneData = JSON.parse(JSON.stringify(this.toJson()));
-        cloneData.id = ZWorkflowUtil.generateUUID();
+        let cloneData = JSON.parse(JSON.stringify(this.toJson()));
+        this.replaceCopyObjectToNewId(cloneData);
 
         let editor = this.parent;
         if (this.UIElement instanceof UIGroupTooltip) {
