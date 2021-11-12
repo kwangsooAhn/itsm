@@ -55,6 +55,7 @@ export default class ZComponent {
         this._isTopic = data.isTopic || false;
         this._mapId = data.mapId || '';
         this._tags = data.tags || [];
+        this._displayType = data.displayType || FORM.DISPLAY_TYPE.EDITABLE;
         this._display = Object.assign({}, DEFAULT_PROPERTY.display, data.display);
         this._label = Object.assign({}, DEFAULT_PROPERTY.label, data.label);
         this._propertyName = 'form.component.' + data.type || ''; // i18n message name
@@ -197,6 +198,14 @@ export default class ZComponent {
 
     get tags() {
         return this._tags;
+    }
+
+    get displayType() {
+        return this._displayType;
+    }
+
+    set displayType(displayType) {
+        this._displayType = displayType;
     }
 
     set display(display) {

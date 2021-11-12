@@ -22,6 +22,7 @@ export default class ZRow {
         this.children = [];        // 자식 객체
         this._type = 'row';
         this._id =  data.id || ZWorkflowUtil.generateUUID();
+        this._displayType = data.displayType || FORM.DISPLAY_TYPE.EDITABLE
         this._display = data.display || {
             displayOrder: 0,     // 표시 순서
             margin: '4 0 4 0', // row 간 간격(위 오른쪽 아래 왼쪽)
@@ -69,6 +70,14 @@ export default class ZRow {
 
     set id(id) {
         this._id = id;
+    }
+
+    get displayType() {
+        return this._displayType;
+    }
+
+    set displayType(displayType) {
+        this._displayType = displayType;
     }
 
     set display(display) {
