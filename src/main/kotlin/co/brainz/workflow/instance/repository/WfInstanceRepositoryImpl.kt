@@ -17,10 +17,13 @@ import co.brainz.itsm.instance.entity.QWfCommentEntity
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
+import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.QWfElementDataEntity
 import co.brainz.workflow.element.entity.QWfElementEntity
+import co.brainz.workflow.form.constants.WfFormConstants
+import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListDocumentDto
 import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDto
@@ -430,6 +433,29 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             )
         }
         query.orderBy(instance.instanceStartDt.asc())
+        return query.fetch()
+    }
+
+    override fun getInstanceListInTags(tags: Set<String>): List<WfInstanceEntity> {
+        val component = QWfComponentEntity.wfComponentEntity
+        val query = from(instance)
+            .where(instance.document.documentId.`in`(
+                JPAExpressions.select(document.documentId)
+                    .from(document)
+                    .where(document.form.formId.`in`(
+                        JPAExpressions.select(component.form.formId)
+                            .from(component)
+                            .where(component.componentId.`in`(
+                                JPAExpressions.select(tag.targetId)
+                                    .from(tag)
+                                    .where(tag.tagValue.`in`(tags))
+                                    .where(tag.tagType.eq(AliceTagConstants.TagType.COMPONENT.code))
+                            ))
+                            .where(component.form.formStatus.ne(WfFormConstants.FormStatus.EDIT.value))
+                    ))
+                    .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
+            ))
+            .where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
         return query.fetch()
     }
 }
