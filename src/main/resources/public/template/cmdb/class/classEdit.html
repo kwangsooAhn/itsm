@@ -32,7 +32,7 @@
         <input type="hidden" id="txtPClassId" name="txtPClassId"/>
         <div class="z-edit-row flex-column">
             <label class="form-title" th:text="#{cmdb.class.label.pClassName}" for="txtPClassName"></label>
-            <input type="text" class="z-input" id="txtPClassName" name="txtPClassName" maxlength="128" readonly/>
+            <input type="text" class="z-input text-ellipsis" id="txtPClassName" name="txtPClassName" maxlength="128" readonly/>
         </div>
         <div class="z-edit-row flex-column">
             <label class="required" th:text="#{cmdb.class.label.name}" for="txtClassName"></label>
@@ -405,7 +405,7 @@
 
     function createModalContent() {
         return `<div class="cmdb-class-attribute-list">` +
-            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
+            `<input class="z-input i-search text-ellipsis col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +
             `</div>`;
     }

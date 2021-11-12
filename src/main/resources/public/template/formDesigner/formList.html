@@ -25,14 +25,14 @@
             <td width="20%" class="align-left underline">
                 <th:block th:if="${form.editable == true}">
                     <a sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"
-                       th:attr="onclick=|openFormEdit('${form.id}', true)|"></a>
+                       th:attr="onclick=|openFormEdit('${form.id}', true)|" th:title="${form.name}"></a>
                     <a sec:authorize="hasAuthority('form.update')" th:text="${form.name}"
-                       th:attr="onclick=|openFormEdit('${form.id}', false)|"></a>
+                       th:attr="onclick=|openFormEdit('${form.id}', false)|" th:title="${form.name}"></a>
                 </th:block>
                 <div th:unless="${form.editable == true}">
                     <a th:if="${form.status == 'form.status.use'}" th:text="${form.name}"
-                       th:attr="onclick=|openFormEdit('${form.id}', true)|"></a>
-                    <span th:unless="${form.status == 'form.status.use'}" th:text="${form.name}"></span>
+                       th:attr="onclick=|openFormEdit('${form.id}', true)|" th:title="${form.name}"></a>
+                    <span th:unless="${form.status == 'form.status.use'}" th:text="${form.name}" th:title="${form.name}"></span>
                 </div>
             </td>
             <td width="10%" class="align-center">
@@ -48,10 +48,10 @@
                     </button>
                 </th:block>
             </td>
-            <td width="10%" class="align-center" th:text="#{${form.status}}"></td>
-            <td width="28%" class="align-left" th:text="${form.desc}"></td>
-            <td width="10%" class="align-left" th:text="${form.createUserName}"></td>
-            <td width="12%" class="align-left date-time" th:text="${form.createDt}"></td>
+            <td width="10%" class="align-center" th:text="#{${form.status}}" th:title="${form.status}"></td>
+            <td width="28%" class="align-left" th:text="${form.desc}" th:title="${form.desc}"></td>
+            <td width="10%" class="align-left" th:text="${form.createUserName}" th:title="${form.createUserName}"></td>
+            <td width="12%" class="align-left date-time" th:text="${form.createDt}" th:title="${form.createDt}"></td>
         </tr>
     </tbody>
 </table>

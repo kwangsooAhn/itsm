@@ -110,11 +110,11 @@
 <div layout:fragment="pageSearching">
     <form id="searchDocumentsFrm">
         <input type="text" id="searchDocuments" name="searchDocuments" maxlength="100"
-               th:placeholder="#{document.label.searchPlaceholder}" class="z-input i-search col-3"/>
+               th:placeholder="#{document.label.searchPlaceholder}" class="z-input text-ellipsis i-search col-3"/>
         <input type="text" id="searchProcessName" name="searchProcessName" maxlength="100"
-               th:placeholder="#{document.label.process}" class="z-input i-search col-3"/>
+               th:placeholder="#{document.label.process}" class="z-input text-ellipsis i-search col-3"/>
         <input type="text" id="searchFormName" name="searchFormName" maxlength="100"
-               th:placeholder="#{document.label.form}" class="z-input i-search col-3 mr-2"/>
+               th:placeholder="#{document.label.form}" class="z-input text-ellipsis i-search col-3 mr-2"/>
         <input type="hidden" id="searchDocumentType" name="searchDocumentType"
                value="application-form"/>
     </form>
