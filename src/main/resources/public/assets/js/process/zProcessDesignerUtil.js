@@ -982,7 +982,7 @@
 
 function validationCheck() {
     let typeList = ['commonStart', `timerStart`, 'signalSend', 'manualTask', 'userTask', 'scriptTask', 'arrowConnector',
-        'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd'];
+        'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd', 'subprocess'];
     let totalElements = zProcessDesigner.data.elements;
     let requiredList = [];
     let deployableStatus = ['process.status.publish', 'process.status.use'];
@@ -994,12 +994,14 @@ function validationCheck() {
         return false;
     }
     if (zProcessDesigner.isView) return false;
-    if (zProcessDesigner.data.process.name.toString().trim() === '') {
-        zAlert.warning(i18n.msg('process.msg.enterProcessName'));
-        return false;
-    }
 
-    if (deployableStatus.indexOf(nowStatus) > -1) {
+    // '편집' 상태에서 '발행' or '사용' 상태로 저장하려는 경우 유효성 검증
+    if (zProcessDesigner.initialStatus === 'process.status.edit' && deployableStatus.includes(nowStatus)) {
+        if (zProcessDesigner.data.process.name.toString().trim() === '') {
+            zAlert.warning(i18n.msg('process.msg.enterProcessName'));
+            return false;
+        }
+
         for (let i = 0; i < totalElements.length; i++) {
             if(totalElements[i].type === 'commonStart') {
                 commonStartCount++;
