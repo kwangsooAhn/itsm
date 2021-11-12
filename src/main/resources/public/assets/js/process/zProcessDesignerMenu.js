@@ -1245,8 +1245,8 @@
                 let sourceMappingValue = document.querySelector('#source-mapping-id').value.trim()
 
                 if (targetMappingValue === '' || sourceMappingValue === '') {
-                    let msg = targetMappingValue === '' ? 'targetMappingId' : 'sourceMappingId';
-                    zAlert.warning(i18n.msg('validation.msg.required', i18n.msg('process.designer.attribute.' +msg)));
+                    let msgTarget = targetMappingValue === '' ? 'targetMappingId' : 'sourceMappingId';
+                    zAlert.warning(i18n.msg('validation.msg.required', i18n.msg('process.designer.attribute.' + msgTarget)));
                 }
 
                 if (conditionInput.value.trim() === '' || fileInput.value.trim() === '') {
