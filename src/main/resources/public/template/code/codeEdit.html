@@ -15,7 +15,7 @@
     <h6 class="description ml-2 pl-2" th:text="#{code.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+    <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
            th:placeholder="#{code.label.searchPlaceholder}"/>
     <span id="totalCount" class="z-search-count"></span>
     <div class="ml-auto">
@@ -35,29 +35,29 @@
         <div class="z-edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
-                <input id="txtCode" name="txtCode" class="z-input" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
+                <input id="txtCode" name="txtCode" class="z-input text-ellipsis" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
             </div>
             <div class="flex-column flex-fill">
                 <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
-                <input id="txtPCode" name="txtPCode" class="z-input" type="text" th:value="${codeDetail?.pCode}"
+                <input id="txtPCode" name="txtPCode" class="z-input text-ellipsis" type="text" th:value="${codeDetail?.pCode}"
                        maxlength="100"/>
             </div>
         </div>
         <div class="z-edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
-                <input id="txtCodeName" name="txtCodeName" class="z-input" type="text" th:value="${codeDetail?.codeName}"
+                <input id="txtCodeName" name="txtCodeName" class="z-input text-ellipsis" type="text" th:value="${codeDetail?.codeName}"
                        maxlength="100"/>
             </div>
             <div class="flex-column flex-fill">
                 <label class="form-title" th:text="#{code.label.defaultCodeValue}" for="txtCodeValue"></label>
-                <input id="txtCodeValue" name="txtCodeValue" class="z-input" type="text" th:value="${codeDetail?.codeValue}"
+                <input id="txtCodeValue" name="txtCodeValue" class="z-input text-ellipsis" type="text" th:value="${codeDetail?.codeValue}"
                        maxlength="100"/>
             </div>
         </div>
         <div class="z-edit-row flex-column">
             <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
-            <input id="txtSeqNum" name="txtSeqNum" class="z-input" type="text" th:value="${codeDetail?.seqNum}"
+            <input id="txtSeqNum" name="txtSeqNum" class="z-input text-ellipsis" type="text" th:value="${codeDetail?.seqNum}"
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
         </div>
         <div class="z-edit-row flex-column">
@@ -104,7 +104,7 @@
             <label class="required" th:text="#{'code.label.lang'}"></label>
             <div class="col-2 ml-3 mr-5"><select></select></div>
             <label class="required" th:text="#{code.label.name}"></label>
-            <input class="z-input flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
+            <input class="z-input text-ellipsis flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
             <button sec:authorize="hasAuthority('code.create') || hasAuthority('code.update')" class="z-button-icon extra">
                 <span class="z-icon i-delete"></span>
             </button>

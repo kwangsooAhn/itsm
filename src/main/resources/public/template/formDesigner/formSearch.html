@@ -19,7 +19,7 @@
     <input id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}" type="hidden"/>
     <input id="deletable" th:value="${#authorization.expression('hasAuthority(''form.delete'')')}" type="hidden"/>
     <form id="searchFrm">
-        <input class="z-input i-search col-5 mr-2" id="searchValue" maxlength="100" name="searchValue" th:placeholder="#{form.label.searchPlaceholder}"
+        <input class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" maxlength="100" name="searchValue" th:placeholder="#{form.label.searchPlaceholder}"
                type="text"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
@@ -433,7 +433,9 @@
      */
     function setDateTimeFormat(elem) {
         elem.querySelectorAll('.date-time').forEach(dt => {
-            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = userDateTime;
+            dt.setAttribute('title', userDateTime);
         });
     }
     /*]]>*/

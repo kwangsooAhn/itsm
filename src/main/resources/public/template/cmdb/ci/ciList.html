@@ -27,12 +27,12 @@
             <input type="hidden" name="ciId" th:value="${ci.ciId}">
             <td style="width: 21%;" class="align-left underline pointer">
                 <a sec:authorize="hasAuthority('cmdb.ci.read')" th:text="${ci.ciNo}"
-                   th:href="@{/cmdb/cis/{id}/view(id=${ci.ciId})}">
+                   th:href="@{/cmdb/cis/{id}/view(id=${ci.ciId})}" th:title="${ci.ciNo}">
                 </a>
             </td>
-            <td style="width: 10%;" class="align-left" th:text="${ci.typeName}"></td>
-            <td style="width: 15%;" class="align-left" th:text="${ci.ciName}"></td>
-            <td style="width: 25%;" class="align-left" th:text="${ci.ciDesc}"></td>
+            <td style="width: 10%;" class="align-left" th:text="${ci.typeName}" th:title="${ci.typeName}"></td>
+            <td style="width: 15%;" class="align-left" th:text="${ci.ciName}" th:title="${ci.ciName}"></td>
+            <td style="width: 25%;" class="align-left" th:text="${ci.ciDesc}" th:title="${ci.ciDesc}"></td>
             <td style="width: 25%;" class="align-left">
                 <input type="text" name="ciListTags" class="align-left text-ellipsis flex-nowrap" th:value="${ci.ciTags}" readonly />
             </td>

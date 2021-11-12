@@ -137,7 +137,7 @@
                 <div class="z-thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
                 <div class="z-thumbnail-info">
                     <p class="z-thumbnail-info-text">
-                        <label name="updateLabel" class="z-thumbnail-image-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
+                        <label name="updateLabel" class="z-thumbnail-image-name text-ellipsis" ondblclick="renameImage(this);" title="${image.name}">${image.name}</label>
                         <input type="text" class="z-input float-left" />
                     </p>
                     <p class="z-thumbnail-info-text"><label class="text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
@@ -278,10 +278,12 @@
         // 이미지 파일명 제목 표시
         const previewModalHeader = previewModal.wrapper.querySelector('.modal-header');
         if (previewModalHeader !== null) {
-            let imageName = document.createElement('span');
-            imageName.textContent = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
-            imageName.classList.add('text-ellipsis');
-            previewModalHeader.appendChild(imageName);
+            const imageNameElement = document.createElement('span');
+            const imageName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
+            imageNameElement.className = 'text-ellipsis';
+            imageNameElement.textContent = imageName;
+            imageNameElement.setAttribute('title', imageName);
+            previewModalHeader.appendChild(imageNameElement);
         }
 
         // 내부 이미지 경로 변경

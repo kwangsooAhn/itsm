@@ -115,7 +115,9 @@ class ZFormTokenTab {
         document.querySelectorAll('.date-time').forEach((element) => {
             if (!element.classList.contains('active')) {
                 element.classList.add('active');
-                element.textContent = i18n.userDateTime(element.textContent);
+                const userDateTime = i18n.userDateTime(element.textContent);
+                element.textContent = userDateTime;
+                element.setAttribute('title', userDateTime);
             }
         });
     }
@@ -150,10 +152,10 @@ class ZFormTokenTab {
      */
     makeHistoryFragment(token) {
         return `<tr class="flex-row align-items-center">` +
-            `<td style="width: 35%;" class="align-left date-time" name="tokenDt">` + token.tokenStartDt + `</td>` +
-            `<td style="width: 25%;" class="align-left">` + token.elementName + `</td>` +
-            `<td style="width: 20%;" class="align-left">` + token.assigneeName + `</td>` +
-            `<td style="width: 20%;" class="align-left">` + i18n.msg(token.tokenAction) + `</td>` +
+            `<td style="width: 35%;" class="align-left date-time" name="tokenDt" title="${token.tokenStartDt}">` + token.tokenStartDt + `</td>` +
+            `<td style="width: 25%;" class="align-left" title="${token.elementName}">` + token.elementName + `</td>` +
+            `<td style="width: 20%;" class="align-left" title="${token.assigneeName}">` + token.assigneeName + `</td>` +
+            `<td style="width: 20%;" class="align-left" title="${i18n.msg(token.tokenAction)}">` + i18n.msg(token.tokenAction) + `</td>` +
             `</tr>`;
     }
     /***************************************************************************************************************
@@ -453,7 +455,9 @@ class ZFormTokenTab {
             `</div>` +
             `</div>` +
             `<div class="z-comment-row-content">` +
-            `<h6 class="text-ellipsis">` + `${aliceJs.filterXSS(comment.content)}` + `</h6>` +
+            `<h6 class="text-wordWrap">` +
+                `${aliceJs.filterXSS(comment.content)}` +
+            `</h6>` +
             `</div>` +
             `</div>`;
 

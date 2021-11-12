@@ -23,10 +23,10 @@
             <tr th:each="notice : ${noticeList}">
                 <td width="75%" class="align-left underline">
                     <a th:text="${notice.noticeTitle}"
-                       th:href="@{/portals/notices/{id}/view(id=${notice.noticeNo})}"></a>
+                       th:href="@{/portals/notices/{id}/view(id=${notice.noticeNo})}" th:title="${notice.noticeTitle}"></a>
                 </td>
-                <td width="10%" class="align-center" id="userName" th:text="${notice?.createUserName}"></td>
-                <td width="15%" class="align-center date-time" th:text="${notice.createDt}"></td>
+                <td width="10%" class="align-center" id="userName" th:text="${notice?.createUserName}" th:title="${notice?.createUserName}"></td>
+                <td width="15%" class="align-center date-time" th:text="${notice.createDt}" th:title="${notice.createDt}"></td>
             </tr>
         </th:block>
     </tbody>

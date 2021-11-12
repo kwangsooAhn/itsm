@@ -62,13 +62,14 @@ export const customCodeMixin = {
             .setUIClass('z-input z-input-button')
             .setUIReadOnly(true)
             .setUIAttribute('data-custom-data', (this.value === '${default}') ? this.elementDefaultValueCustomCode : this.value)
-            .onUIChange(this.updateValue.bind(this));
+            .onUIChange(this.updateValue.bind(this))
+            .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIButton = new UIButton()
             .setUIClass('z-button')
             .setUIClass('secondary')
             .addUIClass('z-button-icon')
             .onUIClick(this.openCustomCodeModal.bind(this))
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-folder'));
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
@@ -189,6 +190,11 @@ export const customCodeMixin = {
         e.preventDefault();
 
         const customData = e.target.getAttribute('data-custom-data').split('|');
+
+        // 값이 입력되었을 경우 error 없애기
+        if (zValidation.isRequired(customData)) {
+            zValidation.removeDOMElementError(e.target)
+        }
         this.value = customData[2];
     },
 
