@@ -20,6 +20,7 @@ import ZDropdownProperty from '../../formDesigner/property/type/zDropdownPropert
 import ZOptionListProperty from '../../formDesigner/property/type/zOptionListProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -130,6 +131,11 @@ export const radioMixin = {
     updateValue(e) {
         e.stopPropagation();
 
+        const firstRadioButton = this.UIElement.UIComponent.UIElement.UILabel0.UIRadio;
+        if (firstRadioButton.hasUIClass(zValidation.getErrorClassName())) {
+            firstRadioButton.removeUIClass(zValidation.getErrorClassName());
+        }
+
         this.value = e.target.value;
     },
     makeRadioButton(object) {
@@ -145,7 +151,8 @@ export const radioMixin = {
             object['UILabel' + i] = new UILabel()
                 .setUIFor(radioId)
                 .setUIClass(this.element.align)
-                .addUIClass('z-radio');
+                .addUIClass('z-radio')
+                .setUIAttribute('tabindex', '-1');
             object['UILabel' + i].UIRadio = new UIRadioButton(checkedYn)
                 .setUIId(radioId)
                 .setUIAttribute('value', this.element.options[i].value)

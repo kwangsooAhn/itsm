@@ -19,6 +19,7 @@ import ZDropdownProperty from '../../formDesigner/property/type/zDropdownPropert
 import ZOptionListProperty from '../../formDesigner/property/type/zOptionListProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -140,7 +141,8 @@ export const checkBoxMixin = {
             object['UILabel' + i] = new UILabel()
                 .setUIFor(checkboxId)
                 .setUIClass(this.element.align)
-                .addUIClass('z-checkbox');
+                .addUIClass('z-checkbox')
+                .setUIAttribute('tabindex', '-1');
             object['UILabel' + i].UICheckbox = new UICheckbox(checkedYn)
                 .setUIId(checkboxId)
                 .setUIAttribute('value', this.element.options[i].value)
@@ -159,12 +161,17 @@ export const checkBoxMixin = {
                 object['UILabel' + i].addUI(object['UILabel' + i].UISpan);
                 object.addUI(object['UILabel' + i]);
             }
-            // object.setUIAttribute('data-validation-required', this.validationRequired);
         }
         return object;
     },
     updateValue(e) {
         e.stopPropagation();
+
+        const firstCheckbox = this.UIElement.UIComponent.UIElement.UILabel0.UICheckbox;
+        if (firstCheckbox.hasUIClass(zValidation.getErrorClassName())) {
+            firstCheckbox.removeUIClass(zValidation.getErrorClassName());
+        }
+        
         let updateValue = '';
         e.target.parentNode.parentNode.querySelectorAll('input[type=checkbox]').forEach((element) => {
             if (element.checked) {
