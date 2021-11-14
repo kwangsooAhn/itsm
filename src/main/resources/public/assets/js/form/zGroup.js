@@ -261,7 +261,6 @@ export default class ZGroup {
 
     set labelFontOptionBold(boolean) {
         this._label.bold = boolean;
-        console.log('여기 안타니?');
         this.UIElement.UIGroup.UILabel.UILabelText
             .setUIFontWeight((boolean ? 'bold' : ''));
     }
