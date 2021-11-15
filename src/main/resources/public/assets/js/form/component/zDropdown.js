@@ -19,6 +19,7 @@ import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UISelect } from '../../lib/zUI.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -149,6 +150,6 @@ export const dropdownMixin = {
     },
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {
-        return !this.isEmptyOptions(this.element.options);
+        return !zValidation.isEmptyOptions(this.element.options);
     }
 };

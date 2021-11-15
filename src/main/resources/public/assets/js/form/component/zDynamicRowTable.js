@@ -568,7 +568,7 @@ export const dynamicRowTableMixin = {
     validationCheckOnPublish() {
         const optionListType = ['radio', 'checkBox', 'dropdown'];
         for (let column of this.element.columns) {
-            if (optionListType.includes(column.columnType) && this.isEmptyOptions(column.columnElement.options)) {
+            if (optionListType.includes(column.columnType) && zValidation.isEmptyOptions(column.columnElement.options)) {
                 return false;
             }
         }

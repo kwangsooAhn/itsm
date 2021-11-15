@@ -211,6 +211,6 @@ export const radioMixin = {
     },
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {
-        return !this.isEmptyOptions(this.element.options);
+        return !zValidation.isEmptyOptions(this.element.options);
     }
 };
