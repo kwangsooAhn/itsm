@@ -6,24 +6,21 @@
 
 package co.brainz.itsm.chart.service
 
+import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartCalculateAverageDto
 import co.brainz.itsm.chart.dto.ChartComponentDataDto
 import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDateTimeDto
 import co.brainz.itsm.chart.dto.ChartDto
-import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.workflow.component.constants.WfComponentConstants
-import co.brainz.workflow.document.constants.WfDocumentConstants
-import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
-import co.brainz.workflow.form.constants.WfFormConstants
-import co.brainz.workflow.instance.constants.WfInstanceConstants
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -66,7 +63,7 @@ abstract class ChartManager(
         val durationDoc = this.getDurationDoc(chart, instanceList)
         val map = LinkedHashMap<String, Any>()
         map["title"] = chart.chartName
-        map["operation"] = this.calculateOperation(durationDoc, tagTargetIds)
+        map["operation"] = this.calculateOperation(durationDoc, chart)
         propertyList.add(map)
         propertyList.add(durationDoc)
 
@@ -193,7 +190,7 @@ abstract class ChartManager(
         var durationMap = LinkedHashMap<String, Any>()
         val dateFormatList = mutableListOf<String>()
 
-        instanceList.forEach{ instance ->
+        instanceList.forEach { instance ->
             if (instance.instanceEndDt!!.withNano(0) >= chartDateTime.startDateTime) {
                 selectDocList.add(instance)
             }
@@ -298,13 +295,13 @@ abstract class ChartManager(
      */
     private fun calculateOperation(
         durationDoc: Map<String, Any>,
-        tagTargetIds: MutableList<String>
+        chart: ChartDto
     ): LinkedHashMap<String, Any> {
         val operation = LinkedHashMap<String, Any>()
         var totalCount = 0
-        val documentListMap: Map<String, Any> =
+        val instanceListMap: Map<String, Any> =
             mapper.convertValue(durationDoc["instanceList"], object : TypeReference<Map<String, Any>>() {})
-        documentListMap.entries.forEach {
+        instanceListMap.entries.forEach {
             val durationMap: List<Map<String, Any>> =
                 mapper.convertValue(it.value, object : TypeReference<List<Map<String, Any>>>() {})
             totalCount += durationMap.size
@@ -315,9 +312,15 @@ abstract class ChartManager(
             } else {
                 "0%"
             }
+            map[ChartConstants.Operation.AVERAGE.code] = if (durationMap.isNotEmpty()) {
+                this.getTagAverage(
+                    this.getTagComponent(durationMap, chart.chartConfig.tags)
+                )
+            } else {
+                "0"
+            }
             operation[it.key] = map
         }
-        this.getTagAverageData(tagTargetIds)
 
         return operation
     }
@@ -366,18 +369,36 @@ abstract class ChartManager(
     }
 
     /**
-     * 인스턴스 데이터에서 태그 평균 계산을 위한 데이터를 추출한다.
+     * 태그 평균 계산에 대상이 되는 특정 컴포넌트에 대한 분리 및 데이터 수집을 진행한다.
      */
-    private fun getTagAverageData(tagTargetIds: MutableList<String>): String {
-        val instance1 = instanceService.getInstance("6b9955d53d9a4336bbf63db1b2010d8f")
-
+    private fun getTagComponent(
+        durationMap: List<Map<String, Any>>,
+        chartTags: ArrayList<String>?
+    ): LinkedHashMap<String, MutableList<ChartComponentDataDto>> {
         val instanceList = mutableListOf<RestTemplateInstanceDto>()
-        instanceList.add(instance1)
+        val componentDataMap = LinkedHashMap<String, MutableList<ChartComponentDataDto>>()
 
+        // 파리미터로 넘어온 인스턴스 데이터에 대한 인스턴트 세부 정보 데이터를 추출한다.
+        durationMap.forEach { instanceData ->
+            for ((key, value) in instanceData) {
+                if (key == "instanceId") {
+                    instanceList.add(
+                        instanceService.getInstance(value as String)
+                    )
+                }
+            }
+        }
+
+        // 사용자 정의 차트에서 설정한 태그 데이터와 관련된 컴포넌트 데이터를 추출한다.
+        val tagTargetIds = mutableListOf<String>()
+        chartTags.let {
+            chartManagerService.getTagValueList(AliceTagConstants.TagType.COMPONENT.code, it!!).forEach { tag ->
+                tagTargetIds.add(tag.targetId)
+            }
+        }
 
         // 해당 인스턴스와 관련된 신청서(document)의 문서(form)를 찾아 컴포넌트 리스트를 출력한다.
-        // 여기서 수집하는 컴포넌트 데이터는 태그와 관련된 컴포넌트이고 'dropdown', 'radio', 'checkBox' 타입의 컴포넌트를 수집한다.
-        val componentDataMap = LinkedHashMap<String, MutableList<ChartComponentDataDto>>()
+        // 여기서 수집하는 컴포넌트 데이터는 전체 컴포넌트 중에서 태그와 관련된 컴포넌트이고 'dropdown', 'radio', 'checkBox' 타입의 컴포넌트를 수집한다.
         instanceList.forEach { instance ->
             val componentDataList = mutableListOf<ChartComponentDataDto>()
             val form = documentService.getDocument(instance.documentId).formId
@@ -434,7 +455,14 @@ abstract class ChartManager(
             }
             componentDataMap[instance.instanceId] = componentDataList
         }
+        return componentDataMap
+    }
 
+    /**
+     * 특정 컴포넌트에 대한 평균 계산을 진행한다.
+     * 해당 함수에서는 인스턴스가 가지고 있는 특정 태그를 가진 컴포넌트에 대한 count, sum, average 데이터를 구한다.
+     */
+    private fun getTagAverage(componentDataMap: LinkedHashMap<String, MutableList<ChartComponentDataDto>>): LinkedHashMap<String, Any> {
         val tagAverageDataMap = LinkedHashMap<String, Any>()
         for ((key, value) in componentDataMap) {
             val calculationMap = LinkedHashMap<String?, ChartCalculateAverageDto>()
@@ -462,6 +490,6 @@ abstract class ChartManager(
                 tagAverageDataMap[key] = calculationMap
             }
         }
-        return "clear"
+        return tagAverageDataMap
     }
 }
