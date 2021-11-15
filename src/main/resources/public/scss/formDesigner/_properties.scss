@@ -70,9 +70,7 @@
   // input 엘리먼트
   .z-input:not(.tagify) {
     width: 100%;
-    padding: 0 1rem; // 0 16px
     font-size: $property-font-size;
-    vertical-align: middle;
 
     &.i-unit-search {
       background: url($icon-folder-path + "formDesigner/unit/icon_unit_search.svg") no-repeat 100%-3 50%;
