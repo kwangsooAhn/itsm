@@ -13,6 +13,7 @@ import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
@@ -122,4 +123,11 @@ class TokenService(
             searchTokenType = WfTokenConstants.SearchType.TODO.code
         )
     ).totalCount
+
+    /**
+     * 해당 인스턴스를 가진 토큰 데이터를 조회한다.
+     */
+    fun findTokenByInstanceId(instanceId: String): List<WfTokenDto> {
+        return wfTokenService.findTokenByInstanceId(instanceId)
+    }
 }

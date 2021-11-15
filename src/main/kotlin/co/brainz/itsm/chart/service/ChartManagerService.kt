@@ -21,6 +21,10 @@ class ChartManagerService(
     private val wfFormRepository: WfFormRepository
 ) {
 
+    fun getTagsByTargetId(tagType: String, targetId: String): List<AliceTagDto> {
+        return aliceTagRepository.findByTargetId(tagType, targetId)
+    }
+
     fun getTagValueList(tagType: String, tagValue: List<String>): List<AliceTagDto> {
         return aliceTagRepository.findByTagValueIn(tagType, tagValue)
     }
