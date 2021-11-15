@@ -1833,6 +1833,9 @@ select {
 .z-checkbox input[type=checkbox]:disabled ~ .z-label, .z-checkbox input[type=checkbox].readonly ~ .z-label {
   color: #ABB0B5;
 }
+.z-checkbox input[type=checkbox].error + span::before {
+  border: 0.0625rem solid #F52525 !important;
+}
 .z-checkbox:focus input[type=checkbox]:not(:disabled) + span:before,
 .z-checkbox:focus input[type=checkbox]:not(.readonly) + span:before {
   border-color: #2578CE;
@@ -1934,6 +1937,9 @@ select {
   -o-transform: translate(4px, 9px) scale(1);
   -ms-transform: translate(4px, 9px) scale(1);
   transform: translate(4px, 9px) scale(1);
+}
+.z-radio input[type=radio].error + span::before {
+  border: 0.0625rem solid #F52525 !important;
 }
 .z-radio:focus input[type=radio]:not(:disabled) + span:before,
 .z-radio:focus input[type=radio]:not(.readonly) + span:before {

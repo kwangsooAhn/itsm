@@ -42,6 +42,10 @@ class ZValidation {
         this.on('minLength', this.isMinLength);
         this.on('maxLength', this.isMaxLength);
     }
+
+    getErrorClassName() {
+        return this.errorClassName;
+    }
     /**
      * 이벤트 추가
      * @param type 이벤트 타입
@@ -132,7 +136,7 @@ class ZValidation {
                 // 동일한 이름을 가진 엘리먼트 중 체크된 항목의 값을 반환
                 const name = element.getAttribute('name');
                 const elements = document.getElementsByName(name);
-                return elements.filter((item) => item.checked).map((item) => item.value).join('|');
+                return Array.from(elements).filter((item) => item.checked).map((item) => item.value).join('|');
             }
         } else if (element instanceof HTMLSelectElement) {
             return element.options[element.selectedIndex].value;
@@ -169,7 +173,12 @@ class ZValidation {
      */
     addDOMElementError(element) {
         element.classList.add(this.errorClassName);
-        element.focus();
+
+        if (element.type === 'checkbox' || element.type === 'radio') {
+            element.parentNode.focus();
+        } else {
+            element.focus();
+        }
     }
     /**
      * DOM 엘리먼트 에러 표시
@@ -498,7 +507,11 @@ class ZValidation {
     hasDOMElementError(target) {
         const errorElem = target.querySelector('.' + this.errorClassName);
         if (errorElem !== null) {
-            errorElem.focus();
+            if (errorElem.type === 'checkbox' || errorElem.type === 'radio') {
+                errorElem.parentNode.focus();
+            } else {
+                errorElem.focus();
+            }
             return true;
         }
         return false;
