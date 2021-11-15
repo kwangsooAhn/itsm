@@ -9,17 +9,17 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as mixin from '../lib/zMixins.js';
-import { FORM, UNIT } from '../lib/zConstants.js';
-import { UICheckbox, UIDiv, UILabel, UISpan } from '../lib/zUI.js';
-import ZClipboardProperty from '../formDesigner/property/type/zClipboardProperty.js';
-import ZInputBoxProperty from '../formDesigner/property/type/zInputBoxProperty.js';
-import ZGroupProperty from '../formDesigner/property/type/zGroupProperty.js';
-import ZSwitchProperty from '../formDesigner/property/type/zSwitchProperty.js';
 import ZBoxModelProperty from '../formDesigner/property/type/zBoxModelProperty.js';
-import ZSwitchButtonProperty from '../formDesigner/property/type/zSwitchButtonProperty.js';
-import ZToggleButtonProperty from '../formDesigner/property/type/zToggleButtonProperty.js';
+import ZClipboardProperty from '../formDesigner/property/type/zClipboardProperty.js';
 import ZColorPickerProperty from '../formDesigner/property/type/zColorPickerProperty.js';
+import ZGroupProperty from '../formDesigner/property/type/zGroupProperty.js';
+import ZInputBoxProperty from '../formDesigner/property/type/zInputBoxProperty.js';
+import ZSwitchButtonProperty from '../formDesigner/property/type/zSwitchButtonProperty.js';
+import ZSwitchProperty from '../formDesigner/property/type/zSwitchProperty.js';
+import ZToggleButtonProperty from '../formDesigner/property/type/zToggleButtonProperty.js';
+import { FORM, UNIT } from '../lib/zConstants.js';
+import * as mixin from '../lib/zMixins.js';
+import { UICheckbox, UIDiv, UILabel, UISpan } from '../lib/zUI.js';
 
 const DEFAULT_GROUP_LABEL_PROPERTY = {
     // 그룹의 라벨은 아코디언 위에 표시되기 때문에 항상 top 위치이며 보여주거나 숨기는 기능을 설정 한다.
@@ -410,6 +410,17 @@ export default class ZGroup {
             label: this._label,
             row: row
         };
+    }
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        let isValid = true;
+        for (let i = 0; i < this.children.length; i ++) {
+            if (!this.children[i].validationCheckOnPublish()) {
+                isValid = false;
+                break;
+            }
+        }
+        return isValid;
     }
 }
 

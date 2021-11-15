@@ -13,18 +13,18 @@
  * https://www.brainz.co.kr
  */
 
-import { ZSession } from '../../lib/zSession.js';
-import { FORM } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UIInput } from '../../lib/zUI.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
 import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
-import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { FORM } from '../../lib/zConstants.js';
+import { ZSession } from '../../lib/zSession.js';
+import { UIDiv, UIInput } from '../../lib/zUI.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -240,5 +240,9 @@ export const inputBoxMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return true;
     }
 };

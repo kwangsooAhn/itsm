@@ -10,14 +10,14 @@
  * https://www.brainz.co.kr
  */
 
+import ZColorPickerProperty from '../../formDesigner/property/type/zColorPickerProperty.js';
+import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
+import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import { UNIT } from '../../lib/zConstants.js';
 import { UIDiv, UIHorizontalRule } from '../../lib/zUI.js';
-import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
-import ZColorPickerProperty from '../../formDesigner/property/type/zColorPickerProperty.js';
-import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -161,5 +161,9 @@ export const dividerMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return true;
     }
 };

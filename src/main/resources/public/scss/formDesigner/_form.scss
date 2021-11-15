@@ -177,7 +177,7 @@
     pointer-events: none;
 
     // inputBox
-    .input, .z-input {
+    .input, .z-input:not(.z-select-box-label) {
       width: 100%;
       @include border(0.0625rem, solid, $element-border-color, all); // 1px
       @include borderRadius(0.0625rem); // 2px

@@ -10,16 +10,16 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
-import {UIDiv, UIInput} from '../../lib/zUI.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
-import ZDefaultValueRadioProperty from '../../formDesigner/property/type/zDefaultValueRadioProperty.js';
-import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZDateTimePickerProperty from '../../formDesigner/property/type/zDateTimePickerProperty.js';
+import ZDefaultValueRadioProperty from '../../formDesigner/property/type/zDefaultValueRadioProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { FORM } from '../../lib/zConstants.js';
+import { UIDiv, UIInput } from '../../lib/zUI.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 
 /**
@@ -225,5 +225,9 @@ export const timeMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return true;
     }
 };
