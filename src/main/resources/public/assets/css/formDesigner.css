@@ -6155,6 +6155,9 @@ body.modal-active {
   margin: 0.25rem 0;
   text-indent: 1rem;
 }
+.z-component .z-element .z-dr-table .z-dr-table-row .z-input:not(.z-select-box-label).picker-main {
+  padding-right: 2.25rem;
+}
 .z-component .z-element .z-dr-table .no-data-found-list {
   height: 2.5625rem;
   color: #ABB0B5;
@@ -6284,9 +6287,7 @@ body.modal-active {
 }
 .property .z-input:not(.tagify) {
   width: 100%;
-  padding: 0 1rem;
   font-size: 0.875rem;
-  vertical-align: middle;
 }
 .property .z-input:not(.tagify).i-unit-search {
   background: url("../media/icons/formDesigner/unit/icon_unit_search.svg") no-repeat 97% 50%;

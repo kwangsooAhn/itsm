@@ -65,7 +65,7 @@ export const textEditorMixin = {
     afterEvent() {
         this.editor = new zQuill(this.UIElement.UIComponent.UIElement.UIDiv.domElement, {
             placeholder: this.elementPlaceholder,
-            readOnly: (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY),
+            readOnly: (this.displayType === FORM.DISPLAY_TYPE.READONLY),
             content: (this.value !== '') ? this.value : ''
         });
         this.editor.root.style.setProperty('--data-row', this.elementRows);

@@ -73,7 +73,7 @@ export const fileUploadMixin = {
         };
         // 신청서 양식 편집 화면에 따른 처리
         // 읽기 전용일 경우
-        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.clearUI();
             const UIViewFileUpload = new UIDiv().setUIClass('z-fileupload')
                 .addUIClass('file-uploader-view')
