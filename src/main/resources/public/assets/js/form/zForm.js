@@ -9,15 +9,15 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as mixin from '../lib/zMixins.js';
-import { UIDiv } from '../lib/zUI.js';
-import { UNIT, FORM } from '../lib/zConstants.js';
+import ZBoxModelProperty from '../formDesigner/property/type/zBoxModelProperty.js';
 import ZClipboardProperty from '../formDesigner/property/type/zClipboardProperty.js';
-import ZInputBoxProperty from '../formDesigner/property/type/zInputBoxProperty.js';
-import ZTextAreaProperty from '../formDesigner/property/type/zTextAreaProperty.js';
 import ZDropdownProperty from '../formDesigner/property/type/zDropdownProperty.js';
 import ZGroupProperty from '../formDesigner/property/type/zGroupProperty.js';
-import ZBoxModelProperty from '../formDesigner/property/type/zBoxModelProperty.js';
+import ZInputBoxProperty from '../formDesigner/property/type/zInputBoxProperty.js';
+import ZTextAreaProperty from '../formDesigner/property/type/zTextAreaProperty.js';
+import { FORM, UNIT } from '../lib/zConstants.js';
+import * as mixin from '../lib/zMixins.js';
+import { UIDiv } from '../lib/zUI.js';
 
 export default class ZForm {
     constructor(data = {}) {
@@ -103,7 +103,7 @@ export default class ZForm {
     set category(category) {
         this._category = category;
     }
-    
+
     get category() {
         return this._category;
     }
@@ -317,6 +317,16 @@ export default class ZForm {
             display: this._display,
             group: group
         };
+    }
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        let isValid = true;
+        for (let i = 0; i < this.children.length; i ++) {
+            if (!this.children[i].validationCheckOnPublish()) {
+                isValid = false;
+            }
+        }
+        return isValid;
     }
 }
 

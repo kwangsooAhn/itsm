@@ -10,16 +10,16 @@
  * https://www.brainz.co.kr
  */
 
-import { ZSession } from '../../lib/zSession.js';
-import { FORM, UNIT } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UICell, UIRow, UIInput, UISpan, UITable, UIButton, UISelect } from '../../lib/zUI.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
-import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
-import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import ZColumnProperty, { propertyExtends } from '../../formDesigner/property/type/zColumnProperty.js';
+import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { FORM, UNIT } from '../../lib/zConstants.js';
+import { ZSession } from '../../lib/zSession.js';
+import { UIButton, UICell, UIDiv, UIInput, UIRow, UISelect, UISpan, UITable } from '../../lib/zUI.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -563,5 +563,15 @@ export const dynamicRowTableMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        const optionListType = ['radio', 'checkBox', 'dropdown'];
+        for (let column of this.element.columns) {
+            if (optionListType.includes(column.columnType) && this.isEmptyOptions(column.columnElement.options)) {
+                return false;
+            }
+        }
+        return true;
     }
 };
