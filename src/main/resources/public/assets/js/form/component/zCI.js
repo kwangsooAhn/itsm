@@ -63,7 +63,7 @@ export const ciMixin = {
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
         // 신청서 양식 편집 화면에 따른 처리
-        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             // 모든 버튼을 disabled 처리
             this.UIElement.UIComponent.UIElement.domElement.querySelectorAll('button').forEach((elem) => {
                 elem.disabled = !elem.querySelector('span.i-search');
@@ -191,16 +191,10 @@ export const ciMixin = {
         return table;
     },
     getCITableData() {
-        if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
+        if (this.elementIsEditable) {
             // CI 컴포넌트 편집 가능여부가 true 일때 = 구분, CI 아이콘, CI Type, CI 이름, CI 설명, 편집 아이콘,  row 삭제 아이콘  7개
             return [
-                {
-                    id: 'actionType',
-                    type: 'readonly',
-                    columnWidth: '1',
-                    name: 'form.label.actionType',
-                    class: 'align-left first-column'
-                },
+                {id: 'actionType', type: 'readonly', columnWidth: '1', name: 'form.label.actionType', class: 'align-left first-column'},
                 {id: 'ciId', type: 'hidden', columnWidth: '0', name: '', class: ''},
                 {id: 'ciNo', type: 'hidden', columnWidth: '0', name: '', class: ''},
                 {id: 'ciIcon', type: 'hidden', columnWidth: '0', name: '', class: ''},
@@ -208,13 +202,7 @@ export const ciMixin = {
                 {id: 'typeId', type: 'hidden', columnWidth: '0', name: '', class: ''},
                 {id: 'typeName', type: 'editable', columnWidth: '3', name: 'cmdb.ci.label.type', class: 'align-left'},
                 {id: 'ciName', type: 'editable', columnWidth: '3', name: 'cmdb.ci.label.name', class: 'align-left'},
-                {
-                    id: 'ciDesc',
-                    type: 'editable',
-                    columnWidth: '4',
-                    name: 'cmdb.ci.label.description',
-                    class: 'align-left'
-                },
+                {id: 'ciDesc', type: 'editable', columnWidth: '4', name: 'cmdb.ci.label.description', class: 'align-left'},
                 {id: 'classId', type: 'hidden', columnWidth: '0', name: '', class: ''},
                 {id: 'editIcon', type: 'icon-edit', columnWidth: '1', name: '', class: 'align-center'},
                 {id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column'}
@@ -230,13 +218,7 @@ export const ciMixin = {
                 {id: 'typeId', type: 'hidden', columnWidth: '0', name: '', class: ''},
                 {id: 'typeName', type: 'editable', columnWidth: '3', name: 'cmdb.ci.label.type', class: 'align-left'},
                 {id: 'ciName', type: 'editable', columnWidth: '4', name: 'cmdb.ci.label.name', class: 'align-left'},
-                {
-                    id: 'ciDesc',
-                    type: 'editable',
-                    columnWidth: '4',
-                    name: 'cmdb.ci.label.description',
-                    class: 'align-left'
-                },
+                {id: 'ciDesc', type: 'editable', columnWidth: '4', name: 'cmdb.ci.label.description', class: 'align-left'},
                 {id: 'classId', type: 'hidden', columnWidth: '0', name: '', class: ''},
                 {id: 'searchIcon', type: 'icon-search', columnWidth: '1', name: '', class: 'align-center'},
                 {id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column'}
@@ -279,7 +261,9 @@ export const ciMixin = {
                         .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-edit'));
+                        .addUI(new UISpan().setUIClass('z-icon').addUIClass(
+                            (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) ? 'i-edit' : 'i-search')
+                        );
 
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
@@ -608,7 +592,8 @@ export const ciMixin = {
     // 기존 CI 변경 모달
     openUpdateModal(rowIndex, data) {
         const instanceIdElem = document.getElementById('instanceId');
-        const urlParam = 'ciId=' + data.ciId + '&componentId=' + this.id + '&instanceId=' + instanceIdElem.value;
+        const urlParam = 'ciId=' + data.ciId + '&componentId=' + this.id + '&instanceId=' + instanceIdElem.value +
+            '&displayType=' + this.displayType;
         aliceJs.fetchText('/cmdb/cis/component/edit?' + urlParam, {
             method: 'POST',
             headers: {
@@ -616,11 +601,13 @@ export const ciMixin = {
             },
             body: JSON.stringify(data)
         }).then((htmlData) => {
-            const updateModal = new modal({
-                title: i18n.msg((data.actionType === CI.ACTION_TYPE.MODIFY) ? 'cmdb.ci.label.update' : 'cmdb.ci.label.register'),
-                body: htmlData,
-                classes: 'cmdb-ci-update-modal',
-                buttons: [{
+            // 버튼 생성
+            const modalButtons = [];
+            let modalTitle = (data.actionType === CI.ACTION_TYPE.MODIFY) ? 'cmdb.ci.label.update' :
+                'cmdb.ci.label.register';
+            if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
+                // 수정
+                modalButtons.push({
                     content: i18n.msg('common.btn.modify'),
                     classes: 'z-button primary',
                     bindKey: false,
@@ -643,7 +630,9 @@ export const ciMixin = {
                             modal.hide();
                         });
                     }
-                }, {
+                });
+                // 취소
+                modalButtons.push({
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
@@ -652,8 +641,23 @@ export const ciMixin = {
                             modal.hide();
                         });
                     }
-                }],
-                close: {closable: false, },
+                });
+            } else {
+                // 닫기
+                modalButtons.push({
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: (modal) => modal.hide()
+                });
+                modalTitle = 'cmdb.ci.label.view';
+            }
+            const updateModal = new modal({
+                title: i18n.msg(modalTitle),
+                body: htmlData,
+                classes: 'cmdb-ci-update-modal',
+                buttons: modalButtons,
+                close: { closable: false, },
                 onCreate: async (modal) => {
                     let param = {};
                     // 수정된 데이터가 존재할 경우 수정 데이터로 변경
@@ -684,7 +688,8 @@ export const ciMixin = {
                     if (data.actionType === CI.ACTION_TYPE.MODIFY) {
                         // 기존 CI 변경 클릭 후, 리스트에서 CI를 선택, 이후 CI 변경 시, 모달창에 출력되는 연관 관계 데이터는 cmdb_ci_relation 테이블의 데이터이다.
                         // 이후 CI 수정 시, 수정한 연관 관계 데이터는 wf_component_ci_data 테이블의 데이터를 가져와 보여준다.
-                        aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id + '&instanceId=' + instanceIdElem.value, {
+                        aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id +
+                            '&instanceId=' + instanceIdElem.value, {
                             method: 'GET',
                         }).then((ciComponentData) => {
                             if (ciComponentData === '') {
@@ -692,7 +697,7 @@ export const ciMixin = {
                                     method: 'GET',
                                 }).then((ciRelations) => {
                                     const ciRelation = JSON.parse(ciRelations);
-                                    if (Object.keys(ciRelation).length !== 0) {
+                                    if (zValidation.isDefined(ciRelation)) {
                                         for (let i = 0; i < ciRelation.length; i++) {
                                             this.addCIRelation(param, ciRelations[i]);
                                         }
@@ -700,25 +705,34 @@ export const ciMixin = {
                                 });
                             } else {
                                 const ciComponent = JSON.parse(ciComponentData);
-                                for (let i = 0; i < ciComponent.ciRelations.length; i++) {
-                                    this.addCIRelation(param, ciComponent.ciRelations[i]);
+                                if (zValidation.isDefined(ciComponent.ciRelation)) {
+                                    for (let i = 0; i < ciComponent.ciRelations.length; i++) {
+                                        this.addCIRelation(param, ciComponent.ciRelations[i]);
+                                    }
                                 }
                             }
                         });
                     } else if (data.actionType === CI.ACTION_TYPE.REGISTER) {
                         // cmdb_ci_relation 테이블에 등록되지 않은 데이터의 경우, wf_component_ci_data 테이블에서 연관 관계 데이터를 가져와 처리한다.
-                        aliceJs.fetchJson('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id + '&instanceId=' + instanceIdElem.value, {
+                        aliceJs.fetchJson('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id +
+                            '&instanceId=' + instanceIdElem.value, {
                             method: 'GET',
                         }).then((ciComponentData) => {
-                            for (let i = 0; i < ciComponentData.ciRelations.length; i++) {
-                                this.addCIRelation(param, ciComponentData.ciRelations[i]);
+                            if (zValidation.isDefined(ciComponent.ciRelation)) {
+                                for (let i = 0; i < ciComponentData.ciRelations.length; i++) {
+                                    this.addCIRelation(param, ciComponentData.ciRelations[i]);
+                                }
                             }
                         });
                     }
-                    document.getElementById('addCIRelationBtn').addEventListener('click', this.addCIRelation.bind(this, param));
+                    if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
+                        document.getElementById('addCIRelationBtn').addEventListener('click',
+                            this.addCIRelation.bind(this, param));
+                        OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
+                    } else {
+                        OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
+                    }
 
-                    // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
                     OverlayScrollbars(document.querySelectorAll('textarea'), {
                         className: 'scrollbar',
                         resize: 'vertical',

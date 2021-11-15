@@ -28,8 +28,8 @@
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">
-    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
     <link th:href="@{/assets/theme/{theme}/css/itsm.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
     <script type="module">
         /*<![CDATA[*/

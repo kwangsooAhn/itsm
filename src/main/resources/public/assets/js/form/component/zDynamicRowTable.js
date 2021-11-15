@@ -85,7 +85,7 @@ export const dynamicRowTableMixin = {
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
         // 신청서 양식 편집 화면에 따른 처리
-        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.setUIDisabled(true);
             // 모든 cell을 readonly 처리하고 버튼은 disabled 처리한다.
             const drTable = this.UIElement.UIComponent.UIElement.UITable.domElement;
@@ -305,7 +305,9 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('data-validation-max-date', this._element.columns[index].columnValidation.maxDate);
         dateWrapper.addUI(date);
 
-        zDateTimePicker.initDatePicker(date.domElement, this.updateDateTimeValue.bind(this));
+        if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
+            zDateTimePicker.initDatePicker(date.domElement, this.updateDateTimeValue.bind(this));
+        }
         return dateWrapper;
     },
     getTimeForColumn(column, cellValue, index) {
@@ -321,7 +323,9 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('data-validation-max-time', this._element.columns[index].columnValidation.maxTime);
         timeWrapper.addUI(time);
 
-        zDateTimePicker.initTimePicker(time.domElement, this.updateDateTimeValue.bind(this));
+        if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
+            zDateTimePicker.initTimePicker(time.domElement, this.updateDateTimeValue.bind(this));
+        }
         return timeWrapper;
     },
     getDateTimeForColumn(column, cellValue, index) {
@@ -337,7 +341,9 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('data-validation-max-datetime', this._element.columns[index].columnValidation.maxDateTime);
         dateTimeWrapper.addUI(dateTime);
 
-        zDateTimePicker.initDateTimePicker(dateTime.domElement, this.updateDateTimeValue.bind(this));
+        if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
+            zDateTimePicker.initDateTimePicker(dateTime.domElement, this.updateDateTimeValue.bind(this));
+        }
         return dateTimeWrapper;
     },
     getDefaultValueForDate(column, cellValue) {

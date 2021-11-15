@@ -58,7 +58,7 @@ export const radioMixin = {
     },
     afterEvent() {
         // 신청서 양식 편집 화면에 따른 처리
-        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             for (let i = 0; i < this.element.options.length; i++) {
                 this.UIElement.UIComponent.UIElement['UILabel' + i].addUIClass('readonly');
                 this.UIElement.UIComponent.UIElement['UILabel' + i].UIRadio.addUIClass('readonly');
