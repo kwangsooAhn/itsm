@@ -128,7 +128,18 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     token.element.elementId.`in`(assigneeGroups)
                 )
         )
-
+        builder.and(
+            token.tokenId.eq(
+                JPAExpressions
+                    .select(token.tokenId.max())
+                    .from(token)
+                    .where(token.instance.instanceId.eq(instance.instanceId))
+            )
+        )
+        builder.and(
+            token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
+                .or(token.tokenAction.isNull)
+        )
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
         return query
             .where(builder)

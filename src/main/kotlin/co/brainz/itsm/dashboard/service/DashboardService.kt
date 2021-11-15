@@ -73,7 +73,7 @@ class DashboardService(
                     DashboardConstants.DocumentGroup.INCIDENT.code -> dashboardStatisticDto.incident = it.count
                     DashboardConstants.DocumentGroup.INQUIRY.code -> dashboardStatisticDto.inquiry = it.count
                     DashboardConstants.DocumentGroup.REQUEST.code -> dashboardStatisticDto.request = it.count
-                    else -> dashboardStatisticDto.etc = it.count
+                    else -> dashboardStatisticDto.etc += it.count
                 }
             }
             dashboardStatisticDtoList.add(dashboardStatisticDto)
