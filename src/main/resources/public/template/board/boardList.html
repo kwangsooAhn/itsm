@@ -21,13 +21,13 @@
         <tr class="flex-row align-items-center" th:each="boardAdmin: ${boardAdminList}">
             <td style="width: 65%" class="align-left underline">
                 <a sec:authorize="!hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
-                   th:href="@{/boards/{id}/view(id=${boardAdmin.boardAdminId})}"></a>
+                   th:href="@{/boards/{id}/view(id=${boardAdmin.boardAdminId})}" th:title="${boardAdmin.boardAdminTitle}"></a>
                 <a sec:authorize="hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
-                   th:href="@{/boards/{id}/edit(id=${boardAdmin.boardAdminId})}"></a>
+                   th:href="@{/boards/{id}/edit(id=${boardAdmin.boardAdminId})}" th:title="${boardAdmin.boardAdminTitle}"></a>
             </td>
-            <td style="width: 10%" class="align-left" th:text="${boardAdmin.boardBoardCount}"></td>
-            <td style="width: 10%" class="align-left" th:text="${boardAdmin.createUserName}"></td>
-            <td style="width: 15%" class="align-left date-time" th:text="${boardAdmin.createDt}"></td>
+            <td style="width: 10%" class="align-left" th:text="${boardAdmin.boardBoardCount}" th:title="${boardAdmin.boardBoardCount}"></td>
+            <td style="width: 10%" class="align-left" th:text="${boardAdmin.createUserName}" th:title="${boardAdmin.createUserName}"></td>
+            <td style="width: 15%" class="align-left date-time" th:text="${boardAdmin.createDt}" th:title="${boardAdmin.createDt}"></td>
         </tr>
     </tbody>
 </table>

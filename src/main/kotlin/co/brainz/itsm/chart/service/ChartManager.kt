@@ -6,13 +6,13 @@
 
 package co.brainz.itsm.chart.service
 
-import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartCalculateAverageDto
 import co.brainz.itsm.chart.dto.ChartComponentDataDto
 import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDateTimeDto
 import co.brainz.itsm.chart.dto.ChartDto
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.instance.service.InstanceService
@@ -61,38 +61,9 @@ abstract class ChartManager(
      * 차트 생성 관련 JsonArray 생성
      */
     private fun getChartProperty(chart: ChartDto): String {
-        val formIds = mutableListOf<String>()
-        val documentList = mutableListOf<WfDocumentEntity>()
-        val tagTargetIds = mutableListOf<String>()
-        chart.chartConfig.tags?.let {
-            chartManagerService.getTagValueList(AliceTagConstants.TagType.COMPONENT.code, it).forEach { tag ->
-                tagTargetIds.add(tag.targetId)
-            }
-        }
-        val componentList = chartManagerService.getComponentList(tagTargetIds)
-        componentList.forEach { component ->
-            formIds.add(
-                component.form.formId
-            )
-        }
-
-        val formList = chartManagerService.getFormList(formIds)
-        formList.forEach { form ->
-            if (form.formStatus != WfFormConstants.FormStatus.EDIT.value) {
-                form.document.forEach { document ->
-                    if (document.documentStatus != WfDocumentConstants.Status.TEMPORARY.code) {
-                        document.instance?.forEach { instance ->
-                            if (instance.instanceStatus == WfInstanceConstants.Status.FINISH.code) {
-                                documentList.add(document)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
+        val instanceList = this.getInstanceListInTags(chart)
         val propertyList = mutableListOf<Map<String, Any>>()
-        val durationDoc = this.getDurationDoc(chart, documentList)
+        val durationDoc = this.getDurationDoc(chart, instanceList)
         val map = LinkedHashMap<String, Any>()
         map["title"] = chart.chartName
         map["operation"] = this.calculateOperation(durationDoc, tagTargetIds)
@@ -102,20 +73,27 @@ abstract class ChartManager(
         return mapper.writeValueAsString(propertyList)
     }
 
+    private fun getInstanceListInTags(chart: ChartDto): List<WfInstanceEntity> {
+        val tags = mutableSetOf<String>()
+        chart.chartConfig.tags?.forEach { tag ->
+            tags.add(tag)
+        }
+        return chartManagerService.getInstanceListInTags(tags)
+    }
+
     private fun getPeriodYear(
         chartDateTime: ChartDateTimeDto,
-        documentList: MutableList<WfDocumentEntity>
+        instanceList: List<WfInstanceEntity>
     ): LinkedHashMap<String, Any> {
         val durationMap = LinkedHashMap<String, Any>()
         for (year in chartDateTime.startYear until chartDateTime.endDateTime!!.year + 1) {
             val docList = mutableListOf<HashMap<String, Any>>()
-            documentList.forEach { document ->
-                when (document.createDt!!.year) {
+            instanceList.forEach { instance ->
+                when (instance.instanceStartDt!!.year) {
                     year -> {
                         val docMap = HashMap<String, Any>()
-                        docMap["documentId"] = document.documentId
-                        docMap["documentName"] = document.documentName
-                        docMap["createDt"] = document.createDt.toString()
+                        docMap["instanceId"] = instance.instanceId
+                        docMap["endDt"] = instance.instanceEndDt.toString()
                         docList.add(docMap)
                     }
                 }
@@ -126,21 +104,20 @@ abstract class ChartManager(
     }
 
     private fun getPeriodMonth(
-        documentList: MutableList<WfDocumentEntity>,
+        instanceList: List<WfInstanceEntity>,
         dateFormatList: MutableList<String>
     ): LinkedHashMap<String, Any> {
         val durationMap = LinkedHashMap<String, Any>()
         for (dateFormat in dateFormatList) {
             val docList = mutableListOf<HashMap<String, Any>>()
-            documentList.forEach { document ->
-                val docYear = document.createDt!!.year
-                val docMonth = document.createDt!!.monthValue
+            instanceList.forEach { instance ->
+                val docYear = instance.instanceEndDt!!.year
+                val docMonth = instance.instanceEndDt!!.monthValue
                 when (docYear.toString() + this.addStringFormat(docMonth)) {
                     dateFormat -> {
                         val docMap = HashMap<String, Any>()
-                        docMap["documentId"] = document.documentId
-                        docMap["documentName"] = document.documentName
-                        docMap["createDt"] = document.createDt.toString()
+                        docMap["instanceId"] = instance.instanceId
+                        docMap["endDt"] = instance.instanceEndDt.toString()
                         docList.add(docMap)
                     }
                 }
@@ -151,22 +128,22 @@ abstract class ChartManager(
     }
 
     private fun getPeriodDate(
-        documentList: MutableList<WfDocumentEntity>,
+        instanceList: List<WfInstanceEntity>,
         dateFormatList: MutableList<String>
     ): LinkedHashMap<String, Any> {
         val durationMap = LinkedHashMap<String, Any>()
         for (dateFormat in dateFormatList) {
             val docList = mutableListOf<HashMap<String, Any>>()
-            documentList.forEach { document ->
-                val docYear = document.createDt!!.year
-                val docMonth = document.createDt!!.monthValue
-                val docDays = document.createDt!!.dayOfMonth
+            instanceList.forEach { instance ->
+                val docYear = instance.instanceEndDt!!.year
+                val docMonth = instance.instanceEndDt!!.monthValue
+                val docDays = instance.instanceEndDt!!.dayOfMonth
                 when (docYear.toString() + this.addStringFormat(docMonth) + this.addStringFormat(docDays)) {
                     dateFormat -> {
                         val docMap = HashMap<String, Any>()
-                        docMap["documentId"] = document.documentId
-                        docMap["documentName"] = document.documentName
-                        docMap["createDt"] = document.createDt.toString()
+                        docMap["instanceId"] = instance.instanceId
+                        //docMap["documentName"] = document.documentName
+                        docMap["endDt"] = instance.instanceEndDt.toString()
                         docList.add(docMap)
                     }
                 }
@@ -177,23 +154,22 @@ abstract class ChartManager(
     }
 
     private fun getPeriodHour(
-        documentList: MutableList<WfDocumentEntity>,
+        instanceList: List<WfInstanceEntity>,
         dateFormatList: MutableList<String>
     ): LinkedHashMap<String, Any> {
         val durationMap = LinkedHashMap<String, Any>()
         for (dateFormat in dateFormatList) {
             val docList = mutableListOf<HashMap<String, Any>>()
-            documentList.forEach { document ->
-                val docYear = document.createDt!!.year
-                val docMonth = document.createDt!!.monthValue
-                val docDays = document.createDt!!.dayOfMonth
-                val docHours = document.createDt!!.hour
+            instanceList.forEach { instance ->
+                val docYear = instance.instanceEndDt!!.year
+                val docMonth = instance.instanceEndDt!!.monthValue
+                val docDays = instance.instanceEndDt!!.dayOfMonth
+                val docHours = instance.instanceEndDt!!.hour
                 when (docYear.toString() + this.addStringFormat(docMonth) + docDays + this.addStringFormat(docHours)) {
                     dateFormat -> {
                         val docMap = HashMap<String, Any>()
-                        docMap["documentId"] = document.documentId
-                        docMap["documentName"] = document.documentName
-                        docMap["createDt"] = document.createDt.toString()
+                        docMap["instanceId"] = instance.instanceId
+                        docMap["endDt"] = instance.instanceEndDt.toString()
                         docList.add(docMap)
                     }
                 }
@@ -210,21 +186,21 @@ abstract class ChartManager(
      */
     private fun getDurationDoc(
         chart: ChartDto,
-        documentList: MutableList<WfDocumentEntity>
+        instanceList: List<WfInstanceEntity>
     ): Map<String, Any> {
         val chartDateTime = this.getChartDateTime(chart)
-        val selectDocList = mutableListOf<WfDocumentEntity>()
+        val selectDocList = mutableListOf<WfInstanceEntity>()
         var durationMap = LinkedHashMap<String, Any>()
         val dateFormatList = mutableListOf<String>()
 
-        documentList.forEach { document ->
-            if (document.createDt!!.withNano(0) >= chartDateTime.startDateTime) {
-                selectDocList.add(document)
+        instanceList.forEach{ instance ->
+            if (instance.instanceEndDt!!.withNano(0) >= chartDateTime.startDateTime) {
+                selectDocList.add(instance)
             }
         }
         when (chart.chartConfig.periodUnit) {
             ChartConstants.Unit.YEAR.code -> {
-                durationMap = this.getPeriodYear(chartDateTime, documentList)
+                durationMap = this.getPeriodYear(chartDateTime, instanceList)
             }
             ChartConstants.Unit.MONTH.code -> {
                 for (index in 0 until chartDateTime.period + 1) {
@@ -241,7 +217,7 @@ abstract class ChartManager(
                         }
                     }
                 }
-                durationMap = this.getPeriodMonth(documentList, dateFormatList)
+                durationMap = this.getPeriodMonth(instanceList, dateFormatList)
             }
             ChartConstants.Unit.DATE.code -> {
                 for (index in 0 until chartDateTime.period + 1) {
@@ -270,7 +246,7 @@ abstract class ChartManager(
                     }
                     chartDateTime.startDays = 1
                 }
-                durationMap = this.getPeriodDate(documentList, dateFormatList)
+                durationMap = this.getPeriodDate(instanceList, dateFormatList)
             }
             ChartConstants.Unit.HOUR.code -> {
                 for (index in 0 until chartDateTime.period + 1) {
@@ -307,12 +283,12 @@ abstract class ChartManager(
                     }
                     chartDateTime.startDays = 1
                 }
-                durationMap = this.getPeriodHour(documentList, dateFormatList)
+                durationMap = this.getPeriodHour(instanceList, dateFormatList)
             }
         }
 
         val durationDoc = HashMap<String, Any>()
-        durationDoc["documentList"] = durationMap
+        durationDoc["instanceList"] = durationMap
 
         return durationDoc
     }
@@ -327,7 +303,7 @@ abstract class ChartManager(
         val operation = LinkedHashMap<String, Any>()
         var totalCount = 0
         val documentListMap: Map<String, Any> =
-            mapper.convertValue(durationDoc["documentList"], object : TypeReference<Map<String, Any>>() {})
+            mapper.convertValue(durationDoc["instanceList"], object : TypeReference<Map<String, Any>>() {})
         documentListMap.entries.forEach {
             val durationMap: List<Map<String, Any>> =
                 mapper.convertValue(it.value, object : TypeReference<List<Map<String, Any>>>() {})

@@ -21,16 +21,16 @@
     <tr class="flex-row align-items-center" th:each="template : ${templateList}">
         <td style="width:25%;" class="align-left underline">
             <a sec:authorize="!hasAuthority('report.update')" th:text="${template.templateName}"
-               th:href="@{/reports/template/{id}/view(id=${template.templateId})}"></a>
+               th:href="@{/reports/template/{id}/view(id=${template.templateId})}" th:title="${template.templateName}"></a>
             <a sec:authorize="hasAuthority('report.update')" th:text="${template.templateName}"
-               th:href="@{/reports/template/{id}/edit(id=${template.templateId})}"></a>
+               th:href="@{/reports/template/{id}/edit(id=${template.templateId})}" th:title="${template.templateName}"></a>
         </td>
-        <td style="width:20%;" class="align-left" th:text="${template.templateDesc}"></td>
+        <td style="width:20%;" class="align-left" th:text="${template.templateDesc}" th:title="${template.templateDesc}"></td>
         <td style="width:25%;" class="align-left">
-            <span class="label" th:each="chart : ${template?.charts}" th:text="#{${chart.chartName}}"></span>
+            <span class="label" th:each="chart : ${template?.charts}" th:text="#{${chart.chartName}}" th:title="#{${chart.chartName}}"></span>
         </td>
-        <td style="width:10%;" class="align-center" id="userName" th:text="${template?.createUserName}"></td>
-        <td style="width:15%;" class="align-center date-time" name="createDt" th:text="${template.createDt}"></td>
+        <td style="width:10%;" class="align-center" id="userName" th:text="${template?.createUserName}" th:title="${template?.createUserName}"></td>
+        <td style="width:15%;" class="align-center date-time" name="createDt" th:text="${template.createDt}" th:title="${template.createDt}"></td>
         <td style="width: 5%;">
             <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('report.create')"
                     th:onclick="makeReport([[${template.templateId}]])">

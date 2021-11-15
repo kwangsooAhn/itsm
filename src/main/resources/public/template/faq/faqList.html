@@ -18,9 +18,9 @@
                 <td style="width:20%;" class="align-left" th:text="${faq.faqGroupName}"></td>
                 <td style="width:80%;" class="align-left underline">
                     <a sec:authorize="hasAuthority('faq.update')" th:text="${faq.faqTitle}"
-                       th:href="@{/faqs/{faqId}/edit(faqId=${faq.faqId})}"></a>
+                       th:href="@{/faqs/{faqId}/edit(faqId=${faq.faqId})}" th:title="${faq.faqTitle}"></a>
                     <a sec:authorize="!hasAuthority('faq.update')" th:text="${faq.faqTitle}"
-                       th:href="@{/faqs/{faqId}/view(faqId=${faq.faqId})}"></a>
+                       th:href="@{/faqs/{faqId}/view(faqId=${faq.faqId})}" th:title="${faq.faqTitle}"></a>
                 </td>
             </tr>
     </tbody>

@@ -12,13 +12,16 @@ import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.form.repository.WfFormRepository
+import co.brainz.workflow.instance.entity.WfInstanceEntity
+import co.brainz.workflow.instance.repository.WfInstanceRepository
 import org.springframework.stereotype.Service
 
 @Service
 class ChartManagerService(
     private val aliceTagRepository: AliceTagRepository,
     private val wfComponentRepository: WfComponentRepository,
-    private val wfFormRepository: WfFormRepository
+    private val wfFormRepository: WfFormRepository,
+    private val wfInstanceRepository: WfInstanceRepository
 ) {
 
     fun getTagsByTargetId(tagType: String, targetId: String): List<AliceTagDto> {
@@ -35,5 +38,9 @@ class ChartManagerService(
 
     fun getFormList(formIds: List<String>): List<WfFormEntity> {
         return wfFormRepository.findByFormIdIn(formIds)
+    }
+
+    fun getInstanceListInTags(tags: Set<String>): List<WfInstanceEntity> {
+        return wfInstanceRepository.getInstanceListInTags(tags)
     }
 }

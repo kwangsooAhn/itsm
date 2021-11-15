@@ -21,13 +21,13 @@
         <tr class="flex-row align-items-center" th:each="customCode : ${customCodeList}">
             <td style="width:50%" class="align-left underline">
                 <a sec:authorize="!hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
-                   th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a>
+                   th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}" th:title="${customCode.customCodeName}"></a>
                 <a sec:authorize="hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
-                   th:href="@{/custom-codes/{id}/edit(id=${customCode.customCodeId})}"></a>
+                   th:href="@{/custom-codes/{id}/edit(id=${customCode.customCodeId})}" th:title="${customCode.customCodeName}"></a>
             </td>
-            <td style="width:20%" class="align-left" th:text="#{|customCode.label.${customCode.type}|}"></td>
-            <td style="width:15%" class="align-left" th:text="${customCode.createUserName}"></td>
-            <td style="width:15%" class="align-left date-time" th:text="${customCode.createDt}"></td>
+            <td style="width:20%" class="align-left" th:text="#{|customCode.label.${customCode.type}|}" th:title="#{|customCode.label.${customCode.type}|}"></td>
+            <td style="width:15%" class="align-left" th:text="${customCode.createUserName}" th:title="${customCode.createUserName}"></td>
+            <td style="width:15%" class="align-left date-time" th:text="${customCode.createDt}" th:title="${customCode.createDt}"></td>
         </tr>
     </tbody>
 </table>

@@ -82,11 +82,13 @@ class ZFormToken {
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             const group = this.addObjectByType(FORM.LAYOUT.GROUP, data, parent, index);
             data.row.forEach( (r, rIndex) => {
+                r.displayType = group.displayType;
                 this.makeForm(r, group, rIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'component')) { // row
             const row = this.addObjectByType(FORM.LAYOUT.ROW, data, parent, index);
             data.component.forEach( (c, cIndex) => {
+                c.displayType = row.displayType;
                 this.makeForm(c, row, cIndex);
             });
         } else { // component
@@ -233,7 +235,8 @@ class ZFormToken {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(saveData)
+            body: JSON.stringify(saveData),
+            showProgressbar: true
         }).then(rtn => {
             if (rtn === 'true') {
                 zAlert.success(i18n.msg(actionMsg),  () => {

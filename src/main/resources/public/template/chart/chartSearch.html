@@ -30,7 +30,7 @@
             <option value="" th:text="#{chart.label.all}" selected></option>
             <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
         </select>
-        <input type="text" class="z-input i-search col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
+        <input type="text" class="z-input i-search text-ellipsis col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{chart.label.searchPlaceholder}"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
@@ -88,7 +88,9 @@
      */
     function setDateTimeFormat(elem) {
         elem.querySelectorAll('.date-time').forEach(dt => {
-            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = userDateTime;
+            dt.setAttribute('title', userDateTime);
         });
     }
 

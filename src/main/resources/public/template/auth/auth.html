@@ -55,7 +55,7 @@
                         <label class="z-checkbox" tabindex="0" th:for="${'auth.'+menu?.menuId}">
                             <input name="authMenu" th:disabled="${view}" th:id="${'auth.'+menu?.menuId}" th:value="${menu?.menuId}" type="checkbox">
                             <span></span>
-                            <span class="z-label" th:text="#{|menu.${menu?.menuId}|}"></span>
+                            <span class="z-label" th:text="${menu.pMenuId == 'menu'} ? #{|menu.${menu.menuId}.parent|} : #{|menu.${menu.menuId}|}"></span>
                         </label>
                     </li>
                 </ul>

@@ -160,7 +160,7 @@ function ZChart(container, chartType, chartProperty) {
 
             let docKeyList = [];
             let propertyJson = JSON.parse(chartProperty);
-            for (let key in propertyJson[1].documentList) {
+            for (let key in propertyJson[1].instanceList) {
                 docKeyList.push(key);
             }
             for (let i = 0; i < docKeyList.length - 1; i++) {
@@ -184,12 +184,12 @@ Object.assign(ZChart.prototype, {
             // 문서에 대한 카운트 개수
             countArray.push(propertyJson[0].operation[key].count);
         }
-        for (let key in propertyJson[1].documentList) {
+        for (let key in propertyJson[1].instanceList) {
             // 문서의 각 나눈 연도의 개수
             docKeyList.push(key);
         }
         const getYear = Number(docKeyList[0].substring(0, 4));
-        const getMonth = Number(docKeyList[0].substring(4, 6));
+        const getMonth = Number(docKeyList[0].substring(4, 6)) - 1;
         const getDay = Number(docKeyList[0].substring(6, 8));
         const getHour = Number(docKeyList[0].substring(8, 10));
 
@@ -219,7 +219,7 @@ Object.assign(ZChart.prototype, {
         this.chart.setTitle({text: propertyJson[0].title});
 
         let seriesData = [];
-        const categoryData = Object.keys(propertyJson[1].documentList);
+        const categoryData = Object.keys(propertyJson[1].instanceList);
         switch (chartConfigJson.type) {
             case PIE_CHART:
                 this.chart.series[0].update({
@@ -291,10 +291,10 @@ Object.assign(ZChart.prototype, {
                 });
 
                 for (let i = 0; i < categoryData.length; i++) {
-                    const getYear = categoryData[i].substring(0, 4);
-                    const getMonth = categoryData[i].substring(4, 6);
-                    const getDay = categoryData[i].substring(6, 8);
-                    const getHour = categoryData[i].substring(8, 10);
+                    const getYear = Number(categoryData[i].substring(0, 4));
+                    const getMonth = Number(categoryData[i].substring(4, 6) - 1);
+                    const getDay = Number(categoryData[i].substring(6, 8));
+                    const getHour = Number(categoryData[i].substring(8, 10));
                     seriesData.push({
                         name: seriesName,
                         x: Date.UTC(getYear, getMonth, getDay, getHour),
@@ -345,10 +345,10 @@ Object.assign(ZChart.prototype, {
                 });
 
                 for (let i = 0; i < categoryData.length; i++) {
-                    const getYear = categoryData[i].substring(0, 4);
-                    const getMonth = categoryData[i].substring(4, 6);
-                    const getDay = categoryData[i].substring(6, 8);
-                    const getHour = categoryData[i].substring(8, 10);
+                    const getYear = Number(categoryData[i].substring(0, 4));
+                    const getMonth = Number(categoryData[i].substring(4, 6) - 1);
+                    const getDay = Number(categoryData[i].substring(6, 8));
+                    const getHour = Number(categoryData[i].substring(8, 10));
                     seriesData.push({
                         name: seriesName,
                         x: Date.UTC(getYear, getMonth, getDay, getHour),

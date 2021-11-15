@@ -191,7 +191,7 @@ export const ciMixin = {
         return table;
     },
     getCITableData() {
-        if (this.elementIsEditable) {
+        if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
             // CI 컴포넌트 편집 가능여부가 true 일때 = 구분, CI 아이콘, CI Type, CI 이름, CI 설명, 편집 아이콘,  row 삭제 아이콘  7개
             return [
                 {

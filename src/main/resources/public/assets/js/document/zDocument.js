@@ -18,9 +18,7 @@ import { zValidation } from '../lib/zValidation.js';
 import { zFormButton } from './zFormButton.js';
 
 class ZDocument {
-    constructor() {
-        this.isOpen = false;
-    }
+    constructor() {}
 
     /**
      * 신청서를 표시하는 모달 생성
@@ -52,13 +50,9 @@ class ZDocument {
      * @param documentId 신청서 아이디
      */
     openDocument(documentId) {
-        if(this.isOpen) {
-            return;
-        }
-        this.isOpen = true; //중복 클릭 방지
-
         aliceJs.fetchJson('/rest/documents/' + documentId + '/data', {
-            method: 'GET'
+            method: 'GET',
+            showProgressbar: true
         }).then((documentData) => {
             // 정렬 (기준 : displayOrder)
             this.sortJson(documentData.form);
@@ -70,7 +64,6 @@ class ZDocument {
             this.makeDocument(this.data.form); // Form 생성
             this.documentModal.show(); // 모달 표시
             aliceJs.initDesignedSelectTag();
-            this.isOpen = false;
         });
     }
     /**
@@ -117,11 +110,13 @@ class ZDocument {
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             const group = this.addObjectByType(FORM.LAYOUT.GROUP, data, parent, index);
             data.row.forEach( (r, rIndex) => {
+                r.displayType = group.displayType;
                 this.makeDocument(r, group, rIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'component')) { // row
             const row = this.addObjectByType(FORM.LAYOUT.ROW, data, parent, index);
             data.component.forEach( (c, cIndex) => {
+                c.displayType = row.displayType;
                 this.makeDocument(c, row, cIndex);
             });
         } else { // component
@@ -278,7 +273,8 @@ class ZDocument {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(saveData)
+            body: JSON.stringify(saveData),
+            showProgressbar: true
         }).then(rtn => {
             if (rtn === 'true') {
                 zAlert.success(i18n.msg(actionMsg),  () => {
