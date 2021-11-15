@@ -324,6 +324,7 @@ export default class ZForm {
         for (let i = 0; i < this.children.length; i ++) {
             if (!this.children[i].validationCheckOnPublish()) {
                 isValid = false;
+                break;
             }
         }
         return isValid;
