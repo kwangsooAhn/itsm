@@ -619,9 +619,10 @@ select {
 
     .z-select-box-label {
       height: auto;
-      border: none;
       width: 100%;
+      background-color: transparent;
       padding: 0;
+      border: none;
       vertical-align: unset;
 
       &:hover,

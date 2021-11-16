@@ -1930,9 +1930,10 @@ select {
 }
 .z-select .z-select-box .z-select-box-label {
   height: auto;
-  border: none;
   width: 100%;
+  background-color: transparent;
   padding: 0;
+  border: none;
   vertical-align: unset;
 }
 .z-select .z-select-box .z-select-box-label:hover, .z-select .z-select-box .z-select-box-label:focus {

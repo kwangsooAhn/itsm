@@ -705,7 +705,7 @@ export const ciMixin = {
                                 });
                             } else {
                                 const ciComponent = JSON.parse(ciComponentData);
-                                if (zValidation.isDefined(ciComponent.ciRelation)) {
+                                if (zValidation.isDefined(ciComponent.ciRelations)) {
                                     for (let i = 0; i < ciComponent.ciRelations.length; i++) {
                                         this.addCIRelation(param, ciComponent.ciRelations[i]);
                                     }
@@ -718,7 +718,7 @@ export const ciMixin = {
                             '&instanceId=' + instanceIdElem.value, {
                             method: 'GET',
                         }).then((ciComponentData) => {
-                            if (zValidation.isDefined(ciComponent.ciRelation)) {
+                            if (zValidation.isDefined(ciComponentData.ciRelations)) {
                                 for (let i = 0; i < ciComponentData.ciRelations.length; i++) {
                                     this.addCIRelation(param, ciComponentData.ciRelations[i]);
                                 }
