@@ -455,7 +455,7 @@ class ZValidation {
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.regex.phone.test(this.getDOMElementValue(target));
-            this.setDOMElementError(rtn, target, i18n.msg('form.properties.checkPhoneFormat'), callback);
+            this.setDOMElementError(rtn, target, i18n.msg('validation.msg.checkPhoneFormat'), callback);
         } else { // 변수이면 true인지 false인지만 반환
             rtn = (typeof target === 'string' && this.regex.phone.test(target));
         }
