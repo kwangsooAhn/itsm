@@ -89,7 +89,8 @@ function zColorPicker(targetElement, options) {
         if (data.length > 0) {
             const userColors = JSON.parse(data);
             this.savedCustomColors = userColors.customValue.split('|');
-            this.customColors = userColors.customValue.split('|');
+            this.savedCustomColors.map(color => color.toUpperCase());
+            this.customColors = [...this.savedCustomColors];
             this.isExistColor = this.savedCustomColors.includes(this.value);
         }
         // 현재 색상이 존재하지 않는다면 사용자 색상에 추가함
@@ -693,7 +694,7 @@ Object.assign(zColorPicker.prototype, {
             this.pad2(Math.round(g).toString(16)),
             this.pad2(Math.round(b).toString(16))
         ];
-        return '#'  + hex.join('');
+        return ('#'  + hex.join('')).toUpperCase();
     },
     // hex to rgb
     hexToRGB(hex) {
