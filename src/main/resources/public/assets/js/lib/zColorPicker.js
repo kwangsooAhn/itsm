@@ -46,6 +46,8 @@ function zColorPicker(targetElement, options) {
     this.customColors = [];
     // 선택된 색상 엘리먼트
     this.selectedEl = null;
+    // 현재 색상이 존재하는지 여부
+    this.isExistColor = this.options.colors.includes(this.value);
 
     // wrapper
     const wrapperContainer = document.createElement('div');
@@ -88,6 +90,12 @@ function zColorPicker(targetElement, options) {
             const userColors = JSON.parse(data);
             this.savedCustomColors = userColors.customValue.split('|');
             this.customColors = userColors.customValue.split('|');
+            this.isExistColor = this.savedCustomColors.includes(this.value);
+        }
+        // 현재 색상이 존재하지 않는다면 사용자 색상에 추가함
+        if (!this.isExistColor) {
+            this.savedCustomColors.push(this.value);
+            this.customColors.push(this.value);
         }
         // 팔레트 출력
         this.drawPalette();
@@ -277,6 +285,9 @@ Object.assign(zColorPicker.prototype, {
             this.customColorListEl.insertAdjacentHTML('beforeend', this.getCustomColorTemplate(color, (this.value === color)));
             // 이벤트 등록
             const colorItem = this.customColorListEl.lastChild;
+            if (this.value === color) {
+                this.selectedEl = colorItem;
+            }
             colorItem.addEventListener('click', this.selectColor.bind(this), false);
             colorItem.querySelector('.z-custom-color-palette-item-clear')
                 .addEventListener('click', this.removeCustomColor.bind(this), false);
