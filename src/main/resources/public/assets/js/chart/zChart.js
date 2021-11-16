@@ -273,33 +273,78 @@ Object.assign(ZChart.prototype, {
                         }
                     }
                 }, false);
-                if (chartConfigJson.operation === 'average') {
-                    for (let i = 0; i < chartConfigJson.tags.length; i++) {
-                        let averageArray = [];
-                        let averageData = [];
-                        for (let key in propertyJson[0].operation) {
-                            if (propertyJson[0].operation[key].average !== "0") {
-                                for (let tagName in propertyJson[0].operation[key].average) {
-                                    if (tagName === chartConfigJson.tags[i]) {
-                                        averageArray.push(propertyJson[0].operation[key].average[tagName].average);
+                switch (chartConfigJson.operation) {
+                    case 'average':
+                        for (let i = 0; i < chartConfigJson.tags.length; i++) {
+                            let averageArray = [];
+                            let averageData = [];
+                            for (let key in propertyJson[0].operation) {
+                                if (propertyJson[0].operation[key].average !== "0") {
+                                    for (let tagName in propertyJson[0].operation[key].average) {
+                                        if (tagName === chartConfigJson.tags[i]) {
+                                            averageArray.push(propertyJson[0].operation[key].average[tagName].average);
+                                        }
+                                    }
+                                } else {
+                                    averageArray.push(0);
+                                }
+                            }
+                            this.chart.series[i].update({
+                                pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
+                                pointInterval: pointInterval,
+                                pointIntervalUnit: pointIntervalUnit,
+                                tooltip: {
+                                    pointFormatter: function () {
+                                        return i18n.msg('chart.label.average') + ': <b>' + Highcharts.numberFormat(this.y, 2) + '</b>';
+                                    }
+                                },
+                                dataLabels: {
+                                    formatter: function () {
+                                        return '<b>' + Highcharts.numberFormat(this.y, 2) + '</b>';
                                     }
                                 }
-                            } else {
-                                averageArray.push(0);
+                            });
+                            for (let i = 0; i < categoryData.length; i++) {
+                                const getYear = Number(categoryData[i].substring(0, 4));
+                                const getMonth = Number(categoryData[i].substring(4, 6) - 1);
+                                const getDay = Number(categoryData[i].substring(6, 8));
+                                const getHour = Number(categoryData[i].substring(8, 10));
+                                averageData.push({
+                                    x: Date.UTC(getYear, getMonth, getDay, getHour),
+                                    y: averageArray[i]
+                                });
                             }
+                            this.chart.series[i].update({name: chartConfigJson.tags[i], showInLegend: true}, false);
+                            this.chart.series[i].setData(averageData, true);
                         }
-                        this.chart.series[i].update({
+                        break;
+                    default:
+                        this.chart.series[0].update({
                             pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
                             pointInterval: pointInterval,
                             pointIntervalUnit: pointIntervalUnit,
                             tooltip: {
                                 pointFormatter: function () {
-                                    return i18n.msg('chart.label.average') + ': <b>' + Highcharts.numberFormat(this.y, 2) + '</b>';
+                                    if (chartConfigJson.operation === 'percent') {
+                                        const sum = countArray.reduce((a, b) => (a + b));
+                                        const percent = (this.y / sum) * 100;
+                                        return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                    } else if (chartConfigJson.operation === 'count') {
+                                        return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                                    } else {
+                                        return i18n.msg('chart.label.average') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                                    }
                                 }
                             },
                             dataLabels: {
                                 formatter: function () {
-                                    return '<b>' + Highcharts.numberFormat(this.y, 2) + '</b>';
+                                    if (chartConfigJson.operation === 'percent') {
+                                        const sum = countArray.reduce((a, b) => (a + b));
+                                        const percent = (this.y / sum) * 100;
+                                        return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                    } else {
+                                        return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                                    }
                                 }
                             }
                         });
@@ -308,57 +353,15 @@ Object.assign(ZChart.prototype, {
                             const getMonth = Number(categoryData[i].substring(4, 6) - 1);
                             const getDay = Number(categoryData[i].substring(6, 8));
                             const getHour = Number(categoryData[i].substring(8, 10));
-                            averageData.push({
+                            seriesData.push({
+                                name: seriesName,
                                 x: Date.UTC(getYear, getMonth, getDay, getHour),
-                                y: averageArray[i]
+                                y: countArray[i]
                             });
                         }
-                        this.chart.series[i].update({name: chartConfigJson.tags[i], showInLegend: true}, false);
-                        this.chart.series[i].setData(averageData, true);
-                    }
-                } else {
-                    this.chart.series[0].update({
-                        pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
-                        pointInterval: pointInterval,
-                        pointIntervalUnit: pointIntervalUnit,
-                        tooltip: {
-                            pointFormatter: function () {
-                                if (chartConfigJson.operation === 'percent') {
-                                    const sum = countArray.reduce((a, b) => (a + b));
-                                    const percent = (this.y / sum) * 100;
-                                    return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
-                                } else if (chartConfigJson.operation === 'count') {
-                                    return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
-                                } else {
-                                    return i18n.msg('chart.label.average') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
-                                }
-                            }
-                        },
-                        dataLabels: {
-                            formatter: function () {
-                                if (chartConfigJson.operation === 'percent') {
-                                    const sum = countArray.reduce((a, b) => (a + b));
-                                    const percent = (this.y / sum) * 100;
-                                    return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
-                                } else {
-                                    return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
-                                }
-                            }
-                        }
-                    });
-                    for (let i = 0; i < categoryData.length; i++) {
-                        const getYear = Number(categoryData[i].substring(0, 4));
-                        const getMonth = Number(categoryData[i].substring(4, 6) - 1);
-                        const getDay = Number(categoryData[i].substring(6, 8));
-                        const getHour = Number(categoryData[i].substring(8, 10));
-                        seriesData.push({
-                            name: seriesName,
-                            x: Date.UTC(getYear, getMonth, getDay, getHour),
-                            y: countArray[i]
-                        });
-                    }
-                    this.chart.series[0].update({name: seriesName, showInLegend: true}, false);
-                    this.chart.series[0].setData(seriesData, true);
+                        this.chart.series[0].update({name: seriesName, showInLegend: true}, false);
+                        this.chart.series[0].setData(seriesData, true);
+                        break;
                 }
                 break;
             case STACKED_COLUMN_CHART:
