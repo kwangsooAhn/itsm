@@ -331,25 +331,31 @@
     function setDisplay(value) {
         // 연산자 박스 출력
         let operationSelectBox = document.getElementById('operationSelectBox');
-        for (let i = 0; i < operationSelectBox.options.length; i++) {
-            if (value === ACTIVITY_GAUGE_CHART) {
-                if (operationSelectBox.options[i].value === 'count' || operationSelectBox.options[i].value === 'average') {
-                    operationSelectBox.options[i].style.display = 'none';
-                }
-            } else {
-                if (operationSelectBox.options.length !== 3) {
-                    let countOption = document.createElement('option');
-                    let averageOption = document.createElement('option');
-                    countOption.text = i18n.msg('chart.option.text.count');
-                    countOption.value = i18n.msg('chart.option.value.count');
-                    operationSelectBox.add(countOption);
-                    averageOption.text = i18n.msg('chart.option.text.average');
-                    averageOption.value = i18n.msg('chart.option.value.average');
-                    operationSelectBox.add(averageOption);
-                }
-            }
-            aliceJs.initDesignedSelectTag();
+        operationSelectBox.options.length = 0;
+        let countOption = document.createElement('option');
+        let averageOption = document.createElement('option');
+        let percentOption = document.createElement('option');
+        countOption.text = i18n.msg('chart.option.text.count');
+        countOption.value = i18n.msg('chart.option.value.count');
+        averageOption.text = i18n.msg('chart.option.text.average');
+        averageOption.value = i18n.msg('chart.option.value.average');
+        percentOption.text = i18n.msg('chart.option.text.percent');
+        percentOption.value = i18n.msg('chart.option.value.percent');
+        switch (value) {
+            case ACTIVITY_GAUGE_CHART:
+                operationSelectBox.add(averageOption);
+                break;
+            case BASIC_LINE_CHART:
+                operationSelectBox.add(countOption);
+                operationSelectBox.add(averageOption);
+                operationSelectBox.add(percentOption);
+                break;
+            default:
+                operationSelectBox.add(countOption);
+                operationSelectBox.add(percentOption);
+                break;
         }
+        aliceJs.initDesignedSelectTag();
 
         if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
             // 2021-10-06 By Jung Hee Chan

@@ -267,8 +267,12 @@ chart:
       yAxisAverageTitle: "Average"
     text:
       count: "Count"
+      average: "Average"
+      percent: "Percent"
     value:
       count: "count"
+      average: "average"
+      percent: "percent"
   msg:
     searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
