@@ -1188,6 +1188,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input::placeholder {
   color: #ABB0B5;
 }
+.z-input:read-only::placeholder, .z-input:disabled::placeholder {
+  color: transparent;
+}
 .z-input:not(:disabled):hover, .z-input:not(:read-only):hover {
   outline: 0;
   border: 0.0625rem solid #64BBF6;
@@ -1237,9 +1240,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   border: 0.0625rem solid #CFD5D9;
   pointer-events: none;
   cursor: default;
-}
-.z-input:read-only::placeholder, .z-input:disabled::placeholder {
-  color: transparent;
 }
 .z-input.error {
   border: 0.0625rem solid #F52525 !important;
@@ -1352,6 +1352,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-textarea::placeholder {
   color: #ABB0B5;
 }
+.z-textarea:read-only::placeholder, .z-textarea:disabled::placeholder {
+  color: transparent;
+}
 .z-textarea:not(:disabled):focus, .z-textarea:not(:read-only):focus {
   outline: 0;
   border: 0.0625rem solid #2578CE;
@@ -1389,9 +1392,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   border: 0.0625rem solid #CFD5D9;
   pointer-events: none;
   cursor: default;
-}
-.z-textarea:read-only::placeholder, .z-textarea:disabled::placeholder {
-  color: transparent;
 }
 .z-textarea.error {
   border: 0.0625rem solid #F52525 !important;

@@ -237,6 +237,12 @@ input, textarea, select {
     color: $element-placeholder-font-color;
   }
 
+  //readonly와 disabled일 때 placeholder감추기
+  &:read-only::placeholder,
+  &:disabled::placeholder {
+    color: transparent;
+  }
+
   &:not(:disabled),
   &:not(:read-only) {
     &:hover {
@@ -288,11 +294,6 @@ input, textarea, select {
     cursor: default;
   }
 
-  //readonly와 disabled일 때 placeholder감추기
-  &:read-only::placeholder,
-  &:disabled::placeholder {
-    color: transparent;
-  }
   &.error {
     @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
   }
@@ -404,6 +405,12 @@ input, textarea, select {
     color: $element-placeholder-font-color;
   }
 
+  //readonly와 disabled일 때 placeholder감추기
+  &:read-only::placeholder,
+  &:disabled::placeholder {
+    color: transparent;
+  }
+
   &:not(:disabled),
   &:not(:read-only) {
     &:focus {
@@ -446,12 +453,6 @@ input, textarea, select {
     cursor: default;
   }
 
-//readonly와 disabled일 때 placeholder감추기
-  &:read-only::placeholder,
-  &:disabled::placeholder {
-    color: transparent;
-  }
-  
   &.error {
     @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
   }
