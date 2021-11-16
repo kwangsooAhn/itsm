@@ -8,8 +8,8 @@
  * https://www.brainz.co.kr
  */
 
-const KEY_UP_VALID_TYPE = ['char', 'number', 'phone'];
-const CHANGE_VALID_TYPE = ['email'];
+const KEY_UP_VALID_TYPE = ['char', 'number'];
+const CHANGE_VALID_TYPE = ['email', 'phone'];
 class ZValidation {
     constructor(options = { alert: true }) {
         // 알림창 사용 여부가 false일 경우 DOM을 검색하여 'error-msg' class를 찾아서 에러 메시지를 표기한다.
@@ -23,6 +23,7 @@ class ZValidation {
             email: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
             blank: /^\s*$/,
             rgb: /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/,
+            phone: /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/,
         }, options.regex);
 
         this.errorClassName = 'error';
@@ -30,7 +31,7 @@ class ZValidation {
 
         // 이벤트 등록
         this.on('number', this.isNumber);
-        this.on('phone', this.isNumber);
+        this.on('phone', this.isPhone);
         this.on('integer', this.isInteger);
         this.on('char', this.isChar);
         this.on('specialChar', this.isSpecialChar);
@@ -441,6 +442,22 @@ class ZValidation {
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.maxLength', maxLength), callback);
         } else { // 변수이면 true인지 false인지만 반환
             rtn = target.length <= Number(maxLength);
+        }
+        return rtn;
+    }
+    /**
+     * 전화번호 체크
+     */
+    isPhone(target, callback) {
+        if (this.isEmpty(target)) { return true; }
+
+        let rtn = true;
+        // 유효성 검증
+        if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
+            rtn = this.regex.phone.test(this.getDOMElementValue(target));
+            this.setDOMElementError(rtn, target, i18n.msg('form.properties.phone'), callback);
+        } else { // 변수이면 true인지 false인지만 반환
+            rtn = (typeof target === 'string' && this.regex.phone.test(target));
         }
         return rtn;
     }
