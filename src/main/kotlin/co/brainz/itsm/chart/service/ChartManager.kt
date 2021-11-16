@@ -56,8 +56,8 @@ abstract class ChartManager(
 
     private fun getInstanceListInTags(chart: ChartDto): List<WfInstanceEntity> {
         val tags = mutableSetOf<String>()
-        chart.chartConfig.tags?.forEach { tag ->
-            tags.add(tag)
+        chart.tags.forEach { tag ->
+            tags.add(tag.tagValue)
         }
         return chartManagerService.getInstanceListInTags(tags)
     }
@@ -123,7 +123,6 @@ abstract class ChartManager(
                     dateFormat -> {
                         val docMap = HashMap<String, Any>()
                         docMap["instanceId"] = instance.instanceId
-                        //docMap["documentName"] = document.documentName
                         docMap["endDt"] = instance.instanceEndDt.toString()
                         docList.add(docMap)
                     }
