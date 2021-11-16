@@ -22,6 +22,7 @@ import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
@@ -48,7 +49,8 @@ class CIService(
     private val ciClassService: CIClassService,
     private val ciComponentDataRepository: CIComponentDataRepository,
     private val currentSessionUser: CurrentSessionUser,
-    private val excelComponent: ExcelComponent
+    private val excelComponent: ExcelComponent,
+    private val tagService: AliceTagService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -121,24 +123,16 @@ class CIService(
             // 임시 테이블 데이터 조회
             val ciComponentData =
                 ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
-            val tagDataList = mutableListOf<AliceTagDto>()
             val relationList = mutableListOf<CIRelationDto>()
             if (ciComponentData != null) {
                 val ciComponentDataValue: Map<String, Any> =
                     mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
-                // 태그
-                val tagData = mutableListOf<Map<String, String>>()
-                tagData.addAll(mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType))
-                tagData.forEach {
-                    tagDataList.add(mapper.convertValue(it, AliceTagDto::class.java))
-                }
-
                 // CI 세부 속성 변합
                 this.mergeCIAttribute(ciClasses,
                     mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType))
             }
             ciDetailDto.classes = ciClasses
-            ciDetailDto.ciTags = tagDataList
+            ciDetailDto.ciTags = tagService.getTagsByTargetId("ci", ciId)
             ciDetailDto.ciRelations = relationList
         } else { // 삭제, 조회시 DB에 저장된 CI 데이터 조회
             ciDetailDto = getCI(ciId)
