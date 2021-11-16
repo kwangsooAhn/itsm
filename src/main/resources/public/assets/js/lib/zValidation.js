@@ -42,6 +42,10 @@ class ZValidation {
         this.on('minLength', this.isMinLength);
         this.on('maxLength', this.isMaxLength);
     }
+
+    getErrorClassName() {
+        return this.errorClassName;
+    }
     /**
      * 이벤트 추가
      * @param type 이벤트 타입
@@ -132,7 +136,7 @@ class ZValidation {
                 // 동일한 이름을 가진 엘리먼트 중 체크된 항목의 값을 반환
                 const name = element.getAttribute('name');
                 const elements = document.getElementsByName(name);
-                return elements.filter((item) => item.checked).map((item) => item.value).join('|');
+                return Array.from(elements).filter((item) => item.checked).map((item) => item.value).join('|');
             }
         } else if (element instanceof HTMLSelectElement) {
             return element.options[element.selectedIndex].value;
@@ -169,7 +173,12 @@ class ZValidation {
      */
     addDOMElementError(element) {
         element.classList.add(this.errorClassName);
-        element.focus();
+
+        if (element.type === 'checkbox' || element.type === 'radio') {
+            element.parentNode.focus();
+        } else {
+            element.focus();
+        }
     }
     /**
      * DOM 엘리먼트 에러 표시
@@ -498,8 +507,32 @@ class ZValidation {
     hasDOMElementError(target) {
         const errorElem = target.querySelector('.' + this.errorClassName);
         if (errorElem !== null) {
-            errorElem.focus();
+            if (errorElem.type === 'checkbox' || errorElem.type === 'radio') {
+                errorElem.parentNode.focus();
+            } else {
+                errorElem.focus();
+            }
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * 옵션 목록 필수 값 체크
+     * @param options name,value 로 구성된 옵션 리스트
+     * @returns {boolean}
+     */
+    isEmptyOptions(options) {
+        // 옵션 리스트가 없는 경우와 옵션 리스트는 있는데 값이 비워진 경우를 체크
+        if (!options.length) {
+            zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
+            return true;
+        }
+        for (let option of options) {
+            if (zValidation.isEmpty(option.name) || zValidation.isEmpty(option.value)) {
+                zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
+                return true;
+            }
         }
         return false;
     }

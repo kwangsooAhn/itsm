@@ -2498,6 +2498,9 @@ select {
 .z-checkbox input[type=checkbox]:disabled ~ .z-label, .z-checkbox input[type=checkbox].readonly ~ .z-label {
   color: #ABB0B5;
 }
+.z-checkbox input[type=checkbox].error + span::before {
+  border: 0.0625rem solid #F52525 !important;
+}
 .z-checkbox:focus input[type=checkbox]:not(:disabled) + span:before,
 .z-checkbox:focus input[type=checkbox]:not(.readonly) + span:before {
   border-color: #2578CE;
@@ -2599,6 +2602,9 @@ select {
   -o-transform: translate(4px, 9px) scale(1);
   -ms-transform: translate(4px, 9px) scale(1);
   transform: translate(4px, 9px) scale(1);
+}
+.z-radio input[type=radio].error + span::before {
+  border: 0.0625rem solid #F52525 !important;
 }
 .z-radio:focus input[type=radio]:not(:disabled) + span:before,
 .z-radio:focus input[type=radio]:not(.readonly) + span:before {
@@ -6025,25 +6031,25 @@ body.modal-active {
   padding: 0.4375rem 0;
   pointer-events: none;
 }
-.z-component .z-element .input, .z-component .z-element .z-input {
+.z-component .z-element .input, .z-component .z-element .z-input:not(.z-select-box-label) {
   width: 100%;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
 }
-.z-component .z-element .input:hover, .z-component .z-element .z-input:hover {
+.z-component .z-element .input:hover, .z-component .z-element .z-input:not(.z-select-box-label):hover {
   outline: 0;
   border: 0.0625rem solid #64BBF6;
 }
-.z-component .z-element .input:focus, .z-component .z-element .z-input:focus {
+.z-component .z-element .input:focus, .z-component .z-element .z-input:not(.z-select-box-label):focus {
   outline: 0;
   border: 0.0625rem solid #2578CE;
   -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-component .z-element .input:active, .z-component .z-element .z-input:active {
+.z-component .z-element .input:active, .z-component .z-element .z-input:not(.z-select-box-label):active {
   outline: 0;
   border: 0.0625rem solid #2578CE;
 }
@@ -6148,6 +6154,9 @@ body.modal-active {
   padding: 0.4375rem 0;
   margin: 0.25rem 0;
   text-indent: 1rem;
+}
+.z-component .z-element .z-dr-table .z-dr-table-row .z-input:not(.z-select-box-label).picker-main {
+  padding-right: 2.25rem;
 }
 .z-component .z-element .z-dr-table .no-data-found-list {
   height: 2.5625rem;
@@ -6278,9 +6287,7 @@ body.modal-active {
 }
 .property .z-input:not(.tagify) {
   width: 100%;
-  padding: 0 1rem;
   font-size: 0.875rem;
-  vertical-align: middle;
 }
 .property .z-input:not(.tagify).i-unit-search {
   background: url("../media/icons/formDesigner/unit/icon_unit_search.svg") no-repeat 97% 50%;

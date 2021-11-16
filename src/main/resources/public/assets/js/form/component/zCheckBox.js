@@ -9,16 +9,17 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM } from '../../lib/zConstants.js';
-import { UIDiv, UILabel, UICheckbox, UISpan } from '../../lib/zUI.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZSwitchButtonProperty from '../../formDesigner/property/type/zSwitchButtonProperty.js';
 import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
-import ZOptionListProperty from '../../formDesigner/property/type/zOptionListProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZOptionListProperty from '../../formDesigner/property/type/zOptionListProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchButtonProperty from '../../formDesigner/property/type/zSwitchButtonProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { FORM } from '../../lib/zConstants.js';
+import { UICheckbox, UIDiv, UILabel, UISpan } from '../../lib/zUI.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -56,7 +57,7 @@ export const checkBoxMixin = {
     },
     afterEvent() {
         // 신청서 양식 편집 화면에 따른 처리
-        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             for (let i = 0; i < this.element.options.length; i++) {
                 this.UIElement.UIComponent.UIElement['UILabel' + i].addUIClass('readonly');
                 this.UIElement.UIComponent.UIElement['UILabel' + i].UICheckbox.addUIClass('readonly');
@@ -140,7 +141,8 @@ export const checkBoxMixin = {
             object['UILabel' + i] = new UILabel()
                 .setUIFor(checkboxId)
                 .setUIClass(this.element.align)
-                .addUIClass('z-checkbox');
+                .addUIClass('z-checkbox')
+                .setUIAttribute('tabindex', '-1');
             object['UILabel' + i].UICheckbox = new UICheckbox(checkedYn)
                 .setUIId(checkboxId)
                 .setUIAttribute('value', this.element.options[i].value)
@@ -159,12 +161,17 @@ export const checkBoxMixin = {
                 object['UILabel' + i].addUI(object['UILabel' + i].UISpan);
                 object.addUI(object['UILabel' + i]);
             }
-            // object.setUIAttribute('data-validation-required', this.validationRequired);
         }
         return object;
     },
     updateValue(e) {
         e.stopPropagation();
+
+        const firstCheckbox = this.UIElement.UIComponent.UIElement.UILabel0.UICheckbox;
+        if (firstCheckbox.hasUIClass(zValidation.getErrorClassName())) {
+            firstCheckbox.removeUIClass(zValidation.getErrorClassName());
+        }
+
         let updateValue = '';
         e.target.parentNode.parentNode.querySelectorAll('input[type=checkbox]').forEach((element) => {
             if (element.checked) {
@@ -207,5 +214,9 @@ export const checkBoxMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return !zValidation.isEmptyOptions(this.element.options);
     }
 };

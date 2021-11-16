@@ -847,6 +847,14 @@ select {
         color: $element-disabled-font-color;
       }
     }
+
+    &.error {
+      + span {
+        &::before {
+          @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
+        }
+      }
+    }
   }
 
   &:focus {
@@ -970,6 +978,14 @@ select {
             background-color: $element-disabled-font-color;
             @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
           }
+        }
+      }
+    }
+
+    &.error {
+      + span {
+        &::before {
+          @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
         }
       }
     }

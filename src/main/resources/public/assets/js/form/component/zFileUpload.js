@@ -9,12 +9,12 @@
  *
  * https://www.brainz.co.kr
  */
+import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv } from '../../lib/zUI.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
-import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -73,7 +73,7 @@ export const fileUploadMixin = {
         };
         // 신청서 양식 편집 화면에 따른 처리
         // 읽기 전용일 경우
-        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.clearUI();
             const UIViewFileUpload = new UIDiv().setUIClass('z-fileupload')
                 .addUIClass('file-uploader-view')
@@ -175,5 +175,9 @@ export const fileUploadMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return true;
     }
 };

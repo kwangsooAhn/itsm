@@ -10,16 +10,17 @@
  * https://www.brainz.co.kr
  */
 
+import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
+import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZOptionListProperty from '../../formDesigner/property/type/zOptionListProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchButtonProperty from '../../formDesigner/property/type/zSwitchButtonProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UILabel, UIRadioButton, UISpan } from '../../lib/zUI.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
-import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZSwitchButtonProperty from '../../formDesigner/property/type/zSwitchButtonProperty.js';
-import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
-import ZOptionListProperty from '../../formDesigner/property/type/zOptionListProperty.js';
-import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
-import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -57,7 +58,7 @@ export const radioMixin = {
     },
     afterEvent() {
         // 신청서 양식 편집 화면에 따른 처리
-        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             for (let i = 0; i < this.element.options.length; i++) {
                 this.UIElement.UIComponent.UIElement['UILabel' + i].addUIClass('readonly');
                 this.UIElement.UIComponent.UIElement['UILabel' + i].UIRadio.addUIClass('readonly');
@@ -130,6 +131,11 @@ export const radioMixin = {
     updateValue(e) {
         e.stopPropagation();
 
+        const firstRadioButton = this.UIElement.UIComponent.UIElement.UILabel0.UIRadio;
+        if (firstRadioButton.hasUIClass(zValidation.getErrorClassName())) {
+            firstRadioButton.removeUIClass(zValidation.getErrorClassName());
+        }
+
         this.value = e.target.value;
     },
     makeRadioButton(object) {
@@ -145,7 +151,8 @@ export const radioMixin = {
             object['UILabel' + i] = new UILabel()
                 .setUIFor(radioId)
                 .setUIClass(this.element.align)
-                .addUIClass('z-radio');
+                .addUIClass('z-radio')
+                .setUIAttribute('tabindex', '-1');
             object['UILabel' + i].UIRadio = new UIRadioButton(checkedYn)
                 .setUIId(radioId)
                 .setUIAttribute('value', this.element.options[i].value)
@@ -201,5 +208,9 @@ export const radioMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return !zValidation.isEmptyOptions(this.element.options);
     }
 };

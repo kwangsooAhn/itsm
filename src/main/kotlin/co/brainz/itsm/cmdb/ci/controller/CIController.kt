@@ -9,6 +9,7 @@ package co.brainz.itsm.cmdb.ci.controller
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.service.CIService
+import co.brainz.workflow.document.constants.WfDocumentConstants
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -90,7 +91,8 @@ class CIController(
             )
         )
         model.addAttribute("userInfo", currentSessionUser.getUserDto())
-        return ciEditModal
+        return if (request.getParameter("displayType") == WfDocumentConstants.DisplayType.EDITABLE.value)
+            ciEditModal else ciViewModal
     }
 
     /**
