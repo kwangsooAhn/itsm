@@ -1903,6 +1903,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   pointer-events: none;
   cursor: default;
 }
+.z-input:read-only::placeholder, .z-input:disabled::placeholder {
+  color: transparent;
+}
 .z-input.error {
   border: 0.0625rem solid #F52525 !important;
 }
@@ -2051,6 +2054,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   border: 0.0625rem solid #CFD5D9;
   pointer-events: none;
   cursor: default;
+}
+.z-textarea:read-only::placeholder, .z-textarea:disabled::placeholder {
+  color: transparent;
 }
 .z-textarea.error {
   border: 0.0625rem solid #F52525 !important;
@@ -5037,7 +5043,7 @@ select {
   min-height: 7.5rem;
   padding: 0.625rem;
 }
-.ql-wrapper-container .ql-container.ql-snow .ql-editor .ql-blank::before {
+.ql-wrapper-container .ql-container.ql-snow .ql-editor.ql-blank::before {
   content: attr(data-placeholder);
 }
 .ql-wrapper-container .ql-container.ql-snow .ql-editor h1, .ql-wrapper-container .ql-container.ql-snow .ql-editor h2, .ql-wrapper-container .ql-container.ql-snow .ql-editor h3, .ql-wrapper-container .ql-container.ql-snow .ql-editor h4, .ql-wrapper-container .ql-container.ql-snow .ql-editor h5, .ql-wrapper-container .ql-container.ql-snow .ql-editor h6 {
@@ -5048,6 +5054,9 @@ select {
 }
 .ql-wrapper-container .ql-container.ql-snow .ql-editor strong {
   font-weight: bold;
+}
+.ql-wrapper-container .ql-container.ql-disabled .ql-blank::before, .ql-wrapper-container .ql-containerql-readonly .ql-blank::before {
+  color: transparent;
 }
 .ql-wrapper-container .ql-container.error {
   border: 0.0625rem solid #F52525 !important;

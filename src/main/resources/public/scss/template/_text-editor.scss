@@ -283,7 +283,7 @@
         min-height: 7.5rem; // 120px
         padding: 0.625rem; // 10px
         // 내부 태그 재정의
-        .ql-blank::before {
+        &.ql-blank::before {
           content: attr(data-placeholder);
         }
 
@@ -298,6 +298,12 @@
         strong {
           font-weight: bold;
         }
+      }
+    }
+    // disabled 및 readOnly일 때 placeholder감추기
+    &.ql-disabled, &ql-readonly {
+      .ql-blank::before{
+        color: transparent;
       }
     }
     // 유효성 검증 실패시
