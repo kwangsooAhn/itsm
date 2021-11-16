@@ -10,16 +10,16 @@
  * https://www.brainz.co.kr
  */
 
-import { UNIT } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UIImg, UISpan, UIText } from '../../lib/zUI.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZSwitchButtonProperty from '../../formDesigner/property/type/zSwitchButtonProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZImageProperty from '../../formDesigner/property/type/zImageProperty.js';
+import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchButtonProperty from '../../formDesigner/property/type/zSwitchButtonProperty.js';
+import { UNIT } from '../../lib/zConstants.js';
+import { UIDiv, UIImg, UISpan, UIText } from '../../lib/zUI.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -197,5 +197,9 @@ export const imageMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return true;
     }
 };

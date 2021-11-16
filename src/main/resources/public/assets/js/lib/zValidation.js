@@ -516,6 +516,26 @@ class ZValidation {
         }
         return false;
     }
+
+    /**
+     * 옵션 목록 필수 값 체크
+     * @param options name,value 로 구성된 옵션 리스트
+     * @returns {boolean}
+     */
+    isEmptyOptions(options) {
+        // 옵션 리스트가 없는 경우와 옵션 리스트는 있는데 값이 비워진 경우를 체크
+        if (!options.length) {
+            zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
+            return true;
+        }
+        for (let option of options) {
+            if (zValidation.isEmpty(option.name) || zValidation.isEmpty(option.value)) {
+                zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 export const zValidation = new ZValidation();

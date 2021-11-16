@@ -10,15 +10,15 @@
  * https://www.brainz.co.kr
  */
 
-import { zValidation } from '../../lib/zValidation.js';
+import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv } from '../../lib/zUI.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
-import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
-import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -65,7 +65,7 @@ export const textEditorMixin = {
     afterEvent() {
         this.editor = new zQuill(this.UIElement.UIComponent.UIElement.UIDiv.domElement, {
             placeholder: this.elementPlaceholder,
-            readOnly: (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY),
+            readOnly: (this.displayType === FORM.DISPLAY_TYPE.READONLY),
             content: (this.value !== '') ? this.value : ''
         });
         this.editor.root.style.setProperty('--data-row', this.elementRows);
@@ -192,5 +192,9 @@ export const textEditorMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return true;
     }
 };

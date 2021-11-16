@@ -177,7 +177,7 @@
     pointer-events: none;
 
     // inputBox
-    .input, .z-input {
+    .input, .z-input:not(.z-select-box-label) {
       width: 100%;
       @include border(0.0625rem, solid, $element-border-color, all); // 1px
       @include borderRadius(0.0625rem); // 2px
@@ -314,6 +314,9 @@
           padding: 0.4375rem 0;
           margin: 0.25rem 0;
           text-indent: $element-indent;
+          &.picker-main {
+            padding-right: 2.25rem;
+          }
         }
       }
       // 데이터 없음

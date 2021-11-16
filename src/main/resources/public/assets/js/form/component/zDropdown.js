@@ -11,14 +11,15 @@
  * https://www.brainz.co.kr
  */
 
+import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZOptionListProperty from '../../formDesigner/property/type/zOptionListProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UISelect } from '../../lib/zUI.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
-import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZOptionListProperty from '../../formDesigner/property/type/zOptionListProperty.js';
-import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
-import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -61,7 +62,7 @@ export const dropdownMixin = {
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
         // 신청서 양식 편집 화면에 따른 처리
-        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIDropdown.addUIClass('readonly');
         }
         // Designed Select Box
@@ -146,5 +147,9 @@ export const dropdownMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return !zValidation.isEmptyOptions(this.element.options);
     }
 };

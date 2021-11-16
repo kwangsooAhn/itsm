@@ -13,18 +13,18 @@
  * https://www.brainz.co.kr
  */
 
-import { ZSession } from '../../lib/zSession.js';
-import { FORM } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UIInput } from '../../lib/zUI.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
 import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
-import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { FORM } from '../../lib/zConstants.js';
+import { ZSession } from '../../lib/zSession.js';
+import { UIDiv, UIInput } from '../../lib/zUI.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -73,14 +73,14 @@ export const inputBoxMixin = {
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
         // 신청서 양식 편집 화면에 따른 처리
-        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIInputbox.setUIReadOnly(true);
         }
         // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
         // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
         // 기본값이 '${default}' 이면 실제 값을 저장한다.
         if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
-            this.parent?.parent?.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
+            this.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
             this.value === '${default}') {
             this.value = this.UIElement.UIComponent.UIElement.UIInputbox.getUIValue();
         }
@@ -240,5 +240,9 @@ export const inputBoxMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return true;
     }
 };

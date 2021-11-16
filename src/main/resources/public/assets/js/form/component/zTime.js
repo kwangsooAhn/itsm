@@ -10,16 +10,16 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
-import {UIDiv, UIInput} from '../../lib/zUI.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
-import ZDefaultValueRadioProperty from '../../formDesigner/property/type/zDefaultValueRadioProperty.js';
-import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZDateTimePickerProperty from '../../formDesigner/property/type/zDateTimePickerProperty.js';
+import ZDefaultValueRadioProperty from '../../formDesigner/property/type/zDefaultValueRadioProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { FORM } from '../../lib/zConstants.js';
+import { UIDiv, UIInput } from '../../lib/zUI.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 
 /**
@@ -68,14 +68,14 @@ export const timeMixin = {
         // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
         // 기본값이 '${default}' 이면 실제 값을 저장한다.
         if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
-            this.parent?.parent?.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
+            this.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
             this.value === '${default}') {
             this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type,
                 this.UIElement.UIComponent.UIElement.UIDate.getUIValue());
         }
 
         // 신청서 양식 편집 화면에 따른 처리
-        if (this.parent?.parent?.displayType === FORM.DISPLAY_TYPE.READONLY) {
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIDate.setUIReadOnly(true);
         } else {
             // datePicker 초기화
@@ -225,5 +225,9 @@ export const timeMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return true;
     }
 };
