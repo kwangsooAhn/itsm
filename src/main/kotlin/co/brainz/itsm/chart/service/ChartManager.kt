@@ -123,7 +123,6 @@ abstract class ChartManager(
                     dateFormat -> {
                         val docMap = HashMap<String, Any>()
                         docMap["instanceId"] = instance.instanceId
-                        //docMap["documentName"] = document.documentName
                         docMap["endDt"] = instance.instanceEndDt.toString()
                         docList.add(docMap)
                     }
@@ -174,7 +173,7 @@ abstract class ChartManager(
         var durationMap = LinkedHashMap<String, Any>()
         val dateFormatList = mutableListOf<String>()
 
-        instanceList.forEach{ instance ->
+        instanceList.forEach { instance ->
             if (instance.instanceEndDt!!.withNano(0) >= chartDateTime.startDateTime) {
                 selectDocList.add(instance)
             }
