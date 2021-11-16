@@ -136,7 +136,7 @@
             showProgressbar: false,
             callbackFunc: function (response) {
                 document.getElementById('getChart').innerHTML = response.responseText;
-                setChart(chartType, document.getElementById('propertyJson').value);
+                setChart(chartType, document.getElementById('propertyJson').value, document.getElementById('chartConfig').value);
                 parsedPropertyJson(
                     chartType,
                     document.getElementById('chartConfig').value,
@@ -152,8 +152,8 @@
     }
 
     /** 하이차트 초기화 */
-    function setChart(chartType, property) {
-        chart = new ZChart('container', chartType, property);
+    function setChart(chartType, property, chartConfig) {
+        chart = new ZChart('container', chartType, property, chartConfig);
     }
 
     /*]]>*/

@@ -462,12 +462,11 @@ abstract class ChartManager(
      * 특정 컴포넌트에 대한 평균 계산을 진행한다.
      * 해당 함수에서는 인스턴스가 가지고 있는 특정 태그를 가진 컴포넌트에 대한 count, sum, average 데이터를 구한다.
      */
-    private fun getTagAverage(componentDataMap: LinkedHashMap<String, MutableList<ChartComponentDataDto>>): LinkedHashMap<String, Any> {
-        val tagAverageDataMap = LinkedHashMap<String, Any>()
-        for ((key, value) in componentDataMap) {
-            val calculationMap = LinkedHashMap<String?, ChartCalculateAverageDto>()
-            if (value.size > 0) {
-                value.forEach { data ->
+    private fun getTagAverage(componentDataMap: LinkedHashMap<String, MutableList<ChartComponentDataDto>>): LinkedHashMap<String?, ChartCalculateAverageDto> {
+        val calculationMap = LinkedHashMap<String?, ChartCalculateAverageDto>()
+        componentDataMap.forEach { componentData ->
+            if (componentData.value.size > 0) {
+                componentData.value.forEach { data ->
                     if (!data.componentValue.isNullOrBlank()) {
                         data.componentValue.split("|").forEach { tagValue ->
                             if (tagValue.toDoubleOrNull() != null) {
@@ -487,9 +486,8 @@ abstract class ChartManager(
                     calculationMap[data.tagValue]?.average =
                         (calculationMap[data.tagValue]?.sum!! / calculationMap[data.tagValue]?.count!!)
                 }
-                tagAverageDataMap[key] = calculationMap
             }
         }
-        return tagAverageDataMap
+        return calculationMap
     }
 }

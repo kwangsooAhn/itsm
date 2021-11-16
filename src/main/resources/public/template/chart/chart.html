@@ -221,7 +221,7 @@
             let chartInfo = setChartInfo();
             restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
                 let responseJson = JSON.parse(response);
-                setChart(responseJson.chartType, responseJson.propertyJson);
+                setChart(responseJson.chartType, responseJson.propertyJson, responseJson.chartConfigStr);
                 parsedPropertyJson(responseJson.chartType, responseJson.chartConfigStr, responseJson.propertyJson);
             }, false);
         }
@@ -333,19 +333,22 @@
         let operationSelectBox = document.getElementById('operationSelectBox');
         for (let i = 0; i < operationSelectBox.options.length; i++) {
             if (value === ACTIVITY_GAUGE_CHART) {
-                if (operationSelectBox.options[i].value === 'count') {
+                if (operationSelectBox.options[i].value === 'count' || operationSelectBox.options[i].value === 'average') {
                     operationSelectBox.options[i].style.display = 'none';
-                } else {
-                    operationSelectBox.options[i].selected = true;
                 }
             } else {
-                if (operationSelectBox.options.length !== 2) {
+                if (operationSelectBox.options.length !== 3) {
                     let countOption = document.createElement('option');
+                    let averageOption = document.createElement('option');
                     countOption.text = i18n.msg('chart.option.text.count');
-                    countOption.value = i18n.msg('chart.option.text.value');
+                    countOption.value = i18n.msg('chart.option.value.count');
                     operationSelectBox.add(countOption);
+                    averageOption.text = i18n.msg('chart.option.text.average');
+                    averageOption.value = i18n.msg('chart.option.value.average');
+                    operationSelectBox.add(averageOption);
                 }
             }
+            aliceJs.initDesignedSelectTag();
         }
 
         if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
@@ -372,12 +375,12 @@
         }
 
         // 차트 새로 그리기
-        setChart(value, document.getElementById('propertyJson').value);
+        setChart(value, document.getElementById('propertyJson').value, document.getElementById('chartConfig').value);
     }
 
     /** 하이차트 초기화 */
-    function setChart(chartType, property) {
-        chart = new ZChart('container', chartType, property);
+    function setChart(chartType, property, chartConfig) {
+        chart = new ZChart('container', chartType, property, chartConfig);
     }
 
     /** chartConfig 파싱 진행 **/

@@ -19,7 +19,8 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-function ZChart(container, chartType, chartProperty) {
+function ZChart(container, chartType, chartProperty, chartConfig) {
+    let chartConfigJson = JSON.parse(chartConfig);
     // highcharts 기본 옵션
     let options = {
         global: { useUTC: false }, // 로컬 시간대를 보여주기 위한 설정
@@ -90,6 +91,11 @@ function ZChart(container, chartType, chartProperty) {
                     },
                 }]
             };
+            if (chartConfigJson.operation === 'average') {
+                for (let i = 0; i < chartConfigJson.tags.length - 1; i++) {
+                    options.series.push({data: []});
+                }
+            }
             break;
         case STACKED_COLUMN_CHART:
         case STACKED_BAR_CHART:
@@ -253,7 +259,12 @@ Object.assign(ZChart.prototype, {
                 this.chart.series[0].setData(seriesData, true);
                 break;
             case BASIC_LINE_CHART:
-                this.chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
+                //y축 제목 설정
+                if (chartConfigJson.operation === 'average') {
+                    this.chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisAverageTitle')});
+                } else {
+                    this.chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
+                }
                 // 시간 포맷
                 this.chart.xAxis[0].update({
                     labels: {
@@ -272,8 +283,10 @@ Object.assign(ZChart.prototype, {
                                 const sum = countArray.reduce((a, b) => (a + b));
                                 const percent = (this.y / sum) * 100;
                                 return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
-                            } else {
+                            } else if (chartConfigJson.operation === 'count') {
                                 return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                            } else {
+                                return i18n.msg('chart.label.average') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
                             }
                         }
                     },

@@ -241,6 +241,7 @@ board:
 chart:
   label:
     all: "전체"
+    average: "평균"
     chart: "사용자 정의 차트"
     defaultInfo: "기본 정보"
     description: "차트 설명"
@@ -263,10 +264,13 @@ chart:
     label:
       subTitle: "사용자 정의 차트 보고서"
       yAxisTitle: "문서 수"
+      yAxisAverageTitle: "평균"
     text:
       count: "카운트"
+      average: "평균"
     value:
-      coutn: "count"
+      count: "count"
+      average: "average"
   msg:
     searchDescription: "다양한 사용자 정의 차트를 조회하고 관리합니다."
     enterChartName: "차트 이름을 입력하세요."

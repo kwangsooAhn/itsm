@@ -87,13 +87,13 @@
                 `</div>`;
             chartTarget.insertAdjacentHTML('beforeend', element);
 
-            setChart(data.chartType, data.propertyJson, data.chartId + '_chart');
+            setChart(data.chartType, data.propertyJson, data.chartId + '_chart', data.chartConfigStr);
             parsedPropertyJson(data.chartType, data.chartConfigStr, data.propertyJson);
         }
 
         /** 하이차트 초기화 */
-        function setChart(chartType, property, target) {
-            chart = new ZChart(target, chartType, property);
+        function setChart(chartType, property, target, chartConfig) {
+            chart = new ZChart(target, chartType, property, chartConfig);
         }
 
         /** chartConfig 파싱 진행 **/

@@ -241,6 +241,7 @@ board:
 chart:
   label:
     all: "All"
+    average: "Average"
     chartt: "User Custom Chart"
     defaultInfo: "Default Info"
     description: "Chart Description"
@@ -263,6 +264,7 @@ chart:
     label:
       subTitle: "User custom chart report"
       yAxisTitle: "Number of Documents"
+      yAxisAverageTitle: "Average"
     text:
       count: "Count"
     value:
