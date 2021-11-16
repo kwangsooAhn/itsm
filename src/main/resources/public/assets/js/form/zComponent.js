@@ -7,25 +7,25 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as mixin from '../lib/zMixins.js';
 import { FORM, UNIT } from '../lib/zConstants.js';
+import * as mixin from '../lib/zMixins.js';
 import { UIDiv, UILabel, UISpan } from '../lib/zUI.js';
+import { checkBoxMixin } from './component/zCheckBox.js';
+import { ciMixin } from './component/zCI.js';
+import { customCodeMixin } from './component/zCustomCode.js';
+import { dateMixin } from './component/zDate.js';
+import { dataTimeMixin } from './component/zDateTime.js';
+import { dividerMixin } from './component/zDivider.js';
+import { dropdownMixin } from './component/zDropdown.js';
+import { dynamicRowTableMixin } from './component/zDynamicRowTable.js';
+import { fileUploadMixin } from './component/zFileUpload.js';
+import { imageMixin } from './component/zImage.js';
 import { inputBoxMixin } from './component/zInputBox.js';
+import { labelMixin } from './component/zLabel.js';
+import { radioMixin } from './component/zRadio.js';
 import { textAreaMixin } from './component/zTextArea.js';
 import { textEditorMixin } from './component/zTextEditor.js';
-import { dropdownMixin } from './component/zDropdown.js';
-import { radioMixin } from './component/zRadio.js';
-import { checkBoxMixin } from './component/zCheckBox.js';
-import { labelMixin } from './component/zLabel.js';
-import { imageMixin } from './component/zImage.js';
-import { dividerMixin } from './component/zDivider.js';
-import { dateMixin } from './component/zDate.js';
 import { timeMixin } from './component/zTime.js';
-import { dataTimeMixin } from './component/zDateTime.js';
-import { fileUploadMixin } from './component/zFileUpload.js';
-import { customCodeMixin } from './component/zCustomCode.js';
-import { dynamicRowTableMixin } from './component/zDynamicRowTable.js';
-import { ciMixin } from './component/zCI.js';
 
 const DEFAULT_PROPERTY = {
     label: {

@@ -4015,7 +4015,7 @@ INSERT INTO wf_component_property VALUES('a6eb123ed5ac913c55035f15bb30efce', 'di
 INSERT INTO wf_component_property VALUES('a6eb123ed5ac913c55035f15bb30efce', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"장애발생일시"}');
 INSERT INTO wf_component_property VALUES('a6eb123ed5ac913c55035f15bb30efce', 'element', '{"columnWidth":"8","defaultValueRadio":"now"}');
 INSERT INTO wf_component_property VALUES('a6eb123ed5ac913c55035f15bb30efce', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
-INSERT INTO wf_component_property VALUES('a75adb2ca0f4d7023972794de97e979e', 'element', '{"columnWidth":"8","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0011|code|form.template.serviceDesk.incident.category.system|system"}');
+INSERT INTO wf_component_property VALUES('a75adb2ca0f4d7023972794de97e979e', 'element', '{"columnWidth":"8","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0011|code|form.template.serviceDesk.incident.category.system|시스템 장애"}');
 INSERT INTO wf_component_property VALUES('a75adb2ca0f4d7023972794de97e979e', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('a75adb2ca0f4d7023972794de97e979e', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"장애유형"}');
 INSERT INTO wf_component_property VALUES('a75adb2ca0f4d7023972794de97e979e', 'display', '{"displayOrder":1,"columnWidth":"12"}');
@@ -4192,7 +4192,7 @@ INSERT INTO wf_component_property VALUES('c2972b99571a448ebdb8b2f981412060', 'la
 INSERT INTO wf_component_property VALUES('c4591d870dab40e3a18ca6f41250b200', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('c4591d870dab40e3a18ca6f41250b200', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"요청구분"}');
 INSERT INTO wf_component_property VALUES('c4591d870dab40e3a18ca6f41250b200', 'display', '{"displayOrder":0,"columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('c4591d870dab40e3a18ca6f41250b200', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0012|code|form.template.serviceDesk.request.category.service|개발 요청"}');
+INSERT INTO wf_component_property VALUES('c4591d870dab40e3a18ca6f41250b200', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0012|code|form.template.serviceDesk.request.category.development|개발 요청"}');
 INSERT INTO wf_component_property VALUES('d80c69ade3fc48f1bd78e1b4b02397d7', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"처리결과"}');
 INSERT INTO wf_component_property VALUES('d80c69ade3fc48f1bd78e1b4b02397d7', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
 INSERT INTO wf_component_property VALUES('d80c69ade3fc48f1bd78e1b4b02397d7', 'validation', '{"required":true,"minLength":"0","maxLength":"512"}');
@@ -4452,7 +4452,7 @@ INSERT INTO wf_component_property VALUES('59ffe940a3464a9ca3683224f7038c41', 'el
 INSERT INTO wf_component_property VALUES('5aa56cbcd2ab48bbbcffd0ba53af499c', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('5aa56cbcd2ab48bbbcffd0ba53af499c', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"요청구분"}');
 INSERT INTO wf_component_property VALUES('5aa56cbcd2ab48bbbcffd0ba53af499c', 'display', '{"displayOrder":0,"columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('5aa56cbcd2ab48bbbcffd0ba53af499c', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0012|code|form.template.serviceDesk.request.category.service|개발 요청"}');
+INSERT INTO wf_component_property VALUES('5aa56cbcd2ab48bbbcffd0ba53af499c', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0012|code|form.template.serviceDesk.request.category.development|개발 요청"}');
 INSERT INTO wf_component_property VALUES('5e32d98e8bcd4e8e9cc8cdaea9ee45ff', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('5e32d98e8bcd4e8e9cc8cdaea9ee45ff', 'element', '{"columnWidth":"10","defaultValueRadio":"now"}');
 INSERT INTO wf_component_property VALUES('5e32d98e8bcd4e8e9cc8cdaea9ee45ff', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"변경 결과서 작성일시"}');
@@ -5029,7 +5029,7 @@ INSERT INTO wf_component_property VALUES('75f5539dab2f4b429eeafcebb071f681', 'di
 INSERT INTO wf_component_property VALUES('75f5539dab2f4b429eeafcebb071f681', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요"}');
 INSERT INTO wf_component_property VALUES('75f5539dab2f4b429eeafcebb071f681', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"문제원인"}');
 INSERT INTO wf_component_property VALUES('8b28285dbe524b63be1339ee01329b48', 'display', '{"displayOrder":0,"columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('8b28285dbe524b63be1339ee01329b48', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0011|code|form.template.serviceDesk.incident.category.system|system"}');
+INSERT INTO wf_component_property VALUES('8b28285dbe524b63be1339ee01329b48', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0011|code|form.template.serviceDesk.incident.category.system|시스템 장애"}');
 INSERT INTO wf_component_property VALUES('8b28285dbe524b63be1339ee01329b48', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"장애유형"}');
 INSERT INTO wf_component_property VALUES('8b28285dbe524b63be1339ee01329b48', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('9f97009d72714860a3fe817d81684cf3', 'validation', '{"required":true}');
@@ -5093,7 +5093,7 @@ INSERT INTO wf_component_property VALUES('30c71b37af6141ffa177dc7320ef5532', 'la
 INSERT INTO wf_component_property VALUES('30c71b37af6141ffa177dc7320ef5532', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('30c71b37af6141ffa177dc7320ef5532', 'validation', '{"required":false}');
 INSERT INTO wf_component_property VALUES('30c71b37af6141ffa177dc7320ef5532', 'element', '{"columnWidth":"10","align":"left"}');
-INSERT INTO wf_component_property VALUES('468a97d081914885b40c0e069ad44ff2', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0011|code|form.template.serviceDesk.incident.category.system|system"}');
+INSERT INTO wf_component_property VALUES('468a97d081914885b40c0e069ad44ff2', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0011|code|form.template.serviceDesk.incident.category.system|시스템 장애"}');
 INSERT INTO wf_component_property VALUES('468a97d081914885b40c0e069ad44ff2', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"장애유형"}');
 INSERT INTO wf_component_property VALUES('468a97d081914885b40c0e069ad44ff2', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('468a97d081914885b40c0e069ad44ff2', 'display', '{"displayOrder":0,"columnWidth":"12"}');

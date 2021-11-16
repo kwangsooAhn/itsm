@@ -9,12 +9,12 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as mixin from '../lib/zMixins.js';
-import { UIDiv } from '../lib/zUI.js';
-import { FORM, UNIT } from '../lib/zConstants.js';
+import ZBoxModelProperty from '../formDesigner/property/type/zBoxModelProperty.js';
 import ZClipboardProperty from '../formDesigner/property/type/zClipboardProperty.js';
 import ZGroupProperty from '../formDesigner/property/type/zGroupProperty.js';
-import ZBoxModelProperty from '../formDesigner/property/type/zBoxModelProperty.js';
+import { FORM, UNIT } from '../lib/zConstants.js';
+import * as mixin from '../lib/zMixins.js';
+import { UIDiv } from '../lib/zUI.js';
 
 export default class ZRow {
     constructor(data = {}) {
@@ -267,6 +267,17 @@ export default class ZRow {
             display: this._display,
             component: component
         };
+    }
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        let isValid = true;
+        for (let i = 0; i < this.children.length; i ++) {
+            if (!this.children[i].validationCheckOnPublish()) {
+                isValid = false;
+                break;
+            }
+        }
+        return isValid;
     }
 }
 export class UIRowTooltip extends UIDiv {

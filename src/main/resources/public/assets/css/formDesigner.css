@@ -2250,9 +2250,10 @@ select {
 }
 .z-select .z-select-box .z-select-box-label {
   height: auto;
-  border: none;
   width: 100%;
+  background-color: transparent;
   padding: 0;
+  border: none;
   vertical-align: unset;
 }
 .z-select .z-select-box .z-select-box-label:hover, .z-select .z-select-box .z-select-box-label:focus {
@@ -6031,25 +6032,25 @@ body.modal-active {
   padding: 0.4375rem 0;
   pointer-events: none;
 }
-.z-component .z-element .input, .z-component .z-element .z-input {
+.z-component .z-element .input, .z-component .z-element .z-input:not(.z-select-box-label) {
   width: 100%;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
 }
-.z-component .z-element .input:hover, .z-component .z-element .z-input:hover {
+.z-component .z-element .input:hover, .z-component .z-element .z-input:not(.z-select-box-label):hover {
   outline: 0;
   border: 0.0625rem solid #64BBF6;
 }
-.z-component .z-element .input:focus, .z-component .z-element .z-input:focus {
+.z-component .z-element .input:focus, .z-component .z-element .z-input:not(.z-select-box-label):focus {
   outline: 0;
   border: 0.0625rem solid #2578CE;
   -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-component .z-element .input:active, .z-component .z-element .z-input:active {
+.z-component .z-element .input:active, .z-component .z-element .z-input:not(.z-select-box-label):active {
   outline: 0;
   border: 0.0625rem solid #2578CE;
 }

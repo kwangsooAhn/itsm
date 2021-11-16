@@ -10,15 +10,15 @@
  * https://www.brainz.co.kr
  */
 
-import { ZSession } from '../../lib/zSession.js';
-import { FORM, CI, UNIT } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
-import { UIButton, UIDiv, UITable, UIRow, UICell, UIImg, UISpan, UIInput } from '../../lib/zUI.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { CI, FORM, UNIT } from '../../lib/zConstants.js';
+import { ZSession } from '../../lib/zSession.js';
+import { UIButton, UICell, UIDiv, UIImg, UIInput, UIRow, UISpan, UITable } from '../../lib/zUI.js';
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -705,7 +705,7 @@ export const ciMixin = {
                                 });
                             } else {
                                 const ciComponent = JSON.parse(ciComponentData);
-                                if (zValidation.isDefined(ciComponent.ciRelation)) {
+                                if (zValidation.isDefined(ciComponent.ciRelations)) {
                                     for (let i = 0; i < ciComponent.ciRelations.length; i++) {
                                         this.addCIRelation(param, ciComponent.ciRelations[i]);
                                     }
@@ -718,7 +718,7 @@ export const ciMixin = {
                             '&instanceId=' + instanceIdElem.value, {
                             method: 'GET',
                         }).then((ciComponentData) => {
-                            if (zValidation.isDefined(ciComponent.ciRelation)) {
+                            if (zValidation.isDefined(ciComponentData.ciRelations)) {
                                 for (let i = 0; i < ciComponentData.ciRelations.length; i++) {
                                     this.addCIRelation(param, ciComponentData.ciRelations[i]);
                                 }
@@ -744,17 +744,19 @@ export const ciMixin = {
                         }
                     });
 
-                    // 태그 초기화
-                    new zTag(document.getElementById('ciTags'), {
-                        suggestion: false,
-                        realtime: false,
-                        tagType: 'ci',
-                        targetId: data.ciId
-                    });
                 }
             });
             updateModal.show();
+
+            // 태그 초기화
+            new zTag(document.getElementById('ciTags'), {
+                suggestion: false,
+                realtime: false,
+                tagType: 'ci',
+                targetId: data.ciId
+            });
         });
+
     },
     // 기존 CI 조회 모달 Template 조회
     getSelectModalContent() {
@@ -1028,5 +1030,9 @@ export const ciMixin = {
             element: this._element,
             validation: this._validation
         };
+    },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return true;
     }
 };
