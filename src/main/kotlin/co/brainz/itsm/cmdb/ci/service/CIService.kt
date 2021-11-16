@@ -21,6 +21,7 @@ import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
+import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.framework.util.AliceMessageSource
@@ -132,7 +133,7 @@ class CIService(
                     mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType))
             }
             ciDetailDto.classes = ciClasses
-            ciDetailDto.ciTags = tagService.getTagsByTargetId("ci", ciId)
+            ciDetailDto.ciTags = tagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ciId)
             ciDetailDto.ciRelations = relationList
         } else { // 삭제, 조회시 DB에 저장된 CI 데이터 조회
             ciDetailDto = getCI(ciId)

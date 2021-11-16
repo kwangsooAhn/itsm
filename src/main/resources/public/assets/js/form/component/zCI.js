@@ -730,17 +730,19 @@ export const ciMixin = {
                         }
                     });
 
-                    // 태그 초기화
-                    new zTag(document.getElementById('ciTags'), {
-                        suggestion: false,
-                        realtime: false,
-                        tagType: 'ci',
-                        targetId: data.ciId
-                    });
                 }
             });
             updateModal.show();
+
+            // 태그 초기화
+            new zTag(document.getElementById('ciTags'), {
+                suggestion: false,
+                realtime: false,
+                tagType: 'ci',
+                targetId: data.ciId
+            });
         });
+
     },
     // 기존 CI 조회 모달 Template 조회
     getSelectModalContent() {
