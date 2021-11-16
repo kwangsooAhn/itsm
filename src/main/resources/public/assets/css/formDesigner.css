@@ -6032,25 +6032,25 @@ body.modal-active {
   padding: 0.4375rem 0;
   pointer-events: none;
 }
-.z-component .z-element .input, .z-component .z-element .z-input:not(.z-select-box-label) {
+.z-component .z-element .input, .z-component .z-element .z-input:not(.z-select-box-label):not(:read-only) {
   width: 100%;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
 }
-.z-component .z-element .input:hover, .z-component .z-element .z-input:not(.z-select-box-label):hover {
+.z-component .z-element .input:hover, .z-component .z-element .z-input:not(.z-select-box-label):not(:read-only):hover {
   outline: 0;
   border: 0.0625rem solid #64BBF6;
 }
-.z-component .z-element .input:focus, .z-component .z-element .z-input:not(.z-select-box-label):focus {
+.z-component .z-element .input:focus, .z-component .z-element .z-input:not(.z-select-box-label):not(:read-only):focus {
   outline: 0;
   border: 0.0625rem solid #2578CE;
   -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-component .z-element .input:active, .z-component .z-element .z-input:not(.z-select-box-label):active {
+.z-component .z-element .input:active, .z-component .z-element .z-input:not(.z-select-box-label):not(:read-only):active {
   outline: 0;
   border: 0.0625rem solid #2578CE;
 }
