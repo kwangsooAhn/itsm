@@ -93,6 +93,10 @@
                 document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
                     notificationDiv.querySelectorAll('div[is-display=true]').length + ')';
 
+                document.querySelectorAll('span.z-date').forEach((element) => {
+                    element.textContent = i18n.userDateTime(element.textContent);
+                });
+
                 if (isShow) {
                     const noDisplayNotification = notificationDiv.querySelectorAll('div[is-display=false]');
                     noDisplayNotification.forEach(function (element) {
@@ -100,7 +104,7 @@
                             notificationId: element.id,
                             instanceId: element.getAttribute('instance-id'),
                             title: element.querySelector('.z-title').innerHTML,
-                            date: element.querySelector('.z-date').innerHTML,
+                            date: element.querySelector('.z-date').textContent,
                             message: element.querySelector('.z-message').innerHTML
                         });
                     });

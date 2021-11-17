@@ -994,7 +994,7 @@
                 elem = document.createElement('select');
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
-                elem.readOnly = (displayMode === 'view');
+                elem.className = (displayMode === 'view') ? 'readonly' : '';
                 if (typeof attributeValue.option !== 'undefined') {
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
@@ -1180,7 +1180,7 @@
                 elem = document.createElement('div');
                 elem.className = 'child-attribute-row';
                 // 삭제 버튼
-                if (parent.children.length > 1) {
+                if (parent.children.length > 1 && displayMode === 'edit') {
                     const removeBtn = document.createElement('button');
                     removeBtn.type = 'button';
                     removeBtn.className = 'z-button-icon extra z-button-attribute-delete';

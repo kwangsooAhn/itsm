@@ -25,7 +25,7 @@ const DEFAULT_GROUP_LABEL_PROPERTY = {
     // 그룹의 라벨은 아코디언 위에 표시되기 때문에 항상 top 위치이며 보여주거나 숨기는 기능을 설정 한다.
     // 아코디언이 표시되지 않을 경우 라벨 표시 여부에 따라 라벨 영역이 사라지거나 나타난다.
     visibility: true, // 라벨 사용여부
-    fontColor: 'rgba(141, 146, 153, 1)',
+    fontColor: '#8d9299',
     fontSize: '14',
     bold: false,
     italic: false,

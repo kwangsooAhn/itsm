@@ -110,7 +110,7 @@
                 <div class="flex-column col-6 mr-4">
                     <label class="field-label required" th:text="#{chart.label.targetTags}"></label>
                     <input type="text" id="targetTags" name="targetTags" class="col-pct-12"
-                           th:value="${chart?.chartConfig?.tags}" th:readonly="${view}" th:classappend="${view}?'':'z-input'">
+                           th:value="${chart?.tags}" th:readonly="${view}" th:classappend="${view}?'':'z-input'">
                 </div>
             </div>
             <div class="flex-column z-edit-row">
@@ -297,7 +297,6 @@
     function getChart(chartId, chartType) {
         setDisplay(document.getElementById('typeSelectBox').value);
         let targetTags = document.getElementById('targetTags').value;
-        document.getElementById('targetTags').value = targetTags.substring(1, targetTags.length - 1);
         new zTag(document.querySelector('input[name=targetTags]'), {
             suggestion: false,
             realtime: false,
@@ -398,14 +397,13 @@
     function setChartInfo(method, chartId) {
         let tagList = [];
         JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
-            tagList.push(tag.value);
+            tagList.push({value: tag.value})
         });
 
         let chartInfo = {
             chartType: document.getElementById('typeSelectBox').value,
             chartName: document.getElementById('chartName').value,
             chartDesc: document.getElementById('chartDesc').value,
-            targetTags: tagList,
             chartConfig: {
                 range: {
                     type: document.getElementById('rangeType').value,
@@ -414,9 +412,9 @@
                 },
                 operation: document.getElementById('operationSelectBox').value,
                 periodUnit: document.getElementById('periodUnitSelectBox').value,
-                group: document.getElementById('targetGroup').value,
-                tags: tagList
+                group: document.getElementById('targetGroup').value
             },
+            tags: tagList,
             chartConfigStr: ''
         };
 

@@ -705,7 +705,7 @@ export const ciMixin = {
                                 });
                             } else {
                                 const ciComponent = JSON.parse(ciComponentData);
-                                if (zValidation.isDefined(ciComponent.ciRelation)) {
+                                if (zValidation.isDefined(ciComponent.ciRelations)) {
                                     for (let i = 0; i < ciComponent.ciRelations.length; i++) {
                                         this.addCIRelation(param, ciComponent.ciRelations[i]);
                                     }
@@ -718,7 +718,7 @@ export const ciMixin = {
                             '&instanceId=' + instanceIdElem.value, {
                             method: 'GET',
                         }).then((ciComponentData) => {
-                            if (zValidation.isDefined(ciComponent.ciRelation)) {
+                            if (zValidation.isDefined(ciComponentData.ciRelations)) {
                                 for (let i = 0; i < ciComponentData.ciRelations.length; i++) {
                                     this.addCIRelation(param, ciComponentData.ciRelations[i]);
                                 }
@@ -744,17 +744,19 @@ export const ciMixin = {
                         }
                     });
 
-                    // 태그 초기화
-                    new zTag(document.getElementById('ciTags'), {
-                        suggestion: false,
-                        realtime: false,
-                        tagType: 'ci',
-                        targetId: data.ciId
-                    });
                 }
             });
             updateModal.show();
+
+            // 태그 초기화
+            new zTag(document.getElementById('ciTags'), {
+                suggestion: false,
+                realtime: false,
+                tagType: 'ci',
+                targetId: data.ciId
+            });
         });
+
     },
     // 기존 CI 조회 모달 Template 조회
     getSelectModalContent() {

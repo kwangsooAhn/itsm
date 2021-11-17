@@ -237,6 +237,12 @@ input, textarea, select {
     color: $element-placeholder-font-color;
   }
 
+  //readonly와 disabled일 때 placeholder감추기
+  &:read-only::placeholder,
+  &:disabled::placeholder {
+    color: transparent;
+  }
+
   &:not(:disabled),
   &:not(:read-only) {
     &:hover {
@@ -397,6 +403,12 @@ input, textarea, select {
 
   &::placeholder {
     color: $element-placeholder-font-color;
+  }
+
+  //readonly와 disabled일 때 placeholder감추기
+  &:read-only::placeholder,
+  &:disabled::placeholder {
+    color: transparent;
   }
 
   &:not(:disabled),
@@ -619,10 +631,12 @@ select {
 
     .z-select-box-label {
       height: auto;
-      border: none;
       width: 100%;
+      background-color: transparent;
       padding: 0;
+      border: none;
       vertical-align: unset;
+      pointer-events: none;
 
       &:hover,
       &:focus {

@@ -1533,6 +1533,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input::placeholder {
   color: #ABB0B5;
 }
+.z-input:read-only::placeholder, .z-input:disabled::placeholder {
+  color: transparent;
+}
 .z-input:not(:disabled):hover, .z-input:not(:read-only):hover {
   outline: 0;
   border: 0.0625rem solid #64BBF6;
@@ -1693,6 +1696,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea::placeholder {
   color: #ABB0B5;
+}
+.z-textarea:read-only::placeholder, .z-textarea:disabled::placeholder {
+  color: transparent;
 }
 .z-textarea:not(:disabled):focus, .z-textarea:not(:read-only):focus {
   outline: 0;
@@ -1930,10 +1936,12 @@ select {
 }
 .z-select .z-select-box .z-select-box-label {
   height: auto;
-  border: none;
   width: 100%;
+  background-color: transparent;
   padding: 0;
+  border: none;
   vertical-align: unset;
+  pointer-events: none;
 }
 .z-select .z-select-box .z-select-box-label:hover, .z-select .z-select-box .z-select-box-label:focus {
   border: none;
