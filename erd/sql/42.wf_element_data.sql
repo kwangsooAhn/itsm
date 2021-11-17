@@ -1050,7 +1050,7 @@ INSERT INTO wf_element_data VALUES ('1d8f887174f647739b5a9f15057cadb7', 'assigne
 INSERT INTO wf_element_data VALUES ('1d8f887174f647739b5a9f15057cadb7', 'assignee', 'z-approver', 1, true);
 INSERT INTO wf_element_data VALUES ('1d8f887174f647739b5a9f15057cadb7', 'reject-id', '9bea485756784ff3b4d5eb4411e72bb8', 2, false);
 INSERT INTO wf_element_data VALUES ('1d8f887174f647739b5a9f15057cadb7', 'withdraw', 'N', 3, false);
-INSERT INTO wf_element_data VALUES ('205d259641844842817b894779a3f575','sub-document-id','4028b21c7cdffb67017ce0b4d3e30872',0,true);
+INSERT INTO wf_element_data VALUES ('205d259641844842817b894779a3f575','target-document-list','4028b21c7cdffb67017ce0b4d3e30872',0,true);
 INSERT INTO wf_element_data VALUES ('32d5c4799a914ea1ba95333b88f56d1b', 'action-name', '문제관리이관', 0, false);
 INSERT INTO wf_element_data VALUES ('32d5c4799a914ea1ba95333b88f56d1b', 'action-value', 'problem', 1, false);
 INSERT INTO wf_element_data VALUES ('32d5c4799a914ea1ba95333b88f56d1b', 'is-default', 'N', 2, false);
