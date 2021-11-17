@@ -2261,6 +2261,7 @@ select {
   padding: 0;
   border: none;
   vertical-align: unset;
+  pointer-events: none;
 }
 .z-select .z-select-box .z-select-box-label:hover, .z-select .z-select-box .z-select-box-label:focus {
   border: none;
