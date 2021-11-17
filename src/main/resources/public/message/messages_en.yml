@@ -1381,7 +1381,7 @@ validation:
     required: "Please enter {0}."
     specialChar: "Please enter only special characters."
     unacceptableCharacters: "Contains special characters (/ \ % ;) that are not allowed."
-    checkPhoneFormat: "Please include (-) according to the phone number format."
+    checkPhoneNumberFormat: "Please include (-) according to the phone number format."
 
 # Project
 project:

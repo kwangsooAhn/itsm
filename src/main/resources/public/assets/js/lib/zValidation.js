@@ -31,7 +31,7 @@ class ZValidation {
 
         // 이벤트 등록
         this.on('number', this.isNumber);
-        this.on('phone', this.isPhone);
+        this.on('phone', this.isPhoneNumber);
         this.on('integer', this.isInteger);
         this.on('char', this.isChar);
         this.on('specialChar', this.isSpecialChar);
@@ -448,7 +448,7 @@ class ZValidation {
     /**
      * 전화번호 체크
      */
-    isPhone(target, callback) {
+    isPhoneNumber(target, callback) {
         if (this.isEmpty(target)) { return true; }
 
         let rtn = true;
