@@ -51,6 +51,10 @@ class ReportTemplateService(
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
+    init {
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+    }
+
     /**
      * 템플릿 목록 조회
      */

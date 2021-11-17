@@ -9,7 +9,8 @@ object AliceTagConstants {
     enum class TagType(val code: String) {
         INSTANCE("instance"),
         COMPONENT("component"),
-        CI("ci")
+        CI("ci"),
+        CHART("chart")
     }
 
     const val TAG_SUGGESTION_MAX_COUNT: Long = 20

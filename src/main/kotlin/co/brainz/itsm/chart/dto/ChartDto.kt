@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.chart.dto
 
+import co.brainz.framework.tag.dto.AliceTagDto
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
 import java.time.LocalDate
@@ -19,15 +20,15 @@ data class ChartDto(
     var chartConfig: ChartConfig,
     var createDt: LocalDateTime? = null,
     var propertyJson: String? = null,
-    var chartConfigStr: String? = null
+    var chartConfigStr: String? = null,
+    var tags: List<AliceTagDto> = emptyList()
 ) : Serializable
 
 data class ChartConfig(
     var range: ChartRange,
     var operation: String = "",
     var periodUnit: String? = null,
-    var group: String? = null,
-    var tags: ArrayList<String>? = null
+    var group: String? = null
 ) : Serializable
 
 data class ChartRange(
