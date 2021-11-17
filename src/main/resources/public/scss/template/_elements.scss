@@ -636,6 +636,7 @@ select {
       padding: 0;
       border: none;
       vertical-align: unset;
+      pointer-events: none;
 
       &:hover,
       &:focus {
