@@ -56,8 +56,8 @@ abstract class ChartManager(
 
     private fun getInstanceListInTags(chart: ChartDto): List<WfInstanceEntity> {
         val tags = mutableSetOf<String>()
-        chart.chartConfig.tags?.forEach { tag ->
-            tags.add(tag)
+        chart.tags.forEach { tag ->
+            tags.add(tag.tagValue)
         }
         return chartManagerService.getInstanceListInTags(tags)
     }
