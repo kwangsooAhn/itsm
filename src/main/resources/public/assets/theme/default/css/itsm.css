@@ -6871,6 +6871,9 @@ body.modal-active {
 .alice-toastify.toast-content .content div.message {
   padding-bottom: 0.625rem;
 }
+.alice-toastify.toast-content .content div.date {
+  color: #8B9094;
+}
 .alice-toastify.toast-content .content div span.z-title {
   max-width: 18.13rem;
   font-size: 1rem;
