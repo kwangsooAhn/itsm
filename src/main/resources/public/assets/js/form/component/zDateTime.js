@@ -208,7 +208,7 @@ export const dataTimeMixin = {
                 .addProperty(defaultValueRadioProperty),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
-                .addProperty(new ZDateTimePickerProperty('validationMinDateTime', 'validation.maxDateTime', this.validationMinDateTime, FORM.DATE_TYPE.DATETIME_PICKER))
+                .addProperty(new ZDateTimePickerProperty('validationMinDateTime', 'validation.minDateTime', this.validationMinDateTime, FORM.DATE_TYPE.DATETIME_PICKER))
                 .addProperty(new ZDateTimePickerProperty('validationMaxDateTime', 'validation.maxDateTime', this.validationMaxDateTime, FORM.DATE_TYPE.DATETIME_PICKER))
         ];
     },
