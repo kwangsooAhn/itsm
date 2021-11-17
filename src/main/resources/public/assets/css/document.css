@@ -1283,6 +1283,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input::placeholder {
   color: #ABB0B5;
 }
+.z-input:read-only::placeholder, .z-input:disabled::placeholder {
+  color: transparent;
+}
 .z-input:not(:disabled):hover, .z-input:not(:read-only):hover {
   outline: 0;
   border: 0.0625rem solid #64BBF6;
@@ -1443,6 +1446,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea::placeholder {
   color: #ABB0B5;
+}
+.z-textarea:read-only::placeholder, .z-textarea:disabled::placeholder {
+  color: transparent;
 }
 .z-textarea:not(:disabled):focus, .z-textarea:not(:read-only):focus {
   outline: 0;
