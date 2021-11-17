@@ -7,6 +7,7 @@
 package co.brainz.itsm.chart.service
 
 import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartCalculateAverageDto
 import co.brainz.itsm.chart.dto.ChartComponentDataDto
@@ -313,7 +314,7 @@ abstract class ChartManager(
             }
             map[ChartConstants.Operation.AVERAGE.code] = if (durationMap.isNotEmpty()) {
                 this.getTagAverage(
-                    this.getTagComponent(durationMap, chart.chartConfig.tags)
+                    this.getTagComponent(durationMap, chart.tags)
                 )
             } else {
                 "0"
@@ -372,7 +373,7 @@ abstract class ChartManager(
      */
     private fun getTagComponent(
         durationMap: List<Map<String, Any>>,
-        chartTags: ArrayList<String>?
+        chartTags: List<AliceTagDto>
     ): LinkedHashMap<String, MutableList<ChartComponentDataDto>> {
         val instanceList = mutableListOf<RestTemplateInstanceDto>()
         val componentDataMap = LinkedHashMap<String, MutableList<ChartComponentDataDto>>()
@@ -389,12 +390,11 @@ abstract class ChartManager(
         }
 
         // 사용자 정의 차트에서 설정한 태그 데이터와 관련된 컴포넌트 데이터를 추출한다.
-        val tagTargetIds = mutableListOf<String>()
-        chartTags.let {
-            chartManagerService.getTagValueList(AliceTagConstants.TagType.COMPONENT.code, it!!).forEach { tag ->
-                tagTargetIds.add(tag.targetId)
-            }
+        val tags = mutableSetOf<String>()
+        chartTags.forEach { tag ->
+            tags.add(tag.tagValue)
         }
+        val tagTargetIds = chartManagerService.getTagValueList(AliceTagConstants.TagType.COMPONENT.code, tags.toList())
 
         // 해당 인스턴스와 관련된 신청서(document)의 문서(form)를 찾아 컴포넌트 리스트를 출력한다.
         // 여기서 수집하는 컴포넌트 데이터는 전체 컴포넌트 중에서 태그와 관련된 컴포넌트이고 'dropdown', 'radio', 'checkBox' 타입의 컴포넌트를 수집한다.
@@ -409,7 +409,7 @@ abstract class ChartManager(
                             WfComponentConstants.ComponentTypeCode.RADIO.code,
                             WfComponentConstants.ComponentTypeCode.CHECKBOX.code -> {
                                 for (target in tagTargetIds) {
-                                    if (target == FormComponentDto.id) {
+                                    if (target.targetId == FormComponentDto.id) {
                                         componentDataList.add(
                                             ChartComponentDataDto(
                                                 componentId = FormComponentDto.id,

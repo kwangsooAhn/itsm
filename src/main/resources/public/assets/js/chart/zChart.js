@@ -19,8 +19,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-function ZChart(container, chartType, chartProperty, chartConfig) {
+function ZChart(container, chartType, chartProperty, chartConfig, tags) {
     let chartConfigJson = JSON.parse(chartConfig);
+    let tagsJson = (typeof tags === "object") ? tags : JSON.parse(tags);
     // highcharts 기본 옵션
     let options = {
         global: { useUTC: false }, // 로컬 시간대를 보여주기 위한 설정
@@ -92,7 +93,7 @@ function ZChart(container, chartType, chartProperty, chartConfig) {
                 }]
             };
             if (chartConfigJson.operation === 'average') {
-                for (let i = 0; i < chartConfigJson.tags.length - 1; i++) {
+                for (let i = 0; i < tagsJson.length - 1; i++) {
                     options.series.push({data: []});
                 }
             }
@@ -178,10 +179,11 @@ function ZChart(container, chartType, chartProperty, chartConfig) {
 
 Object.assign(ZChart.prototype, {
     /** chartConfig 파싱 진행 **/
-    parsedPropertyJson: function (chartType, chartConfig, property) {
+    parsedPropertyJson: function (chartType, chartConfig, property, tags) {
         let chartConfigJson = JSON.parse(chartConfig);
         chartConfigJson.type = chartType;
         let propertyJson = JSON.parse(property);
+        let tagsJson = (typeof tags === "object") ? tags : JSON.parse(tags);
 
         /** Get propertyJson Data **/
         let countArray = [];
@@ -275,14 +277,14 @@ Object.assign(ZChart.prototype, {
                 }, false);
                 switch (chartConfigJson.operation) {
                     case 'average':
-                        for (let i = 0; i < chartConfigJson.tags.length; i++) {
+                        for (let i = 0; i < tagsJson.length; i++) {
                             let averageArray = [];
                             let averageData = [];
                             for (let key in propertyJson[0].operation) {
                                 if (propertyJson[0].operation[key].average !== "0") {
-                                    for (let tagName in propertyJson[0].operation[key].average) {
-                                        if (tagName === chartConfigJson.tags[i]) {
-                                            averageArray.push(propertyJson[0].operation[key].average[tagName].average);
+                                    for (let tagValue in propertyJson[0].operation[key].average) {
+                                        if (tagValue === tagsJson[i].value) {
+                                            averageArray.push(propertyJson[0].operation[key].average[tagValue].average);
                                         }
                                     }
                                 } else {
@@ -314,7 +316,7 @@ Object.assign(ZChart.prototype, {
                                     y: averageArray[i]
                                 });
                             }
-                            this.chart.series[i].update({name: chartConfigJson.tags[i], showInLegend: true}, false);
+                            this.chart.series[i].update({name: tagsJson[i].value, showInLegend: true}, false);
                             this.chart.series[i].setData(averageData, true);
                         }
                         break;
@@ -329,10 +331,8 @@ Object.assign(ZChart.prototype, {
                                         const sum = countArray.reduce((a, b) => (a + b));
                                         const percent = (this.y / sum) * 100;
                                         return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
-                                    } else if (chartConfigJson.operation === 'count') {
-                                        return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
                                     } else {
-                                        return i18n.msg('chart.label.average') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                                        return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
                                     }
                                 }
                             },

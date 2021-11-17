@@ -6,6 +6,7 @@
 <body>
 <input type="hidden" id="propertyJson" name="propertyJson" th:value="|${chart?.propertyJson}|"/>
 <input type="hidden" id="chartConfig" name="chartConfig" th:value="|${chart?.chartConfigStr}|"/>
+<input type="hidden" id="tags" name="tags" th:value="|${chart?.tags}|"/>
 <div class="flex-column z-edit-row mt-2">
     <div id="container" class="chart-content-view"/>
 </div>

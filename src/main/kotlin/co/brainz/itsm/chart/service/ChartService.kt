@@ -72,7 +72,8 @@ class ChartService(
             chartName = chartPreviewDto.chartName,
             chartDesc = chartPreviewDto.chartDesc,
             chartConfig = chartPreviewDto.chartConfig,
-            chartConfigStr = mapper.writeValueAsString(chartPreviewDto.chartConfig)
+            chartConfigStr = mapper.writeValueAsString(chartPreviewDto.chartConfig),
+            tags = chartPreviewDto.tags
         )
         if (chart != null) {
             chartDto.chartId = chart.chartId
