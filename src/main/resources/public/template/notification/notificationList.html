@@ -29,8 +29,7 @@
                 <span class="z-message text-ellipsis" th:text="${notification.message}"></span>
             </div>
             <div class="z-date">
-                <span class="z-date" th:text="${#temporals.format(notification.createDt, dateformat)}"
-                      th:with="dateformat=${#authentication.details.timeFormat}"></span>
+                <span class="z-date" th:text="${notification.createDt}"></span>
             </div>
         </div>
     </div>

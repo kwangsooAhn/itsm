@@ -192,6 +192,9 @@
         &.message {
           padding-bottom: 0.625rem; // 10px
         }
+        &.date {
+          color: $toastify-content-date-color;
+        }
         span {
           &.z-title {
             max-width: 18.13rem; // 290px
