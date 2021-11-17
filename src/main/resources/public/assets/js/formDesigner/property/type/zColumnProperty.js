@@ -35,7 +35,7 @@ export const propertyExtends = {
         columnWidth: '12', // 컬럼 너비
         columnHead: {
             fontSize: '14',
-            fontColor: 'rgba(141, 146, 153, 1)',
+            fontColor: '#8d9299',
             align: 'left',
             bold: false,
             italic: false,
@@ -43,7 +43,7 @@ export const propertyExtends = {
         },
         columnContent: {
             fontSize: '14',
-            fontColor: 'rgba(50, 50, 51, 1)',
+            fontColor: '#323233',
             align: 'left',
             bold: true,
             italic: false,
