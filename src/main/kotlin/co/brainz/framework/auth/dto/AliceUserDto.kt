@@ -34,5 +34,6 @@ data class AliceUserDto(
     val lang: String,
     val timeFormat: String,
     val theme: String,
-    val avatarPath: String?
-) : Serializable
+    val avatarPath: String?,
+    val absenceYn: Boolean
+    ) : Serializable
