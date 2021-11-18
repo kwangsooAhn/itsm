@@ -79,7 +79,7 @@ PUT /rest/users/{userKey}/info
 {
   "userKey": "40288a9d7be7aefc017be7d150910000",
   "custom_type": "user_absence",
-  "custom_value": "2021-11-18T23:16:34.277465|2021-11-19T23:16:34.277465|0509e09412534a6e98f04ca79abb6424"
+  "custom_value": "{'absenceStartDt':'2021-11-18T23:16:34.277465', 'absenceEndDt':'2021-11-19T23:16:34.277465', 'substituteUserKey':'0509e09412534a6e98f04ca79abb6424'}"
 }
 ```
 
@@ -101,6 +101,11 @@ PUT /rest/users/{userKey}/info
 ## 데이터 삭제
 
 ---
+
+* 사용자를 직접적으로 삭제할 수 없습니다.   
+   단, 부재 여부(absence_yn)가 false 일 때 awf_user_custom 데이터에 해당하는  
+   absenceStartDt, absenceEndDt, substituteUserKey에 대한 정보를 제거합니다.
+  
 
 ### URL
 ```
