@@ -32,6 +32,7 @@ class UserDto(
     var avatarPath: String = "",
     var avatarValue: String = "",
     var avatarSize: Long = 0L,
+    var absenceYn: Boolean = false,
     var createDt: LocalDateTime? = null,
     var updateDt: LocalDateTime? = null,
     var totalCount: Long = 0L

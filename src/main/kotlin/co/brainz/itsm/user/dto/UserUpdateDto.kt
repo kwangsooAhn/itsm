@@ -30,5 +30,6 @@ data class UserUpdateDto(
     var theme: String?,
     var fileSeq: Long?,
     var useYn: Boolean?,
+    var absenceYn: Boolean?,
     var avatarUUID: String
 ) : Serializable

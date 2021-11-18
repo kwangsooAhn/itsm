@@ -37,6 +37,12 @@ import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserCustomRepository
 import co.brainz.itsm.user.repository.UserRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.type.TypeFactory
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
+import com.fasterxml.jackson.module.kotlin.readValue
 import java.nio.file.Paths
 import java.security.PrivateKey
 import java.time.LocalDateTime
@@ -243,6 +249,7 @@ class UserService(
         userUpdateDto.timeFormat?.let { targetEntity.timeFormat = userUpdateDto.timeFormat!! }
         userUpdateDto.theme?.let { targetEntity.theme = userUpdateDto.theme!! }
         userUpdateDto.useYn?.let { targetEntity.useYn = userUpdateDto.useYn!! }
+        userUpdateDto.absenceYn?.let { targetEntity.absenceYn = userUpdateDto.absenceYn!! }
 
         return targetEntity
     }
@@ -374,6 +381,14 @@ class UserService(
             )
         )
         return true
+    }
+
+    /**
+     * 사용자 정의 업무 대리인 조회
+     */
+    fun getUserAbsenceInfo(userKey: String): UserCustomDto? {
+        val userEntity = userDetailsService.selectUserKey(userKey)
+        return userCustomRepository.findByUserAndCustomType(userEntity, UserConstants.UserCustom.USER_ABSENCE.code)
     }
 
     /**

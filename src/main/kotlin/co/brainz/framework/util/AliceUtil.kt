@@ -106,7 +106,8 @@ class AliceUtil {
             aliceUser.lang,
             aliceUser.timeFormat,
             aliceUser.theme,
-            aliceUser.avatarPath
+            aliceUser.avatarPath,
+            aliceUser.absenceYn
         )
     }
 
