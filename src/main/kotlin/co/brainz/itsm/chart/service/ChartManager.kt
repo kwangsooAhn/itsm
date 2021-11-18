@@ -479,12 +479,10 @@ abstract class ChartManager(
                                     count = tagMap[data.tagValue]?.count!!.plus(1),
                                     sum = tagMap[data.tagValue]?.sum!!.plus(componentValue.toDouble())
                                 )
+                                tagMap[data.tagValue]?.average =
+                                    (tagMap[data.tagValue]?.sum!! / tagMap[data.tagValue]?.count!!)
                             }
                         }
-                    }
-                    if (tagMap[data.tagValue]?.count != 0) {
-                        tagMap[data.tagValue]?.average =
-                            (tagMap[data.tagValue]?.sum!! / tagMap[data.tagValue]?.count!!)
                     }
                 }
             }
