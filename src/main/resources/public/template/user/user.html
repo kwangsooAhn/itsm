@@ -338,8 +338,8 @@
 
     function setDisplay(viewId, switchElement) {
         if (switchElement.checked) {
-            const startDtVal = /*[[${users?.absenceStartDt}]]*/'';
-            const endDtVal = /*[[${users?.absenceEndDt}]]*/'';
+            const startDtVal = ''; // /*[[${users?.absenceStartDt}]]*/
+            const endDtVal = ''; // /*[[${users?.absenceEndDt}]]*/
             const startDtElement = document.getElementById('absenceStartDt');
             const endDtElement = document.getElementById('absenceEndDt');
             startDtElement.value = startDtVal ? i18n.userDateTime(startDtVal) : i18n.getDateTime();
