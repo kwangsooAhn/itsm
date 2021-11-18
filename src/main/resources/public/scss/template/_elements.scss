@@ -278,6 +278,7 @@ input, textarea, select {
     @include border($element-readonly-border-width, solid, $element-readonly-border-color, bottom);
     @include borderRadius(0);
     cursor: default;
+    width: 100%;
 
     &:hover,
     &:focus {

@@ -1712,6 +1712,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   cursor: default;
+  width: 100%;
 }
 .z-input:read-only:not(:disabled):not(.tagify):hover, .z-input:read-only:not(:disabled):not(.tagify):focus {
   border-bottom: 0.0625rem solid #CFD5D9;
