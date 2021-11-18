@@ -2087,13 +2087,6 @@ select {
 .z-print table tr {
   height: 0;
 }
-.z-print-main-header {
-  text-align: center;
-  margin: 5mm 0;
-}
-.z-print-main-header h1 {
-  color: #000000;
-}
 .z-print-main-footer {
   line-height: 1.2;
   padding: 5mm 0;
