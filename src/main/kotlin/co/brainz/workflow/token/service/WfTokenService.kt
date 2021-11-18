@@ -13,6 +13,7 @@ import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
@@ -131,7 +132,7 @@ class WfTokenService(
                 tokenEntity.get().element.elementId
             )
 
-        formData.group?. let {
+        formData.group?.let {
             for (group in formData.group) {
                 for (row in group.row) {
                     for (componentEntity in row.component) {
@@ -193,6 +194,27 @@ class WfTokenService(
             actions = wfActionService.actions(tokenEntity.get().element.elementId),
             stakeholders = this.getTokenStakeholders(tokenEntity.get())
         )
+    }
+
+    /**
+     * 해당 인스턴스 아이디를 가진 토큰 데이터를 조회한다.
+     */
+    fun findTokenByInstanceId(instanceId: String): List<WfTokenDto> {
+        val tokenData = wfTokenRepository.findTokenByInstanceIdIn(instanceId)
+        val tokenList = mutableListOf<WfTokenDto>()
+
+        tokenData.results.forEach { data ->
+            val token = WfTokenDto(
+                tokenId = data.tokenId,
+                instanceId = data.instance.instanceId,
+                elementId = data.element.elementId,
+                elementType = data.element.elementType
+            )
+
+            tokenList.add(token)
+        }
+
+        return tokenList
     }
 
     /**

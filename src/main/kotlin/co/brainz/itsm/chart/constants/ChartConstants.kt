@@ -75,6 +75,7 @@ object ChartConstants {
      */
     enum class Operation(val code: String) {
         PERCENT("percent"),
-        COUNT("count")
+        COUNT("count"),
+        AVERAGE("average")
     }
 }

@@ -19,7 +19,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-function ZChart(container, chartType, chartProperty) {
+function ZChart(container, chartType, chartProperty, chartConfig, tags) {
+    let chartConfigJson = JSON.parse(chartConfig);
+    let tagsJson = (typeof tags === "object") ? tags : JSON.parse(tags);
     // highcharts 기본 옵션
     let options = {
         global: { useUTC: false }, // 로컬 시간대를 보여주기 위한 설정
@@ -90,6 +92,11 @@ function ZChart(container, chartType, chartProperty) {
                     },
                 }]
             };
+            if (chartConfigJson.operation === 'average') {
+                for (let i = 0; i < tagsJson.length - 1; i++) {
+                    options.series.push({data: []});
+                }
+            }
             break;
         case STACKED_COLUMN_CHART:
         case STACKED_BAR_CHART:
@@ -172,10 +179,11 @@ function ZChart(container, chartType, chartProperty) {
 
 Object.assign(ZChart.prototype, {
     /** chartConfig 파싱 진행 **/
-    parsedPropertyJson: function (chartType, chartConfig, property) {
+    parsedPropertyJson: function (chartType, chartConfig, property, tags) {
         let chartConfigJson = JSON.parse(chartConfig);
         chartConfigJson.type = chartType;
         let propertyJson = JSON.parse(property);
+        let tagsJson = (typeof tags === "object") ? tags : JSON.parse(tags);
 
         /** Get propertyJson Data **/
         let countArray = [];
@@ -253,7 +261,12 @@ Object.assign(ZChart.prototype, {
                 this.chart.series[0].setData(seriesData, true);
                 break;
             case BASIC_LINE_CHART:
-                this.chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
+                //y축 제목 설정
+                if (chartConfigJson.operation === 'average') {
+                    this.chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisAverageTitle')});
+                } else {
+                    this.chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
+                }
                 // 시간 포맷
                 this.chart.xAxis[0].update({
                     labels: {
@@ -262,47 +275,94 @@ Object.assign(ZChart.prototype, {
                         }
                     }
                 }, false);
-                this.chart.series[0].update({
-                    pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
-                    pointInterval: pointInterval,
-                    pointIntervalUnit: pointIntervalUnit,
-                    tooltip: {
-                        pointFormatter: function () {
-                            if (chartConfigJson.operation === 'percent') {
-                                const sum = countArray.reduce((a, b) => (a + b));
-                                const percent = (this.y / sum) * 100;
-                                return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
-                            } else {
-                                return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                switch (chartConfigJson.operation) {
+                    case 'average':
+                        for (let i = 0; i < tagsJson.length; i++) {
+                            let averageArray = [];
+                            let averageData = [];
+                            for (let key in propertyJson[0].operation) {
+                                if (propertyJson[0].operation[key].average !== "0") {
+                                    for (let tagValue in propertyJson[0].operation[key].average) {
+                                        if (tagValue === tagsJson[i].value) {
+                                            averageArray.push(propertyJson[0].operation[key].average[tagValue].average);
+                                        }
+                                    }
+                                } else {
+                                    averageArray.push(0);
+                                }
                             }
-                        }
-                    },
-                    dataLabels: {
-                        formatter: function () {
-                            if (chartConfigJson.operation === 'percent') {
-                                const sum = countArray.reduce((a, b) => (a + b));
-                                const percent = (this.y / sum) * 100;
-                                return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
-                            } else {
-                                return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                            this.chart.series[i].update({
+                                pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
+                                pointInterval: pointInterval,
+                                pointIntervalUnit: pointIntervalUnit,
+                                tooltip: {
+                                    pointFormatter: function () {
+                                        return i18n.msg('chart.label.average') + ': <b>' + Highcharts.numberFormat(this.y, 2) + '</b>';
+                                    }
+                                },
+                                dataLabels: {
+                                    formatter: function () {
+                                        return '<b>' + Highcharts.numberFormat(this.y, 2) + '</b>';
+                                    }
+                                }
+                            });
+                            for (let i = 0; i < categoryData.length; i++) {
+                                const getYear = Number(categoryData[i].substring(0, 4));
+                                const getMonth = Number(categoryData[i].substring(4, 6) - 1);
+                                const getDay = Number(categoryData[i].substring(6, 8));
+                                const getHour = Number(categoryData[i].substring(8, 10));
+                                averageData.push({
+                                    x: Date.UTC(getYear, getMonth, getDay, getHour),
+                                    y: averageArray[i]
+                                });
                             }
+                            this.chart.series[i].update({name: tagsJson[i].value, showInLegend: true}, false);
+                            this.chart.series[i].setData(averageData, true);
                         }
-                    }
-                });
-
-                for (let i = 0; i < categoryData.length; i++) {
-                    const getYear = Number(categoryData[i].substring(0, 4));
-                    const getMonth = Number(categoryData[i].substring(4, 6) - 1);
-                    const getDay = Number(categoryData[i].substring(6, 8));
-                    const getHour = Number(categoryData[i].substring(8, 10));
-                    seriesData.push({
-                        name: seriesName,
-                        x: Date.UTC(getYear, getMonth, getDay, getHour),
-                        y: countArray[i]
-                    });
+                        break;
+                    default:
+                        this.chart.series[0].update({
+                            pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
+                            pointInterval: pointInterval,
+                            pointIntervalUnit: pointIntervalUnit,
+                            tooltip: {
+                                pointFormatter: function () {
+                                    if (chartConfigJson.operation === 'percent') {
+                                        const sum = countArray.reduce((a, b) => (a + b));
+                                        const percent = (this.y / sum) * 100;
+                                        return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                    } else {
+                                        return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                                    }
+                                }
+                            },
+                            dataLabels: {
+                                formatter: function () {
+                                    if (chartConfigJson.operation === 'percent') {
+                                        const sum = countArray.reduce((a, b) => (a + b));
+                                        const percent = (this.y / sum) * 100;
+                                        return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                    } else {
+                                        return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                                    }
+                                }
+                            }
+                        });
+                        for (let i = 0; i < categoryData.length; i++) {
+                            const getYear = Number(categoryData[i].substring(0, 4));
+                            const getMonth = Number(categoryData[i].substring(4, 6) - 1);
+                            const getDay = Number(categoryData[i].substring(6, 8));
+                            const getHour = Number(categoryData[i].substring(8, 10));
+                            seriesData.push({
+                                name: seriesName,
+                                x: Date.UTC(getYear, getMonth, getDay, getHour),
+                                y: countArray[i]
+                            });
+                        }
+                        this.chart.series[0].update({name: seriesName, showInLegend: true}, false);
+                        this.chart.series[0].setData(seriesData, true);
+                        break;
                 }
-                this.chart.series[0].update({name: seriesName, showInLegend: true}, false);
-                this.chart.series[0].setData(seriesData, true);
                 break;
             case STACKED_COLUMN_CHART:
             case STACKED_BAR_CHART:

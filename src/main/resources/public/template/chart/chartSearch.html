@@ -136,24 +136,30 @@
             showProgressbar: false,
             callbackFunc: function (response) {
                 document.getElementById('getChart').innerHTML = response.responseText;
-                setChart(chartType, document.getElementById('propertyJson').value);
+                setChart(
+                    chartType,
+                    document.getElementById('propertyJson').value,
+                    document.getElementById('chartConfig').value,
+                    document.getElementById('tags').value
+                );
                 parsedPropertyJson(
                     chartType,
                     document.getElementById('chartConfig').value,
-                    document.getElementById('propertyJson').value
+                    document.getElementById('propertyJson').value,
+                    document.getElementById('tags').value
                 );
             }
         };
         aliceJs.sendXhr(opt);
     }
 
-    function parsedPropertyJson(chartType, chartConfig, property) {
-        chart.parsedPropertyJson(chartType, chartConfig, property);
+    function parsedPropertyJson(chartType, chartConfig, property, tags) {
+        chart.parsedPropertyJson(chartType, chartConfig, property, tags);
     }
 
     /** 하이차트 초기화 */
-    function setChart(chartType, property) {
-        chart = new ZChart('container', chartType, property);
+    function setChart(chartType, property, chartConfig, tags) {
+        chart = new ZChart('container', chartType, property, chartConfig, tags);
     }
 
     /*]]>*/

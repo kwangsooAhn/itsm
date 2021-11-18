@@ -6,11 +6,23 @@
 
 package co.brainz.itsm.chart.service
 
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.chart.constants.ChartConstants
+import co.brainz.itsm.chart.dto.ChartCalculateAverageDto
+import co.brainz.itsm.chart.dto.ChartComponentDataDto
 import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDateTimeDto
 import co.brainz.itsm.chart.dto.ChartDto
+import co.brainz.itsm.document.service.DocumentService
+import co.brainz.itsm.form.service.FormService
+import co.brainz.itsm.instance.service.InstanceService
+import co.brainz.itsm.token.service.TokenService
+import co.brainz.workflow.component.constants.WfComponentConstants
+import co.brainz.workflow.element.constants.WfElementConstants
+import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.instance.entity.WfInstanceEntity
+import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -21,7 +33,12 @@ import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
 abstract class ChartManager(
-    private val chartManagerService: ChartManagerService
+    private val chartManagerService: ChartManagerService,
+    private val instanceService: InstanceService,
+    private val documentService: DocumentService,
+    private val formService: FormService,
+    private val tokenService: TokenService,
+    private val wfTokenManagerService: WfTokenManagerService
 ) {
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -47,7 +64,7 @@ abstract class ChartManager(
         val durationDoc = this.getDurationDoc(chart, instanceList)
         val map = LinkedHashMap<String, Any>()
         map["title"] = chart.chartName
-        map["operation"] = this.calculateOperation(durationDoc)
+        map["operation"] = this.calculateOperation(durationDoc, chart)
         propertyList.add(map)
         propertyList.add(durationDoc)
 
@@ -209,7 +226,8 @@ abstract class ChartManager(
                         dateFormatList.add(dateFormat + this.addStringFormat(day))
 
                         if (day == chartDateTime.endDateTime!!.dayOfMonth &&
-                            chartDateTime.startMonth == chartDateTime.endDateTime.monthValue) {
+                            chartDateTime.startMonth == chartDateTime.endDateTime.monthValue
+                        ) {
                             break
                         }
                     }
@@ -238,12 +256,14 @@ abstract class ChartManager(
                             dateFormatList.add(dateFormat + day + this.addStringFormat(hours))
                             if (hours == chartDateTime.endDateTime!!.hour &&
                                 day == chartDateTime.endDateTime.dayOfMonth &&
-                                chartDateTime.startMonth == chartDateTime.endDateTime.monthValue) {
+                                chartDateTime.startMonth == chartDateTime.endDateTime.monthValue
+                            ) {
                                 break
                             }
                         }
                         if (day == chartDateTime.endDateTime!!.dayOfMonth &&
-                            chartDateTime.startMonth == chartDateTime.endDateTime.monthValue) {
+                            chartDateTime.startMonth == chartDateTime.endDateTime.monthValue
+                        ) {
                             break
                         }
                         chartDateTime.startHours = 1
@@ -273,12 +293,15 @@ abstract class ChartManager(
     /**
      * getDurationDoc 함수를 통해 가져온 JsonObject 데이터에 대하여, operation에 대한 계산을 진행
      */
-    private fun calculateOperation(durationDoc: Map<String, Any>): LinkedHashMap<String, Any> {
+    private fun calculateOperation(
+        durationDoc: Map<String, Any>,
+        chart: ChartDto
+    ): LinkedHashMap<String, Any> {
         val operation = LinkedHashMap<String, Any>()
         var totalCount = 0
-        val documentListMap: Map<String, Any> =
+        val instanceListMap: Map<String, Any> =
             mapper.convertValue(durationDoc["instanceList"], object : TypeReference<Map<String, Any>>() {})
-        documentListMap.entries.forEach {
+        instanceListMap.entries.forEach {
             val durationMap: List<Map<String, Any>> =
                 mapper.convertValue(it.value, object : TypeReference<List<Map<String, Any>>>() {})
             totalCount += durationMap.size
@@ -288,6 +311,13 @@ abstract class ChartManager(
                 ((durationMap.size / totalCount) * 100).toString() + "%"
             } else {
                 "0%"
+            }
+            map[ChartConstants.Operation.AVERAGE.code] = if (durationMap.isNotEmpty()) {
+                this.getTagAverage(
+                    this.getTagComponent(durationMap, chart.tags)
+                )
+            } else {
+                "0"
             }
             operation[it.key] = map
         }
@@ -336,5 +366,127 @@ abstract class ChartManager(
 
     private fun addStringFormat(target: Int): String {
         return String.format("%02d", target)
+    }
+
+    /**
+     * 태그 평균 계산에 대상이 되는 특정 컴포넌트에 대한 분리 및 데이터 수집을 진행한다.
+     */
+    private fun getTagComponent(
+        durationMap: List<Map<String, Any>>,
+        chartTags: List<AliceTagDto>
+    ): LinkedHashMap<String, MutableList<ChartComponentDataDto>> {
+        val instanceList = mutableListOf<RestTemplateInstanceDto>()
+        val componentDataMap = LinkedHashMap<String, MutableList<ChartComponentDataDto>>()
+
+        // 파리미터로 넘어온 인스턴스 데이터에 대한 인스턴트 세부 정보 데이터를 추출한다.
+        durationMap.forEach { instanceData ->
+            for ((key, value) in instanceData) {
+                if (key == "instanceId") {
+                    instanceList.add(
+                        instanceService.getInstance(value as String)
+                    )
+                }
+            }
+        }
+
+        // 사용자 정의 차트에서 설정한 태그 데이터와 관련된 컴포넌트 데이터를 추출한다.
+        val tags = mutableSetOf<String>()
+        chartTags.forEach { tag ->
+            tags.add(tag.tagValue)
+        }
+        val tagTargetIds = chartManagerService.getTagValueList(AliceTagConstants.TagType.COMPONENT.code, tags.toList())
+
+        // 해당 인스턴스와 관련된 신청서(document)의 문서(form)를 찾아 컴포넌트 리스트를 출력한다.
+        // 여기서 수집하는 컴포넌트 데이터는 전체 컴포넌트 중에서 태그와 관련된 컴포넌트이고 'dropdown', 'radio', 'checkBox' 타입의 컴포넌트를 수집한다.
+        instanceList.forEach { instance ->
+            val componentDataList = mutableListOf<ChartComponentDataDto>()
+            val form = documentService.getDocument(instance.documentId).formId
+            formService.getFormData(form).group?.forEach { FormGroupDto ->
+                FormGroupDto.row.forEach { FormRowDto ->
+                    FormRowDto.component.forEach { FormComponentDto ->
+                        when (FormComponentDto.type) {
+                            WfComponentConstants.ComponentTypeCode.SELECT.code,
+                            WfComponentConstants.ComponentTypeCode.RADIO.code,
+                            WfComponentConstants.ComponentTypeCode.CHECKBOX.code -> {
+                                for (target in tagTargetIds) {
+                                    if (target.targetId == FormComponentDto.id) {
+                                        componentDataList.add(
+                                            ChartComponentDataDto(
+                                                componentId = FormComponentDto.id,
+                                                componentType = FormComponentDto.type
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            componentDataMap[instance.instanceId] = componentDataList
+        }
+
+        // 위에서 분류된 인스턴스의 토큰 데이터를 찾고 그 중에서 엘리먼트의 타입이 'commonEnd'인 토큰을 찾는다.
+        // 토큰을 찾았으면 wf_token_data 테이블에서 해당 토큰 데이터와 일치하는 컴포넌트의 value 값을 맵핑한다.
+        // 이때 평균 계산을 위해 tagValue, instanceId, componentValue 값이 필요하다.
+        instanceList.forEach { instance ->
+            val componentDataList = mutableListOf<ChartComponentDataDto>()
+            tokenService.findTokenByInstanceId(instance.instanceId).forEach { token ->
+                if (token.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+                    componentDataMap.getValue(instance.instanceId).forEach { componentDataDto ->
+                        componentDataList.add(
+                            ChartComponentDataDto(
+                                componentId = componentDataDto.componentId,
+                                componentValue = wfTokenManagerService.getComponentValue(
+                                    token.tokenId,
+                                    componentDataDto.componentId,
+                                    null
+                                ),
+                                componentType = componentDataDto.componentType,
+                                tagValue = chartManagerService.getTagsByTargetId(
+                                    AliceTagConstants.TagType.COMPONENT.code,
+                                    componentDataDto.componentId
+                                )[0].tagValue
+                            )
+                        )
+                    }
+                }
+            }
+            componentDataMap[instance.instanceId] = componentDataList
+        }
+        return componentDataMap
+    }
+
+    /**
+     * 특정 컴포넌트에 대한 평균 계산을 진행한다.
+     * 해당 함수에서는 인스턴스가 가지고 있는 특정 태그를 가진 컴포넌트에 대한 count, sum, average 데이터를 구한다.
+     */
+    private fun getTagAverage(componentDataMap: LinkedHashMap<String, MutableList<ChartComponentDataDto>>): LinkedHashMap<String?, ChartCalculateAverageDto> {
+        val calculationMap = LinkedHashMap<String?, ChartCalculateAverageDto>()
+        componentDataMap.forEach { componentData ->
+            if (componentData.value.size > 0) {
+                componentData.value.forEach { data ->
+                    if (!data.componentValue.isNullOrBlank()) {
+                        data.componentValue.split("|").forEach { tagValue ->
+                            if (tagValue.toDoubleOrNull() != null) {
+                                if (calculationMap[data.tagValue] == null) {
+                                    calculationMap[data.tagValue] = ChartCalculateAverageDto(
+                                        sum = tagValue.toDouble()
+                                    )
+                                } else {
+                                    calculationMap[data.tagValue] = ChartCalculateAverageDto(
+                                        count = calculationMap[data.tagValue]?.count!!.plus(1),
+                                        sum = calculationMap[data.tagValue]?.sum!!.plus(tagValue.toDouble())
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    calculationMap[data.tagValue]?.average =
+                        (calculationMap[data.tagValue]?.sum!! / calculationMap[data.tagValue]?.count!!)
+                }
+            }
+        }
+        return calculationMap
     }
 }

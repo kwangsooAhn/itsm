@@ -377,6 +377,7 @@ insert into awf_code values ('chart.type.activityGauge', 'chart.type', 'chart.ac
 insert into awf_code values ('chart.operation', 'chart', null, 'CHART OPERATION', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.operation.count', 'chart.operation', 'count', '카운트', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.operation.percent', 'chart.operation', 'percent', '퍼센트', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.operation.average', 'chart.operation', 'average', '평균', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.unit', 'chart', null, 'CHART UNIT', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.unit.year', 'chart.unit', 'Y', '년', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.unit.month', 'chart.unit', 'M', '월', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -9029,6 +9030,7 @@ insert into awf_code_lang values ('form.template.serviceDesk.request.category.et
 /* 차트 */
 insert into awf_code_lang values ('chart.operation.percent', 'percent', 'en');
 insert into awf_code_lang values ('chart.operation.count', 'count', 'en');
+insert into awf_code_lang values ('chart.operation.average', 'average', 'en');
 insert into awf_code_lang values ('chart.unit.year', 'year', 'en');
 insert into awf_code_lang values ('chart.unit.month', 'month', 'en');
 insert into awf_code_lang values ('chart.unit.hour', 'hour', 'en');

@@ -241,6 +241,7 @@ board:
 chart:
   label:
     all: "All"
+    average: "Average"
     chartt: "User Custom Chart"
     defaultInfo: "Default Info"
     description: "Chart Description"
@@ -263,10 +264,15 @@ chart:
     label:
       subTitle: "User custom chart report"
       yAxisTitle: "Number of Documents"
+      yAxisAverageTitle: "Average"
     text:
       count: "Count"
+      average: "Average"
+      percent: "Percent"
     value:
       count: "count"
+      average: "average"
+      percent: "percent"
   msg:
     searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."

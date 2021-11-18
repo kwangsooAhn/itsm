@@ -6,6 +6,8 @@
 package co.brainz.itsm.report.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDto
@@ -35,7 +37,8 @@ class ReportService(
     private val reportDataRepository: ReportDataRepository,
     private val reportTemplateRepository: ReportTemplateRepository,
     private val chartManagerFactory: ChartManagerFactory,
-    private val chartRepository: ChartRepository
+    private val chartRepository: ChartRepository,
+    private val aliceTagService: AliceTagService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -81,7 +84,8 @@ class ReportService(
                 chartDesc = chart["desc"] as String,
                 chartConfig = mapper.readValue(configStr, ChartConfig::class.java),
                 chartConfigStr = configStr,
-                createDt = reportEntity.publishDt
+                createDt = reportEntity.publishDt,
+                tags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CHART.code, data.chartId)
             )
 
             chartDataList.add(chartManagerFactory.getChartManager(chartDto.chartType).getChart(chartDto))

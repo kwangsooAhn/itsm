@@ -87,18 +87,29 @@
                 `</div>`;
             chartTarget.insertAdjacentHTML('beforeend', element);
 
-            setChart(data.chartType, data.propertyJson, data.chartId + '_chart');
-            parsedPropertyJson(data.chartType, data.chartConfigStr, data.propertyJson);
+            setChart(
+                data.chartType,
+                data.propertyJson,
+                data.chartId + '_chart',
+                data.chartConfigStr,
+                data.tags
+            );
+            parsedPropertyJson(
+                data.chartType,
+                data.chartConfigStr,
+                data.propertyJson,
+                data.tags
+            );
         }
 
         /** 하이차트 초기화 */
-        function setChart(chartType, property, target) {
-            chart = new ZChart(target, chartType, property);
+        function setChart(chartType, property, target, chartConfig, tags) {
+            chart = new ZChart(target, chartType, property, chartConfig, tags);
         }
 
         /** chartConfig 파싱 진행 **/
-        function parsedPropertyJson(chartType, chartConfig, property) {
-            chart.parsedPropertyJson(chartType, chartConfig, property);
+        function parsedPropertyJson(chartType, chartConfig, property, tags) {
+            chart.parsedPropertyJson(chartType, chartConfig, property, tags);
         }
         /*]]>*/
     </script>

@@ -32,12 +32,13 @@
         <form id="frm" method="post">
             <input type="hidden" id="propertyJson" name="propertyJson" th:value="|${chart?.propertyJson}|"/>
             <input type="hidden" id="chartConfig" name="chartConfig" th:value="|${chart?.chartConfigStr}|"/>
+            <input type="hidden" id="tags" name="tags" th:value="|${chart?.tags}|"/>
             <div class="flex-column z-edit-row">
                 <h4 class="sub-title under-bar bold" th:text="#{chart.label.defaultInfo}"></h4>
             </div>
             <div class="flex-column z-edit-row col-4">
                 <label class="field-label" th:text="#{chart.label.type}"></label>
-                <select id="typeSelectBox" name="typeSelectBox" onchange="setDisplay(this.value)" th:classappend="${view ? 'readonly' : ''}">
+                <select id="typeSelectBox" name="typeSelectBox" onchange="setDisplay(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
                     <option th:each="type:${code.type}" th:value="${type.codeValue}"
                             th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
                 </select>
@@ -187,7 +188,7 @@
         document.getElementById('rangeType').dispatchEvent(new Event('change'));
 
         // chart 초기화
-        getChart([[${chart?.chartId}]], [[${chart?.chartType}]]);
+        getChart([[${chart?.chartId}]]);
     };
 
     function setDatePicker(element, picker) {
@@ -221,8 +222,18 @@
             let chartInfo = setChartInfo();
             restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
                 let responseJson = JSON.parse(response);
-                setChart(responseJson.chartType, responseJson.propertyJson);
-                parsedPropertyJson(responseJson.chartType, responseJson.chartConfigStr, responseJson.propertyJson);
+                setChart(
+                    responseJson.chartType,
+                    responseJson.propertyJson,
+                    responseJson.chartConfigStr,
+                    responseJson.tags
+                );
+                parsedPropertyJson(
+                    responseJson.chartType,
+                    responseJson.chartConfigStr,
+                    responseJson.propertyJson,
+                    responseJson.tags
+                );
             }, false);
         }
     }
@@ -294,9 +305,8 @@
         aliceJs.sendXhr(opt);
     }
 
-    function getChart(chartId, chartType) {
-        setDisplay(document.getElementById('typeSelectBox').value);
-        let targetTags = document.getElementById('targetTags').value;
+    function getChart(chartId) {
+        setDisplay(document.getElementById('typeSelectBox').value, true);
         new zTag(document.querySelector('input[name=targetTags]'), {
             suggestion: false,
             realtime: false,
@@ -307,7 +317,9 @@
             parsedPropertyJson(
                 document.getElementById('typeSelectBox').value,
                 document.getElementById('chartConfig').value,
-                document.getElementById('propertyJson').value);
+                document.getElementById('propertyJson').value,
+                document.getElementById('tags').value
+            );
         }
     }
 
@@ -327,25 +339,42 @@
         return true;
     }
 
-    function setDisplay(value) {
+    function setDisplay(value, load) {
+        let operation = [[${chart?.chartConfig?.operation}]];
         // 연산자 박스 출력
         let operationSelectBox = document.getElementById('operationSelectBox');
-        for (let i = 0; i < operationSelectBox.options.length; i++) {
-            if (value === ACTIVITY_GAUGE_CHART) {
-                if (operationSelectBox.options[i].value === 'count') {
-                    operationSelectBox.options[i].style.display = 'none';
-                } else {
-                    operationSelectBox.options[i].selected = true;
-                }
-            } else {
-                if (operationSelectBox.options.length !== 2) {
-                    let countOption = document.createElement('option');
-                    countOption.text = i18n.msg('chart.option.text.count');
-                    countOption.value = i18n.msg('chart.option.text.value');
-                    operationSelectBox.add(countOption);
+        operationSelectBox.options.length = 0;
+        let countOption = document.createElement('option');
+        let averageOption = document.createElement('option');
+        let percentOption = document.createElement('option');
+        countOption.text = i18n.msg('chart.option.text.count');
+        countOption.value = i18n.msg('chart.option.value.count');
+        averageOption.text = i18n.msg('chart.option.text.average');
+        averageOption.value = i18n.msg('chart.option.value.average');
+        percentOption.text = i18n.msg('chart.option.text.percent');
+        percentOption.value = i18n.msg('chart.option.value.percent');
+        switch (value) {
+            case ACTIVITY_GAUGE_CHART:
+                operationSelectBox.add(averageOption);
+                break;
+            case BASIC_LINE_CHART:
+                operationSelectBox.add(countOption);
+                operationSelectBox.add(averageOption);
+                operationSelectBox.add(percentOption);
+                break;
+            default:
+                operationSelectBox.add(countOption);
+                operationSelectBox.add(percentOption);
+                break;
+        }
+        if (load === true) {
+            for (let i = 0; i < operationSelectBox.childNodes.length; i++) {
+                if (operationSelectBox.childNodes[i].value === operation) {
+                    operationSelectBox.childNodes[i].selected = true;
                 }
             }
         }
+        aliceJs.initDesignedSelectTag();
 
         if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
             // 2021-10-06 By Jung Hee Chan
@@ -371,17 +400,22 @@
         }
 
         // 차트 새로 그리기
-        setChart(value, document.getElementById('propertyJson').value);
+        setChart(
+            value,
+            document.getElementById('propertyJson').value,
+            document.getElementById('chartConfig').value,
+            document.getElementById('tags').value
+        );
     }
 
     /** 하이차트 초기화 */
-    function setChart(chartType, property) {
-        chart = new ZChart('container', chartType, property);
+    function setChart(chartType, property, chartConfig, tags) {
+        chart = new ZChart('container', chartType, property, chartConfig, tags);
     }
 
     /** chartConfig 파싱 진행 **/
-    function parsedPropertyJson(chartType, chartConfig, property) {
-        chart.parsedPropertyJson(chartType, chartConfig, property);
+    function parsedPropertyJson(chartType, chartConfig, property, tags) {
+        chart.parsedPropertyJson(chartType, chartConfig, property, tags);
     }
 
     // 전송할 데이터 셋팅
