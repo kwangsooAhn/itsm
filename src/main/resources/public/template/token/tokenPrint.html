@@ -7,9 +7,6 @@
 </head>
 <th:block layout:fragment="content">
     <div class="z-print">
-        <div class="z-print-main-header">
-            <h1 id="documentTitle"></h1>
-        </div>
         <table class="z-print-main">
             <thead><tr><td>
                 <div class="z-print-header-space"> </div>
@@ -42,7 +39,6 @@
             printInfo.innerHTML = userName + ' [' + userEmail + ']<br>' + i18n.printFormat(time);
 
             const printData = JSON.parse(sessionStorage.getItem('alice_print'));
-            document.getElementById('documentTitle').textContent = printData.name;
             zFormToken.domElement = document.getElementById('documentDrawingBoard');
             zFormToken.makeForm(printData);
 
