@@ -734,38 +734,6 @@ class ZFormDesigner {
             body: JSON.stringify(saveData),
             showProgressbar: true
         }).then((formData) => {
-            // TODO: #11702 폼 저장시 Response 구조 변경작업 후 주석의 소스로 동작하도록 수정
-            // 서버측에서 전달되는 데이터 형태
-            // { status: 코드, data: 폼데이터 }
-            /*switch(formData.status.toString()) {
-                case RESPONSE_CODE.STATUS_SUCCESS:
-                    this.history.saveHistoryIndex = this.history.undoList.length;
-                    this.history.status = 0;
-                    // 팝업 닫기
-                    if (boolean) {
-                        zAlert.success(i18n.msg('common.msg.save'), () => {
-                            if (window.opener && !window.opener.closed) {
-                                opener.location.reload();
-                            }
-                            window.close();
-                        });
-                    } else {
-                        this.reflowForm(formData.data);
-
-                        const date = new Date();
-                        document.getElementById('saveInfo').innerText = i18n.msg('form.msg.saveInfo'
-                            , i18n.userDateTime(date.toISOString()));
-                        zAlert.success(i18n.msg('common.msg.save'));
-                    }
-                    break;
-                case RESPONSE_CODE.STATUS_ERROR_DUPLICATE:
-                    zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
-                    break;
-                default:
-                    zAlert.danger(i18n.msg('common.label.fail'));
-                    break;
-            }*/
-
             switch(formData.toString()) {
                 case RESPONSE_CODE.STATUS_SUCCESS:
                     this.data = saveData;
