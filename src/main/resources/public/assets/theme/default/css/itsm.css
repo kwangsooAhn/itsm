@@ -1766,6 +1766,7 @@ select {
   margin-left: 2%;
 }
 .z-slider .z-input:read-only:not(:disabled) {
+  width: 23%;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;

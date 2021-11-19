@@ -23,6 +23,7 @@ class ZFormDesigner {
         this.domElement = document.getElementById('formDrawingBoard') || document.body;
         // edit, view, complete 등 문서의 상태에 따라 아코디언, 컴포넌트 등 동작을 막음
         this.domElement.classList.add('edit');
+        this.isView = false; // 편집 가능 여부
 
         this.history = new ZHistory(this);  // 이력 관리
         this.panel = new ZPanel(this); // 세부 속성 관리
@@ -50,7 +51,7 @@ class ZFormDesigner {
     initMenuBar() {
         // 사용자가 페이지를 떠날 때 정말로 떠날 것인지 묻는 확인창 표시
         window.addEventListener('beforeunload', (e) => {
-            if (this.history.status) {
+            if (this.history.status && !this.isView) {
                 e.preventDefault(); // 표준에 따라 기본 동작 방지
                 e.returnValue = ''; // Chrome에서는 returnValue 설정이 필요함
             }
@@ -187,8 +188,10 @@ class ZFormDesigner {
     /**
      * 폼 초기화 및 이벤트 추가
      * @param formId 폼 아이디
+     * @param isView 편집화면인지 보기화면인지 판단
      */
-    initForm(formId) {
+    initForm(formId, isView) {
+        this.isView = (isView === 'true');
         this.formId = formId;
         aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
             method: 'GET',
