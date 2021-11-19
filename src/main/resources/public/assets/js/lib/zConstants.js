@@ -95,3 +95,8 @@ export const CI = {
         DELETE: 'delete'
     }
 };
+// Response(응답) 코드
+export const RESPONSE_CODE = {
+    STATUS_SUCCESS: '0',
+    STATUS_ERROR_DUPLICATE: '1'
+};

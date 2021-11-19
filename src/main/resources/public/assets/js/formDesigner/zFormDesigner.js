@@ -13,7 +13,7 @@ import ZComponent, { UIComponentTooltip } from '../form/zComponent.js';
 import ZForm from '../form/zForm.js';
 import ZGroup, { UIGroupTooltip } from '../form/zGroup.js';
 import ZRow, { UIRowTooltip } from '../form/zRow.js';
-import { FORM } from '../lib/zConstants.js';
+import { FORM, RESPONSE_CODE } from '../lib/zConstants.js';
 import { zValidation } from '../lib/zValidation.js';
 import ZHistory from './zHistory.js';
 import ZPanel from './zPanel.js';
@@ -197,14 +197,7 @@ class ZFormDesigner {
             method: 'GET',
             showProgressbar: true
         }).then((formData) => {
-            // displayOrder 로 정렬
-            this.sortJson(formData);
-            this.data = formData;
-
-            this.makeForm(this.data, this); // DOM 엘리먼트 생성
-            this.setFormName(this.data.name); // 폼 디자이너 상단 이름 출력
-
-            this.form.UIElement.domElement.dispatchEvent(new Event('click')); // 폼 속성 패널 출력
+            this.reflowForm(formData);
         }).catch(err => {
             zAlert.warning(err);
         });
@@ -556,6 +549,22 @@ class ZFormDesigner {
 
         return object.children[newIndex]; // 변경된 객체
     }
+
+    /**
+     * FORM 데이터 정렬 및 패널 세부 속성 출력
+     * @param data 서버로부터 전달된 데이터
+     */
+    reflowForm(data) {
+        this.domElement.innerHTML = '';
+        // displayOrder 로 데이터 재정렬
+        this.sortJson(data);
+        this.data = data;
+        // 폼 디자이너 상단 이름 출력
+        this.setFormName(this.data.name);
+        // FORM 생성
+        this.makeForm(this.data, this);
+        this.form.UIElement.domElement.dispatchEvent(new Event('click')); // 폼 속성 패널 출력
+    }
     /**
      * form, group, row, component 객체 선택
      */
@@ -694,9 +703,6 @@ class ZFormDesigner {
      * @param boolean 저장후  팝업 닫을지 여부
      */
     saveForm(boolean) {
-        const STATUS_SUCCESS = '0';
-        const STATUS_ERROR_DUPLICATE_FORM_NAME = '1';
-
         // 세부 속성 유효성 검증 실패시 동작을 중지한다.
         if (!this.panel.validationStatus) { return false; }
 
@@ -728,8 +734,40 @@ class ZFormDesigner {
             body: JSON.stringify(saveData),
             showProgressbar: true
         }).then((formData) => {
+            // TODO: #11702 폼 저장시 Response 구조 변경작업 후 주석의 소스로 동작하도록 수정
+            // 서버측에서 전달되는 데이터 형태
+            // { status: 코드, data: 폼데이터 }
+            /*switch(formData.status.toString()) {
+                case RESPONSE_CODE.STATUS_SUCCESS:
+                    this.history.saveHistoryIndex = this.history.undoList.length;
+                    this.history.status = 0;
+                    // 팝업 닫기
+                    if (boolean) {
+                        zAlert.success(i18n.msg('common.msg.save'), () => {
+                            if (window.opener && !window.opener.closed) {
+                                opener.location.reload();
+                            }
+                            window.close();
+                        });
+                    } else {
+                        this.reflowForm(formData.data);
+
+                        const date = new Date();
+                        document.getElementById('saveInfo').innerText = i18n.msg('form.msg.saveInfo'
+                            , i18n.userDateTime(date.toISOString()));
+                        zAlert.success(i18n.msg('common.msg.save'));
+                    }
+                    break;
+                case RESPONSE_CODE.STATUS_ERROR_DUPLICATE:
+                    zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.label.fail'));
+                    break;
+            }*/
+
             switch(formData.toString()) {
-                case STATUS_SUCCESS:
+                case RESPONSE_CODE.STATUS_SUCCESS:
                     this.data = saveData;
                     this.history.saveHistoryIndex = this.history.undoList.length;
                     this.history.status = 0;
@@ -749,7 +787,7 @@ class ZFormDesigner {
                         zAlert.success(i18n.msg('common.msg.save'));
                     }
                     break;
-                case STATUS_ERROR_DUPLICATE_FORM_NAME:
+                case RESPONSE_CODE.STATUS_ERROR_DUPLICATE:
                     zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
                     break;
                 default:
