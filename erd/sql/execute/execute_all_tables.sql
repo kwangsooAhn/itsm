@@ -1536,6 +1536,7 @@ insert into awf_url values ('/charts/search', 'get', '사용자 정의 차트 �
 insert into awf_url values ('/charts/new', 'get', '사용자 정의 차트 등록 화면', 'TRUE');
 insert into awf_url values ('/charts/{id}/edit', 'get', '사용자 정의 차트 수정 화면', 'TRUE');
 insert into awf_url values ('/charts/{id}/view', 'get', '사용자 정의 차트 조회 화면', 'TRUE');
+insert into awf_url values ('/charts/{id}/preview', 'get', '사용자 정의 차트 미리보기', 'TRUE');
 insert into awf_url values ('/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/new', 'get', 'CMDB Attribute 등록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
@@ -1877,6 +1878,7 @@ insert into awf_url_auth_map values ('/charts/new', 'get', 'chart.update');
 insert into awf_url_auth_map values ('/charts/{id}/edit', 'get', 'chart.create');
 insert into awf_url_auth_map values ('/charts/{id}/edit', 'get', 'chart.update');
 insert into awf_url_auth_map values ('/charts/{id}/view', 'get', 'chart.read');
+insert into awf_url_auth_map values ('/charts/{id}/preview', 'get', 'chart.read');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/attributes/new', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.attribute.read');
