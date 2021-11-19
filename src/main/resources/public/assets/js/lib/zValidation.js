@@ -462,7 +462,7 @@ class ZValidation {
         return rtn;
     }
     /**
-     * keyup시 type(number, char, email 등), min, max, minLength, maxLength 체크
+     * keyup시 type(number, char, email 등), max, maxLength 체크
      * @param target
      * @returns target 유효성 결과값
      */
@@ -476,18 +476,9 @@ class ZValidation {
             KEY_UP_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
             rtn = this.emit(target.getAttribute('data-validation-type'), target);
         }
-        if (rtn && target.hasAttribute('data-validation-min') &&
-            target.getAttribute('data-validation-min') !== '') {
-            rtn = this.emit('min', target, target.getAttribute('data-validation-min'));
-        }
         if (rtn && target.hasAttribute('data-validation-max') &&
             target.getAttribute('data-validation-max') !== '') {
             rtn = this.emit('max', target, target.getAttribute('data-validation-max'));
-        }
-
-        if (rtn && target.hasAttribute('data-validation-min-length') &&
-            target.getAttribute('data-validation-min-length') !== '') {
-            rtn = this.emit('minLength', target, target.getAttribute('data-validation-min-length'));
         }
 
         if (rtn && target.hasAttribute('data-validation-max-length') &&
@@ -504,6 +495,16 @@ class ZValidation {
         if (!this.isDefined(target)) { return true; } // 정의된 값인지 체크
 
         let rtn = true;
+
+        //min, min-length 입력 중 keyup이벤트 발생하여 change로 변경
+        if (rtn && target.hasAttribute('data-validation-min') &&
+            target.getAttribute('data-validation-min') !== '') {
+            rtn = this.emit('min', target, target.getAttribute('data-validation-min'));
+        }
+        if (rtn && target.hasAttribute('data-validation-min-length') &&
+            target.getAttribute('data-validation-min-length') !== '') {
+            rtn = this.emit('minLength', target, target.getAttribute('data-validation-min-length'));
+        }
 
         if (target.hasAttribute('data-validation-type') &&
             target.getAttribute('data-validation-type') !== '' &&
