@@ -489,11 +489,6 @@ class ZValidation {
             target.getAttribute('data-validation-min-length') !== '') {
             rtn = this.emit('minLength', target, target.getAttribute('data-validation-min-length'));
         }
-
-        if (rtn && target.hasAttribute('data-validation-max-length') &&
-            target.getAttribute('data-validation-max-length') !== '') {
-            rtn = this.emit('maxLength', target, target.getAttribute('data-validation-max-length'));
-        }
         return rtn;
     }
     /**
@@ -513,6 +508,10 @@ class ZValidation {
         if (target.hasAttribute('data-validation-required') &&
             target.getAttribute('data-validation-required') !== 'false') {
             rtn = this.emit('required', target);
+        }
+        if (rtn && target.hasAttribute('data-validation-max-length') &&
+            target.getAttribute('data-validation-max-length') !== '') {
+            rtn = this.emit('maxLength', target, target.getAttribute('data-validation-max-length'));
         }
         return rtn;
     }
