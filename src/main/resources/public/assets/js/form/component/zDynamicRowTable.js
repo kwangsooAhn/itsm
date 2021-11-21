@@ -205,13 +205,47 @@ export const dynamicRowTableMixin = {
         }
         // value가 문자일 경우 배열로 변환
         if (zValidation.isEmpty(this._value)) { this.value = []; }
-
         // row 추가
         const row = new UIRow(targetTable).setUIClass('z-dr-table-row');
         // td 추가
         const columnData = [];
         this.elementColumns.forEach((column, index) => {
-            columnData.push(zValidation.isEmpty(data[index]) ? '${default}' : data[index]);
+            if (zValidation.isEmpty(data[index])) {
+                let defaultValue = '${default}';
+                switch (column.columnType) {
+                    case "input":
+                        defaultValue = column.columnElement.defaultValueSelect.split('|');
+                        if (defaultValue[0] === 'input') {
+                            defaultValue = defaultValue[1];
+                        } else {
+                            defaultValue = ZSession.get(defaultValue[1]) || '';
+                        }
+                        break;
+                    case "dropdown":
+                        for (let i = 0; i < column.columnElement.options.length; i++) {
+                            let checkedYn = column.columnElement.options[i].checked || false;
+                            if (checkedYn) {
+                                defaultValue = column.columnElement.options[i].value;
+                            }
+                            defaultValue = defaultValue === '${default}' ? '' : defaultValue;
+                        }
+                        break;
+                    case "time":
+                        defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForTime(column, defaultValue));
+                        break;
+                    case "date":
+                        defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDate(column, defaultValue));
+                        break;
+                    case "dateTime":
+                        defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
+                        break;
+                    default:
+                        break;
+                }
+                columnData.push(defaultValue);
+            } else {
+                columnData.push(data[index]);
+            }
             const tdWidth = (Number(column.columnWidth) / FORM.COLUMN) * 100;
             const tdCssText = `width:${tdWidth}%;` +
                 `color:${column.columnContent.fontColor};` +
