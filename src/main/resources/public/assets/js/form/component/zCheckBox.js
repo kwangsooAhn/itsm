@@ -71,7 +71,7 @@ export const checkBoxMixin = {
             for (let i = 0; i < this.element.options.length; i++) {
                 let checkedYn = (this.element.options[i].checked || false);
                 if (checkedYn) {
-                    defaultList.push(this.element.options[i].value)
+                    defaultList.push(this.element.options[i].value);
                 }
             }
             this.value = defaultList.join('|');

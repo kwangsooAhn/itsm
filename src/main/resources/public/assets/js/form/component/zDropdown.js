@@ -73,7 +73,7 @@ export const dropdownMixin = {
             for (let i = 0; i < this.element.options.length; i++) {
                 checkedYn = this.element.options[i].checked || false;
                 if(checkedYn) {
-                    this.value = this.element.options[i].value
+                    this.value = this.element.options[i].value;
                 }
             }
         }
