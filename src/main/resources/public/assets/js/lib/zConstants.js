@@ -39,6 +39,10 @@ export const FORM = {
             HIDDEN: 'hidden',
             TOP: 'top',
             LEFT: 'left'
+        },
+        SIZE: {
+            MAX: 100,
+            MIN: 10
         }
     },
     ELEMENT: {
