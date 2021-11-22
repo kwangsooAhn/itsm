@@ -68,12 +68,12 @@ export default class ZInputBoxProperty extends ZProperty {
             this.panel.validationStatus = false; // 유효성 검증 실패
             return false;
         }
-        // keyup 일 경우 type, min, max 체크
+        // keyup 일 경우 type, max, maxLength 체크
         if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
             this.panel.validationStatus = false; // 유효성 검증 실패
             return false;
         }
-        // change 일 경우 minLength, maxLength 체크
+        // change 일 경우 min, minLength 체크
         if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
             this.panel.validationStatus = false; // 유효성 검증 실패
             return false;
