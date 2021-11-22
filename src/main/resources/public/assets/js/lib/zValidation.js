@@ -497,7 +497,6 @@ class ZValidation {
 
         let rtn = true;
 
-        //max, min 입력 중 keyup이벤트 발생하여 change로 변경
         if (rtn && target.hasAttribute('data-validation-max') &&
             target.getAttribute('data-validation-max') !== '') {
             rtn = this.emit('max', target, target.getAttribute('data-validation-max'));
