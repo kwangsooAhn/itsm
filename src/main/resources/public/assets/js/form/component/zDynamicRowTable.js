@@ -210,41 +210,44 @@ export const dynamicRowTableMixin = {
         // td 추가
         const columnData = [];
         this.elementColumns.forEach((column, index) => {
-            if (zValidation.isEmpty(data[index])) {
-                let defaultValue = '${default}';
-                switch (column.columnType) {
-                    case "input":
-                        defaultValue = column.columnElement.defaultValueSelect.split('|');
-                        if (defaultValue[0] === 'input') {
-                            defaultValue = defaultValue[1];
-                        } else {
-                            defaultValue = ZSession.get(defaultValue[1]) || '';
-                        }
-                        break;
-                    case "dropdown":
-                        for (let i = 0; i < column.columnElement.options.length; i++) {
-                            let checkedYn = column.columnElement.options[i].checked || false;
-                            if (checkedYn) {
-                                defaultValue = column.columnElement.options[i].value;
+            if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+                this.displayType !== FORM.DISPLAY_TYPE.HIDDEN ) {
+                if (zValidation.isEmpty(data[index])) {
+                    let defaultValue = '${default}';
+                    switch (column.columnType) {
+                        case "input":
+                            defaultValue = column.columnElement.defaultValueSelect.split('|');
+                            if (defaultValue[0] === 'input') {
+                                defaultValue = defaultValue[1];
+                            } else {
+                                defaultValue = ZSession.get(defaultValue[1]) || '';
                             }
-                            defaultValue = defaultValue === '${default}' ? '' : defaultValue;
-                        }
-                        break;
-                    case "time":
-                        defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForTime(column, defaultValue));
-                        break;
-                    case "date":
-                        defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDate(column, defaultValue));
-                        break;
-                    case "dateTime":
-                        defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
-                        break;
-                    default:
-                        break;
+                            break;
+                        case "dropdown":
+                            for (let i = 0; i < column.columnElement.options.length; i++) {
+                                let checkedYn = column.columnElement.options[i].checked || false;
+                                if (checkedYn) {
+                                    defaultValue = column.columnElement.options[i].value;
+                                }
+                                defaultValue = defaultValue === '${default}' ? '' : defaultValue;
+                            }
+                            break;
+                        case "time":
+                            defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForTime(column, defaultValue));
+                            break;
+                        case "date":
+                            defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDate(column, defaultValue));
+                            break;
+                        case "dateTime":
+                            defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
+                            break;
+                        default:
+                            break;
+                    }
+                    columnData.push(defaultValue);
+                } else {
+                    columnData.push(data[index]);
                 }
-                columnData.push(defaultValue);
-            } else {
-                columnData.push(data[index]);
             }
             const tdWidth = (Number(column.columnWidth) / FORM.COLUMN) * 100;
             const tdCssText = `width:${tdWidth}%;` +
