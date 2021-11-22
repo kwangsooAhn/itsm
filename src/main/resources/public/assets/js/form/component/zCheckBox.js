@@ -63,6 +63,19 @@ export const checkBoxMixin = {
                 this.UIElement.UIComponent.UIElement['UILabel' + i].UICheckbox.addUIClass('readonly');
             }
         }
+
+        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+            this.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
+            this.value === '') {
+            let defaultList = [];
+            for (let i = 0; i < this.element.options.length; i++) {
+                let checkedYn = (this.element.options[i].checked || false);
+                if (checkedYn) {
+                    defaultList.push(this.element.options[i].value);
+                }
+            }
+            this.value = defaultList.join('|');
+        }
     },
     set element(element) {
         this._element = element;
