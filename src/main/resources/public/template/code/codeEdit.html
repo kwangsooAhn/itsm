@@ -184,9 +184,9 @@
                 callbackFunc: function (response) {
                     let responseJson = JSON.parse(response.responseText);
                     document.getElementById('txtCode').value = responseJson.code;
-                    document.getElementById('txtCode').setAttribute('disabled', '');
+                    document.getElementById('txtCode').setAttribute('readonly', '');
                     document.getElementById('txtPCode').value = responseJson.pcode;
-                    document.getElementById('txtPCode').setAttribute('disabled', '');
+                    document.getElementById('txtPCode').setAttribute('readonly', '');
                     document.getElementById('txtCodeName').value = responseJson.codeName;
                     document.getElementById('txtCodeValue').value = responseJson.codeValue;
                     document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
