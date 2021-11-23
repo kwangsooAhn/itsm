@@ -217,7 +217,7 @@ board:
     reply: "답글 작성"
     replyYn: "답글 사용 여부"
     searchBoardPlaceholder: "분류 / 제목 / 작성자"
-    searchPlaceholder: "게시판 이름 / 작성자"
+    searchPlaceholder: "게시판 이름 / 등록자"
     title: "제목"
     useYn: "사용 여부"
     view: "게시글 조회"
@@ -348,7 +348,7 @@ cmdb:
       name: "CI 이름"
       new: "신규"
       relatedDocument: "관련 문서"
-      searchPlaceholder: "CI No / CI 타입 / CI 이름 / 설명"
+      searchPlaceholder: "CI No / CI 유형 / CI 이름 / 설명"
       select: "CI 선택"
       seqNum: "CI No"
       status:
