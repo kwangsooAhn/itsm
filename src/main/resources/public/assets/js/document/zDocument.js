@@ -244,11 +244,16 @@ class ZDocument {
      * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
      */
     processAction(actionType) {
-        // 유효성 체크
+        // 유효성 체크 (최대 글자 수)
+        const MaxLengthActionType = ['save', 'progress']
+        const isMaxLengthCheck = MaxLengthActionType.includes(actionType);
+
+        if (isMaxLengthCheck && zValidation.hasDOMElementError(this.domElement)) { return false; }
+
+        // 아래 상태를 가질 경우 유효성 체크를 진행하지 않음 (필수값)
         const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
 
         const isActionTypeCheck = validationUncheckActionType.includes(actionType);
-
         if (!isActionTypeCheck && !this.saveValidationCheck()) {
             return false;
         }
