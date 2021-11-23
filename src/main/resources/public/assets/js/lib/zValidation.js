@@ -462,7 +462,7 @@ class ZValidation {
         return rtn;
     }
     /**
-     * keyup시 type(number, char, email 등), maxLength, minLength 체크
+     * keyup시 type(number, char, email 등), min, max, minLength, maxLength 체크
      * @param target
      * @returns target 유효성 결과값
      */
@@ -476,14 +476,13 @@ class ZValidation {
             KEY_UP_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
             rtn = this.emit(target.getAttribute('data-validation-type'), target);
         }
-
-        if (rtn && target.hasAttribute('data-validation-max-length') &&
-            target.getAttribute('data-validation-max-length') !== '') {
-            rtn = this.emit('maxLength', target, target.getAttribute('data-validation-max-length'));
+        if (rtn && target.hasAttribute('data-validation-min') &&
+            target.getAttribute('data-validation-min') !== '') {
+            rtn = this.emit('min', target, target.getAttribute('data-validation-min'));
         }
-        if (rtn && target.hasAttribute('data-validation-min-length') &&
-            target.getAttribute('data-validation-min-length') !== '') {
-            rtn = this.emit('minLength', target, target.getAttribute('data-validation-min-length'));
+        if (rtn && target.hasAttribute('data-validation-max') &&
+            target.getAttribute('data-validation-max') !== '') {
+            rtn = this.emit('max', target, target.getAttribute('data-validation-max'));
         }
 
         return rtn;
@@ -497,15 +496,6 @@ class ZValidation {
 
         let rtn = true;
 
-        if (rtn && target.hasAttribute('data-validation-max') &&
-            target.getAttribute('data-validation-max') !== '') {
-            rtn = this.emit('max', target, target.getAttribute('data-validation-max'));
-        }
-        if (rtn && target.hasAttribute('data-validation-min') &&
-            target.getAttribute('data-validation-min') !== '') {
-            rtn = this.emit('min', target, target.getAttribute('data-validation-min'));
-        }
-
         if (target.hasAttribute('data-validation-type') &&
             target.getAttribute('data-validation-type') !== '' &&
             CHANGE_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
@@ -514,6 +504,14 @@ class ZValidation {
         if (target.hasAttribute('data-validation-required') &&
             target.getAttribute('data-validation-required') !== 'false') {
             rtn = this.emit('required', target);
+        }
+        if (rtn && target.hasAttribute('data-validation-min-length') &&
+            target.getAttribute('data-validation-min-length') !== '') {
+            rtn = this.emit('minLength', target, target.getAttribute('data-validation-min-length'));
+        }
+        if (rtn && target.hasAttribute('data-validation-max-length') &&
+            target.getAttribute('data-validation-max-length') !== '') {
+            rtn = this.emit('maxLength', target, target.getAttribute('data-validation-max-length'));
         }
         return rtn;
     }
