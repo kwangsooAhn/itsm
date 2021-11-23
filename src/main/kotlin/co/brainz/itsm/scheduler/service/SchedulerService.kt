@@ -299,7 +299,7 @@ class SchedulerService(
     }
 
     fun getSchedulerHistory(taskId: String): List<AliceScheduleHistoryEntity> {
-        return aliceScheduleHistoryRepository.findScheduleHistoryByTaskId(taskId, ItsmConstants.SEARCH_DATA_COUNT)
+        return aliceScheduleHistoryRepository.findScheduleHistoryByTaskId(taskId)
     }
 
     private fun validateJarFile(src: String, executeCommand: String): Boolean {

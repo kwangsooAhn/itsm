@@ -15,14 +15,11 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 class AliceScheduleHistoryRepositoryImpl : QuerydslRepositorySupport(AliceScheduleHistoryEntity::class.java),
     AliceScheduleHistoryRepositoryCustom {
 
-    override fun findScheduleHistoryByTaskId(taskId: String, limit: Long?): List<AliceScheduleHistoryEntity> {
+    override fun findScheduleHistoryByTaskId(taskId: String): List<AliceScheduleHistoryEntity> {
         val history = QAliceScheduleHistoryEntity.aliceScheduleHistoryEntity
         val query = from(history)
             .where(history.taskId.eq(taskId))
         query.orderBy(history.executeTime.desc())
-        if (limit != null) {
-            query.limit(limit)
-        }
         return query.fetch()
     }
 

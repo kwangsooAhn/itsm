@@ -12,6 +12,6 @@ import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
 
 interface AliceScheduleHistoryRepositoryCustom : AliceRepositoryCustom {
 
-    fun findScheduleHistoryByTaskId(taskId: String, limit: Long?): List<AliceScheduleHistoryEntity>
+    fun findScheduleHistoryByTaskId(taskId: String): List<AliceScheduleHistoryEntity>
     fun findScheduleLatelyHistory(): List<ScheduleHistoryDto>
 }
