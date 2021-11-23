@@ -79,6 +79,13 @@ export const textAreaMixin = {
                 inheritedAttrs: ['class', 'style']
             }
         });
+
+        if (this.UIElement.UIComponent.UIElement.UITextArea.setUIReadOnly(true)) {
+            const textareaAttr = document.querySelectorAll('div.z-textarea');
+            textareaAttr.forEach(function (elem) {
+                elem.classList.add('z-textarea-readonly');
+            });
+        }
     },
     // set, get
     set element(element) {
