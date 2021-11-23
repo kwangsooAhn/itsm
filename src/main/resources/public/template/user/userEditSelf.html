@@ -184,7 +184,7 @@
         <div class="flex-column z-edit-row">
             <h3 class="sub-title under-bar bold" th:text="#{user.label.userAbsence}"></h3>
             <label class="z-switch" for="userAbsence">
-                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setDisplay('absenceData',this)"
+                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setDisplay('absenceData', this, true)"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
                 <span class="z-label" th:text="#{user.msg.userAbsence}"></span>
@@ -223,7 +223,7 @@
         <div class="flex-row justify-content-end z-edit-row">
             <div class="z-button-list">
                 <button class="z-button primary" type="button" th:text="#{common.btn.modify}"
-                        th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
+                        th:onclick="restSubmit([[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
             </div>
         </div>
     </div>
@@ -248,7 +248,6 @@
     /*<![CDATA[*/
     window.onload = function () {
         document.getElementById('userId').focus();
-        setDisplay('absenceData',document.getElementById('userAbsence'));
         zFileUploader.avatar({
             dropZoneFilesId: 'avatarDropZone',
             type: 'avatar',
@@ -265,6 +264,7 @@
         });
 
         OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
+        setDisplay('absenceData',document.getElementById('userAbsence'), false);
     };
 
     const STATUS_SUCCESS = '0';
@@ -272,8 +272,9 @@
     const STATUS_ERROR_EMAIL_DUPLICATION = '3';
     const STATUS_SUCCESS_EDIT_EMAIL = '4';
     const alicePlatform = 'user.platform.alice';
+    let WIPtoSubstituteUser = false;
 
-    function restSubmit(method, url) {
+    function restSubmit(url) {
         if (!validation()) {
             return false;
         }
@@ -294,6 +295,7 @@
             absenceStartDt: document.getElementById('absenceStartDt').value,
             absenceEndDt: document.getElementById('absenceEndDt').value,
             substituteUserKey: document.getElementById('substituteUserKey').value,
+            assigneeChange: WIPtoSubstituteUser,
             timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
             fileSeq: document.getElementsByName('fileSeq').value,
             avatarUUID: document.getElementById('avatarUUID').value
@@ -308,7 +310,7 @@
         }
 
         aliceJs.sendXhr({
-            method: method,
+            method: 'PUT',
             url: url,
             params: JSON.stringify(data),
             contentType: 'application/json',
@@ -338,7 +340,7 @@
         });
     }
 
-    function setDisplay(viewId, switchElement) {
+    function setDisplay(viewId, switchElement, isWIPtoSubstitute) {
         if (switchElement.checked) {
             const startDtVal = ''; // /*[[${users?.absenceStartDt}]]*/
             const endDtVal = ''; // /*[[${users?.absenceEndDt}]]*/
@@ -349,10 +351,16 @@
             zDateTimePicker.initDateTimePicker(startDtElement);
             zDateTimePicker.initDateTimePicker(endDtElement);
             document.getElementById(viewId).style.display = 'block';
+            if (isWIPtoSubstitute) {
+                zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
+                    WIPtoSubstituteUser = true;
+                });
+            }
         } else {
             document.getElementById('absenceStartDt').value = '';
             document.getElementById('absenceEndDt').value = '';
             document.getElementById(viewId).style.display = 'none';
+            WIPtoSubstituteUser = false;
         }
     }
 

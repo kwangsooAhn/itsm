@@ -169,10 +169,10 @@
                 </ul>
             </div>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column z-edit-row" th:if="${users?.userKey}">
             <h3 class="sub-title under-bar bold" th:text="#{user.label.userAbsence}"></h3>
             <label class="z-switch" for="userAbsence">
-                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setDisplay('absenceData',this)"
+                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setDisplay('absenceData',this, true)"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
                 <span class="z-label" th:text="#{user.msg.userAbsence}"></span>
@@ -237,7 +237,6 @@
     /*<![CDATA[*/
     window.onload = function () {
         document.getElementById('userId').focus();
-        setDisplay('absenceData',document.getElementById('userAbsence'));
         zFileUploader.avatar({
             dropZoneFilesId: 'avatarDropZone',
             type: 'avatar',
@@ -255,6 +254,9 @@
 
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
+        if ([[${users?.userKey}]] !== null) {
+            setDisplay('absenceData',document.getElementById('userAbsence'), false);
+        }
     };
 
     const STATUS_SUCCESS = '0';
@@ -263,6 +265,7 @@
     const STATUS_SUCCESS_EDIT_EMAIL = '4';
     const STATUS_SUCCESS_EDIT_ADMIN = '5';
     const STATUS_SUCCESS_EDIT_PASSWORD = '6';
+    let WIPtoSubstituteUser = false;
 
     function restSubmit(method, url, activeValidation) {
         if (activeValidation === 'true') {
@@ -288,10 +291,11 @@
             timezone: document.getElementById('timezone').value,
             lang: document.getElementById('lang').value,
             theme: document.getElementById('theme').value,
-            absenceYn: document.getElementById('userAbsence').checked,
-            absenceStartDt: document.getElementById('absenceStartDt').value,
-            absenceEndDt: document.getElementById('absenceEndDt').value,
-            substituteUserKey: document.getElementById('substituteUserKey').value,
+            absenceYn: ([[${users?.userKey}]] !== null) ? document.getElementById('userAbsence').checked : '',
+            absenceStartDt: ([[${users?.userKey}]] !== null) ? document.getElementById('absenceStartDt').value : '',
+            absenceEndDt: ([[${users?.userKey}]] !== null) ? document.getElementById('absenceEndDt').value : '',
+            substituteUserKey: ([[${users?.userKey}]] !== null) ? document.getElementById('substituteUserKey').value : '',
+            assigneeChange: WIPtoSubstituteUser,
             timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
             roles: arrRoleValue,
             avatarUUID: document.getElementById('avatarUUID').value
@@ -336,7 +340,8 @@
         });
     }
 
-    function setDisplay(viewId, switchElement) {
+    function setDisplay(viewId, isWIPtoSubstitute) {
+        let switchElement = document.getElementById('userAbsence')
         if (switchElement.checked) {
             const startDtVal = ''; // /*[[${users?.absenceStartDt}]]*/
             const endDtVal = ''; // /*[[${users?.absenceEndDt}]]*/
@@ -347,10 +352,16 @@
             zDateTimePicker.initDateTimePicker(startDtElement);
             zDateTimePicker.initDateTimePicker(endDtElement);
             document.getElementById(viewId).style.display = 'block';
+            if (isWIPtoSubstitute) {
+                zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
+                    WIPtoSubstituteUser = true;
+                });
+            }
         } else {
             document.getElementById('absenceStartDt').value = '';
             document.getElementById('absenceEndDt').value = '';
             document.getElementById(viewId).style.display = 'none';
+            WIPtoSubstituteUser = false;
         }
     }
 
@@ -361,7 +372,7 @@
         if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
         if (!isValidEmail('email', true)) return false;
         if (!isChecked('roles', 'user.msg.selectRole')) return false;
-        if (document.getElementById('userAbsence').checked) {
+        if ([[${users?.userKey}]] !== null && document.getElementById('userAbsence').checked) {
             if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) return false;
             if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) return false;
             if (isOrOperator((i18n.systemDateTime(document.getElementById('absenceStartDt').value) > i18n.systemDateTime(document.getElementById('absenceEndDt').value))

@@ -1318,7 +1318,9 @@ user:
     user: "User"
     userAbsence: "User Absence Setting"
   msg:
+    changeAsSubstituteUser: "Document has been assigned"
     compareWithAbsenceDtValue: "Absence start date is greater than or equal to end date."
+    confirmWIPToSubstituteUser: "Do you want to assign work-in-progress documents in addition to new documents to the substitute user?"
     createUser: "User is registered."
     customColorSave: "Your color has not been saved yet.<br/>Your color will be reset."
     editDescription: "Register users or modify user information."

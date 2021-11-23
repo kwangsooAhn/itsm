@@ -24,17 +24,18 @@
             <tr class="flex-row align-items-center" th:each="user, index : ${userList}">
                 <td style="width: 5%;" class="align-center text-clip">
                     <label class="z-radio" th:for="${index.index}" tabindex="0">
-                        <input type="radio" th:id="${index.index}" th:name="${user.userName}" th:value="${user.userKey}">
+                        <input type="radio" th:id="${index.index}" th:value="${user.userKey}"
+                               th:name="${user.userName}" th:title="${user.userName}">
                         <span></span>
                     </label>
                 </td>
-                <td style="width:10%;" class="align-left" th:text="${user.userName}"></td>
-                <td style="width:10%;" class="align-left" th:text="${user.userId}"></td>
-                <td style="width:20%;" class="align-left" th:text="${user.email}"></td>
-                <td style="width:15%;" class="align-left" th:text="${user.department}"></td>
-                <td style="width:10%;" class="align-left" th:text="${user.position}"></td>
-                <td style="width:15%;" class="align-left" th:text="${user.officeNumber}"></td>
-                <td style="width:15%;" class="align-left" th:text="${user.mobileNumber}"></td>
+                <td style="width:10%;" class="align-left" th:text="${user.userName}" th:title="${user.userName}"></td>
+                <td style="width:10%;" class="align-left" th:text="${user.userId}" th:title="${user.userId}"></td>
+                <td style="width:20%;" class="align-left" th:text="${user.email}" th:title="${user.email}"></td>
+                <td style="width:15%;" class="align-left" th:text="${user.department}" th:title="${user.department}"></td>
+                <td style="width:10%;" class="align-left" th:text="${user.position}" th:title="${user.position}"></td>
+                <td style="width:15%;" class="align-left" th:text="${user.officeNumber}" th:title="${user.officeNumber}"></td>
+                <td style="width:15%;" class="align-left" th:text="${user.mobileNumber}" th:title="${user.mobileNumber}"></td>
             </tr>
         </tbody>
     </table>
