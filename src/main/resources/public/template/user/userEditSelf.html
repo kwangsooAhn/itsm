@@ -181,6 +181,45 @@
                 </div>
             </div>
         </div>
+        <div class="flex-column z-edit-row">
+            <h3 class="sub-title under-bar bold" th:text="#{user.label.userAbsence}"></h3>
+            <label class="z-switch" for="userAbsence">
+                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setDisplay('absenceData',this)"
+                       th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
+                <span></span>
+                <span class="z-label" th:text="#{user.msg.userAbsence}"></span>
+            </label>
+            <div id="absenceData" class="flex-column z-edit-row">
+                <div class="flex-row">
+                    <div class="flex-column col-3">
+                        <label class="field-label required" th:text="#{common.label.startDate}"></label>
+                        <div>
+                            <input type="text" class="z-input i-date-picker search-date"
+                                   id="absenceStartDt" name="absenceStartDt" th:readonly="${view}">
+                        </div>
+                    </div>
+                    <div class="flex-column col-3">
+                        <label class="field-label required" th:text="#{common.label.endDate}"></label>
+                        <div>
+                            <input type="text" class="z-input i-date-picker search-date"
+                                   id="absenceEndDt" name="absenceEndDt" th:readonly="${view}">
+                        </div>
+                    </div>
+                    <div class="flex-column col-6">
+                        <label class="field-label required" th:text="#{user.label.substituteUser}"></label>
+                        <div class="flex-row z-input-button">
+                            <input type="hidden" id="substituteUserKey" name="substituteUserKey">
+                            <input type="text" class="z-input col-5" id="substituteUser" name="substituteUser"
+                                    readonly>
+                            <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);"
+                                  tabindex="-1"></span>
+                            <button type="button" class="z-button-search z-button form" onclick="openUserListPopup();"
+                                    th:text="#{common.btn.select}"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="flex-row justify-content-end z-edit-row">
             <div class="z-button-list">
                 <button class="z-button primary" type="button" th:text="#{common.btn.modify}"
@@ -209,6 +248,7 @@
     /*<![CDATA[*/
     window.onload = function () {
         document.getElementById('userId').focus();
+        setDisplay('absenceData',document.getElementById('userAbsence'));
         zFileUploader.avatar({
             dropZoneFilesId: 'avatarDropZone',
             type: 'avatar',
@@ -250,6 +290,10 @@
             timezone: document.getElementById('timezone').value,
             lang: document.getElementById('lang').value,
             theme: document.getElementById('theme').value,
+            absenceYn: document.getElementById('userAbsence').checked,
+            absenceStartDt: document.getElementById('absenceStartDt').value,
+            absenceEndDt: document.getElementById('absenceEndDt').value,
+            substituteUserKey: document.getElementById('substituteUserKey').value,
             timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
             fileSeq: document.getElementsByName('fileSeq').value,
             avatarUUID: document.getElementById('avatarUUID').value
@@ -294,6 +338,24 @@
         });
     }
 
+    function setDisplay(viewId, switchElement) {
+        if (switchElement.checked) {
+            const startDtVal = ''; // /*[[${users?.absenceStartDt}]]*/
+            const endDtVal = ''; // /*[[${users?.absenceEndDt}]]*/
+            const startDtElement = document.getElementById('absenceStartDt');
+            const endDtElement = document.getElementById('absenceEndDt');
+            startDtElement.value = startDtVal ? i18n.userDateTime(startDtVal) : i18n.getDateTime();
+            endDtElement.value = endDtVal ? i18n.userDateTime(endDtVal) : i18n.getDateTime({'days':7});
+            zDateTimePicker.initDateTimePicker(startDtElement);
+            zDateTimePicker.initDateTimePicker(endDtElement);
+            document.getElementById(viewId).style.display = 'block';
+        } else {
+            document.getElementById('absenceStartDt').value = '';
+            document.getElementById('absenceEndDt').value = '';
+            document.getElementById(viewId).style.display = 'none';
+        }
+    }
+
     function validation() {
         if (isEmpty('userId', 'user.msg.enterUserId')) return false;
         if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.enterUserPassword')) return false;
@@ -308,6 +370,15 @@
             if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
             if (!isValidEmail('email', true)) return false;
         }
+        if (document.getElementById('userAbsence').checked) {
+            if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) return false;
+            if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) return false;
+            if (isOrOperator((i18n.systemDateTime(document.getElementById('absenceStartDt').value) > i18n.systemDateTime(document.getElementById('absenceEndDt').value))
+                , (i18n.systemDateTime(document.getElementById('absenceStartDt').value) === i18n.systemDateTime(document.getElementById('absenceEndDt').value))
+                , 'user.msg.compareWithAbsenceDtValue')) return false;
+            if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
+        }
+
         return true;
     }
 
@@ -336,6 +407,76 @@
         });
     }
 
+    function openUserListPopup() {
+        const subUserModal = new modal({
+            title: i18n.msg('user.label.substituteUser'),
+            body: createModalContent(),
+            classes: 'sub-user-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.select'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: (modal) => {
+                    const selectedSubUser = document.querySelector('input[type=radio]:checked');
+                    if (selectedSubUser === null) {
+                        zAlert.warning(i18n.msg('user.msg.enterSubstituteUser'));
+                        return false;
+                    } else {
+                        document.getElementById('substituteUserKey').value = selectedSubUser.value;
+                        document.getElementById('substituteUser').value = selectedSubUser.name;
+                    }
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: (modal) => {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: () => {
+                document.getElementById('search').addEventListener('keyup', (e) => {
+                    this.getSubUserList(e.target.value, false);
+                });
+                this.getSubUserList(document.getElementById('search').value, true);
+            }
+        });
+        subUserModal.show();
+    }
+
+    function createModalContent() {
+        return `<div class="sub-user-list">` +
+            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('user.label.searchPlaceholder')}">` +
+            `<span id="spanTotalCount" class="search-count"></span>` +
+            `<div class="table-set" id="subUserList"></div>` +
+            `</div>`;
+    }
+    
+    function getSubUserList(search, showProgressbar) {
+        let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
+        const opt = {
+            method: 'get',
+            url: strUrl,
+            contentType: 'application/json',
+            showProgressbar: showProgressbar,
+            callbackFunc: function (response) {
+                document.getElementById('subUserList').innerHTML = response.responseText;
+                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+                aliceJs.showTotalCount(document.querySelectorAll('.sub-user-list').length);
+                document.querySelectorAll('input[type=radio]').forEach(function (radio) {
+                    // 업무 대리인으로 자기 자신은 선택할 수 없다.
+                    if (radio.value === document.getElementById('userKey').value) {
+                        radio.disabled = true;
+                    }
+                });
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
     /*]]>*/
 </script>
 </html>

@@ -283,7 +283,7 @@ class ZFormToken {
      * 문서 인쇄
      */
     print() {
-        const printData  =  this.form.toJson();
+        const printData  =  this.data.form;
         sessionStorage.setItem('alice_print', JSON.stringify(printData));
         window.open('/tokens/' + this.data.tokenId + '/print', '_blank');
     }

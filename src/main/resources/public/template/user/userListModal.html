@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <table class="z-table">
+        <thead class="z-table-head">
+            <tr>
+                <th style="width: 5%;" class="align-center"></th>
+                <th style="width:10%;" class="align-left" th:text="#{user.label.name}"></th>
+                <th style="width:10%;" class="align-left" th:text="#{user.label.id}"></th>
+                <th style="width:20%;" class="align-left" th:text="#{user.label.email}"></th>
+                <th style="width:15%;" class="align-left" th:text="#{user.label.department}"></th>
+                <th style="width:10%;" class="align-left" th:text="#{user.label.position}"></th>
+                <th style="width:15%;" class="align-left" th:text="#{user.label.officeNumber}"></th>
+                <th style="width:15%;" class="align-left" th:text="#{user.label.mobileNumber}"></th>
+            </tr>
+        </thead>
+        <tbody id="substituteUserList" class="z-table-body">
+            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(userList)}">
+                <td style="width:100%" colspan="4" class="align-center" th:text="#{common.msg.noData}"></td>
+            </tr>
+            <tr class="flex-row align-items-center" th:each="user, index : ${userList}">
+                <td style="width: 5%;" class="align-center text-clip">
+                    <label class="z-radio" th:for="${index.index}" tabindex="0">
+                        <input type="radio" th:id="${index.index}" th:name="${user.userName}" th:value="${user.userKey}">
+                        <span></span>
+                    </label>
+                </td>
+                <td style="width:10%;" class="align-left" th:text="${user.userName}"></td>
+                <td style="width:10%;" class="align-left" th:text="${user.userId}"></td>
+                <td style="width:20%;" class="align-left" th:text="${user.email}"></td>
+                <td style="width:15%;" class="align-left" th:text="${user.department}"></td>
+                <td style="width:10%;" class="align-left" th:text="${user.position}"></td>
+                <td style="width:15%;" class="align-left" th:text="${user.officeNumber}"></td>
+                <td style="width:15%;" class="align-left" th:text="${user.mobileNumber}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

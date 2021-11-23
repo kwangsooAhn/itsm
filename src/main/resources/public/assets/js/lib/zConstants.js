@@ -39,6 +39,10 @@ export const FORM = {
             HIDDEN: 'hidden',
             TOP: 'top',
             LEFT: 'left'
+        },
+        SIZE: {
+            MAX: 100,
+            MIN: 10
         }
     },
     ELEMENT: {
@@ -94,4 +98,9 @@ export const CI = {
         USE: 'use',
         DELETE: 'delete'
     }
+};
+// Response(응답) 코드
+export const RESPONSE_CODE = {
+    STATUS_SUCCESS: '0',
+    STATUS_ERROR_DUPLICATE: '1'
 };

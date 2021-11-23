@@ -33,8 +33,7 @@
                 ZSession.add('departmentName', codeData.codeName);
             });
         }
-
-        zFormDesigner.initForm('[[${formId}]]');
+        zFormDesigner.initForm('[[${formId}]]', '[[${isView}]]');
         window.zFormDesigner = zFormDesigner;
 
         window.addEventListener('DOMContentLoaded', function() {

@@ -780,6 +780,7 @@ select {
     text-align: center;
     margin-left: 2%;
     &:read-only:not(:disabled) {
+      width: 23%;
       @include border($element-border-width, solid, $element-border-color, all);
       @include borderRadius(0.125rem); // 2px
     }

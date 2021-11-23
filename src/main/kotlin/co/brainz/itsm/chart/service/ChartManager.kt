@@ -314,7 +314,7 @@ abstract class ChartManager(
             }
             map[ChartConstants.Operation.AVERAGE.code] = if (durationMap.isNotEmpty()) {
                 this.getTagAverage(
-                    this.getTagComponent(durationMap, chart.tags)
+                    this.getTagComponent(durationMap, chart.tags), chart.tags
                 )
             } else {
                 "0"
@@ -461,32 +461,32 @@ abstract class ChartManager(
      * 특정 컴포넌트에 대한 평균 계산을 진행한다.
      * 해당 함수에서는 인스턴스가 가지고 있는 특정 태그를 가진 컴포넌트에 대한 count, sum, average 데이터를 구한다.
      */
-    private fun getTagAverage(componentDataMap: LinkedHashMap<String, MutableList<ChartComponentDataDto>>): LinkedHashMap<String?, ChartCalculateAverageDto> {
-        val calculationMap = LinkedHashMap<String?, ChartCalculateAverageDto>()
+    private fun getTagAverage(
+        componentDataMap: LinkedHashMap<String, MutableList<ChartComponentDataDto>>,
+        chartTags: List<AliceTagDto>
+    ): LinkedHashMap<String?, ChartCalculateAverageDto?> {
+        val tagMap = LinkedHashMap<String?, ChartCalculateAverageDto?>()
         componentDataMap.forEach { componentData ->
+            chartTags.forEach { tag ->
+                tagMap[tag.tagValue] = ChartCalculateAverageDto()
+            }
             if (componentData.value.size > 0) {
                 componentData.value.forEach { data ->
                     if (!data.componentValue.isNullOrBlank()) {
-                        data.componentValue.split("|").forEach { tagValue ->
-                            if (tagValue.toDoubleOrNull() != null) {
-                                if (calculationMap[data.tagValue] == null) {
-                                    calculationMap[data.tagValue] = ChartCalculateAverageDto(
-                                        sum = tagValue.toDouble()
-                                    )
-                                } else {
-                                    calculationMap[data.tagValue] = ChartCalculateAverageDto(
-                                        count = calculationMap[data.tagValue]?.count!!.plus(1),
-                                        sum = calculationMap[data.tagValue]?.sum!!.plus(tagValue.toDouble())
-                                    )
-                                }
+                        data.componentValue.split("|").forEach { componentValue ->
+                            if (componentValue.toDoubleOrNull() != null) {
+                                tagMap[data.tagValue] = ChartCalculateAverageDto(
+                                    count = tagMap[data.tagValue]?.count!!.plus(1),
+                                    sum = tagMap[data.tagValue]?.sum!!.plus(componentValue.toDouble())
+                                )
+                                tagMap[data.tagValue]?.average =
+                                    (tagMap[data.tagValue]?.sum!! / tagMap[data.tagValue]?.count!!)
                             }
                         }
                     }
-                    calculationMap[data.tagValue]?.average =
-                        (calculationMap[data.tagValue]?.sum!! / calculationMap[data.tagValue]?.count!!)
                 }
             }
         }
-        return calculationMap
+        return tagMap
     }
 }

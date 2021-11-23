@@ -1536,6 +1536,7 @@ insert into awf_url values ('/charts/search', 'get', '사용자 정의 차트 �
 insert into awf_url values ('/charts/new', 'get', '사용자 정의 차트 등록 화면', 'TRUE');
 insert into awf_url values ('/charts/{id}/edit', 'get', '사용자 정의 차트 수정 화면', 'TRUE');
 insert into awf_url values ('/charts/{id}/view', 'get', '사용자 정의 차트 조회 화면', 'TRUE');
+insert into awf_url values ('/charts/{id}/preview', 'get', '사용자 정의 차트 미리보기', 'TRUE');
 insert into awf_url values ('/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/new', 'get', 'CMDB Attribute 등록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
@@ -1800,6 +1801,7 @@ insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 �
 insert into awf_url values ('/users/{userkey}/view', 'get', '사용자 정보 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editself', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
+insert into awf_url values ('/users/view-pop/users', 'get', '업무 대리인 모달 리스트 화면', 'FALSE');
 insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', 'FALSE');
 insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음에 변경하기', 'FALSE');
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
@@ -1876,6 +1878,7 @@ insert into awf_url_auth_map values ('/charts/new', 'get', 'chart.update');
 insert into awf_url_auth_map values ('/charts/{id}/edit', 'get', 'chart.create');
 insert into awf_url_auth_map values ('/charts/{id}/edit', 'get', 'chart.update');
 insert into awf_url_auth_map values ('/charts/{id}/view', 'get', 'chart.read');
+insert into awf_url_auth_map values ('/charts/{id}/preview', 'get', 'chart.read');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/attributes/new', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.attribute.read');
@@ -2284,6 +2287,8 @@ insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.updat
 insert into awf_url_auth_map values ('/users/{userkey}/view', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.update');
+insert into awf_url_auth_map values ('/users/view-pop/users', 'get', 'user.read');
+insert into awf_url_auth_map values ('/users/view-pop/users', 'get', 'user.update');
 
 /**
  * 사용자정보
@@ -2320,6 +2325,7 @@ CREATE TABLE awf_user
 	avatar_value varchar(512),
 	uploaded boolean DEFAULT 'false',
 	uploaded_location varchar(512),
+    user_absence boolean DEFAULT 'false',
 	CONSTRAINT awf_user_pk PRIMARY KEY (user_key),
 	CONSTRAINT awf_user_uk UNIQUE (user_id )
 );
@@ -2353,9 +2359,10 @@ COMMENT ON COLUMN awf_user.avatar_type IS '아바타 종류';
 COMMENT ON COLUMN awf_user.avatar_value IS '아바타 value';
 COMMENT ON COLUMN awf_user.uploaded IS '업로드 여부';
 COMMENT ON COLUMN awf_user.uploaded_location IS '업로드 경로';
+COMMENT ON COLUMN awf_user.user_absence IS '부재 여부';
 
-insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '');
-insert into awf_user values ('system', 'system', 'system', '', 'system@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '');
+insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
+insert into awf_user values ('system', 'system', 'system', '', 'system@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
 
 /**
  * 사용자역할매핑
@@ -4974,7 +4981,7 @@ INSERT INTO wf_component_property VALUES('31b1de9ccd8e4d74a811b6873e537610', 'va
 INSERT INTO wf_component_property VALUES('31b1de9ccd8e4d74a811b6873e537610', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('31b1de9ccd8e4d74a811b6873e537610', 'label', '{"position":"left","fontSize":"40","fontColor":"#21308F","bold":true,"italic":false,"underline":false,"align":"center","text":"문제 관리"}');
 INSERT INTO wf_component_property VALUES('3656c4a80d2a4856856a3e40ee60d36d', 'validation', '{"validationType":"none","required":true,"minLength":"0","maxLength":"100"}');
-INSERT INTO wf_component_property VALUES('3656c4a80d2a4856856a3e40ee60d36d', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"신청자"}');
+INSERT INTO wf_component_property VALUES('3656c4a80d2a4856856a3e40ee60d36d', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"접수자"}');
 INSERT INTO wf_component_property VALUES('3656c4a80d2a4856856a3e40ee60d36d', 'element', '{"columnWidth":"8","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0008|session|userName"}');
 INSERT INTO wf_component_property VALUES('3656c4a80d2a4856856a3e40ee60d36d', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('40a0a4ed57494fd1b870ba6894ea119c', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');

@@ -70,6 +70,7 @@ insert into awf_url_auth_map values ('/charts/new', 'get', 'chart.update');
 insert into awf_url_auth_map values ('/charts/{id}/edit', 'get', 'chart.create');
 insert into awf_url_auth_map values ('/charts/{id}/edit', 'get', 'chart.update');
 insert into awf_url_auth_map values ('/charts/{id}/view', 'get', 'chart.read');
+insert into awf_url_auth_map values ('/charts/{id}/preview', 'get', 'chart.read');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/attributes/new', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.attribute.read');
@@ -478,3 +479,5 @@ insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.updat
 insert into awf_url_auth_map values ('/users/{userkey}/view', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.update');
+insert into awf_url_auth_map values ('/users/view-pop/users', 'get', 'user.read');
+insert into awf_url_auth_map values ('/users/view-pop/users', 'get', 'user.update');

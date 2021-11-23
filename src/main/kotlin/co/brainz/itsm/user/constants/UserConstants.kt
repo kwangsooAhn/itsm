@@ -78,7 +78,8 @@ enum class UserConstants(val value: String) {
      * 사용자 정의 타입.
      */
     enum class UserCustom(val code: String) {
-        COLOR("color")
+        COLOR("color"),
+        USER_ABSENCE("user_absence")
     }
 
     /**

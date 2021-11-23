@@ -1861,6 +1861,7 @@ select {
   margin-left: 2%;
 }
 .z-slider .z-input:read-only:not(:disabled) {
+  width: 23%;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -2086,13 +2087,6 @@ select {
 }
 .z-print table tr {
   height: 0;
-}
-.z-print-main-header {
-  text-align: center;
-  margin: 5mm 0;
-}
-.z-print-main-header h1 {
-  color: #000000;
 }
 .z-print-main-footer {
   line-height: 1.2;

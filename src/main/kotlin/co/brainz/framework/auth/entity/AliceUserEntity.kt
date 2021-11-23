@@ -102,6 +102,9 @@ open class AliceUserEntity(
     @Column(name = "uploaded_location")
     open var uploadedLocation: String = "",
 
+    @Column(name = "user_absence")
+    open var absenceYn: Boolean = false,
+
     @CreatedBy
     @Column(name = "create_user_key", nullable = false, updatable = false)
     open var createUser: String? = null,

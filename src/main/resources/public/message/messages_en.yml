@@ -1308,6 +1308,7 @@ user:
     role: "User Role"
     searchPlaceholder: "ID/Name/Dept/Position/Number"
     signUpDate: "SignUp Date"
+    substituteUser: "Substitute User"
     theme: "Theme"
     time: "Time Format"
     timeFormat: "Date/Time Format"
@@ -1315,16 +1316,21 @@ user:
     updatePasswordNotice: "Password change guide"
     usageStatus: "Usage Status"
     user: "User"
+    userAbsence: "User Absence Setting"
   msg:
+    compareWithAbsenceDtValue: "Absence start date is greater than or equal to end date."
     createUser: "User is registered."
     customColorSave: "Your color has not been saved yet.<br/>Your color will be reset."
     editDescription: "Register users or modify user information."
     editSelfDescription: "Edit your personal information."
     emailAlert: "When you change your email, you need to verify."
     emailWithUpdate: "Member information, including email information, has been modified."
+    enterAbsenceStartDt: "Please enter absence start date."
+    enterAbsenceEndDt: "Please enter absence end date."
     enterNowUserPassword: "Please enter your current password."
     enterNewUserPassword: "Please enter your new password."
     enterNewUserRePassword: "Please enter your new Password Confirm."
+    enterSubstituteUser: "please select your substitute User."
     enterUserEmail: "Please enter your Email."
     enterUserId: "Please enter your UserId."
     enterUserName: "Please enter your UserName."
@@ -1343,6 +1349,7 @@ user:
     signUpFail: "Sign up failed."
     updatePasswordNotice: "Recommend changing your password every {0} days for personal information protection and safe system use. Change your password."
     usageStatus: "※ If not using it, you won't be able to log in and use all systems."
+    userAbsence: "※ When absent, the period of absence and the substitute must be set."
   tooltip:
     idRule: "※ Letters, numbers, and special characters (@, -, _) can be used.<br/>
     ※ Special characters can not be allowed to come to the front.<br/>

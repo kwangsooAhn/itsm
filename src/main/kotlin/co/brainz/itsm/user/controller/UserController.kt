@@ -44,6 +44,7 @@ class UserController(
     private val userListPage: String = "user/userList"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userPage: String = "user/user"
+    private val userListModalPage: String = "user/userListModal"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -80,6 +81,9 @@ class UserController(
         val users = userMapper.toUserDto(userEntity)
         users.avatarPath = userDetailsService.makeAvatarPath(userEntity)
         users.avatarSize = userService.getUserAvatarSize(userEntity)
+        // 부재 시, 필요한 정보를 담는다.
+        if (users.absenceYn === true) {
+        }
 
         val timeFormat = users.timeFormat!!.split(' ')
         val usersDate = timeFormat[0]
@@ -124,6 +128,24 @@ class UserController(
         }
 
         return returnUrl
+    }
+
+    /**
+     * 사용자 정보 수정 화면 및 자기정보 수정 화면 대리 근무자 리스트 모달
+     */
+    @GetMapping("/view-pop/users")
+    fun getSubUsersList(request: HttpServletRequest, model: Model): String {
+        val params = LinkedHashMap<String, Any>()
+        params["search"] = request.getParameter("search")
+
+        val userList = userService.selectUserList(UserSearchCondition(
+            searchValue = params["search"].toString(),
+            pageNum = 0L,
+            contentNumPerPage = 0L
+        ))
+
+        model.addAttribute("userList", userList.data)
+        return userListModalPage
     }
 
     /**
