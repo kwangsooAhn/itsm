@@ -266,7 +266,7 @@
     // 미 입력시, placeholder 투명도 조정 가능
     &:empty::before {
       @include transition(0.2s ease-out);
-      opacity: 0; // 기존 0.5
+      opacity: 1; // 기존 0.5
       transform: none;
       width: auto;
     }
@@ -281,7 +281,7 @@
 
       &:empty::before {
         @include transition(0.2s ease-out);
-        opacity: 0; // 기존 0.3
+        opacity: 1; // 기존 0.3
         transform: none;
       }
     }

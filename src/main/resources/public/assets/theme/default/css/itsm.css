@@ -7436,7 +7436,7 @@ body.modal-active {
   -o-transition: 0.2s ease-out;
   -ms-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
-  opacity: 0;
+  opacity: 1;
   transform: none;
   width: auto;
 }
@@ -7462,7 +7462,7 @@ body.modal-active {
   -o-transition: 0.2s ease-out;
   -ms-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
-  opacity: 0;
+  opacity: 1;
   transform: none;
 }
 .tagify__input::before {
