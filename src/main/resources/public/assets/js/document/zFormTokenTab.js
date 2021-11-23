@@ -151,6 +151,7 @@ class ZFormTokenTab {
      * @return {string} innerHTML 로 넣을 수 있는 String.
      */
     makeHistoryFragment(token) {
+        token.assigneeName = token.assigneeName ? token.assigneeName : '';
         return `<tr class="flex-row align-items-center">` +
             `<td style="width: 35%;" class="align-left date-time" name="tokenDt" title="${token.tokenStartDt}">` + token.tokenStartDt + `</td>` +
             `<td style="width: 25%;" class="align-left" title="${token.elementName}">` + token.elementName + `</td>` +
