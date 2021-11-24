@@ -150,6 +150,12 @@
                             inheritedAttrs: "class"
                         }
                     });
+                    if (document.querySelector('textarea').hasAttribute("readonly") === true) {
+                        document.querySelectorAll('div.z-textarea').forEach(function (elem) {
+                            elem.classList.add('z-textarea-readonly');
+                        });
+                    }
+
                     document.getElementById('spanCreateDt').value = i18n.userDateTime(document.getElementById('spanCreateDt').value)
                     document.getElementById('spanUpdateDt').value = i18n.userDateTime(document.getElementById('spanUpdateDt').value)
                 },

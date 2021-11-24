@@ -170,6 +170,11 @@
             inheritedAttrs: "class"
         }
     });
+    if (document.querySelector('textarea').hasAttribute("readonly") === true) {
+        document.querySelectorAll('div.z-textarea').forEach(function (elem) {
+            elem.classList.add('z-textarea-readonly');
+        });
+    }
 
     /* 등록, 수정 버튼 */
     function onSave(flag) {
