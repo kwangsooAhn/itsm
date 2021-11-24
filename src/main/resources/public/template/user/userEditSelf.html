@@ -184,7 +184,7 @@
         <div class="flex-column z-edit-row">
             <h3 class="sub-title under-bar bold" th:text="#{user.label.userAbsence}"></h3>
             <label class="z-switch" for="userAbsence">
-                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setDisplay('absenceData',this)"
+                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
                 <span class="z-label" th:text="#{user.msg.userAbsence}"></span>
@@ -223,7 +223,7 @@
         <div class="flex-row justify-content-end z-edit-row">
             <div class="z-button-list">
                 <button class="z-button primary" type="button" th:text="#{common.btn.modify}"
-                        th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
+                        th:onclick="preSubmitCheck([[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
             </div>
         </div>
     </div>
@@ -248,7 +248,6 @@
     /*<![CDATA[*/
     window.onload = function () {
         document.getElementById('userId').focus();
-        setDisplay('absenceData',document.getElementById('userAbsence'));
         zFileUploader.avatar({
             dropZoneFilesId: 'avatarDropZone',
             type: 'avatar',
@@ -265,6 +264,7 @@
         });
 
         OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
+        setAbsenceDisplay();
     };
 
     const STATUS_SUCCESS = '0';
@@ -272,12 +272,27 @@
     const STATUS_ERROR_EMAIL_DUPLICATION = '3';
     const STATUS_SUCCESS_EDIT_EMAIL = '4';
     const alicePlatform = 'user.platform.alice';
+    let wipToSubstituteUser = false;
 
-    function restSubmit(method, url) {
+    function preSubmitCheck(url) {
         if (!validation()) {
             return false;
         }
 
+        if (document.getElementById('userAbsence').checked) {
+            zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
+                wipToSubstituteUser = true;
+                restSubmit(url);
+            }, () => {
+                wipToSubstituteUser = false;
+                restSubmit(url);
+            });
+        } else {
+            restSubmit(url);
+        }
+    }
+
+    function restSubmit(url) {
         const data = {
             userKey: document.getElementById('userKey').value,
             userId: document.getElementById('userId').value,
@@ -294,6 +309,7 @@
             absenceStartDt: document.getElementById('absenceStartDt').value,
             absenceEndDt: document.getElementById('absenceEndDt').value,
             substituteUserKey: document.getElementById('substituteUserKey').value,
+            assigneeChange: wipToSubstituteUser,
             timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
             fileSeq: document.getElementsByName('fileSeq').value,
             avatarUUID: document.getElementById('avatarUUID').value
@@ -308,7 +324,7 @@
         }
 
         aliceJs.sendXhr({
-            method: method,
+            method: 'PUT',
             url: url,
             params: JSON.stringify(data),
             contentType: 'application/json',
@@ -338,7 +354,11 @@
         });
     }
 
-    function setDisplay(viewId, switchElement) {
+    /**
+     * 부재설정 radio 버튼 on/off 시 관련 폼을 그리거나 제거합니다.
+     */
+    function setAbsenceDisplay() {
+        let switchElement = document.getElementById('userAbsence')
         if (switchElement.checked) {
             const startDtVal = ''; // /*[[${users?.absenceStartDt}]]*/
             const endDtVal = ''; // /*[[${users?.absenceEndDt}]]*/
@@ -348,11 +368,13 @@
             endDtElement.value = endDtVal ? i18n.userDateTime(endDtVal) : i18n.getDateTime({'days':7});
             zDateTimePicker.initDateTimePicker(startDtElement);
             zDateTimePicker.initDateTimePicker(endDtElement);
-            document.getElementById(viewId).style.display = 'block';
+            document.getElementById('absenceData').style.display = 'block';
         } else {
             document.getElementById('absenceStartDt').value = '';
             document.getElementById('absenceEndDt').value = '';
-            document.getElementById(viewId).style.display = 'none';
+            document.getElementById('substituteUserKey').value = '';
+            document.getElementById('substituteUser').value = '';
+            document.getElementById('absenceData').style.display = 'none';
         }
     }
 

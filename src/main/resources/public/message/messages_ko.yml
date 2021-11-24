@@ -1318,7 +1318,9 @@ user:
     user: "사용자"
     userAbsence: "사용자 부재 설정"
   msg:
+    changeAsSubstituteUser: "업무 대리인에게 할당되었습니다."
     compareWithAbsenceDtValue: "부재 시작일시가 종료일시보다 크거나 같습니다."
+    confirmWIPToSubstituteUser: "신규 문서 외 진행 중인 문서도<br/>업무 대리인에게 할당하시겠습니까?"
     createUser: "사용자가 등록되었습니다."
     customColorSave: "사용자 색상이 아직 저장되지 않았습니다.<br/>사용자 색상이 초기화 됩니다."
     editDescription: "사용자를 등록하거나, 사용자 정보를 수정합니다."

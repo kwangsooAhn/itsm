@@ -26,6 +26,7 @@ import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
+import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
@@ -37,12 +38,7 @@ import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserCustomRepository
 import co.brainz.itsm.user.repository.UserRepository
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.type.TypeFactory
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.convertValue
-import com.fasterxml.jackson.module.kotlin.readValue
+import com.google.gson.Gson
 import java.nio.file.Paths
 import java.security.PrivateKey
 import java.time.LocalDateTime
@@ -426,5 +422,28 @@ class UserService(
         val userEntity = selectUser(userUpdatePasswordDto.userId!!)
         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
         return UserConstants.UserUpdatePassword.SUCCESS.code
+    }
+
+    /**
+     * 사용자 부재 관련 정보 초기화
+     */
+    fun resetUserAbsence(userKey: String, customCode: String): Boolean {
+        val userEntity = userDetailsService.selectUserKey(userKey)
+        userCustomRepository.deleteByUserAndAndCustomType(userEntity, customCode)
+        return true
+    }
+
+    /**
+     * 사용자 부재 관련 정보 설정
+     */
+    fun setUserAbsence(userKey: String, customCode: String, absenceData: UserAbsenceDto): Boolean {
+        val userEntity = userDetailsService.selectUserKey(userKey)
+        val userCustomEntity = UserCustomEntity(
+            user = userEntity,
+            customType = customCode,
+            customValue =  Gson().toJson(absenceData)
+        )
+        userCustomRepository.save(userCustomEntity)
+        return true
     }
 }
