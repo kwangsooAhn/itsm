@@ -1886,6 +1886,15 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   border: 0.0625rem solid #76BD26 !important;
 }
 
+.z-textarea-readonly {
+  border: none !important;
+  border-left: 0.0625rem solid #ABB0B5 !important;
+}
+.z-textarea-disabled:hover, .z-textarea-disabled:focus {
+  border: 0.0625rem solid #ABB0B5 !important;
+  box-shadow: none !important;
+}
+
 .z-switch {
   position: relative;
   height: 1.125rem;

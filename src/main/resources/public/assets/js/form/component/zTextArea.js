@@ -81,9 +81,12 @@ export const textAreaMixin = {
         });
 
         if (this.UIElement.UIComponent.UIElement.UITextArea.setUIReadOnly(true)) {
-            const textareaAttr = document.querySelectorAll('div.z-textarea');
-            textareaAttr.forEach(function (elem) {
+            document.querySelectorAll('div.z-textarea').forEach(function (elem) {
                 elem.classList.add('z-textarea-readonly');
+            });
+        } else if (this.UIElement.UIComponent.UIElement.UITextArea.setUIDisabled(true)) {
+            document.querySelectorAll('div.z-textarea').forEach(function (elem) {
+                elem.classList.add('z-textarea-disabled');
             });
         }
     },

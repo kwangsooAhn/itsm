@@ -462,6 +462,19 @@ input, textarea, select {
     @include border($validation-success-border-width, solid, $validation-success-border-color !important, all);
   }
 }
+// os-div 작업
+.z-textarea {
+  &-readonly {
+    border: none !important;
+    @include border($element-border-width, solid, $element-border-color !important, left);
+  }
+  &-disabled {
+    &:hover, &:focus {
+      @include border($element-border-width, solid, $element-border-color !important, all);
+      box-shadow: none !important;
+    }
+  }
+}
 
 // switch
 .z-switch {
