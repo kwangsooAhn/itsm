@@ -149,7 +149,7 @@ const zChartManager = {
         this.zChart = new ZChart('container', data);
 
         // 데이터 업데이트
-        this.zChart.update();
+        this.zChart.update(data.chartData);
     },
     destroy: function () {
         if (this.zChart) {

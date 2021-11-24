@@ -112,7 +112,6 @@ export  default class ZChart {
         this._desc = data.chartDesc || '';
         this._tags = data.tags || [];
         this._config = data.chartConfig;
-        this._data = data.chartData;
 
         // 테마 적용
         Highcharts.setOptions(HIGHCHARTS_THEME);
@@ -209,13 +208,6 @@ export  default class ZChart {
         return this._config;
     }
 
-    set data(data) {
-        this._data = data;
-    }
-
-    get data() {
-        return this._data;
-    }
     /**
      * 차트 간격 설정에 따른 시간 데이터 포맷 조회
      * @returns 데이터 포맷

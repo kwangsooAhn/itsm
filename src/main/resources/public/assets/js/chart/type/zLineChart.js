@@ -140,14 +140,15 @@ export const zLineChartMixin = {
     },
     /**
      * 업데이트
+     * @param data 데이터
      */
-    update() {
+    update(data) {
         for (let i = 0; i < this.chart.series.length; i++) {
             const tag = this.chart.series[i];
             let series = [];
             let seriesId = ''; // 태그는 저장된 후에 ID가 설정되므로 name 기준으로 비교하여 일치하면 태그 ID를 넣어준다.
-            for (let j = 0; j < this.data.length; j++) {
-                const temp = this.data[j];
+            for (let j = 0; j < data.length; j++) {
+                const temp = data[j];
                 if (tag.options.name === temp.series) {
                     seriesId = temp.id;
                     series.push({ x: this.getStringToDateTime(temp.category), y: Number(temp.value) });
