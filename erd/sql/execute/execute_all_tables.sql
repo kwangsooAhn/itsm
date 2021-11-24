@@ -21,15 +21,15 @@ DROP TABLE IF EXISTS awf_auth cascade;
 
 CREATE TABLE awf_auth
 (
-    auth_id varchar(100) NOT NULL,
-    auth_name varchar(128) NOT NULL,
-    auth_desc text,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_auth_pk PRIMARY KEY (auth_id),
-    CONSTRAINT awf_auth_uk1 UNIQUE (auth_name)
+	auth_id varchar(100) NOT NULL,
+	auth_name varchar(128) NOT NULL,
+	auth_desc text,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT awf_auth_pk PRIMARY KEY (auth_id),
+	CONSTRAINT awf_auth_uk1 UNIQUE (auth_name)
 );
 
 COMMENT ON TABLE awf_auth IS '권한';
@@ -159,20 +159,20 @@ DROP TABLE IF EXISTS awf_code cascade;
 
 CREATE TABLE awf_code
 (
-    code varchar(100) NOT NULL,
-    p_code varchar(100),
-    code_value varchar(256),
-    code_name varchar(128),
-    code_desc varchar(512),
-    editable boolean default true,
-    use_yn boolean default true,
-    level integer,
-    seq_num integer,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_code_pk PRIMARY KEY (code)
+	code varchar(100) NOT NULL,
+	p_code varchar(100),
+	code_value varchar(256),
+	code_name varchar(128),
+	code_desc varchar(512),
+	editable boolean default true,
+	use_yn boolean default true,
+	level integer,
+	seq_num integer,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT awf_code_pk PRIMARY KEY (code)
 );
 
 COMMENT ON TABLE awf_code IS '코드정보';
@@ -409,21 +409,21 @@ DROP TABLE IF EXISTS awf_custom_code cascade;
 
 CREATE TABLE awf_custom_code
 (
-    custom_code_id varchar(128) NOT NULL,
-    custom_code_name varchar(128) NOT NULL,
-    type varchar(128) DEFAULT 'table' NOT NULL,
-    target_table varchar(128),
-    search_column varchar(128),
-    value_column varchar(128),
-    p_code varchar(128),
-    condition varchar(512),
+	custom_code_id varchar(128) NOT NULL,
+	custom_code_name varchar(128) NOT NULL,
+	type varchar(128) DEFAULT 'table' NOT NULL,
+	target_table varchar(128),
+	search_column varchar(128),
+	value_column varchar(128),
+	p_code varchar(128),
+	condition varchar(512),
     session_key varchar(128),
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_custom_code_pk PRIMARY KEY (custom_code_id),
-    CONSTRAINT awf_custom_code_uk UNIQUE (custom_code_name)
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT awf_custom_code_pk PRIMARY KEY (custom_code_id),
+	CONSTRAINT awf_custom_code_uk UNIQUE (custom_code_name)
 );
 
 COMMENT ON TABLE awf_custom_code IS '사용자정의코드';
@@ -456,9 +456,9 @@ DROP TABLE IF EXISTS awf_custom_code_table cascade;
 
 CREATE TABLE awf_custom_code_table
 (
-    custom_code_table varchar(128) NOT NULL,
-    custom_code_table_name varchar(128) NOT NULL,
-    CONSTRAINT awf_custom_code_table_pk PRIMARY KEY (custom_code_table)
+	custom_code_table varchar(128) NOT NULL,
+	custom_code_table_name varchar(128) NOT NULL,
+	CONSTRAINT awf_custom_code_table_pk PRIMARY KEY (custom_code_table)
 );
 
 COMMENT ON TABLE awf_custom_code_table IS '사용자정의코드테이블';
@@ -475,12 +475,12 @@ DROP TABLE IF EXISTS awf_custom_code_column cascade;
 
 CREATE TABLE awf_custom_code_column
 (
-    custom_code_table varchar(128) NOT NULL,
-    custom_code_type varchar(100) NOT NULL,
-    custom_code_column varchar(128) NOT NULL,
-    custom_code_column_name varchar(128) NOT NULL,
-    CONSTRAINT awf_custom_code_column_pk PRIMARY KEY (custom_code_table, custom_code_type, custom_code_column),
-    CONSTRAINT awf_custom_code_column_fk FOREIGN KEY (custom_code_table) REFERENCES awf_custom_code_table (custom_code_table)
+	custom_code_table varchar(128) NOT NULL,
+	custom_code_type varchar(100) NOT NULL,
+	custom_code_column varchar(128) NOT NULL,
+	custom_code_column_name varchar(128) NOT NULL,
+	CONSTRAINT awf_custom_code_column_pk PRIMARY KEY (custom_code_table, custom_code_type, custom_code_column),
+	CONSTRAINT awf_custom_code_column_fk FOREIGN KEY (custom_code_table) REFERENCES awf_custom_code_table (custom_code_table)
 );
 
 COMMENT ON TABLE awf_custom_code_column IS '사용자정의코드컬럼';
@@ -506,17 +506,17 @@ DROP TABLE IF EXISTS awf_download cascade;
 
 CREATE TABLE awf_download
 (
-    download_id varchar(128) NOT NULL,
-    download_seq bigint DEFAULT nextval('awf_download_seq') NOT NULL,
-    download_category varchar(100) NOT NULL,
-    download_title varchar(128) NOT NULL,
-    views bigint DEFAULT 0 NOT NULL,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_download_pk PRIMARY KEY (download_id),
-    CONSTRAINT awf_download_uk UNIQUE (download_seq)
+	download_id varchar(128) NOT NULL,
+	download_seq bigint DEFAULT nextval('awf_download_seq') NOT NULL,
+	download_category varchar(100) NOT NULL,
+	download_title varchar(128) NOT NULL,
+	views bigint DEFAULT 0 NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT awf_download_pk PRIMARY KEY (download_id),
+	CONSTRAINT awf_download_uk UNIQUE (download_seq)
 );
 
 COMMENT ON TABLE awf_download IS '자료실';
@@ -537,19 +537,19 @@ DROP TABLE IF EXISTS awf_file_loc cascade;
 
 CREATE TABLE awf_file_loc
 (
-    seq bigint NOT NULL,
-    file_owner varchar(128),
-    uploaded boolean DEFAULT 'false',
-    uploaded_location varchar(512),
-    random_name varchar(512),
-    origin_name varchar(512),
-    file_size bigint,
-    sort int,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_file_loc_pk PRIMARY KEY (seq)
+	seq bigint NOT NULL,
+	file_owner varchar(128),
+	uploaded boolean DEFAULT 'false',
+	uploaded_location varchar(512),
+	random_name varchar(512),
+	origin_name varchar(512),
+	file_size bigint,
+	sort int,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT awf_file_loc_pk PRIMARY KEY (seq)
 );
 
 COMMENT ON TABLE awf_file_loc IS '파일관리';
@@ -573,13 +573,13 @@ DROP TABLE IF EXISTS awf_file_name_extension cascade;
 
 CREATE TABLE awf_file_name_extension
 (
-    file_name_extension varchar(128) NOT NULL,
-    file_content_type varchar(128) NOT NULL,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_file_name_extension_pk PRIMARY KEY (file_name_extension)
+	file_name_extension varchar(128) NOT NULL,
+	file_content_type varchar(128) NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT awf_file_name_extension_pk PRIMARY KEY (file_name_extension)
 );
 
 COMMENT ON TABLE awf_file_name_extension IS '파일확장자관리';
@@ -611,10 +611,10 @@ DROP TABLE IF EXISTS awf_file_own_map cascade;
 
 CREATE TABLE awf_file_own_map
 (
-    own_id varchar(128) NOT NULL,
-    file_seq bigint NOT NULL,
-    CONSTRAINT awf_file_own_map_pk PRIMARY KEY (own_id, file_seq),
-    CONSTRAINT awf_file_own_map_fk FOREIGN KEY (file_seq) REFERENCES awf_file_loc (seq)
+	own_id varchar(128) NOT NULL,
+	file_seq bigint NOT NULL,
+	CONSTRAINT awf_file_own_map_pk PRIMARY KEY (own_id, file_seq),
+	CONSTRAINT awf_file_own_map_fk FOREIGN KEY (file_seq) REFERENCES awf_file_loc (seq)
 );
 
 COMMENT ON TABLE awf_file_own_map IS '첨부파일연결매핑';
@@ -627,13 +627,13 @@ DROP TABLE IF EXISTS awf_ip_verification cascade;
 
 CREATE TABLE awf_ip_verification
 (
-    ip_addr varchar(128) NOT NULL,
-    ip_explain varchar(512),
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_ip_verification_pk PRIMARY KEY (ip_addr)
+	ip_addr varchar(128) NOT NULL,
+	ip_explain varchar(512),
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT awf_ip_verification_pk PRIMARY KEY (ip_addr)
 );
 
 COMMENT ON TABLE awf_ip_verification IS '접근허용IP정보';
@@ -653,12 +653,12 @@ DROP TABLE IF EXISTS awf_menu cascade;
 
 CREATE TABLE awf_menu
 (
-    menu_id varchar(100) NOT NULL,
-    p_menu_id varchar(100) NOT NULL,
-    url varchar(512) NOT NULL,
-    sort int DEFAULT 0 NOT NULL,
-    use_yn boolean DEFAULT 'true' NOT NULL,
-    CONSTRAINT awf_menu_pk PRIMARY KEY (menu_id)
+	menu_id varchar(100) NOT NULL,
+	p_menu_id varchar(100) NOT NULL,
+	url varchar(512) NOT NULL,
+	sort int DEFAULT 0 NOT NULL,
+	use_yn boolean DEFAULT 'true' NOT NULL,
+	CONSTRAINT awf_menu_pk PRIMARY KEY (menu_id)
 );
 
 COMMENT ON TABLE awf_menu IS '메뉴정보';
@@ -709,11 +709,11 @@ DROP TABLE IF EXISTS awf_menu_auth_map cascade;
 
 CREATE TABLE awf_menu_auth_map
 (
-    menu_id varchar(100) NOT NULL,
-    auth_id varchar(100) NOT NULL,
-    CONSTRAINT awf_menu_auth_map_pk PRIMARY KEY (menu_id, auth_id),
-    CONSTRAINT awf_menu_auth_map_fk1 FOREIGN KEY (menu_id) REFERENCES awf_menu (menu_id),
-    CONSTRAINT awf_menu_auth_map_fk2 FOREIGN KEY (auth_id) REFERENCES awf_auth (auth_id)
+	menu_id varchar(100) NOT NULL,
+	auth_id varchar(100) NOT NULL,
+	CONSTRAINT awf_menu_auth_map_pk PRIMARY KEY (menu_id, auth_id),
+	CONSTRAINT awf_menu_auth_map_fk1 FOREIGN KEY (menu_id) REFERENCES awf_menu (menu_id),
+	CONSTRAINT awf_menu_auth_map_fk2 FOREIGN KEY (auth_id) REFERENCES awf_auth (auth_id)
 );
 
 COMMENT ON TABLE awf_menu_auth_map IS '권한별메뉴매핑';
@@ -871,18 +871,18 @@ DROP TABLE IF EXISTS awf_notification cascade;
 
 CREATE TABLE awf_notification
 (
-    notification_id varchar(128) NOT NULL,
-    received_user varchar(128) NOT NULL,
-    title varchar(128) NOT NULL,
-    message varchar(1024),
-    instance_id varchar(128),
-    confirm_yn boolean DEFAULT 'false',
-    display_yn boolean DEFAULT 'false',
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_notification_pk PRIMARY KEY (notification_id)
+	notification_id varchar(128) NOT NULL,
+	received_user varchar(128) NOT NULL,
+	title varchar(128) NOT NULL,
+	message varchar(1024),
+	instance_id varchar(128),
+	confirm_yn boolean DEFAULT 'false',
+	display_yn boolean DEFAULT 'false',
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT awf_notification_pk PRIMARY KEY (notification_id)
 );
 
 COMMENT ON TABLE awf_notification IS '알림';
@@ -905,12 +905,12 @@ DROP TABLE IF EXISTS awf_numbering_rule cascade;
 
 CREATE TABLE awf_numbering_rule
 (
-    numbering_id varchar(128) NOT NULL,
-    numbering_name varchar(255) NOT NULL,
-    numbering_desc text,
-    latest_value text,
-    latest_date timestamp,
-    CONSTRAINT awf_numbering_rule_pk PRIMARY KEY (numbering_id)
+	numbering_id varchar(128) NOT NULL,
+	numbering_name varchar(255) NOT NULL,
+	numbering_desc text,
+	latest_value text,
+	latest_date timestamp,
+	CONSTRAINT awf_numbering_rule_pk PRIMARY KEY (numbering_id)
 );
 
 COMMENT ON TABLE awf_numbering_rule IS '넘버링정보';
@@ -936,11 +936,11 @@ DROP TABLE IF EXISTS awf_numbering_pattern cascade;
 
 CREATE TABLE awf_numbering_pattern
 (
-    pattern_id varchar(128) NOT NULL,
-    pattern_name varchar(255) NOT NULL,
-    pattern_type varchar(100) NOT NULL,
-    pattern_value text,
-    CONSTRAINT awf_numbering_pattern_pk PRIMARY KEY (pattern_id)
+	pattern_id varchar(128) NOT NULL,
+	pattern_name varchar(255) NOT NULL,
+	pattern_type varchar(100) NOT NULL,
+	pattern_value text,
+	CONSTRAINT awf_numbering_pattern_pk PRIMARY KEY (pattern_id)
 );
 
 COMMENT ON TABLE awf_numbering_pattern IS '넘버링패턴정보';
@@ -968,15 +968,15 @@ DROP TABLE IF EXISTS awf_role cascade;
 
 CREATE TABLE awf_role
 (
-    role_id varchar(100) NOT NULL,
-    role_name varchar(128) NOT NULL UNIQUE,
-    role_desc text,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_role_pk PRIMARY KEY (role_id),
-    CONSTRAINT awf_role_uk UNIQUE (role_name)
+	role_id varchar(100) NOT NULL,
+	role_name varchar(128) NOT NULL UNIQUE,
+	role_desc text,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT awf_role_pk PRIMARY KEY (role_id),
+	CONSTRAINT awf_role_uk UNIQUE (role_name)
 );
 
 COMMENT ON TABLE awf_role IS '역할';
@@ -1026,11 +1026,11 @@ DROP TABLE IF EXISTS awf_role_auth_map cascade;
 
 CREATE TABLE awf_role_auth_map
 (
-    role_id varchar(100) NOT NULL,
-    auth_id varchar(100) NOT NULL,
-    CONSTRAINT awf_role_auth_map_pk PRIMARY KEY (role_id, auth_id),
-    CONSTRAINT awf_role_auth_map_fk1 FOREIGN KEY (role_id) REFERENCES awf_role (role_id),
-    CONSTRAINT awf_role_auth_map_fk2 FOREIGN KEY (auth_id) REFERENCES awf_auth (auth_id)
+	role_id varchar(100) NOT NULL,
+	auth_id varchar(100) NOT NULL,
+	CONSTRAINT awf_role_auth_map_pk PRIMARY KEY (role_id, auth_id),
+	CONSTRAINT awf_role_auth_map_fk1 FOREIGN KEY (role_id) REFERENCES awf_role (role_id),
+	CONSTRAINT awf_role_auth_map_fk2 FOREIGN KEY (auth_id) REFERENCES awf_auth (auth_id)
 );
 
 COMMENT ON TABLE awf_role_auth_map IS '역할권한매핑';
@@ -1289,12 +1289,12 @@ DROP TABLE IF EXISTS awf_rule_pattern_map cascade;
 
 CREATE TABLE awf_rule_pattern_map
 (
-    numbering_id varchar(128) NOT NULL,
-    pattern_id varchar(128) NOT NULL,
-    pattern_order int NOT NULL,
-    CONSTRAINT awf_rule_pattern_map_pk PRIMARY KEY (numbering_id, pattern_id, pattern_order),
-    CONSTRAINT awf_rule_pattern_map_fk1 FOREIGN KEY (numbering_id) REFERENCES awf_numbering_rule (numbering_id),
-    CONSTRAINT awf_rule_pattern_map_fk2 FOREIGN KEY (pattern_id) REFERENCES awf_numbering_pattern (pattern_id)
+	numbering_id varchar(128) NOT NULL,
+	pattern_id varchar(128) NOT NULL,
+	pattern_order int NOT NULL,
+	CONSTRAINT awf_rule_pattern_map_pk PRIMARY KEY (numbering_id, pattern_id, pattern_order),
+	CONSTRAINT awf_rule_pattern_map_fk1 FOREIGN KEY (numbering_id) REFERENCES awf_numbering_rule (numbering_id),
+	CONSTRAINT awf_rule_pattern_map_fk2 FOREIGN KEY (pattern_id) REFERENCES awf_numbering_pattern (pattern_id)
 );
 
 COMMENT ON TABLE awf_rule_pattern_map IS '문서번호 패턴 맵핑 테이블';
@@ -1333,25 +1333,25 @@ DROP TABLE IF EXISTS awf_scheduled_task_mst cascade;
 
 CREATE TABLE awf_scheduled_task_mst
 (
-    task_id varchar(128) NOT NULL,
-    task_name varchar(128),
-    task_type varchar(100),
-    task_desc varchar(512),
-    use_yn boolean default true,
-    editable boolean default true,
-    execute_class varchar(512),
-    execute_query varchar(1024),
-    execute_command varchar(1024),
-    execute_cycle_type varchar(100),
-    execute_cycle_period bigint,
-    cron_expression varchar(128),
-    args varchar(128),
-    src varchar(512),
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_scheduled_task_mst_pk PRIMARY KEY (task_id)
+	task_id varchar(128) NOT NULL,
+	task_name varchar(128),
+	task_type varchar(100),
+	task_desc varchar(512),
+	use_yn boolean default true,
+	editable boolean default true,
+	execute_class varchar(512),
+	execute_query varchar(1024),
+	execute_command varchar(1024),
+	execute_cycle_type varchar(100),
+	execute_cycle_period bigint,
+	cron_expression varchar(128),
+	args varchar(128),
+	src varchar(512),
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT awf_scheduled_task_mst_pk PRIMARY KEY (task_id)
 );
 
 COMMENT ON TABLE awf_scheduled_task_mst IS '스케줄작업정보';
@@ -1387,9 +1387,9 @@ DROP TABLE IF EXISTS awf_timezone cascade;
 
 CREATE TABLE awf_timezone
 (
-    timezone_id varchar(128) NOT NULL,
-    timezone_value varchar(128),
-    CONSTRAINT awf_timezone_pk PRIMARY KEY (timezone_id)
+	timezone_id varchar(128) NOT NULL,
+	timezone_value varchar(128),
+	CONSTRAINT awf_timezone_pk PRIMARY KEY (timezone_id)
 );
 
 COMMENT ON TABLE awf_timezone IS '타임존정보';
@@ -1494,11 +1494,11 @@ DROP TABLE IF EXISTS awf_url cascade;
 
 CREATE TABLE awf_url
 (
-    url varchar(512) NOT NULL,
-    method varchar(16) NOT NULL,
-    url_desc varchar(256),
-    is_required_auth boolean DEFAULT 'true',
-    CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
+	url varchar(512) NOT NULL,
+	method varchar(16) NOT NULL,
+	url_desc varchar(256),
+	is_required_auth boolean DEFAULT 'true',
+	CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
 );
 
 COMMENT ON TABLE awf_url IS 'URL별메소드명';
@@ -2297,37 +2297,37 @@ DROP TABLE IF EXISTS awf_user cascade;
 
 CREATE TABLE awf_user
 (
-    user_key varchar(128) NOT NULL,
-    user_id  varchar(128) UNIQUE,
-    user_name  varchar(128),
-    password varchar(128),
-    email  varchar(128) NOT NULL,
-    use_yn boolean DEFAULT 'true',
-    try_login_count int DEFAULT 0,
-    expired_dt date,
-    position varchar(128),
-    department varchar(128),
-    certification_code varchar(128),
-    status varchar(100),
-    office_number varchar(128),
-    mobile_number varchar(128),
-    platform varchar(100),
-    timezone varchar(100),
-    oauth_key varchar(256),
-    lang varchar(100),
-    time_format varchar(100),
-    theme varchar(100) DEFAULT 'default',
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    avatar_type varchar(100),
-    avatar_value varchar(512),
-    uploaded boolean DEFAULT 'false',
-    uploaded_location varchar(512),
+	user_key varchar(128) NOT NULL,
+	user_id  varchar(128) UNIQUE,
+	user_name  varchar(128),
+	password varchar(128),
+	email  varchar(128) NOT NULL,
+	use_yn boolean DEFAULT 'true',
+	try_login_count int DEFAULT 0,
+	expired_dt date,
+	position varchar(128),
+	department varchar(128),
+	certification_code varchar(128),
+	status varchar(100),
+	office_number varchar(128),
+	mobile_number varchar(128),
+	platform varchar(100),
+	timezone varchar(100),
+	oauth_key varchar(256),
+	lang varchar(100),
+	time_format varchar(100),
+	theme varchar(100) DEFAULT 'default',
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	avatar_type varchar(100),
+	avatar_value varchar(512),
+	uploaded boolean DEFAULT 'false',
+	uploaded_location varchar(512),
     user_absence boolean DEFAULT 'false',
-    CONSTRAINT awf_user_pk PRIMARY KEY (user_key),
-    CONSTRAINT awf_user_uk UNIQUE (user_id )
+	CONSTRAINT awf_user_pk PRIMARY KEY (user_key),
+	CONSTRAINT awf_user_uk UNIQUE (user_id )
 );
 
 COMMENT ON TABLE awf_user IS '사용자정보';
@@ -2371,11 +2371,11 @@ DROP TABLE IF EXISTS awf_user_role_map cascade;
 
 CREATE TABLE awf_user_role_map
 (
-    user_key varchar(128) NOT NULL,
-    role_id varchar(100) NOT NULL,
-    CONSTRAINT awf_user_role_map_pk PRIMARY KEY (user_key, role_id),
-    CONSTRAINT awf_user_role_map_fk1 FOREIGN KEY (user_key) REFERENCES awf_user (user_key),
-    CONSTRAINT awf_user_role_map_fk2 FOREIGN KEY (role_id) REFERENCES awf_role (role_id)
+	user_key varchar(128) NOT NULL,
+	role_id varchar(100) NOT NULL,
+	CONSTRAINT awf_user_role_map_pk PRIMARY KEY (user_key, role_id),
+	CONSTRAINT awf_user_role_map_fk1 FOREIGN KEY (user_key) REFERENCES awf_user (user_key),
+	CONSTRAINT awf_user_role_map_fk2 FOREIGN KEY (role_id) REFERENCES awf_role (role_id)
 );
 
 COMMENT ON TABLE awf_user_role_map IS '사용자역할매핑';
@@ -2390,21 +2390,21 @@ DROP TABLE IF EXISTS portal_board_admin cascade;
 
 CREATE TABLE portal_board_admin
 (
-    board_admin_id varchar(128) NOT NULL,
-    board_admin_title varchar(512) NOT NULL,
-    board_admin_desc text,
-    board_admin_sort int,
-    board_use_yn boolean,
-    reply_yn boolean,
-    comment_yn boolean,
-    category_yn boolean,
-    attach_yn boolean,
-    attach_file_size bigint,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT portal_board_admin_pk PRIMARY KEY (board_admin_id)
+	board_admin_id varchar(128) NOT NULL,
+	board_admin_title varchar(512) NOT NULL,
+	board_admin_desc text,
+	board_admin_sort int,
+	board_use_yn boolean,
+	reply_yn boolean,
+	comment_yn boolean,
+	category_yn boolean,
+	attach_yn boolean,
+	attach_file_size bigint,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT portal_board_admin_pk PRIMARY KEY (board_admin_id)
 );
 
 COMMENT ON TABLE portal_board_admin IS '게시판 관리';
@@ -2432,16 +2432,16 @@ DROP TABLE IF EXISTS portal_board_category cascade;
 
 CREATE TABLE portal_board_category
 (
-    board_category_id varchar(128) NOT NULL,
-    board_admin_id varchar(128) NOT NULL,
-    board_category_name varchar(128) NOT NULL,
-    board_category_sort int,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT portal_board_category_pk PRIMARY KEY (board_category_id),
-    CONSTRAINT portal_board_category_fk FOREIGN KEY (board_admin_id) REFERENCES portal_board_admin (board_admin_id)
+	board_category_id varchar(128) NOT NULL,
+	board_admin_id varchar(128) NOT NULL,
+	board_category_name varchar(128) NOT NULL,
+	board_category_sort int,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT portal_board_category_pk PRIMARY KEY (board_category_id),
+	CONSTRAINT portal_board_category_fk FOREIGN KEY (board_admin_id) REFERENCES portal_board_admin (board_admin_id)
 );
 
 COMMENT ON TABLE portal_board_category IS '카테고리 관리';
@@ -2461,22 +2461,22 @@ DROP TABLE IF EXISTS portal_board cascade;
 
 CREATE TABLE portal_board
 (
-    board_id varchar(128) NOT NULL,
-    board_admin_id varchar(128) NOT NULL,
-    board_category_id varchar(128),
-    board_seq bigint NOT NULL,
-    board_title varchar(512) NOT NULL,
-    board_contents text,
-    board_group_id bigint NOT NULL,
-    board_level_id bigint NOT NULL,
-    board_order_seq bigint NOT NULL,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT portal_board_pk PRIMARY KEY (board_id),
-    CONSTRAINT portal_board_fk1 FOREIGN KEY (board_admin_id) REFERENCES portal_board_admin (board_admin_id),
-    CONSTRAINT portal_board_fk2 FOREIGN KEY (board_category_id) REFERENCES portal_board_category (board_category_id)
+	board_id varchar(128) NOT NULL,
+	board_admin_id varchar(128) NOT NULL,
+	board_category_id varchar(128),
+	board_seq bigint NOT NULL,
+	board_title varchar(512) NOT NULL,
+	board_contents text,
+	board_group_id bigint NOT NULL,
+	board_level_id bigint NOT NULL,
+	board_order_seq bigint NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT portal_board_pk PRIMARY KEY (board_id),
+	CONSTRAINT portal_board_fk1 FOREIGN KEY (board_admin_id) REFERENCES portal_board_admin (board_admin_id),
+	CONSTRAINT portal_board_fk2 FOREIGN KEY (board_category_id) REFERENCES portal_board_category (board_category_id)
 );
 
 COMMENT ON TABLE portal_board IS '게시판';
@@ -2501,15 +2501,15 @@ DROP TABLE IF EXISTS portal_board_comment cascade;
 
 CREATE TABLE portal_board_comment
 (
-    board_comment_id varchar(128) NOT NULL,
-    board_id varchar(128) NOT NULL,
-    board_comment_contents varchar(512) NOT NULL,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT portal_board_comment_pk PRIMARY KEY (board_comment_id),
-    CONSTRAINT portal_board_comment_fk FOREIGN KEY (board_id) REFERENCES portal_board (board_id)
+	board_comment_id varchar(128) NOT NULL,
+	board_id varchar(128) NOT NULL,
+	board_comment_contents varchar(512) NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT portal_board_comment_pk PRIMARY KEY (board_comment_id),
+	CONSTRAINT portal_board_comment_fk FOREIGN KEY (board_id) REFERENCES portal_board (board_id)
 );
 
 COMMENT ON TABLE portal_board_comment IS '게시판 댓글';
@@ -2528,10 +2528,10 @@ DROP TABLE IF EXISTS portal_board_read cascade;
 
 CREATE TABLE portal_board_read
 (
-    board_id varchar(128) NOT NULL,
-    board_read_count int NOT NULL,
-    CONSTRAINT portal_board_read_pk PRIMARY KEY (board_id),
-    CONSTRAINT portal_board_read_fk FOREIGN KEY (board_id) REFERENCES portal_board (board_id)
+	board_id varchar(128) NOT NULL,
+	board_read_count int NOT NULL,
+	CONSTRAINT portal_board_read_pk PRIMARY KEY (board_id),
+	CONSTRAINT portal_board_read_fk FOREIGN KEY (board_id) REFERENCES portal_board (board_id)
 );
 
 COMMENT ON TABLE portal_board_read IS '게시판 조회';
@@ -2544,15 +2544,15 @@ DROP TABLE IF EXISTS portal_faq cascade;
 
 CREATE TABLE portal_faq
 (
-    faq_id varchar(128) NOT NULL,
-    faq_group varchar(100) NOT NULL,
+	faq_id varchar(128) NOT NULL,
+	faq_group varchar(100) NOT NULL,
     faq_title varchar(512) NOT NULL,
-    faq_content text NOT NULL,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT portal_faq_pk PRIMARY KEY (faq_id)
+	faq_content text NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT portal_faq_pk PRIMARY KEY (faq_id)
 );
 
 COMMENT ON TABLE portal_faq IS 'FAQ정보';
@@ -2572,22 +2572,22 @@ DROP TABLE IF EXISTS portal_notice cascade;
 
 CREATE TABLE portal_notice
 (
-    notice_no varchar(128) NOT NULL,
-    notice_title varchar(256) NOT NULL,
-    notice_contents varchar(4096) NOT NULL,
-    pop_yn boolean NOT NULL,
-    pop_strt_dt timestamp,
-    pop_end_dt timestamp,
-    pop_width int,
-    pop_height int,
-    top_notice_yn boolean NOT NULL,
-    top_notice_strt_dt timestamp,
-    top_notice_end_dt timestamp,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT portal_notice_pk PRIMARY KEY (notice_no)
+	notice_no varchar(128) NOT NULL,
+	notice_title varchar(256) NOT NULL,
+	notice_contents varchar(4096) NOT NULL,
+	pop_yn boolean NOT NULL,
+	pop_strt_dt timestamp,
+	pop_end_dt timestamp,
+	pop_width int,
+	pop_height int,
+	top_notice_yn boolean NOT NULL,
+	top_notice_strt_dt timestamp,
+	top_notice_end_dt timestamp,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT portal_notice_pk PRIMARY KEY (notice_no)
 );
 
 COMMENT ON TABLE portal_notice IS '공지사항';
@@ -2614,17 +2614,17 @@ DROP TABLE IF EXISTS wf_form cascade;
 
 CREATE TABLE wf_form
 (
-    form_id varchar(128) NOT NULL,
-    form_name varchar(256) NOT NULL,
-    form_desc varchar(256),
-    form_status varchar(100) DEFAULT 'form.status.edit' NOT NULL,
-    form_display_option text,
-    form_category varchar(128),
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT wf_form_pk PRIMARY KEY (form_id)
+	form_id varchar(128) NOT NULL,
+	form_name varchar(256) NOT NULL,
+	form_desc varchar(256),
+	form_status varchar(100) DEFAULT 'form.status.edit' NOT NULL,
+	form_display_option text,
+	form_category varchar(128),
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT wf_form_pk PRIMARY KEY (form_id)
 );
 
 COMMENT ON TABLE wf_form IS '문서양식정보';
@@ -2765,11 +2765,11 @@ INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b6510d0933', '승인 / 
 DROP TABLE IF EXISTS wf_form_group_property cascade;
 
 CREATE TABLE wf_form_group_property (
-                                        form_group_id varchar(128) NOT NULL,
-                                        property_type varchar(100) NOT NULL,
-                                        property_options text NULL,
-                                        CONSTRAINT wf_form_group_property_pk PRIMARY KEY (form_group_id, property_type),
-                                        CONSTRAINT wf_form_group_property_fk FOREIGN KEY (form_group_id) REFERENCES wf_form_group(form_group_id)
+    form_group_id varchar(128) NOT NULL,
+    property_type varchar(100) NOT NULL,
+    property_options text NULL,
+    CONSTRAINT wf_form_group_property_pk PRIMARY KEY (form_group_id, property_type),
+    CONSTRAINT wf_form_group_property_fk FOREIGN KEY (form_group_id) REFERENCES wf_form_group(form_group_id)
 );
 
 COMMENT ON TABLE wf_form_group_property IS '문서양식 그룹 세부정보';
@@ -2943,11 +2943,11 @@ INSERT INTO wf_form_group_property VALUES('4028b21c7cdffb67017ce0b6510d0933', 'l
 DROP TABLE IF EXISTS wf_form_row cascade;
 
 CREATE TABLE wf_form_row (
-                             form_row_id varchar(128) NULL,
-                             form_group_id varchar(128) NULL,
-                             row_display_option text NULL,
-                             CONSTRAINT wf_form_row_pk PRIMARY KEY (form_row_id),
-                             CONSTRAINT wf_form_row_fk FOREIGN KEY (form_group_id) REFERENCES wf_form_group(form_group_id)
+     form_row_id varchar(128) NULL,
+     form_group_id varchar(128) NULL,
+     row_display_option text NULL,
+     CONSTRAINT wf_form_row_pk PRIMARY KEY (form_row_id),
+     CONSTRAINT wf_form_row_fk FOREIGN KEY (form_group_id) REFERENCES wf_form_group(form_group_id)
 );
 
 COMMENT ON TABLE wf_form_row IS '문서양식 ROW 정보';
@@ -3258,15 +3258,15 @@ DROP TABLE IF EXISTS wf_process cascade;
 
 CREATE TABLE wf_process
 (
-    process_id varchar(128) NOT NULL,
-    process_name varchar(256) NOT NULL,
-    process_status varchar(100) NOT NULL,
-    process_desc varchar(256),
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT wf_process_pk PRIMARY KEY (process_id)
+	process_id varchar(128) NOT NULL,
+	process_name varchar(256) NOT NULL,
+	process_status varchar(100) NOT NULL,
+	process_desc varchar(256),
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT wf_process_pk PRIMARY KEY (process_id)
 );
 
 COMMENT ON TABLE wf_process IS '프로세스정보';
@@ -3300,26 +3300,26 @@ DROP TABLE IF EXISTS wf_document cascade;
 
 CREATE TABLE wf_document
 (
-    document_id varchar(128) NOT NULL,
-    document_name varchar(256) NOT NULL,
-    document_desc varchar(256),
-    process_id varchar(128) NOT NULL,
-    form_id varchar(128) NOT NULL,
-    document_status varchar(100) DEFAULT 'document.status.use',
-    numbering_id varchar(128),
-    document_color varchar(128),
-    document_type varchar(100) NOT NULL,
-    document_group varchar(100),
-    document_icon varchar(100),
-    api_enable boolean DEFAULT false,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT wf_document_pk PRIMARY KEY (document_id),
-    CONSTRAINT wf_document_fk1 FOREIGN KEY (process_id) REFERENCES wf_process (process_id),
-    CONSTRAINT wf_document_fk2 FOREIGN KEY (form_id) REFERENCES wf_form (form_id),
-    CONSTRAINT wf_document_fk3 FOREIGN KEY (numbering_id) REFERENCES awf_numbering_rule (numbering_id)
+	document_id varchar(128) NOT NULL,
+	document_name varchar(256) NOT NULL,
+	document_desc varchar(256),
+	process_id varchar(128) NOT NULL,
+	form_id varchar(128) NOT NULL,
+	document_status varchar(100) DEFAULT 'document.status.use',
+	numbering_id varchar(128),
+	document_color varchar(128),
+	document_type varchar(100) NOT NULL,
+	document_group varchar(100),
+	document_icon varchar(100),
+	api_enable boolean DEFAULT false,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT wf_document_pk PRIMARY KEY (document_id),
+	CONSTRAINT wf_document_fk1 FOREIGN KEY (process_id) REFERENCES wf_process (process_id),
+	CONSTRAINT wf_document_fk2 FOREIGN KEY (form_id) REFERENCES wf_form (form_id),
+	CONSTRAINT wf_document_fk3 FOREIGN KEY (numbering_id) REFERENCES awf_numbering_rule (numbering_id)
 );
 
 COMMENT ON TABLE wf_document IS '신청서정보';
@@ -3374,17 +3374,17 @@ DROP TABLE IF EXISTS wf_instance cascade;
 
 CREATE TABLE wf_instance
 (
-    instance_id varchar(128) NOT NULL,
-    document_id varchar(128) NOT NULL,
-    instance_status varchar(100) NOT NULL,
-    instance_start_dt timestamp NOT NULL,
-    instance_end_dt timestamp,
-    instance_create_user_key varchar(128),
-    p_token_id varchar(128),
-    document_no varchar(128) NOT NULL,
-    instance_platform varchar(128) NOT NULL DEFAULT 'itsm',
-    CONSTRAINT wf_instance_pk PRIMARY KEY (instance_id),
-    CONSTRAINT wf_instance_fk FOREIGN KEY (document_id) REFERENCES wf_document (document_id)
+	instance_id varchar(128) NOT NULL,
+	document_id varchar(128) NOT NULL,
+	instance_status varchar(100) NOT NULL,
+	instance_start_dt timestamp NOT NULL,
+	instance_end_dt timestamp,
+	instance_create_user_key varchar(128),
+	p_token_id varchar(128),
+	document_no varchar(128) NOT NULL,
+	instance_platform varchar(128) NOT NULL DEFAULT 'itsm',
+	CONSTRAINT wf_instance_pk PRIMARY KEY (instance_id),
+	CONSTRAINT wf_instance_fk FOREIGN KEY (document_id) REFERENCES wf_document (document_id)
 );
 
 COMMENT ON TABLE wf_instance IS '인스턴스정보';
@@ -3405,13 +3405,13 @@ DROP TABLE IF EXISTS wf_comment cascade;
 
 CREATE TABLE wf_comment
 (
-    comment_id varchar(128) NOT NULL,
-    instance_id varchar(128) NOT NULL,
-    content text,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    CONSTRAINT wf_comment_pk PRIMARY KEY (comment_id),
-    CONSTRAINT wf_comment_fk FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id)
+	comment_id varchar(128) NOT NULL,
+	instance_id varchar(128) NOT NULL,
+	content text,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	CONSTRAINT wf_comment_pk PRIMARY KEY (comment_id),
+	CONSTRAINT wf_comment_fk FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id)
 );
 
 COMMENT ON TABLE wf_comment IS '의견';
@@ -3428,15 +3428,15 @@ DROP TABLE IF EXISTS wf_component cascade;
 
 CREATE TABLE wf_component
 (
-    component_id varchar(128) NOT NULL,
-    component_type varchar(100) NOT NULL,
-    mapping_id varchar(128),
-    is_topic boolean DEFAULT 'false',
-    form_row_id varchar(128),
-    form_id varchar(128),
-    CONSTRAINT wf_component_pk PRIMARY KEY (component_id),
-    CONSTRAINT wf_component_fk FOREIGN KEY (form_row_id) REFERENCES wf_form_row (form_row_id),
-    CONSTRAINT wf_component_form_fk FOREIGN KEY (form_id) REFERENCES wf_form (form_id)
+	component_id varchar(128) NOT NULL,
+	component_type varchar(100) NOT NULL,
+	mapping_id varchar(128),
+	is_topic boolean DEFAULT 'false',
+	form_row_id varchar(128),
+	form_id varchar(128),
+	CONSTRAINT wf_component_pk PRIMARY KEY (component_id),
+	CONSTRAINT wf_component_fk FOREIGN KEY (form_row_id) REFERENCES wf_form_row (form_row_id),
+	CONSTRAINT wf_component_form_fk FOREIGN KEY (form_id) REFERENCES wf_form (form_id)
 );
 
 COMMENT ON TABLE wf_component IS '컴포넌트정보';
@@ -3810,11 +3810,11 @@ INSERT INTO wf_component VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'dropdown', 
 DROP TABLE IF EXISTS wf_component_property cascade;
 
 CREATE TABLE wf_component_property (
-                                       component_id varchar(128) NULL,
-                                       property_type varchar(100) NULL,
-                                       property_options text NULL,
-                                       CONSTRAINT wf_component_property_pk PRIMARY KEY (component_id,property_type),
-                                       CONSTRAINT wf_component_property_fk FOREIGN KEY (component_id) REFERENCES wf_component(component_id)
+    component_id varchar(128) NULL,
+    property_type varchar(100) NULL,
+    property_options text NULL,
+    CONSTRAINT wf_component_property_pk PRIMARY KEY (component_id,property_type),
+    CONSTRAINT wf_component_property_fk FOREIGN KEY (component_id) REFERENCES wf_component(component_id)
 );
 
 COMMENT ON TABLE wf_component_property IS '컴포넌트 세부속성';
@@ -5236,16 +5236,16 @@ DROP TABLE IF EXISTS wf_element cascade;
 
 CREATE TABLE wf_element
 (
-    element_id varchar(256) NOT NULL,
-    process_id varchar(128) NOT NULL,
-    element_type varchar(100) NOT NULL,
-    element_name varchar(256),
-    element_desc varchar(1024),
-    notification boolean DEFAULT 'N',
-    element_config text,
-    display_info text,
-    CONSTRAINT wf_element_pk PRIMARY KEY (element_id),
-    CONSTRAINT wf_element_fk FOREIGN KEY (process_id) REFERENCES wf_process (process_id)
+	element_id varchar(256) NOT NULL,
+	process_id varchar(128) NOT NULL,
+	element_type varchar(100) NOT NULL,
+	element_name varchar(256),
+	element_desc varchar(1024),
+	notification boolean DEFAULT 'N',
+	element_config text,
+	display_info text,
+	CONSTRAINT wf_element_pk PRIMARY KEY (element_id),
+	CONSTRAINT wf_element_fk FOREIGN KEY (process_id) REFERENCES wf_process (process_id)
 );
 
 COMMENT ON TABLE wf_element IS '엘리먼트정보';
@@ -5507,14 +5507,14 @@ DROP TABLE IF EXISTS wf_document_display cascade;
 
 CREATE TABLE wf_document_display
 (
-    document_id varchar(128) NOT NULL,
-    form_group_id varchar(128) NOT NULL,
-    element_id varchar(256) NOT NULL,
-    display varchar(100) DEFAULT 'document.displayType.editable' NOT NULL,
-    CONSTRAINT wf_document_display_pk PRIMARY KEY (document_id, form_group_id, element_id),
-    CONSTRAINT wf_document_display_fk1 FOREIGN KEY (document_id) REFERENCES wf_document (document_id),
-    CONSTRAINT wf_document_display_fk2 FOREIGN KEY (form_group_id) REFERENCES wf_form_group (form_group_id),
-    CONSTRAINT wf_document_display_fk3 FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
+	document_id varchar(128) NOT NULL,
+	form_group_id varchar(128) NOT NULL,
+	element_id varchar(256) NOT NULL,
+	display varchar(100) DEFAULT 'document.displayType.editable' NOT NULL,
+	CONSTRAINT wf_document_display_pk PRIMARY KEY (document_id, form_group_id, element_id),
+	CONSTRAINT wf_document_display_fk1 FOREIGN KEY (document_id) REFERENCES wf_document (document_id),
+	CONSTRAINT wf_document_display_fk2 FOREIGN KEY (form_group_id) REFERENCES wf_form_group (form_group_id),
+	CONSTRAINT wf_document_display_fk3 FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
 );
 
 COMMENT ON TABLE wf_document_display IS '문서출력정보';
@@ -5944,13 +5944,13 @@ DROP TABLE IF EXISTS wf_element_data cascade;
 
 CREATE TABLE wf_element_data
 (
-    element_id varchar(256) NOT NULL,
-    attribute_id varchar(100) NOT NULL,
-    attribute_value varchar(512) NOT NULL,
-    attribute_order int,
-    attribute_required boolean DEFAULT 'false' NOT NULL,
-    CONSTRAINT wf_element_data_pk PRIMARY KEY (element_id, attribute_id, attribute_value),
-    CONSTRAINT wf_element_data_fk FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
+	element_id varchar(256) NOT NULL,
+	attribute_id varchar(100) NOT NULL,
+	attribute_value varchar(512) NOT NULL,
+	attribute_order int,
+	attribute_required boolean DEFAULT 'false' NOT NULL,
+	CONSTRAINT wf_element_data_pk PRIMARY KEY (element_id, attribute_id, attribute_value),
+	CONSTRAINT wf_element_data_fk FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
 );
 
 COMMENT ON TABLE wf_element_data IS '엘리먼트세부설정';
@@ -7121,11 +7121,11 @@ DROP TABLE IF EXISTS wf_element_script_data cascade;
 
 CREATE TABLE wf_element_script_data
 (
-    element_id varchar(256) NOT NULL,
+	element_id varchar(256) NOT NULL,
     script_id varchar(256) NOT NULL,
     script_value text,
-    CONSTRAINT wf_element_script_data_pk PRIMARY KEY (element_id, script_id),
-    CONSTRAINT wf_element_script_data_fk FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
+	CONSTRAINT wf_element_script_data_pk PRIMARY KEY (element_id, script_id),
+	CONSTRAINT wf_element_script_data_fk FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
 );
 
 COMMENT ON TABLE wf_element_script_data IS '엘리먼트(ScriptTask)세부설정';
@@ -7142,15 +7142,15 @@ DROP TABLE IF EXISTS wf_folder cascade;
 
 CREATE TABLE wf_folder
 (
-    folder_id varchar(128) NOT NULL,
-    instance_id varchar(128) NOT NULL,
-    related_type varchar(100),
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT wf_folder_pk PRIMARY KEY (folder_id, instance_id),
-    CONSTRAINT wf_folder_fk FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id)
+	folder_id varchar(128) NOT NULL,
+	instance_id varchar(128) NOT NULL,
+	related_type varchar(100),
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT wf_folder_pk PRIMARY KEY (folder_id, instance_id),
+	CONSTRAINT wf_folder_fk FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id)
 );
 
 COMMENT ON TABLE wf_folder IS '문서폴더정보';
@@ -7169,10 +7169,10 @@ DROP TABLE IF EXISTS awf_tag cascade;
 
 CREATE TABLE awf_tag
 (
-    tag_id varchar(128) NOT NULL,
-    tag_type varchar(128) NOT NULL,
-    tag_value varchar(256) NOT NULL,
-    target_id varchar(128) NOT NULL,
+	tag_id varchar(128) NOT NULL,
+	tag_type varchar(128) NOT NULL,
+	tag_value varchar(256) NOT NULL,
+	target_id varchar(128) NOT NULL,
     CONSTRAINT awf_tag_pk PRIMARY KEY (tag_id),
     CONSTRAINT awf_tag_un UNIQUE (tag_type, tag_value, target_id)
 );
@@ -7956,17 +7956,17 @@ DROP TABLE IF EXISTS wf_token cascade;
 
 CREATE TABLE wf_token
 (
-    token_id varchar(128) NOT NULL,
-    instance_id varchar(128) NOT NULL,
-    element_id varchar(256) NOT NULL,
-    token_start_dt timestamp,
-    token_end_dt timestamp,
-    token_status varchar(100) NOT NULL,
-    token_action varchar(100),
-    assignee_id varchar(128),
-    CONSTRAINT wf_token_pk PRIMARY KEY (token_id),
-    CONSTRAINT wf_token_fk1 FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id),
-    CONSTRAINT wf_token_fk2 FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
+	token_id varchar(128) NOT NULL,
+	instance_id varchar(128) NOT NULL,
+	element_id varchar(256) NOT NULL,
+	token_start_dt timestamp,
+	token_end_dt timestamp,
+	token_status varchar(100) NOT NULL,
+	token_action varchar(100),
+	assignee_id varchar(128),
+	CONSTRAINT wf_token_pk PRIMARY KEY (token_id),
+	CONSTRAINT wf_token_fk1 FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id),
+	CONSTRAINT wf_token_fk2 FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
 );
 
 COMMENT ON TABLE wf_token IS '토큰정보';
@@ -7985,12 +7985,12 @@ DROP TABLE IF EXISTS wf_token_data cascade;
 
 CREATE TABLE wf_token_data
 (
-    token_id varchar(128) NOT NULL,
-    component_id varchar(128) NOT NULL,
-    value text,
-    CONSTRAINT wf_token_data_pk PRIMARY KEY (token_id, component_id),
-    CONSTRAINT wf_token_data_fk1 FOREIGN KEY (token_id) REFERENCES wf_token (token_id),
-    CONSTRAINT wf_token_data_fk2 FOREIGN KEY (component_id) REFERENCES wf_component (component_id)
+	token_id varchar(128) NOT NULL,
+	component_id varchar(128) NOT NULL,
+	value text,
+	CONSTRAINT wf_token_data_pk PRIMARY KEY (token_id, component_id),
+	CONSTRAINT wf_token_data_fk1 FOREIGN KEY (token_id) REFERENCES wf_token (token_id),
+	CONSTRAINT wf_token_data_fk2 FOREIGN KEY (component_id) REFERENCES wf_component (component_id)
 );
 
 COMMENT ON TABLE wf_token_data IS '토큰데이터정보';
@@ -8211,18 +8211,18 @@ DROP TABLE IF EXISTS cmdb_class cascade;
 
 CREATE TABLE cmdb_class
 (
-    class_id character varying(128) NOT NULL,
-    class_name character varying(128) NOT NULL,
-    class_desc character varying(512),
-    p_class_id character varying(128),
-    class_level int,
-    class_seq int,
-    create_user_key character varying(128),
-    create_dt timestamp,
-    update_user_key character varying(128),
-    update_dt timestamp,
-    CONSTRAINT cmdb_class_pk PRIMARY KEY (class_id),
-    CONSTRAINT cmdb_class_uk UNIQUE (class_id, class_name)
+	class_id character varying(128) NOT NULL,
+	class_name character varying(128) NOT NULL,
+	class_desc character varying(512),
+	p_class_id character varying(128),
+	class_level int,
+	class_seq int,
+	create_user_key character varying(128),
+	create_dt timestamp,
+	update_user_key character varying(128),
+	update_dt timestamp,
+	CONSTRAINT cmdb_class_pk PRIMARY KEY (class_id),
+	CONSTRAINT cmdb_class_uk UNIQUE (class_id, class_name)
 );
 
 COMMENT ON TABLE cmdb_class IS 'CMDB_클래스 정보';
@@ -8304,24 +8304,24 @@ DROP TABLE IF EXISTS cmdb_type cascade;
 
 CREATE TABLE cmdb_type
 (
-    type_id character varying(128) NOT NULL,
-    p_type_id character varying(128),
-    type_name character varying(128),
-    type_desc character varying(512),
-    type_alias character varying(128),
-    type_level int,
-    type_seq int,
-    class_id character varying(128) NOT NULL,
-    type_icon character varying(200),
-    create_user_key character varying(128),
-    create_dt timestamp,
-    update_user_key character varying(128),
-    update_dt timestamp,
-    CONSTRAINT cmdb_type_pk PRIMARY KEY (type_id),
-    CONSTRAINT cmdb_type_uk UNIQUE (type_id),
-    CONSTRAINT cmdb_type_fk FOREIGN KEY (class_id)
-        REFERENCES cmdb_class (class_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION
+	type_id character varying(128) NOT NULL,
+	p_type_id character varying(128),
+	type_name character varying(128),
+	type_desc character varying(512),
+	type_alias character varying(128),
+	type_level int,
+	type_seq int,
+	class_id character varying(128) NOT NULL,
+	type_icon character varying(200),
+	create_user_key character varying(128),
+	create_dt timestamp,
+	update_user_key character varying(128),
+	update_dt timestamp,
+	CONSTRAINT cmdb_type_pk PRIMARY KEY (type_id),
+	CONSTRAINT cmdb_type_uk UNIQUE (type_id),
+	CONSTRAINT cmdb_type_fk FOREIGN KEY (class_id)
+      REFERENCES cmdb_class (class_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 COMMENT ON TABLE cmdb_type IS 'CMDB 타입 정보';
@@ -8399,24 +8399,24 @@ DROP TABLE IF EXISTS cmdb_ci cascade;
 
 CREATE TABLE cmdb_ci
 (
-    ci_id character varying(128) NOT NULL,
-    ci_no character varying(128),
-    ci_name character varying(128) NOT NULL,
-    ci_status character varying(100) NOT NULL,
-    type_id character varying(128) NOT NULL,
-    ci_desc character varying(512),
+	ci_id character varying(128) NOT NULL,
+	ci_no character varying(128),
+	ci_name character varying(128) NOT NULL,
+	ci_status character varying(100) NOT NULL,
+	type_id character varying(128) NOT NULL,
+	ci_desc character varying(512),
     interlink boolean DEFAULT 'false',
-    instance_id character varying(128),
-    create_user_key character varying(128),
-    create_dt timestamp,
-    update_user_key character varying(128),
-    update_dt timestamp,
-    mapping_id character varying(128),
-    CONSTRAINT cmdb_ci_pk PRIMARY KEY (ci_id),
-    CONSTRAINT cmdb_ci_uk UNIQUE (ci_id),
-    CONSTRAINT cmdb_ci_fk1 FOREIGN KEY (type_id)
-        REFERENCES cmdb_type (type_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION,
+	instance_id character varying(128),
+	create_user_key character varying(128),
+	create_dt timestamp,
+	update_user_key character varying(128),
+	update_dt timestamp,
+	mapping_id character varying(128),
+	CONSTRAINT cmdb_ci_pk PRIMARY KEY (ci_id),
+	CONSTRAINT cmdb_ci_uk UNIQUE (ci_id),
+	CONSTRAINT cmdb_ci_fk1 FOREIGN KEY (type_id)
+      REFERENCES cmdb_type (type_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
     CONSTRAINT cmdb_ci_fk2 FOREIGN KEY (instance_id)
         REFERENCES wf_instance (instance_id) MATCH SIMPLE
         ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -8444,16 +8444,16 @@ DROP TABLE IF EXISTS cmdb_ci_data cascade;
 
 CREATE TABLE cmdb_ci_data
 (
-    ci_id character varying(128) NOT NULL,
-    attribute_id character varying(128) NOT NULL,
-    value text,
-    CONSTRAINT cmdb_ci_data_pk PRIMARY KEY (ci_id, attribute_id),
-    CONSTRAINT cmdb_ci_data_fk1 FOREIGN KEY (ci_id)
-        REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION,
-    CONSTRAINT cmdb_ci_data_fk2 FOREIGN KEY (attribute_id)
-        REFERENCES cmdb_attribute (attribute_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION
+	ci_id character varying(128) NOT NULL,
+	attribute_id character varying(128) NOT NULL,
+	value text,
+	CONSTRAINT cmdb_ci_data_pk PRIMARY KEY (ci_id, attribute_id),
+	CONSTRAINT cmdb_ci_data_fk1 FOREIGN KEY (ci_id)
+      REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT cmdb_ci_data_fk2 FOREIGN KEY (attribute_id)
+      REFERENCES cmdb_attribute (attribute_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 COMMENT ON TABLE cmdb_ci_data IS 'CMDB CI 데이터';
@@ -8468,21 +8468,21 @@ DROP TABLE IF EXISTS cmdb_ci_history cascade;
 
 CREATE TABLE cmdb_ci_history
 (
-    history_id character varying(128) NOT NULL,
-    ci_id character varying(128) NOT NULL,
-    seq int NOT NULL,
-    ci_no character varying(128),
-    ci_name character varying(128),
-    ci_status character varying(100),
-    type_id character varying(128),
-    class_id character varying(128),
-    ci_icon character varying(200),
-    ci_desc character varying(512),
+	history_id character varying(128) NOT NULL,
+	ci_id character varying(128) NOT NULL,
+	seq int NOT NULL,
+	ci_no character varying(128),
+	ci_name character varying(128),
+	ci_status character varying(100),
+	type_id character varying(128),
+	class_id character varying(128),
+	ci_icon character varying(200),
+	ci_desc character varying(512),
     interlink boolean DEFAULT 'false',
-    instance_id character varying(128),
+	instance_id character varying(128),
     apply_dt timestamp,
-    CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id),
-    CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id)
+	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id),
+	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id)
 );
 
 COMMENT ON TABLE cmdb_ci_history IS 'CMDB CI 정보 이력';
@@ -8507,18 +8507,18 @@ DROP TABLE IF EXISTS cmdb_ci_data_history cascade;
 
 CREATE TABLE cmdb_ci_data_history
 (
-    data_history_id character varying(128) NOT NULL,
-    ci_id character varying(128) NOT NULL,
-    seq int NOT NULL,
-    attribute_id character varying(128) NOT NULL,
-    attribute_name character varying(128),
-    attribute_desc character varying(512),
-    attribute_type character varying(100),
-    attribute_text character varying(128),
-    attribute_value text,
-    value text,
-    CONSTRAINT cmdb_ci_data_history_pk PRIMARY KEY (data_history_id),
-    CONSTRAINT cmdb_ci_data_history_uk UNIQUE (data_history_id)
+	data_history_id character varying(128) NOT NULL,
+	ci_id character varying(128) NOT NULL,
+	seq int NOT NULL,
+	attribute_id character varying(128) NOT NULL,
+	attribute_name character varying(128),
+	attribute_desc character varying(512),
+	attribute_type character varying(100),
+	attribute_text character varying(128),
+	attribute_value text,
+	value text,
+	CONSTRAINT cmdb_ci_data_history_pk PRIMARY KEY (data_history_id),
+	CONSTRAINT cmdb_ci_data_history_uk UNIQUE (data_history_id)
 );
 
 COMMENT ON TABLE cmdb_ci_data_history IS 'CMDB CI 속성데이터 이력';
@@ -8540,15 +8540,15 @@ DROP TABLE IF EXISTS cmdb_ci_relation cascade;
 
 CREATE TABLE cmdb_ci_relation
 (
-    relation_id character varying(128) NOT NULL,
-    relation_type character varying(100),
+	relation_id character varying(128) NOT NULL,
+	relation_type character varying(100),
     ci_id character varying(128) NOT NULL,
-    target_ci_id character varying(128) NOT NULL,
-    CONSTRAINT cmdb_ci_relation_pk PRIMARY KEY (relation_id),
-    CONSTRAINT cmdb_ci_relation_uk UNIQUE (relation_id),
+	target_ci_id character varying(128) NOT NULL,
+	CONSTRAINT cmdb_ci_relation_pk PRIMARY KEY (relation_id),
+	CONSTRAINT cmdb_ci_relation_uk UNIQUE (relation_id),
     CONSTRAINT cmdb_ci_relation_fk FOREIGN KEY (ci_id)
-        REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION
+      REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 COMMENT ON TABLE cmdb_ci_relation IS 'CMDB CI 연관관계';
@@ -8601,16 +8601,16 @@ DROP TABLE IF EXISTS cmdb_class_attribute_map cascade;
 
 CREATE TABLE cmdb_class_attribute_map
 (
-    class_id character varying(128) NOT NULL,
-    attribute_id character varying(128) NOT NULL,
-    attribute_order int NOT NULL,
-    CONSTRAINT cmdb_class_attribute_map_pk PRIMARY KEY (class_id, attribute_id),
-    CONSTRAINT cmdb_class_attribute_map_fk1 FOREIGN KEY (class_id)
-        REFERENCES cmdb_class (class_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION,
-    CONSTRAINT cmdb_class_attribute_map_fk2 FOREIGN KEY (attribute_id)
-        REFERENCES cmdb_attribute (attribute_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION
+	class_id character varying(128) NOT NULL,
+	attribute_id character varying(128) NOT NULL,
+	attribute_order int NOT NULL,
+	CONSTRAINT cmdb_class_attribute_map_pk PRIMARY KEY (class_id, attribute_id),
+	CONSTRAINT cmdb_class_attribute_map_fk1 FOREIGN KEY (class_id)
+      REFERENCES cmdb_class (class_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT cmdb_class_attribute_map_fk2 FOREIGN KEY (attribute_id)
+      REFERENCES cmdb_attribute (attribute_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 COMMENT ON TABLE cmdb_class_attribute_map IS 'CMDB 클래스 속성 정보';
@@ -8963,11 +8963,11 @@ CREATE TABLE cmdb_ci_instance_relation
     instance_id character varying(128) NOT NULL,
     CONSTRAINT cmdb_ci_instance_relation_pk PRIMARY KEY (ci_id, instance_id),
     CONSTRAINT cmdb_ci_instance_relation_fk1 FOREIGN KEY (ci_id)
-        REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION,
+      REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
     CONSTRAINT cmdb_ci_instance_relation_fk2 FOREIGN KEY (instance_id)
-        REFERENCES wf_instance (instance_id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION
+      REFERENCES wf_instance (instance_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 COMMENT ON TABLE cmdb_ci_instance_relation IS 'CMDB CI 관련문서 정보';
@@ -9089,16 +9089,16 @@ COMMENT ON COLUMN awf_user_custom.custom_value IS '값';
 DROP TABLE IF EXISTS awf_report_template cascade;
 
 create table awf_report_template (
-                                     template_id varchar(128) NOT NULL,
-                                     template_name varchar(128) NOT NULL,
-                                     template_desc varchar(512),
-                                     report_name varchar(128),
-                                     automatic boolean DEFAULT false,
-                                     create_user_key varchar(128),
-                                     create_dt timestamp,
-                                     update_user_key varchar(128),
-                                     update_dt timestamp,
-                                     CONSTRAINT awf_report_template_pk PRIMARY KEY (template_id)
+    template_id varchar(128) NOT NULL,
+    template_name varchar(128) NOT NULL,
+    template_desc varchar(512),
+    report_name varchar(128),
+    automatic boolean DEFAULT false,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT awf_report_template_pk PRIMARY KEY (template_id)
 );
 
 COMMENT ON TABLE awf_report_template IS '보고서 템플릿 정보';
@@ -9129,10 +9129,10 @@ INSERT INTO awf_report_template VALUES ('4028b8817cd4629c017cd50244af00a4', '202
 DROP TABLE IF EXISTS awf_report_template_map cascade;
 
 create table awf_report_template_map (
-                                         template_id varchar(128) NOT NULL,
-                                         chart_id varchar(128) NOT NULL,
-                                         display_order int,
-                                         CONSTRAINT awf_report_template_map_pk PRIMARY KEY (template_id, chart_id)
+    template_id varchar(128) NOT NULL,
+    chart_id varchar(128) NOT NULL,
+    display_order int,
+    CONSTRAINT awf_report_template_map_pk PRIMARY KEY (template_id, chart_id)
 );
 
 COMMENT ON TABLE awf_report_template_map IS '보고서 템플릿 차트 정보';
@@ -9174,12 +9174,12 @@ INSERT INTO awf_report_template_map VALUES ('4028b8817cd4629c017cd50244af00a4', 
 DROP TABLE IF EXISTS awf_report cascade;
 
 create table awf_report (
-                            report_id varchar(128) NOT NULL,
-                            template_id varchar(128) NOT NULL,
-                            report_name varchar(128),
-                            report_desc varchar(512),
-                            publish_dt timestamp,
-                            CONSTRAINT awf_report_pk PRIMARY KEY (report_id)
+    report_id varchar(128) NOT NULL,
+    template_id varchar(128) NOT NULL,
+    report_name varchar(128),
+    report_desc varchar(512),
+    publish_dt timestamp,
+    CONSTRAINT awf_report_pk PRIMARY KEY (report_id)
 );
 
 COMMENT ON TABLE awf_report IS '보고서 정보';
@@ -9195,12 +9195,12 @@ COMMENT ON COLUMN awf_report.publish_dt IS '발행일시';
 DROP TABLE IF EXISTS awf_report_data cascade;
 
 create table awf_report_data (
-                                 data_id varchar(128) NOT NULL,
-                                 report_id varchar(128) NOT NULL,
-                                 chart_id varchar(128) NOT NULL,
-                                 display_order int,
-                                 values text,
-                                 CONSTRAINT awf_report_data_pk PRIMARY KEY (data_id)
+    data_id varchar(128) NOT NULL,
+    report_id varchar(128) NOT NULL,
+    chart_id varchar(128) NOT NULL,
+    display_order int,
+    values text,
+    CONSTRAINT awf_report_data_pk PRIMARY KEY (data_id)
 );
 
 COMMENT ON TABLE awf_report_data IS '보고서 데이터 정보';
