@@ -177,6 +177,11 @@
                     inheritedAttrs: "class"
                 }
             });
+            if (document.querySelector('textarea').hasAttribute("readonly") === true) {
+                document.querySelectorAll('div.z-textarea').forEach(function (elem) {
+                    elem.classList.add('z-textarea-readonly');
+                });
+            }
         }
         //radio check 값에 따라서 화면이 변경 할 수 있도록 변경
         function setDisplay(id, value) {
