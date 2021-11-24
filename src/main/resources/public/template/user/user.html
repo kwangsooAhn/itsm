@@ -38,7 +38,7 @@
                     <div class="flex-column z-edit-row"
                          th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice') && !view}">
                         <label th:text="#{user.label.password}"></label>
-                        <button class="z-button primary" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')" th:text="#{user.btn.resetPassword}"
+                        <button class="z-button primary" th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')" th:text="#{user.btn.resetPassword}"
                                 type="button"/>
                     </div>
                     <div class="flex-column z-edit-row">
@@ -172,7 +172,7 @@
         <div class="flex-column z-edit-row" th:if="${users?.userKey}">
             <h3 class="sub-title under-bar bold" th:text="#{user.label.userAbsence}"></h3>
             <label class="z-switch" for="userAbsence">
-                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay('absenceData',this, true)"
+                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
                 <span class="z-label" th:text="#{user.msg.userAbsence}"></span>
@@ -223,10 +223,10 @@
             </div>
             <div class="z-button-list">
                 <button class="z-button primary" sec:authorize="hasAuthority('user.create')"
-                        th:if="!${users?.userKey}" th:onclick="restSubmit('post', [[@{/rest/users}]], 'true')" th:text="#{auth.user.create}"
+                        th:if="!${users?.userKey}" th:onclick="preSubmitCheck('post', [[@{/rest/users}]], 'true')" th:text="#{auth.user.create}"
                         type="button"></button>
                 <button class="z-button primary" sec:authorize="hasAuthority('user.update')"
-                        th:if="${users?.userKey}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')" th:text="#{common.btn.modify}"
+                        th:if="${users?.userKey}" th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')" th:text="#{common.btn.modify}"
                         type="button"></button>
             </div>
         </div>
@@ -255,7 +255,7 @@
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
         if ([[${users?.userKey}]] !== null) {
-            setAbsenceDisplay('absenceData',document.getElementById('userAbsence'), false);
+            setAbsenceDisplay();
         }
     };
 
@@ -266,6 +266,20 @@
     const STATUS_SUCCESS_EDIT_ADMIN = '5';
     const STATUS_SUCCESS_EDIT_PASSWORD = '6';
     let wipToSubstituteUser = false;
+
+    function preSubmitCheck(method, url, activeValidation) {
+        if ([[${users?.userKey}]] !== null && document.getElementById('userAbsence').checked) {
+            zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
+                wipToSubstituteUser = true;
+                restSubmit(method, url, activeValidation);
+            }, () => {
+                wipToSubstituteUser = false;
+                restSubmit(method, url, activeValidation);
+            });
+        } else {
+            restSubmit(method, url, activeValidation);
+        }
+    }
 
     function restSubmit(method, url, activeValidation) {
         if (activeValidation === 'true') {
@@ -342,10 +356,8 @@
 
     /**
      * 부재설정 radio 버튼 on/off 시 관련 폼을 그리거나 제거합니다.
-     * viewId : 대상 radio button id
-     * isWIPtoSubstitute: 부재 설정 시 진행 중 문서(Work In Process) 위임 여부
      */
-    function setAbsenceDisplay(viewId, isWIPtoSubstitute) {
+    function setAbsenceDisplay() {
         let switchElement = document.getElementById('userAbsence')
         if (switchElement.checked) {
             const startDtVal = ''; // /*[[${users?.absenceStartDt}]]*/
@@ -356,17 +368,13 @@
             endDtElement.value = endDtVal ? i18n.userDateTime(endDtVal) : i18n.getDateTime({'days':7});
             zDateTimePicker.initDateTimePicker(startDtElement);
             zDateTimePicker.initDateTimePicker(endDtElement);
-            document.getElementById(viewId).style.display = 'block';
-            if (isWIPtoSubstitute) {
-                zAlert.confirm(i18n.msg('user.msg.confirmwipToSubstituteUser'), () => {
-                    wipToSubstituteUser = true;
-                });
-            }
+            document.getElementById('absenceData').style.display = 'block';
         } else {
             document.getElementById('absenceStartDt').value = '';
             document.getElementById('absenceEndDt').value = '';
-            document.getElementById(viewId).style.display = 'none';
-            wipToSubstituteUser = false;
+            document.getElementById('substituteUserKey').value = '';
+            document.getElementById('substituteUser').value = '';
+            document.getElementById('absenceData').style.display = 'none';
         }
     }
 

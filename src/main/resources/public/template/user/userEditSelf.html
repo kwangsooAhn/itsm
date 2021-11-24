@@ -184,7 +184,7 @@
         <div class="flex-column z-edit-row">
             <h3 class="sub-title under-bar bold" th:text="#{user.label.userAbsence}"></h3>
             <label class="z-switch" for="userAbsence">
-                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay('absenceData', true)"
+                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
                 <span class="z-label" th:text="#{user.msg.userAbsence}"></span>
@@ -223,7 +223,7 @@
         <div class="flex-row justify-content-end z-edit-row">
             <div class="z-button-list">
                 <button class="z-button primary" type="button" th:text="#{common.btn.modify}"
-                        th:onclick="restSubmit([[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
+                        th:onclick="preSubmitCheck([[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
             </div>
         </div>
     </div>
@@ -264,7 +264,7 @@
         });
 
         OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
-        setAbsenceDisplay('absenceData', false);
+        setAbsenceDisplay();
     };
 
     const STATUS_SUCCESS = '0';
@@ -274,11 +274,24 @@
     const alicePlatform = 'user.platform.alice';
     let wipToSubstituteUser = false;
 
+    function preSubmitCheck(url) {
+        if (document.getElementById('userAbsence').checked) {
+            zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
+                wipToSubstituteUser = true;
+                restSubmit(url);
+            }, () => {
+                wipToSubstituteUser = false;
+                restSubmit(url);
+            });
+        } else {
+            restSubmit(url);
+        }
+    }
+
     function restSubmit(url) {
         if (!validation()) {
             return false;
         }
-
         const data = {
             userKey: document.getElementById('userKey').value,
             userId: document.getElementById('userId').value,
@@ -342,10 +355,8 @@
 
     /**
      * 부재설정 radio 버튼 on/off 시 관련 폼을 그리거나 제거합니다.
-     * viewId : 대상 radio button id
-     * isWIPtoSubstitute: 부재 설정 시 진행 중 문서(Work In Process) 위임 여부
      */
-    function setAbsenceDisplay(viewId, isWIPtoSubstitute) {
+    function setAbsenceDisplay() {
         let switchElement = document.getElementById('userAbsence')
         if (switchElement.checked) {
             const startDtVal = ''; // /*[[${users?.absenceStartDt}]]*/
@@ -356,17 +367,13 @@
             endDtElement.value = endDtVal ? i18n.userDateTime(endDtVal) : i18n.getDateTime({'days':7});
             zDateTimePicker.initDateTimePicker(startDtElement);
             zDateTimePicker.initDateTimePicker(endDtElement);
-            document.getElementById(viewId).style.display = 'block';
-            if (isWIPtoSubstitute) {
-                zAlert.confirm(i18n.msg('user.msg.confirmwipToSubstituteUser'), () => {
-                    wipToSubstituteUser = true;
-                });
-            }
+            document.getElementById('absenceData').style.display = 'block';
         } else {
             document.getElementById('absenceStartDt').value = '';
             document.getElementById('absenceEndDt').value = '';
-            document.getElementById(viewId).style.display = 'none';
-            wipToSubstituteUser = false;
+            document.getElementById('substituteUserKey').value = '';
+            document.getElementById('substituteUser').value = '';
+            document.getElementById('absenceData').style.display = 'none';
         }
     }
 
