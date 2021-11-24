@@ -14,8 +14,8 @@ import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeQuery
 import java.util.TimeZone
 import java.util.concurrent.ScheduledFuture
 import javax.annotation.PostConstruct
-import kotlin.collections.HashMap
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.context.event.EventListener
 import org.springframework.jdbc.core.JdbcTemplate
@@ -33,6 +33,9 @@ class AliceScheduleTaskService(
     private val scheduleTaskTypeJar: ScheduleTaskTypeJar
 ) {
     private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
+
+    @Value("\${schedule.plugins.timezone}")
+    private val timezone: String? = null
 
     val taskMap: HashMap<String, ScheduledFuture<*>?> = hashMapOf()
 
@@ -98,7 +101,7 @@ class AliceScheduleTaskService(
             AliceConstants.ScheduleExecuteCycleType.CRON.code -> {
                 scheduledTask = scheduler.schedule(
                     task,
-                    CronTrigger(taskInfo.cronExpression!!, TimeZone.getTimeZone(TimeZone.getDefault().id))
+                    CronTrigger(taskInfo.cronExpression!!, TimeZone.getTimeZone(timezone))
                 )
             }
         }
