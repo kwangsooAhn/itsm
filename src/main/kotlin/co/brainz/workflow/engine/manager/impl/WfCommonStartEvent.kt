@@ -20,6 +20,7 @@ class WfCommonStartEvent(
 
     override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
         super.setNextTokenDto(createNextTokenDto)
+        createNextTokenDto.assigneeId = null
         return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(createNextTokenDto.elementType)
             .createToken(createNextTokenDto)
     }

@@ -15,8 +15,8 @@
     <h6 class="description ml-2 pl-2" th:text="#{code.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
-           th:placeholder="#{code.label.searchPlaceholder}"/>
+    <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
+           maxlength="100" th:placeholder="#{code.label.searchPlaceholder}"/>
     <span id="totalCount" class="z-search-count"></span>
     <div class="ml-auto">
         <button type="button" class="z-button primary" id="btnCreate" name="btnCreate"
@@ -35,24 +35,29 @@
         <div class="z-edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
-                <input id="txtCode" name="txtCode" class="z-input text-ellipsis" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
+                <span id="tooltipCode" th:title="${codeDetail?.code}">
+                <input id="txtCode" name="txtCode" class="z-input text-ellipsis col-pct-12" type="text"
+                       th:value="${codeDetail?.code}" maxlength="100"/>
+                </span>
             </div>
             <div class="flex-column flex-fill">
                 <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
-                <input id="txtPCode" name="txtPCode" class="z-input text-ellipsis" type="text" th:value="${codeDetail?.pCode}"
-                       maxlength="100"/>
+                <span id="tooltipPcode" th:title="${codeDetail?.pCode}">
+                <input id="txtPCode" name="txtPCode" class="z-input text-ellipsis col-pct-12" type="text"
+                       th:value="${codeDetail?.pCode}" maxlength="100"/>
+                </span>
             </div>
         </div>
         <div class="z-edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
-                <input id="txtCodeName" name="txtCodeName" class="z-input text-ellipsis" type="text" th:value="${codeDetail?.codeName}"
-                       maxlength="100"/>
+                <input id="txtCodeName" name="txtCodeName" class="z-input text-ellipsis" type="text"
+                       th:value="${codeDetail?.codeName}" maxlength="100"/>
             </div>
             <div class="flex-column flex-fill">
                 <label class="form-title" th:text="#{code.label.defaultCodeValue}" for="txtCodeValue"></label>
-                <input id="txtCodeValue" name="txtCodeValue" class="z-input text-ellipsis" type="text" th:value="${codeDetail?.codeValue}"
-                       maxlength="100"/>
+                <input id="txtCodeValue" name="txtCodeValue" class="z-input text-ellipsis" type="text"
+                       th:value="${codeDetail?.codeValue}" maxlength="100"/>
             </div>
         </div>
         <div class="z-edit-row flex-column">
@@ -129,7 +134,7 @@
         observer.set();
 
         if (document.getElementById('btnCodeLang') !== null) {
-            document.getElementById('btnCodeLang').addEventListener('click',drawCodeLang);
+            document.getElementById('btnCodeLang').addEventListener('click', drawCodeLang);
         }
         OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-page-edit'), {className: 'scrollbar'});
@@ -185,8 +190,10 @@
                     let responseJson = JSON.parse(response.responseText);
                     document.getElementById('txtCode').value = responseJson.code;
                     document.getElementById('txtCode').setAttribute('disabled', '');
+                    document.getElementById('tooltipCode').title = responseJson.code;
                     document.getElementById('txtPCode').value = responseJson.pcode;
                     document.getElementById('txtPCode').setAttribute('disabled', '');
+                    document.getElementById('tooltipPcode').title = responseJson.pcode;
                     document.getElementById('txtCodeName').value = responseJson.codeName;
                     document.getElementById('txtCodeValue').value = responseJson.codeValue;
                     document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
@@ -304,7 +311,7 @@
         let divLang = document.getElementById('codeLang').children;
         for (let i = 0; i < divLang.length; i++) {
             const selectValue = divLang[i].getElementsByTagName('select')[0].value;
-            const codeLangValue = divLang[i].getElementsByTagName('input')[0].value;
+            const codeLangValue = divLang[i].getElementsByTagName('input')[1].value;
             if (typeof codeLangData[selectValue] === 'undefined') {
                 codeLangData[selectValue] = codeLangValue;
             } else {
@@ -430,6 +437,7 @@
             fileName: i18n.msg('code.label.code') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
         });
     }
+
     /*]]>*/
 </script>
 </html>

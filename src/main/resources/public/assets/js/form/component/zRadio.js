@@ -64,6 +64,17 @@ export const radioMixin = {
                 this.UIElement.UIComponent.UIElement['UILabel' + i].UIRadio.addUIClass('readonly');
             }
         }
+
+        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+            this.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
+            this.value === '') {
+            for (let i = 0; i < this.element.options.length; i++) {
+                let checkedYn = (this.element.options[i].checked || false);
+                if (checkedYn) {
+                    this.value = this.element.options[i].value;
+                }
+            }
+        }
     },
     set element(element) {
         this._element = element;

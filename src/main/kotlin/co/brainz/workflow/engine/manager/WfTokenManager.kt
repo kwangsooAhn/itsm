@@ -120,10 +120,10 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
                 this.setAssignee(token)
             }
-            /*
+
             WfTokenConstants.AssigneeType.USERS.code,
             WfTokenConstants.AssigneeType.GROUPS.code -> {}
-            */
+
             else -> {
                 token.assigneeId = this.assigneeId
                 wfTokenManagerService.saveToken(token)

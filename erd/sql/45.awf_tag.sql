@@ -535,9 +535,9 @@ INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573241301bd', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573241d01be', 'component', 'z-change-application-request-content', 'cf8ca9e6099d48e5b4905ef40a534222');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573247801c0', 'component', '첨부파일', 'a00997a108e2c4614fab6f4e448b6477');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573248601c1', 'component', 'z-change-application-request-file', 'a00997a108e2c4614fab6f4e448b6477');
-INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573250e01c4', 'component', 'z-change-appliaction-acceptor', '5e63efc92b344ceea3ac1ae30248a6f1');
+INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573250e01c4', 'component', 'z-change-application-acceptor', '5e63efc92b344ceea3ac1ae30248a6f1');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573251901c5', 'component', '접수자', '5e63efc92b344ceea3ac1ae30248a6f1');
-INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573253401c6', 'component', 'z-change-appliaction-acceptor-dapartment', '68b28b63d0be4cc4856bb9ca425a7d54');
+INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573253401c6', 'component', 'z-change-application-acceptor-department', '68b28b63d0be4cc4856bb9ca425a7d54');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573254001c7', 'component', '접수부서', '68b28b63d0be4cc4856bb9ca425a7d54');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57325ca01c9', 'component', '접수일시', '06b8390ffc1249cbbda91bbc74298574');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57325d701ca', 'component', 'z-change-application-accept-date', '06b8390ffc1249cbbda91bbc74298574');
