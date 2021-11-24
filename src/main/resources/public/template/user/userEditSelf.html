@@ -275,6 +275,10 @@
     let wipToSubstituteUser = false;
 
     function preSubmitCheck(url) {
+        if (!validation()) {
+            return false;
+        }
+
         if (document.getElementById('userAbsence').checked) {
             zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
                 wipToSubstituteUser = true;
@@ -289,9 +293,6 @@
     }
 
     function restSubmit(url) {
-        if (!validation()) {
-            return false;
-        }
         const data = {
             userKey: document.getElementById('userKey').value,
             userId: document.getElementById('userId').value,
