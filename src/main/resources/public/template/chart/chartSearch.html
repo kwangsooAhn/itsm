@@ -13,7 +13,6 @@
     <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
-    <script th:src="@{/assets/js/chart/zChart.js}"></script>
 </th:block>
 <body>
 <div layout:fragment="pageTitle">
@@ -44,124 +43,123 @@
     <div class="z-list-content flex-row" id="chartList"></div>
 </div>
 </body>
-<script layout:fragment="pageScript" th:inline="javascript">
-    /*<![CDATA[*/
-    const CHART_YEAR = 'Y';
-    const CHART_MONTH = 'M';
-    const CHART_DAY = 'D';
-    const CHART_HOUR = 'H';
-    const PIE_CHART = 'chart.pie';
-    const STACKED_COLUMN_CHART = 'chart.stackedColumn';
-    const STACKED_BAR_CHART = 'chart.stackedBar';
-    const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
-    const BASIC_LINE_CHART = 'chart.basicLine';
-    const ACTIVITY_GAUGE_CHART = 'chart.activityGauge';
-
-    window.onload = function () {
-        document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
-        document.getElementById('searchGroupName').addEventListener('change', function () {
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function () {
+            document.getElementById('searchValue').focus();
+            document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+            document.getElementById('searchGroupName').addEventListener('change', function () {
+                getList();
+            });
             getList();
-        });
-        getList();
-    }
+        }
 
-    /**
-     * Chart 검색
-     */
-    function getList(pageNum = 1) {
-        const opt = {
-            method: 'get',
-            url: '/charts?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum,
-            async: false,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                document.getElementById('chartList').innerHTML = response.responseText;
-                setDateTimeFormat(document.getElementById('chartList'));
-            }
-        };
-        aliceJs.sendXhr(opt);
-    }
+        /**
+         * Chart 검색
+         */
+        function getList(pageNum = 1) {
+            const opt = {
+                method: 'get',
+                url: '/charts?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum,
+                async: false,
+                showProgressbar: false,
+                callbackFunc: function (response) {
+                    document.getElementById('chartList').innerHTML = response.responseText;
 
-    /**
-     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-     */
-    function setDateTimeFormat(elem) {
-        elem.querySelectorAll('.date-time').forEach(dt => {
-            const userDateTime = i18n.userDateTime(dt.textContent.trim());
-            dt.textContent = userDateTime;
-            dt.setAttribute('title', userDateTime);
-        });
-    }
-
-    /**
-     * Chart view 화면 호출 (Modal)
-     */
-    function openChartViewModal(chartId, chartType, chartName) {
-        let modalOptions = {
-            title: chartName,
-            body: createModalContent(),
-            classes: 'chart-view-modal',
-            buttons: [{
-                content: i18n.msg('common.btn.close'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: function (modal) {
-                    modal.hide();
+                    setDateTimeFormat(document.getElementById('chartList'));
                 }
-            }],
-            close: {
-                closable: false,
-            },
-            onCreate: function () {
-                getChart(chartId, chartType);
-            }
-        };
+            };
+            aliceJs.sendXhr(opt);
+        }
 
-        const chartViewModal = new modal(modalOptions);
-        chartViewModal.show();
+        /**
+         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+         */
+        function setDateTimeFormat(elem) {
+            elem.querySelectorAll('.date-time').forEach(dt => {
+                const userDateTime = i18n.userDateTime(dt.textContent.trim());
+                dt.textContent = userDateTime;
+                dt.setAttribute('title', userDateTime);
+            });
+        }
+
+        /**
+         * Chart view 화면 호출 (Modal)
+         */
+        function openChartViewModal(chartId, chartType, chartName) {
+            let modalOptions = {
+                title: chartName,
+                body: createModalContent(),
+                classes: 'chart-view-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        zChartManager.destroy();
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function () {
+                    getChart(chartId, chartType);
+                }
+            };
+
+            const chartViewModal = new modal(modalOptions);
+            chartViewModal.show();
+        }
+
+        function createModalContent() {
+            return `<div class="chart-edit-content">` +
+                `<div class="flex-column" id="getChart"></div>` +
+                `</div>`;
+        }
+
+        function getChart(chartId, chartType) {
+            const opt = {
+                method: 'get',
+                url: '/charts/' + chartId + '/preview',
+                contentType: 'application/json',
+                showProgressbar: false,
+                callbackFunc: function (response) {
+                    document.getElementById('getChart').innerHTML = response.responseText;
+                    // 가데이터 표시
+                    aliceJs.fetchJson('../../assets/js/chart/dummy/line2.json', {
+                        method: 'GET'
+                    }).then((chartData) => {
+                        zChartManager.load(chartData);
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        /*]]>*/
+    </script>
+    <script type="module">
+        import ZChart from '../../assets/js/chart/zChart.js';
+
+const zChartManager = {
+    load: function(data) {
+        // 차트 초기화
+        this.zChart = new ZChart('container', data);
+
+        // 데이터 업데이트
+        this.zChart.update();
+    },
+    destroy: function () {
+        if (this.zChart) {
+            this.zChart.destroy();
+            this.zChart = null;
+            delete this.zChart;
+        }
     }
-
-    function createModalContent() {
-        return `<div class="chart-edit-content">` +
-            `<div class="flex-column" id="getChart"></div>` +
-            `</div>`;
-    }
-
-    function getChart(chartId, chartType) {
-        const opt = {
-            method: 'get',
-            url: '/charts/' + chartId + '/preview',
-            contentType: 'application/json',
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                document.getElementById('getChart').innerHTML = response.responseText;
-                setChart(
-                    chartType,
-                    document.getElementById('propertyJson').value,
-                    document.getElementById('chartConfig').value,
-                    document.getElementById('tags').value
-                );
-                parsedPropertyJson(
-                    chartType,
-                    document.getElementById('chartConfig').value,
-                    document.getElementById('propertyJson').value,
-                    document.getElementById('tags').value
-                );
-            }
-        };
-        aliceJs.sendXhr(opt);
-    }
-
-    function parsedPropertyJson(chartType, chartConfig, property, tags) {
-        chart.parsedPropertyJson(chartType, chartConfig, property, tags);
-    }
-
-    /** 하이차트 초기화 */
-    function setChart(chartType, property, chartConfig, tags) {
-        chart = new ZChart('container', chartType, property, chartConfig, tags);
-    }
-
-    /*]]>*/
-</script>
+}
+window.zChartManager = zChartManager;
+    </script>
+</th:block>
 </html>

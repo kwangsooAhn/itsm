@@ -24,6 +24,7 @@ class ZValidation {
             blank: /^\s*$/,
             rgb: /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/,
             phone: /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/,
+            dateTime: /^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)\:(\d+)$/
         }, options.regex);
 
         this.errorClassName = 'error';
