@@ -184,7 +184,7 @@
         <div class="flex-column z-edit-row">
             <h3 class="sub-title under-bar bold" th:text="#{user.label.userAbsence}"></h3>
             <label class="z-switch" for="userAbsence">
-                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setDisplay('absenceData', this, true)"
+                <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay('absenceData', true)"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
                 <span class="z-label" th:text="#{user.msg.userAbsence}"></span>
@@ -264,7 +264,7 @@
         });
 
         OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
-        setDisplay('absenceData',document.getElementById('userAbsence'), false);
+        setAbsenceDisplay('absenceData', false);
     };
 
     const STATUS_SUCCESS = '0';
@@ -340,7 +340,13 @@
         });
     }
 
-    function setDisplay(viewId, switchElement, isWIPtoSubstitute) {
+    /**
+     * 부재설정 radio 버튼 on/off 시 관련 폼을 그리거나 제거합니다.
+     * viewId : 대상 radio button id
+     * isWIPtoSubstitute: 부재 설정 시 진행 중 문서(Work In Process) 위임 여부
+     */
+    function setAbsenceDisplay(viewId, isWIPtoSubstitute) {
+        let switchElement = document.getElementById('userAbsence')
         if (switchElement.checked) {
             const startDtVal = ''; // /*[[${users?.absenceStartDt}]]*/
             const endDtVal = ''; // /*[[${users?.absenceEndDt}]]*/
