@@ -272,7 +272,7 @@
     const STATUS_ERROR_EMAIL_DUPLICATION = '3';
     const STATUS_SUCCESS_EDIT_EMAIL = '4';
     const alicePlatform = 'user.platform.alice';
-    let WIPtoSubstituteUser = false;
+    let wipToSubstituteUser = false;
 
     function restSubmit(url) {
         if (!validation()) {
@@ -295,7 +295,7 @@
             absenceStartDt: document.getElementById('absenceStartDt').value,
             absenceEndDt: document.getElementById('absenceEndDt').value,
             substituteUserKey: document.getElementById('substituteUserKey').value,
-            assigneeChange: WIPtoSubstituteUser,
+            assigneeChange: wipToSubstituteUser,
             timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
             fileSeq: document.getElementsByName('fileSeq').value,
             avatarUUID: document.getElementById('avatarUUID').value
@@ -358,15 +358,15 @@
             zDateTimePicker.initDateTimePicker(endDtElement);
             document.getElementById(viewId).style.display = 'block';
             if (isWIPtoSubstitute) {
-                zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
-                    WIPtoSubstituteUser = true;
+                zAlert.confirm(i18n.msg('user.msg.confirmwipToSubstituteUser'), () => {
+                    wipToSubstituteUser = true;
                 });
             }
         } else {
             document.getElementById('absenceStartDt').value = '';
             document.getElementById('absenceEndDt').value = '';
             document.getElementById(viewId).style.display = 'none';
-            WIPtoSubstituteUser = false;
+            wipToSubstituteUser = false;
         }
     }
 
