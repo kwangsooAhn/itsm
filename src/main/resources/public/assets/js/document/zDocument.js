@@ -33,7 +33,6 @@ class ZDocument {
             close: { closable: false },
             onCreate: () => {
                 this.domElement = document.getElementById('documentDrawingBoard');
-
                 // history.back 시 신청서 목록으로 이동
                 window.history.pushState(null, '', location.href);
                 window.onpopstate = function(e) {
@@ -54,21 +53,18 @@ class ZDocument {
             method: 'GET',
             showProgressbar: true
         }).then((documentData) => {
-            // 정렬 (기준 : displayOrder)
-            this.sortJsonToForm(documentData.form);
             this.data = documentData;
             this.editable = true; // 신청서는 view, edit 모드가 존재하지 않는다. 권한만 있으면 editable 가능하다.
             document.getElementById('instanceId').value = this.data.instanceId;
-
+            this.sortJsonToForm(documentData.form); // 정렬
+            this.makeDocument(this.data.form); // 화면 출력
             zFormButton.init(documentData, this); // 버튼 초기화
-            this.makeDocument(this.data.form); // Form 생성
-            this.documentModal.show(); // 모달 표시
+            this.documentModal.show();
             aliceJs.initDesignedSelectTag();
         });
     }
     /**
-     * 클래스 초기화
-     *
+     * 진행 중 문서 초기화
      * @param formDataJson 그리고자 하는 폼에 대한 JSON 데이터
      * @param editable 편집 가능여부
      */
@@ -78,13 +74,11 @@ class ZDocument {
         this.data = formDataJson;
         this.formDataJson = this.data.form;
         this.editable = editable;
-        // 정렬
-        this.sortJsonToForm(this.formDataJson);
-        // 화면 출력
-        this.makeDocument(this.formDataJson);
+        this.sortJsonToForm(this.formDataJson); // 정렬
+        this.makeDocument(this.formDataJson); // 화면 출력
     }
     /**
-     * JSON 데이터를 Form의 구성요소 3가지(Group, Row, Component)의 출력 순서로 정렬한다. (Recursive)
+     * JSON 데이터를 폼의 구성요소 3가지(Group, Row, Component)의 출력 순서로 정렬한다. (Recursive)
      * @param data JSON 데이터
      */
     sortJsonToForm(data) {
@@ -108,9 +102,8 @@ class ZDocument {
             );
         }
     }
-    // formToken의 makeForm과 동일
     /**
-     * FORM 생성 (Recursive)
+     * 폼의 형태로 Document 생성 (Recursive)
      * @param data JSON 데이터
      * @param parent 부모 객체
      * @param index 추가될 객체의 index
@@ -174,7 +167,6 @@ class ZDocument {
 
         return addObject;
     }
-
     /**
      * 컴포넌트 value 데이터 조회
      */
@@ -296,9 +288,9 @@ class ZDocument {
         }).then(rtn => {
             if (rtn === 'true') {
                 zAlert.success(i18n.msg(actionMsg),  () => {
-                    console.log(zValidation.isDefined(window.opener));
                     if (zValidation.isDefined(window.opener)) {
                         opener.location.reload();
+                        window.close();
                     } else {
                         this.documentModal.hide();
                     }
@@ -331,12 +323,11 @@ class ZDocument {
      * 문서 인쇄
      */
     print() {
-        const printData  =  this.data.form;
-        sessionStorage.setItem('alice_print', JSON.stringify(printData));
+        sessionStorage.setItem('alice_print', JSON.stringify(this.data.form));
         window.open('/tokens/' + this.data.tokenId + '/print', '_blank');
     }
     /**
-     * 문서 / 신청서 닫기
+     * 문서 닫기
      */
     close() {
         if (zValidation.isDefined(window.opener)) {
