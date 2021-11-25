@@ -12,7 +12,7 @@
     <h6 class="description ml-2 pl-2" th:text="#{faq.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <form id="searchFrm">
+    <form id="searchFrm" onsubmit = "return false">
         <input class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue" type="text" maxlength="100"
                                            th:placeholder="#{faq.label.searchPlaceholder}"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>

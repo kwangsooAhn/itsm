@@ -18,7 +18,7 @@
 <div layout:fragment="pageSearching">
     <input id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}" type="hidden"/>
     <input id="deletable" th:value="${#authorization.expression('hasAuthority(''form.delete'')')}" type="hidden"/>
-    <form id="searchFrm">
+    <form id="searchFrm" onsubmit = "return false">
         <input class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" maxlength="100" name="searchValue" th:placeholder="#{form.label.searchPlaceholder}"
                type="text"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>

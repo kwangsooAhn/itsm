@@ -16,7 +16,7 @@
                th:value="true"/>
         <input type="hidden" sec:authorize="!hasAuthority('board.admin.update')" th:name="isRole"
                th:value="false"/>
-        <form id="searchFrm">
+        <form id="searchFrm" onsubmit = "return false">
             <input type="text" id="searchValue" name="searchValue" class="z-input i-search text-ellipsis col-5 mr-2" maxlength="100"
                    th:placeholder="#{board.label.searchPlaceholder}"/>
             <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
