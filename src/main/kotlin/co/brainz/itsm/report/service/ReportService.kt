@@ -50,7 +50,7 @@ class ReportService(
             data = queryResult.results,
             paging = AlicePagingData(
                 totalCount = queryResult.total,
-                totalCountWithoutCondition = reportTemplateRepository.count(),
+                totalCountWithoutCondition = reportRepository.count(),
                 currentPageNum = reportSearchCondition.pageNum,
                 totalPageNum = Math.ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble())
                     .toLong(),
