@@ -35,7 +35,7 @@
         /*<![CDATA[*/
         import { ZSession } from '../../assets/js/lib/zSession.js';
         import { zValidation } from '../../assets/js/lib/zValidation.js';
-        import { zFormToken } from "../../assets/js/document/zFormToken.js";
+        import { zDocument } from '../../assets/js/document/zDocument.js';
         import { zFormButton } from "../../assets/js/document/zFormButton.js";
         import { zFormTokenTab } from "../../assets/js/document/zFormTokenTab.js";
 
@@ -65,11 +65,11 @@
             formDataJson.tokenId = document.getElementById('tokenId').value;
             formDataJson.folderId = document.getElementById('folderId').value;
 
-            zFormToken.init(formDataJson, false);
-            zFormButton.init(formDataJson, zFormToken);
+            zDocument.init(formDataJson, false);
+            zFormButton.init(formDataJson, zDocument);
             zFormTokenTab.init(formDataJson, false);
 
-            window.zFormToken = zFormToken;
+            window.zDocument = zDocument;
             window.zFormTokenTab = zFormTokenTab;
         });
         /*]]>*/
