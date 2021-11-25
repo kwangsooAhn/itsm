@@ -66,6 +66,27 @@ class ZDocument {
             aliceJs.initDesignedSelectTag();
         });
     }
+    // 폼 토큰 초기화 (폼의 경우 모달이 아닌 새로운 팝업이므로 아래에 이어 붙인다.)
+    /**
+     * 클래스 초기화
+     *
+     * @param formDataJson 그리고자 하는 폼에 대한 JSON 데이터
+     * @param editable 편집 가능여부
+     */
+    init(formDataJson, editable) {
+        this.domElement = document.getElementById('documentDrawingBoard'); // 문서 엘리먼트
+        this.propertiesElement = document.getElementById('documentProperties'); // 우측 문서 정보, 의견, 태그가 표시되는 엘리먼트
+        this.data = formDataJson;
+        this.formDataJson = this.data.form;
+        this.editable = editable;
+        // 정렬
+        this.sortJson(this.formDataJson);
+        // 화면 출력
+        this.makeDocument(this.formDataJson);
+    }
+
+    // 이 부분은 신청서와 폼 토큰(sortFormObject)과 동일하다. 메소드 명을 동일하게 맞춘다.
+    // 설명도 함께 정리한다.
     /**
      * JSON 데이터 정렬 (Recursive)
      * @param data JSON 데이터
@@ -91,6 +112,7 @@ class ZDocument {
             );
         }
     }
+    // formToken의 makeForm과 동일
     /**
      * FORM 생성 (Recursive)
      * @param data JSON 데이터
@@ -130,6 +152,7 @@ class ZDocument {
      * @param parent 부모 객체
      * @param index 추가될 객체의 index
      */
+    // formToken과 동일
     addObjectByType(type, data, parent, index) {
         let addObject = null; // 추가된 객체
 
@@ -156,15 +179,11 @@ class ZDocument {
 
         return addObject;
     }
-    /**
-     * 신청서 닫기
-     */
-    close() {
-        this.documentModal.hide();
-    }
+
     /**
      * 컴포넌트 value 데이터 조회
      */
+    // formToken 과 동일
     getComponentData(object, array) {
         object.children.forEach((child) => {
             if (child instanceof ZComponent) {
@@ -179,6 +198,7 @@ class ZDocument {
     /**
      *  저장시 유효성 체크
      */
+    // formToken 과 동일 / if zValidation 대신
     saveValidationCheck() {
         if (zValidation.hasDOMElementError(this.domElement)) { return false; }
 
@@ -243,6 +263,7 @@ class ZDocument {
     /**
      * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
      */
+    // formToken 과 동일
     processAction(actionType) {
         // 유효성 체크 (최대 글자 수)
         const MaxLengthActionType = ['save', 'progress']
@@ -283,9 +304,9 @@ class ZDocument {
         }).then(rtn => {
             if (rtn === 'true') {
                 zAlert.success(i18n.msg(actionMsg),  () => {
+                    console.log(zValidation.isDefined(window.opener));
                     if (zValidation.isDefined(window.opener)) {
                         opener.location.reload();
-                        window.close();
                     } else {
                         this.documentModal.hide();
                     }
@@ -295,6 +316,50 @@ class ZDocument {
             }
         });
     }
+    /**
+     * 프로세스 맵 팝업 호출
+     */
+    openProcessStatusPopUp() {
+        window.open('/process/' + this.data.instanceId + '/status', 'process_status_' + this.data.instanceId,
+            'width=1300, height=500');
+    }
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    setDateTimeFormat() {
+        document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
+            element.textContent = dateFormatFromNow(element.textContent);
+        });
+
+        document.querySelectorAll('.date-time').forEach((element) => {
+            element.textContent = i18n.userDateTime(element.textContent);
+        });
+    }
+    /**
+     * 문서 인쇄
+     */
+    print() {
+        const printData  =  this.data.form;
+        sessionStorage.setItem('alice_print', JSON.stringify(printData));
+        window.open('/tokens/' + this.data.tokenId + '/print', '_blank');
+    }
+    // /**
+    //  * 문서 닫기 (팝업 종료)
+    //  */
+    // close() {
+    //     // 폼이냐 신청서냐에 따라서 분기를 타면 될 듯
+    //
+    //     window.close();
+    //
+    //     // this.documentModal.hide();
+    // }
+    //
+    // /**
+    //  * 신청서 닫기 (모달 종료)
+    //  */
+    // close() {
+    //     this.documentModal.hide();
+    // }
 }
 
 export const zDocument = new ZDocument();
