@@ -33,7 +33,6 @@ class ZDocument {
             close: { closable: false },
             onCreate: () => {
                 this.domElement = document.getElementById('documentDrawingBoard');
-
                 // history.back 시 신청서 목록으로 이동
                 window.history.pushState(null, '', location.href);
                 window.onpopstate = function(e) {
@@ -49,41 +48,53 @@ class ZDocument {
      * 신청서 데이터 조회 후 모달 오픈
      * @param documentId 신청서 아이디
      */
-    openDocument(documentId) {
+    openDocumentModal(documentId) {
         aliceJs.fetchJson('/rest/documents/' + documentId + '/data', {
             method: 'GET',
             showProgressbar: true
         }).then((documentData) => {
-            // 정렬 (기준 : displayOrder)
-            this.sortJson(documentData.form);
             this.data = documentData;
             this.editable = true; // 신청서는 view, edit 모드가 존재하지 않는다. 권한만 있으면 editable 가능하다.
             document.getElementById('instanceId').value = this.data.instanceId;
-
+            this.sortJsonToForm(documentData.form); // 정렬
+            this.makeDocument(this.data.form); // 화면 출력
             zFormButton.init(documentData, this); // 버튼 초기화
-            this.makeDocument(this.data.form); // Form 생성
-            this.documentModal.show(); // 모달 표시
+            this.documentModal.show();
             aliceJs.initDesignedSelectTag();
         });
     }
     /**
-     * JSON 데이터 정렬 (Recursive)
+     * 진행 중 문서 초기화
+     * @param formDataJson 그리고자 하는 폼에 대한 JSON 데이터
+     * @param editable 편집 가능여부
+     */
+    init(formDataJson, editable) {
+        this.domElement = document.getElementById('documentDrawingBoard'); // 문서 엘리먼트
+        this.propertiesElement = document.getElementById('documentProperties'); // 우측 문서 정보, 의견, 태그가 표시되는 엘리먼트
+        this.data = formDataJson;
+        this.formDataJson = this.data.form;
+        this.editable = editable;
+        this.sortJsonToForm(this.formDataJson); // 정렬
+        this.makeDocument(this.formDataJson); // 화면 출력
+    }
+    /**
+     * JSON 데이터를 폼의 구성요소 3가지(Group, Row, Component)의 출력 순서로 정렬한다. (Recursive)
      * @param data JSON 데이터
      */
-    sortJson(data) {
+    sortJsonToForm(data) {
         if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             data.group.sort((a, b) =>
                 a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
             data.group.forEach( (g) => {
-                this.sortJson(g);
+                this.sortJsonToForm(g);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             data.row.sort((a, b) =>
                 a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
             data.row.forEach( (r) => {
-                this.sortJson(r);
+                this.sortJsonToForm(r);
             });
         } else { // row
             data.component.sort((a, b) =>
@@ -92,7 +103,7 @@ class ZDocument {
         }
     }
     /**
-     * FORM 생성 (Recursive)
+     * 폼의 형태로 Document 생성 (Recursive)
      * @param data JSON 데이터
      * @param parent 부모 객체
      * @param index 추가될 객체의 index
@@ -155,12 +166,6 @@ class ZDocument {
         }
 
         return addObject;
-    }
-    /**
-     * 신청서 닫기
-     */
-    close() {
-        this.documentModal.hide();
     }
     /**
      * 컴포넌트 value 데이터 조회
@@ -294,6 +299,42 @@ class ZDocument {
                 zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
+    }
+    /**
+     * 프로세스 맵 팝업 호출
+     */
+    openProcessStatusPopUp() {
+        window.open('/process/' + this.data.instanceId + '/status', 'process_status_' + this.data.instanceId,
+            'width=1300, height=500');
+    }
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    setDateTimeFormat() {
+        document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
+            element.textContent = dateFormatFromNow(element.textContent);
+        });
+
+        document.querySelectorAll('.date-time').forEach((element) => {
+            element.textContent = i18n.userDateTime(element.textContent);
+        });
+    }
+    /**
+     * 문서 인쇄
+     */
+    print() {
+        sessionStorage.setItem('alice_print', JSON.stringify(this.data.form));
+        window.open('/tokens/' + this.data.tokenId + '/print', '_blank');
+    }
+    /**
+     * 문서 닫기
+     */
+    close() {
+        if (zValidation.isDefined(window.opener)) {
+            window.close();
+        } else {
+            this.documentModal.hide();
+        }
     }
 }
 

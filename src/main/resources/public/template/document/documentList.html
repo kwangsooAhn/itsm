@@ -12,7 +12,7 @@
     </div>
     <th:block th:fragment="list">
         <div class="card document-card" th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}"
-             sec:authorize="hasAuthority('document.create')" th:onclick="zDocument.openDocument([[${document.documentId}]])">
+             sec:authorize="hasAuthority('document.create')" th:onclick="zDocument.openDocumentModal([[${document.documentId}]])">
             <div class="document-column">
                 <div class="flex-row align-items-center mb-2">
                 <span th:if="${document.documentStatus} == 'document.status.temporary'"
