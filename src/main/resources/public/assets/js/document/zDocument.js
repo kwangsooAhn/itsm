@@ -49,13 +49,13 @@ class ZDocument {
      * 신청서 데이터 조회 후 모달 오픈
      * @param documentId 신청서 아이디
      */
-    openDocument(documentId) {
+    openDocumentModal(documentId) {
         aliceJs.fetchJson('/rest/documents/' + documentId + '/data', {
             method: 'GET',
             showProgressbar: true
         }).then((documentData) => {
             // 정렬 (기준 : displayOrder)
-            this.sortJson(documentData.form);
+            this.sortJsonToForm(documentData.form);
             this.data = documentData;
             this.editable = true; // 신청서는 view, edit 모드가 존재하지 않는다. 권한만 있으면 editable 가능하다.
             document.getElementById('instanceId').value = this.data.instanceId;
@@ -66,7 +66,6 @@ class ZDocument {
             aliceJs.initDesignedSelectTag();
         });
     }
-    // 폼 토큰 초기화 (폼의 경우 모달이 아닌 새로운 팝업이므로 아래에 이어 붙인다.)
     /**
      * 클래스 초기화
      *
@@ -80,31 +79,28 @@ class ZDocument {
         this.formDataJson = this.data.form;
         this.editable = editable;
         // 정렬
-        this.sortJson(this.formDataJson);
+        this.sortJsonToForm(this.formDataJson);
         // 화면 출력
         this.makeDocument(this.formDataJson);
     }
-
-    // 이 부분은 신청서와 폼 토큰(sortFormObject)과 동일하다. 메소드 명을 동일하게 맞춘다.
-    // 설명도 함께 정리한다.
     /**
-     * JSON 데이터 정렬 (Recursive)
+     * JSON 데이터를 Form의 구성요소 3가지(Group, Row, Component)의 출력 순서로 정렬한다. (Recursive)
      * @param data JSON 데이터
      */
-    sortJson(data) {
+    sortJsonToForm(data) {
         if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             data.group.sort((a, b) =>
                 a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
             data.group.forEach( (g) => {
-                this.sortJson(g);
+                this.sortJsonToForm(g);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             data.row.sort((a, b) =>
                 a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
             data.row.forEach( (r) => {
-                this.sortJson(r);
+                this.sortJsonToForm(r);
             });
         } else { // row
             data.component.sort((a, b) =>
@@ -152,7 +148,6 @@ class ZDocument {
      * @param parent 부모 객체
      * @param index 추가될 객체의 index
      */
-    // formToken과 동일
     addObjectByType(type, data, parent, index) {
         let addObject = null; // 추가된 객체
 
@@ -183,7 +178,6 @@ class ZDocument {
     /**
      * 컴포넌트 value 데이터 조회
      */
-    // formToken 과 동일
     getComponentData(object, array) {
         object.children.forEach((child) => {
             if (child instanceof ZComponent) {
@@ -198,7 +192,6 @@ class ZDocument {
     /**
      *  저장시 유효성 체크
      */
-    // formToken 과 동일 / if zValidation 대신
     saveValidationCheck() {
         if (zValidation.hasDOMElementError(this.domElement)) { return false; }
 
@@ -263,7 +256,6 @@ class ZDocument {
     /**
      * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
      */
-    // formToken 과 동일
     processAction(actionType) {
         // 유효성 체크 (최대 글자 수)
         const MaxLengthActionType = ['save', 'progress']
@@ -343,23 +335,16 @@ class ZDocument {
         sessionStorage.setItem('alice_print', JSON.stringify(printData));
         window.open('/tokens/' + this.data.tokenId + '/print', '_blank');
     }
-    // /**
-    //  * 문서 닫기 (팝업 종료)
-    //  */
-    // close() {
-    //     // 폼이냐 신청서냐에 따라서 분기를 타면 될 듯
-    //
-    //     window.close();
-    //
-    //     // this.documentModal.hide();
-    // }
-    //
-    // /**
-    //  * 신청서 닫기 (모달 종료)
-    //  */
-    // close() {
-    //     this.documentModal.hide();
-    // }
+    /**
+     * 문서 / 신청서 닫기
+     */
+    close() {
+        if (zValidation.isDefined(window.opener)) {
+            window.close();
+        } else {
+            this.documentModal.hide();
+        }
+    }
 }
 
 export const zDocument = new ZDocument();

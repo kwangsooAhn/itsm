@@ -28,7 +28,7 @@
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
     <script type="module">
         /*<![CDATA[*/
-        import { zFormToken } from '../../assets/js/document/zFormToken.js';
+        import { zDocument } from '../../assets/js/document/zDocument.js';
 
         window.onload = function() {
             const userName = '[[${#authentication.details.userName}]]';
@@ -39,8 +39,8 @@
             printInfo.innerHTML = userName + ' [' + userEmail + ']<br>' + i18n.printFormat(time);
 
             const printData = JSON.parse(sessionStorage.getItem('alice_print'));
-            zFormToken.domElement = document.getElementById('documentDrawingBoard');
-            zFormToken.makeForm(printData);
+            zDocument.domElement = document.getElementById('documentDrawingBoard');
+            zDocument.makeDocument(printData);
 
             setTimeout(function() {
                 window.print();
