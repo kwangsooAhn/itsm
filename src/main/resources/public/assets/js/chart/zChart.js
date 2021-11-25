@@ -15,6 +15,7 @@ import { zStackedBarChartMixin } from './type/zStackedBarChart.js';
 import { zLineColumnChartMixin } from './type/zLineColumnChart.js';
 import { zPieChartMixin } from './type/zPieChart.js';
 import { zActivityGaugeChartMixin } from './type/zActivityGaugeChart.js';
+import { zValidation } from '../lib/zValidation.js';
 
 const HIGHCHARTS_THEME = {
     global: { useUTC: false }, // 로컬 시간대를 보여주기 위한 설정
@@ -225,6 +226,16 @@ export  default class ZChart {
         }
     }
     /**
+     * 전달받은 데이터의 날짜 데이터를 Date 타입으로 변경
+     * @param userDateTime 데이터 문자열
+     * @returns 날짜 데이터
+     */
+    getStringToDateTime(userDateTime) {
+        const matchDateTime = userDateTime.match(zValidation.regex.dateTime);
+        return new Date(matchDateTime[1], matchDateTime[2] - 1, matchDateTime[3],
+            matchDateTime[4], matchDateTime[5], matchDateTime[6]).getTime();
+    }
+    /**
      * 연산 방법 설정에 따른 라벨 포맷 조회
      * @param value 현재 값
      * @returns 변환된 값
@@ -232,11 +243,11 @@ export  default class ZChart {
     getLabelFormat(value) {
         switch (this.config.operation) {
             case CHART.OPERATION.AVG: // 평균 = 소수점 2자리
-                return Highcharts.numberFormat(value, 2);
+                return Highcharts.numberFormat(value, 2, '.', ',');
             case CHART.OPERATION.COUNT: // 카운트 = 정수
-                return Highcharts.numberFormat(value, 0);
+                return Highcharts.numberFormat(value, 0, '.', ',');
             case CHART.OPERATION.PERCENT: // 퍼센트 = 소수점 2자리
-                return Highcharts.numberFormat(value, 2) + ' %';
+                return Highcharts.numberFormat(value, 2, '.', '') + ' %';
             default:
                 return value;
         }

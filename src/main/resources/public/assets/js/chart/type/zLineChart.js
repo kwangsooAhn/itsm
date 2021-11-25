@@ -9,7 +9,6 @@
  *
  * https://www.brainz.co.kr
  */
-import { zValidation } from '../../lib/zValidation.js';
 import { CHART } from '../../lib/zConstants.js';
 
 const DEFAULT_CHART_PROPERTY = {
@@ -24,7 +23,6 @@ const DEFAULT_CHART_PROPERTY = {
         series: {}
     },
     tooltip: {
-        useHTML: true,
         shared: true,
         split: false,
         crosshairs: true
@@ -129,20 +127,12 @@ export const zLineChartMixin = {
         }
     },
     /**
-     * 전달받은 데이터의 날짜 데이터를 Date 타입으로 변경
-     * @param 날짜 데이터 문자열
-     * @returns 날짜 데이터
-     */
-    getStringToDateTime(userDateTime) {
-        const matchDateTime = userDateTime.match(zValidation.regex.dateTime);
-        return new Date(matchDateTime[1], matchDateTime[2] - 1, matchDateTime[3],
-            matchDateTime[4], matchDateTime[5], matchDateTime[6]).getTime();
-    },
-    /**
      * 업데이트
      * @param data 데이터
      */
     update(data) {
+        if (data.length === 0) { return false; }
+
         for (let i = 0; i < this.chart.series.length; i++) {
             const tag = this.chart.series[i];
             let series = [];
