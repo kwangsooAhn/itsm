@@ -310,6 +310,7 @@ input, textarea, select {
     input { width: 100%; }
 
     .z-icon {
+      -webkit-print-color-adjust:exact;
       &.i-clear {
         @include absolute($right: $input-clear-right);
         padding: 1.125rem 0.875rem; // 18px 14px
