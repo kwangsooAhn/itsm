@@ -6,10 +6,11 @@
 package co.brainz.itsm.user.dto
 
 import java.io.Serializable
+import java.time.LocalDateTime
 
 data class UserAbsenceDto(
-    var absenceStartDt: String? = "",
-    var absenceEndDt: String? = "",
+    var startDt: LocalDateTime? = null,
+    var endDt: LocalDateTime? = null,
     var substituteUserKey: String? = "",
-    var assigneeChange: Boolean? = false
+    var substituteUser: String? = ""
 ) : Serializable

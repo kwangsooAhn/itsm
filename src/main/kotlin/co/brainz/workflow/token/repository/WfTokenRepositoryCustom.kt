@@ -5,4 +5,6 @@ import com.querydsl.core.QueryResults
 
 interface WfTokenRepositoryCustom {
     fun findTokenByInstanceIdIn(instanceId: String): QueryResults<WfTokenEntity>
+
+    fun findProcessTokenByAssignee(assignee: String): List<WfTokenEntity>
 }
