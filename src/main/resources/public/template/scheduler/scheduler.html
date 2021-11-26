@@ -25,7 +25,7 @@
                 <span th:text="#{scheduler.label.description}"></span>
             </label>
             <textarea class="z-textarea textarea-scroll-wrapper" id="taskDesc" maxlength="250" name="taskDesc"
-                      rows="5" th:readonly="${view}" th:text="${schedule?.taskDesc}"></textarea>
+                      rows="5" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'" th:text="${schedule?.taskDesc}"></textarea>
         </div>
         <div class="flex-column z-edit-row">
             <label for="taskStatus">
@@ -194,14 +194,7 @@
         });
 
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
-        if ([[${!view}]]) {
-            document.getElementById('taskName').focus();
-        } else {
-            document.querySelectorAll('div.z-textarea').forEach(function (elem) {
-                elem.classList.add('z-textarea-readonly');
-            });
-        }
-
+        if ([[${!view}]]) document.getElementById('taskName').focus();
     };
 
     /** 작업 유형, 실행 유형에 따른 입력 화면 출력 **/
