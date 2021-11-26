@@ -13,8 +13,6 @@ import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.user.constants.UserConstants
-import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
@@ -36,8 +34,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.LocaleResolver
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 /**
  * 사용자 관리 데이터 처리 클래스
@@ -119,19 +115,15 @@ class UserRestController(
                     userDetailsService.createNewAuthentication(user.userKey)
             }
         }
-        // 부재 설정 시, 관련 정보 저장 / 미 설정 시 관련 정보 초기화
-        if (user.absenceYn) {
-            val absenceData = UserAbsenceDto(
-                absenceStartDt = user.absenceStartDt,
-                absenceEndDt = user.absenceEndDt,
-                substituteUserKey = user.substituteUserKey,
-                assigneeChange = user.assigneeChange
-            )
-            userService.setUserAbsence(user.userKey, UserConstants.UserCustom.USER_ABSENCE.code, absenceData)
-        } else {
-            userService.resetUserAbsence(user.userKey, UserConstants.UserCustom.USER_ABSENCE.code)
-        }
         return result
+    }
+
+    /**
+     * 사용자의 처리할 문서를 위임자로 변경
+     */
+    @PostMapping("/absence")
+    fun executeUserProcessingDocumentAbsence(@RequestBody absenceInfo: String): Boolean {
+        return userService.executeUserProcessingDocumentAbsence(absenceInfo)
     }
 
     /**

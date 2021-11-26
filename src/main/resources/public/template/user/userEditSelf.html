@@ -205,7 +205,7 @@
                                    id="absenceEndDt" name="absenceEndDt" th:readonly="${view}">
                         </div>
                     </div>
-                    <div class="flex-column col-6">
+                    <div class="flex-column col-4">
                         <label class="field-label required" th:text="#{user.label.substituteUser}"></label>
                         <div class="flex-row z-input-button">
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
@@ -215,6 +215,13 @@
                                   tabindex="-1"></span>
                             <button type="button" class="z-button-search z-button form" onclick="openUserListPopup();"
                                     th:text="#{common.btn.select}"></button>
+                        </div>
+                    </div>
+                    <div class="flex-column col-2 ml-2">
+                        <label class="field-label" th:text="#{user.label.executeCurrentAbsence}"></label>
+                        <div class="flex-row z-input-button">
+                            <button type="button" class="z-button form" onclick="runAbsenceDocument();"
+                                    th:text="#{user.btn.immediately}"></button>
                         </div>
                     </div>
                 </div>
@@ -272,27 +279,46 @@
     const STATUS_ERROR_EMAIL_DUPLICATION = '3';
     const STATUS_SUCCESS_EDIT_EMAIL = '4';
     const alicePlatform = 'user.platform.alice';
-    let wipToSubstituteUser = false;
+
+    function runAbsenceDocument() {
+        if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
+        zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
+            let absenceInfo = {
+                userKey: document.getElementById('userKey').value,
+                substituteUserKey: document.getElementById('substituteUserKey').value
+            }
+            aliceJs.fetchJson('/rest/users/absence', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(absenceInfo)
+            }).then((rtn) => {
+                if (rtn) {
+                    zAlert.success([[#{common.msg.modify}]], () => {
+                        window.location.reload();
+                    });
+                } else {
+                    zAlert.success([[#{common.msg.fail}]]);
+                }
+            });
+        });
+    }
 
     function preSubmitCheck(url) {
         if (!validation()) {
             return false;
         }
-
-        if (document.getElementById('userAbsence').checked) {
-            zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
-                wipToSubstituteUser = true;
-                restSubmit(url);
-            }, () => {
-                wipToSubstituteUser = false;
-                restSubmit(url);
-            });
-        } else {
-            restSubmit(url);
-        }
+        restSubmit(url);
     }
 
     function restSubmit(url) {
+        // 사용자 부재 설정
+        let absenceInfo = {
+            startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
+            endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
+            substituteUserKey: document.getElementById('substituteUserKey').value
+        }
         const data = {
             userKey: document.getElementById('userKey').value,
             userId: document.getElementById('userId').value,
@@ -306,13 +332,10 @@
             lang: document.getElementById('lang').value,
             theme: document.getElementById('theme').value,
             absenceYn: document.getElementById('userAbsence').checked,
-            absenceStartDt: document.getElementById('absenceStartDt').value,
-            absenceEndDt: document.getElementById('absenceEndDt').value,
-            substituteUserKey: document.getElementById('substituteUserKey').value,
-            assigneeChange: wipToSubstituteUser,
             timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
             fileSeq: document.getElementsByName('fileSeq').value,
-            avatarUUID: document.getElementById('avatarUUID').value
+            avatarUUID: document.getElementById('avatarUUID').value,
+            absence: absenceInfo
         };
         const password = document.getElementById('password').value;
         if (password !== '') {
@@ -358,16 +381,18 @@
      * 부재설정 radio 버튼 on/off 시 관련 폼을 그리거나 제거합니다.
      */
     function setAbsenceDisplay() {
-        let switchElement = document.getElementById('userAbsence')
-        if (switchElement.checked) {
-            const startDtVal = ''; // /*[[${users?.absenceStartDt}]]*/
-            const endDtVal = ''; // /*[[${users?.absenceEndDt}]]*/
+        let absenceElement = document.getElementById('userAbsence');
+        if (absenceElement.checked) {
+            const startDtVal = /*[[${users?.absence?.startDt}]]*/null;
+            const endDtVal = /*[[${users?.absence?.endDt}]]*/null;
             const startDtElement = document.getElementById('absenceStartDt');
             const endDtElement = document.getElementById('absenceEndDt');
             startDtElement.value = startDtVal ? i18n.userDateTime(startDtVal) : i18n.getDateTime();
             endDtElement.value = endDtVal ? i18n.userDateTime(endDtVal) : i18n.getDateTime({'days':7});
             zDateTimePicker.initDateTimePicker(startDtElement);
             zDateTimePicker.initDateTimePicker(endDtElement);
+            document.getElementById('substituteUserKey').value = /*[[${users?.absence?.substituteUserKey}]]*/'';
+            document.getElementById('substituteUser').value = /*[[${users?.absence?.substituteUser}]]*/'';
             document.getElementById('absenceData').style.display = 'block';
         } else {
             document.getElementById('absenceStartDt').value = '';
