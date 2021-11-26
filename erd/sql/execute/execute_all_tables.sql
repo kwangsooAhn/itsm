@@ -2499,7 +2499,7 @@ COMMENT ON COLUMN portal_board.update_dt IS '수정일';
  * 게시판 댓글
  */
 DROP TABLE IF EXISTS portal_board_comment cascade;
- 
+
 CREATE TABLE portal_board_comment
 (
 	board_comment_id varchar(128) NOT NULL,

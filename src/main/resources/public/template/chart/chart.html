@@ -14,7 +14,7 @@
     <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
-    <script th:src="@{/assets/js/chart/zChart.js}"></script>
+    <!--<script th:src="@{/assets/js/chart/zChart.js}"></script>-->
 </th:block>
 <body>
 <div layout:fragment="pageTitle">
@@ -222,6 +222,7 @@
             let chartInfo = setChartInfo();
             restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
                 let responseJson = JSON.parse(response);
+                console.log(responseJson);
                 setChart(
                     responseJson.chartType,
                     responseJson.propertyJson,
@@ -410,12 +411,12 @@
 
     /** 하이차트 초기화 */
     function setChart(chartType, property, chartConfig, tags) {
-        chart = new ZChart('container', chartType, property, chartConfig, tags);
+        //chart = new ZChart('container', chartType, property, chartConfig, tags);
     }
 
     /** chartConfig 파싱 진행 **/
     function parsedPropertyJson(chartType, chartConfig, property, tags) {
-        chart.parsedPropertyJson(chartType, chartConfig, property, tags);
+        //chart.parsedPropertyJson(chartType, chartConfig, property, tags);
     }
 
     // 전송할 데이터 셋팅
