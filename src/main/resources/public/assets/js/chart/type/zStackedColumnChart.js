@@ -8,27 +8,32 @@
  *
  * https://www.brainz.co.kr
  */
+import { CHART } from '../../lib/zConstants.js';
+
 const DEFAULT_CHART_PROPERTY = {
     chart: { type: 'column' },
-    xAxis: {},
-    yAxis : {
-        stackLabels: { enabled: true }
-    },
+    xAxis: { labels: {} },
+    yAxis : { stackLabels: {} },
     plotOptions: {
-        column: {
-            stacking: 'normal',
-            dataLabels: { enabled: false }
-        }
+        series: { stacking: 'normal' }
     },
-    tooltip: {},
+    tooltip: {
+        shared: true,
+        crosshairs: false
+    },
     series: []
-
 };
 Object.freeze(DEFAULT_CHART_PROPERTY);
 
 export const zStackedColumnChartMixin = {
     initProperty() {
         const defaultOptions = JSON.parse(JSON.stringify(DEFAULT_CHART_PROPERTY));
+        // x 축 옵션
+        this.setXAxisOptions(defaultOptions);
+        // 데이터 라벨 설정
+        this.setDataLabelOption(defaultOptions);
+        // 툴팁 설정
+        this.setTooltipOption(defaultOptions);
         // 시리즈 설정
         this.setSeries(defaultOptions);
         // 옵션 프로퍼티 초기화
@@ -39,6 +44,56 @@ export const zStackedColumnChartMixin = {
     },
     set options(value) {
         this._options = value;
+    },
+    /**
+     * X축 옵션 설정
+     * @param option 하이차트 옵션
+     */
+    setXAxisOptions(option) {
+        Object.assign(option.xAxis.labels, {
+            rotation: (this.config.periodUnit === CHART.PERIOD.HOUR) ? -45 : 0
+        });
+    },
+    /**
+     * 데이터 라벨 설정
+     * @param option 하이차트 옵션
+     */
+    setDataLabelOption(option) {
+        const chart = this;
+        Object.assign(option.plotOptions.series, {
+            dataLabels: {
+                enabled: true,
+                formatter: function () {
+                    return chart.getLabelFormat(this.y);
+                }
+            }
+        });
+
+        Object.assign(option.yAxis.stackLabels, {
+            enabled: true,
+            formatter: function () {
+                return chart.getLabelFormat(this.total);
+            }
+        });
+    },
+    /**
+     * 툴팁 설정
+     * @param option 하이차트 옵션
+     */
+    setTooltipOption(option) {
+        const chart = this;
+        Object.assign(option.tooltip, {
+            formatter: function () {
+                const points = this.points;
+                let tooltipFormat = `<span style="font-size:inherit">${this.x}</span><br/>`;
+                for (let i = 0; i < points.length; i++) {
+                    const point = points[i];
+                    tooltipFormat += `<br/><span style="color:${point.color}">\u25CF</span> ${point.series.name}: ` +
+                        `${chart.getLabelFormat(point.y)}<br/>`;
+                }
+                return tooltipFormat;
+            }
+        });
     },
     /**
      * 차트 시리즈 설정
@@ -66,7 +121,6 @@ export const zStackedColumnChartMixin = {
         const dateTimeCategories =  categories.map((category) =>
             Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(category)));
         this.chart.xAxis[0].setCategories(dateTimeCategories, false);
-        console.log(categories);
         for (let i = 0; i < this.chart.series.length; i++) {
             const tag = this.chart.series[i];
             let series = [];
@@ -83,7 +137,6 @@ export const zStackedColumnChartMixin = {
                     }
                 }
             }
-            console.log(series);
             this.chart.series[i].update({ id: seriesId }, false);
             this.chart.series[i].setData(series, false);
         }

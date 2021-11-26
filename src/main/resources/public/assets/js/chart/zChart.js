@@ -26,7 +26,8 @@ const HIGHCHARTS_THEME = {
             fontSize: '14px',
             color: '#222529'
         },
-        marginTop: 100
+        spacingTop: 20,
+        marginTop: 120
     },
     title: {
         style : {
@@ -38,7 +39,7 @@ const HIGHCHARTS_THEME = {
             whiteSpace: 'nowrap'
         }
     },
-    colors: [ '#64BBF6', '#103F8B', '#FFAC47', '#A0D756' ],
+    colors: [ '#64BBF6', '#103F8B', '#FFAC47', '#A0D756', '#FBE961', '#C585F3'],
     xAxis: {
         gridLineWidth: 0,
         lineWidth: 1,
@@ -73,7 +74,7 @@ const HIGHCHARTS_THEME = {
         align: 'right',
         verticalAlign: 'top',
         x: -30,
-        y: 25,
+        y: 30,
         itemStyle: {
             fontFamily: '맑은고딕, Malgun Gothic, Noto Sans KR, dotum, gulim, sans-serif',
             fontSize: '14px',
