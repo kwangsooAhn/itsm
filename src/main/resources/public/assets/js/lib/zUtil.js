@@ -929,8 +929,10 @@ aliceJs.loadSvg = function() {
  * @return {boolean} 스크롤 처리 진행 여부
  */
 aliceJs.isEnableScrollEvent = function(offset, objectId = 'totalCount') {
-    let totalObject = document.getElementById(objectId);
-    return offset < totalObject.value;
+    //let totalObject = document.getElementById(objectId);
+    let totalCount = 100;
+    //return offset < totalObject.value;
+    return offset < totalCount;
 };
 
 /**

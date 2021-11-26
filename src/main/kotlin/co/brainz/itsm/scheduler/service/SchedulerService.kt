@@ -20,10 +20,7 @@ import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeQuery
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.scheduler.constants.SchedulerConstants
-import co.brainz.itsm.scheduler.dto.SchedulerDto
-import co.brainz.itsm.scheduler.dto.SchedulerListDto
-import co.brainz.itsm.scheduler.dto.SchedulerListReturnDto
-import co.brainz.itsm.scheduler.dto.SchedulerSearchCondition
+import co.brainz.itsm.scheduler.dto.*
 import java.io.File
 import java.nio.file.Paths
 import java.time.Instant
@@ -298,8 +295,10 @@ class SchedulerService(
         return returnValue
     }
 
-    fun getSchedulerHistory(taskId: String): List<AliceScheduleHistoryEntity> {
-        return aliceScheduleHistoryRepository.findScheduleHistoryByTaskId(taskId)
+    fun getSchedulerHistory(
+        schedulerHistorySearchCondition: SchedulerHistorySearchCondition
+    ): List<AliceScheduleHistoryEntity> {
+        return aliceScheduleHistoryRepository.findScheduleHistoryByTaskId(schedulerHistorySearchCondition)
     }
 
     private fun validateJarFile(src: String, executeCommand: String): Boolean {

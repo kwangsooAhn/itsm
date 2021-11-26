@@ -152,7 +152,7 @@
                 <button class="z-button secondary" onclick="actionScheduler('execute')"
                         sec:authorize="hasAuthority('scheduler.execute')"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.immediatelyExecute}"></button>
-                <button class="z-button secondary" onclick="openHistoryViewModal()"
+                <button class="z-button secondary" onclick="openHistoryViewModal(false)"
                         sec:authorize="hasAuthority('scheduler.read')"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.history}"></button>
             </div>
@@ -168,6 +168,7 @@
     const STATUS_ERROR_SCHEDULER_EXECUTE = '3';
     const STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST = '4';
     const STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST = '5';
+    let offsetCount = 0;
 
     window.onload = function () {
         changeContainer(document.getElementById('taskType').value);
@@ -231,41 +232,73 @@
     }
 
     /** 이력 모달 **/
-    function openHistoryViewModal() {
-        let historyOptions = {
-            title: i18n.msg('scheduler.label.history'),
-            classes: 'scheduler-list-modal',
-            body: `<div class="table-set" id="historyList"></div>`,
-            buttons: [{
-                content: i18n.msg('common.btn.close'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: function (modal) {
-                    modal.hide();
-                }
-            }],
-            close: {
-                closable: false
-            },
-            onCreate: function (modal) {
-                const taskId = /*[[${schedule?.taskId}]]*/''
-                restModalSubmit('/schedulers/' + taskId + '/history', 'GET', {}, false, function (content) {
-                    document.getElementById('historyList').innerHTML = content;
-                    let executeTimeEle = document.querySelectorAll('td[name=executeTime]');
-                    for (let i = 0; i < executeTimeEle.length; i++) {
-                        const excuteTime = i18n.userDateTime(executeTimeEle[i].textContent);
-                        executeTimeEle[i].textContent = excuteTime;
-                        executeTimeEle[i].setAttribute('title', excuteTime);
+    function openHistoryViewModal(isScroll) {
+        const taskId = /*[[${schedule?.taskId}]]*/''
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.searchDataCount;
+                restModalSubmit('/schedulers/' + taskId + '/history?offset=' + offsetCount + '&isScroll=' + isScroll, 'GET', {}, false, isScroll, function (content) {
+                    let tempTbody = document.createElement('tbody');
+                    tempTbody.innerHTML = content;
+
+                    for(let child of tempTbody.children) {
+                        console.log(child.innerHTML);
+                        //document.querySelector('.z-table-body .os-content').insertAdjacentElement('beforeend', child);
                     }
-                    OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-                });
+                    //document.querySelector('.z-table-body .os-content').insertAdjacentHTML('beforeend', tempTbody.innerHTML);
+                })
             }
-        };
-        const historyViewModal = new modal(historyOptions);
-        historyViewModal.show();
+        } else {
+            offsetCount = 0;
+            let historyOptions = {
+                title: i18n.msg('scheduler.label.history'),
+                classes: 'scheduler-list-modal',
+                body: `<div class="table-set" id="historyList"></div>`,
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false
+                },
+                onCreate: function (modal) {
+                    const taskId = /*[[${schedule?.taskId}]]*/''
+                    restModalSubmit('/schedulers/' + taskId + '/history?offset=' + offsetCount + '&isScroll=' + isScroll, 'GET', {}, false, isScroll, function (content) {
+                        document.getElementById('historyList').innerHTML = content;
+                        let executeTimeEle = document.querySelectorAll('td[name=executeTime]');
+                        for (let i = 0; i < executeTimeEle.length; i++) {
+                            const excuteTime = i18n.userDateTime(executeTimeEle[i].textContent);
+                            executeTimeEle[i].textContent = excuteTime;
+                            executeTimeEle[i].setAttribute('title', excuteTime);
+                        }
+                        OverlayScrollbars(document.querySelector('.z-table-body'), {
+                            className: 'scrollbar',
+                            callbacks: {
+                                onScroll: function (e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                            openHistoryViewModal(true)
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    });
+                }
+            };
+            const historyViewModal = new modal(historyOptions);
+            historyViewModal.show();
+        }
     }
 
-    function restModalSubmit(url, method, data, progressbar, callbackFunc) {
+    function restModalSubmit(url, method, data, progressbar, isScroll, callbackFunc) {
         aliceJs.sendXhr({
             method: method,
             url: url,

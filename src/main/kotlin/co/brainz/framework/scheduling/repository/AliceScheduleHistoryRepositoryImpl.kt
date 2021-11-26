@@ -9,16 +9,22 @@ package co.brainz.framework.scheduling.repository
 import co.brainz.framework.scheduling.dto.ScheduleHistoryDto
 import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
 import co.brainz.framework.scheduling.entity.QAliceScheduleHistoryEntity
+import co.brainz.itsm.constants.ItsmConstants
+import co.brainz.itsm.scheduler.dto.SchedulerHistorySearchCondition
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class AliceScheduleHistoryRepositoryImpl : QuerydslRepositorySupport(AliceScheduleHistoryEntity::class.java),
     AliceScheduleHistoryRepositoryCustom {
 
-    override fun findScheduleHistoryByTaskId(taskId: String): List<AliceScheduleHistoryEntity> {
+    override fun findScheduleHistoryByTaskId(
+        schedulerHistorySearchCondition: SchedulerHistorySearchCondition
+    ): List<AliceScheduleHistoryEntity> {
         val history = QAliceScheduleHistoryEntity.aliceScheduleHistoryEntity
         val query = from(history)
-            .where(history.taskId.eq(taskId))
+            .where(history.taskId.eq(schedulerHistorySearchCondition.taskId))
+            .offset(schedulerHistorySearchCondition.offset)
+            .limit(ItsmConstants.SEARCH_DATA_COUNT)
         query.orderBy(history.executeTime.desc())
         return query.fetch()
     }
