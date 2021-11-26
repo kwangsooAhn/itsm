@@ -7024,7 +7024,7 @@ INSERT INTO wf_element_data VALUES ('4e81fd4122bf45c583304a33774b3c55', 'start-n
 INSERT INTO wf_element_data VALUES ('4e81fd4122bf45c583304a33774b3c55', 'end-id', 'c239ad6807174774828f68b01c13119d', 6, true);
 INSERT INTO wf_element_data VALUES ('4e81fd4122bf45c583304a33774b3c55', 'end-name', 'New Task', 7, false); -- ??
 INSERT INTO wf_element_data VALUES ('517a87a7b8dc458ca75beec5e0e1889a', 'assignee-type', 'assignee.type.assignee', 0, true);
-INSERT INTO wf_element_data VALUES ('517a87a7b8dc458ca75beec5e0e1889a', 'assignee', 'z-processor', 1, true);
+INSERT INTO wf_element_data VALUES ('517a87a7b8dc458ca75beec5e0e1889a', 'assignee', 'z-inc-acceptor', 1, true);
 INSERT INTO wf_element_data VALUES ('517a87a7b8dc458ca75beec5e0e1889a', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('517a87a7b8dc458ca75beec5e0e1889a', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('5532fc1507874c43b6b3b8ed3a2a3ad6', 'action-name', '승인요청', 0, false);
