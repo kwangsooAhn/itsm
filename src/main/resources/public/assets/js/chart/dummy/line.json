@@ -1,82 +1,277 @@
 {
   "chartId": "4028b22f7c2fefef017c30054c900002",
-  "chartName": "만족도 평가 평균 점수",
+  "chartName": "만족도 평가 문서 갯수",
   "chartType": "chart.basicLine",
-  "chartDesc": "만족도 평가 평균 점수 차트",
+  "chartDesc": "만족도 평가 문서 갯수 차트",
   "tags": ["장애신고", "구성관리", "단순문의", "서비스요청"],
   "chartConfig": {
-    "operation": "average",
-    "periodUnit": "Y",
+    "operation": "count",
+    "periodUnit": "H",
     "group": "만족도",
     "range": {
-      "type": "chart.range.between",
-      "from": "2018-01-01 00:00:00",
-      "to": "2021-12-31 23:59:59"
+      "type": "chart.range.last.day",
+      "from": "2021-11-01 00:00:00",
+      "to": "2021-11-01 23:59:59"
     }
   },
   "chartData": [{
     "id": "4028b21e7d1ab894017d1ac0bf500006",
-    "category": "2018-01-01 00:00:00",
+    "category": "2021-11-01 01:00:00",
     "value": "1",
     "series": "장애신고"
   },{
     "id": "4028b21e7d1ab894017d1ac0bf500006",
-    "category": "2019-01-01 00:00:00",
+    "category": "2021-11-01 02:00:00",
     "value": "3",
     "series": "장애신고"
   }, {
     "id": "4028b21e7d1ab894017d1ac0bf500006",
-    "category": "2020-01-01 00:00:00",
+    "category": "2021-11-01 03:00:00",
     "value": "5",
     "series": "장애신고"
   },{
     "id": "4028b21e7d1ab894017d1ac0bf500006",
-    "category": "2021-01-01 00:00:00",
+    "category": "2021-11-01 04:00:00",
     "value": "2",
     "series": "장애신고"
   },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 05:00:00",
+    "value": "1",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 06:00:00",
+    "value": "2",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 07:00:00",
+    "value": "1",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 08:00:00",
+    "value": "2",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 09:00:00",
+    "value": "1",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 10:00:00",
+    "value": "3",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 11:00:00",
+    "value": "1",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 12:00:00",
+    "value": "2",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 13:00:00",
+    "value": "0",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 14:00:00",
+    "value": "0",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 15:00:00",
+    "value": "2",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 16:00:00",
+    "value": "0",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 17:00:00",
+    "value": "1",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 18:00:00",
+    "value": "0",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 19:00:00",
+    "value": "2",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 20:00:00",
+    "value": "0",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 21:00:00",
+    "value": "0",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 22:00:00",
+    "value": "0",
+    "series": "장애신고"
+  },{
+    "id": "4028b21e7d1ab894017d1ac0bf500006",
+    "category": "2021-11-01 23:00:00",
+    "value": "0",
+    "series": "장애신고"
+  },{
     "id": "4028b21e7ca1fa4a017ca209785f000a",
-    "category": "2019-01-01 00:00:00",
-    "value": "20",
+    "category": "2021-11-01 01:00:00",
+    "value": "0",
     "series": "구성관리"
   },{
     "id": "4028b21e7ca1fa4a017ca209785f000a",
-    "category": "2020-01-01 00:00:00",
-    "value": "21",
+    "category": "2021-11-01 02:00:00",
+    "value": "0",
     "series": "구성관리"
   },{
     "id": "4028b21e7ca1fa4a017ca209785f000a",
-    "category": "2021-01-01 00:00:00",
-    "value": "18",
+    "category": "2021-11-01 03:00:00",
+    "value": "0",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 04:00:00",
+    "value": "0",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 05:00:00",
+    "value": "0",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 06:00:00",
+    "value": "0",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 07:00:00",
+    "value": "0",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 08:00:00",
+    "value": "1",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 09:00:00",
+    "value": "2",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 10:00:00",
+    "value": "5",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 11:00:00",
+    "value": "6",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 12:00:00",
+    "value": "3",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 13:00:00",
+    "value": "4",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 14:00:00",
+    "value": "5",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 15:00:00",
+    "value": "1",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 16:00:00",
+    "value": "8",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 17:00:00",
+    "value": "2",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 18:00:00",
+    "value": "10",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 19:00:00",
+    "value": "0",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 20:00:00",
+    "value": "0",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 21:00:00",
+    "value": "0",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 22:00:00",
+    "value": "0",
+    "series": "구성관리"
+  },{
+    "id": "4028b21e7ca1fa4a017ca209785f000a",
+    "category": "2021-11-01 23:00:00",
+    "value": "0",
     "series": "구성관리"
   },{
     "id": "2c9180867cc31a25017cc7a68eec0517",
-    "category": "2019-01-01 00:00:00",
-    "value": "35",
+    "category": "2021-11-01 00:00:00",
+    "value": "0",
     "series": "단순문의"
   },{
     "id": "2c9180867cc31a25017cc7a68eec0517",
-    "category": "2020-01-01 00:00:00",
-    "value": "36",
+    "category": "2021-11-01 01:00:00",
+    "value": "1",
     "series": "단순문의"
   },{
     "id": "2c9180867cc31a25017cc7a68eec0517",
-    "category": "2021-01-01 00:00:00",
-    "value": "38",
+    "category": "2021-11-01 02:00:00",
+    "value": "2",
     "series": "단순문의"
   },{
     "id": "2c9180867cc31a25017cc7a68ef1051b",
-    "category": "2019-01-01 00:00:00",
+    "category": "2021-11-01 00:00:00",
     "value": "6",
     "series": "서비스요청"
   },{
     "id": "2c9180867cc31a25017cc7a68ef1051b",
-    "category": "2020-01-01 00:00:00",
+    "category": "2021-11-01 01:00:00",
     "value": "7",
     "series": "서비스요청"
   },{
     "id": "2c9180867cc31a25017cc7a68ef1051b",
-    "category": "2021-01-01 00:00:00",
+    "category": "2021-11-01 02:00:00",
     "value": "8",
     "series": "서비스요청"
   }]
