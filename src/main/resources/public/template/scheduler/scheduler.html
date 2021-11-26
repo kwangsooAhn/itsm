@@ -254,8 +254,6 @@
                 }],
                 close: {
                     closable: false
-                },
-                onCreate: function (modal) {
                 }
             }
             const historyViewModal = new modal(historyOptions);
@@ -278,6 +276,7 @@
                     }
                     let tempTbody = document.createElement('tbody');
                     tempTbody.innerHTML = response.responseText;
+                    setDateTimeFormat(tempTbody)
                     const container = document.createDocumentFragment();
                     for (let i = 0; i < tempTbody.rows.length; i++) {
                         let node = tempTbody.rows[i].cloneNode(true);
@@ -286,12 +285,7 @@
                     document.querySelector('.z-table-body .os-content').appendChild(container);
                 } else {
                     document.getElementById('historyList').innerHTML = response.responseText;
-                    let executeTimeEle = document.querySelectorAll('td[name=executeTime]');
-                    for (let i = 0; i < executeTimeEle.length; i++) {
-                        const excuteTime = i18n.userDateTime(executeTimeEle[i].textContent);
-                        executeTimeEle[i].textContent = excuteTime;
-                        executeTimeEle[i].setAttribute('title', excuteTime);
-                    }
+                    setDateTimeFormat(document.getElementById('historyList'))
                     OverlayScrollbars(document.querySelector('.z-table-body'), {
                         className: 'scrollbar',
                         callbacks: {
@@ -312,14 +306,14 @@
         }
         aliceJs.sendXhr(opt);
     }
-
     /**
      * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
      */
     function setDateTimeFormat(elem) {
-        elem.querySelectorAll('.date-time').forEach(tokenCreateDt => {
-            tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
-            tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
+        elem.querySelectorAll('td[name=executeTime]').forEach(executeTimeEle => {
+            const excuteTime = i18n.userDateTime(executeTimeEle.textContent);
+            executeTimeEle.textContent = excuteTime;
+            executeTimeEle.setAttribute('title', excuteTime);
         });
     }
 
