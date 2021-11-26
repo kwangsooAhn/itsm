@@ -80,11 +80,11 @@ export const textAreaMixin = {
             }
         });
 
-        if (this.UIElement.UIComponent.UIElement.UITextArea.setUIReadOnly(true)) {
+        if (document.querySelector('textarea').hasAttribute("readonly") === true) {
             document.querySelectorAll('div.z-textarea').forEach(function (elem) {
                 elem.classList.add('z-textarea-readonly');
             });
-        } else if (this.UIElement.UIComponent.UIElement.UITextArea.setUIDisabled(true)) {
+        } else if (document.querySelector('textarea').hasAttribute("disabled") === true) {
             document.querySelectorAll('div.z-textarea').forEach(function (elem) {
                 elem.classList.add('z-textarea-disabled');
             });
