@@ -563,7 +563,7 @@ class ZValidation {
         target.addEventListener('keyup', function (e) {
             e.preventDefault();
             const userKeyCode = e.keyCode ? e.keyCode : e.which;
-            // 특수 키 포함 key event 를 막습니다.
+            // 특수 키 key event 를 막습니다.
             if (userKeyCode === 8 || userKeyCode === 13 || (userKeyCode > 15 && userKeyCode < 21)
                 || userKeyCode === 27 || (userKeyCode > 32 && userKeyCode < 41) || userKeyCode === 45
                 || userKeyCode === 46 || (userKeyCode > 111 && userKeyCode < 124) || userKeyCode === 144
