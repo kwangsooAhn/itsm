@@ -81,10 +81,9 @@ class UserController(
         val users = userMapper.toUserDto(userEntity)
         users.avatarPath = userDetailsService.makeAvatarPath(userEntity)
         users.avatarSize = userService.getUserAvatarSize(userEntity)
-        // 부재 시, 필요한 정보를 담는다.
-        if (users.absenceYn === true) {
+        if (users.absenceYn) {
+            users.absence = userService.getUserAbsenceInfo(users.userKey)
         }
-
         val timeFormat = users.timeFormat!!.split(' ')
         val usersDate = timeFormat[0]
         val usersTime = if (timeFormat.size == 3) {

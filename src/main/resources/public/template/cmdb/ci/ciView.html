@@ -93,7 +93,7 @@
                 <td th:if="${#strings.isEmpty(ciHistory.documentNo)}" style="width: 40%;" class="align-left" th:text="#{common.label.emptyData}"></td>
                 <td th:unless="${#strings.isEmpty(ciHistory.documentNo)}" style="width: 40%;" th:text="${ciHistory.documentNo}"></td>
                 <td th:if="${#strings.isEmpty(ciHistory.createUser)}" style="width: 20%;" class="align-center" th:text="#{common.label.emptyData}"></td>
-                <td th:unless="${#strings.isEmpty(ciHistory.createUser)}" style="width: 20%;" class="align-center" th:text="#{ciHistory.createUser}"></td>
+                <td th:unless="${#strings.isEmpty(ciHistory.createUser)}" style="width: 20%;" class="align-center" th:text="${ciHistory.createUser}"></td>
                 <td style="width: 20%;" class="date-time align-center" th:text="${ciHistory.applyDt}"></td>
                 <td style="width: 10%;" class="align-center" th:text="#{|cmdb.ci.label.status.${ciHistory.ciStatus}|}"></td>
                 <td th:if="${ciHistory.interlink == true}" style="width: 10%;" class="align-center" th:text="#{cmdb.ci.label.interlink}"></td>

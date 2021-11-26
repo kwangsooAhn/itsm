@@ -663,6 +663,7 @@ input, button, select, optgroup, textarea {
  */
 .z-icon {
   display: inline-block;
+  -webkit-print-color-adjust: exact;
 }
 .z-icon.i-search {
   width: 1.5rem;
@@ -1919,6 +1920,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-input-clear input {
   width: 100%;
+}
+.z-input-clear .z-icon {
+  -webkit-print-color-adjust: exact;
 }
 .z-input-clear .z-icon.i-clear {
   position: absolute;

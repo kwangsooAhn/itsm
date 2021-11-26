@@ -1280,6 +1280,7 @@ workflowAdmin:
 # User
 user:
   btn:
+    immediately: "Immediately Execute"
     nextTime: "Change after {0} days"
     resetPassword: "RESET PASSWORD"
     updatePassword: "Change Password"
@@ -1290,6 +1291,7 @@ user:
     editUserInfo: "Edit User Information"
     edit: "User Edit"
     email: "Email"
+    executeCurrentAbsence: "Current Document Absence"
     FileExtensionAllowed: "※ File Extension Allowed : 200KB"
     FileSizeLimit: "※ File Size Limit : 200KB"
     id: "User ID"
@@ -1320,7 +1322,7 @@ user:
   msg:
     changeAsSubstituteUser: "Document has been assigned"
     compareWithAbsenceDtValue: "Absence start date is greater than or equal to end date."
-    confirmWIPToSubstituteUser: "Do you want to assign work-in-progress documents in addition to new documents to the substitute user?"
+    confirmWIPToSubstituteUser: "Do you want to assign ongoing documents to your representative?"
     createUser: "User is registered."
     customColorSave: "Your color has not been saved yet.<br/>Your color will be reset."
     editDescription: "Register users or modify user information."

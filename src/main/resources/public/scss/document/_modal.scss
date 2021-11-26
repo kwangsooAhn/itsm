@@ -8,6 +8,39 @@
   }
 
   .modal-dialog {
+    // 신청서 > 관련 문서 선택 모달
+    &.token-list {
+      width: $token-list-modal-width;
+      height: $token-list-modal-height;
+      .modal-content {
+        height: calc(#{$token-list-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+        padding: 0.625rem 1.25rem; // 10px 20px
+        // 관련문서 목록
+        .related-instance-list {
+          margin-top: 0.9375rem; // 15px
+          .table-set {
+            margin-top: 1.875rem; // 30px
+            .z-table {
+              .z-table-body {
+                display: block;
+                width: 60rem; // 960px
+                height: 35.313rem; // 565px
+                overflow-y: auto;
+                border: none;
+                .attribute-list,
+                .instance-list {
+                  display: flex;
+                  width: 100%;
+                  height: 2.188rem; // 35px
+                  line-height: 2.188rem; // 35px
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
     // CMDB 등록 / 수정 모달 / CI 상세 조회 / CI 조회 모달
     &.cmdb-ci-register-modal,
     &.cmdb-ci-update-modal,
