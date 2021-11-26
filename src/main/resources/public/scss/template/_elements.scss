@@ -434,8 +434,8 @@ input, textarea, select {
 
   &:read-only:not(:disabled):not(.os-host-textarea) {
     background-color: $element-readonly-bg-color;
-    border: none;
-    @include border($element-readonly-border-width, solid, $element-readonly-border-color, all);
+    border: none !important;
+    @include border($element-readonly-border-width, solid, $element-readonly-border-color !important, left);
     @include borderRadius(0);
     cursor: default;
     resize: none;
@@ -464,16 +464,9 @@ input, textarea, select {
   }
 }
 // os-div 작업
-.z-textarea {
+div.z-textarea {
   &-readonly {
     border: none !important;
-    @include border($element-border-width, solid, $element-border-color !important, left);
-  }
-  &-disabled {
-    &:hover, &:focus {
-      @include border($element-border-width, solid, $element-border-color !important, all);
-      box-shadow: none !important;
-    }
   }
 }
 

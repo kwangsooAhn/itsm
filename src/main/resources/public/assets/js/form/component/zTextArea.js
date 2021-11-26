@@ -67,6 +67,7 @@ export const textAreaMixin = {
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UITextArea.setUIReadOnly(true);
+            this.UIElement.UIComponent.UIElement.UITextArea.addUIClass('z-textarea-readonly');
         }
         // 스크롤바 추가
         OverlayScrollbars(this.UIElement.UIComponent.UIElement.UITextArea.domElement, {
@@ -79,16 +80,6 @@ export const textAreaMixin = {
                 inheritedAttrs: ['class', 'style']
             }
         });
-
-        if (document.querySelector('textarea').hasAttribute("readonly") === true) {
-            document.querySelectorAll('div.z-textarea').forEach(function (elem) {
-                elem.classList.add('z-textarea-readonly');
-            });
-        } else if (document.querySelector('textarea').hasAttribute("disabled") === true) {
-            document.querySelectorAll('div.z-textarea').forEach(function (elem) {
-                elem.classList.add('z-textarea-disabled');
-            });
-        }
     },
     // set, get
     set element(element) {

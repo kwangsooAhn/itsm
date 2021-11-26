@@ -194,13 +194,14 @@
         });
 
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
-        if ([[${!view}]]) document.getElementById('taskName').focus();
-
-        if (document.querySelector('textarea').hasAttribute("readonly") === true) {
+        if ([[${!view}]]) {
+            document.getElementById('taskName').focus();
+        } else {
             document.querySelectorAll('div.z-textarea').forEach(function (elem) {
                 elem.classList.add('z-textarea-readonly');
             });
         }
+
     };
 
     /** 작업 유형, 실행 유형에 따른 입력 화면 출력 **/
