@@ -244,7 +244,7 @@ class ZValidation {
 
         let rtn = true;
         // 유효성 검증
-        if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
+        if (this.isDOMElement(target) || this.checkKeyEvent(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.regex.number.test(this.getDOMElementValue(target));
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.number'), callback);
         } else { // 변수이면 true인지 false인지만 반환
@@ -260,7 +260,7 @@ class ZValidation {
 
         let rtn = true;
         // 유효성 검증
-        if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
+        if (this.isDOMElement(target) || this.checkKeyEvent(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.regex.integer.test(this.getDOMElementValue(target));
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.integer'), callback);
         } else { // 변수이면 true인지 false인지만 반환
@@ -276,7 +276,7 @@ class ZValidation {
 
         let rtn = true;
         // 유효성 검증
-        if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
+        if (this.isDOMElement(target) || this.checkKeyEvent(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.regex.char.test(this.getDOMElementValue(target));
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.char'), callback);
         } else { // 변수이면 true인지 false인지만 반환
@@ -292,7 +292,7 @@ class ZValidation {
 
         let rtn = true;
         // 유효성 검증
-        if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
+        if (this.isDOMElement(target) || this.checkKeyEvent(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.regex.specialChar.test(this.getDOMElementValue(target));
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.specialChar'), callback);
         } else { // 변수이면 true인지 false인지만 반환
@@ -308,7 +308,7 @@ class ZValidation {
 
         let rtn = true;
         // 유효성 검증
-        if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
+        if (this.isDOMElement(target) || this.checkKeyEvent(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.regex.email.test(this.getDOMElementValue(target));
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.checkEmailFormat'), callback);
         } else { // 변수이면 true인지 false인지만 반환
@@ -324,7 +324,7 @@ class ZValidation {
 
         let rtn = true;
         // 유효성 검증
-        if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
+        if (this.isDOMElement(target) || this.checkKeyEvent(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.regex.rgb.test(this.getDOMElementValue(target));
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.checkRgbFormat'), callback);
         } else { // 변수이면 true인지 false인지만 반환
@@ -453,7 +453,7 @@ class ZValidation {
 
         let rtn = true;
         // 유효성 검증
-        if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
+        if (this.isDOMElement(target) || this.checkKeyEvent(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.regex.phone.test(this.getDOMElementValue(target));
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.checkPhoneNumberFormat'), callback);
         } else { // 변수이면 true인지 false인지만 반환
@@ -551,6 +551,27 @@ class ZValidation {
             }
         }
         return false;
+    }
+
+    /**
+     * 특수 key 포함 key event를 막습니다.
+     * @param target 입력값을 받는 dom element target
+     * @returns {boolean}
+     */
+    checkKeyEvent(target) {
+        let rtn = true;
+        target.addEventListener('keyup', function (e) {
+            e.preventDefault();
+            const userKeyCode = e.keyCode ? e.keyCode : e.which;
+            // 특수 키 포함 key event 를 막습니다.
+            if (userKeyCode === 8 || userKeyCode === 13 || (userKeyCode > 15 && userKeyCode < 21)
+                || userKeyCode === 27 || (userKeyCode > 32 && userKeyCode < 41) || userKeyCode === 45
+                || userKeyCode === 46 || (userKeyCode > 111 && userKeyCode < 124) || userKeyCode === 144
+                || userKeyCode === 145) {
+                rtn = false;
+            }
+        });
+        return rtn;
     }
 }
 
