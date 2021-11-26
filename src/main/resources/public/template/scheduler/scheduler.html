@@ -237,154 +237,6 @@
         if (isScroll) {
             if (offsetCount === 0) {
                 offsetCount = aliceJs.searchDataCount;
-                restModalSubmit('/schedulers/' + taskId + '/history?offset=' + offsetCount + '&isScroll=' + isScroll, 'GET', {}, false, isScroll, function (content) {
-                    let content2 = `
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53208">53208</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-15T23:42:47.643293">2021-11-15T23:42:47.643293</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53207">53207</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-15T18:00:00.073713">2021-11-15T18:00:00.073713</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53206">53206</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-14T18:00:00.024267">2021-11-14T18:00:00.024267</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53204">53204</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-13T18:00:00.028937">2021-11-13T18:00:00.028937</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53205">53205</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-13T18:00:00.027924">2021-11-13T18:00:00.027924</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53202">53202</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-12T18:00:00.032974">2021-11-12T18:00:00.032974</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53203">53203</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-12T18:00:00.032557">2021-11-12T18:00:00.032557</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53201">53201</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-11T18:00:00.035952">2021-11-11T18:00:00.035952</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53200">53200</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-11T18:00:00.012953">2021-11-11T18:00:00.012953</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53197">53197</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-10T18:00:00.025837">2021-11-10T18:00:00.025837</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53196">53196</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-09T18:00:00.028547">2021-11-09T18:00:00.028547</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53195">53195</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-08T18:00:00.032605">2021-11-08T18:00:00.032605</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53190">53190</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-07T18:00:00.037892">2021-11-07T18:00:00.037892</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53191">53191</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-07T18:00:00.030">2021-11-07T18:00:00.030</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-
-        <tr class="list-row">
-            <td style="width: 15%;" class="align-center" title="53189">53189</td>
-
-            <td style="width: 10%;" class="align-center">X</td>
-            <td style="width: 25%;" class="align-center" name="executeTime" title="2021-11-06T18:00:00.041988">2021-11-06T18:00:00.041988</td>
-            <td style="width: 10%;" class="align-center" title="처리완료">처리완료</td>
-            <td style="width: 40%;" class="align-left"></td>
-        </tr>
-    `
-
-                    let tempTbody = document.createElement('tbody');
-                    tempTbody.innerHTML = content2;
-
-                    const container = document.createDocumentFragment();
-                    for(let i = 0; i < tempTbody.rows.length; i++) {
-                        let node = tempTbody.rows[i].cloneNode(true);
-                        container.appendChild(node);
-                    }
-                    document.querySelector('.z-table-body .os-content').appendChild(container);
-                })
             }
         } else {
             offsetCount = 0;
@@ -404,50 +256,70 @@
                     closable: false
                 },
                 onCreate: function (modal) {
-                    const taskId = /*[[${schedule?.taskId}]]*/''
-                    restModalSubmit('/schedulers/' + taskId + '/history?offset=' + offsetCount + '&isScroll=' + isScroll, 'GET', {}, false, isScroll, function (content) {
-                        document.getElementById('historyList').innerHTML = content;
-                        let executeTimeEle = document.querySelectorAll('td[name=executeTime]');
-                        for (let i = 0; i < executeTimeEle.length; i++) {
-                            const excuteTime = i18n.userDateTime(executeTimeEle[i].textContent);
-                            executeTimeEle[i].textContent = excuteTime;
-                            executeTimeEle[i].setAttribute('title', excuteTime);
-                        }
-                        OverlayScrollbars(document.querySelector('.z-table-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function (e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            openHistoryViewModal(true)
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    });
                 }
-            };
+            }
             const historyViewModal = new modal(historyOptions);
             historyViewModal.show();
         }
+        restModalSubmit('/schedulers/' + taskId + '/history?offset=' + offsetCount + '&isScroll=' + isScroll, 'GET', {}, false, isScroll);
     }
 
-    function restModalSubmit(url, method, data, progressbar, isScroll, callbackFunc) {
-        aliceJs.sendXhr({
+    function restModalSubmit(url, method, data, progressbar, isScroll) {
+        const opt = {
             method: method,
             url: url,
             params: JSON.stringify(data),
-            callbackFunc: function (xhr) {
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc(xhr.responseText);
-                }
-            },
             contentType: 'application/json; charset=utf-8',
-            showProgressbar: progressbar
+            showProgressbar: progressbar,
+            callbackFunc: function (response) {
+                if (isScroll) {
+                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                        offsetCount = offsetCount + aliceJs.searchDataCount;
+                    }
+                    let tempTbody = document.createElement('tbody');
+                    tempTbody.innerHTML = response.responseText;
+                    const container = document.createDocumentFragment();
+                    for (let i = 0; i < tempTbody.rows.length; i++) {
+                        let node = tempTbody.rows[i].cloneNode(true);
+                        container.appendChild(node);
+                    }
+                    document.querySelector('.z-table-body .os-content').appendChild(container);
+                } else {
+                    document.getElementById('historyList').innerHTML = response.responseText;
+                    let executeTimeEle = document.querySelectorAll('td[name=executeTime]');
+                    for (let i = 0; i < executeTimeEle.length; i++) {
+                        const excuteTime = i18n.userDateTime(executeTimeEle[i].textContent);
+                        executeTimeEle[i].textContent = excuteTime;
+                        executeTimeEle[i].setAttribute('title', excuteTime);
+                    }
+                    OverlayScrollbars(document.querySelector('.z-table-body'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function (e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        openHistoryViewModal(true)
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        aliceJs.sendXhr(opt);
+    }
+
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(tokenCreateDt => {
+            tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
+            tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
         });
     }
 
