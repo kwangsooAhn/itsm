@@ -38,7 +38,7 @@
         const STACKED_BAR_CHART = 'chart.stackedBar';
         const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
         const BASIC_LINE_CHART = 'chart.basicLine';
-        const ACTIVITY_GAUGE_CHART = 'chart.activityGauge';
+        const GAUGE_CHART = 'chart.gauge';
         let chart = null;
 
         window.onload = function() {
@@ -189,7 +189,7 @@
                         }
                     };
                     break;
-                case ACTIVITY_GAUGE_CHART:
+                case GAUGE_CHART:
                     options.chart = {
                         type: 'solidgauge',
                         marginTop: 50
@@ -444,7 +444,7 @@
                         chart.series[1].setData(seriesData, true);
                     }
                     break;
-                case ACTIVITY_GAUGE_CHART:
+                case GAUGE_CHART:
                     let innerRadius = 40;
                     let radius = 50;
                     const sum = countArray.reduce((a, b) => (a + b));

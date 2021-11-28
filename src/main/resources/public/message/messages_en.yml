@@ -286,7 +286,7 @@ chart:
     stackedColumn: "Stacked Column Chart"
     stackedBar: "Stacked Bar Chart"
     lineAndColumn: "Line And Column Chart"
-    activityGauge: "Activity Gauge Chart"
+    gauge: "Gauge Chart"
 
 # CMDB
 cmdb:

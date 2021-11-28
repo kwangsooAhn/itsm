@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
-class ActivityGauge(
+class Gauge(
     chartManagerService: ChartManagerService,
     instanceService: InstanceService,
     documentService: DocumentService,

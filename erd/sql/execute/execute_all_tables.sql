@@ -373,7 +373,7 @@ insert into awf_code values ('chart.type.pie', 'chart.type', 'chart.pie', 'Pie C
 insert into awf_code values ('chart.type.stackedColumn', 'chart.type', 'chart.stackedColumn', 'Stacked Column Chart', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type.stackedBar', 'chart.type', 'chart.stackedBar', 'Stacked Bar Chart', null, true, true, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type.lineAndColumn', 'chart.type', 'chart.lineAndColumn', 'Line and Column Chart', null, true, true, 3, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('chart.type.activityGauge', 'chart.type', 'chart.activityGauge', 'Activity Gauge Chart', null, true, true, 3, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type.gauge', 'chart.type', 'chart.gauge', 'Gauge Chart', null, true, true, 3, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.operation', 'chart', null, 'CHART OPERATION', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.operation.count', 'chart.operation', 'count', '카운트', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.operation.percent', 'chart.operation', 'percent', '퍼센트', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -9048,7 +9048,7 @@ insert into awf_code_lang values ('chart.type.pie', 'Pie Chart', 'en');
 insert into awf_code_lang values ('chart.type.stackedColumn', 'Stacked Column Chart', 'en');
 insert into awf_code_lang values ('chart.type.stackedBar', 'Stacked Bar Chart', 'en');
 insert into awf_code_lang values ('chart.type.lineAndColumn', 'Line and Column Chart', 'en');
-insert into awf_code_lang values ('chart.type.activityGauge', 'Activity Gauge Chart', 'en');
+insert into awf_code_lang values ('chart.type.gauge', 'Gauge Chart', 'en');
 /* 자료실 */
 insert into awf_code_lang values ('download.category.companyPolicy', 'Company Policy', 'en');
 insert into awf_code_lang values ('download.category.etc', 'Etc', 'en');

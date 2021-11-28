@@ -3499,9 +3499,11 @@ select {
   background-color: #FFFFFF;
 }
 
-.z-chart-content-view {
-  width: 100%;
-  height: 25rem;
+.z-chart-content-view .z-chart-content-title {
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1.125rem;
+  color: #222529;
+  font-weight: 700;
 }
 
 .notice-pinned {

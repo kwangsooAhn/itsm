@@ -12,9 +12,8 @@ import { CHART } from '../lib/zConstants.js';
 import { zLineChartMixin } from './type/zLineChart.js';
 import { zStackedColumnChartMixin } from './type/zStackedColumnChart.js';
 import { zStackedBarChartMixin } from './type/zStackedBarChart.js';
-import { zLineColumnChartMixin } from './type/zLineColumnChart.js';
 import { zPieChartMixin } from './type/zPieChart.js';
-import { zActivityGaugeChartMixin } from './type/zActivityGaugeChart.js';
+import { zGaugeChartMixin } from './type/zGaugeChart.js';
 import { zValidation } from '../lib/zValidation.js';
 
 const HIGHCHARTS_THEME = {
@@ -30,9 +29,10 @@ const HIGHCHARTS_THEME = {
         marginTop: 120
     },
     title: {
+        text:'',
         style : {
             fontFamily: 'Noto Sans KR, 맑은고딕, Malgun Gothic, dotum, gulim, sans-serif',
-            fontSize: '20px',
+            fontSize: '18px',
             color: '#222529',
             fontWeight: 'bold',
             textOverflow: 'ellipsis',
@@ -129,12 +129,6 @@ export  default class ZChart {
     init() {
         // 내부 property 초기화
         this.initProperty();
-
-        // highcharts 초기화
-        this.chart = Highcharts.chart(this.container, this.options);
-        
-        // highcharts 이름 초기화
-        this.chart.setTitle({ text: this.name }, false);
     }
 
     /**
@@ -150,12 +144,10 @@ export  default class ZChart {
                 return zStackedColumnChartMixin;
             case CHART.TYPE.STACKED_BAR:
                 return zStackedBarChartMixin;
-            case CHART.TYPE.LINE_AND_COLUMN:
-                return zLineColumnChartMixin;
             case CHART.TYPE.PIE:
                 return zPieChartMixin;
-            case CHART.TYPE.ACTIVITY_GAUGE:
-                return zActivityGaugeChartMixin;
+            case CHART.TYPE.GAUGE:
+                return zGaugeChartMixin;
             default:
                 break;
         }
@@ -183,7 +175,6 @@ export  default class ZChart {
 
     set name(name) {
         this._name = name;
-        this.chart.setTitle({ text: name });
     }
 
     set desc(desc) {
@@ -270,13 +261,12 @@ export  default class ZChart {
         }
     }
     /**
-     * 하이차트 삭제
+     * 인스턴스 초기화
      */
     destroy() {
-        this.chart.destroy();
-        this.chart = null;
-        delete this.chart;
-
+        // 하이차트 초기화
+        this.destroyChart();
+        // 엘리먼트 초기화
         this.domElement.innerHTML = '';
     }
 }

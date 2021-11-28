@@ -128,7 +128,7 @@
                 callbackFunc: function (response) {
                     document.getElementById('getChart').innerHTML = response.responseText;
                     // 가데이터 표시
-                    aliceJs.fetchJson('../../assets/js/chart/dummy/bar.json', {
+                    aliceJs.fetchJson('../../assets/js/chart/dummy/gauge.json', {
                         method: 'GET'
                     }).then((chartData) => {
                         zChartManager.load(chartData);

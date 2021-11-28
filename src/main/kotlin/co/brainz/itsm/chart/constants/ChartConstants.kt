@@ -47,7 +47,7 @@ object ChartConstants {
         BASIC_LINE("chart.basicLine"),
         PIE("chart.pie"),
         LINE_AND_COLUMN("chart.lineAndColumn"),
-        ACTIVITY_GAUGE("chart.activityGauge")
+        GAUGE("chart.gauge")
     }
 
     /**

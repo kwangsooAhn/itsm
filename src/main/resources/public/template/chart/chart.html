@@ -27,7 +27,7 @@
             <h4 class="sub-title under-bar bold" th:text="#{common.label.preview}"></h4>
         </div>
         <div class="flex-column z-edit-row">
-            <div id="container" class="chart-content-view"></div>
+            <div id="container" class="flex-row flex-wrap z-chart-content-view"></div>
         </div>
         <form id="frm" method="post">
             <input type="hidden" id="propertyJson" name="propertyJson" th:value="|${chart?.propertyJson}|"/>
@@ -160,7 +160,7 @@
     const STACKED_BAR_CHART = 'chart.stackedBar';
     const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
     const BASIC_LINE_CHART = 'chart.basicLine';
-    const ACTIVITY_GAUGE_CHART = 'chart.activityGauge';
+    const GAUGE_CHART = 'chart.gauge';
     let chart = null;
     let rangeFromDt = i18n.getDate({'months': -1});
     let rangeToDt = i18n.getDate();
@@ -355,7 +355,7 @@
         percentOption.text = i18n.msg('chart.option.text.percent');
         percentOption.value = i18n.msg('chart.option.value.percent');
         switch (value) {
-            case ACTIVITY_GAUGE_CHART:
+            case GAUGE_CHART:
                 operationSelectBox.add(averageOption);
                 break;
             case BASIC_LINE_CHART:
