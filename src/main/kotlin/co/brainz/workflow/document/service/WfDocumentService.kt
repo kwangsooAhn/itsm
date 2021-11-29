@@ -264,7 +264,7 @@ class WfDocumentService(
                             ciName = "",
                             ciStatus = ""
                         )
-                        ciService.deleteCI(ciDto)
+                        ciService.deleteCI(ciDto,false)
                     }
                 }
 

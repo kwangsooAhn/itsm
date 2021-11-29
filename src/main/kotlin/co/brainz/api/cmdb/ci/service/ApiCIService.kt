@@ -75,7 +75,7 @@ class ApiCIService(
             }
         }
         ciDto.updateDt = LocalDateTime.now()
-        val returnDto = ciService.updateCI(ciDto)
+        val returnDto = ciService.updateCI(ciDto, true)
         return returnDto.status
     }
 
@@ -92,7 +92,7 @@ class ApiCIService(
         if (ciDto.ciId.isEmpty()) {
             ciDto.ciId = ciId
         }
-        val returnDto = ciService.deleteCI(ciDto)
+        val returnDto = ciService.deleteCI(ciDto, true)
         return returnDto.status
     }
 }
