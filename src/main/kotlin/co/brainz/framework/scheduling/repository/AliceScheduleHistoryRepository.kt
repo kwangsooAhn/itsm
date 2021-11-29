@@ -15,7 +15,5 @@ import org.springframework.stereotype.Repository
 interface AliceScheduleHistoryRepository : CrudRepository<AliceScheduleHistoryEntity, String>,
     AliceScheduleHistoryRepositoryCustom {
 
-    @Query("SELECT COUNT(s.taskId) FROM AliceScheduleHistoryEntity s WHERE s.taskId = :taskId")
-    fun countByScheduleHistoryByTaskId(taskId: String): Long
-
+    fun countScheduleHistoryByTaskId(taskId: String): Long
 }

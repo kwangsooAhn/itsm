@@ -304,7 +304,7 @@ class SchedulerService(
     fun getSchedulerHistoryTotalCount(
         schedulerHistorySearchCondition: SchedulerHistorySearchCondition
     ): Long {
-        return aliceScheduleHistoryRepository.countByScheduleHistoryByTaskId(schedulerHistorySearchCondition.taskId)
+        return aliceScheduleHistoryRepository.countScheduleHistoryByTaskId(schedulerHistorySearchCondition.taskId)
     }
 
     private fun validateJarFile(src: String, executeCommand: String): Boolean {
