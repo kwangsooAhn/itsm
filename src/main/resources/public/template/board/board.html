@@ -36,7 +36,7 @@
     <div class="flex-column z-edit-row">
         <label for="boardAdminDesc" th:text="#{board.label.desc}"></label>
         <textarea class="z-textarea textarea-scroll-wrapper" id="boardAdminDesc" maxlength="2048"
-                  name="boardAdminDesc" rows="7" th:readonly="${view}" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
+                  name="boardAdminDesc" rows="7" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
     </div>
     <div class="flex-column z-edit-row">
         <label class="z-switch">

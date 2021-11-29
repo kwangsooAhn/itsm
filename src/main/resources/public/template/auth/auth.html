@@ -31,7 +31,7 @@
         <div class="z-edit-row flex-column">
             <label th:text="#{auth.label.authDesc}"></label>
             <textarea class="z-textarea textarea-scroll-wrapper" id="txtAuthDesc" maxlength="200"
-                      name="txtAuthDesc" rows="7" th:readonly="${view}" th:text="${auth?.authDesc}"></textarea>
+                      name="txtAuthDesc" rows="7" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'" th:text="${auth?.authDesc}"></textarea>
         </div>
         <div class="z-edit-row flex-column">
             <label th:text="#{auth.label.urlList}"></label>

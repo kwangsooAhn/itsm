@@ -7,6 +7,7 @@ package co.brainz.itsm.scheduler.controller
 
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.scheduler.dto.SchedulerHistorySearchCondition
 import co.brainz.itsm.scheduler.dto.SchedulerSearchCondition
 import co.brainz.itsm.scheduler.service.SchedulerService
 import org.slf4j.LoggerFactory
@@ -29,6 +30,7 @@ class SchedulerController(
     private val schedulerPage: String = "scheduler/scheduler"
     private val schedulerListPage: String = "scheduler/schedulerList"
     private val schedulerHistoryListModal: String = "scheduler/schedulerHistoryListModal"
+    private val schedulerHistoryListFragment: String = "scheduler/schedulerHistoryListModal :: list"
 
     /**
      * 스케줄러 관리 검색 화면.
@@ -97,8 +99,9 @@ class SchedulerController(
      * 스케줄러 이력 조회 호출.
      */
     @GetMapping("/{taskId}/history")
-    fun getSchedulerHistoryListModal(@PathVariable taskId: String, model: Model): String {
-        model.addAttribute("schedulerHistoryList", schedulerService.getSchedulerHistory(taskId))
-        return schedulerHistoryListModal
+    fun getSchedulerHistoryListModal(schedulerHistorySearchCondition: SchedulerHistorySearchCondition, model: Model): String {
+        model.addAttribute("totalCount", schedulerService.getSchedulerHistoryTotalCount(schedulerHistorySearchCondition))
+        model.addAttribute("schedulerHistoryList", schedulerService.getSchedulerHistory(schedulerHistorySearchCondition))
+        return if (schedulerHistorySearchCondition.isScroll) schedulerHistoryListFragment else schedulerHistoryListModal
     }
 }

@@ -285,6 +285,7 @@ INSERT INTO wf_form_row VALUES('4028b21c7cdffb67017ce0b4629a0862', '4028b21c7cdf
 INSERT INTO wf_form_row VALUES('4028b21c7cdffb67017ce0b462d80865', '4028b21c7cdffb67017ce0b461580853', '{"displayOrder":6,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES('4028b21c7cdffb67017ce0b4632f0869', '4028b21c7cdffb67017ce0b463150868', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES('4028b21c7cdffb67017ce0b46399086e', '4028b21c7cdffb67017ce0b463150868', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES('a78a44362602ef2a1fe237e3efe9a59a', 'a327b427dbe31e0fcea86fef3bd68174', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 /* 장애관리 */
 INSERT INTO wf_form_row VALUES('4028b21c7cdffb67017ce0b6492a08da', '4028b21c7cdffb67017ce0b6490a08d9', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES('4028b21c7cdffb67017ce0b6498208dd', '4028b21c7cdffb67017ce0b6490a08d9', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');

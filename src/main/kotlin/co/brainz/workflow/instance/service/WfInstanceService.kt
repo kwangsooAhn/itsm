@@ -118,6 +118,16 @@ class WfInstanceService(
             tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
         }
 
+        //tags
+        val instanceIds = mutableSetOf<String>()
+        queryResults.results.forEach {
+            instanceIds.add(it.instanceEntity.instanceId)
+        }
+        val tagList = aliceTagService.getTagsByTargetIds(
+            AliceTagConstants.TagType.INSTANCE.code,
+            instanceIds
+        )
+
         for (instance in queryResults.results) {
             val topics = mutableListOf<String>()
             val topicComponentIds = mutableListOf<String>()
@@ -136,33 +146,34 @@ class WfInstanceService(
                 userDetailsService.makeAvatarPath(it)
             }
 
-            // Tag
-            val tagDataList = aliceTagService.getTagsByTargetId(
-                AliceTagConstants.TagType.INSTANCE.code,
-                instance.instanceEntity.instanceId
+            val restTemplateInstanceViewDto = RestTemplateInstanceViewDto(
+                tokenId = instance.tokenEntity.tokenId,
+                elementName = instance.tokenEntity.element.elementName,
+                instanceId = instance.instanceEntity.instanceId,
+                documentName = instance.documentEntity.documentName,
+                documentDesc = instance.documentEntity.documentDesc,
+                documentStatus = instance.documentEntity.documentStatus,
+                topics = topics,
+                createDt = instance.instanceEntity.instanceStartDt,
+                assigneeUserKey = instance.tokenEntity.assigneeId,
+                assigneeUserName = "",
+                createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
+                createUserName = instance.instanceEntity.instanceCreateUser?.userName,
+                documentId = instance.documentEntity.documentId,
+                documentNo = instance.instanceEntity.documentNo,
+                documentColor = instance.documentEntity.documentColor,
+                avatarPath = avatarPath
             )
 
-            tokens.add(
-                RestTemplateInstanceViewDto(
-                    tokenId = instance.tokenEntity.tokenId,
-                    elementName = instance.tokenEntity.element.elementName,
-                    instanceId = instance.instanceEntity.instanceId,
-                    documentName = instance.documentEntity.documentName,
-                    documentDesc = instance.documentEntity.documentDesc,
-                    documentStatus = instance.documentEntity.documentStatus,
-                    topics = topics,
-                    tags = tagDataList,
-                    createDt = instance.instanceEntity.instanceStartDt,
-                    assigneeUserKey = instance.tokenEntity.assigneeId,
-                    assigneeUserName = "",
-                    createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
-                    createUserName = instance.instanceEntity.instanceCreateUser?.userName,
-                    documentId = instance.documentEntity.documentId,
-                    documentNo = instance.instanceEntity.documentNo,
-                    documentColor = instance.documentEntity.documentColor,
-                    avatarPath = avatarPath
-                )
-            )
+            val tagDataList = mutableListOf<AliceTagDto>()
+            tagList.forEach { tagData ->
+                if (tagData.targetId == instance.instanceEntity.instanceId) {
+                    tagDataList.add(tagData)
+                }
+            }
+            restTemplateInstanceViewDto.tags = tagDataList
+
+            tokens.add(restTemplateInstanceViewDto)
         }
 
         return RestTemplateInstanceListReturnDto(

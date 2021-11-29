@@ -2042,8 +2042,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
   background-color: transparent;
-  border: none;
-  border: 0.0625rem solid #CFD5D9;
+  border: none !important;
+  border-left: 0.0625rem solid #CFD5D9 !important;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -2068,6 +2068,10 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea.success {
   border: 0.0625rem solid #76BD26 !important;
+}
+
+div.z-textarea-readonly {
+  border: none !important;
 }
 
 .z-switch {
@@ -6357,6 +6361,10 @@ body.modal-active {
 }
 .property .default-type .z-select.off {
   display: none;
+}
+.property .default-type .z-select .z-input {
+  display: inline-block;
+  margin-left: 0;
 }
 .property .picker-wrapper-date .datepicker,
 .property .picker-wrapper-date .timepicker,

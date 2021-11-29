@@ -1220,7 +1220,7 @@ INSERT INTO wf_component_property VALUES('73c6a0aa5a9b4d9eb233e0f6f68cf965', 'el
 INSERT INTO wf_component_property VALUES('7434d3fecc8141bebcabe9f1266da34c', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
 INSERT INTO wf_component_property VALUES('7434d3fecc8141bebcabe9f1266da34c', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"접수일시"}');
 INSERT INTO wf_component_property VALUES('7434d3fecc8141bebcabe9f1266da34c', 'display', '{"displayOrder":0,"columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('7434d3fecc8141bebcabe9f1266da34c', 'element', '{"columnWidth":"10","defaultValueRadio":"now"}');
+INSERT INTO wf_component_property VALUES('7434d3fecc8141bebcabe9f1266da34c', 'element', '{"columnWidth":"8","defaultValueRadio":"now"}');
 INSERT INTO wf_component_property VALUES('75f5539dab2f4b429eeafcebb071f681', 'validation', '{"required":true,"minLength":"0","maxLength":"512"}');
 INSERT INTO wf_component_property VALUES('75f5539dab2f4b429eeafcebb071f681', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('75f5539dab2f4b429eeafcebb071f681', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요"}');
@@ -1273,6 +1273,14 @@ INSERT INTO wf_component_property VALUES('b2f35ace306c4f6687bf048af3e569bd', 'el
 INSERT INTO wf_component_property VALUES('f674bf8a2cf34575a0ee273a9d1d7bff', 'element', '{"columnWidth":"8","options":[{"name":"선택 안함","value":"none","checked":true},{"name":"전화 통화","value":"phone","checked":false},{"name":"서비스 포탈 및 모바일 애플리케이션","value":"portal","checked":false},{"name":"라이브 채팅 및 챗봇","value":"chatting","checked":false},{"name":"이메일","value":"email","checked":false},{"name":"대면","value":"interview","checked":false},{"name":"소셜 미디어","value":"sns","checked":false},{"name":"모니터링툴 자동 등록","value":"automatic","checked":false}]}');
 INSERT INTO wf_component_property VALUES('8b28285dbe524b63be1339ee01329b48', 'display', '{"displayOrder":1,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('8b28285dbe524b63be1339ee01329b48', 'element', '{"columnWidth":"8","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0011|code|form.template.serviceDesk.incident.category.system|시스템 장애"}');
+INSERT INTO wf_component_property VALUES('a7dfc291ee7c783d7657c7f9770fb330', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES('a7dfc291ee7c783d7657c7f9770fb330', 'validation', '{"required":true}');
+INSERT INTO wf_component_property VALUES('a7dfc291ee7c783d7657c7f9770fb330', 'element', '{"columnWidth":"8","options":[{"name":"낮음","value":"10","checked":true},{"name":"보통","value":"20","checked":false},{"name":"높음","value":"30","checked":false},{"name":"긴급","value":"40","checked":false}]}');
+INSERT INTO wf_component_property VALUES('a7dfc291ee7c783d7657c7f9770fb330', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"우선순위"}');
+INSERT INTO wf_component_property VALUES('a7b136db74cd792cad3f03a348bd735f', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+INSERT INTO wf_component_property VALUES('a7b136db74cd792cad3f03a348bd735f', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES('a7b136db74cd792cad3f03a348bd735f', 'element', '{"columnWidth":"12","isEditable":false}');
+INSERT INTO wf_component_property VALUES('a7b136db74cd792cad3f03a348bd735f', 'label', '{"position":"top","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"관련 CI 목록"}');
 /* 장애관리 */
 INSERT INTO wf_component_property VALUES('9cac5aa2525440c4afe7ba183c84874a', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
 INSERT INTO wf_component_property VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'validation', '{"required":true}');
