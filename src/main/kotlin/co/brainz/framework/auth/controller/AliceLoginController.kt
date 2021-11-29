@@ -46,6 +46,12 @@ class AliceLoginController(
     @Value("\${login.platform.enabled}")
     private var loginPlatformEnabled: Boolean = false
 
+    @Value("\${find.id.enabled}")
+    private val findIdEnabled: Boolean = false
+
+    @Value("\${find.password.enabled}")
+    private val findPasswordEnabled: Boolean = false
+
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
     /**
@@ -88,6 +94,8 @@ class AliceLoginController(
             model.addAttribute("ipList", ipList)
             model.addAttribute("clientIp", clientIp)
             model.addAttribute("isLoingPlatform", loginPlatformEnabled)
+            model.addAttribute("findPasswordEnabled", findPasswordEnabled)
+            model.addAttribute("findIdEnabled", findIdEnabled)
         }
 
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
