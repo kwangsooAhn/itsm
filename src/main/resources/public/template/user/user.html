@@ -169,7 +169,7 @@
                 </ul>
             </div>
         </div>
-        <div class="flex-column z-edit-row" th:if="${users?.userKey}">
+        <div class="flex-column z-edit-row">
             <h3 class="sub-title under-bar bold" th:text="#{user.label.userAbsence}"></h3>
             <label class="z-switch" for="userAbsence">
                 <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
@@ -261,9 +261,8 @@
 
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
-        if ([[${users?.userKey}]] !== null) {
-            setAbsenceDisplay();
-        }
+
+        setAbsenceDisplay();
     };
 
     const STATUS_SUCCESS = '0';
@@ -316,7 +315,6 @@
 
         // 사용자 부재 설정
         let absenceInfo = {};
-        if ([[${users?.userKey}]] !== null) {
             if (document.getElementById('userAbsence').checked) {
                 absenceInfo = {
                     startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
@@ -324,7 +322,6 @@
                     substituteUserKey: document.getElementById('substituteUserKey').value
                 }
             }
-        }
        const data = {
            userKey: document.getElementById('userKey').value,
            userId: document.getElementById('userId').value,
