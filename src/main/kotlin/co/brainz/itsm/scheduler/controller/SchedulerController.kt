@@ -100,6 +100,7 @@ class SchedulerController(
      */
     @GetMapping("/{taskId}/history")
     fun getSchedulerHistoryListModal(schedulerHistorySearchCondition: SchedulerHistorySearchCondition, model: Model): String {
+        model.addAttribute("totalCount", schedulerService.getSchedulerHistoryTotalCount(schedulerHistorySearchCondition))
         model.addAttribute("schedulerHistoryList", schedulerService.getSchedulerHistory(schedulerHistorySearchCondition))
         return if (schedulerHistorySearchCondition.isScroll) schedulerHistoryListFragment else schedulerHistoryListModal
     }

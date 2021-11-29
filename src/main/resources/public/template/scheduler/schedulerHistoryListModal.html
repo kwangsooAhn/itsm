@@ -3,6 +3,7 @@
 <body>
 <table class="z-table">
     <thead class="z-table-head">
+    <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
     <tr>
         <th style="width: 15%;" class="align-center" th:text="#{scheduler.label.historyNo}"></th>
         <th style="width: 10%;" class="align-center" th:text="#{scheduler.label.immediatelyExecute}"></th>

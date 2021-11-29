@@ -301,6 +301,12 @@ class SchedulerService(
         return aliceScheduleHistoryRepository.findScheduleHistoryByTaskId(schedulerHistorySearchCondition)
     }
 
+    fun getSchedulerHistoryTotalCount(
+        schedulerHistorySearchCondition: SchedulerHistorySearchCondition
+    ): Long {
+        return aliceScheduleHistoryRepository.countByScheduleHistoryByTaskId(schedulerHistorySearchCondition.taskId)
+    }
+
     private fun validateJarFile(src: String, executeCommand: String): Boolean {
         val jarName = executeCommand.replace(" ", "")
         var jarPath = src
