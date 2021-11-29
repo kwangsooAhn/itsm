@@ -7,7 +7,6 @@
 package co.brainz.framework.scheduling.repository
 
 import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
-import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 

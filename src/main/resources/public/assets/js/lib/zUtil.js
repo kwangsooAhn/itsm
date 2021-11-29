@@ -930,9 +930,7 @@ aliceJs.loadSvg = function() {
  */
 aliceJs.isEnableScrollEvent = function(offset, objectId = 'totalCount') {
     let totalObject = document.getElementById(objectId);
-    //let totalCount = 100;
     return offset < totalObject.value;
-    //return offset < totalCount;
 };
 
 /**
