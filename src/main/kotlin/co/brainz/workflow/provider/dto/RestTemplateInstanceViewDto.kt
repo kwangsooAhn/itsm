@@ -18,7 +18,7 @@ data class RestTemplateInstanceViewDto(
     val documentStatus: String? = null,
     val elementName: String? = "",
     val topics: MutableList<String>?,
-    val tags: List<AliceTagDto>,
+    var tags: List<AliceTagDto> = mutableListOf(),
     var createDt: LocalDateTime?,
     val assigneeUserKey: String? = "",
     val assigneeUserName: String? = "",

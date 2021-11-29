@@ -61,7 +61,7 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                 )
             )
             .rightJoin(ciType.pType, ciType).on(ciType.pType.typeId.eq(ciType.typeId))
-            .innerJoin(ciType.ciClass)
+            .innerJoin(ciType.ciClass).fetchJoin()
             .where(
                 super.likeIgnoreCase(
                     ciType.typeName, searchDto.search
@@ -86,6 +86,7 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                     ciType.typeName, search
                 )
             )
+            .innerJoin(ciType.ciClass).fetchJoin()
             .orderBy(ciType.typeLevel.asc(), ciType.typeSeq.asc(), ciType.typeName.asc())
             .fetchResults()
     }
@@ -93,6 +94,7 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
     override fun findByCITypeAll(): List<CITypeEntity>? {
         val ciType = QCITypeEntity.cITypeEntity
         return from(ciType)
+            .innerJoin(ciType.ciClass).fetchJoin()
             .orderBy(ciType.typeLevel.asc(), ciType.typeSeq.asc())
             .fetch()
     }

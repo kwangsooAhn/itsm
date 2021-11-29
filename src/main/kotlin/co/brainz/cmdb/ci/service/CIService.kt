@@ -84,15 +84,13 @@ class CIService(
      */
     fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
         val cis = ciRepository.findCIList(ciSearchCondition)
-        val ciList = mutableListOf<CIListDto>()
+        val ciList = mutableListOf<CIsDto>()
         for (ci in cis.results) {
-            ciList.add(
-                this.makeCIListDto(ci)
-            )
+            ciList.add(ci)
         }
 
         return CIListReturnDto(
-            data = ciList,
+            data = this.getCIsListDto(ciList),
             paging = AlicePagingData(
                 totalCount = cis.total,
                 totalCountWithoutCondition = ciRepository.count(),
@@ -141,7 +139,7 @@ class CIService(
      */
     fun getCI(ciId: String): CIListDto {
         val ci = ciRepository.findCI(ciId)
-        return this.makeCIListDto(ci)
+        return this.getCIListDto(ci)
     }
 
     /**
@@ -536,7 +534,7 @@ class CIService(
     /**
      * CI 조회 결과 DTO 변경
      */
-    private fun makeCIListDto(ci: CIsDto): CIListDto {
+    private fun getCIListDto(ci: CIsDto): CIListDto {
         val tagList = aliceTagRepository.findByTargetId(AliceTagConstants.TagType.CI.code, ci.ciId)
 
         return CIListDto(
@@ -558,6 +556,52 @@ class CIService(
             updateUserKey = ci.updateUserKey,
             updateDt = ci.updateDt
         )
+    }
+
+    /**
+     * CI 조회 결과 DTO 변경
+     */
+    private fun getCIsListDto(cis: MutableList<CIsDto>): List<CIListDto> {
+        val ciIds = mutableSetOf<String>()
+        val ciList = mutableListOf<CIListDto>()
+        cis.forEach {
+            ciIds.add(it.ciId)
+        }
+
+        val tagList = aliceTagRepository.findByTargetIds(AliceTagConstants.TagType.CI.code, ciIds)
+        cis.forEach { ci ->
+            val ciListDto = CIListDto(
+                ciId = ci.ciId,
+                ciNo = ci.ciNo,
+                ciName = ci.ciName,
+                ciStatus = ci.ciStatus,
+                typeId = ci.typeId,
+                typeName = ci.typeName,
+                classId = ci.classId,
+                className = ci.className,
+                ciIcon = ci.ciIcon,
+                ciIconData = ci.ciIcon?.let { ciTypeService.getCITypeImageData(it) },
+                ciDesc = ci.ciDesc,
+                interlink = ci.interlink,
+                ciTags = null,
+                createUserKey = ci.createUserKey,
+                createDt = ci.createDt,
+                updateUserKey = ci.updateUserKey,
+                updateDt = ci.updateDt
+            )
+
+            val tagDataList = mutableListOf<AliceTagDto>()
+            tagList.forEach { tagData ->
+                if (tagData.targetId == ci.ciId) {
+                    tagDataList.add(tagData)
+                }
+            }
+            ciListDto.ciTags = tagDataList
+
+            ciList.add(ciListDto)
+        }
+
+        return ciList.toList()
     }
 
     /**
