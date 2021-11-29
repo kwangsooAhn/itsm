@@ -317,10 +317,12 @@
         // 사용자 부재 설정
         let absenceInfo = {};
         if ([[${users?.userKey}]] !== null) {
-            absenceInfo = {
-                startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
-                endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
-                substituteUserKey: document.getElementById('substituteUserKey').value
+            if (document.getElementById('userAbsence').checked) {
+                absenceInfo = {
+                    startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
+                    endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
+                    substituteUserKey: document.getElementById('substituteUserKey').value
+                }
             }
         }
        const data = {
