@@ -1891,7 +1891,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 div.z-textarea-readonly {
-  border: none !important;
+  border-color: transparent !important;
 }
 
 .z-switch {

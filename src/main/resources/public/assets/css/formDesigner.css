@@ -2071,7 +2071,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 div.z-textarea-readonly {
-  border: none !important;
+  border-color: transparent !important;
 }
 
 .z-switch {
@@ -6033,7 +6033,7 @@ body.modal-active {
 .z-component {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   width: 100%;
 }
 .z-component .z-component-label {
