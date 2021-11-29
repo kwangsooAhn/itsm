@@ -25,7 +25,7 @@
                 <span th:text="#{scheduler.label.description}"></span>
             </label>
             <textarea class="z-textarea textarea-scroll-wrapper" id="taskDesc" maxlength="250" name="taskDesc"
-                      rows="5" th:readonly="${view}" th:text="${schedule?.taskDesc}"></textarea>
+                      rows="5" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'" th:text="${schedule?.taskDesc}"></textarea>
         </div>
         <div class="flex-column z-edit-row">
             <label for="taskStatus">

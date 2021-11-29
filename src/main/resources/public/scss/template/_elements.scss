@@ -434,8 +434,8 @@ input, textarea, select {
 
   &:read-only:not(:disabled):not(.os-host-textarea) {
     background-color: $element-readonly-bg-color;
-    border: none;
-    @include border($element-readonly-border-width, solid, $element-readonly-border-color, all);
+    border: none !important;
+    @include border($element-readonly-border-width, solid, $element-readonly-border-color !important, left);
     @include borderRadius(0);
     cursor: default;
     resize: none;
@@ -461,6 +461,12 @@ input, textarea, select {
 
   &.success {
     @include border($validation-success-border-width, solid, $validation-success-border-color !important, all);
+  }
+}
+// os-div 작업
+div.z-textarea {
+  &-readonly {
+    border: none !important;
   }
 }
 
