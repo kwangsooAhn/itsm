@@ -43,6 +43,11 @@ const DEFAULT_COMPONENT_PROPERTY = {
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
+/**
+ * 불필요한 key Event를 막기 위한 ascii key code
+ */
+const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, ,92, 93,
+    112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 144, 145];
 
 export const inputBoxMixin = {
 
@@ -182,6 +187,9 @@ export const inputBoxMixin = {
         // enter, tab 입력시
         if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
             return false;
+        // 입력을 무시할 key event 일 경우
+        } else if (e.type === 'keyup' && (IGNORE_EVENT_KEYCODE.indexOf(e.keyCode) > -1)) {
+            return true;
         }
         // 유효성 검증
         // keyup 일 경우 type, min, max 체크
