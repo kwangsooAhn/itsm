@@ -1280,6 +1280,7 @@ workflowAdmin:
 # User
 user:
   btn:
+    immediately: "즉시 실행"
     nextTime: "{0}일 후 변경하기"
     resetPassword: "비밀번호 초기화"
     updatePassword: "비밀번호 변경"
@@ -1290,6 +1291,7 @@ user:
     editUserInfo: "회원 정보 수정"
     edit: "사용자 정보 수정"
     email: "이메일"
+    executeCurrentAbsence: "현재 문서 이관"
     FileExtensionAllowed: "※ 허용 확장자 : gif, jpeg, jpg, png"
     FileSizeLimit: "※ 파일 크기 : 200 Kb"
     id: "아이디"
@@ -1320,7 +1322,7 @@ user:
   msg:
     changeAsSubstituteUser: "업무 대리인에게 할당되었습니다."
     compareWithAbsenceDtValue: "부재 시작일시가 종료일시보다 크거나 같습니다."
-    confirmWIPToSubstituteUser: "신규 문서 외 진행 중인 문서도<br/>업무 대리인에게 할당하시겠습니까?"
+    confirmWIPToSubstituteUser: "진행 중인 문서를 업무 대리인에게 할당하시겠습니까?"
     createUser: "사용자가 등록되었습니다."
     customColorSave: "사용자 색상이 아직 저장되지 않았습니다.<br/>사용자 색상이 초기화 됩니다."
     editDescription: "사용자를 등록하거나, 사용자 정보를 수정합니다."

@@ -657,6 +657,7 @@ input, button, select, optgroup, textarea {
  */
 .z-icon {
   display: inline-block;
+  -webkit-print-color-adjust: exact;
 }
 .z-icon.i-search {
   width: 1.5rem;
@@ -1350,6 +1351,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input-clear input {
   width: 100%;
 }
+.z-input-clear .z-icon {
+  -webkit-print-color-adjust: exact;
+}
 .z-input-clear .z-icon.i-clear {
   position: absolute;
   right: 0rem;
@@ -1468,8 +1472,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
   background-color: transparent;
-  border: none;
-  border: 0.0625rem solid #CFD5D9;
+  border: none !important;
+  border-left: 0.0625rem solid #CFD5D9 !important;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -1494,6 +1498,10 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea.success {
   border: 0.0625rem solid #76BD26 !important;
+}
+
+div.z-textarea-readonly {
+  border: none !important;
 }
 
 .z-switch {
@@ -2227,6 +2235,34 @@ body.modal-active {
 .modal-wrapper.modal-active {
   display: block;
   z-index: 1000;
+}
+.modal-wrapper .modal-dialog.token-list {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-wrapper .modal-dialog.token-list .modal-content {
+  height: calc(53.0625rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem;
+}
+.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list {
+  margin-top: 0.9375rem;
+}
+.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set {
+  margin-top: 1.875rem;
+}
+.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body {
+  display: block;
+  width: 60rem;
+  height: 35.313rem;
+  overflow-y: auto;
+  border: none;
+}
+.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .attribute-list,
+.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .instance-list {
+  display: flex;
+  width: 100%;
+  height: 2.188rem;
+  line-height: 2.188rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal, .modal-wrapper .modal-dialog.cmdb-ci-update-modal, .modal-wrapper .modal-dialog.cmdb-ci-view-modal, .modal-wrapper .modal-dialog.cmdb-ci-list-modal {
   width: 62.5rem;

@@ -25,7 +25,7 @@
                 <span th:text="#{scheduler.label.description}"></span>
             </label>
             <textarea class="z-textarea textarea-scroll-wrapper" id="taskDesc" maxlength="250" name="taskDesc"
-                      rows="5" th:readonly="${view}" th:text="${schedule?.taskDesc}"></textarea>
+                      rows="5" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'" th:text="${schedule?.taskDesc}"></textarea>
         </div>
         <div class="flex-column z-edit-row">
             <label for="taskStatus">
@@ -152,7 +152,7 @@
                 <button class="z-button secondary" onclick="actionScheduler('execute')"
                         sec:authorize="hasAuthority('scheduler.execute')"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.immediatelyExecute}"></button>
-                <button class="z-button secondary" onclick="openHistoryViewModal()"
+                <button class="z-button secondary" onclick="openHistoryViewModal(false)"
                         sec:authorize="hasAuthority('scheduler.read')"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.history}"></button>
             </div>
@@ -168,6 +168,7 @@
     const STATUS_ERROR_SCHEDULER_EXECUTE = '3';
     const STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST = '4';
     const STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST = '5';
+    let offsetCount = 0;
 
     window.onload = function () {
         changeContainer(document.getElementById('taskType').value);
@@ -231,52 +232,88 @@
     }
 
     /** 이력 모달 **/
-    function openHistoryViewModal() {
-        let historyOptions = {
-            title: i18n.msg('scheduler.label.history'),
-            classes: 'scheduler-list-modal',
-            body: `<div class="table-set" id="historyList"></div>`,
-            buttons: [{
-                content: i18n.msg('common.btn.close'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: function (modal) {
-                    modal.hide();
-                }
-            }],
-            close: {
-                closable: false
-            },
-            onCreate: function (modal) {
-                const taskId = /*[[${schedule?.taskId}]]*/''
-                restModalSubmit('/schedulers/' + taskId + '/history', 'GET', {}, false, function (content) {
-                    document.getElementById('historyList').innerHTML = content;
-                    let executeTimeEle = document.querySelectorAll('td[name=executeTime]');
-                    for (let i = 0; i < executeTimeEle.length; i++) {
-                        const excuteTime = i18n.userDateTime(executeTimeEle[i].textContent);
-                        executeTimeEle[i].textContent = excuteTime;
-                        executeTimeEle[i].setAttribute('title', excuteTime);
-                    }
-                    OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-                });
+    function openHistoryViewModal(isScroll) {
+        const taskId = /*[[${schedule?.taskId}]]*/''
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.searchDataCount;
             }
-        };
-        const historyViewModal = new modal(historyOptions);
-        historyViewModal.show();
+        } else {
+            offsetCount = 0;
+            let historyOptions = {
+                title: i18n.msg('scheduler.label.history'),
+                classes: 'scheduler-list-modal',
+                body: `<div class="table-set" id="historyList"></div>`,
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false
+                }
+            }
+            const historyViewModal = new modal(historyOptions);
+            historyViewModal.show();
+        }
+        restModalSubmit('/schedulers/' + taskId + '/history?offset=' + offsetCount + '&isScroll=' + isScroll, 'GET', {}, false, isScroll);
     }
 
-    function restModalSubmit(url, method, data, progressbar, callbackFunc) {
-        aliceJs.sendXhr({
+    function restModalSubmit(url, method, data, progressbar, isScroll) {
+        const opt = {
             method: method,
             url: url,
             params: JSON.stringify(data),
-            callbackFunc: function (xhr) {
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc(xhr.responseText);
-                }
-            },
             contentType: 'application/json; charset=utf-8',
-            showProgressbar: progressbar
+            showProgressbar: progressbar,
+            callbackFunc: function (response) {
+                if (isScroll) {
+                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                        offsetCount = offsetCount + aliceJs.searchDataCount;
+                    }
+                    let tempTbody = document.createElement('tbody');
+                    tempTbody.innerHTML = response.responseText;
+                    setDateTimeFormat(tempTbody)
+                    const container = document.createDocumentFragment();
+                    for (let i = 0; i < tempTbody.rows.length; i++) {
+                        let node = tempTbody.rows[i].cloneNode(true);
+                        container.appendChild(node);
+                    }
+                    document.querySelector('.z-table-body .os-content').appendChild(container);
+                } else {
+                    document.getElementById('historyList').innerHTML = response.responseText;
+                    setDateTimeFormat(document.getElementById('historyList'))
+                    OverlayScrollbars(document.querySelector('.z-table-body'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function (e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        openHistoryViewModal(true)
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        aliceJs.sendXhr(opt);
+    }
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('td[name=executeTime]').forEach(executeTimeEle => {
+            const excuteTime = i18n.userDateTime(executeTimeEle.textContent);
+            executeTimeEle.textContent = excuteTime;
+            executeTimeEle.setAttribute('title', excuteTime);
         });
     }
 
