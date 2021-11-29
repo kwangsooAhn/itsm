@@ -133,6 +133,7 @@
                     }
                     let tempDiv = document.createElement('div');
                     tempDiv.innerHTML = response.responseText;
+                    console.log(tempDiv)
                     setDateTimeFormat(tempDiv);
                     tempDiv.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
                         new zTag(tagInput, {

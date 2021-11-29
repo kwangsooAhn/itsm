@@ -12,4 +12,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AliceScheduleHistoryRepository : CrudRepository<AliceScheduleHistoryEntity, String>,
-    AliceScheduleHistoryRepositoryCustom
+    AliceScheduleHistoryRepositoryCustom {
+
+    fun countScheduleHistoryByTaskId(taskId: String): Long
+}
