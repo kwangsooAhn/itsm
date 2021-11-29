@@ -126,7 +126,6 @@ export default class ZProperty {
             label.addUI(new UISpan().setUIClass('property-label-text')
                 .setUITextContent(i18n.msg(labelText)));
         }
-        console.log(this.validation.required)
         // 필수 여부
         if (this.validation.required) {
             label.addUI(new UISpan().setUIClass('required'));
