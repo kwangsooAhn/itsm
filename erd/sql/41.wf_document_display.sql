@@ -413,6 +413,10 @@ INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b4d3e30872', '402
 INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b4d3e30872', '4028b21c7cdffb67017ce0b463150868', '4a50371a9217426c901defc15244b863', 'document.displayType.hidden');
 INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b4d3e30872', '4028b21c7cdffb67017ce0b463150868', '0432eed143194c2087293601b27273db', 'document.displayType.hidden');
 INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b4d3e30872', '4028b21c7cdffb67017ce0b463150868', '454093c905f4471b8841aaa2ff44176f', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b4d3e30872', 'a327b427dbe31e0fcea86fef3bd68174', '1d3d4e1867194b53a7975861f2530d54', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b4d3e30872', 'a327b427dbe31e0fcea86fef3bd68174', '4a50371a9217426c901defc15244b863', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b4d3e30872', 'a327b427dbe31e0fcea86fef3bd68174', '0432eed143194c2087293601b27273db', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b4d3e30872', 'a327b427dbe31e0fcea86fef3bd68174', '454093c905f4471b8841aaa2ff44176f', 'document.displayType.editable');
 /* 장애관리 */
 INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b70509093e', '4028b21c7cdffb67017ce0b6490a08d9', '13377743f52341609222f75825862a5e', 'document.displayType.readonly');
 INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b70509093e', '4028b21c7cdffb67017ce0b6490a08d9', '9bea485756784ff3b4d5eb4411e72bb8', 'document.displayType.readonly');

@@ -164,6 +164,8 @@ INSERT INTO wf_form_group_property VALUES('4028b21c7cdffb67017ce0b461580853', 'l
 INSERT INTO wf_form_group_property VALUES('4028b21c7cdffb67017ce0b461580853', 'display', '{"displayOrder":3,"isAccordionUsed":true,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES('4028b21c7cdffb67017ce0b463150868', 'display', '{"displayOrder":4,"isAccordionUsed":true,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES('4028b21c7cdffb67017ce0b463150868', 'label', '{"visibility":true,"fontColor":"#6D6D6D","fontSize":"22","bold":true,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 내역"}');
+INSERT INTO wf_form_group_property VALUES('a327b427dbe31e0fcea86fef3bd68174', 'display', '{"displayOrder":5,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES('a327b427dbe31e0fcea86fef3bd68174', 'label', '{"visibility":true,"fontColor":"#6D6D6D","fontSize":"22","bold":false,"italic":false,"underline":false,"align":"left","text":"관련 CI"}');
 /* 장애관리 */
 INSERT INTO wf_form_group_property VALUES('4028b21c7cdffb67017ce0b6490a08d9', 'display', '{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES('4028b21c7cdffb67017ce0b6490a08d9', 'label', '{"visibility":false,"fontColor":"#6D6D6D","fontSize":"22","bold":true,"italic":false,"underline":false,"align":"center","text":""}');
