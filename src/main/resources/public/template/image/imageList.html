@@ -32,7 +32,7 @@
         getImages(false);
         // 미리보기 모달 생성
         previewModal = new modal({
-            title: `<span class="z-thumbnail-preview-name"></span>`,
+            title: `<span class="z-thumbnail-preview-name text-ellipsis"></span>`,
             body: `<div class="z-thumbnail-preview-image"></div>`,
             classes: 'z-thumbnail-preview',
             buttons: [{
@@ -279,7 +279,6 @@
         const previewModalHeader = previewModal.wrapper.querySelector('.z-thumbnail-preview-name');
         if (previewModalHeader !== null) {
             const imageName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
-            previewModalHeader.classList.add = 'text-ellipsis';
             previewModalHeader.textContent = imageName;
             previewModalHeader.setAttribute('title', imageName);
         }
