@@ -1140,6 +1140,8 @@ report:
     templateRegister: "템플릿 등록"
   msg:
     configDescription: "사용자 정의 차트를 이용한 템플릿을 설정합니다."
+    createFail: "보고서 생성에 실패하였습니다.."
+    createSucess: "보고서가 생성되었습니다."
     duplicateChart: "중복된 차트가 존재합니다."
     editDescription: "템플릿을 등록하거나 수정, 삭제합니다."
     emptyChart: "차트가 존재하지 않습니다."
@@ -1198,7 +1200,7 @@ scheduler:
     schedule: "스케줄"
     scheduler: "스케줄러"
     searchPlaceholder: "스케줄 이름 / 작업 유형 / 클래스 / 실행 유형"
-    src: 경로
+    src: "경로"
     status: "상태"
     taskType: "작업 유형"
   msg:

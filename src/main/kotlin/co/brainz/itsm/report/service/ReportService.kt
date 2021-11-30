@@ -13,6 +13,7 @@ import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.chart.service.ChartManagerFactory
+import co.brainz.itsm.report.constants.ReportConstants
 import co.brainz.itsm.report.dto.ReportCategoryDto
 import co.brainz.itsm.report.dto.ReportDto
 import co.brainz.itsm.report.dto.ReportListReturnDto
@@ -102,47 +103,54 @@ class ReportService(
 
     @Transactional
     fun saveReport(templateId: String): String {
+        var resultCode = ReportConstants.ReportCreateStatus.STATUS_SUCCESS.code;
         // 스케줄러에 의해 실행되어 awf_report_data 에 저장하는 기능
         val templateEntity = reportTemplateRepository.getOne(templateId)
 
         // new report
         // 보고서명이 존재하면 보고서 명을 사용하고 없으면 템플릿 명을 사용한다.
         val reportName = if (templateEntity.reportName.isNullOrEmpty()) templateEntity.templateName else templateEntity.reportName
-        var reportEntity = ReportEntity(
-            reportId = "",
-            reportName = reportName as String,
-            reportDesc = templateEntity.templateDesc,
-            publishDt = LocalDateTime.now(),
-            templateId = templateEntity.templateId
-        )
-        reportEntity = reportRepository.save(reportEntity)
 
-        // chart list
-        templateEntity.charts?.forEach { it ->
-            val chartEntity = chartRepository.findChartEntityByChartId(it.chartId)
+        try {
+            var reportEntity = ReportEntity(
+                reportId = "",
+                reportName = reportName as String,
+                reportDesc = templateEntity.templateDesc,
+                publishDt = LocalDateTime.now(),
+                templateId = templateEntity.templateId
+            )
+            reportEntity = reportRepository.save(reportEntity)
 
-            // values 에 저장할 값 셋팅
-            if (chartEntity != null) {
-                val chartInfo = LinkedHashMap<String, Any>()
-                chartInfo["name"] = chartEntity.chartName
-                chartInfo["type"] = chartEntity.chartType
-                chartInfo["desc"] = chartEntity.chartDesc ?: ""
-                chartInfo["config"] = mapper.readValue(chartEntity.chartConfig, Map::class.java)
+            // chart list
+            templateEntity.charts?.forEach { it ->
+                val chartEntity = chartRepository.findChartEntityByChartId(it.chartId)
 
-                val valuesMap = LinkedHashMap<String, Any>()
-                valuesMap["chart"] = chartInfo
-                val strValues = mapper.writeValueAsString(valuesMap)
-                val reportDataEntity = ReportDataEntity(
-                    dataId = "",
-                    report = reportEntity,
-                    chartId = chartEntity.chartId,
-                    displayOrder = it.displayOrder,
-                    values = strValues
-                )
-                reportDataRepository.save(reportDataEntity)
+                // values 에 저장할 값 셋팅
+                if (chartEntity != null) {
+                    val chartInfo = LinkedHashMap<String, Any>()
+                    chartInfo["name"] = chartEntity.chartName
+                    chartInfo["type"] = chartEntity.chartType
+                    chartInfo["desc"] = chartEntity.chartDesc ?: ""
+                    chartInfo["config"] = mapper.readValue(chartEntity.chartConfig, Map::class.java)
+
+                    val valuesMap = LinkedHashMap<String, Any>()
+                    valuesMap["chart"] = chartInfo
+                    val strValues = mapper.writeValueAsString(valuesMap)
+                    val reportDataEntity = ReportDataEntity(
+                        dataId = "",
+                        report = reportEntity,
+                        chartId = chartEntity.chartId,
+                        displayOrder = it.displayOrder,
+                        values = strValues
+                    )
+                    reportDataRepository.save(reportDataEntity)
+                }
             }
+        } catch (e: Exception) {
+            resultCode = ReportConstants.ReportCreateStatus.STAUTS_FAIL.code
+            e.printStackTrace()
         }
 
-        return reportEntity.reportId
+        return resultCode
     }
 }
