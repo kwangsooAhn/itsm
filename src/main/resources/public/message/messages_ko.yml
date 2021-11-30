@@ -276,7 +276,6 @@ chart:
   msg:
     searchDescription: "다양한 사용자 정의 차트를 조회하고 관리합니다."
     enterChartName: "차트 이름을 입력하세요."
-    enterTargetGroup: "그룹을 입력하세요."
     enterTargetTags: "대상 태그를 입력하세요."
     enterDurationDigit: "기간을 입력하세요."
     periodUnitOutOfRange: "간격이 기간보다 큽니다."
