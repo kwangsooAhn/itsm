@@ -27,8 +27,7 @@ data class ChartDto(
 data class ChartConfig(
     var range: ChartRange,
     var operation: String = "",
-    var periodUnit: String? = null,
-    var group: String? = null
+    var periodUnit: String? = null
 ) : Serializable
 
 data class ChartRange(

@@ -114,14 +114,6 @@
                            th:value="${chart?.tags}" th:readonly="${view}" th:classappend="${view}?'':'z-input'">
                 </div>
             </div>
-            <div class="flex-column z-edit-row">
-                <!--/* 그룹 */-->
-                <div class="flex-column col-6">
-                    <label id="groupLabel" class="field-label required" th:text="#{chart.label.group}"></label>
-                    <input type="text" id="targetGroup" name="targetGroup" class="z-input"
-                           th:value="${chart?.chartConfig?.group}" maxlength="100" th:readonly="${view}" />
-                </div>
-            </div>
             <div class="flex-row justify-content-between z-edit-row">
                 <div class="z-button-list">
                     <a class="z-button secondary" href="/charts/search" th:text="#{common.btn.list}"></a>
@@ -222,7 +214,6 @@
             let chartInfo = setChartInfo();
             restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
                 let responseJson = JSON.parse(response);
-                console.log(responseJson);
                 setChart(
                     responseJson.chartType,
                     responseJson.propertyJson,
@@ -332,11 +323,6 @@
         if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
             return false;
         }
-        if (document.getElementById('typeSelectBox').value === BASIC_LINE_CHART) {
-            if (isEmpty('targetGroup', 'chart.msg.enterTargetGroup')) {
-                return false;
-            }
-        }
         return true;
     }
 
@@ -384,20 +370,11 @@
             Array.from(document.getElementById('periodUnit').children).forEach((child) => {
                 child.style.display = '';
             });
-            if (value === BASIC_LINE_CHART) {
-                document.getElementById('groupLabel').style.display = 'block';
-                document.getElementById('targetGroup').style.display = 'block';
-            } else {
-                document.getElementById('groupLabel').style.display = 'none';
-                document.getElementById('targetGroup').style.display = 'none';
-            }
         } else {
             document.getElementById('periodUnit').style.display = 'none';
             Array.from(document.getElementById('periodUnit').children).forEach((child) => {
                 child.style.display = 'none';
             });
-            document.getElementById('groupLabel').style.display = 'none';
-            document.getElementById('targetGroup').style.display = 'none';
         }
 
         // 차트 새로 그리기
@@ -437,8 +414,7 @@
                     to: document.getElementById('rangeToDt').value
                 },
                 operation: document.getElementById('operationSelectBox').value,
-                periodUnit: document.getElementById('periodUnitSelectBox').value,
-                group: document.getElementById('targetGroup').value
+                periodUnit: document.getElementById('periodUnitSelectBox').value
             },
             tags: tagList,
             chartConfigStr: ''
