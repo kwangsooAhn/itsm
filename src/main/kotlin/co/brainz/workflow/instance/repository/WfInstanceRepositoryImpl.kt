@@ -212,9 +212,11 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey))
             )
         )
-        builder.and(
-            token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
-        )
+        if (status!!.equals("finish")) {
+            builder.and(
+                token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
+            )
+        }
 
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
         return query
