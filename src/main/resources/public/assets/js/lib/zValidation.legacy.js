@@ -744,13 +744,30 @@ function isChecked(name, messageId) {
     return true;
 }
 
-function isPhoneNumber(elementId, messageId, callbackFunc) {
+function isPhoneNumberOrExtenstionNumber(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
     const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
         elem.focus();
     };
     if (elem !== null) {
         if (!phoneReg.test(elem.value) && !extensionNumberReg.test(elem.value)) {
+            if (messageId !== undefined) {
+                zAlert.warning(i18n.msg(messageId), callback);
+            }
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
+function isPhoneNumber(elementId, messageId, callbackFunc) {
+    const elem = isNullElement(elementId);
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+        elem.focus();
+    };
+    if (elem !== null) {
+        if (!phoneReg.test(elem.value)) {
             if (messageId !== undefined) {
                 zAlert.warning(i18n.msg(messageId), callback);
             }

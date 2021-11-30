@@ -416,7 +416,7 @@
             if (!isValidEmail('email', true)) return false;
         }
         if(isNotEmpty('officeNumber')) {
-            if(!isPhoneNumber('officeNumber','validation.msg.checkPhoneNumberFormat')) return false;
+            if(!isPhoneNumberOrExtenstionNumber('officeNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')) return false;
         }
         if(isNotEmpty('mobileNumber')) {
             if(!isPhoneNumber('mobileNumber','validation.msg.checkPhoneNumberFormat')) return false;
