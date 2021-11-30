@@ -1140,6 +1140,8 @@ report:
     templateRegister: "Template Register"
   msg:
     configDescription: "Set up templates using custom charts."
+    createFail: "Failed to generate report"
+    createSucess: "Report has been generated."
     duplicateChart: "Duplicate chart exists."
     editDescription: "Register, modify, or delete templates."
     emptyChart: "Chart does not exist."
