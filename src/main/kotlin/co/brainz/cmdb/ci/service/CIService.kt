@@ -274,7 +274,7 @@ class CIService(
      * CI 업데이트.
      */
     @Transactional
-    fun updateCI(ciDto: CIDto, boolean: Boolean): RestTemplateReturnDto {
+    fun updateCI(ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
         val findCIEntity = ciRepository.findById(ciDto.ciId)
         var ciEntity = findCIEntity.get()
@@ -286,7 +286,7 @@ class CIService(
         } else {
             // 변경전 데이터를 이력에 저장
             ciEntity.updateDt = LocalDateTime.now() // 반영일시
-            this.saveCIHistory(ciEntity, boolean)
+            this.saveCIHistory(ciDto, ciEntity)
 
             ciEntity.ciNo = ciDto.ciNo
             ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
@@ -363,7 +363,7 @@ class CIService(
      * CI 삭제
      */
     @Transactional
-    fun deleteCI(ciDto: CIDto, boolean: Boolean): RestTemplateReturnDto {
+    fun deleteCI(ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
 
         val ciEntity = ciRepository.findByCiId(ciDto.ciId) ?: throw AliceException(
@@ -373,7 +373,7 @@ class CIService(
 
         // 삭제전 마지막 값을 이력에 저장
         ciEntity.updateDt = LocalDateTime.now() // 반영일시
-        this.saveCIHistory(ciEntity, boolean)
+        this.saveCIHistory(ciDto, ciEntity)
 
         ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
         ciEntity.ciStatus = RestTemplateConstants.CIStatus.STATUS_DELETE.code
@@ -403,7 +403,7 @@ class CIService(
     /**
      * CI 이력 저장.
      */
-    private fun saveCIHistory(ciEntity: CIEntity, boolean: Boolean) {
+    private fun saveCIHistory(ciDto: CIDto, ciEntity: CIEntity) {
         var historySeq = 0
         val latelyHistory = ciHistoryRepository.findByLatelyHistory(ciEntity.ciId)
         if (latelyHistory != null) {
@@ -422,7 +422,7 @@ class CIService(
             ciIcon = ciEntity.ciTypeEntity.typeIcon,
             ciStatus = ciEntity.ciStatus,
             classId = ciEntity.ciTypeEntity.ciClass.classId,
-            interlink = boolean,
+            interlink = ciDto.interlink,
             instance = ciEntity.instance,
             applyDt = ciEntity.updateDt
         )

@@ -69,13 +69,14 @@ class ApiCIService(
      * CI 수정
      */
     fun updateCI(ciId: String, ciDto: CIDto): Boolean {
+        ciDto.interlink = true
         ciDto.updateUserKey?.let {
             if (userRepository.findByIdOrNull(it) == null) {
                 userService.selectUser(ApiConstants.CREATE_USER)
             }
         }
         ciDto.updateDt = LocalDateTime.now()
-        val returnDto = ciService.updateCI(ciDto, true)
+        val returnDto = ciService.updateCI(ciDto)
         return returnDto.status
     }
 
@@ -83,6 +84,7 @@ class ApiCIService(
      * CI 삭제
      */
     fun deleteCI(ciId: String, ciDto: CIDto): Boolean {
+        ciDto.interlink = true
         ciDto.updateUserKey?.let {
             if (userRepository.findByIdOrNull(it) == null) {
                 userService.selectUser(ApiConstants.CREATE_USER)
@@ -92,7 +94,7 @@ class ApiCIService(
         if (ciDto.ciId.isEmpty()) {
             ciDto.ciId = ciId
         }
-        val returnDto = ciService.deleteCI(ciDto, true)
+        val returnDto = ciService.deleteCI(ciDto)
         return returnDto.status
     }
 }
