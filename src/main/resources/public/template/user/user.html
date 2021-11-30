@@ -76,13 +76,11 @@
                     <div class="flex-column z-edit-row">
                         <label for="officeNumber" th:text="#{user.label.officeNumber}"></label>
                         <input class="z-input" id="officeNumber" maxlength="100" name="officeNumber"
-                               th:onkeydown="${view} ? '' : 'return onlyNumber(event)'" th:onkeyup="${view} ? '' : 'aliceJs.removeChar(event)'"
                                th:readonly="${view}" th:value="${users?.officeNumber}" type="text">
                     </div>
                     <div class="flex-column z-edit-row">
                         <label for="mobileNumber" th:text="#{user.label.mobileNumber}"></label>
                         <input class="z-input text-ellipsis" id="mobileNumber" maxlength="100" name="mobileNumber"
-                               th:onkeydown="${view} ? '' : 'return onlyNumber(event)'" th:onkeyup="${view} ? '' : 'aliceJs.removeChar(event)'"
                                th:readonly="${view}" th:value="${users?.mobileNumber}" type="text">
                     </div>
                 </div>
@@ -411,6 +409,12 @@
         if (isEmpty('userName', 'user.msg.enterUserName')) return false;
         if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
         if (!isValidEmail('email', true)) return false;
+        if(isNotEmpty('officeNumber')) {
+            if(!isPhoneNumberOrExtenstionNumber('officeNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')) return false;
+        }
+        if(isNotEmpty('mobileNumber')) {
+            if(!isPhoneNumber('mobileNumber','validation.msg.checkPhoneNumberFormat')) return false;
+        }
         if (!isChecked('roles', 'user.msg.selectRole')) return false;
         if ([[${users?.userKey}]] !== null && document.getElementById('userAbsence').checked) {
             if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) return false;
