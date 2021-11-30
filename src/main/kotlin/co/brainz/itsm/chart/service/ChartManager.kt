@@ -6,487 +6,196 @@
 
 package co.brainz.itsm.chart.service
 
-import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.chart.constants.ChartConstants
-import co.brainz.itsm.chart.dto.ChartCalculateAverageDto
-import co.brainz.itsm.chart.dto.ChartComponentDataDto
 import co.brainz.itsm.chart.dto.ChartConfig
-import co.brainz.itsm.chart.dto.ChartDateTimeDto
+import co.brainz.itsm.chart.dto.ChartData
 import co.brainz.itsm.chart.dto.ChartDto
-import co.brainz.itsm.document.service.DocumentService
-import co.brainz.itsm.form.service.FormService
-import co.brainz.itsm.instance.service.InstanceService
-import co.brainz.itsm.token.service.TokenService
-import co.brainz.workflow.component.constants.WfComponentConstants
-import co.brainz.workflow.element.constants.WfElementConstants
-import co.brainz.workflow.engine.manager.service.WfTokenManagerService
-import co.brainz.workflow.instance.entity.WfInstanceEntity
-import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
-import com.fasterxml.jackson.core.type.TypeReference
+import co.brainz.itsm.chart.dto.ChartRange
+import co.brainz.itsm.chart.dto.TagInstanceDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 abstract class ChartManager(
-    private val chartManagerService: ChartManagerService,
-    private val instanceService: InstanceService,
-    private val documentService: DocumentService,
-    private val formService: FormService,
-    private val tokenService: TokenService,
-    private val wfTokenManagerService: WfTokenManagerService
+    private val chartManagerService: ChartManagerService
 ) {
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    lateinit var chartConfig: ChartConfig
+    //lateinit var chartConfig: ChartConfig
 
-    abstract fun setChartConfigDetail(chartDto: ChartDto): LinkedHashMap<String, Any?>
+    //lateinit var chartDto: ChartDto
+
+    //abstract fun setChartConfigDetail(chartDto: ChartDto): LinkedHashMap<String, Any?>
 
     fun getChart(chartDto: ChartDto): ChartDto {
-        this.chartConfig = chartDto.chartConfig
-        this.setChartDetail(chartDto)
-        chartDto.propertyJson = this.getChartProperty(chartDto)
+        
+        // 1. 기본 셋팅 정보는 다 되어 있고
+        // 2. 데이터를 조회한다.
+        // 3-1. 문서 목록 조회
+
+        // range 로 from, to 구하기
+        // TODO: range 범위 정하기 (FrontEnd or BackEnd)
+        // 2021-11-30 화면에서 from, to를 작성해서 보내주기로 함
+        //chartDto.chartConfig.range = this.getRange(chartDto.chartConfig)
+
+        // TODO: range 범위에 간격 값을 기준으로 category 를 생성
+        val category = this.getCategory(chartDto.chartConfig)
+
+        // TODO: tag 별 range 안의 instance 목록을 가져오기
+        val tagInstances = this.getTagInstances(chartDto.tags, chartDto.chartConfig.range)
+
+        // TODO: 가져온 데이터로 설정에 따라 데이터를 가공하여 chartDto.data 를 만든다.
+        val data = when (chartDto.chartConfig.operation) {
+            ChartConstants.Operation.COUNT.code -> this.count(chartDto.chartConfig, category, tagInstances)
+            ChartConstants.Operation.PERCENT.code -> this.percent(chartDto.chartConfig, category, tagInstances)
+            ChartConstants.Operation.AVERAGE.code -> this.average(tagInstances)
+            else -> throw AliceException(
+                AliceErrorConstants.ERR_00005,
+                AliceErrorConstants.ERR_00005.message + "[Chart Operation Error]"
+            )
+        }
+        chartDto.chartData.addAll(data)
+
         return chartDto
     }
 
-    abstract fun setChartDetail(chartDto: ChartDto): ChartDto
+    abstract fun average(tagInstance: List<TagInstanceDto>): List<ChartData>
 
-    /**
-     * 차트 생성 관련 JsonArray 생성
-     */
-    private fun getChartProperty(chart: ChartDto): String {
-        val instanceList = this.getInstanceListInTags(chart)
-        val propertyList = mutableListOf<Map<String, Any>>()
-        val durationDoc = this.getDurationDoc(chart, instanceList)
-        val map = LinkedHashMap<String, Any>()
-        map["title"] = chart.chartName
-        map["operation"] = this.calculateOperation(durationDoc, chart)
-        propertyList.add(map)
-        propertyList.add(durationDoc)
+    abstract fun percent(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<TagInstanceDto>): List<ChartData>
 
-        return mapper.writeValueAsString(propertyList)
-    }
+    abstract fun count(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstances: List<TagInstanceDto>): List<ChartData>
 
-    private fun getInstanceListInTags(chart: ChartDto): List<WfInstanceEntity> {
-        val tags = mutableSetOf<String>()
-        chart.tags.forEach { tag ->
-            tags.add(tag.tagValue)
+    private fun getPeriodUnitValue(periodUnit: String, dateTime: LocalDateTime): String {
+        val year = dateTime.year.toString()
+        val month = String.format("%02d",dateTime.monthValue)
+        val day = String.format("%02d",dateTime.dayOfMonth)
+        val hour = String.format("%02d",dateTime.hour)
+        return when (periodUnit) {
+            ChartConstants.Unit.YEAR.code -> year
+            ChartConstants.Unit.MONTH.code -> "$year-$month"
+            ChartConstants.Unit.DAY.code -> "$year-$month-$day"
+            ChartConstants.Unit.HOUR.code -> "$year-$month-$day $hour"
+            else -> throw AliceException(
+                AliceErrorConstants.ERR_00005,
+                AliceErrorConstants.ERR_00005.message + "[Chart periodUnitValue Error]"
+            )
         }
-        return chartManagerService.getInstanceListInTags(tags)
     }
 
-    private fun getPeriodYear(
-        chartDateTime: ChartDateTimeDto,
-        instanceList: List<WfInstanceEntity>
-    ): LinkedHashMap<String, Any> {
-        val durationMap = LinkedHashMap<String, Any>()
-        for (year in chartDateTime.startYear until chartDateTime.endDateTime!!.year + 1) {
-            val docList = mutableListOf<HashMap<String, Any>>()
-            instanceList.forEach { instance ->
-                when (instance.instanceStartDt!!.year) {
-                    year -> {
-                        val docMap = HashMap<String, Any>()
-                        docMap["instanceId"] = instance.instanceId
-                        docMap["endDt"] = instance.instanceEndDt.toString()
-                        docList.add(docMap)
+    fun valueOfCount(chartConfig: ChartConfig, categories: LinkedHashSet<String>, tagInstances: List<TagInstanceDto>): List<ChartData> {
+        val valueList = mutableListOf<ChartData>()
+        categories.iterator().forEach { category ->
+            // category 값을 periodUnit 에 따라 비교할 수 있는 값으로 변경한다.
+            val categoryDateTime = LocalDateTime.parse(category, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            val periodUnitValue = this.getPeriodUnitValue(chartConfig.periodUnit!!, categoryDateTime)
+            var count = 0
+            // tag 별 instance 를 loop 돌리면서 count 계산
+            tagInstances.forEach { tagInstance ->
+                tagInstance.instances.forEach { instance ->
+                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceEndDt!!)) {
+                        count++
                     }
                 }
+                valueList.add(
+                    ChartData(
+                        id = tagInstance.tag.tagId.toString(),
+                        category = category,
+                        series = tagInstance.tag.tagValue,
+                        value = count.toString()
+                    )
+                )
             }
-            durationMap[year.toString()] = docList
         }
-        return durationMap
+        return valueList
     }
 
-    private fun getPeriodMonth(
-        instanceList: List<WfInstanceEntity>,
-        dateFormatList: MutableList<String>
-    ): LinkedHashMap<String, Any> {
-        val durationMap = LinkedHashMap<String, Any>()
-        for (dateFormat in dateFormatList) {
-            val docList = mutableListOf<HashMap<String, Any>>()
-            instanceList.forEach { instance ->
-                val docYear = instance.instanceEndDt!!.year
-                val docMonth = instance.instanceEndDt!!.monthValue
-                when (docYear.toString() + this.addStringFormat(docMonth)) {
-                    dateFormat -> {
-                        val docMap = HashMap<String, Any>()
-                        docMap["instanceId"] = instance.instanceId
-                        docMap["endDt"] = instance.instanceEndDt.toString()
-                        docList.add(docMap)
-                    }
-                }
-            }
-            durationMap[dateFormat] = docList
-        }
-        return durationMap
-    }
+    private fun getCategory(chartConfig: ChartConfig): LinkedHashSet<String> {
+        val category = LinkedHashSet<String>()
 
-    private fun getPeriodDate(
-        instanceList: List<WfInstanceEntity>,
-        dateFormatList: MutableList<String>
-    ): LinkedHashMap<String, Any> {
-        val durationMap = LinkedHashMap<String, Any>()
-        for (dateFormat in dateFormatList) {
-            val docList = mutableListOf<HashMap<String, Any>>()
-            instanceList.forEach { instance ->
-                val docYear = instance.instanceEndDt!!.year
-                val docMonth = instance.instanceEndDt!!.monthValue
-                val docDays = instance.instanceEndDt!!.dayOfMonth
-                when (docYear.toString() + this.addStringFormat(docMonth) + this.addStringFormat(docDays)) {
-                    dateFormat -> {
-                        val docMap = HashMap<String, Any>()
-                        docMap["instanceId"] = instance.instanceId
-                        docMap["endDt"] = instance.instanceEndDt.toString()
-                        docList.add(docMap)
-                    }
-                }
-            }
-            durationMap[dateFormat] = docList
-        }
-        return durationMap
-    }
-
-    private fun getPeriodHour(
-        instanceList: List<WfInstanceEntity>,
-        dateFormatList: MutableList<String>
-    ): LinkedHashMap<String, Any> {
-        val durationMap = LinkedHashMap<String, Any>()
-        for (dateFormat in dateFormatList) {
-            val docList = mutableListOf<HashMap<String, Any>>()
-            instanceList.forEach { instance ->
-                val docYear = instance.instanceEndDt!!.year
-                val docMonth = instance.instanceEndDt!!.monthValue
-                val docDays = instance.instanceEndDt!!.dayOfMonth
-                val docHours = instance.instanceEndDt!!.hour
-                when (docYear.toString() + this.addStringFormat(docMonth) + docDays + this.addStringFormat(docHours)) {
-                    dateFormat -> {
-                        val docMap = HashMap<String, Any>()
-                        docMap["instanceId"] = instance.instanceId
-                        docMap["endDt"] = instance.instanceEndDt.toString()
-                        docList.add(docMap)
-                    }
-                }
-            }
-            durationMap[dateFormat] = docList
-        }
-        return durationMap
-    }
-
-    /**
-     * 수집한 신청서에 대하여 1차로 duration의 digit와 Unit에 대하여 분리
-     * Stacked Column, Basic Line 차트의 경우 2차로 periodUnit 에 따라 데이터를 분리하여 JsonObject의 형태로 구현.
-     * Pie 차트의 경우, 설정한 operation Unit을 periodUnit으로 설정하여 데이터에 대한 분리를 진행.
-     */
-    private fun getDurationDoc(
-        chart: ChartDto,
-        instanceList: List<WfInstanceEntity>
-    ): Map<String, Any> {
-        val chartDateTime = this.getChartDateTime(chart)
-        val selectDocList = mutableListOf<WfInstanceEntity>()
-        var durationMap = LinkedHashMap<String, Any>()
-        val dateFormatList = mutableListOf<String>()
-
-        instanceList.forEach { instance ->
-            if (instance.instanceEndDt!!.withNano(0) >= chartDateTime.startDateTime) {
-                selectDocList.add(instance)
-            }
-        }
-        when (chart.chartConfig.periodUnit) {
+        val from = chartConfig.range.from!!
+        val to = chartConfig.range.to!!
+        when (chartConfig.periodUnit) {
             ChartConstants.Unit.YEAR.code -> {
-                durationMap = this.getPeriodYear(chartDateTime, instanceList)
+                val period: Long = ChronoUnit.YEARS.between(from, to)
+                for (i in 0..period) {
+                    //category.add((chartConfig.range.from!!.year + i).toString())
+                    category.add(((chartConfig.range.from!!.year + i).toString()) + "-01-01 00:00:00")
+                }
             }
             ChartConstants.Unit.MONTH.code -> {
-                for (index in 0 until chartDateTime.period + 1) {
-                    dateFormatList.add(
-                        chartDateTime.startYear.toString() + this.addStringFormat(chartDateTime.startMonth)
-                    )
-                    when (chartDateTime.startMonth) {
-                        12 -> {
-                            chartDateTime.startYear++
-                            chartDateTime.startMonth = 1
-                        }
-                        else -> {
-                            chartDateTime.startMonth++
-                        }
-                    }
+                val period: Long = ChronoUnit.MONTHS.between(from, to)
+                for (i in 0..period) {
+                    val nextCategory = from.plusMonths(i)
+                    //category.add(nextCategory.year.toString() + "-" + String.format("%02d", nextCategory.monthValue))
+                    category.add((nextCategory.year.toString() + "-" + String.format("%02d", nextCategory.monthValue)) + "-01 00:00:00")
                 }
-                durationMap = this.getPeriodMonth(instanceList, dateFormatList)
             }
-            ChartConstants.Unit.DATE.code -> {
-                for (index in 0 until chartDateTime.period + 1) {
-                    val dateFormat = chartDateTime.startYear.toString() + this.addStringFormat(chartDateTime.startMonth)
-                    val lengthOfMonth =
-                        YearMonth.from(chartDateTime.startDateTime.plusMonths(index.toLong())).lengthOfMonth()
-
-                    for (day in chartDateTime.startDays until lengthOfMonth + 1) {
-                        dateFormatList.add(dateFormat + this.addStringFormat(day))
-
-                        if (day == chartDateTime.endDateTime!!.dayOfMonth &&
-                            chartDateTime.startMonth == chartDateTime.endDateTime.monthValue
-                        ) {
-                            break
-                        }
-                    }
-
-                    when (chartDateTime.startMonth) {
-                        12 -> {
-                            chartDateTime.startYear++
-                            chartDateTime.startMonth = 1
-                        }
-                        else -> {
-                            chartDateTime.startMonth++
-                        }
-                    }
-                    chartDateTime.startDays = 1
+            ChartConstants.Unit.DAY.code -> {
+                val period: Long = ChronoUnit.DAYS.between(from, to)
+                for (i in 0..period) {
+                    val nextCategory = from.plusDays(i)
+                    //category.add(nextCategory.year.toString() + "-" + String.format("%02d", nextCategory.monthValue) + "-" + String.format("%2d", nextCategory.dayOfMonth))
+                    category.add((nextCategory.year.toString() + "-" + String.format("%02d", nextCategory.monthValue) + "-" + String.format("%2d", nextCategory.dayOfMonth)) + " 00:00:00")
                 }
-                durationMap = this.getPeriodDate(instanceList, dateFormatList)
             }
             ChartConstants.Unit.HOUR.code -> {
-                for (index in 0 until chartDateTime.period + 1) {
-                    val dateFormat = chartDateTime.startYear.toString() + this.addStringFormat(chartDateTime.startMonth)
-                    val lengthOfMonth =
-                        YearMonth.from(chartDateTime.startDateTime.plusMonths(index.toLong())).lengthOfMonth()
-
-                    for (day in chartDateTime.startDays until lengthOfMonth + 1) {
-                        for (hours in chartDateTime.startHours until 25) {
-                            dateFormatList.add(dateFormat + day + this.addStringFormat(hours))
-                            if (hours == chartDateTime.endDateTime!!.hour &&
-                                day == chartDateTime.endDateTime.dayOfMonth &&
-                                chartDateTime.startMonth == chartDateTime.endDateTime.monthValue
-                            ) {
-                                break
-                            }
-                        }
-                        if (day == chartDateTime.endDateTime!!.dayOfMonth &&
-                            chartDateTime.startMonth == chartDateTime.endDateTime.monthValue
-                        ) {
-                            break
-                        }
-                        chartDateTime.startHours = 1
-                    }
-
-                    when (chartDateTime.startMonth) {
-                        12 -> {
-                            chartDateTime.startYear++
-                            chartDateTime.startMonth = 1
-                        }
-                        else -> {
-                            chartDateTime.startMonth++
-                        }
-                    }
-                    chartDateTime.startDays = 1
+                val period: Long = ChronoUnit.HOURS.between(from, to)
+                for (i in 0..period) {
+                    val nextCategory = from.plusHours(i)
+                    //category.add(nextCategory.year.toString() + "-" + String.format("%02d", nextCategory.monthValue) + "-" + String.format("%2d", nextCategory.dayOfMonth) + " " + String.format("%02d", nextCategory.hour))
+                    category.add((nextCategory.year.toString() + "-" + String.format("%02d", nextCategory.monthValue) + "-" + String.format("%2d", nextCategory.dayOfMonth) + " " + String.format("%02d", nextCategory.hour)) + ":00:00")
                 }
-                durationMap = this.getPeriodHour(instanceList, dateFormatList)
             }
         }
 
-        val durationDoc = HashMap<String, Any>()
-        durationDoc["instanceList"] = durationMap
-
-        return durationDoc
+        return category
     }
 
-    /**
-     * getDurationDoc 함수를 통해 가져온 JsonObject 데이터에 대하여, operation에 대한 계산을 진행
-     */
-    private fun calculateOperation(
-        durationDoc: Map<String, Any>,
-        chart: ChartDto
-    ): LinkedHashMap<String, Any> {
-        val operation = LinkedHashMap<String, Any>()
-        var totalCount = 0
-        val instanceListMap: Map<String, Any> =
-            mapper.convertValue(durationDoc["instanceList"], object : TypeReference<Map<String, Any>>() {})
-        instanceListMap.entries.forEach {
-            val durationMap: List<Map<String, Any>> =
-                mapper.convertValue(it.value, object : TypeReference<List<Map<String, Any>>>() {})
-            totalCount += durationMap.size
-            val map = LinkedHashMap<String, Any>()
-            map[ChartConstants.Operation.COUNT.code] = durationMap.size
-            map[ChartConstants.Operation.PERCENT.code] = if (totalCount != 0) {
-                ((durationMap.size / totalCount) * 100).toString() + "%"
-            } else {
-                "0%"
+    private fun getRange(chartConfig: ChartConfig): ChartRange {
+        val range = chartConfig.range.copy()
+        when (chartConfig.range.type) {
+            ChartConstants.Range.ALL.code -> {
+                range.from = LocalDate.of(2000, 1, 1).atStartOfDay()
+                range.to = LocalDateTime.now()
             }
-            map[ChartConstants.Operation.AVERAGE.code] = if (durationMap.isNotEmpty()) {
-                this.getTagAverage(
-                    this.getTagComponent(durationMap, chart.tags), chart.tags
-                )
-            } else {
-                "0"
+            ChartConstants.Range.BETWEEN.code -> {
+                range.to = chartConfig.range.to!!.plusDays(1).minusSeconds(1)
             }
-            operation[it.key] = map
-        }
-
-        return operation
-    }
-
-    /**
-     * 문서 분리에 기준이 되는 시작일을 구한다.
-     * 종료일은 00시 00분 기준이므로 검색 시 포함하지 않아야 한다.
-     */
-    private fun getChartDateTime(chart: ChartDto): ChartDateTimeDto {
-        var startDateTime: LocalDateTime = LocalDateTime.now()
-        var endDateTime: LocalDateTime = LocalDateTime.now()
-
-        when (chart.chartConfig.range.type) {
-            ChartConstants.RangeType.BETWEEN.code -> {
-                startDateTime = chart.chartConfig.range.from!!.atStartOfDay()
-                endDateTime = chart.chartConfig.range.to!!.plusDays(1).atStartOfDay()
+            ChartConstants.Range.LAST_DAY.code -> {
+                range.from = LocalDateTime.now().minusDays(1)
+                range.to = LocalDateTime.now()
             }
-            ChartConstants.RangeType.LAST_MONTH.code -> {
+            ChartConstants.Range.LAST_MONTH.code -> {
                 val lastMonth = YearMonth.from(LocalDateTime.now().minusMonths(1))
-                startDateTime = lastMonth.atDay(1).atStartOfDay()
-                endDateTime = lastMonth.atEndOfMonth().plusDays(1).atStartOfDay()
-            }
-            ChartConstants.RangeType.LAST_DAY.code -> {
-                startDateTime = LocalDate.now().minusDays(1).atStartOfDay()
-                endDateTime = LocalDate.now().atStartOfDay()
-            }
-            ChartConstants.RangeType.ALL.code -> {
-                startDateTime = LocalDate.of(1975, 6, 23).atStartOfDay() // 내 생일이다. 문제 있을까? By Jung Hee Chan
-                endDateTime = LocalDateTime.now()
+                range.from = lastMonth.atDay(1).atStartOfDay()
+                range.to = lastMonth.atEndOfMonth().plusDays(1).atStartOfDay().minusSeconds(1)
             }
         }
 
-        return ChartDateTimeDto(
-            startDateTime = startDateTime,
-            endDateTime = endDateTime,
-            startYear = startDateTime.year,
-            startMonth = startDateTime.monthValue,
-            startDays = startDateTime.dayOfMonth,
-            startHours = startDateTime.hour,
-            period = ChronoUnit.MONTHS.between(startDateTime, endDateTime).toInt()
-        )
-    }
-
-    private fun addStringFormat(target: Int): String {
-        return String.format("%02d", target)
+        return range
     }
 
     /**
-     * 태그 평균 계산에 대상이 되는 특정 컴포넌트에 대한 분리 및 데이터 수집을 진행한다.
+     * [tags] 목록으로 각각의 tag 별 range 범위내 instance 목록을 조회
      */
-    private fun getTagComponent(
-        durationMap: List<Map<String, Any>>,
-        chartTags: List<AliceTagDto>
-    ): LinkedHashMap<String, MutableList<ChartComponentDataDto>> {
-        val instanceList = mutableListOf<RestTemplateInstanceDto>()
-        val componentDataMap = LinkedHashMap<String, MutableList<ChartComponentDataDto>>()
-
-        // 파리미터로 넘어온 인스턴스 데이터에 대한 인스턴트 세부 정보 데이터를 추출한다.
-        durationMap.forEach { instanceData ->
-            for ((key, value) in instanceData) {
-                if (key == "instanceId") {
-                    instanceList.add(
-                        instanceService.getInstance(value as String)
-                    )
-                }
-            }
+    private fun getTagInstances(tags: List<AliceTagDto>, range: ChartRange): List<TagInstanceDto> {
+        val tagInstances = mutableListOf<TagInstanceDto>()
+        tags.forEach { tag ->
+            tagInstances.add(
+                TagInstanceDto(
+                    tag = tag,
+                    instances = chartManagerService.getInstanceListInTag(tag.tagValue, range)
+                )
+            )
         }
-
-        // 사용자 정의 차트에서 설정한 태그 데이터와 관련된 컴포넌트 데이터를 추출한다.
-        val tags = mutableSetOf<String>()
-        chartTags.forEach { tag ->
-            tags.add(tag.tagValue)
-        }
-        val tagTargetIds = chartManagerService.getTagValueList(AliceTagConstants.TagType.COMPONENT.code, tags.toList())
-
-        // 해당 인스턴스와 관련된 신청서(document)의 문서(form)를 찾아 컴포넌트 리스트를 출력한다.
-        // 여기서 수집하는 컴포넌트 데이터는 전체 컴포넌트 중에서 태그와 관련된 컴포넌트이고 'dropdown', 'radio', 'checkBox' 타입의 컴포넌트를 수집한다.
-        instanceList.forEach { instance ->
-            val componentDataList = mutableListOf<ChartComponentDataDto>()
-            val form = documentService.getDocument(instance.documentId).formId
-            formService.getFormData(form).group?.forEach { FormGroupDto ->
-                FormGroupDto.row.forEach { FormRowDto ->
-                    FormRowDto.component.forEach { FormComponentDto ->
-                        when (FormComponentDto.type) {
-                            WfComponentConstants.ComponentTypeCode.SELECT.code,
-                            WfComponentConstants.ComponentTypeCode.RADIO.code,
-                            WfComponentConstants.ComponentTypeCode.CHECKBOX.code -> {
-                                for (target in tagTargetIds) {
-                                    if (target.targetId == FormComponentDto.id) {
-                                        componentDataList.add(
-                                            ChartComponentDataDto(
-                                                componentId = FormComponentDto.id,
-                                                componentType = FormComponentDto.type
-                                            )
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            componentDataMap[instance.instanceId] = componentDataList
-        }
-
-        // 위에서 분류된 인스턴스의 토큰 데이터를 찾고 그 중에서 엘리먼트의 타입이 'commonEnd'인 토큰을 찾는다.
-        // 토큰을 찾았으면 wf_token_data 테이블에서 해당 토큰 데이터와 일치하는 컴포넌트의 value 값을 맵핑한다.
-        // 이때 평균 계산을 위해 tagValue, instanceId, componentValue 값이 필요하다.
-        instanceList.forEach { instance ->
-            val componentDataList = mutableListOf<ChartComponentDataDto>()
-            tokenService.findTokenByInstanceId(instance.instanceId).forEach { token ->
-                if (token.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value) {
-                    componentDataMap.getValue(instance.instanceId).forEach { componentDataDto ->
-                        componentDataList.add(
-                            ChartComponentDataDto(
-                                componentId = componentDataDto.componentId,
-                                componentValue = wfTokenManagerService.getComponentValue(
-                                    token.tokenId,
-                                    componentDataDto.componentId,
-                                    null
-                                ),
-                                componentType = componentDataDto.componentType,
-                                tagValue = chartManagerService.getTagsByTargetId(
-                                    AliceTagConstants.TagType.COMPONENT.code,
-                                    componentDataDto.componentId
-                                )[0].tagValue
-                            )
-                        )
-                    }
-                }
-            }
-            componentDataMap[instance.instanceId] = componentDataList
-        }
-        return componentDataMap
-    }
-
-    /**
-     * 특정 컴포넌트에 대한 평균 계산을 진행한다.
-     * 해당 함수에서는 인스턴스가 가지고 있는 특정 태그를 가진 컴포넌트에 대한 count, sum, average 데이터를 구한다.
-     */
-    private fun getTagAverage(
-        componentDataMap: LinkedHashMap<String, MutableList<ChartComponentDataDto>>,
-        chartTags: List<AliceTagDto>
-    ): LinkedHashMap<String?, ChartCalculateAverageDto?> {
-        val tagMap = LinkedHashMap<String?, ChartCalculateAverageDto?>()
-        componentDataMap.forEach { componentData ->
-            chartTags.forEach { tag ->
-                tagMap[tag.tagValue] = ChartCalculateAverageDto()
-            }
-            if (componentData.value.size > 0) {
-                componentData.value.forEach { data ->
-                    if (!data.componentValue.isNullOrBlank()) {
-                        data.componentValue.split("|").forEach { componentValue ->
-                            if (componentValue.toDoubleOrNull() != null) {
-                                tagMap[data.tagValue] = ChartCalculateAverageDto(
-                                    count = tagMap[data.tagValue]?.count!!.plus(1),
-                                    sum = tagMap[data.tagValue]?.sum!!.plus(componentValue.toDouble())
-                                )
-                                tagMap[data.tagValue]?.average =
-                                    (tagMap[data.tagValue]?.sum!! / tagMap[data.tagValue]?.count!!)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return tagMap
+        return tagInstances
     }
 }
