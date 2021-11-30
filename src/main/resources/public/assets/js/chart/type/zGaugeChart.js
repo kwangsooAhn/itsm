@@ -195,7 +195,6 @@ export const zGaugeChartMixin = {
      * @param option 하이차트 옵션
      */
     setTooltipOption(option) {
-        // 현재 모듈 클래스를 변수에 담아서 사용하는건 보기 좋은 소스는 아니지만 툴팁 객체를 찾지 못하는 버그가 있어서 현재 구조로 구현함 (#11705 일감 확인)
         const chart = this;
         Object.assign(option.tooltip, {
             formatter: function () {
