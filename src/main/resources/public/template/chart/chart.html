@@ -32,6 +32,7 @@
             <input type="hidden" id="propertyJson" name="propertyJson" th:value="|${chart?.propertyJson}|"/>
             <input type="hidden" id="chartConfig" name="chartConfig" th:value="|${chart?.chartConfigStr}|"/>
             <input type="hidden" id="tags" name="tags" th:value="|${chart?.tags}|"/>
+
             <div class="flex-column z-edit-row">
                 <h4 class="sub-title under-bar bold" th:text="#{chart.label.defaultInfo}"></h4>
             </div>
@@ -156,10 +157,15 @@
         let rangeToDt = i18n.getDate();
 
         window.onload = function () {
-            OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
-            // date picker 초기화
+            OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
+
+            // 기간 조회 날짜 데이터 조기화
             const fromDtElement = document.getElementById('rangeFromDt');
+            fromDtElement.value = i18n.userDateTime(fromDtElement.value);
+
             const toDtElement = document.getElementById('rangeToDt');
+            toDtElement.value = i18n.userDateTime(toDtElement.value);
+
             if (!fromDtElement.value || !toDtElement.value) {
                 fromDtElement.value = rangeFromDt;
                 toDtElement.value = rangeToDt;
@@ -168,14 +174,22 @@
             zDateTimePicker.initDatePicker(toDtElement, setDatePicker);
 
             // range select event
-            document.getElementById('rangeType').addEventListener('change', (e) => {
+            document.getElementById('rangeType').addEventListener('change', function (e) {
                 if (e.target.value !== 'chart.range.between') {
                     document.getElementById('rangeDate').style.visibility = 'hidden';
                 } else {
                     document.getElementById('rangeDate').style.visibility = 'visible';
                 }
             });
-            document.getElementById('rangeType').dispatchEvent(new Event('change'));
+            //document.getElementById('rangeType').dispatchEvent(new Event('change'));
+
+            // 태그 초기화
+            new zTag(document.querySelector('input[name=targetTags]'), {
+                suggestion: false,
+                realtime: false,
+                tagType: 'chart',
+                targetId: chartId
+            });
 
             // chart 초기화
             getChart([[${chart?.chartId}]]);
@@ -238,7 +252,7 @@
                 if (chartInfo.chartId !== undefined) {
                     url += '/' + chartId;
                 }
-                restSubmit(method, url, chartInfo, function (result) {
+                /*restSubmit(method, url, chartInfo, function (result) {
                     switch (result) {
                         case STATUS_SUCCESS:
                             zAlert.success(i18n.msg('common.msg.save'), function () {
@@ -249,7 +263,7 @@
                             zAlert.danger(i18n.msg('common.msg.fail'));
                             break;
                     }
-                });
+                });*/
             }
         }
 
@@ -298,12 +312,6 @@
         function getChart(chartId) {
             setDisplay(document.getElementById('typeSelectBox').value, true);
 
-            new zTag(document.querySelector('input[name=targetTags]'), {
-                suggestion: false,
-                realtime: false,
-                tagType: 'chart',
-                targetId: chartId
-            });
             if (chartId !== null) {
                 parsedPropertyJson(
                     document.getElementById('typeSelectBox').value,
@@ -325,14 +333,18 @@
             return true;
         }
 
+        function setOperationOption() {
+            let options = ['count', 'average', 'percent'];
+        }
+
         function setDisplay(value, load) {
             let operation = [[${chart?.chartConfig?.operation}]];
             // 연산자 박스 출력
             let operationSelectBox = document.getElementById('operationSelectBox');
             operationSelectBox.options.length = 0;
-            let countOption = document.createElement('option');
-            let averageOption = document.createElement('option');
-            let percentOption = document.createElement('option');
+            let countOption = document.createElement('option'); // 카운트
+            let averageOption = document.createElement('option'); // 평균
+            let percentOption = document.createElement('option'); // 퍼센트
             countOption.text = i18n.msg('chart.option.text.count');
             countOption.value = i18n.msg('chart.option.value.count');
             averageOption.text = i18n.msg('chart.option.text.average');
