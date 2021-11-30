@@ -466,7 +466,7 @@ input, textarea, select {
 // os-div 작업
 div.z-textarea {
   &-readonly {
-    border: none !important;
+    border-color: transparent !important;
   }
 }
 
