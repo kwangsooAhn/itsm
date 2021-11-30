@@ -40,6 +40,10 @@ export const zPieChartMixin = {
         this.setTooltipOption(defaultOptions);
         // 옵션 프로퍼티 초기화
         this._options = defaultOptions;
+        // highcharts 초기화
+        this.chart = Highcharts.chart(this.container, this.options);
+        // highcharts 이름 초기화
+        this.chart.setTitle({ text: this.name }, false);
     },
     get options() {
         return this._options;
@@ -97,5 +101,13 @@ export const zPieChartMixin = {
         const seriesName = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(data[0].series));
         this.chart.series[0].update({ name: seriesName, id: data[0].id }, false);
         this.chart.series[0].setData(series, true);
+    },
+    /**
+     * 파이차트 삭제
+     */
+    destroyChart() {
+        this.chart.destroy();
+        this.chart = null;
+        delete this.chart;
     }
 };

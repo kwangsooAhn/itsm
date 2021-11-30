@@ -128,7 +128,7 @@
                 callbackFunc: function (response) {
                     document.getElementById('getChart').innerHTML = response.responseText;
                     // 가데이터 표시
-                    aliceJs.fetchJson('../../assets/js/chart/dummy/bar.json', {
+                    aliceJs.fetchJson('../../assets/js/chart/dummy/' + chartType + '.json', {
                         method: 'GET'
                     }).then((chartData) => {
                         zChartManager.load(chartData);
@@ -143,23 +143,23 @@
     <script type="module">
         import ZChart from '../../assets/js/chart/zChart.js';
 
-const zChartManager = {
-    load: function(data) {
-        // 차트 초기화
-        this.zChart = new ZChart('container', data);
+        const zChartManager = {
+            load: function(data) {
+                // 차트 초기화
+                this.zChart = new ZChart('container', data);
 
-        // 데이터 업데이트
-        this.zChart.update(data.chartData);
-    },
-    destroy: function () {
-        if (this.zChart) {
-            this.zChart.destroy();
-            this.zChart = null;
-            delete this.zChart;
+                // 데이터 업데이트
+                this.zChart.update(data.chartData);
+            },
+            destroy: function () {
+                if (this.zChart) {
+                    this.zChart.destroy();
+                    this.zChart = null;
+                    delete this.zChart;
+                }
+            }
         }
-    }
-}
-window.zChartManager = zChartManager;
+        window.zChartManager = zChartManager;
     </script>
 </th:block>
 </html>

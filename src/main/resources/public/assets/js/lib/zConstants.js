@@ -110,9 +110,8 @@ export const CHART = {
         BASIC_LINE: 'chart.basicLine',
         STACKED_COLUMN: 'chart.stackedColumn',
         STACKED_BAR: 'chart.stackedBar',
-        LINE_AND_COLUMN: 'chart.lineAndColumn',
         PIE: 'chart.pie',
-        ACTIVITY_GAUGE: 'chart.activityGauge'
+        GAUGE: 'chart.gauge'
     },
     OPERATION: {
         AVG: 'average',

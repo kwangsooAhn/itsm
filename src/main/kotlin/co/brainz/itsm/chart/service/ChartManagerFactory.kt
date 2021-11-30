@@ -9,7 +9,7 @@ package co.brainz.itsm.chart.service
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.itsm.chart.constants.ChartConstants
-import co.brainz.itsm.chart.service.impl.ActivityGauge
+import co.brainz.itsm.chart.service.impl.Gauge
 import co.brainz.itsm.chart.service.impl.BasicLine
 import co.brainz.itsm.chart.service.impl.LineAndColumn
 import co.brainz.itsm.chart.service.impl.Pie
@@ -74,7 +74,7 @@ class ChartManagerFactory(
                 tokenService,
                 wfTokenManagerService
             )
-            ChartConstants.Type.ACTIVITY_GAUGE.code -> ActivityGauge(
+            ChartConstants.Type.GAUGE.code -> Gauge(
                 chartManagerService,
                 instanceService,
                 documentService,
