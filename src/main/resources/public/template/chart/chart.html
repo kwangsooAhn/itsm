@@ -14,7 +14,6 @@
     <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
-    <!--<script th:src="@{/assets/js/chart/zChart.js}"></script>-->
 </th:block>
 <body>
 <div layout:fragment="pageTitle">
@@ -140,291 +139,310 @@
     </div>
 </div>
 </body>
-<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
-    const chartId = [[${chart?.chartId}]];
-    const STATUS_SUCCESS = '0';
-    const CHART_YEAR = 'Y';
-    const CHART_MONTH = 'M';
-    const CHART_DAY = 'D';
-    const CHART_HOUR = 'H';
-    const PIE_CHART = 'chart.pie';
-    const STACKED_COLUMN_CHART = 'chart.stackedColumn';
-    const STACKED_BAR_CHART = 'chart.stackedBar';
-    const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
-    const BASIC_LINE_CHART = 'chart.basicLine';
-    const GAUGE_CHART = 'chart.gauge';
-    let chart = null;
-    let rangeFromDt = i18n.getDate({'months': -1});
-    let rangeToDt = i18n.getDate();
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript" type="text/javascript">
+        const chartId = [[${chart?.chartId}]];
+        const STATUS_SUCCESS = '0';
+        const CHART_YEAR = 'Y';
+        const CHART_MONTH = 'M';
+        const CHART_DAY = 'D';
+        const CHART_HOUR = 'H';
+        const PIE_CHART = 'chart.pie';
+        const STACKED_COLUMN_CHART = 'chart.stackedColumn';
+        const STACKED_BAR_CHART = 'chart.stackedBar';
+        const BASIC_LINE_CHART = 'chart.basicLine';
+        let chart = null;
+        let rangeFromDt = i18n.getDate({'months': -1});
+        let rangeToDt = i18n.getDate();
 
-    window.onload = function () {
-        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
-        // date picker 초기화
-        const fromDtElement = document.getElementById('rangeFromDt');
-        const toDtElement = document.getElementById('rangeToDt');
-        if (!fromDtElement.value || !toDtElement.value) {
-            fromDtElement.value = rangeFromDt;
-            toDtElement.value = rangeToDt;
-        }
-        zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
-        zDateTimePicker.initDatePicker(toDtElement, setDatePicker);
-
-        // range select event
-        document.getElementById('rangeType').addEventListener('change', (e) => {
-            if (e.target.value !== 'chart.range.between') {
-                document.getElementById('rangeDate').style.visibility = 'hidden';
-            } else {
-                document.getElementById('rangeDate').style.visibility = 'visible';
+        window.onload = function () {
+            OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+            // date picker 초기화
+            const fromDtElement = document.getElementById('rangeFromDt');
+            const toDtElement = document.getElementById('rangeToDt');
+            if (!fromDtElement.value || !toDtElement.value) {
+                fromDtElement.value = rangeFromDt;
+                toDtElement.value = rangeToDt;
             }
-        });
-        document.getElementById('rangeType').dispatchEvent(new Event('change'));
+            zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
+            zDateTimePicker.initDatePicker(toDtElement, setDatePicker);
 
-        // chart 초기화
-        getChart([[${chart?.chartId}]]);
-    };
-
-    function setDatePicker(element, picker) {
-        if (typeof picker === 'undefined') {
-            return false;
-        }
-        if (element.id === 'rangeFromDt') {
-            const toDtValue = document.getElementById('rangeToDt').value;
-            if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
-                    document.getElementById('rangeFromDt').value = rangeFromDt;
-                    picker.open();
-                });
-            }
-        } else {
-            const fromDtValue = document.getElementById('rangeFromDt').value;
-            if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
-                    document.getElementById('rangeToDt').value = rangeToDt;
-                    picker.open();
-                });
-            }
-        }
-    }
-
-    /**
-     * chart preview
-     */
-    function previewChart() {
-        if (isValidation() && isValidation()) {
-            let chartInfo = setChartInfo();
-            restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
-                let responseJson = JSON.parse(response);
-                setChart(
-                    responseJson.chartType,
-                    responseJson.propertyJson,
-                    responseJson.chartConfigStr,
-                    responseJson.tags
-                );
-                parsedPropertyJson(
-                    responseJson.chartType,
-                    responseJson.chartConfigStr,
-                    responseJson.propertyJson,
-                    responseJson.tags
-                );
-            }, false);
-        }
-    }
-
-    /**
-     * chart 저장 / 수정
-     */
-    function saveChart(method) {
-        if (isValidation() && isValidation()) {
-            let chartInfo = setChartInfo(method, chartId);
-            let url = '/rest/charts';
-            if (chartInfo.chartId !== undefined) {
-                url += '/' + chartId;
-            }
-            restSubmit(method, url, chartInfo, function (result) {
-                switch (result) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.save'), function () {
-                            location.href = '/charts/search';
-                        });
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
+            // range select event
+            document.getElementById('rangeType').addEventListener('change', (e) => {
+                if (e.target.value !== 'chart.range.between') {
+                    document.getElementById('rangeDate').style.visibility = 'hidden';
+                } else {
+                    document.getElementById('rangeDate').style.visibility = 'visible';
                 }
             });
-        }
-    }
+            document.getElementById('rangeType').dispatchEvent(new Event('change'));
 
-    /**
-     * chart 삭제
-     */
-    function deleteChart() {
-        zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
-            aliceJs.fetchText('/rest/charts/' + chartId, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then((rtn) => {
-                switch (rtn) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(/*[[#{common.msg.delete}]]*/'', function () {
-                            window.location.href = '/charts/search';
-                        });
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                }
-            });
-        });
-    }
-
-    /**
-     * REST API
-     */
-    function restSubmit(method, url, data, result, isShowProgressbar) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                result(response.responseText);
-            },
-            showProgressbar: isShowProgressbar
+            // chart 초기화
+            getChart([[${chart?.chartId}]]);
         };
-        aliceJs.sendXhr(opt);
-    }
 
-    function getChart(chartId) {
-        setDisplay(document.getElementById('typeSelectBox').value, true);
-        new zTag(document.querySelector('input[name=targetTags]'), {
-            suggestion: false,
-            realtime: false,
-            tagType: 'chart',
-            targetId: chartId
-        });
-        if (chartId !== null) {
-            parsedPropertyJson(
-                document.getElementById('typeSelectBox').value,
-                document.getElementById('chartConfig').value,
+        function setDatePicker(element, picker) {
+            if (typeof picker === 'undefined') {
+                return false;
+            }
+            if (element.id === 'rangeFromDt') {
+                const toDtValue = document.getElementById('rangeToDt').value;
+                if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
+                        document.getElementById('rangeFromDt').value = rangeFromDt;
+                        picker.open();
+                    });
+                }
+            } else {
+                const fromDtValue = document.getElementById('rangeFromDt').value;
+                if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
+                        document.getElementById('rangeToDt').value = rangeToDt;
+                        picker.open();
+                    });
+                }
+            }
+        }
+
+        /**
+         * chart preview
+         */
+        function previewChart() {
+            if (isValidation() && isValidation()) {
+                let chartInfo = setChartInfo();
+                restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
+                    let responseJson = JSON.parse(response);
+                    setChart(
+                        responseJson.chartType,
+                        responseJson.propertyJson,
+                        responseJson.chartConfigStr,
+                        responseJson.tags
+                    );
+                    parsedPropertyJson(
+                        responseJson.chartType,
+                        responseJson.chartConfigStr,
+                        responseJson.propertyJson,
+                        responseJson.tags
+                    );
+                }, false);
+            }
+        }
+
+        /**
+         * chart 저장 / 수정
+         */
+        function saveChart(method) {
+            if (isValidation() && isValidation()) {
+                let chartInfo = setChartInfo(method, chartId);
+                let url = '/rest/charts';
+                if (chartInfo.chartId !== undefined) {
+                    url += '/' + chartId;
+                }
+                restSubmit(method, url, chartInfo, function (result) {
+                    switch (result) {
+                        case STATUS_SUCCESS:
+                            zAlert.success(i18n.msg('common.msg.save'), function () {
+                                location.href = '/charts/search';
+                            });
+                            break;
+                        default:
+                            zAlert.danger(i18n.msg('common.msg.fail'));
+                            break;
+                    }
+                });
+            }
+        }
+
+        /**
+         * chart 삭제
+         */
+        function deleteChart() {
+            zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
+                aliceJs.fetchText('/rest/charts/' + chartId, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((rtn) => {
+                    switch (rtn) {
+                        case STATUS_SUCCESS:
+                            zAlert.success(/*[[#{common.msg.delete}]]*/'', function () {
+                                window.location.href = '/charts/search';
+                            });
+                            break;
+                        default:
+                            zAlert.danger(i18n.msg('common.msg.fail'));
+                            break;
+                    }
+                });
+            });
+        }
+
+        /**
+         * REST API
+         */
+        function restSubmit(method, url, data, result, isShowProgressbar) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function (response) {
+                    result(response.responseText);
+                },
+                showProgressbar: isShowProgressbar
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        function getChart(chartId) {
+            setDisplay(document.getElementById('typeSelectBox').value, true);
+
+            new zTag(document.querySelector('input[name=targetTags]'), {
+                suggestion: false,
+                realtime: false,
+                tagType: 'chart',
+                targetId: chartId
+            });
+            if (chartId !== null) {
+                parsedPropertyJson(
+                    document.getElementById('typeSelectBox').value,
+                    document.getElementById('chartConfig').value,
+                    document.getElementById('propertyJson').value,
+                    document.getElementById('tags').value
+                );
+            }
+        }
+
+        // 화면 필수값 검증
+        function isValidation() {
+            if (isEmpty('chartName', 'chart.msg.enterChartName')) {
+                return false;
+            }
+            if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
+                return false;
+            }
+            return true;
+        }
+
+        function setDisplay(value, load) {
+            let operation = [[${chart?.chartConfig?.operation}]];
+            // 연산자 박스 출력
+            let operationSelectBox = document.getElementById('operationSelectBox');
+            operationSelectBox.options.length = 0;
+            let countOption = document.createElement('option');
+            let averageOption = document.createElement('option');
+            let percentOption = document.createElement('option');
+            countOption.text = i18n.msg('chart.option.text.count');
+            countOption.value = i18n.msg('chart.option.value.count');
+            averageOption.text = i18n.msg('chart.option.text.average');
+            averageOption.value = i18n.msg('chart.option.value.average');
+            percentOption.text = i18n.msg('chart.option.text.percent');
+            percentOption.value = i18n.msg('chart.option.value.percent');
+            switch (value) {
+                case BASIC_LINE_CHART:
+                    operationSelectBox.add(countOption);
+                    operationSelectBox.add(averageOption);
+                    operationSelectBox.add(percentOption);
+                    break;
+                default:
+                    operationSelectBox.add(countOption);
+                    operationSelectBox.add(percentOption);
+                    break;
+            }
+            if (load === true) {
+                for (let i = 0; i < operationSelectBox.childNodes.length; i++) {
+                    if (operationSelectBox.childNodes[i].value === operation) {
+                        operationSelectBox.childNodes[i].selected = true;
+                    }
+                }
+            }
+            aliceJs.initDesignedSelectTag();
+
+            if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
+                // 2021-10-06 By Jung Hee Chan
+                // 기간 항목은 드롭박스에 디자인이 입혀지면서 div 가 새로 생김. 이것까지 숨기거나 보여주려면 처리를 아래와 같이 추가.
+                document.getElementById('periodUnit').style.display = '';
+                Array.from(document.getElementById('periodUnit').children).forEach((child) => {
+                    child.style.display = '';
+                });
+            } else {
+                document.getElementById('periodUnit').style.display = 'none';
+                Array.from(document.getElementById('periodUnit').children).forEach((child) => {
+                    child.style.display = 'none';
+                });
+            }
+
+            // 차트 새로 그리기
+            setChart(
+                value,
                 document.getElementById('propertyJson').value,
+                document.getElementById('chartConfig').value,
                 document.getElementById('tags').value
             );
         }
-    }
 
-    // 화면 필수값 검증
-    function isValidation() {
-        if (isEmpty('chartName', 'chart.msg.enterChartName')) {
-            return false;
+        /** 하이차트 초기화 */
+        function setChart(chartType, property, chartConfig, tags) {
+            //chart = new ZChart('container', chartType, property, chartConfig, tags);
         }
-        if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
-            return false;
-        }
-        return true;
-    }
 
-    function setDisplay(value, load) {
-        let operation = [[${chart?.chartConfig?.operation}]];
-        // 연산자 박스 출력
-        let operationSelectBox = document.getElementById('operationSelectBox');
-        operationSelectBox.options.length = 0;
-        let countOption = document.createElement('option');
-        let averageOption = document.createElement('option');
-        let percentOption = document.createElement('option');
-        countOption.text = i18n.msg('chart.option.text.count');
-        countOption.value = i18n.msg('chart.option.value.count');
-        averageOption.text = i18n.msg('chart.option.text.average');
-        averageOption.value = i18n.msg('chart.option.value.average');
-        percentOption.text = i18n.msg('chart.option.text.percent');
-        percentOption.value = i18n.msg('chart.option.value.percent');
-        switch (value) {
-            case GAUGE_CHART:
-                operationSelectBox.add(averageOption);
-                break;
-            case BASIC_LINE_CHART:
-                operationSelectBox.add(countOption);
-                operationSelectBox.add(averageOption);
-                operationSelectBox.add(percentOption);
-                break;
-            default:
-                operationSelectBox.add(countOption);
-                operationSelectBox.add(percentOption);
-                break;
+        /** chartConfig 파싱 진행 **/
+        function parsedPropertyJson(chartType, chartConfig, property, tags) {
+            //chart.parsedPropertyJson(chartType, chartConfig, property, tags);
         }
-        if (load === true) {
-            for (let i = 0; i < operationSelectBox.childNodes.length; i++) {
-                if (operationSelectBox.childNodes[i].value === operation) {
-                    operationSelectBox.childNodes[i].selected = true;
+
+        // 전송할 데이터 셋팅
+        function setChartInfo(method, chartId) {
+            let tagList = [];
+            JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
+                tagList.push({value: tag.value})
+            });
+
+            let chartInfo = {
+                chartType: document.getElementById('typeSelectBox').value,
+                chartName: document.getElementById('chartName').value,
+                chartDesc: document.getElementById('chartDesc').value,
+                chartConfig: {
+                    range: {
+                        type: document.getElementById('rangeType').value,
+                        from: document.getElementById('rangeFromDt').value,
+                        to: document.getElementById('rangeToDt').value
+                    },
+                    operation: document.getElementById('operationSelectBox').value,
+                    periodUnit: document.getElementById('periodUnitSelectBox').value
+                },
+                tags: tagList,
+                chartConfigStr: ''
+            };
+
+            if (method === 'put' && chartId !== undefined) {
+                chartInfo.chartId = chartId;
+            }
+
+            return chartInfo;
+        }
+    </script>
+    <script type="module">
+        import ZChart from '../../assets/js/chart/zChart.js';
+
+        const zChartManager = {
+            load: function(data) {
+                // 차트 초기화
+                this.zChart = new ZChart('container', data);
+
+                // 데이터 업데이트
+                this.zChart.update(data.chartData);
+            },
+            destroy: function () {
+                if (this.zChart) {
+                    this.zChart.destroy();
+                    this.zChart = null;
+                    delete this.zChart;
                 }
             }
         }
-        aliceJs.initDesignedSelectTag();
-
-        if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
-            // 2021-10-06 By Jung Hee Chan
-            // 기간 항목은 드롭박스에 디자인이 입혀지면서 div 가 새로 생김. 이것까지 숨기거나 보여주려면 처리를 아래와 같이 추가.
-            document.getElementById('periodUnit').style.display = '';
-            Array.from(document.getElementById('periodUnit').children).forEach((child) => {
-                child.style.display = '';
-            });
-        } else {
-            document.getElementById('periodUnit').style.display = 'none';
-            Array.from(document.getElementById('periodUnit').children).forEach((child) => {
-                child.style.display = 'none';
-            });
-        }
-
-        // 차트 새로 그리기
-        setChart(
-            value,
-            document.getElementById('propertyJson').value,
-            document.getElementById('chartConfig').value,
-            document.getElementById('tags').value
-        );
-    }
-
-    /** 하이차트 초기화 */
-    function setChart(chartType, property, chartConfig, tags) {
-        //chart = new ZChart('container', chartType, property, chartConfig, tags);
-    }
-
-    /** chartConfig 파싱 진행 **/
-    function parsedPropertyJson(chartType, chartConfig, property, tags) {
-        //chart.parsedPropertyJson(chartType, chartConfig, property, tags);
-    }
-
-    // 전송할 데이터 셋팅
-    function setChartInfo(method, chartId) {
-        let tagList = [];
-        JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
-            tagList.push({value: tag.value})
-        });
-
-        let chartInfo = {
-            chartType: document.getElementById('typeSelectBox').value,
-            chartName: document.getElementById('chartName').value,
-            chartDesc: document.getElementById('chartDesc').value,
-            chartConfig: {
-                range: {
-                    type: document.getElementById('rangeType').value,
-                    from: document.getElementById('rangeFromDt').value,
-                    to: document.getElementById('rangeToDt').value
-                },
-                operation: document.getElementById('operationSelectBox').value,
-                periodUnit: document.getElementById('periodUnitSelectBox').value
-            },
-            tags: tagList,
-            chartConfigStr: ''
-        };
-
-        if (method === 'put' && chartId !== undefined) {
-            chartInfo.chartId = chartId;
-        }
-
-        return chartInfo;
-    }
-</script>
+        window.zChartManager = zChartManager;
+    </script>
+</th:block>
 </html>
