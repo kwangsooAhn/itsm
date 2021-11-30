@@ -56,7 +56,7 @@ abstract class ChartManager(
         val data = when (chartDto.chartConfig.operation) {
             ChartConstants.Operation.COUNT.code -> this.count(chartDto.chartConfig, category, tagInstances)
             ChartConstants.Operation.PERCENT.code -> this.percent(chartDto.chartConfig, category, tagInstances)
-            ChartConstants.Operation.AVERAGE.code -> this.average(tagInstances)
+            ChartConstants.Operation.AVERAGE.code -> this.average(chartDto.chartConfig, category, tagInstances)
             else -> throw AliceException(
                 AliceErrorConstants.ERR_00005,
                 AliceErrorConstants.ERR_00005.message + "[Chart Operation Error]"
@@ -67,7 +67,7 @@ abstract class ChartManager(
         return chartDto
     }
 
-    abstract fun average(tagInstance: List<TagInstanceDto>): List<ChartData>
+    abstract fun average(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<TagInstanceDto>): List<ChartData>
 
     abstract fun percent(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<TagInstanceDto>): List<ChartData>
 
@@ -75,9 +75,9 @@ abstract class ChartManager(
 
     private fun getPeriodUnitValue(periodUnit: String, dateTime: LocalDateTime): String {
         val year = dateTime.year.toString()
-        val month = String.format("%02d",dateTime.monthValue)
-        val day = String.format("%02d",dateTime.dayOfMonth)
-        val hour = String.format("%02d",dateTime.hour)
+        val month = String.format("%02d", dateTime.monthValue)
+        val day = String.format("%02d", dateTime.dayOfMonth)
+        val hour = String.format("%02d", dateTime.hour)
         return when (periodUnit) {
             ChartConstants.Unit.YEAR.code -> year
             ChartConstants.Unit.MONTH.code -> "$year-$month"
@@ -88,6 +88,18 @@ abstract class ChartManager(
                 AliceErrorConstants.ERR_00005.message + "[Chart periodUnitValue Error]"
             )
         }
+    }
+
+    fun valueOfAverage(chartConfig: ChartConfig, categories: LinkedHashSet<String>, tagInstances: List<TagInstanceDto>): List<ChartData> {
+        val valueList = mutableListOf<ChartData>()
+
+        return valueList
+    }
+
+    fun valueOfPercent(chartConfig: ChartConfig, categories: LinkedHashSet<String>, tagInstances: List<TagInstanceDto>): List<ChartData> {
+        val valueList = mutableListOf<ChartData>()
+
+        return valueList
     }
 
     fun valueOfCount(chartConfig: ChartConfig, categories: LinkedHashSet<String>, tagInstances: List<TagInstanceDto>): List<ChartData> {
