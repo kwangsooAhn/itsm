@@ -1398,7 +1398,7 @@ validation:
     required: "{0} 을(를) 입력하세요."
     specialChar: "특수문자만 입력하세요."
     unacceptableCharacters: "허용하지 않는 특수문자(/ \ % ;)가 포함되어 있습니다."
-    checkPhoneNumberFormat: "전화번호 형식에 맞게 (-)을 포함하여 입력하세요."
+    checkPhoneNumberFormat: "내선번호 형식(4자리 숫자) 또는<br>전화번호 형식에 맞게 (-)을 포함하여 입력하세요."
 
 # Project
 project:
