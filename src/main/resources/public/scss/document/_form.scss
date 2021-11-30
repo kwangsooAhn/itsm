@@ -22,6 +22,9 @@ $tooltip-type: (group, row, component);
   .z-element {
     padding-right: 1rem;
   }
+  span {
+    word-break: break-all;
+  }
 }
 
 .z-group {
