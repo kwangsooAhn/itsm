@@ -10,6 +10,7 @@ import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
+import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
@@ -41,10 +42,10 @@ import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Repository
 class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::class.java),
@@ -467,6 +468,33 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
             ))
             .where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
+        return query.fetch()
+    }
+
+    override fun getInstanceListInTag(
+        tagValue: String,
+        range: ChartRange
+    ): List<WfInstanceEntity> {
+        val component = QWfComponentEntity.wfComponentEntity
+        val query = from(instance)
+            .where(instance.document.documentId.`in`(
+                JPAExpressions.select(document.documentId)
+                    .from(document)
+                    .where(document.form.formId.`in`(
+                        JPAExpressions.select(component.form.formId)
+                            .from(component)
+                            .where(component.componentId.`in`(
+                                JPAExpressions.select(tag.targetId)
+                                    .from(tag)
+                                    .where(tag.tagValue.eq(tagValue))
+                                    .where(tag.tagType.eq(AliceTagConstants.TagType.COMPONENT.code))
+                            ))
+                            .where(component.form.formStatus.ne(WfFormConstants.FormStatus.EDIT.value))
+                    ))
+                    .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
+            ))
+            .where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
+            .where(instance.instanceStartDt.goe(range.from).and(instance.instanceEndDt.loe(range.to)))
         return query.fetch()
     }
 }

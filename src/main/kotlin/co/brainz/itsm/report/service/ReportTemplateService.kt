@@ -32,11 +32,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
 import java.lang.Math.ceil
 import java.time.LocalDateTime
 import javax.transaction.Transactional
-import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
 
 @Service
 class ReportTemplateService(

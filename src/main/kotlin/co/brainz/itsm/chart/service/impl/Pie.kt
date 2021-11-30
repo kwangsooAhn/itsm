@@ -6,42 +6,33 @@
 
 package co.brainz.itsm.chart.service.impl
 
-import co.brainz.itsm.chart.dto.ChartDto
+import co.brainz.itsm.chart.dto.ChartConfig
+import co.brainz.itsm.chart.dto.ChartData
+import co.brainz.itsm.chart.dto.TagInstanceDto
 import co.brainz.itsm.chart.service.ChartManager
 import co.brainz.itsm.chart.service.ChartManagerService
-import co.brainz.itsm.document.service.DocumentService
-import co.brainz.itsm.form.service.FormService
-import co.brainz.itsm.instance.service.InstanceService
-import co.brainz.itsm.token.service.TokenService
-import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
 class Pie(
-    chartManagerService: ChartManagerService,
-    instanceService: InstanceService,
-    documentService: DocumentService,
-    formService: FormService,
-    tokenService: TokenService,
-    wfTokenManagerService: WfTokenManagerService
+    chartManagerService: ChartManagerService
 ) : ChartManager(
-    chartManagerService,
-    instanceService,
-    documentService,
-    formService,
-    tokenService,
-    wfTokenManagerService
+    chartManagerService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun setChartConfigDetail(chartDto: ChartDto): LinkedHashMap<String, Any?> {
-        return LinkedHashMap()
+    override fun average(tagInstance: List<TagInstanceDto>): List<ChartData> {
+        TODO("Not yet implemented")
     }
 
-    override fun setChartDetail(chartDto: ChartDto): ChartDto {
-        return chartDto
+    override fun percent(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<TagInstanceDto>): List<ChartData> {
+        TODO("Not yet implemented")
+    }
+
+    override fun count(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstances: List<TagInstanceDto>): List<ChartData> {
+        TODO("Not yet implemented")
     }
 }
