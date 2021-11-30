@@ -74,8 +74,7 @@
                     </label>
                     <input type="text" id="email" name="email" class="z-input" maxlength="100" required="required">
                     <label th:text="#{user.label.mobileNumber}"></label>
-                    <input id="mobileNumber" name="mobileNumber" class="z-input" maxlength="100"
-                           onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)">
+                    <input id="mobileNumber" name="mobileNumber" class="z-input" maxlength="100">
                     <label th:text="#{user.label.avatar}"></label>
                     <div class="flex-column avatar-edit">
                         <div class="avatar-sm">
@@ -184,6 +183,7 @@
         if (!isValidUserId('userId', true)) return false;
         if (!isValidPassword('password')) return false;
         if (!isValidEmail('email', true)) return false;
+        if(!isPhoneNumber('mobileNumber','validation.msg.checkPhoneNumberFormat')) return false;
 
         return true;
     }
