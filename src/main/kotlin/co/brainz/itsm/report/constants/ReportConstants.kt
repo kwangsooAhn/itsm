@@ -18,4 +18,9 @@ object ReportConstants {
             STATUS_ERROR_NOT_EXIST("2")
         }
     }
+
+    enum class ReportCreateStatus(val code: String) {
+        STATUS_SUCCESS("0"),
+        STAUTS_FAIL("1")
+    }
 }
