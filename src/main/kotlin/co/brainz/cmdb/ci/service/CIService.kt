@@ -288,26 +288,14 @@ class CIService(
                 ciEntity.updateDt = LocalDateTime.now() // 반영일시
                 this.saveCIHistory(ciEntity, ciDto.interlink)
 
+            ciEntity.ciNo = ciDto.ciNo
+            ciDto.ciName.let { ciEntity.ciName = ciDto.ciName }
             ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
-
-            if(ciDto.ciNo !== null) {
-                ciEntity.ciNo = ciDto.ciNo
-                ciDto.ciName.let { ciEntity.ciName = ciDto.ciName }
-                ciDto.ciStatus.let { ciEntity.ciStatus = ciDto.ciStatus }
-                ciDto.ciIcon?.let { ciEntity.ciTypeEntity.typeIcon = ciDto.ciIcon }
-                ciDto.ciDesc?.let { ciEntity.ciDesc = ciDto.ciDesc }
-                ciDto.interlink.let { ciEntity.interlink = ciDto.interlink }
-                ciEntity.instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
-            }
-            else {
-                ciDto.ciNo = ciEntity.ciNo
-                ciDto.ciName = ciEntity.ciName
-                ciDto.ciStatus = ciEntity.ciStatus
-                ciDto.ciIcon = ciEntity.ciTypeEntity.typeIcon
-                ciDto.ciDesc = ciEntity.ciDesc
-                ciDto.interlink.let { ciEntity.interlink}
-                ciDto.instanceId.let { ciEntity.instance }
-            }
+            ciDto.ciStatus.let { ciEntity.ciStatus = ciDto.ciStatus }
+            ciDto.ciIcon?.let { ciEntity.ciTypeEntity.typeIcon = ciDto.ciIcon }
+            ciDto.ciDesc?.let { ciEntity.ciDesc = ciDto.ciDesc }
+            ciDto.interlink.let { ciEntity.interlink = ciDto.interlink }
+            ciEntity.instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
         }
         ciEntity = ciRepository.save(ciEntity)
 
