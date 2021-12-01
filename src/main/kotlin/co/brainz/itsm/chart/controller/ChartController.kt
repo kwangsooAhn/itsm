@@ -26,7 +26,6 @@ class ChartController(
     private val chartSearchPage: String = "chart/chartSearch"
     private val chartListPage: String = "chart/chartList"
     private val chartPage: String = "chart/chart"
-    private val chartViewModalPage: String = "chart/chartViewModal"
 
     /**
      * 사용자 정의 차트 목록 검색 화면 호출
@@ -79,14 +78,5 @@ class ChartController(
         model.addAttribute("code", chartService.getCodeListForChart())
         model.addAttribute("chart", chartService.getChartDetail(chartId))
         return chartPage
-    }
-
-    /**
-     * chart 미리보기 화면 호출
-     */
-    @GetMapping("/{chartId}/preview")
-    fun getChartPreview(@PathVariable chartId: String, model: Model): String {
-        model.addAttribute("chart", chartService.getChartDetail(chartId))
-        return chartViewModalPage
     }
 }

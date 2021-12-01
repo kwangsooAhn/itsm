@@ -15,6 +15,7 @@ import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.form.repository.WfFormRepository
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
+import co.brainz.workflow.token.repository.WfTokenDataRepository
 import org.springframework.stereotype.Service
 
 @Service
@@ -22,7 +23,8 @@ class ChartManagerService(
     private val aliceTagRepository: AliceTagRepository,
     private val wfComponentRepository: WfComponentRepository,
     private val wfFormRepository: WfFormRepository,
-    private val wfInstanceRepository: WfInstanceRepository
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository
 ) {
 
     fun getTagsByTargetId(tagType: String, targetId: String): List<AliceTagDto> {
@@ -48,4 +50,8 @@ class ChartManagerService(
     fun getInstanceListInTag(tagValue: String, range: ChartRange): List<WfInstanceEntity> {
         return wfInstanceRepository.getInstanceListInTag(tagValue, range)
     }
+
+    /*fun getCategoryTokenDataList(categoryTokenDataSearchList: List<ChartCategoryTokenDataSearchDto>): List<ChartCategoryTokenDataDto> {
+        return wfTokenDataRepository.getCategoryTokenDataList()
+    }*/
 }

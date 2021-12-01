@@ -126,7 +126,7 @@
         }
 
         function getChart(chartId, chartType) {
-            /*aliceJs.fetchJson('/rest/charts/' + chartId, {
+            aliceJs.fetchJson('/rest/charts/' + chartId, {
                 method: 'GET',
                 showProgressbar: true
             }).then((data) => {
@@ -145,10 +145,10 @@
 
                 // 차트 초기화
                 zChartManager.load(data);
-            });*/
+            });
 
             // 가데이터 표시
-            aliceJs.fetchJson('../../assets/js/chart/dummy/' + chartType + '.json', {
+            /*aliceJs.fetchJson('../../assets/js/chart/dummy/' + chartType + '.json', {
                 method: 'GET'
             }).then((data) => {
                 // 사용자 날짜 데이터 변경
@@ -166,7 +166,7 @@
 
                 // 차트 초기화
                 zChartManager.load(data);
-            });
+            });*/
         }
         /*]]>*/
     </script>
