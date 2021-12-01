@@ -8,6 +8,7 @@ package co.brainz.itsm.user.repository
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserSearchCondition
@@ -50,6 +51,9 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     ?.or(super.likeIgnoreCase(code.codeName, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.officeNumber, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.mobileNumber, userSearchCondition.searchValue))
+            )
+            .where(
+                user.userName.notIn(AliceUserConstants.CREATE_USER_ID)
             )
             .orderBy(user.userName.asc())
 
