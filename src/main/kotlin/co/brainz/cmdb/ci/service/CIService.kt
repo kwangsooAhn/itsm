@@ -284,18 +284,30 @@ class CIService(
                 AliceErrorConstants.ERR_00005.message + "[CI Entity]"
             )
         } else {
-            // 변경전 데이터를 이력에 저장
-            ciEntity.updateDt = LocalDateTime.now() // 반영일시
-            this.saveCIHistory(ciDto, ciEntity)
+                // 변경전 데이터를 이력에 저장
+                ciEntity.updateDt = LocalDateTime.now() // 반영일시
+                this.saveCIHistory(ciEntity, ciDto.interlink)
 
-            ciEntity.ciNo = ciDto.ciNo
             ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
-            ciDto.ciName.let { ciEntity.ciName = ciDto.ciName }
-            ciDto.ciStatus.let { ciEntity.ciStatus = ciDto.ciStatus }
-            ciDto.ciIcon?.let { ciEntity.ciTypeEntity.typeIcon = ciDto.ciIcon }
-            ciDto.ciDesc?.let { ciEntity.ciDesc = ciDto.ciDesc }
-            ciDto.interlink?.let { ciEntity.interlink = ciDto.interlink }
-            ciEntity.instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
+
+            if(ciDto.ciNo !== null) {
+                ciEntity.ciNo = ciDto.ciNo
+                ciDto.ciName.let { ciEntity.ciName = ciDto.ciName }
+                ciDto.ciStatus.let { ciEntity.ciStatus = ciDto.ciStatus }
+                ciDto.ciIcon?.let { ciEntity.ciTypeEntity.typeIcon = ciDto.ciIcon }
+                ciDto.ciDesc?.let { ciEntity.ciDesc = ciDto.ciDesc }
+                ciDto.interlink.let { ciEntity.interlink = ciDto.interlink }
+                ciEntity.instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
+            }
+            else {
+                ciDto.ciNo = ciEntity.ciNo
+                ciDto.ciName = ciEntity.ciName
+                ciDto.ciStatus = ciEntity.ciStatus
+                ciDto.ciIcon = ciEntity.ciTypeEntity.typeIcon
+                ciDto.ciDesc = ciEntity.ciDesc
+                ciDto.interlink.let { ciEntity.interlink}
+                ciDto.instanceId.let { ciEntity.instance }
+            }
         }
         ciEntity = ciRepository.save(ciEntity)
 
@@ -373,7 +385,7 @@ class CIService(
 
         // 삭제전 마지막 값을 이력에 저장
         ciEntity.updateDt = LocalDateTime.now() // 반영일시
-        this.saveCIHistory(ciDto, ciEntity)
+        ciDto.interlink?.let { this.saveCIHistory(ciEntity, it) }
 
         ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
         ciEntity.ciStatus = RestTemplateConstants.CIStatus.STATUS_DELETE.code
@@ -403,7 +415,7 @@ class CIService(
     /**
      * CI 이력 저장.
      */
-    private fun saveCIHistory(ciDto: CIDto, ciEntity: CIEntity) {
+    private fun saveCIHistory(ciEntity: CIEntity, interlinkVal: Boolean) {
         var historySeq = 0
         val latelyHistory = ciHistoryRepository.findByLatelyHistory(ciEntity.ciId)
         if (latelyHistory != null) {
@@ -422,7 +434,7 @@ class CIService(
             ciIcon = ciEntity.ciTypeEntity.typeIcon,
             ciStatus = ciEntity.ciStatus,
             classId = ciEntity.ciTypeEntity.ciClass.classId,
-            interlink = ciDto.interlink,
+            interlink = interlinkVal,
             instance = ciEntity.instance,
             applyDt = ciEntity.updateDt
         )
