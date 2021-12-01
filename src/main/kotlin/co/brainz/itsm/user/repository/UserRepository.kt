@@ -34,4 +34,9 @@ interface UserRepository : JpaRepository<AliceUserEntity, String>, JpaSpecificat
      *  사용자 목록을 사용자명으로 정렬조회한다.
      */
     fun findByOrderByUserNameAsc(): MutableList<AliceUserEntity>
+
+    /**
+     * 특정 사용자를 제외하고 사용자 테이블의 전체 개수 리턴
+     */
+    fun countByUserIdNotContaining(userId: String): Long
 }

@@ -456,7 +456,7 @@ export default class ZColumnProperty extends ZProperty {
                     option.columnElement.options,
                     false
                 )
-            )
+            ).setValidation(true,'','','','','')
         ];
     }
     getPropertyForColumnTypeDate(option, id) {

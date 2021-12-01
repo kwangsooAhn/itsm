@@ -32,7 +32,7 @@
         getImages(false);
         // 미리보기 모달 생성
         previewModal = new modal({
-            title: i18n.msg('image.label.name'),
+            title: `<span class="z-thumbnail-preview-name text-ellipsis"></span>`,
             body: `<div class="z-thumbnail-preview-image"></div>`,
             classes: 'z-thumbnail-preview',
             buttons: [{
@@ -276,14 +276,11 @@
         thumbnail.parentNode.classList.add('selected');
 
         // 이미지 파일명 제목 표시
-        const previewModalHeader = previewModal.wrapper.querySelector('.modal-header');
+        const previewModalHeader = previewModal.wrapper.querySelector('.z-thumbnail-preview-name');
         if (previewModalHeader !== null) {
-            const imageNameElement = document.createElement('span');
             const imageName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
-            imageNameElement.className = 'text-ellipsis';
-            imageNameElement.textContent = imageName;
-            imageNameElement.setAttribute('title', imageName);
-            previewModalHeader.appendChild(imageNameElement);
+            previewModalHeader.textContent = imageName;
+            previewModalHeader.setAttribute('title', imageName);
         }
 
         // 내부 이미지 경로 변경
