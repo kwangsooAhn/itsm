@@ -216,7 +216,7 @@ export const zGaugeChartMixin = {
             let category = '';
             for (let j = 0; j < data.length; j++) {
                 const temp = data[j];
-                if (tag === temp.series) {
+                if (tag.value === temp.series) {
                     seriesId = temp.id;
                     category = temp.category;
                     series.push({
@@ -226,7 +226,7 @@ export const zGaugeChartMixin = {
                     });
                 }
             }
-            this.chart[i].yAxis[0].setTitle({ text: tag });
+            this.chart[i].yAxis[0].setTitle({ text: tag.value });
             const seriesName = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(category));
             this.chart[i].series[0].update({ name: seriesName, id: seriesId }, false);
             this.chart[i].series[1].update({ name: seriesName, id: seriesId }, false);

@@ -7,6 +7,8 @@
 package co.brainz.itsm.chart.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.repository.AliceTagRepository
@@ -25,7 +27,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.time.LocalDateTime
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.springframework.data.repository.findByIdOrNull
@@ -72,14 +73,13 @@ class ChartService(
             chartName = chartPreviewDto.chartName,
             chartDesc = chartPreviewDto.chartDesc,
             chartConfig = chartPreviewDto.chartConfig,
-            chartConfigStr = mapper.writeValueAsString(chartPreviewDto.chartConfig),
             tags = chartPreviewDto.tags
         )
         if (chart != null) {
             chartDto.chartId = chart.chartId
-            chartDto.createDt = chart.createDt
+            //chartDto.createDt = chart.createDt
         } else {
-            chartDto.createDt = LocalDateTime.now()
+            //chartDto.createDt = LocalDateTime.now()
         }
 
         return chartManagerFactory.getChartManager(chartDto.chartType).getChart(chartDto)
@@ -89,15 +89,16 @@ class ChartService(
      * 단일 사용자 정의 차트 조회
      */
     fun getChartDetail(chartId: String): ChartDto {
-        val chart = chartRepository.findById(chartId).get()
+        val chart = chartRepository.findChartEntityByChartId(chartId) ?: throw AliceException(
+            AliceErrorConstants.ERR_00005,
+            AliceErrorConstants.ERR_00005.message + "[Chart Entity]"
+        )
         val chartDto = ChartDto(
             chartId = chart.chartId,
             chartType = chart.chartType,
             chartName = chart.chartName,
             chartDesc = chart.chartDesc,
-            chartConfig = mapper.readValue(chart.chartConfig, ChartConfig::class.java),
-            createDt = chart.createDt,
-            chartConfigStr = chart.chartConfig
+            chartConfig = mapper.readValue(chart.chartConfig, ChartConfig::class.java)
         )
         chartDto.tags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CHART.code, chart.chartId)
 
