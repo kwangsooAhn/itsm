@@ -278,15 +278,16 @@ class CIService(
         val restTemplateReturnDto = RestTemplateReturnDto()
         val findCIEntity = ciRepository.findById(ciDto.ciId)
         var ciEntity = findCIEntity.get()
+
         if (findCIEntity.isEmpty) {
             throw AliceException(
                 AliceErrorConstants.ERR_00005,
                 AliceErrorConstants.ERR_00005.message + "[CI Entity]"
             )
         } else {
-                // 변경전 데이터를 이력에 저장
-                ciEntity.updateDt = LocalDateTime.now() // 반영일시
-                this.saveCIHistory(ciEntity, ciDto.interlink)
+            // 변경전 데이터를 이력에 저장
+            ciEntity.updateDt = LocalDateTime.now() // 반영일시
+            this.saveCIHistory(ciEntity, ciDto.interlink)
 
             ciEntity.ciNo = ciDto.ciNo
             ciDto.ciName.let { ciEntity.ciName = ciDto.ciName }
@@ -373,7 +374,7 @@ class CIService(
 
         // 삭제전 마지막 값을 이력에 저장
         ciEntity.updateDt = LocalDateTime.now() // 반영일시
-        ciDto.interlink?.let { this.saveCIHistory(ciEntity, it) }
+        this.saveCIHistory(ciEntity, ciDto.interlink)
 
         ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
         ciEntity.ciStatus = RestTemplateConstants.CIStatus.STATUS_DELETE.code
