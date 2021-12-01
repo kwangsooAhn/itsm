@@ -330,12 +330,12 @@ class CodeService(
                     rows = mutableListOf(
                         ExcelRowVO(
                             cells = listOf(
-                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.code")),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.pCode")),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.name")),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.codeValue")),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.code"), cellWidth = 5000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.pCode"), cellWidth = 5000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.name"), cellWidth = 3000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.codeValue"), cellWidth = 6000),
                                 ExcelCellVO(value = aliceMessageSource.getMessage("code.label.seqNum")),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.description"))
+                                ExcelCellVO(value = aliceMessageSource.getMessage("code.label.description"), cellWidth = 10000)
                             )
                         )
                     )
