@@ -2464,6 +2464,9 @@ body.modal-active {
 .z-component .z-element {
   padding-right: 1rem;
 }
+.z-component span {
+  word-break: break-all;
+}
 
 .z-group.accordion .z-group-accordion-checkBox:checked ~ .row-tooltip:not(.off):last-child {
   border-bottom: 0.0625rem solid #CFD5D9;

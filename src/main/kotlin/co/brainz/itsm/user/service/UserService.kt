@@ -111,7 +111,7 @@ class UserService(
             data = userList,
             paging = AlicePagingData(
                 totalCount = queryResult.total,
-                totalCountWithoutCondition = userRepository.count(),
+                totalCountWithoutCondition = userRepository.countByUserIdNotContaining(AliceUserConstants.CREATE_USER_ID),
                 currentPageNum = userSearchCondition.pageNum,
                 totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
@@ -397,7 +397,7 @@ class UserService(
     fun getUserAbsenceInfo(userKey: String): UserAbsenceDto? {
         val userEntity = userDetailsService.selectUserKey(userKey)
         var absenceInfo = ""
-        run loop@ {
+        run loop@{
             userEntity.userCustomEntities.forEach { custom ->
                 if (custom.customType == UserConstants.UserCustom.USER_ABSENCE.code) {
                     absenceInfo = custom.customValue.toString()
@@ -495,7 +495,7 @@ class UserService(
             else -> { // 본인이 아닌 경우 사용자 관리자 권한이 있는지 확인한다.
                 var hasRole = false
                 val permitRoles = setOf("ROLE_admin", "ROLE_users.manager")
-                run loop@ {
+                run loop@{
                     currentSessionUser.getUserDto()?.grantedAuthorises?.forEach {
                         if (permitRoles.contains(it.authority)) {
                             hasRole = true
