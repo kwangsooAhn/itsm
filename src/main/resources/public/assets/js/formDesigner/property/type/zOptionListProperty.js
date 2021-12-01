@@ -44,7 +44,8 @@ export default class ZOptionListProperty extends ZProperty {
         this.UIElement = new UIDiv().setUIClass('property').setUIProperty('--data-column', this.columnWidth);
 
         // 라벨
-        this.UIElement.UILabel = this.makeLabelProperty().addUIClass('horizontal');
+        this.UIElement.UILabel = this.makeLabelProperty();
+        this.UIElement.UILabel.domElement.firstChild.classList.add('pt-2');
 
         // 옵션 추가 버튼
         this.UIElement.UIButton = new UIButton()
