@@ -282,14 +282,12 @@
             previewModalHeader.textContent = imageName;
             previewModalHeader.setAttribute('title', imageName);
         }
-        console.log(previewModalHeader)
 
         // 내부 이미지 경로 변경
         const previewModalContent = previewModal.wrapper.querySelector('.z-thumbnail-preview-image');
         if (previewModalContent !== null) {
             previewModalContent.style.backgroundImage = thumbnail.style.backgroundImage;
         }
-        console.log(previewModalContent);
         // 모달 호출
         previewModal.show();
     }
