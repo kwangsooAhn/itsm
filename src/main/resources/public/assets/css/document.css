@@ -2461,9 +2461,6 @@ body.modal-active {
 .z-component .z-component-label {
   padding-left: 1rem;
 }
-.z-component span {
-  word-break: break-all;
-}
 .z-component .z-element {
   padding-right: 1rem;
 }
