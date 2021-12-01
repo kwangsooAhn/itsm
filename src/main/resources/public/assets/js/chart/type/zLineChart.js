@@ -126,7 +126,7 @@ export const zLineChartMixin = {
     setSeries(option) {
         for (let i = 0; i < this.tags.length; i++) {
             option.series.push({
-                name: this.tags[i]
+                name: this.tags[i].value
             });
         }
     },

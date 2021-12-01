@@ -3,15 +3,20 @@
   "chartName": "만족도 평가 문서 갯수",
   "chartType": "chart.basicLine",
   "chartDesc": "만족도 평가 문서 갯수 차트",
-  "tags": ["장애신고", "구성관리", "단순문의", "서비스요청"],
+  "tags": [
+    { "tagId": "4028b21e7d1ab894017d1ac0bf500006", "tagValue": "장애신고" },
+    { "tagId": "4028b21e7ca1fa4a017ca209785f000a", "tagValue": "구성관리" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0517", "tagValue": "단순문의" },
+    { "tagId": "2c9180867cc31a25017cc7a68ef1051b", "tagValue": "서비스요청" }
+  ],
   "chartConfig": {
     "operation": "count",
     "periodUnit": "H",
     "group": "만족도",
     "range": {
       "type": "chart.range.last.day",
-      "from": "2021-11-01 00:00:00",
-      "to": "2021-11-01 23:59:59"
+      "from": "2021-10-31T15:00:00.000Z",
+      "to": "2021-11-01T14:59:59.000Z"
     }
   },
   "chartData": [{

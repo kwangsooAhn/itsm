@@ -3,14 +3,19 @@
   "chartName": "년간 유형별 등록 비율",
   "chartType": "chart.gauge",
   "chartDesc": "년간 유형별 등록 비율 차트",
-  "tags": ["단순문의", "장애신고", "구성관리", "서비스요청"],
+  "tags": [
+    { "tagId": "2c9180867cc31a25017cc7a68eec0518", "tagValue": "장애신고" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0519", "tagValue": "구성관리" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0517", "tagValue": "단순문의" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0511", "tagValue": "서비스요청" }
+  ],
   "chartConfig": {
     "operation": "percent",
     "periodUnit": "Y",
     "range": {
       "type": "chart.range.between",
-      "from": "2021-01-01 00:00:00",
-      "to": "2021-12-31 23:59:59"
+      "from": "2020-12-31T15:00:00.000Z",
+      "to": "2021-12-31T14:59:59.000Z"
     }
   },
   "chartData": [{
