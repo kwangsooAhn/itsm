@@ -24,15 +24,21 @@ class Pie(
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun average(tagInstance: List<TagInstanceDto>): List<ChartData> {
-        TODO("Not yet implemented")
+    override fun average(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<TagInstanceDto>): List<ChartData> {
+        val valueList = mutableListOf<ChartData>()
+
+        return valueList
     }
 
     override fun percent(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<TagInstanceDto>): List<ChartData> {
-        TODO("Not yet implemented")
+        val valueList = mutableListOf<ChartData>()
+
+        return valueList
     }
 
     override fun count(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstances: List<TagInstanceDto>): List<ChartData> {
-        TODO("Not yet implemented")
+        val valueList = mutableListOf<ChartData>()
+
+        return valueList
     }
 }

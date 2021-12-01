@@ -24,12 +24,12 @@ class StackedBar(
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun average(tagInstance: List<TagInstanceDto>): List<ChartData> {
-        TODO("Not yet implemented")
+    override fun average(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<TagInstanceDto>): List<ChartData> {
+        return super.valueOfAverage(chartConfig, category, tagInstance)
     }
 
     override fun percent(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<TagInstanceDto>): List<ChartData> {
-        TODO("Not yet implemented")
+        return super.valueOfPercent(chartConfig, category, tagInstance)
     }
 
     override fun count(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstances: List<TagInstanceDto>): List<ChartData> {
