@@ -212,7 +212,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey))
             )
         )
-        status!!.forEach { statusValue ->
+        status?.forEach { statusValue ->
             if (statusValue == WfInstanceConstants.Status.FINISH.code) {
                 builder.and(
                     token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
