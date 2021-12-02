@@ -209,9 +209,9 @@ class RoleService(
                     rows = mutableListOf(
                         ExcelRowVO(
                             cells = listOf(
-                                ExcelCellVO(value = aliceMessageSource.getMessage("role.label.name")),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("role.label.id")),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("role.label.desc"))
+                                ExcelCellVO(value = aliceMessageSource.getMessage("role.label.name"), cellWidth = 5000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("role.label.id"), cellWidth = 8000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("role.label.desc"), cellWidth = 5000)
                             )
                         )
                     )
