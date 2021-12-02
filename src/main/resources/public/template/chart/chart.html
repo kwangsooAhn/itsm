@@ -452,7 +452,6 @@
          */
         function getChartData(isSaved) {
             let tags = [];
-            // 태그 데이터는 Get 일때는 tagValue 로 전달되나 서버에 보낼때는 value로 보냄
             JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
                 tags.push({ value: tag.value })
             });

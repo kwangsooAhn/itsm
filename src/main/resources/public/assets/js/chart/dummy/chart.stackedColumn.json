@@ -4,11 +4,11 @@
   "chartType": "chart.stackedColumn",
   "chartDesc": "월간 심각도별 장애 발생 건수",
   "tags": [
-    { "tagId": "2c9180867cc31a25017cc7a68eec0511", "tagValue": "무해" },
-    { "tagId": "2c9180867cc31a25017cc7a68eec0512", "tagValue": "주의" },
-    { "tagId": "2c9180867cc31a25017cc7a68eec0513", "tagValue": "위험" },
-    { "tagId": "2c9180867cc31a25017cc7a68eec0514", "tagValue": "긴급" },
-    { "tagId": "2c9180867cc31a25017cc7a68eec0515", "tagValue": "치명" }
+    { "tagId": "2c9180867cc31a25017cc7a68eec0511", "value": "무해" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0512", "value": "주의" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0513", "value": "위험" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0514", "value": "긴급" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0515", "value": "치명" }
   ],
   "chartConfig": {
     "operation": "count",
