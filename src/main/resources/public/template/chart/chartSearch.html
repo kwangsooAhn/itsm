@@ -107,7 +107,7 @@
                     closable: false,
                 },
                 onCreate: function () {
-                    getChart(chartId, chartType);
+                    getChart(chartId);
                 }
             };
 
@@ -125,8 +125,8 @@
                 `</div>`;
         }
 
-        function getChart(chartId, chartType) {
-            /*aliceJs.fetchJson('/rest/charts/' + chartId, {
+        function getChart(chartId) {
+            aliceJs.fetchJson('/rest/charts/' + chartId, {
                 method: 'GET',
                 showProgressbar: true
             }).then((data) => {
@@ -136,19 +136,12 @@
                 data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
                 data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
 
-                // 태그 데이터는 Get 일때는 tagValue 로 전달되나 서버 및 하이차트에서는 value로 처리해야 함
-                const tags = data.tags.reduce((acc, cur) => {
-                    acc.push({ value: cur.tagValue });
-                    return acc;
-                }, []);
-                data.tags = tags;
-
                 // 차트 초기화
                 zChartManager.load(data);
-            });*/
+            });
 
-            // 가데이터 표시
-            aliceJs.fetchJson('../../assets/js/chart/dummy/' + chartType + '.json', {
+            // 가데이터 표시 (필요시 주석 제거하여 사용 바람)
+            /*aliceJs.fetchJson('../../assets/js/chart/dummy/' + chartType + '.json', {
                 method: 'GET'
             }).then((data) => {
                 // 사용자 날짜 데이터 변경
@@ -157,16 +150,9 @@
                 data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
                 data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
 
-                // 태그 데이터는 Get 일때는 tagValue 로 전달되나 서버 및 하이차트에서는 value로 처리해야 함
-                const tags = data.tags.reduce((acc, cur) => {
-                    acc.push({ value: cur.tagValue });
-                    return acc;
-                }, []);
-                data.tags = tags;
-
                 // 차트 초기화
                 zChartManager.load(data);
-            });
+            });*/
         }
         /*]]>*/
     </script>
