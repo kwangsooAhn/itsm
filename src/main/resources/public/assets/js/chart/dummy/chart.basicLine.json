@@ -4,10 +4,10 @@
   "chartType": "chart.basicLine",
   "chartDesc": "만족도 평가 문서 갯수 차트",
   "tags": [
-    { "tagId": "4028b21e7d1ab894017d1ac0bf500006", "tagValue": "장애신고" },
-    { "tagId": "4028b21e7ca1fa4a017ca209785f000a", "tagValue": "구성관리" },
-    { "tagId": "2c9180867cc31a25017cc7a68eec0517", "tagValue": "단순문의" },
-    { "tagId": "2c9180867cc31a25017cc7a68ef1051b", "tagValue": "서비스요청" }
+    { "tagId": "4028b21e7d1ab894017d1ac0bf500006", "value": "장애신고" },
+    { "tagId": "4028b21e7ca1fa4a017ca209785f000a", "value": "구성관리" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0517", "value": "단순문의" },
+    { "tagId": "2c9180867cc31a25017cc7a68ef1051b", "value": "서비스요청" }
   ],
   "chartConfig": {
     "operation": "count",

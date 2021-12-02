@@ -4,8 +4,8 @@
   "chartType": "chart.stackedBar",
   "chartDesc": "2021년 월간 장애관리 납기준수율",
   "tags": [
-    { "tagId": "2c9180867cc31a25017cc7a68eec0511", "tagValue": "성공" },
-    { "tagId": "2c9180867cc31a25017cc7a68eec0512", "tagValue": "실패" }
+    { "tagId": "2c9180867cc31a25017cc7a68eec0511", "value": "성공" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0512", "value": "실패" }
   ],
   "chartConfig": {
     "operation": "percent",
