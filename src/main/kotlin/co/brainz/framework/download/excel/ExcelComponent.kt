@@ -39,8 +39,8 @@ class ExcelComponent(
         }
 
         // Excel 디자인 적용
-        val headerCellStyle = setDefaultCellStyle(workbook, true)
-        val bodyCellStyle = setDefaultCellStyle(workbook, false)
+        val headerCellStyle = this.setDefaultCellStyle(workbook, true)
+        val bodyCellStyle = this.setDefaultCellStyle(workbook, false)
 
         excelVO.sheets.forEachIndexed { sheetsIndex, sheetVO ->
             val sheet = workbook.createSheet(sheetVO.sheetName ?: "Sheet${sheetsIndex + 1}")
@@ -68,7 +68,7 @@ class ExcelComponent(
             .body(outputStream.toByteArray())
     }
 
-    fun setDefaultCellStyle(workbook: Workbook, isHeader: Boolean): CellStyle {
+    private fun setDefaultCellStyle(workbook: Workbook, isHeader: Boolean): CellStyle {
         val cellStyle = workbook.createCellStyle()
 
         if (isHeader) {
