@@ -25,15 +25,11 @@ class Pie(
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     override fun average(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<ChartTagInstanceDto>): List<ChartData> {
-        val valueList = mutableListOf<ChartData>()
-
-        return valueList
+        return emptyList() // Pie 차트는 평균 없음
     }
 
     override fun percent(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<ChartTagInstanceDto>): List<ChartData> {
-        val valueList = mutableListOf<ChartData>()
-
-        return valueList
+        return emptyList() // Pie 차트는 퍼센트 없음
     }
 
     override fun count(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstances: List<ChartTagInstanceDto>): List<ChartData> {

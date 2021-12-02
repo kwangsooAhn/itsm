@@ -4,12 +4,12 @@
  *
  */
 
-package co.brainz.itsm.chart.dto
+package co.brainz.itsm.chart.dto.percent
 
 import co.brainz.framework.tag.dto.AliceTagDto
 import java.io.Serializable
 
-data class ChartTagData(
+data class ChartTagCount(
     val tag: AliceTagDto,
-    val data: List<ChartData> = emptyList()
+    val count: Int = 0
 ) : Serializable

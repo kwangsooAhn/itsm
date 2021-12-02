@@ -4,12 +4,12 @@
  *
  */
 
-package co.brainz.itsm.chart.dto
+package co.brainz.itsm.chart.dto.average
 
 import co.brainz.framework.tag.dto.AliceTagDto
 import java.io.Serializable
 
-data class ChartTagCount(
+data class ChartTagTokenData(
     val tag: AliceTagDto,
-    val count: Int = 0
+    val tokenDataList: List<ChartTokenData> = emptyList()
 ) : Serializable

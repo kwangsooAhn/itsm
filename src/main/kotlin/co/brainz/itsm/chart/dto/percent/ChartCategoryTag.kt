@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.itsm.chart.dto
+package co.brainz.itsm.chart.dto.percent
 
 import java.io.Serializable
 

@@ -11,6 +11,7 @@ import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.chart.dto.ChartRange
+import co.brainz.itsm.chart.dto.average.ChartInstanceLastToken
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
@@ -495,6 +496,24 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             ))
             .where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
             .where(instance.instanceStartDt.goe(range.from).and(instance.instanceEndDt.loe(range.to)))
+        return query.fetch()
+    }
+
+    override fun test(
+        instanceIds: Set<String>
+    ): List<ChartInstanceLastToken> {
+        val query = from(token)
+            .select(
+                Projections.constructor(
+                    ChartInstanceLastToken::class.java,
+                    token.instance.instanceId,
+                    token.instance.instanceStartDt,
+                    token.instance.instanceEndDt,
+                    token.tokenId
+                )
+            )
+            .where(token.instance.instanceId.`in`(instanceIds))
+            .where(token.element.elementType.eq(WfElementConstants.ElementType.COMMON_END_EVENT.value))
         return query.fetch()
     }
 }
