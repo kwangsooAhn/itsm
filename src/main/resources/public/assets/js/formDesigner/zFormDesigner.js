@@ -833,7 +833,9 @@ class ZFormDesigner {
             body: JSON.stringify(saveData),
             showProgressbar: true
         }).then((formId) => {
-            if (formId) {
+            if (formId.toString() === RESPONSE_CODE.STATUS_ERROR_DUPLICATE) {
+                zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
+            } else {
                 zAlert.success(i18n.msg('common.msg.save'), () => {
                     if (window.opener && !window.opener.closed) {
                         opener.location.reload();
@@ -841,8 +843,6 @@ class ZFormDesigner {
                     window.name = 'form_' + formId + '_edit';
                     location.href = '/forms/' + formId + '/edit';
                 });
-            } else {
-                zAlert.danger(i18n.msg('common.label.fail'));
             }
         }).catch(err => {
             zAlert.warning(err);
