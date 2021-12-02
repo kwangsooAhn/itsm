@@ -153,9 +153,8 @@ INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a5a20af3', '4028b8817cb
 INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a5c30af8', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a5e00afd', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a5fd0b02', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
-INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a60a0b05', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":4,"margin":"4 0 4 0","padding":"0 0 0 0"}');
-INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a61b0b09', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":5,"margin":"4 0 4 0","padding":"0 0 0 0"}');
-INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6290b0c', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":6,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a61b0b09', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":4,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6290b0c', '4028b8817cbfc7a7017cc095a59a0af2', '{"displayOrder":5,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a63b0b10', '4028b8817cbfc7a7017cc095a6360b0f', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a64c0b13', '4028b8817cbfc7a7017cc095a6360b0f', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b8817cbfc7a7017cc095a6650b18', '4028b8817cbfc7a7017cc095a6360b0f', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
@@ -220,9 +219,8 @@ INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc57320f801a7', '4028b22f7cc
 INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc57321bd01ac', '4028b22f7cc55c1a017cc57320cc01a6', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc573226401b1', '4028b22f7cc55c1a017cc57320cc01a6', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc573233501b6', '4028b22f7cc55c1a017cc57320cc01a6', '{"displayOrder":3,"margin":"4 0 4 0","padding":"0 0 0 0"}');
-INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc57323a201b9', '4028b22f7cc55c1a017cc57320cc01a6', '{"displayOrder":4,"margin":"4 0 4 0","padding":"0 0 0 0"}');
-INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc573240701bc', '4028b22f7cc55c1a017cc57320cc01a6', '{"displayOrder":5,"margin":"4 0 4 0","padding":"0 0 0 0"}');
-INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc573246d01bf', '4028b22f7cc55c1a017cc57320cc01a6', '{"displayOrder":6,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc573240701bc', '4028b22f7cc55c1a017cc57320cc01a6', '{"displayOrder":4,"margin":"4 0 4 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc573246d01bf', '4028b22f7cc55c1a017cc57320cc01a6', '{"displayOrder":5,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc573250001c3', '4028b22f7cc55c1a017cc57324d201c2', '{"displayOrder":0,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc57325bf01c8', '4028b22f7cc55c1a017cc57324d201c2', '{"displayOrder":1,"margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES ('4028b22f7cc55c1a017cc573261b01cb', '4028b22f7cc55c1a017cc57324d201c2', '{"displayOrder":2,"margin":"4 0 4 0","padding":"0 0 0 0"}');
