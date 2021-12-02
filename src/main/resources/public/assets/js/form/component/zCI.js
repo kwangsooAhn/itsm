@@ -820,17 +820,23 @@ export const ciMixin = {
                 closable: false,
             },
             onCreate: (modal) => {
+                let this_ = this; //zTag에서 callback에서 this는 zCI가 아니고 zTag이기에 this를 컴포지션함.
+
                 this.selectModalSearchCI();
+
+                new zTag(document.getElementById('tagSearch'), {
+                    suggestion: false,
+                    realtime: false,
+                    tagType: 'ci',
+                    targetId: '',
+                    callback: function () {
+                        this_.selectModalSearchCI();
+                    }
+                });
 
                 document.getElementById('searchValue').addEventListener('keyup', (e) => {
                     e.preventDefault();
                     this.selectModalSearchCI();
-                });
-                document.getElementById('tagSearch').addEventListener('keyup', (e) => {
-                    e.preventDefault();
-                    if (e.keyCode === 13) {
-                        this.selectModalSearchCI();
-                    }
                 });
             }
         });
