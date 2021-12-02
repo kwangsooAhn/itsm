@@ -262,7 +262,8 @@ class WfDocumentService(
                             ciId = ciComponentData.ciId,
                             typeId = "",
                             ciName = "",
-                            ciStatus = ""
+                            ciStatus = "",
+                            interlink = false
                         )
                         ciService.deleteCI(ciDto)
                     }

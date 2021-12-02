@@ -69,6 +69,7 @@ class ApiCIService(
      * CI 수정
      */
     fun updateCI(ciId: String, ciDto: CIDto): Boolean {
+        ciDto.interlink = true
         ciDto.updateUserKey?.let {
             if (userRepository.findByIdOrNull(it) == null) {
                 userService.selectUser(ApiConstants.CREATE_USER)
@@ -83,6 +84,7 @@ class ApiCIService(
      * CI 삭제
      */
     fun deleteCI(ciId: String, ciDto: CIDto): Boolean {
+        ciDto.interlink = true
         ciDto.updateUserKey?.let {
             if (userRepository.findByIdOrNull(it) == null) {
                 userService.selectUser(ApiConstants.CREATE_USER)
