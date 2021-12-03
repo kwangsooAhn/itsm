@@ -99,7 +99,7 @@ class WfScriptTask(
             mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType)
         ciAttributes.forEach { attribute ->
             if (attribute["id"] != null && attribute["value"] != null) {
-                    // Group List 속성일 경우
+                // Group List 속성일 경우
                 val ciDataForGroupLists = mutableListOf<CIDataForGroupListDto>()
                 if (attribute["type"] == RestTemplateConstants.AttributeType.GROUP_LIST.code) {
                     val childAttributes: List<Map<String, Any>> =
@@ -233,9 +233,12 @@ class WfScriptTask(
     private fun callCmdbAction(createTokenDto: WfTokenDto, element: WfElementEntity) {
         // 1. ScripTask MappingId 조회
         val targetMappingId = this.getScriptTaskMappingId(element)
+        var componentEntity: WfComponentEntity? = null
 
         // 2. tokenData 에서 mappingId와 동일한 컴포넌트 찾기
-        val componentEntity = this.getMappingComponent(createTokenDto, targetMappingId)
+        if (!targetMappingId.isNullOrBlank()) {
+            componentEntity = this.getMappingComponent(createTokenDto, targetMappingId)
+        }
 
         // 3. 컴포넌트가 CI 컴포넌트인 경우 진행
         if (componentEntity != null && componentEntity.componentType == WfComponentConstants.ComponentType.CI.code) {
@@ -282,13 +285,14 @@ class WfScriptTask(
     /**
      * CI Component 의 매핑아이디 조회.
      */
-    private fun getScriptTaskMappingId(element: WfElementEntity): String {
-        var targetMappingId = ""
+    private fun getScriptTaskMappingId(element: WfElementEntity): String? {
+        var targetMappingId: String? = null
         for (scriptData in element.elementScriptDataEntities) {
             if (!scriptData.scriptValue.isNullOrEmpty()) {
                 val scriptMap: Map<String, Any> =
                     mapper.readValue(scriptData.scriptValue, object : TypeReference<Map<String, Any>>() {})
                 targetMappingId = scriptMap[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value].toString()
+                targetMappingId = if (targetMappingId == "null") null else targetMappingId
             }
         }
         return targetMappingId
