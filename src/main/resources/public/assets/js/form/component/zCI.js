@@ -864,7 +864,9 @@ export const ciMixin = {
                 });
             }
             // 스크롤바
+            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelector('#ciList .z-table-body'), {className: 'scrollbar'});
+
             // 이미 선택된 CI 들은 선택 불가능
             if (Array.isArray(this.value) && this.value.length > 0) {
                 const ciChkElems = document.querySelectorAll('input[type=checkbox]');
