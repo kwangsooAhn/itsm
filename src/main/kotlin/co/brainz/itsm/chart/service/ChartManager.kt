@@ -270,9 +270,9 @@ abstract class ChartManager(
             // category 값을 periodUnit 에 따라 비교할 수 있는 값으로 변경한다.
             val categoryDateTime = LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             val periodUnitValue = this.getPeriodUnitValue(chartConfig.periodUnit!!, categoryDateTime)
-            var count = 0
             // tag 별 instance 를 loop 돌리면서 count 계산
             tagInstances.forEach { tagInstance ->
+                var count = 0
                 tagInstance.instances.forEach { instance ->
                     if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceEndDt!!)) {
                         count++
