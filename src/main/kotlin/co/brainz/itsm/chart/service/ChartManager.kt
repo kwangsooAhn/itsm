@@ -35,10 +35,10 @@ abstract class ChartManager(
     /**
      * Chart 조회
      * 1. 데이터를 Highchart 에서 사용할 수 있는 구조로 변경하여 전달
-     *   1) categories 목록 작성
+     *   1) category 목록 작성
      *     - PeriodUnit 값에 따라 년, 월, 일, 시 의 전체 목록 생성
      *   2) range(from, to) 범위에 해당되는 instance 목록 조회
-     *   3) categories 목록에 해당되는 instance 목록 적용
+     *   3) category 목록에 해당되는 instance 목록 적용
      *     - tag 별로 instanceEndDt 값이 instance 적용
      *     - count, percent, average 에 따른 처리
      */
@@ -107,7 +107,7 @@ abstract class ChartManager(
      */
     fun valueOfAverage(
         chartConfig: ChartConfig,
-        categories: LinkedHashSet<String>,
+        category: LinkedHashSet<String>,
         tagInstances: List<ChartTagInstanceDto>
     ): List<ChartData> {
         val valueList = mutableListOf<ChartData>()
@@ -157,8 +157,8 @@ abstract class ChartManager(
         }
 
         // category 별 데이터 셋팅
-        categories.iterator().forEach { category ->
-            val categoryDateTime = LocalDateTime.parse(category, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        category.iterator().forEach {
+            val categoryDateTime = LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             val periodUnitValue = this.getPeriodUnitValue(chartConfig.periodUnit!!, categoryDateTime)
 
             // Tag 별로 loop 진행하면서 숫자인 값을 합치고, 전체 건수로 나눈다.
@@ -178,7 +178,7 @@ abstract class ChartManager(
                 valueList.add(
                     ChartData(
                         id = instanceTagTokenData.tag.targetId,
-                        category = category,
+                        category = it,
                         value = String.format("%.2f", avgValue),
                         series = instanceTagTokenData.tag.tagValue
                     )
@@ -195,15 +195,15 @@ abstract class ChartManager(
      */
     fun valueOfPercent(
         chartConfig: ChartConfig,
-        categories: LinkedHashSet<String>,
+        category: LinkedHashSet<String>,
         tagInstances: List<ChartTagInstanceDto>
     ): List<ChartData> {
         val valueList = mutableListOf<ChartData>()
 
         // category 별로 tag 정보와 건수를 담는다. (데이터는 category x tag 수)
         val categoryTagList = mutableListOf<ChartCategoryTag>()
-        categories.iterator().forEach { category ->
-            val categoryDateTime = LocalDateTime.parse(category, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        category.iterator().forEach {
+            val categoryDateTime = LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             val periodUnitValue = this.getPeriodUnitValue(chartConfig.periodUnit!!, categoryDateTime)
 
             var totalCount = 0 // category 별 전체 건수 (tag 별 퍼센트 비율이기 때문에 category 별로 묶는다)
@@ -228,7 +228,7 @@ abstract class ChartManager(
             // category 데이터 저장 (tag 에 상관없이 전체 건수, tag 별 데이터)
             categoryTagList.add(
                 ChartCategoryTag(
-                    category = category,
+                    category = it,
                     totalCount = totalCount,
                     tagCountList = tagCountList
                 )
@@ -261,14 +261,14 @@ abstract class ChartManager(
      */
     fun valueOfCount(
         chartConfig: ChartConfig,
-        categories: LinkedHashSet<String>,
+        category: LinkedHashSet<String>,
         tagInstances: List<ChartTagInstanceDto>
     ): List<ChartData> {
         val valueList = mutableListOf<ChartData>()
 
-        categories.iterator().forEach { category ->
+        category.iterator().forEach {
             // category 값을 periodUnit 에 따라 비교할 수 있는 값으로 변경한다.
-            val categoryDateTime = LocalDateTime.parse(category, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            val categoryDateTime = LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             val periodUnitValue = this.getPeriodUnitValue(chartConfig.periodUnit!!, categoryDateTime)
             var count = 0
             // tag 별 instance 를 loop 돌리면서 count 계산
@@ -281,7 +281,7 @@ abstract class ChartManager(
                 valueList.add(
                     ChartData(
                         id = tagInstance.tag.tagId.toString(),
-                        category = category,
+                        category = it,
                         series = tagInstance.tag.tagValue,
                         value = count.toString()
                     )

@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.chart.service.impl
 
+import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartData
 import co.brainz.itsm.chart.dto.ChartTagInstanceDto
@@ -34,6 +35,36 @@ class Pie(
 
     override fun count(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstances: List<ChartTagInstanceDto>): List<ChartData> {
         val valueList = mutableListOf<ChartData>()
+
+        // category: tagValue, series: 빈 값
+        val tagList = mutableListOf<AliceTagDto>()
+        tagInstances.forEach { tagInstance ->
+            tagList.add(tagInstance.tag)
+        }
+
+        tagList.forEach { tag ->
+            var tagCount = 0
+            var seriesDt = ""
+            category.iterator().forEach {
+                if (seriesDt.isEmpty()) {
+                    seriesDt = it
+                }
+                tagInstances.forEach { tagInstance ->
+                    if (tagInstance.tag == tag) {
+                        tagCount += tagInstance.instances.size
+                    }
+                }
+            }
+
+            valueList.add(
+                ChartData(
+                    id = tag.tagId.toString(),
+                    category = tag.tagValue,
+                    value = tagCount.toString(),
+                    series = seriesDt
+                )
+            )
+        }
 
         return valueList
     }
