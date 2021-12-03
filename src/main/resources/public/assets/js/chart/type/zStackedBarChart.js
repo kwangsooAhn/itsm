@@ -101,7 +101,7 @@ export const zStackedBarChartMixin = {
     setSeries(option) {
         for (let i = 0; i < this.tags.length; i++) {
             option.series.push({
-                name: this.tags[i],
+                name: this.tags[i].value,
                 index: this.tags.length - ( i + 1 ), // 범례와 데이터 순서 일치시킴
                 legendIndex: i
             });

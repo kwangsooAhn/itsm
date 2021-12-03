@@ -3,14 +3,20 @@
   "chartName": "월간 심각도별 장애 발생 건수",
   "chartType": "chart.stackedColumn",
   "chartDesc": "월간 심각도별 장애 발생 건수",
-  "tags": ["무해", "주의", "위험", "긴급", "치명"],
+  "tags": [
+    { "tagId": "2c9180867cc31a25017cc7a68eec0511", "value": "무해" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0512", "value": "주의" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0513", "value": "위험" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0514", "value": "긴급" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0515", "value": "치명" }
+  ],
   "chartConfig": {
     "operation": "count",
     "periodUnit": "M",
     "range": {
       "type": "chart.range.between",
-      "from": "2021-01-01 00:00:00",
-      "to": "2021-12-31 23:59:59"
+      "from": "2020-12-31T15:00:00.000Z",
+      "to": "2021-12-31T14:59:59.000Z"
     }
   },
   "chartData": [{

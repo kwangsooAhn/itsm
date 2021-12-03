@@ -29,15 +29,12 @@
             <div id="container" class="flex-row flex-wrap z-chart-content-view"></div>
         </div>
         <form id="frm" method="post">
-            <input type="hidden" id="propertyJson" name="propertyJson" th:value="|${chart?.propertyJson}|"/>
-            <input type="hidden" id="chartConfig" name="chartConfig" th:value="|${chart?.chartConfigStr}|"/>
-            <input type="hidden" id="tags" name="tags" th:value="|${chart?.tags}|"/>
             <div class="flex-column z-edit-row">
                 <h4 class="sub-title under-bar bold" th:text="#{chart.label.defaultInfo}"></h4>
             </div>
             <div class="flex-column z-edit-row col-4">
                 <label class="field-label" th:text="#{chart.label.type}"></label>
-                <select id="typeSelectBox" name="typeSelectBox" onchange="setDisplay(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
+                <select id="typeSelectBox" name="typeSelectBox" onchange="changeChartType(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
                     <option th:each="type:${code.type}" th:value="${type.codeValue}"
                             th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
                 </select>
@@ -55,7 +52,7 @@
             <div class="flex-column z-edit-row">
                 <h4 class="sub-title under-bar bold" th:text="#{chart.label.queryInfo}"></h4>
             </div>
-            <div class="flex-column z-edit-row col-3">
+            <div class="flex-column z-edit-row col-3" id="operation">
                 <!--/* 연산 */-->
                 <label class="field-label" th:text="#{chart.label.operation}"></label>
                 <select id="operationSelectBox" name="operationSelectBox" th:classappend="${view ? 'readonly' : ''}">
@@ -79,7 +76,7 @@
                     <div class="flex-column col-3 mr-5">
                         <label class="field-label required" th:text="#{chart.label.duration}"></label>
                         <div>
-                            <select id="rangeType" name="rangeType" th:classappend="${view ? 'readonly' : ''}">
+                            <select id="rangeType" name="rangeType" onchange="changeRangeType(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
                                 <option th:each="unit:${code.range}" th:value="${unit.codeValue}"
                                         th:text="${unit.codeName}"
                                         th:selected="${unit.codeValue} == ${chart?.chartConfig?.range?.type}"></option>
@@ -120,11 +117,11 @@
                 <div class="z-button-list">
                     <button sec:authorize="hasAuthority('chart.create')" th:if="!${chart?.chartId}" type="button"
                             id="insert"
-                            class="z-button primary" onclick="saveChart('post')" th:text="#{common.btn.register}">
+                            class="z-button primary" onclick="saveChart('POST')" th:text="#{common.btn.register}">
                     </button>
                     <button sec:authorize="hasAuthority('chart.update')" th:if="${chart?.chartId}" type="button"
                             id="update"
-                            class="z-button primary" onclick="saveChart('put')" th:text="#{common.btn.modify}">
+                            class="z-button primary" onclick="saveChart('PUT')" th:text="#{common.btn.modify}">
                     </button>
                     <button type="button" id="preview" class="z-button secondary" sec:authorize="hasAuthority('chart.update')"
                             onclick="previewChart()" th:text="#{common.btn.preview}">
@@ -143,61 +140,93 @@
     <script th:inline="javascript" type="text/javascript">
         const chartId = [[${chart?.chartId}]];
         const STATUS_SUCCESS = '0';
-        const CHART_YEAR = 'Y';
-        const CHART_MONTH = 'M';
-        const CHART_DAY = 'D';
-        const CHART_HOUR = 'H';
+        // 차트 종류
         const PIE_CHART = 'chart.pie';
         const STACKED_COLUMN_CHART = 'chart.stackedColumn';
         const STACKED_BAR_CHART = 'chart.stackedBar';
         const BASIC_LINE_CHART = 'chart.basicLine';
-        let chart = null;
-        let rangeFromDt = i18n.getDate({'months': -1});
-        let rangeToDt = i18n.getDate();
+        // 차트 기간
+        const RANGE_BETWEEN = 'chart.range.between';
+        const RANGE_LAST_MONTH = 'chart.range.last.month';
+        const RANGE_LAST_DAY = 'chart.range.all';
+        const RANGE_ALL = '';
+        // 기간에 따른 시작일자, 종료일자
+        const A_MONTH_AGO = i18n.getDate({ 'months': -1 }); // 현재로부터 한달전
+        const NOW = i18n.getDate(); // 현재
+        const LAST_MONTH_START_OF = i18n.getStartOfDate({ months: -1 }, 'month'); // 지난달 1일
+        const LAST_MONTH_END_OF = i18n.getEndOfDate({ months: -1 }, 'month'); // 지난달 마지막날짜
+        const YESTERDAY = i18n.getDate({ days: -1 }); // 어제
+        const FIXED_DAY = '2000-01-01'; // 2000년 01월 01일
+        const CHART_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
 
         window.onload = function () {
-            OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
-            // date picker 초기화
-            const fromDtElement = document.getElementById('rangeFromDt');
-            const toDtElement = document.getElementById('rangeToDt');
-            if (!fromDtElement.value || !toDtElement.value) {
-                fromDtElement.value = rangeFromDt;
-                toDtElement.value = rangeToDt;
-            }
-            zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
-            zDateTimePicker.initDatePicker(toDtElement, setDatePicker);
+            OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
 
-            // range select event
-            document.getElementById('rangeType').addEventListener('change', (e) => {
-                if (e.target.value !== 'chart.range.between') {
-                    document.getElementById('rangeDate').style.visibility = 'hidden';
-                } else {
-                    document.getElementById('rangeDate').style.visibility = 'visible';
-                }
+            // 기간 조회 날짜 데이터 조기화
+            const fromDtElement = document.getElementById('rangeFromDt');
+            fromDtElement.setAttribute('data-userDateTime', i18n.userDateTime(fromDtElement.value, CHART_DATE_FORMAT));
+            fromDtElement.value = i18n.userDate(fromDtElement.value);
+
+            const toDtElement = document.getElementById('rangeToDt');
+            toDtElement.setAttribute('data-userDateTime', i18n.userDateTime(toDtElement.value, CHART_DATE_FORMAT));
+            toDtElement.value = i18n.userDate(toDtElement.value);
+
+            if (!fromDtElement.value || !toDtElement.value) {
+                fromDtElement.value = A_MONTH_AGO;
+                fromDtElement.setAttribute('data-userDateTime', A_MONTH_AGO + ' 00:00:00');
+                toDtElement.value = NOW;
+                toDtElement.setAttribute('data-userDateTime', NOW + ' 23:59:59');
+            }
+            zDateTimePicker.initDatePicker(fromDtElement, changeDatePicker);
+            zDateTimePicker.initDatePicker(toDtElement, changeDatePicker);
+
+            // 기간 설정에 따른 화면 변경
+            changeRangeType(document.getElementById('rangeType').value, true);
+
+            // 태그 초기화
+            new zTag(document.querySelector('input[name=targetTags]'), {
+                suggestion: false,
+                realtime: false,
+                tagType: 'chart',
+                targetId: chartId
             });
-            document.getElementById('rangeType').dispatchEvent(new Event('change'));
+
+            // select box 디자인
+            aliceJs.initDesignedSelectTag();
+
+            // 차트 타입에 따른 화면 변경
+            changeChartType(document.getElementById('typeSelectBox').value, true);
 
             // chart 초기화
-            getChart([[${chart?.chartId}]]);
-        };
-
-        function setDatePicker(element, picker) {
-            if (typeof picker === 'undefined') {
-                return false;
+            zChartManager.load(getChartData(false));
+            if (chartId !== null) {
+                // 데이터 업데이트
+                zChartManager.update([[${chart.chartData}]]);
             }
+        };
+        /**
+         * DatePicker 변경시 호출
+         */
+        function changeDatePicker(element, picker) {
+            if (typeof picker === 'undefined') { return false; }
+
             if (element.id === 'rangeFromDt') {
                 const toDtValue = document.getElementById('rangeToDt').value;
-                if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
+                element.setAttribute('data-userDateTime', element.value + ' 00:00:00');
+                if (!i18n.compareSystemDate(element.value, toDtValue)) {
                     zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
-                        document.getElementById('rangeFromDt').value = rangeFromDt;
+                        element.value = A_MONTH_AGO;
+                        element.setAttribute('data-userDateTime', A_MONTH_AGO + ' 00:00:00');
                         picker.open();
                     });
                 }
             } else {
                 const fromDtValue = document.getElementById('rangeFromDt').value;
-                if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
+                element.setAttribute('data-userDateTime', element.value + ' 23:59:59');
+                if (!i18n.compareSystemDate(fromDtValue, element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
-                        document.getElementById('rangeToDt').value = rangeToDt;
+                        element.value = NOW;
+                        element.setAttribute('data-userDateTime', NOW + ' 23:59:59');
                         picker.open();
                     });
                 }
@@ -208,49 +237,63 @@
          * chart preview
          */
         function previewChart() {
-            if (isValidation() && isValidation()) {
-                let chartInfo = setChartInfo();
-                restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
-                    let responseJson = JSON.parse(response);
-                    setChart(
-                        responseJson.chartType,
-                        responseJson.propertyJson,
-                        responseJson.chartConfigStr,
-                        responseJson.tags
-                    );
-                    parsedPropertyJson(
-                        responseJson.chartType,
-                        responseJson.chartConfigStr,
-                        responseJson.propertyJson,
-                        responseJson.tags
-                    );
-                }, false);
-            }
+            if (!isValidation()) { return false; }
+
+            const previewData = getChartData(true);
+            // 서버에 전달시 from , to 날짜 데이터 포맷 변경
+            aliceJs.fetchJson('/rest/charts/' + chartId + '/preview', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(previewData),
+                showProgressbar: true
+            }).then((data) => {
+                if (typeof data.chartConfig === 'undefined') { return false; }
+                // 기존 차트를 지우고 새로 그려준다.
+                zChartManager.destroy();
+
+                // 날짜 데이터 변경
+                const fromDt = data.chartConfig.range.from;
+                const toDt = data.chartConfig.range.to;
+                data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
+                data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
+
+                // 차트 초기화
+                zChartManager.load(data);
+
+                // 차트 데이터 업데이트
+                if (typeof data.chartConfig === 'undefined') { return false; }
+                zChartManager.update(data.chartData);
+            });
         }
 
         /**
          * chart 저장 / 수정
          */
         function saveChart(method) {
-            if (isValidation() && isValidation()) {
-                let chartInfo = setChartInfo(method, chartId);
-                let url = '/rest/charts';
-                if (chartInfo.chartId !== undefined) {
-                    url += '/' + chartId;
+            if (!isValidation()) { return false; }
+
+            const saveData = getChartData(true);
+            const url = '/rest/charts' + (chartId !== null ? '/' + chartId : '');
+            aliceJs.fetchText(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(saveData)
+            }).then((rtn) => {
+                switch (rtn) {
+                    case STATUS_SUCCESS:
+                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                            location.href = '/charts/search';
+                        });
+                        break;
+                    default:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
                 }
-                restSubmit(method, url, chartInfo, function (result) {
-                    switch (result) {
-                        case STATUS_SUCCESS:
-                            zAlert.success(i18n.msg('common.msg.save'), function () {
-                                location.href = '/charts/search';
-                            });
-                            break;
-                        default:
-                            zAlert.danger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                });
-            }
+            });
         }
 
         /**
@@ -279,42 +322,8 @@
         }
 
         /**
-         * REST API
+         * 화면 필수값 검증
          */
-        function restSubmit(method, url, data, result, isShowProgressbar) {
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function (response) {
-                    result(response.responseText);
-                },
-                showProgressbar: isShowProgressbar
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        function getChart(chartId) {
-            setDisplay(document.getElementById('typeSelectBox').value, true);
-
-            new zTag(document.querySelector('input[name=targetTags]'), {
-                suggestion: false,
-                realtime: false,
-                tagType: 'chart',
-                targetId: chartId
-            });
-            if (chartId !== null) {
-                parsedPropertyJson(
-                    document.getElementById('typeSelectBox').value,
-                    document.getElementById('chartConfig').value,
-                    document.getElementById('propertyJson').value,
-                    document.getElementById('tags').value
-                );
-            }
-        }
-
-        // 화면 필수값 검증
         function isValidation() {
             if (isEmpty('chartName', 'chart.msg.enterChartName')) {
                 return false;
@@ -322,44 +331,103 @@
             if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
                 return false;
             }
+
             return true;
         }
 
-        function setDisplay(value, load) {
-            let operation = [[${chart?.chartConfig?.operation}]];
-            // 연산자 박스 출력
+        /**
+         * 타입에 따른 연산 설정 변경
+         * @param type 차트 타입
+         * @param value 기존 선택된 값
+         */
+        function setOperationOption(type, value) {
+            // 초기화
             let operationSelectBox = document.getElementById('operationSelectBox');
             operationSelectBox.options.length = 0;
-            let countOption = document.createElement('option');
-            let averageOption = document.createElement('option');
-            let percentOption = document.createElement('option');
-            countOption.text = i18n.msg('chart.option.text.count');
-            countOption.value = i18n.msg('chart.option.value.count');
-            averageOption.text = i18n.msg('chart.option.text.average');
-            averageOption.value = i18n.msg('chart.option.value.average');
-            percentOption.text = i18n.msg('chart.option.text.percent');
-            percentOption.value = i18n.msg('chart.option.value.percent');
-            switch (value) {
-                case BASIC_LINE_CHART:
-                    operationSelectBox.add(countOption);
-                    operationSelectBox.add(averageOption);
-                    operationSelectBox.add(percentOption);
-                    break;
-                default:
-                    operationSelectBox.add(countOption);
-                    operationSelectBox.add(percentOption);
-                    break;
-            }
-            if (load === true) {
-                for (let i = 0; i < operationSelectBox.childNodes.length; i++) {
-                    if (operationSelectBox.childNodes[i].value === operation) {
-                        operationSelectBox.childNodes[i].selected = true;
-                    }
+            // 라인차트, stacked 컬럼 / 바 차트는 '카운트', '평균', '퍼센트' 사용
+            // 파이차트는 '카운트' 만 사용
+            let options = (type === PIE_CHART) ? ['count'] : ['count', 'average', 'percent'];
+            for (let i = 0;i < options.length; i++) {
+                const option = document.createElement('option');
+                option.text = i18n.msg('chart.option.text.' + options[i]);
+                option.value = i18n.msg('chart.option.value.' + options[i]);
+                if (option.value === value) {
+                    option.selected = true;
                 }
+                operationSelectBox.append(option);
             }
-            aliceJs.initDesignedSelectTag();
+        }
 
-            if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
+        /**
+         * 차트 타입 변경시 화면 변경
+         * @param type 차트 타입
+         * @param flag 초기화시 true, 사용자 변경시 false
+         */
+        function changeChartType(type, flag) {
+            // 연산 설정 변경
+            const operation = flag ? [[${chart?.chartConfig?.operation}]] : '';
+            setOperationOption(type, operation);
+
+            if (!flag) {
+                // select box 디자인
+                aliceJs.initDesignedSelectTag(document.getElementById('operation'));
+            }
+        }
+
+        /**
+         * 기간 변경시 화면 변경
+         * @param type 차트 타입
+         * @param flag 초기화시 true, 사용자 변경시 false
+         */
+        function changeRangeType(type, flag) {
+            // 기간 지정시 범위 데이터 오픈
+            const range = document.getElementById('rangeDate'); // 시작일자, 종료일자
+            range.style.visibility = ( type === RANGE_BETWEEN ) ? 'visible' : 'hidden';
+
+            if (!flag) {
+                const fromDt = document.getElementById('rangeFromDt');
+                const toDt = document.getElementById('rangeToDt');
+                switch (type) {
+                    case RANGE_BETWEEN: // 기간 지정
+                        // 시작일자(from) = 오늘로부터 한달 전 데이터
+                        // 종료일자(to) = 오늘
+                        fromDt.value = A_MONTH_AGO;
+                        fromDt.setAttribute('data-userDateTime', A_MONTH_AGO + ' 00:00:00');
+                        toDt.value = NOW;
+                        toDt.setAttribute('data-userDateTime', NOW + ' 23:59:59');
+                        break;
+                    case RANGE_LAST_MONTH: // 지난달
+                        // 시작일자(from) = 지난달 01일 데이터
+                        // 종료일자(to) = 지난달 마지막 날짜 데이터
+                        fromDt.value = LAST_MONTH_START_OF;
+                        fromDt.setAttribute('data-userDateTime', LAST_MONTH_START_OF + ' 00:00:00');
+                        toDt.value = LAST_MONTH_END_OF;
+                        toDt.setAttribute('data-userDateTime', LAST_MONTH_END_OF + ' 23:59:59');
+                        break;
+                    case RANGE_ALL: // 전체
+                        // 시작일자(from) = 2000년 01월 01일 00시 00분 00초 데이터
+                        // 종료일자(to) = 현재 날짜 23시 59분 59초 데이터
+                        fromDt.value = FIXED_DAY;
+                        fromDt.setAttribute('data-userDateTime', FIXED_DAY + ' 00:00:00');
+                        toDt.value = NOW;
+                        toDt.setAttribute('data-userDateTime', NOW + ' 23:59:59');
+                        break;
+                    case RANGE_LAST_DAY: // 어제
+                        // 시작일자(from) = 어제 날짜 00시 00분 00초 데이터
+                        // 종료일자(to) = 어제 날짜 23시 59분 59초 데이터
+                        fromDt.value = YESTERDAY;
+                        fromDt.setAttribute('data-userDateTime', YESTERDAY + ' 00:00:00');
+                        toDt.value = YESTERDAY;
+                        toDt.setAttribute('data-userDateTime', YESTERDAY + ' 23:59:59');
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            // TODO: #11574 [사용자 정의 차트] 기간 - 간격 설정
+            /*if (type === BASIC_LINE_CHART || type === STACKED_COLUMN_CHART) {
                 // 2021-10-06 By Jung Hee Chan
                 // 기간 항목은 드롭박스에 디자인이 입혀지면서 div 가 새로 생김. 이것까지 숨기거나 보여주려면 처리를 아래와 같이 추가.
                 document.getElementById('periodUnit').style.display = '';
@@ -371,56 +439,45 @@
                 Array.from(document.getElementById('periodUnit').children).forEach((child) => {
                     child.style.display = 'none';
                 });
-            }
+            }*/
 
-            // 차트 새로 그리기
-            setChart(
-                value,
-                document.getElementById('propertyJson').value,
-                document.getElementById('chartConfig').value,
-                document.getElementById('tags').value
-            );
+            // select box 디자인
+            aliceJs.initDesignedSelectTag(range);
         }
 
-        /** 하이차트 초기화 */
-        function setChart(chartType, property, chartConfig, tags) {
-            //chart = new ZChart('container', chartType, property, chartConfig, tags);
-        }
-
-        /** chartConfig 파싱 진행 **/
-        function parsedPropertyJson(chartType, chartConfig, property, tags) {
-            //chart.parsedPropertyJson(chartType, chartConfig, property, tags);
-        }
-
-        // 전송할 데이터 셋팅
-        function setChartInfo(method, chartId) {
-            let tagList = [];
+        /**
+         * 차트 데이터 조회
+         * @param isSaved 저장시 필요한 데이터인지 여부 (저장시 날짜 데이터는 서버데이터 형태로 전달해야 함)
+         * @returns json 데이터
+         */
+        function getChartData(isSaved) {
+            let tags = [];
             JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
-                tagList.push({value: tag.value})
+                tags.push({ value: tag.value })
             });
 
-            let chartInfo = {
+            let fromDt = document.getElementById('rangeFromDt').getAttribute('data-userDateTime');
+            let toDt = document.getElementById('rangeToDt').getAttribute('data-userDateTime');
+            if (isSaved) {
+                fromDt = i18n.systemDateTime(fromDt, { 'days' : 0 }, CHART_DATE_FORMAT);
+                toDt = i18n.systemDateTime(toDt, { 'days' : 0 }, CHART_DATE_FORMAT);
+            }
+            return {
+                chartId: chartId || '',
                 chartType: document.getElementById('typeSelectBox').value,
                 chartName: document.getElementById('chartName').value,
                 chartDesc: document.getElementById('chartDesc').value,
                 chartConfig: {
+                    operation: document.getElementById('operationSelectBox').value,
+                    periodUnit: document.getElementById('periodUnitSelectBox').value,
                     range: {
                         type: document.getElementById('rangeType').value,
-                        from: document.getElementById('rangeFromDt').value,
-                        to: document.getElementById('rangeToDt').value
-                    },
-                    operation: document.getElementById('operationSelectBox').value,
-                    periodUnit: document.getElementById('periodUnitSelectBox').value
+                        from: fromDt,
+                        to: toDt
+                    }
                 },
-                tags: tagList,
-                chartConfigStr: ''
+                tags: tags
             };
-
-            if (method === 'put' && chartId !== undefined) {
-                chartInfo.chartId = chartId;
-            }
-
-            return chartInfo;
         }
     </script>
     <script type="module">
@@ -430,9 +487,10 @@
             load: function(data) {
                 // 차트 초기화
                 this.zChart = new ZChart('container', data);
-
+            },
+            update: function (data) {
                 // 데이터 업데이트
-                this.zChart.update(data.chartData);
+                this.zChart.update(data);
             },
             destroy: function () {
                 if (this.zChart) {

@@ -46,6 +46,8 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
+        const CHART_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+
         window.onload = function () {
             document.getElementById('searchValue').focus();
             document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
@@ -105,7 +107,7 @@
                     closable: false,
                 },
                 onCreate: function () {
-                    getChart(chartId, chartType);
+                    getChart(chartId);
                 }
             };
 
@@ -115,29 +117,43 @@
 
         function createModalContent() {
             return `<div class="chart-edit-content">` +
-                `<div class="flex-column" id="getChart"></div>` +
+                `<div class="flex-column" id="getChart">` +
+                    `<div class="flex-column z-edit-row mt-2">` +
+                        `<div id="container" class="flex-row flex-wrap z-chart-content-view"/>` +
+                        `</div>` +
+                    `</div>` +
                 `</div>`;
         }
 
-        function getChart(chartId, chartType) {
-            const opt = {
-                method: 'get',
-                url: '/charts/' + chartId + '/preview',
-                contentType: 'application/json',
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    document.getElementById('getChart').innerHTML = response.responseText;
-                    // 가데이터 표시
-                    aliceJs.fetchJson('../../assets/js/chart/dummy/' + chartType + '.json', {
-                        method: 'GET'
-                    }).then((chartData) => {
-                        zChartManager.load(chartData);
-                    });
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
+        function getChart(chartId) {
+            aliceJs.fetchJson('/rest/charts/' + chartId, {
+                method: 'GET',
+                showProgressbar: true
+            }).then((data) => {
+                // 사용자 날짜 데이터 변경
+                const fromDt = data.chartConfig.range.from;
+                const toDt = data.chartConfig.range.to;
+                data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
+                data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
 
+                // 차트 초기화
+                zChartManager.load(data);
+            });
+
+            // 가데이터 표시 (필요시 주석 제거하여 사용 바람)
+            /*aliceJs.fetchJson('../../assets/js/chart/dummy/' + chartType + '.json', {
+                method: 'GET'
+            }).then((data) => {
+                // 사용자 날짜 데이터 변경
+                const fromDt = data.chartConfig.range.from;
+                const toDt = data.chartConfig.range.to;
+                data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
+                data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
+
+                // 차트 초기화
+                zChartManager.load(data);
+            });*/
+        }
         /*]]>*/
     </script>
     <script type="module">

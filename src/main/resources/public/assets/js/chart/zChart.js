@@ -223,9 +223,12 @@ export  default class ZChart {
      * @returns 날짜 데이터
      */
     getStringToDateTime(userDateTime) {
-        const matchDateTime = userDateTime.match(zValidation.regex.dateTime);
+        let matchDateTime = userDateTime.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)\:(\d+)$/); // 2021-12-01 00:00:00
+        if (!zValidation.isDefined(matchDateTime)) {
+            matchDateTime = userDateTime.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)$/); // 2021-12-01 00:00
+        }
         return new Date(matchDateTime[1], matchDateTime[2] - 1, matchDateTime[3],
-            matchDateTime[4], matchDateTime[5], matchDateTime[6]).getTime();
+            matchDateTime[4], matchDateTime[5], (matchDateTime.length === 7 ) ? matchDateTime[6] : '00').getTime();
     }
     /**
      * 연산 방법 설정에 따른 라벨 포맷 조회

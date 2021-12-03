@@ -27,10 +27,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.time.LocalDateTime
-import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import javax.transaction.Transactional
 
 @Service
 class ReportService(
@@ -84,12 +84,11 @@ class ReportService(
                 chartType = chart["type"] as String,
                 chartDesc = chart["desc"] as String,
                 chartConfig = mapper.readValue(configStr, ChartConfig::class.java),
-                chartConfigStr = configStr,
-                createDt = reportEntity.publishDt,
+                //createDt = reportEntity.publishDt,
                 tags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CHART.code, data.chartId)
             )
 
-            chartDataList.add(chartManagerFactory.getChartManager(chartDto.chartType).getChart(chartDto))
+            //chartDataList.add(chartManagerFactory.getChartManager(chartDto.chartType).getChart(chartDto))
         }
 
         return ReportDto(

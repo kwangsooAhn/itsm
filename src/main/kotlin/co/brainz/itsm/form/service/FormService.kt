@@ -153,11 +153,18 @@ class FormService(
      * @return String 새로 생성된 form ID
      */
     fun saveAsForm(formData: RestTemplateFormDataDto): String {
-        formData.status = RestTemplateConstants.FormStatus.EDIT.value
-        formData.createUserKey = currentSessionUser.getUserKey()
-        formData.createDt = LocalDateTime.now()
-        val newFormId = wfFormService.saveAsFormData(formData).id
-        logger.info("save as form : success [{}]", newFormId)
-        return newFormId
+        return when (wfFormService.checkFormData(formId = null, formName = formData.name)) {
+            WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code -> {
+                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+            }
+            else -> {
+                formData.status = RestTemplateConstants.FormStatus.EDIT.value
+                formData.createUserKey = currentSessionUser.getUserKey()
+                formData.createDt = LocalDateTime.now()
+                val newFormId = wfFormService.saveAsFormData(formData).id
+                logger.info("save as form : success [{}]", newFormId)
+                newFormId
+            }
+        }
     }
 }

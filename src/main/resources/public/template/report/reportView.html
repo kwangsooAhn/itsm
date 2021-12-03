@@ -33,21 +33,9 @@
     </div>
 </th:block>
 </body>
-<th:block layout:fragment="script">
+<th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[*/
-        const CHART_YEAR = 'Y';
-        const CHART_MONTH = 'M';
-        const CHART_DAY = 'D';
-        const CHART_HOUR = 'H';
-        const PIE_CHART = 'chart.pie';
-        const STACKED_COLUMN_CHART = 'chart.stackedColumn';
-        const STACKED_BAR_CHART = 'chart.stackedBar';
-        const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
-        const BASIC_LINE_CHART = 'chart.basicLine';
-        const GAUGE_CHART = 'chart.gauge';
-        let chart = null;
-
         const report = /*[[${report}]]*/ null;
 
         function download() {
@@ -62,6 +50,27 @@
     </script>
     <script type="module">
         /*<![CDATA[*/
+        import ZChart from '../../assets/js/chart/zChart.js';
+
+        const CHART_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+        const zChartManager = {
+            load: function(id, data) {
+                // 차트 초기화
+                this.zChart = new ZChart(id, data);
+
+                // 데이터 업데이트
+                this.zChart.update(data.chartData);
+            },
+            destroy: function () {
+                if (this.zChart) {
+                    this.zChart.destroy();
+                    this.zChart = null;
+                    delete this.zChart;
+                }
+            }
+        }
+        window.zChartManager = zChartManager;
+
         window.onload = function() {
             // footer
             const userName = '[[${#authentication.details.userName}]]';
@@ -86,29 +95,14 @@
                 `</div>`;
             chartTarget.insertAdjacentHTML('beforeend', element);
 
-            setChart(
-                data.chartType,
-                data.propertyJson,
-                data.chartId + '_chart',
-                data.chartConfigStr,
-                data.tags
-            );
-            parsedPropertyJson(
-                data.chartType,
-                data.chartConfigStr,
-                data.propertyJson,
-                data.tags
-            );
-        }
+            // 사용자 날짜 데이터 변경
+            const fromDt = data.chartConfig.range.from;
+            const toDt = data.chartConfig.range.to;
+            data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
+            data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
 
-        /** 하이차트 초기화 */
-        function setChart(chartType, property, target, chartConfig, tags) {
-            chart = new ZChart(target, chartType, property, chartConfig, tags);
-        }
-
-        /** chartConfig 파싱 진행 **/
-        function parsedPropertyJson(chartType, chartConfig, property, tags) {
-            chart.parsedPropertyJson(chartType, chartConfig, property, tags);
+            // 차트 초기화
+            zChartManager.load(data.chartId + '_chart', data);
         }
         /*]]>*/
     </script>

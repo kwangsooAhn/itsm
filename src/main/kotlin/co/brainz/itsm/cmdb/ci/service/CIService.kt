@@ -295,11 +295,11 @@ class CIService(
                     rows = mutableListOf(
                         ExcelRowVO(
                             cells = listOf(
-                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.ciNo")),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.type")),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.name")),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.description")),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.tag"))
+                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.ciNo"), cellWidth = 5000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.type"), cellWidth = 5000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.name"), cellWidth = 5000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.description"), cellWidth = 8000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.tag"), cellWidth = 5000)
                             )
                         )
                     )
