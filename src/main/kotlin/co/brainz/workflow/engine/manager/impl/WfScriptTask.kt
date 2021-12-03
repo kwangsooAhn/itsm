@@ -286,19 +286,16 @@ class WfScriptTask(
      * CI Component 의 매핑아이디 조회.
      */
     private fun getScriptTaskMappingId(element: WfElementEntity): String? {
-        var targetMappingId = ""
+        var targetMappingId: String? = null
         for (scriptData in element.elementScriptDataEntities) {
             if (!scriptData.scriptValue.isNullOrEmpty()) {
                 val scriptMap: Map<String, Any> =
                     mapper.readValue(scriptData.scriptValue, object : TypeReference<Map<String, Any>>() {})
                 targetMappingId = scriptMap[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value].toString()
+                targetMappingId = if (targetMappingId == "null") null else targetMappingId
             }
         }
-        return if (targetMappingId != "null") {
-            targetMappingId
-        } else {
-            null
-        }
+        return targetMappingId
     }
 
     /**
