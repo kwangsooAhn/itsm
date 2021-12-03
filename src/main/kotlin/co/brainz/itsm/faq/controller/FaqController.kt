@@ -61,7 +61,6 @@ class FaqController(private val faqService: FaqService, private val codeService:
         val result = faqService.getFaqs(faqSearchCondition)
         model.addAttribute("faqs", result.data)
         model.addAttribute("paging", result.paging)
-        model.addAttribute("faqGroupList", codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE))
         return faqListPage
     }
 
