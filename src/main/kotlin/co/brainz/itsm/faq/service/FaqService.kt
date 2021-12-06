@@ -9,6 +9,8 @@ package co.brainz.itsm.faq.service
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.faq.constants.FaqConstants
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqListReturnDto
@@ -29,7 +31,11 @@ import org.springframework.transaction.annotation.Transactional
  * @author Jung heechan
  */
 @Service
-class FaqService(private val faqRepository: FaqRepository, private val aliceFileService: AliceFileService) {
+class FaqService(
+    private val faqRepository: FaqRepository,
+    private val aliceFileService: AliceFileService,
+    private val codeService: CodeService
+    ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -38,8 +44,20 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
      */
     fun getFaqs(faqSearchCondition: FaqSearchCondition): FaqListReturnDto {
         val queryResult = faqRepository.findFaqs(faqSearchCondition)
+        val currentSessionUserCodeList = codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE)
+        val fapList: MutableList<FaqListDto> = mutableListOf()
+
+        for (faq in queryResult.results) {
+           for (code in currentSessionUserCodeList) {
+               if (faq.faqGroup == code.code) {
+                   faq.faqGroupName = code.codeName.toString()
+                   fapList.add(faq)
+               }
+           }
+        }
+
         return FaqListReturnDto(
-            data = queryResult.results,
+            data = fapList,
             paging = AlicePagingData(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = faqRepository.count(),
