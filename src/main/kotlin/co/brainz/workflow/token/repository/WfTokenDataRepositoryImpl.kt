@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.workflow.token.repository
 
 import co.brainz.itsm.chart.dto.average.ChartTokenData
@@ -51,8 +57,7 @@ class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::c
                 )
             )
             .innerJoin(tokenData.token)
-            .innerJoin(tokenData.component, component)
-            //.innerJoin(tokenData.component, component).on(component.componentType.`in`(componentTypeSet))
+            .innerJoin(tokenData.component, component).on(component.componentType.`in`(componentTypeSet))
             .where(tokenData.component.componentId.`in`(componentIds))
             .where(tokenData.token.tokenId.`in`(tokenIds))
             .fetch()
