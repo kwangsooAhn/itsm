@@ -153,8 +153,10 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             customCodeData[i].value = customCodeData[i].key;
             customCodeDataOption.push(customCodeData[i]);
         }
-        const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
-        UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
+        if (!zValidation.isEmpty(customCodeData)) {
+            const customDataOptionValue = customCodeData[0].key;
+            UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
+        }
     }
 
     // 커스텀 코드 변경시 커스텀 코드 데이터 select box를 업데이트 한다.
