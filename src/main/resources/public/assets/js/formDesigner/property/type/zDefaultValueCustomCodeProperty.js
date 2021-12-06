@@ -146,15 +146,17 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         let customCodeData = await aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {
             method: 'GET'
         });
-        for (let i = 0; i < customCodeData.length; i++) {
-            if (zValidation.isEmpty(customCodeData[i].name)) {
-                customCodeData[i].name = customCodeData[i].value;
-            }
-            customCodeData[i].value = customCodeData[i].key;
-            customCodeDataOption.push(customCodeData[i]);
-        }
+
         if (!zValidation.isEmpty(customCodeData)) {
-            const customDataOptionValue = customCodeData[0].key;
+            for (let i = 0; i < customCodeData.length; i++) {
+                if (zValidation.isEmpty(customCodeData[i].name)) {
+                    customCodeData[i].name = customCodeData[i].value;
+                }
+                customCodeData[i].value = customCodeData[i].key;
+                customCodeDataOption.push(customCodeData[i]);
+            }
+
+            const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
             UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
         }
     }
