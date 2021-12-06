@@ -2093,7 +2093,7 @@ select {
 .z-print {
   margin: 0 auto;
 }
-.z-print table tr {
+.z-print z-print-main > div {
   height: 0;
 }
 .z-print-main-footer {
@@ -2119,6 +2119,9 @@ select {
   html, body {
     width: 210mm;
     height: 297mm;
+    color-adjust: exact;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
   }
 
   .z-print {
@@ -2144,17 +2147,20 @@ select {
   .z-print-main {
     margin: 0 auto;
   }
-  .z-print-main thead {
+  .z-print-main .z-print-header-space {
     display: table-header-group;
   }
-  .z-print-main tbody {
+  .z-print-main .z-drawing-board {
     display: table-row-group;
   }
-  .z-print-main tfoot {
+  .z-print-main .z-print-footer-space {
     display: table-footer-group;
   }
   .z-print-main .z-drawing-board .z-form {
     display: table-row;
+  }
+  .z-print-main .z-drawing-board .z-form .z-row-tooltip {
+    break-inside: avoid;
   }
   .z-print-main-footer {
     position: fixed;
