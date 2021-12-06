@@ -17,11 +17,12 @@ import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
 import co.brainz.itsm.customCode.dto.CustomCodeConditionDto
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
-import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
 import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.dto.CustomCodeTableDto
+import co.brainz.itsm.customCode.dto.CustomCodeTreeDto
+import co.brainz.itsm.customCode.dto.CustomCodeTreeReturnDto
 import co.brainz.itsm.customCode.entity.CustomCodeColumnEntity
 import co.brainz.itsm.customCode.entity.CustomCodeColumnPk
 import co.brainz.itsm.customCode.entity.CustomCodeEntity
@@ -183,7 +184,7 @@ class CustomCodeService(
      * @param customCodeId 커스텀 코드 ID
      * @return List<CustomCodeDataDto>
      */
-    fun getCustomCodeData(customCodeId: String): List<CustomCodeDataDto> {
+    fun getCustomCodeData(customCodeId: String): CustomCodeTreeReturnDto {
         val customCode = customCodeRepository.findByCustomCode(customCodeId)
         return if (customCode.type == CustomCodeConstants.Type.TABLE.code) {
             getTableTypeData(customCode)
@@ -262,11 +263,12 @@ class CustomCodeService(
      * @param customCode CustomCodeEntity
      * @return MutableList<CustomCodeDataDto>
      */
-    private fun getTableTypeData(customCode: CustomCodeCoreDto): MutableList<CustomCodeDataDto> {
-        val customDataList = mutableListOf<CustomCodeDataDto>()
+    private fun getTableTypeData(customCode: CustomCodeCoreDto): CustomCodeTreeReturnDto {
+        val customDataList = mutableListOf<CustomCodeTreeDto>()
         var dataList = mutableListOf<Any>()
         val condition = jsonToArrayByCondition(customCode.condition)
         val sort = Sort(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
+        val lang = currentSessionUser.getUserDto()?.lang
         when (customCode.targetTable) {
             CustomCodeConstants.TableName.ROLE.code -> {
                 dataList = roleRepository.findAll(RoleCustomCodeSpecification(condition), sort).toMutableList()
@@ -276,28 +278,38 @@ class CustomCodeService(
             }
         }
         if (dataList.size > 0) {
-            for (data in dataList) {
-                val customCodeDataDto = CustomCodeDataDto(key = "", value = "", name = "")
+            for ((index, data) in dataList.withIndex()) {
+                val customCodeDataDto = CustomCodeTreeDto(
+                    code = "",
+                    codeValue = "",
+                    level = 1,
+                    seqNum = index,
+                    codeLangName = "",
+                    lang = lang
+                )
                 val dataFields = data::class.java.declaredFields
                 for (dataField in dataFields) {
                     if (dataField.isAnnotationPresent(Column::class.java)) {
                         dataField.isAccessible = true
                         val columnName = dataField.getAnnotation(Column::class.java)?.name
                         if (columnName == customCode.valueColumn) { // key
-                            customCodeDataDto.key = dataField.get(data) as? String ?: ""
+                            customCodeDataDto.code = dataField.get(data) as? String ?: ""
                         }
                         if (columnName == customCode.searchColumn) { // value
-                            customCodeDataDto.value = dataField.get(data) as? String ?: ""
+                            customCodeDataDto.codeName = dataField.get(data) as? String ?: ""
                         }
                         dataField.isAccessible = false
                     }
                 }
-                if (customCodeDataDto.key.isNotEmpty() && customCodeDataDto.value.isNotEmpty()) {
+                if (customCodeDataDto.code.isNotEmpty() && !customCodeDataDto.codeValue.isNullOrEmpty()) {
                     customDataList.add(customCodeDataDto)
                 }
             }
         }
-        return customDataList
+        return CustomCodeTreeReturnDto(
+            data = customDataList,
+            totalCount = customDataList.size.toLong()
+        )
     }
 
     /**
@@ -306,25 +318,40 @@ class CustomCodeService(
      * @param customCode CustomCodeEntity
      * @return MutableList<CustomCodeDataDto>
      */
-    private fun getCodeTypeData(customCode: CustomCodeCoreDto): MutableList<CustomCodeDataDto> {
-        val customDataList = mutableListOf<CustomCodeDataDto>()
-        val dataList = customCode.pCode?.let { codeService.getCodeListByCustomCode(it) }
+    private fun getCodeTypeData(customCode: CustomCodeCoreDto): CustomCodeTreeReturnDto {
+        val customDataList = mutableListOf<CustomCodeTreeDto>()
         val lang = currentSessionUser.getUserDto()?.lang
-        val findCode = codeRepository.findCodeByCodeLang(customCode.pCode!!, lang)
 
-        dataList?.forEach {
-            var codeName = it.codeName!!
-
-            for (codeDto in findCode) {
-                if (codeDto.codeLangName != null && codeDto.lang != null) {
-                    codeName = codeDto.codeLangName
-                }
-                if (it.code.equals(codeDto.code)) {
-                    customDataList.add(CustomCodeDataDto(key = it.code, value = it.codeValue!!, name = codeName))
-                }
+        if (customCode.pCode != null) {
+            val dataList = codeService.getCodeList("", customCode.pCode!!)
+            val pCodeIds = dataList.data.map{ it.code }
+            print(pCodeIds)
+            // 다국어 코드 조회
+            val codeLangDataList = codeRepository.findCodeByCodeLang(pCodeIds.toSet(), lang)
+            print(codeLangDataList)
+            // 다국어 코드 병합
+            for (data in codeLangDataList) {
+                customDataList.add(
+                    CustomCodeTreeDto(
+                        code = data.code,
+                        pCode = data.pCode,
+                        codeValue = data.codeValue,
+                        codeName = data.codeName,
+                        codeDesc = data.codeDesc,
+                        editable = data.editable,
+                        level = data.level,
+                        seqNum = data.seqNum,
+                        codeLangName = data.codeLangName,
+                        lang = data.lang
+                    )
+                )
             }
         }
-        return customDataList
+
+        return CustomCodeTreeReturnDto(
+            data = customDataList,
+            totalCount = customDataList.size.toLong()
+        )
     }
 
     /**

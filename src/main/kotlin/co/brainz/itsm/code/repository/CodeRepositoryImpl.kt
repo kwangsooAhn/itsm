@@ -92,7 +92,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
             .fetchOne()
     }
 
-    override fun findCodeByCodeLang(pCodes: String, lang: String?): List<CodeDto> {
+    override fun findCodeByCodeLang(pCodes: Set<String>, lang: String?): List<CodeDto> {
         val code = QCodeEntity.codeEntity
         val codeLang = QCodeLangEntity.codeLangEntity
         return from(code)
@@ -113,7 +113,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
                 )
             )
             .leftJoin(codeLang).on(code.code.eq(codeLang.code), codeLang.lang.eq(lang))
-            .where(code.pCode.code.`in`(pCodes).and(code.useYn.eq(true)))
+            .where(code.code.`in`(pCodes).and(code.useYn.eq(true)))
             .fetch()
     }
 }
