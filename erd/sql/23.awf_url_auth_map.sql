@@ -278,6 +278,7 @@ insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.rea
 insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.create');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.update');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.ci.delete');
+insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.update');
