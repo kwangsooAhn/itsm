@@ -8,8 +8,8 @@
 .z-print {
   margin: 0 auto;
 
-  table {
-    tr { height: 0; }
+  z-print-main > div {
+    height: 0;
   }
 
   &-main-footer {
@@ -61,15 +61,18 @@
 
     &-main {
       margin: 0 auto;
-      // 페이지 마다 하단 영역 표시
-      thead { display: table-header-group; }
-      tbody { display: table-row-group; }
-      tfoot { display: table-footer-group; }
+
+      .z-print-header-space { display: table-header-group; }
+      .z-drawing-board { display: table-row-group; }
+      .z-print-footer-space { display: table-footer-group; }
 
       // 폼이 그려지는 영역
       .z-drawing-board {
         .z-form {
           display: table-row;
+          .z-row-tooltip {
+            break-inside: avoid;
+          }
         }
       }
     }
