@@ -40,9 +40,6 @@
   html, body {
     width: $print-a4-width;
     height: $print-a4-height;
-    color-adjust: exact;
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
   }
   .z-print {
     padding: 0;
