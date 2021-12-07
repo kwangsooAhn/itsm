@@ -37,39 +37,7 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         const report = /*[[${report}]]*/ null;
-
-        function download() {
-            html2pdf().from(document.querySelector('.z-report')).set({
-                margin: 6,
-                filename: report['reportName'] + '.pdf',
-                html2canvas: { scale: 1 },
-                jsPDF: {orientation: 'portrait', unit: 'mm', format: 'a4', compressPDF: true}
-            }).save();
-        }
-        /*]]>*/
-    </script>
-    <script type="module">
-        /*<![CDATA[*/
-        import ZChart from '../../assets/js/chart/zChart.js';
-
         const CHART_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
-        const zChartManager = {
-            load: function(id, data) {
-                // 차트 초기화
-                this.zChart = new ZChart(id, data);
-
-                // 데이터 업데이트
-                this.zChart.update(data.chartData);
-            },
-            destroy: function () {
-                if (this.zChart) {
-                    this.zChart.destroy();
-                    this.zChart = null;
-                    delete this.zChart;
-                }
-            }
-        }
-        window.zChartManager = zChartManager;
 
         window.onload = function() {
             // footer
@@ -102,8 +70,35 @@
             data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
 
             // 차트 초기화
+            console.log(data);
             zChartManager.load(data.chartId + '_chart', data);
         }
+
+        function download() {
+            html2pdf().from(document.querySelector('.z-report')).set({
+                margin: 6,
+                filename: report['reportName'] + '.pdf',
+                html2canvas: { scale: 1 },
+                jsPDF: {orientation: 'portrait', unit: 'mm', format: 'a4', compressPDF: true}
+            }).save();
+        }
+        /*]]>*/
+    </script>
+    <script type="module">
+        /*<![CDATA[*/
+        import ZChart from '../../../assets/js/chart/zChart.js';
+
+        const zChartManager = {
+            load: function(id, data) {
+                // 차트 초기화
+                this.zChart = new ZChart(id, data);
+
+                // 데이터 업데이트
+                this.zChart.update(data.chartData);
+            }
+        }
+        window.zChartManager = zChartManager;
+
         /*]]>*/
     </script>
 </th:block>

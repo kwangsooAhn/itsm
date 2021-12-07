@@ -213,10 +213,13 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey))
             )
         )
-        builder.and(
-            token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
-        )
-
+        status?.forEach { statusValue ->
+            if (statusValue == WfInstanceConstants.Status.FINISH.code) {
+                builder.and(
+                    token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
+                )
+            }
+        }
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
         return query
             .where(builder)

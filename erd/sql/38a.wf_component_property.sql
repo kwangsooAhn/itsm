@@ -201,10 +201,10 @@ INSERT INTO wf_component_property VALUES('9a0a95161bbf4039a3bdfcba2a59a5e6', 'el
 INSERT INTO wf_component_property VALUES('a2052b72aef1717cc785ead95c9b583c', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('a2052b72aef1717cc785ead95c9b583c', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
 INSERT INTO wf_component_property VALUES('a2052b72aef1717cc785ead95c9b583c', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"장애원인"}');
-INSERT INTO wf_component_property VALUES('a2052b72aef1717cc785ead95c9b583c', 'validation', '{"required":true,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES('a2052b72aef1717cc785ead95c9b583c', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
 INSERT INTO wf_component_property VALUES('a20925ede2aee30d0c74c4647c0c46dd', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"장애인지경로"}');
 INSERT INTO wf_component_property VALUES('a20925ede2aee30d0c74c4647c0c46dd', 'display', '{"displayOrder":1,"columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('a20925ede2aee30d0c74c4647c0c46dd', 'element', '{"columnWidth":"8","options":[{"name":"선택 안함","value":"none","checked": true},{"name":"전화 통화","value":"phone","checked": false},{"name":"서비스 포탈 및 모바일 애플리케이션","value":"portal","checked": false},{"name":"라이브 채팅 및 챗봇","value":"chatting","checked": false},{"name":"이메일","value":"email","checked": false},{"name":"대면","value":"interview","checked": false},{"name":"소셜 미디어","value":"sns","checked": false},{"name":"모니터링툴 자동 등록","value":"automatic","checked": false}]}');
+INSERT INTO wf_component_property VALUES('a20925ede2aee30d0c74c4647c0c46dd', 'element', '{"columnWidth":"8","options":[{"name":"기타","value":"etc","checked": true},{"name":"전화 통화","value":"phone","checked": false},{"name":"서비스 포탈 및 모바일 애플리케이션","value":"portal","checked": false},{"name":"라이브 채팅 및 챗봇","value":"chatting","checked": false},{"name":"이메일","value":"email","checked": false},{"name":"대면","value":"interview","checked": false},{"name":"소셜 미디어","value":"sns","checked": false},{"name":"모니터링툴 자동 등록","value":"automatic","checked": false}]}');
 INSERT INTO wf_component_property VALUES('a20925ede2aee30d0c74c4647c0c46dd', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('a371d3cfecb547e4aff813ce0fca711c', 'label', '{"position":"hidden","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
 INSERT INTO wf_component_property VALUES('a371d3cfecb547e4aff813ce0fca711c', 'display', '{"displayOrder":0,"columnWidth":"12"}');
@@ -227,7 +227,7 @@ INSERT INTO wf_component_property VALUES('a7acc6870b4c4e6e147c2feb20bda6b4', 'la
 INSERT INTO wf_component_property VALUES('a7acc6870b4c4e6e147c2feb20bda6b4', 'validation', '{"required":false}');
 INSERT INTO wf_component_property VALUES('a7acc6870b4c4e6e147c2feb20bda6b4', 'element', '{"columnWidth":"12","isEditable":false}');
 INSERT INTO wf_component_property VALUES('a81e3ddc48a12baf94aebac8f2a4f6bc', 'display', '{"displayOrder":0,"columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('a81e3ddc48a12baf94aebac8f2a4f6bc', 'validation', '{"required":true,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES('a81e3ddc48a12baf94aebac8f2a4f6bc', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
 INSERT INTO wf_component_property VALUES('a81e3ddc48a12baf94aebac8f2a4f6bc', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요"}');
 INSERT INTO wf_component_property VALUES('a81e3ddc48a12baf94aebac8f2a4f6bc', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"장애증상"}');
 INSERT INTO wf_component_property VALUES('a9b723e29458f98a4904336baff53f6a', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
@@ -235,7 +235,7 @@ INSERT INTO wf_component_property VALUES('a9b723e29458f98a4904336baff53f6a', 'la
 INSERT INTO wf_component_property VALUES('a9b723e29458f98a4904336baff53f6a', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
 INSERT INTO wf_component_property VALUES('a9b723e29458f98a4904336baff53f6a', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('aa27a4ea8b744f4bab35b7af3c2e913d', 'display', '{"displayOrder":0,"columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('aa27a4ea8b744f4bab35b7af3c2e913d', 'validation', '{"required":true,"minLength":"0","maxLength":"512"}');
+INSERT INTO wf_component_property VALUES('aa27a4ea8b744f4bab35b7af3c2e913d', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
 INSERT INTO wf_component_property VALUES('aa27a4ea8b744f4bab35b7af3c2e913d', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
 INSERT INTO wf_component_property VALUES('aa27a4ea8b744f4bab35b7af3c2e913d', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"처리내용 및 결과"}');
 INSERT INTO wf_component_property VALUES('ae79624833414ab3a3ff37582c234aa2', 'element', '{"columnWidth":"8","defaultValueRadio":"now"}');
@@ -533,7 +533,7 @@ INSERT INTO wf_component_property VALUES('afd16570bbd54c31b34fc062bdada2e5', 'va
 INSERT INTO wf_component_property VALUES('afd16570bbd54c31b34fc062bdada2e5', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('afdf9366543bdb360808b1095fedd39c', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('afdf9366543bdb360808b1095fedd39c', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 내역"}');
-INSERT INTO wf_component_property VALUES('afdf9366543bdb360808b1095fedd39c', 'element', '{"columnWidth":"10","rows":"2","placeholder":""}');
+INSERT INTO wf_component_property VALUES('afdf9366543bdb360808b1095fedd39c', 'element', '{"columnWidth":"10","rows":"3","placeholder":""}');
 INSERT INTO wf_component_property VALUES('afdf9366543bdb360808b1095fedd39c', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
 INSERT INTO wf_component_property VALUES('b5780ea3579440ea82dbfeedfb8df008', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('b5780ea3579440ea82dbfeedfb8df008', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"처리일시"}');
@@ -544,9 +544,9 @@ INSERT INTO wf_component_property VALUES('dca608e7e5e84a32a56b8beafaafb5ba', 'el
 INSERT INTO wf_component_property VALUES('dca608e7e5e84a32a56b8beafaafb5ba', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('dca608e7e5e84a32a56b8beafaafb5ba', 'validation', '{"required":false}');
 INSERT INTO wf_component_property VALUES('5f1204baf4a14cd9b91d3d00753913c5', 'display', '{"displayOrder":0,"columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('5f1204baf4a14cd9b91d3d00753913c5', 'validation', '{"required":false}');
+INSERT INTO wf_component_property VALUES('5f1204baf4a14cd9b91d3d00753913c5', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('5f1204baf4a14cd9b91d3d00753913c5', 'element', '{"columnWidth":"12","isEditable":true}');
-INSERT INTO wf_component_property VALUES('5f1204baf4a14cd9b91d3d00753913c5', 'label', '{"position":"top","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
+INSERT INTO wf_component_property VALUES('5f1204baf4a14cd9b91d3d00753913c5', 'label', '{"position":"top","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"대상 CI 목록"}');
 /* 서비스데스크 - 구성관리 - 만족도 */
 INSERT INTO wf_component_property VALUES('13a47337b34e454db9314ba92b943136', 'label', '{"position":"hidden","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
 INSERT INTO wf_component_property VALUES('13a47337b34e454db9314ba92b943136', 'validation', '{"required":false}');

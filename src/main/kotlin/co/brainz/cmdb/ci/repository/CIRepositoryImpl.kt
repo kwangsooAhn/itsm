@@ -16,6 +16,7 @@ import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
+import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
@@ -125,6 +126,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                         .select(wfComponentCIData.ciId)
                         .from(wfComponentCIData)
                         .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
+                        .where(wfInstance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
                 )
             )
         }

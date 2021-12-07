@@ -22,21 +22,21 @@
     "id": "2c9180867cc31a25017cc7a68eec0517",
     "category": "단순문의",
     "value": "34",
-    "series": "2021-01-01 00:00:00"
+    "series": ""
   },{
     "id": "2c9180867cc31a25017cc7a68eec0518",
     "category": "장애신고",
     "value": "50",
-    "series": "2021-01-01 00:00:00"
+    "series": ""
   }, {
     "id": "2c9180867cc31a25017cc7a68eec0519",
     "category": "구성관리",
     "value": "57",
-    "series": "2021-01-01 00:00:00"
+    "series": ""
   },{
     "id": "2c9180867cc31a25017cc7a68eec0511",
     "category": "서비스요청",
     "value": "65",
-    "series": "2021-01-01 00:00:00"
+    "series": ""
   }]
 }
