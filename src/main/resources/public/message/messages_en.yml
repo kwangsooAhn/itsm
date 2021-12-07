@@ -72,6 +72,7 @@ common:
     modify: "Modified."
     noData: "There is no data."
     onlySaveInEdit: "It cannot be saved in the publish/edit."
+    process: "Processed"
     processedOrDelete: "Already processed or deleted."
     register: "Registered."
     required: "Please enter {0}."
