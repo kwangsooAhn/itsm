@@ -16,10 +16,16 @@ import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.download.excel.ExcelComponent
+import co.brainz.framework.download.excel.dto.ExcelCellVO
+import co.brainz.framework.download.excel.dto.ExcelRowVO
+import co.brainz.framework.download.excel.dto.ExcelSheetVO
+import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
@@ -46,6 +52,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.nio.file.Paths
 import java.security.PrivateKey
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Optional
 import kotlin.math.ceil
 import kotlin.random.Random
@@ -53,6 +60,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
@@ -68,7 +76,9 @@ class UserService(
     private val aliceCertificationMailService: AliceCertificationMailService,
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
+    private val aliceMessageSource: AliceMessageSource,
     private val codeService: CodeService,
+    private val excelComponent: ExcelComponent,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
     private val userCustomRepository: UserCustomRepository,
     private val userRepository: UserRepository,
@@ -522,5 +532,86 @@ class UserService(
             wfTokenRepository.save(token)
         }
         return true
+    }
+
+    /**
+     * 사용자 목록 Excel 다운로드
+     */
+    fun getUsersExcelDownload(userSearchCondition: UserSearchCondition): ResponseEntity<ByteArray> {
+        val returnDto = selectUserList(userSearchCondition)
+        val excelVO = ExcelVO(
+            sheets = mutableListOf(
+                ExcelSheetVO(
+                    rows = mutableListOf(
+                        ExcelRowVO(
+                            cells = listOf(
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.id"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.name"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.email"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.department"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.position"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.officeNumber"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.mobileNumber"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.signUpDate"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.usageStatus"),
+                                    cellWidth = 5000
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        returnDto.data.forEach { result ->
+            excelVO.sheets[0].rows.add(
+                ExcelRowVO(
+                    cells = mutableListOf(
+                        ExcelCellVO(value = result.userId),
+                        ExcelCellVO(value = result.userName),
+                        ExcelCellVO(value = result.email),
+                        ExcelCellVO(value = result.department ?: ""),
+                        ExcelCellVO(value = result.position ?: ""),
+                        ExcelCellVO(value = result.officeNumber ?: ""),
+                        ExcelCellVO(value = result.mobileNumber ?: ""),
+                        ExcelCellVO(
+                            value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(result.createDt)
+                        ),
+                        ExcelCellVO(
+                            value = if (result.absenceYn) {
+                                aliceMessageSource.getMessage("user.status.true")
+                            } else {
+                                aliceMessageSource.getMessage("user.status.false")
+                            }
+                        )
+                    )
+                )
+            )
+        }
+        return excelComponent.download(excelVO)
     }
 }

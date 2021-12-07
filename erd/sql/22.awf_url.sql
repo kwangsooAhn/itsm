@@ -286,6 +286,7 @@ insert into awf_url values ('/rest/users/{userkey}/info', 'put', '사용자가 �
 insert into awf_url values ('/rest/users/{userkey}/resetpassword', 'put', '사용자 비밀번호 초기화', 'TRUE');
 insert into awf_url values ('/rest/users/colors', 'get', '사용자 정의 색상 조회', 'FALSE');
 insert into awf_url values ('/rest/users/colors', 'put', '사용자 정의 색상 저장', 'FALSE');
+insert into awf_url values ('/rest/users/excel', 'get', '사용자 목록 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/products/info', 'get', '제품 정보 조회', 'TRUE');
 insert into awf_url values ('/roles/search', 'get', '역할 검색화면', 'TRUE');
 insert into awf_url values ('/roles/new', 'get', '역할 등록', 'TRUE');

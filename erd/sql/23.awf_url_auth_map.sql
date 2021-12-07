@@ -431,6 +431,10 @@ insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.
 insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.update');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.update');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.read');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.create');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.update');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.delete');
 insert into awf_url_auth_map values ('/rest/products/info', 'get', 'product.read');
 insert into awf_url_auth_map values ('/roles/search', 'get', 'role.read');
 insert into awf_url_auth_map values ('/roles/new', 'get', 'role.create');

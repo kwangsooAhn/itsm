@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{user.label.user}"></title>
 </head>
@@ -18,6 +18,9 @@
     <div class="ml-auto">
         <button type="button" class="z-button secondary" onclick="location.href='/users/new'"
                 sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.add}"></button>
+        <button type="button" class="z-button secondary" id="btnExcelDownload" name="btnExcelDownload"
+                th:onclick="|javascript:onExcelDownload()|"
+                sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.export}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
@@ -27,7 +30,7 @@
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
     let offsetCount = 0;
-    window.onload = function() {
+    window.onload = function () {
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', function () {
             getList();
@@ -35,7 +38,7 @@
         getList();
     }
 
-    document.getElementById('searchValue').onkeyup = function() {
+    document.getElementById('searchValue').onkeyup = function () {
         getList();
     };
 
@@ -48,7 +51,7 @@
             method: method,
             url: url,
             showProgressbar: false,
-            callbackFunc: function(response) {
+            callbackFunc: function (response) {
                 document.getElementById('userList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('userList'));
             }
@@ -66,6 +69,14 @@
             dt.setAttribute('title', userDateFormat);
         });
     }
+
+    function onExcelDownload() {
+        aliceJs.fetchDownload({
+            url: '/rest/users/excel',
+            fileName: i18n.msg('user.label.user') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
+        });
+    }
+
     /*]]>*/
 </script>
 </html>

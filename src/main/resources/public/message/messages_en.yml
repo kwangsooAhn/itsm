@@ -958,11 +958,11 @@ notice:
     height: "Height"
     notice: "Notice"
     noticePeriod: "Notice Period"
-    popUp:  "PopUp"
+    popUp: "PopUp"
     popUpNoticeSettings: "PopUp Notice Settings"
     popUpPeriod: "PopUp Period"
     popUpPeriodToday: "Do not open this popup today"
-    register : "Notice Register"
+    register: "Notice Register"
     searchPlaceholder: "Title / User"
     startDateTime: "Start Date"
     topNoticeSettings: "Top Notice Settings"
@@ -1208,8 +1208,8 @@ scheduler:
     scheduleDescription: "Check the schedule details and history."
     searchDescription: "Register and manage repetitive tasks."
     useSchedule: "Schedule in use."
-    cronValue : "Cron can be entered up to 6 fields."
-    cronError : "Enter the correct Cron expression."
+    cronValue: "Cron can be entered up to 6 fields."
+    cronError: "Enter the correct Cron expression."
     jarNotExist: "JAR file does not exist."
     classNotExist: "ClASS file does not exist."
   status:
@@ -1252,7 +1252,7 @@ token:
     tagPlaceHolder: "#Tags"
     view: "Document View"
     write: "My Document"
-    process : "Process"
+    process: "Process"
   msg:
     selectToken: "Check the related documents to be added."
     searchDescription: "View and search documents relating to me."
@@ -1320,6 +1320,9 @@ user:
     usageStatus: "Usage Status"
     user: "User"
     userAbsence: "User Absence Setting"
+  status:
+    true: "use"
+    false: "unused"
   msg:
     changeAsSubstituteUser: "Document has been assigned"
     compareWithAbsenceDtValue: "Absence start date is greater than or equal to end date."

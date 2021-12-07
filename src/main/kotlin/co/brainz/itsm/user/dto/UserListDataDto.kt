@@ -22,5 +22,6 @@ data class UserListDataDto(
     var avatarPath: String? = null,
     var uploaded: Boolean = false,
     var uploadedLocation: String = "",
-    var createDt: LocalDateTime? = null
+    var createDt: LocalDateTime? = null,
+    var absenceYn: Boolean = true
 ) : Serializable
