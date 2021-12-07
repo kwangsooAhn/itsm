@@ -282,6 +282,7 @@ class CustomCodeService(
                 val customCodeDataDto = CustomCodeTreeDto(
                     code = "",
                     codeValue = "",
+                    codeName = "",
                     level = 1,
                     seqNum = index,
                     codeLangName = "",
@@ -296,6 +297,7 @@ class CustomCodeService(
                             customCodeDataDto.code = dataField.get(data) as? String ?: ""
                         }
                         if (columnName == customCode.searchColumn) { // value
+                            customCodeDataDto.codeValue = dataField.get(data) as? String ?: ""
                             customCodeDataDto.codeName = dataField.get(data) as? String ?: ""
                         }
                         dataField.isAccessible = false

@@ -207,7 +207,24 @@ export const customCodeMixin = {
         };
         const storageName = 'alice_custom-codes-search-' + this.id;
         sessionStorage.setItem(storageName, JSON.stringify(customCodeData));
-        const selectModal = new modal({
+
+        const defaultValues = this.elementDefaultValueCustomCode.split('|');
+        console.log(defaultValues);
+        // customCode|none|없음  customCode|session|세션값  customCode|code|코드값|코드명
+        tree.load({
+            view: 'modal',
+            title: i18n.msg('department.label.deptList'),
+            dataUrl: '/rest/custom-codes/' + defaultValues[0],
+            target: 'treeList',
+            text: 'codeName',
+            //selectedValue: document.getElementById('departmentCode').value,
+            callbackFunc: function (response) {
+                console.log(response);
+                //setDepartment(response);
+            }
+        });
+
+        /*const selectModal = new modal({
             title: i18n.msg('form.label.customCodeTarget'),
             body: this.getSelectModalContent(),
             classes: 'custom-code-list',
@@ -248,7 +265,7 @@ export const customCodeMixin = {
                 OverlayScrollbars(document.querySelectorAll('.modal-content'), {className: 'scrollbar'});
             }
         });
-        selectModal.show();
+        selectModal.show();*/
     },
 
     getCustomCode() { // 서버에서 데이터 가져오기
