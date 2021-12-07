@@ -146,15 +146,19 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         let customCodeData = await aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {
             method: 'GET'
         });
-        for (let i = 0; i < customCodeData.length; i++) {
-            if (zValidation.isEmpty(customCodeData[i].name)) {
-                customCodeData[i].name = customCodeData[i].value;
+
+        if (!zValidation.isEmpty(customCodeData)) {
+            for (let i = 0; i < customCodeData.length; i++) {
+                if (zValidation.isEmpty(customCodeData[i].name)) {
+                    customCodeData[i].name = customCodeData[i].value;
+                }
+                customCodeData[i].value = customCodeData[i].key;
+                customCodeDataOption.push(customCodeData[i]);
             }
-            customCodeData[i].value = customCodeData[i].key;
-            customCodeDataOption.push(customCodeData[i]);
+
+            const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
+            UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
         }
-        const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
-        UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
     }
 
     // 커스텀 코드 변경시 커스텀 코드 데이터 select box를 업데이트 한다.
