@@ -6542,6 +6542,12 @@ span.modal_node_selected label {
 .property .default-type-radio .radio-property-group .radio-item .z-input:not(:first-child) {
   margin-left: 0.3125rem;
 }
+.property .default-type-radio .radio-property-group .z-input-button {
+  width: 100%;
+}
+.property .default-type-radio .radio-property-group .z-input-button .z-icon.i-clear {
+  right: 2.5rem;
+}
 .property .default-type-radio .radio-property-group .z-picker-wrapper-date {
   flex: 1;
 }

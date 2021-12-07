@@ -133,8 +133,9 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     radioGroup.UIInputButton.UIButton = new UIButton()
                         .setUIClass('z-button-icon')
                         .addUIClass('z-button-code')
+                        .setUIAttribute('data-value', defaultCustomCodeValues[0])
                         .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
-                        .onUIClick(this.openCustomCodeData.bind(this, defaultCustomCodeValues[0], customCodeId));
+                        .onUIClick(this.openCustomCodeData.bind(this));
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIButton);
                     break;
             }
@@ -146,8 +147,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     }
 
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {
-    }
+    afterEvent() {}
 
     // 커스텀 코드 조회
     getCustomCode(id) {
@@ -157,16 +157,18 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     }
 
     // 코드 선택 모달
-    openCustomCodeData(id, value) {
+    openCustomCodeData() {
+        const customCodeId = this.UIElement.UIGroup['UIRadioGroup2'].UIInputButton.UIButton.getUIAttribute('data-value');
+        const selectedValue = this.UIElement.UIGroup['UIRadioGroup2'].UIInputButton.UIInput.getUIAttribute('data-value');
         tree.load({
             view: 'modal',
             title: i18n.msg('department.label.deptList'),
-            dataUrl: '/rest/custom-codes/' + id,
+            dataUrl: '/rest/custom-codes/' + customCodeId,
             target: 'treeList',
             text: 'codeName',
             rootAvailable: false,
             leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
-            selectedValue: value,
+            selectedValue: selectedValue,
             callbackFunc: (response) => {
                 this.UIElement.UIGroup['UIRadioGroup2'].UIInputButton.UIInput.setUIValue(response.textContent);
                 this.UIElement.UIGroup['UIRadioGroup2'].UIInputButton.UIInput.setUIAttribute('data-value', response.id);
@@ -193,14 +195,12 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     }
 
     // 커스텀 코드 변경시 커스텀 코드 데이터 select box를 업데이트 한다.
-    async updateCustomCodeData(e) {
+    updateCustomCodeData(e) {
         const matchCustomCode = this.getCustomCode(e.target.value);
-        if (zValidation.isEmpty(matchCustomCode.sessionKey)) {
-            this.UIElement.UIGroup['UIRadioGroup1'].setUIDisplay('none');
+        this.UIElement.UIGroup['UIRadioGroup1']
+            .setUIDisplay(zValidation.isEmpty(matchCustomCode.sessionKey) ? 'none' : 'inline-flex');
 
-        } else {
-            this.UIElement.UIGroup['UIRadioGroup1'].setUIDisplay('inline-flex');
-        }
+        this.UIElement.UIGroup['UIRadioGroup2'].UIInputButton.UIButton.setUIAttribute('data-value', matchCustomCode.customCodeId);
         this.UIElement.UIGroup['UIRadioGroup2'].UIInputButton.UIInput.setUIValue('');
         this.UIElement.UIGroup['UIRadioGroup2'].UIInputButton.UIInput.setUIAttribute('data-value', '');
 
@@ -220,7 +220,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         if (e && e.preventDefault) {
             e.preventDefault();
         }
-        console.log('이거 안타니??');
+
         const curRadioElem = this.UIElement.UIGroup.domElement.querySelector('input[type=radio]:checked');
         const customCodeId = this.UIElement.UISelect.domElement.value;
         const radioType = curRadioElem.getAttribute('data-value');
@@ -242,9 +242,6 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                 }
                 break;
             case FORM.CUSTOM.CODE:
-                console.log(customCodeId + '|' + radioType + '|' +
-                    codeInputElem.getAttribute('data-value') + '|' +
-                    codeInputElem.value);
                 this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType + '|' +
                     codeInputElem.getAttribute('data-value') + '|' +
                     codeInputElem.value);

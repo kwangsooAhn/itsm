@@ -210,6 +210,7 @@ export const customCodeMixin = {
 
         const defaultValues = this.elementDefaultValueCustomCode.split('|');
         console.log(defaultValues);
+        //const customCodeId = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';
         // customCode|none|없음  customCode|session|세션값  customCode|code|코드값|코드명
         tree.load({
             view: 'modal',
@@ -217,7 +218,9 @@ export const customCodeMixin = {
             dataUrl: '/rest/custom-codes/' + defaultValues[0],
             target: 'treeList',
             text: 'codeName',
-            //selectedValue: document.getElementById('departmentCode').value,
+            rootAvailable: false,
+            leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
+            //selectedValue: selectedValue,
             callbackFunc: function (response) {
                 console.log(response);
                 //setDepartment(response);

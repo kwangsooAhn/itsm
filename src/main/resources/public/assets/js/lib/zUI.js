@@ -78,6 +78,10 @@ class UIElement {
         return this;
     }
 
+    getUIAttribute(name) {
+        return this.domElement.getAttribute(name);
+    }
+
     setUICSSText(value) {
         this.domElement.style.cssText = value;
         return this;
