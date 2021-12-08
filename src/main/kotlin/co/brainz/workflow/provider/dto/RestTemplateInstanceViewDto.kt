@@ -13,6 +13,9 @@ import java.time.LocalDateTime
 data class RestTemplateInstanceViewDto(
     val tokenId: String,
     val instanceId: String,
+    val instanceStartDt: LocalDateTime,
+    val instanceEndDt: LocalDateTime?,
+    val instanceCreateUser: String,
     val documentName: String,
     val documentDesc: String? = "",
     val documentStatus: String? = null,
@@ -27,5 +30,6 @@ data class RestTemplateInstanceViewDto(
     val documentId: String,
     val documentNo: String? = null,
     val documentColor: String?,
+    val documentType: String,
     val avatarPath: String? = ""
 ) : Serializable

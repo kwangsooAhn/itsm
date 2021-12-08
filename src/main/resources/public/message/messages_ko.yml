@@ -1268,6 +1268,16 @@ token:
     cancel: "취소"
     terminate: "종결"
     finish: "처리 완료"
+  excel:
+    docNo: "신청서 번호"
+    name: "신청서 이름"
+    desc: "신청서 설명"
+    status: "신청서 상태"
+    type: "신청서 종류"
+    createDt: "신청서 시작일시"
+    endDt: "신청서 종료일시"
+    createUser: "신청서 생성자"
+    application-form: "신청서"
 
 # WorkflowAdmin
 workflowAdmin:

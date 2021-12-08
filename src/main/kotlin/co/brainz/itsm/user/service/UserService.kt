@@ -555,15 +555,15 @@ class UserService(
                                 ),
                                 ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.email"),
-                                    cellWidth = 5000
+                                    cellWidth = 7000
                                 ),
                                 ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.department"),
-                                    cellWidth = 5000
+                                    cellWidth = 4000
                                 ),
                                 ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.position"),
-                                    cellWidth = 5000
+                                    cellWidth = 4000
                                 ),
                                 ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.officeNumber"),
@@ -579,7 +579,7 @@ class UserService(
                                 ),
                                 ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.usageStatus"),
-                                    cellWidth = 5000
+                                    cellWidth = 4000
                                 )
                             )
                         )

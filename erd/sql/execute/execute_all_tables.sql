@@ -1767,6 +1767,7 @@ insert into awf_url values ('/rest/tags/{id}', 'delete', 'Tag 삭제', 'FALSE');
 insert into awf_url values ('/rest/tokens/data', 'post', 'token 신규 등록', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'get', '처리할 문서 상세 데이터', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'put', 'token 수정', 'TRUE');
+insert into awf_url values ('/rest/tokens/excel', 'get', '문서함 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/users', 'post', '사용자 등록', 'TRUE');
 insert into awf_url values ('/rest/users/all', 'get', '전체 사용자 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/users/{userkey}/all', 'put', '사용자가 자신의 정보를 업데이트', 'TRUE');
@@ -2232,6 +2233,8 @@ insert into awf_url_auth_map values ('/rest/schedulers/{id}/execute', 'post', 's
 insert into awf_url_auth_map values ('/rest/tokens/data', 'post', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'token.create');
+insert into awf_url_auth_map values ('/rest/tokens/excel', 'get', 'token.read');
+insert into awf_url_auth_map values ('/rest/tokens/excel', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/users', 'post', 'user.create');
 insert into awf_url_auth_map values ('/rest/users/all', 'get', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.update');

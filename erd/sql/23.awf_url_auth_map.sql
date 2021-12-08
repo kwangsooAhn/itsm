@@ -423,6 +423,8 @@ insert into awf_url_auth_map values ('/rest/schedulers/{id}/execute', 'post', 's
 insert into awf_url_auth_map values ('/rest/tokens/data', 'post', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'token.create');
+insert into awf_url_auth_map values ('/rest/tokens/excel', 'get', 'token.read');
+insert into awf_url_auth_map values ('/rest/tokens/excel', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/users', 'post', 'user.create');
 insert into awf_url_auth_map values ('/rest/users/all', 'get', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.update');

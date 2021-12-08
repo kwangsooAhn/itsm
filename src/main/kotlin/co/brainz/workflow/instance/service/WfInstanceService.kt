@@ -150,6 +150,9 @@ class WfInstanceService(
                 tokenId = instance.tokenEntity.tokenId,
                 elementName = instance.tokenEntity.element.elementName,
                 instanceId = instance.instanceEntity.instanceId,
+                instanceStartDt = instance.instanceEntity.instanceStartDt!!,
+                instanceEndDt = instance.instanceEntity.instanceEndDt,
+                instanceCreateUser = instance.instanceEntity.instanceCreateUser!!.userName,
                 documentName = instance.documentEntity.documentName,
                 documentDesc = instance.documentEntity.documentDesc,
                 documentStatus = instance.documentEntity.documentStatus,
@@ -162,6 +165,7 @@ class WfInstanceService(
                 documentId = instance.documentEntity.documentId,
                 documentNo = instance.instanceEntity.documentNo,
                 documentColor = instance.documentEntity.documentColor,
+                documentType = instance.documentEntity.documentType,
                 avatarPath = avatarPath
             )
 

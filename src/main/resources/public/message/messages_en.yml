@@ -1268,6 +1268,16 @@ token:
     cancel: "cancel"
     terminate: "terminate"
     finish: "finish"
+  excel:
+    docNo: "Document No"
+    name: "Document Name"
+    desc: "Document Desc"
+    status: "Document Status"
+    type: "Document Type"
+    createDt: "Document Create Date"
+    endDt: "Document End Data"
+    createUser: "Document Create User"
+    application-form: "application Form"
 
 # WorkflowAdmin
 workflowAdmin:
