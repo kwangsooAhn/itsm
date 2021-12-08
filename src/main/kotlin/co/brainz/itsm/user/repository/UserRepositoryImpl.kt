@@ -11,6 +11,7 @@ import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.user.dto.UserListDataDto
+import co.brainz.itsm.user.dto.UserListExcelDto
 import co.brainz.itsm.user.dto.UserSearchCondition
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
@@ -62,6 +63,33 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
             query.limit(userSearchCondition.contentNumPerPage)
             query.offset((userSearchCondition.pageNum - 1) * userSearchCondition.contentNumPerPage)
         }
+
+        return query.fetchResults()
+    }
+
+    override fun findUserListForExcel(): QueryResults<UserListExcelDto> {
+        val user = QAliceUserEntity.aliceUserEntity
+        val code = QCodeEntity.codeEntity
+        val query = from(user)
+            .select(
+                Projections.constructor(
+                    UserListExcelDto::class.java,
+                    user.userId,
+                    user.userName,
+                    user.email,
+                    code.codeValue.`as`("department"),
+                    user.position,
+                    user.officeNumber,
+                    user.mobileNumber,
+                    user.createDt,
+                    user.absenceYn
+                )
+            )
+            .leftJoin(code).on(code.code.eq(user.department))
+            .where(
+                user.userName.notIn(AliceUserConstants.CREATE_USER_ID)
+            )
+            .orderBy(user.userName.asc())
 
         return query.fetchResults()
     }
