@@ -78,6 +78,10 @@ class UIElement {
         return this;
     }
 
+    getUIAttribute(name) {
+        return this.domElement.getAttribute(name);
+    }
+
     setUICSSText(value) {
         this.domElement.style.cssText = value;
         return this;
@@ -357,7 +361,8 @@ class UIRadioButton extends UIElement {
         return this;
     }
 }
-// 공통으로 사용되는 복사용 inputbox + button
+
+// 공통으로 사용되는 복사용 엘리먼트
 class UIClipboard extends UIElement {
     constructor() {
         super(document.createElement('div'));

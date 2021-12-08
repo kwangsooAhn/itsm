@@ -166,6 +166,15 @@
         }
       }
 
+      .z-input-button {
+        width: 100%;
+        .z-icon {
+          &.i-clear {
+            right: 2.5rem;
+          }
+        }
+      }
+
       .z-picker-wrapper-date { flex: 1; }
     }
   }

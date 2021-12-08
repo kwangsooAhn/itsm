@@ -1557,7 +1557,6 @@ insert into awf_url values ('/custom-codes', 'get', '사용자 정의 코드 리
 insert into awf_url values ('/custom-codes/new', 'get', '사용자 정의 코드 신규 등록 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/search', 'get', '사용자 정의 코드 리스트 호출 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/{id}/edit', 'get', '사용자 정의 코드 수정 화면', 'TRUE');
-insert into awf_url values ('/custom-codes/{id}/search', 'get', '커스텀 코드 데이터 조회 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/{id}/view', 'get', '사용자 정의 코드 상세 정보 화면', 'TRUE');
 insert into awf_url values ('/dashboard/view', 'get', '대시보드 상세 정보 화면', 'TRUE');
 insert into awf_url values ('/workflows', 'get', '업무흐름 리스트 화면', 'TRUE');
@@ -1909,10 +1908,6 @@ insert into awf_url_auth_map values ('/custom-codes/search', 'get', 'custom.code
 insert into awf_url_auth_map values ('/custom-codes/search', 'get', 'custom.code.delete');
 insert into awf_url_auth_map values ('/custom-codes/{id}/edit', 'get', 'custom.code.create');
 insert into awf_url_auth_map values ('/custom-codes/{id}/edit', 'get', 'custom.code.update');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.create');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.read');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.delete');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.update');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.delete');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.read');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.update');
@@ -5485,7 +5480,7 @@ INSERT INTO wf_element VALUES ('0543286b8bf14ab2a94b46312aeec379', '4028b21c7cdf
 INSERT INTO wf_element VALUES ('140aad796c004402836403e8271d381f', '4028b21c7cdffb67017ce0b33f5e07b6', 'manualTask', '접수', '', false, '', '{"width":160,"height":40,"position-x":300,"position-y":290}');
 INSERT INTO wf_element VALUES ('156dd10ee966487c9a09e87cb0a43066', '4028b21c7cdffb67017ce0b33f5e07b6', 'exclusiveGateway', '', '', false, '', '{"width":34,"height":34,"position-x":500,"position-y":390}');
 INSERT INTO wf_element VALUES ('19f55a5dcb8d4955ac8bda0f134cc311', '4028b21c7cdffb67017ce0b33f5e07b6', 'manualTask', '자체처리', '', false, '', '{"width":160,"height":40,"position-x":760,"position-y":300}');
-INSERT INTO wf_element VALUES ('1d3d4e1867194b53a7975861f2530d54', '4028b21c7cdffb67017ce0b33f5e07b6', 'userTask', '이관문서검토', '', false, '', '{"width":160,"height":40,"position-x":300,"position-y":190}');
+INSERT INTO wf_element VALUES ('1d3d4e1867194b53a7975861f2530d54', '4028b21c7cdffb67017ce0b33f5e07b6', 'userTask', '이관문서검토', '', true, '', '{"width":160,"height":40,"position-x":300,"position-y":190}');
 INSERT INTO wf_element VALUES ('2a4dafa487ec4ccab8af8ccba7d9c48f', '4028b21c7cdffb67017ce0b33f5e07b6', 'subprocess', 'INFRA 변경관리 이관', '', false, '', '{"width":152,"height":40,"position-x":760,"position-y":490}');
 INSERT INTO wf_element VALUES ('3291b49270c54fe9ae3f674b5aac030c', '4028b21c7cdffb67017ce0b33f5e07b6', 'arrowConnector', '', '', false, '', '{}');
 INSERT INTO wf_element VALUES ('352d57b730ef41a993dc6d3d42b335aa', '4028b21c7cdffb67017ce0b33f5e07b6', 'arrowConnector', '', '', false, '', '{}');
@@ -6886,7 +6881,7 @@ INSERT INTO wf_element_data VALUES ('24372ebb7e174fca99ae500d05aed4b5','sub-docu
 /* 문제관리 */
 INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'assignee-type', 'assignee.type.assignee', 0, true);
 INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'assignee', 'z-problem-processor', 1, true);
-INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'reject-id', '', 2, false);
+INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'reject-id', '4a50371a9217426c901defc15244b863', 2, false);
 INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('140aad796c004402836403e8271d381f','complete-action','',0,false);
 INSERT INTO wf_element_data VALUES ('156dd10ee966487c9a09e87cb0a43066','condition-item','#{action}',0,true);
@@ -8077,8 +8072,8 @@ INSERT INTO cmdb_attribute VALUES ('072fcb3be4056095a9af82dc6505b1e8','가용성
 INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb4b48c0004','평가결과','자산보안등급정보','inputbox','평가결과','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791b777a240000','외부연동ID','인프라정보','inputbox','외부연동ID','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','zid','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791b78b0550001','시리얼번호','인프라정보','inputbox','시리얼번호','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','serial','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb0f9140002','담당자(정)','일반정보','inputbox','담당자(정)','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb14a4d0003','담당자(부)','일반정보','inputbox','담당자(부)','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb0f9140002','담당자(정)','일반정보','custom-code','담당자(정)','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"none","value":""},"button":""}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb14a4d0003','담당자(부)','일반정보','custom-code','담당자(부)','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"none","value":""},"button":""}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('adaeef4046bfcd78e345ad48cbbeefa5','모델명','인프라정보','inputbox','모델명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','model','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('189319790e6349c7248b9f50456ed47b','비고','일반정보','inputbox','비고','{"validate":"","required":"false","maxLength":"10000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('27caaeba596663101d55a09ec873a375','상태','일반정보 - 인프라','radio','상태','{"option":[{"text":"사용","value":"use"},{"text":"미사용","value":"unused"},{"text":"폐기","value":"disposal"},{"text":"할당","value":"assignment"},{"text":"반납","value":"return"},{"text":"AS","value":"as"},{"text":"예비","value":"spare"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
