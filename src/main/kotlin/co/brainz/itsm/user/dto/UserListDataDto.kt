@@ -23,5 +23,5 @@ data class UserListDataDto(
     var uploaded: Boolean = false,
     var uploadedLocation: String = "",
     var createDt: LocalDateTime? = null,
-    var absenceYn: Boolean = true
+    var absenceYn: Boolean = false
 ) : Serializable

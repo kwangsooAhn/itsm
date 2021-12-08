@@ -147,7 +147,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.target != "excel") {
+        if (tokenSearchCondition.isScroll) {
             query.limit(searchDataCount)
                 .offset(tokenSearchCondition.offset)
         }
@@ -179,7 +179,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.target != "excel") {
+        if (tokenSearchCondition.isScroll) {
             query.limit(searchDataCount)
                 .offset(tokenSearchCondition.offset)
         }
@@ -225,7 +225,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.target != "excel") {
+        if (tokenSearchCondition.isScroll) {
             query.limit(searchDataCount)
                 .offset(tokenSearchCondition.offset)
         }
