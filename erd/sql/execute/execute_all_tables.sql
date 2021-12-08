@@ -1557,7 +1557,6 @@ insert into awf_url values ('/custom-codes', 'get', '사용자 정의 코드 리
 insert into awf_url values ('/custom-codes/new', 'get', '사용자 정의 코드 신규 등록 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/search', 'get', '사용자 정의 코드 리스트 호출 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/{id}/edit', 'get', '사용자 정의 코드 수정 화면', 'TRUE');
-insert into awf_url values ('/custom-codes/{id}/search', 'get', '커스텀 코드 데이터 조회 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/{id}/view', 'get', '사용자 정의 코드 상세 정보 화면', 'TRUE');
 insert into awf_url values ('/dashboard/view', 'get', '대시보드 상세 정보 화면', 'TRUE');
 insert into awf_url values ('/workflows', 'get', '업무흐름 리스트 화면', 'TRUE');
@@ -1907,10 +1906,6 @@ insert into awf_url_auth_map values ('/custom-codes/search', 'get', 'custom.code
 insert into awf_url_auth_map values ('/custom-codes/search', 'get', 'custom.code.delete');
 insert into awf_url_auth_map values ('/custom-codes/{id}/edit', 'get', 'custom.code.create');
 insert into awf_url_auth_map values ('/custom-codes/{id}/edit', 'get', 'custom.code.update');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.create');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.read');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.delete');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.update');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.delete');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.read');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.update');
