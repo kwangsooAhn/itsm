@@ -5477,7 +5477,7 @@ INSERT INTO wf_element VALUES ('0543286b8bf14ab2a94b46312aeec379', '4028b21c7cdf
 INSERT INTO wf_element VALUES ('140aad796c004402836403e8271d381f', '4028b21c7cdffb67017ce0b33f5e07b6', 'manualTask', '접수', '', false, '', '{"width":160,"height":40,"position-x":300,"position-y":290}');
 INSERT INTO wf_element VALUES ('156dd10ee966487c9a09e87cb0a43066', '4028b21c7cdffb67017ce0b33f5e07b6', 'exclusiveGateway', '', '', false, '', '{"width":34,"height":34,"position-x":500,"position-y":390}');
 INSERT INTO wf_element VALUES ('19f55a5dcb8d4955ac8bda0f134cc311', '4028b21c7cdffb67017ce0b33f5e07b6', 'manualTask', '자체처리', '', false, '', '{"width":160,"height":40,"position-x":760,"position-y":300}');
-INSERT INTO wf_element VALUES ('1d3d4e1867194b53a7975861f2530d54', '4028b21c7cdffb67017ce0b33f5e07b6', 'userTask', '이관문서검토', '', false, '', '{"width":160,"height":40,"position-x":300,"position-y":190}');
+INSERT INTO wf_element VALUES ('1d3d4e1867194b53a7975861f2530d54', '4028b21c7cdffb67017ce0b33f5e07b6', 'userTask', '이관문서검토', '', true, '', '{"width":160,"height":40,"position-x":300,"position-y":190}');
 INSERT INTO wf_element VALUES ('2a4dafa487ec4ccab8af8ccba7d9c48f', '4028b21c7cdffb67017ce0b33f5e07b6', 'subprocess', 'INFRA 변경관리 이관', '', false, '', '{"width":152,"height":40,"position-x":760,"position-y":490}');
 INSERT INTO wf_element VALUES ('3291b49270c54fe9ae3f674b5aac030c', '4028b21c7cdffb67017ce0b33f5e07b6', 'arrowConnector', '', '', false, '', '{}');
 INSERT INTO wf_element VALUES ('352d57b730ef41a993dc6d3d42b335aa', '4028b21c7cdffb67017ce0b33f5e07b6', 'arrowConnector', '', '', false, '', '{}');
@@ -6878,7 +6878,7 @@ INSERT INTO wf_element_data VALUES ('24372ebb7e174fca99ae500d05aed4b5','sub-docu
 /* 문제관리 */
 INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'assignee-type', 'assignee.type.assignee', 0, true);
 INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'assignee', 'z-problem-processor', 1, true);
-INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'reject-id', '', 2, false);
+INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'reject-id', '4a50371a9217426c901defc15244b863', 2, false);
 INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('140aad796c004402836403e8271d381f','complete-action','',0,false);
 INSERT INTO wf_element_data VALUES ('156dd10ee966487c9a09e87cb0a43066','condition-item','#{action}',0,true);

@@ -908,7 +908,7 @@ INSERT INTO wf_element_data VALUES ('24372ebb7e174fca99ae500d05aed4b5','sub-docu
 /* 문제관리 */
 INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'assignee-type', 'assignee.type.assignee', 0, true);
 INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'assignee', 'z-problem-processor', 1, true);
-INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'reject-id', '', 2, false);
+INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'reject-id', '4a50371a9217426c901defc15244b863', 2, false);
 INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('140aad796c004402836403e8271d381f','complete-action','',0,false);
 INSERT INTO wf_element_data VALUES ('156dd10ee966487c9a09e87cb0a43066','condition-item','#{action}',0,true);
