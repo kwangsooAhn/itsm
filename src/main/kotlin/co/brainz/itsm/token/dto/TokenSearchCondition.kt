@@ -25,8 +25,7 @@ data class TokenSearchCondition(
     var documentGroup: String = "",
     var offset: Long = 100,
     var searchTag: String = "",
-    var isScroll: Boolean = false,
-    var target: String? = null
+    var isScroll: Boolean = false
 ) : Serializable {
     val tagArray: List<String> = this.tagStrArray()
 
