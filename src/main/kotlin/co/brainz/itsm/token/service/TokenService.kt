@@ -22,6 +22,7 @@ import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.dto.RestTemplateInstanceExcelDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
@@ -145,7 +146,22 @@ class TokenService(
      * 문서함 Excel 다운로드
      */
     fun getTokensExcelDownload(tokenSearchCondition: TokenSearchCondition): ResponseEntity<ByteArray> {
-       val returnDto = getTokenList(tokenSearchCondition)
+        val tokenList = getTokenList(tokenSearchCondition)
+        val returnDto = mutableListOf<RestTemplateInstanceExcelDto>()
+        tokenList.data.forEach { token ->
+            returnDto.add(
+                RestTemplateInstanceExcelDto(
+                    documentNo = token.documentNo,
+                    documentName = token.documentName,
+                    documentDesc = token.documentDesc,
+                    documentStatus = token.documentStatus,
+                    documentType = token.documentType,
+                    instanceStartDt = token.instanceStartDt,
+                    instanceEndDt = token.instanceEndDt,
+                    instanceCreateUser = token.instanceCreateUser
+                )
+            )
+        }
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(
@@ -190,7 +206,7 @@ class TokenService(
                 )
             )
         )
-        returnDto.data.forEach { result ->
+        returnDto.forEach { result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
                     cells = mutableListOf(
