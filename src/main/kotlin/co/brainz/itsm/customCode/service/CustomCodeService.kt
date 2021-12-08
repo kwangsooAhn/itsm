@@ -268,7 +268,6 @@ class CustomCodeService(
         var dataList = mutableListOf<Any>()
         val condition = jsonToArrayByCondition(customCode.condition)
         val sort = Sort(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
-        val lang = currentSessionUser.getUserDto()?.lang
         when (customCode.targetTable) {
             CustomCodeConstants.TableName.ROLE.code -> {
                 dataList = roleRepository.findAll(RoleCustomCodeSpecification(condition), sort).toMutableList()
@@ -278,32 +277,38 @@ class CustomCodeService(
             }
         }
         if (dataList.size > 0) {
+            // 부모 코드 추가
+            customDataList.add(
+                CustomCodeTreeDto(
+                    code = customCode.customCodeId,
+                    codeName = customCode.customCodeName,
+                    level = 0,
+                    seqNum = 0
+                )
+            )
             for ((index, data) in dataList.withIndex()) {
                 val customCodeDataDto = CustomCodeTreeDto(
                     code = "",
-                    codeValue = "",
+                    pCode = customCode.customCodeId,
                     codeName = "",
                     level = 1,
-                    seqNum = index,
-                    codeLangName = "",
-                    lang = lang
+                    seqNum = index
                 )
                 val dataFields = data::class.java.declaredFields
                 for (dataField in dataFields) {
                     if (dataField.isAnnotationPresent(Column::class.java)) {
                         dataField.isAccessible = true
                         val columnName = dataField.getAnnotation(Column::class.java)?.name
-                        if (columnName == customCode.valueColumn) { // key
+                        if (columnName == customCode.valueColumn) {
                             customCodeDataDto.code = dataField.get(data) as? String ?: ""
                         }
-                        if (columnName == customCode.searchColumn) { // value
-                            customCodeDataDto.codeValue = dataField.get(data) as? String ?: ""
+                        if (columnName == customCode.searchColumn) {
                             customCodeDataDto.codeName = dataField.get(data) as? String ?: ""
                         }
                         dataField.isAccessible = false
                     }
                 }
-                if (customCodeDataDto.code.isNotEmpty() && !customCodeDataDto.codeValue.isNullOrEmpty()) {
+                if (customCodeDataDto.code.isNotEmpty() && !customCodeDataDto.codeName.isNullOrEmpty()) {
                     customDataList.add(customCodeDataDto)
                 }
             }
@@ -327,7 +332,6 @@ class CustomCodeService(
         if (customCode.pCode != null) {
             val dataList = codeService.getCodeList("", customCode.pCode!!)
             val pCodeIds = dataList.data.map{ it.code }
-            print(pCodeIds)
             // 다국어 코드 조회
             val codeLangDataList = codeRepository.findCodeByCodeLang(pCodeIds.toSet(), lang)
             print(codeLangDataList)
@@ -338,13 +342,11 @@ class CustomCodeService(
                         code = data.code,
                         pCode = data.pCode,
                         codeValue = data.codeValue,
-                        codeName = data.codeName,
+                        codeName = data.codeLangName ?: data.codeName,
                         codeDesc = data.codeDesc,
                         editable = data.editable,
                         level = data.level,
-                        seqNum = data.seqNum,
-                        codeLangName = data.codeLangName,
-                        lang = data.lang
+                        seqNum = data.seqNum
                     )
                 )
             }

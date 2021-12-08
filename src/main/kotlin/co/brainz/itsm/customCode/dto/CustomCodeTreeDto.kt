@@ -18,9 +18,7 @@ data class CustomCodeTreeDto(
     var editable: Boolean? = true,
     var createDt: LocalDateTime? = null,
     var level: Int? = null,
-    var seqNum: Int? = null,
-    val codeLangName: String? = null,
-    val lang: String? = null
+    var seqNum: Int? = null
 ) : Serializable
 
 data class CustomCodeTreeReturnDto(
