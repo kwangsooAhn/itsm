@@ -12,6 +12,7 @@ import co.brainz.cmdb.ciClass.entity.QCIClassEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIsDto
+import co.brainz.cmdb.dto.CIsExcelDto
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
@@ -160,5 +161,26 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             )
             .orderBy(ciEntity.ciNo.desc())
             .fetchFirst()
+    }
+
+    override fun findCIListForExcel(): QueryResults<CIsExcelDto> {
+        val ci = QCIEntity.cIEntity
+        val cmdbType = QCITypeEntity.cITypeEntity
+        val query = from(ci)
+            .select(
+                Projections.constructor(
+                    CIsExcelDto::class.java,
+                    ci.ciId,
+                    ci.ciNo,
+                    ci.ciName,
+                    ci.ciDesc,
+                    cmdbType.typeName,
+                    ci.interlink
+                )
+            )
+            .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
+            .where(!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
+            .orderBy(ci.ciName.asc())
+        return query.fetchResults()
     }
 }
