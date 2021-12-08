@@ -11,7 +11,7 @@
     <h1 th:text="#{token.label.list}"></h1>
     <h6 class="description ml-2 pl-2" th:text="#{token.msg.searchDescription}"></h6>
 </div>
-<div layout:fragment="pageSearching">
+<div layout:fragment="pageSearching" class="z-page-token-search">
     <form id="frmSearch">
         <select class="col-3" name="searchTokenType" id="searchTokenType">
             <option value="token.type.todo" th:text="#{token.type.todo}" selected></option>
@@ -206,7 +206,7 @@
 
     function onExcelDownload() {
         document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
-        const search = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + 0;
+        const search = aliceJs.serialize(document.getElementById('frmSearch')) + '&target=excel';
         aliceJs.fetchDownload({
             url: '/rest/tokens/excel?' + search,
             fileName: i18n.msg('token.label.list') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
