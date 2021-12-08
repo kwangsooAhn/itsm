@@ -220,7 +220,7 @@ export const customCodeMixin = {
         }
         tree.load({
             view: 'modal',
-            title: i18n.msg('department.label.deptList'),
+            title: i18n.msg('form.label.customCodeTarget'),
             dataUrl: '/rest/custom-codes/' + defaultValues[0],
             target: 'treeList',
             text: 'codeName',

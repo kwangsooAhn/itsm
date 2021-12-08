@@ -677,7 +677,7 @@
                         document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', totalCount);
                     }
                     // 사용자가 root를 지정하지 않았을 경우, root는 가져온 데이터의 최상위로 지정
-                    if (!userOptions.hasOwnProperty('root')) {
+                    if (options.view === 'modal' && options.source === 'code' && !userOptions.hasOwnProperty('root')) {
                         const rootData = responseJson.data.reduce(function (prev, curr) {
                             return prev.level < curr.level ? prev : curr;
                         });

@@ -162,7 +162,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         const selectedValue = this.UIElement.UIGroup['UIRadioGroup2'].UIInputButton.UIInput.getUIAttribute('data-value');
         tree.load({
             view: 'modal',
-            title: i18n.msg('department.label.deptList'),
+            title: i18n.msg('form.label.customCodeTarget'),
             dataUrl: '/rest/custom-codes/' + customCodeId,
             target: 'treeList',
             text: 'codeName',
