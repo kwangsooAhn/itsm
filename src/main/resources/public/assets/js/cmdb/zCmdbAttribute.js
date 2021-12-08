@@ -1211,95 +1211,24 @@
         };
         const storageName = 'alice_custom-codes-search-' + customGroup.id;
         sessionStorage.setItem(storageName, JSON.stringify(customCodeData));
+        const defaultValues = customCodeData.componentValue.split('|');
 
-        const selectModal = new modal({
+        tree.load({
+            view: 'modal',
             title: i18n.msg('form.label.customCodeTarget'),
-            body: getSelectModalContent(),
-            classes: 'custom-code-list',
-            buttons: [{
-                content: i18n.msg('common.btn.add'),
-                classes: 'z-button primary',
-                bindKey: false,
-                callback: () => {
-                    let isChekced = false;
-                    document.getElementsByName('customCode').forEach((chkElem) => {
-                        if (chkElem.checked) {
-                            isChekced = true;
-                            const customData = chkElem.id + '|' + chkElem.value;
-                            customInput.setAttribute('data-custom-data', customData);
-                            customInput.value = chkElem.value;
-                        }
-                    });
-                    isChekced ? selectModal.hide() :
-                        zAlert.warning(i18n.msg('common.msg.dataSelect', i18n.msg('common.label.data')));
-                }
-            }, {
-                content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: (modal) => {
-                    modal.hide();
-                }
-            }],
-            close: { closable: false },
-            onCreate: function (modal) {
-                getCustomCode(customCodeData);
-                document.getElementById('search').addEventListener('keyup', (e) => {
-                    e.preventDefault();
-                    searchCustomCode();
-                });
+            dataUrl: '/rest/custom-codes/' + customCodeData.customCode,
+            target: 'treeList',
+            text: 'codeName',
+            rootAvailable: false,
+            leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
+            selectedValue:  defaultValues[0],
+            callbackFunc: (response) => {
+                const customData = response.id + '|' + response.textContent;
+                customInput.setAttribute('data-custom-data', customData);
+                customInput.value = response.textContent;
             }
         });
-        selectModal.show();
     }
-
-    function getSelectModalContent() {
-        return `<div class="flex-column view-row">` +
-            `<div class="flex-row justify-content-start input-search">` +
-            `<input class="z-input i-search col-5 " type="text" id="search" placeholder="${i18n.msg('customCode.msg.enterSearchTerm')}">` +
-            `<span id="ciListTotalCount" class="z-search-count"></span>` +
-            `</div>` +
-            `</div>` +
-            `<div class="custom-code-main" id="customCodeList"></div>`;
-    }
-
-    /**
-     * 서버에서 데이터 호출
-     */
-    function getCustomCode(data) {
-        const defaultValues = data.componentValue.split('|');
-        let url = '/custom-codes/' + data.customCode + '/search';
-        aliceJs.fetchText(url, {
-            method: 'GET',
-            showProgressbar: true
-        }).then((htmlData) => {
-            document.getElementById('customCodeList').innerHTML = htmlData;
-            // 세션 값은 selectedRadioId를 받아와도, 해당 값이 커스텀 코드 목록 내에 없을 수 있다.
-            // 따라서 selectedRadioId가 아닌 해당 아이디를 가진 dom 항목이 있을 경우 checked 되도록 해야한다.
-            if (document.getElementById(defaultValues[0])) {
-                document.getElementById(defaultValues[0]).checked = true;
-            }
-            OverlayScrollbars(document.querySelector('.radio-list'), { className: 'scrollbar' });
-        });
-    }
-
-    /**
-     * 서버에서 가져온 데이터내에서 검색
-     */
-    function searchCustomCode() {
-        const searchValue = document.getElementById('search').value;
-        const customCodeList = document.getElementsByName('custom-code-list');
-
-        for (let i = 0; i < customCodeList.length; i++) {
-            let code = customCodeList[i].getElementsByClassName('label');
-            if (code[0].innerHTML.indexOf(searchValue) != -1) {
-                customCodeList[i].style.display = '';
-            } else {
-                customCodeList[i].style.display = 'none';
-            }
-        }
-    }
-
     /**
      * 하위 세부 속성 추가시 (+ 버튼 클릭시) 호출되는 이벤트
      * @param e 이벤트

@@ -99,10 +99,6 @@ insert into awf_url_auth_map values ('/custom-codes/search', 'get', 'custom.code
 insert into awf_url_auth_map values ('/custom-codes/search', 'get', 'custom.code.delete');
 insert into awf_url_auth_map values ('/custom-codes/{id}/edit', 'get', 'custom.code.create');
 insert into awf_url_auth_map values ('/custom-codes/{id}/edit', 'get', 'custom.code.update');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.create');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.read');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.delete');
-insert into awf_url_auth_map values ('/custom-codes/{id}/search', 'get', 'document.update');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.delete');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.read');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.update');
