@@ -41,8 +41,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     Expressions.asString(""),
                     user.uploaded,
                     user.uploadedLocation,
-                    user.createDt,
-                    user.absenceYn
+                    user.createDt
                 )
             )
             .leftJoin(code).on(code.code.eq(user.department))

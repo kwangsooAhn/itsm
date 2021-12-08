@@ -537,8 +537,8 @@ class UserService(
     /**
      * 사용자 목록 Excel 다운로드
      */
-    fun getUsersExcelDownload(userSearchCondition: UserSearchCondition): ResponseEntity<ByteArray> {
-        val returnDto = selectUserList(userSearchCondition)
+    fun getUsersExcelDownload(): ResponseEntity<ByteArray> {
+        val returnDto = userRepository.findUserListForExcel()
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(
@@ -587,7 +587,7 @@ class UserService(
                 )
             )
         )
-        returnDto.data.forEach { result ->
+        returnDto.results.forEach { result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
                     cells = mutableListOf(
