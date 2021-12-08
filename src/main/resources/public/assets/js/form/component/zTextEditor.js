@@ -63,6 +63,11 @@ export const textEditorMixin = {
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
+        // 필수값 표시가 된 대상에 대해 Required off 처리한다.
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+        }
         this.editor = new zQuill(this.UIElement.UIComponent.UIElement.UIDiv.domElement, {
             placeholder: this.elementPlaceholder,
             readOnly: (this.displayType === FORM.DISPLAY_TYPE.READONLY),
