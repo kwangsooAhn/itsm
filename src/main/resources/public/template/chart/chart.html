@@ -148,15 +148,15 @@
         // 차트 기간
         const RANGE_BETWEEN = 'chart.range.between';
         const RANGE_LAST_MONTH = 'chart.range.last.month';
-        const RANGE_LAST_DAY = 'chart.range.all';
-        const RANGE_ALL = '';
+        const RANGE_LAST_DAY = 'chart.range.last.day';
+        const RANGE_ALL = 'chart.range.all';
         // 기간에 따른 시작일자, 종료일자
         const A_MONTH_AGO = i18n.getDate({ 'months': -1 }); // 현재로부터 한달전
         const NOW = i18n.getDate(); // 현재
         const LAST_MONTH_START_OF = i18n.getStartOfDate({ months: -1 }, 'month'); // 지난달 1일
         const LAST_MONTH_END_OF = i18n.getEndOfDate({ months: -1 }, 'month'); // 지난달 마지막날짜
         const YESTERDAY = i18n.getDate({ days: -1 }); // 어제
-        const FIXED_DAY = '2000-01-01'; // 2000년 01월 01일
+        const FIXED_DAY = i18n.getCustomDate(2000, 1, 1); // 2000년 01월 01일
         const CHART_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
 
         window.onload = function () {
@@ -258,7 +258,6 @@
                 const toDt = data.chartConfig.range.to;
                 data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
                 data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
-
                 // 차트 초기화
                 zChartManager.load(data);
 
@@ -423,7 +422,6 @@
                     default:
                         break;
                 }
-
             }
 
             // TODO: #11574 [사용자 정의 차트] 기간 - 간격 설정
