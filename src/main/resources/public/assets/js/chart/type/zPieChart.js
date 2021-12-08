@@ -97,9 +97,9 @@ export const zPieChartMixin = {
                 selected: (i === 0)
             });
         }
-        // 카테고리가 날짜 데이터로 전달됨
-        const seriesName = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(data[0].series));
-        this.chart.series[0].update({ name: seriesName, id: data[0].id }, false);
+        const fromDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(this.config.range.from));
+        const toDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(this.config.range.to));
+        this.chart.series[0].update({ name: (fromDt + ' ~ ' + toDt), id: data[0].id }, false);
         this.chart.series[0].setData(series, true);
     },
     /**

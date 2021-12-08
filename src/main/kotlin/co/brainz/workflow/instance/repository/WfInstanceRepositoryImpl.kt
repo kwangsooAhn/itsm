@@ -215,10 +215,13 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey))
             )
         )
-        builder.and(
-            token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
-        )
-
+        status?.forEach { statusValue ->
+            if (statusValue == WfInstanceConstants.Status.FINISH.code) {
+                builder.and(
+                    token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
+                )
+            }
+        }
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -454,22 +457,28 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     override fun getInstanceListInTags(tags: Set<String>): List<WfInstanceEntity> {
         val component = QWfComponentEntity.wfComponentEntity
         val query = from(instance)
-            .where(instance.document.documentId.`in`(
-                JPAExpressions.select(document.documentId)
-                    .from(document)
-                    .where(document.form.formId.`in`(
-                        JPAExpressions.select(component.form.formId)
-                            .from(component)
-                            .where(component.componentId.`in`(
-                                JPAExpressions.select(tag.targetId)
-                                    .from(tag)
-                                    .where(tag.tagValue.`in`(tags))
-                                    .where(tag.tagType.eq(AliceTagConstants.TagType.COMPONENT.code))
-                            ))
-                            .where(component.form.formStatus.ne(WfFormConstants.FormStatus.EDIT.value))
-                    ))
-                    .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
-            ))
+            .where(
+                instance.document.documentId.`in`(
+                    JPAExpressions.select(document.documentId)
+                        .from(document)
+                        .where(
+                            document.form.formId.`in`(
+                                JPAExpressions.select(component.form.formId)
+                                    .from(component)
+                                    .where(
+                                        component.componentId.`in`(
+                                            JPAExpressions.select(tag.targetId)
+                                                .from(tag)
+                                                .where(tag.tagValue.`in`(tags))
+                                                .where(tag.tagType.eq(AliceTagConstants.TagType.COMPONENT.code))
+                                        )
+                                    )
+                                    .where(component.form.formStatus.ne(WfFormConstants.FormStatus.EDIT.value))
+                            )
+                        )
+                        .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
+                )
+            )
             .where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
         return query.fetch()
     }
