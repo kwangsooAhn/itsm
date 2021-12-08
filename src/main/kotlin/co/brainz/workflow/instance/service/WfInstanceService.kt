@@ -24,6 +24,7 @@ import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceExcelDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
@@ -150,9 +151,6 @@ class WfInstanceService(
                 tokenId = instance.tokenEntity.tokenId,
                 elementName = instance.tokenEntity.element.elementName,
                 instanceId = instance.instanceEntity.instanceId,
-                instanceStartDt = instance.instanceEntity.instanceStartDt!!,
-                instanceEndDt = instance.instanceEntity.instanceEndDt,
-                instanceCreateUser = instance.instanceEntity.instanceCreateUser!!.userName,
                 documentName = instance.documentEntity.documentName,
                 documentDesc = instance.documentEntity.documentDesc,
                 documentStatus = instance.documentEntity.documentStatus,
@@ -165,7 +163,6 @@ class WfInstanceService(
                 documentId = instance.documentEntity.documentId,
                 documentNo = instance.instanceEntity.documentNo,
                 documentColor = instance.documentEntity.documentColor,
-                documentType = instance.documentEntity.documentType,
                 avatarPath = avatarPath
             )
 
@@ -333,5 +330,51 @@ class WfInstanceService(
      */
     fun getAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto> {
         return wfInstanceRepository.findAllInstanceListAndSearch(instanceId, searchValue)
+    }
+
+    fun instancesForExcel(tokenSearchCondition: TokenSearchCondition): MutableList<RestTemplateInstanceExcelDto> {
+        val queryResults = when (tokenSearchCondition.searchTokenType) {
+            WfTokenConstants.SearchType.REQUESTED.code -> {
+                requestedInstances(
+                    tokenSearchCondition
+                )
+            }
+            WfTokenConstants.SearchType.PROGRESS.code -> {
+                relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
+                    tokenSearchCondition
+                )
+            }
+            WfTokenConstants.SearchType.COMPLETED.code -> {
+                relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
+                    tokenSearchCondition
+                )
+            }
+            else -> {
+                todoInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
+                    WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
+                    tokenSearchCondition
+                )
+            }
+        }
+        val tokensForExcel = mutableListOf<RestTemplateInstanceExcelDto>()
+
+        for (instance in queryResults.results) {
+            val restTemplateInstanceExcelDto = RestTemplateInstanceExcelDto(
+                instanceStartDt = instance.instanceEntity.instanceStartDt!!,
+                instanceEndDt = instance.instanceEntity.instanceEndDt,
+                instanceCreateUser = instance.instanceEntity.instanceCreateUser!!.userName,
+                documentName = instance.documentEntity.documentName,
+                documentDesc = instance.documentEntity.documentDesc,
+                documentStatus = instance.documentEntity.documentStatus,
+                documentNo = instance.instanceEntity.documentNo,
+                documentType = instance.documentEntity.documentType
+            )
+            tokensForExcel.add(restTemplateInstanceExcelDto)
+        }
+
+        return tokensForExcel
     }
 }

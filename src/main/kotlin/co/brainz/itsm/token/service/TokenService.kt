@@ -143,25 +143,20 @@ class TokenService(
     }
 
     /**
+     * 문서함 Excel List 조회
+     */
+    fun getTokenListForExcel(
+        tokenSearchCondition: TokenSearchCondition
+    ): MutableList<RestTemplateInstanceExcelDto> {
+        tokenSearchCondition.userKey = currentSessionUser.getUserKey()
+        return wfInstanceService.instancesForExcel(tokenSearchCondition)
+    }
+
+    /**
      * 문서함 Excel 다운로드
      */
     fun getTokensExcelDownload(tokenSearchCondition: TokenSearchCondition): ResponseEntity<ByteArray> {
-        val tokenList = getTokenList(tokenSearchCondition)
-        val returnDto = mutableListOf<RestTemplateInstanceExcelDto>()
-        tokenList.data.forEach { token ->
-            returnDto.add(
-                RestTemplateInstanceExcelDto(
-                    documentNo = token.documentNo,
-                    documentName = token.documentName,
-                    documentDesc = token.documentDesc,
-                    documentStatus = token.documentStatus,
-                    documentType = token.documentType,
-                    instanceStartDt = token.instanceStartDt,
-                    instanceEndDt = token.instanceEndDt,
-                    instanceCreateUser = token.instanceCreateUser
-                )
-            )
-        }
+        val returnDto = getTokenListForExcel(tokenSearchCondition)
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(
