@@ -42,10 +42,10 @@ import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
-import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
+import org.springframework.stereotype.Repository
 
 @Repository
 class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::class.java),
@@ -145,12 +145,13 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 .or(token.tokenAction.isNull)
         )
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
-        return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-            .limit(searchDataCount)
-            .offset(tokenSearchCondition.offset)
-            .fetchResults()
+        if (tokenSearchCondition.isScroll) {
+            query.limit(searchDataCount)
+                .offset(tokenSearchCondition.offset)
+        }
+        return query.fetchResults()
     }
 
     override fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto> {
@@ -176,12 +177,13 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         )
 
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
-        return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-            .limit(searchDataCount)
-            .offset(tokenSearchCondition.offset)
-            .fetchResults()
+        if (tokenSearchCondition.isScroll) {
+            query.limit(searchDataCount)
+                .offset(tokenSearchCondition.offset)
+        }
+        return query.fetchResults()
     }
 
     override fun findRelationInstances(
@@ -221,12 +223,13 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             }
         }
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
-        return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-            .limit(searchDataCount)
-            .offset(tokenSearchCondition.offset)
-            .fetchResults()
+        if (tokenSearchCondition.isScroll) {
+            query.limit(searchDataCount)
+                .offset(tokenSearchCondition.offset)
+        }
+        return query.fetchResults()
     }
 
     /**

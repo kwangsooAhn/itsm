@@ -1766,6 +1766,7 @@ insert into awf_url values ('/rest/tags/{id}', 'delete', 'Tag 삭제', 'FALSE');
 insert into awf_url values ('/rest/tokens/data', 'post', 'token 신규 등록', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'get', '처리할 문서 상세 데이터', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'put', 'token 수정', 'TRUE');
+insert into awf_url values ('/rest/tokens/excel', 'get', '문서함 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/users', 'post', '사용자 등록', 'TRUE');
 insert into awf_url values ('/rest/users/all', 'get', '전체 사용자 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/users/{userkey}/all', 'put', '사용자가 자신의 정보를 업데이트', 'TRUE');
@@ -1773,6 +1774,7 @@ insert into awf_url values ('/rest/users/{userkey}/info', 'put', '사용자가 �
 insert into awf_url values ('/rest/users/{userkey}/resetpassword', 'put', '사용자 비밀번호 초기화', 'TRUE');
 insert into awf_url values ('/rest/users/colors', 'get', '사용자 정의 색상 조회', 'FALSE');
 insert into awf_url values ('/rest/users/colors', 'put', '사용자 정의 색상 저장', 'FALSE');
+insert into awf_url values ('/rest/users/excel', 'get', '사용자 목록 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/products/info', 'get', '제품 정보 조회', 'TRUE');
 insert into awf_url values ('/roles/search', 'get', '역할 검색화면', 'TRUE');
 insert into awf_url values ('/roles/new', 'get', '역할 등록', 'TRUE');
@@ -2227,6 +2229,8 @@ insert into awf_url_auth_map values ('/rest/schedulers/{id}/execute', 'post', 's
 insert into awf_url_auth_map values ('/rest/tokens/data', 'post', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'token.create');
+insert into awf_url_auth_map values ('/rest/tokens/excel', 'get', 'token.read');
+insert into awf_url_auth_map values ('/rest/tokens/excel', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/users', 'post', 'user.create');
 insert into awf_url_auth_map values ('/rest/users/all', 'get', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.update');
@@ -2235,6 +2239,10 @@ insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.
 insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.update');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.update');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.read');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.create');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.update');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.delete');
 insert into awf_url_auth_map values ('/rest/products/info', 'get', 'product.read');
 insert into awf_url_auth_map values ('/roles/search', 'get', 'role.read');
 insert into awf_url_auth_map values ('/roles/new', 'get', 'role.create');
