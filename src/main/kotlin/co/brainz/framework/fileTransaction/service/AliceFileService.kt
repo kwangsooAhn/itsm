@@ -69,19 +69,19 @@ class AliceFileService(
         val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileName)
         val filePath = super.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
-        val metadata = Metadata()
+        /*val metadata = Metadata()   // #11810 일감으로 주석처리함. (첨부파일 등록시 확장자만 검사하고, 파일내용까지는 검사하지말자)
         metadata[Metadata.RESOURCE_NAME_KEY] = multipartFile.originalFilename
         metadata[Metadata.CONTENT_TYPE] = multipartFile.contentType
-        val mediaType = Tika().detect(multipartFile.inputStream, metadata)
+        val mediaType = Tika().detect(multipartFile.inputStream, metadata)*/
 
         if (Files.notExists(tempPath.parent)) {
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + tempPath.toFile() + "]")
         }
 
-        // 파일 확장자 및 파일 media type 체크
         val fileExtensionEntity = aliceFileNameExtensionRepository.findByIdOrNull(fileNameExtension)
-        if (fileExtensionEntity == null || fileExtensionEntity.fileContentType != mediaType) {
-            throw AliceException(AliceErrorConstants.ERR_00001, "The file extension $mediaType is not allowed.")
+        //if (fileExtensionEntity == null || fileExtensionEntity.fileContentType != mediaType) //#11810 일감으로 주석처리함. (첨부파일 등록시 확장자만 검사하고, 파일내용까지는 검사하지말자)
+        if (fileExtensionEntity == null) {
+            throw AliceException(AliceErrorConstants.ERR_00001, "The file extension  is not allowed.")
         }
 
         multipartFile.transferTo(tempPath.toFile())
