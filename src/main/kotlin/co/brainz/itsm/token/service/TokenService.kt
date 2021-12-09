@@ -145,7 +145,7 @@ class TokenService(
     /**
      * 문서함 Excel List 조회
      */
-    fun getTokenListForExcel(
+    private fun getTokenListForExcel(
         tokenSearchCondition: TokenSearchCondition
     ): MutableList<RestTemplateInstanceExcelDto> {
         tokenSearchCondition.userKey = currentSessionUser.getUserKey()
