@@ -66,7 +66,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
         return query.fetchResults()
     }
 
-    override fun findUserListForExcel(): QueryResults<UserListExcelDto> {
+    override fun findUserListForExcel(userSearchCondition: UserSearchCondition): QueryResults<UserListExcelDto> {
         val user = QAliceUserEntity.aliceUserEntity
         val code = QCodeEntity.codeEntity
         val query = from(user)
@@ -84,7 +84,16 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.absenceYn
                 )
             )
+
             .leftJoin(code).on(code.code.eq(user.department))
+            .where(
+                super.likeIgnoreCase(user.userName, userSearchCondition.searchValue)
+                    ?.or(super.likeIgnoreCase(user.userId, userSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(user.position, userSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(code.codeName, userSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(user.officeNumber, userSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(user.mobileNumber, userSearchCondition.searchValue))
+            )
             .where(
                 user.userName.notIn(AliceUserConstants.CREATE_USER_ID)
             )

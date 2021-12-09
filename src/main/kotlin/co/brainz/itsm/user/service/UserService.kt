@@ -537,8 +537,8 @@ class UserService(
     /**
      * 사용자 목록 Excel 다운로드
      */
-    fun getUsersExcelDownload(): ResponseEntity<ByteArray> {
-        val returnDto = userRepository.findUserListForExcel()
+    fun getUsersExcelDownload(userSearchCondition: UserSearchCondition): ResponseEntity<ByteArray> {
+        val returnDto = userRepository.findUserListForExcel(userSearchCondition)
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(

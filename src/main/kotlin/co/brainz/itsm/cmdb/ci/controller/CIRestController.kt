@@ -10,6 +10,7 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
+import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.service.CIService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
@@ -82,7 +83,7 @@ class CIRestController(private val ciService: CIService) {
      * CI 조회 Excel 다운로드
      */
     @GetMapping("/excel")
-    fun getCIsExcelDownload(): ResponseEntity<ByteArray> {
-        return ciService.getCIsExcelDownload()
+    fun getCIsExcelDownload(ciSearchCondition: CISearchCondition): ResponseEntity<ByteArray> {
+        return ciService.getCIsExcelDownload(ciSearchCondition)
     }
 }

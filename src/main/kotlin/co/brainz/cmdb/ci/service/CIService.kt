@@ -616,8 +616,8 @@ class CIService(
         return ciRelationRepository.selectByCiId(ciId)
     }
 
-    fun getCIListForExcel(): MutableList<CIListExcelDto> {
-        val ciListExcelData = ciRepository.findCIListForExcel()
+    fun getCIListForExcel(ciSearchCondition: CISearchCondition): MutableList<CIListExcelDto> {
+        val ciListExcelData = ciRepository.findCIListForExcel(ciSearchCondition)
         val ciIds = mutableSetOf<String>()
         val ciListForExcel = mutableListOf<CIListExcelDto>()
         ciListExcelData.results.forEach {

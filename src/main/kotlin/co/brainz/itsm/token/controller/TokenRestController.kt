@@ -55,7 +55,7 @@ class TokenRestController(private val tokenService: TokenService) {
      * 문서함 Excel 다운로드
      */
     @GetMapping("/excel")
-    fun getUsersExcelDownload(tokenSearchCondition: TokenSearchCondition): ResponseEntity<ByteArray> {
+    fun getTokensExcelDownload(tokenSearchCondition: TokenSearchCondition): ResponseEntity<ByteArray> {
         return tokenService.getTokensExcelDownload(tokenSearchCondition)
     }
 }

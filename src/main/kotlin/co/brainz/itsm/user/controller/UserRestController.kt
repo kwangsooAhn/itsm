@@ -14,6 +14,7 @@ import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.user.dto.UserCustomDto
+import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.dto.UserUpdatePasswordDto
@@ -174,7 +175,7 @@ class UserRestController(
      * 사용자 목록 Excel 다운로드
      */
     @GetMapping("/excel")
-    fun getUsersExcelDownload(): ResponseEntity<ByteArray> {
-        return userService.getUsersExcelDownload()
+    fun getUsersExcelDownload(userSearchCondition: UserSearchCondition): ResponseEntity<ByteArray> {
+        return userService.getUsersExcelDownload(userSearchCondition)
     }
 }

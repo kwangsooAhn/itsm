@@ -138,7 +138,7 @@
 
     function onExcelDownload() {
         aliceJs.fetchDownload({
-            url: '/rest/cmdb/cis/excel',
+            url: '/rest/cmdb/cis/excel?' + aliceJs.serialize(document.getElementById('searchFrm')),
             fileName: i18n.msg('cmdb.ci.label.ciInquiry') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
         });
     }

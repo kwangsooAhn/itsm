@@ -17,6 +17,6 @@ interface CIRepositoryCustom : AliceRepositoryCustom {
     fun findCI(ciId: String): CIsDto
     fun findCIList(ciSearchCondition: CISearchCondition): QueryResults<CIsDto>
     fun findDuplicateCiNo(ciNo: String): Long
-    fun findCIListForExcel(): QueryResults<CIsExcelDto>
+    fun findCIListForExcel(ciSearchCondition: CISearchCondition): QueryResults<CIsExcelDto>
     fun getLastCiByCiNo(ciNoPrefix: String): CIEntity?
 }

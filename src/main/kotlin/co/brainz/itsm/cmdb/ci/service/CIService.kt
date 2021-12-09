@@ -289,8 +289,8 @@ class CIService(
     /**
      * CI 조회 Excel 다운로드
      */
-    fun getCIsExcelDownload(): ResponseEntity<ByteArray> {
-        val returnDto = ciService.getCIListForExcel()
+    fun getCIsExcelDownload(ciSearchCondition: CISearchCondition): ResponseEntity<ByteArray> {
+        val returnDto = ciService.getCIListForExcel(ciSearchCondition)
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(

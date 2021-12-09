@@ -14,5 +14,5 @@ import com.querydsl.core.QueryResults
 
 interface UserRepositoryCustom : AliceRepositoryCustom {
     fun findAliceUserEntityList(userSearchCondition: UserSearchCondition): QueryResults<UserListDataDto>
-    fun findUserListForExcel(): QueryResults<UserListExcelDto>
+    fun findUserListForExcel(userSearchCondition: UserSearchCondition): QueryResults<UserListExcelDto>
 }

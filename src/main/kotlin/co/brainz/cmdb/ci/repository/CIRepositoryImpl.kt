@@ -163,9 +163,13 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             .fetchFirst()
     }
 
-    override fun findCIListForExcel(): QueryResults<CIsExcelDto> {
+    override fun findCIListForExcel(ciSearchCondition: CISearchCondition): QueryResults<CIsExcelDto> {
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
+        val cmdbClass = QCIClassEntity.cIClassEntity
+        val cmdbTag = QAliceTagEntity.aliceTagEntity
+        val wfComponentCIData = QCIComponentDataEntity.cIComponentDataEntity
+        val wfInstance = QWfInstanceEntity.wfInstanceEntity
         val query = from(ci)
             .select(
                 Projections.constructor(
@@ -179,8 +183,43 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                 )
             )
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
-            .where(!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
+            .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
+            .where(
+                (!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
+                    .and(
+                        super.likeIgnoreCase(ci.ciName, ciSearchCondition.searchValue)
+                            ?.or(super.likeIgnoreCase(ci.ciNo, ciSearchCondition.searchValue))
+                            ?.or(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
+                            ?.or(super.likeIgnoreCase(cmdbClass.className, ciSearchCondition.searchValue))
+                            ?.or(super.likeIgnoreCase(ci.ciDesc, ciSearchCondition.searchValue))
+                    )
+            )
+
             .orderBy(ci.ciName.asc())
+        if (ciSearchCondition.tagArray.isNotEmpty()) {
+            query.where(
+                ci.ciId.`in`(
+                    JPAExpressions
+                        .select(cmdbTag.targetId)
+                        .from(cmdbTag)
+                        .where(
+                            cmdbTag.tagValue.`in`(ciSearchCondition.tagArray)
+                                .and(cmdbTag.tagType.eq(AliceTagConstants.TagType.CI.code))
+                        )
+                )
+            )
+        }
+        if (ciSearchCondition.flag == "component") {
+            query.where(
+                ci.ciId.notIn(
+                    JPAExpressions
+                        .select(wfComponentCIData.ciId)
+                        .from(wfComponentCIData)
+                        .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
+                        .where(wfInstance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
+                )
+            )
+        }
         return query.fetchResults()
     }
 }
