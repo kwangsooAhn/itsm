@@ -10,7 +10,6 @@ import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.service.CustomCodeService
-import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,7 +26,6 @@ class CustomCodeController(
     private val customCodeSearchPage: String = "custom-code/customCodeSearch"
     private val customCodeListPage: String = "custom-code/customCodeList"
     private val customCodePage: String = "custom-code/customCode"
-    private val documentCustomCodePage: String = "custom-code/customCodeModal"
 
     /**
      * 사용자 정의 코드 리스트 호출 화면.
@@ -122,14 +120,5 @@ class CustomCodeController(
             codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_SESSION_KEY_P_CODE)
         )
         return customCodePage
-    }
-
-    /**
-     * 사용자 정의 코드 데이터 조회 팝업 화면.
-     */
-    @GetMapping("/{customCodeId}/search")
-    fun getCustomCodeData(@PathVariable customCodeId: String, model: Model, request: HttpServletRequest): String {
-        model.addAttribute("customCodeDataList", customCodeService.getCustomCodeData(customCodeId))
-        return documentCustomCodePage
     }
 }

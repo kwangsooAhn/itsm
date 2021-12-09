@@ -77,9 +77,6 @@ class ChartService(
         )
         if (chart != null) {
             chartDto.chartId = chart.chartId
-            //chartDto.createDt = chart.createDt
-        } else {
-            //chartDto.createDt = LocalDateTime.now()
         }
 
         return chartManagerFactory.getChartManager(chartDto.chartType).getChart(chartDto)

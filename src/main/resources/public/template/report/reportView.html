@@ -43,7 +43,7 @@
             // footer
             const userName = '[[${#authentication.details.userName}]]';
             const userEmail = '[[${#authentication.details.email}]]';
-            const time = '[[${report.publishDt}]]';
+            const time = /*[[${report.publishDt}]]*/'';
             const reportInfo = document.getElementById('report-information');
             reportInfo.innerHTML = userName + ' [' + userEmail + ']<br>' + i18n.printFormat(time);
 
@@ -69,8 +69,14 @@
             data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
             data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
 
+            // 태그 데이터를 tagValue > value 로 변경한다.
+            const tags = data.tags.reduce((acc, cur) => {
+                acc.push({ value: cur.tagValue });
+                return acc;
+            }, []);
+            data.tags = tags;
+
             // 차트 초기화
-            console.log(data);
             zChartManager.load(data.chartId + '_chart', data);
         }
 

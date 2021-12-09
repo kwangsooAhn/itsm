@@ -77,6 +77,9 @@ export const timeMixin = {
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIDate.setUIReadOnly(true);
+            // 필수값 표시가 된 대상에 대해 Required off 처리한다.
+            this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
         } else {
             // datePicker 초기화
             zDateTimePicker.initTimePicker(this.UIElement.UIComponent.UIElement.UIDate.domElement,

@@ -7,4 +7,6 @@ interface WfTokenRepositoryCustom {
     fun findTokenByInstanceIdIn(instanceId: String): QueryResults<WfTokenEntity>
 
     fun findProcessTokenByAssignee(assignee: String): List<WfTokenEntity>
+
+    fun getLastTokenList(instanceIds: Set<String>): List<WfTokenEntity>
 }

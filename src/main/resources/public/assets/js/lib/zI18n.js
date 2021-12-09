@@ -77,6 +77,10 @@
             .endOf(end).toFormat(i18n.dateFormat);
     }
 
+    function getCustomDate(year, month, day) {
+        return luxon.DateTime.local(year, month, day).setZone(i18n.timezone).toFormat(i18n.dateFormat);
+    }
+
     /**
      * 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
      *
@@ -358,6 +362,7 @@
     exports.getDateTime = getDateTime;
     exports.getStartOfDate = getStartOfDate;
     exports.getEndOfDate = getEndOfDate;
+    exports.getCustomDate = getCustomDate;
     exports.systemDateTime = convertToSystemDateTime;
     exports.systemDate = convertToSystemDate;
     exports.systemTime = convertToSystemTime;

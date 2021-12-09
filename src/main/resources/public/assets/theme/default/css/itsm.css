@@ -2846,6 +2846,17 @@ select {
   font-size: 0.875rem;
   color: #8B9094;
 }
+.z-itsm-container .z-main-content .z-page-token-search {
+  display: flex;
+  flex-direction: row;
+  padding: 0 0 1.25rem 3.75rem;
+}
+.z-itsm-container .z-main-content .z-page-token-search .z-search-count {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #8B9094;
+}
 .z-itsm-container .z-main-content .z-page-result {
   display: flex;
   flex-direction: column;
