@@ -34,7 +34,5 @@ interface WfInstanceRepositoryCustom {
 
     fun findAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto>
 
-    fun getInstanceListInTags(tags: Set<String>): List<WfInstanceEntity>
-
     fun getInstanceListInTag(tagValue: String, range: ChartRange): List<WfInstanceEntity>
 }

@@ -7,9 +7,10 @@
 package co.brainz.itsm.chart.dto
 
 import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import java.io.Serializable
 
-data class ChartTagData(
+data class ChartTagInstanceDto(
     val tag: AliceTagDto,
-    val data: List<ChartData> = emptyList()
+    val instances: List<WfInstanceEntity> = emptyList()
 ) : Serializable

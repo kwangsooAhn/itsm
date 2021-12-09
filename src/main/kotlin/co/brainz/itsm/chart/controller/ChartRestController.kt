@@ -9,6 +9,7 @@ package co.brainz.itsm.chart.controller
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.service.ChartService
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -50,5 +51,13 @@ class ChartRestController(private val chartService: ChartService) {
     @PostMapping("/{chartId}/preview")
     fun getPreviewChart(@PathVariable chartId: String, @RequestBody chartDto: ChartDto): ChartDto {
         return chartService.getChartPreviewDetail(chartId, chartDto)
+    }
+
+    /**
+     * 사용자 정의 차트 미리보기
+     */
+    @GetMapping("/{chartId}")
+    fun getChart(@PathVariable chartId: String): ChartDto {
+        return chartService.getChartDetail(chartId)
     }
 }

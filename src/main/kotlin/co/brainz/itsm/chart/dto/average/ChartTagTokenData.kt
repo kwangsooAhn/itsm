@@ -4,13 +4,12 @@
  *
  */
 
-package co.brainz.itsm.chart.dto
+package co.brainz.itsm.chart.dto.average
 
 import co.brainz.framework.tag.dto.AliceTagDto
-import co.brainz.workflow.instance.entity.WfInstanceEntity
 import java.io.Serializable
 
-data class TagInstanceDto(
+data class ChartTagTokenData(
     val tag: AliceTagDto,
-    val instances: List<WfInstanceEntity> = emptyList()
+    val tokenDataList: List<ChartTokenData> = emptyList()
 ) : Serializable

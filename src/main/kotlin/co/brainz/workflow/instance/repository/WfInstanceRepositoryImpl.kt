@@ -454,35 +454,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         return query.fetch()
     }
 
-    override fun getInstanceListInTags(tags: Set<String>): List<WfInstanceEntity> {
-        val component = QWfComponentEntity.wfComponentEntity
-        val query = from(instance)
-            .where(
-                instance.document.documentId.`in`(
-                    JPAExpressions.select(document.documentId)
-                        .from(document)
-                        .where(
-                            document.form.formId.`in`(
-                                JPAExpressions.select(component.form.formId)
-                                    .from(component)
-                                    .where(
-                                        component.componentId.`in`(
-                                            JPAExpressions.select(tag.targetId)
-                                                .from(tag)
-                                                .where(tag.tagValue.`in`(tags))
-                                                .where(tag.tagType.eq(AliceTagConstants.TagType.COMPONENT.code))
-                                        )
-                                    )
-                                    .where(component.form.formStatus.ne(WfFormConstants.FormStatus.EDIT.value))
-                            )
-                        )
-                        .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
-                )
-            )
-            .where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
-        return query.fetch()
-    }
-
     override fun getInstanceListInTag(
         tagValue: String,
         range: ChartRange
