@@ -190,7 +190,6 @@
                 onCreate: function(modal) {
                     // color picker 초기화
                     new zColorPicker(document.getElementById('documentColor'), { type: 'fill' });
-                    if (!document.getElementById('documentColor').value) document.getElementById('documentColor').setAttribute('value', colorDefault);
                     // 신청서 상태 초기화
                     const statusElem = document.getElementById('document-status');
                     const prevStatus = document.getElementById('prev-document-status').value;
