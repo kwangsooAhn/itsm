@@ -13,6 +13,7 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+const colorDefault = '#000000';
 const DEFAULT_OPTIONS = {
     type: 'fill', // fill or line (사용자 색상에 추가된 색상은 Fill, Line Color Picker 서로 공유된다.)
     colors: [
@@ -39,7 +40,7 @@ function zColorPicker(targetElement, options) {
     // 기존 저장된 색상 : 사용자가 색상을 변경하더라도, 사용자 색상을 저장하지 않고 color picker를 닫으면 원래 색상으로 변경되어야 한다.
     this.savedValue = targetElement.value.toUpperCase();
     // 사용자에 의해 변경 중인 색상
-    this.value = targetElement.value.toUpperCase() || '#000000';
+    this.value = targetElement.value.toUpperCase() || colorDefault;
     // 서버에 저장된 사용자 색상 목록
     this.savedCustomColors = [];
     // 사용자에 의해 변경 중인 사용자 색상 목록
