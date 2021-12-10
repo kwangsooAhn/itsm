@@ -298,7 +298,7 @@ cmdb:
       details: "Details"
       export: "Export"
       label: "Label"
-      management: "Attribute Management"
+      management: "CI Attribute"
       mappingId: "Mapping ID"
       name: "Attribute Name"
       option:
@@ -384,7 +384,7 @@ cmdb:
     label:
       attributeList: "Attribute List"
       description: "Description"
-      management: "Class Management"
+      management: "CI Class"
       name: "Name"
       pClassName: "Parent Class"
       searchPlaceholder: "Class Name / Description"
@@ -405,7 +405,7 @@ cmdb:
       class: "Class"
       description: "Description"
       icon: "Icon"
-      management: "Type Management"
+      management: "CI Type"
       name: "Type Name"
       parentType: "Parent Type"
       searchPlaceholder: "Type"
