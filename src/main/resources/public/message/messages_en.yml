@@ -675,6 +675,7 @@ form:
     undo: "Undo"
     update: "Update Form"
   msg:
+    duplicateMappingId: "Mapping ID({0}) is Duplicate"
     enterFormName: "Please enter a form name."
     failedAllColumnDelete: "At least one column is required."
     failedDestroy: "Related documents exist for this form.<br/>This can't be destroyed."

@@ -675,6 +675,7 @@ form:
     update: "문서양식 수정"
     undo: "작업 취소"
   msg:
+    duplicateMappingId: "매핑 아이디({0})가 중복됩니다."
     enterFormName: "양식이름을 입력하세요."
     failedAllColumnDelete: "최소 1개 열은 필수입니다."
     failedDestroy: "관련 문서가 존재합니다.<br/>폐기할 수 없는 문서양식입니다."
