@@ -32,6 +32,7 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
+import co.brainz.cmdb.dto.CIListExcelDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CIsDto
@@ -613,5 +614,36 @@ class CIService(
 
     fun getRelation(ciId: String): List<CIRelationDto> {
         return ciRelationRepository.selectByCiId(ciId)
+    }
+
+    fun getCIListForExcel(ciSearchCondition: CISearchCondition): MutableList<CIListExcelDto> {
+        val ciListExcelData = ciRepository.findCIListForExcel(ciSearchCondition)
+        val ciIds = mutableSetOf<String>()
+        val ciListForExcel = mutableListOf<CIListExcelDto>()
+        ciListExcelData.results.forEach {
+            ciIds.add(it.ciId)
+        }
+
+        val tagList = aliceTagRepository.findByTargetIds(AliceTagConstants.TagType.CI.code, ciIds)
+        ciListExcelData.results.forEach { ci ->
+            val ciListExcelDto = CIListExcelDto(
+                ciNo = ci.ciNo,
+                ciName = ci.ciName,
+                ciDesc = ci.ciDesc,
+                typeName = ci.typeName,
+                interlink = ci.interlink
+            )
+
+            val tagDataList = mutableListOf<AliceTagDto>()
+            tagList.forEach { tagData ->
+                if (tagData.targetId == ci.ciId) {
+                    tagDataList.add(tagData)
+                }
+            }
+            ciListExcelDto.ciTags = tagDataList
+            ciListForExcel.add(ciListExcelDto)
+        }
+
+        return ciListForExcel
     }
 }

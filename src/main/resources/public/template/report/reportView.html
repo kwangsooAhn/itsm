@@ -43,7 +43,7 @@
             // footer
             const userName = '[[${#authentication.details.userName}]]';
             const userEmail = '[[${#authentication.details.email}]]';
-            const time = '[[${report.publishDt}]]';
+            const time = /*[[${report.publishDt}]]*/'';
             const reportInfo = document.getElementById('report-information');
             reportInfo.innerHTML = userName + ' [' + userEmail + ']<br>' + i18n.printFormat(time);
 

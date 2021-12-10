@@ -70,7 +70,6 @@ insert into awf_url_auth_map values ('/charts/new', 'get', 'chart.update');
 insert into awf_url_auth_map values ('/charts/{id}/edit', 'get', 'chart.create');
 insert into awf_url_auth_map values ('/charts/{id}/edit', 'get', 'chart.update');
 insert into awf_url_auth_map values ('/charts/{id}/view', 'get', 'chart.read');
-insert into awf_url_auth_map values ('/charts/{id}/preview', 'get', 'chart.read');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/attributes/new', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.attribute.read');
@@ -244,6 +243,7 @@ insert into awf_url_auth_map values ('/rest/boards/articles/comments/{id}', 'del
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'board.create');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'board.delete');
 insert into awf_url_auth_map values ('/rest/charts', 'post', 'chart.create');
+insert into awf_url_auth_map values ('/rest/charts/{id}', 'get', 'chart.read');
 insert into awf_url_auth_map values ('/rest/charts/{id}', 'put', 'chart.update');
 insert into awf_url_auth_map values ('/rest/charts/{id}', 'delete', 'chart.delete');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.create');
@@ -420,6 +420,8 @@ insert into awf_url_auth_map values ('/rest/schedulers/{id}/execute', 'post', 's
 insert into awf_url_auth_map values ('/rest/tokens/data', 'post', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'token.create');
+insert into awf_url_auth_map values ('/rest/tokens/excel', 'get', 'token.read');
+insert into awf_url_auth_map values ('/rest/tokens/excel', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/users', 'post', 'user.create');
 insert into awf_url_auth_map values ('/rest/users/all', 'get', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.update');
@@ -428,6 +430,10 @@ insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.
 insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.update');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.update');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.read');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.create');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.update');
+insert into awf_url_auth_map values ('/rest/users/excel', 'get', 'user.delete');
 insert into awf_url_auth_map values ('/rest/products/info', 'get', 'product.read');
 insert into awf_url_auth_map values ('/roles/search', 'get', 'role.read');
 insert into awf_url_auth_map values ('/roles/new', 'get', 'role.create');

@@ -150,12 +150,14 @@ spring:
   profiles: jhpark
   datasource:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32847/itsm
+schedule.plugins.dir: D:\Joohyun\Project\itsm\plugins
 ---
 spring:
   profiles: mo
   datasource:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32846/itsm
 file.upload.dir: C:\files
+schedule.plugins.dir: C:\git\plugins
 ---
 spring:
   profiles: wdj
