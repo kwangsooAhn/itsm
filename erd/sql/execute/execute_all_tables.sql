@@ -342,7 +342,7 @@ insert into awf_code values ('user.theme.default', 'user.theme', 'default', '기
 insert into awf_code values ('user.theme.dark', 'user.theme', 'dark', '어두운 테마', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.time', 'user', null, '사용자 시간 포맷', null, false, true, 2, 13, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('24', 'user.time', 'HH:mm', null, null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
-insert into awf_code values ('12', 'user.time', 'hh:mm', null, null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('12', 'user.time', 'hh:mm a', null, null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('department', 'root', null, '부서 관리', null, false, true, 1, 11, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('department.group', 'department', null, '부서 명', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('department.group.design', 'department.group', 'DESIGN', 'DESIGN', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
