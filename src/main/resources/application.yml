@@ -93,6 +93,9 @@ file.image.uri: /fileImages
 # schedule plugins directory
 schedule.plugins.dir: C:\\plugins
 
+# Schedule timezone
+schedule.plugins.timezone: Asia/Seoul
+
 # IP 접근 제한 기능 설정
 ip.access.control: true
 
@@ -104,6 +107,12 @@ password.expired.period: 90
 
 # 로그인 플랫폼 사용여부
 login.platform.enabled: false
+
+# 아이디 찾기 사용여부
+find.id.enabled: false
+
+# 비밀번호 찾기 사용여부
+find.password.enabled: false
 
 jasypt.encryptor.bean: jasyptStringEncryptor
 
@@ -141,12 +150,14 @@ spring:
   profiles: jhpark
   datasource:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32847/itsm
+schedule.plugins.dir: D:\Joohyun\Project\itsm\plugins
 ---
 spring:
   profiles: mo
   datasource:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32846/itsm
 file.upload.dir: C:\files
+schedule.plugins.dir: C:\git\plugins
 ---
 spring:
   profiles: wdj

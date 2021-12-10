@@ -64,6 +64,7 @@ common:
     dataSelect: "Please select {0}."
     delete: "Deleted."
     deleteTartget: "Please select target."
+    done: "Executed. The results can be checked in the history."
     emptyValue: "There is an empty value"
     enterContents: "Please enter contents"
     enterTitle: "Please enter a title."
@@ -241,6 +242,7 @@ board:
 chart:
   label:
     all: "All"
+    average: "Average"
     chartt: "User Custom Chart"
     defaultInfo: "Default Info"
     description: "Chart Description"
@@ -263,14 +265,18 @@ chart:
     label:
       subTitle: "User custom chart report"
       yAxisTitle: "Number of Documents"
+      yAxisAverageTitle: "Average"
     text:
       count: "Count"
+      average: "Average"
+      percent: "Percent"
     value:
       count: "count"
+      average: "average"
+      percent: "percent"
   msg:
     searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
-    enterTargetGroup: "Please enter a target Group."
     enterTargetTags: "Please enter a target tags."
     enterDurationDigit: "Please enter a Duration."
     periodUnitOutOfRange: "The duration is greater than the period."
@@ -280,7 +286,7 @@ chart:
     stackedColumn: "Stacked Column Chart"
     stackedBar: "Stacked Bar Chart"
     lineAndColumn: "Line And Column Chart"
-    activityGauge: "Activity Gauge Chart"
+    gauge: "Gauge Chart"
 
 # CMDB
 cmdb:
@@ -292,7 +298,7 @@ cmdb:
       details: "Details"
       export: "Export"
       label: "Label"
-      management: "Attribute Management"
+      management: "CI Attribute"
       mappingId: "Mapping ID"
       name: "Attribute Name"
       option:
@@ -378,7 +384,7 @@ cmdb:
     label:
       attributeList: "Attribute List"
       description: "Description"
-      management: "Class Management"
+      management: "CI Class"
       name: "Name"
       pClassName: "Parent Class"
       searchPlaceholder: "Class Name / Description"
@@ -399,7 +405,7 @@ cmdb:
       class: "Class"
       description: "Description"
       icon: "Icon"
-      management: "Type Management"
+      management: "CI Type"
       name: "Type Name"
       parentType: "Parent Type"
       searchPlaceholder: "Type"
@@ -953,11 +959,11 @@ notice:
     height: "Height"
     notice: "Notice"
     noticePeriod: "Notice Period"
-    popUp:  "PopUp"
+    popUp: "PopUp"
     popUpNoticeSettings: "PopUp Notice Settings"
     popUpPeriod: "PopUp Period"
     popUpPeriodToday: "Do not open this popup today"
-    register : "Notice Register"
+    register: "Notice Register"
     searchPlaceholder: "Title / User"
     startDateTime: "Start Date"
     topNoticeSettings: "Top Notice Settings"
@@ -1135,6 +1141,8 @@ report:
     templateRegister: "Template Register"
   msg:
     configDescription: "Set up templates using custom charts."
+    createFail: "Failed to generate report"
+    createSucess: "Report has been generated."
     duplicateChart: "Duplicate chart exists."
     editDescription: "Register, modify, or delete templates."
     emptyChart: "Chart does not exist."
@@ -1201,8 +1209,8 @@ scheduler:
     scheduleDescription: "Check the schedule details and history."
     searchDescription: "Register and manage repetitive tasks."
     useSchedule: "Schedule in use."
-    cronValue : "Cron can be entered up to 6 fields."
-    cronError : "Enter the correct Cron expression."
+    cronValue: "Cron can be entered up to 6 fields."
+    cronError: "Enter the correct Cron expression."
     jarNotExist: "JAR file does not exist."
     classNotExist: "ClASS file does not exist."
   status:
@@ -1245,7 +1253,7 @@ token:
     tagPlaceHolder: "#Tags"
     view: "Document View"
     write: "My Document"
-    process : "Process"
+    process: "Process"
   msg:
     selectToken: "Check the related documents to be added."
     searchDescription: "View and search documents relating to me."
@@ -1261,6 +1269,16 @@ token:
     cancel: "cancel"
     terminate: "terminate"
     finish: "finish"
+  excel:
+    docNo: "Document No"
+    name: "Document Name"
+    desc: "Document Desc"
+    status: "Document Status"
+    type: "Document Type"
+    createDt: "Document Create Date"
+    endDt: "Document End Data"
+    createUser: "Document Create User"
+    application-form: "application Form"
 
 # WorkflowAdmin
 workflowAdmin:
@@ -1274,6 +1292,7 @@ workflowAdmin:
 # User
 user:
   btn:
+    immediately: "Immediately Execute"
     nextTime: "Change after {0} days"
     resetPassword: "RESET PASSWORD"
     updatePassword: "Change Password"
@@ -1284,6 +1303,7 @@ user:
     editUserInfo: "Edit User Information"
     edit: "User Edit"
     email: "Email"
+    executeCurrentAbsence: "Current Document Absence"
     FileExtensionAllowed: "※ File Extension Allowed : 200KB"
     FileSizeLimit: "※ File Size Limit : 200KB"
     id: "User ID"
@@ -1302,6 +1322,7 @@ user:
     role: "User Role"
     searchPlaceholder: "ID/Name/Dept/Position/Number"
     signUpDate: "SignUp Date"
+    substituteUser: "Substitute User"
     theme: "Theme"
     time: "Time Format"
     timeFormat: "Date/Time Format"
@@ -1309,16 +1330,26 @@ user:
     updatePasswordNotice: "Password change guide"
     usageStatus: "Usage Status"
     user: "User"
+    userAbsence: "User Absence Setting"
+  status:
+    true: "use"
+    false: "unused"
   msg:
+    changeAsSubstituteUser: "Document has been assigned"
+    compareWithAbsenceDtValue: "Absence start date is greater than or equal to end date."
+    confirmWIPToSubstituteUser: "Do you want to assign ongoing documents to your representative?"
     createUser: "User is registered."
     customColorSave: "Your color has not been saved yet.<br/>Your color will be reset."
     editDescription: "Register users or modify user information."
     editSelfDescription: "Edit your personal information."
     emailAlert: "When you change your email, you need to verify."
     emailWithUpdate: "Member information, including email information, has been modified."
+    enterAbsenceStartDt: "Please enter absence start date."
+    enterAbsenceEndDt: "Please enter absence end date."
     enterNowUserPassword: "Please enter your current password."
     enterNewUserPassword: "Please enter your new password."
     enterNewUserRePassword: "Please enter your new Password Confirm."
+    enterSubstituteUser: "please select your substitute User."
     enterUserEmail: "Please enter your Email."
     enterUserId: "Please enter your UserId."
     enterUserName: "Please enter your UserName."
@@ -1337,6 +1368,7 @@ user:
     signUpFail: "Sign up failed."
     updatePasswordNotice: "Recommend changing your password every {0} days for personal information protection and safe system use. Change your password."
     usageStatus: "※ If not using it, you won't be able to log in and use all systems."
+    userAbsence: "※ When absent, the period of absence and the substitute must be set."
   tooltip:
     idRule: "※ Letters, numbers, and special characters (@, -, _) can be used.<br/>
     ※ Special characters can not be allowed to come to the front.<br/>
@@ -1382,6 +1414,7 @@ validation:
     specialChar: "Please enter only special characters."
     unacceptableCharacters: "Contains special characters (/ \ % ;) that are not allowed."
     checkPhoneNumberFormat: "Please include (-) according to the phone number format."
+    checkPhoneNumberOrExtentionNumberFormat: "Please Extension format (4 digits) or<br>include (-) according to the phone number format."
 
 # Project
 project:

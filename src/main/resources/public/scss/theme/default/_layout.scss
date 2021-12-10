@@ -65,6 +65,18 @@
         }
       }
 
+      .z-page-token-search {
+        display: flex;
+        flex-direction: row;
+        padding: 0 0 1.25rem 3.75rem; // 0 0 20px 60px
+        .z-search-count {
+          font-family: $layout-header-search-font-family;
+          font-weight: $layout-header-search-font-weight;
+          font-size: 0.875rem;
+          color: $layout-header-search-color;
+        }
+      }
+
       // commonSearchTemplate
       @include commonSearchTemplate();
 
@@ -419,8 +431,12 @@
 }
 
 .z-chart-content-view {
-  width: 100%;
-  height: 25rem; // 400px
+  .z-chart-content-title {
+    font-family: $chart-title-font-family;
+    font-size: $chart-title-font-size;
+    color: $chart-title-font-color;
+    font-weight: $chart-title-font-weight;
+  }
 }
 
 // 공지사항 상단 공지

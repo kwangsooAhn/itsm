@@ -14,6 +14,7 @@ import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.user.dto.UserCustomDto
+import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.dto.UserUpdatePasswordDto
@@ -25,6 +26,7 @@ import javax.validation.Valid
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -119,6 +121,14 @@ class UserRestController(
     }
 
     /**
+     * 사용자의 처리할 문서를 위임자로 변경
+     */
+    @PostMapping("/absence")
+    fun executeUserProcessingDocumentAbsence(@RequestBody absenceInfo: String): Boolean {
+        return userService.executeUserProcessingDocumentAbsence(absenceInfo)
+    }
+
+    /**
      * 전체 사용자 목록 조회.
      */
     @GetMapping("/all")
@@ -155,8 +165,17 @@ class UserRestController(
     private fun updatePassword(@RequestBody userUpdatePasswordDto: UserUpdatePasswordDto): Long {
         return userService.updatePassword(userUpdatePasswordDto)
     }
+
     @PutMapping("/nextTime")
     private fun extendExpiryDate(@RequestBody userUpdatePasswordDto: UserUpdatePasswordDto): Long {
         return userService.extendExpiryDate(userUpdatePasswordDto)
+    }
+
+    /**
+     * 사용자 목록 Excel 다운로드
+     */
+    @GetMapping("/excel")
+    fun getUsersExcelDownload(userSearchCondition: UserSearchCondition): ResponseEntity<ByteArray> {
+        return userService.getUsersExcelDownload(userSearchCondition)
     }
 }

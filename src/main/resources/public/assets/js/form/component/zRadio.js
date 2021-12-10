@@ -63,6 +63,20 @@ export const radioMixin = {
                 this.UIElement.UIComponent.UIElement['UILabel' + i].addUIClass('readonly');
                 this.UIElement.UIComponent.UIElement['UILabel' + i].UIRadio.addUIClass('readonly');
             }
+            // 필수값 표시가 된 대상에 대해 Required off 처리한다.
+            this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+        }
+
+        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+            this.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
+            this.value === '') {
+            for (let i = 0; i < this.element.options.length; i++) {
+                let checkedYn = (this.element.options[i].checked || false);
+                if (checkedYn) {
+                    this.value = this.element.options[i].value;
+                }
+            }
         }
     },
     set element(element) {
@@ -188,7 +202,8 @@ export const radioMixin = {
                     {'name': 'i-display-position-left', 'value': 'left'},
                     {'name': 'i-display-position-right', 'value': 'right'},
                 ]))
-                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, false)),
+                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, false)
+                    .setValidation(true,'','','','','')),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];

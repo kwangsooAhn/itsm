@@ -5,6 +5,7 @@
 
 package co.brainz.workflow.engine.manager
 
+import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
@@ -120,10 +121,10 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
                 this.setAssignee(token)
             }
-            /*
+
             WfTokenConstants.AssigneeType.USERS.code,
             WfTokenConstants.AssigneeType.GROUPS.code -> {}
-            */
+
             else -> {
                 token.assigneeId = this.assigneeId
                 wfTokenManagerService.saveToken(token)
@@ -206,7 +207,33 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
                 componentValueType
             )
         }
+
+        // 위임자 설정 체크
+        assignee = this.getAssigneeAbsence(assignee)
+
         return assignee
+    }
+
+    /**
+     * Change assignee to absence.
+     */
+    private fun getAssigneeAbsence(assignee: String): String {
+        var assigneeAbsence = assignee
+        if (assignee.isNotEmpty()) {
+            val userEntity = wfTokenManagerService.getUserInfo(assignee)
+            if (userEntity.absenceYn) {
+                userEntity.userCustomEntities.forEach { custom ->
+                    if (custom.customType == UserConstants.UserCustom.USER_ABSENCE.code) {
+                        val absenceInfo = wfTokenManagerService.getAbsenceInfo(custom)
+                        val now = LocalDateTime.now()
+                        if (absenceInfo.startDt!! <= now && absenceInfo.endDt!! >= now) {
+                            assigneeAbsence = absenceInfo.substituteUserKey!!
+                        }
+                    }
+                }
+            }
+        }
+        return assigneeAbsence
     }
 
     /**

@@ -61,6 +61,7 @@ insert into awf_code_lang values ('form.template.serviceDesk.request.category.et
 /* 차트 */
 insert into awf_code_lang values ('chart.operation.percent', 'percent', 'en');
 insert into awf_code_lang values ('chart.operation.count', 'count', 'en');
+insert into awf_code_lang values ('chart.operation.average', 'average', 'en');
 insert into awf_code_lang values ('chart.unit.year', 'year', 'en');
 insert into awf_code_lang values ('chart.unit.month', 'month', 'en');
 insert into awf_code_lang values ('chart.unit.hour', 'hour', 'en');
@@ -69,8 +70,7 @@ insert into awf_code_lang values ('chart.type.basicLine', 'Basic Line Chart', 'e
 insert into awf_code_lang values ('chart.type.pie', 'Pie Chart', 'en');
 insert into awf_code_lang values ('chart.type.stackedColumn', 'Stacked Column Chart', 'en');
 insert into awf_code_lang values ('chart.type.stackedBar', 'Stacked Bar Chart', 'en');
-insert into awf_code_lang values ('chart.type.lineAndColumn', 'Line and Column Chart', 'en');
-insert into awf_code_lang values ('chart.type.activityGauge', 'Activity Gauge Chart', 'en');
+insert into awf_code_lang values ('chart.type.gauge', 'Gauge Chart', 'en');
 /* 자료실 */
 insert into awf_code_lang values ('download.category.companyPolicy', 'Company Policy', 'en');
 insert into awf_code_lang values ('download.category.etc', 'Etc', 'en');

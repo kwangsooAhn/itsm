@@ -11,7 +11,7 @@
     <h1 th:text="#{token.label.list}"></h1>
     <h6 class="description ml-2 pl-2" th:text="#{token.msg.searchDescription}"></h6>
 </div>
-<div layout:fragment="pageSearching">
+<div layout:fragment="pageSearching" class="z-page-token-search">
     <form id="frmSearch">
         <select class="col-3" name="searchTokenType" id="searchTokenType">
             <option value="token.type.todo" th:text="#{token.type.todo}" selected></option>
@@ -29,9 +29,13 @@
         <input type="text" class="z-input i-date-picker search-date col-3" id="searchFromDt" name="searchFromDt"/>
         <input type="text" class="z-input i-date-picker search-date col-3" id="toDt" name="toDt"/>
         <input type="hidden" class="search-date col-2" id="searchToDt" name="searchToDt" readonly="readonly"/>
-        <input  type="text" class="z-input i-search col-3 mr-2" id="searchTag" name="searchTag"
-                maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
+        <input type="text" class="z-input i-search col-3 mr-2" id="searchTag" name="searchTag"
+               maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
         <span id="spanTotalCount" class="z-search-count"></span>
+        <button type="button" class="z-button secondary" id="btnExcelDownload" name="btnExcelDownload"
+                sec:authorize="hasAuthority('token.create')" th:text="#{common.btn.export}"
+                th:onclick="|javascript:onExcelDownload()|">
+        </button>
     </form>
 </div>
 <div layout:fragment="pageSearchResult">
@@ -62,7 +66,9 @@
             element.addEventListener('change', () => tokenSearch(false), false);
         });
 
-        document.getElementById('searchValue').addEventListener('keyup', () => {tokenSearch(false);}, false);
+        document.getElementById('searchValue').addEventListener('keyup', () => {
+            tokenSearch(false);
+        }, false);
 
         new zTag(document.getElementById('searchTag'), {
             suggestion: true,
@@ -133,6 +139,7 @@
                     }
                     let tempDiv = document.createElement('div');
                     tempDiv.innerHTML = response.responseText;
+                    console.log(tempDiv)
                     setDateTimeFormat(tempDiv);
                     tempDiv.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
                         new zTag(tagInput, {
@@ -195,6 +202,15 @@
             popUpUrl = '/tokens/' + tokenId + '/view'
         }
         window.open(popUpUrl, 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
+    }
+
+    function onExcelDownload() {
+        document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
+        const search = aliceJs.serialize(document.getElementById('frmSearch'));
+        aliceJs.fetchDownload({
+            url: '/rest/tokens/excel?' + search,
+            fileName: i18n.msg('token.label.list') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
+        });
     }
 
     /* ]]> */

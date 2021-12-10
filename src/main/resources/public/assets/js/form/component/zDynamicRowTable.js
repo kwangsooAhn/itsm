@@ -37,6 +37,11 @@ const DEFAULT_COMPONENT_PROPERTY = {
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
+/**
+ * 불필요한 key Event를 막기 위한 ascii key code
+ */
+const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, ,92, 93,
+    112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 144, 145];
 
 export const dynamicRowTableMixin = {
 
@@ -104,6 +109,9 @@ export const dynamicRowTableMixin = {
                     }
                 }
             }
+            // 필수값 표시가 된 대상에 대해 Required off 처리한다.
+            this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
         }
     },
     // set, get
@@ -205,13 +213,20 @@ export const dynamicRowTableMixin = {
         }
         // value가 문자일 경우 배열로 변환
         if (zValidation.isEmpty(this._value)) { this.value = []; }
-
         // row 추가
         const row = new UIRow(targetTable).setUIClass('z-dr-table-row');
         // td 추가
         const columnData = [];
         this.elementColumns.forEach((column, index) => {
-            columnData.push(zValidation.isEmpty(data[index]) ? '${default}' : data[index]);
+            if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+                this.displayType !== FORM.DISPLAY_TYPE.HIDDEN) {
+                if (zValidation.isEmpty(data[index])) {
+                    let defaultValue = this.setDefaultValue(column);
+                    columnData.push(defaultValue);
+                } else {
+                    columnData.push(data[index]);
+                }
+            }
             const tdWidth = (Number(column.columnWidth) / FORM.COLUMN) * 100;
             const tdCssText = `width:${tdWidth}%;` +
                 `color:${column.columnContent.fontColor};` +
@@ -511,6 +526,9 @@ export const dynamicRowTableMixin = {
         // enter, tab 입력시
         if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
             return false;
+        // 입력을 무시할 key event 일 경우
+        } else if (e.type === 'keyup' && (IGNORE_EVENT_KEYCODE.indexOf(e.keyCode) > -1)) {
+            return true;
         }
         // 유효성 검증
         // keyup 일 경우 type, min, max 체크
@@ -579,5 +597,40 @@ export const dynamicRowTableMixin = {
             }
         }
         return true;
+    },
+    // 컴포넌트별 기본값 세팅
+    setDefaultValue(column) {
+        let defaultValue = '${default}';
+        switch (column.columnType) {
+            case "input":
+                defaultValue = column.columnElement.defaultValueSelect.split('|');
+                if (defaultValue[0] === 'input') {
+                    defaultValue = defaultValue[1];
+                } else {
+                    defaultValue = ZSession.get(defaultValue[1]) || '';
+                }
+                break;
+            case "dropdown":
+                for (let i = 0; i < column.columnElement.options.length; i++) {
+                    let checkedYn = column.columnElement.options[i].checked || false;
+                    if (checkedYn) {
+                        defaultValue = column.columnElement.options[i].value;
+                    }
+                    defaultValue = defaultValue === '${default}' ? '' : defaultValue;
+                }
+                break;
+            case "time":
+                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForTime(column, defaultValue));
+                break;
+            case "date":
+                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDate(column, defaultValue));
+                break;
+            case "dateTime":
+                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
+                break;
+            default:
+                break;
+        }
+        return defaultValue;
     }
 };

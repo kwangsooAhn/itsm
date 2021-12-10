@@ -24,6 +24,7 @@ import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceExcelDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
@@ -118,6 +119,16 @@ class WfInstanceService(
             tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
         }
 
+        //tags
+        val instanceIds = mutableSetOf<String>()
+        queryResults.results.forEach {
+            instanceIds.add(it.instanceEntity.instanceId)
+        }
+        val tagList = aliceTagService.getTagsByTargetIds(
+            AliceTagConstants.TagType.INSTANCE.code,
+            instanceIds
+        )
+
         for (instance in queryResults.results) {
             val topics = mutableListOf<String>()
             val topicComponentIds = mutableListOf<String>()
@@ -136,33 +147,34 @@ class WfInstanceService(
                 userDetailsService.makeAvatarPath(it)
             }
 
-            // Tag
-            val tagDataList = aliceTagService.getTagsByTargetId(
-                AliceTagConstants.TagType.INSTANCE.code,
-                instance.instanceEntity.instanceId
+            val restTemplateInstanceViewDto = RestTemplateInstanceViewDto(
+                tokenId = instance.tokenEntity.tokenId,
+                elementName = instance.tokenEntity.element.elementName,
+                instanceId = instance.instanceEntity.instanceId,
+                documentName = instance.documentEntity.documentName,
+                documentDesc = instance.documentEntity.documentDesc,
+                documentStatus = instance.documentEntity.documentStatus,
+                topics = topics,
+                createDt = instance.instanceEntity.instanceStartDt,
+                assigneeUserKey = instance.tokenEntity.assigneeId,
+                assigneeUserName = "",
+                createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
+                createUserName = instance.instanceEntity.instanceCreateUser?.userName,
+                documentId = instance.documentEntity.documentId,
+                documentNo = instance.instanceEntity.documentNo,
+                documentColor = instance.documentEntity.documentColor,
+                avatarPath = avatarPath
             )
 
-            tokens.add(
-                RestTemplateInstanceViewDto(
-                    tokenId = instance.tokenEntity.tokenId,
-                    elementName = instance.tokenEntity.element.elementName,
-                    instanceId = instance.instanceEntity.instanceId,
-                    documentName = instance.documentEntity.documentName,
-                    documentDesc = instance.documentEntity.documentDesc,
-                    documentStatus = instance.documentEntity.documentStatus,
-                    topics = topics,
-                    tags = tagDataList,
-                    createDt = instance.instanceEntity.instanceStartDt,
-                    assigneeUserKey = instance.tokenEntity.assigneeId,
-                    assigneeUserName = "",
-                    createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
-                    createUserName = instance.instanceEntity.instanceCreateUser?.userName,
-                    documentId = instance.documentEntity.documentId,
-                    documentNo = instance.instanceEntity.documentNo,
-                    documentColor = instance.documentEntity.documentColor,
-                    avatarPath = avatarPath
-                )
-            )
+            val tagDataList = mutableListOf<AliceTagDto>()
+            tagList.forEach { tagData ->
+                if (tagData.targetId == instance.instanceEntity.instanceId) {
+                    tagDataList.add(tagData)
+                }
+            }
+            restTemplateInstanceViewDto.tags = tagDataList
+
+            tokens.add(restTemplateInstanceViewDto)
         }
 
         return RestTemplateInstanceListReturnDto(
@@ -318,5 +330,51 @@ class WfInstanceService(
      */
     fun getAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto> {
         return wfInstanceRepository.findAllInstanceListAndSearch(instanceId, searchValue)
+    }
+
+    fun instancesForExcel(tokenSearchCondition: TokenSearchCondition): MutableList<RestTemplateInstanceExcelDto> {
+        val queryResults = when (tokenSearchCondition.searchTokenType) {
+            WfTokenConstants.SearchType.REQUESTED.code -> {
+                requestedInstances(
+                    tokenSearchCondition
+                )
+            }
+            WfTokenConstants.SearchType.PROGRESS.code -> {
+                relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
+                    tokenSearchCondition
+                )
+            }
+            WfTokenConstants.SearchType.COMPLETED.code -> {
+                relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
+                    tokenSearchCondition
+                )
+            }
+            else -> {
+                todoInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
+                    WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
+                    tokenSearchCondition
+                )
+            }
+        }
+        val tokensForExcel = mutableListOf<RestTemplateInstanceExcelDto>()
+
+        for (instance in queryResults.results) {
+            val restTemplateInstanceExcelDto = RestTemplateInstanceExcelDto(
+                instanceStartDt = instance.instanceEntity.instanceStartDt!!,
+                instanceEndDt = instance.instanceEntity.instanceEndDt,
+                instanceCreateUser = instance.instanceEntity.instanceCreateUser!!.userName,
+                documentName = instance.documentEntity.documentName,
+                documentDesc = instance.documentEntity.documentDesc,
+                documentStatus = instance.documentEntity.documentStatus,
+                documentNo = instance.instanceEntity.documentNo,
+                documentType = instance.documentEntity.documentType
+            )
+            tokensForExcel.add(restTemplateInstanceExcelDto)
+        }
+
+        return tokensForExcel
     }
 }

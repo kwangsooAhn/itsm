@@ -39,5 +39,6 @@ data class AliceUserAuthDto(
     var avatarValue: String? = "",
     var uploaded: Boolean = false,
     var uploadedLocation: String = "",
-    var avatarPath: String? = ""
+    var avatarPath: String? = "",
+    var absenceYn: Boolean = false
 ) : Serializable

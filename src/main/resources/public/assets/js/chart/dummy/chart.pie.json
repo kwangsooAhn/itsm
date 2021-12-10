@@ -1,0 +1,42 @@
+{
+  "chartId": "4028b22f7c2fefef017c30054c900002",
+  "chartName": "년간 단순문의 만족도 평가 건수",
+  "chartType": "chart.pie",
+  "chartDesc": "년간 단순문의 만족도 평가 건수 차트",
+  "tags": [
+    { "tagId": "2c9180867cc31a25017cc7a68eec0518", "value": "장애신고" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0519", "value": "구성관리" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0517", "value": "단순문의" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0511", "value": "서비스요청" }
+  ],
+  "chartConfig": {
+    "operation": "count",
+    "periodUnit": "Y",
+    "range": {
+      "type": "chart.range.between",
+      "from": "2020-12-31T15:00:00.000Z",
+      "to": "2021-12-31T14:59:59.000Z"
+    }
+  },
+  "chartData": [{
+    "id": "2c9180867cc31a25017cc7a68eec0517",
+    "category": "단순문의",
+    "value": "34",
+    "series": ""
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0518",
+    "category": "장애신고",
+    "value": "50",
+    "series": ""
+  }, {
+    "id": "2c9180867cc31a25017cc7a68eec0519",
+    "category": "구성관리",
+    "value": "57",
+    "series": ""
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "서비스요청",
+    "value": "65",
+    "series": ""
+  }]
+}

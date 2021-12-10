@@ -26,7 +26,7 @@
         <div class="z-edit-row flex-column">
             <label th:text="#{role.label.desc}"></label>
             <textarea class="z-textarea textarea-scroll-wrapper" id="txtRoleDesc" maxlength="200" name="txtRoleDesc"
-                      rows="7" th:readonly="${view}" th:text="${role?.roleDesc}"></textarea>
+                      rows="7" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'" th:text="${role?.roleDesc}"></textarea>
         </div>
         <div class="z-edit-row flex-column">
             <div class="flex-row">
@@ -150,6 +150,7 @@
                             inheritedAttrs: "class"
                         }
                     });
+
                     document.getElementById('spanCreateDt').value = i18n.userDateTime(document.getElementById('spanCreateDt').value)
                     document.getElementById('spanUpdateDt').value = i18n.userDateTime(document.getElementById('spanUpdateDt').value)
                 },

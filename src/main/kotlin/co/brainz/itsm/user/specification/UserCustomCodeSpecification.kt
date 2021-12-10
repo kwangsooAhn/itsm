@@ -1,6 +1,7 @@
 package co.brainz.itsm.user.specification
 
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.customCode.dto.CustomCodeConditionDto
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
@@ -21,6 +22,12 @@ class UserCustomCodeSpecification(private val condition: Array<CustomCodeConditi
     ): Predicate? {
         if (condition == null) return null
         val predicate = mutableListOf<Predicate>()
+        predicate.add(
+            criteriaBuilder.notEqual(
+                root.get<String>("userId"),
+                AliceUserConstants.CREATE_USER_ID
+            )
+        )
         condition.forEach {
             if (it.conditionOperator == "equal") {
                 predicate.add(

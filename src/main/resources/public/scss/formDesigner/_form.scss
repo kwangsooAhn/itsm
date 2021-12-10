@@ -240,7 +240,7 @@
       &[src=''] {
         display: none;
         + .z-imagebox-placeholder {
-          display: block;
+          display: grid;
         }
       }
     }

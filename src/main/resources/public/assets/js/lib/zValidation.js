@@ -24,6 +24,8 @@ class ZValidation {
             blank: /^\s*$/,
             rgb: /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/,
             phone: /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/,
+            extensionNumber: /^[0-9]{4}$/,
+            dateTime: /^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)\:(\d+)$/
         }, options.regex);
 
         this.errorClassName = 'error';
@@ -454,10 +456,10 @@ class ZValidation {
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
-            rtn = this.regex.phone.test(this.getDOMElementValue(target));
-            this.setDOMElementError(rtn, target, i18n.msg('validation.msg.checkPhoneNumberFormat'), callback);
+            rtn = this.regex.phone.test(this.getDOMElementValue(target)) || this.regex.extensionNumber.test(this.getDOMElementValue(target));
+            this.setDOMElementError(rtn, target, i18n.msg('validation.msg.checkPhoneNumberOrExtentionNumberFormat'), callback);
         } else { // 변수이면 true인지 false인지만 반환
-            rtn = (typeof target === 'string' && this.regex.phone.test(target));
+            rtn = (typeof target === 'string' && (this.regex.phone.test(target) || this.regex.extensionNumber.test(this.getDOMElementValue(target))));
         }
         return rtn;
     }
@@ -485,15 +487,6 @@ class ZValidation {
             rtn = this.emit('max', target, target.getAttribute('data-validation-max'));
         }
 
-        if (rtn && target.hasAttribute('data-validation-min-length') &&
-            target.getAttribute('data-validation-min-length') !== '') {
-            rtn = this.emit('minLength', target, target.getAttribute('data-validation-min-length'));
-        }
-
-        if (rtn && target.hasAttribute('data-validation-max-length') &&
-            target.getAttribute('data-validation-max-length') !== '') {
-            rtn = this.emit('maxLength', target, target.getAttribute('data-validation-max-length'));
-        }
         return rtn;
     }
     /**
@@ -513,6 +506,14 @@ class ZValidation {
         if (target.hasAttribute('data-validation-required') &&
             target.getAttribute('data-validation-required') !== 'false') {
             rtn = this.emit('required', target);
+        }
+        if (rtn && target.hasAttribute('data-validation-min-length') &&
+            target.getAttribute('data-validation-min-length') !== '') {
+            rtn = this.emit('minLength', target, target.getAttribute('data-validation-min-length'));
+        }
+        if (rtn && target.hasAttribute('data-validation-max-length') &&
+            target.getAttribute('data-validation-max-length') !== '') {
+            rtn = this.emit('maxLength', target, target.getAttribute('data-validation-max-length'));
         }
         return rtn;
     }

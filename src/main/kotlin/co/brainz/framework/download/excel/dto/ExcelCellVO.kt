@@ -8,5 +8,6 @@ package co.brainz.framework.download.excel.dto
 import java.io.Serializable
 
 data class ExcelCellVO(
-    val value: Any? = null
+    val value: Any? = null,
+    val cellWidth: Int = 3000
 ) : Serializable

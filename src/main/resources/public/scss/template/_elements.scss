@@ -278,6 +278,7 @@ input, textarea, select {
     @include border($element-readonly-border-width, solid, $element-readonly-border-color, bottom);
     @include borderRadius(0);
     cursor: default;
+    width: 100%;
 
     &:hover,
     &:focus {
@@ -309,6 +310,7 @@ input, textarea, select {
     input { width: 100%; }
 
     .z-icon {
+      -webkit-print-color-adjust:exact;
       &.i-clear {
         @include absolute($right: $input-clear-right);
         padding: 1.125rem 0.875rem; // 18px 14px
@@ -432,8 +434,8 @@ input, textarea, select {
 
   &:read-only:not(:disabled):not(.os-host-textarea) {
     background-color: $element-readonly-bg-color;
-    border: none;
-    @include border($element-readonly-border-width, solid, $element-readonly-border-color, all);
+    border: none !important;
+    @include border($element-readonly-border-width, solid, $element-readonly-border-color !important, left);
     @include borderRadius(0);
     cursor: default;
     resize: none;
@@ -459,6 +461,12 @@ input, textarea, select {
 
   &.success {
     @include border($validation-success-border-width, solid, $validation-success-border-color !important, all);
+  }
+}
+// os-div 작업
+div.z-textarea {
+  &-readonly {
+    border-color: transparent !important;
   }
 }
 
@@ -779,6 +787,7 @@ select {
     text-align: center;
     margin-left: 2%;
     &:read-only:not(:disabled) {
+      width: 23%;
       @include border($element-border-width, solid, $element-border-color, all);
       @include borderRadius(0.125rem); // 2px
     }

@@ -67,6 +67,11 @@ export const textAreaMixin = {
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UITextArea.setUIReadOnly(true);
+            this.UIElement.UIComponent.UIElement.UITextArea.addUIClass('z-textarea-readonly');
+            // 필수값 표시가 된 대상에 대해 Required off 처리한다.
+            this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+
         }
         // 스크롤바 추가
         OverlayScrollbars(this.UIElement.UIComponent.UIElement.UITextArea.domElement, {

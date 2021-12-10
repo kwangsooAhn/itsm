@@ -6,8 +6,9 @@
 
 package co.brainz.itsm.chart.service.impl
 
-import co.brainz.itsm.chart.constants.ChartConstants
-import co.brainz.itsm.chart.dto.ChartDto
+import co.brainz.itsm.chart.dto.ChartConfig
+import co.brainz.itsm.chart.dto.ChartData
+import co.brainz.itsm.chart.dto.ChartTagInstanceDto
 import co.brainz.itsm.chart.service.ChartManager
 import co.brainz.itsm.chart.service.ChartManagerService
 import org.slf4j.Logger
@@ -17,20 +18,21 @@ import org.springframework.stereotype.Component
 @Component
 class BasicLine(
     chartManagerService: ChartManagerService
-) : ChartManager(chartManagerService) {
+) : ChartManager(
+    chartManagerService
+) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun setChartConfigDetail(chartDto: ChartDto): LinkedHashMap<String, Any?> {
-        val chartMap = LinkedHashMap<String, Any?>()
-        chartMap[ChartConstants.ObjProperty.PERIOD_UNIT.property] = chartDto.chartConfig.periodUnit
-        chartMap[ChartConstants.ObjProperty.GROUP.property] = chartDto.chartConfig.group
-        return chartMap
+    override fun average(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<ChartTagInstanceDto>): List<ChartData> {
+        return super.valueOfAverage(chartConfig, category, tagInstance)
     }
 
-    override fun setChartDetail(chartDto: ChartDto): ChartDto {
-        chartDto.chartConfig.periodUnit = super.chartConfig.periodUnit
-        chartDto.chartConfig.group = super.chartConfig.group
-        return chartDto
+    override fun percent(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<ChartTagInstanceDto>): List<ChartData> {
+        return super.valueOfPercent(chartConfig, category, tagInstance)
+    }
+
+    override fun count(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstances: List<ChartTagInstanceDto>): List<ChartData> {
+        return super.valueOfCount(chartConfig, category, tagInstances)
     }
 }

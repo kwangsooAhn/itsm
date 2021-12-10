@@ -43,6 +43,11 @@ const DEFAULT_COMPONENT_PROPERTY = {
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
+/**
+ * 불필요한 key Event를 막기 위한 ascii key code
+ */
+const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, ,92, 93,
+    112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 144, 145];
 
 export const inputBoxMixin = {
 
@@ -75,6 +80,9 @@ export const inputBoxMixin = {
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIInputbox.setUIReadOnly(true);
+            // 필수값 표시가 된 대상에 대해 Required off 처리한다.
+            this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
         }
         // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
         // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
@@ -182,6 +190,9 @@ export const inputBoxMixin = {
         // enter, tab 입력시
         if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
             return false;
+        // 입력을 무시할 key event 일 경우
+        } else if (e.type === 'keyup' && (IGNORE_EVENT_KEYCODE.indexOf(e.keyCode) > -1)) {
+            return true;
         }
         // 유효성 검증
         // keyup 일 경우 type, min, max 체크

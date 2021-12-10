@@ -7,6 +7,8 @@ package co.brainz.workflow.engine.manager.service
 
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDto
+import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
@@ -18,6 +20,8 @@ import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
+import co.brainz.itsm.user.dto.UserAbsenceDto
+import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentRepository
@@ -59,6 +63,7 @@ class WfTokenManagerService(
     private val wfComponentRepository: WfComponentRepository,
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceFileService: AliceFileService,
+    private val aliceUserRepository: AliceUserRepository,
     private val aliceFileLocRepository: AliceFileLocRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val ciComponentDataRepository: CIComponentDataRepository,
@@ -98,7 +103,7 @@ class WfTokenManagerService(
     /**
      * Get component value(split[0]).
      */
-    fun getComponentValue(tokenId: String, mappingId: String, componentValueType: String): String {
+    fun getComponentValue(tokenId: String, mappingId: String, componentValueType: String?): String {
         return if (componentValueType == WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code) {
             wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenIdAndComponentComponentId(
                 tokenId,
@@ -194,6 +199,7 @@ class WfTokenManagerService(
      * Update CI.
      */
     fun updateCI(ci: CIDto): String {
+        ci.interlink = false
         val returnDto = ciService.updateCI(ci)
         return returnDto.code
     }
@@ -202,6 +208,7 @@ class WfTokenManagerService(
      * Delete CI.
      */
     fun deleteCI(ci: CIDto): String {
+        ci.interlink = false
         val returnDto = ciService.deleteCI(ci)
         return returnDto.code
     }
@@ -244,6 +251,20 @@ class WfTokenManagerService(
         val fileOwnMapEntity = AliceFileOwnMapEntity(aliceFileLocEntity.fileOwner!!, fileLocEntity)
         aliceFileOwnMapRepository.save(fileOwnMapEntity)
         return fileLocEntity
+    }
+
+    /**
+     * 사용자 정보 조회.
+     */
+    fun getUserInfo(assignee: String): AliceUserEntity {
+        return aliceUserRepository.findByUserKey(assignee)
+    }
+
+    /**
+     * 권한 위임 설정 정보 조회.
+     */
+    fun getAbsenceInfo(custom: UserCustomEntity): UserAbsenceDto {
+        return mapper.readValue(custom.customValue, UserAbsenceDto::class.java)
     }
 
     /**

@@ -145,10 +145,10 @@
       }
     }
   }
-  // 관련문서 모달
   // CMDB > Class > AttributeList 모달
+  // 사용자 정보 수정 > 업무 대리인 모달
   &.cmdb-class-attribute-modal,
-  &.token-list {
+  &.sub-user-modal {
     width: $token-list-modal-width;
     height: $token-list-modal-height;
 
@@ -156,10 +156,10 @@
       height: calc(#{$token-list-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
       padding: 0.625rem 1.25rem; // 10px 20px
 
-      // 관련문서 목록
       // CMDB > Class > AttributeList 목록
+      // 사용자 정보 수정 > 업무 대리인 목록
       .cmdb-class-attribute-list,
-      .related-instance-list {
+      .sub-user-list {
         margin-top: 0.9375rem; // 15px
         .table-set {
           margin-top: 1.875rem; // 30px

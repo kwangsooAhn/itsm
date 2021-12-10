@@ -32,6 +32,7 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
+import co.brainz.cmdb.dto.CIListExcelDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CIsDto
@@ -84,15 +85,13 @@ class CIService(
      */
     fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
         val cis = ciRepository.findCIList(ciSearchCondition)
-        val ciList = mutableListOf<CIListDto>()
+        val ciList = mutableListOf<CIsDto>()
         for (ci in cis.results) {
-            ciList.add(
-                this.makeCIListDto(ci)
-            )
+            ciList.add(ci)
         }
 
         return CIListReturnDto(
-            data = ciList,
+            data = this.getCIsListDto(ciList),
             paging = AlicePagingData(
                 totalCount = cis.total,
                 totalCountWithoutCondition = ciRepository.count(),
@@ -141,7 +140,7 @@ class CIService(
      */
     fun getCI(ciId: String): CIListDto {
         val ci = ciRepository.findCI(ciId)
-        return this.makeCIListDto(ci)
+        return this.getCIListDto(ci)
     }
 
     /**
@@ -287,15 +286,15 @@ class CIService(
         } else {
             // 변경전 데이터를 이력에 저장
             ciEntity.updateDt = LocalDateTime.now() // 반영일시
-            this.saveCIHistory(ciEntity)
+            this.saveCIHistory(ciEntity, ciDto.interlink)
 
             ciEntity.ciNo = ciDto.ciNo
-            ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
             ciDto.ciName.let { ciEntity.ciName = ciDto.ciName }
+            ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
             ciDto.ciStatus.let { ciEntity.ciStatus = ciDto.ciStatus }
             ciDto.ciIcon?.let { ciEntity.ciTypeEntity.typeIcon = ciDto.ciIcon }
             ciDto.ciDesc?.let { ciEntity.ciDesc = ciDto.ciDesc }
-            ciDto.interlink?.let { ciEntity.interlink = ciDto.interlink }
+            ciDto.interlink.let { ciEntity.interlink = ciDto.interlink }
             ciEntity.instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
         }
         ciEntity = ciRepository.save(ciEntity)
@@ -374,7 +373,7 @@ class CIService(
 
         // 삭제전 마지막 값을 이력에 저장
         ciEntity.updateDt = LocalDateTime.now() // 반영일시
-        this.saveCIHistory(ciEntity)
+        this.saveCIHistory(ciEntity, ciDto.interlink)
 
         ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
         ciEntity.ciStatus = RestTemplateConstants.CIStatus.STATUS_DELETE.code
@@ -404,7 +403,7 @@ class CIService(
     /**
      * CI 이력 저장.
      */
-    private fun saveCIHistory(ciEntity: CIEntity) {
+    private fun saveCIHistory(ciEntity: CIEntity, interlinkVal: Boolean) {
         var historySeq = 0
         val latelyHistory = ciHistoryRepository.findByLatelyHistory(ciEntity.ciId)
         if (latelyHistory != null) {
@@ -423,7 +422,7 @@ class CIService(
             ciIcon = ciEntity.ciTypeEntity.typeIcon,
             ciStatus = ciEntity.ciStatus,
             classId = ciEntity.ciTypeEntity.ciClass.classId,
-            interlink = ciEntity.interlink,
+            interlink = interlinkVal,
             instance = ciEntity.instance,
             applyDt = ciEntity.updateDt
         )
@@ -536,7 +535,7 @@ class CIService(
     /**
      * CI 조회 결과 DTO 변경
      */
-    private fun makeCIListDto(ci: CIsDto): CIListDto {
+    private fun getCIListDto(ci: CIsDto): CIListDto {
         val tagList = aliceTagRepository.findByTargetId(AliceTagConstants.TagType.CI.code, ci.ciId)
 
         return CIListDto(
@@ -561,6 +560,52 @@ class CIService(
     }
 
     /**
+     * CI 조회 결과 DTO 변경
+     */
+    private fun getCIsListDto(cis: MutableList<CIsDto>): List<CIListDto> {
+        val ciIds = mutableSetOf<String>()
+        val ciList = mutableListOf<CIListDto>()
+        cis.forEach {
+            ciIds.add(it.ciId)
+        }
+
+        val tagList = aliceTagRepository.findByTargetIds(AliceTagConstants.TagType.CI.code, ciIds)
+        cis.forEach { ci ->
+            val ciListDto = CIListDto(
+                ciId = ci.ciId,
+                ciNo = ci.ciNo,
+                ciName = ci.ciName,
+                ciStatus = ci.ciStatus,
+                typeId = ci.typeId,
+                typeName = ci.typeName,
+                classId = ci.classId,
+                className = ci.className,
+                ciIcon = ci.ciIcon,
+                ciIconData = ci.ciIcon?.let { ciTypeService.getCITypeImageData(it) },
+                ciDesc = ci.ciDesc,
+                interlink = ci.interlink,
+                ciTags = null,
+                createUserKey = ci.createUserKey,
+                createDt = ci.createDt,
+                updateUserKey = ci.updateUserKey,
+                updateDt = ci.updateDt
+            )
+
+            val tagDataList = mutableListOf<AliceTagDto>()
+            tagList.forEach { tagData ->
+                if (tagData.targetId == ci.ciId) {
+                    tagDataList.add(tagData)
+                }
+            }
+            ciListDto.ciTags = tagDataList
+
+            ciList.add(ciListDto)
+        }
+
+        return ciList.toList()
+    }
+
+    /**
      * CI 히스토리 조회
      */
     fun getHistory(ciId: String): List<CIHistoryDto> {
@@ -569,5 +614,36 @@ class CIService(
 
     fun getRelation(ciId: String): List<CIRelationDto> {
         return ciRelationRepository.selectByCiId(ciId)
+    }
+
+    fun getCIListForExcel(ciSearchCondition: CISearchCondition): MutableList<CIListExcelDto> {
+        val ciListExcelData = ciRepository.findCIListForExcel(ciSearchCondition)
+        val ciIds = mutableSetOf<String>()
+        val ciListForExcel = mutableListOf<CIListExcelDto>()
+        ciListExcelData.results.forEach {
+            ciIds.add(it.ciId)
+        }
+
+        val tagList = aliceTagRepository.findByTargetIds(AliceTagConstants.TagType.CI.code, ciIds)
+        ciListExcelData.results.forEach { ci ->
+            val ciListExcelDto = CIListExcelDto(
+                ciNo = ci.ciNo,
+                ciName = ci.ciName,
+                ciDesc = ci.ciDesc,
+                typeName = ci.typeName,
+                interlink = ci.interlink
+            )
+
+            val tagDataList = mutableListOf<AliceTagDto>()
+            tagList.forEach { tagData ->
+                if (tagData.targetId == ci.ciId) {
+                    tagDataList.add(tagData)
+                }
+            }
+            ciListExcelDto.ciTags = tagDataList
+            ciListForExcel.add(ciListExcelDto)
+        }
+
+        return ciListForExcel
     }
 }

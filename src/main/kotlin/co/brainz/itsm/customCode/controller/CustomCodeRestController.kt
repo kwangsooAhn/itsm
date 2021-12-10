@@ -6,10 +6,10 @@
 
 package co.brainz.itsm.customCode.controller
 
-import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
 import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
+import co.brainz.itsm.customCode.dto.CustomCodeTreeReturnDto
 import co.brainz.itsm.customCode.service.CustomCodeService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -37,7 +37,7 @@ class CustomCodeRestController(private val customCodeService: CustomCodeService)
      * 커스텀 코드 목록 조회.
      */
     @GetMapping("/{customCodeId}")
-    fun getCustomCodes(@PathVariable customCodeId: String): List<CustomCodeDataDto> {
+    fun getCustomCodes(@PathVariable customCodeId: String): CustomCodeTreeReturnDto {
         return customCodeService.getCustomCodeData(customCodeId)
     }
 

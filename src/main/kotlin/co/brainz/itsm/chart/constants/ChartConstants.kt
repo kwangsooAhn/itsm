@@ -33,9 +33,7 @@ object ChartConstants {
         OPERATION("operation"),
         DIGIT("digit"),
         UNIT("unit"),
-        RANGE("range"),
-        PERIOD_UNIT("periodUnit"),
-        GROUP("group")
+        RANGE("range")
     }
 
     /**
@@ -45,9 +43,7 @@ object ChartConstants {
         STACKED_COLUMN("chart.stackedColumn"),
         STACKED_BAR("chart.stackedBar"),
         BASIC_LINE("chart.basicLine"),
-        PIE("chart.pie"),
-        LINE_AND_COLUMN("chart.lineAndColumn"),
-        ACTIVITY_GAUGE("chart.activityGauge")
+        PIE("chart.pie")
     }
 
     /**
@@ -56,14 +52,14 @@ object ChartConstants {
     enum class Unit(val code: String) {
         YEAR("Y"),
         MONTH("M"),
-        DATE("D"),
+        DAY("D"),
         HOUR("H")
     }
 
     /**
      * chart range type
      */
-    enum class RangeType(val code: String) {
+    enum class Range(val code: String) {
         BETWEEN("chart.range.between"),
         LAST_MONTH("chart.range.last.month"),
         LAST_DAY("chart.range.last.day"),
@@ -75,6 +71,7 @@ object ChartConstants {
      */
     enum class Operation(val code: String) {
         PERCENT("percent"),
-        COUNT("count")
+        COUNT("count"),
+        AVERAGE("average")
     }
 }

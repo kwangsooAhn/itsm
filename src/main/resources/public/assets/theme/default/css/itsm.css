@@ -656,6 +656,7 @@ input, button, select, optgroup, textarea {
  */
 .z-icon {
   display: inline-block;
+  -webkit-print-color-adjust: exact;
 }
 .z-icon.i-search {
   width: 1.5rem;
@@ -1227,6 +1228,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   cursor: default;
+  width: 100%;
 }
 .z-input:read-only:not(:disabled):not(.tagify):hover, .z-input:read-only:not(:disabled):not(.tagify):focus {
   border-bottom: 0.0625rem solid #CFD5D9;
@@ -1253,6 +1255,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-input-clear input {
   width: 100%;
+}
+.z-input-clear .z-icon {
+  -webkit-print-color-adjust: exact;
 }
 .z-input-clear .z-icon.i-clear {
   position: absolute;
@@ -1372,8 +1377,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
   background-color: transparent;
-  border: none;
-  border: 0.0625rem solid #CFD5D9;
+  border: none !important;
+  border-left: 0.0625rem solid #CFD5D9 !important;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -1398,6 +1403,10 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea.success {
   border: 0.0625rem solid #76BD26 !important;
+}
+
+div.z-textarea-readonly {
+  border-color: transparent !important;
 }
 
 .z-switch {
@@ -1765,6 +1774,7 @@ select {
   margin-left: 2%;
 }
 .z-slider .z-input:read-only:not(:disabled) {
+  width: 23%;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -2836,6 +2846,17 @@ select {
   font-size: 0.875rem;
   color: #8B9094;
 }
+.z-itsm-container .z-main-content .z-page-token-search {
+  display: flex;
+  flex-direction: row;
+  padding: 0 0 1.25rem 3.75rem;
+}
+.z-itsm-container .z-main-content .z-page-token-search .z-search-count {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #8B9094;
+}
 .z-itsm-container .z-main-content .z-page-result {
   display: flex;
   flex-direction: column;
@@ -3493,9 +3514,11 @@ select {
   background-color: #FFFFFF;
 }
 
-.z-chart-content-view {
-  width: 100%;
-  height: 25rem;
+.z-chart-content-view .z-chart-content-title {
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1.125rem;
+  color: #222529;
+  font-weight: 700;
 }
 
 .notice-pinned {
@@ -6149,27 +6172,27 @@ body.modal-active {
   padding: 0 1.5rem 0.625rem 0;
   overflow: initial;
 }
-.modal-dialog.cmdb-class-attribute-modal, .modal-dialog.token-list {
+.modal-dialog.cmdb-class-attribute-modal, .modal-dialog.sub-user-modal {
   width: 62.5rem;
   height: 53.0625rem;
 }
-.modal-dialog.cmdb-class-attribute-modal .modal-content, .modal-dialog.token-list .modal-content {
+.modal-dialog.cmdb-class-attribute-modal .modal-content, .modal-dialog.sub-user-modal .modal-content {
   height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list,
-.modal-dialog.token-list .modal-content .related-instance-list {
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list {
   margin-top: 0.9375rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set,
-.modal-dialog.token-list .modal-content .related-instance-list .table-set {
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set {
   margin-top: 1.875rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set .z-table .z-table-body, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
-.modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body {
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set .z-table .z-table-body, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body {
   display: block;
   width: 60rem;
   height: 35.313rem;
@@ -6178,11 +6201,11 @@ body.modal-active {
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .instance-list,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set .z-table .z-table-body .attribute-list,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set .z-table .z-table-body .instance-list, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
-.modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .instance-list,
-.modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .attribute-list,
-.modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .instance-list {
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .instance-list, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .instance-list {
   display: flex;
   width: 100%;
   height: 2.188rem;
@@ -7413,7 +7436,7 @@ body.modal-active {
   -o-transition: 0.2s ease-out;
   -ms-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
-  opacity: 0;
+  opacity: 1;
   transform: none;
   width: auto;
 }
@@ -7439,7 +7462,7 @@ body.modal-active {
   -o-transition: 0.2s ease-out;
   -ms-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
-  opacity: 0;
+  opacity: 1;
   transform: none;
 }
 .tagify__input::before {

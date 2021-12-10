@@ -64,6 +64,22 @@ export const dropdownMixin = {
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIDropdown.addUIClass('readonly');
+            // 필수값 표시가 된 대상에 대해 Required off 처리한다.
+            this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+
+        }
+
+        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+            this.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
+            this.value === '') {
+            let checkedYn = false;
+            for (let i = 0; i < this.element.options.length; i++) {
+                checkedYn = this.element.options[i].checked || false;
+                if(checkedYn) {
+                    this.value = this.element.options[i].value;
+                }
+            }
         }
         // Designed Select Box
         aliceJs.initDesignedSelectTag();
@@ -128,7 +144,8 @@ export const dropdownMixin = {
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, false)),
+                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, false)
+                    .setValidation(true,'','','','','')),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];

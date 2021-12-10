@@ -127,6 +127,10 @@
       display: block;
       margin-left: 0.625rem; // 10px
       &.off { display: none; }
+      .z-input {
+        display: inline-block;
+        margin-left: 0;
+      }
     }
   }
   .picker-wrapper-date {
@@ -158,6 +162,15 @@
 
           &:not(:first-child) {
             margin-left: 0.3125rem; // 5px
+          }
+        }
+      }
+
+      .z-input-button {
+        width: 100%;
+        .z-icon {
+          &.i-clear {
+            right: 2.5rem;
           }
         }
       }

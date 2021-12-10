@@ -12,6 +12,7 @@ import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -99,7 +100,7 @@ class WfScriptTask(
             mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType)
         ciAttributes.forEach { attribute ->
             if (attribute["id"] != null && attribute["value"] != null) {
-                    // Group List 속성일 경우
+                // Group List 속성일 경우
                 val ciDataForGroupLists = mutableListOf<CIDataForGroupListDto>()
                 if (attribute["type"] == RestTemplateConstants.AttributeType.GROUP_LIST.code) {
                     val childAttributes: List<Map<String, Any>> =
@@ -175,47 +176,51 @@ class WfScriptTask(
         val ciDtoList = mutableListOf<CIDto>()
         ciList.forEach { ci ->
             if (ci["actionType"] as String == actionType) {
-                // wf_component_ci_data 에서 데이터 조회
                 val ciId = ci["ciId"] as String
                 val ciComponentData =
                     wfTokenManagerService.getComponentCIData(componentId, ciId, instanceId)
-                if (ciComponentData !== null) {
-                    val ciComponentDataValue: Map<String, Any> =
-                        mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
+                when (actionType) {
+                    CIConstants.ActionType.REGISTER.code, CIConstants.ActionType.MODIFY.code -> {
+                        if (ciComponentData !== null) {
+                            val ciComponentDataValue: Map<String, Any> =
+                                mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
 
-                    // CI에 속한 세부 정보 추출
-                    val ciDataList = this.getCiDataList(ciId, ciComponentDataValue)
-                    val ciTags = this.getCiTags(ciId, ciComponentDataValue)
-                    val ciRelations = this.getCiRelations(ciComponentDataValue)
+                            // CI에 속한 세부 정보 추출
+                            val ciDataList = this.getCiDataList(ciId, ciComponentDataValue)
+                            val ciTags = this.getCiTags(ciId, ciComponentDataValue)
+                            val ciRelations = this.getCiRelations(ciComponentDataValue)
 
-                    // Dto 생성후 List에 담기
-                    ciDtoList.add(
-                        CIDto(
-                            ciId = ciId,
-                            ciNo = ci["ciNo"] as String,
-                            ciName = ci["ciName"] as String,
-                            ciDesc = ci["ciDesc"] as String,
-                            ciIcon = ci["ciIcon"] as String,
-                            classId = ci["classId"] as String,
-                            typeId = ci["typeId"] as String,
-                            ciStatus = ci["ciStatus"] as String,
-                            instanceId = instanceId,
-                            ciDataList = ciDataList,
-                            ciTags = ciTags,
-                            ciRelations = ciRelations,
-                            createUserKey = super.assigneeId,
-                            updateUserKey = super.assigneeId
+                            // Dto 생성후 List에 담기
+                            ciDtoList.add(
+                                CIDto(
+                                    ciId = ciId,
+                                    ciNo = ci["ciNo"] as String,
+                                    ciName = ci["ciName"] as String,
+                                    ciDesc = ci["ciDesc"] as String,
+                                    ciIcon = ci["ciIcon"] as String,
+                                    classId = ci["classId"] as String,
+                                    typeId = ci["typeId"] as String,
+                                    ciStatus = ci["ciStatus"] as String,
+                                    instanceId = instanceId,
+                                    ciDataList = ciDataList,
+                                    ciTags = ciTags,
+                                    ciRelations = ciRelations,
+                                    createUserKey = super.assigneeId,
+                                    updateUserKey = super.assigneeId
+                                )
+                            )
+                        }
+                    }
+                    CIConstants.ActionType.DELETE.code -> {
+                        ciDtoList.add(
+                            CIDto(
+                                ciId = ciId,
+                                typeId = "",
+                                instanceId = instanceId,
+                                updateUserKey = super.assigneeId
+                            )
                         )
-                    )
-                } else {
-                    ciDtoList.add(
-                        CIDto(
-                            ciId = ciId,
-                            typeId = "",
-                            instanceId = instanceId,
-                            updateUserKey = super.assigneeId
-                        )
-                    )
+                    }
                 }
             }
         }
@@ -233,9 +238,12 @@ class WfScriptTask(
     private fun callCmdbAction(createTokenDto: WfTokenDto, element: WfElementEntity) {
         // 1. ScripTask MappingId 조회
         val targetMappingId = this.getScriptTaskMappingId(element)
+        var componentEntity: WfComponentEntity? = null
 
         // 2. tokenData 에서 mappingId와 동일한 컴포넌트 찾기
-        val componentEntity = this.getMappingComponent(createTokenDto, targetMappingId)
+        if (!targetMappingId.isNullOrBlank()) {
+            componentEntity = this.getMappingComponent(createTokenDto, targetMappingId)
+        }
 
         // 3. 컴포넌트가 CI 컴포넌트인 경우 진행
         if (componentEntity != null && componentEntity.componentType == WfComponentConstants.ComponentType.CI.code) {
@@ -282,13 +290,14 @@ class WfScriptTask(
     /**
      * CI Component 의 매핑아이디 조회.
      */
-    private fun getScriptTaskMappingId(element: WfElementEntity): String {
-        var targetMappingId = ""
+    private fun getScriptTaskMappingId(element: WfElementEntity): String? {
+        var targetMappingId: String? = null
         for (scriptData in element.elementScriptDataEntities) {
             if (!scriptData.scriptValue.isNullOrEmpty()) {
                 val scriptMap: Map<String, Any> =
                     mapper.readValue(scriptData.scriptValue, object : TypeReference<Map<String, Any>>() {})
                 targetMappingId = scriptMap[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value].toString()
+                targetMappingId = if (targetMappingId == "null") null else targetMappingId
             }
         }
         return targetMappingId

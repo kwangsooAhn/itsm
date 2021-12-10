@@ -39,6 +39,10 @@ export const FORM = {
             HIDDEN: 'hidden',
             TOP: 'top',
             LEFT: 'left'
+        },
+        SIZE: {
+            MAX: 100,
+            MIN: 10
         }
     },
     ELEMENT: {
@@ -93,5 +97,31 @@ export const CI = {
     STATUS: {
         USE: 'use',
         DELETE: 'delete'
+    }
+};
+// Response(응답) 코드
+export const RESPONSE_CODE = {
+    STATUS_SUCCESS: '0',
+    STATUS_ERROR_DUPLICATE: '1'
+};
+// 차트
+export const CHART = {
+    TYPE: {
+        BASIC_LINE: 'chart.basicLine',
+        STACKED_COLUMN: 'chart.stackedColumn',
+        STACKED_BAR: 'chart.stackedBar',
+        PIE: 'chart.pie',
+        GAUGE: 'chart.gauge'
+    },
+    OPERATION: {
+        AVG: 'average',
+        COUNT: 'count',
+        PERCENT: 'percent'
+    },
+    PERIOD: {
+        YEAR: 'Y',
+        MONTH: 'M',
+        DAY: 'D',
+        HOUR: 'H'
     }
 };

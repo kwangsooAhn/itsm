@@ -5,6 +5,7 @@
 
 package co.brainz.workflow.instance.repository
 
+import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
@@ -33,5 +34,5 @@ interface WfInstanceRepositoryCustom {
 
     fun findAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto>
 
-    fun getInstanceListInTags(tags: Set<String>): List<WfInstanceEntity>
+    fun getInstanceListInTag(tagValue: String, range: ChartRange): List<WfInstanceEntity>
 }

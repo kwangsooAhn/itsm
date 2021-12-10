@@ -68,6 +68,9 @@ export const ciMixin = {
             this.UIElement.UIComponent.UIElement.domElement.querySelectorAll('button').forEach((elem) => {
                 elem.disabled = !elem.querySelector('span.i-search');
             });
+            // 필수값 표시가 된 대상에 대해 Required off 처리한다.
+            this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
         }
     },
     // set, get
@@ -820,17 +823,23 @@ export const ciMixin = {
                 closable: false,
             },
             onCreate: (modal) => {
+                let this_ = this; //zTag에서 callback에서 this는 zCI가 아니고 zTag이기에 this를 컴포지션함.
+
                 this.selectModalSearchCI();
+
+                new zTag(document.getElementById('tagSearch'), {
+                    suggestion: false,
+                    realtime: false,
+                    tagType: 'ci',
+                    targetId: '',
+                    callback: function () {
+                        this_.selectModalSearchCI();
+                    }
+                });
 
                 document.getElementById('searchValue').addEventListener('keyup', (e) => {
                     e.preventDefault();
                     this.selectModalSearchCI();
-                });
-                document.getElementById('tagSearch').addEventListener('keyup', (e) => {
-                    e.preventDefault();
-                    if (e.keyCode === 13) {
-                        this.selectModalSearchCI();
-                    }
                 });
             }
         });
@@ -858,7 +867,9 @@ export const ciMixin = {
                 });
             }
             // 스크롤바
+            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelector('#ciList .z-table-body'), {className: 'scrollbar'});
+
             // 이미 선택된 CI 들은 선택 불가능
             if (Array.isArray(this.value) && this.value.length > 0) {
                 const ciChkElems = document.querySelectorAll('input[type=checkbox]');

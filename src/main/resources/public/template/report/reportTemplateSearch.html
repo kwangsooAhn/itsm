@@ -16,7 +16,7 @@
            th:name="isRole" th:value="true"/>
     <input type="hidden" sec:authorize="!hasAuthority('report.create') && !hasAuthority('report.update')"
            th:name="isRole" th:value="false"/>
-    <form id="searchFrm">
+    <form id="searchFrm" onsubmit = "return false">
         <input type="text" id="searchValue" name="searchValue" class="z-input i-search text-ellipsis col-5 mr-2" maxlength="100"
                th:placeholder="#{report.label.searchPlaceholder}"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
@@ -34,6 +34,9 @@
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
     let offsetCount = 0;
+    const STATUS_SUCESS = "0";
+    const STATUS_FAIL = "1";
+
     window.onload = function() {
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
@@ -139,7 +142,15 @@
             url: '/rest/reports/template/' + templateId,
             async: false,
             callbackFunc: function (response) {
-                console.log(response.responseText)
+                switch (response.responseText) {
+                    case STATUS_SUCESS:
+                        zAlert.success(i18n.msg("report.msg.createSucess"));
+                        break
+                    case STATUS_FAIL:
+                        zAlert.warning(i18n.msg("report.msg.creatFail"));
+                        break;
+                    default:
+                }
             },
             showProgressbar: false
         };

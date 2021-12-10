@@ -657,6 +657,7 @@ input, button, select, optgroup, textarea {
  */
 .z-icon {
   display: inline-block;
+  -webkit-print-color-adjust: exact;
 }
 .z-icon.i-search {
   width: 1.5rem;
@@ -1322,6 +1323,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   cursor: default;
+  width: 100%;
 }
 .z-input:read-only:not(:disabled):not(.tagify):hover, .z-input:read-only:not(:disabled):not(.tagify):focus {
   border-bottom: 0.0625rem solid #CFD5D9;
@@ -1348,6 +1350,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-input-clear input {
   width: 100%;
+}
+.z-input-clear .z-icon {
+  -webkit-print-color-adjust: exact;
 }
 .z-input-clear .z-icon.i-clear {
   position: absolute;
@@ -1467,8 +1472,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
   background-color: transparent;
-  border: none;
-  border: 0.0625rem solid #CFD5D9;
+  border: none !important;
+  border-left: 0.0625rem solid #CFD5D9 !important;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -1493,6 +1498,10 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea.success {
   border: 0.0625rem solid #76BD26 !important;
+}
+
+div.z-textarea-readonly {
+  border-color: transparent !important;
 }
 
 .z-switch {
@@ -1860,6 +1869,7 @@ select {
   margin-left: 2%;
 }
 .z-slider .z-input:read-only:not(:disabled) {
+  width: 23%;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -2083,15 +2093,8 @@ select {
 .z-print {
   margin: 0 auto;
 }
-.z-print table tr {
+.z-print z-print-main > div {
   height: 0;
-}
-.z-print-main-header {
-  text-align: center;
-  margin: 5mm 0;
-}
-.z-print-main-header h1 {
-  color: #000000;
 }
 .z-print-main-footer {
   line-height: 1.2;
@@ -2116,6 +2119,9 @@ select {
   html, body {
     width: 210mm;
     height: 297mm;
+    color-adjust: exact;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
   }
 
   .z-print {
@@ -2141,17 +2147,20 @@ select {
   .z-print-main {
     margin: 0 auto;
   }
-  .z-print-main thead {
+  .z-print-main .z-print-header-space {
     display: table-header-group;
   }
-  .z-print-main tbody {
+  .z-print-main .z-drawing-board {
     display: table-row-group;
   }
-  .z-print-main tfoot {
+  .z-print-main .z-print-footer-space {
     display: table-footer-group;
   }
   .z-print-main .z-drawing-board .z-form {
     display: table-row;
+  }
+  .z-print-main .z-drawing-board .z-form .z-row-tooltip {
+    break-inside: avoid;
   }
   .z-print-main-footer {
     position: fixed;
@@ -2232,6 +2241,34 @@ body.modal-active {
 .modal-wrapper.modal-active {
   display: block;
   z-index: 1000;
+}
+.modal-wrapper .modal-dialog.token-list {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-wrapper .modal-dialog.token-list .modal-content {
+  height: calc(53.0625rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem;
+}
+.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list {
+  margin-top: 0.9375rem;
+}
+.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set {
+  margin-top: 1.875rem;
+}
+.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body {
+  display: block;
+  width: 60rem;
+  height: 35.313rem;
+  overflow-y: auto;
+  border: none;
+}
+.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .attribute-list,
+.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .instance-list {
+  display: flex;
+  width: 100%;
+  height: 2.188rem;
+  line-height: 2.188rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal, .modal-wrapper .modal-dialog.cmdb-ci-update-modal, .modal-wrapper .modal-dialog.cmdb-ci-view-modal, .modal-wrapper .modal-dialog.cmdb-ci-list-modal {
   width: 62.5rem;
@@ -2432,6 +2469,9 @@ body.modal-active {
 }
 .z-component .z-element {
   padding-right: 1rem;
+}
+.z-component span {
+  word-break: break-all;
 }
 
 .z-group.accordion .z-group-accordion-checkBox:checked ~ .row-tooltip:not(.off):last-child {
@@ -2792,7 +2832,7 @@ body.modal-active {
   -o-transition: 0.2s ease-out;
   -ms-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
-  opacity: 0;
+  opacity: 1;
   transform: none;
   width: auto;
 }
@@ -2818,7 +2858,7 @@ body.modal-active {
   -o-transition: 0.2s ease-out;
   -ms-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
-  opacity: 0;
+  opacity: 1;
   transform: none;
 }
 .tagify__input::before {

@@ -49,10 +49,10 @@
         </div>
         <div class="z-login-other flex-row justify-content-center align-items-center">
             <div class="z-login-other-signUp align-center"><a href="/certification/signup" th:text="#{login.label.signupNote}"></a></div>
-            <div class="vertical-bar"></div>
-            <div class="z-login-other-findPwd align-center"><a href="#N" th:text="#{login.label.findPassword}"></a></div>
-            <div class="vertical-bar"></div>
-            <div class="z-login-other-findId align-center"><a href="#N" th:text="#{login.label.findId}"></a></div>
+            <div th:if="${findIdEnabled}" class="vertical-bar"></div>
+            <div th:if="${findIdEnabled}" class="z-login-other-findPwd align-center"><a href="#N" th:text="#{login.label.findPassword}"></a></div>
+            <div th:if="${findPasswordEnabled}" class="vertical-bar"></div>
+            <div th:if="${findPasswordEnabled}" class="z-login-other-findId align-center"><a href="#N" th:text="#{login.label.findId}"></a></div>
         </div>
     </div>
 </th:block>

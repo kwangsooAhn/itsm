@@ -32,11 +32,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
 import java.lang.Math.ceil
 import java.time.LocalDateTime
 import javax.transaction.Transactional
-import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
 
 @Service
 class ReportTemplateService(
@@ -63,19 +63,20 @@ class ReportTemplateService(
         val reportTemplateList = mutableListOf<ReportTemplateListDto>()
         queryResult.results.forEach { template ->
             val chartList = mutableListOf<ChartDto>()
-            template.charts?.forEach { it ->
-                val chartEntity = chartRepository.findChartEntityByChartId(it.chartId)
-                if (chartEntity != null) {
-                    chartList.add(
-                        ChartDto(
-                            chartId = chartEntity.chartId,
-                            chartName = chartEntity.chartName,
-                            chartType = chartEntity.chartType,
-                            chartDesc = chartEntity.chartDesc,
-                            chartConfig = mapper.readValue(chartEntity.chartConfig, ChartConfig::class.java)
-                        )
+            val chartIds = mutableSetOf<String>()
+            template.charts?.forEach {
+                chartIds.add(it.chartId)
+            }
+            chartRepository.findChartDataByChartIds(chartIds).forEach { chartData ->
+                chartList.add(
+                    ChartDto(
+                        chartId = chartData.chartId,
+                        chartName = chartData.chartName,
+                        chartType = chartData.chartType,
+                        chartDesc = chartData.chartDesc,
+                        chartConfig = mapper.readValue(chartData.chartConfig, ChartConfig::class.java)
                     )
-                }
+                )
             }
             reportTemplateList.add(
                 ReportTemplateListDto(
@@ -116,17 +117,18 @@ class ReportTemplateService(
         )
         val chartList = mutableListOf<ChartDto>()
         val templateMapList = templateEntity.charts?.sortedBy { data -> data.displayOrder }
-        templateMapList?.forEach { map ->
-            val chartEntity = chartRepository.findChartEntityByChartId(map.chartId)
-            if (chartEntity != null) {
-                chartList.add(
-                    ChartDto(
-                        chartId = chartEntity.chartId,
-                        chartName = chartEntity.chartName,
-                        chartConfig = mapper.readValue(chartEntity.chartConfig, ChartConfig::class.java)
-                    )
+        val chartIds = mutableSetOf<String>()
+        templateMapList?.forEach {
+            chartIds.add(it.chartId)
+        }
+        chartRepository.findChartDataByChartIds(chartIds).forEach { chartData ->
+            chartList.add(
+                ChartDto(
+                    chartId = chartData.chartId,
+                    chartName = chartData.chartName,
+                    chartConfig = mapper.readValue(chartData.chartConfig, ChartConfig::class.java)
                 )
-            }
+            )
         }
         reportTemplateDto.charts = chartList
         return reportTemplateDto

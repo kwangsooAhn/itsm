@@ -133,7 +133,8 @@ class WfTokenAction(
         newTokenDto.instanceId = baseToken.instance.instanceId
         newTokenDto.elementId = baseToken.element.elementId
         newTokenDto.elementType = baseToken.element.elementType
-
+        // 반려 또는 회수 시 이전 담당자로 할당
+        newTokenDto.assigneeId = baseToken.assigneeId
         val tokenManager = WfTokenManagerFactory(wfTokenManagerService).createTokenManager(newTokenDto.elementType)
         tokenManager.createToken(newTokenDto)
     }

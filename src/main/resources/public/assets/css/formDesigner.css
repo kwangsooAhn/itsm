@@ -663,6 +663,7 @@ input, button, select, optgroup, textarea {
  */
 .z-icon {
   display: inline-block;
+  -webkit-print-color-adjust: exact;
 }
 .z-icon.i-search {
   width: 1.5rem;
@@ -1892,6 +1893,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   cursor: default;
+  width: 100%;
 }
 .z-input:read-only:not(:disabled):not(.tagify):hover, .z-input:read-only:not(:disabled):not(.tagify):focus {
   border-bottom: 0.0625rem solid #CFD5D9;
@@ -1918,6 +1920,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-input-clear input {
   width: 100%;
+}
+.z-input-clear .z-icon {
+  -webkit-print-color-adjust: exact;
 }
 .z-input-clear .z-icon.i-clear {
   position: absolute;
@@ -2037,8 +2042,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
   background-color: transparent;
-  border: none;
-  border: 0.0625rem solid #CFD5D9;
+  border: none !important;
+  border-left: 0.0625rem solid #CFD5D9 !important;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -2063,6 +2068,10 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-textarea.success {
   border: 0.0625rem solid #76BD26 !important;
+}
+
+div.z-textarea-readonly {
+  border-color: transparent !important;
 }
 
 .z-switch {
@@ -2430,6 +2439,7 @@ select {
   margin-left: 2%;
 }
 .z-slider .z-input:read-only:not(:disabled) {
+  width: 23%;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -3490,6 +3500,9 @@ select {
 }
 
 .z-button-icon.z-button-attach-file .z-icon.i-folder {
+  background: #8B9094;
+}
+.z-button-icon.z-button-code .z-icon.i-search {
   background: #8B9094;
 }
 
@@ -6101,7 +6114,7 @@ body.modal-active {
   display: none;
 }
 .z-component .z-element .z-imagebox[src=""] + .z-imagebox-placeholder {
-  display: block;
+  display: grid;
 }
 .z-component .z-element .file-uploader-view {
   border-left: 0.0625rem solid #ABB0B5;
@@ -6232,6 +6245,152 @@ body.modal-active {
   background: #339AF0;
 }
 
+/* _tree.scss 
+ *
+ * 파일 경로 : template/_tree.scss
+ * @description 트리 구조 디자인
+ * @author wdj
+ * @version 1.0
+ */
+ul.tree {
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #222529;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+ul.tree li {
+  position: relative;
+  display: block;
+  line-height: 1.875rem;
+  padding-right: 0.125rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+}
+ul.tree ul {
+  position: relative;
+  margin: 0 0 0 calc(0.875rem * 2.3);
+  padding: 0;
+  list-style-type: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+ul.tree ul:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 0.0625rem solid #CFD5D9;
+}
+ul.tree ul li {
+  padding-left: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
+}
+ul.tree ul li:before {
+  content: "";
+  position: absolute;
+  top: 0.9375rem;
+  left: 0;
+  width: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
+  height: 0.0625rem;
+  border-top: 0.0625rem solid #CFD5D9;
+}
+ul.tree ul li:last-child:before {
+  background-color: #FAFAFA;
+  height: auto;
+  top: 0.9375rem;
+  bottom: 0;
+}
+ul.tree label {
+  color: #222529;
+}
+
+img.exp_col {
+  cursor: pointer;
+}
+img.exp_col_empty {
+  width: 1rem;
+  cursor: pointer;
+}
+img.on {
+  display: inline-block;
+}
+img.off {
+  display: none;
+}
+img.icon_tree {
+  vertical-align: middle;
+  padding-left: 0.188rem;
+  margin-top: -0.188rem;
+}
+
+span.node {
+  padding: 0.25rem 0.188rem 0.25rem 0;
+  border: 0.0625rem solid transparent;
+  cursor: pointer;
+}
+span.node:hover {
+  background-color: #E3F5FC;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+}
+span.node label {
+  padding-left: 0.5rem;
+  cursor: pointer;
+}
+
+span.node_selected,
+span.modal_node_selected {
+  padding: 0.25rem 0.188rem 0.25rem 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+span.node_selected label,
+span.modal_node_selected label {
+  color: #339AF0;
+  padding-left: 0.5rem;
+  cursor: pointer;
+}
+
+.tree-container {
+  position: relative;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  margin: 1.875rem 2.5rem;
+}
+.tree-container .tree-title {
+  height: 2.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #222529;
+  border-bottom: 0.0625rem solid #CFD5D9;
+}
+.tree-container .tree-list {
+  height: 32.5rem;
+  margin-top: 0.625rem;
+}
+.tree-container .tree-nodata {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #222529;
+}
+
 /* 세부 속성 디자인 */
 .property-group {
   display: flex;
@@ -6352,6 +6511,10 @@ body.modal-active {
 .property .default-type .z-select.off {
   display: none;
 }
+.property .default-type .z-select .z-input {
+  display: inline-block;
+  margin-left: 0;
+}
 .property .picker-wrapper-date .datepicker,
 .property .picker-wrapper-date .timepicker,
 .property .picker-wrapper-date .datetimepicker {
@@ -6378,6 +6541,12 @@ body.modal-active {
 }
 .property .default-type-radio .radio-property-group .radio-item .z-input:not(:first-child) {
   margin-left: 0.3125rem;
+}
+.property .default-type-radio .radio-property-group .z-input-button {
+  width: 100%;
+}
+.property .default-type-radio .radio-property-group .z-input-button .z-icon.i-clear {
+  right: 2.5rem;
 }
 .property .default-type-radio .radio-property-group .z-picker-wrapper-date {
   flex: 1;

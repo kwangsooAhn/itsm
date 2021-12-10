@@ -10,6 +10,7 @@ import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
+import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
@@ -144,12 +145,13 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 .or(token.tokenAction.isNull)
         )
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
-        return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-            .limit(searchDataCount)
-            .offset(tokenSearchCondition.offset)
-            .fetchResults()
+        if (tokenSearchCondition.isScroll) {
+            query.limit(searchDataCount)
+                .offset(tokenSearchCondition.offset)
+        }
+        return query.fetchResults()
     }
 
     override fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto> {
@@ -175,12 +177,13 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         )
 
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
-        return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-            .limit(searchDataCount)
-            .offset(tokenSearchCondition.offset)
-            .fetchResults()
+        if (tokenSearchCondition.isScroll) {
+            query.limit(searchDataCount)
+                .offset(tokenSearchCondition.offset)
+        }
+        return query.fetchResults()
     }
 
     override fun findRelationInstances(
@@ -212,17 +215,21 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey))
             )
         )
-        builder.and(
-            token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
-        )
-
+        status?.forEach { statusValue ->
+            if (statusValue == WfInstanceConstants.Status.FINISH.code) {
+                builder.and(
+                    token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
+                )
+            }
+        }
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
-        return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-            .limit(searchDataCount)
-            .offset(tokenSearchCondition.offset)
-            .fetchResults()
+        if (tokenSearchCondition.isScroll) {
+            query.limit(searchDataCount)
+                .offset(tokenSearchCondition.offset)
+        }
+        return query.fetchResults()
     }
 
     /**
@@ -447,7 +454,10 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         return query.fetch()
     }
 
-    override fun getInstanceListInTags(tags: Set<String>): List<WfInstanceEntity> {
+    override fun getInstanceListInTag(
+        tagValue: String,
+        range: ChartRange
+    ): List<WfInstanceEntity> {
         val component = QWfComponentEntity.wfComponentEntity
         val query = from(instance)
             .where(instance.document.documentId.`in`(
@@ -459,7 +469,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                             .where(component.componentId.`in`(
                                 JPAExpressions.select(tag.targetId)
                                     .from(tag)
-                                    .where(tag.tagValue.`in`(tags))
+                                    .where(tag.tagValue.eq(tagValue))
                                     .where(tag.tagType.eq(AliceTagConstants.TagType.COMPONENT.code))
                             ))
                             .where(component.form.formStatus.ne(WfFormConstants.FormStatus.EDIT.value))
@@ -467,6 +477,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
             ))
             .where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
+            .where(instance.instanceStartDt.goe(range.from).and(instance.instanceEndDt.loe(range.to)))
         return query.fetch()
     }
 }

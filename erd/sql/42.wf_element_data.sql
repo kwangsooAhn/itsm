@@ -23,9 +23,9 @@ COMMENT ON COLUMN wf_element_data.attribute_required IS '속성필수값';
 
 /* 서비스데스크 - 단순문의 */
 INSERT INTO wf_element_data VALUES ('337ab138ae9e4250b41be736e0a09c5b','assignee-type','assignee.type.assignee',0,true);
-INSERT INTO wf_element_data VALUES ('337ab138ae9e4250b41be736e0a09c5b','assignee','z-approver',1,true);
+INSERT INTO wf_element_data VALUES ('337ab138ae9e4250b41be736e0a09c5b','assignee','z-sd-approver',1,true);
 INSERT INTO wf_element_data VALUES ('337ab138ae9e4250b41be736e0a09c5b','reject-id','53be2caebd5e40e0b6e9ebecce3f16bd',2,false);
-INSERT INTO wf_element_data VALUES ('337ab138ae9e4250b41be736e0a09c5b','withdraw','N',3,false);
+INSERT INTO wf_element_data VALUES ('337ab138ae9e4250b41be736e0a09c5b','withdraw','Y',3,false);
 INSERT INTO wf_element_data VALUES ('3cc34436df104c9eaf6852f52d0ad8a2','target-document-list','4028b21f7c90d996017c91aeff1b0050',0,true);
 INSERT INTO wf_element_data VALUES ('4be94f828adb4b5a938b82a25feca589','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('4be94f828adb4b5a938b82a25feca589','assignee','serviceDesk.assignee',1,true);
@@ -39,7 +39,7 @@ INSERT INTO wf_element_data VALUES ('536974f7f4484443acd76b5bd80fc159','start-id
 INSERT INTO wf_element_data VALUES ('536974f7f4484443acd76b5bd80fc159','start-name','승인',5,false);
 INSERT INTO wf_element_data VALUES ('536974f7f4484443acd76b5bd80fc159','end-id','3cc34436df104c9eaf6852f52d0ad8a2',6,true);
 INSERT INTO wf_element_data VALUES ('536974f7f4484443acd76b5bd80fc159','end-name','만족도 평가',7,false);
-INSERT INTO wf_element_data VALUES ('53be2caebd5e40e0b6e9ebecce3f16bd','assignee','z-processor',0,true);
+INSERT INTO wf_element_data VALUES ('53be2caebd5e40e0b6e9ebecce3f16bd','assignee','z-sd-processor',0,true);
 INSERT INTO wf_element_data VALUES ('53be2caebd5e40e0b6e9ebecce3f16bd','assignee-type','assignee.type.assignee',1,true);
 INSERT INTO wf_element_data VALUES ('53be2caebd5e40e0b6e9ebecce3f16bd','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('53be2caebd5e40e0b6e9ebecce3f16bd','withdraw','N',3,false);
@@ -98,7 +98,7 @@ INSERT INTO wf_element_data VALUES ('e577dd3058394669acb40d471d83635e','end-name
 INSERT INTO wf_element_data VALUES ('eba7310bd0dd41cfb88622e8f8e00767','complete-action','',0,false);
 /* 서비스데스크 - 단순문의 - 만족도 */
 INSERT INTO wf_element_data VALUES ('00d3cbc448594f90a91448a7eef93dcb','assignee-type','assignee.type.assignee',0,true);
-INSERT INTO wf_element_data VALUES ('00d3cbc448594f90a91448a7eef93dcb','assignee','z-requester',1,true);
+INSERT INTO wf_element_data VALUES ('00d3cbc448594f90a91448a7eef93dcb','assignee','z-sd-requester',1,true);
 INSERT INTO wf_element_data VALUES ('00d3cbc448594f90a91448a7eef93dcb','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('00d3cbc448594f90a91448a7eef93dcb','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('71ac5aa1ed1142deb364bbc9bea88cca','action-name','만족도 평가',0,false);
@@ -186,13 +186,13 @@ INSERT INTO wf_element_data VALUES ('a7f615029e8be83d8008d2012454e1f4','start-na
 INSERT INTO wf_element_data VALUES ('a7f615029e8be83d8008d2012454e1f4','end-id','a4bf5389f404c756d957b40cd7a1bf10',6,true);
 INSERT INTO wf_element_data VALUES ('a7f615029e8be83d8008d2012454e1f4','end-name','작업 결과 보고',7,false);
 INSERT INTO wf_element_data VALUES ('a84a4bafdc3b3f1928a0677434d34feb','assignee-type','assignee.type.assignee',0,true);
-INSERT INTO wf_element_data VALUES ('a84a4bafdc3b3f1928a0677434d34feb','assignee','z-approver',1,true);
+INSERT INTO wf_element_data VALUES ('a84a4bafdc3b3f1928a0677434d34feb','assignee','z-sd-approver',1,true);
 INSERT INTO wf_element_data VALUES ('a84a4bafdc3b3f1928a0677434d34feb','reject-id','aea0ee0f94c686307c87a5c86699ef86',2,false);
-INSERT INTO wf_element_data VALUES ('a84a4bafdc3b3f1928a0677434d34feb','withdraw','N',3,false);
+INSERT INTO wf_element_data VALUES ('a84a4bafdc3b3f1928a0677434d34feb','withdraw','Y',3,false);
 INSERT INTO wf_element_data VALUES ('aa104e687c0f220966d493707a87def1','condition-item','#{action}',0,true);
 INSERT INTO wf_element_data VALUES ('aa57399fa79e38fd8e59a3a1a11e56d2','condition-item','#{action}',0,true);
 INSERT INTO wf_element_data VALUES ('aa900688d722cd451b47e72dda93fca8','assignee-type','assignee.type.assignee',0,true);
-INSERT INTO wf_element_data VALUES ('aa900688d722cd451b47e72dda93fca8','assignee','z-processor',1,true);
+INSERT INTO wf_element_data VALUES ('aa900688d722cd451b47e72dda93fca8','assignee','z-sd-processor',1,true);
 INSERT INTO wf_element_data VALUES ('aa900688d722cd451b47e72dda93fca8','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('aa900688d722cd451b47e72dda93fca8','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('ab3d8234ca2ab3b44934df41563f067d','action-name','접수',0,false);
@@ -228,7 +228,7 @@ INSERT INTO wf_element_data VALUES ('ae5f5ef48e6ad78e8351b93017c565c9','start-na
 INSERT INTO wf_element_data VALUES ('ae5f5ef48e6ad78e8351b93017c565c9','end-id','a7f0ad953c834f779aac354f97b84eb2',6,true);
 INSERT INTO wf_element_data VALUES ('ae5f5ef48e6ad78e8351b93017c565c9','end-name','만족도 평가',7,false);
 INSERT INTO wf_element_data VALUES ('aea0ee0f94c686307c87a5c86699ef86','assignee-type','assignee.type.assignee',0,true);
-INSERT INTO wf_element_data VALUES ('aea0ee0f94c686307c87a5c86699ef86','assignee','z-processor',1,true);
+INSERT INTO wf_element_data VALUES ('aea0ee0f94c686307c87a5c86699ef86','assignee','z-sd-processor',1,true);
 INSERT INTO wf_element_data VALUES ('aea0ee0f94c686307c87a5c86699ef86','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('aea0ee0f94c686307c87a5c86699ef86','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('aeefd9f38872ec0907d42c401dc8b71c','complete-action','',0,false);
@@ -250,7 +250,7 @@ INSERT INTO wf_element_data VALUES ('af59396a9ffd08eee3efb2d0f0a4fd21','end-id',
 INSERT INTO wf_element_data VALUES ('af59396a9ffd08eee3efb2d0f0a4fd21','end-name','장애 이관',7,false);
 /* 서비스데스크 - 장애신고 - 만족도 */
 INSERT INTO wf_element_data VALUES ('36dad342725848f7ab1453e309ef0aa1','assignee-type','assignee.type.assignee',0,true);
-INSERT INTO wf_element_data VALUES ('36dad342725848f7ab1453e309ef0aa1','assignee','z-requester',1,true);
+INSERT INTO wf_element_data VALUES ('36dad342725848f7ab1453e309ef0aa1','assignee','z-sd-requester',1,true);
 INSERT INTO wf_element_data VALUES ('36dad342725848f7ab1453e309ef0aa1','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('36dad342725848f7ab1453e309ef0aa1','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('8d12225883ea4eb3bf2d137c67278eb8','action-name','',0,false);
@@ -285,7 +285,7 @@ INSERT INTO wf_element_data VALUES ('04195a896b4a4c5f8c2e8d221c536bc8','reject-i
 INSERT INTO wf_element_data VALUES ('04195a896b4a4c5f8c2e8d221c536bc8','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('095e98b2596a4019ae25c01de033aed3','complete-action','',0,false);
 INSERT INTO wf_element_data VALUES ('0c98f0917c7347418933aab46b8b7823','assignee-type','assignee.type.assignee',0,true);
-INSERT INTO wf_element_data VALUES ('0c98f0917c7347418933aab46b8b7823','assignee','z-processor',1,true);
+INSERT INTO wf_element_data VALUES ('0c98f0917c7347418933aab46b8b7823','assignee','z-sd-processor',1,true);
 INSERT INTO wf_element_data VALUES ('0c98f0917c7347418933aab46b8b7823','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('0c98f0917c7347418933aab46b8b7823','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('447aceb93c124909954082bfed2cc74f','action-name','',0,false);
@@ -313,9 +313,9 @@ INSERT INTO wf_element_data VALUES ('5e98b781b4e74d85ac90e6703cd052a6','end-id',
 INSERT INTO wf_element_data VALUES ('5e98b781b4e74d85ac90e6703cd052a6','end-name','신청서 작성',7,false);
 INSERT INTO wf_element_data VALUES ('5fe9d50a699f4d389ee702135c67d7b7','condition-item','#{action}',0,true);
 INSERT INTO wf_element_data VALUES ('6774c1370d614d47bb3b9b0ec33b9c10','assignee-type','assignee.type.assignee',0,true);
-INSERT INTO wf_element_data VALUES ('6774c1370d614d47bb3b9b0ec33b9c10','assignee','z-approver',1,true);
+INSERT INTO wf_element_data VALUES ('6774c1370d614d47bb3b9b0ec33b9c10','assignee','z-sd-approver',1,true);
 INSERT INTO wf_element_data VALUES ('6774c1370d614d47bb3b9b0ec33b9c10','reject-id','0c98f0917c7347418933aab46b8b7823',2,false);
-INSERT INTO wf_element_data VALUES ('6774c1370d614d47bb3b9b0ec33b9c10','withdraw','N',3,false);
+INSERT INTO wf_element_data VALUES ('6774c1370d614d47bb3b9b0ec33b9c10','withdraw','Y',3,false);
 INSERT INTO wf_element_data VALUES ('6eb7ec88b9cf4d3384d0f873b016a76b','action-name','인프라 변경 이관',0,false);
 INSERT INTO wf_element_data VALUES ('6eb7ec88b9cf4d3384d0f873b016a76b','action-value','infra',1,false);
 INSERT INTO wf_element_data VALUES ('6eb7ec88b9cf4d3384d0f873b016a76b','is-default','N',2,false);
@@ -350,7 +350,7 @@ INSERT INTO wf_element_data VALUES ('8187b4a4e8e54c3c86c9acdf3726b445','start-na
 INSERT INTO wf_element_data VALUES ('8187b4a4e8e54c3c86c9acdf3726b445','end-id','d4b6e2e20c884104ac36916f803c65f1',6,true);
 INSERT INTO wf_element_data VALUES ('8187b4a4e8e54c3c86c9acdf3726b445','end-name','',7,false);
 INSERT INTO wf_element_data VALUES ('898c51972e9c45e49646c3797165411d','assignee-type','assignee.type.assignee',0,true);
-INSERT INTO wf_element_data VALUES ('898c51972e9c45e49646c3797165411d','assignee','z-processor',1,true);
+INSERT INTO wf_element_data VALUES ('898c51972e9c45e49646c3797165411d','assignee','z-sd-processor',1,true);
 INSERT INTO wf_element_data VALUES ('898c51972e9c45e49646c3797165411d','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('898c51972e9c45e49646c3797165411d','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('8a2ff6fdb21d4602a2c4c365798469c4','action-name','승인요청',0,false);
@@ -426,7 +426,7 @@ INSERT INTO wf_element_data VALUES ('0f9c64e3371448358e6f39f292c93a46','start-na
 INSERT INTO wf_element_data VALUES ('0f9c64e3371448358e6f39f292c93a46','end-id','f9a7329b5cd24001b532265ee88ad3ee',6,true);
 INSERT INTO wf_element_data VALUES ('0f9c64e3371448358e6f39f292c93a46','end-name','종료',7,false);
 INSERT INTO wf_element_data VALUES ('3914bb0a2d32423885ab84339bf391d5','assignee-type','assignee.type.assignee',0,true);
-INSERT INTO wf_element_data VALUES ('3914bb0a2d32423885ab84339bf391d5','assignee','z-requester',1,true);
+INSERT INTO wf_element_data VALUES ('3914bb0a2d32423885ab84339bf391d5','assignee','z-sd-requester',1,true);
 INSERT INTO wf_element_data VALUES ('3914bb0a2d32423885ab84339bf391d5','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('3914bb0a2d32423885ab84339bf391d5','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('d855698cb2c7443194b03eb17fe69522','action-name','',0,false);
@@ -457,9 +457,9 @@ INSERT INTO wf_element_data VALUES ('a2d10956fa512ee0706b86ed356c176e', 'end-id'
 INSERT INTO wf_element_data VALUES ('a2d10956fa512ee0706b86ed356c176e', 'end-name', '작업결과 보고', 7, false);
 INSERT INTO wf_element_data VALUES ('a438aa32805dc8da951c38ea4637d757', 'complete-action', '', 0, false);
 INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'assignee-type', 'assignee.type.assignee', 0, true);
-INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'assignee', 'z-approver', 1, true);
+INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'assignee', 'z-sd-approver', 1, true);
 INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'reject-id', 'ab36dd6e4472d6de4b3fa70b7ea7ec19', 2, false);
-INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'withdraw', 'N', 3, false);
+INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'users.general', 1, true);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'reject-id', '', 2, false);
@@ -497,7 +497,7 @@ INSERT INTO wf_element_data VALUES ('ab2ab956405b3e2c82730c0a45ab8b29', 'start-n
 INSERT INTO wf_element_data VALUES ('ab2ab956405b3e2c82730c0a45ab8b29', 'end-id', 'a62447bd30ddcc4b7738ed3bae7285d0', 6, true);
 INSERT INTO wf_element_data VALUES ('ab2ab956405b3e2c82730c0a45ab8b29', 'end-name', '신청서 작성', 7, false);
 INSERT INTO wf_element_data VALUES ('ab36dd6e4472d6de4b3fa70b7ea7ec19', 'assignee-type', 'assignee.type.assignee', 0, true);
-INSERT INTO wf_element_data VALUES ('ab36dd6e4472d6de4b3fa70b7ea7ec19', 'assignee', 'z-processor', 1, true);
+INSERT INTO wf_element_data VALUES ('ab36dd6e4472d6de4b3fa70b7ea7ec19', 'assignee', 'z-sd-processor', 1, true);
 INSERT INTO wf_element_data VALUES ('ab36dd6e4472d6de4b3fa70b7ea7ec19', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('ab36dd6e4472d6de4b3fa70b7ea7ec19', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('ab542343e22b028245e16f908633382b', 'action-name', '승인', 0, false);
@@ -523,7 +523,7 @@ INSERT INTO wf_element_data VALUES ('adf9a76efb39edc5640b7f11a5b6c261', 'end-id'
 INSERT INTO wf_element_data VALUES ('adf9a76efb39edc5640b7f11a5b6c261', 'end-name', '종료', 7, false);
 /* 서비스데스크 - 구성관리 - 만족도 */
 INSERT INTO wf_element_data VALUES ('2ba4d78cd7544ec789b20f3673e95449', 'assignee-type', 'assignee.type.assignee', 0, true);
-INSERT INTO wf_element_data VALUES ('2ba4d78cd7544ec789b20f3673e95449', 'assignee', 'z-requester', 1, true);
+INSERT INTO wf_element_data VALUES ('2ba4d78cd7544ec789b20f3673e95449', 'assignee', 'z-sd-requester', 1, true);
 INSERT INTO wf_element_data VALUES ('2ba4d78cd7544ec789b20f3673e95449', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('2ba4d78cd7544ec789b20f3673e95449', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('5e827dc47f234c1aa2e6bbe689ed4cef', 'action-name', '만족도 평가', 0, false);
@@ -907,8 +907,8 @@ INSERT INTO wf_element_data VALUES ('fb46cc9d78324285a8866763b505201e', 'withdra
 INSERT INTO wf_element_data VALUES ('24372ebb7e174fca99ae500d05aed4b5','sub-document-id','4028b22f7cc55c1a017cc5775d10026b',0,true);
 /* 문제관리 */
 INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'assignee-type', 'assignee.type.assignee', 0, true);
-INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'assignee', 'z-processor', 1, true);
-INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'reject-id', '', 2, false);
+INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'assignee', 'z-problem-processor', 1, true);
+INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'reject-id', '4a50371a9217426c901defc15244b863', 2, false);
 INSERT INTO wf_element_data VALUES ('0432eed143194c2087293601b27273db', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('140aad796c004402836403e8271d381f','complete-action','',0,false);
 INSERT INTO wf_element_data VALUES ('156dd10ee966487c9a09e87cb0a43066','condition-item','#{action}',0,true);
@@ -937,7 +937,7 @@ INSERT INTO wf_element_data VALUES ('352d57b730ef41a993dc6d3d42b335aa', 'end-nam
 INSERT INTO wf_element_data VALUES ('454093c905f4471b8841aaa2ff44176f', 'assignee-type', 'assignee.type.assignee', 0, true);
 INSERT INTO wf_element_data VALUES ('454093c905f4471b8841aaa2ff44176f', 'assignee', 'z-problem-approver', 1, true);
 INSERT INTO wf_element_data VALUES ('454093c905f4471b8841aaa2ff44176f', 'reject-id', '4a50371a9217426c901defc15244b863', 2, false);
-INSERT INTO wf_element_data VALUES ('454093c905f4471b8841aaa2ff44176f', 'withdraw', 'N', 3, false);
+INSERT INTO wf_element_data VALUES ('454093c905f4471b8841aaa2ff44176f', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('4a50371a9217426c901defc15244b863', 'assignee-type', 'assignee.type.assignee', 0, true);
 INSERT INTO wf_element_data VALUES ('4a50371a9217426c901defc15244b863', 'assignee', 'z-problem-processor', 1, true);
 INSERT INTO wf_element_data VALUES ('4a50371a9217426c901defc15244b863', 'reject-id', '', 2, false);
@@ -1047,9 +1047,9 @@ INSERT INTO wf_element_data VALUES ('13377743f52341609222f75825862a5e', 'reject-
 INSERT INTO wf_element_data VALUES ('13377743f52341609222f75825862a5e', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('1618bb27cf3e408ba170ad37fe530fab','condition-item','#{action}',0,true);
 INSERT INTO wf_element_data VALUES ('1d8f887174f647739b5a9f15057cadb7', 'assignee-type', 'assignee.type.assignee', 0, true);
-INSERT INTO wf_element_data VALUES ('1d8f887174f647739b5a9f15057cadb7', 'assignee', 'z-approver', 1, true);
+INSERT INTO wf_element_data VALUES ('1d8f887174f647739b5a9f15057cadb7', 'assignee', 'z-incident-approver', 1, true);
 INSERT INTO wf_element_data VALUES ('1d8f887174f647739b5a9f15057cadb7', 'reject-id', '9bea485756784ff3b4d5eb4411e72bb8', 2, false);
-INSERT INTO wf_element_data VALUES ('1d8f887174f647739b5a9f15057cadb7', 'withdraw', 'N', 3, false);
+INSERT INTO wf_element_data VALUES ('1d8f887174f647739b5a9f15057cadb7', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('205d259641844842817b894779a3f575','target-document-list','4028b21c7cdffb67017ce0b4d3e30872',0,true);
 INSERT INTO wf_element_data VALUES ('32d5c4799a914ea1ba95333b88f56d1b', 'action-name', '문제관리이관', 0, false);
 INSERT INTO wf_element_data VALUES ('32d5c4799a914ea1ba95333b88f56d1b', 'action-value', 'problem', 1, false);
@@ -1084,7 +1084,7 @@ INSERT INTO wf_element_data VALUES ('4e81fd4122bf45c583304a33774b3c55', 'start-n
 INSERT INTO wf_element_data VALUES ('4e81fd4122bf45c583304a33774b3c55', 'end-id', 'c239ad6807174774828f68b01c13119d', 6, true);
 INSERT INTO wf_element_data VALUES ('4e81fd4122bf45c583304a33774b3c55', 'end-name', 'New Task', 7, false); -- ??
 INSERT INTO wf_element_data VALUES ('517a87a7b8dc458ca75beec5e0e1889a', 'assignee-type', 'assignee.type.assignee', 0, true);
-INSERT INTO wf_element_data VALUES ('517a87a7b8dc458ca75beec5e0e1889a', 'assignee', 'z-processor', 1, true);
+INSERT INTO wf_element_data VALUES ('517a87a7b8dc458ca75beec5e0e1889a', 'assignee', 'z-inc-acceptor', 1, true);
 INSERT INTO wf_element_data VALUES ('517a87a7b8dc458ca75beec5e0e1889a', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('517a87a7b8dc458ca75beec5e0e1889a', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('5532fc1507874c43b6b3b8ed3a2a3ad6', 'action-name', '승인요청', 0, false);
@@ -1137,7 +1137,7 @@ INSERT INTO wf_element_data VALUES ('8f03c6a94e2b421cb6a011f856d1dfa3', 'start-n
 INSERT INTO wf_element_data VALUES ('8f03c6a94e2b421cb6a011f856d1dfa3', 'end-id', '1618bb27cf3e408ba170ad37fe530fab', 6, true);
 INSERT INTO wf_element_data VALUES ('8f03c6a94e2b421cb6a011f856d1dfa3', 'end-name', '', 7, false);
 INSERT INTO wf_element_data VALUES ('9bea485756784ff3b4d5eb4411e72bb8', 'assignee-type', 'assignee.type.assignee', 0, true);
-INSERT INTO wf_element_data VALUES ('9bea485756784ff3b4d5eb4411e72bb8', 'assignee', 'z-processor', 1, true);
+INSERT INTO wf_element_data VALUES ('9bea485756784ff3b4d5eb4411e72bb8', 'assignee', 'z-inc-acceptor', 1, true);
 INSERT INTO wf_element_data VALUES ('9bea485756784ff3b4d5eb4411e72bb8', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('9bea485756784ff3b4d5eb4411e72bb8', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('a4f908906af346e0b7a220927c25936e', 'action-name', '', 0, false);

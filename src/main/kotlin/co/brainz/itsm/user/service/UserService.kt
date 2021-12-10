@@ -16,16 +16,24 @@ import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.download.excel.ExcelComponent
+import co.brainz.framework.download.excel.dto.ExcelCellVO
+import co.brainz.framework.download.excel.dto.ExcelRowVO
+import co.brainz.framework.download.excel.dto.ExcelSheetVO
+import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
+import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
@@ -34,20 +42,25 @@ import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.dto.UserUpdatePasswordDto
 import co.brainz.itsm.user.entity.UserCustomEntity
-import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserCustomRepository
 import co.brainz.itsm.user.repository.UserRepository
+import co.brainz.workflow.token.repository.WfTokenRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.nio.file.Paths
 import java.security.PrivateKey
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Optional
 import kotlin.math.ceil
 import kotlin.random.Random
-import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
@@ -63,25 +76,33 @@ class UserService(
     private val aliceCertificationMailService: AliceCertificationMailService,
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
+    private val aliceMessageSource: AliceMessageSource,
     private val codeService: CodeService,
+    private val excelComponent: ExcelComponent,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
     private val userCustomRepository: UserCustomRepository,
     private val userRepository: UserRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val roleRepository: RoleRepository,
     private val userDetailsService: AliceUserDetailsService,
-    private val aliceFileAvatarService: AliceFileAvatarService
+    private val aliceFileAvatarService: AliceFileAvatarService,
+    private val currentSessionUser: CurrentSessionUser,
+    private val wfTokenRepository: WfTokenRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    val userMapper: UserMapper = Mappers.getMapper(UserMapper::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     @Value("\${user.default.profile}")
     private val userDefaultProfile: String = ""
 
     @Value("\${password.expired.period}")
     private var passwordExpiredPeriod: Long = 90L
+
+    init {
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+    }
 
     /**
      * 사용자 목록을 조회한다.
@@ -100,7 +121,7 @@ class UserService(
             data = userList,
             paging = AlicePagingData(
                 totalCount = queryResult.total,
-                totalCountWithoutCondition = userRepository.count(),
+                totalCountWithoutCondition = userRepository.countByUserIdNotContaining(AliceUserConstants.CREATE_USER_ID),
                 currentPageNum = userSearchCondition.pageNum,
                 totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
@@ -199,6 +220,13 @@ class UserService(
                     }
                     false -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
                 }
+
+                // 사용자 부재 설정
+                if (userUpdateDto.absenceYn) {
+                    userUpdateDto.absence?.let { this.setUserAbsence(userUpdateDto.userKey, it) }
+                } else {
+                    this.resetUserAbsence(userUpdateDto.userKey, UserConstants.UserCustom.USER_ABSENCE.code)
+                }
             }
         }
         return code
@@ -243,6 +271,7 @@ class UserService(
         userUpdateDto.timeFormat?.let { targetEntity.timeFormat = userUpdateDto.timeFormat!! }
         userUpdateDto.theme?.let { targetEntity.theme = userUpdateDto.theme!! }
         userUpdateDto.useYn?.let { targetEntity.useYn = userUpdateDto.useYn!! }
+        userUpdateDto.absence.let { targetEntity.absenceYn = userUpdateDto.absenceYn }
 
         return targetEntity
     }
@@ -277,10 +306,9 @@ class UserService(
      * 사용자의 비밀번호를 생성한다.
      */
     fun makePassword(): String {
-        var password = StringBuffer()
+        val password = StringBuffer()
         for (i in 0..9) {
-            val randomIndex = Random.nextInt(3)
-            when (randomIndex) {
+            when (Random.nextInt(3)) {
                 0 -> password.append(((Random.nextInt(26)) + 97).toChar())
                 1 -> password.append(((Random.nextInt(26)) + 65).toChar())
                 2 -> password.append((Random.nextInt(10)))
@@ -345,9 +373,6 @@ class UserService(
         return allCodes
     }
 
-    fun getUserDto(): AliceUserDto? =
-        SecurityContextHolder.getContext().authentication.details as? AliceUserDto
-
     /**
      * 사용자 정의 색상 조회
      */
@@ -374,6 +399,31 @@ class UserService(
             )
         )
         return true
+    }
+
+    /**
+     * 사용자 정의 업무 대리인 조회
+     */
+    fun getUserAbsenceInfo(userKey: String): UserAbsenceDto? {
+        val userEntity = userDetailsService.selectUserKey(userKey)
+        var absenceInfo = ""
+        run loop@{
+            userEntity.userCustomEntities.forEach { custom ->
+                if (custom.customType == UserConstants.UserCustom.USER_ABSENCE.code) {
+                    absenceInfo = custom.customValue.toString()
+                    return@loop
+                }
+            }
+        }
+        val absenceDto = UserAbsenceDto()
+        if (absenceInfo.isNotEmpty()) {
+            val absenceMap = mapper.readValue(absenceInfo, Map::class.java)
+            absenceDto.substituteUserKey = absenceMap["substituteUserKey"].toString()
+            absenceDto.substituteUser = userDetailsService.selectUserKey(absenceDto.substituteUserKey!!).userName
+            absenceDto.startDt = mapper.convertValue(absenceMap["startDt"], LocalDateTime::class.java)
+            absenceDto.endDt = mapper.convertValue(absenceMap["endDt"], LocalDateTime::class.java)
+        }
+        return absenceDto
     }
 
     /**
@@ -411,5 +461,157 @@ class UserService(
         val userEntity = selectUser(userUpdatePasswordDto.userId!!)
         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
         return UserConstants.UserUpdatePassword.SUCCESS.code
+    }
+
+    /**
+     * 사용자 부재 관련 정보 초기화
+     */
+    fun resetUserAbsence(userKey: String, customCode: String): Boolean {
+        val userEntity = userDetailsService.selectUserKey(userKey)
+        userCustomRepository.deleteByUserAndAndCustomType(userEntity, customCode)
+        return true
+    }
+
+    /**
+     * 사용자 부재 관련 정보 설정
+     */
+    fun setUserAbsence(userKey: String, absenceDto: UserAbsenceDto): Boolean {
+        val absenceMap = java.util.LinkedHashMap<String, Any>()
+        absenceMap["startDt"] = mapper.convertValue(absenceDto.startDt, LocalDateTime::class.java)
+        absenceMap["endDt"] = mapper.convertValue(absenceDto.endDt, LocalDateTime::class.java)
+        absenceMap["substituteUserKey"] = absenceDto.substituteUserKey.toString()
+        val userCustomEntity = UserCustomEntity(
+            user = userDetailsService.selectUserKey(userKey),
+            customType = UserConstants.UserCustom.USER_ABSENCE.code,
+            customValue = mapper.writeValueAsString(absenceMap)
+        )
+        userCustomRepository.save(userCustomEntity)
+        return true
+    }
+
+    /**
+     * 사용자 현재 문서 업무 대리인으로 변경
+     */
+    @Transactional
+    fun executeUserProcessingDocumentAbsence(absenceInfo: String): Boolean {
+        var isSuccess = false
+        val absence = mapper.readValue(absenceInfo, Map::class.java)
+        val fromUser = absence["userKey"].toString()
+        val toUser = absence["substituteUserKey"].toString()
+        when (absence["userKey"].toString()) {
+            currentSessionUser.getUserKey() -> {
+                isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser)
+            }
+            else -> { // 본인이 아닌 경우 사용자 관리자 권한이 있는지 확인한다.
+                var hasRole = false
+                val permitRoles = setOf("ROLE_admin", "ROLE_users.manager")
+                run loop@{
+                    currentSessionUser.getUserDto()?.grantedAuthorises?.forEach {
+                        if (permitRoles.contains(it.authority)) {
+                            hasRole = true
+                            return@loop
+                        }
+                    }
+                }
+                if (hasRole) {
+                    isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser)
+                }
+            }
+        }
+        return isSuccess
+    }
+
+    /**
+     * [fromUser] 의 처리할 문서를 [toUser] 로 변경
+     */
+    private fun changeDocumentAssigneeToAbsenceUser(fromUser: String, toUser: String): Boolean {
+        // 현재 처리할 문서 조회
+        val tokenList = wfTokenRepository.findProcessTokenByAssignee(fromUser)
+        tokenList.forEach { token ->
+            token.assigneeId = toUser
+            wfTokenRepository.save(token)
+        }
+        return true
+    }
+
+    /**
+     * 사용자 목록 Excel 다운로드
+     */
+    fun getUsersExcelDownload(userSearchCondition: UserSearchCondition): ResponseEntity<ByteArray> {
+        val returnDto = userRepository.findUserListForExcel(userSearchCondition)
+        val excelVO = ExcelVO(
+            sheets = mutableListOf(
+                ExcelSheetVO(
+                    rows = mutableListOf(
+                        ExcelRowVO(
+                            cells = listOf(
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.id"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.name"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.email"),
+                                    cellWidth = 7000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.department"),
+                                    cellWidth = 4000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.position"),
+                                    cellWidth = 4000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.officeNumber"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.mobileNumber"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.signUpDate"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("user.label.usageStatus"),
+                                    cellWidth = 4000
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        returnDto.results.forEach { result ->
+            excelVO.sheets[0].rows.add(
+                ExcelRowVO(
+                    cells = mutableListOf(
+                        ExcelCellVO(value = result.userId),
+                        ExcelCellVO(value = result.userName),
+                        ExcelCellVO(value = result.email),
+                        ExcelCellVO(value = result.department ?: ""),
+                        ExcelCellVO(value = result.position ?: ""),
+                        ExcelCellVO(value = result.officeNumber ?: ""),
+                        ExcelCellVO(value = result.mobileNumber ?: ""),
+                        ExcelCellVO(
+                            value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(result.createDt)
+                        ),
+                        ExcelCellVO(
+                            value = if (result.absenceYn) {
+                                aliceMessageSource.getMessage("user.status.true")
+                            } else {
+                                aliceMessageSource.getMessage("user.status.false")
+                            }
+                        )
+                    )
+                )
+            )
+        }
+        return excelComponent.download(excelVO)
     }
 }

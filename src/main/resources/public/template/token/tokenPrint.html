@@ -7,20 +7,11 @@
 </head>
 <th:block layout:fragment="content">
     <div class="z-print">
-        <div class="z-print-main-header">
-            <h1 id="documentTitle"></h1>
+        <div class="z-print-main flex-column align-items-center">
+            <div class="z-print-header-space"> </div>
+            <div class="z-drawing-board" id="documentDrawingBoard" data-display="print"></div>
+            <div class="z-print-footer-space"> </div>
         </div>
-        <table class="z-print-main">
-            <thead><tr><td>
-                <div class="z-print-header-space"> </div>
-            </td></tr></thead>
-            <tbody><tr><td>
-                <div class="z-drawing-board" id="documentDrawingBoard" data-display="print"></div>
-            </td></tr></tbody>
-            <tfoot><tr><td>
-                <div class="z-print-footer-space"> </div>
-            </td></tr></tfoot>
-        </table>
         <div class="z-print-main-footer">
             <img class="z-img i-logo-print" th:src="@{/assets/media/icons/logo/icon_logo_print.svg}" width="152" height="26">
             <span class="float-right align-right" id="print-information"></span>
@@ -31,7 +22,7 @@
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
     <script type="module">
         /*<![CDATA[*/
-        import { zFormToken } from '../../assets/js/document/zFormToken.js';
+        import { zDocument } from '../../assets/js/document/zDocument.js';
 
         window.onload = function() {
             const userName = '[[${#authentication.details.userName}]]';
@@ -42,9 +33,8 @@
             printInfo.innerHTML = userName + ' [' + userEmail + ']<br>' + i18n.printFormat(time);
 
             const printData = JSON.parse(sessionStorage.getItem('alice_print'));
-            document.getElementById('documentTitle').textContent = printData.name;
-            zFormToken.domElement = document.getElementById('documentDrawingBoard');
-            zFormToken.makeForm(printData);
+            zDocument.domElement = document.getElementById('documentDrawingBoard');
+            zDocument.makeDocument(printData);
 
             setTimeout(function() {
                 window.print();
