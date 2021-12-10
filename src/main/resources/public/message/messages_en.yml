@@ -64,6 +64,7 @@ common:
     dataSelect: "Please select {0}."
     delete: "Deleted."
     deleteTartget: "Please select target."
+    done: "Executed. The results can be checked in the history."
     emptyValue: "There is an empty value"
     enterContents: "Please enter contents"
     enterTitle: "Please enter a title."

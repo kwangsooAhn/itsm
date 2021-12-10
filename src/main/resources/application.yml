@@ -157,6 +157,7 @@ spring:
   datasource:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32846/itsm
 file.upload.dir: C:\files
+schedule.plugins.dir: C:\git\plugins
 ---
 spring:
   profiles: wdj
