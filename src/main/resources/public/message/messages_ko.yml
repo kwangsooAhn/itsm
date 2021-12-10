@@ -434,7 +434,7 @@ code:
     codeLang: "다국어 코드"
     name: "코드 이름"
     pCode: "부모 코드"
-    searchPlaceholder: "코드"
+    searchPlaceholder: "코드 / 코드 이름"
     seqNum: "출력 순서"
     useYn: "사용여부"
   msg:
