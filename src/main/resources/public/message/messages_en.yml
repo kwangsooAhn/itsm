@@ -434,7 +434,7 @@ code:
     codeLang: "Multilingual Code"
     name: "Code Name"
     pCode: "Parent Code"
-    searchPlaceholder: "Code"
+    searchPlaceholder: "Code/ Code name"
     seqNum: "The order of the output"
     useYn: "Use enable"
   msg:
