@@ -470,8 +470,8 @@
                         zAlert.warning(i18n.msg('user.msg.enterSubstituteUser'));
                         return false;
                     } else {
-                        document.getElementById('substituteUserKey').value = selectedSubUser.value;
-                        document.getElementById('substituteUser').value = selectedSubUser.name;
+                        document.getElementById('substituteUserKey').value = selectedSubUser.id;
+                        document.getElementById('substituteUser').value = selectedSubUser.value;
                     }
                     modal.hide();
                 }
@@ -514,13 +514,21 @@
             callbackFunc: function (response) {
                 document.getElementById('subUserList').innerHTML = response.responseText;
                 OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-                aliceJs.showTotalCount(document.querySelectorAll('.sub-user-list').length);
+                // 갯수 가운트
+                const substituteUserList = document.getElementById('substituteUserList');
+                aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
                 document.querySelectorAll('input[type=radio]').forEach(function (radio) {
                     // 업무 대리인으로 자기 자신은 선택할 수 없다.
-                    if (radio.value === document.getElementById('userKey').value) {
+                    if (radio.id === document.getElementById('userKey').value) {
                         radio.disabled = true;
                     }
                 });
+                // 선택된 항목 표시
+                const selectedSubstituteUserKey = document.getElementById('substituteUserKey').value
+                const radioElem = document.querySelector('input[id="' + selectedSubstituteUserKey + '"]');
+                if (radioElem) {
+                    radioElem.checked = true;
+                }
             }
         };
         aliceJs.sendXhr(opt);
