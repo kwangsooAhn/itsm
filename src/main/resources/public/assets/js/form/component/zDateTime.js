@@ -192,6 +192,7 @@ export const dataTimeMixin = {
             zValidation.setDOMElementError(isValidationPass, e, i18n.msg('common.msg.selectAfterDateTime', this.validationMaxDateTime));
         }
         this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, e.value);
+        this.UIElement.UIComponent.UIElement.UIDate.removeUIClass('error');
     },
     getProperty() {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty('elementDefaultValueRadio', 'element.defaultValueRadio',
