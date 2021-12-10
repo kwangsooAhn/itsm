@@ -40,6 +40,7 @@ function zColorPicker(targetElement, options) {
     this.savedValue = targetElement.value.toUpperCase();
     // 사용자에 의해 변경 중인 색상
     this.value = targetElement.value.toUpperCase() || '#000000';
+    this.inputEl.value = this.value;
     // 서버에 저장된 사용자 색상 목록
     this.savedCustomColors = [];
     // 사용자에 의해 변경 중인 사용자 색상 목록
