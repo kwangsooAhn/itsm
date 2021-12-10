@@ -47,7 +47,6 @@ insert into awf_url values ('/charts/search', 'get', '사용자 정의 차트 �
 insert into awf_url values ('/charts/new', 'get', '사용자 정의 차트 등록 화면', 'TRUE');
 insert into awf_url values ('/charts/{id}/edit', 'get', '사용자 정의 차트 수정 화면', 'TRUE');
 insert into awf_url values ('/charts/{id}/view', 'get', '사용자 정의 차트 조회 화면', 'TRUE');
-insert into awf_url values ('/charts/{id}/preview', 'get', '사용자 정의 차트 미리보기', 'TRUE');
 insert into awf_url values ('/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/new', 'get', 'CMDB Attribute 등록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
@@ -161,6 +160,7 @@ insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '�
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
 insert into awf_url values ('/rest/charts', 'post', '사용자 정의 차트 등록', 'TRUE');
+insert into awf_url values ('/rest/charts/{id}', 'get', '사용자 정의 차트 미리보기');
 insert into awf_url values ('/rest/charts/{id}', 'put', '사용자 정의 차트 수정', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}', 'delete', '사용자 정의 차트 삭제', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}/preview', 'post', '사용자 정의 차트 미리보기', 'TRUE');
@@ -285,6 +285,7 @@ insert into awf_url values ('/rest/users/{userkey}/info', 'put', '사용자가 �
 insert into awf_url values ('/rest/users/{userkey}/resetpassword', 'put', '사용자 비밀번호 초기화', 'TRUE');
 insert into awf_url values ('/rest/users/colors', 'get', '사용자 정의 색상 조회', 'FALSE');
 insert into awf_url values ('/rest/users/colors', 'put', '사용자 정의 색상 저장', 'FALSE');
+insert into awf_url values ('/rest/users/excel', 'get', '사용자 목록 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/products/info', 'get', '제품 정보 조회', 'TRUE');
 insert into awf_url values ('/roles/search', 'get', '역할 검색화면', 'TRUE');
 insert into awf_url values ('/roles/new', 'get', '역할 등록', 'TRUE');
@@ -315,4 +316,5 @@ insert into awf_url values ('/users/view-pop/users', 'get', '업무 대리인 �
 insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', 'FALSE');
 insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음에 변경하기', 'FALSE');
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
+insert into awf_url values ('/rest/tokens/excel', 'get', '문서함 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/users/absence', 'post', '사용자 현재 문서 이관', 'FALSE');

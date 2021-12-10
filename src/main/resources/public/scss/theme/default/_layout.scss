@@ -65,6 +65,18 @@
         }
       }
 
+      .z-page-token-search {
+        display: flex;
+        flex-direction: row;
+        padding: 0 0 1.25rem 3.75rem; // 0 0 20px 60px
+        .z-search-count {
+          font-family: $layout-header-search-font-family;
+          font-weight: $layout-header-search-font-weight;
+          font-size: 0.875rem;
+          color: $layout-header-search-color;
+        }
+      }
+
       // commonSearchTemplate
       @include commonSearchTemplate();
 

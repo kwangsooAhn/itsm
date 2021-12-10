@@ -129,8 +129,10 @@ class CIService(
                 val ciComponentDataValue: Map<String, Any> =
                     mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
                 // CI 세부 속성 변합
-                this.mergeCIAttribute(ciClasses,
-                    mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType))
+                this.mergeCIAttribute(
+                    ciClasses,
+                    mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType)
+                )
             }
             ciDetailDto.classes = ciClasses
             ciDetailDto.ciTags = tagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ciId)
@@ -288,18 +290,37 @@ class CIService(
      * CI 조회 Excel 다운로드
      */
     fun getCIsExcelDownload(ciSearchCondition: CISearchCondition): ResponseEntity<ByteArray> {
-        val returnDto = ciService.getCIs(ciSearchCondition)
+        val returnDto = ciService.getCIListForExcel(ciSearchCondition)
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(
                     rows = mutableListOf(
                         ExcelRowVO(
                             cells = listOf(
-                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.ciNo"), cellWidth = 5000),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.type"), cellWidth = 5000),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.name"), cellWidth = 5000),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.description"), cellWidth = 8000),
-                                ExcelCellVO(value = aliceMessageSource.getMessage("cmdb.ci.label.tag"), cellWidth = 5000)
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("cmdb.ci.label.ciNo"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("cmdb.ci.label.type"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("cmdb.ci.label.name"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("cmdb.ci.label.description"),
+                                    cellWidth = 8000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("cmdb.ci.label.tag"),
+                                    cellWidth = 5000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("cmdb.ci.label.whetherToInterlink"),
+                                    cellWidth = 5000
+                                )
                             )
                         )
                     )
@@ -307,7 +328,7 @@ class CIService(
             )
         )
 
-        returnDto.data.forEach { result ->
+        returnDto.forEach { result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
                     cells = mutableListOf(
@@ -315,7 +336,14 @@ class CIService(
                         ExcelCellVO(value = result.typeName),
                         ExcelCellVO(value = result.ciName),
                         ExcelCellVO(value = result.ciDesc ?: ""),
-                        ExcelCellVO(value = this.tagToString(result.ciTags))
+                        ExcelCellVO(value = this.tagToString(result.ciTags)),
+                        ExcelCellVO(
+                            value = if (result.interlink == true) {
+                                aliceMessageSource.getMessage("cmdb.ci.label.interlink")
+                            } else {
+                                aliceMessageSource.getMessage("cmdb.ci.label.nonInterlink")
+                            }
+                        )
                     )
                 )
             )
