@@ -150,32 +150,29 @@
         const RANGE_LAST_MONTH = 'chart.range.last.month';
         const RANGE_LAST_DAY = 'chart.range.last.day';
         const RANGE_ALL = 'chart.range.all';
-        // 기간에 따른 시작일자, 종료일자
-        const A_MONTH_AGO = i18n.getDate({ 'months': -1 }); // 현재로부터 한달전
-        const NOW = i18n.getDate(); // 현재
-        const LAST_MONTH_START_OF = i18n.getStartOfDate({ months: -1 }, 'month'); // 지난달 1일
-        const LAST_MONTH_END_OF = i18n.getEndOfDate({ months: -1 }, 'month'); // 지난달 마지막날짜
-        const YESTERDAY = i18n.getDate({ days: -1 }); // 어제
-        const FIXED_DAY = i18n.getCustomDate(2000, 1, 1); // 2000년 01월 01일
-        const CHART_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+        // 차트 간격
+        const PERIOD_YEAR = 'Y';
+        const PERIOD_MONTH = 'M';
+        const PERIOD_DAY = 'D';
+        const PERIOD_HOUR = 'H';
 
         window.onload = function () {
             OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
 
             // 기간 조회 날짜 데이터 조기화
             const fromDtElement = document.getElementById('rangeFromDt');
-            fromDtElement.setAttribute('data-userDateTime', i18n.userDateTime(fromDtElement.value, CHART_DATE_FORMAT));
+            fromDtElement.setAttribute('data-userDateTime', i18n.userDateTime(fromDtElement.value));
             fromDtElement.value = i18n.userDate(fromDtElement.value);
 
             const toDtElement = document.getElementById('rangeToDt');
-            toDtElement.setAttribute('data-userDateTime', i18n.userDateTime(toDtElement.value, CHART_DATE_FORMAT));
+            toDtElement.setAttribute('data-userDateTime', i18n.userDateTime(toDtElement.value));
             toDtElement.value = i18n.userDate(toDtElement.value);
-
+            // 한달 전 ~ 현재 기간으로 설정
             if (!fromDtElement.value || !toDtElement.value) {
-                fromDtElement.value = A_MONTH_AGO;
-                fromDtElement.setAttribute('data-userDateTime', A_MONTH_AGO + ' 00:00:00');
-                toDtElement.value = NOW;
-                toDtElement.setAttribute('data-userDateTime', NOW + ' 23:59:59');
+                fromDtElement.value = i18n.getDate({ months: -1 });
+                fromDtElement.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
+                toDtElement.value = i18n.getDate();
+                toDtElement.setAttribute('data-userDateTime', i18n.getDateTime());
             }
             zDateTimePicker.initDatePicker(fromDtElement, changeDatePicker);
             zDateTimePicker.initDatePicker(toDtElement, changeDatePicker);
@@ -198,7 +195,7 @@
             changeChartType(document.getElementById('typeSelectBox').value, true);
 
             // chart 초기화
-            zChartManager.load(getChartData(false));
+            zChartManager.load(getChartData());
             if (chartId !== null) {
                 // 데이터 업데이트
                 zChartManager.update([[${chart?.chartData}]]);
@@ -215,8 +212,8 @@
                 element.setAttribute('data-userDateTime', element.value + ' 00:00:00');
                 if (!i18n.compareSystemDate(element.value, toDtValue)) {
                     zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
-                        element.value = A_MONTH_AGO;
-                        element.setAttribute('data-userDateTime', A_MONTH_AGO + ' 00:00:00');
+                        element.value = i18n.getDate({ months: -1 });
+                        element.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                         picker.open();
                     });
                 }
@@ -225,8 +222,8 @@
                 element.setAttribute('data-userDateTime', element.value + ' 23:59:59');
                 if (!i18n.compareSystemDate(fromDtValue, element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
-                        element.value = NOW;
-                        element.setAttribute('data-userDateTime', NOW + ' 23:59:59');
+                        element.value = i18n.getDate();
+                        element.setAttribute('data-userDateTime', i18n.getDateTime());
                         picker.open();
                     });
                 }
@@ -239,7 +236,7 @@
         function previewChart() {
             if (!isValidation()) { return false; }
 
-            const previewData = getChartData(true);
+            const previewData = getChartData();
             // 서버에 전달시 from , to 날짜 데이터 포맷 변경
             aliceJs.fetchJson('/rest/charts/' + chartId + '/preview', {
                 method: 'POST',
@@ -252,12 +249,6 @@
                 if (typeof data.chartConfig === 'undefined') { return false; }
                 // 기존 차트를 지우고 새로 그려준다.
                 zChartManager.destroy();
-
-                // 날짜 데이터 변경
-                const fromDt = data.chartConfig.range.from;
-                const toDt = data.chartConfig.range.to;
-                data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
-                data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
                 // 차트 초기화
                 zChartManager.load(data);
 
@@ -273,7 +264,7 @@
         function saveChart(method) {
             if (!isValidation()) { return false; }
 
-            const saveData = getChartData(true);
+            const saveData = getChartData();
             const url = '/rest/charts' + (chartId !== null ? '/' + chartId : '');
             aliceJs.fetchText(url, {
                 method: method,
@@ -390,34 +381,35 @@
                     case RANGE_BETWEEN: // 기간 지정
                         // 시작일자(from) = 오늘로부터 한달 전 데이터
                         // 종료일자(to) = 오늘
-                        fromDt.value = A_MONTH_AGO;
-                        fromDt.setAttribute('data-userDateTime', A_MONTH_AGO + ' 00:00:00');
-                        toDt.value = NOW;
-                        toDt.setAttribute('data-userDateTime', NOW + ' 23:59:59');
+                        fromDt.value = i18n.getDate({ months: -1 });
+                        fromDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
+                        toDt.value = i18n.getDate();
+                        toDt.setAttribute('data-userDateTime', i18n.getDateTime());
                         break;
                     case RANGE_LAST_MONTH: // 지난달
                         // 시작일자(from) = 지난달 01일 데이터
                         // 종료일자(to) = 지난달 마지막 날짜 데이터
-                        fromDt.value = LAST_MONTH_START_OF;
-                        fromDt.setAttribute('data-userDateTime', LAST_MONTH_START_OF + ' 00:00:00');
-                        toDt.value = LAST_MONTH_END_OF;
-                        toDt.setAttribute('data-userDateTime', LAST_MONTH_END_OF + ' 23:59:59');
+                        fromDt.value = i18n.getStartOfDate({ months: -1 }, 'month');
+                        fromDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
+                        toDt.value = i18n.getEndOfDate({ months: -1 }, 'month');
+                        toDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                         break;
                     case RANGE_ALL: // 전체
                         // 시작일자(from) = 2000년 01월 01일 00시 00분 00초 데이터
                         // 종료일자(to) = 현재 날짜 23시 59분 59초 데이터
-                        fromDt.value = FIXED_DAY;
-                        fromDt.setAttribute('data-userDateTime', FIXED_DAY + ' 00:00:00');
-                        toDt.value = NOW;
-                        toDt.setAttribute('data-userDateTime', NOW + ' 23:59:59');
+                        // 기간에 따라 현재 날짜 전체 조정
+                        fromDt.value = i18n.getCustomDate(2000, 1, 1);
+                        fromDt.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(fromDt.value)));
+                        toDt.value = i18n.getDate();
+                        toDt.setAttribute('data-userDateTime', getFromPeriodUnit(document.getElementById('periodUnitSelectBox').value));
                         break;
                     case RANGE_LAST_DAY: // 어제
                         // 시작일자(from) = 어제 날짜 00시 00분 00초 데이터
                         // 종료일자(to) = 어제 날짜 23시 59분 59초 데이터
-                        fromDt.value = YESTERDAY;
-                        fromDt.setAttribute('data-userDateTime', YESTERDAY + ' 00:00:00');
-                        toDt.value = YESTERDAY;
-                        toDt.setAttribute('data-userDateTime', YESTERDAY + ' 23:59:59');
+                        fromDt.value = i18n.getDate({ days: -1 });
+                        fromDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ days: -1 }, 'day'));
+                        toDt.value = i18n.getDate({ days: -1 });
+                        toDt.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: -1 }, 'day'));
                         break;
                     default:
                         break;
@@ -442,13 +434,34 @@
             // select box 디자인
             aliceJs.initDesignedSelectTag(range);
         }
+        /**
+         * 전체 기간일 경우, 간격에 따라 종료일자를 조정하여 보여줌
+         * 년 - 현재 년도 포함
+         * 월 - 현재 월 포함
+         * 일 - 오늘 포함
+         * 시간 - 현재 시간 포함
+         */
+        function getFromPeriodUnit(periodUnit) {
+            switch (periodUnit) {
+                case PERIOD_YEAR:
+                    return i18n.getStartOfDateTime({ year: 1 }, 'year');
+                case PERIOD_MONTH:
+                    return i18n.getStartOfDateTime({ months: 1 }, 'month');
+                case PERIOD_DAY:
+                    return i18n.getStartOfDateTime({ days: 1 }, 'day');
+                case PERIOD_HOUR:
+                    return i18n.getStartOfDateTime({ hours: 1 }, 'hour');
+                default:
+                    return i18n.getDateTime();
+            }
+        }
+
 
         /**
          * 차트 데이터 조회
-         * @param isSaved 저장시 필요한 데이터인지 여부 (저장시 날짜 데이터는 서버데이터 형태로 전달해야 함)
          * @returns json 데이터
          */
-        function getChartData(isSaved) {
+        function getChartData() {
             let tags = [];
             JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
                 tags.push({ value: tag.value })
@@ -456,10 +469,9 @@
 
             let fromDt = document.getElementById('rangeFromDt').getAttribute('data-userDateTime');
             let toDt = document.getElementById('rangeToDt').getAttribute('data-userDateTime');
-            if (isSaved) {
-                fromDt = i18n.systemDateTime(fromDt, { 'days' : 0 }, CHART_DATE_FORMAT);
-                toDt = i18n.systemDateTime(toDt, { 'days' : 0 }, CHART_DATE_FORMAT);
-            }
+            fromDt = i18n.systemDateTime(fromDt);
+            toDt = i18n.systemDateTime(toDt);
+
             return {
                 chartId: chartId || '',
                 chartType: document.getElementById('typeSelectBox').value,

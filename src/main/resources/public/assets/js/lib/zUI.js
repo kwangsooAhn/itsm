@@ -564,7 +564,7 @@ class UITable extends UIElement {
             const updateRow = this.rows[index];
             this.domElement.insertBefore(row.domElement, updateRow.domElement);
             this.removeUIRow(updateRow);
-            this.rows.splice(index, 1, row);
+            this.rows.splice(index, 0, row);
         }
         return this;
     }

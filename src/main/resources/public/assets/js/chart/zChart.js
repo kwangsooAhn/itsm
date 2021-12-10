@@ -206,15 +206,33 @@ export  default class ZChart {
      * @returns 데이터 포맷
      */
     getDateTimeFormat() {
+        const userDateFormat = i18n.dateFormat; // yyyy-MM-dd, dd-MM-yyyy, MM-dd-yyyy, yyyy-dd-MM
+        const userTimeFormat = i18n.timeFormat; // HH:mm, hh:mm a
         switch (this.config.periodUnit) {
             case CHART.PERIOD.YEAR:
                 return '%Y'; // YYYY
             case CHART.PERIOD.MONTH:
-                return '%Y-%m'; // YYYY-MM
+                return (userDateFormat === CHART.DATE_FORMAT.TYPE1 || userDateFormat === CHART.DATE_FORMAT.TYPE4) ?
+                    '%Y-%m' : '%m-%Y'; // YYYY-MM
             case CHART.PERIOD.DAY:
-                return '%Y-%m-%d'; // YYYY-MM-DD
+                return this.getUserDateFormat(userDateFormat); // YYYY-MM-DD
             default: // 시간
-                return '%Y-%m-%d %H'; // YYYY-MM-DD HH
+                return this.getUserDateFormat(userDateFormat) + ' ' + (userTimeFormat === CHART.TIME_FORMAT.HOUR24 ?
+                    '%H' : '%l %p'); // YYYY-MM-DD HH
+        }
+    }
+    getUserDateFormat(format) {
+        switch (format) {
+            case CHART.DATE_FORMAT.TYPE1:
+                return '%Y-%m-%d';
+            case CHART.DATE_FORMAT.TYPE2:
+                return '%d-%m-%Y';
+            case CHART.DATE_FORMAT.TYPE3:
+                return '%m-%d-%Y';
+            case CHART.DATE_FORMAT.TYPE4:
+                return '%Y-%d-%m';
+            default:
+                return '%Y-%m-%d';
         }
     }
     /**

@@ -37,7 +37,6 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         const report = /*[[${report}]]*/ null;
-        const CHART_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
 
         window.onload = function() {
             // footer
@@ -62,12 +61,6 @@
                 `<div class="z-chart" id="${data.chartId}_chart"></div>` +
                 `</div>`;
             chartTarget.insertAdjacentHTML('beforeend', element);
-
-            // 사용자 날짜 데이터 변경
-            const fromDt = data.chartConfig.range.from;
-            const toDt = data.chartConfig.range.to;
-            data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
-            data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
 
             // 태그 데이터를 tagValue > value 로 변경한다.
             const tags = data.tags.reduce((acc, cur) => {

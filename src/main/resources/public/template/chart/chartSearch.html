@@ -46,7 +46,6 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
-        const CHART_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
 
         window.onload = function () {
             document.getElementById('searchValue').focus();
@@ -130,12 +129,6 @@
                 method: 'GET',
                 showProgressbar: true
             }).then((data) => {
-                // 사용자 날짜 데이터 변경
-                const fromDt = data.chartConfig.range.from;
-                const toDt = data.chartConfig.range.to;
-                data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
-                data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
-
                 // 차트 초기화
                 zChartManager.load(data);
             });
@@ -144,12 +137,6 @@
             /*aliceJs.fetchJson('../../assets/js/chart/dummy/' + chartType + '.json', {
                 method: 'GET'
             }).then((data) => {
-                // 사용자 날짜 데이터 변경
-                const fromDt = data.chartConfig.range.from;
-                const toDt = data.chartConfig.range.to;
-                data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
-                data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
-
                 // 차트 초기화
                 zChartManager.load(data);
             });*/

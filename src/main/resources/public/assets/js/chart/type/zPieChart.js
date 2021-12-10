@@ -8,6 +8,8 @@
  *
  * https://www.brainz.co.kr
  */
+import { CHART } from '../../lib/zConstants.js';
+
 const DEFAULT_CHART_PROPERTY = {
     chart: { type: 'pie' },
     plotOptions: {
@@ -97,8 +99,11 @@ export const zPieChartMixin = {
                 selected: (i === 0)
             });
         }
-        const fromDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(this.config.range.from));
-        const toDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(this.config.range.to));
+        // 날짜 데이터 사용자 포맷 변경
+        const from = i18n.userDateTime(this.config.range.from, CHART.DATETIME_FORMAT);
+        const to = i18n.userDateTime(this.config.range.to, CHART.DATETIME_FORMAT);
+        const fromDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(from));
+        const toDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(to));
         this.chart.series[0].update({ name: (fromDt + ' ~ ' + toDt), id: data[0].id }, false);
         this.chart.series[0].setData(series, true);
     },
