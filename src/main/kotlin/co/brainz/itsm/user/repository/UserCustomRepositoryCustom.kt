@@ -11,4 +11,5 @@ import co.brainz.itsm.user.dto.UserCustomDto
 
 interface UserCustomRepositoryCustom : AliceRepositoryCustom {
     fun findByUserAndCustomType(user: AliceUserEntity, customType: String): UserCustomDto?
+    fun findByCustomType(customType: String): List<UserCustomDto>?
 }

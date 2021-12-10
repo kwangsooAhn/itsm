@@ -24,4 +24,19 @@ class UserCustomRepositoryImpl : QuerydslRepositorySupport(UserCustomEntity::cla
             .where(userCustom.user.userKey.eq(user.userKey).and(userCustom.customType.eq(customType)))
         return query.fetchOne()
     }
+
+    override fun findByCustomType(customType: String): List<UserCustomDto>? {
+        val userCustom = QUserCustomEntity.userCustomEntity
+        val query = from(userCustom)
+            .select(
+                Projections.constructor(
+                    UserCustomDto::class.java,
+                    userCustom.user.userKey,
+                    userCustom.customType,
+                    userCustom.customValue
+                )
+            )
+            .where(userCustom.customType.eq(customType))
+        return query.fetch()
+    }
 }
