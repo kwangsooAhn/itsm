@@ -12,6 +12,7 @@ import co.brainz.framework.scheduling.entity.QAliceScheduleHistoryEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.scheduler.dto.SchedulerHistorySearchCondition
 import com.querydsl.core.types.Projections
+import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class AliceScheduleHistoryRepositoryImpl : QuerydslRepositorySupport(AliceScheduleHistoryEntity::class.java),
@@ -36,11 +37,19 @@ class AliceScheduleHistoryRepositoryImpl : QuerydslRepositorySupport(AliceSchedu
                 Projections.constructor(
                     ScheduleHistoryDto::class.java,
                     history.taskId,
-                    history.executeTime.max(),
+                    history.executeTime,
                     history.result
                 )
             )
-            .groupBy(history.taskId, history.result)
+            .where(
+                history.executeTime.`in`(
+                    JPAExpressions
+                        .select(history.executeTime.max())
+                        .from(history)
+                        .groupBy(history.taskId)
+                )
+            )
+            .groupBy(history.taskId, history.executeTime, history.result)
             .fetch()
     }
 }
