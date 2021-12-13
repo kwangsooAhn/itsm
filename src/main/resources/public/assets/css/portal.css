@@ -970,6 +970,14 @@ input, button, select, optgroup, textarea {
   max-width: 120rem;
   margin: 0 auto;
   overflow-y: auto;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.z-portal-container .z-main::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
 }
 .z-portal-container .z-main .z-main-content {
   height: 100%;
