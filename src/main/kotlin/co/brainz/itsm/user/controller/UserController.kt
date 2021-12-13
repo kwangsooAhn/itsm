@@ -136,14 +136,9 @@ class UserController(
     fun getSubUsersList(request: HttpServletRequest, model: Model): String {
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
-
-        val userList = userService.selectUserList(UserSearchCondition(
-            searchValue = params["search"].toString(),
-            pageNum = 0L,
-            contentNumPerPage = 0L
-        ))
-
-        model.addAttribute("userList", userList.data)
+        params["from"] = request.getParameter("from")
+        params["to"] = request.getParameter("to")
+        model.addAttribute("userList", userService.selectNotAbsenceUserList(params).data)
         return userListModalPage
     }
 

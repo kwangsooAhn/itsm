@@ -9,4 +9,5 @@ data class UserSearchCondition(
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
     val isPaging = pageNum > 0
+    var excludeIds: Set<String> = emptySet()
 }
