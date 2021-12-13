@@ -391,8 +391,8 @@
             const endDtElement = document.getElementById('absenceEndDt');
             startDtElement.value = startDtVal ? i18n.userDateTime(startDtVal) : i18n.getDateTime();
             endDtElement.value = endDtVal ? i18n.userDateTime(endDtVal) : i18n.getDateTime({'days':7});
-            zDateTimePicker.initDateTimePicker(startDtElement);
-            zDateTimePicker.initDateTimePicker(endDtElement);
+            zDateTimePicker.initDateTimePicker(startDtElement, changeDateTimePicker);
+            zDateTimePicker.initDateTimePicker(endDtElement, changeDateTimePicker);
             document.getElementById('substituteUserKey').value = /*[[${users?.absence?.substituteUserKey}]]*/'';
             document.getElementById('substituteUser').value = /*[[${users?.absence?.substituteUser}]]*/'';
             document.getElementById('absenceData').style.display = 'block';
@@ -402,6 +402,31 @@
             document.getElementById('substituteUserKey').value = '';
             document.getElementById('substituteUser').value = '';
             document.getElementById('absenceData').style.display = 'none';
+        }
+    }
+
+    /**
+     * DateTimePicker 변경시 호출
+     */
+    function changeDateTimePicker(element, picker) {
+        if (typeof picker === 'undefined') { return false; }
+
+        if (element.id === 'absenceStartDt') {
+            const toDtValue = document.getElementById('absenceEndDt').value;
+            if (!i18n.compareSystemDateTime(element.value, toDtValue)) {
+                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', toDtValue), function () {
+                    element.value = i18n.getDateTime({'days':7});
+                    picker.open();
+                });
+            }
+        } else {
+            const fromDtValue = document.getElementById('absenceStartDt').value;
+            if (!i18n.compareSystemDateTime(fromDtValue, element.value)) {
+                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', fromDtValue), function () {
+                    element.value = i18n.getDateTime();
+                    picker.open();
+                });
+            }
         }
     }
 
@@ -421,9 +446,6 @@
         if ([[${users?.userKey}]] !== null && document.getElementById('userAbsence').checked) {
             if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) return false;
             if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) return false;
-            if (isOrOperator((i18n.systemDateTime(document.getElementById('absenceStartDt').value) > i18n.systemDateTime(document.getElementById('absenceEndDt').value))
-                , (i18n.systemDateTime(document.getElementById('absenceStartDt').value) === i18n.systemDateTime(document.getElementById('absenceEndDt').value))
-                , 'user.msg.compareWithAbsenceDtValue')) return false;
             if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
         }
 
