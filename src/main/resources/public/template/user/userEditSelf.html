@@ -460,10 +460,8 @@
 
     function openUserListPopup() {
         let isValid = true
-        if (document.getElementById('userAbsence').checked) {
-            if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) isValid = false;
-            if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) isValid = false;
-        }
+        if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) isValid = false;
+        if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) isValid = false;
         if (isValid) {
             const subUserModal = new modal({
                 title: i18n.msg('user.label.substituteUser'),
