@@ -6,6 +6,7 @@
 package co.brainz.workflow.engine.manager.service
 
 import co.brainz.cmdb.ci.service.CIService
+import co.brainz.cmdb.dto.CICopyDataDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceUserRepository
@@ -44,6 +45,7 @@ import co.brainz.workflow.token.repository.WfTokenRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.JsonParser
 import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -414,6 +416,83 @@ class WfTokenManagerService(
         val instance = wfInstanceRepository.findByPTokenId(parentTokenId) ?: return null
         val token = wfTokenRepository.findTopByInstanceOrderByTokenStartDtDesc(instance)
         return token?.assigneeId
+    }
+
+    /**
+     * 서브 업무흐름에서 CI 저장과 관련된 서브 업무흐름이 존재하는 경우
+     * wf_component_ci_data 테이블에 존재하는 메인 신청서와 관련된 CI 데이터에 대한 복사를 진행한다.
+     */
+    fun copyComponentCIData(
+        documentId: String,
+        mainInstanceId: String,
+        subInstanceId: String,
+        wfTokenDataDtoList: List<WfTokenDataDto>?
+    ) {
+        val document = documentRepository.findByDocumentId(documentId)
+        val mainCIComponentList = mutableListOf<WfComponentEntity>()
+        val subCIComponentList = mutableListOf<CICopyDataDto>()
+        val subCIElementList = mutableListOf<WfElementEntity>()
+        if (document != null) {
+            // 메인 신청서의 문서양식의 컴포넌트 데이터 수집
+            wfInstanceRepository.findByInstanceId(mainInstanceId)!!.document.form.components.forEach { component ->
+                if (component.componentType == WfComponentConstants.ComponentTypeCode.CI.code && !component.mappingId.isNullOrBlank()) {
+                    mainCIComponentList.add(component)
+                }
+            }
+
+            // 서브 업무흐름의 문서양식으로 맵핑된 데이터 중에서 CI와 관련된 데이터 수집
+            if (!wfTokenDataDtoList.isNullOrEmpty()) {
+                wfTokenDataDtoList!!.forEach { wfTokenData ->
+                    val component = wfComponentRepository.findByComponentId(wfTokenData.componentId)
+                    if (component.componentType == WfComponentConstants.ComponentTypeCode.CI.code && !component.mappingId.isNullOrBlank()) {
+                        val data = JsonParser().parse(wfTokenData.value).asJsonArray
+                        data.forEach {
+                            val ciCopyDataDto = CICopyDataDto(
+                                ciId = it.asJsonObject.get("ciId").asString,
+                                componentId = wfTokenData.componentId
+                            )
+                            subCIComponentList.add(ciCopyDataDto)
+                        }
+                    }
+                }
+            }
+
+            // 서브 업무흐름의 프로세스에서 CI와 관련된 엘리먼트 수집
+            document.process.elementEntities.forEach { element ->
+                element.elementDataEntities.forEach { elementData ->
+                    if (elementData.attributeId == WfElementConstants.AttributeId.SCRIPT_TYPE.value
+                        && elementData.attributeValue == WfElementConstants.ScriptType.DOCUMENT_CMDB.value
+                    ) {
+                        subCIElementList.add(element)
+                    }
+                }
+            }
+
+
+            // 서브 업무흐름의 문서양식이나 프로세스에서 CI 컴포넌트 및 엘리먼트가 존재하는 경우에만 CI 데이터에 대한 복사를 진행한다.
+            if (!subCIComponentList.isNullOrEmpty() && !subCIElementList.isNullOrEmpty()) {
+                mainCIComponentList.forEach { mainCIComponent ->
+                    subCIComponentList.forEach { subCIComponent ->
+                        var mainData = ciComponentDataRepository.findByCiIdAndComponentId(
+                            ciId = subCIComponent.ciId,
+                            componentId = mainCIComponent.componentId
+                        )
+                        mainData?.let {
+                            var copyData = ciComponentDataRepository.save(
+                                CIComponentDataEntity(
+                                    ciId = subCIComponent.ciId,
+                                    values = mainData.values,
+                                    componentId = subCIComponent.componentId,
+                                    instanceId = subInstanceId
+                                )
+                            )
+
+                            ciComponentDataRepository.save(copyData)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
