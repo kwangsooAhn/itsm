@@ -425,15 +425,6 @@ export default class ZColumnProperty extends ZProperty {
                 return [];
         }
     }
-
-    // 컬럼 세부 속성 - Dropdown
-    getPropertyForColumnTypeDropdown(option, id) {
-        return [
-            new ZGroupProperty('group.columnElement')
-                .addProperty(new ZOptionListProperty(id + '|columnElement.options', 'element.options', option.columnElement.options, false).setValidation(true,'','','','',''))
-        ];
-    }
-
     // 컬럼 세부 속성 - input
     getPropertyForColumnTypeInput(option, id) {
         const validationTypeProperty = new ZDropdownProperty(id + '|columnValidation.validationType', 'validation.validationType',
@@ -455,10 +446,19 @@ export default class ZColumnProperty extends ZProperty {
                 .addProperty(new ZInputBoxProperty(id + '|columnValidation.maxLength', 'validation.maxLength', option.columnValidation.maxLength))
         ];
     }
-
+    // 컬럼 세부 속성 - Dropdown
+    getPropertyForColumnTypeDropdown(option, id) {
+        return [
+            new ZGroupProperty('group.columnElement').addProperty(
+                new ZOptionListProperty(id + '|columnElement.options', 'element.options', option.columnElement.options, false).setValidation(true,'','','','','')
+            )
+        ];
+    }
+    // 컬럼 세부 속성 - Date
     getPropertyForColumnTypeDate(option, id) {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty(id + '|columnElement.defaultValueRadio', 'element.defaultValueRadio',
-            option.columnElement.defaultValueRadio, [
+            option.columnElement.defaultValueRadio,
+            [
                 { name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE },
                 { name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW },
                 { name: '', value: FORM.DATE_TYPE.DAYS },
@@ -472,10 +472,11 @@ export default class ZColumnProperty extends ZProperty {
                 .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxDate', 'validation.maxDate', option.columnValidation.maxDate, FORM.DATE_TYPE.DATE_PICKER))
         ];
     }
-
+    // 컬럼 세부 속성 - Time
     getPropertyForColumnTypeTime(option, id) {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty(id + '|columnElement.defaultValueRadio', 'element.defaultValueRadio',
-            option.columnElement.defaultValueRadio, [
+            option.columnElement.defaultValueRadio,
+            [
                 {name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE},
                 {name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW},
                 {name: '', value: FORM.DATE_TYPE.HOURS},
@@ -489,10 +490,11 @@ export default class ZColumnProperty extends ZProperty {
                 .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxTime', 'validation.maxTime', option.columnValidation.maxTime, FORM.DATE_TYPE.TIME_PICKER))
         ];
     }
-
+    // 컬럼 세부 속성 - DateTime
     getPropertyForColumnTypeDateTime(option, id) {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty(id + '|columnElement.defaultValueRadio', 'element.defaultValueRadio',
-            option.columnElement.defaultValueRadio, [
+            option.columnElement.defaultValueRadio,
+            [
                 {name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE},
                 {name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW},
                 {name: '', value: FORM.DATE_TYPE.DATETIME},
