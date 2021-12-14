@@ -984,6 +984,7 @@ notice:
     enterToDt: "Please enter a search end date."
     enterTopNoticeEndDt: "Please enter a top notice end date."
     enterTopNoticeStrtDt: "Please enter a top notice start date."
+    maximunTopNoticeCount: "The maximum number at the top is 10."
     portalDescription: "View notice's information."
     searchDescrition: "View and manage notice's information."
     viewDescription: "Inquire detailed information about the notice."
