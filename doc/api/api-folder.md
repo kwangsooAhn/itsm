@@ -7,7 +7,7 @@
 ---
 
 1. [데이터 조회](#데이터-조회)
-2. [데이터 등록](#데이터-등록)
+2. [데이터 추가](#데이터-추가)
 3. [데이터 삭제](#데이터-식제)
 
 ## 데이터 조회
@@ -45,6 +45,58 @@ GET /rest/folders/{folderId}
 }
 ```
 
-## 데이터 등록
+## 데이터 추가
 
 ---
+
+### URL
+
+```
+POST /rest/folders
+```
+
+### Response Sample
+
+```json
+{
+  "responseCode": 200,
+  "errorMessage": "OK"
+}
+```
+
+### Parameter Sample
+
+```json
+{
+  "folderId": "2913e8560f2b427ca911b10e0f8fd3e4",
+  "instanceId": "da043e4a2c6d44318eba059d6e6bb61c"
+}
+```
+
+## 데이터 삭제
+
+---
+
+### URL
+
+```
+DELETE /rest/folders/{folderId}/instances/{instanceId}
+```
+
+### Response Sample
+
+```json
+{
+  "responseCode": 200,
+  "errorMessage": "OK"
+}
+```
+
+### Parameter Sample
+
+```json
+{
+  "folderId": "2913e8560f2b427ca911b10e0f8fd3e4",
+  "instanceId": "da043e4a2c6d44318eba059d6e6bb61c"
+}
+```
