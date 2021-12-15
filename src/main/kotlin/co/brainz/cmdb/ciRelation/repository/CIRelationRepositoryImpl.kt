@@ -30,7 +30,7 @@ class CIRelationRepositoryImpl : QuerydslRepositorySupport(CIRelationEntity::cla
                     ci.ciTypeEntity.typeName
                 )
             )
-            .innerJoin(ci).on(ci.ciId.eq(ciRelation.ciId))
+            .innerJoin(ci).on(ci.ciId.eq(ciRelation.targetCIId))
             .where(ciRelation.ciId.eq(ciId))
             .fetch()
     }
