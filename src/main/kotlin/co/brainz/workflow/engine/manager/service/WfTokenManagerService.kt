@@ -441,7 +441,7 @@ class WfTokenManagerService(
 
         // 서브 업무흐름의 문서양식으로 맵핑된 데이터 중에서 CI와 관련된 데이터 수집
         if (!wfTokenDataDtoList.isNullOrEmpty()) {
-            wfTokenDataDtoList!!.forEach { wfTokenData ->
+            wfTokenDataDtoList.forEach { wfTokenData ->
                 val component = wfComponentRepository.findByComponentId(wfTokenData.componentId)
                 if (component.componentType == WfComponentConstants.ComponentTypeCode.CI.code && component.mappingId.isNotBlank()) {
                     val data = JsonParser().parse(wfTokenData.value).asJsonArray
