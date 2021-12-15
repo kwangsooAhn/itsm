@@ -20,7 +20,15 @@
 GET /rest/workflows/{documentId}
 ```
 
-### response sample
+### Parameter Sample
+
+```json
+{
+  "documentId": "4028b21f7c90d996017c91ae7987004f"
+}
+```
+
+### response Sample
 
 ```JSON
 {

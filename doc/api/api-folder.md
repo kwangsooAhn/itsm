@@ -20,6 +20,14 @@
 GET /rest/folders/{folderId}
 ```
 
+### Parameter Sample
+
+```json
+{
+  "folderId": "af327115d88f42368e497a77fe01b8f9"
+}
+```
+
 ### Response Sample
 
 ```json

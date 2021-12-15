@@ -19,6 +19,17 @@
 GET /rest/faqs/{faqId}
 ```
 
+### Parameter Sample
+
+```json
+{
+  "faqId": "40288a9d7db60f6e017db630574b0000",
+  "request": {
+    "rolePrefix": "ROLE_"
+  }
+}
+```
+
 ### Response Sample
 
 ```json

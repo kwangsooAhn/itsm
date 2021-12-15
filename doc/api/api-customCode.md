@@ -109,6 +109,14 @@ GET /rest/custom-codes
 GET /rest/custom-codes/{customCodeId}
 ```
 
+### Parameter Sample
+
+```json
+{
+  "customCodeId": "40288a19736b46fb01736b89e46c0009"
+}
+```
+
 ### Response Sample
 
 ```json
