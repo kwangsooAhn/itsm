@@ -54,7 +54,6 @@ GET /rest/dashboard/statistic
       "request": 0,
       "etc": 149
     }
-    
   ]
 }
 ```

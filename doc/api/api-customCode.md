@@ -11,7 +11,7 @@
 4. [데이터 수정](#데이터-수정)
 5. [데이터 삭제](#데이터-삭제)
 
-## 데이터 목록조회
+## 데이터 목록 조회
 
 ---
 
@@ -91,7 +91,13 @@ GET /rest/custom-codes
       "createDt": "2021-12-09T15:51:18.060541",
       "createUserName": "ADMIN"
     }
-  ]
+  ],
+  "paging": {
+    "totalCount": 7,
+    "totalCountWithoutCondition": 7,
+    "currentPageNum": 0,
+    "orderType": "common.label.nameAsc"
+  }
 }
 ```
 
@@ -154,7 +160,8 @@ GET /rest/custom-codes/{customCodeId}
       "seqNum": 3,
       "pCode": "department.group"
     }
-  ]
+  ],
+  "totalCount": 4
 }
 ```
 
@@ -192,8 +199,7 @@ POST /rest/custom-codes
 
 ```json
 {
-  "responseCode": 200,
-  "errorMessage": "OK"
+  "return": "0"
 }
 ```
 
@@ -232,8 +238,7 @@ PUT /rest/custom-codes
 
 ```json
 {
-  "responseCode": 200,
-  "errorMessage": "OK"
+  "return": "0"
 }
 ```
 
@@ -247,19 +252,18 @@ PUT /rest/custom-codes
 DELETE /rest/custom-codes/{customCodeId}
 ```
 
-### Response Sample
-
-```json
-{
-  "responseCode": 200,
-  "errorMessage": "OK"
-}
-```
-
 ### Parameter Sample
 
 ```json
 {
   "customCodeId": "40288a9d7db25707017db2632c700000"
+}
+```
+
+### Response Sample
+
+```json
+{
+  "return": "0"
 }
 ```

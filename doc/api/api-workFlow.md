@@ -59,15 +59,6 @@ GET /rest/workflows/{documentId}
 POST /rest/workflows
 ```
 
-### Response Sample
-
-```json
-{
-  "responseCode": 200,
-  "errorMessage": "OK"
-}
-```
-
 ### Parameter Sample
 
 ```json
@@ -91,6 +82,14 @@ POST /rest/workflows
 }
 ```
 
+### Response Sample
+
+```json
+{
+  "return": "40288a9d7db295d3017db2aeb7380000"
+}
+```
+
 ## 데이터 수정
 
 ---
@@ -101,39 +100,35 @@ POST /rest/workflows
 POST /rest/workflows/{documentId}
 ```
 
-### Response Sample
-
-```json
-{
-  "responseCode": 200,
-  "errorMessage": "OK"
-}
-```
-
 ### Parameter Sample
 
 ```json
 {
   "documentId": "40288a9d7db295d3017db2aeb7380000",
-  "documentDto": {
-    "documentId": "40288a9d7db295d3017db2aeb7380000",
-    "documentType": "application-form",
-    "documentName": "추가 신청서",
-    "documentDesc": "",
-    "documentStatus": "document.status.temporary",
-    "processId": "4028b21f7c81a928017c81aa9dc60000",
-    "formId": "4028b8817cc50161017cc5082b460002",
-    "documentNumberingRuleId": "60211d93621zd1f126241s053c890122",
-    "documentColor": "#E1E9FE",
-    "documentGroup": "",
-    "apiEnable": false,
-    "createUserKey": null,
-    "createDt": null,
-    "updateUserKey": null,
-    "updateDt": null,
-    "documentIcon": ""
-  },
+  "documentType": "application-form",
+  "documentName": "추가 신청서",
+  "documentDesc": "",
+  "documentStatus": "document.status.temporary",
+  "processId": "4028b21f7c81a928017c81aa9dc60000",
+  "formId": "4028b8817cc50161017cc5082b460002",
+  "documentNumberingRuleId": "60211d93621zd1f126241s053c890122",
+  "documentColor": "#E1E9FE",
+  "documentGroup": "",
+  "apiEnable": false,
+  "createUserKey": null,
+  "createDt": null,
+  "updateUserKey": null,
+  "updateDt": null,
+  "documentIcon": "",
   "isDeleteData": false
+}
+```
+
+### Response Sample
+
+```json
+{
+  "return": "40288a9d7db295d3017db2aeb7380000"
 }
 ```
 
@@ -147,20 +142,19 @@ POST /rest/workflows/{documentId}
 DELETE /rest/workflows/{documentId}
 ```
 
-### Response Sample
-
-```json
-{
-  "responseCode": 200,
-  "errorMessage": "OK"
-}
-```
-
 ### Parameter Sample
 
 ```json
 {
   "documentId": "40288a9d7db295d3017db2aeb7380000"
+}
+```
+
+### Response Sample
+
+```json
+{
+  "return": true
 }
 ```
 
@@ -174,21 +168,10 @@ DELETE /rest/workflows/{documentId}
 PUT /rest/workflows/{documentId}/display
 ```
 
-### Response Sample
-
-```json
-{
-  "responseCode": 200,
-  "errorMessage": "OK"
-}
-```
-
 ### Parameter Sample
 
 ```json
 {
-  "documentId": "40288a9d7db295d3017db2aeb7380000",
-  "documentDisplay": {
     "documentId": "40288a9d7db295d3017db2aeb7380000",
     "display": [
       {
@@ -312,6 +295,13 @@ PUT /rest/workflows/{documentId}/display
         "display": "document.displayType.editable"
       }
     ]
-  }
+}
+```
+
+### Response Sample
+
+```json
+{
+  "return": true
 }
 ```

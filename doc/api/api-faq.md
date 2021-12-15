@@ -47,15 +47,6 @@ GET /rest/faqs/{faqId}
 POST /rest/faqs
 ```
 
-### Response Sample
-
-```json
-{
-  "responseCode": 200,
-  "errorMessage": "OK"
-}
-```
-
 ### Parameter Sample
 
 ```json
@@ -71,6 +62,14 @@ POST /rest/faqs
 }
 ```
 
+### Response Sample
+
+```json
+{
+  "return": true
+}
+```
+
 ## 데이터 수정
 
 ---
@@ -81,34 +80,30 @@ POST /rest/faqs
 PUT /rest/faqs/{faqId}
 ```
 
-### Response Sample
-
-```json
-{
-  "responseCode": 200,
-  "errorMessage": "OK"
-}
-```
-
 ### Parameter Sample
 
 ```json
 {
   "faqId": "40288a9d7db60f6e017db64bad810001",
-  "faqDto": {
-    "faqId": "40288a9d7db60f6e017db64bad810001",
-    "faqGroup": "faq.category.techSupport",
-    "faqTitle": "faq 신규등록",
-    "faqContent": "분류 및 내용 수정합니다",
-    "createDt": "2021-12-14T00:31:27.435771400",
-    "createUserKey": null,
-    "updateDt": "2021-12-14T00:31:27.435771400",
-    "updateUserKey": null
-  }
+  "faqGroup": "faq.category.techSupport",
+  "faqTitle": "faq 신규등록",
+  "faqContent": "분류 및 내용 수정합니다",
+  "createDt": "2021-12-14T00:31:27.435771400",
+  "createUserKey": null,
+  "updateDt": "2021-12-14T00:31:27.435771400",
+  "updateUserKey": null
 }
 ```
 
-##데이터 삭제
+### Response Sample
+
+```json
+{
+  "return": true
+}
+```
+
+## 데이터 삭제
 
 ---
 
@@ -118,19 +113,18 @@ PUT /rest/faqs/{faqId}
 DELETE /rest/faqs/{faqId}
 ```
 
-### Response Sample
-
-```json
-{
-  "responseCode": 200,
-  "errorMessage": "OK"
-}
-```
-
 ### Parameter Sample
 
 ```json
 {
   "faqId": "40288a9d7db60f6e017db64bad810001"
+}
+```
+
+### Response Sample
+
+```json
+{
+  "return": true
 }
 ```
