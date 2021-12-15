@@ -153,10 +153,10 @@ class ZFormTokenTab {
     makeHistoryFragment(token) {
         token.assigneeName = token.assigneeName ? token.assigneeName : '';
         return `<tr class="flex-row align-items-center">` +
-            `<td style="width: 35%;" class="align-left date-time" name="tokenDt" title="${token.tokenStartDt}">` + token.tokenStartDt + `</td>` +
-            `<td style="width: 25%;" class="align-left" title="${token.elementName}">` + token.elementName + `</td>` +
-            `<td style="width: 20%;" class="align-left" title="${token.assigneeName}">` + token.assigneeName + `</td>` +
-            `<td style="width: 20%;" class="align-left" title="${i18n.msg(token.tokenAction)}">` + i18n.msg(token.tokenAction) + `</td>` +
+            `<td style="width: 30%;" class="align-center date-time" name="tokenDt" title="${token.tokenStartDt}">` + token.tokenStartDt + `</td>` +
+            `<td style="width: 32%;" class="align-center" title="${token.elementName}">` + token.elementName + `</td>` +
+            `<td style="width: 20%;" class="align-center" title="${token.assigneeName}">` + token.assigneeName + `</td>` +
+            `<td style="width: 18%;" class="align-center" title="${i18n.msg(token.tokenAction)}">` + i18n.msg(token.tokenAction) + `</td>` +
             `</tr>`;
     }
     /***************************************************************************************************************
