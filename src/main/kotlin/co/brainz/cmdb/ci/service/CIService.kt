@@ -250,7 +250,6 @@ class CIService(
                 ciDto.ciRelations?.forEach {
                     ciRelationRepository.save(
                         CIRelationEntity(
-                            relationType = it.relationType,
                             ciId = ciDto.ciId,
                             targetCIId = it.targetCIId
                         )
@@ -346,7 +345,6 @@ class CIService(
         ciDto.ciRelations?.forEach {
             ciRelationRepository.save(
                 CIRelationEntity(
-                    relationType = it.relationType,
                     ciId = ciDto.ciId,
                     targetCIId = it.targetCIId
                 )

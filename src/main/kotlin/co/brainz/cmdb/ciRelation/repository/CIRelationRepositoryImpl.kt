@@ -15,23 +15,21 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 class CIRelationRepositoryImpl : QuerydslRepositorySupport(CIRelationEntity::class.java), CIRelationRepositoryCustom {
     override fun selectByCiId(ciId: String): MutableList<CIRelationDto> {
         val ciRelation = QCIRelationEntity.cIRelationEntity
-        val targetCI = QCIEntity("targetCI")
-
+        val ci = QCIEntity.cIEntity
         return from(ciRelation)
             .select(
                 Projections.constructor(
                     CIRelationDto::class.java,
                     ciRelation.relationId,
-                    ciRelation.relationType,
                     ciRelation.ciId,
                     ciRelation.targetCIId,
-                    targetCI.ciName
+                    ci.ciName,
+                    ci.ciTypeEntity.typeIcon,
+                    ci.ciTypeEntity.typeName
                 )
             )
-            .innerJoin(targetCI).on(targetCI.ciId.eq(ciRelation.targetCIId))
-            .where(
-                ciRelation.ciId.eq(ciId)
-            )
+            .innerJoin(ci).on(ci.ciId.eq(ciRelation.ciId))
+            .where(ciRelation.ciId.eq(ciId))
             .fetch()
     }
 }
