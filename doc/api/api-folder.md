@@ -8,7 +8,7 @@
 
 1. [데이터 조회](#데이터-조회)
 2. [데이터 추가](#데이터-추가)
-3. [데이터 삭제](#데이터-식제)
+3. [데이터 삭제](#데이터-삭제)
 
 ## 데이터 조회
 
@@ -32,8 +32,6 @@ GET /rest/folders/{folderId}
 
 ```json
 {
-  "responseCode": 200,
-  "errorMessage": "OK",
   "data": {
     "folderId": "af327115d88f42368e497a77fe01b8f9",
     "instanceId": "da043e4a2c6d44318eba059d6e6bb61c",
@@ -86,9 +84,9 @@ POST /rest/folders
 
 ### Response Sample
 
-```json
+```
 {
-  "return": true
+  true
 }
 ```
 
@@ -113,8 +111,8 @@ DELETE /rest/folders/{folderId}/instances/{instanceId}
 
 ### Response Sample
 
-```json
+```
 {
-  "return": true
+  true
 }
 ```

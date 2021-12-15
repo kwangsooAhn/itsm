@@ -24,9 +24,7 @@ GET /rest/faqs/{faqId}
 ```json
 {
   "faqId": "40288a9d7db60f6e017db630574b0000",
-  "request": {
-    "rolePrefix": "ROLE_"
-  }
+  "request": HttpServletRequest
 }
 ```
 
@@ -34,17 +32,13 @@ GET /rest/faqs/{faqId}
 
 ```json
 {
-  "responseCode": 200,
-  "errorMessage": "OK",
-  "data": {
-    "faqId": "40288a9d7db60f6e017db630574b0000",
-    "faqGroup": "faq.category.setting",
-    "faqGroupName": "설정",
-    "faqTitle": "faq 신규등록",
-    "faqContent": "안녕하세요",
-    "createDt": "2021-12-13T23:46:01.162433",
-    "createUserName": "ADMIN"
-  }
+  "faqId": "40288a9d7db60f6e017db630574b0000",
+  "faqGroup": "faq.category.setting",
+  "faqGroupName": "설정",
+  "faqTitle": "faq 신규등록",
+  "faqContent": "안녕하세요",
+  "createDt": "2021-12-13T23:46:01.162433",
+  "createUserName": "ADMIN"
 }
 ```
 
@@ -75,9 +69,9 @@ POST /rest/faqs
 
 ### Response Sample
 
-```json
+```
 {
-  "return": true
+ true
 }
 ```
 
@@ -108,9 +102,9 @@ PUT /rest/faqs/{faqId}
 
 ### Response Sample
 
-```json
+```
 {
-  "return": true
+  true
 }
 ```
 
@@ -134,8 +128,8 @@ DELETE /rest/faqs/{faqId}
 
 ### Response Sample
 
-```json
+```
 {
-  "return": true
+  true
 }
 ```

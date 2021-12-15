@@ -1,6 +1,6 @@
 # 대시보드
 
-##목차
+## 목차
 
 ---
 
@@ -17,10 +17,9 @@ GET /rest/dashboard/statistic
 ```
 
 ### response sample
+
 ```json
 {
-  "responseCode": 200,
-  "errorMessage": "OK",
   "data": [
     {
       "type": "todo",
