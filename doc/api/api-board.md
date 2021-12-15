@@ -56,12 +56,6 @@ GET /rest/boards/{boardAdminId}/view
 }
 ```
 
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
-|
-
 ## 게시판 관리_데이터 추가
 
 ---
@@ -92,13 +86,6 @@ POST /rest/boards
 ```json
 true
 ```
-
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
-|
-
 ## 게시판 관리_데이터 수정
 
 ---
@@ -131,11 +118,6 @@ PUT /rest/boards
 true
 ```
 
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
-
 ## 게시판 관리_데이터 삭제
 
 ---
@@ -158,11 +140,6 @@ DELETE /rest/boards/{boardAdminId}
 ```json
 true
 ```
-
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
 
 ## 게시판_데이터 추가
 
@@ -190,11 +167,6 @@ POST /rest/boards/articles
 ```
 null
 ```
-
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
 
 ## 게시판_데이터 수정
 
@@ -224,11 +196,6 @@ PUT /rest/boards/articles
 null
 ```
 
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
-
 ## 게시판_데이터 삭제
 
 ---
@@ -251,11 +218,6 @@ DELETE /rest/boards/articles/{boardId}
 ```
 null
 ```
-
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
 
 ## 게시판 댓글_데이터 추가
 
@@ -280,11 +242,6 @@ POST /rest/boards/articles/comments
 ```
 null
 ```
-
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
 
 ## 게시판 댓글_데이터 수정
 
@@ -311,11 +268,6 @@ PUT /rest/boards/articles/comments
 null
 ```
 
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
-
 ## 게시판 댓글_데이터 삭제
 
 ---
@@ -338,11 +290,6 @@ DELETE /rest/boards/articles/comments/{commentId}
 ```
 null
 ```
-
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
 
 ## 게시판 답글_데이터 추가
 
@@ -371,8 +318,3 @@ POST /rest/boards/articles/reply
 ```
 null
 ```
-
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|

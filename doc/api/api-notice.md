@@ -44,12 +44,6 @@ POST /rest/notices
 null
 ```
 
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
-|
-
 ## 데이터 수정
 
 ---
@@ -88,12 +82,6 @@ PUT /rest/notices/{noticeId}
 null
 ```
 
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
-|
-
 ## 데이터 삭제
 
 ---
@@ -117,10 +105,4 @@ DELETE /rest/notices/{noticeId}
 ```
 null
 ```
-
-### Error
-
-| 에러코드 | 설명 | 
-|:---|:---|
-|
 
