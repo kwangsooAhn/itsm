@@ -1252,6 +1252,7 @@ token:
     relatedInstancePlaceholder: "Document Name / Create User"
     searchPlaceholder: "Document No / Create User / Contents"
     startDt: "Start Date"
+    status: "Status"
     tagPlaceHolder: "#Tags"
     view: "Document View"
     write: "My Document"

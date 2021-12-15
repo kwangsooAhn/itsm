@@ -1251,6 +1251,7 @@ token:
     relatedInstance: "관련 문서"
     relatedInstancePlaceholder: "신청서 이름/ 작성자"
     searchPlaceholder: "규칙 이름 / 작성자 / 내용"
+    status: "상태"
     startDt: "시작 일시"
     tagPlaceHolder: "#태그"
     view: "문서 조회"
