@@ -25,6 +25,7 @@ INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157914004d','component','z-lo
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15791a004f','component','제목','aa83af616d59cc86c565a0282153c236');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15791b0050','component','z-document-title','aa83af616d59cc86c565a0282153c236');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15791b0051','component','z-serviceDesk-inquiry','aa83af616d59cc86c565a0282153c236');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15791b0052','component','단순문의','aa83af616d59cc86c565a0282153c236');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579290054','component','신청자','ad15aab4783f55533c6c1f183a4b60cc');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15792a0055','component','z-requester','ad15aab4783f55533c6c1f183a4b60cc');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15792c0056','component','신청부서','ae4f48236ecf493eb0212d77ac14c360');
@@ -38,6 +39,7 @@ INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c157947005f','component','z-re
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579490060','component','완료희망일시','a0c3e8d18663483284b7e9fe83d0b824');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579490061','component','z-request-deadline','a0c3e8d18663483284b7e9fe83d0b824');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579490062','component','z-serviceDesk-inquiry-request-deadline','a0c3e8d18663483284b7e9fe83d0b824');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579490072','component','단순문의 완료희망일시','a0c3e8d18663483284b7e9fe83d0b824');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579520063','component','z-request-title','a75c85bba7aa722f9dcbcbcfad0b6ac7');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579530064','component','제목','a75c85bba7aa722f9dcbcbcfad0b6ac7');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579590066','component','z-request-category','ade3320b3bc9dca17651e4c0cdef89e4');
@@ -69,6 +71,7 @@ INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579a9008d','component','승�
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579aa008e','component','반려일시','a10c935dbdf1c30b34dfabe5ebc0ba73');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579ab008f','component','z-approve-date','a10c935dbdf1c30b34dfabe5ebc0ba73');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579ab008g','component','z-serviceDesk-inquiry-approve-date','a10c935dbdf1c30b34dfabe5ebc0ba73');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579ab008h','component','단순문의 완료일시','a10c935dbdf1c30b34dfabe5ebc0ba73');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579b20091','component','승인의견','ab97abfd66b5654e3f525e617df9afaf');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579b30092','component','반려의견','ab97abfd66b5654e3f525e617df9afaf');
 INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c1579b40093','component','z-approve-content','ab97abfd66b5654e3f525e617df9afaf');
@@ -80,6 +83,7 @@ INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c78334db70242','component','z-do
 INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c78334fd20246','component','만족도','ac69d66f3ec394b36215cd2ee3983292');
 INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c78334ff20247','component','z-satisfaction','ac69d66f3ec394b36215cd2ee3983292');
 INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c78334ff20248','component','z-serviceDesk-inquiry-satisfaction','ac69d66f3ec394b36215cd2ee3983292');
+INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c78334ff20258','component','단순문의 만족도','ac69d66f3ec394b36215cd2ee3983292');
 INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c783350cb0249','component','만족도평가의견','ad2996c39febdc13b32d08354169d6ac');
 INSERT INTO awf_tag VALUES ('4028b21f7c780ba6017c783350f1024a','component','z-satisfaction-content','ad2996c39febdc13b32d08354169d6ac');
 /* 서비스데스크 - 장애신고 */
@@ -87,6 +91,7 @@ INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b06137c0067','component','로�
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b0613820068','component','z-logo','a371d3cfecb547e4aff813ce0fca711c');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b0613b6006a','component','제목','e90e4131007f470490a2ffaff402ba2f');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b0613bd006b','component','z-serviceDesk-incident','e90e4131007f470490a2ffaff402ba2f');
+INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b0613bd006c','component','장애신고','e90e4131007f470490a2ffaff402ba2f');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061436006f','component','신청자','77e97f770393455a97c645f7562b3b53');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b06143d0070','component','z-requester','77e97f770393455a97c645f7562b3b53');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b06144a0071','component','신청부서','fee68572b7bb4e04b1f27d0cdfe9ad7a');
@@ -100,6 +105,7 @@ INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061511007a','component','z-re
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b06151f007b','component','완료희망일시','ae79624833414ab3a3ff37582c234aa2');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061527007c','component','z-request-deadline','ae79624833414ab3a3ff37582c234aa2');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061530007d','component','z-serviceDesk-incident-request-deadline','ae79624833414ab3a3ff37582c234aa2');
+INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061530007e','component','장애관리 완료희망일시','ae79624833414ab3a3ff37582c234aa2');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b06157f007f','component','장애발생일시','a6eb123ed5ac913c55035f15bb30efce');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b0615850080','component','z-incident-date','a6eb123ed5ac913c55035f15bb30efce');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b0615920081','component','장애인지경로','a20925ede2aee30d0c74c4647c0c46dd');
@@ -149,6 +155,7 @@ INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061aa600c1','component','승�
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061aad00c2','component','반려일시','39e8b33c67ad420599d9f57c6e23cbee');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061ab500c3','component','z-approve-date','39e8b33c67ad420599d9f57c6e23cbee');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061abb00c4','component','z-incident-approve-date','39e8b33c67ad420599d9f57c6e23cbee');
+INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061abb00c5','component','장애관리 완료일시','39e8b33c67ad420599d9f57c6e23cbee');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061aed00c6','component','승인의견','5dba55dd1d57415ba28a3f1816859793');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061af300c7','component','반려의견','5dba55dd1d57415ba28a3f1816859793');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061af900c8','component','z-approve-content','5dba55dd1d57415ba28a3f1816859793');
@@ -160,6 +167,7 @@ INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da7eb0027','component','z-do
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da83a002b','component','만족도','5904fbf514df42cbb8d859799d8e7f3f');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da841002c','component','z-satisfaction','5904fbf514df42cbb8d859799d8e7f3f');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da841002g','component','z-serviceDesk-incident-satisfaction','5904fbf514df42cbb8d859799d8e7f3f');
+INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da841003g','component','장애관리 만족도','5904fbf514df42cbb8d859799d8e7f3f');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da860002e','component','만족도평가의견','207f974ae4654e7f8331526c504d0152');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da865002f','component','z-satisfaction-content','207f974ae4654e7f8331526c504d0152');
 /* 서비스데스크 - 서비스요청 */
@@ -167,6 +175,7 @@ INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca054467d0003','component','로�
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05446840004','component','z-logo','5d0b0faef24e429ba271e1bb2175d2ff');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05446bb0006','component','제목','7811e5a93319403698481a00386f8b5e');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05446c00007','component','z-serviceDesk-change','7811e5a93319403698481a00386f8b5e');
+INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05446c00008','component','서비스요청','7811e5a93319403698481a00386f8b5e');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05446e90009','component','','c2972b99571a448ebdb8b2f981412060');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544728000c','component','신청자','93d2c6c791ac4824bf94add769417fe4');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca054472e000d','component','z-requester','93d2c6c791ac4824bf94add769417fe4');
@@ -181,6 +190,7 @@ INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05447db0017','component','z-re
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05447e50018','component','완료희망일시','3304af52ee0a4009aaadb3917d5de7f8');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05447e90019','component','z-request-deadline','3304af52ee0a4009aaadb3917d5de7f8');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05447ef001a','component','z-serviceDesk-change-request-deadline','3304af52ee0a4009aaadb3917d5de7f8');
+INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca05447ef001b','component','변경관리 완료희망일시','3304af52ee0a4009aaadb3917d5de7f8');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca054482b001c','component','z-request-title','8fe57acaefef4533b3897867cedb6579');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544831001d','component','제목','8fe57acaefef4533b3897867cedb6579');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544856001f','component','z-request-category','c4591d870dab40e3a18ca6f41250b200');
@@ -218,6 +228,7 @@ INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544b10004f','component','승�
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544b150050','component','반려일시','ba5482f4fcfc45d7b20a04328670f11b');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544b1b0051','component','z-approve-date','ba5482f4fcfc45d7b20a04328670f11b');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544b200052','component','z-serviceDesk-change-approve-date','ba5482f4fcfc45d7b20a04328670f11b');
+INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544b200053','component','변경관리 완료일시','ba5482f4fcfc45d7b20a04328670f11b');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544b3f0054','component','승인의견','23e3399e82b644d09ab20b281860a4cb');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544b440055','component','반려의견','23e3399e82b644d09ab20b281860a4cb');
 INSERT INTO awf_tag VALUES ('4028b21f7c9ff7c8017ca0544b490056','component','z-approve-content','23e3399e82b644d09ab20b281860a4cb');
@@ -229,6 +240,7 @@ INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914eec700046','component','z-do
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914eecca004a','component','만족도','0986886e23a044659c7bb280347064d2');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914eecd3004b','component','z-satisfaction','0986886e23a044659c7bb280347064d2');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914eecd3000f','component','z-serviceDesk-change-satisfaction','0986886e23a044659c7bb280347064d2');
+INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914eecd3001f','component','변경관리 만족도','0986886e23a044659c7bb280347064d2');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914eecf9004d','component','만족도평가의견','5e203c7bace44cb58e1c38cee9372404');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914eecfe004e','component','z-satisfaction-content','5e203c7bace44cb58e1c38cee9372404');
 /* 서비스데스크 - 구성관리 */
@@ -236,6 +248,7 @@ INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68e9504d5', 'component', 'z-
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68e9504d6', 'component', '로그', '7e39bf6b1c6c47359add90f17c266f0f');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68e9904d8', 'component', 'z-document-title', '8f5cfccbbf74460496619a004e7ce3e4');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68e9904d9', 'component', 'z-serviceDesk-configuration', '8f5cfccbbf74460496619a004e7ce3e4');
+INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68e9904d0', 'component', 'CMDB 변경요청', '8f5cfccbbf74460496619a004e7ce3e4');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68e9904da', 'component', '제목', '8f5cfccbbf74460496619a004e7ce3e4');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68ea204de', 'component', 'z-configuration-requester', '366d2e5ed4c74a6290844a26e60be94f');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68ea204df', 'component', 'z-requester', '366d2e5ed4c74a6290844a26e60be94f');
@@ -253,6 +266,7 @@ INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68eb304ec', 'component', 'z-
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68eb404ed', 'component', '신청일시', '2d0da6608383405c9b51d8eda7d2733c');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68eb504ee', 'component', 'z-configuration-request-deadline', 'afa5c0918d3c45bb80bf515c8975d862');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68eb504ef', 'component', 'z-serviceDesk-configuration-request-deadline', 'afa5c0918d3c45bb80bf515c8975d862');
+INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68eb5040f', 'component', '구성관리 완료희망일시', 'afa5c0918d3c45bb80bf515c8975d862');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68eb604f0', 'component', '완료희망일시', 'afa5c0918d3c45bb80bf515c8975d862');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68ebb04f2', 'component', 'z-configuration-request-type', 'a9e1481c618341e2b3a09be5e11c32eb');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68ebc04f3', 'component', '접수구분', 'a9e1481c618341e2b3a09be5e11c32eb');
@@ -283,6 +297,7 @@ INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68eed0518', 'component', '�
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68ef1051b', 'component', '승인일시', 'aea59ca0fb4f4f76d3490f4ee8670a6c');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68ef2051c', 'component', '반려일시', 'aea59ca0fb4f4f76d3490f4ee8670a6c');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68ef2051d', 'component', 'z-serviceDesk-configuration-approve-date', 'aea59ca0fb4f4f76d3490f4ee8670a6c');
+INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68ef2052d', 'component', '구성관리 완료일시', 'aea59ca0fb4f4f76d3490f4ee8670a6c');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68ef3051e', 'component', 'z-approve-date', 'aea59ca0fb4f4f76d3490f4ee8670a6c');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68ef60520', 'component', '승인의견', 'afdf9366543bdb360808b1095fedd39c');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc7a68ef60521', 'component', '반려의견', 'afdf9366543bdb360808b1095fedd39c');
@@ -296,6 +311,7 @@ INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad46013c', 'component', '',
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad4e013f', 'component', '만족도', 'b91ace9a5b0c40e79e6dd1478e01f429');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad4f0140', 'component', 'z-satisfaction', 'b91ace9a5b0c40e79e6dd1478e01f429');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad500141', 'component', 'z-serviceDesk-configuration-satisfaction', 'b91ace9a5b0c40e79e6dd1478e01f429');
+INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad500142', 'component', '구성관리 만족도', 'b91ace9a5b0c40e79e6dd1478e01f429');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad540143', 'component', 'z-satisfaction-content', 'e7443376cc47464881005fd34a32e062');
 INSERT INTO awf_tag VALUES ('2c9180867cc31a25017cc5c8ad550144', 'component', '만족도평가의견', 'e7443376cc47464881005fd34a32e062');
 /* 인프라변경관리 */
@@ -304,6 +320,7 @@ INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5720aeb', 'component', 'z-
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5810aed', 'component', '제목', '44026fa563f649779f65f52dc0bfd0d6');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5830aee', 'component', 'z-change-infra-document-title', '44026fa563f649779f65f52dc0bfd0d6');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5850aef', 'component', 'z-change-infra', '44026fa563f649779f65f52dc0bfd0d6');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5850aeg', 'component', '인프라 변경관리', '44026fa563f649779f65f52dc0bfd0d6');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a58f0af1', 'component', '', 'a70e12f4514b4377bc9a94eb0f80deeb');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5a40af4', 'component', '신청자', '6df0771bb8a94deda97d0d6ba42ef01e');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5a60af5', 'component', 'z-change-infra-requester', '6df0771bb8a94deda97d0d6ba42ef01e');
@@ -317,6 +334,7 @@ INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5e20afe', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5e40aff', 'component', 'z-change-infra-request-date', '610a36dd4d28448f9ca09623962d64e5');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5e80b00', 'component', '완료희망일시', '9bbb34c9d2fe40ba802ee9f674210fe5');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5ea0b01', 'component', 'z-change-infra-request-deadline', '9bbb34c9d2fe40ba802ee9f674210fe5');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5ea0b02', 'component', '인프라 변경관리 완료희망일시', '9bbb34c9d2fe40ba802ee9f674210fe5');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5fe0b03', 'component', '제목', 'c520f41591ca4c18bc89b08e5b58a78b');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a5ff0b04', 'component', 'z-change-infra-request-title', 'c520f41591ca4c18bc89b08e5b58a78b');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a61d0b0a', 'component', '내용', '654a2e1cbdf14f39a883ff4ab168046c');
@@ -377,6 +395,7 @@ INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7a50b5d', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7a60b5e', 'component', 'z-change-infra-changeResult-process-date', '5e32d98e8bcd4e8e9cc8cdaea9ee45ff');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7b10b60', 'component', '변경작업결과', '1c9cb6326b104af88ff79743ce63bcce');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7b30b61', 'component', 'z-change-infra-result', '1c9cb6326b104af88ff79743ce63bcce');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7b30b62', 'component', '인프라 변경관리 작업결과', '1c9cb6326b104af88ff79743ce63bcce');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7be0b63', 'component', '변경작업결과내용', '45fdeda567e449849075599eaa4a8c06');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7c10b64', 'component', 'z-change-infra-changeResult-content', '45fdeda567e449849075599eaa4a8c06');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a7cc0b66', 'component', '변경작업결과첨부파일', '3f2ea69c92bd42a5a903b0d8884b19ab');
@@ -393,6 +412,7 @@ INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a8130b75', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a8140b76', 'component', 'z-change-infra-complete-reviewer', '9312d808fce84d5fb061a99e6d779c4d');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a8210b79', 'component', '최종검토일시', 'd189734cda47408ca2a33a4d6b8d04b2');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a8220b7a', 'component', 'z-change-infra-complete-review-date', 'd189734cda47408ca2a33a4d6b8d04b2');
+INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a8220b7b', 'component', '인프라 변경관리 완료일시', 'd189734cda47408ca2a33a4d6b8d04b2');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a82b0b7c', 'component', '최종검토의견', '60b0b5ffba4047bbb2f2779f40df84ac');
 INSERT INTO awf_tag VALUES ('4028b8817cbfc7a7017cc095a82c0b7d', 'component', 'z-change-infra-complete-review', '60b0b5ffba4047bbb2f2779f40df84ac');
 /* 구성 관리 */
@@ -401,6 +421,7 @@ INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b8ed0664', 'component', 'z-
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b8f90666', 'component', '제목', '563d53ddf0f247aeabc8125ae74983c5');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b8fa0667', 'component', 'z-change-configuration-document-title', '563d53ddf0f247aeabc8125ae74983c5');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b8fb0668', 'component', 'z-change-configuration', '563d53ddf0f247aeabc8125ae74983c5');
+INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b8fb0669', 'component', '구성관리', '563d53ddf0f247aeabc8125ae74983c5');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b907066a', 'component', '', '1bc7c8abaf4d46ee9f7c94c7a9b34e5a');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b919066d', 'component', '신청자', '836d9af6dac9457792414fe463934287');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b91c066e', 'component', 'z-change-configuration-requester', '836d9af6dac9457792414fe463934287');
@@ -414,6 +435,7 @@ INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b9540677', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b9560678', 'component', 'z-change-configuration-request-date', 'd0990234e6084761b5750aec29057250');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b9590679', 'component', '완료희망일시', '9cfabccac5cb4663b3cc8a4aa00f5bbe');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b95b067a', 'component', 'z-change-configuration-request-deadline', '9cfabccac5cb4663b3cc8a4aa00f5bbe');
+INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b95b067b', 'component', '구성관리 완료희망일시', '9cfabccac5cb4663b3cc8a4aa00f5bbe');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b96f067c', 'component', '접수구분', 'c55eab0decf54c6c8cf71b6e8385149c');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b971067d', 'component', 'z-change-configuration-request-type', 'c55eab0decf54c6c8cf71b6e8385149c');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531b980067f', 'component', '제목', '15238075213844d49c073342655e4e75');
@@ -446,6 +468,7 @@ INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531ba4706a7', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531ba4a06a8', 'component', 'z-change-configuration-approver', '133c1ba8364c4381af9078852e1727e5');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531ba5906ab', 'component', '승인일시', '8ab422fec4b74405977e7cbd44bb6b38');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531ba5a06ac', 'component', 'z-change-configuration-approve-date', '8ab422fec4b74405977e7cbd44bb6b38');
+INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531ba5a06ad', 'component', '구성관리 완료일시', '8ab422fec4b74405977e7cbd44bb6b38');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531ba6306ae', 'component', '승인의견', 'ea2dd7199f5a4a4a940e7bb59a3b2695');
 INSERT INTO awf_tag VALUES ('4028b8817cc50161017cc531ba6506af', 'component', 'z-change-configuration-approve-content', 'ea2dd7199f5a4a4a940e7bb59a3b2695');
 /*어플리케이션 변경관리*/
@@ -453,6 +476,7 @@ INSERT INTO awf_tag VALUES ('4028b22f7cc06c7f017cc0c08a9d00d2', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b22f7cc06c7f017cc0c08ad300d3', 'component', 'z-logo', '6f0146a3f8794d51b1c7b18544cd37f2');
 INSERT INTO awf_tag VALUES ('4028b22f7cc06c7f017cc0c08d0100d5', 'component', '제목', 'aabced0934724080836b48a3550c73ea');
 INSERT INTO awf_tag VALUES ('4028b22f7cc06c7f017cc0c08d3b00d6', 'component', 'z-document-title', 'aabced0934724080836b48a3550c73ea');
+INSERT INTO awf_tag VALUES ('4028b22f7cc06c7f017cc0c08d3b00d7', 'component', '어플리케이션 변경관리', 'aabced0934724080836b48a3550c73ea');
 INSERT INTO awf_tag VALUES ('4028b22f7cc06c7f017cc0c08f2b00d8', 'component', '', '242a4ea6a90f431da6208bc7622ad201');
 INSERT INTO awf_tag VALUES ('4028b22f7cc06c7f017cc0c0910100db', 'component', '신청자', '7792bded64de4f18a1a9034505f4073f');
 INSERT INTO awf_tag VALUES ('4028b22f7cc06c7f017cc0c0913800dc', 'component', 'z-requester', '7792bded64de4f18a1a9034505f4073f');
@@ -511,6 +535,7 @@ INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5731fc8019f', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5731fd101a0', 'component', 'z-logo', '29041c29517b41ddb1f0b2b60d08452f');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573201e01a2', 'component', '제목', '824ad6c23d964dd294e561dfc5d04e47');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573202701a3', 'component', 'z-change-application', '824ad6c23d964dd294e561dfc5d04e47');
+INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573202701a4', 'component', '어플리케이션 변경관리', '824ad6c23d964dd294e561dfc5d04e47');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573207f01a5', 'component', '', '8430f76f10fb494fb5761ef9423df85c');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573210501a8', 'component', 'z-change-application-requester', '2871ac7774464835b08f4d6cab4b96b5');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573211101a9', 'component', '신청자', '2871ac7774464835b08f4d6cab4b96b5');
@@ -524,6 +549,7 @@ INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573227401b2', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573228201b3', 'component', 'z-change-application-request-date', 'f360235183da444bb601f8a7c6d6c9e9');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57322a201b4', 'component', '완료희망일시', 'c4de13d358ff432cb33aed21e4ba6dde');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57322b201b5', 'component', 'z-change-application-request-deadline', 'c4de13d358ff432cb33aed21e4ba6dde');
+INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57322b201b6', 'component', '어플리케이션 변경관리 완료희망일시', 'c4de13d358ff432cb33aed21e4ba6dde');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573234601b7', 'component', '제목', '1e53a80e6ca34e948aec9ccb7e56c645');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573235701b8', 'component', 'z-change-application-request-title', '1e53a80e6ca34e948aec9ccb7e56c645');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc573241301bd', 'component', '내용', 'cf8ca9e6099d48e5b4905ef40a534222');
@@ -589,7 +615,7 @@ INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57330c70212', 'component', 'z-
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57330df0213', 'component', '구현종료일시', '21ba4afcd641438085143b32fa531927');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57330ec0214', 'component', 'z-change-application-real-end-date', '21ba4afcd641438085143b32fa531927');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57331090215', 'component', '개발실투입공수', 'a49c61a7b07c4716a617bc7229c066a0');
-INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57331140216', 'component', 'z--change-application-real-md', 'a49c61a7b07c4716a617bc7229c066a0');
+INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57331140216', 'component', 'z-change-application-real-md', 'a49c61a7b07c4716a617bc7229c066a0');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57331cd0218', 'component', '실제자원', 'db5582e76af5493ca3b4633501482a2a');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc57331dd0219', 'component', 'z-change-application-real-resource', 'db5582e76af5493ca3b4633501482a2a');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733233021b', 'component', '구현내역첨부파일', '69001206ba174a69a36d9d532c1137a7');
@@ -638,11 +664,13 @@ INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733af40259', 'component', 'z-
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733aff025a', 'component', '최종변경완료일시', 'ab3624aef6215c223bcf7efe1eac4cb2');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733b59025c', 'component', '변경작업결과', '28f59af48d194c5b81a4cafdc226084a');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733b63025d', 'component', 'z-change-application-result', '28f59af48d194c5b81a4cafdc226084a');
+INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733b63025e', 'component', '어플리케이션 변경관리 작업결과', '28f59af48d194c5b81a4cafdc226084a');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733bb2025f', 'component', '변경작업결과내용', '0f529f1cbd564b9c840160d9064ea181');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733bbe0260', 'component', 'z-change-application-result-content', '0f529f1cbd564b9c840160d9064ea181');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733c0e0262', 'component', '변경작업결과파일', 'fd55e89cd4ef4dc29a726c410038ffb5');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733c180263', 'component', 'z-change-application-result-file', 'fd55e89cd4ef4dc29a726c410038ffb5');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733c8f0266', 'component', 'z-change-application-complete-review-date', 'a62f9041b363c34e6b545bca122560d7');
+INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733c8f0264', 'component', '어플리케이션 변경관리 완료일시', 'a62f9041b363c34e6b545bca122560d7');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733c9b0267', 'component', '최종검토일시', 'a62f9041b363c34e6b545bca122560d7');
 INSERT INTO awf_tag VALUES ('4028b22f7cc55c1a017cc5733ce40269', 'component', 'z-change-application-complete-review', 'a32a39fbad533a53d29cd742a0e00fd6');
 /* 문제관리 */
@@ -650,6 +678,7 @@ INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45bdc0817','component','로�
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45be10818','component','z-logo','2b8b3a80d2fe45de9d21ab5607b8d998');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45c1e081a','component','제목','31b1de9ccd8e4d74a811b6873e537610');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45c25081b','component','z-document-title','31b1de9ccd8e4d74a811b6873e537610');
+INSERT INTO awf_tag VALUES ('2c91808e7c7b0130017c7c15791b0053','component','문제관리','31b1de9ccd8e4d74a811b6873e537610');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45cb50820','component','신청자','e2c2dce277d54056bfd6f219af04dcb1');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45cd50822','component','신청부서','db5ad7ef171a4fe3808cbb27fa68bbe6');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45d3e0825','component','전화번호','dfd3fe7fea3e4ddc969a3d9901c1d7e0');
@@ -661,7 +690,7 @@ INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45dd8082e','component','z-se
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45e2c0830','component','장애인지경로','f674bf8a2cf34575a0ee273a9d1d7bff');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45e660833','component','장애유형','8b28285dbe524b63be1339ee01329b48');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45e6e0834','component','z-problem-incident-category','8b28285dbe524b63be1339ee01329b48');
-INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45ea90836','component','장애등급','d172da0c48f24746b01b968d6c3d8e60');
+INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45ea90836','component','문제관리 장애등급','d172da0c48f24746b01b968d6c3d8e60');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45eaf0837','component','z-problem-incident-level','d172da0c48f24746b01b968d6c3d8e60');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45ebf0838','component','긴급도','6db290066a864663b21de4bc9ecd2a04');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45ec60839','component','z-problem-incident-urgency','6db290066a864663b21de4bc9ecd2a04');
@@ -698,11 +727,13 @@ INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b462eb0867','component','z-pr
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b463a0086f','component','반려의견','2be7b26c800148389f26ecc23dc2e90c');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b463b10871','component','승인의견','2be7b26c800148389f26ecc23dc2e90c');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b4636b086d','component','z-problem-approve-date','55fdf2f665624f6d8cafeb88bd677405');
+INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b4636b086f','component','문제관리 완료일시','55fdf2f665624f6d8cafeb88bd677405');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b463a70870','component','z-problem-approve-content','2be7b26c800148389f26ecc23dc2e90c');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45cbb0821','component','z-problem-requester','e2c2dce277d54056bfd6f219af04dcb1');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45cdd0823','component','z-problem-requester-department','db5ad7ef171a4fe3808cbb27fa68bbe6');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45d600828','component','z-problem-requester-email','0c1e69db46e749fab3a7e61a47a78e3e');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45dcd082d','component','z-problem-request-deadline','4292b0523ae141c3a27996fbd4c88e16');
+INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45dcd082e','component','문제관리 완료희망일시','4292b0523ae141c3a27996fbd4c88e16');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45e320831','component','z-problem-perception-path','f674bf8a2cf34575a0ee273a9d1d7bff');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b45f25083b','component','z-problem-request-title','ba9005c759b04039bebd01aea8e14530');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b4609d084b','component','z-problem-accept-date','7434d3fecc8141bebcabe9f1266da34c');
@@ -717,6 +748,7 @@ INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b6493408db', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b6494808dc', 'component', 'z-logo', 'f4229a8f389c452e9bedde010074bfbb');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b6498908de', 'component', '제목', '5c19468fcfa04a96821d48b50f3cb1a4');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b6499208df', 'component', 'z-incident', '5c19468fcfa04a96821d48b50f3cb1a4');
+INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b6499208dg', 'component', '장애관리', '5c19468fcfa04a96821d48b50f3cb1a4');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b649a108e0', 'component', 'z-document-title', '5c19468fcfa04a96821d48b50f3cb1a4');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b64a2608e5', 'component', '신청자', 'db577589ac59407884634054181536a8');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b64a3008e6', 'component', 'z-incident-requester', 'db577589ac59407884634054181536a8');
@@ -782,3 +814,22 @@ INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b65172093a', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b65179093b', 'component', '장애처리반려의견', 'd76ba5477ff14033b691d6f59cc5c0a5');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b6517f093c', 'component', 'z-incident-fix-approve-content', 'd76ba5477ff14033b691d6f59cc5c0a5');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b65187093d', 'component', 'z-incident-approve-content', 'd76ba5477ff14033b691d6f59cc5c0a5');
+
+/* 사용자 정의 차트 */
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0001', 'chart', '단순문의 만족도', '4028b8817cd4629c017cd479a9890005');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0002', 'chart', '장애관리 만족도', '4028b8817cd4629c017cd479a9890005');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0003', 'chart', '변경관리 만족도', '4028b8817cd4629c017cd479a9890005');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0004', 'chart', '구성관리 만족도', '4028b8817cd4629c017cd479a9890005');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0005', 'chart', '단순문의', '4028b8817cd4629c017cd46affee0001');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0006', 'chart', '장애신고', '4028b8817cd4629c017cd46affee0001');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0007', 'chart', '서비스요청', '4028b8817cd4629c017cd46affee0001');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0008', 'chart', 'CMDB 변경요청', '4028b8817cd4629c017cd46affee0001');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0009', 'chart', '단순문의 만족도', '4028b8817cd4629c017cd4838b2e0007');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0010', 'chart', '장애관리 만족도', '4028b8817cd4629c017cd48588b50008');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0011', 'chart', '변경관리 만족도', '4028b8817cd4629c017cd4863bfc0009');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0012', 'chart', '구성관리 만족도', '4028b8817cd4629c017cd47a4c0d0006');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0013', 'chart', '장애관리', '4028b8817cd4629c017cd49c25e2000c');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0014', 'chart', '문제관리', '4028b8817cd4629c017cd49fec730010');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0015', 'chart', '인프라 변경관리', '4028b8817cd4629c017cd4a3758c0013');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0016', 'chart', '어플리케이션 변경관리', '4028b8817cd4629c017cd4a7b2f10017');
+INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0017', 'chart', '구성관리', '4028b8817cd4629c017cd4aa4abf001b');
