@@ -49,13 +49,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.nio.file.Paths
-import java.security.PrivateKey
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Optional
-import kotlin.math.ceil
-import kotlin.random.Random
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -67,6 +60,14 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
+import java.nio.file.Paths
+import java.security.PrivateKey
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Optional
+import kotlin.math.ceil
+import kotlin.random.Random
 
 /**
  * 사용자 관리 서비스
@@ -102,6 +103,33 @@ class UserService(
 
     init {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+    }
+
+    /**
+     * 부재중인 사용자를 제외한 사용자 목록 조회
+     *   - 사용자 부재 설정을 한 사용자로 기간 범위내 업무 대리인을 지정한 사용자 제외
+     */
+    fun selectNotAbsenceUserList(params: LinkedHashMap<String, Any>): UserListReturnDto {
+        val from = ZonedDateTime.parse(params["from"].toString()).toLocalDateTime()
+        val to = ZonedDateTime.parse(params["to"].toString()).toLocalDateTime()
+        val excludeIds = mutableSetOf<String>()
+        excludeIds.add(currentSessionUser.getUserKey())
+        val absenceList = userCustomRepository.findByCustomType(UserConstants.UserCustom.USER_ABSENCE.code)
+        absenceList?.forEach { absence ->
+            val userAbsenceDto = mapper.readValue(absence.customValue, UserAbsenceDto::class.java)
+            if ((userAbsenceDto.startDt!! <= from && userAbsenceDto.endDt!! >= from) ||
+                (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)) {
+                excludeIds.add(absence.userKey)
+            }
+        }
+        val userSearchCondition = UserSearchCondition(
+            searchValue = params["search"].toString()
+        )
+        if (excludeIds.isNotEmpty()) {
+            userSearchCondition.excludeIds = excludeIds
+        }
+
+        return this.selectUserList(userSearchCondition)
     }
 
     /**

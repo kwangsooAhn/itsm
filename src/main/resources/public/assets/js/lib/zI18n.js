@@ -6,9 +6,9 @@
     'use strict';
 
     let messages = {},
-        defaultDateTimeFormat = 'yyyy-MM-dd HH:mm:ss',
+        defaultDateTimeFormat = 'yyyy-MM-dd HH:mm', // ITSM 에서는 초 데이터(ss)를 쓸일이 없으니,  기본값 수정
         defaultDateFormat = 'yyyy-MM-dd',
-        defaultTimeFormat = 'HH:mm:ss', //HH = 24, hh = 12
+        defaultTimeFormat = 'HH:mm', //HH = 24, hh = 12
         defaultLang = 'ko',
         defaultTimezone = 'Asia/Seoul';
     

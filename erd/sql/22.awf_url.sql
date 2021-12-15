@@ -69,7 +69,7 @@ insert into awf_url values ('/custom-codes/new', 'get', '사용자 정의 코드
 insert into awf_url values ('/custom-codes/search', 'get', '사용자 정의 코드 리스트 호출 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/{id}/edit', 'get', '사용자 정의 코드 수정 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/{id}/view', 'get', '사용자 정의 코드 상세 정보 화면', 'TRUE');
-insert into awf_url values ('/dashboard/view', 'get', '대시보드 상세 정보 화면', 'TRUE');
+insert into awf_url values ('/dashboard/view', 'get', '대시보드 상세 정보 화면', 'FALSE');
 insert into awf_url values ('/workflows', 'get', '업무흐름 리스트 화면', 'TRUE');
 insert into awf_url values ('/workflows/new', 'get', '신청서 생성 화면', 'TRUE');
 insert into awf_url values ('/workflows/search', 'get', '업무흐름 데이터 + 목록화면', 'TRUE');

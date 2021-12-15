@@ -984,6 +984,7 @@ notice:
     enterToDt: "검색 종료 날짜를 입력하세요."
     enterTopNoticeEndDt: "상단 공지 종료일시을 입력하세요."
     enterTopNoticeStrtDt: "상단 공지 시작일시을 입력하세요."
+    maximunTopNoticeCount: "상단 공지 최대 갯수는 10개 입니다."
     portalDescription: "공지사항을 조회합니다."
     searchDescription: "공지사항을 조회 및 관리합니다."
     viewDescription: "공지사항에 대한 상세 정보를 조회합니다."

@@ -970,6 +970,14 @@ input, button, select, optgroup, textarea {
   max-width: 120rem;
   margin: 0 auto;
   overflow-y: auto;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.z-portal-container .z-main::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
 }
 .z-portal-container .z-main .z-main-content {
   height: 100%;
@@ -1070,12 +1078,19 @@ input, button, select, optgroup, textarea {
   color: #8B9094;
 }
 .z-portal-container .z-main .z-main-content .z-list-content {
-  padding: 3.375rem 13.75rem 0 13.75rem;
+  padding: 1.5rem 13.75rem 0 13.75rem;
   height: 40.438rem;
 }
 .z-portal-container .z-main .z-main-content .z-list-content .z-table {
   position: relative;
   border: none;
+}
+.z-portal-container .z-main .z-main-content .z-list-content + .z-page-paging {
+  padding: 0 13.75rem 1.875rem 13.75rem;
+}
+.z-portal-container .z-main .z-main-content .z-list-content + .z-page-paging #spanCurrentPageNum {
+  position: absolute;
+  right: 13.75rem;
 }
 .z-portal-container .z-main .z-main-content .z-main-accordion {
   margin: 3.375rem 13.75rem 0 13.75rem;
@@ -2487,13 +2502,13 @@ summary:focus {
 
 .z-table .z-table-body {
   display: block;
-  height: 32.81rem;
+  height: 35rem;
 }
 .z-table .z-table-body tr {
   display: table;
   table-layout: fixed;
   width: 100%;
-  height: 3.375rem;
+  height: 2.688rem;
 }
 .z-table.z-card-table tr {
   height: 2.5rem;
