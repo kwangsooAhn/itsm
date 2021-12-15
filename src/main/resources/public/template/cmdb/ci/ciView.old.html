@@ -116,7 +116,6 @@
                 <table class="z-table">
                     <thead class="z-table-head">
                     <tr class="flex-row align-items-center">
-                        <th style="width: 40%;" class="align-left" th:text="#{cmdb.ci.label.relationType}"></th>
                         <th style="width: 60%;" class="align-left" th:text="#{cmdb.ci.label.targetCiName}"></th>
                     </tr>
                     </thead>
@@ -126,7 +125,6 @@
                         <td style="width: 100%;" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
                     </tr>
                     <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciRelationList)}" th:each="ciRelation: ${ciRelationList}">
-                        <td style="width: 40%;" th:text="${ciRelation.relationType}"></td>
                         <td style="width: 60%;" th:text="${ciRelation.targetCIName}"></td>
                     </tr>
                     </tbody>
