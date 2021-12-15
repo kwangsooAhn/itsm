@@ -152,6 +152,10 @@ class CIService(
         )
         val ciEntity = ciRepository.findByCiId(ciId)
         if (ciEntity != null) {
+            val relationList = ciRelationRepository.selectByCiId(ciEntity.ciId)
+            relationList.forEach { relation ->
+                relation.targetCIIconData = relation.targetCIIcon?.let { ciTypeService.getCITypeImageData(it) }
+            }
             ciDetailDto.ciNo = ciEntity.ciNo
             ciDetailDto.ciName = ciEntity.ciName
             ciDetailDto.ciIcon = ciEntity.ciTypeEntity.typeIcon
@@ -168,7 +172,7 @@ class CIService(
             ciDetailDto.updateUserKey = ciEntity.updateUser?.userKey
             ciDetailDto.updateDt = ciEntity.updateDt
             ciDetailDto.ciTags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ciEntity.ciId)
-            ciDetailDto.ciRelations = ciRelationRepository.selectByCiId(ciEntity.ciId)
+            ciDetailDto.ciRelations = relationList
             ciDetailDto.classes = ciClassService.getCIClassAttributes(
                 ciEntity.ciId,
                 ciEntity.ciTypeEntity.ciClass.classId

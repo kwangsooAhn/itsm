@@ -14,5 +14,6 @@ data class CIRelationDto(
     val targetCIId: String,
     val targetCIName: String? = null,
     val targetCIIcon: String? = null,
+    var targetCIIconData: String? = null,
     val targetTypeName: String? = null
 ) : Serializable

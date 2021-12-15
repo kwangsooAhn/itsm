@@ -10,6 +10,7 @@ import co.brainz.cmdb.ciRelation.entity.CIRelationEntity
 import co.brainz.cmdb.ciRelation.entity.QCIRelationEntity
 import co.brainz.cmdb.dto.CIRelationDto
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIRelationRepositoryImpl : QuerydslRepositorySupport(CIRelationEntity::class.java), CIRelationRepositoryCustom {
@@ -25,6 +26,7 @@ class CIRelationRepositoryImpl : QuerydslRepositorySupport(CIRelationEntity::cla
                     ciRelation.targetCIId,
                     ci.ciName,
                     ci.ciTypeEntity.typeIcon,
+                    Expressions.asString(""),
                     ci.ciTypeEntity.typeName
                 )
             )
