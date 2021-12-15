@@ -147,7 +147,13 @@ GET /rest/roles
       "roleName": "장애 담당자",
       "roleDesc": null
     }
-  ]
+  ],
+  "paging": {
+    "totalCount": 24,
+    "totalCountWithoutCondition": 24,
+    "currentPageNum": 0,
+    "orderType": null
+  }
 }
 ```
 
@@ -161,44 +167,42 @@ GET /rest/roles
 GET /rest/roles/{roleId}
 ```
 
+### Parameter Sample
+
+```json
+{
+  "roleId": "document.manager"
+}
+```
+
 ### Response Sample
 
 ```json
 {
   "responseCode": 200,
   "errorMessage": "OK",
-  "data": [
-    {
-      "authId": "document.create",
-      "authName": "신청서 등록",
-      "authDesc": null
-    },
-    {
-      "authId": "document.delete",
-      "authName": "신청서 삭제",
-      "authDesc": null
-    },
-    {
-      "authId": "document.read",
-      "authName": "신청서 조회",
-      "authDesc": null
-    },
-    {
-      "authId": "document.update",
-      "authName": "신청서수정",
-      "authDesc": null
-    },
-    {
-      "authId": "token.create",
-      "authName": "처리할 문서 등록",
-      "authDesc": null
-    },
-    {
-      "authId": "token.read",
-      "authName": "처리할 문서 조회",
-      "authDesc": null
-    }
-  ]
+  "data": {
+    "roleId": "document.manager",
+    "roleName": "문서처리 관리자",
+    "roleDesc": null,
+    "createUserName": "ADMIN",
+    "createDt": "2021-12-09T15:51:18.606923",
+    "updateUserName": null,
+    "updateDt": null,
+    "arrAuthList": [
+      {
+        "authId": "action.cancel",
+        "cuthName": "문서 취소",
+        "authDesc": null
+      },
+      {
+        "authId": "action.terminate",
+        "cuthName": "문서 종결",
+        "authDesc": null
+      }
+    ],
+    "userRoleMapCount": 0
+  }
 }
 ```
 
@@ -210,15 +214,6 @@ GET /rest/roles/{roleId}
 
 ```
 POST /rest/roles
-```
-
-### Response Sample
-
-```json
-{
-  "responseCode": 200,
-  "errorMessage": "OK"
-}
 ```
 
 ### Parameter Sample
@@ -242,6 +237,15 @@ POST /rest/roles
 }
 ```
 
+### Response Sample
+
+```json
+{
+  "responseCode": 200,
+  "errorMessage": "OK"
+}
+```
+
 ## 데이터 수정
 
 ---
@@ -250,15 +254,6 @@ POST /rest/roles
 
 ```
 POST /rest/roles/{roleId}
-```
-
-### Response Sample
-
-```json
-{
-  "responseCode": 200,
-  "errorMessage": "OK"
-}
 ```
 
 ### Parameter Sample
@@ -282,6 +277,15 @@ POST /rest/roles/{roleId}
 }
 ```
 
+### Response Sample
+
+```json
+{
+  "responseCode": 200,
+  "errorMessage": "OK"
+}
+```
+
 ## 데이터 삭제
 
 ---
@@ -292,20 +296,20 @@ POST /rest/roles/{roleId}
 DELETE /rest/roles/{roleId}
 ```
 
+### Parameter Sample
+
+```json
+{
+  "roleId": "role.test"
+}
+```
+
 ### Response Sample
 
 ```json
 {
   "responseCode": 200,
   "errorMessage": "OK"
-}
-```
-
-### Parameter Sample
-
-```json
-{
-  "roleId": "role.test"
 }
 ```
 
