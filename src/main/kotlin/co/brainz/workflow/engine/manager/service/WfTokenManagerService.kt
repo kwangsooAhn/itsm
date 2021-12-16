@@ -423,25 +423,23 @@ class WfTokenManagerService(
      * wf_component_ci_data 테이블에 존재하는 메인 신청서와 관련된 CI 데이터에 대한 복사를 진행한다.
      */
     fun copyComponentCIData(
-        documentId: String,
-        mainInstanceId: String,
-        subInstanceId: String,
-        wfTokenDataDtoList: List<WfTokenDataDto>?
+        startTokenDto: WfTokenDto,
+        makeDocumentTokenDto: WfTokenDto
     ) {
-        val document = documentRepository.findDocumentEntityByDocumentId(documentId)
+        val document = documentRepository.findDocumentEntityByDocumentId(makeDocumentTokenDto.documentId!!)
         val mainCIComponentList = mutableListOf<WfComponentEntity>()
         val subCIComponentList = mutableListOf<CICopyDataDto>()
         val subCIElementList = mutableListOf<WfElementEntity>()
         // 메인 신청서의 문서양식의 컴포넌트 데이터 수집
-        wfInstanceRepository.findByInstanceId(mainInstanceId)!!.document.form.components.forEach { component ->
+        wfInstanceRepository.findByInstanceId(startTokenDto.instanceId)!!.document.form.components.forEach { component ->
             if (component.componentType == WfComponentConstants.ComponentTypeCode.CI.code && component.mappingId.isNotBlank()) {
                 mainCIComponentList.add(component)
             }
         }
 
         // 서브 업무흐름의 문서양식으로 맵핑된 데이터 중에서 CI와 관련된 데이터 수집
-        if (!wfTokenDataDtoList.isNullOrEmpty()) {
-            wfTokenDataDtoList.forEach { wfTokenData ->
+        if (!makeDocumentTokenDto.data.isNullOrEmpty()) {
+            makeDocumentTokenDto.data!!.forEach { wfTokenData ->
                 val component = wfComponentRepository.findByComponentId(wfTokenData.componentId)
                 if (component.componentType == WfComponentConstants.ComponentTypeCode.CI.code && component.mappingId.isNotBlank()) {
                     val data: Array<Map<String, String>> =
@@ -483,7 +481,7 @@ class WfTokenManagerService(
                                 ciId = subCIComponent.ciId,
                                 values = mainData.values,
                                 componentId = subCIComponent.componentId,
-                                instanceId = subInstanceId
+                                instanceId = makeDocumentTokenDto.instanceId
                             )
                         )
 
