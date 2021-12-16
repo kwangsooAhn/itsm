@@ -24,129 +24,13 @@ GET /rest/roles
 
 ```json
 {
-  "responseCode": 200,
-  "errorMessage": "OK",
   "data": [
     {
       "roleId": "faq.all",
       "roleName": "FAQ관리자",
       "roleDesc": null
     },
-    {
-      "roleId": "board.admin.manager",
-      "roleName": "게시판 관리자",
-      "roleDesc": "게시판 관리자"
-    },
-    {
-      "roleId": "notice.all",
-      "roleName": "공지사항 관리자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "notice.view",
-      "roleName": "공지사항 사용자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "admin",
-      "roleName": "관리자",
-      "roleDesc": "전체관리자"
-    },
-    {
-      "roleId": "configuration.change.manager",
-      "roleName": "구성관리 관리자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "configuration.change.assignee",
-      "roleName": "구성관리 담당자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "auth.all",
-      "roleName": "권한 관리자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "document",
-      "roleName": "문서처리",
-      "roleDesc": null
-    },
-    {
-      "roleId": "document.manager",
-      "roleName": "문서처리 관리자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "problem.manager",
-      "roleName": "문제관리 관리자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "problem.assignee",
-      "roleName": "문제관리 담당자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "users.manager",
-      "roleName": "사용자관리자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "users.general",
-      "roleName": "사용자일반",
-      "roleDesc": null
-    },
-    {
-      "roleId": "serviceDesk.manager",
-      "roleName": "서비스데스크 관리자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "serviceDesk.assignee",
-      "roleName": "서비스데스크 담당자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "application.change.manager",
-      "roleName": "어플리케이션 변경 관리자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "application.change.assignee",
-      "roleName": "어플리케이션 변경 담당자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "role.all",
-      "roleName": "역할 관리자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "role.view",
-      "roleName": "역할 사용자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "infra.change.manager",
-      "roleName": "인프라 변경 관리자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "infra.change.assignee",
-      "roleName": "인프라 변경 담당자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "incident.manager",
-      "roleName": "장애 관리자",
-      "roleDesc": null
-    },
-    {
-      "roleId": "incident.assignee",
-      "roleName": "장애 담당자",
-      "roleDesc": null
-    }
+    ...
   ],
   "paging": {
     "totalCount": 24,
@@ -169,9 +53,9 @@ GET /rest/roles/{roleId}
 
 ### Parameter Sample
 
-```json
+```
 {
-  "roleId": "document.manager"
+  "document.manager"
 }
 ```
 
@@ -179,8 +63,6 @@ GET /rest/roles/{roleId}
 
 ```json
 {
-  "responseCode": 200,
-  "errorMessage": "OK",
   "data": {
     "roleId": "document.manager",
     "roleName": "문서처리 관리자",
@@ -228,9 +110,9 @@ POST /rest/roles
   "updateUserName": null,
   "updateDt": null,
   "arrAuthId": {
-    "0": "document.read.admin",
-    "1": "role.create",
-    "2": "document.read.admin"
+    0: "document.read.admin",
+    1: "role.create",
+    2: "document.read.admin"
   },
   "arrAuthList": null,
   "userRoleMapCount": 0
@@ -239,10 +121,9 @@ POST /rest/roles
 
 ### Response Sample
 
-```json
+```
 {
-  "responseCode": 200,
-  "errorMessage": "OK"
+  "role.test"
 }
 ```
 
@@ -268,9 +149,9 @@ POST /rest/roles/{roleId}
   "updateUserName": null,
   "updateDt": null,
   "arrAuthId": {
-    "0": "cmdb.attribute.create",
-    "1": "cmdb.ci.update",
-    "2": "cmdb.attribute.read"
+    0: "cmdb.attribute.create",
+    1: "cmdb.ci.update",
+    2: "cmdb.attribute.read"
   },
   "arrAuthList": null,
   "userRoleMapCount": 0
@@ -279,10 +160,9 @@ POST /rest/roles/{roleId}
 
 ### Response Sample
 
-```json
+```
 {
-  "responseCode": 200,
-  "errorMessage": "OK"
+  "role.test"
 }
 ```
 
@@ -298,18 +178,17 @@ DELETE /rest/roles/{roleId}
 
 ### Parameter Sample
 
-```json
+```
 {
-  "roleId": "role.test"
+  role.test"
 }
 ```
 
 ### Response Sample
 
-```json
+```
 {
-  "responseCode": 200,
-  "errorMessage": "OK"
+  "true"
 }
 ```
 
@@ -327,7 +206,11 @@ GET /rest/roles/excel
 
 ```json
 {
-  "responseCode": 200,
-  "errorMessage": "OK"
+  "status": "200 OK",
+  "header": {
+    "Content-Type": "application/vnd.ms-excel",
+    "Content-Disposition": "attachment; filename=6203f83ee98d47c8a967926ed312086d"
+  },
+  "body": "[80, 75, 3, 4, 20, 0, 8, 8, 8, 0, -38, -71, -113, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 0, 91, 67, 111, 110, 116, 101, 110, 116, 95, 84, 121, 112, 101, 115, 93, 46, 120, 109, 108, -75, 83, -53, 110, -62, 48, 16, -4, -107, -56, -41, 42, 54, -12, 80, 85, 21, -127, 67, 31, -57, 22, -87, -12, 3, 92, 123, -109, 88, -8, 37, -81, -95, -16, -9, 93, 7, 56, -108, 82, -119, 10, 113, -14, 99, 102, 103, 102, 87, -10, 100, +4,270 more]"
 }
 ```

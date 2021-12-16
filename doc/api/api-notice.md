@@ -102,9 +102,9 @@ PUT /rest/notices/{noticeId}
 
 ### Parameter Sample
 
-```json
+```
 {
-  "noticeId": "40288a9d7db60f6e017db74d89ea0003"
+  "40288a9d7db60f6e017db74d89ea0003"
 }
 ```
 
