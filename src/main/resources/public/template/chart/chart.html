@@ -463,9 +463,13 @@
          */
         function getChartData() {
             let tags = [];
-            JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
-                tags.push({ value: tag.value })
-            });
+            const targetTags = document.getElementById('targetTags').value;
+            if (targetTags !== '') {
+                JSON.parse(targetTags).forEach(tag => {
+                    tags.push({value: tag.value})
+                });
+            }
+
 
             let fromDt = document.getElementById('rangeFromDt').getAttribute('data-userDateTime');
             let toDt = document.getElementById('rangeToDt').getAttribute('data-userDateTime');
