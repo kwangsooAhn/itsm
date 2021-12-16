@@ -42,10 +42,10 @@ import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.JsonParser
 import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -444,10 +444,11 @@ class WfTokenManagerService(
             wfTokenDataDtoList.forEach { wfTokenData ->
                 val component = wfComponentRepository.findByComponentId(wfTokenData.componentId)
                 if (component.componentType == WfComponentConstants.ComponentTypeCode.CI.code && component.mappingId.isNotBlank()) {
-                    val data = JsonParser().parse(wfTokenData.value).asJsonArray
+                    val data: Array<Map<String, String>> =
+                        mapper.readValue(wfTokenData.value, object : TypeReference<Array<Map<String, String>>>() {})
                     data.forEach {
                         val ciCopyDataDto = CICopyDataDto(
-                            ciId = it.asJsonObject.get("ciId").asString,
+                            ciId = it["ciId"] as String,
                             componentId = wfTokenData.componentId
                         )
                         subCIComponentList.add(ciCopyDataDto)
