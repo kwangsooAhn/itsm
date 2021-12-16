@@ -65,24 +65,24 @@ GET /rest/cmdb/types
 
 ```json
 {
-    "data": [
-        {
-            "typeId": "root",
-            "typeName": "ROOT",
-            "typeDesc": null,
-            "typeLevel": 0,
-            "typeSeq": 0,
-            "typeAlias": "CI",
-            "typeIcon": null,
-            "typeIconData": null,
-            "classId": "root",
-            "className": "root",
-            "ptypeId": null,
-            "ptypeName": null
-        },
-        ...
-    ],
-    "totalCount": 56
+  "data": [
+    {
+      "typeId": "root",
+      "typeName": "ROOT",
+      "typeDesc": null,
+      "typeLevel": 0,
+      "typeSeq": 0,
+      "typeAlias": "CI",
+      "typeIcon": null,
+      "typeIconData": null,
+      "classId": "root",
+      "className": "root",
+      "ptypeId": null,
+      "ptypeName": null
+    },
+    ...
+  ],
+  "totalCount": 56
 }
 ```
 
@@ -115,7 +115,7 @@ POST /rest/cmdb/types
 ### Response Sample
 
 ```
-0
+"0"
 ```
 
 ## 데이터 수정
@@ -147,7 +147,7 @@ PUT /rest/cmdb/types/{typeId}
 ### Response Sample
 
 ```
-1
+"1"
 ```
 
 ## 데이터 삭제
@@ -170,5 +170,5 @@ DELETE /rest/cmdb/types/{typeId}
 ### Response Sample
 
 ```
-0
+"0"
 ```

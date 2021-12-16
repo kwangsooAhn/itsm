@@ -26,23 +26,23 @@ GET /rest/codes
 
 ```json
 {
-    "data": [
-        {
-            "code": "root",
-            "codeValue": null,
-            "codeName": "ROOT",
-            "codeDesc": null,
-            "editable": false,
-            "createDt": "2021-11-15T02:27:37.387122",
-            "level": 0,
-            "seqNum": 0,
-            "codeLangName": null,
-            "lang": null,
-            "pcode": null
-        }, 
-        ...
-    ],
-    "totalCount": 206
+  "data": [
+    {
+      "code": "root",
+      "codeValue": null,
+      "codeName": "ROOT",
+      "codeDesc": null,
+      "editable": false,
+      "createDt": "2021-11-15T02:27:37.387122",
+      "level": 0,
+      "seqNum": 0,
+      "codeLangName": null,
+      "lang": null,
+      "pcode": null
+    },
+    ...
+  ],
+  "totalCount": 206
 }
 ```
 
@@ -67,16 +67,16 @@ GET /rest/codes/{code}
 
 ```json
 {
-	"code": "cmdb.relation.type.default",
-	"codeName": "default",
-	"codeValue": "default",
-	"codeDesc": "기본 연관",
-	"editable": true,
-	"useYn": true,
-	"level": 3,
-	"seqNum": 1,
-	"codeLang": "",
-	"pcode": "cmdb.relation.type"
+  "code": "cmdb.relation.type.default",
+  "codeName": "default",
+  "codeValue": "default",
+  "codeDesc": "기본 연관",
+  "editable": true,
+  "useYn": true,
+  "level": 3,
+  "seqNum": 1,
+  "codeLang": "",
+  "pcode": "cmdb.relation.type"
 }
 ```
 
@@ -101,17 +101,17 @@ GET /rest/codes/related/{code}
 
 ```json
 {
-    "code": "cmdb.relation.type.default",
-    "codeValue": "default",
-    "codeName": "default",
-    "codeDesc": "기본 연관",
-    "editable": true,
-    "createDt": "2021-08-24T15:15:09.257758",
-    "level": 3,
-    "seqNum": 1,
-    "codeLangName": null,
-    "lang": null,
-    "pcode": "cmdb.relation.type"
+  "code": "cmdb.relation.type.default",
+  "codeValue": "default",
+  "codeName": "default",
+  "codeDesc": "기본 연관",
+  "editable": true,
+  "createDt": "2021-08-24T15:15:09.257758",
+  "level": 3,
+  "seqNum": 1,
+  "codeLangName": null,
+  "lang": null,
+  "pcode": "cmdb.relation.type"
 }
 ```
 
@@ -141,7 +141,7 @@ POST /rest/codes
 ### Response Sample
 
 ```
-0
+"0"
 ```
 
 ## 코드_데이터 수정
@@ -170,7 +170,7 @@ PUT /rest/codes/{code}
 ### Response Sample
 
 ```
-1
+"1"
 ```
 
 ## 코드_데이터 삭제
@@ -193,7 +193,7 @@ DELETE /rest/codes/{code}
 ### Response Sample
 
 ```
-0
+"0"
 ```
 
 ## 코드_엑셀 다운로드

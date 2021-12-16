@@ -33,29 +33,32 @@ GET /rest/cmdb/classes/{classId}
 
 ```json
 {
-    "classId": "4028b88179210e1b017921201e8f0007",
-    "className": "WinNT ",
-    "classDesc": "WinNT Class입니다.",
-    "classSeq": 30,
-    "editable": true,
-    "attributes": [{
-        "classId": "4028b88179210e1b017921201e8f0007",
-        "attributeId": "df0e88d216ace73e0164f3dbf7ade131",
-        "attributeName": "버전",
-        "classLevel": 6,
-        "order": 1
-    }],
-    "extendsAttributes": [{
-        "classId": "4028b881792074460179210677bb0016",
-        "attributeId": "27caaeba596663101d55a09ec873a375",
-        "attributeName": "상태",
-        "classLevel": 1,
-        "order": 1
-    }, 
+  "classId": "4028b88179210e1b017921201e8f0007",
+  "className": "WinNT ",
+  "classDesc": "WinNT Class입니다.",
+  "classSeq": 30,
+  "editable": true,
+  "attributes": [
+    {
+      "classId": "4028b88179210e1b017921201e8f0007",
+      "attributeId": "df0e88d216ace73e0164f3dbf7ade131",
+      "attributeName": "버전",
+      "classLevel": 6,
+      "order": 1
+    }
+  ],
+  "extendsAttributes": [
+    {
+      "classId": "4028b881792074460179210677bb0016",
+      "attributeId": "27caaeba596663101d55a09ec873a375",
+      "attributeName": "상태",
+      "classLevel": 1,
+      "order": 1
+    },
     ...
-    ],
-    "pclassName": "인프라정보 - 서버",
-    "pclassId": "4028b88179210e1b0179211d13760005"
+  ],
+  "pclassName": "인프라정보 - 서버",
+  "pclassId": "4028b88179210e1b0179211d13760005"
 }
 ```
 
@@ -115,7 +118,7 @@ POST /rest/cmdb/classes
 ### Response Sample
 
 ```
-0
+"0"
 ```
 
 ## 데이터 수정
@@ -145,7 +148,7 @@ PUT /rest/cmdb/classes/{classId}
 ### Response Sample
 
 ```
-1
+"1"
 ```
 
 ## 데이터 삭제
@@ -168,7 +171,7 @@ DELETE /rest/cmdb/classes/{classId}
 ### Response Sample
 
 ```
-0
+"0"
 ```
 
 ## 데이터 세부 속성 조회
@@ -192,22 +195,22 @@ GET /rest/cmdb/classes/{classId}/attributes
 
 ```json
 [
-    {
-        "className": "일반정보 - 인프라",
-        "attributes": [
-            {
-                "attributeId": "27caaeba596663101d55a09ec873a375",
-                "attributeName": "상태",
-                "attributeDesc": "일반정보 - 인프라",
-                "attributeText": "상태",
-                "attributeType": "radio",
-                "attributeOrder": 1,
-                "attributeValue": "{\"option\":[{\"text\":\"사용\",\"value\":\"use\"},{\"text\":\"미사용\",\"value\":\"unused\"},{\"text\":\"폐기\",\"value\":\"disposal\"},{\"text\":\"할당\",\"value\":\"assignment\"},{\"text\":\"반납\",\"value\":\"return\"},{\"text\":\"AS\",\"value\":\"as\"},{\"text\":\"예비\",\"value\":\"spare\"}]}",
-                "value": null,
-                "childAttributes": []
-            },
-            ...
-        ]
-    }
+  {
+    "className": "일반정보 - 인프라",
+    "attributes": [
+      {
+        "attributeId": "27caaeba596663101d55a09ec873a375",
+        "attributeName": "상태",
+        "attributeDesc": "일반정보 - 인프라",
+        "attributeText": "상태",
+        "attributeType": "radio",
+        "attributeOrder": 1,
+        "attributeValue": "{\"option\":[{\"text\":\"사용\",\"value\":\"use\"},{\"text\":\"미사용\",\"value\":\"unused\"},{\"text\":\"폐기\",\"value\":\"disposal\"},{\"text\":\"할당\",\"value\":\"assignment\"},{\"text\":\"반납\",\"value\":\"return\"},{\"text\":\"AS\",\"value\":\"as\"},{\"text\":\"예비\",\"value\":\"spare\"}]}",
+        "value": null,
+        "childAttributes": []
+      },
+      ...
+    ]
+  }
 ]
 ```

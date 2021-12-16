@@ -49,7 +49,7 @@ POST /rest/charts
 ### Response Sample
 
 ```
-0
+"0"
 ```
 
 ## 데이터 수정
@@ -89,7 +89,7 @@ PUT /rest/charts/{chartId}
 ### Response Sample
 
 ```
-0
+"0"
 ```
 
 ## 데이터 삭제
@@ -112,7 +112,7 @@ DELETE /rest/charts/{chartId}
 ### Response Sample
 
 ```
-0
+"0"
 ```
 
 ## 차트_미리보기 데이터
@@ -157,10 +157,12 @@ POST /rest/charts/{chartId}/preview
   "chartName": "차트_미리보기 데이터",
   "chartType": "chart.basicLine",
   "chartDesc": "",
-  "tags": [{
-    "tagId": null,
-    "value": "test"
-  }],
+  "tags": [
+    {
+      "tagId": null,
+      "value": "test"
+    }
+  ],
   "chartConfig": {
     "range": {
       "type": "chart.range.between",
@@ -170,12 +172,14 @@ POST /rest/charts/{chartId}/preview
     "operation": "count",
     "periodUnit": "Y"
   },
-  "chartData": [{
-    "id": "null",
-    "category": "2021-01-01 00:00:00",
-    "value": "0",
-    "series": "test"
-  }]
+  "chartData": [
+    {
+      "id": "null",
+      "category": "2021-01-01 00:00:00",
+      "value": "0",
+      "series": "test"
+    }
+  ]
 }
 ```
 
@@ -200,34 +204,32 @@ GET /rest/charts/{chartId}
 
 ```json
 {
-    "chartId": "4028adf67dbb3a90017dbbec7dc2000d",
-    "chartName": "차트_미리보기 데이터",
-    "chartType": "chart.basicLine",
-    "chartDesc": "",
-    "tags": [
-        {
-            "tagId": "4028adf67dbb3a90017dbbec7dd9000e",
-            "value": "test"
-        }
-    ],
-    "chartConfig": {
-        "range": {
-            "type": "chart.range.between",
-            "from": "2021-10-31T15:00:00",
-            "to": "2021-12-15T02:28:00"
-        },
-        "operation": "count",
-        "periodUnit": "Y"
+  "chartId": "4028adf67dbb3a90017dbbec7dc2000d",
+  "chartName": "차트_미리보기 데이터",
+  "chartType": "chart.basicLine",
+  "chartDesc": "",
+  "tags": [
+    {
+      "tagId": "4028adf67dbb3a90017dbbec7dd9000e",
+      "value": "test"
+    }
+  ],
+  "chartConfig": {
+    "range": {
+      "type": "chart.range.between",
+      "from": "2021-10-31T15:00:00",
+      "to": "2021-12-15T02:28:00"
     },
-    "chartData": [
-        {
-            "id": "4028adf67dbb3a90017dbbec7dd9000e",
-            "category": "2021-01-01 00:00:00",
-            "value": "0",
-            "series": "test"
-        }
-    ]
+    "operation": "count",
+    "periodUnit": "Y"
+  },
+  "chartData": [
+    {
+      "id": "4028adf67dbb3a90017dbbec7dd9000e",
+      "category": "2021-01-01 00:00:00",
+      "value": "0",
+      "series": "test"
+    }
+  ]
 }
 ```
-
-

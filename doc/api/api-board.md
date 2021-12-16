@@ -38,21 +38,21 @@ GET /rest/boards/{boardAdminId}/view
 
 ```json
 {
-    "boardAdminId": "40288a19736b46fb01736b718cb60001",
-    "boardAdminTitle": "자유 게시판",
-    "boardAdminDesc": null,
-    "boardAdminSort": 1,
-    "boardUseYn": true,
-    "replyYn": true,
-    "commentYn": true,
-    "categoryYn": false,
-    "attachYn": true,
-    "attachFileSize": 1024,
-    "boardBoardCount": 0,
-    "enabled": null,
-    "categoryInfo": [],
-    "createDt": "2021-11-15T02:27:39.174855",
-    "createUserName": "ADMIN"
+  "boardAdminId": "40288a19736b46fb01736b718cb60001",
+  "boardAdminTitle": "자유 게시판",
+  "boardAdminDesc": null,
+  "boardAdminSort": 1,
+  "boardUseYn": true,
+  "replyYn": true,
+  "commentYn": true,
+  "categoryYn": false,
+  "attachYn": true,
+  "attachFileSize": 1024,
+  "boardBoardCount": 0,
+  "enabled": null,
+  "categoryInfo": [],
+  "createDt": "2021-11-15T02:27:39.174855",
+  "createUserName": "ADMIN"
 }
 ```
 
@@ -83,7 +83,7 @@ POST /rest/boards
 
 ### Response Sample
 
-```json
+```
 true
 ```
 ## 게시판 관리_데이터 수정
@@ -114,7 +114,7 @@ PUT /rest/boards
 
 ### Response Sample
 
-```json
+```
 true
 ```
 
@@ -137,7 +137,7 @@ DELETE /rest/boards/{boardAdminId}
 
 ### Response Sample
 
-```json
+```
 true
 ```
 

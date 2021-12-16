@@ -1,4 +1,4 @@
-# CMDB
+# CMDB_CI
 
 
 ## 목차
@@ -26,31 +26,31 @@ GET /rest/cmdb/cis
 
 ```json
 [
-    {
-        "ciId": "a01afbb81330aa670f94615bbd8d1bd6",
-        "ciNo": "CI_SERVER_Linux_000007",
-        "ciName": "CI 테스트",
-        "ciStatus": "use",
-        "typeId": "4028b88179210e1b017921279d29000f",
-        "typeName": "Linux ",
-        "classId": "4028b88179210e1b0179211eb65d0006",
-        "className": "Linux",
-        "ciIcon": "image_linux.png",
-        "ciIconData": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAUCAYAAACAl21KAAAB70lEQVR4XmNgwAEEFBQEpJTU1ksrqf2XVlR9L6WkOh8khq6OIJBSVF0ANgQZK6ruR1dHELj7BXxOSs8CGwCiXb39IIYpqBqgq8UL1m7Y+P/o8RNgzWs3bPq/YfNmMBvo3QZ0tTgByNY5E7L/v99h9v/DNvX/H3aZ/18zI5V0g9JDZcP/HdT+//+wLgr2d1UizSBJJZWCTzs0UAy5vMTgPzACgFjtPrp6nACo+MHjJ0/+vz2W8f/FweT//78//g8CsiqaEMOIcRVIUe/EyWCN6KCkvApsEDT2EtD1ogBNQ+OPHz5+RDcDDK5euwYJcJBhwESKM4GCbCkoLUfXjwJUtWFhBXKZ6gR0M8AAGDYbrl67jq4XBbhAE6YUNOugmwHOW+a2juj6MAAstcO8iOG9tR2aNQvbbNH1YYDCkiKU/GdsqJwLN+T/YR0HWHo5taUWXS8KmFBhjWLQh13aHTBDLiAnvI87gfjdE3T9cPBhh87/xGCN/8Ge6v9n1Wj+/7FPewvUINRsAMJ31hhhNezLswMYaiFYZz9Wg0D4+hprFEM+fvr0f+XcSgx1UIMOgLw2AVMCgkMiY+AYFB4hXuqoag7pbvh/VAu1fPq/X0EAKBEAkvx7UOfTiTnaz0EJVEJBxQGG3RyUfIByj6CuQEmMACcza0kkY5O4AAAAAElFTkSuQmCC",
-        "ciDesc": "",
-        "interlink": false,
-        "createUserKey": "4028b2217b29bf60017b2aa22d710000",
-        "createDt": "2021-11-24T03:19:04.734977",
-        "updateUserKey": null,
-        "updateDt": null,
-        "ciTags": [
-            {
-                "tagId": "4028b22f7d7ecb28017d7ef96f710009",
-                "value": "1"
-            }
-        ]
-    },
-    ...
+  {
+    "ciId": "a01afbb81330aa670f94615bbd8d1bd6",
+    "ciNo": "CI_SERVER_Linux_000007",
+    "ciName": "CI 테스트",
+    "ciStatus": "use",
+    "typeId": "4028b88179210e1b017921279d29000f",
+    "typeName": "Linux ",
+    "classId": "4028b88179210e1b0179211eb65d0006",
+    "className": "Linux",
+    "ciIcon": "image_linux.png",
+    "ciIconData": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAUCAYAAACAl21KAAAB70lEQVR4XmNgwAEEFBQEpJTU1ksrqf2XVlR9L6WkOh8khq6OIJBSVF0ANgQZK6ruR1dHELj7BXxOSs8CGwCiXb39IIYpqBqgq8UL1m7Y+P/o8RNgzWs3bPq/YfNmMBvo3QZ0tTgByNY5E7L/v99h9v/DNvX/H3aZ/18zI5V0g9JDZcP/HdT+//+wLgr2d1UizSBJJZWCTzs0UAy5vMTgPzACgFjtPrp6nACo+MHjJ0/+vz2W8f/FweT//78//g8CsiqaEMOIcRVIUe/EyWCN6KCkvApsEDT2EtD1ogBNQ+OPHz5+RDcDDK5euwYJcJBhwESKM4GCbCkoLUfXjwJUtWFhBXKZ6gR0M8AAGDYbrl67jq4XBbhAE6YUNOugmwHOW+a2juj6MAAstcO8iOG9tR2aNQvbbNH1YYDCkiKU/GdsqJwLN+T/YR0HWHo5taUWXS8KmFBhjWLQh13aHTBDLiAnvI87gfjdE3T9cPBhh87/xGCN/8Ge6v9n1Wj+/7FPewvUINRsAMJ31hhhNezLswMYaiFYZz9Wg0D4+hprFEM+fvr0f+XcSgx1UIMOgLw2AVMCgkMiY+AYFB4hXuqoag7pbvh/VAu1fPq/X0EAKBEAkvx7UOfTiTnaz0EJVEJBxQGG3RyUfIByj6CuQEmMACcza0kkY5O4AAAAAElFTkSuQmCC",
+    "ciDesc": "",
+    "interlink": false,
+    "createUserKey": "4028b2217b29bf60017b2aa22d710000",
+    "createDt": "2021-11-24T03:19:04.734977",
+    "updateUserKey": null,
+    "updateDt": null,
+    "ciTags": [
+      {
+        "tagId": "4028b22f7d7ecb28017d7ef96f710009",
+        "value": "1"
+      }
+    ]
+  },
+  ...
 ]
 ```
 
@@ -140,7 +140,7 @@ GET /rest/cmdb/cis/{ciId}/data
 
 ### Response Sample
 
-```json
+```
 null
 ```
 
@@ -197,7 +197,7 @@ POST /rest/cmdb/cis/{ciId}/data
 
 ### Response Sample
 
-```json
+```
 true
 ```
 
@@ -212,7 +212,7 @@ DELETE /rest/cmdb/cis/data
 
 ### Response Sample
 
-```json
+```
 true
 ```
 
@@ -237,6 +237,6 @@ GET /rest/cmdb/cis/excel
 
 ### Response Sample
 
-```json
+```
 excel download
 ```

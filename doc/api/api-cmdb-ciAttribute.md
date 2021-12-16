@@ -23,23 +23,23 @@ GET /rest/cmdb/attributes
 
 ```json
 {
-    "data": [
-        {
-            "attributeId": "2c9180837c99e748017c9b099d500000",
-            "attributeName": "AAAtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttestt",
-            "attributeText": "",
-            "attributeType": "inputbox",
-            "attributeDesc": ""
-        },
-        ...
-    ],
-    "paging": {
-        "totalCount": 189,
-        "totalCountWithoutCondition": 189,
-        "currentPageNum": 0,
-        "totalPageNum": 13,
-        "orderType": "common.label.nameAsc"
-    }
+  "data": [
+    {
+      "attributeId": "2c9180837c99e748017c9b099d500000",
+      "attributeName": "AAAtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttestt",
+      "attributeText": "",
+      "attributeType": "inputbox",
+      "attributeDesc": ""
+    },
+    ...
+  ],
+  "paging": {
+    "totalCount": 189,
+    "totalCountWithoutCondition": 189,
+    "currentPageNum": 0,
+    "totalPageNum": 13,
+    "orderType": "common.label.nameAsc"
+  }
 }
 ```
 
@@ -74,7 +74,7 @@ POST /rest/cmdb/attributes
 ### Response Sample
 
 ```
-0
+"0"
 ```
 
 ## 데이터 수정
@@ -108,7 +108,7 @@ PUT /rest/cmdb/attributes/{attributeId}
 ### Response Sample
 
 ```
-0
+"0"
 ```
 
 ## 데이터 삭제
@@ -131,5 +131,5 @@ DELETE /rest/cmdb/attributes/{attributeId}
 ### Response Sample
 
 ```
-0
+"0"
 ```
