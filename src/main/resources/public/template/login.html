@@ -88,7 +88,7 @@
         } else {
             document.getElementById('uid').focus();
         }
-        if(isExpired) {
+        if (isExpired) {
             const formModal = new modal({
                 title: i18n.msg('user.label.updatePasswordNotice'),
                 body: createModalContent(),
@@ -120,6 +120,9 @@
                 }],
                 close: {
                     closable: false,
+                },
+                onCreate: function () {
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                 }
             });
             formModal.show();
