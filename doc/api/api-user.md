@@ -314,7 +314,9 @@ PUT /rest/users/udatePassword
 
 ```json
 {
-  "data": null
+  "userKey": "0509e09412534a6e98f04ca79abb6424",
+  "customType": "color",
+  "customValue": "#000000"
 }
 ```
 
@@ -334,7 +336,7 @@ PUT /rest/users/udatePassword
 {
   "userKey": "",
   "customType": "",
-  "customValue": "#000000"
+  "customValue": "##000000|#7765f2"
 }
 ```
 
