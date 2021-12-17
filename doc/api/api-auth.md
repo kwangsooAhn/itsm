@@ -55,9 +55,9 @@ GET /rest/auths/{authId}
 
 ### Parameter Sample
 
-```
+```json
 {
-  "cmdb.attribute.update"
+  "authId": "cmdb.attribute.update"
 }
 ```
 
@@ -186,7 +186,7 @@ DELETE /rest/auths/{authId}
 
 ```json
 {
-  test.auths"
+  "authId": "test.auths"
 }
 ```
 

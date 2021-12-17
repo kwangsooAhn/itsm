@@ -53,9 +53,9 @@ GET /rest/roles/{roleId}
 
 ### Parameter Sample
 
-```
+```json
 {
-  "document.manager"
+  "roleId": "document.manager"
 }
 ```
 
@@ -178,9 +178,9 @@ DELETE /rest/roles/{roleId}
 
 ### Parameter Sample
 
-```
+```json
 {
-  role.test"
+  "roleId": "role.test"
 }
 ```
 
@@ -200,6 +200,12 @@ DELETE /rest/roles/{roleId}
 
 ```
 GET /rest/roles/excel
+```
+
+### Parameter Sample
+
+```
+  "roleSearchCondition": RoleSearchCondition
 ```
 
 ### Response Sample

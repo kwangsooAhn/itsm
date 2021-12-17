@@ -203,9 +203,9 @@ POST /rest/users/absence
 
 ### Parameter Sample
 
-```
+```json
 {
-  {"userKey":"","substituteUserKey":"40288a9d7dc05ea6017dc0c601460000"}
+  "absenceInfo": "{"userKey":"","substituteUserKey":"40288a9d7dc05ea6017dc0c601460000"}
 }
 ```
 
@@ -229,9 +229,9 @@ Put /rest/users/{userKey}/resetpassword
 
 ### Parameter Sample
 
-```
+```json
 {
-  "40288a9d7dc05ea6017dc0c601460000"
+  "userKey": "40288a9d7dc05ea6017dc0c601460000"
 }
 ```
 
@@ -327,7 +327,7 @@ PUT /rest/users/udatePassword
 ### URL
 
 ```
-PUT /rest/users/udatePassword
+PUT /rest/users/updatePassword
 ```
 
 ### Parameter Sample

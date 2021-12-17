@@ -54,7 +54,7 @@ POST /rest/schedulers
 ### URL
 
 ```
-/rest/schedulers/{taskId}
+PUT /rest/schedulers/{taskId}
 ```
 
 ### Parameter Sample
@@ -98,9 +98,9 @@ DELETE /rest/schdulers/{taskId}
 
 ### Parameter Sample
 
-```
+```json
 {
-  "40288a9d7dc0f444017dc18fccc80002"
+  "taskId": "40288a9d7dc0f444017dc18fccc80002"
 }
 ```
 
