@@ -131,7 +131,7 @@ PUT /rest/process/{processId}/data
 ### Response Sample
 
 ```
-"1"
+1
 ```
 
 ## 프로세스_삭제
