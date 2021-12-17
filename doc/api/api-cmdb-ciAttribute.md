@@ -18,6 +18,14 @@
 ```
 GET /rest/cmdb/attributes
 ```
+### Parameter Sample
+
+```json
+{
+  "searchValue": "",
+  "pageNum" : 1
+}
+```
 
 ### Response Sample
 
