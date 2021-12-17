@@ -205,7 +205,7 @@ POST /rest/users/absence
 
 ```json
 {
-  "absenceInfo": "{"userKey":"","substituteUserKey":"40288a9d7dc05ea6017dc0c601460000"}
+  "absenceInfo": "{"userKey":"","substituteUserKey":"40288a9d7dc05ea6017dc0c601460000"}"
 }
 ```
 
