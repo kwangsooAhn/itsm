@@ -5164,7 +5164,7 @@ body.modal-active {
 }
 
 .modal-dialog.password-update-notice {
-  width: 46.875rem;
+  width: 50rem;
   height: 34.5rem;
 }
 .modal-dialog.password-update-notice .modal-content {
