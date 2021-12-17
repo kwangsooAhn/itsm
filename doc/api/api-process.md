@@ -83,6 +83,7 @@ PUT /rest/process/{processId}/data
 
 ```json
 {
+  "processId": "4028adf67dc1e2a9017dc1e337860000",
   "process": {
     "id": "4028adf67dc1e2a9017dc1e337860000",
     "name": "박주현_TEST",
@@ -169,6 +170,7 @@ PUT /rest/process/{processId}/simulation
 
 ```json
 {
+  "processId": "4028b2177c2fe099017c309c78400000",
   "process": {
     "id": "4028b2177c2fe099017c309c78400000",
     "name": "우다정_구성관리_복사",

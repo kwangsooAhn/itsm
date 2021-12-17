@@ -61,6 +61,14 @@ GET /rest/cmdb/types/{typeId}
 GET /rest/cmdb/types
 ```
 
+### Parameter Sample
+
+```json
+{
+  "search": ""
+}
+```
+
 ### Response Sample
 
 ```json

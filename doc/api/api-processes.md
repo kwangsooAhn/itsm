@@ -19,46 +19,74 @@
 POST /rest/processes
 ```
 
-### Parameter Sample
+### Parameter Sample_1
+
+* saveType = "saveas"
 
 ```json
 {
+  "saveType": "saveas",
   "process": {
-    "id": "4028adf67dc1ee05017dc2037a5a0000",
-    "name": "박주현_TEST2",
+    "id": "4028adf67dc7212d017dc72608460004",
+    "name": "다른 이름으로 저장",
     "description": "",
     "status": "process.status.edit",
-    "createDt": "2021-12-16T06:52:27.5639",
-    "createUserKey": "40288a8c7be6bdd0017be73ace110004",
-    "createUserName": "박주현",
-    "updateDt": "2021-12-16T06:54:27.569537",
-    "updateUserKey": "40288a8c7be6bdd0017be73ace110004",
-    "updateUserName": "박주현",
+    "createDt": "2021-12-17T06:48:18.223869",
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createUserName": "ADMIN",
+    "updateDt": "2021-12-17T06:48:52.979371",
+    "updateUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "updateUserName": "ADMIN",
     "enabled": null
   },
-  "elements": [{
-    "id": "a49788ef762999b81cfb00d469304ef8",
-    "name": "Start",
-    "type": "commonStart",
-    "notification": "false",
-    "description": "",
-    "display": {
-      "width": 40,
-      "height": 40,
-      "position-x": 120,
-      "position-y": 200
-    },
-    "data": {},
-    "required": ["id"]
-  }]
+  "elements": [
+    {
+      "id": "55ecccb4fe7f42a1a5cf595b9bbe043f",
+      "name": "Start",
+      "type": "commonStart",
+      "notification": "false",
+      "description": "",
+      "display": {
+        "width": 40,
+        "height": 40,
+        "position-x": 120,
+        "position-y": 200
+      },
+      "data": {},
+      "required": [
+        "id"
+      ]
+    }
+  ]
 }
 ```
 
-### Response Sample
+### Response Sample_1
 
 ```json
 {
-  "processId": "4028adf67dc20def017dc20fdbb90000",
+  "processId": "4028adf67dc7212d017dc727bafb0005",
+  "result": 1
+}
+```
+
+### Parameter Sample_2
+
+* saveType = ""
+
+```json
+{
+  "saveType": "",
+  "processName": "신규 프로세스 등록",
+  "processDesc": ""
+}
+```
+
+### Response Sample_2
+
+```json
+{
+  "processId": "4028adf67dc7212d017dc723461e0001",
   "result": 1
 }
 ```

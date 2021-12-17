@@ -298,5 +298,5 @@ GET /rest/tokens/excel
 ### Response Sample
 
 ```
-excel download
+ResponseEntity<ByteArray>
 ```

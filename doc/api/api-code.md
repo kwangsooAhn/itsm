@@ -22,6 +22,16 @@
 GET /rest/codes
 ```
 
+### Parameter Sample
+
+```json
+{
+  "search": "",
+  "pCode": ""
+}
+
+```
+
 ### Response Sample
 
 ```json
@@ -217,5 +227,5 @@ GET /rest/codes/excel
 ### Response Sample
 
 ```
-excel download
+ResponseEntity<ByteArray>
 ```

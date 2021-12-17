@@ -109,14 +109,6 @@ GET /rest/portals/top
 GET /rest/portals/filenameextensions
 ```
 
-### Parameter Sample
-
-```json
-{
-  "limit" : 1
-}
-```
-
 ### Response Sample
 
 ```json
@@ -186,5 +178,5 @@ GET /rest/portals/filedownload
 ### Response Sample
 
 ```
-file download
+ResponseEntity<InputStreamResource>
 ```

@@ -238,5 +238,5 @@ GET /rest/cmdb/cis/excel
 ### Response Sample
 
 ```
-excel download
+ResponseEntity<ByteArray>
 ```

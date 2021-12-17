@@ -128,7 +128,7 @@ DELETE /rest/numberingPatterns/{patternId}
 
 ```json
 {
-  "patternId": "4028adf67dc0690b017dc11989590005",
+  "patternId": "4028adf67dc0690b017dc11989590005"
 }
 ```
 

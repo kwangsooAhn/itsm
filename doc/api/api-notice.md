@@ -58,6 +58,7 @@ PUT /rest/notices/{noticeId}
 
 ```json
 {
+  "noticeId": "40288a8c7db763b7017db77859300000",
   "noticeTitle": "박주현_수정_TEST",
   "noticeContents": "TEST",
   "popYn": false,

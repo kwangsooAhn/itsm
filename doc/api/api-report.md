@@ -98,7 +98,7 @@ POST /rest/reports/template
 ```json
 {
   "code": "0", 
-  "status":true
+  "status": true
 }
 ```
 
@@ -134,7 +134,7 @@ PUT /rest/reports/template/{templateId}
 ```json
 {
   "code": "0", 
-  "status":true
+  "status": true
 }
 ```
 
@@ -160,7 +160,7 @@ DELETE /rest/reports/template/{templateId}
 ```json
 {
   "code": "0", 
-  "status":true
+  "status": true
 }
 ```
 

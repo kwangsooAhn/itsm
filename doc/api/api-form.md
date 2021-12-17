@@ -7,7 +7,7 @@
 
 1. [문서양식_일반정보 조회](#문서양식-일반정보-조회)
 2. [문서양식_전체 데이터 조회](#문서양식-전체-데이터-조회)
-3. [신규 문서양식 추가](#신규-문서양식-추가)
+3. [신규 문서양식 추가 or 다른 이름 저장](#신규-문서양식-추가-or-다른-이름-저장)
 4. [문서양식_일반정보 저장](문서양식-일반정보-저장)
 5. [문서양식_전체 데이터 저장](#문서양식-전체-데이터-저장)
 6. [문서양식_데이터 삭제](#문서양식-데이터-삭제)
@@ -153,7 +153,7 @@ GET /rest/forms/{formId}/data
 }
 ```
 
-## 신규 문서양식 추가
+## 신규 문서양식 추가 or 다른 이름저장
 
 ---
 
@@ -162,11 +162,14 @@ GET /rest/forms/{formId}/data
 POST /rest/forms
 ```
 
-### Parameter Sample
+### Parameter Sample_1
+
+* saveType = "saveas"
 
 ```json
 {
-  "id": "4028adf67dc18b72017dc1c141560001",
+  "saveType": "saveas",
+  "id": "4028adf67dc6e765017dc6eb42ee0000",
   "name": "박주현_TEST3",
   "desc": "",
   "status": "form.status.edit",
@@ -180,11 +183,30 @@ POST /rest/forms
 }
 ```
 
-### Response Sample
+### Response Sample_1
 
 ```
-"4028adf67dc18b72017dc1c235ba0003"
+"4028adf67dc6ed10017dc6eddb830000"
 ```
+
+### Parameter Sample_2
+
+* saveType = ""
+
+```json
+{
+  "saveType": "",
+  "name": "신규 문서양식 등록",
+  "desc": "TEST"
+}
+```
+
+### Response Sample_2
+
+```
+"4028adf67dc704d7017dc7093c590000"
+```
+
 
 ## 문서양식_일반정보 저장
 
@@ -199,6 +221,7 @@ PUT /rest/forms/{formId}
 
 ```json
 {
+  "formId": "4028adf67dc704d7017dc7093c590000",
   "name": "TEST_1",
   "desc": "",
   "id": "4028adf67dc18b72017dc1c6ff1d0004",
@@ -225,6 +248,7 @@ PUT /rest/forms/{formId}/data
 
 ```json
 {
+  "formId": "4028adf67dc18b72017dc1c141560001",
   "id": "4028adf67dc18b72017dc1c141560001",
   "name": "박주현_TEST",
   "desc": "",
