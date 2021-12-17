@@ -73,10 +73,10 @@
         </div>
         <div class="z-button-list">
             <button class="z-button primary"
-                    id="btnRegist" name="btnRegist" sec:authorize="hasAuthority('auth.create')" th:if="!${auth?.authId}" th:onclick="|javascript:onSave('post')|"
+                    id="btnRegist" name="btnRegist" sec:authorize="hasAuthority('auth.create')" th:if="!${auth?.authId}" th:onclick="|javascript:onSave('POST')|"
                     th:text="#{common.btn.register}" type="button"></button>
             <button class="z-button primary"
-                    id="btnUpdate" name="btnUpdate" sec:authorize="hasAuthority('auth.update')" th:if="${auth?.authId}" th:onclick="|javascript:onSave('put')|"
+                    id="btnUpdate" name="btnUpdate" sec:authorize="hasAuthority('auth.update')" th:if="${auth?.authId}" th:onclick="|javascript:onSave('PUT')|"
                     th:text="#{common.btn.modify}"
                     type="button"></button>
             <button class="z-button secondary"
@@ -109,14 +109,12 @@
 
         if (document.getElementById('txtAuthId').value) {
             document.getElementById('txtAuthId').setAttribute('disabled','');
-            const opt = {
-                method: 'get',
-                async: false,
-                url: '/rest/auths/' + document.getElementById('txtAuthId').value,
-                callbackFunc: function (response) {
-                    let responseJson = JSON.parse(response.responseText);
-
-                    let arrMenuList = responseJson.arrMenuList;
+            aliceJs.fetchJson('/rest/auths/' + document.getElementById('txtAuthId').value, {
+                method: 'GET',
+                showProgressbar: true
+            }).then((jsonData) => {
+                if (jsonData.hasOwnProperty('arrMenuList') && jsonData.arrMenuList.length > 0) {
+                    const arrMenuList = jsonData.arrMenuList;
                     Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function (authMenu) {
                         authMenu.checked = false;
                         if (![[${view}]]) authMenu.disabled = false;
@@ -132,8 +130,9 @@
                             }
                         }
                     });
-
-                    let arrUrlList = responseJson.arrUrlList;
+                }
+                if (jsonData.hasOwnProperty('arrUrlList') && jsonData.arrUrlList.length > 0) {
+                    const arrUrlList = jsonData.arrUrlList;
                     Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]'), function (authUrl) {
                         authUrl.checked = false;
                         if (![[${view}]]) authUrl.disabled = false;
@@ -149,14 +148,14 @@
                             }
                         }
                     });
+                }
 
-                    if (document.getElementById('roleAuthMapCount').value) {
-                        document.getElementById('roleAuthMapCount').value = i18n.msg('auth.label.count', responseJson.roleAuthMapCount);
-                    }
-                    disabledButton(responseJson.roleAuthMapCount);
-                },
-            };
-            aliceJs.sendXhr(opt);
+                if (document.getElementById('roleAuthMapCount').value) {
+                    const roleAuthMapCount = jsonData.hasOwnProperty('roleAuthMapCount') ? jsonData.roleAuthMapCount : 0;
+                    document.getElementById('roleAuthMapCount').value = i18n.msg('auth.label.count', roleAuthMapCount);
+                }
+                disabledButton(jsonData.roleAuthMapCount);
+            });
         }
     }
 
@@ -184,7 +183,7 @@
             authIds.push(validList[i].id);
             authNames.push(validList[i].textContent);
         }
-        if (flag === 'post') {
+        if (flag === 'POST') {
             for (let i = 0; i < authIds.length; i++) {
                 if (document.getElementById('txtAuthId').value === authIds[i]) {
                     zAlert.warning([[#{auth.msg.duplicateAuthId}]]);
@@ -217,40 +216,32 @@
         });
         obj.arrUrl = arrUrl;
 
-        if (flag === 'post') {
-            strUrl = '/rest/auths';
-        } else {
-            strUrl = '/rest/auths/' + document.getElementById('txtAuthId').value;
-        }
-        let authJson = JSON.stringify(obj);
+        const authJson = JSON.stringify(obj);
+        const strUrl = '/rest/auths' + (flag === 'POST' ? '' : '/' + document.getElementById('txtAuthId').value)
 
-        const opt = {
+        aliceJs.fetchText(strUrl, {
             method: flag,
-            url: strUrl,
-            params: authJson,
-            contentType: 'application/json',
-            callbackFunc: function () {
-                zAlert.success([[#{common.msg.save}]], function () {
-                    window.location.href = '/auths/search';
-                });
-            }
-        };
-
-        aliceJs.sendXhr(opt);
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: authJson
+        }).then((rtn) => {
+            zAlert.success([[#{common.msg.save}]], function () {
+                window.location.href = '/auths/search';
+            });
+        });
     }
 
     /* 삭제 버튼  */
     function onDelete() {
-        const opt = {
-            method: 'delete',
-            url: '/rest/auths/' + document.getElementById('txtAuthId').value,
-            callbackFunc: function () {
-                zAlert.success([[#{common.msg.delete}]], function () {
-                    window.location.href = '/auths/search';
-                });
-            }
-        };
-        aliceJs.sendXhr(opt);
+        aliceJs.fetchText('/rest/auths/' + document.getElementById('txtAuthId').value, {
+            method: 'DELETE',
+            showProgressbar: true
+        }).then((rtn) => {
+            zAlert.success([[#{common.msg.delete}]], function () {
+                window.location.href = '/auths/search';
+            });
+        });
     }
 
     /** 삭제 버튼 활성, 비활성화 */

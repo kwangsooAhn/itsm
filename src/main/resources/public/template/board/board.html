@@ -132,9 +132,9 @@
             <a class="z-button secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
         </div>
         <div class="z-button-list">
-            <button class="z-button primary" onclick="saveBoardAdmin('post')"
+            <button class="z-button primary" onclick="saveBoardAdmin('POST')"
                     sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.register}" th:unless="${boardAdmin?.boardAdminId}"></button>
-            <button class="z-button primary" onclick="saveBoardAdmin('put')"
+            <button class="z-button primary" onclick="saveBoardAdmin('PUT')"
                     sec:authorize="hasAuthority('board.admin.update')" th:if="${boardAdmin?.boardAdminId}" th:text="#{common.btn.modify}"></button>
             <button class="z-button secondary" onclick="deleteBoardAdmin()" sec:authorize="hasAuthority('board.admin.delete')"
                     th:disabled="${!boardAdmin.enabled}" th:if="${boardAdmin?.boardAdminId}" th:text="#{common.btn.delete}"></button>
@@ -200,10 +200,7 @@
         function deleteBoardAdmin() {
             zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
                 aliceJs.fetchText('/rest/boards/' + boardAdminId, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    method: 'DELETE'
                 }).then((rtn) => {
                     if (rtn === 'true') {
                         zAlert.success(i18n.msg('common.msg.delete'), () => {
@@ -247,32 +244,26 @@
                 data.categoryList = categoryList;
             }
 
-            if (method === 'put') {
+            if (method === 'PUT') {
                 data.boardAdminId = boardAdminId;
             }
-            restSubmit(method, '/rest/boards', data);
-        }
 
-        //REST API
-        function restSubmit(method, url, data) {
-            const opt = {
+            aliceJs.fetchText('/rest/boards', {
                 method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function (response) {
-                    let result = response.responseText === "true";
-                    if (result) {
-                        zAlert.success(i18n.msg('common.msg.save'), function () {
-                            location.href = '/boards/search';
-                        });
-                    } else {
-                        zAlert.warning(i18n.msg('board.msg.duplicateBoardAdminTitle'));
-                    }
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                showProgressbar: false
-            };
-            aliceJs.sendXhr(opt);
+                body: JSON.stringify(data)
+            }).then((rtn) => {
+                if (rtn === 'true') {
+                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                        location.href = '/boards/search';
+                    });
+                } else {
+                    zAlert.warning(i18n.msg('board.msg.duplicateBoardAdminTitle'));
+                }
+            });
+
         }
 
         // Category 삭제

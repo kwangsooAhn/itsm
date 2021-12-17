@@ -17,7 +17,7 @@
                     <span class="z-icon i-edit"></span>
                 </button>
                 <button class="z-button-icon extra" sec:authorize="hasAuthority('board.delete')"
-                        th:onclick="restSubmit('delete', [[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])">
+                        th:onclick="deleteBoardComment([[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])">
                     <span class="z-icon i-delete" ></span>
                 </button>
             </div>
