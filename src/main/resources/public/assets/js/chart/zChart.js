@@ -49,6 +49,8 @@ const HIGHCHARTS_THEME = {
         minPadding:0
     },
     yAxis: {
+        min: 0,
+        minRange : 0.1,
         gridLineWidth: 0,
         lineWidth: 1,
         lineColor: '#CFD5D9',
