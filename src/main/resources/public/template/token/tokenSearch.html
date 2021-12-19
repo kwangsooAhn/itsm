@@ -29,12 +29,13 @@
         <input type="text" class="z-input i-date-picker search-date col-3" id="searchFromDt" name="searchFromDt"/>
         <input type="text" class="z-input i-date-picker search-date col-3" id="toDt" name="toDt"/>
         <input type="hidden" class="search-date col-2" id="searchToDt" name="searchToDt" readonly="readonly"/>
-        <input type="text" class="z-input i-search col-3 mr-2" id="searchTag" name="searchTag"
+        <input type="text" class="z-input i-search col-3 mr-1" id="searchTag" name="searchTag"
                maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
         <span id="spanTotalCount" class="z-search-count"></span>
-        <button type="button" class="z-button secondary" id="btnExcelDownload" name="btnExcelDownload"
-                sec:authorize="hasAuthority('token.create')" th:text="#{common.btn.export}"
+        <button type="button" class="z-button-icon secondary ml-1" id="btnExcelDownload" name="btnExcelDownload"
+                sec:authorize="hasAuthority('token.create')" th:title="#{common.btn.export}"
                 th:onclick="|javascript:onExcelDownload()|">
+            <span class="z-icon i-download-as-excel"></span>
         </button>
     </form>
 </div>

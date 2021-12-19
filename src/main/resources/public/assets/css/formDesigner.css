@@ -835,6 +835,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-download-as-excel {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_download_xls.svg");
+  mask-image: url("../media/icons/icon_download_xls.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 .z-icon.i-save {
   width: 1.5rem;
@@ -2713,7 +2723,7 @@ select {
 }
 .z-button.primary .z-icon,
 .z-button-icon.primary .z-icon {
-  display: inline-block;
+  display: block;
   background: #FFFFFF;
   pointer-events: none;
 }
@@ -2770,7 +2780,7 @@ select {
 }
 .z-button.secondary .z-icon,
 .z-button-icon.secondary .z-icon {
-  display: inline-block;
+  display: block;
   background: #339AF0;
   pointer-events: none;
 }
@@ -2827,7 +2837,7 @@ select {
 }
 .z-button.extra .z-icon,
 .z-button-icon.extra .z-icon {
-  display: inline-block;
+  display: block;
   background: #339AF0;
   pointer-events: none;
 }
@@ -2884,7 +2894,7 @@ select {
 }
 .z-button.form .z-icon,
 .z-button-icon.form .z-icon {
-  display: inline-block;
+  display: block;
   background: #424242;
   pointer-events: none;
 }
@@ -3162,7 +3172,7 @@ select {
 }
 
 .z-button-icon {
-  padding: 0.25rem 0.3125rem;
+  padding: 0.3125rem;
 }
 
 .z-button-list {
