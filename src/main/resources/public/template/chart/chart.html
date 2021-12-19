@@ -209,7 +209,7 @@
 
             if (element.id === 'rangeFromDt') {
                 const toDtValue = document.getElementById('rangeToDt').value;
-                element.setAttribute('data-userDateTime', element.value + ' 00:00:00');
+                element.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(element.value)));
                 if (!i18n.compareSystemDate(element.value, toDtValue)) {
                     zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
                         element.value = i18n.getDate({ months: -1 });
@@ -219,7 +219,7 @@
                 }
             } else {
                 const fromDtValue = document.getElementById('rangeFromDt').value;
-                element.setAttribute('data-userDateTime', element.value + ' 23:59:59');
+                element.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(element.value, { hours: 23 })));
                 if (!i18n.compareSystemDate(fromDtValue, element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
                         element.value = i18n.getDate();
