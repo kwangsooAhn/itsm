@@ -353,7 +353,7 @@ cmdb:
       seqNum: "CI No"
       status:
         delete: "delete"
-        tyoe: "status"
+        type: "status"
         use: "use"
       tag: "Tag"
       tagPlaceholder: "#Tag"
@@ -376,7 +376,7 @@ cmdb:
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
       tag: "Please enter a tag."
-        viewDescription: "Retrieve detailed information about a CI.."
+      viewDescription: "Retrieve detailed information about a CI.."
     btn:
       import: "Import"
       export: "Export"
