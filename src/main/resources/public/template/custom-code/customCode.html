@@ -119,15 +119,15 @@
                 <a class="z-button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="z-button-list">
-                <button class="z-button primary" onclick="actionCustomCode('post')"
+                <button class="z-button primary" onclick="saveCustomCode('POST')"
                         sec:authorize="hasAuthority('custom.code.create')"
                         th:if="${customCode == null}" th:text="#{common.btn.register}"></button>
-                <button class="z-button primary" onclick="actionCustomCode('put')"
+                <button class="z-button primary" onclick="saveCustomCode('PUT')"
                         sec:authorize="hasAuthority('custom.code.update')"
                         th:disabled="${!customCode.enabled}" th:if="${customCode?.customCodeId}"
                         th:text="#{common.btn.modify}">
                 </button>
-                <button class="z-button secondary" onclick="actionCustomCode('delete')"
+                <button class="z-button secondary" onclick="deleteCustomCode('DELETE')"
                         sec:authorize="hasAuthority('custom.code.delete')"
                         th:disabled="${!customCode.enabled}" th:if="${customCode?.customCodeId}"
                         th:text="#{common.btn.delete}">
@@ -343,97 +343,67 @@
         }
     }
 
-    //insert/update/delete Custom Code
-    function actionCustomCode(method) {
-        if (method === 'post' || method === 'put') {
-            const type = getTypeId();
-            if (emptyCheck(type)) {
-                const sessionKeySelectBox = document.getElementById('sessionKey');
-                let data = {
-                    customCodeName: document.getElementById('customCodeName').value,
-                    type: type,
-                    sessionKey: sessionKeySelectBox.options[sessionKeySelectBox.selectedIndex].value
-                };
-                if (type === 'table') {
-                    data.targetTable = document.getElementById('targetTable').value;
-                    data.searchColumn = document.getElementById('searchColumn').value;
-                    data.valueColumn = document.getElementById('valueColumn').value;
+    //insert/update
+    function saveCustomCode(method) {
+        const type = getTypeId();
+        if (emptyCheck(type)) {
+            const sessionKeySelectBox = document.getElementById('sessionKey');
+            let data = {
+                customCodeName: document.getElementById('customCodeName').value,
+                type: type,
+                sessionKey: sessionKeySelectBox.options[sessionKeySelectBox.selectedIndex].value
+            };
+            if (type === 'table') {
+                data.targetTable = document.getElementById('targetTable').value;
+                data.searchColumn = document.getElementById('searchColumn').value;
+                data.valueColumn = document.getElementById('valueColumn').value;
 
-                    let conditionDataArr = [];
-                    let childNodes = document.getElementById('condition').childNodes;
-                    for (let i = 0; i < childNodes.length; i++) {
-                        let conditionObj = {};
-                        let conditionKey = childNodes[i].getElementsByTagName('select')[0].value;
-                        let conditionOperator = childNodes[i].getElementsByTagName('select')[1].value;
-                        let conditionValue = childNodes[i].getElementsByTagName('input')[0].value;
-                        if (conditionKey === 'use_yn') {
-                            if (conditionValue.toLowerCase() === 'true' || conditionValue.toLowerCase() === 'false') {
-                                conditionObj.conditionKey = conditionKey;
-                                conditionObj.conditionOperator = conditionOperator;
-                                conditionObj.conditionValue = conditionValue;
-                                conditionDataArr.push(conditionObj);
-                            } else {
-                                zAlert.warning(i18n.msg('customCode.msg.checkUseYnValue'));
-                                return false;
-                            }
-                        } else {
+                let conditionDataArr = [];
+                let childNodes = document.getElementById('condition').childNodes;
+                for (let i = 0; i < childNodes.length; i++) {
+                    let conditionObj = {};
+                    let conditionKey = childNodes[i].getElementsByTagName('select')[0].value;
+                    let conditionOperator = childNodes[i].getElementsByTagName('select')[1].value;
+                    let conditionValue = childNodes[i].getElementsByTagName('input')[0].value;
+                    if (conditionKey === 'use_yn') {
+                        if (conditionValue.toLowerCase() === 'true' || conditionValue.toLowerCase() === 'false') {
                             conditionObj.conditionKey = conditionKey;
                             conditionObj.conditionOperator = conditionOperator;
                             conditionObj.conditionValue = conditionValue;
                             conditionDataArr.push(conditionObj);
+                        } else {
+                            zAlert.warning(i18n.msg('customCode.msg.checkUseYnValue'));
+                            return false;
                         }
-                        for (let k = 0; k < i; k++) {
-                            let childConditionKey = childNodes[k].getElementsByTagName('select')[0].value;
-                            if (conditionKey === childConditionKey) {
-                                zAlert.warning(i18n.msg('customCode.msg.selectNotDuplicateSearchColumn'));
-                                return false;
-                            }
+                    } else {
+                        conditionObj.conditionKey = conditionKey;
+                        conditionObj.conditionOperator = conditionOperator;
+                        conditionObj.conditionValue = conditionValue;
+                        conditionDataArr.push(conditionObj);
+                    }
+                    for (let k = 0; k < i; k++) {
+                        let childConditionKey = childNodes[k].getElementsByTagName('select')[0].value;
+                        if (conditionKey === childConditionKey) {
+                            zAlert.warning(i18n.msg('customCode.msg.selectNotDuplicateSearchColumn'));
+                            return false;
                         }
                     }
-                    data.condition = JSON.stringify(conditionDataArr);
-                } else {
-                    data.pCode = document.getElementById('pCode').value;
                 }
-                if (method === 'put') {
-                    data.customCodeId = /*[[${customCode?.customCodeId}]]*/'';
-                }
-                restSubmit(method, '/rest/custom-codes', data);
+                data.condition = JSON.stringify(conditionDataArr);
+            } else {
+                data.pCode = document.getElementById('pCode').value;
             }
-        } else if (method === 'delete') {
-            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-                aliceJs.fetchText('/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }).then((rtn) => {
-                    switch (rtn) {
-                        case STATUS_SUCCESS:
-                            zAlert.success(i18n.msg('common.msg.delete'), function () {
-                                location.href = '/custom-codes/search';
-                            });
-                            break;
-                        case STATUS_ERROR_CUSTOM_CODE_USED:
-                            zAlert.warning(i18n.msg('customCode.msg.customCodeUsed'));
-                            break;
-                        default:
-                            zAlert.danger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                });
-            });
-        }
-    }
-
-    //REST API
-    function restSubmit(method, url, data) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
+            if (method === 'PUT') {
+                data.customCodeId = /*[[${customCode?.customCodeId}]]*/'';
+            }
+            aliceJs.fetchText('/rest/custom-codes', {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((status) => {
+                switch (status) {
                     case STATUS_SUCCESS:
                         zAlert.success(i18n.msg('common.msg.save'), function () {
                             location.href = '/custom-codes/search';
@@ -452,11 +422,34 @@
                         zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
-            }
-        };
-        aliceJs.sendXhr(opt);
+            });
+        }
     }
 
+    function deleteCustomCode() {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+            aliceJs.fetchText('/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then((rtn) => {
+                switch (rtn) {
+                    case STATUS_SUCCESS:
+                        zAlert.success(i18n.msg('common.msg.delete'), function () {
+                            location.href = '/custom-codes/search';
+                        });
+                        break;
+                    case STATUS_ERROR_CUSTOM_CODE_USED:
+                        zAlert.warning(i18n.msg('customCode.msg.customCodeUsed'));
+                        break;
+                    default:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                }
+            });
+        });
+    }
     /*]]>*/
 </script>
 </html>

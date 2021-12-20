@@ -56,7 +56,13 @@
 
     // 폼 리스트 조회
     function getList(pageNum = 1) {
-        restSearchSubmit('GET', '/forms?searchValue=' + encodeURIComponent(document.getElementById('searchValue').value) + '&pageNum=' + pageNum);
+        const urlParam = encodeURIComponent(document.getElementById('searchValue').value) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/forms?searchValue=' + urlParam, {
+            method: 'GET',
+        }).then((htmlData) => {
+            document.getElementById('formList').innerHTML = htmlData;
+            setDateTimeFormat(document.getElementById('formList'));
+        });
     }
 
     // 유효성 검증
@@ -411,21 +417,6 @@
             }
         });
         importModal.show();
-    }
-
-    //REST API
-    function restSearchSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            showProgressbar: false,
-            callbackFunc: function(response) {
-                    document.getElementById('formList').innerHTML = response.responseText;
-                    setDateTimeFormat(document.getElementById('formList'));
-            }
-        };
-        aliceJs.sendXhr(opt);
     }
 
     /**

@@ -61,11 +61,63 @@
     }
 
     function openCIDetailModal(ciId) {
-        restSubmit('GET', '/cmdb/cis/' + ciId + '/view', false);
+        aliceJs.fetchText('/cmdb/cis/' + ciId + '/view', {
+            method: 'GET',
+            showProgressbar: true
+        }).then((rtn) => {
+            const ciDetailModal = new modal({
+                title: i18n.msg('cmdb.ci.label.view'),
+                body: rtn,
+                classes: 'cmdb-ci-view-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function (modal) {
+                    document.getElementById('ciAttributes').click();
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelectorAll('textarea'), {
+                        className: 'scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+                    new zTag(document.querySelector('input[name=ciDetailTags]'), {
+                        suggestion: false,
+                        realtime: false,
+                        tagType: 'ci',
+                        targetId: document.getElementById('ciId').getAttribute('value')
+                    });
+                    // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+                    document.querySelectorAll('.date-time').forEach(dt => {
+                        dt.textContent = i18n.userDateTime(dt.textContent.trim());
+                    });
+                }
+            });
+            ciDetailModal.show();
+        })
     }
 
     function getList(pageNum = 1) {
-        restSubmit('get', '/cmdb/cis?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/cmdb/cis?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            document.getElementById('ciList').innerHTML = htmlData;
+        });
+
         let ciListTags = document.querySelectorAll('input[name=ciListTags]');
         let ciIdList = (document.querySelectorAll('input[name=ciId]'));
         for (let i = 0; i < ciListTags.length; i++) {
@@ -76,64 +128,6 @@
                 targetId: ciIdList[i].value
             });
         }
-    }
-
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                if (url.indexOf("/view") > 0) {
-                    const ciDetailModal = new modal({
-                        title: i18n.msg('cmdb.ci.label.view'),
-                        body: response.responseText,
-                        classes: 'cmdb-ci-view-modal',
-                        buttons: [{
-                            content: i18n.msg('common.btn.close'),
-                            classes: 'z-button secondary',
-                            bindKey: false,
-                            callback: function (modal) {
-                                modal.hide();
-                            }
-                        }],
-                        close: {
-                            closable: false,
-                        },
-                        onCreate: function (modal) {
-                            document.getElementById('ciAttributes').click();
-                            // 스크롤바 추가
-                            OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
-                            OverlayScrollbars(document.querySelectorAll('textarea'), {
-                                className: 'scrollbar',
-                                resize: 'vertical',
-                                sizeAutoCapable: true,
-                                textarea: {
-                                    dynHeight: false,
-                                    dynWidth: false,
-                                    inheritedAttrs: "class"
-                                }
-                            });
-                            new zTag(document.querySelector('input[name=ciDetailTags]'), {
-                                suggestion: false,
-                                realtime: false,
-                                tagType: 'ci',
-                                targetId: document.getElementById('ciId').getAttribute('value')
-                            });
-                            // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-                            document.querySelectorAll('.date-time').forEach(dt => {
-                                dt.textContent = i18n.userDateTime(dt.textContent.trim());
-                            });
-                        }
-                    });
-                    ciDetailModal.show();
-                } else {
-                    document.getElementById('ciList').innerHTML = response.responseText;
-                }
-            }
-        };
-        aliceJs.sendXhr(opt);
     }
 
     function onExcelDownload() {
