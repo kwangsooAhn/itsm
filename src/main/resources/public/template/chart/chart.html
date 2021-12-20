@@ -392,7 +392,7 @@
                         fromDt.value = i18n.getStartOfDate({ months: -1 }, 'month');
                         fromDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                         toDt.value = i18n.getEndOfDate({ months: -1 }, 'month');
-                        toDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
+                        toDt.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ months: -1 }, 'month'));
                         break;
                     case RANGE_ALL: // 전체
                         // 시작일자(from) = 2000년 01월 01일 00시 00분 00초 데이터
@@ -469,7 +469,6 @@
                     tags.push({value: tag.value})
                 });
             }
-
 
             let fromDt = document.getElementById('rangeFromDt').getAttribute('data-userDateTime');
             let toDt = document.getElementById('rangeToDt').getAttribute('data-userDateTime');
