@@ -365,7 +365,7 @@
                         let conditionObj = {};
                         let conditionKey = childNodes[i].getElementsByTagName('select')[0].value;
                         let conditionOperator = childNodes[i].getElementsByTagName('select')[1].value;
-                        let conditionValue = childNodes[i].getElementsByTagName('input')[0].value;
+                        let conditionValue = childNodes[i].getElementsByTagName('input')[2].value;
                         if (conditionKey === 'use_yn') {
                             if (conditionValue.toLowerCase() === 'true' || conditionValue.toLowerCase() === 'false') {
                                 conditionObj.conditionKey = conditionKey;
