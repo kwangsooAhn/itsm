@@ -10,8 +10,10 @@ import java.io.Serializable
 
 data class CIRelationDto(
     val relationId: String? = null,
-    val relationType: String? = null,
     val ciId: String? = null,
     val targetCIId: String,
-    val targetCIName: String? = null
+    val targetCIName: String? = null,
+    val targetCIIcon: String? = null,
+    var targetCIIconData: String? = null,
+    val targetTypeName: String? = null
 ) : Serializable

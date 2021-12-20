@@ -829,6 +829,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-download-as-excel {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_download_xls.svg");
+  mask-image: url("../media/icons/icon_download_xls.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 /* _layout.scss
  *

@@ -353,7 +353,7 @@ cmdb:
       seqNum: "CI No"
       status:
         delete: "delete"
-        tyoe: "status"
+        type: "status"
         use: "use"
       tag: "Tag"
       tagPlaceholder: "#Tag"
@@ -376,7 +376,7 @@ cmdb:
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
       tag: "Please enter a tag."
-        viewDescription: "Retrieve detailed information about a CI.."
+      viewDescription: "Retrieve detailed information about a CI.."
     btn:
       import: "Import"
       export: "Export"
@@ -984,6 +984,7 @@ notice:
     enterToDt: "Please enter a search end date."
     enterTopNoticeEndDt: "Please enter a top notice end date."
     enterTopNoticeStrtDt: "Please enter a top notice start date."
+    maximunTopNoticeCount: "The maximum number at the top is 10."
     portalDescription: "View notice's information."
     searchDescrition: "View and manage notice's information."
     viewDescription: "Inquire detailed information about the notice."
@@ -1251,6 +1252,7 @@ token:
     relatedInstancePlaceholder: "Document Name / Create User"
     searchPlaceholder: "Document No / Create User / Contents"
     startDt: "Start Date"
+    status: "Status"
     tagPlaceHolder: "#Tags"
     view: "Document View"
     write: "My Document"

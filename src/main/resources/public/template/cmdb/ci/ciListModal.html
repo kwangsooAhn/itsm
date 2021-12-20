@@ -8,9 +8,11 @@
             <th style="width: 25%;" class="align-left" th:text="#{cmdb.ci.label.seqNum}"></th>
             <th style="width: 0%; display: none;"></th>
             <th style="width: 0%; display: none;"></th>
+            <th style="width: 0%; display: none;"></th>
             <th style="width: 15%;" class="align-left" th:text="#{cmdb.ci.label.type}"></th>
             <th style="width: 15%;" class="align-left" th:text="#{cmdb.ci.label.name}"></th>
             <th style="width: 25%;" class="align-left" th:text="#{cmdb.ci.label.description}"></th>
+            <th style="width: 0%; display: none;"></th>
             <th style="width: 0%; display: none;"></th>
             <th style="width: 15%;" class="align-left" th:text="#{cmdb.ci.label.tag}"></th>
         </tr>
@@ -34,6 +36,7 @@
             <td style="width: 15%;" class="align-left" id="ciName" th:text="${ciData.ciName}" th:title="${ciData.ciName}"></td>
             <td style="width: 25%;" class="align-left" id="ciDesc" th:text="${ciData.ciDesc}" th:title="${ciData.ciDesc}"></td>
             <td style="width: 0%; display: none;" id="classId" th:text="${ciData.classId}"></td>
+            <td style="width: 0%; display: none;" id="interlink" th:text="${ciData.interlink}"></td>
             <td style="width: 15%;" class="align-left">
                 <div class="tag-group align-middle">
                     <input type="text" name="ciListTags" class="align-left text-ellipsis"

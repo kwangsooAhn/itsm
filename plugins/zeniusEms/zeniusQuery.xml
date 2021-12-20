@@ -120,7 +120,7 @@
               and ccgld.ci_id in (?)
        </node>
        <node id="deleteCmdbCIData">
-              delete from cmdb_ci_data where ci_id in (?)
+              delete from cmdb_ci_data where ci_id = (?) and attribute_id = (?)
        </node>
        <node id="insertCI">
               insert into cmdb_ci (ci_id, ci_no, ci_name, ci_desc, ci_status, type_id, interlink, mapping_id)
@@ -144,7 +144,7 @@
               insert into cmdb_ci_group_list_data (ci_id, attribute_id, c_attribute_id, c_attribute_seq, c_value) values (?, ?, ?, ?, ?)
        </node>
        <node id="deleteCmdbCIGroupListData">
-              delete from cmdb_ci_group_list_data where ci_id in (?)
+              delete from cmdb_ci_group_list_data where ci_id = (?) and attribute_id = (?) and c_attribute_id = (?) and c_attribute_seq = (?)
        </node>
        <node id="insertCIHistory">
               insert into cmdb_ci_history (history_id, ci_id, seq, ci_no, ci_name, ci_status, type_id, class_id, ci_icon, ci_desc, interlink)

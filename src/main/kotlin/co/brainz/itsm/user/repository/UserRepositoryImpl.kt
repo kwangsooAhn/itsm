@@ -56,7 +56,10 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
             .where(
                 user.userName.notIn(AliceUserConstants.CREATE_USER_ID)
             )
-            .orderBy(user.userName.asc())
+        if (userSearchCondition.excludeIds.isNotEmpty()) {
+            query.where(user.userKey.notIn(userSearchCondition.excludeIds))
+        }
+        query.orderBy(user.userName.asc())
 
         if (userSearchCondition.isPaging) {
             query.limit(userSearchCondition.contentNumPerPage)

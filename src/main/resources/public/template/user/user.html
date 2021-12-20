@@ -391,8 +391,8 @@
             const endDtElement = document.getElementById('absenceEndDt');
             startDtElement.value = startDtVal ? i18n.userDateTime(startDtVal) : i18n.getDateTime();
             endDtElement.value = endDtVal ? i18n.userDateTime(endDtVal) : i18n.getDateTime({'days':7});
-            zDateTimePicker.initDateTimePicker(startDtElement);
-            zDateTimePicker.initDateTimePicker(endDtElement);
+            zDateTimePicker.initDateTimePicker(startDtElement, changeDateTimePicker);
+            zDateTimePicker.initDateTimePicker(endDtElement, changeDateTimePicker);
             document.getElementById('substituteUserKey').value = /*[[${users?.absence?.substituteUserKey}]]*/'';
             document.getElementById('substituteUser').value = /*[[${users?.absence?.substituteUser}]]*/'';
             document.getElementById('absenceData').style.display = 'block';
@@ -402,6 +402,31 @@
             document.getElementById('substituteUserKey').value = '';
             document.getElementById('substituteUser').value = '';
             document.getElementById('absenceData').style.display = 'none';
+        }
+    }
+
+    /**
+     * DateTimePicker 변경시 호출
+     */
+    function changeDateTimePicker(element, picker) {
+        if (typeof picker === 'undefined') { return false; }
+
+        if (element.id === 'absenceStartDt') {
+            const toDtValue = document.getElementById('absenceEndDt').value;
+            if (!i18n.compareSystemDateTime(element.value, toDtValue)) {
+                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', toDtValue), function () {
+                    element.value = i18n.getDateTime({'days':7});
+                    picker.open();
+                });
+            }
+        } else {
+            const fromDtValue = document.getElementById('absenceStartDt').value;
+            if (!i18n.compareSystemDateTime(fromDtValue, element.value)) {
+                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', fromDtValue), function () {
+                    element.value = i18n.getDateTime();
+                    picker.open();
+                });
+            }
         }
     }
 
@@ -421,9 +446,6 @@
         if ([[${users?.userKey}]] !== null && document.getElementById('userAbsence').checked) {
             if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) return false;
             if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) return false;
-            if (isOrOperator((i18n.systemDateTime(document.getElementById('absenceStartDt').value) > i18n.systemDateTime(document.getElementById('absenceEndDt').value))
-                , (i18n.systemDateTime(document.getElementById('absenceStartDt').value) === i18n.systemDateTime(document.getElementById('absenceEndDt').value))
-                , 'user.msg.compareWithAbsenceDtValue')) return false;
             if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
         }
 
@@ -456,44 +478,49 @@
     }
 
     function openUserListPopup() {
-        const subUserModal = new modal({
-            title: i18n.msg('user.label.substituteUser'),
-            body: createModalContent(),
-            classes: 'sub-user-modal',
-            buttons: [{
-                content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
-                bindKey: false,
-                callback: (modal) => {
-                    const selectedSubUser = document.querySelector('input[type=radio]:checked');
-                    if (selectedSubUser === null) {
-                        zAlert.warning(i18n.msg('user.msg.enterSubstituteUser'));
-                        return false;
-                    } else {
-                        document.getElementById('substituteUserKey').value = selectedSubUser.id;
-                        document.getElementById('substituteUser').value = selectedSubUser.value;
+        let isValid = true
+        if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) isValid = false;
+        if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) isValid = false;
+        if (isValid) {
+            const subUserModal = new modal({
+                title: i18n.msg('user.label.substituteUser'),
+                body: createModalContent(),
+                classes: 'sub-user-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.select'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: (modal) => {
+                        const selectedSubUser = document.querySelector('input[type=radio]:checked');
+                        if (selectedSubUser === null) {
+                            zAlert.warning(i18n.msg('user.msg.enterSubstituteUser'));
+                            return false;
+                        } else {
+                            document.getElementById('substituteUserKey').value = selectedSubUser.id;
+                            document.getElementById('substituteUser').value = selectedSubUser.value;
+                        }
+                        modal.hide();
                     }
-                    modal.hide();
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: (modal) => {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: () => {
+                    document.getElementById('search').addEventListener('keyup', (e) => {
+                        this.getSubUserList(e.target.value, false);
+                    });
+                    this.getSubUserList(document.getElementById('search').value, true);
                 }
-            }, {
-                content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: (modal) => {
-                    modal.hide();
-                }
-            }],
-            close: {
-                closable: false,
-            },
-            onCreate: () => {
-                document.getElementById('search').addEventListener('keyup', (e) => {
-                    this.getSubUserList(e.target.value, false);
-                });
-                this.getSubUserList(document.getElementById('search').value, true);
-            }
-        });
-        subUserModal.show();
+            });
+            subUserModal.show();
+        }
     }
 
     function createModalContent() {
@@ -506,6 +533,8 @@
 
     function getSubUserList(search, showProgressbar) {
         let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
+            + '&from=' + i18n.systemDateTime(document.getElementById('absenceStartDt').value)
+            + '&to=' + i18n.systemDateTime(document.getElementById('absenceEndDt').value)
         const opt = {
             method: 'get',
             url: strUrl,
