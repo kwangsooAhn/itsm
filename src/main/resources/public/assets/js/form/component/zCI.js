@@ -208,7 +208,8 @@ export const ciMixin = {
                 {id: 'ciDesc', type: 'editable', columnWidth: '4', name: 'cmdb.ci.label.description', class: 'align-left'},
                 {id: 'classId', type: 'hidden', columnWidth: '0', name: '', class: ''},
                 {id: 'editIcon', type: 'icon-edit', columnWidth: '1', name: '', class: 'align-center'},
-                {id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column'}
+                {id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column'},
+                {id: 'interlink', type: 'hidden', columnWidth: '0', name: '', class: ''}
             ];
         } else {
             // CI 컴포넌트 편집 가능여부가 false 일때 =  CI 아이콘, CI Type , CI 이름, 세부 정보 조회 아이콘, row 삭제 아이콘  5개
@@ -224,7 +225,8 @@ export const ciMixin = {
                 {id: 'ciDesc', type: 'editable', columnWidth: '4', name: 'cmdb.ci.label.description', class: 'align-left'},
                 {id: 'classId', type: 'hidden', columnWidth: '0', name: '', class: ''},
                 {id: 'searchIcon', type: 'icon-search', columnWidth: '1', name: '', class: 'align-center'},
-                {id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column'}
+                {id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column'},
+                {id: 'interlink', type: 'hidden', columnWidth: '0', name: '', class: ''}
             ];
         }
     },
@@ -376,7 +378,7 @@ export const ciMixin = {
      * @param actionType 등록|수정 인지
      */
     getRegisterCIData(actionType) {
-        const ciKeys = ['ciId', 'ciNo', 'ciIcon', 'ciIconData', 'typeId', 'typeName', 'ciName', 'ciDesc', 'classId'];
+        const ciKeys = ['ciId', 'ciNo', 'ciIcon', 'ciIconData', 'typeId', 'typeName', 'ciName', 'ciDesc', 'classId', 'interlink'];
         const ciData = {ciStatus: CI.STATUS.USE, actionType: actionType};
         ciKeys.forEach((key) => {
             const domElement = document.getElementById(key);
@@ -596,7 +598,7 @@ export const ciMixin = {
     openUpdateModal(rowIndex, data) {
         const instanceIdElem = document.getElementById('instanceId');
         const urlParam = 'ciId=' + data.ciId + '&componentId=' + this.id + '&instanceId=' + instanceIdElem.value +
-            '&displayType=' + this.displayType;
+            '&displayType=' + this.displayType + '&interlink=' + data.interlink;
         aliceJs.fetchText('/cmdb/cis/component/edit?' + urlParam, {
             method: 'POST',
             headers: {
