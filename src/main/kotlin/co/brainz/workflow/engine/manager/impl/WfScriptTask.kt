@@ -206,7 +206,8 @@ class WfScriptTask(
                                     ciTags = ciTags,
                                     ciRelations = ciRelations,
                                     createUserKey = super.assigneeId,
-                                    updateUserKey = super.assigneeId
+                                    updateUserKey = super.assigneeId,
+                                    interlink = ci["interlink"].toString().toBoolean()
                                 )
                             )
                         }

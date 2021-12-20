@@ -90,9 +90,10 @@ class CIService(
     /**
      * CI 컴포넌트 - CI 데이터 조회
      */
-    fun getCIData(ciId: String, componentId: String, instanceId: String, modifyCIData: String): CIDetailDto {
+    fun getCIData(parameter: LinkedHashMap<String, String>, modifyCIData: String): CIDetailDto {
         var ciDetailDto = CIDetailDto(
-            ciId = ciId
+            ciId = parameter["ciId"] as String,
+            interlink = parameter["interlink"]?.toBoolean()
         )
         // 전달된 데이터로 변경
         val map = mapper.readValue(modifyCIData, LinkedHashMap::class.java)
@@ -105,7 +106,6 @@ class CIService(
             ciDetailDto.ciIconData = map["ciIconData"] as String
             ciDetailDto.ciDesc = map["ciDesc"] as String
             ciDetailDto.ciStatus = map["ciStatus"] as String
-            ciDetailDto.interlink = false
             ciDetailDto.typeId = map["typeId"] as String
             ciDetailDto.typeName = map["typeName"] as String
             ciDetailDto.classId = map["classId"] as String
@@ -119,11 +119,18 @@ class CIService(
             ciDetailDto.updateDt = LocalDateTime.now()
 
             // CI 데이터 추출
-            val ciClasses = ciClassService.getCIClassAttributes(ciId, map["classId"] as String)
+            val ciClasses = ciClassService.getCIClassAttributes(
+                parameter["ciId"] as String,
+                map["classId"] as String
+            )
 
             // 임시 테이블 데이터 조회
             val ciComponentData =
-                ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
+                ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(
+                    parameter["componentId"] as String,
+                    parameter["ciId"] as String,
+                    parameter["instanceId"] as String
+                )
             val relationList = mutableListOf<CIRelationDto>()
             if (ciComponentData != null) {
                 val ciComponentDataValue: Map<String, Any> =
@@ -135,10 +142,11 @@ class CIService(
                 )
             }
             ciDetailDto.classes = ciClasses
-            ciDetailDto.ciTags = tagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ciId)
+            ciDetailDto.ciTags =
+                tagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, parameter["ciId"] as String)
             ciDetailDto.ciRelations = relationList
         } else { // 삭제, 조회시 DB에 저장된 CI 데이터 조회
-            ciDetailDto = getCI(ciId)
+            ciDetailDto = getCI(parameter["ciId"] as String)
         }
 
         return ciDetailDto
