@@ -123,7 +123,8 @@ class UserService(
             }
         }
         val userSearchCondition = UserSearchCondition(
-            searchValue = params["search"].toString()
+            searchValue = params["search"].toString(),
+            isFilterUseYn = true
         )
         if (excludeIds.isNotEmpty()) {
             userSearchCondition.excludeIds = excludeIds
