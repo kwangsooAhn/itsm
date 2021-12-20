@@ -77,10 +77,10 @@
             <div class="z-button-list">
                 <button sec:authorize="hasAuthority('cmdb.type.create')"
                         class="z-button primary" type="button" id="btnRegist" name="btnRegist"
-                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                        th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
                 <button sec:authorize="hasAuthority('cmdb.type.update')"
                         class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
-                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                        th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
                 <button sec:authorize="hasAuthority('cmdb.type.delete')"
                         class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
@@ -127,56 +127,51 @@
             });
             document.querySelector('textarea').value = '';
 
-            const opt = {
-                method: 'get',
-                url: '/rest/cmdb/types/' + typeId,
-                showProgressbar: false,
-                callbackFunc: function(response) {
-                    let responseJson = JSON.parse(response.responseText);
-                    document.getElementById('parentTypeName').setAttribute('readonly','');
-                    document.getElementById('parentTypeName').value = responseJson.ptypeName;
-                    document.getElementById('parentTypeId').value = responseJson.ptypeId;
-                    document.getElementById('typeName').value = responseJson.typeName;
-                    document.getElementById('typeId').value = responseJson.typeId;
-                    document.getElementById('typeDesc').value = responseJson.typeDesc;
-                    document.getElementById('typeSeq').value = responseJson.typeSeq;
-                    document.getElementById('typeAlias').value = responseJson.typeAlias;
-                    document.getElementById('typeIcon').value = responseJson.typeIcon;
-                    document.getElementById('typeClassId').value = responseJson.classId;
-                    document.getElementById('typeClass').value = responseJson.className;
-                    if (responseJson.editable) {
-                        if (document.querySelector('#btnUpdate') != null) {
-                            document.querySelector('#btnUpdate').removeAttribute('disabled');
-                        }
-                        if (document.querySelector('#btnDelete') != null) {
-                            document.querySelector('#btnDelete').removeAttribute('disabled');
-                        }
-                        if (document.querySelector('button[name=typeIconSelector]') != null) {
-                            document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
-                        }
-                        if (document.querySelector('button[name=typeClassSelector]') != null) {
-                            document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
-                        }
-                        document.getElementById('typeAlias').readOnly = true;
-                    } else {
-                        if (document.querySelector('#btnUpdate') != null) {
-                            document.getElementById('btnUpdate').disabled = true;
-                        }
-                        if (document.querySelector('#btnDelete') != null) {
-                            document.getElementById('btnDelete').disabled = true;
-                        }
-                        if (document.querySelector('button[name=typeIconSelector]') != null) {
-                            document.querySelector('button[name=typeIconSelector]').disabled = true;
-                        }
-                        if (document.querySelector('button[name=typeClassSelector]') != null) {
-                            document.querySelector('button[name=typeClassSelector]').disabled = true;
-                        }
+            aliceJs.fetchJson('/rest/cmdb/types/' + typeId, {
+                method: 'GET'
+            }).then((responseJson) => {
+                document.getElementById('parentTypeName').setAttribute('readonly','');
+                document.getElementById('parentTypeName').value = responseJson.ptypeName;
+                document.getElementById('parentTypeId').value = responseJson.ptypeId;
+                document.getElementById('typeName').value = responseJson.typeName;
+                document.getElementById('typeId').value = responseJson.typeId;
+                document.getElementById('typeDesc').value = responseJson.typeDesc;
+                document.getElementById('typeSeq').value = responseJson.typeSeq;
+                document.getElementById('typeAlias').value = responseJson.typeAlias;
+                document.getElementById('typeIcon').value = responseJson.typeIcon;
+                document.getElementById('typeClassId').value = responseJson.classId;
+                document.getElementById('typeClass').value = responseJson.className;
+                if (responseJson.editable) {
+                    if (document.querySelector('#btnUpdate') != null) {
+                        document.querySelector('#btnUpdate').removeAttribute('disabled');
                     }
-                    onEdit();
-                    observer.isChanged = false;
+                    if (document.querySelector('#btnDelete') != null) {
+                        document.querySelector('#btnDelete').removeAttribute('disabled');
+                    }
+                    if (document.querySelector('button[name=typeIconSelector]') != null) {
+                        document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+                    }
+                    if (document.querySelector('button[name=typeClassSelector]') != null) {
+                        document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
+                    }
+                    document.getElementById('typeAlias').readOnly = true;
+                } else {
+                    if (document.querySelector('#btnUpdate') != null) {
+                        document.getElementById('btnUpdate').disabled = true;
+                    }
+                    if (document.querySelector('#btnDelete') != null) {
+                        document.getElementById('btnDelete').disabled = true;
+                    }
+                    if (document.querySelector('button[name=typeIconSelector]') != null) {
+                        document.querySelector('button[name=typeIconSelector]').disabled = true;
+                    }
+                    if (document.querySelector('button[name=typeClassSelector]') != null) {
+                        document.querySelector('button[name=typeClassSelector]').disabled = true;
+                    }
                 }
-            };
-            aliceJs.sendXhr(opt);
+                onEdit();
+                observer.isChanged = false;
+            });
         }
         OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
         document.getElementById('search').addEventListener('keyup', function() {
@@ -272,54 +267,50 @@
             return false;
         }
         let url = '/rest/cmdb/types';
-        if (method !== 'post') {
+        if (method !== 'POST') {
             url += '/' + document.getElementById('typeId').value;
         }
-        const opt = {
+        aliceJs.fetchText(url, {
             method: method,
-            url: url,
-            params: JSON.stringify(jsonData),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.register'), function () {
-                            window.location.href = '/cmdb/types/edit';
-                        });
-                        break;
-                    case STATUS_SUCCESS_EDIT_TYPE:
-                        zAlert.success(i18n.msg('common.msg.update'), function () {
-                            window.location.href = '/cmdb/types/edit';
-                        });
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        }).then((status) => {
+            switch (status) {
+                case STATUS_SUCCESS:
+                    zAlert.success(i18n.msg('common.msg.register'), function () {
+                        window.location.href = '/cmdb/types/edit';
+                    });
+                    break;
+                case STATUS_SUCCESS_EDIT_TYPE:
+                    zAlert.success(i18n.msg('common.msg.update'), function () {
+                        window.location.href = '/cmdb/types/edit';
+                    });
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
 
     /** delete **/
     function onDelete() {
-        const opt = {
-            method: 'delete',
-            url: '/rest/cmdb/types/' + document.getElementById('typeId').value,
-            callbackFunc: function(response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.delete'), function() {
-                            window.location.href ='/cmdb/types/edit';
-                        });
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                }
+        aliceJs.fetchText('/rest/cmdb/types/' + document.getElementById('typeId').value, {
+            method: 'DELETE'
+        }).then((status) => {
+            switch (status) {
+                case STATUS_SUCCESS:
+                    zAlert.success(i18n.msg('common.msg.delete'), function() {
+                        window.location.href ='/cmdb/types/edit';
+                    });
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
 
     /** CMDB-Icon **/

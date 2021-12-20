@@ -41,9 +41,9 @@
                 <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="z-button-list">
-                <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
+                <button th:if="${download?.downloadId}" onclick="saveDownload('PUT')"
                         class="z-button primary" th:text="#{common.btn.modify}"></button>
-                <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
+                <button th:unless="${download?.downloadId}" onclick="saveDownload('POST')"
                         class="z-button primary" th:text="#{common.btn.register}"></button>
                 <button th:if="${download?.downloadId}" onclick="deleteDownload()"
                         class="z-button secondary" th:text="#{common.btn.delete}"></button>
@@ -67,61 +67,46 @@
     }
 
     function saveDownload(method) {
-        if (emptyCheck()) {
-            let fileSeqList = [];
-            let delFileSeqList = [];
-            document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
-            document.getElementsByName('delFileSeq').forEach(elem => delFileSeqList.push(elem.value));
-            const data = {
-                downloadCategory: document.getElementById('downloadCategory').value,
-                downloadTitle: document.getElementById('downloadTitle').value,
-                fileSeqList: fileSeqList,
-                delFileSeqList: delFileSeqList
-            };
-            if (method === 'put') {
-                data.downloadId = /*[[${download?.downloadId}]]*/'';
-                data.views = /*[[${download?.views}]]*/'';
-            }
-            restSubmit(method, '/rest/downloads', data);
+        if (!emptyCheck()) { return false; }
+
+        let fileSeqList = [];
+        let delFileSeqList = [];
+        document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
+        document.getElementsByName('delFileSeq').forEach(elem => delFileSeqList.push(elem.value));
+        const data = {
+            downloadCategory: document.getElementById('downloadCategory').value,
+            downloadTitle: document.getElementById('downloadTitle').value,
+            fileSeqList: fileSeqList,
+            delFileSeqList: delFileSeqList
+        };
+        if (method === 'PUT') {
+            data.downloadId = /*[[${download?.downloadId}]]*/'';
+            data.views = /*[[${download?.views}]]*/'';
         }
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.save') : i18n.msg('common.msg.update');
+        aliceJs.fetchText('/rest/downloads', {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((rtn) => {
+            zAlert.success(resultMsg, function() {
+                location.href = '/downloads/search';
+            });
+        });
     }
 
     function deleteDownload() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
             aliceJs.fetchText('/rest/downloads/' + /*[[${download?.downloadId}]]*/'', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                method: 'DELETE'
             }).then((rtn) => {
                 zAlert.success(i18n.msg('common.msg.delete'), () => {
                     location.href = '/downloads/search';
                 });
             });
         });
-    }
-
-    //REST API
-    function restSubmit(method, url, data) {
-        let resultMsg;
-        if (method.toLowerCase() === 'post') {
-            resultMsg = i18n.msg('common.msg.save');
-        } else if (method.toLowerCase() === 'put') {
-            resultMsg = i18n.msg('common.msg.update');
-        }
-
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function() {
-                zAlert.success(resultMsg, function() {
-                    location.href = '/downloads/search';
-                });
-            }
-        };
-        aliceJs.sendXhr(opt);
     }
     /*]]>*/
 </script>

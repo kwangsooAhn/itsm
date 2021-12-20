@@ -40,27 +40,19 @@
 
     // 게시판 관리 조회
     function getList(pageNum = 1) {
-        restSubmit('get', '/boards?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/boards?' + urlParam, {
+            method: 'GET',
+        }).then((htmlData) => {
+            const boardAdminList = document.getElementById('boardAdminList');
+            boardAdminList.innerHTML = htmlData;
+            setDateTimeFormat(boardAdminList);
+        });
     }
 
     // 게시판 관리 등록
     function openBoardAdminAdd() {
         location.href = '/boards/new';
-    }
-
-    // REST API
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            callbackFunc: function(response) {
-                document.getElementById('boardAdminList').innerHTML = response.responseText;
-                setDateTimeFormat(document.getElementById('boardAdminList'));
-            },
-            showProgressbar: false
-        };
-        aliceJs.sendXhr(opt);
     }
 
     /**

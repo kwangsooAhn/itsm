@@ -138,20 +138,15 @@
                 avatarUUID: document.getElementById('avatarUUID').value
             };
 
-            restSubmit('POST', '/certification', true, registerInfo);
-        }
-    }
-
-    // 데이터 전송
-    function restSubmit(method, url, async, data) {
-        const opt = {
-            method: method,
-            url: url,
-            async: async,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function(response) {
-                switch (response.responseText) {
+            aliceJs.fetchText('/certification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(registerInfo),
+                showProgressbar: true
+            }).then((status) => {
+                switch (status) {
                     case STATUS_SUCCESS:
                         zAlert.success([[#{user.msg.signUp}]], function() {
                             location.href = '/login';
@@ -167,9 +162,8 @@
                         zAlert.danger([[#{user.msg.signUpFail}]]);
                         break;
                 }
-            }
-        };
-        aliceJs.sendXhr(opt);
+            });
+        }
     }
 
     // 빈 값 체크
