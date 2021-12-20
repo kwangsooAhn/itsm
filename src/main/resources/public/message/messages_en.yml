@@ -353,7 +353,7 @@ cmdb:
       seqNum: "CI No"
       status:
         delete: "delete"
-        tyoe: "status"
+        type: "status"
         use: "use"
       tag: "Tag"
       tagPlaceholder: "#Tag"
