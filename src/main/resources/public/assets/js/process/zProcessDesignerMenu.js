@@ -417,6 +417,8 @@
             actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete' || tooltip.type === 'copy'; });
         } else if (elem.classed('connector')) {
             actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete'; });
+        } else if (elem.classed('gateway')) {
+            actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'edit'; });  // TODO: 병렬, 포괄적 게이트웨이 숨김
         }
 
         if (!elem.classed('gateway')) {
