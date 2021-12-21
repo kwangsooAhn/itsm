@@ -43,6 +43,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-logging")
     implementation("ch.qos.logback:logback-classic:1.2.9")
+    implementation("ch.qos.logback:logback-core:1.2.9")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-devtools")
