@@ -63,7 +63,6 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
                 )
                 .leftJoin(reportMap).on(chart.chartId.eq(reportMap.chartId))
                 .where(chart.chartId.`in`(chartIds)
-                        // template id 비교 구문
                         .and(reportMap.template.templateId.eq(templateId))
                 )
                 .orderBy(reportMap.displayOrder.asc())
