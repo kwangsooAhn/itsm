@@ -5,38 +5,27 @@
 
 package co.brainz.itsm.report.service
 
-import co.brainz.cmdb.dto.RestTemplateReturnDto
-import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.exception.AliceErrorConstants
-import co.brainz.framework.exception.AliceException
-import co.brainz.framework.util.AlicePagingData
-import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.chart.dto.ChartConfig
-import co.brainz.itsm.chart.dto.ChartDto
-import co.brainz.itsm.chart.respository.ChartRepository
-import co.brainz.itsm.chart.service.ChartService
-import co.brainz.itsm.report.constants.ReportConstants
-import co.brainz.itsm.report.dto.ReportTemplateCondition
-import co.brainz.itsm.report.dto.ReportTemplateDetailDto
-import co.brainz.itsm.report.dto.ReportTemplateDto
-import co.brainz.itsm.report.dto.ReportTemplateListDto
-import co.brainz.itsm.report.dto.ReportTemplateListReturnDto
-import co.brainz.itsm.report.dto.ReportTemplateMapDto
-import co.brainz.itsm.report.entity.ReportTemplateEntity
-import co.brainz.itsm.report.entity.ReportTemplateMapEntity
-import co.brainz.itsm.report.repository.ReportTemplateMapRepository
-import co.brainz.itsm.report.repository.ReportTemplateRepository
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
+import co.brainz.cmdb.dto.*
+import co.brainz.framework.auth.repository.*
+import co.brainz.framework.constants.*
+import co.brainz.framework.exception.*
+import co.brainz.framework.util.*
+import co.brainz.itsm.chart.dto.*
+import co.brainz.itsm.chart.respository.*
+import co.brainz.itsm.chart.service.*
+import co.brainz.itsm.report.constants.*
+import co.brainz.itsm.report.dto.*
+import co.brainz.itsm.report.entity.*
+import co.brainz.itsm.report.repository.*
+import com.fasterxml.jackson.core.type.*
+import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.datatype.jsr310.*
+import com.fasterxml.jackson.module.kotlin.*
 import java.lang.Math.ceil
-import java.time.LocalDateTime
-import javax.transaction.Transactional
+import java.time.*
+import javax.transaction.*
+import org.slf4j.*
+import org.springframework.stereotype.*
 
 @Service
 class ReportTemplateService(
@@ -116,6 +105,7 @@ class ReportTemplateService(
             automatic = templateEntity.automatic
         )
         val chartList = mutableListOf<ChartDto>()
+        val sortedChartList = mutableListOf<ChartDto>()
         val templateMapList = templateEntity.charts?.sortedBy { data -> data.displayOrder }
         val chartIds = mutableSetOf<String>()
         templateMapList?.forEach {
@@ -130,7 +120,16 @@ class ReportTemplateService(
                 )
             )
         }
-        reportTemplateDto.charts = chartList
+        chartIds.forEachIndexed { index, chartId ->
+            chartList.forEach { chartData ->
+                if (chartId == chartData.chartId) {
+                    sortedChartList.add (
+                        index, chartData
+                    )
+                }
+            }
+        }
+        reportTemplateDto.charts = sortedChartList
         return reportTemplateDto
     }
 
