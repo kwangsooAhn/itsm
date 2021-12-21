@@ -6,13 +6,11 @@
 
 package co.brainz.itsm.chart.respository
 
-import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.chart.dto.ChartDataDto
-import co.brainz.itsm.chart.dto.ChartListDto
-import co.brainz.itsm.chart.dto.ChartSearchCondition
-import com.querydsl.core.QueryResults
+import co.brainz.framework.querydsl.*
+import co.brainz.itsm.chart.dto.*
+import com.querydsl.core.*
 
 interface ChartRepositoryCustom : AliceRepositoryCustom {
     fun findChartList(chartSearchCondition: ChartSearchCondition): QueryResults<ChartListDto>
-    fun findChartDataByChartIds(chartIds: Set<String>): List<ChartDataDto>
+    fun findChartDataByChartIdsTemplateId(chartIds: Set<String>, templateId: String): List<ChartDataDto>
 }

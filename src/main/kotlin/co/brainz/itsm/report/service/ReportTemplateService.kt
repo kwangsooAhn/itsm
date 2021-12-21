@@ -56,7 +56,7 @@ class ReportTemplateService(
             template.charts?.forEach {
                 chartIds.add(it.chartId)
             }
-            chartRepository.findChartDataByChartIds(chartIds).forEach { chartData ->
+            chartRepository.findChartDataByChartIdsTemplateId(chartIds, template.templateId).forEach { chartData ->
                 chartList.add(
                     ChartDto(
                         chartId = chartData.chartId,
@@ -105,13 +105,12 @@ class ReportTemplateService(
             automatic = templateEntity.automatic
         )
         val chartList = mutableListOf<ChartDto>()
-        val sortedChartList = mutableListOf<ChartDto>()
         val templateMapList = templateEntity.charts?.sortedBy { data -> data.displayOrder }
         val chartIds = mutableSetOf<String>()
         templateMapList?.forEach {
             chartIds.add(it.chartId)
         }
-        chartRepository.findChartDataByChartIds(chartIds).forEach { chartData ->
+        chartRepository.findChartDataByChartIdsTemplateId(chartIds, templateEntity.templateId).forEach { chartData ->
             chartList.add(
                 ChartDto(
                     chartId = chartData.chartId,
@@ -120,16 +119,7 @@ class ReportTemplateService(
                 )
             )
         }
-        chartIds.forEach { chartId ->
-            chartList.forEach { chartData ->
-                if (chartId == chartData.chartId) {
-                    sortedChartList.add(
-                            chartData
-                    )
-                }
-            }
-        }
-        reportTemplateDto.charts = sortedChartList
+        reportTemplateDto.charts = chartList
         return reportTemplateDto
     }
 
