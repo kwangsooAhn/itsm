@@ -138,6 +138,7 @@ class UserController(
         params["search"] = request.getParameter("search")
         params["from"] = request.getParameter("from")
         params["to"] = request.getParameter("to")
+        params["userKey"] = request.getParameter("userKey")
         model.addAttribute("userList", userService.selectNotAbsenceUserList(params).data)
         return userListModalPage
     }
