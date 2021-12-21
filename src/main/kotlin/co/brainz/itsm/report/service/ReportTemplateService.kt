@@ -120,11 +120,11 @@ class ReportTemplateService(
                 )
             )
         }
-        chartIds.forEachIndexed { index, chartId ->
+        chartIds.forEach { chartId ->
             chartList.forEach { chartData ->
                 if (chartId == chartData.chartId) {
-                    sortedChartList.add (
-                        index, chartData
+                    sortedChartList.add(
+                            chartData
                     )
                 }
             }
