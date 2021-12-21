@@ -66,13 +66,13 @@
                 <a class="z-button secondary" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="z-button-list">
-                <button class="z-button primary" onclick="actionAttribute('post')"
+                <button class="z-button primary" onclick="saveAttribute('POST')"
                         sec:authorize="hasAuthority('cmdb.attribute.create')"
                         th:if="${attribute == null}" th:text="#{common.btn.register}"></button>
-                <button class="z-button primary" onclick="actionAttribute('put')"
+                <button class="z-button primary" onclick="saveAttribute('PUT')"
                         sec:authorize="hasAuthority('cmdb.attribute.update')"
                         th:if="${attribute?.attributeId}" th:text="#{common.btn.modify}"></button>
-                <button class="z-button secondary" onclick="actionAttribute('delete')"
+                <button class="z-button secondary" onclick="deleteAttribute()"
                         sec:authorize="hasAuthority('cmdb.attribute.delete')"
                         th:disabled="${!attribute.enabled}" th:if="${attribute?.attributeId}"
                         th:text="#{common.btn.delete}"></button>
@@ -155,60 +155,58 @@
         }
     }
 
-    function actionAttribute(method) {
-        if (method === 'post' || method === 'put') {
-            if (isValidRequiredAll() && zCmdbAttribute.checkDuplicate(document.querySelector('#attributeType').value)) {
-                let data = {
-                    attributeId: '',
-                    attributeName: document.querySelector('#attributeName').value,
-                    attributeType: document.querySelector('#attributeType').value,
-                    attributeText: document.querySelector('#attributeText').value,
-                    mappingId: document.querySelector('#mappingId').value,
-                    attributeDesc: document.querySelector('#attributeDesc').value
-                };
-                let url = '/rest/cmdb/attributes';
-                if (method === 'put') {
-                    url += '/' + /*[[${attribute?.attributeId}]]*/'';
-                    data.attributeId = /*[[${attribute?.attributeId}]]*/'';
+    // 속성 삭제
+    function deleteAttribute() {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+            aliceJs.fetchText('/rest/cmdb/attributes/' + /*[[${attribute?.attributeId}]]*/'', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then((rtn) => {
+                switch (rtn) {
+                    case STATUS_SUCCESS:
+                        zAlert.success(i18n.msg('common.msg.delete'), function () {
+                            location.href = '/cmdb/attributes/search';
+                        });
+                        break;
+                    default:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
                 }
-
-                data.attributeValue = zCmdbAttribute.setDetails(data.attributeType);
-                if (!data.attributeValue) {
-                    return false;
-                }
-                restSubmit(method, url, data);
-            }
-        } else if (method === 'delete') {
-            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-                aliceJs.fetchText('/rest/cmdb/attributes/' + /*[[${attribute?.attributeId}]]*/'', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }).then((rtn) => {
-                    switch (rtn) {
-                        case STATUS_SUCCESS:
-                            zAlert.success(i18n.msg('common.msg.delete'), function () {
-                                location.href = '/cmdb/attributes/search';
-                            });
-                            break;
-                        default:
-                            zAlert.danger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                });
             });
-        }
+        });
     }
 
-    function restSubmit(method, url, data) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
+    function saveAttribute(method) {
+        if (isValidRequiredAll() && zCmdbAttribute.checkDuplicate(document.querySelector('#attributeType').value)) {
+            let data = {
+                attributeId: '',
+                attributeName: document.querySelector('#attributeName').value,
+                attributeType: document.querySelector('#attributeType').value,
+                attributeText: document.querySelector('#attributeText').value,
+                mappingId: document.querySelector('#mappingId').value,
+                attributeDesc: document.querySelector('#attributeDesc').value
+            };
+            let url = '/rest/cmdb/attributes';
+            if (method === 'PUT') {
+                url += '/' + /*[[${attribute?.attributeId}]]*/'';
+                data.attributeId = /*[[${attribute?.attributeId}]]*/'';
+            }
+
+            data.attributeValue = zCmdbAttribute.setDetails(data.attributeType);
+            if (!data.attributeValue) {
+                return false;
+            }
+
+            aliceJs.fetchText(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((rtn) => {
+                switch (rtn) {
                     case STATUS_SUCCESS:
                         zAlert.success(i18n.msg('common.msg.save'), function () {
                             location.href = '/cmdb/attributes/search';
@@ -221,11 +219,9 @@
                         zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
-            }
-        };
-        aliceJs.sendXhr(opt);
+            });
+        }
     }
-
     /*]]>*/
 </script>
 </th:block>

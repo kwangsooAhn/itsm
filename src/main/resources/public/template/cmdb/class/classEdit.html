@@ -65,10 +65,10 @@
             <div class="z-button-list">
                 <button sec:authorize="hasAuthority('cmdb.class.create')"
                         class="z-button primary" type="button" id="btnRegister" name="btnRegister"
-                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                        th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.update')"
                         class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
-                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                        th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.delete')"
                         class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
@@ -115,63 +115,58 @@
             if (!observer.canPageChange()) {
                 return;
             }
-            const opt = {
-                method: 'get',
-                url: '/rest/cmdb/classes/' + encodeURIComponent(ciClassId),
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    let responseJson = JSON.parse(response.responseText);
-                    document.getElementById('txtClassId').value = responseJson.classId;
-                    document.getElementById('txtPClassId').value = responseJson.pclassId;
-                    document.getElementById('txtPClassName').value = responseJson.pclassName;
-                    document.getElementById('txtClassName').value = responseJson.className;
-                    document.getElementById('txtClassDesc').value = responseJson.classDesc;
-                    document.getElementById('txtClassSeq').value = responseJson.classSeq;
+            aliceJs.fetchJson('/rest/cmdb/classes/' + encodeURIComponent(ciClassId), {
+                method: 'GET'
+            }).then((responseJson) => {
+                document.getElementById('txtClassId').value = responseJson.classId;
+                document.getElementById('txtPClassId').value = responseJson.pclassId;
+                document.getElementById('txtPClassName').value = responseJson.pclassName;
+                document.getElementById('txtClassName').value = responseJson.className;
+                document.getElementById('txtClassDesc').value = responseJson.classDesc;
+                document.getElementById('txtClassSeq').value = responseJson.classSeq;
 
-                    if (responseJson.editable) {
-                        if (document.getElementById('btnUpdate') != null) {
-                            document.getElementById('btnUpdate').removeAttribute('disabled');
-                        }
-                        if (document.getElementById('btnDelete') != null) {
-                            document.getElementById('btnDelete').removeAttribute('disabled');
-                        }
-                    } else {
-                        if (document.getElementById('btnUpdate') != null) {
-                            document.getElementById('btnUpdate').disabled = true;
-                        }
-                        if (document.getElementById('btnDelete') != null) {
-                            document.getElementById('btnDelete').disabled = true;
-                        }
+                if (responseJson.editable) {
+                    if (document.getElementById('btnUpdate') != null) {
+                        document.getElementById('btnUpdate').removeAttribute('disabled');
                     }
-                    while (extendsAttributeList.hasChildNodes()) {
-                        extendsAttributeList.removeChild(extendsAttributeList.firstChild);
+                    if (document.getElementById('btnDelete') != null) {
+                        document.getElementById('btnDelete').removeAttribute('disabled');
                     }
-                    while (attributeList.hasChildNodes()) {
-                        attributeList.removeChild(attributeList.firstChild);
+                } else {
+                    if (document.getElementById('btnUpdate') != null) {
+                        document.getElementById('btnUpdate').disabled = true;
                     }
-                    if (responseJson.extendsAttributes !== null) {
-                        responseJson.extendsAttributes.forEach(function (data) {
-                            drawAttribute({
-                                key: data.attributeId,
-                                value: data.attributeName
-                            }, 'extendsAttribute', false);
-                        });
+                    if (document.getElementById('btnDelete') != null) {
+                        document.getElementById('btnDelete').disabled = true;
                     }
-                    classAttributeMap.clear();
-                    if (responseJson.attributes !== null) {
-                        responseJson.attributes.forEach(function (data) {
-                            classAttributeMap.set(data.attributeId, data.attributeName);
-                            drawAttribute({
-                                key: data.attributeId,
-                                value: data.attributeName
-                            }, 'attribute', true);
-                        });
-                    }
-                    onEdit();
-                    observer.isChanged = false;
                 }
-            };
-            aliceJs.sendXhr(opt);
+                while (extendsAttributeList.hasChildNodes()) {
+                    extendsAttributeList.removeChild(extendsAttributeList.firstChild);
+                }
+                while (attributeList.hasChildNodes()) {
+                    attributeList.removeChild(attributeList.firstChild);
+                }
+                if (responseJson.extendsAttributes !== null) {
+                    responseJson.extendsAttributes.forEach(function (data) {
+                        drawAttribute({
+                            key: data.attributeId,
+                            value: data.attributeName
+                        }, 'extendsAttribute', false);
+                    });
+                }
+                classAttributeMap.clear();
+                if (responseJson.attributes !== null) {
+                    responseJson.attributes.forEach(function (data) {
+                        classAttributeMap.set(data.attributeId, data.attributeName);
+                        drawAttribute({
+                            key: data.attributeId,
+                            value: data.attributeName
+                        }, 'attribute', true);
+                    });
+                }
+                onEdit();
+                observer.isChanged = false;
+            });
         }
 
         OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
@@ -265,58 +260,54 @@
         }
 
         let strUrl = '/rest/cmdb/classes';
-        if (flag !== 'post') {
+        if (flag !== 'POST') {
             strUrl += '/' + document.getElementById('txtClassId').value;
         }
 
-        const opt = {
+        aliceJs.fetchText(strUrl, {
             method: flag,
-            url: strUrl,
-            params: JSON.stringify(obj),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.register'), function () {
-                            window.location.href = '/cmdb/class/edit';
-                        });
-                        break;
-                    case STATUS_SUCCESS_EDIT_CLASS:
-                        zAlert.success(i18n.msg('common.msg.update'), function () {
-                            window.location.href = '/cmdb/class/edit';
-                        });
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        }).then((status) => {
+            switch (status) {
+                case STATUS_SUCCESS:
+                    zAlert.success(i18n.msg('common.msg.register'), function () {
+                        window.location.href = '/cmdb/class/edit';
+                    });
+                    break;
+                case STATUS_SUCCESS_EDIT_CLASS:
+                    zAlert.success(i18n.msg('common.msg.update'), function () {
+                        window.location.href = '/cmdb/class/edit';
+                    });
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
 
     /** CMDB Class 삭제 **/
     function onDelete() {
-        const opt = {
-            method: 'delete',
-            url: '/rest/cmdb/classes/' + document.getElementById('txtClassId').value,
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.delete'), function () {
-                            window.location.href = '/cmdb/class/edit';
-                        });
-                        break;
-                    case STATUS_FAILE_CLASS_HAVE_TYPE:
-                        zAlert.danger(i18n.msg('cmdb.class.msg.relatedTypes'));
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                }
+        aliceJs.fetchText('/rest/cmdb/classes/' + document.getElementById('txtClassId').value, {
+            method: 'DELETE'
+        }).then((status) => {
+            switch (status) {
+                case STATUS_SUCCESS:
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        window.location.href = '/cmdb/class/edit';
+                    });
+                    break;
+                case STATUS_FAILE_CLASS_HAVE_TYPE:
+                    zAlert.danger(i18n.msg('cmdb.class.msg.relatedTypes'));
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
-        };
-        aliceJs.sendXhr(opt)
+        });
     }
 
     function drawAttribute(param, target, editable) {
@@ -414,33 +405,29 @@
         let classId = document.getElementById('txtClassId').value;
         let strUrl = '/cmdb/class/view-pop/attributes?search=' + search.trim() + '&classId=' + classId;
 
-        const opt = {
-            method: 'get',
-            url: strUrl,
-            contentType: 'application/json',
-            showProgressbar: showProgressbar,
-            callbackFunc: function (response) {
-                document.getElementById('ciClassAttributeList').innerHTML = response.responseText;
-                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-                aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
-                document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
-                    checkbox.addEventListener('change', function (e) {
-                        if (e.target.checked) {
-                            classAttributeMap.set(e.target.value, e.target.name);
-                        } else {
-                            classAttributeMap.delete(e.target.value);
-                        }
-                    });
-                    classAttributeMap.forEach(function (value, key) {
-                        if (checkbox.value === key) {
-                            checkbox.checked = true;
-                            checkbox.disabled = true;
-                        }
-                    });
+        aliceJs.fetchText(strUrl, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            document.getElementById('ciClassAttributeList').innerHTML = htmlData;
+            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+            aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
+            document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function (e) {
+                    if (e.target.checked) {
+                        classAttributeMap.set(e.target.value, e.target.name);
+                    } else {
+                        classAttributeMap.delete(e.target.value);
+                    }
                 });
-            }
-        };
-        aliceJs.sendXhr(opt);
+                classAttributeMap.forEach(function (value, key) {
+                    if (checkbox.value === key) {
+                        checkbox.checked = true;
+                        checkbox.disabled = true;
+                    }
+                });
+            });
+        })
     }
     /*]]>*/
 </script>

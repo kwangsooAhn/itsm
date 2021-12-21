@@ -88,27 +88,20 @@
     function getList(pageNum = 1) {
         document.getElementById('toDt').value =
             i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
-        restSubmit('get', '/boards/articles?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/boards/articles?' + urlParam, {
+            method: 'GET',
+        }).then((htmlData) => {
+            const boardList = document.getElementById('boardList');
+            boardList.innerHTML = htmlData;
+            setDateTimeFormat(boardList);
+        });
     }
 
     //게시판 관리 등록
     function openBoardAdd() {
         location.href = '/boards/articles/' + document.getElementById('boardAdminId').value + '/new';
-    }
-
-    //REST API
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            callbackFunc: function(response) {
-                document.getElementById('boardList').innerHTML = response.responseText;
-                setDateTimeFormat(document.getElementById('boardList'));
-            },
-            showProgressbar: false
-        };
-        aliceJs.sendXhr(opt);
     }
 
     /**
