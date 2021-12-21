@@ -38,8 +38,8 @@
             <div class="z-checkbox-list">
                 <ul>
                     <li class="text-ellipsis" th:each="url : ${urlList}">
-                        <label class="z-checkbox" tabindex="0" th:for="${url?.url}">
-                            <input name="authUrl" th:disabled="${view}" th:id="${url?.url}" th:value="${url?.url}" type="checkbox">
+                        <label class="z-checkbox" tabindex="0" th:for="|${url?.method}_${url?.url}|">
+                            <input name="authUrl" th:disabled="${view}" th:id="|${url?.method}_${url?.url}|" th:value="${url?.url}" type="checkbox">
                             <span></span>
                             <span class="z-label" th:text="|[${url?.method}] ${url?.url}|"></span>
                         </label>
@@ -73,14 +73,14 @@
         </div>
         <div class="z-button-list">
             <button class="z-button primary"
-                    id="btnRegist" name="btnRegist" sec:authorize="hasAuthority('auth.create')" th:if="!${auth?.authId}" th:onclick="|javascript:onSave('POST')|"
+                    id="btnRegist" name="btnRegist" sec:authorize="hasAuthority('auth.create')" th:if="!${auth?.authId} and !${view}" th:onclick="|javascript:onSave('post')|"
                     th:text="#{common.btn.register}" type="button"></button>
             <button class="z-button primary"
-                    id="btnUpdate" name="btnUpdate" sec:authorize="hasAuthority('auth.update')" th:if="${auth?.authId}" th:onclick="|javascript:onSave('PUT')|"
+                    id="btnUpdate" name="btnUpdate" sec:authorize="hasAuthority('auth.update')" th:if="${auth?.authId} and !${view}" th:onclick="|javascript:onSave('put')|"
                     th:text="#{common.btn.modify}"
                     type="button"></button>
             <button class="z-button secondary"
-                    id="btnDelete" name="btnDelete" sec:authorize="hasAuthority('auth.delete')" th:if="${auth?.authId}" th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                    id="btnDelete" name="btnDelete" sec:authorize="hasAuthority('auth.delete')" th:if="${auth?.authId} and !${view}" th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                     th:text="#{common.btn.delete}"
                     type="button"></button>
         </div>
@@ -90,16 +90,14 @@
 <script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
     let defaultMenuList = [];
-    let defaultUrlList = [];
     const MENUID_PREFIX = 'auth.';
 
     /*[# th:each="defaultUserMenu : ${defaultUserMenuList}"]*/
     defaultMenuList.push(/*[[${defaultUserMenu.codeValue}]]*/);
     /*[/]*/
 
-    /*[# th:each="defaultUserUrl : ${defaultUserUrlList}"]*/
-    defaultUrlList.push(/*[[${defaultUserUrl.codeValue}]]*/);
-    /*[/]*/
+    let auth = /*[[${auth}]]*/null;
+    let defaultUrlList = /*[[${defaultUserUrlList}]]*/null;
 
     window.onload = function() {
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
@@ -107,54 +105,41 @@
             className: 'inner-scrollbar'
         });
 
-        if (document.getElementById('txtAuthId').value) {
-            document.getElementById('txtAuthId').setAttribute('disabled','');
-            aliceJs.fetchJson('/rest/auths/' + document.getElementById('txtAuthId').value, {
-                method: 'GET',
-                showProgressbar: true
-            }).then((jsonData) => {
-                if (jsonData.hasOwnProperty('arrMenuList') && jsonData.arrMenuList.length > 0) {
-                    const arrMenuList = jsonData.arrMenuList;
-                    Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function (authMenu) {
-                        authMenu.checked = false;
-                        if (![[${view}]]) authMenu.disabled = false;
-                        for (let i = 0; i < arrMenuList.length; i++) {
-                            if (authMenu.value === arrMenuList[i].menuId) {
-                                authMenu.checked = true;
-                            }
-                            for (let k = 0; k < defaultMenuList.length; k++) {
-                                if (authMenu.value === defaultMenuList[k]) {
-                                    authMenu.checked = true;
-                                    authMenu.disabled = true;
-                                }
-                            }
+        if (auth != null) {
+            // 사용 URL 체크
+            let urlList = auth.arrUrlList;
+            document.querySelectorAll('input[name=authUrl]').forEach(function (authUrl) {
+                let authUrlArray = authUrl.id.split('_');
+                urlList.forEach(function (url) {
+                    if (url.method === authUrlArray[0] && url.url === authUrlArray[1]) {
+                        authUrl.checked = true;
+                    }
+                    defaultUrlList.forEach(function (defaultUrl) {
+                        if (defaultUrl.method === authUrlArray[0] && defaultUrl.url === authUrlArray[1]) {
+                            authUrl.checked = true;
+                            authUrl.disabled = true;
                         }
                     });
-                }
-                if (jsonData.hasOwnProperty('arrUrlList') && jsonData.arrUrlList.length > 0) {
-                    const arrUrlList = jsonData.arrUrlList;
-                    Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]'), function (authUrl) {
-                        authUrl.checked = false;
-                        if (![[${view}]]) authUrl.disabled = false;
-                        for (let i = 0; i < arrUrlList.length; i++) {
-                            if (authUrl.id === arrUrlList[i].url) {
-                                authUrl.checked = true;
-                            }
-                            for (let k = 0; k < defaultUrlList.length; k++) {
-                                if (authUrl.id === defaultUrlList[k]) {
-                                    authUrl.checked = true;
-                                    authUrl.disabled = true;
-                                }
-                            }
-                        }
-                    });
-                }
+                });
+            });
 
-                if (document.getElementById('roleAuthMapCount').value) {
-                    const roleAuthMapCount = jsonData.hasOwnProperty('roleAuthMapCount') ? jsonData.roleAuthMapCount : 0;
-                    document.getElementById('roleAuthMapCount').value = i18n.msg('auth.label.count', roleAuthMapCount);
-                }
-                disabledButton(jsonData.roleAuthMapCount);
+            document.getElementById('roleAuthMapCount').value = i18n.msg('auth.label.count', auth.roleAuthMapCount);
+            disabledButton(auth.roleAuthMapCount);
+
+            // 사용 메뉴 목록
+            let menuList = auth.arrMenuList;
+            document.querySelectorAll('input[name=authMenu]').forEach(function (authMenu) {
+                menuList.forEach(function (menu) {
+                    if (authMenu.value === menu.menuId) {
+                        authMenu.checked = true;
+                    }
+                    defaultMenuList.forEach(function (defaultMenu) {
+                        if (authMenu.value === defaultMenu) {
+                            authMenu.checked = true;
+                            authMenu.disabled = true;
+                        }
+                    });
+                });
             });
         }
     }
@@ -183,7 +168,7 @@
             authIds.push(validList[i].id);
             authNames.push(validList[i].textContent);
         }
-        if (flag === 'POST') {
+        if (flag === 'post') {
             for (let i = 0; i < authIds.length; i++) {
                 if (document.getElementById('txtAuthId').value === authIds[i]) {
                     zAlert.warning([[#{auth.msg.duplicateAuthId}]]);
@@ -210,38 +195,48 @@
         });
         obj.arrMenuId = arrMenuId;
 
-        let arrUrl = [];                                             //권한-Url
+        let arrUrlList = [];
         Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]:checked'), function (item) {
-            arrUrl.push(item.id);
-        });
-        obj.arrUrl = arrUrl;
-
-        const authJson = JSON.stringify(obj);
-        const strUrl = '/rest/auths' + (flag === 'POST' ? '' : '/' + document.getElementById('txtAuthId').value)
-
-        aliceJs.fetchText(strUrl, {
-            method: flag,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: authJson
-        }).then((rtn) => {
-            zAlert.success([[#{common.msg.save}]], function () {
-                window.location.href = '/auths/search';
+            let urlInfo = item.id.split('_');
+            arrUrlList.push({
+                method: urlInfo[0],
+                url: urlInfo[1]
             });
         });
+        obj.arrUrlList = arrUrlList;
+
+        let strUrl = '/rest/auths';
+        if (flag !== 'post') {
+            strUrl += '/' + document.getElementById('txtAuthId').value;
+        }
+
+        const opt = {
+            method: flag,
+            url: strUrl,
+            params: JSON.stringify(obj),
+            contentType: 'application/json',
+            callbackFunc: function () {
+                zAlert.success([[#{common.msg.save}]], function () {
+                    window.location.href = '/auths/search';
+                });
+            }
+        };
+
+        aliceJs.sendXhr(opt);
     }
 
     /* 삭제 버튼  */
     function onDelete() {
-        aliceJs.fetchText('/rest/auths/' + document.getElementById('txtAuthId').value, {
-            method: 'DELETE',
-            showProgressbar: true
-        }).then((rtn) => {
-            zAlert.success([[#{common.msg.delete}]], function () {
-                window.location.href = '/auths/search';
-            });
-        });
+        const opt = {
+            method: 'delete',
+            url: '/rest/auths/' + document.getElementById('txtAuthId').value,
+            callbackFunc: function () {
+                zAlert.success([[#{common.msg.delete}]], function () {
+                    window.location.href = '/auths/search';
+                });
+            }
+        };
+        aliceJs.sendXhr(opt);
     }
 
     /** 삭제 버튼 활성, 비활성화 */
