@@ -17,7 +17,7 @@
                            or (${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : ''))">
                     <span class="z-icon i-edit"></span>
                 </button>
-                <button class="z-button-icon extra" th:onclick="restSubmit('delete', [[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])"
+                <button class="z-button-icon extra" th:onclick="deleteBoardComment([[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])"
                         th:if="(${#authorization.expression('hasAuthority(''board.admin.delete'')')})
                            or (${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : ''))">
                     <span class="z-icon i-delete" ></span>

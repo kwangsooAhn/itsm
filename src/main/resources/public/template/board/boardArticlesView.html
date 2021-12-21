@@ -185,9 +185,6 @@
                 resultMsg = i18n.msg('common.msg.save');
             } else if (method === 'delete') {
                 resultMsg = i18n.msg('common.msg.delete');
-                zAlert.success(resultMsg, function () {
-                    getBoardCommentList();
-                });
             }
             const opt = {
                 method: method,
@@ -216,6 +213,15 @@
             aliceJs.sendXhr(opt);
         }
 
+        //게시판 댓슬 삭제
+        function deleteBoardComment(url) {
+            aliceJs.fetchText(url, {
+                method: 'DELETE'
+            }).then((rtn) => {
+                document.getElementById('boardComments').value = '';
+                getBoardCommentList();
+            });
+        }
         /*]]>*/
     </script>
 </th:block>
