@@ -291,7 +291,6 @@ class CIService(
         return result
     }
 
-
     /**
      * CI 컴포넌트 - CI 컴포넌트 세부 데이터 조회
      */
