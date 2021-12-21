@@ -53,10 +53,10 @@
         </div>
         <div class="z-button-list">
             <button class="z-button primary"
-                    th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.update'')')})
+                    th:if="(${#authorization.expression('hasAuthority(''board.admin.update'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
                     th:onclick="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
-                    th:text="#{common.btn.modify}">
+                    th:text="#{common.btn.toModify}">
             </button>
             <button sec:authorize="hasAuthority('board.create')"
                     class="z-button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
@@ -64,7 +64,7 @@
                     th:text="#{board.btn.reply}">
             </button>
             <button class="z-button secondary"
-                    th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.delete'')')})
+                    th:if="(${#authorization.expression('hasAuthority(''board.admin.delete'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
                     th:onclick="deleteBoard()"
                     th:text="#{common.btn.delete}">
@@ -110,7 +110,7 @@
                 content: (boardId !== "") ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
             });
 
-            OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.z-page-content'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelector('.view'), {className: 'scrollbar'});
         };
 
@@ -213,6 +213,15 @@
             aliceJs.sendXhr(opt);
         }
 
+        //게시판 댓슬 삭제
+        function deleteBoardComment(url) {
+            aliceJs.fetchText(url, {
+                method: 'DELETE'
+            }).then((rtn) => {
+                document.getElementById('boardComments').value = '';
+                getBoardCommentList();
+            });
+        }
         /*]]>*/
     </script>
 </th:block>
