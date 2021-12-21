@@ -12,12 +12,14 @@
             <span class="vertical-bar"></span>
             <h5 class="reply-create-date text-wordNoWrap" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
             <div class="ml-auto align-middle z-button-list">
-                <button class="z-button-icon extra" sec:authorize="hasAuthority('board.update')"
-                        th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">
+                <button class="z-button-icon extra" th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|"
+                        th:if="(${#authorization.expression('hasAuthority(''board.admin.update'')')})
+                           or (${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : ''))">
                     <span class="z-icon i-edit"></span>
                 </button>
-                <button class="z-button-icon extra" sec:authorize="hasAuthority('board.delete')"
-                        th:onclick="restSubmit('delete', [[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])">
+                <button class="z-button-icon extra" th:onclick="restSubmit('delete', [[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])"
+                        th:if="(${#authorization.expression('hasAuthority(''board.admin.delete'')')})
+                           or (${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : ''))">
                     <span class="z-icon i-delete" ></span>
                 </button>
             </div>

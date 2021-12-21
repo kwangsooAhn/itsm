@@ -73,17 +73,17 @@
                        th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="z-button-list">
-                    <button class="z-button primary" sec:authorize="hasAuthority('board.update')"
+                    <button class="z-button primary" sec:authorize="hasAuthority('board.update') or hasAuthority('board.admin.update')"
                             th:if="${boardInfo?.boardId} and ${replyYn} == false"
                             onclick ="saveBoard('put', 'normal')"
                             th:text="#{common.btn.modify}">
                     </button>
-                    <button class="z-button primary" sec:authorize="hasAuthority('board.create')"
+                    <button class="z-button primary" sec:authorize="hasAuthority('board.create') or hasAuthority('board.admin.create')"
                             th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
                             onclick="saveBoard('post', 'normal')"
                             th:text="#{common.btn.register}">
                     </button>
-                    <button class="z-button secondary" sec:authorize="hasAuthority('board.create')"
+                    <button class="z-button secondary" sec:authorize="hasAuthority('board.create') or hasAuthority('board.admin.create')"
                             th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
                             onclick="saveBoard('post', 'reply')"
                             th:text="#{board.btn.reply}">
