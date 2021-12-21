@@ -614,7 +614,7 @@ class CIService(
         return ciHistoryRepository.findAllHistory(ciId)
     }
 
-    fun getRelation(ciId: String): List<CIRelationDto> {
+    fun getCIRelations(ciId: String): List<CIRelationDto> {
         return ciRelationRepository.selectByCiId(ciId)
     }
 

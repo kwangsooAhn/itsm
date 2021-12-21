@@ -406,14 +406,12 @@ export const ciMixin = {
         });
         document.querySelectorAll('.z-relation-group-div').forEach((el) => {
             let data = {};
-            data.relationType = el.childNodes[0].getElementsByTagName('select')[0].value;
-            data.targetCIId = el.childNodes[1].getElementsByTagName('select')[0].value;
+            data.targetCIId = el.childNodes[0].getElementsByTagName('select')[0].value;
             saveData.values.relatedCIData.push(data);
         });
         for (let i = 0; i < saveData.values.relatedCIData.length; i++) {
             for (let k = 0; k < i; k++) {
-                if (saveData.values.relatedCIData[i].targetCIId == saveData.values.relatedCIData[k].targetCIId &&
-                    saveData.values.relatedCIData[i].relationType == saveData.values.relatedCIData[k].relationType) {
+                if (saveData.values.relatedCIData[i].targetCIId == saveData.values.relatedCIData[k].targetCIId) {
                     zAlert.warning(i18n.msg('cmdb.ci.msg.duplicateRelatedCIData'));
                     return;
                 }
@@ -689,47 +687,17 @@ export const ciMixin = {
                     }).then((ci) => {
                         param.ciList = ci;
                     });
-                    // actionType에 따른 연관 관계 데이터 조회
-                    if (data.actionType === CI.ACTION_TYPE.MODIFY) {
-                        // 기존 CI 변경 클릭 후, 리스트에서 CI를 선택, 이후 CI 변경 시, 모달창에 출력되는 연관 관계 데이터는 cmdb_ci_relation 테이블의 데이터이다.
-                        // 이후 CI 수정 시, 수정한 연관 관계 데이터는 wf_component_ci_data 테이블의 데이터를 가져와 보여준다.
-                        aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id +
-                            '&instanceId=' + instanceIdElem.value, {
-                            method: 'GET',
-                        }).then((ciComponentData) => {
-                            if (ciComponentData === '') {
-                                aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/relation', {
-                                    method: 'GET',
-                                }).then((ciRelations) => {
-                                    const ciRelation = JSON.parse(ciRelations);
-                                    if (zValidation.isDefined(ciRelation)) {
-                                        for (let i = 0; i < ciRelation.length; i++) {
-                                            this.addCIRelation(param, ciRelations[i]);
-                                        }
-                                    }
-                                });
-                            } else {
-                                const ciComponent = JSON.parse(ciComponentData);
-                                if (zValidation.isDefined(ciComponent.ciRelations)) {
-                                    for (let i = 0; i < ciComponent.ciRelations.length; i++) {
-                                        this.addCIRelation(param, ciComponent.ciRelations[i]);
-                                    }
-                                }
+                    aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/relation?componentId=' + this.id +
+                        '&instanceId=' + instanceIdElem.value, {
+                        method: 'GET',
+                    }).then((ciRelations) => {
+                        const ciRelation = JSON.parse(ciRelations);
+                        if (zValidation.isDefined(ciRelation)) {
+                            for (let i = 0; i < ciRelation.length; i++) {
+                                this.addCIRelation(param, ciRelation[i]);
                             }
-                        });
-                    } else if (data.actionType === CI.ACTION_TYPE.REGISTER) {
-                        // cmdb_ci_relation 테이블에 등록되지 않은 데이터의 경우, wf_component_ci_data 테이블에서 연관 관계 데이터를 가져와 처리한다.
-                        aliceJs.fetchJson('/rest/cmdb/cis/' + data.ciId + '/data?componentId=' + this.id +
-                            '&instanceId=' + instanceIdElem.value, {
-                            method: 'GET',
-                        }).then((ciComponentData) => {
-                            if (zValidation.isDefined(ciComponentData.ciRelations)) {
-                                for (let i = 0; i < ciComponentData.ciRelations.length; i++) {
-                                    this.addCIRelation(param, ciComponentData.ciRelations[i]);
-                                }
-                            }
-                        });
-                    }
+                        }
+                    });
                     if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
                         document.getElementById('addCIRelationBtn').addEventListener('click',
                             this.addCIRelation.bind(this, param));
@@ -986,17 +954,6 @@ export const ciMixin = {
         const divRow = document.createElement('div');
         divRow.className = 'flex-row edit-row z-relation-group z-relation-group-div';
 
-        const relationTypeSelect = document.createElement('select');
-        relationTypeSelect.className = 'z-relation-type-select-box mr-1';
-        const relationTypeList = param.codeList;
-        for (let i = 0; i < relationTypeList.length; i++) {
-            const selectOption = document.createElement('option');
-            selectOption.value = relationTypeList[i].codeValue;
-            selectOption.text = relationTypeList[i].codeName;
-            selectOption.selected = (typeof ciRelations !== 'undefined') ? (ciRelations.relationType === selectOption.value) : '';
-            relationTypeSelect.appendChild(selectOption);
-        }
-
         const ciList = param.ciList;
         const targetCISelect = document.createElement('select');
         targetCISelect.className = 'z-target-ci-select-box mr-1';
@@ -1023,7 +980,6 @@ export const ciMixin = {
             row.remove();
         });
 
-        divRow.appendChild(relationTypeSelect);
         divRow.appendChild(targetCISelect);
         divRow.appendChild(deleteBtn);
         document.getElementById('ciRelation').appendChild(divRow);
