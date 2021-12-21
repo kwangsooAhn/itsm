@@ -59,7 +59,7 @@ class CIController(
     fun getCIView(request: HttpServletRequest, model: Model, @PathVariable ciId: String): String {
         val ciData = ciService.getCI(ciId)
         val ciHistoryList = ciService.getCIHistory(ciId)
-        val ciRelationList = ciService.getCIRelation(ciId)
+        val ciRelationList = ciService.getCIRelations(ciId)
         model.addAttribute("ciData", ciData)
         model.addAttribute("ciHistoryList", ciHistoryList)
         model.addAttribute("userInfo", currentSessionUser.getUserDto())

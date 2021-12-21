@@ -2724,6 +2724,11 @@ select {
   border-bottom-right-radius: 0;
 }
 
+.z-button-code .z-icon.i-search {
+  background: #8B9094;
+  pointer-events: none;
+}
+
 /* _layout.scss
  *
  * 파일 경로 : template/_layout.scss
@@ -7696,5 +7701,3 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
-
-/*# sourceMappingURL=itsm.css.map */

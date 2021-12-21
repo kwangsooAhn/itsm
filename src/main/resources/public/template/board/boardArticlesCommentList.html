@@ -4,28 +4,29 @@
 <head>
 </head>
 <body>
-    <div class="reply-row flex-column" th:unless="${#arrays.isEmpty(boardCommentList)}" th:each="boardComment: ${boardCommentList}">
-        <div class="reply-info flex-row">
-            <div class="profile"></div>
-            <img class="z-img i-profile-photo mr-2" th:src="${boardComment.avatarPath}" width="32" height="32"/>
-            <h5 class="reply-user-name text-wordWrap" th:text="${boardComment.createUser.userName}"></h5>
-            <span class="vertical-bar"></span>
-            <h5 class="reply-create-date text-wordNoWrap" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
-            <div class="ml-auto align-middle z-button-list">
-                <button class="z-button-icon extra" th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|"
-                        th:if="(${#authorization.expression('hasAuthority(''board.admin.update'')')})
-                           or (${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : ''))">
-                    <span class="z-icon i-edit"></span>
-                </button>
-                <button class="z-button-icon extra" th:onclick="deleteBoardComment([[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])"
-                        th:if="(${#authorization.expression('hasAuthority(''board.admin.delete'')')})
-                           or (${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : ''))">
-                    <span class="z-icon i-delete" ></span>
-                </button>
-            </div>
+<div class="reply-row flex-column" th:unless="${#arrays.isEmpty(boardCommentList)}"
+     th:each="boardComment: ${boardCommentList}">
+    <div class="reply-info flex-row">
+        <div class="profile"></div>
+        <img class="z-img i-profile-photo mr-2" th:src="${boardComment.avatarPath}" width="32" height="32"/>
+        <h5 class="reply-user-name text-wordWrap" th:text="${boardComment.createUser.userName}"></h5>
+        <span class="vertical-bar"></span>
+        <h5 class="reply-create-date text-wordNoWrap" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
+        <div class="ml-auto align-middle z-button-list">
+            <button class="z-button-icon extra" th:if="(${#authorization.expression('hasAuthority(''board.admin.update'')')})
+                           or (${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : ''))"
+                    th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">
+                <span class="z-icon i-edit"></span>
+            </button>
+            <button class="z-button-icon extra" th:if="(${#authorization.expression('hasAuthority(''board.admin.delete'')')})
+                           or (${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : ''))"
+                    th:onclick="deleteBoardComment([[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])">
+                <span class="z-icon i-delete"></span>
+            </button>
         </div>
-        <div class="reply-comment flex-row" th:id="${boardComment.boardCommentId}" th:name="${boardComment.boardCommentId}"
-             th:text="${boardComment.boardCommentContents}"></div>
     </div>
+    <div class="reply-comment flex-row" th:id="${boardComment.boardCommentId}" th:name="${boardComment.boardCommentId}"
+         th:text="${boardComment.boardCommentContents}"></div>
+</div>
 </body>
 </html>

@@ -75,17 +75,17 @@
                 <div class="z-button-list">
                     <button class="z-button primary" sec:authorize="hasAuthority('board.update') or hasAuthority('board.admin.update')"
                             th:if="${boardInfo?.boardId} and ${replyYn} == false"
-                            onclick ="saveBoard('put', 'normal')"
+                            onclick ="saveBoard('PUT', 'normal')"
                             th:text="#{common.btn.modify}">
                     </button>
                     <button class="z-button primary" sec:authorize="hasAuthority('board.create') or hasAuthority('board.admin.create')"
                             th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
-                            onclick="saveBoard('post', 'normal')"
+                            onclick="saveBoard('POST', 'normal')"
                             th:text="#{common.btn.register}">
                     </button>
                     <button class="z-button secondary" sec:authorize="hasAuthority('board.create') or hasAuthority('board.admin.create')"
                             th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
-                            onclick="saveBoard('post', 'reply')"
+                            onclick="saveBoard('POST', 'reply')"
                             th:text="#{board.btn.reply}">
                     </button>
                 </div>
@@ -136,12 +136,21 @@
             content: (boardId !== "" && replyYn === false) ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
         });
 
-        document.getElementById('boardAdminId').addEventListener('change', function() {
-            restSubmit('get', '/rest/boards/'+this.value+'/view', '');
-        });
+        document.getElementById('boardAdminId').addEventListener('change', getBoard, false);
 
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
     };
+
+    // 게시판 조회
+    function getBoard(e) {
+        if (e.target.value === '') { return false; }
+
+        aliceJs.fetchJson('/rest/boards/' + e.target.value + '/view', {
+            method: 'GET',
+        }).then((data) => {
+            getBoardView(data)
+        });
+    }
 
     //게시판 저장
     function saveBoard(method, kind) {
@@ -168,14 +177,45 @@
             boardCategoryId: boardCategoryId
         };
 
-        if (method === 'put' || kind === 'reply') {
+        if (method === 'PUT' || kind === 'reply') {
             data.boardId = boardId;
         }
+
         if (kind === 'normal') {
-            restSubmit(method, '/rest/boards/articles', data);
+            editBoard(method, data);
         } else if (kind === 'reply') {
-            restSubmit(method, '/rest/boards/articles/reply', data);
+            saveReply(method, data);
         }
+    }
+
+    // 게시글 수정
+    function editBoard(method, data) {
+        aliceJs.fetchText('/rest/boards/articles', {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((rtn) => {
+            zAlert.success(i18n.msg('common.msg.save'), function () {
+                searchBoard();
+            });
+        });
+    }
+
+    // 답글 저장
+    function saveReply(method, data) {
+        aliceJs.fetchText('/rest/boards/articles/reply', {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((rtn) => {
+            zAlert.success(i18n.msg('common.msg.save'), function () {
+                searchBoard();
+            });
+        });
     }
 
     //조회 화면 이동
@@ -219,38 +259,6 @@
         }
     }
 
-    //REST API
-    function restSubmit(method, url, data) {
-        let resultMsg = '';
-        if (method === 'put' || method === 'post') {
-            resultMsg = i18n.msg('common.msg.save');
-        } else if (method === 'delete') {
-            resultMsg = i18n.msg('common.msg.delete');
-        }
-
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function(response) {
-                if (method === 'put' || method === 'post' || method === 'delete') {
-                    zAlert.success(resultMsg, function () {
-                        searchBoard();
-                    });
-                } else if (method === 'get') {
-                    if (url.indexOf('/rest/boards') !== -1) {
-                        let data = JSON.parse(response.responseText);
-                        getBoardView(data)
-                    } else {
-                        document.getElementById('boardCommentList').innerHTML = response.responseText;
-                    }
-                }
-            },
-            showProgressbar: false
-        };
-        aliceJs.sendXhr(opt);
-    }
     /*]]>*/
 </script>
 </html>

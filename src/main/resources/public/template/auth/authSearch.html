@@ -40,15 +40,11 @@
             search: encodeURIComponent(document.getElementById('searchValue').value)
         };
         const urlParam = 'searchValue=' + data.search + '&pageNum=' + pageNum;
-        const opt = {
-            method: 'get',
-            url: '/auths?' + urlParam,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                document.getElementById('authList').innerHTML = response.responseText;
-            }
-        };
-        aliceJs.sendXhr(opt);
+        aliceJs.fetchText('/auths?' + urlParam, {
+            method: 'GET',
+        }).then((htmlData) => {
+            document.getElementById('authList').innerHTML = htmlData;
+        });
     }
     /*]]>*/
 </script>

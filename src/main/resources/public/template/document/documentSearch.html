@@ -63,42 +63,33 @@
                 offsetCount = 0;
             }
             urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount  + '&isScroll=' + isScroll;
-            restSubmit('get', '/documents?' + urlParam, isScroll);
-        }
-        // TODO: fetch 로 변경
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        document.querySelector('.z-document-content .card-list').insertAdjacentHTML('beforeend', response.responseText);
-                    } else {
-                        document.getElementById('documentList').innerHTML = response.responseText;
-                        OverlayScrollbars(document.querySelector('.z-page-content'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            documentSearches(true);
-                                        }
+            aliceJs.fetchText('/documents?' + urlParam, {
+                method: 'GET'
+            }).then((htmlData) => {
+                if (isScroll) {
+                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                        offsetCount = offsetCount + aliceJs.searchDataCount;
+                    }
+                    document.querySelector('.z-document-content .card-list').insertAdjacentHTML('beforeend', htmlData);
+                } else {
+                    document.getElementById('documentList').innerHTML = htmlData;
+                    OverlayScrollbars(document.querySelector('.z-page-content'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        documentSearches(true);
                                     }
                                 }
                             }
-                        });
-                    }
+                        }
+                    });
                 }
-            };
-            aliceJs.sendXhr(opt);
+            });
         }
     </script>
 </th:block>

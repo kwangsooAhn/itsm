@@ -113,7 +113,7 @@ class UserService(
         val from = ZonedDateTime.parse(params["from"].toString()).toLocalDateTime()
         val to = ZonedDateTime.parse(params["to"].toString()).toLocalDateTime()
         val excludeIds = mutableSetOf<String>()
-        excludeIds.add(currentSessionUser.getUserKey())
+        excludeIds.add(params["userKey"].toString())
         val absenceList = userCustomRepository.findByCustomType(UserConstants.UserCustom.USER_ABSENCE.code)
         absenceList?.forEach { absence ->
             val userAbsenceDto = mapper.readValue(absence.customValue, UserAbsenceDto::class.java)
@@ -123,7 +123,8 @@ class UserService(
             }
         }
         val userSearchCondition = UserSearchCondition(
-            searchValue = params["search"].toString()
+            searchValue = params["search"].toString(),
+            isFilterUseYn = true
         )
         if (excludeIds.isNotEmpty()) {
             userSearchCondition.excludeIds = excludeIds

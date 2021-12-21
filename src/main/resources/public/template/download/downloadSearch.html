@@ -51,8 +51,8 @@
         zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
         zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
 
-        document.getElementById('category').addEventListener('change', function() { getList(); });
-        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        document.getElementById('category').addEventListener('change', getList, false);
+        document.getElementById('searchValue').addEventListener('keyup', getList, false);
 
         getList();
     };
@@ -87,22 +87,14 @@
     function getList(pageNum = 1) {
         document.getElementById('toDt').value =
             i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
-        restSubmit('get', '/downloads?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
-    }
 
-    // REST API
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                document.getElementById('downloadList').innerHTML = response.responseText;
-                setDateTimeFormat(document.getElementById('downloadList'));
-            }
-        };
-        aliceJs.sendXhr(opt);
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/downloads?' + urlParam, {
+            method: 'GET',
+        }).then((htmlData) => {
+            document.getElementById('downloadList').innerHTML = htmlData;
+            setDateTimeFormat(document.getElementById('downloadList'));
+        });
     }
 
     /**

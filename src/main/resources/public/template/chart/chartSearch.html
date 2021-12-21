@@ -60,18 +60,14 @@
          * Chart 검색
          */
         function getList(pageNum = 1) {
-            const opt = {
-                method: 'get',
-                url: '/charts?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum,
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    document.getElementById('chartList').innerHTML = response.responseText;
+            const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+            aliceJs.fetchText('/charts?' + urlParam, {
+                method: 'GET',
+            }).then((htmlData) => {
+                document.getElementById('chartList').innerHTML = htmlData;
 
-                    setDateTimeFormat(document.getElementById('chartList'));
-                }
-            };
-            aliceJs.sendXhr(opt);
+                setDateTimeFormat(document.getElementById('chartList'));
+            });
         }
 
         /**
