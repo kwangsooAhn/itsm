@@ -27,7 +27,7 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" onclick="openBoardAdd()"
-                sec:authorize="hasAuthority('board.create')" th:text="#{common.btn.add}"></button>
+                sec:authorize="hasAuthority('board.create') or hasAuthority('board.admin.create')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">

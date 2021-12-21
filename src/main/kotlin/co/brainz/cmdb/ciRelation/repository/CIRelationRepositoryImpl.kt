@@ -14,7 +14,7 @@ import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIRelationRepositoryImpl : QuerydslRepositorySupport(CIRelationEntity::class.java), CIRelationRepositoryCustom {
-    override fun selectByCiId(ciId: String): MutableList<CIRelationDto> {
+    override fun selectByCiId(ciId: String): List<CIRelationDto> {
         val ciRelation = QCIRelationEntity.cIRelationEntity
         val ci = QCIEntity.cIEntity
         return from(ciRelation)
