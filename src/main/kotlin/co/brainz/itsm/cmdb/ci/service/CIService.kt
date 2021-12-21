@@ -257,8 +257,15 @@ class CIService(
         return ciService.getHistory(ciId)
     }
 
+    /**
+     * CI 연관 관계 정보 조회
+     */
     fun getCIRelations(parameter: Any): Any? {
         var result: Any? = listOf<CIRelationDto>()
+        // 타라미터의 타입에 따라 분기 처리 진행하며, LinkedHashMap 타입의 데이터를 전송한 경우,
+        // wf_component_ci_data 테이블 데이터 유무에 따라 처리를 진행한다.
+        // wf_component_ci_data 테이블에 연관관계 데이터가 존재하는 경우, 해당 데이터를 사용하고
+        // 존재하지 않으면 cmdb_ci_relation 테이블에서 연관 관계 데이터를 가져온다.
         when (parameter is String) {
             true -> {
                 result = ciService.getCIRelations(parameter)
