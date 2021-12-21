@@ -131,7 +131,6 @@ class CIService(
                     parameter["ciId"] as String,
                     parameter["instanceId"] as String
                 )
-            val relationList = mutableListOf<CIRelationDto>()
             if (ciComponentData != null) {
                 val ciComponentDataValue: Map<String, Any> =
                     mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
@@ -144,7 +143,6 @@ class CIService(
             ciDetailDto.classes = ciClasses
             ciDetailDto.ciTags =
                 tagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, parameter["ciId"] as String)
-            ciDetailDto.ciRelations = relationList
         } else { // 삭제, 조회시 DB에 저장된 CI 데이터 조회
             ciDetailDto = getCI(parameter["ciId"] as String)
         }
@@ -259,9 +257,33 @@ class CIService(
         return ciService.getHistory(ciId)
     }
 
-    fun getCIRelation(ciId: String): List<CIRelationDto> {
-        return ciService.getRelation(ciId)
+    fun getCIRelations(parameter: Any): Any? {
+        var result: Any? = listOf<CIRelationDto>()
+        when (parameter is String) {
+            true -> {
+                result = ciService.getCIRelations(parameter)
+            }
+            false -> {
+                if (parameter is LinkedHashMap<*, *>) {
+                    val ciComponentData = ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(
+                        componentId = parameter["componentId"] as String,
+                        ciId = parameter["ciId"] as String,
+                        instanceId = parameter["instanceId"] as String
+                    )
+                    result = if (ciComponentData != null) {
+                        val ciComponentDataValue: Map<String, Any> =
+                            mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
+                        ciComponentDataValue["relatedCIData"]
+                    } else {
+                        val ciRelationData = ciService.getCIRelations(ciId = parameter["ciId"] as String)
+                        ciRelationData
+                    }
+                }
+            }
+        }
+        return result
     }
+
 
     /**
      * CI 컴포넌트 - CI 컴포넌트 세부 데이터 조회
