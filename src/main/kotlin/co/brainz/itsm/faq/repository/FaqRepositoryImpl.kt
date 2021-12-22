@@ -54,7 +54,7 @@ class FaqRepositoryImpl(
             .innerJoin(faq.createUser, user)
             .where(
                 super.likeIgnoreCase(faq.faqTitle, faqSearchCondition.searchValue)
-                    ?.or(super.inner(faq.faqGroup, faqSearchCondition.groupCodes))
+                    ?.or(super.likeIgnoreCase(code.codeName, faqSearchCondition.searchValue))
             ).orderBy(faq.faqGroup.asc())
 
         if (faqSearchCondition.isPaging) {
