@@ -12,6 +12,7 @@ import co.brainz.itsm.chart.dto.ChartListDto
 import co.brainz.itsm.chart.dto.ChartSearchCondition
 import co.brainz.itsm.chart.entity.ChartEntity
 import co.brainz.itsm.chart.entity.QChartEntity
+import co.brainz.itsm.report.entity.QReportTemplateMapEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -49,8 +50,9 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
         return query.fetchResults()
     }
 
-    override fun findChartDataByChartIds(chartIds: Set<String>): List<ChartDataDto> {
+    override fun findChartDataByChartIdsTemplateId(chartIds: Set<String>, templateId: String): List<ChartDataDto> {
         val chart = QChartEntity.chartEntity
+        val reportMap = QReportTemplateMapEntity.reportTemplateMapEntity
         return from(chart)
             .select(
                 Projections.constructor(
@@ -62,7 +64,11 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
                     chart.chartConfig
                 )
             )
-            .where(chart.chartId.`in`(chartIds))
+            .leftJoin(reportMap).on(chart.chartId.eq(reportMap.chartId))
+            .where(chart.chartId.`in`(chartIds)
+                .and(reportMap.template.templateId.eq(templateId))
+            )
+            .orderBy(reportMap.displayOrder.asc())
             .fetch()
     }
 }

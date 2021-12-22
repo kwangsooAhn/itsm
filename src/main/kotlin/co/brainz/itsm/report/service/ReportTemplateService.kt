@@ -67,7 +67,7 @@ class ReportTemplateService(
             template.charts?.forEach {
                 chartIds.add(it.chartId)
             }
-            chartRepository.findChartDataByChartIds(chartIds).forEach { chartData ->
+            chartRepository.findChartDataByChartIdsTemplateId(chartIds, template.templateId).forEach { chartData ->
                 chartList.add(
                     ChartDto(
                         chartId = chartData.chartId,
@@ -121,7 +121,7 @@ class ReportTemplateService(
         templateMapList?.forEach {
             chartIds.add(it.chartId)
         }
-        chartRepository.findChartDataByChartIds(chartIds).forEach { chartData ->
+        chartRepository.findChartDataByChartIdsTemplateId(chartIds, templateEntity.templateId).forEach { chartData ->
             chartList.add(
                 ChartDto(
                     chartId = chartData.chartId,
