@@ -411,9 +411,6 @@ export const ciMixin = {
             data.targetTypeName = el.childNodes[1].textContent;
             data.targetCIName = el.childNodes[2].childNodes[0].textContent;
             data.targetCIId = el.childNodes[2].childNodes[1].value;
-
-            console.log(data);
-
             saveData.values.relatedCIData.push(data);
         });
         for (let i = 0; i < saveData.values.relatedCIData.length; i++) {
