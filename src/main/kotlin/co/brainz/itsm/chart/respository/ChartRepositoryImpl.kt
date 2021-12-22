@@ -41,7 +41,7 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
             .where(
                 super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue)
             )
-            .orderBy(chart.chartName.asc())
+            .orderBy(chart.createDt.desc())
         if (chartSearchCondition.isPaging) {
             query.limit(chartSearchCondition.contentNumPerPage)
             query.offset((chartSearchCondition.pageNum - 1) * chartSearchCondition.contentNumPerPage)
