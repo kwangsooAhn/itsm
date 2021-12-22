@@ -8,9 +8,11 @@ package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
 
-data class RestTemplateComponentDto(
+data class ApiComponentDto(
     val componentId: String,
     val componentType: String,
+    val mappingId: String,
     val formId: String,
-    val componentData: List<RestTemplateComponentDataDto>
+    val formRowId: String,
+    val properties: List<ComponentPropertyDto>
 ) : Serializable
