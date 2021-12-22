@@ -39,7 +39,7 @@ class NumberingPatternRepositoryImpl(
             .where(
                 super.likeIgnoreCase(pattern.patternName, numberingPatternSearchCondition.searchValue)
             )
-            .orderBy(pattern.patternName.asc())
+            .orderBy(pattern.patternName.asc(), pattern.patternType.asc(), pattern.patternValue.asc())
             .limit(numberingPatternSearchCondition.contentNumPerPage)
             .offset((numberingPatternSearchCondition.pageNum - 1) * numberingPatternSearchCondition.contentNumPerPage)
             .fetchResults()
