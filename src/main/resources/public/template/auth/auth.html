@@ -109,13 +109,14 @@
             // 사용 URL 체크
             let urlList = auth.arrUrlList;
             document.querySelectorAll('input[name=authUrl]').forEach(function (authUrl) {
-                let authUrlArray = authUrl.id.split('_');
+                let checkboxMethod = authUrl.id.split('_')[0];
+                let checkboxUrl = authUrl.id.substr(checkboxMethod.length + 1, authUrl.id.length);
                 urlList.forEach(function (url) {
-                    if (url.method === authUrlArray[0] && url.url === authUrlArray[1]) {
+                    if (url.method === checkboxMethod && url.url === checkboxUrl) {
                         authUrl.checked = true;
                     }
                     defaultUrlList.forEach(function (defaultUrl) {
-                        if (defaultUrl.method === authUrlArray[0] && defaultUrl.url === authUrlArray[1]) {
+                        if (defaultUrl.method === checkboxMethod && defaultUrl.url === checkboxUrl) {
                             authUrl.checked = true;
                             authUrl.disabled = true;
                         }
@@ -197,10 +198,11 @@
 
         let arrUrlList = [];
         Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]:checked'), function (item) {
-            let urlInfo = item.id.split('_');
+            let checkboxMethod = item.id.split('_')[0];
+            let checkboxUrl = item.id.substr(checkboxMethod.length + 1, item.id.length);
             arrUrlList.push({
-                method: urlInfo[0],
-                url: urlInfo[1]
+                method: checkboxMethod,
+                url: checkboxUrl
             });
         });
         obj.arrUrlList = arrUrlList;
