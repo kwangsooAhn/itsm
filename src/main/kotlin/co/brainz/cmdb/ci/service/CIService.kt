@@ -615,7 +615,11 @@ class CIService(
     }
 
     fun getCIRelations(ciId: String): List<CIRelationDto> {
-        return ciRelationRepository.selectByCiId(ciId)
+        val relationList = ciRelationRepository.selectByCiId(ciId)
+        relationList.forEach { relation ->
+            relation.targetCIIconData = relation.targetCIIcon?.let { ciTypeService.getCITypeImageData(it) }
+        }
+        return relationList
     }
 
     fun getCIListForExcel(ciSearchCondition: CISearchCondition): MutableList<CIListExcelDto> {
