@@ -315,12 +315,11 @@ class SchedulerService(
     private fun validateJarFile(src: String, executeCommand: String): Boolean {
         val jarName = executeCommand.replace(" ", "")
         var jarPath = src
-        val regexChar: Regex = "([:?*\"<>|])".toRegex()
-        val jarRex = regexChar.find(jarPath)
+        val jarRegex = "([:?*\"<>|])".toRegex().find(jarPath)
 
-        if (jarRex != null) {
+        if (jarRegex !== null) {
             throw AliceException(
-                AliceErrorConstants.ERR_00005,
+                AliceErrorConstants.ERR_00001,
                 aliceMessageSource.getMessage("scheduler.msg.unacceptableCharacters")
             )
         }
