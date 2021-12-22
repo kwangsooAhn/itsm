@@ -28,6 +28,7 @@ common:
     blank: " "
     bracketOpen: "["
     bracketClose: "]"
+    categoryAsc: "분류 순"
     comment: "댓글"
     contents: "내용"
     colon: ":"
