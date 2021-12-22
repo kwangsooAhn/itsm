@@ -28,6 +28,7 @@ common:
     blank: " "
     bracketOpen: "["
     bracketClose: "]"
+    categoryAsc: "Order by category"
     comment: "Comment"
     contents: "Contents"
     colon: ":"
