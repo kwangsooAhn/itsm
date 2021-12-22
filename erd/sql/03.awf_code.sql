@@ -165,6 +165,7 @@ insert into awf_code values ('user.default.role', 'user.default', null, '기본 
 insert into awf_code values ('user.default.role.users.general', 'user.default.role', 'users.general', '역할 - 사용자 일반', null, false, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.default.url', 'user.default', null, '기본 URL', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.default.url.dashboard', 'user.default.url', '/dashboard/view', '개인 현황판 URL', null, true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.default.url.dashboard.get', 'user.default.url.dashboard', 'get', 'GET', '', true, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('user.lang', 'user', null, '언어', null, false, true, 2, 8, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.lang.ko', 'user.lang', 'ko', '한국어', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.lang.en', 'user.lang', 'en', '영어', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null);

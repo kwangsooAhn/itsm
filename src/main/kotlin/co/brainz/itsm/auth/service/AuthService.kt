@@ -18,6 +18,7 @@ import co.brainz.framework.auth.repository.AliceMenuRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlRepository
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.auth.dto.AuthDto
@@ -26,6 +27,7 @@ import co.brainz.itsm.auth.dto.AuthMenuDto
 import co.brainz.itsm.auth.dto.AuthSearchCondition
 import co.brainz.itsm.auth.dto.AuthUrlDto
 import co.brainz.itsm.auth.repository.AuthRepository
+import co.brainz.itsm.code.service.CodeService
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.springframework.stereotype.Service
@@ -37,7 +39,8 @@ class AuthService(
     private val menuRepository: AliceMenuRepository,
     private val menuAuthMapRepository: AliceMenuAuthMapRepository,
     private val urlRepository: AliceUrlRepository,
-    private val urlAuthMapRepository: AliceUrlAuthMapRepository
+    private val urlAuthMapRepository: AliceUrlAuthMapRepository,
+    private val codeService: CodeService
 ) {
 
     /**
@@ -130,17 +133,25 @@ class AuthService(
         menuRepository.findByMenuIdIn(authInfo.arrMenuId!!).forEach { menu ->
             menuAuthMapRepository.save(AliceMenuAuthMapEntity(menu, auth))
         }
-        urlRepository.findByUrlIn(authInfo.arrUrl!!).forEach { url ->
-            urlAuthMapRepository.save(
-                AliceUrlAuthMapEntity(
-                    AliceUrlEntity(
-                        url.url,
-                        url.method,
-                        url.urlDesc,
-                        url.requiredAuth
-                    ), auth
-                )
-            )
+
+        if (authInfo.arrUrlList != null) {
+            val authUrlAuthMapList = mutableListOf<AliceUrlAuthMapEntity>()
+            val urlEntityList = urlRepository.findAll()
+            authInfo.arrUrlList?.forEach { arr ->
+                urlEntityList.forEach { urlEntity ->
+                    if (urlEntity.url == arr.url && urlEntity.method == arr.method) {
+                        authUrlAuthMapList.add(
+                            AliceUrlAuthMapEntity(
+                                auth = auth,
+                                url = urlEntity
+                            )
+                        )
+                    }
+                }
+            }
+            if (authUrlAuthMapList.isNotEmpty()) {
+                urlAuthMapRepository.saveAll(authUrlAuthMapList)
+            }
         }
 
         return result.authId
@@ -170,17 +181,25 @@ class AuthService(
             val urlAuthMapPk = AliceUrlAuthMapPk(urlEntityPk, auth.authId)
             urlAuthMapRepository.deleteById(urlAuthMapPk)
         }
-        urlRepository.findByUrlIn(authInfo.arrUrl!!).forEach { url ->
-            urlAuthMapRepository.save(
-                AliceUrlAuthMapEntity(
-                    AliceUrlEntity(
-                        url.url,
-                        url.method,
-                        url.urlDesc,
-                        url.requiredAuth
-                    ), auth
-                )
-            )
+
+        if (authInfo.arrUrlList != null) {
+            val authUrlAuthMapList = mutableListOf<AliceUrlAuthMapEntity>()
+            val urlEntityList = urlRepository.findAll()
+            authInfo.arrUrlList?.forEach { arr ->
+                urlEntityList.forEach { urlEntity ->
+                    if (urlEntity.url == arr.url && urlEntity.method == arr.method) {
+                        authUrlAuthMapList.add(
+                            AliceUrlAuthMapEntity(
+                                auth = auth,
+                                url = urlEntity
+                            )
+                        )
+                    }
+                }
+            }
+            if (authUrlAuthMapList.isNotEmpty()) {
+                urlAuthMapRepository.saveAll(authUrlAuthMapList)
+            }
         }
 
         return result.authId
@@ -208,9 +227,29 @@ class AuthService(
             authInfo.authDesc,
             null,
             menuList,
-            null,
             urlList,
             roleAuthMapCount
         )
+    }
+
+    /**
+     * 기본 URL 정보 조회
+     */
+    fun getDefaultUrlList(): List<AuthUrlDto> {
+        val defaultUrlList = mutableListOf<AuthUrlDto>()
+        val defaultCodeList = codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code)
+        defaultCodeList.forEach { defaultCode ->
+            val methodCodeList = codeService.selectCodeByParent(defaultCode.code)
+            methodCodeList.forEach { methodCode ->
+                defaultUrlList.add(
+                    AuthUrlDto(
+                        method = methodCode.codeValue,
+                        url = defaultCode.codeValue
+                    )
+                )
+            }
+        }
+
+        return defaultUrlList
     }
 }
