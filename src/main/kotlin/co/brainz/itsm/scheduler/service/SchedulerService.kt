@@ -314,8 +314,8 @@ class SchedulerService(
 
     private fun validateJarFile(src: String, executeCommand: String): Boolean {
         val jarName = executeCommand.replace(" ", "")
-        val regexChar: Regex = "([:?*\"<>|])".toRegex()
         var jarPath = src
+        val regexChar: Regex = "([:?*\"<>|])".toRegex()
         val jarRex = regexChar.find(jarPath)
 
         if (jarRex != null) {
