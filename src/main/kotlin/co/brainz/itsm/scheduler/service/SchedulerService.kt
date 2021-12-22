@@ -17,6 +17,7 @@ import co.brainz.framework.scheduling.service.AliceScheduleTaskService
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeClass
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeJar
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeQuery
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.scheduler.constants.SchedulerConstants
 import co.brainz.itsm.scheduler.dto.SchedulerDto
@@ -43,7 +44,8 @@ class SchedulerService(
     private val scheduler: TaskScheduler,
     private val scheduleTaskTypeQuery: ScheduleTaskTypeQuery,
     private val scheduleTaskTypeClass: ScheduleTaskTypeClass,
-    private val scheduleTaskTypeJar: ScheduleTaskTypeJar
+    private val scheduleTaskTypeJar: ScheduleTaskTypeJar,
+    private val aliceMessageSource: AliceMessageSource
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -312,7 +314,16 @@ class SchedulerService(
 
     private fun validateJarFile(src: String, executeCommand: String): Boolean {
         val jarName = executeCommand.replace(" ", "")
+        val regexChar: Regex = "([:?*\"<>|])".toRegex()
         var jarPath = src
+        val jarRex = regexChar.find(jarPath)
+
+        if (jarRex != null) {
+            throw AliceException(
+                AliceErrorConstants.ERR_00005,
+                aliceMessageSource.getMessage("scheduler.msg.unacceptableCharacters")
+            )
+        }
         if (jarPath.startsWith("/", true)) {
             jarPath = jarPath.substring(1)
         }

@@ -1214,6 +1214,7 @@ scheduler:
     cronError: "Enter the correct Cron expression."
     jarNotExist: "JAR file does not exist."
     classNotExist: "ClASS file does not exist."
+    unacceptableCharacters: "contains special characters(: ? * \" < > |) that are not allowed."
   status:
     true: "Use"
     false: "UnUsed"
