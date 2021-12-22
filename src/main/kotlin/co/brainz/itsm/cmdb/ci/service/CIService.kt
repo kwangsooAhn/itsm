@@ -280,7 +280,6 @@ class CIService(
                     result = if (ciComponentData != null) {
                         val ciComponentDataValue: Map<String, Any> =
                             mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
-                        // targetciid만 남는데요?
                         ciComponentDataValue["relatedCIData"]
                     } else {
                         val ciRelationData = ciService.getCIRelations(ciId = parameter["ciId"] as String)
