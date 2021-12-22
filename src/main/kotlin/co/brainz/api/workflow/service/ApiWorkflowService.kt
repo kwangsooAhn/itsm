@@ -15,14 +15,13 @@ import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.RestTemplateComponentDataDto
-import co.brainz.workflow.provider.dto.RestTemplateComponentDto
+import co.brainz.workflow.provider.dto.ApiComponentDto
+import co.brainz.workflow.provider.dto.ComponentPropertyDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
+import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.JsonParser
 import org.springframework.stereotype.Service
 
 @Service
@@ -32,46 +31,33 @@ class ApiWorkflowService(
     private val wfEngine: WfEngine,
     private val wfComponentService: WfComponentService,
     private val apiWorkflowMapper: ApiWorkflowMapper,
-    private val apiWorkflowDataStructure: ApiWorkflowDataStructure,
     private val aliceMessageSource: AliceMessageSource
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    fun getDocumentDataStructure(documentId: String): RestTemplateTokenDataUpdateDto {
-        val documentData = documentService.getDocumentData(documentId)
-        return apiWorkflowDataStructure.init(documentData)
+    fun getDocumentDataStructure(documentId: String): RestTemplateRequestDocumentDto {
+        return documentService.getDocumentData(documentId)
     }
 
-    fun getComponent(componentId: String): RestTemplateComponentDto {
+    fun getComponent(componentId: String): ApiComponentDto {
         val component = wfComponentService.getComponent(componentId)
-        val componentData = mutableListOf<RestTemplateComponentDataDto>()
-        component.attributes?.forEach { attribute ->
-            val jsonElement = JsonParser().parse(attribute.attributeValue)
-            val attributeValue = LinkedHashMap<String, Any>()
-            when (jsonElement.isJsonArray) {
-                true -> {
-                    attributeValue["value"] = mapper.readValue(
-                        attribute.attributeValue,
-                        mapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java)
-                    )
-                }
-                false -> {
-                    attributeValue["value"] = mapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
-                }
-            }
-            componentData.add(
-                RestTemplateComponentDataDto(
-                    attributeId = attribute.attributeId,
-                    attributeValue = attributeValue["value"] ?: ""
+        val properties = mutableListOf<ComponentPropertyDto>()
+        component.properties?.forEach { property ->
+            properties.add(
+                ComponentPropertyDto(
+                    type = property.propertyType,
+                    options = mapper.readValue(property.propertyOptions, LinkedHashMap::class.java)
                 )
             )
         }
-        return RestTemplateComponentDto(
+        return ApiComponentDto(
             componentId = componentId,
-            formId = component.form.formId,
             componentType = component.componentType,
-            componentData = componentData
+            mappingId = component.mappingId,
+            formId = component.form.formId,
+            formRowId = component.formRow?.formRowId ?: "",
+            properties = properties
         )
     }
 
