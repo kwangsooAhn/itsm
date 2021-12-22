@@ -6,14 +6,17 @@
 
 package co.brainz.itsm.chart.respository
 
-import co.brainz.framework.auth.entity.*
-import co.brainz.itsm.chart.dto.*
-import co.brainz.itsm.chart.entity.*
-import co.brainz.itsm.report.entity.*
-import com.querydsl.core.*
-import com.querydsl.core.types.*
-import org.springframework.data.jpa.repository.support.*
-import org.springframework.stereotype.*
+import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.itsm.chart.dto.ChartDataDto
+import co.brainz.itsm.chart.dto.ChartListDto
+import co.brainz.itsm.chart.dto.ChartSearchCondition
+import co.brainz.itsm.chart.entity.ChartEntity
+import co.brainz.itsm.chart.entity.QChartEntity
+import co.brainz.itsm.report.entity.QReportTemplateMapEntity
+import com.querydsl.core.QueryResults
+import com.querydsl.core.types.Projections
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
+import org.springframework.stereotype.Repository
 
 @Repository
 class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), ChartRepositoryCustom {
@@ -21,25 +24,25 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
         val chart = QChartEntity.chartEntity
         val user = QAliceUserEntity.aliceUserEntity
         val query = from(chart)
-                .select(
-                        Projections.constructor(
-                                ChartListDto::class.java,
-                                chart.chartId,
-                                chart.chartType,
-                                chart.chartName,
-                                chart.chartDesc,
-                                chart.createUser.userName,
-                                chart.createDt
-                        )
+            .select(
+                Projections.constructor(
+                    ChartListDto::class.java,
+                    chart.chartId,
+                    chart.chartType,
+                    chart.chartName,
+                    chart.chartDesc,
+                    chart.createUser.userName,
+                    chart.createDt
                 )
-                .innerJoin(chart.createUser, user)
-                .where(
-                        super.eq(chart.chartType, chartSearchCondition.searchGroupName)
-                )
-                .where(
-                        super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue)
-                )
-                .orderBy(chart.chartName.asc())
+            )
+            .innerJoin(chart.createUser, user)
+            .where(
+                super.eq(chart.chartType, chartSearchCondition.searchGroupName)
+            )
+            .where(
+                super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue)
+            )
+            .orderBy(chart.chartName.asc())
         if (chartSearchCondition.isPaging) {
             query.limit(chartSearchCondition.contentNumPerPage)
             query.offset((chartSearchCondition.pageNum - 1) * chartSearchCondition.contentNumPerPage)
@@ -51,21 +54,21 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
         val chart = QChartEntity.chartEntity
         val reportMap = QReportTemplateMapEntity.reportTemplateMapEntity
         return from(chart)
-                .select(
-                        Projections.constructor(
-                                ChartDataDto::class.java,
-                                chart.chartId,
-                                chart.chartType,
-                                chart.chartName,
-                                chart.chartDesc,
-                                chart.chartConfig
-                        )
+            .select(
+                Projections.constructor(
+                    ChartDataDto::class.java,
+                    chart.chartId,
+                    chart.chartType,
+                    chart.chartName,
+                    chart.chartDesc,
+                    chart.chartConfig
                 )
-                .leftJoin(reportMap).on(chart.chartId.eq(reportMap.chartId))
-                .where(chart.chartId.`in`(chartIds)
-                        .and(reportMap.template.templateId.eq(templateId))
-                )
-                .orderBy(reportMap.displayOrder.asc())
-                .fetch()
+            )
+            .leftJoin(reportMap).on(chart.chartId.eq(reportMap.chartId))
+            .where(chart.chartId.`in`(chartIds)
+                .and(reportMap.template.templateId.eq(templateId))
+            )
+            .orderBy(reportMap.displayOrder.asc())
+            .fetch()
     }
 }
