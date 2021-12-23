@@ -2466,16 +2466,13 @@ body.modal-active {
   border: 0.0625rem solid #FFFFFF;
 }
 
+.z-component {
+  padding: 0 1rem;
+}
 .z-component-tooltip {
   margin: 0;
   padding-left: 0;
   padding-right: 0;
-}
-.z-component .z-component-label {
-  padding-left: 1rem;
-}
-.z-component .z-element {
-  padding-right: 1rem;
 }
 .z-component span {
   word-break: break-all;
