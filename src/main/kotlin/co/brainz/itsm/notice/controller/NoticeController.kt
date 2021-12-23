@@ -38,8 +38,13 @@ class NoticeController(private val noticeService: NoticeService) {
      */
     @GetMapping("")
     fun getNoticeList(noticeSearchCondition: NoticeSearchCondition, model: Model): String {
+        val topList = noticeService.findTopNotice();
+        // 화면 목록 스크롤 방지를 위해
+        // 조회 갯수 = 페이지 당 조회 갯수 - top 갯수
+        model.addAttribute("topNoticeList", topList)
+        noticeSearchCondition.contentNumPerPage = (noticeSearchCondition.contentNumPerPage - topList.size.toLong())
+
         val result = noticeService.findNoticeSearch(noticeSearchCondition)
-        model.addAttribute("topNoticeList", noticeService.findTopNotice())
         model.addAttribute("noticeList", result.data)
         model.addAttribute("paging", result.paging)
         return noticeListPage
@@ -50,6 +55,7 @@ class NoticeController(private val noticeService: NoticeService) {
      */
     @GetMapping("/new")
     fun getNoticeNew(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("topNoticeCount", noticeService.findTopNotice().size.toLong())
         return noticeEditPage
     }
 
@@ -67,7 +73,13 @@ class NoticeController(private val noticeService: NoticeService) {
      */
     @GetMapping("/{noticeId}/edit")
     fun getNoticeForm(@PathVariable noticeId: String, model: Model): String {
-        model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeId))
+        val notice = noticeService.findNoticeByNoticeNo(noticeId)
+        var topNoticeCount = noticeService.findTopNotice().size.toLong()
+        if (notice.topNoticeYn) {
+            topNoticeCount -= 1;
+        }
+        model.addAttribute("topNoticeCount", topNoticeCount)
+        model.addAttribute("notice", notice)
         return noticeEditPage
     }
 

@@ -14,6 +14,7 @@
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
         <form id="frm" method="post">
+            <input type="hidden" id="topNoticeCount" name="topNoticeCount" th:value="${topNoticeCount}"/>
             <div class="flex-column z-edit-row">
                 <label th:text="#{common.label.title}" for="noticeTitle" class="required"></label>
                 <input type="text" id="noticeTitle" name="noticeTitle" class="z-input" maxlength="128"
@@ -191,6 +192,11 @@
             if (isOrOperator((i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value) > i18n.systemDateTime(document.getElementById('topNoticeEndDt').value))
                 , (i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value) === i18n.systemDateTime(document.getElementById('topNoticeEndDt').value))
                 , 'notice.msg.compareWithTopNoticeValue')) return false;
+            // 상단 공지 갯수 제한 10개
+            if (Number(document.getElementById('topNoticeCount').value) >= 10) {
+                zAlert.warning(i18n.msg('notice.msg.maximunTopNoticeCount'));
+                return false;
+            }
         }
         return true;
     }

@@ -59,6 +59,9 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
         if (userSearchCondition.excludeIds.isNotEmpty()) {
             query.where(user.userKey.notIn(userSearchCondition.excludeIds))
         }
+        if (userSearchCondition.isFilterUseYn) {
+            query.where(user.useYn.eq(true))
+        }
         query.orderBy(user.userName.asc())
 
         if (userSearchCondition.isPaging) {

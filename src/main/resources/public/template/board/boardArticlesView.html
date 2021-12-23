@@ -53,10 +53,10 @@
         </div>
         <div class="z-button-list">
             <button class="z-button primary"
-                    th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.update'')')})
+                    th:if="(${#authorization.expression('hasAuthority(''board.admin.update'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
                     th:onclick="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
-                    th:text="#{common.btn.modify}">
+                    th:text="#{common.btn.toModify}">
             </button>
             <button sec:authorize="hasAuthority('board.create')"
                     class="z-button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
@@ -64,7 +64,7 @@
                     th:text="#{board.btn.reply}">
             </button>
             <button class="z-button secondary"
-                    th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.delete'')')})
+                    th:if="(${#authorization.expression('hasAuthority(''board.admin.delete'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
                     th:onclick="deleteBoard()"
                     th:text="#{common.btn.delete}">
@@ -77,7 +77,7 @@
                  width="32" height="32"/>
             <input type="text" class="z-input reply-input" id="boardComments" name="boardComments" maxlength="500"
                    th:placeholder="#{comment.msg.enterComments}"/>
-            <button class="z-button form" onclick="saveBoardComment('post')"
+            <button class="z-button form" onclick="saveBoardComment('POST')"
                     th:text="#{common.btn.save}"></button>
         </div>
         <div class="flex-column reply-list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
@@ -107,26 +107,18 @@
             textEditor = new zQuill(document.getElementById('boardContents'), {
                 toolbarVisible: false,
                 readOnly: true,
-                content: (boardId !== "") ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
+                content: (boardId !== '') ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
             });
 
-            OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.z-page-content'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelector('.view'), {className: 'scrollbar'});
         };
-
-        //조회 화면 이동
-        function searchBoard() {
-            location.href = '/boards/articles/search/param?boardAdminId=' + boardAdminId;
-        }
 
         //게시판 삭제
         function deleteBoard() {
             zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
                 aliceJs.fetchText('/rest/boards/articles/' + boardId, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    method: 'DELETE'
                 }).then((rtn) => {
                     if (rtn === 'true' || rtn === '') {
                         zAlert.success(i18n.msg('common.msg.delete'), () => {
@@ -136,22 +128,48 @@
                         zAlert.danger(i18n.msg('common.msg.fail'));
                     }
                 });
-            })
+            });
         }
 
-        //게시판 댓글 저장
-        function saveBoardComment(method) {
-            if (isEmpty('boardComments', 'comment.msg.enterComments')) return;
+        //게시판 댓글 저장 / 수정
+        function saveBoardComment(method = 'POST', boardCommentId = '') {
+            if (boardCommentId === '' && isEmpty('boardComments', 'comment.msg.enterComments')) return;
+            if (boardCommentId !== '' && isEmpty('editComments', 'comment.msg.enterComments')) return;
+
             const data = {
                 boardId: boardId,
-                boardCommentContents: document.getElementById('boardComments').value
+                boardCommentContents: (boardCommentId === '' ? document.getElementById('boardComments').value :
+                    document.getElementById('editComments').value)
             };
-            restSubmit(method, '/rest/boards/articles/comments', data);
+
+            if (boardCommentId !== '') {
+                data.boardCommentId = boardCommentId;
+            }
+
+            aliceJs.fetchText('/rest/boards/articles/comments', {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((rtn) => {
+                zAlert.success(i18n.msg('common.msg.save'), function () {
+                    document.getElementById('boardComments').value = '';
+                    getBoardCommentList();
+                });
+            });
         }
 
         //게시판 댓글 조회
         function getBoardCommentList() {
-            restSubmit('get', '/boards/articles/' + boardId + '/comments');
+            aliceJs.fetchText('/boards/articles/' + boardId + '/comments', {
+                method: 'GET',
+            }).then((htmlData) => {
+                document.getElementById('boardCommentList').innerHTML = htmlData;
+                document.getElementsByName('commentDt').forEach(function (element) {
+                    element.textContent = i18n.userDateTime(element.textContent)
+                });
+            });
         }
 
         //게시판 댓글 수정
@@ -163,54 +181,18 @@
             } else {
                 let context = document.getElementById(boardCommentId).innerText;
                 document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' class='z-input' id='editComments' name='editComments' value='" + context + "'/>" +
-                    "<button class='z-button form' onclick=\"saveBoardEditComment('put','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
+                    "<button class='z-button form' onclick=\"saveBoardComment('PUT','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
             }
         }
 
-        //게시판 댓글 수정
-        function saveBoardEditComment(method, boardCommentId) {
-            if (isEmpty('editComments', 'comment.msg.enterComments')) return;
-            const data = {
-                boardCommentId: boardCommentId,
-                boardId: boardId,
-                boardCommentContents: document.getElementById('editComments').value
-            };
-            restSubmit(method, '/rest/boards/articles/comments', data);
-        }
-
-        //REST API
-        function restSubmit(method, url, data) {
-            let resultMsg = '';
-            if (method === 'put' || method === 'post') {
-                resultMsg = i18n.msg('common.msg.save');
-            } else if (method === 'delete') {
-                resultMsg = i18n.msg('common.msg.delete');
-            }
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function (response) {
-                    if (method === 'put' || method === 'post') {
-                        zAlert.success(resultMsg, function () {
-                            if (url.indexOf('/rest/boards/articles/comments') !== -1) {
-                                document.getElementById('boardComments').value = '';
-                                getBoardCommentList();
-                            } else {
-                                searchBoard();
-                            }
-                        });
-                    } else if (method === 'get') {
-                        document.getElementById('boardCommentList').innerHTML = response.responseText;
-                        document.getElementsByName('commentDt').forEach(function (element) {
-                            element.textContent = i18n.userDateTime(element.textContent)
-                        });
-                    }
-                },
-                showProgressbar: false
-            };
-            aliceJs.sendXhr(opt);
+        //게시판 댓슬 삭제
+        function deleteBoardComment(url) {
+            aliceJs.fetchText(url, {
+                method: 'DELETE'
+            }).then((rtn) => {
+                document.getElementById('boardComments').value = '';
+                getBoardCommentList();
+            });
         }
 
         /*]]>*/

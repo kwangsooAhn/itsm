@@ -54,8 +54,8 @@ class FaqRepositoryImpl(
             .innerJoin(faq.createUser, user)
             .where(
                 super.likeIgnoreCase(faq.faqTitle, faqSearchCondition.searchValue)
-                    ?.or(super.inner(faq.faqGroup, faqSearchCondition.groupCodes))
-            ).orderBy(faq.faqGroup.asc())
+                    ?.or(super.likeIgnoreCase(code.codeName, faqSearchCondition.searchValue))
+            ).orderBy(code.codeName.asc())
 
         if (faqSearchCondition.isPaging) {
             query.limit(faqSearchCondition.contentNumPerPage)

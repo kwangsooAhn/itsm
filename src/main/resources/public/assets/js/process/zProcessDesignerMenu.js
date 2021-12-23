@@ -142,7 +142,7 @@
             action: function(el) {
                 editElementType(el, 'exclusiveGateway');
             }
-        }, {
+        }/*, {
             type: 'parallelGateway', parent: 'gateway',
             url: iconDirectory + '/tooltip/icon_tooltip_parallel_gateway.svg',
             element_url: iconDirectory + '/element-type/icon_element_parallel_gateway.svg',
@@ -158,7 +158,7 @@
             action: function(el) {
                 editElementType(el, 'inclusiveGateway');
             }
-        }
+        }*/
     ];
 
     /**
@@ -417,6 +417,8 @@
             actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete' || tooltip.type === 'copy'; });
         } else if (elem.classed('connector')) {
             actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete'; });
+        } else if (elem.classed('gateway')) {
+            actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'edit'; });  // TODO: 병렬, 포괄적 게이트웨이 숨김
         }
 
         if (!elem.classed('gateway')) {
@@ -1241,8 +1243,8 @@
             };
 
             btnAdd.addEventListener('click', function() {
-                let targetMappingValue = document.querySelector('#target-mapping-id').value.trim()
-                let sourceMappingValue = document.querySelector('#source-mapping-id').value.trim()
+                let targetMappingValue = document.querySelector('#target-mapping-id').value.trim();
+                let sourceMappingValue = document.querySelector('#source-mapping-id').value.trim();
 
                 if (targetMappingValue === '' || sourceMappingValue === '') {
                     let msgTarget = targetMappingValue === '' ? 'targetMappingId' : 'sourceMappingId';

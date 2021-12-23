@@ -186,12 +186,19 @@
 
       // 페이징
       .z-list-content {
-        padding: 3.375rem 13.75rem 0 13.75rem; // 54px 220px
+        padding: 1.5rem 13.75rem 0 13.75rem; // 24px 220px
         height: $content-list-height;
 
         .z-table {
           @include relative();
           border: none;
+        }
+
+        + .z-page-paging {
+          padding: 0 13.75rem 1.875rem 13.75rem; // 0 220px 30px 220px
+          #spanCurrentPageNum {
+            @include absolute($right: 13.75rem);
+          }
         }
       }
 

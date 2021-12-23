@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.auth.controller
 
 import co.brainz.framework.constants.AliceUserConstants
@@ -61,7 +66,7 @@ class AuthController(
     fun getRoleList(@PathVariable authId: String, model: Model): String {
         model.addAttribute("auth", authService.getAuthDetail(authId))
         model.addAttribute("defaultUserMenuList", codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code))
-        model.addAttribute("defaultUserUrlList", codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code))
+        model.addAttribute("defaultUserUrlList", authService.getDefaultUrlList())
         model.addAttribute("menuList", authService.getMenuList())
         model.addAttribute("urlList", authService.getUrlList())
         model.addAttribute("view", false)
@@ -75,7 +80,7 @@ class AuthController(
     fun getRoleView(@PathVariable authId: String, model: Model): String {
         model.addAttribute("auth", authService.getAuthDetail(authId))
         model.addAttribute("defaultUserMenuList", codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code))
-        model.addAttribute("defaultUserUrlList", codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code))
+        model.addAttribute("defaultUserUrlList", authService.getDefaultUrlList())
         model.addAttribute("menuList", authService.getMenuList())
         model.addAttribute("urlList", authService.getUrlList())
         model.addAttribute("view", true)

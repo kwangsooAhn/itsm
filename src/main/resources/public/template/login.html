@@ -40,7 +40,7 @@
             </div>
             <button class="z-button primary col-pct-12" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
         </div>
-        <div th:if="${isLoingPlatform}">
+        <div th:if="${isLoginPlatform}">
             <div class="z-login-divide flex-row align-items-center" th:text="#{login.label.or}"></div>
             <div class="z-login-platform">
                 <button class="z-button google col-pct-12" id="google" th:text="#{login.btn.googleLogin}" onclick="onPlatFormLogin(this.id)"></button>
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="z-login-other flex-row justify-content-center align-items-center">
-            <div class="z-login-other-signUp align-center"><a href="/certification/signup" th:text="#{login.label.signupNote}"></a></div>
+            <div th:if="${createAccountEnabled}" class="z-login-other-signUp align-center"><a href="/certification/signup" th:text="#{login.label.signupNote}"></a></div>
             <div th:if="${findIdEnabled}" class="vertical-bar"></div>
             <div th:if="${findIdEnabled}" class="z-login-other-findPwd align-center"><a href="#N" th:text="#{login.label.findPassword}"></a></div>
             <div th:if="${findPasswordEnabled}" class="vertical-bar"></div>
@@ -88,7 +88,7 @@
         } else {
             document.getElementById('uid').focus();
         }
-        if(isExpired) {
+        if (isExpired) {
             const formModal = new modal({
                 title: i18n.msg('user.label.updatePasswordNotice'),
                 body: createModalContent(),
@@ -120,6 +120,9 @@
                 }],
                 close: {
                     closable: false,
+                },
+                onCreate: function () {
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                 }
             });
             formModal.show();

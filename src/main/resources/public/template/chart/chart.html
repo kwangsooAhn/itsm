@@ -209,7 +209,7 @@
 
             if (element.id === 'rangeFromDt') {
                 const toDtValue = document.getElementById('rangeToDt').value;
-                element.setAttribute('data-userDateTime', element.value + ' 00:00:00');
+                element.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(element.value)));
                 if (!i18n.compareSystemDate(element.value, toDtValue)) {
                     zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
                         element.value = i18n.getDate({ months: -1 });
@@ -219,7 +219,7 @@
                 }
             } else {
                 const fromDtValue = document.getElementById('rangeFromDt').value;
-                element.setAttribute('data-userDateTime', element.value + ' 23:59:59');
+                element.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(element.value, { hours: 23 })));
                 if (!i18n.compareSystemDate(fromDtValue, element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
                         element.value = i18n.getDate();
@@ -392,7 +392,7 @@
                         fromDt.value = i18n.getStartOfDate({ months: -1 }, 'month');
                         fromDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                         toDt.value = i18n.getEndOfDate({ months: -1 }, 'month');
-                        toDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
+                        toDt.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ months: -1 }, 'month'));
                         break;
                     case RANGE_ALL: // 전체
                         // 시작일자(from) = 2000년 01월 01일 00시 00분 00초 데이터
@@ -463,9 +463,12 @@
          */
         function getChartData() {
             let tags = [];
-            JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
-                tags.push({ value: tag.value })
-            });
+            const targetTags = document.getElementById('targetTags').value;
+            if (targetTags !== '') {
+                JSON.parse(targetTags).forEach(tag => {
+                    tags.push({value: tag.value})
+                });
+            }
 
             let fromDt = document.getElementById('rangeFromDt').getAttribute('data-userDateTime');
             let toDt = document.getElementById('rangeToDt').getAttribute('data-userDateTime');

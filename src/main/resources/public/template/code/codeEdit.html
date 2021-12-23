@@ -93,10 +93,10 @@
             <div class="z-button-list">
                 <button sec:authorize="hasAuthority('code.create')"
                         class="z-button primary" type="button" id="btnRegist" name="btnRegist"
-                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                        th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
                 <button sec:authorize="hasAuthority('code.update')"
                         class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
-                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                        th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
                 <button sec:authorize="hasAuthority('code.delete')"
                         class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
@@ -155,81 +155,76 @@
         document.getElementById('searchValue').focus();
         onCreate();
 
-        function getCodeList() {
-            const search = encodeURIComponent(document.getElementById('searchValue').value);
-            tree.load({
-                dataUrl: '/rest/codes?search=' + search,
-                target: 'treeList',
-                text: 'code',
-                leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
-                sessionKey: sessionKey,
-                totalCount: true,
-                selectedNode: function (response) {
-                    onGetDetail(response.id)
-                }
-            });
-        }
-
         getCodeList();
         document.getElementById('root').click();
-
-        function onGetDetail(codeId) {
-            if (!observer.canPageChange()) {
-                return;
-            }
-            document.querySelectorAll('input[type=text]').forEach(function (object) {
-                object.value = '';
-            });
-            document.querySelector('textarea').value = '';
-
-            const opt = {
-                method: 'get',
-                url: '/rest/codes/' + codeId,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    let responseJson = JSON.parse(response.responseText);
-                    document.getElementById('txtCode').value = responseJson.code;
-                    document.getElementById('txtCode').setAttribute('disabled', '');
-                    document.getElementById('tooltipCode').title = responseJson.code;
-                    document.getElementById('txtPCode').value = responseJson.pcode;
-                    document.getElementById('txtPCode').setAttribute('disabled', '');
-                    document.getElementById('tooltipPcode').title = responseJson.pcode;
-                    document.getElementById('txtCodeName').value = responseJson.codeName;
-                    document.getElementById('txtCodeValue').value = responseJson.codeValue;
-                    document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
-                    document.getElementById('txtSeqNum').value = responseJson.seqNum;
-                    document.getElementById('codeUseYn').checked = responseJson.useYn;
-                    initCodeLang(responseJson.codeLang);
-                    if (CODE_CREATE) {
-                        document.querySelector('#btnRegist').style.display = 'none';
-                    }
-                    if (responseJson.editable) {
-                        if (CODE_UPDATE) {
-                            document.getElementById('btnUpdate').removeAttribute('disabled');
-                        }
-                        if (CODE_DELETE) {
-                            document.getElementById('btnDelete').removeAttribute('disabled');
-                        }
-                        document.getElementById('codeUseYn').removeAttribute('disabled');
-                    } else {
-                        if (CODE_UPDATE) {
-                            document.getElementById('btnUpdate').disabled = true;
-                            document.getElementById('codeUseYn').disabled = true;
-                        }
-                        if (CODE_DELETE) {
-                            document.getElementById('btnDelete').disabled = true;
-                        }
-                    }
-                    if (CODE_CREATE) {
-                        document.querySelector('#btnRegist').setAttribute('disabled', 'true');
-                    }
-                    onEdit();
-                    observer.isChanged = false;
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
     });
+
+    function getCodeList() {
+        const search = encodeURIComponent(document.getElementById('searchValue').value);
+        tree.load({
+            dataUrl: '/rest/codes?search=' + search,
+            target: 'treeList',
+            text: 'code',
+            leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
+            sessionKey: sessionKey,
+            totalCount: true,
+            selectedNode: function (response) {
+                onGetDetail(response.id)
+            }
+        });
+    }
+
+    function onGetDetail(codeId) {
+        if (!observer.canPageChange()) {
+            return;
+        }
+        document.querySelectorAll('input[type=text]').forEach(function (object) {
+            object.value = '';
+        });
+        document.querySelector('textarea').value = '';
+
+        aliceJs.fetchJson('/rest/codes/' + codeId, {
+            method: 'GET',
+        }).then((responseJson) => {
+            document.getElementById('txtCode').value = responseJson.code;
+            document.getElementById('txtCode').setAttribute('disabled', '');
+            document.getElementById('tooltipCode').title = responseJson.code;
+            document.getElementById('txtPCode').value = responseJson.pcode;
+            document.getElementById('txtPCode').setAttribute('disabled', '');
+            document.getElementById('tooltipPcode').title = responseJson.pcode;
+            document.getElementById('txtCodeName').value = responseJson.codeName;
+            document.getElementById('txtCodeValue').value = responseJson.codeValue;
+            document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
+            document.getElementById('txtSeqNum').value = responseJson.seqNum;
+            document.getElementById('codeUseYn').checked = responseJson.useYn;
+            initCodeLang(responseJson.codeLang);
+            if (CODE_CREATE) {
+                document.querySelector('#btnRegist').style.display = 'none';
+            }
+            if (responseJson.editable) {
+                if (CODE_UPDATE) {
+                    document.getElementById('btnUpdate').removeAttribute('disabled');
+                }
+                if (CODE_DELETE) {
+                    document.getElementById('btnDelete').removeAttribute('disabled');
+                }
+                document.getElementById('codeUseYn').removeAttribute('disabled');
+            } else {
+                if (CODE_UPDATE) {
+                    document.getElementById('btnUpdate').disabled = true;
+                    document.getElementById('codeUseYn').disabled = true;
+                }
+                if (CODE_DELETE) {
+                    document.getElementById('btnDelete').disabled = true;
+                }
+            }
+            if (CODE_CREATE) {
+                document.querySelector('#btnRegist').setAttribute('disabled', 'true');
+            }
+            onEdit();
+            observer.isChanged = false;
+        });
+    }
 
     /** create **/
     function onCreate() {
@@ -324,69 +319,63 @@
         }
 
         let url = '/rest/codes';
-        if (method !== 'post') {
+        if (method !== 'POST') {
             url += '/' + document.getElementById('txtCode').value;
         }
 
-        const opt = {
+        aliceJs.fetchText(url, {
             method: method,
-            url: url,
-            params: JSON.stringify(jsonData),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        tree.setTreeExpandNode(sessionKey);
-                        zAlert.success(i18n.msg('common.msg.register'), function () {
-                            window.location.href = '/codes/edit';
-                        });
-                        break;
-                    case STATUS_SUCCESS_EDIT_CODE:
-                        tree.setTreeExpandNode(sessionKey);
-                        zAlert.success(i18n.msg('common.msg.modify'), function () {
-                            window.location.href = '/codes/edit';
-                        });
-                        break;
-                    case STATUS_ERROR_CODE_P_CODE_NOT_EXIST:
-                        zAlert.warning(i18n.msg('code.msg.pCodeNotExist'));
-                        break;
-                    case STATUS_ERROR_CODE_DUPLICATION:
-                        zAlert.warning(i18n.msg('code.msg.duplicateCode'));
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        }).then((status) => {
+            switch (status) {
+                case STATUS_SUCCESS:
+                    tree.setTreeExpandNode(sessionKey);
+                    zAlert.success(i18n.msg('common.msg.register'), function () {
+                        window.location.href = '/codes/edit';
+                    });
+                    break;
+                case STATUS_SUCCESS_EDIT_CODE:
+                    tree.setTreeExpandNode(sessionKey);
+                    zAlert.success(i18n.msg('common.msg.modify'), function () {
+                        window.location.href = '/codes/edit';
+                    });
+                    break;
+                case STATUS_ERROR_CODE_P_CODE_NOT_EXIST:
+                    zAlert.warning(i18n.msg('code.msg.pCodeNotExist'));
+                    break;
+                case STATUS_ERROR_CODE_DUPLICATION:
+                    zAlert.warning(i18n.msg('code.msg.duplicateCode'));
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
-        };
-
-        aliceJs.sendXhr(opt);
+        });
     }
 
     /** delete **/
     function onDelete() {
-        const opt = {
-            method: 'delete',
-            url: '/rest/codes/' + document.getElementById('txtCode').value,
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        tree.setTreeExpandNode(sessionKey);
-                        zAlert.success(i18n.msg('common.msg.delete'), function () {
-                            window.location.href = '/codes/edit';
-                        });
-                        break;
-                    case STATUS_ERROR_CODE_P_CODE_USED:
-                        zAlert.warning(i18n.msg('code.msg.referenceCodeExist'));
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                }
+        aliceJs.fetchText('/rest/codes/' + document.getElementById('txtCode').value, {
+            method: 'DELETE'
+        }).then((status) => {
+            switch (status) {
+                case STATUS_SUCCESS:
+                    tree.setTreeExpandNode(sessionKey);
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        window.location.href = '/codes/edit';
+                    });
+                    break;
+                case STATUS_ERROR_CODE_P_CODE_USED:
+                    zAlert.warning(i18n.msg('code.msg.referenceCodeExist'));
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
-        };
-
-        aliceJs.sendXhr(opt);
+        });
     }
 
     function drawCodeLang(param) {
