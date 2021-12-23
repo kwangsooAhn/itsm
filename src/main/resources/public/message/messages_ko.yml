@@ -1215,6 +1215,7 @@ scheduler:
     cronError: "정확한 크론표현식을 입력하세요."
     jarNotExist: "JAR 파일이 존재하지 않습니다."
     classNotExist: "Class 파일이 존재하지 않습니다."
+    unacceptableCharacters: "허용하지 않는 특수문자(: ? * \" < > |)가 포함되어 있습니다."
   status:
     true: "사용"
     false: "미사용"
