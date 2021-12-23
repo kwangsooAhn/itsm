@@ -17,7 +17,6 @@ import co.brainz.framework.scheduling.service.AliceScheduleTaskService
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeClass
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeJar
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeQuery
-import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.scheduler.constants.SchedulerConstants
 import co.brainz.itsm.scheduler.dto.SchedulerDto
@@ -44,8 +43,7 @@ class SchedulerService(
     private val scheduler: TaskScheduler,
     private val scheduleTaskTypeQuery: ScheduleTaskTypeQuery,
     private val scheduleTaskTypeClass: ScheduleTaskTypeClass,
-    private val scheduleTaskTypeJar: ScheduleTaskTypeJar,
-    private val aliceMessageSource: AliceMessageSource
+    private val scheduleTaskTypeJar: ScheduleTaskTypeJar
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
