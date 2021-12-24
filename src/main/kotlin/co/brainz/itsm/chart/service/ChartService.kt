@@ -23,8 +23,8 @@ import co.brainz.itsm.chart.entity.ChartEntity
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import javax.transaction.Transactional
@@ -41,10 +41,7 @@ class ChartService(
     private val aliceTagRepository: AliceTagRepository
 ) {
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-
-    init {
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-    }
+        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 
     /**
      * 전체 사용자 정의 차트 조회
