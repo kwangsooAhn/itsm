@@ -66,15 +66,6 @@
     /*<![CDATA[*/
     window.onload = function () {
         document.getElementById('faqTitle').focus();
-        if ([[${faq?.faqId}]] === null) {
-            document.getElementById('btnRegist').addEventListener('click', function () {
-                restSubmit('POST', [[@{/rest/faqs}]]);
-            });
-        } else {
-            document.getElementById('btnUpdate').addEventListener('click', function () {
-                restSubmit('PUT', [[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]);
-            });
-        }
         OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
             className: 'scrollbar',
@@ -93,8 +84,7 @@
      */
     function saveFaq(method) {
         if (!validation()) { return false; }
-
-        const faqId = (method === 'PUT') ? '' : '/' + /*[[${faq?.faqId}]]*/'';
+        const faqId = (method === 'POST') ? '' : '/' + /*[[${faq?.faqId}]]*/'';
         const data = aliceJs.formDataToObject(document.getElementById('faqForm'))
         aliceJs.fetchText('/rest/faqs' + faqId, {
             method: method,
