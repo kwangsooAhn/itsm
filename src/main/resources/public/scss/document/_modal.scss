@@ -92,24 +92,9 @@
           }
           // 연관 관계
           .z-relation-group {
-            .z-relation-title-group {
-              height: $cmdb-ci-relation-height;
-              .z-sub-title {
-                font-size: $cmdb_ci-relation-font-size;
-              }
-            }
-            .z-relation-select-box-group {
-              width: $cmdb-ci-relation-select-group-width;
-              font-size: $cmdb-ci-relation-select-group-font-size;
-              font-weight: $cmdb-ci-relation-select-group-font-weight;
-              font-family: $cmdb-ci-relation-select-group-font-family;
-              padding: $cmdb-ci-relation-select-group-padding;
-            }
-            .z-target-ci-select-box {
-              width: $cmdb-ci-target-select-box-width;
-            }
-            .z-relation-type-select-box {
-              width: $cmdb-ci-relation-select-box-width;
+            .z-table-row {
+              height: 2.5rem;
+              @include border($element-border-width, solid, $element-border-color, bottom);
             }
           }
         }

@@ -23,6 +23,7 @@ import java.io.Serializable
 data class CISearchCondition(
     val searchValue: String = "",
     val tagSearch: String = "",
+    val relationSearch: String = "",
     val flag: String = "",
     val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
