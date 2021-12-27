@@ -1044,11 +1044,10 @@ export const ciMixin = {
     // 연관 관계 입력 row 추가
     addCIRelation(ciRelations, isChecked) {
         const trRow = document.createElement('tr');
-        trRow.className = 'flex-row align-items-center z-relation-data';
+        trRow.className = 'z-table-row z-relation-data';
 
         const targetIcon = document.createElement('td');
-        targetIcon.className = 'align-center';
-        targetIcon.style.width = '10%';
+        targetIcon.className = 'col-1 align-center';
         const targetIconImg = document.createElement('img');
         targetIconImg.src = isChecked ? ciRelations.ciIconData : ciRelations.targetCIIconData;
         const targetIconName = document.createElement('input');
@@ -1059,14 +1058,12 @@ export const ciMixin = {
         trRow.appendChild(targetIcon);
 
         const targetTypeName = document.createElement('td');
-        targetTypeName.className = 'align-left';
-        targetTypeName.style.width = '45%';
+        targetTypeName.className = 'col-4 align-left';
         targetTypeName.textContent = isChecked ? ciRelations.typeName : ciRelations.targetTypeName;
         trRow.appendChild(targetTypeName);
 
         const targetCIData = document.createElement('td');
-        targetCIData.className = 'align-left';
-        targetCIData.style.width = '45%';
+        targetCIData.className = 'col-4 align-left';
         const targetCIName = document.createElement('span');
         targetCIName.textContent = isChecked ? ciRelations.ciName : ciRelations.targetCIName;
         targetCIData.appendChild(targetCIName);
@@ -1077,15 +1074,18 @@ export const ciMixin = {
         targetCIData.appendChild(targetCIId);
         trRow.appendChild(targetCIData);
 
+        const deleteRel = document.createElement('td');
+        deleteRel.className = 'col-1 align-center';
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'z-button-icon extra';
         const deleteIcon = document.createElement('span');
         deleteIcon.className = 'z-icon i-delete';
-        deleteBtn.appendChild(deleteIcon);
         deleteBtn.addEventListener('click', function () {
             deleteBtn.parentElement.remove();
         });
-        trRow.appendChild(deleteBtn);
+        deleteBtn.appendChild(deleteIcon);
+        deleteRel.appendChild(deleteBtn);
+        trRow.appendChild(deleteRel);
 
         document.getElementById('ciRelation').appendChild(trRow);
     },

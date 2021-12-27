@@ -2328,8 +2328,9 @@ body.modal-active {
   position: absolute;
   right: 0.3125rem;
 }
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-sub-title, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-sub-title, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-sub-title, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-sub-title {
-  margin: auto 0;
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row {
+  height: 2.5rem;
+  border-bottom: 0.0625rem solid #ABB0B5;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view {
   height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem);
