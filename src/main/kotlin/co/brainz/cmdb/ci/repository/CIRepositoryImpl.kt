@@ -9,6 +9,7 @@ package co.brainz.cmdb.ci.repository
 import co.brainz.cmdb.ci.entity.CIEntity
 import co.brainz.cmdb.ci.entity.QCIEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassEntity
+import co.brainz.cmdb.ciRelation.entity.QCIRelationEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIsDto
@@ -70,6 +71,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         val cmdbClass = QCIClassEntity.cIClassEntity
         val cmdbTag = QAliceTagEntity.aliceTagEntity
         val wfComponentCIData = QCIComponentDataEntity.cIComponentDataEntity
+        val wfRelationCIData = QCIRelationEntity.cIRelationEntity
         val wfInstance = QWfInstanceEntity.wfInstanceEntity
 
         val query = from(ci)
@@ -130,6 +132,8 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                         .where(wfInstance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
                 )
             )
+        } else if (ciSearchCondition.flag == "relation") {
+            query.where(!ci.ciId.eq(ciSearchCondition.relationSearch))
         }
 
         if (ciSearchCondition.isPaging) {

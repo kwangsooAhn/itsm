@@ -718,11 +718,12 @@ export const ciMixin = {
 
     },
     // 기존 CI 조회 모달 Template 조회
-    getSelectModalContent() {
+    getSelectModalContent(flag, ciId) {
         return `<form id="searchFrm">` +
             `<input type="text" class="z-input i-search col-5 mr-2" name="searchValue" id="searchValue" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
             `<input type="text" class="z-input i-search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
-            `<input type="hidden" name="flag" id="flag" value="component"/>` +
+            `<input type="hidden" name="flag" id="flag" value="${flag}"/>` +
+            `<input type="hidden" name="relationSearch" id="relationSearch" value="${(ciId !== null) ? ciId :''}"/>` +
             `<span id="ciListTotalCount" class="z-search-count"></span>` +
             `</form>` +
             `<div class="table-set" id="ciList"></div>`;
@@ -731,7 +732,7 @@ export const ciMixin = {
     openSelectModal(e) {
         const selectModal = new modal({
             title: i18n.msg('cmdb.ci.label.select'),
-            body: this.getSelectModalContent(),
+            body: this.getSelectModalContent('component'),
             classes: 'cmdb-ci-list-modal',
             buttons: [{
                 content: i18n.msg('common.btn.check'),
@@ -844,7 +845,7 @@ export const ciMixin = {
     openRelationSelectModal(ciId) {
         const selectModal = new modal({
             title: i18n.msg('cmdb.ci.label.select'),
-            body: this.getSelectModalContent(),
+            body: this.getSelectModalContent('relation', ciId),
             classes: 'cmdb-ci-list-modal',
             buttons: [{
                 content: i18n.msg('common.btn.check'),
