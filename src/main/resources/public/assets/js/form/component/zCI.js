@@ -1081,7 +1081,7 @@ export const ciMixin = {
         const deleteIcon = document.createElement('span');
         deleteIcon.className = 'z-icon i-delete';
         deleteBtn.addEventListener('click', function () {
-            deleteBtn.parentElement.remove();
+            deleteBtn.parentElement.parentElement.remove();
         });
         deleteBtn.appendChild(deleteIcon);
         deleteRel.appendChild(deleteBtn);
