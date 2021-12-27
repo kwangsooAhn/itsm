@@ -84,27 +84,35 @@
             data.views = /*[[${download?.views}]]*/'';
         }
         const resultMsg = (method === 'POST') ? i18n.msg('common.msg.save') : i18n.msg('common.msg.update');
-        aliceJs.fetchText('/rest/downloads', {
+        aliceJs.fetchJson('/rest/downloads', {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((rtn) => {
-            zAlert.success(resultMsg, function() {
-                location.href = '/downloads/search';
-            });
+        }).then((result) => {
+            if (result.status === 200) {
+                zAlert.success(resultMsg, function() {
+                    location.href = '/downloads/search';
+                });
+            } else {
+                zAlert.danger(i18n.msg('common.msg.fail'));
+            }
         });
     }
 
     function deleteDownload() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
-            aliceJs.fetchText('/rest/downloads/' + /*[[${download?.downloadId}]]*/'', {
+            aliceJs.fetchJson('/rest/downloads/' + /*[[${download?.downloadId}]]*/'', {
                 method: 'DELETE'
-            }).then((rtn) => {
-                zAlert.success(i18n.msg('common.msg.delete'), () => {
-                    location.href = '/downloads/search';
-                });
+            }).then((result) => {
+                if (result.status === 200) {
+                    zAlert.success(i18n.msg('common.msg.delete'), () => {
+                        location.href = '/downloads/search';
+                    });
+                } else {
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                }
             });
         });
     }

@@ -6,15 +6,13 @@
 
 package co.brainz.framework.response
 
-import co.brainz.framework.response.dto.ResponseDto
+import co.brainz.framework.response.dto.ZResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.RestControllerAdvice
 
-@RestControllerAdvice
-class AliceResponse {
+class ZAliceResponse {
 
     companion object {
 
@@ -31,9 +29,9 @@ class AliceResponse {
         /**
          * Response [isSuccess]
          */
-        fun response(isSuccess: Boolean): ResponseEntity<ResponseDto> {
+        fun response(isSuccess: Boolean): ResponseEntity<ZResponse> {
             val httpStatus = if (isSuccess) HttpStatus.OK else HttpStatus.INTERNAL_SERVER_ERROR
-            val response = ResponseDto(
+            val response = ZResponse(
                 status = httpStatus.value(),
                 message = httpStatus.reasonPhrase
             )
@@ -43,8 +41,8 @@ class AliceResponse {
         /**
          * Response [data]
          */
-        fun response(data: Any?): ResponseEntity<ResponseDto> {
-            val response = ResponseDto(
+        fun response(data: Any?): ResponseEntity<ZResponse> {
+            val response = ZResponse(
                 data = data
             )
             return ResponseEntity(response, this.setHeader(), HttpStatus.OK)
@@ -53,8 +51,8 @@ class AliceResponse {
         /**
          * Response [status], [data]
          */
-        fun response(status: HttpStatus, data: Any?): ResponseEntity<ResponseDto> {
-            val response = ResponseDto(
+        fun response(status: HttpStatus, data: Any?): ResponseEntity<ZResponse> {
+            val response = ZResponse(
                 status = status.value(),
                 message = status.reasonPhrase,
                 data = data
@@ -65,8 +63,8 @@ class AliceResponse {
         /**
          * Response [status], [message], [data]
          */
-        fun response(status: HttpStatus, message: String?, data: Any?): ResponseEntity<ResponseDto> {
-            val response = ResponseDto(
+        fun response(status: HttpStatus, message: String?, data: Any?): ResponseEntity<ZResponse> {
+            val response = ZResponse(
                 status = status.value(),
                 message = if (message.isNullOrBlank()) status.reasonPhrase else message,
                 data = data

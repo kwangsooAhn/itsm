@@ -110,13 +110,13 @@
      */
     function deleteFaq() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
-            aliceJs.fetchText('/rest/faqs/' + /*[[${faq?.faqId}]]*/'', {
+            aliceJs.fetchJson('/rest/faqs/' + /*[[${faq?.faqId}]]*/'', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-            }).then((rtn) => {
-                if (rtn === 'true') {
+            }).then((result) => {
+                if (result.status === 200) {
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
                         location.href = '/faqs/search';
                     });

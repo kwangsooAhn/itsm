@@ -9,8 +9,8 @@ package co.brainz.api.workflow.controller
 import co.brainz.api.ApiUtil
 import co.brainz.api.dto.RequestDto
 import co.brainz.api.workflow.service.ApiWorkflowService
-import co.brainz.framework.response.AliceResponse
-import co.brainz.framework.response.dto.ResponseDto
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -33,16 +33,16 @@ class ApiWorkflowController(
     fun getDocumentDataStructure(
         request: HttpServletRequest,
         @PathVariable documentId: String
-    ): ResponseEntity<ResponseDto> {
-        return AliceResponse.response(apiWorkflowService.getDocumentDataStructure(documentId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiWorkflowService.getDocumentDataStructure(documentId))
     }
 
     @GetMapping("/component/{componentId}")
     fun getComponent(
         request: HttpServletRequest,
         @PathVariable componentId: String
-    ): ResponseEntity<ResponseDto> {
-        return AliceResponse.response(apiWorkflowService.getComponent(componentId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiWorkflowService.getComponent(componentId))
     }
 
     @PostMapping("/{documentId}")
@@ -50,15 +50,15 @@ class ApiWorkflowController(
         request: HttpServletRequest,
         @PathVariable documentId: String,
         @RequestBody requestDto: RequestDto
-    ): ResponseEntity<ResponseDto> {
-        return AliceResponse.response(apiWorkflowService.callDocument(documentId, requestDto))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiWorkflowService.callDocument(documentId, requestDto))
     }
 
     @GetMapping("/{instanceId}/history")
     fun getInstanceHistory(
         request: HttpServletRequest,
         @PathVariable instanceId: String
-    ): ResponseEntity<ResponseDto> {
-        return AliceResponse.response(apiWorkflowService.getInstanceHistory(instanceId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiWorkflowService.getInstanceHistory(instanceId))
     }
 }

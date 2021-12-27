@@ -5,8 +5,8 @@
 
 package co.brainz.itsm.faq.controller
 
-import co.brainz.framework.response.AliceResponse
-import co.brainz.framework.response.dto.ResponseDto
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.service.FaqService
 import javax.servlet.http.HttpServletRequest
@@ -40,31 +40,31 @@ class FaqRestController(private val faqService: FaqService) {
      * FAQ 1건 상세 조회
      */
     @GetMapping("/{faqId}")
-    fun getFaq(request: HttpServletRequest, @PathVariable faqId: String): ResponseEntity<ResponseDto> {
-        return AliceResponse.response(faqService.getFaqDetail(faqId))
+    fun getFaq(request: HttpServletRequest, @PathVariable faqId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(faqService.getFaqDetail(faqId))
     }
 
     /**
      * 신규 FAQ 등록 처리
      */
     @PostMapping("/", "")
-    fun insertFaq(@RequestBody faqDto: FaqDto): ResponseEntity<ResponseDto> {
-        return AliceResponse.response(faqService.createFaq(faqDto))
+    fun insertFaq(@RequestBody faqDto: FaqDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(faqService.createFaq(faqDto))
     }
 
     /**
      * FAQ 수정 처리
      */
     @PutMapping("/{faqId}")
-    fun updateFaq(@PathVariable faqId: String, @RequestBody faqDto: FaqDto): ResponseEntity<ResponseDto> {
-        return AliceResponse.response(faqService.updateFaq(faqId, faqDto))
+    fun updateFaq(@PathVariable faqId: String, @RequestBody faqDto: FaqDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(faqService.updateFaq(faqId, faqDto))
     }
 
     /**
      * FAQ 삭제 처리
      */
     @DeleteMapping("/{faqId}")
-    fun deleteFaq(@PathVariable faqId: String): ResponseEntity<ResponseDto> {
-        return AliceResponse.response(faqService.deleteFaq(faqId))
+    fun deleteFaq(@PathVariable faqId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(faqService.deleteFaq(faqId))
     }
 }
