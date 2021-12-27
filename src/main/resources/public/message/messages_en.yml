@@ -1048,6 +1048,7 @@ process:
     startEventnMustOne: 'Only one start event is allowed.'
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
+    uncheckWithdraw: "Can't set withdraw in the first element.<br>Please uncheck withdraw in {0} element."
   title:
     preview: "Zenius ITSM : Process Preview"
     processMap: "Zenius ITMS : Process Map"
