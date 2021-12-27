@@ -290,7 +290,7 @@ export const ciMixin = {
                     .setUIClass('z-button-icon')
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
-                    .onUIClick(this.removeCITableRow.bind(this, row.parent, row.getUIIndex(), data))
+                    .onUIClick(this.removeCITableRow.bind(this, row.parent, -1, data))
                     .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'));
 
                 return new UICell(row).setUIClass(tdClassName)
@@ -329,6 +329,12 @@ export const ciMixin = {
     },
     // CI 테이블 row 삭제
     removeCITableRow(targetTable, rowIndex, ciData) {
+        if (typeof this.value !== 'string' && rowIndex === -1) {
+            const findIndex = this.value.findIndex(function (item) {
+                return item.ciId === ciData.ciId;
+            });
+            rowIndex = findIndex + 1;
+        }
         if (!zValidation.isEmpty(ciData)) {
             const alertMsg = (ciData.actionType === CI.ACTION_TYPE.REGISTER || ciData.actionType === CI.ACTION_TYPE.MODIFY) ?
                 'cmdb.ci.msg.deleteEditableCI' : 'cmdb.ci.msg.deleteReadableCI';
@@ -935,7 +941,7 @@ export const ciMixin = {
                             chkElem.checked = true;
                         }
                     });
-                })
+                });
             }
         });
 
