@@ -1070,6 +1070,16 @@ export const ciMixin = {
         targetCIData.appendChild(targetCIId);
         trRow.appendChild(targetCIData);
 
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'z-button-icon extra';
+        const deleteIcon = document.createElement('span');
+        deleteIcon.className = 'z-icon i-delete';
+        deleteBtn.appendChild(deleteIcon);
+        deleteBtn.addEventListener('click', function () {
+            deleteBtn.parentElement.remove();
+        });
+        trRow.appendChild(deleteBtn);
+
         document.getElementById('ciRelation').appendChild(trRow);
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
