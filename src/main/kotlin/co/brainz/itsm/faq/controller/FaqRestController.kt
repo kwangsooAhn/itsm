@@ -1,11 +1,18 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.faq.controller
 
+import co.brainz.framework.response.AliceResponse
+import co.brainz.framework.response.dto.ResponseDto
 import co.brainz.itsm.faq.dto.FaqDto
-import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.service.FaqService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -33,32 +40,31 @@ class FaqRestController(private val faqService: FaqService) {
      * FAQ 1건 상세 조회
      */
     @GetMapping("/{faqId}")
-    fun getFaq(request: HttpServletRequest, @PathVariable faqId: String): FaqListDto? {
-        return faqService.getFaqDetail(faqId)
+    fun getFaq(request: HttpServletRequest, @PathVariable faqId: String): ResponseEntity<ResponseDto> {
+        return AliceResponse.response(faqService.getFaqDetail(faqId))
     }
 
     /**
      * 신규 FAQ 등록 처리
      */
     @PostMapping("/", "")
-    fun insertFaq(@RequestBody faqDto: FaqDto): Boolean {
-        return faqService.createFaq(faqDto)
+    fun insertFaq(@RequestBody faqDto: FaqDto): ResponseEntity<ResponseDto> {
+        return AliceResponse.response(faqService.createFaq(faqDto))
     }
 
     /**
      * FAQ 수정 처리
      */
     @PutMapping("/{faqId}")
-    fun updateFaq(@PathVariable faqId: String, @RequestBody faqDto: FaqDto): Boolean {
-        return faqService.updateFaq(faqId, faqDto)
+    fun updateFaq(@PathVariable faqId: String, @RequestBody faqDto: FaqDto): ResponseEntity<ResponseDto> {
+        return AliceResponse.response(faqService.updateFaq(faqId, faqDto))
     }
 
     /**
      * FAQ 삭제 처리
      */
     @DeleteMapping("/{faqId}")
-    fun deleteFaq(@PathVariable faqId: String): Boolean {
-        faqService.deleteFaq(faqId)
-        return true
+    fun deleteFaq(@PathVariable faqId: String): ResponseEntity<ResponseDto> {
+        return AliceResponse.response(faqService.deleteFaq(faqId))
     }
 }

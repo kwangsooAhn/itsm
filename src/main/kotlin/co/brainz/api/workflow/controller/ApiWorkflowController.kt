@@ -9,6 +9,8 @@ package co.brainz.api.workflow.controller
 import co.brainz.api.ApiUtil
 import co.brainz.api.dto.RequestDto
 import co.brainz.api.workflow.service.ApiWorkflowService
+import co.brainz.framework.response.AliceResponse
+import co.brainz.framework.response.dto.ResponseDto
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -31,16 +33,16 @@ class ApiWorkflowController(
     fun getDocumentDataStructure(
         request: HttpServletRequest,
         @PathVariable documentId: String
-    ): ResponseEntity<*> {
-        return super.responseValue(request, apiWorkflowService.getDocumentDataStructure(documentId))
+    ): ResponseEntity<ResponseDto> {
+        return AliceResponse.response(apiWorkflowService.getDocumentDataStructure(documentId))
     }
 
     @GetMapping("/component/{componentId}")
     fun getComponent(
         request: HttpServletRequest,
         @PathVariable componentId: String
-    ): ResponseEntity<*> {
-        return super.responseValue(request, apiWorkflowService.getComponent(componentId))
+    ): ResponseEntity<ResponseDto> {
+        return AliceResponse.response(apiWorkflowService.getComponent(componentId))
     }
 
     @PostMapping("/{documentId}")
@@ -48,15 +50,15 @@ class ApiWorkflowController(
         request: HttpServletRequest,
         @PathVariable documentId: String,
         @RequestBody requestDto: RequestDto
-    ): ResponseEntity<*> {
-        return super.responseValue(request, apiWorkflowService.callDocument(documentId, requestDto))
+    ): ResponseEntity<ResponseDto> {
+        return AliceResponse.response(apiWorkflowService.callDocument(documentId, requestDto))
     }
 
     @GetMapping("/{instanceId}/history")
     fun getInstanceHistory(
         request: HttpServletRequest,
         @PathVariable instanceId: String
-    ): ResponseEntity<*> {
-        return super.responseValue(request, apiWorkflowService.getInstanceHistory(instanceId))
+    ): ResponseEntity<ResponseDto> {
+        return AliceResponse.response(apiWorkflowService.getInstanceHistory(instanceId))
     }
 }

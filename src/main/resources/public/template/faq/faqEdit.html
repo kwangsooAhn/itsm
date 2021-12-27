@@ -86,20 +86,20 @@
         if (!validation()) { return false; }
         const faqId = (method === 'POST') ? '' : '/' + /*[[${faq?.faqId}]]*/'';
         const data = aliceJs.formDataToObject(document.getElementById('faqForm'))
-        aliceJs.fetchText('/rest/faqs' + faqId, {
+        aliceJs.fetchJson('/rest/faqs' + faqId, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((status) => {
-            let resultMsg = [[#{faq.msg.duplicateTitleInCategory}]];
-            if (status === 'true') {
-                resultMsg = [[#{common.msg.save}]];
+        }).then((result) => {
+            let resultMsg = [[#{common.msg.save}]];
+            if (result.status === 200) {
                 zAlert.success(resultMsg, function () {
                     window.location.href = '/faqs/search';
                 });
             } else {
+                resultMsg = [[#{faq.msg.duplicateTitleInCategory}]];
                 zAlert.warning(resultMsg);
             }
         });
