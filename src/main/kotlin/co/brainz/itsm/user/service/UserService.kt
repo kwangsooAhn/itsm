@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.user.service
 
+import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
@@ -30,6 +31,8 @@ import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.dto.CodeDto
+import co.brainz.itsm.code.dto.PCodeDto
+import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
@@ -65,7 +68,9 @@ import java.security.PrivateKey
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Optional
+import java.util.*
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.LinkedHashSet
 import kotlin.math.ceil
 import kotlin.random.Random
 
@@ -88,7 +93,8 @@ class UserService(
     private val userDetailsService: AliceUserDetailsService,
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
-    private val wfTokenRepository: WfTokenRepository
+    private val wfTokenRepository: WfTokenRepository,
+    private val codeRepository: CodeRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -118,7 +124,8 @@ class UserService(
         absenceList?.forEach { absence ->
             val userAbsenceDto = mapper.readValue(absence.customValue, UserAbsenceDto::class.java)
             if ((userAbsenceDto.startDt!! <= from && userAbsenceDto.endDt!! >= from) ||
-                (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)) {
+                (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)
+            ) {
                 excludeIds.add(absence.userKey)
             }
         }
@@ -138,12 +145,36 @@ class UserService(
      */
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
         val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
+        val codeList = codeRepository.findCodeList(SearchDto(offset = null, limit = null))
         val userList: MutableList<UserListDataDto> = mutableListOf()
+        val departmentSearch: MutableList<String> = mutableListOf()
+        val deptValue: LinkedHashSet<String> = linkedSetOf()
+        val toString: LinkedHashMap<String, String> = linkedMapOf()
 
         for (user in queryResult.results) {
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
+            deptValue.add(user.department.toString())
             userList.add(user)
+        }
+
+        for (dept in deptValue) {
+            if (dept != "") {
+                departmentSearch.addAll(
+                    getRecursiveParentCode(
+                        codeList.results,
+                        dept,
+                        mutableListOf()
+                    )
+                )
+                toString[dept] = departmentSearch.joinToString(" / ", "", "")
+                for (user in userList) {
+                    if (user.department == dept) {
+                        user.department = toString[dept]
+                    }
+                }
+                departmentSearch.clear()
+            }
         }
 
         return UserListReturnDto(
@@ -156,6 +187,24 @@ class UserService(
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
+    }
+
+    //user.department 값을 이용하여 상위 레벨의 부서폴더이름 추출
+    private fun getRecursiveParentCode(
+        allCodeDtoList: List<PCodeDto>,
+        code: String,
+        recursiveCodeList: MutableList<String>
+    ): List<String> {
+        val codeDto = codeRepository.findCodeDetail(code)
+        if (codeDto.code != UserConstants.PDEPTCODE.value) {
+            codeDto.codeName?.let { recursiveCodeList.add(it) }
+            for (codeListDto in allCodeDtoList) {
+                if (codeListDto.code == codeDto.code) {
+                    getRecursiveParentCode(allCodeDtoList, codeDto.pCode.toString(), recursiveCodeList)
+                }
+            }
+        }
+        return recursiveCodeList.toList()
     }
 
     /**

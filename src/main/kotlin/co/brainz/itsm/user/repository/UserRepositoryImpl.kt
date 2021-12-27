@@ -23,7 +23,6 @@ import org.springframework.stereotype.Repository
 class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java), UserRepositoryCustom {
     override fun findAliceUserEntityList(userSearchCondition: UserSearchCondition): QueryResults<UserListDataDto> {
         val user = QAliceUserEntity.aliceUserEntity
-        val code = QCodeEntity.codeEntity
         val query = from(user)
             .select(
                 Projections.constructor(
@@ -33,7 +32,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.userName,
                     user.email,
                     user.position,
-                    code.codeValue.`as`("department"),
+                    user.department,
                     user.officeNumber,
                     user.mobileNumber,
                     user.avatarType,
@@ -44,12 +43,10 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.createDt
                 )
             )
-            .leftJoin(code).on(code.code.eq(user.department))
             .where(
                 super.likeIgnoreCase(user.userName, userSearchCondition.searchValue)
                     ?.or(super.likeIgnoreCase(user.userId, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.position, userSearchCondition.searchValue))
-                    ?.or(super.likeIgnoreCase(code.codeName, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.officeNumber, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.mobileNumber, userSearchCondition.searchValue))
             )
