@@ -15,11 +15,13 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.util.AliceUtil
+import co.brainz.itsm.group.repository.GroupRepository
 import co.brainz.itsm.user.dto.UserListDataDto
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -32,7 +34,8 @@ class AliceUserDetailsService(
     private var aliceAuthRepository: AliceAuthRepository,
     private var aliceMenuRepository: AliceMenuRepository,
     private var aliceUserRoleMapRepository: AliceUserRoleMapRepository,
-    private var aliceRoleAuthMapRepository: AliceRoleAuthMapRepository
+    private var aliceRoleAuthMapRepository: AliceRoleAuthMapRepository,
+    private var groupRepository: GroupRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -48,24 +51,7 @@ class AliceUserDetailsService(
 
     @Transactional
     fun getAuthInfo(aliceUserAuthDto: AliceUserAuthDto): AliceUserAuthDto {
-        val authorities = mutableSetOf<SimpleGrantedAuthority>()
-        val rolePrefix = "ROLE_"
-
-        aliceUserAuthDto.userKey.let { userKey ->
-            val roleList = aliceUserRoleMapRepository.findUserRoleByUserKey(userKey)
-            if (roleList.isNotEmpty()) {
-                val roleIds = mutableSetOf<String>()
-                for (role in roleList) {
-                    roleIds.add(role.roleId)
-                    authorities.add(SimpleGrantedAuthority(rolePrefix + role.roleId))
-                }
-                val authList = aliceRoleAuthMapRepository.findAuthByRoles(roleIds)
-                for (auth in authList) {
-                    authorities.add(SimpleGrantedAuthority(auth.authId))
-                }
-            }
-        }
-        aliceUserAuthDto.grantedAuthorises = authorities
+        aliceUserAuthDto.grantedAuthorises = this.getAuthAndRole(aliceUserAuthDto)
         aliceUserAuthDto.menus =
             aliceUserAuthDto.userKey.let { aliceMenuRepository.findByUserKey(aliceUserAuthDto.userKey) }
         aliceUserAuthDto.urls =
@@ -137,5 +123,48 @@ class AliceUserDetailsService(
             UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = AliceUtil().setUserDetails(aliceUser)
         return usernamePasswordAuthenticationToken
+    }
+
+    private fun getAuthAndRole(aliceUserAuthDto: AliceUserAuthDto): MutableSet<SimpleGrantedAuthority> {
+        val authorities = mutableSetOf<SimpleGrantedAuthority>()
+        val rolePrefix = "ROLE_"
+
+        aliceUserAuthDto.userKey.let { userKey ->
+            val roleList = aliceUserRoleMapRepository.findUserRoleByUserKey(userKey)
+            if (roleList.isNotEmpty()) {
+                val roleIds = mutableSetOf<String>()
+                for (role in roleList) {
+                    roleIds.add(role.roleId)
+                    authorities.add(SimpleGrantedAuthority(rolePrefix + role.roleId))
+                }
+                val authList = aliceRoleAuthMapRepository.findAuthByRoles(roleIds)
+                for (auth in authList) {
+                    authorities.add(SimpleGrantedAuthority(auth.authId))
+                }
+            }
+        }
+
+        // 사용자가 속한 Group 보유한 역할 및 권한을 추가한다.
+        if (!aliceUserAuthDto.department.isNullOrBlank()) {
+            val group = aliceUserAuthDto.department
+            val roleList = mutableListOf<String>()
+            groupRepository.findByIdOrNull(group).let { group ->
+                group?.groupRoleMapEntities?.forEach {
+                    roleList.add(it.role.roleId)
+                }
+            }
+            if (roleList.isNotEmpty()) {
+                val roleIds = mutableSetOf<String>()
+                for (role in roleList) {
+                    roleIds.add(role)
+                    authorities.add(SimpleGrantedAuthority(rolePrefix + role))
+                }
+                val authList = aliceRoleAuthMapRepository.findAuthByRoles(roleIds)
+                for (auth in authList) {
+                    authorities.add(SimpleGrantedAuthority(auth.authId))
+                }
+            }
+        }
+        return authorities
     }
 }

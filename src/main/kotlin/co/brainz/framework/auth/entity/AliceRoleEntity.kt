@@ -1,6 +1,7 @@
 package co.brainz.framework.auth.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
+import co.brainz.itsm.group.entity.GroupRoleMapEntity
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -25,4 +26,7 @@ data class AliceRoleEntity(
 ) : Serializable, AliceMetaEntity() {
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     val roleAuthMapEntities = mutableListOf<AliceRoleAuthMapEntity>()
+
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    val groupRoleMapEntities = mutableListOf<GroupRoleMapEntity>()
 }
