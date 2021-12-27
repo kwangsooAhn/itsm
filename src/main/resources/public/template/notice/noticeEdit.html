@@ -97,10 +97,10 @@
                 </div>
                 <div class="z-button-list">
                     <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert"
-                            class="z-button primary" onclick="saveNotice('post')" th:text="#{common.btn.register}">
+                            class="z-button primary" onclick="saveNotice('POST')" th:text="#{common.btn.register}">
                     </button>
                     <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update"
-                            class="z-button primary" onclick="saveNotice('put')" th:text="#{common.btn.modify}">
+                            class="z-button primary" onclick="saveNotice('PUT')" th:text="#{common.btn.modify}">
                     </button>
                     <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete"
                             class="z-button secondary" onclick="deleteNotice()" th:text="#{common.btn.delete}">
@@ -226,7 +226,7 @@
             fileSeq: fileSeq
         };
 
-        if (method === 'put') {
+        if (method === 'PUT') {
             data.noticeNo = noticeNo;
             data.delFileSeq = delFileSeq;
             url = '/rest/notices/' + noticeNo;
@@ -234,45 +234,37 @@
             url = '/rest/notices';
         }
 
-        restSubmit(method, url, data);
+        aliceJs.fetchText(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((status) => {
+            if (method === 'POST') {
+                zAlert.success(i18n.msg('common.msg.register'), function () {
+                    window.location.href = '/notices/search';
+                });
+            } else if (method === 'PUT') {
+                zAlert.success(i18n.msg('common.msg.modify'), function () {
+                    window.location = '/notices/search';
+                });
+            } else {
+                zAlert.warning(i18n.msg('common.msg.fail'));
+            }
+        });
     }
 
     function deleteNotice() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
             aliceJs.fetchText('/rest/notices/' + [[${notice?.noticeNo}]], {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                method: 'DELETE'
             }).then((rtn) => {
                 zAlert.success(i18n.msg('common.msg.delete'), () => {
                     location.href = '/notices/search';
                 });
             });
         });
-    }
-
-    function restSubmit(method, url, data) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function() {
-                if (method === 'post') {
-                    zAlert.success(i18n.msg('common.msg.register'), function () {
-                        window.location.href = '/notices/search';
-                    });
-                } else if (method === 'put') {
-                    zAlert.success(i18n.msg('common.msg.modify'), function () {
-                        window.location = '/notices/search';
-                    });
-                } else {
-                    zAlert.warning(i18n.msg('common.msg.fail'));
-                }
-            }
-        };
-        aliceJs.sendXhr(opt)
     }
     /* ]]> */
 </script>

@@ -89,12 +89,8 @@
             offsetCount = 0;
             urlParam += '&offset=' + offsetCount;
         }
-        restSubmit('get', '/rest/images?' + urlParam, isScroll);
-    }
-
-    function restSubmit(method, url, isScroll) {
-        aliceJs.fetchJson(url, {
-            method: method,
+        aliceJs.fetchJson('/rest/images?' + urlParam, {
+            method: 'GET',
             showProgressbar: true
         }).then((imageList) => {
             if (creatable === 'true') {
@@ -127,7 +123,7 @@
                     deleteBtn.style.display = 'none';
                 });
             }
-        })
+        });
     }
 
     function addThumbnail(image) {

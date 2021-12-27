@@ -76,11 +76,11 @@
             <div class="z-button-list">
                 <button class="z-button primary" id="btnAdd" name="btnAdd"
                         sec:authorize="hasAuthority('numbering.rule.create')" th:if="!${rule?.numberingId}"
-                        th:onclick="|javascript:onSave('post')|"
+                        th:onclick="|javascript:onSave('POST')|"
                         th:text="#{common.btn.register}" type="button"></button>
                 <button class="z-button primary" id="btnUpdate" name="btnUpdate"
                         sec:authorize="hasAuthority('numbering.rule.update')" th:if="${rule?.numberingId}"
-                        th:onclick="|javascript:onSave('put')|"
+                        th:onclick="|javascript:onSave('PUT')|"
                         th:text="#{common.btn.modify}" type="button"></button>
                 <button class="z-button secondary" id="btnDelete" name="btnDelete"
                         sec:authorize="hasAuthority('numbering.rule.delete')" th:if="${rule?.numberingId}"
@@ -122,9 +122,6 @@
                 inheritedAttrs: 'class'
             }
         });
-        if ([[${rule?.numberingId}]]) {
-
-        }
     };
 
     /** 등록, 수정 기능 **/
@@ -137,7 +134,7 @@
             ruleNames.push(validList[i].textContent);
         }
 
-        if (flag === 'post') {
+        if (flag === 'POST') {
             for (let i = 0; i < ruleNames.length; i++) {
                 if (document.getElementById('txtRuleName').value === ruleNames[i]) {
                     zAlert.warning([[#{rule.msg.duplicateRuleName}]]);
@@ -166,55 +163,51 @@
         obj.patternList = patternList;//패턴
 
         let strUrl = '/rest/numberingRules';
-        if (flag !== 'post') {
+        if (flag !== 'POST') {
             strUrl += '/' + document.getElementById('txtRuleId').value;
         }
-        const opt = {
+        aliceJs.fetchText(strUrl, {
             method: flag,
-            url: strUrl,
-            params: JSON.stringify(obj),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.save'), function () {
-                            window.location.href = '/numberingRules/search';
-                        });
-                        break;
-                    case STATUS_ERROR_RULE_USED:
-                        zAlert.warning(i18n.msg('rule.msg.usedRule'));
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        }).then((status) => {
+            switch (status) {
+                case STATUS_SUCCESS:
+                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                        window.location.href = '/numberingRules/search';
+                    });
+                    break;
+                case STATUS_ERROR_RULE_USED:
+                    zAlert.warning(i18n.msg('rule.msg.usedRule'));
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
 
     /** 삭제 기능  **/
     function onDelete() {
-        const opt = {
-            method: 'delete',
-            url: '/rest/numberingRules/' + encodeURIComponent(document.getElementById('txtRuleId').value),
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.delete'), function () {
-                            window.location.href = '/numberingRules/search';
-                        });
-                        break;
-                    case STATUS_ERROR_RULE_USED:
-                        zAlert.warning(i18n.msg('rule.msg.usedRule'));
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                }
+        aliceJs.fetchText('/rest/numberingRules/' + encodeURIComponent(document.getElementById('txtRuleId').value), {
+            method: 'DELETE'
+        }).then((status) => {
+            switch (status) {
+                case STATUS_SUCCESS:
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        window.location.href = '/numberingRules/search';
+                    });
+                    break;
+                case STATUS_ERROR_RULE_USED:
+                    zAlert.warning(i18n.msg('rule.msg.usedRule'));
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
 
     function addPattern() {

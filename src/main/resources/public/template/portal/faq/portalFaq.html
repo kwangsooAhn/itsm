@@ -30,60 +30,52 @@
     const faqId = [[${faqs?.faqId}]];
 
     window.onload = function () {
-        if (faqId !== '') {
-            getFaqList('', faqId);
-        } else {
-            restSubmit('get', '/portals/faqs');
-        }
+        getFaqList('', faqId);
     }
 
     function getFaqList(category, faqId) {
         let urlParam = '';
         if (category !== '') {
             urlParam += 'category=' + category;
-        } else {
+        }
+        if (faqId !== '') {
             urlParam += 'id=' + faqId;
         }
-        restSubmit('get', '/portals/faqs?' + urlParam);
-    }
+        aliceJs.fetchText('/portals/faqs?' + urlParam, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((htmlData) => {
+            document.querySelector('.z-main-accordion').innerHTML = htmlData;
+            document.getElementsByClassName('z-faq-group')[0].open = true;
+            document.getElementsByClassName('z-faq-row')[0].open = true;
+            aliceJs.showTotalCount(document.getElementsByClassName('z-faq-row').length);
 
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            showProgressbar: false,
-            async: false,
-            callbackFunc: function(response) {
-                document.querySelector('.z-main-accordion').innerHTML = response.responseText;
-                document.getElementsByClassName('z-faq-group')[0].open = true;
-                document.getElementsByClassName('z-faq-row')[0].open = true;
-                aliceJs.showTotalCount(document.getElementsByClassName('z-faq-row').length);
-
-                let selectedGroup = document.getElementById('selected-group').value;
-                let selectedId = document.getElementById('selected-id').value;
-                if (selectedId !== '') {
-                    let group = document.getElementsByClassName('z-faq-group');
-                    let row = document.getElementsByClassName('z-faq-row');
-                    for (let i = 0; i < group.length; i++) {
-                        if (group[i].id === selectedGroup) {
-                            document.getElementsByClassName('z-faq-group')[0].open = false;
-                            group[i].open = true;
-                            break;
-                        }
-                    }
-                    for (let i = 0; i < row.length; i++) {
-                        if (row[i].id === selectedId) {
-                            document.getElementsByClassName('z-faq-row')[0].open = false;
-                            row[i].open = true;
-                            row[i].setAttribute('id', 'highlight')
-                            break;
-                        }
+            let selectedGroup = document.getElementById('selected-group').value;
+            let selectedId = document.getElementById('selected-id').value;
+            if (selectedId !== '') {
+                let group = document.getElementsByClassName('z-faq-group');
+                let row = document.getElementsByClassName('z-faq-row');
+                for (let i = 0; i < group.length; i++) {
+                    if (group[i].id === selectedGroup) {
+                        document.getElementsByClassName('z-faq-group')[0].open = false;
+                        group[i].open = true;
+                        break;
                     }
                 }
-                OverlayScrollbars(document.querySelector('.z-main'), { className: 'scrollbar' });
+                for (let i = 0; i < row.length; i++) {
+                    if (row[i].id === selectedId) {
+                        document.getElementsByClassName('z-faq-row')[0].open = false;
+                        row[i].open = true;
+                        row[i].setAttribute('id', 'highlight')
+                        break;
+                    }
+                }
             }
-        };
-        aliceJs.sendXhr(opt);
+            OverlayScrollbars(document.querySelector('.z-main'), { className: 'scrollbar' });
+        });
     }
     /* ]]> */
 </script>

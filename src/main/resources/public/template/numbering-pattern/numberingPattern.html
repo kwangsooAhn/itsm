@@ -82,11 +82,11 @@
             <div class="z-button-list">
                 <button class="z-button primary" id="btnRegist" name="btnRegist"
                         sec:authorize="hasAuthority('numbering.pattern.create')"
-                        th:if="!${pattern?.patternId}" th:onclick="|javascript:onSave('post')|"
+                        th:if="!${pattern?.patternId}" th:onclick="|javascript:onSave('POST')|"
                         th:text="#{common.btn.register}" type="button"></button>
                 <button class="z-button primary" id="btnUpdate" name="btnUpdate"
                         sec:authorize="hasAuthority('numbering.pattern.update')"
-                        th:if="${pattern?.patternId}" th:onclick="|javascript:onSave('put')|"
+                        th:if="${pattern?.patternId}" th:onclick="|javascript:onSave('PUT')|"
                         th:text="#{common.btn.modify}" type="button"></button>
                 <button class="z-button secondary" id="btnDelete"
                         name="btnDelete"
@@ -128,58 +128,54 @@
         }
 
         let strUrl = '/rest/numberingPatterns';
-        if (flag !== 'post') {
+        if (flag !== 'POST') {
             strUrl += '/' + document.getElementById('txtPatternId').value;
         }
-        const opt = {
+        aliceJs.fetchText(strUrl, {
             method: flag,
-            url: strUrl,
-            params: JSON.stringify(obj),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.save'), function () {
-                            window.location.href = '/numberingPatterns/search';
-                        });
-                        break;
-                    case STATUS_ERROR_PATTERN_USED:
-                        zAlert.warning(i18n.msg('pattern.msg.usedPattern'));
-                        break;
-                    case STATUS_ERROR_DUPLICATE_PATTERN_NAME:
-                        zAlert.warning(i18n.msg('pattern.msg.duplicatePatternName'));
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        }).then((status) => {
+            switch (status) {
+                case STATUS_SUCCESS:
+                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                        window.location.href = '/numberingPatterns/search';
+                    });
+                    break;
+                case STATUS_ERROR_PATTERN_USED:
+                    zAlert.warning(i18n.msg('pattern.msg.usedPattern'));
+                    break;
+                case STATUS_ERROR_DUPLICATE_PATTERN_NAME:
+                    zAlert.warning(i18n.msg('pattern.msg.duplicatePatternName'));
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
 
     /** 삭제 기능  **/
     function onDelete() {
-        const opt = {
-            method: 'delete',
-            url: '/rest/numberingPatterns/' + encodeURIComponent(document.getElementById('txtPatternId').value),
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.delete'), function () {
-                            window.location.href = '/numberingPatterns/search';
-                        });
-                        break;
-                    case STATUS_ERROR_PATTERN_USED:
-                        zAlert.warning(i18n.msg('pattern.msg.usedPattern'));
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                }
+        aliceJs.fetchText('/rest/numberingPatterns/' + encodeURIComponent(document.getElementById('txtPatternId').value), {
+            method: 'DELETE'
+        }).then((status) => {
+            switch (status) {
+                case STATUS_SUCCESS:
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        window.location.href = '/numberingPatterns/search';
+                    });
+                    break;
+                case STATUS_ERROR_PATTERN_USED:
+                    zAlert.warning(i18n.msg('pattern.msg.usedPattern'));
+                    break;
+                default:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
 
     /** 라디오 버튼 변경에 따른 패턴 값 입력 엘리먼트 화면 출력 변경 함수**/

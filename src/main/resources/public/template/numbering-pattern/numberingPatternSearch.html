@@ -42,15 +42,11 @@
             search: encodeURIComponent(document.getElementById('searchValue').value)
         };
         const urlParam = 'searchValue=' + data.search + '&pageNum=' + pageNum;
-        const opt = {
-            method: 'get',
-            url: '/numberingPatterns?' + urlParam,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                document.getElementById('patternList').innerHTML = response.responseText;
-            }
-        };
-        aliceJs.sendXhr(opt);
+        aliceJs.fetchText('/numberingPatterns?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            document.getElementById('patternList').innerHTML = response.responseText;
+        });
     }
     /*]]>*/
 </script>

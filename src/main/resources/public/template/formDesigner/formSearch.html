@@ -82,19 +82,18 @@
 
     // 폼 수정
     function saveForm(formId, isDestroy, isEditable) {
-        if (checkValidation()) {
-            const formInfo = {
-                name: document.getElementById('form_name').value,
-                desc: document.getElementById('form_description').value
-            };
-            if (formId === undefined) { // 등록
-                restSubmit('POST', '/rest/forms', formInfo);
-            } else { // 수정
-                formInfo.id = formId;
-                formInfo.status = isDestroy ? STATUS_DESTROY : document.getElementById('form_status').value;
-                isEditable ? restSubmit('PUT', '/rest/forms/' + formId, formInfo)
-                    : zAlert.warning(i18n.msg('form.msg.failedDestroy'));
-            }
+        if (!checkValidation()) { return false; }
+        const formInfo = {
+            name: document.getElementById('form_name').value,
+            desc: document.getElementById('form_description').value
+        };
+        if (formId === undefined) { // 등록
+            restSubmit('POST', '/rest/forms', formInfo);
+        } else { // 수정
+            formInfo.id = formId;
+            formInfo.status = isDestroy ? STATUS_DESTROY : document.getElementById('form_status').value;
+            isEditable ? restSubmit('PUT', '/rest/forms/' + formId, formInfo)
+                : zAlert.warning(i18n.msg('form.msg.failedDestroy'));
         }
     }
 
@@ -102,12 +101,9 @@
     function deleteForm(formId) {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
             aliceJs.fetchText('/rest/forms/' + formId, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            }).then((rtn) => {
-                if (rtn === 'true') {
+                method: 'DELETE'
+            }).then((status) => {
+                if (status === 'true') {
                     zAlert.success(i18n.msg('common.msg.delete'), function() {
                         location.reload();
                     });
@@ -131,97 +127,93 @@
 
     // 폼 수정 / 보기 모달 오픈
     function openFormEdit(formId, isView) {
-        if (formId !== undefined) { // 수정
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/rest/forms/' + formId,
-                callbackFunc: function(xhr) {
-                    let responseObject = JSON.parse(xhr.responseText);
-                    responseObject.isView = isView;
+        if (typeof formId === 'undefined') { return false; }
 
-                    let options = {
-                        title: isView ? i18n.msg('form.label.detail') : i18n.msg('form.label.edit') ,
-                        body: createModalContent(responseObject),
-                        classes: 'form-edit',
-                        buttons: [{
-                            content: i18n.msg('form.btn.export'), // 내보내기 버튼
-                            classes: 'z-button primary',
-                            bindKey: false,
-                            callback: function(modal) {
-                                ZWorkflowUtil.export(responseObject.id, 'form');
-                            }
-                        }],
-                        close: {
-                            closable: false,
-                        },
-                        onCreate: function(modal) {
-                            // 스크롤바 추가
-                            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                            OverlayScrollbars(document.getElementById('form_description'), {
-                                className: 'inner-scrollbar',
-                                resize: 'vertical',
-                                sizeAutoCapable: true,
-                                textarea: {
-                                    dynHeight: false,
-                                    dynWidth: false,
-                                    inheritedAttrs: "class"
-                                }
-                            });
-                        }
-                    };
+        aliceJs.fetchJson('/rest/forms/' + formId, {
+            method: 'GET'
+        }).then((responseObject) => {
+            responseObject.isView = isView;
 
-                        // 버튼 설정
-                        if (!isView) {
-                            // 수정
-                            if (updatable === 'true') {
-                                options.buttons.push({
-                                    content: i18n.msg('common.btn.modify'),
-                                    classes: 'z-button primary',
-                                    bindKey: false,
-                                    callback: function (modal) {
-                                        saveForm(responseObject.id, false, true);
-                                    }
-                                });
-                            }
-                            // 삭제
-                            if (deletable === 'true') {
-                                options.buttons.push({
-                                    content: i18n.msg('common.btn.delete'),
-                                    classes: 'z-button secondary',
-                                    bindKey: false,
-                                    callback: function (modal) {
-                                        deleteForm(responseObject.id);
-                                    }
-                                });
-                            }
-                        } else if (responseObject.status === STATUS_USE) {
-                            // 폐기
-                            options.buttons.push({
-                                content: i18n.msg('form.status.destroy'),
-                                classes: 'z-button secondary',
-                                bindKey: false,
-                                callback: function(modal) {
-                                    saveForm(responseObject.id, true, responseObject.editable);
-                                }
-                            });
-                        }
-                        // 취소
-                        options.buttons.push({
-                            content: i18n.msg('common.btn.cancel'),
-                            classes: 'z-button secondary',
-                            bindKey: false,
-                            callback: function(modal) {
-                                modal.hide();
-                            }
-                        });
-
-                    // 모달 호출
-                    const formModal = new modal(options);
-                    formModal.show();
+            let options = {
+                title: isView ? i18n.msg('form.label.detail') : i18n.msg('form.label.edit') ,
+                body: createModalContent(responseObject),
+                classes: 'form-edit',
+                buttons: [{
+                    content: i18n.msg('form.btn.export'), // 내보내기 버튼
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        ZWorkflowUtil.export(responseObject.id, 'form');
+                    }
+                }],
+                close: {
+                    closable: false,
                 },
-                contentType: 'application/json; charset=utf-8'
+                onCreate: function(modal) {
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.getElementById('form_description'), {
+                        className: 'inner-scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+                }
+            };
+
+            // 버튼 설정
+            if (!isView) {
+                // 수정
+                if (updatable === 'true') {
+                    options.buttons.push({
+                        content: i18n.msg('common.btn.modify'),
+                        classes: 'z-button primary',
+                        bindKey: false,
+                        callback: function (modal) {
+                            saveForm(responseObject.id, false, true);
+                        }
+                    });
+                }
+                // 삭제
+                if (deletable === 'true') {
+                    options.buttons.push({
+                        content: i18n.msg('common.btn.delete'),
+                        classes: 'z-button secondary',
+                        bindKey: false,
+                        callback: function (modal) {
+                            deleteForm(responseObject.id);
+                        }
+                    });
+                }
+            } else if (responseObject.status === STATUS_USE) {
+                // 폐기
+                options.buttons.push({
+                    content: i18n.msg('form.status.destroy'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        saveForm(responseObject.id, true, responseObject.editable);
+                    }
+                });
+            }
+            // 취소
+            options.buttons.push({
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function(modal) {
+                    modal.hide();
+                }
             });
-        }
+
+            // 모달 호출
+            const formModal = new modal(options);
+            formModal.show();
+        })
     }
 
     // 폼 등록 모달 오픈
@@ -268,32 +260,29 @@
 
     // REST API
     function restSubmit(method, url, data) {
-        const opt = {
+        aliceJs.fetchText(url, {
             method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                if (response.responseText === STATUS_ERROR_DUPLICATE_FORM_NAME) {
-                    zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
-                    return false;
-                }
-                if (method === 'POST') {
-                    const _width = 1500,
-                          _height = 980;
-                    // 중앙 배치
-                    const _left = Math.ceil((window.screen.width - _width) / 2);
-                    const _top = Math.ceil((window.screen.height - _height) / 4);
-
-                    let formId = response.responseText;
-                    let specs = 'left=' + _left + ',top=' + _top;
-                    specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                    window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
-                }
-                location.reload();
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((formId) => {
+            if (formId === STATUS_ERROR_DUPLICATE_FORM_NAME) {
+                zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
+                return false;
             }
-        };
-        aliceJs.sendXhr(opt);
+            if (method === 'POST') {
+                const _width = 1500,
+                    _height = 980;
+                // 중앙 배치
+                const _left = Math.ceil((window.screen.width - _width) / 2);
+                const _top = Math.ceil((window.screen.height - _height) / 4);
+                let specs = 'left=' + _left + ',top=' + _top;
+                specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+            }
+            location.reload();
+        });
     }
 
     // 폼 디자이너 편집화면 오픈
