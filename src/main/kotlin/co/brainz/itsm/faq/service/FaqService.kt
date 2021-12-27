@@ -87,19 +87,20 @@ class FaqService(
      */
     @Transactional
     fun createFaq(faqDto: FaqDto): Boolean {
+        var isSuccess = true
         val faqEntity = FaqEntity(
             faqGroup = faqDto.faqGroup,
             faqTitle = faqDto.faqTitle,
             faqContent = faqDto.faqContent
         )
-
-        val count = faqRepository.getCountDuplicateFaqTitleAndCategory(faqEntity.faqTitle, faqEntity.faqGroup)
-
-        if (count == 0) {
-            faqRepository.save(faqEntity)
-            return true
+        // Duplicate check
+        if (faqRepository.getCountDuplicateFaqTitleAndCategory(faqEntity.faqTitle, faqEntity.faqGroup) > 0) {
+            isSuccess = false
         }
-        return false
+        if (isSuccess) {
+            faqRepository.save(faqEntity)
+        }
+        return isSuccess
     }
 
     /**

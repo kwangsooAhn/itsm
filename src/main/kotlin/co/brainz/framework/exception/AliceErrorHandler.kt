@@ -1,5 +1,11 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.exception
 
+import co.brainz.framework.response.ZAliceResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
@@ -26,8 +32,8 @@ class AliceErrorHandler(
     }
 
     @RequestMapping
-    override fun error(request: HttpServletRequest): ResponseEntity<Map<String, Any>> {
+    override fun error(request: HttpServletRequest): ResponseEntity<Map<String, Any?>> {
         logger.debug("Alice error handler for responsebody")
-        return super.error(request)
+        return ZAliceResponse.responseError(super.error(request))
     }
 }
