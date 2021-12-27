@@ -39,15 +39,11 @@
             search: encodeURIComponent(document.getElementById('searchValue').value)
         };
         const urlParam = 'searchValue=' + data.search + '&pageNum=' + pageNum;
-        const opt = {
-            method: 'get',
-            url: '/roles?' + urlParam,
-            showProgressbar: false,
-            callbackFunc: function(response) {
-                document.getElementById('roleList').innerHTML = response.responseText;
-            }
-        };
-        aliceJs.sendXhr(opt);
+        aliceJs.fetchText('/roles?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            document.getElementById('roleList').innerHTML = htmlData;
+        });
     }
 
     function onExcelDownload() {

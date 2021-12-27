@@ -92,45 +92,40 @@
         * 포탈 화면 초기화
         */
         function initPortalTops(method, url) {
-            const opt = {
-                method: method,
-                url: url,
-                contentType: 'application/json; charset=utf-8',
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    const tops = Object.entries(JSON.parse(response.responseText));
-                    tops.forEach(([topName, topData]) => {
-                        const topElement = document.getElementById(topName);
-                        for (let i = 0; i < topData.length; i++) {
-                            const data = topData[i];
-                            const row = document.createElement('tr');
-                            const cell = document.createElement('td');
-                            const contentAnchor = document.createElement('a');
-                            switch (topName) {
-                                case 'notice':
-                                    contentAnchor.href = '/portals/notices/'+ data['id'] +'/view';
-                                    break;
-                                case 'faq':
-                                    contentAnchor.href = '/portals/faqs/' + data['id'] +'/view';
-                                    break;
-                                case 'download':
-                                    contentAnchor.href = '/portals/downloads/'+ data['id'] +'/view';
-                                    break;
-                            }
-                            let contentText = document.createElement('span');
-                            contentText.className = 'text-ellipsis';
-                            const contentAnchorText = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
-                            contentText.textContent = contentAnchorText;
-                            contentText.setAttribute('title', contentAnchorText);
-                            contentAnchor.appendChild(contentText);
-                            cell.appendChild(contentAnchor);
-                            row.appendChild(cell);
-                            topElement.appendChild(row);
+            aliceJs.fetchJson(url, {
+                method: method
+            }).then((dataList) => {
+                const tops = Object.entries(dataList);
+                tops.forEach(([topName, topData]) => {
+                    const topElement = document.getElementById(topName);
+                    for (let i = 0; i < topData.length; i++) {
+                        const data = topData[i];
+                        const row = document.createElement('tr');
+                        const cell = document.createElement('td');
+                        const contentAnchor = document.createElement('a');
+                        switch (topName) {
+                            case 'notice':
+                                contentAnchor.href = '/portals/notices/'+ data['id'] +'/view';
+                                break;
+                            case 'faq':
+                                contentAnchor.href = '/portals/faqs/' + data['id'] +'/view';
+                                break;
+                            case 'download':
+                                contentAnchor.href = '/portals/downloads/'+ data['id'] +'/view';
+                                break;
                         }
-                    });
-                }
-            };
-            aliceJs.sendXhr(opt);
+                        let contentText = document.createElement('span');
+                        contentText.className = 'text-ellipsis';
+                        const contentAnchorText = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
+                        contentText.textContent = contentAnchorText;
+                        contentText.setAttribute('title', contentAnchorText);
+                        contentAnchor.appendChild(contentText);
+                        cell.appendChild(contentAnchor);
+                        row.appendChild(cell);
+                        topElement.appendChild(row);
+                    }
+                });
+            });
         }
 
         /*
@@ -144,82 +139,77 @@
                 }
                 urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value)
                     + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/portals?' + urlParam, isScroll);
+                getList('get', '/rest/portals?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
                 urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value)
                     + '&offset=' + offsetCount;
-                restSubmit('get', '/portals?' + urlParam, isScroll);
+                getList('get', '/portals?' + urlParam, isScroll);
             }
         }
 
         /*
         * 포탈 검색
         */
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                showProgressbar: false,
-                async: false,
-                callbackFunc: function (response) {
-                    if (isScroll) {
-                        const dataList = JSON.parse(response.responseText);
-                        if (dataList.length > 0) {
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.forEach(function(data) {
-                                    getDataTemplate(data);
-                                });
-                            }
+        function getList(method, url, isScroll) {
+            aliceJs.fetchText(url, {
+                method: method
+            }).then((response) => {
+                if (isScroll) {
+                    const dataList = JSON.parse(response);
+                    if (dataList.length > 0) {
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            offsetCount = offsetCount + aliceJs.searchDataCount;
+                            dataList.forEach(function(data) {
+                                getDataTemplate(data);
+                            });
                         }
-                    } else {
-                        document.getElementById('mainCard').innerHTML = response.responseText;
                     }
-                    // 검색 조회 결과 화면 스크롤바
-                    OverlayScrollbars(document.querySelector('.z-card-list'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function(e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                if (scrollHeight <= clientHeight) { // 스크롤이 없으면 동작 안함
-                                    return false;
-                                }
-                                if (scrollTop > 0) {
-                                    document.getElementById('mainSearch').classList.remove('slide-down');
-                                    document.getElementById('mainSearch').classList.add('slide-up');
-                                    document.getElementById('mainBanner').style.display='none';
-                                } else {
-                                    document.getElementById('mainSearch').classList.remove('slide-up');
-                                    document.getElementById('mainSearch').classList.add('slide-down');
-                                    document.getElementById('mainBanner').style.display='block';
-                                }
-                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        portalSearch(true);
-                                    }
+                } else {
+                    document.getElementById('mainCard').innerHTML = response;
+                }
+                // 검색 조회 결과 화면 스크롤바
+                OverlayScrollbars(document.querySelector('.z-card-list'), {
+                    className: 'scrollbar',
+                    callbacks: {
+                        onScroll: function(e) {
+                            const scrollHeight = e.target.scrollHeight;
+                            const scrollTop = e.target.scrollTop;
+                            const clientHeight = e.target.clientHeight;
+                            if (scrollHeight <= clientHeight) { // 스크롤이 없으면 동작 안함
+                                return false;
+                            }
+                            if (scrollTop > 0) {
+                                document.getElementById('mainSearch').classList.remove('slide-down');
+                                document.getElementById('mainSearch').classList.add('slide-up');
+                                document.getElementById('mainBanner').style.display='none';
+                            } else {
+                                document.getElementById('mainSearch').classList.remove('slide-up');
+                                document.getElementById('mainSearch').classList.add('slide-down');
+                                document.getElementById('mainBanner').style.display='block';
+                            }
+                            if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                    portalSearch(true);
                                 }
                             }
                         }
+                    }
+                });
+
+                /*
+                 * 포탈 검색 시, 검색한 내용 색상 변경
+                 */
+                if (isNotEmpty('searchValue')) {
+                    document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-title > a').forEach((data) => {
+                        regExpSearch(data);
+                    });
+                    document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach((data) => {
+                        regExpSearch(data);
                     });
 
-                    /*
-                     * 포탈 검색 시, 검색한 내용 색상 변경
-                     */
-                    if (isNotEmpty('searchValue')) {
-                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-title > a').forEach((data) => {
-                            regExpSearch(data);
-                        });
-                        document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach((data) => {
-                            regExpSearch(data);
-                        });
-
-                    }
                 }
-            }
-            aliceJs.sendXhr(opt);
+            });
         }
 
         /*

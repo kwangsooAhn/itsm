@@ -296,15 +296,9 @@
     }
 
     function preSubmitCheck(method, url, activeValidation) {
-        if (activeValidation === 'true') {
-            if (!validation()) {
-                return false;
-            }
+        if (activeValidation === 'true' && !validation()) {
+            return false;
         }
-        restSubmit(method, url);
-    }
-
-    function restSubmit(method, url) {
 
         let arrRoleValue = [];
         document.querySelectorAll('input[name=roles]:checked').forEach(function (item) {
@@ -313,68 +307,68 @@
 
         // 사용자 부재 설정
         let absenceInfo = {};
-            if (document.getElementById('userAbsence').checked) {
-                absenceInfo = {
-                    startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
-                    endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
-                    substituteUserKey: document.getElementById('substituteUserKey').value
-                }
+        if (document.getElementById('userAbsence').checked) {
+            absenceInfo = {
+                startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
+                endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
+                substituteUserKey: document.getElementById('substituteUserKey').value
             }
-       const data = {
-           userKey: document.getElementById('userKey').value,
-           userId: document.getElementById('userId').value,
-           userName: document.getElementById('userName').value,
-           email: document.getElementById('email').value,
-           useYn: document.getElementById('usageStatus').checked,
-           position: document.getElementById('position').value,
-           department: document.getElementById('departmentCode').value,
-           officeNumber: document.getElementById('officeNumber').value,
-           mobileNumber: document.getElementById('mobileNumber').value,
-           timezone: document.getElementById('timezone').value,
-           lang: document.getElementById('lang').value,
-           theme: document.getElementById('theme').value,
-           absenceYn: ([[${users?.userKey}]] !== null) ? document.getElementById('userAbsence').checked : '',
-           timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
-           roles: arrRoleValue,
-           avatarUUID: document.getElementById('avatarUUID').value,
-           absence: absenceInfo
+        }
+        const data = {
+            userKey: document.getElementById('userKey').value,
+            userId: document.getElementById('userId').value,
+            userName: document.getElementById('userName').value,
+            email: document.getElementById('email').value,
+            useYn: document.getElementById('usageStatus').checked,
+            position: document.getElementById('position').value,
+            department: document.getElementById('departmentCode').value,
+            officeNumber: document.getElementById('officeNumber').value,
+            mobileNumber: document.getElementById('mobileNumber').value,
+            timezone: document.getElementById('timezone').value,
+            lang: document.getElementById('lang').value,
+            theme: document.getElementById('theme').value,
+            absenceYn: ([[${users?.userKey}]] !== null) ? document.getElementById('userAbsence').checked : '',
+            timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
+            roles: arrRoleValue,
+            avatarUUID: document.getElementById('avatarUUID').value,
+            absence: absenceInfo
         };
 
-        aliceJs.sendXhr({
+        aliceJs.fetchText(url, {
             method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success([[#{user.msg.createUser}]], function () {
-                            window.location.reload();
-                        });
-                        break;
-                    case STATUS_SUCCESS_EDIT_ADMIN:
-                        zAlert.success([[#{common.msg.modify}]], function () {
-                            window.location.reload();
-                        });
-                        break;
-                    case STATUS_SUCCESS_EDIT_EMAIL:
-                        zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
-                            window.location.reload();
-                        });
-                        break;
-                    case STATUS_SUCCESS_EDIT_PASSWORD:
-                        zAlert.success([[#{user.msg.resetPassword}]]);
-                        break;
-                    case STATUS_ERROR_USER_ID_DUPLICATION:
-                        zAlert.warning([[#{user.msg.sameUserId}]]);
-                        break;
-                    case STATUS_ERROR_EMAIL_DUPLICATION:
-                        zAlert.warning([[#{user.msg.sameEmail}]]);
-                        break;
-                    default:
-                        zAlert.danger([[#{common.msg.fail}]]);
-                        break;
-                }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            switch (response) {
+                case STATUS_SUCCESS:
+                    zAlert.success([[#{user.msg.createUser}]], function () {
+                        window.location.reload();
+                    });
+                    break;
+                case STATUS_SUCCESS_EDIT_ADMIN:
+                    zAlert.success([[#{common.msg.modify}]], function () {
+                        window.location.reload();
+                    });
+                    break;
+                case STATUS_SUCCESS_EDIT_EMAIL:
+                    zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
+                        window.location.reload();
+                    });
+                    break;
+                case STATUS_SUCCESS_EDIT_PASSWORD:
+                    zAlert.success([[#{user.msg.resetPassword}]]);
+                    break;
+                case STATUS_ERROR_USER_ID_DUPLICATION:
+                    zAlert.warning([[#{user.msg.sameUserId}]]);
+                    break;
+                case STATUS_ERROR_EMAIL_DUPLICATION:
+                    zAlert.warning([[#{user.msg.sameEmail}]]);
+                    break;
+                default:
+                    zAlert.danger([[#{common.msg.fail}]]);
+                    break;
             }
         });
     }
@@ -535,33 +529,30 @@
         let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
             + '&from=' + i18n.systemDateTime(document.getElementById('absenceStartDt').value)
             + '&to=' + i18n.systemDateTime(document.getElementById('absenceEndDt').value)
-            + '&userKey=' + document.getElementById('userKey').value
-        const opt = {
-            method: 'get',
-            url: strUrl,
-            contentType: 'application/json',
-            showProgressbar: showProgressbar,
-            callbackFunc: function (response) {
-                document.getElementById('subUserList').innerHTML = response.responseText;
-                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-                // 갯수 가운트
-                const substituteUserList = document.getElementById('substituteUserList');
-                aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
-                document.querySelectorAll('input[type=radio]').forEach(function (radio) {
-                    // 업무 대리인으로 자기 자신은 선택할 수 없다.
-                    if (radio.id === document.getElementById('userKey').value) {
-                        radio.disabled = true;
-                    }
-                });
-                // 선택된 항목 표시
-                const selectedSubstituteUserKey = document.getElementById('substituteUserKey').value
-                const radioElem = document.querySelector('input[id="' + selectedSubstituteUserKey + '"]');
-                if (radioElem) {
-                    radioElem.checked = true;
+            + '&userKey=' + document.getElementById('userKey').value;
+
+        aliceJs.fetchText(strUrl, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            document.getElementById('subUserList').innerHTML = htmlData;
+            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+            // 갯수 가운트
+            const substituteUserList = document.getElementById('substituteUserList');
+            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
+            document.querySelectorAll('input[type=radio]').forEach(function (radio) {
+                // 업무 대리인으로 자기 자신은 선택할 수 없다.
+                if (radio.id === document.getElementById('userKey').value) {
+                    radio.disabled = true;
                 }
+            });
+            // 선택된 항목 표시
+            const selectedSubstituteUserKey = document.getElementById('substituteUserKey').value;
+            const radioElem = document.querySelector('input[id="' + selectedSubstituteUserKey + '"]');
+            if (radioElem) {
+                radioElem.checked = true;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
     /*]]>*/
 </script>

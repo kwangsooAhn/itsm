@@ -154,7 +154,7 @@
                         th:disabled="${!schedule.editable}" th:if="${schedule != null}"
                         th:text="#{common.btn.modify}">
                 </button>
-                <button class="z-button secondary" onclick="actionScheduler('delete')"
+                <button class="z-button secondary" onclick="deleteScheduler()"
                         sec:authorize="hasAuthority('scheduler.delete')"
                         th:disabled="${!schedule.editable}" th:if="${schedule != null}"
                         th:text="#{common.btn.delete}">
@@ -273,48 +273,47 @@
     }
 
     function restModalSubmit(url, method, data, progressbar, isScroll) {
-        const opt = {
+        aliceJs.fetchText(url, {
             method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json; charset=utf-8',
-            showProgressbar: progressbar,
-            callbackFunc: function (response) {
-                if (isScroll) {
-                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                        offsetCount = offsetCount + aliceJs.searchDataCount;
-                    }
-                    let tempTbody = document.createElement('tbody');
-                    tempTbody.innerHTML = response.responseText;
-                    setDateTimeFormat(tempTbody)
-                    const container = document.createDocumentFragment();
-                    for (let i = 0; i < tempTbody.rows.length; i++) {
-                        let node = tempTbody.rows[i].cloneNode(true);
-                        container.appendChild(node);
-                    }
-                    document.querySelector('.z-table-body .os-content').appendChild(container);
-                } else {
-                    document.getElementById('historyList').innerHTML = response.responseText;
-                    setDateTimeFormat(document.getElementById('historyList'))
-                    OverlayScrollbars(document.querySelector('.z-table-body'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function (e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        openHistoryViewModal(true)
-                                    }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+            showProgressbar: progressbar
+        }).then((formData) => {
+            if (isScroll) {
+                if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                    offsetCount = offsetCount + aliceJs.searchDataCount;
+                }
+                let tempTbody = document.createElement('tbody');
+                tempTbody.innerHTML = formData;
+                setDateTimeFormat(tempTbody)
+                const container = document.createDocumentFragment();
+                for (let i = 0; i < tempTbody.rows.length; i++) {
+                    let node = tempTbody.rows[i].cloneNode(true);
+                    container.appendChild(node);
+                }
+                document.querySelector('.z-table-body .os-content').appendChild(container);
+            } else {
+                document.getElementById('historyList').innerHTML = formData;
+                setDateTimeFormat(document.getElementById('historyList'))
+                OverlayScrollbars(document.querySelector('.z-table-body'), {
+                    className: 'scrollbar',
+                    callbacks: {
+                        onScroll: function (e) {
+                            const scrollHeight = e.target.scrollHeight;
+                            const scrollTop = e.target.scrollTop;
+                            const clientHeight = e.target.clientHeight;
+                            if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                    openHistoryViewModal(true)
                                 }
                             }
                         }
-                    });
-                }
+                    }
+                });
             }
-        }
-        aliceJs.sendXhr(opt);
+        });
     }
 
     /**
@@ -328,67 +327,69 @@
         });
     }
 
+    /**
+     * 스케쥴러 삭제
+     */
+    function deleteScheduler() {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+            aliceJs.fetchText('/rest/schedulers/' + /*[[${schedule?.taskId}]]*/'', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then((rtn) => {
+                switch (rtn) {
+                    case STATUS_SUCCESS:
+                        zAlert.success(i18n.msg('common.msg.delete'), function () {
+                            location.href = '/schedulers/search';
+                        });
+                        break;
+                    case STATUS_ERROR_SCHEDULE_USED:
+                        zAlert.warning(i18n.msg('scheduler.msg.useSchedule'));
+                        break;
+                    default:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                }
+            });
+        });
+    }
+
     /** method 에 따른 데이터 셋팅 **/
     function actionScheduler(method) {
-        if (method === 'post' || method === 'put' || method === 'execute') {
-            const taskType = document.getElementById('taskType').value;
-            const executeCycleType = document.getElementById('executeCycleType').value;
-            if (isValidRequired()) {
-                let data = {
-                    taskName: document.getElementById('taskName').value,
-                    taskType: taskType,
-                    taskDesc: document.getElementById('taskDesc').value,
-                    useYn: document.getElementById('taskStatus').value,
-                    executeCycleType: document.getElementById('executeCycleType').value
-                };
-                if (taskType === 'class') {
-                    data.executeClass = document.getElementById('executeClass').value;
-                    data.args = document.getElementById('args').value;
-                } else if (taskType === 'jar') {
-                    data.executeCommand = document.getElementById('executeCommand').value;
-                    data.src = document.getElementById('src').value;
-                } else {
-                    data.executeQuery = document.getElementById('executeQuery').value;
-                }
-                if (executeCycleType === 'cron') {
-                    data.cronExpression = document.getElementById('cronExpression').value;
-                } else {
-                    data.executeCyclePeriod = document.getElementById('executeCyclePeriod').value;
-                }
-                let url = '/rest/schedulers';
-                if (method === 'put' || method === 'execute') {
-                    url += '/' + /*[[${schedule?.taskId}]]*/'';
-                    data.taskId = /*[[${schedule?.taskId}]]*/'';
-                }
-                if (method === 'execute') {
-                    url += '/execute';
-                }
-                restSubmit(method, url, data);
-            }
-        } else if (method === 'delete') {
-            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-                aliceJs.fetchText('/rest/schedulers/' + /*[[${schedule?.taskId}]]*/'', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }).then((rtn) => {
-                    switch (rtn) {
-                        case STATUS_SUCCESS:
-                            zAlert.success(i18n.msg('common.msg.delete'), function () {
-                                location.href = '/schedulers/search';
-                            });
-                            break;
-                        case STATUS_ERROR_SCHEDULE_USED:
-                            zAlert.warning(i18n.msg('scheduler.msg.useSchedule'));
-                            break;
-                        default:
-                            zAlert.danger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                });
-            });
+        if (!isValidRequired()) { return false; }
+        const taskType = document.getElementById('taskType').value;
+        const executeCycleType = document.getElementById('executeCycleType').value;
+        let data = {
+            taskName: document.getElementById('taskName').value,
+            taskType: taskType,
+            taskDesc: document.getElementById('taskDesc').value,
+            useYn: document.getElementById('taskStatus').value,
+            executeCycleType: document.getElementById('executeCycleType').value
+        };
+        if (taskType === 'class') {
+            data.executeClass = document.getElementById('executeClass').value;
+            data.args = document.getElementById('args').value;
+        } else if (taskType === 'jar') {
+            data.executeCommand = document.getElementById('executeCommand').value;
+            data.src = document.getElementById('src').value;
+        } else {
+            data.executeQuery = document.getElementById('executeQuery').value;
         }
+        if (executeCycleType === 'cron') {
+            data.cronExpression = document.getElementById('cronExpression').value;
+        } else {
+            data.executeCyclePeriod = document.getElementById('executeCyclePeriod').value;
+        }
+        let url = '/rest/schedulers';
+        if (method === 'put' || method === 'execute') {
+            url += '/' + /*[[${schedule?.taskId}]]*/'';
+            data.taskId = /*[[${schedule?.taskId}]]*/'';
+        }
+        if (method === 'execute') {
+            url += '/execute';
+        }
+        restSubmit(method, url, data);
     }
 
     /** 조건에 따른 필수값 체크 **/
@@ -482,59 +483,57 @@
 
     /** Rest API 호출 **/
     function restSubmit(method, url, data) {
-        const opt = {
-            method: method === "execute" ? "post" : method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                if (method === 'post' || method === 'put') {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            zAlert.success(i18n.msg('common.msg.save'), function () {
-                                location.href = '/schedulers/search';
-                            });
-                            break;
-                        case STATUS_ERROR_SCHEDULE_USED:
-                            zAlert.warning(i18n.msg('scheduler.msg.useSchedule'));
-                            break;
-                        case STATUS_ERROR_SCHEDULE_NAME_DUPLICATION:
-                            zAlert.warning(i18n.msg('scheduler.msg.duplicateTaskName'));
-                            break;
-                        case STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST:
-                            zAlert.warning(i18n.msg('scheduler.msg.jarNotExist'));
-                            break;
-                        case STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST:
-                            zAlert.warning(i18n.msg('scheduler.msg.classNotExist'));
-                            break;
-                        default :
-                            zAlert.danger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                } else if (method === 'execute') {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            zAlert.success(i18n.msg('common.msg.done'));
-                            break;
-                        case STATUS_ERROR_SCHEDULER_EXECUTE:
-                            zAlert.warning(i18n.msg('common.msg.fail'));
-                            break;
-                        case STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST:
-                            zAlert.warning(i18n.msg('scheduler.msg.jarNotExist'));
-                            break;
-                        case STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST:
-                            zAlert.warning(i18n.msg('scheduler.msg.classNotExist'));
-                            break;
-                        default:
-                            zAlert.danger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
+        aliceJs.fetchText(url, {
+            method: method === 'execute' ? 'post' : method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            if (method === 'post' || method === 'put') {
+                switch (response) {
+                    case STATUS_SUCCESS:
+                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                            location.href = '/schedulers/search';
+                        });
+                        break;
+                    case STATUS_ERROR_SCHEDULE_USED:
+                        zAlert.warning(i18n.msg('scheduler.msg.useSchedule'));
+                        break;
+                    case STATUS_ERROR_SCHEDULE_NAME_DUPLICATION:
+                        zAlert.warning(i18n.msg('scheduler.msg.duplicateTaskName'));
+                        break;
+                    case STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST:
+                        zAlert.warning(i18n.msg('scheduler.msg.jarNotExist'));
+                        break;
+                    case STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST:
+                        zAlert.warning(i18n.msg('scheduler.msg.classNotExist'));
+                        break;
+                    default :
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                }
+            } else if (method === 'execute') {
+                switch (response) {
+                    case STATUS_SUCCESS:
+                        zAlert.success(i18n.msg('common.msg.done'));
+                        break;
+                    case STATUS_ERROR_SCHEDULER_EXECUTE:
+                        zAlert.warning(i18n.msg('common.msg.fail'));
+                        break;
+                    case STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST:
+                        zAlert.warning(i18n.msg('scheduler.msg.jarNotExist'));
+                        break;
+                    case STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST:
+                        zAlert.warning(i18n.msg('scheduler.msg.classNotExist'));
+                        break;
+                    default:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
                 }
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
-
     /*]]>*/
 </script>
 </html>

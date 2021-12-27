@@ -75,14 +75,14 @@
             <div class="z-button-list">
                 <button class="z-button primary" th:if="${template == null}"
                         sec:authorize="hasAuthority('report.create')"
-                        onclick="actionTemplate('post')" th:text="#{common.btn.register}"></button>
+                        onclick="saveReportTemplate('POST')" th:text="#{common.btn.register}"></button>
                 <button class="z-button primary" th:if="${template?.templateId}"
                         sec:authorize="hasAuthority('report.update')"
-                        onclick="actionTemplate('put')" th:text="#{common.btn.modify}"></button>
+                        onclick="saveReportTemplate('PUT')" th:text="#{common.btn.modify}"></button>
                 <button class="z-button secondary" onclick="preview()" th:text="#{common.btn.preview}"></button>
                 <button class="z-button secondary" th:if="${template?.templateId}"
                         sec:authorize="hasAuthority('report.delete')"
-                        onclick="actionTemplate('delete')" th:text="#{common.btn.delete}"></button>
+                        onclick="deleteReportTemplate()" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -182,82 +182,73 @@
         return isValid;
     }
 
-    // Action
-    function actionTemplate(method) {
-        if (method === 'post' || method === 'put') {
-            if (isValidRequiredAll() && isValid()) {
-                let data = {
-                    templateId: '',
-                    templateName: document.getElementById('templateName').value,
-                    templateDesc: document.getElementById('templateDesc').value,
-                    reportName: document.getElementById('reportName').value,
-                    automatic: document.getElementById('automatic').checked
-                }
-                let url = '/rest/reports/template';
-                if (method === 'put') {
-                    url += '/' + /*[[${template?.templateId}]]*/'';
-                    data.templateId = /*[[${template?.templateId}]]*/'';
-                }
-                let charts = [];
-                let chartElement = document.getElementById('chartList');
-                chartElement.querySelectorAll('select[name=chart]').forEach((item, index) => {
-                    let chart = {
-                        id: item.value,
-                        order: index + 1
-                    }
-                    charts.push(chart);
-                });
-                data.charts = charts
-                restSubmit(method, url, data);
-            }
-        } else if (method === 'delete') {
-            zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-                aliceJs.fetchText('/rest/reports/template/' + /*[[${template?.templateId}]]*/'', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }).then((rtn) => {
-                    switch (JSON.parse(rtn).code) {
-                        case STATUS_SUCCESS:
-                            zAlert.success(i18n.msg('common.msg.delete'), function () {
-                                location.href = '/reports/template/search';
-                            });
-                            break;
-                        default:
-                            zAlert.danger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                });
-            });
-        }
-    }
-
-    // Ajax 통신
-    function restSubmit(method, url, data) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                let result = JSON.parse(response.responseText);
-                switch (result.code) {
+    function deleteReportTemplate() {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+            aliceJs.fetchJson('/rest/reports/template/' + /*[[${template?.templateId}]]*/'', {
+                method: 'DELETE'
+            }).then((status) => {
+                switch (status.code) {
                     case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                        zAlert.success(i18n.msg('common.msg.delete'), function () {
                             location.href = '/reports/template/search';
                         });
                         break;
-                    case STATUS_ERROR_TEMPLATE_NAME_DUPLICATION:
-                        zAlert.success(i18n.msg('report.msg.templateNameUsed'));
-                        break;
-                    default :
+                    default:
                         zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
+            });
+        });
+    }
+
+    // Action
+    function saveReportTemplate(method) {
+        if (!isValidRequiredAll() || !isValid()) { return false; }
+
+        let data = {
+            templateId: '',
+            templateName: document.getElementById('templateName').value,
+            templateDesc: document.getElementById('templateDesc').value,
+            reportName: document.getElementById('reportName').value,
+            automatic: document.getElementById('automatic').checked
+        }
+        let url = '/rest/reports/template';
+        if (method === 'PUT') {
+            url += '/' + /*[[${template?.templateId}]]*/'';
+            data.templateId = /*[[${template?.templateId}]]*/'';
+        }
+        let charts = [];
+        let chartElement = document.getElementById('chartList');
+        chartElement.querySelectorAll('select[name=chart]').forEach((item, index) => {
+            let chart = {
+                id: item.value,
+                order: index + 1
+            };
+            charts.push(chart);
+        });
+        data.charts = charts;
+
+        aliceJs.fetchJson(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((status) => {
+            switch (status.code) {
+                case STATUS_SUCCESS:
+                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                        location.href = '/reports/template/search';
+                    });
+                    break;
+                case STATUS_ERROR_TEMPLATE_NAME_DUPLICATION:
+                    zAlert.success(i18n.msg('report.msg.templateNameUsed'));
+                    break;
+                default :
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
 
     // 미리보기

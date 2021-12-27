@@ -160,15 +160,11 @@
 
     // REST API.
     function restSubmitNotification(method, url, result) {
-        const opt = {
-            method: method,
-            url: url,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                result(response.responseText);
-            }
-        };
-        aliceJs.sendXhr(opt);
+        aliceJs.fetchText(url, {
+            method: method
+        }).then((data) => {
+            result(data);
+        });
     }
     </script>
 </html>

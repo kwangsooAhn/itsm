@@ -45,7 +45,7 @@
         aliceJs.fetchText('/numberingPatterns?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {
-            document.getElementById('patternList').innerHTML = response.responseText;
+            document.getElementById('patternList').innerHTML = htmlData;
         });
     }
     /*]]>*/

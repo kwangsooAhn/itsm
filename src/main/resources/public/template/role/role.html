@@ -87,11 +87,11 @@
         <div class="z-button-list">
             <button class="z-button primary" id="btnRegist" name="btnRegist"
                     sec:authorize="hasAuthority('role.create')" th:if="!${role?.roleId}"
-                    th:onclick="|javascript:onSave('post')|"
+                    th:onclick="|javascript:onSave('POST')|"
                     th:text="#{common.btn.register}" type="button"></button>
             <button class="z-button primary" id="btnUpdate" name="btnUpdate"
                     sec:authorize="hasAuthority('role.update')" th:if="${role?.roleId}"
-                    th:onclick="|javascript:onSave('put')|"
+                    th:onclick="|javascript:onSave('PUT')|"
                     th:text="#{common.btn.modify}" type="button"></button>
             <button class="z-button secondary" id="btnDelete" name="btnDelete"
                     sec:authorize="hasAuthority('role.delete')" th:if="${role?.roleId}"
@@ -110,52 +110,47 @@
         Array.prototype.forEach.call(document.querySelectorAll('.z-checkbox-list'), function (target) {
             OverlayScrollbars(target, {className: 'inner-scrollbar'});
         });
-
-        if (document.getElementById('txtRoleId').value) {
-            document.getElementById('txtRoleId').setAttribute('disabled', '');
-            const opt = {
-                method: 'get',
-                url: '/rest/roles/' + document.getElementById('txtRoleId').value,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    let responseJson = JSON.parse(response.responseText);
-                    let arrAuthList = responseJson.arrAuthList;
-                    Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]'), function (roleAuth) {
-                        roleAuth.checked = false;
-                        for (let i = 0; i < arrAuthList.length; i++) {
-                            if (roleAuth.id === arrAuthList[i].authId) {
-                                roleAuth.checked = true;
+        const roleId = document.getElementById('txtRoleId');
+        if (roleId && roleId.value) {
+            roleId.setAttribute('disabled', '');
+            aliceJs.fetchJson('/rest/roles/' + roleId.value, {
+                method: 'GET'
+            }).then((responseJson) => {
+                let arrAuthList = responseJson.arrAuthList;
+                Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]'), function (roleAuth) {
+                    roleAuth.checked = false;
+                    for (let i = 0; i < arrAuthList.length; i++) {
+                        if (roleAuth.id === arrAuthList[i].authId) {
+                            roleAuth.checked = true;
+                        }
+                    }
+                });
+                disabledButton(responseJson.userRoleMapCount);
+                Array.prototype.forEach.call(document.querySelectorAll('.z-checkbox-list'), function (target) {
+                    OverlayScrollbars(target, {
+                        className: 'inner-scrollbar',
+                        callbacks: {
+                            onInitialized: function () {
+                                const verticalScrollTrack = document.querySelector('.z-checkbox-list> .os-scrollbar-vertical');
+                                verticalScrollTrack.classList.add('right', 'padding');
                             }
                         }
                     });
-                    disabledButton(responseJson.userRoleMapCount);
-                    Array.prototype.forEach.call(document.querySelectorAll('.z-checkbox-list'), function (target) {
-                        OverlayScrollbars(target, {
-                            className: 'inner-scrollbar',
-                            callbacks: {
-                                onInitialized: function () {
-                                    const verticalScrollTrack = document.querySelector('.z-checkbox-list> .os-scrollbar-vertical');
-                                    verticalScrollTrack.classList.add('right', 'padding');
-                                }
-                            }
-                        });
-                    });
-                    OverlayScrollbars(document.querySelector('#txtRoleDesc'), {
-                        className: 'scrollbar',
-                        resize: 'vertical',
-                        sizeAutoCapable: true,
-                        textarea: {
-                            dynHeight: false,
-                            dynWidth: false,
-                            inheritedAttrs: "class"
-                        }
-                    });
+                });
+                OverlayScrollbars(document.querySelector('#txtRoleDesc'), {
+                    className: 'scrollbar',
+                    resize: 'vertical',
+                    sizeAutoCapable: true,
+                    textarea: {
+                        dynHeight: false,
+                        dynWidth: false,
+                        inheritedAttrs: "class"
+                    }
+                });
 
-                    document.getElementById('spanCreateDt').value = i18n.userDateTime(document.getElementById('spanCreateDt').value)
-                    document.getElementById('spanUpdateDt').value = i18n.userDateTime(document.getElementById('spanUpdateDt').value)
-                },
-            };
-            aliceJs.sendXhr(opt);
+                document.getElementById('spanCreateDt').value = i18n.userDateTime(document.getElementById('spanCreateDt').value);
+                document.getElementById('spanUpdateDt').value = i18n.userDateTime(document.getElementById('spanUpdateDt').value);
+            });
         }
     }
 
@@ -172,7 +167,7 @@
             roleNames.push(validList[i].textContent);
         }
 
-        if (flag === 'post') {
+        if (flag === 'POST') {
             for (let i = 0; i < roleIds.length; i++) {
                 if (document.getElementById('txtRoleId').value === roleIds[i]) {
                     zAlert.warning([[#{role.msg.duplicateRoleId}]]);
@@ -204,45 +199,41 @@
 
         obj.arrAuthId = arrAuthId;
         let strUrl = '/rest/roles';
-        if (flag !== 'post') {
+        if (flag !== 'POST') {
             strUrl += '/' + document.getElementById('txtRoleId').value;
         }
-        const opt = {
+        aliceJs.fetchText(strUrl, {
             method: flag,
-            url: strUrl,
-            params: JSON.stringify(obj),
-            contentType: 'application/json',
-            callbackFunc: function () {
-                zAlert.success([[#{common.msg.save}]], function () {
-                    window.location.href = '/roles/search';
-                });
-            }
-        };
-        aliceJs.sendXhr(opt);
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        }).then((status) => {
+            zAlert.success([[#{common.msg.save}]], function () {
+                window.location.href = '/roles/search';
+            });
+        });
     }
 
     /** 삭제 버튼  */
     function onDelete() {
-        const opt = {
-            method: 'delete',
-            url: '/rest/roles/' + encodeURIComponent(document.getElementById('txtRoleId').value),
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case "true":
-                        zAlert.success([[#{common.msg.delete}]], function () {
-                            window.location.href = '/roles/search';
-                        });
-                        break;
-                    case "false":
-                        zAlert.danger(i18n.msg('common.label.delete') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
-                        break;
-                    default :
-                        zAlert.danger([[#{common.msg.fail}]]);
-                        break;
-                }
+        aliceJs.fetchText('/rest/roles/' + encodeURIComponent(document.getElementById('txtRoleId').value), {
+            method: 'DELETE'
+        }).then((status) => {
+            switch (status) {
+                case "true":
+                    zAlert.success([[#{common.msg.delete}]], function () {
+                        window.location.href = '/roles/search';
+                    });
+                    break;
+                case "false":
+                    zAlert.danger(i18n.msg('common.label.delete') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    zAlert.danger([[#{common.msg.fail}]]);
+                    break;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
 
     /** 삭제 버튼 활성, 비활성화 */

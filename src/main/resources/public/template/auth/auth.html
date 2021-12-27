@@ -211,34 +211,32 @@
         if (flag !== 'post') {
             strUrl += '/' + document.getElementById('txtAuthId').value;
         }
-
-        const opt = {
+        aliceJs.fetchText(strUrl, {
             method: flag,
-            url: strUrl,
-            params: JSON.stringify(obj),
-            contentType: 'application/json',
-            callbackFunc: function () {
-                zAlert.success([[#{common.msg.save}]], function () {
-                    window.location.href = '/auths/search';
-                });
-            }
-        };
-
-        aliceJs.sendXhr(opt);
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        }).then((rtn) => {
+            zAlert.success([[#{common.msg.save}]], function () {
+                window.location.href = '/auths/search';
+            });
+        });
     }
 
     /* 삭제 버튼  */
     function onDelete() {
-        const opt = {
-            method: 'delete',
-            url: '/rest/auths/' + document.getElementById('txtAuthId').value,
-            callbackFunc: function () {
-                zAlert.success([[#{common.msg.delete}]], function () {
-                    window.location.href = '/auths/search';
-                });
-            }
-        };
-        aliceJs.sendXhr(opt);
+        aliceJs.fetchText('/rest/auths/' + document.getElementById('txtAuthId').value, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((rtn) => {
+            zAlert.success([[#{common.msg.delete}]], function () {
+                window.location.href = '/auths/search';
+            });
+        });
     }
 
     /** 삭제 버튼 활성, 비활성화 */

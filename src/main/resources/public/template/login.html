@@ -153,28 +153,27 @@
     }
 
     function restSubmit(method, url, data) {
-        const opt = {
+        aliceJs.fetchText(url, {
             method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        location.href = '/login';
-                        break;
-                    case STATUS_SAME_AS_CURRENT_PASSWORD:
-                        zAlert.warning(i18n.msg('user.msg.sameAsCurrentPassword'))
-                        break;
-                    case STATUS_NOT_EQUAL_NOW_PASSWORD:
-                        zAlert.warning(i18n.msg('user.msg.notEqualNowPassword'))
-                        break;
-                    default :
-                        break;
-                }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            switch (response) {
+                case STATUS_SUCCESS:
+                    location.href = '/login';
+                    break;
+                case STATUS_SAME_AS_CURRENT_PASSWORD:
+                    zAlert.warning(i18n.msg('user.msg.sameAsCurrentPassword'))
+                    break;
+                case STATUS_NOT_EQUAL_NOW_PASSWORD:
+                    zAlert.warning(i18n.msg('user.msg.notEqualNowPassword'))
+                    break;
+                default :
+                    break;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
     window.onkeydown = function() {
         if (event.keyCode === 13) {

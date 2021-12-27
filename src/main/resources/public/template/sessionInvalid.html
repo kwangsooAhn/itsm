@@ -51,7 +51,7 @@
             clearTimeout(timer);
             const logoutForm = document.getElementById('logoutForm');
             if (!window.opener && '[[${redirectUrl}]]' !== '') {
-    let prev = document.createElement('input');
+            let prev = document.createElement('input');
                 prev.setAttribute('type', 'hidden');
                 prev.setAttribute('name', 'redirectUrl');
                 prev.setAttribute('value', [[${redirectUrl}]]);

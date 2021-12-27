@@ -64,7 +64,13 @@
     };
 
     function getList(pageNum = 1) {
-        restSearchSubmit('get', '/workflows?' + aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&pageNum=' + pageNum);
+        const urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/workflows?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            document.getElementById('documentList').innerHTML = htmlData;
+            aliceJs.showTotalCount(document.getElementById('totalCount').value);
+        });
     }
 
     // 빈 값 체크
@@ -75,57 +81,57 @@
     }
     // 신청서 저장 / 수정
     function saveDocument(method, documentId) {
-        if (emptyValidation()) {
-            let documentType = document.getElementById('document-type');
-            let documentForm = document.getElementById('document-form');
-            let documentProcess = document.getElementById('document-process');
-            let documentStatus = document.getElementById('document-status');
-            let apiEnable = document.getElementById('api-enable');
-            let documentNumberingRule = document.getElementById('document-numbering-rule');
-            let documentGroup = document.getElementById('document-group');
+        if (!emptyValidation()) { return false; }
 
-            let documentInfo = {
-                documentType: documentType.options[documentType.selectedIndex].value,
-                documentName: document.getElementById('document-name').value,
-                documentDesc: document.getElementById('document-desc').value,
-                formId: documentForm.options[documentForm.selectedIndex].value,
-                processId: documentProcess.options[documentProcess.selectedIndex].value,
-                documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
-                documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
-                apiEnable: apiEnable.options[apiEnable.selectedIndex].value,
-                documentColor: document.getElementById('documentColor').value,
-                documentGroup: documentGroup.options[documentGroup.selectedIndex].value,
-            };
-            let documentIcon = document.getElementById('document-icon');
-            if (documentIcon !== null && documentInfo.documentType !== 'workflow') {
-                documentInfo.documentIcon = documentIcon.value;
-            }
+        let documentType = document.getElementById('document-type');
+        let documentForm = document.getElementById('document-form');
+        let documentProcess = document.getElementById('document-process');
+        let documentStatus = document.getElementById('document-status');
+        let apiEnable = document.getElementById('api-enable');
+        let documentNumberingRule = document.getElementById('document-numbering-rule');
+        let documentGroup = document.getElementById('document-group');
 
-            let url = '/rest/workflows';
-            if (method === 'put' && documentId !== undefined) {
-                documentInfo.documentId = documentId;
-                url += '/' + documentId;
-            }
+        let documentInfo = {
+            documentType: documentType.options[documentType.selectedIndex].value,
+            documentName: document.getElementById('document-name').value,
+            documentDesc: document.getElementById('document-desc').value,
+            formId: documentForm.options[documentForm.selectedIndex].value,
+            processId: documentProcess.options[documentProcess.selectedIndex].value,
+            documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
+            documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
+            apiEnable: apiEnable.options[apiEnable.selectedIndex].value,
+            documentColor: document.getElementById('documentColor').value,
+            documentGroup: documentGroup.options[documentGroup.selectedIndex].value,
+        };
+        let documentIcon = document.getElementById('document-icon');
+        if (documentIcon !== null && documentInfo.documentType !== 'workflow') {
+            documentInfo.documentIcon = documentIcon.value;
+        }
 
-            if (document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 수정
-                zAlert.confirm(i18n.msg('document.msg.changeStatusEnabled'), () => {
-                    restSubmit(method, url + '?isDeleteData=true', documentInfo, () => {
-                        zAlert.success(i18n.msg('common.msg.save'), () => {
-                            location.reload();
-                        });
-                    })
-                });
-            } else {
-                restSubmit(method, url, documentInfo, function(result) {
-                    zAlert.success(i18n.msg('common.msg.save'), function() {
-                        if (documentId === undefined) { // 신규 등록일 경우에만 팝업 호출한다.
-                            openDocumentDisplay(result);
-                        } else {
-                            location.reload();
-                        }
+        let url = '/rest/workflows';
+        if (method === 'put' && documentId !== undefined) {
+            documentInfo.documentId = documentId;
+            url += '/' + documentId;
+        }
+
+        if (document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 수정
+            zAlert.confirm(i18n.msg('document.msg.changeStatusEnabled'), () => {
+                restSubmit(method, url + '?isDeleteData=true', documentInfo, () => {
+                    zAlert.success(i18n.msg('common.msg.save'), () => {
+                        location.reload();
                     });
+                })
+            });
+        } else {
+            restSubmit(method, url, documentInfo, function(result) {
+                zAlert.success(i18n.msg('common.msg.save'), function() {
+                    if (documentId === undefined) { // 신규 등록일 경우에만 팝업 호출한다.
+                        openDocumentDisplay(result);
+                    } else {
+                        location.reload();
+                    }
                 });
-            }
+            });
         }
     }
 
@@ -328,33 +334,17 @@
         });
     }
 
-    function restSubmit(method, url, data, result, isShowProgressbar) {
-        const opt = {
+    function restSubmit(method, url, data, resultFunc, isShowProgressbar) {
+        aliceJs.fetchText(url, {
             method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function(response) {
-                result(response.responseText);
+            headers: {
+                'Content-Type': 'application/json'
             },
+            body: JSON.stringify(data),
             showProgressbar: isShowProgressbar
-        };
-        aliceJs.sendXhr(opt);
-    }
-
-    //REST API
-    function restSearchSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            callbackFunc: function(response) {
-                document.getElementById('documentList').innerHTML = response.responseText;
-                aliceJs.showTotalCount(document.getElementById('totalCount').value);
-            },
-            showProgressbar: false
-        };
-        aliceJs.sendXhr(opt);
+        }).then((response) => {
+            resultFunc(response);
+        });
     }
     /*]]>*/
 </script>

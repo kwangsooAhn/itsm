@@ -42,11 +42,7 @@
             urlParam += 'id=' + faqId;
         }
         aliceJs.fetchText('/portals/faqs?' + urlParam, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
+            method: 'GET'
         }).then((htmlData) => {
             document.querySelector('.z-main-accordion').innerHTML = htmlData;
             document.getElementsByClassName('z-faq-group')[0].open = true;
