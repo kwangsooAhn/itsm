@@ -1045,18 +1045,14 @@ function validationCheck() {
         }
 
         for (let i = 0; i < totalElements.length; i++) { //첫번째 엘리먼트에 회수 기능 설정시 회수 기능 설정불가 알림
-            if (totalElements[i].type === 'arrowConnector') {
-                if (totalElements[i].data['start-id'] == commonStartId) {
-                    for (let j = 0; j < totalElements.length; j++) {
-                        if (totalElements[i].data['end-id'] == totalElements[j].id) {
-                            if (totalElements[j].data['withdraw'] == 'Y') {
-                                const errorElem = document.getElementById(totalElements[j].id);
-                                zProcessDesigner.setSelectedElement(d3.select(errorElem));
-                                zProcessDesigner.setElementMenu(d3.select(errorElem));
-                                zAlert.warning(i18n.msg('process.msg.uncheckWithdraw', totalElements[j].name));
-                                return false;
-                            }
-                        }
+            if (totalElements[i].type === 'arrowConnector' && totalElements[i].data['start-id'] == commonStartId) {
+                for (let j = 0; j < totalElements.length; j++) {
+                    if (totalElements[i].data['end-id'] == totalElements[j].id && totalElements[j].data['withdraw'] == 'Y') {
+                        const errorElem = document.getElementById(totalElements[j].id);
+                        zProcessDesigner.setSelectedElement(d3.select(errorElem));
+                        zProcessDesigner.setElementMenu(d3.select(errorElem));
+                        zAlert.warning(i18n.msg('process.msg.uncheckWithdraw', totalElements[j].name));
+                        return false;
                     }
                 }
             }
