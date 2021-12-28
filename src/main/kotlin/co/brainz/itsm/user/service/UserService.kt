@@ -68,7 +68,7 @@ import java.security.PrivateKey
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Optional
 import kotlin.collections.LinkedHashMap
 import kotlin.collections.LinkedHashSet
 import kotlin.math.ceil
@@ -149,7 +149,7 @@ class UserService(
         val userList: MutableList<UserListDataDto> = mutableListOf()
         val departmentSearch: MutableList<String> = mutableListOf()
         val deptValue: LinkedHashSet<String> = linkedSetOf()
-        val toString: LinkedHashMap<String, String> = linkedMapOf()
+        val deptString: LinkedHashMap<String, String> = linkedMapOf()
 
         for (user in queryResult.results) {
             val avatarPath = userDetailsService.makeAvatarPath(user)
@@ -159,7 +159,7 @@ class UserService(
         }
 
         for (dept in deptValue) {
-            if (dept != "") {
+            if (dept != "" && dept != "null") {
                 departmentSearch.addAll(
                     getRecursiveParentCode(
                         codeList.results,
@@ -167,10 +167,10 @@ class UserService(
                         mutableListOf()
                     )
                 )
-                toString[dept] = departmentSearch.joinToString(" / ", "", "")
+                deptString[dept] = departmentSearch.joinToString(" / ", "", "")
                 for (user in userList) {
                     if (user.department == dept) {
-                        user.department = toString[dept]
+                        user.department = deptString[dept]
                     }
                 }
                 departmentSearch.clear()
