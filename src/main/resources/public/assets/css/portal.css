@@ -1623,7 +1623,7 @@ table td, table th {
   background-color: #F5F5F5;
 }
 .z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
-  margin: 0 0 0 0.5rem;
+  margin: 0 0 0 0.75rem;
 }
 .z-option-table tr.z-option-table-row .z-input {
   width: 85%;
