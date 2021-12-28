@@ -1284,6 +1284,7 @@ token:
     endDt: "Document End Data"
     createUser: "Document Create User"
     application-form: "application Form"
+    workflow: "Workflow"
 
 # WorkflowAdmin
 workflowAdmin:

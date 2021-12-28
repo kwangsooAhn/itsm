@@ -643,7 +643,7 @@ class UserService(
                             value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(result.createDt)
                         ),
                         ExcelCellVO(
-                            value = if (result.absenceYn) {
+                            value = if (result.useYn) {
                                 aliceMessageSource.getMessage("user.status.true")
                             } else {
                                 aliceMessageSource.getMessage("user.status.false")
