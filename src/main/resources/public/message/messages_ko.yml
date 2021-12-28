@@ -1284,6 +1284,7 @@ token:
     endDt: "신청서 종료일시"
     createUser: "신청서 생성자"
     application-form: "신청서"
+    workflow: "업무흐름"
 
 # WorkflowAdmin
 workflowAdmin:

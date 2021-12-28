@@ -17,5 +17,6 @@ class UserListExcelDto(
     var officeNumber: String? = null,
     var mobileNumber: String? = null,
     var createDt: LocalDateTime? = null,
-    var absenceYn: Boolean = false
+    var absenceYn: Boolean = false,
+    var useYn: Boolean = true
 ) : Serializable
