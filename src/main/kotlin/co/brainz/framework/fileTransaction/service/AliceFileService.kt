@@ -31,7 +31,6 @@ import java.time.ZoneId
 import java.util.Base64
 import javax.imageio.ImageIO
 import org.apache.tika.Tika
-import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
 import org.springframework.core.env.Environment
 import org.springframework.core.io.FileSystemResource
@@ -79,7 +78,7 @@ class AliceFileService(
         }
 
         val fileExtensionEntity = aliceFileNameExtensionRepository.findByIdOrNull(fileNameExtension)
-        //if (fileExtensionEntity == null || fileExtensionEntity.fileContentType != mediaType) //#11810 일감으로 주석처리함. (첨부파일 등록시 확장자만 검사하고, 파일내용까지는 검사하지말자)
+        // if (fileExtensionEntity == null || fileExtensionEntity.fileContentType != mediaType) //#11810 일감으로 주석처리함. (첨부파일 등록시 확장자만 검사하고, 파일내용까지는 검사하지말자)
         if (fileExtensionEntity == null) {
             throw AliceException(AliceErrorConstants.ERR_00001, "The file extension  is not allowed.")
         }

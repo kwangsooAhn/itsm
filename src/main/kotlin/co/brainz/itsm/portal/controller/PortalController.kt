@@ -84,7 +84,7 @@ class PortalController(
      */
     @GetMapping("/notices")
     fun getNoticeList(noticeSearchCondition: NoticeSearchCondition, model: Model): String {
-        val topList = noticeService.findTopNotice();
+        val topList = noticeService.findTopNotice()
         // 화면 목록 스크롤 방지를 위해
         // 조회 갯수 = 페이지 당 조회 갯수 - top 갯수
         model.addAttribute("topNoticeList", topList)
