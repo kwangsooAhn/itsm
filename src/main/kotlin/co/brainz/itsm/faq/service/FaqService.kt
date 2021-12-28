@@ -35,7 +35,7 @@ class FaqService(
     private val faqRepository: FaqRepository,
     private val aliceFileService: AliceFileService,
     private val codeService: CodeService
-    ) {
+) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -48,12 +48,12 @@ class FaqService(
         val fapList: MutableList<FaqListDto> = mutableListOf()
 
         for (faq in queryResult.results) {
-           for (code in currentSessionUserCodeList) {
-               if (faq.faqGroup == code.code) {
-                   faq.faqGroupName = code.codeName.toString()
-                   fapList.add(faq)
-               }
-           }
+            for (code in currentSessionUserCodeList) {
+                if (faq.faqGroup == code.code) {
+                    faq.faqGroupName = code.codeName.toString()
+                    fapList.add(faq)
+                }
+            }
         }
 
         return FaqListReturnDto(
