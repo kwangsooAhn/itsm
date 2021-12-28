@@ -35,7 +35,7 @@ class FaqService(
     private val faqRepository: FaqRepository,
     private val aliceFileService: AliceFileService,
     private val codeService: CodeService
-    ) {
+) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -48,12 +48,12 @@ class FaqService(
         val fapList: MutableList<FaqListDto> = mutableListOf()
 
         for (faq in queryResult.results) {
-           for (code in currentSessionUserCodeList) {
-               if (faq.faqGroup == code.code) {
-                   faq.faqGroupName = code.codeName.toString()
-                   fapList.add(faq)
-               }
-           }
+            for (code in currentSessionUserCodeList) {
+                if (faq.faqGroup == code.code) {
+                    faq.faqGroupName = code.codeName.toString()
+                    fapList.add(faq)
+                }
+            }
         }
 
         return FaqListReturnDto(
@@ -63,7 +63,7 @@ class FaqService(
                 totalCountWithoutCondition = faqRepository.count(),
                 currentPageNum = faqSearchCondition.pageNum,
                 totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+                orderType = PagingConstants.ListOrderTypeCode.CATEGORY_ASC.code
             )
         )
     }
@@ -87,19 +87,20 @@ class FaqService(
      */
     @Transactional
     fun createFaq(faqDto: FaqDto): Boolean {
+        var isSuccess = true
         val faqEntity = FaqEntity(
             faqGroup = faqDto.faqGroup,
             faqTitle = faqDto.faqTitle,
             faqContent = faqDto.faqContent
         )
-
-        val count = faqRepository.getCountDuplicateFaqTitleAndCategory(faqEntity.faqTitle, faqEntity.faqGroup)
-
-        if (count == 0) {
-            faqRepository.save(faqEntity)
-            return true
+        // Duplicate check
+        if (faqRepository.getCountDuplicateFaqTitleAndCategory(faqEntity.faqTitle, faqEntity.faqGroup) > 0) {
+            isSuccess = false
         }
-        return false
+        if (isSuccess) {
+            faqRepository.save(faqEntity)
+        }
+        return isSuccess
     }
 
     /**

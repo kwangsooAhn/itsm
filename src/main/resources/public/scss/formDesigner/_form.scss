@@ -165,7 +165,7 @@
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     justify-content: var(--data-align);
     font-weight: $font-weight-medium;
-    padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
+    padding: 0.4375rem 0; // 7px 0
 
     &.on { display: flex; }
     &.off { display: none; }
@@ -173,7 +173,7 @@
   // element
   .z-element {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
-    padding: 0.4375rem 0; // 7px 0
+    padding: 0.4375rem 0 0.4375rem 0.938rem ; // 7px 0  7px 15px
     pointer-events: none;
 
     // inputBox

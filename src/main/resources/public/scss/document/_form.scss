@@ -8,16 +8,11 @@ $tooltip-type: (group, row, component);
 }
 
 .z-component {
+  padding: 0 1rem;
   &-tooltip {
     margin: 0;
     padding-left: 0;
     padding-right: 0;
-  }
-  .z-component-label {
-    padding-left: 1rem;
-  }
-  .z-element {
-    padding-right: 1rem;
   }
   span {
     word-break: break-all;

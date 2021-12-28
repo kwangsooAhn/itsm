@@ -130,7 +130,7 @@
                 }
                 let node = {
                     id: node_id,
-                    text: item[options.text],
+                    text: aliceJs.filterXSS(item[options.text]),
                     parent: p_parentNode,
                     expanded : p_expanded,
                     childNodes : [],

@@ -80,22 +80,25 @@
             <div class="flex-column edit-row" id="ciAttributes" th:onclick="zCmdbAttribute.drawDetails(this, [[${ciData?.classes}]], [[${userInfo}]], 'edit');">
             </div>
             <!-- 연관 관계 -->
-            <div class="flex-column z-edit-row z-relation-group">
-                <div class="under-bar mt-4 z-relation-title-group">
-                    <label id="relationLabel" class="z-sub-title">
-                        <span th:text="#{cmdb.ci.label.relation}"></span>
-                    </label>
-                    <button id="addCIRelationBtn" type="button" class="z-button-icon extra float-right">
-                        <span class="z-icon i-plus"></span>
-                    </button>
-                </div>
+            <div class="flex-row z-edit-row under-bar mt-4 z-relation-group">
+                <h3 id="relationLabel" class="z-sub-title" th:text="#{cmdb.ci.label.relation}"></h3>
+                <button id="editCIRelationBtn" type="button" class="z-button-icon extra ml-auto">
+                    <span class="z-icon i-edit"></span>
+                </button>
             </div>
-            <div class="flex-column z-edit-row z-relation-group">
-                <div class="flex-row z-relation-select-box-group">
-                    <div class="flex-column align-left" style="width: 100%;" th:text="#{cmdb.ci.label.targetCiName}"></div>
-                </div>
+            <div class="flex-column view-row z-relation-group">
+                <table class="z-table">
+                    <thead class="z-table-head">
+                    <tr class="align-items-center">
+                        <th class="col-1 align-center"></th>
+                        <th class="col-4 align-left" th:text="#{cmdb.ci.label.type}"></th>
+                        <th class="col-4 align-left" th:text="#{cmdb.ci.label.name}"></th>
+                        <th class="col-1 align-center"></th>
+                    </tr>
+                    </thead>
+                    <tbody class="z-table-body" id="ciRelation"/></tbody>
+                </table>
             </div>
-            <div id="ciRelation"/>
         </div>
     </div>
 </body>

@@ -54,7 +54,7 @@ class DownloadService(
      * @param downloadDto
      */
     @Transactional
-    fun saveDownload(downloadDto: DownloadDto) {
+    fun saveDownload(downloadDto: DownloadDto): Boolean {
         val downloadEntity = downloadRepository.save(downloadMapper.toDownloadEntity(downloadDto))
         aliceFileService.upload(
             AliceFileDto(
@@ -63,6 +63,7 @@ class DownloadService(
                 delFileSeq = downloadDto.delFileSeqList
             )
         )
+        return true
     }
 
     /**
@@ -89,8 +90,9 @@ class DownloadService(
      * @param downloadId
      */
     @Transactional
-    fun deleteDownload(downloadId: String) {
+    fun deleteDownload(downloadId: String): Boolean {
         downloadRepository.deleteById(downloadId)
         aliceFileService.delete(downloadId)
+        return true
     }
 }

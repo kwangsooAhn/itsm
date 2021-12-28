@@ -290,7 +290,7 @@ export const ciMixin = {
                     .setUIClass('z-button-icon')
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
-                    .onUIClick(this.removeCITableRow.bind(this, row.parent, row.getUIIndex(), data))
+                    .onUIClick(this.removeCITableRow.bind(this, row.parent, -1, data))
                     .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'));
 
                 return new UICell(row).setUIClass(tdClassName)
@@ -329,6 +329,12 @@ export const ciMixin = {
     },
     // CI 테이블 row 삭제
     removeCITableRow(targetTable, rowIndex, ciData) {
+        if (typeof this.value !== 'string' && rowIndex === -1) {
+            const findIndex = this.value.findIndex(function (item) {
+                return item.ciId === ciData.ciId;
+            });
+            rowIndex = findIndex + 1;
+        }
         if (!zValidation.isEmpty(ciData)) {
             const alertMsg = (ciData.actionType === CI.ACTION_TYPE.REGISTER || ciData.actionType === CI.ACTION_TYPE.MODIFY) ?
                 'cmdb.ci.msg.deleteEditableCI' : 'cmdb.ci.msg.deleteReadableCI';
@@ -404,9 +410,13 @@ export const ciMixin = {
                 saveData.values.ciAttributes.push(ciAttribute);
             }
         });
-        document.querySelectorAll('.z-relation-group-div').forEach((el) => {
+        document.querySelectorAll('.z-relation-data').forEach((el) => {
             let data = {};
-            data.targetCIId = el.childNodes[0].getElementsByTagName('select')[0].value;
+            data.targetCIIconData = el.childNodes[0].childNodes[0].src;
+            data.targetCIIcon = el.childNodes[0].childNodes[1].value;
+            data.targetTypeName = el.childNodes[1].textContent;
+            data.targetCIName = el.childNodes[2].childNodes[0].textContent;
+            data.targetCIId = el.childNodes[2].childNodes[1].value;
             saveData.values.relatedCIData.push(data);
         });
         for (let i = 0; i < saveData.values.relatedCIData.length; i++) {
@@ -555,19 +565,7 @@ export const ciMixin = {
                     // CI 타입 선택 모달 바인딩
                     const ciTypeId = document.getElementById('typeId').value;
                     document.getElementById('typeSelectBtn').addEventListener('click', this.openSelectTypeModal.bind(this, ciTypeId));
-                    // CI 연관 관계 코드 데이터 호출
-                    aliceJs.fetchJson('/rest/codes/related/cmdb.relation.type', {
-                        method: 'GET'
-                    }).then((code) => {
-                        param.codeList = code;
-                    });
-                    // CI 연관 관계 CI 목록 리스트 호출
-                    aliceJs.fetchJson('/rest/cmdb/cis', {
-                        method: 'GET'
-                    }).then((ci) => {
-                        param.ciList = ci;
-                    });
-                    document.getElementById('addCIRelationBtn').addEventListener('click', this.addCIRelation.bind(this, param));
+                    document.getElementById('editCIRelationBtn').addEventListener('click', this.openRelationSelectModal.bind(this, newCIId));
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
                     OverlayScrollbars(document.querySelectorAll('textarea'), {
@@ -675,32 +673,20 @@ export const ciMixin = {
                         document.getElementById('typeSelectBtn').disabled = true;
                     }
 
-                    // CI 연관 관계 코드 데이터 호출
-                    await aliceJs.fetchJson('/rest/codes/related/cmdb.relation.type', {
-                        method: 'GET'
-                    }).then((code) => {
-                        param.codeList = code;
-                    });
-                    // CI 연관 관계 CI 목록 리스트 호출
-                    await aliceJs.fetchJson('/rest/cmdb/cis', {
-                        method: 'GET'
-                    }).then((ci) => {
-                        param.ciList = ci;
-                    });
                     aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/relation?componentId=' + this.id +
                         '&instanceId=' + instanceIdElem.value, {
-                        method: 'GET',
+                        method: 'GET'
                     }).then((ciRelations) => {
                         const ciRelation = JSON.parse(ciRelations);
                         if (zValidation.isDefined(ciRelation)) {
                             for (let i = 0; i < ciRelation.length; i++) {
-                                this.addCIRelation(param, ciRelation[i]);
+                                this.addCIRelation(ciRelation[i], false);
                             }
                         }
                     });
                     if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
-                        document.getElementById('addCIRelationBtn').addEventListener('click',
-                            this.addCIRelation.bind(this, param));
+                        document.getElementById('editCIRelationBtn').addEventListener('click',
+                            this.openRelationSelectModal.bind(this, data.ciId));
                         OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
                     } else {
                         OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
@@ -732,11 +718,12 @@ export const ciMixin = {
 
     },
     // 기존 CI 조회 모달 Template 조회
-    getSelectModalContent() {
+    getSelectModalContent(flag, ciId) {
         return `<form id="searchFrm">` +
             `<input type="text" class="z-input i-search col-5 mr-2" name="searchValue" id="searchValue" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
             `<input type="text" class="z-input i-search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
-            `<input type="hidden" name="flag" id="flag" value="component"/>` +
+            `<input type="hidden" name="flag" id="flag" value="${flag}"/>` +
+            `<input type="hidden" name="relationSearch" id="relationSearch" value="${(ciId !== null) ? ciId :''}"/>` +
             `<span id="ciListTotalCount" class="z-search-count"></span>` +
             `</form>` +
             `<div class="table-set" id="ciList"></div>`;
@@ -745,7 +732,7 @@ export const ciMixin = {
     openSelectModal(e) {
         const selectModal = new modal({
             title: i18n.msg('cmdb.ci.label.select'),
-            body: this.getSelectModalContent(),
+            body: this.getSelectModalContent('component'),
             classes: 'cmdb-ci-list-modal',
             buttons: [{
                 content: i18n.msg('common.btn.check'),
@@ -819,8 +806,7 @@ export const ciMixin = {
     selectModalSearchCI() {
         const urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
         aliceJs.fetchText('/cmdb/cis/component/list?' + urlParam, {
-            method: 'GET',
-            showProgressbar: true
+            method: 'GET'
         }).then((htmlData) => {
             document.getElementById('ciList').innerHTML = htmlData;
             // 카운트 변경
@@ -848,6 +834,112 @@ export const ciMixin = {
                         if (chkElem.value === CIData.ciId) {
                             chkElem.checked = true;
                             chkElem.disabled = true;
+                        }
+                    });
+                });
+            }
+        });
+
+    },
+    // 연관 CI 선택 모달
+    openRelationSelectModal(ciId) {
+        const selectModal = new modal({
+            title: i18n.msg('cmdb.ci.label.select'),
+            body: this.getSelectModalContent('relation', ciId),
+            classes: 'cmdb-ci-list-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.check'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: (modal) => {
+                    // 기존 연관관계 row 초기화
+                    const orgBody = document.getElementById('ciRelation');
+                    while (orgBody.hasChildNodes()) {
+                        orgBody.removeChild(orgBody.firstChild);
+                    }
+                    // 체크된 CI 출력
+                    let isChecked = false;
+                    document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]:not([disabled])').forEach((chkElem) => {
+                        if (chkElem.checked) {
+                            isChecked = true;
+                            const ci = {};
+                            const ciTbCells = document.getElementById('ciRow' + chkElem.value).children;
+                            Array.from(ciTbCells).forEach(function (cell) {
+                                if (typeof cell.id !== 'undefined' && cell.id.trim() !== '') {
+                                    ci[cell.id] = (cell.id === 'ciId') ? chkElem.value : cell.textContent;
+                                }
+                            });
+                            this.addCIRelation(ci, isChecked);
+                        }
+                    });
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: (modal) => {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: (modal) => {
+                let this_ = this; //zTag에서 callback에서 this는 zCI가 아니고 zTag이기에 this를 컴포지션함.
+
+                this.relationSelectModalSearchCI();
+
+                new zTag(document.getElementById('tagSearch'), {
+                    suggestion: false,
+                    realtime: false,
+                    tagType: 'ci',
+                    targetId: '',
+                    callback: function () {
+                        this_.relationSelectModalSearchCI();
+                    }
+                });
+
+                document.getElementById('searchValue').addEventListener('keyup', (e) => {
+                    e.preventDefault();
+                    this.relationSelectModalSearchCI();
+                });
+            }
+        });
+        selectModal.show();
+    },
+    // 연관 CI 조회 모달 검색
+    relationSelectModalSearchCI() {
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
+        aliceJs.fetchText('/cmdb/cis/component/list?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            document.getElementById('ciList').innerHTML = htmlData;
+            // 카운트 변경
+            aliceJs.showTotalCount(document.querySelectorAll('.ci-list').length, 'ciListTotalCount');
+            // 태그 초기화
+            let ciListTags = document.querySelectorAll('.cmdb-ci-list-modal input[name=ciListTags]');
+            let ciIdList = (document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]'));
+            for (let i = 0; i < ciListTags.length; i++) {
+                new zTag(ciListTags[i], {
+                    suggestion: false,
+                    realtime: false,
+                    tagType: 'ci',
+                    targetId: ciIdList[i].value
+                });
+            }
+            // 스크롤바
+            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('#ciList .z-table-body'), {className: 'scrollbar'});
+
+            // 연관 CI 정보 가져오기
+            // ciRelation 목록이 있는 경우, 현재 목록에 있는 ciId를 전달한다.
+            if (document.getElementById('ciRelation').hasChildNodes()) {
+                document.querySelectorAll('.target-ci-id').forEach( (ciId) => {
+                    const relCIChkElems = document.querySelectorAll('input[type=checkbox]');
+                    relCIChkElems.forEach((chkElem) => {
+                        if (chkElem.value === ciId.value) {
+                            chkElem.checked = true;
                         }
                     });
                 });
@@ -950,40 +1042,52 @@ export const ciMixin = {
         ];
     },
     // 연관 관계 입력 row 추가
-    addCIRelation(param, ciRelations) {
-        const divRow = document.createElement('div');
-        divRow.className = 'flex-row edit-row z-relation-group z-relation-group-div';
+    addCIRelation(ciRelations, isChecked) {
+        const trRow = document.createElement('tr');
+        trRow.className = 'z-table-row z-relation-data';
 
-        const ciList = param.ciList;
-        const targetCISelect = document.createElement('select');
-        targetCISelect.className = 'z-target-ci-select-box mr-1';
-        for (let i = 0; i < ciList.length; i++) {
-            const selectOption = document.createElement('option');
-            selectOption.value = ciList[i].ciId;
-            selectOption.text = ciList[i].ciName;
-            selectOption.selected = (typeof ciRelations !== 'undefined') ? (ciRelations.targetCIId === selectOption.value) : '';
-            targetCISelect.appendChild(selectOption);
-        }
+        const targetIcon = document.createElement('td');
+        targetIcon.className = 'col-1 align-center';
+        const targetIconImg = document.createElement('img');
+        targetIconImg.src = isChecked ? ciRelations.ciIconData : ciRelations.targetCIIconData;
+        const targetIconName = document.createElement('input');
+        targetIconName.type = 'hidden';
+        targetIconName.value = isChecked ? ciRelations.ciIcon : ciRelations.targetCIIcon;
+        targetIcon.appendChild(targetIconImg);
+        targetIcon.appendChild(targetIconName);
+        trRow.appendChild(targetIcon);
 
+        const targetTypeName = document.createElement('td');
+        targetTypeName.className = 'col-4 align-left';
+        targetTypeName.textContent = isChecked ? ciRelations.typeName : ciRelations.targetTypeName;
+        trRow.appendChild(targetTypeName);
+
+        const targetCIData = document.createElement('td');
+        targetCIData.className = 'col-4 align-left';
+        const targetCIName = document.createElement('span');
+        targetCIName.textContent = isChecked ? ciRelations.ciName : ciRelations.targetCIName;
+        targetCIData.appendChild(targetCIName);
+        const targetCIId = document.createElement('input');
+        targetCIId.className = 'target-ci-id';
+        targetCIId.type = 'hidden';
+        targetCIId.value =  isChecked ? ciRelations.ciId : ciRelations.targetCIId;
+        targetCIData.appendChild(targetCIId);
+        trRow.appendChild(targetCIData);
+
+        const deleteRel = document.createElement('td');
+        deleteRel.className = 'col-1 align-center';
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'z-button-icon extra';
         const deleteIcon = document.createElement('span');
         deleteIcon.className = 'z-icon i-delete';
-        deleteBtn.appendChild(deleteIcon);
         deleteBtn.addEventListener('click', function () {
-            const row = deleteBtn.parentNode;
-            const relationElems = document.querySelectorAll('input[name=targetCISelect]');
-            if (relationElems.length === 1) {
-                const relationLabel = document.getElementById('relationLabel');
-                relationLabel.removeChild(relationLabel.children[1]);
-            }
-            row.remove();
+            deleteBtn.parentElement.parentElement.remove();
         });
+        deleteBtn.appendChild(deleteIcon);
+        deleteRel.appendChild(deleteBtn);
+        trRow.appendChild(deleteRel);
 
-        divRow.appendChild(targetCISelect);
-        divRow.appendChild(deleteBtn);
-        document.getElementById('ciRelation').appendChild(divRow);
-        aliceJs.initDesignedSelectTag(divRow);
+        document.getElementById('ciRelation').appendChild(trRow);
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {
