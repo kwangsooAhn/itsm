@@ -31,9 +31,9 @@ import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.dto.CodeDto
-import co.brainz.itsm.code.dto.PCodeDto
-import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.group.dto.PGroupListDto
+import co.brainz.itsm.group.repository.GroupRepository
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserAbsenceDto
@@ -94,7 +94,7 @@ class UserService(
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
     private val wfTokenRepository: WfTokenRepository,
-    private val codeRepository: CodeRepository
+    private val groupRepository: GroupRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -145,35 +145,48 @@ class UserService(
      */
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
         val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
-        val codeList = codeRepository.findCodeList(SearchDto(offset = null, limit = null))
+        val groupList = groupRepository.findGroupList(SearchDto(offset = null, limit = null))
         val userList: MutableList<UserListDataDto> = mutableListOf()
-        val departmentSearch: MutableList<String> = mutableListOf()
-        val deptValue: LinkedHashSet<String> = linkedSetOf()
-        val deptString: LinkedHashMap<String, String> = linkedMapOf()
+        val groupSearch: MutableList<String> = mutableListOf()
+        val groupValue: LinkedHashSet<String> = linkedSetOf()
+        val groupIdList: LinkedHashSet<String> = linkedSetOf()
+        val groupString: LinkedHashMap<String, String> = linkedMapOf()
 
         for (user in queryResult.results) {
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
-            deptValue.add(user.department.toString())
+
+            if (user.department == "department.group.itsm") {
+                user.department = "4028b2d57d37168e017d371a5f3d0006" //department에 임시값 추가
+            }
+            if (user.department == "department.group.design") {
+                user.department = "4028b2d57d37168e017d371a5f7f0004" //department에 임시값 추가
+            }
+            groupValue.add("4028b2d57d37168e017d371a5f3d0006") //임시값 넘겨줌
+            groupValue.add("4028b2d57d37168e017d371a5f7f0004")
             userList.add(user)
         }
 
-        for (dept in deptValue) {
-            if (dept != "" && dept != "null") {
-                departmentSearch.addAll(
-                    getRecursiveParentCode(
-                        codeList.results,
-                        dept,
+        for(groupId in groupList.results) {
+            groupIdList.add(groupId.groupId.toString())
+        }
+
+        for (group in groupValue) {
+            if (groupIdList.contains(group)) {
+                groupSearch.addAll(
+                    getRecursiveParentGroup(
+                        groupList.results,
+                        group,
                         mutableListOf()
                     )
                 )
-                deptString[dept] = departmentSearch.joinToString(" / ", "", "")
+                groupString[group] = groupSearch.joinToString(" / ", "", "")
                 for (user in userList) {
-                    if (user.department == dept) {
-                        user.department = deptString[dept]
+                    if (user.department == group) {
+                        user.department = groupString[group]
                     }
                 }
-                departmentSearch.clear()
+                groupSearch.clear()
             }
         }
 
@@ -190,21 +203,21 @@ class UserService(
     }
 
     //user.department 값을 이용하여 상위 레벨의 부서폴더이름 추출
-    private fun getRecursiveParentCode(
-        allCodeDtoList: List<PCodeDto>,
-        code: String,
-        recursiveCodeList: MutableList<String>
+    private fun getRecursiveParentGroup(
+        allGroupDtoList: List<PGroupListDto>,
+        groupId: String,
+        recursiveGroupList: MutableList<String>
     ): List<String> {
-        val codeDto = codeRepository.findCodeDetail(code)
-        if (codeDto.code != UserConstants.PDEPTCODE.value) {
-            codeDto.codeName?.let { recursiveCodeList.add(it) }
-            for (codeListDto in allCodeDtoList) {
-                if (codeListDto.code == codeDto.code) {
-                    getRecursiveParentCode(allCodeDtoList, codeDto.pCode.toString(), recursiveCodeList)
+        val groupDto = groupRepository.findGroupDetail(groupId)
+        if (groupDto.pGroupId != null) {
+            groupDto.groupName?.let { recursiveGroupList.add(it) }
+            for (codeListDto in allGroupDtoList) {
+                if (codeListDto.groupId == groupDto.groupId) {
+                    getRecursiveParentGroup(allGroupDtoList, groupDto.pGroupId.toString(), recursiveGroupList)
                 }
             }
         }
-        return recursiveCodeList.toList()
+        return recursiveGroupList.toList()
     }
 
     /**

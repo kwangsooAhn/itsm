@@ -6,10 +6,8 @@
 
 package co.brainz.itsm.code.repository
 
-import co.brainz.cmdb.dto.SearchDto
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
-import co.brainz.itsm.code.dto.PCodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.code.entity.QCodeLangEntity
@@ -119,31 +117,5 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
             .leftJoin(codeLang).on(code.code.eq(codeLang.code), codeLang.lang.eq(lang))
             .where(code.code.`in`(pCodes).and(code.useYn.eq(true)))
             .fetch()
-    }
-
-    override fun findCodeList(searchDto: SearchDto): QueryResults<PCodeDto> {
-        val code = QCodeEntity.codeEntity
-        val query = from(code)
-            .select(
-                Projections.constructor(
-                    PCodeDto::class.java,
-                    code.code,
-                    code.codeValue,
-                    code.codeName,
-                    code.pCode.code
-                )
-            )
-            .rightJoin(code.pCode, code).on(code.pCode.code.eq(code.code))
-            .where(
-                super.likeIgnoreCase(code.codeName, searchDto.search)
-                    ?.or(super.likeIgnoreCase(code.codeValue, searchDto.search))
-            )
-        if (searchDto.limit != null) {
-            query.limit(searchDto.limit)
-        }
-        if (searchDto.offset != null) {
-            query.offset(searchDto.offset)
-        }
-        return query.fetchResults()
     }
 }
