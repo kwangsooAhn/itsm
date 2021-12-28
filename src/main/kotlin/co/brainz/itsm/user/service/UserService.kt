@@ -162,12 +162,11 @@ class UserService(
             if (user.department == "department.group.design") {
                 user.department = "4028b2d57d37168e017d371a5f7f0004" //department에 임시값 추가
             }
-            groupValue.add("4028b2d57d37168e017d371a5f3d0006") //임시값 넘겨줌
-            groupValue.add("4028b2d57d37168e017d371a5f7f0004")
+            groupValue.add(user.department.toString())
             userList.add(user)
         }
 
-        for(groupId in groupList.results) {
+        for (groupId in groupList.results) {
             groupIdList.add(groupId.groupId.toString())
         }
 
