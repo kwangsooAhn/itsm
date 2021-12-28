@@ -15,16 +15,34 @@
 
 ```
 1. display(표시)
+    - flex
+    - align-item / align-content
+    - justify-content
 2. overflow(넘침)
 3. float(흐름)
 4. position(위치)
+    - top
+    - right
+    - bottom
+    - left
 5. width/height(크기)
-6. padding/margin(간격)
+    - width
+    - height
+    - min-width
+    - min-height
+6. margin/padding(간격)
 7. border(테두리)
 8. background(배경)
 9. color/font(글꼴)
+    - color
+    - font
+    - text
 10. animation
 11. etc(기타)
+    - line-height
+    - letter-spacing
+    - opacity
+    - z-index
 ```
 
 * 1~6 (레이아웃) / 7~8 (테두리, 배경) / 9 (글꼴) / 10 (동작) / 11 (기타)
@@ -34,10 +52,14 @@
 
 ---
 
-| 약속어   |          명칭           | 
-|-------|:---------------------:|
-| `gnb` | global navigation bar |
-| `btn` |        button         |
+| 약속어    |          명칭           | 
+|--------|:---------------------:|
+| `bg`   |      background       |
+| `btn`  |        button         |
+| `gnb`  | global navigation bar |
+| `img`  |         image         |
+| `nav`  |      navigation       |
+| `tbl`  |         table         |
 
 ## SCSS Directory 구조
 
