@@ -13,7 +13,6 @@
 
 ---
 
-### 네이버 css 선언 순서
 ```
 1. display(표시)
 2. overflow(넘침)
@@ -29,6 +28,7 @@
 ```
 
 * 1~6 (레이아웃) / 7~8 (테두리, 배경) / 9 (글꼴) / 10 (동작) / 11 (기타)
+* ※ 네이버 css 선언 순서를 참고하여 아래와 같이 정의합니다.
 
 ## 약속어 목록
 
@@ -116,12 +116,6 @@
                     <li style="list-style-type:disc">Switches</li>
                     <li style="list-style-type:disc">Checkbox</li>
                     <li style="list-style-type:disc">Radio</li>
-                </ul>
-            </details></li>
-        </ul>
-        <ul>
-            <li><details close=""><summary>Picker</summary>
-                <ul>
                     <li style="list-style-type:disc">Color</li>
                     <li style="list-style-type:disc">Date / Time
                         <ul>
@@ -167,8 +161,8 @@
 </details></li>
 </ul>
 
+### ※ 참고 링크
 <p>
-※ 참고)<br>
 <a href="https://nuli.navercorp.com/data/convention/NHN_Coding_Conventions_for_Markup_Languages.pdf" target="_blank">NHN 코드 작성 규칙</a><br>
 <a href="https://imagineu.tistory.com/23">7-1 패턴</a>
 </p>
