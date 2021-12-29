@@ -1020,7 +1020,7 @@
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
                         const selectOption = document.createElement('option');
-                        selectOption.textContent = attributeOption.text;
+                        selectOption.textContent = (elem.className == 'readonly' && attributeOption.value == '') ? '' : attributeOption.text;
                         selectOption.value = attributeOption.value;
                         if (selectOption.value === data.value) {
                             selectOption.selected = true;
@@ -1134,15 +1134,19 @@
 
                 const customBtnElem = document.createElement('button');
                 customBtnElem.type = 'button';
-                customBtnElem.className = 'secondary z-button';
+                customBtnElem.className = 'z-button z-button-icon secondary';
                 customBtnElem.disabled = (displayMode === 'view');
                 customBtnElem.setAttribute('data-custom-code', attributeValue.customCode);
+
+                const customSpanElem = document.createElement('span');
+                customSpanElem.className = 'z-icon i-search';
+                customBtnElem.appendChild(customSpanElem);
                 elem.appendChild(customBtnElem);
 
                 let customData = data.value; // 'key|값'
                 if (attributeValue !== '') {
                     let defaultValue = '';
-                    customBtnElem.textContent = attributeValue.button;
+                    customSpanElem.textContent = attributeValue.button;
                     // 커스텀 코드 기본 값 넣기
                     if (data.value === '' || data.value === null) {
                         switch (attributeValue.default.type) {
