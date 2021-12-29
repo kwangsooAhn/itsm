@@ -3,7 +3,7 @@ package co.brainz.itsm.group.dto
 import co.brainz.itsm.role.dto.RoleListDto
 import java.io.Serializable
 
-data class GroupDetailDto(
+data class GroupShortDto(
 var groupId: String = "",
 var pGroupId: String? = null,
 var groupName: String? = null,

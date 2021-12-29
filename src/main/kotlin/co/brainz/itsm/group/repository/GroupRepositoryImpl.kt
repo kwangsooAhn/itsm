@@ -1,12 +1,10 @@
 package co.brainz.itsm.group.repository
 
 import co.brainz.cmdb.dto.SearchDto
-import co.brainz.itsm.group.dto.GroupDetailDto
-import co.brainz.itsm.group.dto.GroupDetailReturnDto
+import co.brainz.itsm.group.dto.GroupShortDto
 import co.brainz.itsm.group.dto.PGroupListDto
 import co.brainz.itsm.group.entity.GroupEntity
 import co.brainz.itsm.group.entity.QGroupEntity
-import co.brainz.itsm.role.dto.RoleListDto
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -37,12 +35,12 @@ class GroupRepositoryImpl : QuerydslRepositorySupport(GroupEntity::class.java), 
         return query.fetchResults()
     }
 
-    override fun findGroupDetail(search: String): GroupDetailDto {
+    override fun findGroupDetail(search: String): GroupShortDto {
         val group = QGroupEntity.groupEntity
         return from(group)
             .select(
                 Projections.constructor(
-                    GroupDetailDto::class.java,
+                    GroupShortDto::class.java,
                     group.groupId,
                     group.pGroupId,
                     group.groupName,

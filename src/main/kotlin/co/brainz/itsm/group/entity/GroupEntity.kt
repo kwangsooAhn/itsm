@@ -1,22 +1,20 @@
 package co.brainz.itsm.group.entity
 
-import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 import javax.persistence.Table
-import org.hibernate.annotations.NotFound
-import org.hibernate.annotations.NotFoundAction
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "awf_group")
 data class GroupEntity(
-    @Id @Column(name = "group_id", length = 100)
+    @Id @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "group_id", length = 100)
     var groupId: String = "",
 
     @Column(name = "p_group_id", length = 100)
@@ -28,7 +26,7 @@ data class GroupEntity(
     @Column(name = "group_desc", length = 128)
     var groupDesc: String? = null,
 
-    @Column(name = "use_yn")
+    @Column(name = "use_yn", length = 128)
     var useYn: Boolean? = true,
 
     @Column(name = "level")
