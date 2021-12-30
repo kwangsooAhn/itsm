@@ -630,45 +630,40 @@ aliceJs.thumbnail = function(options) {
     };
 
     // 이미지 파일 로드
-    aliceJs.sendXhr({
-        method: 'GET',
-        url: '/rest/images?type=' + options.type,
-        callbackFunc: function(xhr) {
-            const files = JSON.parse(xhr.responseText);
-
-            let modalOptions = {
-                title: options.title,
-                body: createContent(files),
-                classes: 'z-thumbnail-' + options.type,
-                buttons: [{
-                    content: i18n.msg('common.btn.select'),
-                    classes: 'z-button primary thumbnail-save',
-                    bindKey: false,
-                    callback: function(modal) {
-                        if (saveThumbnail(options.targetId)) {
-                            modal.hide();
-                        }
-                    }
-                }, {
-                    content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function(modal) {
+    aliceJs.fetchJson('/rest/images?type=' + options.type, {
+        method: 'GET'
+    }).then((files) => {
+        const modalOptions = {
+            title: options.title,
+            body: createContent(files),
+            classes: 'z-thumbnail-' + options.type,
+            buttons: [{
+                content: i18n.msg('common.btn.select'),
+                classes: 'z-button primary thumbnail-save',
+                bindKey: false,
+                callback: function(modal) {
+                    if (saveThumbnail(options.targetId)) {
                         modal.hide();
                     }
-                }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function (modal) {
-                    OverlayScrollbars(document.querySelector('.z-thumbnail-main').closest('.modal-content'), {className: 'scrollbar'});
                 }
-            };
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function(modal) {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function (modal) {
+                OverlayScrollbars(document.querySelector('.z-thumbnail-main').closest('.modal-content'), {className: 'scrollbar'});
+            }
+        };
 
-            let thumbnailModal = new modal(modalOptions);
-            thumbnailModal.show();
-        },
-        contentType: 'application/json; charset=utf-8'
+        let thumbnailModal = new modal(modalOptions);
+        thumbnailModal.show();
     });
 };
 
@@ -898,25 +893,25 @@ aliceJs.loadSvg = function() {
         const imgUrl = img.getAttribute('src');
         if (typeof imgUrl === 'undefined' || imgUrl === '') { continue; }
 
-        aliceJs.sendXhr({
+        aliceJs.fetchText(imgUrl, {
             method: 'GET',
-            url: imgUrl,
-            contentType: 'image/svg+xml; charset=utf-8',
-            callbackFunc: function(xhr) {
-                let svgFile = xhr.responseXML;
-                let svg = svgFile.documentElement;
-
-                if (typeof imgId !== 'undefined' && imgId !== '') {
-                    svg.setAttribute('id', imgId);
-                }
-
-                if (typeof imgClass !== 'undefined' && imgClass !== '') {
-                    svg.setAttribute('class', imgClass);
-                }
-
-                img.insertAdjacentHTML('beforebegin', svg.outerHTML);
-                img.remove();
+            headers: {
+                'Content-Type': 'image/svg+xml; charset=utf-8'
             }
+        }).then((response) => {
+            const parser = new DOMParser();
+            const svgFile = parser.parseFromString(response, 'application/xml');
+            let svg = svgFile.documentElement;
+            if (typeof imgId !== 'undefined' && imgId !== '') {
+                svg.setAttribute('id', imgId);
+            }
+
+            if (typeof imgClass !== 'undefined' && imgClass !== '') {
+                svg.setAttribute('class', imgClass);
+            }
+
+            img.insertAdjacentHTML('beforebegin', svg.outerHTML);
+            img.remove();
         });
     }
 };

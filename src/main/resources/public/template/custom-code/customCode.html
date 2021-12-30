@@ -118,7 +118,7 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list">
+            <div class="z-button-list" th:if="!${view}">
                 <button class="z-button primary" onclick="saveCustomCode('POST')"
                         sec:authorize="hasAuthority('custom.code.create')"
                         th:if="${customCode == null}" th:text="#{common.btn.register}"></button>

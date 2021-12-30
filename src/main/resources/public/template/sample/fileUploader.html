@@ -13,17 +13,15 @@
         window.onload = function() {
             zFileUploader.init({formId: 'mainFrm', task: 'Test'});
             document.getElementById('action').addEventListener('click', function () {
-                const opt = {
-                    method: 'post',
-                    url: '/fileSubmit',
-                    callbackFunc: function (response) {
-                        console.log(response);
-                        console.log(response.responseText);
+                aliceJs.fetchText('/fileSubmit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
                     },
-                    params: aliceJs.serialize(document.getElementById('mainFrm')),
-                    async: true
-                }
-                aliceJs.sendXhr(opt);
+                    body: aliceJs.serialize(document.getElementById('mainFrm'))
+                }).then((response) => {
+                    console.log(response);
+                });
             });
         };
     </script>

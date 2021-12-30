@@ -93,86 +93,10 @@
         document.getElementById('search').focus();
         onCreate();
 
-        function getCIClassList() {
-            const search = encodeURIComponent(document.getElementById('search').value);
-            tree.load({
-                source: 'ciClass',
-                dataUrl: '/rest/cmdb/classes?search=' + search,
-                target: 'treeList',
-                text: 'className',
-                totalCount: true,
-                selectedNode: function (response) {
-                    onGetDetail(response.id)
-                }
-            });
-        }
-
         getCIClassList();
-        document.getElementById('root').click();
-
-        /** CMDB Class 상세 정보 **/
-        function onGetDetail(ciClassId) {
-            if (!observer.canPageChange()) {
-                return;
-            }
-            aliceJs.fetchJson('/rest/cmdb/classes/' + encodeURIComponent(ciClassId), {
-                method: 'GET'
-            }).then((responseJson) => {
-                document.getElementById('txtClassId').value = responseJson.classId;
-                document.getElementById('txtPClassId').value = responseJson.pclassId;
-                document.getElementById('txtPClassName').value = responseJson.pclassName;
-                document.getElementById('txtClassName').value = responseJson.className;
-                document.getElementById('txtClassDesc').value = responseJson.classDesc;
-                document.getElementById('txtClassSeq').value = responseJson.classSeq;
-
-                if (responseJson.editable) {
-                    if (document.getElementById('btnUpdate') != null) {
-                        document.getElementById('btnUpdate').removeAttribute('disabled');
-                    }
-                    if (document.getElementById('btnDelete') != null) {
-                        document.getElementById('btnDelete').removeAttribute('disabled');
-                    }
-                } else {
-                    if (document.getElementById('btnUpdate') != null) {
-                        document.getElementById('btnUpdate').disabled = true;
-                    }
-                    if (document.getElementById('btnDelete') != null) {
-                        document.getElementById('btnDelete').disabled = true;
-                    }
-                }
-                while (extendsAttributeList.hasChildNodes()) {
-                    extendsAttributeList.removeChild(extendsAttributeList.firstChild);
-                }
-                while (attributeList.hasChildNodes()) {
-                    attributeList.removeChild(attributeList.firstChild);
-                }
-                if (responseJson.extendsAttributes !== null) {
-                    responseJson.extendsAttributes.forEach(function (data) {
-                        drawAttribute({
-                            key: data.attributeId,
-                            value: data.attributeName
-                        }, 'extendsAttribute', false);
-                    });
-                }
-                classAttributeMap.clear();
-                if (responseJson.attributes !== null) {
-                    responseJson.attributes.forEach(function (data) {
-                        classAttributeMap.set(data.attributeId, data.attributeName);
-                        drawAttribute({
-                            key: data.attributeId,
-                            value: data.attributeName
-                        }, 'attribute', true);
-                    });
-                }
-                onEdit();
-                observer.isChanged = false;
-            });
-        }
+        document.getElementById('search').addEventListener('keyup', getCIClassList, false);
 
         OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
-        document.getElementById('search').addEventListener('keyup', function () {
-            getCIClassList();
-        });
         OverlayScrollbars(document.querySelector('.z-page-edit'), {className: 'scrollbar'});
         OverlayScrollbars(document.getElementById('txtClassDesc'), {
             className: 'scrollbar',
@@ -185,6 +109,79 @@
             }
         });
     };
+
+    /** CMDB Class 상세 정보 **/
+    function onGetDetail(ciClassId) {
+        if (!observer.canPageChange()) {
+            return;
+        }
+        aliceJs.fetchJson('/rest/cmdb/classes/' + encodeURIComponent(ciClassId), {
+            method: 'GET'
+        }).then((responseJson) => {
+            document.getElementById('txtClassId').value = responseJson.classId;
+            document.getElementById('txtPClassId').value = responseJson.pclassId;
+            document.getElementById('txtPClassName').value = responseJson.pclassName;
+            document.getElementById('txtClassName').value = responseJson.className;
+            document.getElementById('txtClassDesc').value = responseJson.classDesc;
+            document.getElementById('txtClassSeq').value = responseJson.classSeq;
+
+            if (responseJson.editable) {
+                if (document.getElementById('btnUpdate') != null) {
+                    document.getElementById('btnUpdate').removeAttribute('disabled');
+                }
+                if (document.getElementById('btnDelete') != null) {
+                    document.getElementById('btnDelete').removeAttribute('disabled');
+                }
+            } else {
+                if (document.getElementById('btnUpdate') != null) {
+                    document.getElementById('btnUpdate').disabled = true;
+                }
+                if (document.getElementById('btnDelete') != null) {
+                    document.getElementById('btnDelete').disabled = true;
+                }
+            }
+            while (extendsAttributeList.hasChildNodes()) {
+                extendsAttributeList.removeChild(extendsAttributeList.firstChild);
+            }
+            while (attributeList.hasChildNodes()) {
+                attributeList.removeChild(attributeList.firstChild);
+            }
+            if (responseJson.extendsAttributes !== null) {
+                responseJson.extendsAttributes.forEach(function (data) {
+                    drawAttribute({
+                        key: data.attributeId,
+                        value: data.attributeName
+                    }, 'extendsAttribute', false);
+                });
+            }
+            classAttributeMap.clear();
+            if (responseJson.attributes !== null) {
+                responseJson.attributes.forEach(function (data) {
+                    classAttributeMap.set(data.attributeId, data.attributeName);
+                    drawAttribute({
+                        key: data.attributeId,
+                        value: data.attributeName
+                    }, 'attribute', true);
+                });
+            }
+            onEdit();
+            observer.isChanged = false;
+        });
+    }
+
+    function getCIClassList() {
+        const search = encodeURIComponent(document.getElementById('search').value);
+        tree.load({
+            source: 'ciClass',
+            dataUrl: '/rest/cmdb/classes?search=' + search,
+            target: 'treeList',
+            text: 'className',
+            totalCount: true,
+            selectedNode: function (response) {
+                onGetDetail(response.id)
+            }
+        });
+    }
 
     /** 추가 버튼 **/
     function onCreate() {

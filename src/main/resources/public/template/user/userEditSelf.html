@@ -344,33 +344,33 @@
             data.password = rsa.encrypt(password);
         }
 
-        aliceJs.sendXhr({
+        aliceJs.fetchText(url, {
             method: 'PUT',
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success([[#{common.msg.modify}]], function () {
-                            window.location.reload();
-                        });
-                        break;
-                    case STATUS_SUCCESS_EDIT_EMAIL:
-                        zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
-                            window.location.reload();
-                        });
-                        break;
-                    case STATUS_ERROR_USER_ID_DUPLICATION:
-                        zAlert.warning([[#{user.msg.sameUserId}]]);
-                        break;
-                    case STATUS_ERROR_EMAIL_DUPLICATION:
-                        zAlert.warning([[#{user.msg.sameEmail}]]);
-                        break;
-                    default :
-                        zAlert.danger(i18n.msg('common.label.modify') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
-                        break;
-                }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            switch (response.responseText) {
+                case STATUS_SUCCESS:
+                    zAlert.success([[#{common.msg.modify}]], function () {
+                        window.location.reload();
+                    });
+                    break;
+                case STATUS_SUCCESS_EDIT_EMAIL:
+                    zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
+                        window.location.reload();
+                    });
+                    break;
+                case STATUS_ERROR_USER_ID_DUPLICATION:
+                    zAlert.warning([[#{user.msg.sameUserId}]]);
+                    break;
+                case STATUS_ERROR_EMAIL_DUPLICATION:
+                    zAlert.warning([[#{user.msg.sameEmail}]]);
+                    break;
+                default :
+                    zAlert.danger(i18n.msg('common.label.modify') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
+                    break;
             }
         });
     }
@@ -538,33 +538,30 @@
         let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
             + '&from=' + i18n.systemDateTime(document.getElementById('absenceStartDt').value)
             + '&to=' + i18n.systemDateTime(document.getElementById('absenceEndDt').value)
-            + '&userKey=' + document.getElementById('userKey').value
-        const opt = {
-            method: 'get',
-            url: strUrl,
-            contentType: 'application/json',
-            showProgressbar: showProgressbar,
-            callbackFunc: function (response) {
-                document.getElementById('subUserList').innerHTML = response.responseText;
-                OverlayScrollbars(document.querySelector('.z-table-body'), { className: 'scrollbar' });
-                //갯수 카운트
-                const substituteUserList = document.getElementById('substituteUserList');
-                aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
-                document.querySelectorAll('input[type=radio]').forEach(function (radio) {
-                    // 업무 대리인으로 자기 자신은 선택할 수 없다.
-                    if (radio.id === document.getElementById('userKey').value) {
-                        radio.disabled = true;
-                    }
-                });
-                // 선택된 항목 표시
-                const selectedSubstituteUserKey = document.getElementById('substituteUserKey').value
-                const radioElem = document.querySelector('input[id="' + selectedSubstituteUserKey + '"]');
-                if (radioElem) {
-                    radioElem.checked = true;
+            + '&userKey=' + document.getElementById('userKey').value;
+
+        aliceJs.fetchText(strUrl, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            document.getElementById('subUserList').innerHTML = htmlData;
+            OverlayScrollbars(document.querySelector('.z-table-body'), { className: 'scrollbar' });
+            //갯수 카운트
+            const substituteUserList = document.getElementById('substituteUserList');
+            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
+            document.querySelectorAll('input[type=radio]').forEach(function (radio) {
+                // 업무 대리인으로 자기 자신은 선택할 수 없다.
+                if (radio.id === document.getElementById('userKey').value) {
+                    radio.disabled = true;
                 }
+            });
+            // 선택된 항목 표시
+            const selectedSubstituteUserKey = document.getElementById('substituteUserKey').value;
+            const radioElem = document.querySelector('input[id="' + selectedSubstituteUserKey + '"]');
+            if (radioElem) {
+                radioElem.checked = true;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
     /*]]>*/
 </script>

@@ -52,14 +52,10 @@
         attributeId = document.getElementById('attributeId').value;
 
         // load custom-code list.
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/custom-codes?viewType=editor',
-            async: false,
-            callbackFunc: function(xhr) {
-                customCodeList = JSON.parse(xhr.responseText);
-            },
-            contentType: 'application/json; charset=utf-8'
+        aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
+            method: 'GET'
+        }).then((data) => {
+            customCodeList = data;
         });
     }
 

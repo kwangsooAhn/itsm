@@ -43,20 +43,14 @@
     };
 
     function getList(pageNum = 1) {
-        restSearchSubmit('get', '/users?searchValue=' + encodeURIComponent(document.getElementById('searchValue').value) + '&pageNum=' + pageNum);
-    }
-
-    function restSearchSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                document.getElementById('userList').innerHTML = response.responseText;
-                setDateTimeFormat(document.getElementById('userList'));
-            }
-        };
-        aliceJs.sendXhr(opt);
+        const urlParam = encodeURIComponent(document.getElementById('searchValue').value) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/users?searchValue=' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            const listBody = document.getElementById('userList');
+            listBody.innerHTML = htmlData;
+            setDateTimeFormat(listBody);
+        });
     }
 
     /**
