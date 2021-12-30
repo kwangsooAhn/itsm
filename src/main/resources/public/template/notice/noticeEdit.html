@@ -234,7 +234,7 @@
             url = '/rest/notices';
         }
 
-        aliceJs.fetchText(url, {
+        aliceJs.fetchJson(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
@@ -242,11 +242,11 @@
             body: JSON.stringify(data)
         }).then((result) => {
             if (result.status === 200) {
-                if (method === 'post') {
+                if (method === 'POST') {
                     zAlert.success(i18n.msg('common.msg.register'), function () {
                         window.location.href = '/notices/search';
                     });
-                } else if (method === 'put') {
+                } else if (method === 'PUT') {
                     zAlert.success(i18n.msg('common.msg.modify'), function () {
                         window.location = '/notices/search';
                     });
