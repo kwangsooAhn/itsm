@@ -375,6 +375,11 @@
                 classes: 'z-button secondary',
                 bindKey: false,
                 callback: function (modal) {
+                    document.querySelectorAll('td> label> input[type= checkbox]').forEach((checkbox) => {
+                        if (checkbox.checked && !checkbox.disabled) {
+                            classAttributeMap.delete(checkbox.value);
+                        }
+                    });
                     modal.hide();
                 }
             }],
