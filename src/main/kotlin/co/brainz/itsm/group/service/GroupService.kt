@@ -62,7 +62,7 @@ class GroupService(
     fun getDetailGroup(groupId: String): GroupDetailDto {
         val groupInfo = groupRepository.findByGroupId(groupId)
         val groupUseRoles = groupRoleMapRepository.findGroupRoleMapByGroupId(groupId)
-        //val allRoles = roleRepository.findRolesAll()
+        val allRoles = roleRepository.findRolesAll()
 
         return GroupDetailDto(
             groupId = groupInfo.groupId,
@@ -72,7 +72,7 @@ class GroupService(
             useYn = groupInfo.useYn,
             level = groupInfo.level,
             seqNum = groupInfo.seqNum,
-            //allRoles = allRoles,
+            allRoles = allRoles,
             groupUseRoles = groupUseRoles
         )
     }
