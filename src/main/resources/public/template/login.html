@@ -66,6 +66,7 @@
     let ipSeparator = ".*";
     let isExpired = /*[[${isExpired}]]*/;
     let passwordExpiredPeriod = /*[[${passwordExpiredPeriod}]]*/;
+    let ipAccessControl = /*[[${ipAccessControlValue}]]*/;
 
     const rsa = new RSAKey();
     const STATUS_SUCCESS = '0';
@@ -196,7 +197,7 @@
             })) {
                 return false;
             }
-            if (!ipAccessCheck(ipList, clientIp, ipSeparator)) {
+            if (!ipAccessCheck(ipAccessControl, ipList, clientIp, ipSeparator)) {
                 zAlert.warning([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
                 return false;
             }
