@@ -6,8 +6,11 @@
 
 package co.brainz.itsm.download.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.download.dto.DownloadDto
 import co.brainz.itsm.download.service.DownloadService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -26,8 +29,8 @@ class DownloadRestController(private val downloadService: DownloadService) {
      * @param downloadDto
      */
     @PostMapping("")
-    fun createDownload(@RequestBody downloadDto: DownloadDto) {
-        downloadService.saveDownload(downloadDto)
+    fun createDownload(@RequestBody downloadDto: DownloadDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(downloadService.saveDownload(downloadDto))
     }
 
     /**
@@ -36,8 +39,8 @@ class DownloadRestController(private val downloadService: DownloadService) {
      * @param downloadDto
      */
     @PutMapping("")
-    fun updateDownload(@RequestBody downloadDto: DownloadDto) {
-        downloadService.saveDownload(downloadDto)
+    fun updateDownload(@RequestBody downloadDto: DownloadDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(downloadService.saveDownload(downloadDto))
     }
 
     /**
@@ -46,7 +49,7 @@ class DownloadRestController(private val downloadService: DownloadService) {
      * @param downloadId
      */
     @DeleteMapping("/{downloadId}")
-    fun deleteDownload(@PathVariable downloadId: String) {
-        downloadService.deleteDownload(downloadId)
+    fun deleteDownload(@PathVariable downloadId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(downloadService.deleteDownload(downloadId))
     }
 }

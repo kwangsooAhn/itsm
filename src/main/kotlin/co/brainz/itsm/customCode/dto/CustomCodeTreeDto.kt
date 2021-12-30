@@ -25,4 +25,3 @@ data class CustomCodeTreeReturnDto(
     val data: List<CustomCodeTreeDto> = emptyList(),
     val totalCount: Long = 0
 ) : Serializable
-

@@ -87,7 +87,8 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.officeNumber,
                     user.mobileNumber,
                     user.createDt,
-                    user.absenceYn
+                    user.absenceYn,
+                    user.useYn
                 )
             )
 

@@ -49,6 +49,26 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.nio.file.Paths
+import java.security.PrivateKey
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Optional
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.List
+import kotlin.collections.Map
+import kotlin.collections.MutableList
+import kotlin.collections.forEach
+import kotlin.collections.get
+import kotlin.collections.isNotEmpty
+import kotlin.collections.listOf
+import kotlin.collections.mutableListOf
+import kotlin.collections.mutableSetOf
+import kotlin.collections.set
+import kotlin.collections.setOf
+import kotlin.math.ceil
+import kotlin.random.Random
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -60,14 +80,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import java.nio.file.Paths
-import java.security.PrivateKey
-import java.time.LocalDateTime
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Optional
-import kotlin.math.ceil
-import kotlin.random.Random
 
 /**
  * 사용자 관리 서비스
@@ -631,7 +643,7 @@ class UserService(
                             value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(result.createDt)
                         ),
                         ExcelCellVO(
-                            value = if (result.absenceYn) {
+                            value = if (result.useYn) {
                                 aliceMessageSource.getMessage("user.status.true")
                             } else {
                                 aliceMessageSource.getMessage("user.status.false")

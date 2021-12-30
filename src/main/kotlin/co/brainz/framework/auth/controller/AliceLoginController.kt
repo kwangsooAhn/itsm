@@ -99,7 +99,7 @@ class AliceLoginController(
             model.addAttribute("isLoginPlatform", loginPlatformEnabled)
             model.addAttribute("findPasswordEnabled", findPasswordEnabled)
             model.addAttribute("findIdEnabled", findIdEnabled)
-            model.addAttribute("createAccountEnabled",createAccountEnabled)
+            model.addAttribute("createAccountEnabled", createAccountEnabled)
         }
 
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)

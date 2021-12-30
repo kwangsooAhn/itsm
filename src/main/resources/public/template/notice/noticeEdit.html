@@ -234,6 +234,7 @@
             url = '/rest/notices';
         }
 
+        restSubmit(method, url, data);
         aliceJs.fetchText(url, {
             method: method,
             headers: {
@@ -257,14 +258,47 @@
 
     function deleteNotice() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchText('/rest/notices/' + [[${notice?.noticeNo}]], {
-                method: 'DELETE'
-            }).then((rtn) => {
-                zAlert.success(i18n.msg('common.msg.delete'), () => {
-                    location.href = '/notices/search';
-                });
+            aliceJs.fetchJson('/rest/notices/' + [[${notice?.noticeNo}]], {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then((result) => {
+                if (result.status === 200) {
+                    zAlert.success(i18n.msg('common.msg.delete'), () => {
+                        location.href = '/notices/search';
+                    });
+                } else {
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                }
             });
         });
+    }
+
+    function restSubmit(method, url, data) {
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function(response) {
+                let result = JSON.parse(response.responseText);
+                if (result.status === 200) {
+                    if (method === 'post') {
+                        zAlert.success(i18n.msg('common.msg.register'), function () {
+                            window.location.href = '/notices/search';
+                        });
+                    } else if (method === 'put') {
+                        zAlert.success(i18n.msg('common.msg.modify'), function () {
+                            window.location = '/notices/search';
+                        });
+                    }
+                } else {
+                    zAlert.warning(i18n.msg('common.msg.fail'));
+                }
+            }
+        };
+        aliceJs.sendXhr(opt)
     }
     /* ]]> */
 </script>

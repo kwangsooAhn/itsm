@@ -119,7 +119,7 @@ class WfInstanceService(
             tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
         }
 
-        //tags
+        // tags
         val instanceIds = mutableSetOf<String>()
         queryResults.results.forEach {
             instanceIds.add(it.instanceEntity.instanceId)
