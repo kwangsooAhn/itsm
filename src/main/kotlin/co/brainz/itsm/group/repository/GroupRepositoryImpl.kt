@@ -23,6 +23,4 @@ class GroupRepositoryImpl : QuerydslRepositorySupport(GroupEntity::class.java), 
             .orderBy(group.level.asc(),group.seqNum.asc())
             .fetchResults()
     }
-
-
 }

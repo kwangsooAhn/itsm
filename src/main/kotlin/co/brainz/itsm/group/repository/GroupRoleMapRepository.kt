@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository
 interface GroupRoleMapRepository : JpaRepository<GroupRoleMapEntity, String>, GroupRoleMapRepositoryCustom {
 
     fun deleteByGroupId(groupId: GroupEntity)
-
 }

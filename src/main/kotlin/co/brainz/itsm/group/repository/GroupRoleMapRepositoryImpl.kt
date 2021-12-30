@@ -29,8 +29,5 @@ class GroupRoleMapRepositoryImpl : QuerydslRepositorySupport(GroupRoleMapEntity:
             .fetch()
 
     }
-
-
-
 }
 

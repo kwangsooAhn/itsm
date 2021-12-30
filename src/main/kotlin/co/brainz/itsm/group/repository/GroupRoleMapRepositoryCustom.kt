@@ -6,5 +6,4 @@ import co.brainz.framework.querydsl.AliceRepositoryCustom
 interface GroupRoleMapRepositoryCustom : AliceRepositoryCustom {
 
     fun findGroupRoleMapByGroupId(groupId: String): MutableList<AliceRoleEntity>
-
 }

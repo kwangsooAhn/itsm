@@ -9,5 +9,4 @@ interface GroupRepositoryCustom : AliceRepositoryCustom {
     fun findByGroupAll(): QueryResults<GroupEntity>
 
     fun findByGroupList(searchValue: String): QueryResults<GroupEntity>
-
 }
