@@ -308,7 +308,8 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(zProcessDesigner.data)
+            body: JSON.stringify(zProcessDesigner.data),
+            showProgressbar: true
         }).then((response) => {
             if (typeof callbackFunc === 'function') {
                 callbackFunc(response);
@@ -350,7 +351,8 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(saveAsProcessData)
+                body: JSON.stringify(saveAsProcessData),
+                showProgressbar: true
             }).then((resultToJson) => {
                 let processId = resultToJson.processId;
                 let resultCode = resultToJson.result;
