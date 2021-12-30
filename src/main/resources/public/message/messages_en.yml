@@ -862,6 +862,11 @@ form:
     publish: "Publish"
     use: "Use"
 
+# Group
+group:
+  msg:
+    failedGroupDelete: "Failed to delete the group because of a member."
+
 # Image
 image:
   label:

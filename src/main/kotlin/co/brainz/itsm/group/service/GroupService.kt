@@ -1,5 +1,8 @@
 package co.brainz.itsm.group.service
 
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.group.dto.GroupDetailDto
 import co.brainz.itsm.group.dto.GroupDto
@@ -9,6 +12,7 @@ import co.brainz.itsm.group.entity.GroupRoleMapEntity
 import co.brainz.itsm.group.repository.GroupRepository
 import co.brainz.itsm.group.repository.GroupRoleMapRepository
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.user.repository.UserRepository
 import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
 import javax.transaction.Transactional
@@ -19,7 +23,9 @@ class GroupService(
     private val groupRepository: GroupRepository,
     private val groupRoleMapRepository: GroupRoleMapRepository,
     private val roleRepository: RoleRepository,
-    private val currentSessionUser: CurrentSessionUser
+    private val userRepository: UserRepository,
+    private val currentSessionUser: CurrentSessionUser,
+    private val aliceMessageSource: AliceMessageSource
 ) {
 
     /**
@@ -141,14 +147,23 @@ class GroupService(
      */
     @Transactional
     fun deleteGroup(groupId: String) : Boolean {
+        // 조직에 구성원이 있는지 확인
+        when (userRepository.existsByDepartment(groupId)) {
+            true -> {
+                throw AliceException(
+                    AliceErrorConstants.ERR_00004,
+                    aliceMessageSource.getMessage("group.msg.failedGroupDelete")
+                )
+            }
+            false -> {
+                // 조직에 설정된 역할 삭제
+                groupRoleMapRepository.deleteByGroupId(GroupEntity(groupId))
+                // 조직 삭제
+                groupRepository.deleteByGroupId(groupId)
+                return true
+            }
+        }
 
-        // TODO : 조직에 구성원이 있으면 알림창으로 전달.
-
-        // 조직에 설정된 역할 삭제
-        groupRoleMapRepository.deleteByGroupId(GroupEntity(groupId))
-        // 조직 삭제
-        groupRepository.deleteByGroupId(groupId)
-        return true
     }
 
 }

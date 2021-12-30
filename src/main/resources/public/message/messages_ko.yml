@@ -862,6 +862,11 @@ form:
     publish: "발행"
     use: "사용"
 
+# Group
+group:
+  msg:
+    failedGroupDelete: "조직에 구성원이 존재하여 삭제할 수 없습니다."
+
 # Image
 image:
   label:
