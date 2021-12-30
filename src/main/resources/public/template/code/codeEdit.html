@@ -139,9 +139,7 @@
         OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-page-edit'), {className: 'scrollbar'});
         OverlayScrollbars(document.getElementById('txtCodeDesc'), {className: 'scrollbar'});
-        document.getElementById('searchValue').addEventListener('keyup', function () {
-            getCodeList();
-        });
+        document.getElementById('searchValue').addEventListener('keyup', getCodeList, false);
 
         if (document.getElementById('btnUpdate') !== null) {
             CODE_UPDATE = true;
@@ -156,7 +154,6 @@
         onCreate();
 
         getCodeList();
-        document.getElementById('root').click();
     });
 
     function getCodeList() {

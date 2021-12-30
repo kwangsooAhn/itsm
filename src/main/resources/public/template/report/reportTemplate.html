@@ -72,7 +72,7 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/reports/template/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list">
+            <div class="z-button-list" th:if="!${view}">
                 <button class="z-button primary" th:if="${template == null}"
                         sec:authorize="hasAuthority('report.create')"
                         onclick="saveReportTemplate('POST')" th:text="#{common.btn.register}"></button>

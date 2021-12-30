@@ -131,7 +131,7 @@
         <div class="z-button-list">
             <a class="z-button secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
         </div>
-        <div class="z-button-list">
+        <div class="z-button-list" th:if="!${view}">
             <button class="z-button primary" onclick="saveBoardAdmin('POST')"
                     sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.register}" th:unless="${boardAdmin?.boardAdminId}"></button>
             <button class="z-button primary" onclick="saveBoardAdmin('PUT')"

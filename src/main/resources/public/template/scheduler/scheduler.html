@@ -145,7 +145,7 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/schedulers/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list">
+            <div class="z-button-list" th:if="!${view}">
                 <button class="z-button primary" onclick="actionScheduler('post')"
                         sec:authorize="hasAuthority('scheduler.create')"
                         th:if="${schedule == null}" th:text="#{common.btn.register}"></button>

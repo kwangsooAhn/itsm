@@ -73,7 +73,7 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/numberingRules/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list">
+            <div class="z-button-list" th:if="!${view}">
                 <button class="z-button primary" id="btnAdd" name="btnAdd"
                         sec:authorize="hasAuthority('numbering.rule.create')" th:if="!${rule?.numberingId}"
                         th:onclick="|javascript:onSave('POST')|"

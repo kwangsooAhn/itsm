@@ -71,16 +71,16 @@
         <div class="z-button-list">
             <a class="z-button secondary" href="/auths/search" th:text="#{common.btn.list}"></a>
         </div>
-        <div class="z-button-list">
+        <div class="z-button-list" th:if="!${view}">
             <button class="z-button primary"
-                    id="btnRegist" name="btnRegist" sec:authorize="hasAuthority('auth.create')" th:if="!${auth?.authId} and !${view}" th:onclick="|javascript:onSave('post')|"
+                    id="btnRegist" name="btnRegist" sec:authorize="hasAuthority('auth.create')" th:if="!${auth?.authId}" th:onclick="|javascript:onSave('post')|"
                     th:text="#{common.btn.register}" type="button"></button>
             <button class="z-button primary"
-                    id="btnUpdate" name="btnUpdate" sec:authorize="hasAuthority('auth.update')" th:if="${auth?.authId} and !${view}" th:onclick="|javascript:onSave('put')|"
+                    id="btnUpdate" name="btnUpdate" sec:authorize="hasAuthority('auth.update')" th:if="${auth?.authId}" th:onclick="|javascript:onSave('put')|"
                     th:text="#{common.btn.modify}"
                     type="button"></button>
             <button class="z-button secondary"
-                    id="btnDelete" name="btnDelete" sec:authorize="hasAuthority('auth.delete')" th:if="${auth?.authId} and !${view}" th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                    id="btnDelete" name="btnDelete" sec:authorize="hasAuthority('auth.delete')" th:if="${auth?.authId}" th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                     th:text="#{common.btn.delete}"
                     type="button"></button>
         </div>

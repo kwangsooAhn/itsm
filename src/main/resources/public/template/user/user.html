@@ -226,7 +226,7 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/users/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list">
+            <div class="z-button-list" th:if="!${view}">
                 <button class="z-button primary" sec:authorize="hasAuthority('user.create')"
                         th:if="!${users?.userKey}" th:onclick="preSubmitCheck('post', [[@{/rest/users}]], 'true')" th:text="#{auth.user.create}"
                         type="button"></button>

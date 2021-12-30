@@ -1982,82 +1982,63 @@
      *
      * @param processId 프로세스 ID
      */
-    function loadItems(processId) {
-        /**
-         * load process data.
-         */
-        const loadProcessData = function() {
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/rest/process/' + processId + '/data',
-                contentType: 'application/json; charset=utf-8',
-                callbackFunc: function(xhr) {
-                    zProcessDesigner.data = JSON.parse(xhr.responseText);
-                    const elements = zProcessDesigner.data.elements;
-                    initialStatus = zProcessDesigner.data.process.status;
-                    elements.forEach(function(element) {
-                        const category = getElementCategory(element.type);
-                        element.required = getAttributeRequired(category, element.type);
-                    });
-                    setElementMenu();
-                    zProcessDesigner.drawProcess(processId, elements);
-                    exports.initialStatus = initialStatus;
-                }
+    async function loadItems(processId) {
+        const loadAtributeData = async () => await aliceJs.fetchJson('/assets/js/process/processAttribute.json', {
+            method: 'GET'
+        }).then((data) => {
+            processProperties = data;
+        });
+        //load element attribute data
+        const loadElementData = async () => await aliceJs.fetchJson('/assets/js/process/elementAttribute.json', {
+            method: 'GET'
+        }).then((data) => {
+            elementsProperties = data;
+            elementsKeys = Object.getOwnPropertyNames(data);
+        });
+
+        // load process data
+        const loadProcessData = async () => await aliceJs.fetchJson('/rest/process/' + processId + '/data', {
+            method: 'GET'
+        }).then((data) => {
+            zProcessDesigner.data = data;
+            const elements = zProcessDesigner.data.elements;
+            initialStatus = zProcessDesigner.data.process.status;
+            elements.forEach(function(element) {
+                const category = getElementCategory(element.type);
+                element.required = getAttributeRequired(category, element.type);
             });
-        };
-
-        /**
-         * load element attribute data.
-         */
-        const loadElementData = function() {
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/assets/js/process/elementAttribute.json',
-                contentType: 'application/json; charset=utf-8',
-                callbackFunc: function(xhr) {
-                    elementsProperties = JSON.parse(xhr.responseText);
-                    elementsKeys = Object.getOwnPropertyNames(elementsProperties);
-                    loadProcessData();
-                }
-            });
-        };
-        // load process attribute data.
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/assets/js/process/processAttribute.json',
-            contentType: 'application/json; charset=utf-8',
-            callbackFunc: function(xhr) {
-                processProperties = JSON.parse(xhr.responseText);
-                loadElementData();
-            }
+            setElementMenu();
+            zProcessDesigner.drawProcess(processId, elements);
+            exports.initialStatus = initialStatus;
         });
 
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/users/all',
-            contentType: 'application/json; charset=utf-8',
-            callbackFunc: function(xhr) {
-                assigneeTypeData.users = JSON.parse(xhr.responseText);
-            }
+        // assigneeTypeData users
+        const loadAssigneeUsers = async () => await aliceJs.fetchJson('/rest/users/all', {
+            method: 'GET'
+        }).then((data) => {
+            assigneeTypeData.users = data;
         });
 
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/roles',
-            contentType: 'application/json; charset=utf-8',
-            callbackFunc: function(xhr) {
-                assigneeTypeData.groups = JSON.parse(xhr.responseText).data;
-            }
+        // assigneeTypeData groups
+        const loadAssigneeGroups = async () => await aliceJs.fetchJson('/rest/roles', {
+            method: 'GET'
+        }).then((groupList) => {
+            assigneeTypeData.groups = groupList.data;
         });
 
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/documents?searchDocumentStatus=document.status.use',
-            contentType: 'application/json; charset=utf-8',
-            callbackFunc: function(xhr) {
-                documents = JSON.parse(xhr.responseText);
-            }
+        // documents
+        const loadDocuments = async () => await aliceJs.fetchJson('/rest/documents?searchDocumentStatus=document.status.use', {
+            method: 'GET'
+        }).then((data) => {
+            documents = data;
         });
+
+        await loadAtributeData();
+        await loadElementData();
+        await loadProcessData();
+        await loadAssigneeUsers();
+        await loadAssigneeGroups();
+        await loadDocuments();
 
         // add pattern image. for tooltip item image.
         const imageLoadingList = [];

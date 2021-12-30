@@ -100,83 +100,10 @@
         document.getElementById('search').focus();
         onCreate();
 
-        function getTypeList() {
-            const search = encodeURIComponent(document.querySelector('#search').value);
-            tree.load({
-                source: 'ciType',
-                dataUrl: '/rest/cmdb/types?search=' + search,
-                target: 'treeList',
-                text: 'typeName',
-                totalCount: true,
-                selectedNode: function(response) {
-                    onGetDetail(response.id);
-                    document.getElementById('typeLevel').value = response.getAttribute('data-depth');
-                }
-            });
-        }
         getTypeList();
-        document.getElementById('root').click();
+        document.getElementById('search').addEventListener('keyup', getTypeList, false);
 
-        // 상세조회
-        function onGetDetail(typeId) {
-            if (!observer.canPageChange()) {
-                return;
-            }
-            document.querySelectorAll('input[type=text]').forEach(function(object){
-                object.value = '';
-            });
-            document.querySelector('textarea').value = '';
-
-            aliceJs.fetchJson('/rest/cmdb/types/' + typeId, {
-                method: 'GET'
-            }).then((responseJson) => {
-                document.getElementById('parentTypeName').setAttribute('readonly','');
-                document.getElementById('parentTypeName').value = responseJson.ptypeName;
-                document.getElementById('parentTypeId').value = responseJson.ptypeId;
-                document.getElementById('typeName').value = responseJson.typeName;
-                document.getElementById('typeId').value = responseJson.typeId;
-                document.getElementById('typeDesc').value = responseJson.typeDesc;
-                document.getElementById('typeSeq').value = responseJson.typeSeq;
-                document.getElementById('typeAlias').value = responseJson.typeAlias;
-                document.getElementById('typeIcon').value = responseJson.typeIcon;
-                document.getElementById('typeClassId').value = responseJson.classId;
-                document.getElementById('typeClass').value = responseJson.className;
-                if (responseJson.editable) {
-                    if (document.querySelector('#btnUpdate') != null) {
-                        document.querySelector('#btnUpdate').removeAttribute('disabled');
-                    }
-                    if (document.querySelector('#btnDelete') != null) {
-                        document.querySelector('#btnDelete').removeAttribute('disabled');
-                    }
-                    if (document.querySelector('button[name=typeIconSelector]') != null) {
-                        document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
-                    }
-                    if (document.querySelector('button[name=typeClassSelector]') != null) {
-                        document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
-                    }
-                    document.getElementById('typeAlias').readOnly = true;
-                } else {
-                    if (document.querySelector('#btnUpdate') != null) {
-                        document.getElementById('btnUpdate').disabled = true;
-                    }
-                    if (document.querySelector('#btnDelete') != null) {
-                        document.getElementById('btnDelete').disabled = true;
-                    }
-                    if (document.querySelector('button[name=typeIconSelector]') != null) {
-                        document.querySelector('button[name=typeIconSelector]').disabled = true;
-                    }
-                    if (document.querySelector('button[name=typeClassSelector]') != null) {
-                        document.querySelector('button[name=typeClassSelector]').disabled = true;
-                    }
-                }
-                onEdit();
-                observer.isChanged = false;
-            });
-        }
         OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
-        document.getElementById('search').addEventListener('keyup', function() {
-            getTypeList();
-        });
         OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
         OverlayScrollbars(document.getElementById('typeDesc'), {
             className: 'scrollbar',
@@ -189,6 +116,77 @@
             }
         });
     });
+
+    function getTypeList() {
+        const search = encodeURIComponent(document.querySelector('#search').value);
+        tree.load({
+            source: 'ciType',
+            dataUrl: '/rest/cmdb/types?search=' + search,
+            target: 'treeList',
+            text: 'typeName',
+            totalCount: true,
+            selectedNode: function(response) {
+                onGetDetail(response.id);
+                document.getElementById('typeLevel').value = response.getAttribute('data-depth');
+            }
+        });
+    }
+    // 상세조회
+    function onGetDetail(typeId) {
+        if (!observer.canPageChange()) {
+            return;
+        }
+        document.querySelectorAll('input[type=text]').forEach(function(object){
+            object.value = '';
+        });
+        document.querySelector('textarea').value = '';
+
+        aliceJs.fetchJson('/rest/cmdb/types/' + typeId, {
+            method: 'GET'
+        }).then((responseJson) => {
+            document.getElementById('parentTypeName').setAttribute('readonly','');
+            document.getElementById('parentTypeName').value = responseJson.ptypeName;
+            document.getElementById('parentTypeId').value = responseJson.ptypeId;
+            document.getElementById('typeName').value = responseJson.typeName;
+            document.getElementById('typeId').value = responseJson.typeId;
+            document.getElementById('typeDesc').value = responseJson.typeDesc;
+            document.getElementById('typeSeq').value = responseJson.typeSeq;
+            document.getElementById('typeAlias').value = responseJson.typeAlias;
+            document.getElementById('typeIcon').value = responseJson.typeIcon;
+            document.getElementById('typeClassId').value = responseJson.classId;
+            document.getElementById('typeClass').value = responseJson.className;
+            if (responseJson.editable) {
+                if (document.querySelector('#btnUpdate') != null) {
+                    document.querySelector('#btnUpdate').removeAttribute('disabled');
+                }
+                if (document.querySelector('#btnDelete') != null) {
+                    document.querySelector('#btnDelete').removeAttribute('disabled');
+                }
+                if (document.querySelector('button[name=typeIconSelector]') != null) {
+                    document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+                }
+                if (document.querySelector('button[name=typeClassSelector]') != null) {
+                    document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
+                }
+                document.getElementById('typeAlias').readOnly = true;
+            } else {
+                if (document.querySelector('#btnUpdate') != null) {
+                    document.getElementById('btnUpdate').disabled = true;
+                }
+                if (document.querySelector('#btnDelete') != null) {
+                    document.getElementById('btnDelete').disabled = true;
+                }
+                if (document.querySelector('button[name=typeIconSelector]') != null) {
+                    document.querySelector('button[name=typeIconSelector]').disabled = true;
+                }
+                if (document.querySelector('button[name=typeClassSelector]') != null) {
+                    document.querySelector('button[name=typeClassSelector]').disabled = true;
+                }
+            }
+            onEdit();
+            observer.isChanged = false;
+        });
+    }
 
     /** create **/
     function onCreate() {

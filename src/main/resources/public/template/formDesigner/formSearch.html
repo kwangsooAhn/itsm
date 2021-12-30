@@ -58,10 +58,11 @@
     function getList(pageNum = 1) {
         const urlParam = encodeURIComponent(document.getElementById('searchValue').value) + '&pageNum=' + pageNum;
         aliceJs.fetchText('/forms?searchValue=' + urlParam, {
-            method: 'GET',
+            method: 'GET'
         }).then((htmlData) => {
-            document.getElementById('formList').innerHTML = htmlData;
-            setDateTimeFormat(document.getElementById('formList'));
+            const listBody = document.getElementById('formList');
+            listBody.innerHTML = htmlData;
+            setDateTimeFormat(listBody);
         });
     }
 
