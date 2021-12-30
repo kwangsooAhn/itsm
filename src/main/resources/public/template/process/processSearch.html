@@ -151,9 +151,7 @@
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
             aliceJs.fetchText('/rest/process/' + processId, {
                 method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                showProgressbar: true
             }).then((rtn) => {
                 if (rtn === 'true') {
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
