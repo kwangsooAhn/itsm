@@ -34,6 +34,8 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     // 공지사항 검색 결과
     fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): NoticeListReturnDto {
         val queryResult = noticeRepository.findNoticeSearch(noticeSearchCondition)
+        val total = queryResult.total + (this.findTopNotice().size *
+                (ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong() + 1L))
 
         return NoticeListReturnDto(
             data = queryResult.results,
@@ -41,7 +43,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = noticeRepository.count(),
                 currentPageNum = noticeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
