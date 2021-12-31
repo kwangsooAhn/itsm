@@ -90,7 +90,7 @@
                 <ul>
                     <li style="list-style-type:disc">_alignments.scss</li>
                     <li style="list-style-type:disc">_columns.scss</li>
-                    <li style="list-style-type:disc">_fonts.scss</li>
+                    <li style="list-style-type:disc">_flex.scss</li>
                     <li style="list-style-type:disc">_spacing.scss</li>
                     <li style="list-style-type:disc">_variables.scss</li>
                 </ul>
@@ -103,7 +103,6 @@
         <ul>
             <li style="list-style-type:disc">_reset.scss</li>
             <li style="list-style-type:disc">_common.scss</li>
-            <li style="list-style-type:disc">_flex.scss</li>
             <li style="list-style-type:disc">_font.scss</li>
         </ul>
     </details></li>
