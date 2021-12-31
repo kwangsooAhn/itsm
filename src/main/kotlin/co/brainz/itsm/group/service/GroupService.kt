@@ -7,6 +7,7 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.group.dto.GroupDetailDto
 import co.brainz.itsm.group.dto.GroupDto
 import co.brainz.itsm.group.dto.GroupListDto
+import co.brainz.itsm.group.dto.GroupRoleDto
 import co.brainz.itsm.group.entity.GroupEntity
 import co.brainz.itsm.group.entity.GroupRoleMapEntity
 import co.brainz.itsm.group.repository.GroupRepository
@@ -36,8 +37,8 @@ class GroupService(
         val queryResults: QueryResults<GroupEntity>
 
         when (searchValue.isEmpty()) {
-            true -> { queryResults = groupRepository.findByGroupAll() }
-            false -> { queryResults = groupRepository.findByGroupList(searchValue) }
+            true -> { queryResults = groupRepository.findByGroupList() }
+            false -> { queryResults = groupRepository.findByGroupSearchList(searchValue) }
         }
         for (group in queryResults.results) {
             treeGroupList.add(
@@ -67,8 +68,8 @@ class GroupService(
      */
     fun getDetailGroup(groupId: String): GroupDetailDto {
         val groupInfo = groupRepository.findByGroupId(groupId)
-        val groupUseRoles = groupRoleMapRepository.findGroupRoleMapByGroupId(groupId)
-        val allRoles = roleRepository.findRolesAll()
+        val groupUseRoleList = groupRoleMapRepository.findGroupUseRoleByGroupId(groupId)
+        val allRoleList = roleRepository.findByRoleAll()
 
         return GroupDetailDto(
             groupId = groupInfo.groupId,
@@ -78,8 +79,8 @@ class GroupService(
             useYn = groupInfo.useYn,
             level = groupInfo.level,
             seqNum = groupInfo.seqNum,
-            allRoles = allRoles,
-            groupUseRoles = groupUseRoles
+            allRoles = allRoleList,
+            groupUseRoles = groupUseRoleList
         )
     }
 
@@ -87,55 +88,54 @@ class GroupService(
      * 조직 등록
      */
     @Transactional
-    fun createGroup(groupDetailDto: GroupDetailDto) : Boolean {
-        var isSuccess = true
-        if (groupRepository.existsByGroupName(groupDetailDto.groupName)) {
-            isSuccess = false
+    fun createGroup(groupRoleDto: GroupRoleDto) : Boolean {
+        if (groupRepository.existsByGroupName(groupRoleDto.groupName)) {
+            return false
         }
         val group = groupRepository.save(
             GroupEntity(
-                pGroupId = groupDetailDto.pGroupId,
-                groupName = groupDetailDto.groupName,
-                groupDesc = groupDetailDto.groupDesc,
-                useYn = groupDetailDto.useYn,
-                level = groupDetailDto.level,
-                seqNum = groupDetailDto.seqNum,
+                pGroupId = groupRoleDto.pGroupId,
+                groupName = groupRoleDto.groupName,
+                groupDesc = groupRoleDto.groupDesc,
+                useYn = groupRoleDto.useYn,
+                level = groupRoleDto.level,
+                seqNum = groupRoleDto.seqNum,
                 createUserKey = currentSessionUser.getUserKey(),
                 createDt = LocalDateTime.now()
             )
         )
-        if (!groupDetailDto.groupUseRoles.isEmpty()) {
-            groupDetailDto.groupUseRoles.forEach { role ->
+        if (!groupRoleDto.roles.isEmpty()) {
+            groupRoleDto.roles.forEach { role ->
                 groupRoleMapRepository.save(GroupRoleMapEntity(group, role))
             }
         }
-        return isSuccess
+        return true
     }
 
     /**
      * 조직 정보 수정
      */
     @Transactional
-    fun updateGroup(groupDetailDto: GroupDetailDto) : Boolean {
+    fun updateGroup(groupRoleDto: GroupRoleDto) : Boolean {
 
         val group = groupRepository.save(
             GroupEntity(
-                groupId = groupDetailDto.groupId,
-                pGroupId = groupDetailDto.pGroupId,
-                groupName = groupDetailDto.groupName,
-                groupDesc = groupDetailDto.groupDesc,
-                useYn = groupDetailDto.useYn,
-                level = groupDetailDto.level,
-                seqNum = groupDetailDto.seqNum,
+                groupId = groupRoleDto.groupId,
+                pGroupId = groupRoleDto.pGroupId,
+                groupName = groupRoleDto.groupName,
+                groupDesc = groupRoleDto.groupDesc,
+                useYn = groupRoleDto.useYn,
+                level = groupRoleDto.level,
+                seqNum = groupRoleDto.seqNum,
                 updateUserKey = currentSessionUser.getUserKey(),
                 updateDt = LocalDateTime.now()
             )
         )
-        if (!groupDetailDto.groupUseRoles.isEmpty()) {
+        if (!groupRoleDto.roles.isEmpty()) {
             groupRoleMapRepository.deleteByGroupId(group)
             groupRoleMapRepository.flush()
 
-            groupDetailDto.groupUseRoles.forEach { role ->
+            groupRoleDto.roles.forEach { role ->
                 groupRoleMapRepository.save(GroupRoleMapEntity(group, role))
             }
         }

@@ -2,7 +2,7 @@ package co.brainz.itsm.group.controller
 
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
-import co.brainz.itsm.group.dto.GroupDetailDto
+import co.brainz.itsm.group.dto.GroupRoleDto
 import co.brainz.itsm.group.service.GroupService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -41,18 +41,18 @@ class GroupRestController(private val groupService: GroupService) {
      * 조직 등록
      */
     @PostMapping("/","")
-    fun createGroup(@RequestBody groupDetailDto: GroupDetailDto
+    fun createGroup(@RequestBody groupRoleDto: GroupRoleDto
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(groupService.createGroup(groupDetailDto))
+        return ZAliceResponse.response(groupService.createGroup(groupRoleDto))
     }
 
     /**
      * 조직 정보 수정
      */
     @PutMapping("/{groupId}")
-    fun updateGroup(@RequestBody groupDetailDto: GroupDetailDto
+    fun updateGroup(@RequestBody groupRoleDto: GroupRoleDto
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(groupService.updateGroup(groupDetailDto))
+        return ZAliceResponse.response(groupService.updateGroup(groupRoleDto))
     }
 
     /**

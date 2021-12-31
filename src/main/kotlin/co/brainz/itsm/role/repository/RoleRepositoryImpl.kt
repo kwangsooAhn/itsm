@@ -41,12 +41,12 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
         return query.fetchResults()
     }
 
-    override fun findRolesAll(): MutableList<AliceRoleEntity> {
+    override fun findByRoleAll(): MutableList<RoleListDto> {
         val role = QAliceRoleEntity.aliceRoleEntity
         return from(role)
             .select(
                 Projections.constructor(
-                    AliceRoleEntity::class.java,
+                    RoleListDto::class.java,
                     role.roleId,
                     role.roleName,
                     role.roleDesc

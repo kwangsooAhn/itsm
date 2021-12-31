@@ -14,5 +14,5 @@ import com.querydsl.core.QueryResults
 interface RoleRepositoryCustom : AliceRepositoryCustom {
     fun findRoleSearch(roleSearchCondition: RoleSearchCondition): QueryResults<RoleListDto>
 
-    fun findRolesAll() : MutableList<AliceRoleEntity>
+    fun findByRoleAll() : MutableList<RoleListDto>
 }

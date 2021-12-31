@@ -1,9 +1,9 @@
 package co.brainz.itsm.group.dto
 
-import co.brainz.itsm.role.dto.RoleListDto
+import co.brainz.framework.auth.entity.AliceRoleEntity
 import java.io.Serializable
 
-data class GroupDetailDto(
+data class GroupRoleDto(
     var groupId: String = "",
     var pGroupId: String = "",
     var groupName: String? = null,
@@ -11,8 +11,7 @@ data class GroupDetailDto(
     var useYn: Boolean? = true,
     var level: Int? = null,
     var seqNum: Int? = null,
-    var allRoles: List<RoleListDto> = emptyList(),
-    var groupUseRoles: List<RoleListDto> = emptyList()
+    var roles: List<AliceRoleEntity> = emptyList()
 ) : Serializable
 
 

@@ -6,7 +6,7 @@ import com.querydsl.core.QueryResults
 
 interface GroupRepositoryCustom : AliceRepositoryCustom {
 
-    fun findByGroupAll(): QueryResults<GroupEntity>
+    fun findByGroupList(): QueryResults<GroupEntity>
 
-    fun findByGroupList(searchValue: String): QueryResults<GroupEntity>
+    fun findByGroupSearchList(searchValue: String): QueryResults<GroupEntity>
 }
