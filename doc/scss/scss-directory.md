@@ -72,27 +72,27 @@
         <ul>
             <li><details close=""><summary>mixins</summary>
                 <ul>
-                    <li style="list-style-type:disc">_animation</li>
-                    <li style="list-style-type:disc">_border</li>
-                    <li style="list-style-type:disc">_divider</li>
-                    <li style="list-style-type:disc">_elements</li>
-                    <li style="list-style-type:disc">_image</li>
-                    <li style="list-style-type:disc">_layout</li>
-                    <li style="list-style-type:disc">_position</li>
-                    <li style="list-style-type:disc">_scroll</li>
-                    <li style="list-style-type:disc">_text</li>
-                    <li style="list-style-type:disc">_functions</li>
+                    <li style="list-style-type:disc">_animation.scss</li>
+                    <li style="list-style-type:disc">_border.scss</li>
+                    <li style="list-style-type:disc">_divider.scss</li>
+                    <li style="list-style-type:disc">_component.scss</li>
+                    <li style="list-style-type:disc">_image.scss</li>
+                    <li style="list-style-type:disc">_layout.scss</li>
+                    <li style="list-style-type:disc">_position.scss</li>
+                    <li style="list-style-type:disc">_scroll.scss</li>
+                    <li style="list-style-type:disc">_text.scss</li>
+                    <li style="list-style-type:disc">_functions.scss</li>
                 </ul>
             </details></li>
         </ul>
         <ul>
             <li><details close=""><summary>variables / 변수만</summary>
                 <ul>
-                    <li style="list-style-type:disc">_alignments</li>
-                    <li style="list-style-type:disc">_columns</li>
-                    <li style="list-style-type:disc">_fonts</li>
-                    <li style="list-style-type:disc">_spacing</li>
-                    <li style="list-style-type:disc">_variables</li>
+                    <li style="list-style-type:disc">_alignments.scss</li>
+                    <li style="list-style-type:disc">_columns.scss</li>
+                    <li style="list-style-type:disc">_flex.scss</li>
+                    <li style="list-style-type:disc">_spacing.scss</li>
+                    <li style="list-style-type:disc">_variables.scss</li>
                 </ul>
             </details></li>
         </ul>
@@ -101,34 +101,42 @@
 <ul>
     <li><details close=""><summary><strong>Base</strong></summary>
         <ul>
-            <li style="list-style-type:disc">_reset</li>
-            <li style="list-style-type:disc">_common</li>
-            <li style="list-style-type:disc">_flex</li>
-            <li style="list-style-type:disc">_font</li>
+            <li style="list-style-type:disc">_reset.scss</li>
+            <li style="list-style-type:disc">_common.scss</li>
+            <li style="list-style-type:disc">_font.scss</li>
+            <li style="list-style-type:disc">_icons.scss</li>
         </ul>
     </details></li>
 </ul>
 <ul>
     <li><details close=""><summary><strong>Layout</strong></summary>
         <ul>
-            <li style="list-style-type:disc">_wrapper</li>
-            <li style="list-style-type:disc">_header</li>
-            <li style="list-style-type:disc">_navigation</li>
+            <li style="list-style-type:disc">_wrapper.scss</li>
+            <li style="list-style-type:disc">_header.scss</li>
+            <li style="list-style-type:disc">_footer.scss</li>
+            <li style="list-style-type:disc">_navigation.scss</li>
+            <li><details close=""><summary>_content.scss</summary>
+                <ul>
+                    <li style="list-style-type:disc">search</li>
+                    <li style="list-style-type:disc">edit / view</li>
+                </ul>
+            </details></li>
         </ul>
     </details></li>
 </ul>
 <ul>
     <li><details close=""><summary><strong>Components</strong></summary>
         <ul>
-            <li><details close=""><summary>Button</summary>
+            <li><details close=""><summary>Button.scss</summary>
                 <ul>
+                    <li style="list-style-type:disc">Icon</li>
                     <li style="list-style-type:disc">Single</li>
                     <li style="list-style-type:disc">Group</li>
                 </ul>
             </details></li>
         </ul>
         <ul>
-            <li><details close=""><summary>Form</summary>
+            <li><details close=""><summary>Form.scss</summary>
                 <ul>
                     <li style="list-style-type:disc">Text Field</li>
                     <li style="list-style-type:disc">Dropdown / Select</li>
@@ -150,36 +158,35 @@
             </details></li>
         </ul>
         <ul>
-            <li style="list-style-type:disc">_alerts</li>
-            <li style="list-style-type:disc">_avatar</li>
-            <li style="list-style-type:disc">_elements</li>
-            <li style="list-style-type:disc">_icons</li>
-            <li style="list-style-type:disc">_popup</li>
-            <li style="list-style-type:disc">_modal</li>
-            <li style="list-style-type:disc">_reply</li>
-            <li style="list-style-type:disc">_modal</li>
-            <li style="list-style-type:disc">_paging</li>
-            <li style="list-style-type:disc">_scrollbar</li>
-            <li style="list-style-type:disc">_tag</li>
-            <li style="list-style-type:disc">_thumbnail</li>
-            <li style="list-style-type:disc">_tooltip</li>
-            <li style="list-style-type:disc">_tree</li>
-            <li style="list-style-type:disc">_validation</li>
+            <li style="list-style-type:disc">_alerts.scss</li>
+            <li style="list-style-type:disc">_avatar.scss</li>
+            <li style="list-style-type:disc">_popup.scss</li>
+            <li style="list-style-type:disc">_modal.scss</li>
+            <li style="list-style-type:disc">_reply.scss</li>
+            <li style="list-style-type:disc">_paging.scss</li>
+            <li style="list-style-type:disc">_scrollbar.scss</li>
+            <li style="list-style-type:disc">_tag.scss</li>
+            <li style="list-style-type:disc">_thumbnail.scss</li>
+            <li style="list-style-type:disc">_tooltip.scss</li>
+            <li style="list-style-type:disc">_tree.scss</li>
+            <li style="list-style-type:disc">_validation.scss</li>
         </ul>
     </details></li>
 </ul>
 <ul>
     <li><details close=""><summary><strong>Page</strong></summary>
-        <ul><li><details close=""><summary>document</summary></details></li></ul>
-        <ul><li><details close=""><summary>formDesigner</summary></details></li></ul>
-        <ul><li><details close=""><summary>portal</summary></details></li></ul>
-        <ul><li><details close=""><summary>process</summary></details></li></ul>
-        <ul><li><details close=""><summary>report</summary></details></li></ul>
+        <ul>
+            <li style="list-style-type:disc">document.scss</li>
+            <li style="list-style-type:disc">formDesigner.scss</li>
+            <li style="list-style-type:disc">portal.scss</li>
+            <li style="list-style-type:disc">process.scss</li>
+            <li style="list-style-type:disc">report.scss</li>        
+        </ul>
     </details></li>
 </ul>
 <ul>
     <li><details close=""><summary><strong>Themes</strong></summary>
-        <ul><li><details close=""><summary>Default</summary></details></li></ul>
+        <ul><li><details close=""><summary>Dark</summary></details></li></ul>
 </details></li>
 </ul>
 
