@@ -104,6 +104,7 @@
             <li style="list-style-type:disc">_reset.scss</li>
             <li style="list-style-type:disc">_common.scss</li>
             <li style="list-style-type:disc">_font.scss</li>
+            <li style="list-style-type:disc">_icons.scss</li>
         </ul>
     </details></li>
 </ul>
@@ -128,6 +129,7 @@
         <ul>
             <li><details close=""><summary>Button.scss</summary>
                 <ul>
+                    <li style="list-style-type:disc">Icon</li>
                     <li style="list-style-type:disc">Single</li>
                     <li style="list-style-type:disc">Group</li>
                 </ul>
@@ -158,8 +160,6 @@
         <ul>
             <li style="list-style-type:disc">_alerts.scss</li>
             <li style="list-style-type:disc">_avatar.scss</li>
-            <li style="list-style-type:disc">_elements.scss</li>
-            <li style="list-style-type:disc">_icons.scss</li>
             <li style="list-style-type:disc">_popup.scss</li>
             <li style="list-style-type:disc">_modal.scss</li>
             <li style="list-style-type:disc">_reply.scss</li>
