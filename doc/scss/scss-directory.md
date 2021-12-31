@@ -163,7 +163,6 @@
             <li style="list-style-type:disc">_popup.scss</li>
             <li style="list-style-type:disc">_modal.scss</li>
             <li style="list-style-type:disc">_reply.scss</li>
-            <li style="list-style-type:disc">_modal.scss</li>
             <li style="list-style-type:disc">_paging.scss</li>
             <li style="list-style-type:disc">_scrollbar.scss</li>
             <li style="list-style-type:disc">_tag.scss</li>
