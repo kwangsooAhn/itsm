@@ -15,7 +15,7 @@
     <form id="searchFrm">
         <select class="search-selectBox col-3" id="boardAdminId" name="boardAdminId">
             <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
-                    th:text="#{${boardAdmin.boardAdminTitle}}"></option>
+                    th:text="#{${boardAdmin.boardAdminTitle}}" th:selected="${boardAdmin.boardAdminId == boardAdminId}"></option>
         </select>
         <input type="text" class="z-input i-search text-ellipsis col-3" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{board.label.searchBoardPlaceholder}"/>

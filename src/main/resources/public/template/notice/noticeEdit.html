@@ -239,15 +239,19 @@
 
     function deleteNotice() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchText('/rest/notices/' + [[${notice?.noticeNo}]], {
+            aliceJs.fetchJson('/rest/notices/' + [[${notice?.noticeNo}]], {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-            }).then((rtn) => {
-                zAlert.success(i18n.msg('common.msg.delete'), () => {
-                    location.href = '/notices/search';
-                });
+            }).then((result) => {
+                if (result.status === 200) {
+                    zAlert.success(i18n.msg('common.msg.delete'), () => {
+                        location.href = '/notices/search';
+                    });
+                } else {
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                }
             });
         });
     }
@@ -258,15 +262,18 @@
             url: url,
             params: JSON.stringify(data),
             contentType: 'application/json',
-            callbackFunc: function() {
-                if (method === 'post') {
-                    zAlert.success(i18n.msg('common.msg.register'), function () {
-                        window.location.href = '/notices/search';
-                    });
-                } else if (method === 'put') {
-                    zAlert.success(i18n.msg('common.msg.modify'), function () {
-                        window.location = '/notices/search';
-                    });
+            callbackFunc: function(response) {
+                let result = JSON.parse(response.responseText);
+                if (result.status === 200) {
+                    if (method === 'post') {
+                        zAlert.success(i18n.msg('common.msg.register'), function () {
+                            window.location.href = '/notices/search';
+                        });
+                    } else if (method === 'put') {
+                        zAlert.success(i18n.msg('common.msg.modify'), function () {
+                            window.location = '/notices/search';
+                        });
+                    }
                 } else {
                     zAlert.warning(i18n.msg('common.msg.fail'));
                 }

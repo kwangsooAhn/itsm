@@ -55,7 +55,7 @@ class FaqRepositoryImpl(
             .where(
                 super.likeIgnoreCase(faq.faqTitle, faqSearchCondition.searchValue)
                     ?.or(super.likeIgnoreCase(code.codeName, faqSearchCondition.searchValue))
-            ).orderBy(faq.faqGroup.asc())
+            ).orderBy(code.codeName.asc())
 
         if (faqSearchCondition.isPaging) {
             query.limit(faqSearchCondition.contentNumPerPage)

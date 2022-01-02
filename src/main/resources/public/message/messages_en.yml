@@ -28,6 +28,7 @@ common:
     blank: " "
     bracketOpen: "["
     bracketClose: "]"
+    categoryAsc: "Order by category"
     comment: "Comment"
     contents: "Contents"
     colon: ":"
@@ -1047,6 +1048,7 @@ process:
     startEventnMustOne: 'Only one start event is allowed.'
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
+    uncheckWithdraw: "Can't set withdraw in the first element.<br>Please uncheck withdraw in {0} element."
   title:
     preview: "Zenius ITSM : Process Preview"
     processMap: "Zenius ITMS : Process Map"
@@ -1214,6 +1216,7 @@ scheduler:
     cronError: "Enter the correct Cron expression."
     jarNotExist: "JAR file does not exist."
     classNotExist: "ClASS file does not exist."
+    unacceptableCharacters: "contains special characters(: ? * \" < > |) that are not allowed."
   status:
     true: "Use"
     false: "UnUsed"
