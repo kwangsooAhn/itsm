@@ -64,7 +64,7 @@
             </div>
         </div>
         <div class="z-edit-row flex-column">
-            <label th:text="#{cmdb.type.label.class}"></label>
+            <label class="required" th:text="#{cmdb.type.label.class}"></label>
             <div class="flex-row z-input-button">
                 <input class="z-input inherit" id="typeClass" name="typeClass" type="text" readonly>
                 <input id="typeClassId" name="typeClassId" type="hidden"/>
@@ -262,6 +262,10 @@
         }
         if (jsonData.typeSeq === null || jsonData.typeSeq.trim() === '') {
             zAlert.warning([[#{cmdb.type.msg.enterTypeSeq}]]);
+            return false;
+        }
+        if (jsonData.className === null || jsonData.className.trim() === '') {
+            zAlert.warning([[#{cmdb.type.msg.enterClass}]]);
             return false;
         }
         let url = '/rest/cmdb/types';
