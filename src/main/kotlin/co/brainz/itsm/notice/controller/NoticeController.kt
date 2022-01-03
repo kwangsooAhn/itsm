@@ -43,6 +43,7 @@ class NoticeController(private val noticeService: NoticeService) {
         // 조회 갯수 = 페이지 당 조회 갯수 - top 갯수
         model.addAttribute("topNoticeList", topList)
         noticeSearchCondition.contentNumPerPage = (noticeSearchCondition.contentNumPerPage - topList.size.toLong())
+        noticeSearchCondition.topNotice = topList.size.toLong()
 
         val result = noticeService.findNoticeSearch(noticeSearchCondition)
         model.addAttribute("noticeList", result.data)
