@@ -1,61 +1,65 @@
 /*
- * Copyright 2020 Brainzcompany Co., Ltd.
+ * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
 
 package co.brainz.itsm.group.entity
 
-import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.NotFound
+import org.hibernate.annotations.NotFoundAction
 
 @Entity
 @Table(name = "awf_group")
 data class GroupEntity(
-    @Id
+    @Id @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "group_id", length = 100)
-    val groupId: String,
+    var groupId: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "p_group_id")
-    val pGroupId: GroupEntity? = null,
+    @NotFound(action = NotFoundAction.IGNORE)
+    var pGroupId: GroupEntity? = null,
 
     @Column(name = "group_name", length = 128)
-    val groupName: String? = null,
+    var groupName: String? = null,
 
     @Column(name = "group_desc", length = 128)
-    val groupDesc: String? = null,
+    var groupDesc: String? = null,
 
     @Column(name = "use_yn")
-    val useYn: Boolean? = true,
+    var useYn: Boolean? = true,
 
     @Column(name = "level")
-    val level: Int? = null,
+    var level: Int? = null,
 
     @Column(name = "seq_num")
-    val seqNum: Int? = null,
+    var seqNum: Int? = null,
+
+    @Column(name = "create_user_key", length = 128)
+    var createUserKey: String? = null,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
-    val createDt: LocalDateTime? = null,
+    var createDt: LocalDateTime? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_user_key", referencedColumnName = "user_key")
-    val createUser: AliceUserEntity? = null,
+    @Column(name = "update_user_key", length = 128)
+    var updateUserKey: String? = null,
 
     @Column(name = "update_dt", insertable = false)
-    val updateDt: LocalDateTime? = null,
+    var updateDt: LocalDateTime? = null
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "update_user_key", referencedColumnName = "user_key")
-    val updateUser: AliceUserEntity? = null
 ) : Serializable {
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     val groupRoleMapEntities = mutableListOf<GroupRoleMapEntity>()
