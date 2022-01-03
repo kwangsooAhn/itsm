@@ -46,12 +46,12 @@
         </div>
         <div class="z-edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
-                <label class="form-title" th:text="#{group.label.name}" for="groupName"></label>
+                <label class="required" th:text="#{group.label.name}" for="groupName"></label>
                 <input type="text" id="groupName" class="z-input text-ellipsis"
                        th:value="${data?.groupName}" maxlength="100"/>
             </div>
             <div class="flex-column flex-fill">
-                <label class="form-title" th:text="#{group.label.seqNum}" for="seqNum"></label>
+                <label th:text="#{group.label.seqNum}" for="seqNum"></label>
                 <input type="text" id="seqNum" class="z-input text-ellipsis" th:value="${data?.seqNum}"
                        onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
             </div>
@@ -65,12 +65,12 @@
             </label>
         </div>
         <div class="z-edit-row flex-column">
-            <label class="form-title" th:text="#{group.label.description}" for="groupDesc"></label>
+            <label th:text="#{group.label.description}" for="groupDesc"></label>
             <textarea id="groupDesc" th:maxlength="200" th:rows="7"
                       class="z-textarea textarea-scroll-wrapper" th:text="${data?.groupDesc}"></textarea>
         </div>
         <div class="z-edit-row flex-column">
-            <label class="form-title" th:text="#{group.label.role}"></label>
+            <label th:text="#{group.label.role}"></label>
             <div class="z-checkbox-list">
                 <ul>
                     <li class="text-ellipsis" th:each="role : ${data?.allRoles}">
@@ -234,11 +234,35 @@
 
         observer.isChanged = false;
     }
+
     /** save **/
-    function onSave(method) {}
+    function onSave(method) {
+        // 유효성 검증
+        if (isEmpty('groupId', 'group.msg.enterGroupId')) return false;
+        if (isEmpty('pGroupName', 'group.msg.enterPGroupName')) return false;
+        if (isEmpty('groupName', 'group.msg.enterGroupName')) return false;
+
+        // 조직 아이디 / 이름 중복체크
+        if (method === 'POST') {
+
+        }
+
+        // 저장
+        const saveData = {
+            groupId: document.getElementById('groupId').value,
+            pGroupId: document.getElementById('pGroupId').value,
+            groupName: document.getElementById('groupName').value,
+            groupDesc: document.getElementById('groupDesc').value,
+            useYn: document.getElementById('useYn').checked,
+            seqNum: document.getElementById('seqNum').value,
+            roles: []
+        };
+    }
 
     /** delete **/
-    function onDelete() {}
+    function onDelete() {
+
+    }
     /*]]>*/
 </script>
 </html>

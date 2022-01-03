@@ -932,6 +932,7 @@ menu:
     auth: "Auth"
     boardAdmin: "Board management"
     code: "Code management"
+    group: "Group"
     parent: "System config"
     product: "Product Info"
     role: "Role"

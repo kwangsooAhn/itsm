@@ -932,6 +932,7 @@ menu:
     auth: "권한"
     boardAdmin: "게시판"
     code: "코드"
+    group: "조직"
     parent: "시스템 관리"
     product: "제품 정보"
     role: "역할"
