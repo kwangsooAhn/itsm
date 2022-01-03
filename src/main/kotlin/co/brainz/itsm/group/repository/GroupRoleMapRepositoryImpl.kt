@@ -1,3 +1,8 @@
+/*
+ * Copyright 2021 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.group.repository
 
 import co.brainz.framework.auth.entity.QAliceRoleEntity

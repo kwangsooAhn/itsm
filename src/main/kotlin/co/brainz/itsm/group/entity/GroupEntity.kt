@@ -1,3 +1,8 @@
+/*
+ * Copyright 2021 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.group.entity
 
 import java.io.Serializable
