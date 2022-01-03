@@ -251,8 +251,6 @@
                         window.location = '/notices/search';
                     });
                 }
-            } else {
-                zAlert.warning(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -266,8 +264,6 @@
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
                         location.href = '/notices/search';
                     });
-                } else {
-                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         });

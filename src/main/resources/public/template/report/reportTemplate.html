@@ -187,15 +187,10 @@
             aliceJs.fetchJson('/rest/reports/template/' + /*[[${template?.templateId}]]*/'', {
                 method: 'DELETE'
             }).then((status) => {
-                switch (status.code) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.delete'), function () {
-                            location.href = '/reports/template/search';
-                        });
-                        break;
-                    default:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
+                if (status.code === STATUS_SUCCESS) {
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        location.href = '/reports/template/search';
+                    });
                 }
             });
         });
@@ -245,7 +240,6 @@
                     zAlert.success(i18n.msg('report.msg.templateNameUsed'));
                     break;
                 default :
-                    zAlert.danger(i18n.msg('common.msg.fail'));
                     break;
             }
         });

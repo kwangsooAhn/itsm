@@ -139,8 +139,6 @@ class ZFormTokenTab {
                 rtn.forEach((token) => {
                     document.getElementById('history').insertAdjacentHTML('beforeend', this.makeHistoryFragment(token));
                 });
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -245,8 +243,6 @@ class ZFormTokenTab {
                         // 날짜 표기 변경
                         this.setDateTimeFormat();
                     });
-                } else {
-                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         }
@@ -270,8 +266,6 @@ class ZFormTokenTab {
                             document.getElementById('relatedDoc' + instanceId).remove();
                         }
                     });
-                } else {
-                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         });
@@ -306,8 +300,6 @@ class ZFormTokenTab {
                 });
                 // 날짜 표기 변경
                 this.setDateTimeFormat();
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -382,8 +374,6 @@ class ZFormTokenTab {
             if (rtn === 'true') {
                 document.getElementById('commentValue').value = '';
                 this.reloadTab();
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -402,8 +392,6 @@ class ZFormTokenTab {
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
                         document.getElementById('comment' + commentId).remove();
                     });
-                } else {
-                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         });
@@ -426,8 +414,6 @@ class ZFormTokenTab {
                 rtn.forEach((comment) => {
                     document.querySelector('#tokenComments').lastElementChild.insertAdjacentElement('beforebegin', this.makeCommentsFragment(comment));
                 });
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
