@@ -10,7 +10,6 @@ import co.brainz.framework.auth.entity.AliceMenuEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
-import co.brainz.framework.auth.repository.AliceAuthRepository
 import co.brainz.framework.auth.repository.AliceMenuRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlRepository
@@ -35,7 +34,6 @@ import org.springframework.transaction.annotation.Transactional
 class AliceUserDetailsService(
     private var aliceUserRepository: AliceUserRepository,
     private var aliceUrlRepository: AliceUrlRepository,
-    private var aliceAuthRepository: AliceAuthRepository,
     private var aliceMenuRepository: AliceMenuRepository,
     private var aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private var aliceRoleAuthMapRepository: AliceRoleAuthMapRepository,
