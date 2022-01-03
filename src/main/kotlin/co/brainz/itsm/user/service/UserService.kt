@@ -52,6 +52,14 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.nio.file.Paths
+import java.security.PrivateKey
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Optional
+import kotlin.math.ceil
+import kotlin.random.Random
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -63,16 +71,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import java.nio.file.Paths
-import java.security.PrivateKey
-import java.time.LocalDateTime
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Optional
-import kotlin.collections.LinkedHashMap
-import kotlin.collections.LinkedHashSet
-import kotlin.math.ceil
-import kotlin.random.Random
 
 /**
  * 사용자 관리 서비스
@@ -140,10 +138,66 @@ class UserService(
         return this.selectUserList(userSearchCondition)
     }
 
+    fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
+        val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
+        val userList: MutableList<UserListDataDto> = mutableListOf()
+        for (user in queryResult.results) {
+            val avatarPath = userDetailsService.makeAvatarPath(user)
+            user.avatarPath = avatarPath
+
+            if (user.groupId == "department.group.itsm") {
+                user.groupId = "4028b2d57d37168e017d371a5f3d0006" //department에 임시값 추가
+            }
+            if (user.groupId == "department.group.design") {
+                user.groupId = "4028b2d57d37168e017d371a5f7f0004" //department에 임시값 추가
+            }
+            userList.add(user)
+        }
+
+        //val userGroupIds = queryResult.results.map { it.groupId }.toSet()
+
+        val groupList = groupRepository.findGroupList(SearchDto(offset = null, limit = null))
+        queryResult.results.forEach { user ->
+            val group = groupList.results.firstOrNull { it.groupId == user.groupId }
+            var groupName = mutableListOf<String>()
+            if (group != null) {
+                if (group.pGroupId != null) {
+                    groupName = this.getRecursive(group, groupList.results, groupName)
+                } else {
+                    groupName.add(group.groupName.toString()) // 최상위....
+                }
+            }
+            user.groupName = groupName.joinToString(" > ")
+        }
+
+        return UserListReturnDto(
+            data = userList,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = userRepository.countByUserIdNotContaining(AliceUserConstants.CREATE_USER_ID),
+                currentPageNum = userSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            )
+        )
+    }
+
+    private fun getRecursive(group: PGroupListDto, allGroupList: List<PGroupListDto>, groupName: MutableList<String>): MutableList<String> {
+        groupName.add(group.groupName.toString())
+        if (group.pGroupId != null) {
+            val pGroup = allGroupList.firstOrNull { it.groupId == group.pGroupId }
+            if (pGroup != null) {
+                this.getRecursive(pGroup, allGroupList, groupName)
+            }
+        }
+        return groupName
+    }
+
+
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
+    fun selectUserList2(userSearchCondition: UserSearchCondition): UserListReturnDto {
         val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
         val groupList = groupRepository.findGroupList(SearchDto(offset = null, limit = null))
         val userList: MutableList<UserListDataDto> = mutableListOf()
@@ -156,13 +210,13 @@ class UserService(
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
 
-            if (user.department == "department.group.itsm") {
+            /*if (user.department == "department.group.itsm") {
                 user.department = "4028b2d57d37168e017d371a5f3d0006" //department에 임시값 추가
             }
             if (user.department == "department.group.design") {
                 user.department = "4028b2d57d37168e017d371a5f7f0004" //department에 임시값 추가
             }
-            groupValue.add(user.department.toString())
+            groupValue.add(user.department.toString())*/
             userList.add(user)
         }
 
@@ -181,8 +235,8 @@ class UserService(
                 )
                 groupString[group] = groupSearch.joinToString(" / ", "", "")
                 for (user in userList) {
-                    if (user.department == group) {
-                        user.department = groupString[group]
+                    if (user.groupId == group) {
+                        user.groupId = groupString[group]
                     }
                 }
                 groupSearch.clear()

@@ -33,6 +33,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.email,
                     user.position,
                     user.department,
+                    Expressions.asString(""),
                     user.officeNumber,
                     user.mobileNumber,
                     user.avatarType,
