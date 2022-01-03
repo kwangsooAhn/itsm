@@ -54,69 +54,12 @@ class AliceUserDetailsService(
     @Transactional
     fun getAuthInfo(aliceUserAuthDto: AliceUserAuthDto): AliceUserAuthDto {
         aliceUserAuthDto.grantedAuthorises = this.getAuthAndRole(aliceUserAuthDto)
-        aliceUserAuthDto.menus =
-            aliceUserAuthDto.userKey.let { userKey ->
-                val aliceMenuData = aliceMenuRepository.findMenuByUserKey(userKey)
-                val menuEntities = mutableSetOf<AliceMenuEntity>()
-                if (aliceMenuData.isNotEmpty()) {
-                    aliceMenuData.forEach { AliceMenuDto ->
-                        val aliceMenuEntity = AliceMenuEntity(
-                            menuId = AliceMenuDto.menuId,
-                            pMenuId = AliceMenuDto.pMenuId,
-                            url = AliceMenuDto.url,
-                            sort = AliceMenuDto.sort,
-                            useYn = AliceMenuDto.useYn
-                        )
-                        menuEntities.add(aliceMenuEntity)
-                    }
-                }
-                // 사용자가 속한 Group이 접근 가능한 menu 데이터를 추가한다.
-                if (!aliceUserAuthDto.department.isNullOrBlank()) {
-                    val aliceGroupMenuData = aliceMenuRepository.findMenuByGroupId(aliceUserAuthDto.department)
-                    aliceGroupMenuData.forEach { aliceGroupMenuDto ->
-                        val aliceMenuEntity = AliceMenuEntity(
-                            menuId = aliceGroupMenuDto.menuId,
-                            pMenuId = aliceGroupMenuDto.pMenuId,
-                            url = aliceGroupMenuDto.url,
-                            sort = aliceGroupMenuDto.sort,
-                            useYn = aliceGroupMenuDto.useYn
-                        )
-                        menuEntities.add(aliceMenuEntity)
-                    }
-                }
-                menuEntities
-            }
-        aliceUserAuthDto.urls =
-            aliceUserAuthDto.userKey.let { userKey ->
-                val aliceUrlData = aliceUrlRepository.findUrlByUserKey(userKey)
-                val urlEntities = mutableSetOf<AliceUrlEntity>()
-                if (aliceUrlData.isNotEmpty()) {
-                    aliceUrlData.forEach { AliceUrlDto ->
-                        val aliceUrlEntity = AliceUrlEntity(
-                            url = AliceUrlDto.url,
-                            method = AliceUrlDto.method,
-                            urlDesc = AliceUrlDto.urlDesc!!,
-                            requiredAuth = AliceUrlDto.isRequiredAuth!!
-                        )
-                        urlEntities.add(aliceUrlEntity)
-                    }
-                }
-                // 사용자가 속한 Group이 접근 가능한 url 데이터를 추가한다.
-                if (!aliceUserAuthDto.department.isNullOrBlank()) {
-                    val aliceGroupUrlData = aliceUrlRepository.findUrlByGroupId(aliceUserAuthDto.department)
-                    aliceGroupUrlData.forEach { aliceGroupUrlDto ->
-                        val aliceUrlEntity = AliceUrlEntity(
-                            url = aliceGroupUrlDto.url,
-                            method = aliceGroupUrlDto.method,
-                            urlDesc = aliceGroupUrlDto.urlDesc!!,
-                            requiredAuth = aliceGroupUrlDto.isRequiredAuth!!
-                        )
-                        urlEntities.add(aliceUrlEntity)
-                    }
-                }
-                urlEntities
-            }
-
+        aliceUserAuthDto.menus = aliceUserAuthDto.userKey.let { userKey ->
+            this.getMenus(aliceUserAuthDto)
+        }
+        aliceUserAuthDto.urls = aliceUserAuthDto.userKey.let { userKey ->
+            this.getUrls(aliceUserAuthDto)
+        }
         return aliceUserAuthDto
     }
 
@@ -227,5 +170,67 @@ class AliceUserDetailsService(
             }
         }
         return authorities
+    }
+
+    private fun getMenus(aliceUserAuthDto: AliceUserAuthDto): MutableSet<AliceMenuEntity> {
+        val aliceMenuData = aliceMenuRepository.findMenuByUserKey(aliceUserAuthDto.userKey)
+        val menuEntities = mutableSetOf<AliceMenuEntity>()
+        if (aliceMenuData.isNotEmpty()) {
+            aliceMenuData.forEach { AliceMenuDto ->
+                val aliceMenuEntity = AliceMenuEntity(
+                    menuId = AliceMenuDto.menuId,
+                    pMenuId = AliceMenuDto.pMenuId,
+                    url = AliceMenuDto.url,
+                    sort = AliceMenuDto.sort,
+                    useYn = AliceMenuDto.useYn
+                )
+                menuEntities.add(aliceMenuEntity)
+            }
+        }
+        // 사용자가 속한 Group이 접근 가능한 menu 데이터를 추가한다.
+        if (!aliceUserAuthDto.department.isNullOrBlank()) {
+            val aliceGroupMenuData = aliceMenuRepository.findMenuByGroupId(aliceUserAuthDto.department)
+            aliceGroupMenuData.forEach { aliceGroupMenuDto ->
+                val aliceMenuEntity = AliceMenuEntity(
+                    menuId = aliceGroupMenuDto.menuId,
+                    pMenuId = aliceGroupMenuDto.pMenuId,
+                    url = aliceGroupMenuDto.url,
+                    sort = aliceGroupMenuDto.sort,
+                    useYn = aliceGroupMenuDto.useYn
+                )
+                menuEntities.add(aliceMenuEntity)
+            }
+        }
+        return menuEntities
+    }
+
+    private fun getUrls(aliceUserAuthDto: AliceUserAuthDto): MutableSet<AliceUrlEntity> {
+        val aliceUrlData = aliceUrlRepository.findUrlByUserKey(aliceUserAuthDto.userKey)
+        val urlEntities = mutableSetOf<AliceUrlEntity>()
+        if (aliceUrlData.isNotEmpty()) {
+            aliceUrlData.forEach { AliceUrlDto ->
+                val aliceUrlEntity = AliceUrlEntity(
+                    url = AliceUrlDto.url,
+                    method = AliceUrlDto.method,
+                    urlDesc = AliceUrlDto.urlDesc!!,
+                    requiredAuth = AliceUrlDto.isRequiredAuth!!
+                )
+                urlEntities.add(aliceUrlEntity)
+            }
+        }
+        // 사용자가 속한 Group이 접근 가능한 url 데이터를 추가한다.
+        if (!aliceUserAuthDto.department.isNullOrBlank()) {
+            val aliceGroupUrlData = aliceUrlRepository.findUrlByGroupId(aliceUserAuthDto.department)
+            aliceGroupUrlData.forEach { aliceGroupUrlDto ->
+                val aliceUrlEntity = AliceUrlEntity(
+                    url = aliceGroupUrlDto.url,
+                    method = aliceGroupUrlDto.method,
+                    urlDesc = aliceGroupUrlDto.urlDesc!!,
+                    requiredAuth = aliceGroupUrlDto.isRequiredAuth!!
+                )
+                urlEntities.add(aliceUrlEntity)
+            }
+        }
+        return urlEntities
     }
 }
