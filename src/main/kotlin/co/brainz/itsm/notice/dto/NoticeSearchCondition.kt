@@ -31,5 +31,4 @@ data class NoticeSearchCondition(
     val formattedFromDt: LocalDateTime = LocalDateTime.parse(fromDt, DateTimeFormatter.ISO_DATE_TIME)
     val formattedToDt: LocalDateTime = LocalDateTime.parse(toDt, DateTimeFormatter.ISO_DATE_TIME)
     val isPaging = pageNum > 0
-    var topNoticeSize:Long = 0L
 }
