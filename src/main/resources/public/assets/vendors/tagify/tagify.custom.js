@@ -80,8 +80,6 @@ function zTag(inputElement, userSettings, tagifySettings) {
                 tag.settings.whitelist.splice(0, whitelist.length, ...whitelist);
                 // render the suggestions dropdown
                 tag.loading(false).dropdown.show.call(tag, value);
-            }).catch((error) => {
-                console.log('whitelist canceled by user');
             });
         }));
     }
