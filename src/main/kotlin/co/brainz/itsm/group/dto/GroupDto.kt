@@ -16,6 +16,7 @@ data class GroupDto(
     var useYn: Boolean? = true,
     var level: Int? = null,
     var seqNum: Int? = null,
+    var editable: Boolean? = true,
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,

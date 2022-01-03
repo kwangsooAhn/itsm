@@ -16,6 +16,7 @@ data class GroupDetailDto(
     var useYn: Boolean? = true,
     var level: Int? = null,
     var seqNum: Int? = null,
+    var editable: Boolean? = true,
     var roles: List<RoleListDto> = emptyList()
 ) : Serializable
 

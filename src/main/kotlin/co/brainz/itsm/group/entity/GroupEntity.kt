@@ -31,7 +31,7 @@ data class GroupEntity(
     @Column(name = "group_desc", length = 128)
     var groupDesc: String? = null,
 
-    @Column(name = "use_yn", length = 128)
+    @Column(name = "use_yn")
     var useYn: Boolean? = true,
 
     @Column(name = "level")
@@ -39,6 +39,9 @@ data class GroupEntity(
 
     @Column(name = "seq_num")
     var seqNum: Int? = null,
+
+    @Column(name = "editable")
+    var editable : Boolean? = true,
 
     @Column(name = "create_user_key", length = 128)
     var createUserKey: String? = null,

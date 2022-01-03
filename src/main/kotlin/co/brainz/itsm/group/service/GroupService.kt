@@ -28,7 +28,6 @@ import org.springframework.stereotype.Service
 class GroupService(
     private val groupRepository: GroupRepository,
     private val groupRoleMapRepository: GroupRoleMapRepository,
-    private val roleRepository: RoleRepository,
     private val userRepository: UserRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val aliceMessageSource: AliceMessageSource
@@ -53,6 +52,7 @@ class GroupService(
                     useYn = group.useYn,
                     level = group.level,
                     seqNum = group.seqNum,
+                    editable = group.editable,
                     createDt = group.createDt,
                     createUserKey = group.createUserKey,
                     updateDt = group.updateDt,
@@ -81,6 +81,7 @@ class GroupService(
             useYn = groupInfo.useYn,
             level = groupInfo.level,
             seqNum = groupInfo.seqNum,
+            editable= groupInfo.editable,
             roles = groupUseRoleList
         )
     }
