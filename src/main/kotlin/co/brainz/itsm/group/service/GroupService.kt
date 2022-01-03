@@ -41,10 +41,8 @@ class GroupService(
         val treeGroupList = mutableListOf<GroupDto>()
         val queryResults: QueryResults<GroupEntity>
 
-        when (searchValue.isEmpty()) {
-            true -> { queryResults = groupRepository.findByGroupList() }
-            false -> { queryResults = groupRepository.findByGroupSearchList(searchValue) }
-        }
+        queryResults = groupRepository.findByGroupSearchList(searchValue)
+
         for (group in queryResults.results) {
             treeGroupList.add(
                 GroupDto(

@@ -11,7 +11,5 @@ import com.querydsl.core.QueryResults
 
 interface GroupRepositoryCustom : AliceRepositoryCustom {
 
-    fun findByGroupList(): QueryResults<GroupEntity>
-
     fun findByGroupSearchList(searchValue: String): QueryResults<GroupEntity>
 }
