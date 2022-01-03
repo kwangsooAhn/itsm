@@ -105,7 +105,7 @@ class GroupService(
                 useYn = groupRoleDto.useYn,
                 level = groupRoleDto.level,
                 seqNum = groupRoleDto.seqNum,
-                createUserKey = "",
+                createUserKey = currentSessionUser.getUserKey(),
                 createDt = LocalDateTime.now()
             )
         )
@@ -125,6 +125,7 @@ class GroupService(
      */
     @Transactional
     fun updateGroup(groupRoleDto: GroupRoleDto) : Boolean {
+        val groupRoleList = mutableListOf<GroupRoleMapEntity>()
 
         val group = groupRepository.save(
             GroupEntity(
@@ -139,13 +140,15 @@ class GroupService(
                 updateDt = LocalDateTime.now()
             )
         )
-        if (!groupRoleDto.roles.isEmpty()) {
-            groupRoleMapRepository.deleteByGroupId(group)
-            groupRoleMapRepository.flush()
-
-            groupRoleDto.roles.forEach { role ->
-                groupRoleMapRepository.save(GroupRoleMapEntity(group, role))
-            }
+        groupRoleMapRepository.deleteByGroupId(group)
+        groupRoleMapRepository.flush()
+        groupRoleDto.roles.forEach { role ->
+            groupRoleList.add(
+                GroupRoleMapEntity(group, role)
+            )
+        }
+        if (groupRoleList.isNotEmpty()) {
+            groupRoleMapRepository.saveAll(groupRoleList)
         }
         return true
     }
