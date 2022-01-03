@@ -6,7 +6,6 @@
 package co.brainz.framework.auth.repository
 
 import co.brainz.framework.auth.entity.AliceMenuEntity
-import java.util.Optional
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
@@ -14,5 +13,4 @@ import org.springframework.stereotype.Repository
 interface AliceMenuRepository : JpaRepository<AliceMenuEntity, String>, AliceMenuRepositoryCustom {
     fun findByOrderByMenuIdAsc(): MutableList<AliceMenuEntity>
     fun findByMenuIdIn(menuIds: List<String>): List<AliceMenuEntity>
-    fun findAliceMenuEntityByUrl(url: String): Optional<AliceMenuEntity>
 }

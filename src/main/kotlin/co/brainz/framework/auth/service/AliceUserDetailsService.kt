@@ -70,6 +70,7 @@ class AliceUserDetailsService(
                         menuEntities.add(aliceMenuEntity)
                     }
                 }
+                // 사용자가 속한 Group이 접근 가능한 menu 데이터를 추가한다.
                 if (!aliceUserAuthDto.department.isNullOrBlank()) {
                     val aliceGroupMenuData = aliceMenuRepository.findMenuByGroupId(aliceUserAuthDto.department)
                     aliceGroupMenuData.forEach { aliceGroupMenuDto ->
@@ -100,6 +101,7 @@ class AliceUserDetailsService(
                         urlEntities.add(aliceUrlEntity)
                     }
                 }
+                // 사용자가 속한 Group이 접근 가능한 url 데이터를 추가한다.
                 if (!aliceUserAuthDto.department.isNullOrBlank()) {
                     val aliceGroupUrlData = aliceUrlRepository.findUrlByGroupId(aliceUserAuthDto.department)
                     aliceGroupUrlData.forEach { aliceGroupUrlDto ->
@@ -203,7 +205,7 @@ class AliceUserDetailsService(
             }
         }
 
-        // 사용자가 속한 Group 보유한 역할 및 권한을 추가한다.
+        // 사용자가 속한 Group이 보유한 역할 및 권한을 추가한다.
         if (!aliceUserAuthDto.department.isNullOrBlank()) {
             val group = aliceUserAuthDto.department
             val roleList = mutableListOf<String>()
