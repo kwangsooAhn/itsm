@@ -5,8 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface AliceUrlRepository : JpaRepository<AliceUrlEntity, String> {
+interface AliceUrlRepository : JpaRepository<AliceUrlEntity, String>, AliceUrlRepositoryCustom {
     fun findByOrderByMethodAscUrlAsc(): MutableList<AliceUrlEntity>
-    fun findByUrlIn(urls: List<String>): List<AliceUrlEntity>
     fun findAliceUrlEntityByRequiredAuthIs(isRequiredAuth: Boolean): List<AliceUrlEntity>
 }

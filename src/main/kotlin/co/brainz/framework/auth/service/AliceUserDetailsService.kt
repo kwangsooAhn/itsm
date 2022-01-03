@@ -6,11 +6,14 @@
 package co.brainz.framework.auth.service
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto
+import co.brainz.framework.auth.entity.AliceMenuEntity
+import co.brainz.framework.auth.entity.AliceUrlEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.repository.AliceAuthRepository
 import co.brainz.framework.auth.repository.AliceMenuRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
+import co.brainz.framework.auth.repository.AliceUrlRepository
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.constants.AliceUserConstants
@@ -31,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional
 @Component
 class AliceUserDetailsService(
     private var aliceUserRepository: AliceUserRepository,
+    private var aliceUrlRepository: AliceUrlRepository,
     private var aliceAuthRepository: AliceAuthRepository,
     private var aliceMenuRepository: AliceMenuRepository,
     private var aliceUserRoleMapRepository: AliceUserRoleMapRepository,
@@ -53,9 +57,66 @@ class AliceUserDetailsService(
     fun getAuthInfo(aliceUserAuthDto: AliceUserAuthDto): AliceUserAuthDto {
         aliceUserAuthDto.grantedAuthorises = this.getAuthAndRole(aliceUserAuthDto)
         aliceUserAuthDto.menus =
-            aliceUserAuthDto.userKey.let { aliceMenuRepository.findByUserKey(aliceUserAuthDto.userKey) }
+            aliceUserAuthDto.userKey.let { userKey ->
+                val aliceMenuData = aliceMenuRepository.findMenuByUserKey(userKey)
+                val menuEntities = mutableSetOf<AliceMenuEntity>()
+                if (aliceMenuData.isNotEmpty()) {
+                    aliceMenuData.forEach { AliceMenuDto ->
+                        val aliceMenuEntity = AliceMenuEntity(
+                            menuId = AliceMenuDto.menuId,
+                            pMenuId = AliceMenuDto.pMenuId,
+                            url = AliceMenuDto.url,
+                            sort = AliceMenuDto.sort,
+                            useYn = AliceMenuDto.useYn
+                        )
+                        menuEntities.add(aliceMenuEntity)
+                    }
+                }
+                if (!aliceUserAuthDto.department.isNullOrBlank()) {
+                    val aliceGroupMenuData = aliceMenuRepository.findMenuByGroupId(aliceUserAuthDto.department)
+                    aliceGroupMenuData.forEach { aliceGroupMenuDto ->
+                        val aliceMenuEntity = AliceMenuEntity(
+                            menuId = aliceGroupMenuDto.menuId,
+                            pMenuId = aliceGroupMenuDto.pMenuId,
+                            url = aliceGroupMenuDto.url,
+                            sort = aliceGroupMenuDto.sort,
+                            useYn = aliceGroupMenuDto.useYn
+                        )
+                        menuEntities.add(aliceMenuEntity)
+                    }
+                }
+                menuEntities
+            }
         aliceUserAuthDto.urls =
-            aliceUserAuthDto.userKey.let { aliceAuthRepository.findByUserKey(aliceUserAuthDto.userKey) }
+            aliceUserAuthDto.userKey.let { userKey ->
+                val aliceUrlData = aliceUrlRepository.findUrlByUserKey(userKey)
+                val urlEntities = mutableSetOf<AliceUrlEntity>()
+                if (aliceUrlData.isNotEmpty()) {
+                    aliceUrlData.forEach { AliceUrlDto ->
+                        val aliceUrlEntity = AliceUrlEntity(
+                            url = AliceUrlDto.url,
+                            method = AliceUrlDto.method,
+                            urlDesc = AliceUrlDto.urlDesc!!,
+                            requiredAuth = AliceUrlDto.isRequiredAuth!!
+                        )
+                        urlEntities.add(aliceUrlEntity)
+                    }
+                }
+                if (!aliceUserAuthDto.department.isNullOrBlank()) {
+                    val aliceGroupUrlData = aliceUrlRepository.findUrlByGroupId(aliceUserAuthDto.department)
+                    aliceGroupUrlData.forEach { aliceGroupUrlDto ->
+                        val aliceUrlEntity = AliceUrlEntity(
+                            url = aliceGroupUrlDto.url,
+                            method = aliceGroupUrlDto.method,
+                            urlDesc = aliceGroupUrlDto.urlDesc!!,
+                            requiredAuth = aliceGroupUrlDto.isRequiredAuth!!
+                        )
+                        urlEntities.add(aliceUrlEntity)
+                    }
+                }
+                urlEntities
+            }
+
         return aliceUserAuthDto
     }
 
