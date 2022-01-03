@@ -92,6 +92,8 @@ class GroupService(
      */
     @Transactional
     fun createGroup(groupRoleDto: GroupRoleDto) : Boolean {
+        val groupRoleList = mutableListOf<GroupRoleMapEntity>()
+
         if (groupRepository.existsByGroupName(groupRoleDto.groupName)) {
             return false
         }
@@ -103,14 +105,17 @@ class GroupService(
                 useYn = groupRoleDto.useYn,
                 level = groupRoleDto.level,
                 seqNum = groupRoleDto.seqNum,
-                createUserKey = currentSessionUser.getUserKey(),
+                createUserKey = "",
                 createDt = LocalDateTime.now()
             )
         )
-        if (!groupRoleDto.roles.isEmpty()) {
-            groupRoleDto.roles.forEach { role ->
-                groupRoleMapRepository.save(GroupRoleMapEntity(group, role))
-            }
+        groupRoleDto.roles.forEach { role ->
+            groupRoleList.add(
+                GroupRoleMapEntity(group, role)
+            )
+        }
+        if (groupRoleList.isNotEmpty()) {
+            groupRoleMapRepository.saveAll(groupRoleList)
         }
         return true
     }
