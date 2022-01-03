@@ -28,8 +28,7 @@ class GroupRestController(private val groupService: GroupService) {
      * 조직 전체 목록 조회
      */
     @GetMapping("/", "")
-    fun getGroups(@RequestParam(value = "searchValue", defaultValue = "") searchValue: String
-    ): ResponseEntity<ZResponse> {
+    fun getGroups(@RequestParam(value = "searchValue", defaultValue = "") searchValue: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(groupService.getGroupList(searchValue))
     }
 
@@ -37,8 +36,7 @@ class GroupRestController(private val groupService: GroupService) {
      * 조직 상세 정보 조회
      */
     @GetMapping("/{groupId}")
-    fun getDetailGroup(@PathVariable groupId: String
-    ): ResponseEntity<ZResponse> {
+    fun getDetailGroup(@PathVariable groupId: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(groupService.getDetailGroup(groupId))
     }
 
@@ -46,8 +44,7 @@ class GroupRestController(private val groupService: GroupService) {
      * 조직 등록
      */
     @PostMapping("/","")
-    fun createGroup(@RequestBody groupRoleDto: GroupRoleDto
-    ): ResponseEntity<ZResponse> {
+    fun createGroup(@RequestBody groupRoleDto: GroupRoleDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(groupService.createGroup(groupRoleDto))
     }
 
@@ -55,8 +52,7 @@ class GroupRestController(private val groupService: GroupService) {
      * 조직 정보 수정
      */
     @PutMapping("/{groupId}")
-    fun updateGroup(@RequestBody groupRoleDto: GroupRoleDto
-    ): ResponseEntity<ZResponse> {
+    fun updateGroup(@RequestBody groupRoleDto: GroupRoleDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(groupService.updateGroup(groupRoleDto))
     }
 
@@ -64,8 +60,7 @@ class GroupRestController(private val groupService: GroupService) {
      * 조직 정보 삭제
      */
     @DeleteMapping("/{groupId}")
-    fun deleteGroup(@PathVariable groupId: String
-    ): ResponseEntity<ZResponse> {
+    fun deleteGroup(@PathVariable groupId: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(groupService.deleteGroup(groupId))
     }
 }
