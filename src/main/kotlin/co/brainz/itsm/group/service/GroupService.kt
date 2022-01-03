@@ -124,6 +124,7 @@ class GroupService(
      */
     @Transactional
     fun updateGroup(groupRoleDto: GroupRoleDto) : Boolean {
+        val groupInfo = groupRepository.findByGroupId(groupRoleDto.groupId)
         val groupRoleList = mutableListOf<GroupRoleMapEntity>()
 
         val group = groupRepository.save(
@@ -135,6 +136,8 @@ class GroupService(
                 useYn = groupRoleDto.useYn,
                 level = groupRoleDto.level,
                 seqNum = groupRoleDto.seqNum,
+                createUserKey = groupInfo.createUserKey,
+                createDt = groupInfo.createDt,
                 updateUserKey = currentSessionUser.getUserKey(),
                 updateDt = LocalDateTime.now()
             )
