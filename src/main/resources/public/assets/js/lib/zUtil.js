@@ -1031,12 +1031,8 @@ aliceJs.doFetch = async function(url, option) {
         }
         // fetch에서 리턴된 Promise는 응답이 404나 500 오류여도 reject하지 않는다.
         // reject 되는 경우는 네트워크 장애 또는 요청이 완료되지 못한 경우에만 발생한다.
-        if (!response.ok) {
-            if (response.status === 403) {
-                window.location.href = '/sessionInValid';
-            } else {
-                throw new Error('HTTP error, status = ' + response.status + ', url = ' + response.url);
-            }
+        if (response.status === 403) {
+            window.location.href = '/sessionInValid';
         }
         return response;
     };
@@ -1054,7 +1050,14 @@ aliceJs.doFetch = async function(url, option) {
 aliceJs.fetchJson = function(url, option) {
     return aliceJs.doFetch(url, option)
         .then(response => response.text())
-        .then(data => (data ? JSON.parse(data) : {}));
+        .then((data) => {
+            const jsonData = data ? JSON.parse(data) : {};
+            // 상태 코드가 200이 아닐 경우 경고 표시
+            if (jsonData.hasOwnProperty('status') && jsonData.status !== 200) {
+                zAlert.danger(jsonData.message);
+            }
+            return jsonData;
+        });
 };
 
 /**

@@ -95,8 +95,6 @@
                 zAlert.success(resultMsg, function() {
                     location.href = '/downloads/search';
                 });
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -110,8 +108,6 @@
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
                         location.href = '/downloads/search';
                     });
-                } else {
-                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         });
