@@ -32,6 +32,6 @@ data class AliceRoleEntity(
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     val roleAuthMapEntities = mutableListOf<AliceRoleAuthMapEntity>()
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "roleId", fetch = FetchType.LAZY)
     val groupRoleMapEntities = mutableListOf<GroupRoleMapEntity>()
 }
