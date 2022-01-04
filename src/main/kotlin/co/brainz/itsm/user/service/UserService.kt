@@ -31,6 +31,9 @@ import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.group.dto.GroupSearchCondition
+import co.brainz.itsm.group.dto.PGroupDto
+import co.brainz.itsm.group.repository.GroupRepository
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserAbsenceDto
@@ -66,6 +69,7 @@ import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Optional
+import kotlin.collections.LinkedHashMap
 import kotlin.math.ceil
 import kotlin.random.Random
 
@@ -88,7 +92,8 @@ class UserService(
     private val userDetailsService: AliceUserDetailsService,
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
-    private val wfTokenRepository: WfTokenRepository
+    private val wfTokenRepository: WfTokenRepository,
+    private val groupRepository: GroupRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -118,7 +123,8 @@ class UserService(
         absenceList?.forEach { absence ->
             val userAbsenceDto = mapper.readValue(absence.customValue, UserAbsenceDto::class.java)
             if ((userAbsenceDto.startDt!! <= from && userAbsenceDto.endDt!! >= from) ||
-                (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)) {
+                (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)
+            ) {
                 excludeIds.add(absence.userKey)
             }
         }
@@ -139,11 +145,24 @@ class UserService(
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
         val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
         val userList: MutableList<UserListDataDto> = mutableListOf()
-
         for (user in queryResult.results) {
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
             userList.add(user)
+        }
+
+        val groupList = groupRepository.findGroupList(groupSearchCondition = GroupSearchCondition())
+        queryResult.results.forEach { user ->
+            val group = groupList.results.firstOrNull { it.groupId == user.groupId }
+            var groupName = mutableListOf<String>()
+            if (group != null) {
+                if (group.pGroupId != null) {
+                    groupName = this.getRecursive(group, groupList.results, groupName)
+                } else {
+                    groupName.add(group.groupName.toString())
+                }
+            }
+            user.groupName = groupName.joinToString(" > ")
         }
 
         return UserListReturnDto(
@@ -156,6 +175,20 @@ class UserService(
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
+    }
+
+    //groupId 값을 이용하여 상위 레벨의 부서폴더이름 추출
+    private fun getRecursive(
+        group: PGroupDto, allGroupList: List<PGroupDto>, groupName: MutableList<String>
+    ): MutableList<String> {
+        groupName.add(group.groupName.toString())
+        if (group.pGroupId != null) {
+            val pGroup = allGroupList.firstOrNull { it.groupId == group.pGroupId }
+            if (pGroup != null) {
+                this.getRecursive(pGroup, allGroupList, groupName)
+            }
+        }
+        return groupName
     }
 
     /**
@@ -229,8 +262,7 @@ class UserService(
                         userUpdateDto.roles!!.forEach {
                             userRoleMapRepository.save(
                                 AliceUserRoleMapEntity(
-                                    targetEntity,
-                                    roleRepository.findByRoleId(it)
+                                    targetEntity, roleRepository.findByRoleId(it)
                                 )
                             )
                         }
@@ -292,7 +324,7 @@ class UserService(
         userUpdateDto.userName?.let { targetEntity.userName = userUpdateDto.userName!! }
         userUpdateDto.email?.let { targetEntity.email = userUpdateDto.email!! }
         userUpdateDto.position?.let { targetEntity.position = userUpdateDto.position!! }
-        userUpdateDto.department?.let { targetEntity.department = userUpdateDto.department }
+        userUpdateDto.department?.let { targetEntity.groupId = userUpdateDto.department }
         userUpdateDto.officeNumber?.let { targetEntity.officeNumber = userUpdateDto.officeNumber }
         userUpdateDto.mobileNumber?.let { targetEntity.mobileNumber = userUpdateDto.mobileNumber }
         userUpdateDto.timezone?.let { targetEntity.timezone = userUpdateDto.timezone!! }
@@ -354,8 +386,7 @@ class UserService(
         val publicKey = aliceCryptoRsa.getPublicKey()
         val encryptPassword = aliceCryptoRsa.encrypt(publicKey, password)
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-        val privateKey =
-            attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+        val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         val decryptPassword = aliceCryptoRsa.decrypt(privateKey, encryptPassword)
         val targetEntity = userDetailsService.selectUserKey(userKey)
         targetEntity.password = BCryptPasswordEncoder().encode(decryptPassword)
@@ -577,36 +608,28 @@ class UserService(
                                 ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.id"),
                                     cellWidth = 5000
-                                ),
-                                ExcelCellVO(
+                                ), ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.name"),
                                     cellWidth = 5000
-                                ),
-                                ExcelCellVO(
+                                ), ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.email"),
                                     cellWidth = 7000
-                                ),
-                                ExcelCellVO(
+                                ), ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.department"),
                                     cellWidth = 4000
-                                ),
-                                ExcelCellVO(
+                                ), ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.position"),
                                     cellWidth = 4000
-                                ),
-                                ExcelCellVO(
+                                ), ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.officeNumber"),
                                     cellWidth = 5000
-                                ),
-                                ExcelCellVO(
+                                ), ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.mobileNumber"),
                                     cellWidth = 5000
-                                ),
-                                ExcelCellVO(
+                                ), ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.signUpDate"),
                                     cellWidth = 5000
-                                ),
-                                ExcelCellVO(
+                                ), ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.usageStatus"),
                                     cellWidth = 4000
                                 )
