@@ -39,4 +39,6 @@ interface UserRepository : JpaRepository<AliceUserEntity, String>, JpaSpecificat
      * 특정 사용자를 제외하고 사용자 테이블의 전체 개수 리턴
      */
     fun countByUserIdNotContaining(userId: String): Long
+
+    fun existsByDepartment(groupId: String): Boolean
 }

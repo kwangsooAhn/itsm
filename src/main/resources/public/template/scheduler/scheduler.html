@@ -25,7 +25,8 @@
                 <span th:text="#{scheduler.label.description}"></span>
             </label>
             <textarea class="z-textarea textarea-scroll-wrapper" id="taskDesc" maxlength="250" name="taskDesc"
-                      rows="5" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'" th:text="${schedule?.taskDesc}"></textarea>
+                      rows="5" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'"
+                      th:text="${schedule?.taskDesc}"></textarea>
         </div>
         <div class="flex-column z-edit-row">
             <label for="taskStatus">
@@ -42,7 +43,8 @@
             <label for="taskType">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.taskType}"></span>
             </label>
-            <select id="taskType" onchange="changeContainer(this.value)" required="required" th:classappend="${view} ? 'readonly' : ''">
+            <select id="taskType" onchange="changeContainer(this.value)" required="required"
+                    th:classappend="${view} ? 'readonly' : ''">
                 <option th:each="taskType: ${taskTypeList}" th:selected="${taskType.codeValue} == ${schedule?.taskType}"
                         th:text="${taskType.codeName}"
                         th:value="${taskType.codeValue}">
@@ -57,14 +59,16 @@
                 <label>
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.class}"></span>
                 </label>
-                <input class="z-input text-ellipsis" id="executeClass" maxlength="100" required="required" th:readonly="${view}"
+                <input class="z-input text-ellipsis" id="executeClass" maxlength="100" required="required"
+                       th:readonly="${view}"
                        th:value="${schedule?.executeClass}" type="text"/>
             </div>
             <div class="flex-column z-edit-row">
                 <label>
                     <span th:text="#{scheduler.label.args}"></span>
                 </label>
-                <input class="z-input text-ellipsis" id="args" maxlength="100" th:readonly="${view}" th:value="${schedule?.args}" type="text" />
+                <input class="z-input text-ellipsis" id="args" maxlength="100" th:readonly="${view}"
+                       th:value="${schedule?.args}" type="text"/>
             </div>
         </div>
         <!-- 타입: jar -->
@@ -80,7 +84,8 @@
                 <label>
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.command}"></span>
                 </label>
-                <input class="z-input text-ellipsis" id="executeCommand" maxlength="500" required="required" th:readonly="${view}"
+                <input class="z-input text-ellipsis" id="executeCommand" maxlength="500" required="required"
+                       th:readonly="${view}"
                        th:value="${schedule?.executeCommand}" type="text"/>
             </div>
         </div>
@@ -90,7 +95,8 @@
                 <label for="executeQuery">
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.query}"></span>
                 </label>
-                <textarea class="z-textarea textarea-scroll-wrapper" id="executeQuery" maxlength="500" name="executeQuery" required="required"
+                <textarea class="z-textarea textarea-scroll-wrapper" id="executeQuery" maxlength="500"
+                          name="executeQuery" required="required"
                           rows="10" th:readonly="${view}" th:text="${schedule?.executeQuery}"></textarea>
             </div>
         </div>
@@ -106,8 +112,10 @@
                     </div>
                 </div>
             </label>
-            <select id="executeCycleType" onchange="changeContainer(this.value)" required="required" th:classappend="${view} ? 'readonly' : ''">
-                <option th:each="executeCycleType: ${executeCycleTypeList}" th:selected="${executeCycleType.codeValue} == ${schedule?.executeCycleType}"
+            <select id="executeCycleType" onchange="changeContainer(this.value)" required="required"
+                    th:classappend="${view} ? 'readonly' : ''">
+                <option th:each="executeCycleType: ${executeCycleTypeList}"
+                        th:selected="${executeCycleType.codeValue} == ${schedule?.executeCycleType}"
                         th:text="${executeCycleType.codeName}"
                         th:value="${executeCycleType.codeValue}">
                 </option>
@@ -119,7 +127,8 @@
             <label for="cronExpression">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.cronExpression}"></span>
             </label>
-            <input class="z-input text-ellipsis" id="cronExpression" maxlength="100" required="required" th:readonly="${view}"
+            <input class="z-input text-ellipsis" id="cronExpression" maxlength="100" required="required"
+                   th:readonly="${view}"
                    th:value="${schedule?.cronExpression}" type="text"/>
         </div>
         <div class="flex-column z-edit-row" id="executeCycleType-fixed-container"
@@ -127,7 +136,8 @@
             <label for="executeCyclePeriod">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.executeCyclePeriod}"></span>
             </label>
-            <input class="z-input text-ellipsis" id="executeCyclePeriod" maxlength="10" required="required" th:onkeydown="${view} ? '' : 'return onlyNumber(event)'"
+            <input class="z-input text-ellipsis" id="executeCyclePeriod" maxlength="10" required="required"
+                   th:onkeydown="${view} ? '' : 'return onlyNumber(event)'"
                    th:onkeyup="${view} ? '' : 'aliceJs.removeChar(event)'" th:readonly="${view}"
                    th:value="${schedule?.executeCyclePeriod}" type="text"/>
         </div>
@@ -306,6 +316,7 @@
         }
         aliceJs.sendXhr(opt);
     }
+
     /**
      * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
      */
@@ -400,6 +411,9 @@
             if (isEmpty('src', 'common.msg.requiredEnter') || isEmpty('executeCommand', 'common.msg.requiredEnter')) {
                 return false;
             }
+            if (jarNameCheck()) {
+                return false;
+            }
         } else { // query
             if (isEmpty('executeQuery', 'common.msg.requiredEnter')) {
                 return false;
@@ -450,6 +464,19 @@
             return true;
         }
 
+        return false;
+    }
+
+    /** jar 파일명 검사 **/
+    function jarNameCheck() {
+        let elem = document.getElementById('src');
+        let regex = new RegExp("[:\?\*\"<>|]");
+        if (elem.value.match(regex)) {
+            zAlert.warning(i18n.msg('scheduler.msg.unacceptableCharacters'), function () {
+                elem.focus();
+            });
+            return true;
+        }
         return false;
     }
 

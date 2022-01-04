@@ -988,6 +988,7 @@ function validationCheck() {
     let deployableStatus = ['process.status.publish', 'process.status.use'];
     let nowStatus = zProcessDesigner.data.process.status;
     let commonStartCount = 0;
+    let commonStartId = '';
     // 발행, 사용 상태일 경우, 저장이 불가능하다.
     if (deployableStatus.includes(zProcessDesigner.initialStatus)) {
         zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
@@ -1005,6 +1006,7 @@ function validationCheck() {
         for (let i = 0; i < totalElements.length; i++) {
             if(totalElements[i].type === 'commonStart') {
                 commonStartCount++;
+                commonStartId = totalElements[i].id;
             }
             if (typeList.indexOf(totalElements[i].type) >= 0) {
                 requiredList = totalElements[i].required;
@@ -1036,9 +1038,24 @@ function validationCheck() {
                 }
             }
         }
+
         if (commonStartCount !== 1) {
             zAlert.warning(i18n.msg('process.msg.startElementMustOne'));
             return false;
+        }
+
+        for (let i = 0; i < totalElements.length; i++) { //첫번째 엘리먼트에 회수 기능 설정시 회수 기능 설정불가 알림
+            if (totalElements[i].type === 'arrowConnector' && totalElements[i].data['start-id'] == commonStartId) {
+                for (let j = 0; j < totalElements.length; j++) {
+                    if (totalElements[i].data['end-id'] == totalElements[j].id && totalElements[j].data['withdraw'] == 'Y') {
+                        const errorElem = document.getElementById(totalElements[j].id);
+                        zProcessDesigner.setSelectedElement(d3.select(errorElem));
+                        zProcessDesigner.setElementMenu(d3.select(errorElem));
+                        zAlert.warning(i18n.msg('process.msg.uncheckWithdraw', totalElements[j].name));
+                        return false;
+                    }
+                }
+            }
         }
         return true;
     }

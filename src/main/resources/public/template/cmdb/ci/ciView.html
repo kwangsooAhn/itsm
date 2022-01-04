@@ -110,16 +110,22 @@
         <table class="z-table">
             <thead class="z-table-head">
             <tr class="flex-row align-items-center">
-                <th style="width: 60%;" class="align-left" th:text="#{cmdb.ci.label.targetCiName}"></th>
+                <th style="width: 10%;" class="align-center"></th>
+                <th style="width: 45%;" class="align-left" th:text="#{cmdb.ci.label.type}"></th>
+                <th style="width: 45%;" class="align-left" th:text="#{cmdb.ci.label.name}"></th>
             </tr>
             </thead>
             <tbody class="z-table-body">
             <!--no data-->
-            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciRelationList)}">
-                <td style="width: 100%;" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
+            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciData.ciRelations)}">
+                <td style="width: 100%;" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciRelationList)}" th:each="ciRelation: ${ciRelationList}">
-                <td style="width: 60%;" th:text="${ciRelation.targetCIName}"></td>
+            <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciData.ciRelations)}" th:each="ciRelation: ${ciData.ciRelations}">
+                <td style="width: 10%;" class="align-center">
+                    <img th:src="${ciRelation.targetCIIconData}"/>
+                </td>
+                <td style="width: 45%;" class="align-left" th:text="${ciRelation.targetTypeName}"></td>
+                <td style="width: 45%;" class="align-left" th:text="${ciRelation.targetCIName}"></td>
             </tr>
             </tbody>
         </table>

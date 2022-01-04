@@ -6052,7 +6052,7 @@ body.modal-active {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   justify-content: var(--data-align);
   font-weight: 500;
-  padding: 0.4375rem 0.938rem 0.4375rem 0;
+  padding: 0.4375rem 0;
 }
 .z-component .z-component-label.on {
   display: flex;
@@ -6062,7 +6062,7 @@ body.modal-active {
 }
 .z-component .z-element {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
-  padding: 0.4375rem 0;
+  padding: 0.4375rem 0 0.4375rem 0.938rem;
   pointer-events: none;
 }
 .z-component .z-element .input, .z-component .z-element .z-input:not(.z-select-box-label):not(:read-only) {

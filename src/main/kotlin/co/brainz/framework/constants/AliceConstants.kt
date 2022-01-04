@@ -150,6 +150,7 @@ object PagingConstants {
      */
     enum class ListOrderTypeCode(val code: String) {
         CREATE_DESC("common.label.createDtDesc"),
-        NAME_ASC("common.label.nameAsc")
+        NAME_ASC("common.label.nameAsc"),
+        CATEGORY_ASC("common.label.categoryAsc")
     }
 }
