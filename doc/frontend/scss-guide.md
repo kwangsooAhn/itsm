@@ -65,8 +65,8 @@
 
 ---
 
-📄 bz-colors.scss<sup>[1](#footnote_1)</sup>  
-📁 <strong>utils</strong><sup>[2](#footnote_2)</sup>  
+📄 bz-colors.scss<sup>[💡](#bz-colors)</sup>  
+📁 <strong>utils</strong><sup>[💡](#utils)</sup>  
 　　📁 mixins  
 　　　　📄 _animation.scss  
 　　　　📄 _border.scss  
@@ -84,18 +84,18 @@
 　　　　📄 _flex.scss  
 　　　　📄 _spacing.scss  
 　　　　📄 _variables.scss  
-📁 <strong>base</strong><sup>[3](#footnote_3)</sup>  
+📁 <strong>base</strong><sup>[💡](#base)</sup>  
 　　📄 _common.scss  
 　　📄 _font.scss  
 　　📄 _icons.scss  
 　　📄 _reset.scss  
-📁 <strong>layout</strong><sup>[4](#footnote_4)</sup>  
+📁 <strong>layout</strong><sup>[💡](#layout)</sup>  
 　　📄 _content.scss  
 　　📄 _footer.scss  
 　　📄 _header.scss  
 　　📄 _navigation.scss  
 　　📄 _wrapper.scss  
-📁 <strong>components</strong><sup>[5](#footnote_5)</sup>  
+📁 <strong>components</strong><sup>[💡](#components)</sup>  
 　　📄 _alerts.scss  
 　　📄 _avatar.scss  
 　　📄 _button.scss  
@@ -110,13 +110,13 @@
 　　📄 _tooltip.scss  
 　　📄 _tree.scss  
 　　📄 _validation.scss  
-📁 <strong>page</strong><sup>[6](#footnote_6)</sup>  
+📁 <strong>page</strong><sup>[💡](#page)</sup>  
 　　📄 document.scss  
 　　📄 formDesigner.scss  
 　　📄 portal.scss  
 　　📄 process.scss  
 　　📄 report.scss  
-📁 <strong>themes</strong><sup>[7](#footnote_7)</sup>  
+📁 <strong>themes</strong><sup>[💡](#themes)</sup>  
 　　📄 dark.scss
 
 ### ※ 참고 링크
@@ -128,10 +128,10 @@
 ---
 
 #### 상세설명
-<a id="footnote_1">1</a> : vender처럼 사용, 이 파일은 수정하지 않습니다.  
-<a id="footnote_2">2</a> : 실제 스타일은 없고, 다른 폴더에 정의된 스타일을 도와주는 역할  
-<a id="footnote_3">3</a> : 사이트 전반에 걸쳐서 재사용되는 스타일  
-<a id="footnote_4">4</a> : 사이트 구조에 해당하는 레이아웃  
-<a id="footnote_5">5</a> : 사이트 내에서 재사용가능한 작은 소형 레이아웃  
-<a id="footnote_6">6</a> : 각 페이지에 사용되는 스타일  
-<a id="footnote_7">7</a> : 테마에 따라 사용되는 스타일
+<a id="bz-colors">bz-colors.scss</a> : vender처럼 사용, 이 파일은 수정하지 않습니다.  
+<a id="utils">utils</a> : 실제 스타일은 없고, 다른 폴더에 정의된 스타일을 도와주는 역할  
+<a id="base">base</a> : 사이트 전반에 걸쳐서 재사용되는 스타일  
+<a id="layout">layout</a> : 사이트 구조에 해당하는 레이아웃  
+<a id="components">components</a> : 사이트 내에서 재사용가능한 작은 소형 레이아웃  
+<a id="page">page</a> : 각 페이지에 사용되는 스타일  
+<a id="themes">themes</a> : 테마에 따라 사용되는 스타일
