@@ -882,6 +882,7 @@ group:
     enterPGroupName: "상위조직 이름을 입력하세요."
     pGroupNotExist: "상위조직이 존재하지 않습니다."
     selectRole: "구성원 기본 역할을 선택하세요."
+    failedGroupDelete: "조직에 구성원이 존재하여 삭제할 수 없습니다."
 
 # Image
 image:
@@ -933,7 +934,6 @@ menu:
     auth: "권한"
     boardAdmin: "게시판"
     code: "코드"
-    group: "조직"
     parent: "시스템 관리"
     product: "제품 정보"
     role: "역할"

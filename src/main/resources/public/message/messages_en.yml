@@ -882,6 +882,7 @@ group:
     enterPGroupName: "Please enter a Parent Group Name."
     pGroupNotExist: "Parent Group does not exist."
     selectRole: "Please select a member default role."
+    failedGroupDelete: "Failed to delete the group because of a member."
 
 # Image
 image:
@@ -933,7 +934,6 @@ menu:
     auth: "Auth"
     boardAdmin: "Board management"
     code: "Code management"
-    group: "Group"
     parent: "System config"
     product: "Product Info"
     role: "Role"
