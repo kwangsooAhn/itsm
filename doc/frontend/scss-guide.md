@@ -129,9 +129,9 @@
 
 #### 상세설명
 <a id="bz-colors">bz-colors.scss</a> : vender처럼 사용, 이 파일은 수정하지 않습니다.  
-<a id="utils">utils</a> : 실제 스타일은 없고, 다른 폴더에 정의된 스타일을 도와주는 역할  
-<a id="base">base</a> : 사이트 전반에 걸쳐서 재사용되는 스타일  
-<a id="layout">layout</a> : 사이트 구조에 해당하는 레이아웃  
-<a id="components">components</a> : 사이트 내에서 재사용가능한 작은 소형 레이아웃  
-<a id="page">page</a> : 각 페이지에 사용되는 스타일  
-<a id="themes">themes</a> : 테마에 따라 사용되는 스타일
+<a id="utils">utils</a> : 실제 스타일은 없고, 다른 폴더에 정의된 스타일을 모아놓은 폴더  
+<a id="base">base</a> : 사이트 전반에 걸쳐서 재사용되는 스타일을 모아놓은 폴더  
+<a id="layout">layout</a> : 사이트 구조에 해당하는 레이아웃을 모아놓은 폴더  
+<a id="components">components</a> : 사이트 내에서 재사용가능한 작은 소형 레이아웃을 모아놓은 폴더  
+<a id="page">page</a> : 각 페이지에 사용되는 스타일을 모아놓은 폴더  
+<a id="themes">themes</a> : 테마에 따라 사용되는 스타일을 모아놓은 폴더
