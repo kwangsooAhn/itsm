@@ -162,7 +162,7 @@ class UserService(
             data = userList,
             paging = AlicePagingData(
                 totalCount = queryResult.total,
-                totalCountWithoutCondition = userRepository.countByUserIdNotContaining(AliceUserConstants.CREATE_USER_ID),
+                totalCountWithoutCondition = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID),
                 currentPageNum = userSearchCondition.pageNum,
                 totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
@@ -329,7 +329,7 @@ class UserService(
      * (selectbox 용으로 key, id, name 조회)
      */
     fun selectUserListOrderByName(): MutableList<UserSelectListDto> {
-        val userList = userRepository.findByOrderByUserNameAsc()
+        val userList = userRepository.findByUserIdNotOrderByUserNameAsc(AliceUserConstants.CREATE_USER_ID)
         val userDtoList = mutableListOf<UserSelectListDto>()
         for (userEntity in userList) {
             userDtoList.add(
