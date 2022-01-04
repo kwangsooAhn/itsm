@@ -165,7 +165,7 @@ class AliceCertificationService(
             userName = aliceSignUpDto.userName,
             email = aliceSignUpDto.email,
             position = aliceSignUpDto.position,
-            groupId = aliceSignUpDto.department,
+            department = aliceSignUpDto.department,
             officeNumber = aliceSignUpDto.officeNumber,
             mobileNumber = aliceSignUpDto.mobileNumber,
             expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod),

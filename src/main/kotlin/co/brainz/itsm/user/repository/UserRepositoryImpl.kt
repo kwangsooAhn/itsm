@@ -9,6 +9,7 @@ package co.brainz.itsm.user.repository
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.group.entity.QGroupEntity
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListExcelDto
 import co.brainz.itsm.user.dto.UserSearchCondition
@@ -17,7 +18,6 @@ import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
-import co.brainz.itsm.group.entity.QGroupEntity
 
 @Repository
 class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java), UserRepositoryCustom {
@@ -45,7 +45,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.createDt
                 )
             )
-            .leftJoin(group).on(group.groupId.eq(user.groupId))
+            .leftJoin(group).on(group.groupId.eq(user.department))
             .where(
                 super.likeIgnoreCase(user.userName, userSearchCondition.searchValue)
                     ?.or(super.likeIgnoreCase(user.userId, userSearchCondition.searchValue))
@@ -91,7 +91,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.absenceYn
                 )
             )
-            .leftJoin(group).on(group.groupId.eq(user.groupId))
+            .leftJoin(group).on(group.groupId.eq(user.department))
             .where(
                 super.likeIgnoreCase(user.userName, userSearchCondition.searchValue)
                     ?.or(super.likeIgnoreCase(user.userId, userSearchCondition.searchValue))
