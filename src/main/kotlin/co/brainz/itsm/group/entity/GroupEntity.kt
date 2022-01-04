@@ -31,7 +31,7 @@ data class GroupEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "p_group_id")
     @NotFound(action = NotFoundAction.IGNORE)
-    var pGroupId: GroupEntity? = null,
+    var pGroup: GroupEntity? = null,
 
     @Column(name = "group_name", length = 128)
     var groupName: String? = null,
@@ -49,7 +49,7 @@ data class GroupEntity(
     var seqNum: Int? = null,
 
     @Column(name = "editable")
-    var editable : Boolean? = true,
+    var editable: Boolean? = true,
 
     @Column(name = "create_user_key", length = 128)
     var createUserKey: String? = null,
@@ -64,6 +64,6 @@ data class GroupEntity(
     var updateDt: LocalDateTime? = null
 
 ) : Serializable {
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "groupId", fetch = FetchType.LAZY)
     val groupRoleMapEntities = mutableListOf<GroupRoleMapEntity>()
 }

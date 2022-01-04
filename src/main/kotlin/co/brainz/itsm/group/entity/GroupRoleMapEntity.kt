@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brainzcompany Co., Ltd.
+ * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
 
@@ -17,20 +17,21 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "awf_group_role_map")
-@IdClass(GroupRoleMapPk::class)
+@IdClass(GroupRoleMapEntityPk::class)
 data class GroupRoleMapEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
-    val group: GroupEntity,
+    var groupId: GroupEntity,
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
-    val role: AliceRoleEntity
+    var roleId: AliceRoleEntity
 ) : Serializable
 
-data class GroupRoleMapPk(
-    val group: String = "",
-    val role: String = ""
+data class GroupRoleMapEntityPk(
+    val groupId: String = "",
+    val roleId: String = ""
 ) : Serializable
+ * Copyright 2021 Brainzcompany Co., Ltd.

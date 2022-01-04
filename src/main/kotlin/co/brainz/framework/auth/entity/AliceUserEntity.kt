@@ -54,7 +54,7 @@ open class AliceUserEntity(
     open var position: String? = "",
 
     @Column(name = "department", length = 128)
-    open var department: String? = "",
+    open var groupId: String? = "",
 
     @Column(name = "office_number", length = 128)
     open var officeNumber: String? = "",

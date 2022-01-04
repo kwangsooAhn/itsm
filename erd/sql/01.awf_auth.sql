@@ -89,6 +89,10 @@ insert into awf_auth values ('form.create', '문서양식 등록', '', '0509e094
 insert into awf_auth values ('form.delete', '문서양식 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('form.read', '문서양식 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('form.update', '문서양식 변경', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('group.create', '조직 등록', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('group.delete', '조직 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('group.read', '조직 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('group.update', '조직 변경', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('image.create', '이미지 업로드', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('image.delete', '이미지 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('image.read', '이미지 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
