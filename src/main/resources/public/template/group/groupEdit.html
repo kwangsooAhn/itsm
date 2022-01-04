@@ -123,17 +123,17 @@
     /** 조직 트리 조회 */
     function getGroupList() {
         const search = encodeURIComponent(document.getElementById('searchValue').value);
-        /*tree.load({
+        tree.load({
             dataUrl: '/rest/groups?search=' + search,
             target: 'treeList',
             text: 'tree',
-            leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
-            sessionKey: sessionKey,
+            defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
+            leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
             totalCount: true,
             selectedNode: function (response) {
                 onGetDetail(response.id)
             }
-        });*/
+        });
     }
 
     /** 트리 선택시 상세 정보 조회 */
@@ -161,7 +161,7 @@
             // 조직설명
             document.getElementById('groupDesc').value = response.data.groupDesc;
             // 구성원 기본 역할
-            let rolelements = document.querySelectorAll('input[name=groupRole]');
+            const rolelements = document.querySelectorAll('input[name=groupRole]');
             rolelements.forEach(function (chk) {
                 chk.checked = false;
                 const matching = response.data.groupUseRoles.find(function (role) {
@@ -242,12 +242,17 @@
         if (isEmpty('pGroupName', 'group.msg.enterPGroupName')) return false;
         if (isEmpty('groupName', 'group.msg.enterGroupName')) return false;
 
-        // 조직 아이디 / 이름 중복체크
+        // TODO: 조직 아이디 / 이름 중복체크
         if (method === 'POST') {
 
         }
 
         // 저장
+        const rolelements = document.querySelectorAll('input[name=groupRole]:checked');
+        let roles = [];
+        rolelements.forEach(function (chk) {
+            roles.push(chk.id);
+        });
         const saveData = {
             groupId: document.getElementById('groupId').value,
             pGroupId: document.getElementById('pGroupId').value,
@@ -255,13 +260,39 @@
             groupDesc: document.getElementById('groupDesc').value,
             useYn: document.getElementById('useYn').checked,
             seqNum: document.getElementById('seqNum').value,
-            roles: []
+            roles: roles
         };
+
+        let url = '/rest/groups';
+        if (method !== 'POST') {
+            url += '/' + document.getElementById('groupId').value;
+        }
+        aliceJs.fetchText(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saveData)
+        }).then((response) => {
+            if (response.status === 200) {
+                zAlert.success(i18n.msg('common.msg.register'), function () {
+                    window.location.href = '/groups/edit';
+                });
+            }
+        });
     }
 
     /** delete **/
     function onDelete() {
-
+        aliceJs.fetchText('/rest/groups/' + document.getElementById('groupId').value, {
+            method: 'DELETE'
+        }).then((response) => {
+            if (response.status === 200) {
+                zAlert.success(i18n.msg('common.msg.delete'), function () {
+                    window.location.href = '/groups/edit';
+                });
+            }
+        });
     }
     /*]]>*/
 </script>
