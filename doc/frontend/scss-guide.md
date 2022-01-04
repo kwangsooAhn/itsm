@@ -65,101 +65,73 @@
 
 ---
 
-### Directory
-<ul>
-    <li style="list-style-type:disc">bz-colors</li>
-    <li><details open=""><summary><strong>utils</strong></summary>
-        <ul>
-            <li><details open=""><summary>mixins</summary>
-                <ul>
-                    <li style="list-style-type:disc">_animation.scss</li>
-                    <li style="list-style-type:disc">_border.scss</li>
-                    <li style="list-style-type:disc">_component.scss</li>
-                    <li style="list-style-type:disc">_divider.scss</li>
-                    <li style="list-style-type:disc">_functions.scss</li>
-                    <li style="list-style-type:disc">_image.scss</li>
-                    <li style="list-style-type:disc">_layout.scss</li>
-                    <li style="list-style-type:disc">_position.scss</li>
-                    <li style="list-style-type:disc">_scroll.scss</li>
-                    <li style="list-style-type:disc">_text.scss</li>
-                </ul>
-            </details></li>
-        </ul>
-        <ul>
-            <li><details open=""><summary>variables</summary>
-                <ul>
-                    <li style="list-style-type:disc">_alignments.scss</li>
-                    <li style="list-style-type:disc">_columns.scss</li>
-                    <li style="list-style-type:disc">_flex.scss</li>
-                    <li style="list-style-type:disc">_spacing.scss</li>
-                    <li style="list-style-type:disc">_variables.scss</li>
-                </ul>
-            </details></li>
-        </ul>
-    </details></li>
-</ul>
-<ul>
-    <li><details open=""><summary><strong>base</strong></summary>
-        <ul>
-            <li style="list-style-type:disc">_common.scss</li>
-            <li style="list-style-type:disc">_font.scss</li>
-            <li style="list-style-type:disc">_icons.scss</li>
-            <li style="list-style-type:disc">_reset.scss</li>
-        </ul>
-    </details></li>
-</ul>
-<ul>
-    <li><details open=""><summary><strong>Layout</strong></summary>
-        <ul>
-            <li style="list-style-type:disc">_content.scss</li>
-            <li style="list-style-type:disc">_footer.scss</li>
-            <li style="list-style-type:disc">_header.scss</li>
-            <li style="list-style-type:disc">_navigation.scss</li>
-            <li style="list-style-type:disc">_wrapper.scss</li>
-        </ul>
-    </details></li>
-</ul>
-<ul>
-    <li><details open=""><summary><strong>components</strong></summary>
-        <ul>
-            <li style="list-style-type:disc">_alerts.scss</li>
-            <li style="list-style-type:disc">_avatar.scss</li>
-            <li style="list-style-type:disc">_button.scss</li>
-            <li style="list-style-type:disc">_form.scss</li>
-            <li style="list-style-type:disc">_modal.scss</li>
-            <li style="list-style-type:disc">_paging.scss</li>
-            <li style="list-style-type:disc">_popup.scss</li>
-            <li style="list-style-type:disc">_reply.scss</li>
-            <li style="list-style-type:disc">_scrollbar.scss</li>
-            <li style="list-style-type:disc">_tag.scss</li>
-            <li style="list-style-type:disc">_thumbnail.scss</li>
-            <li style="list-style-type:disc">_tooltip.scss</li>
-            <li style="list-style-type:disc">_tree.scss</li>
-            <li style="list-style-type:disc">_validation.scss</li>
-        </ul>
-    </details></li>
-</ul>
-<ul>
-    <li><details open=""><summary><strong>page</strong></summary>
-        <ul>
-            <li style="list-style-type:disc">document.scss</li>
-            <li style="list-style-type:disc">formDesigner.scss</li>
-            <li style="list-style-type:disc">portal.scss</li>
-            <li style="list-style-type:disc">process.scss</li>
-            <li style="list-style-type:disc">report.scss</li>        
-        </ul>
-    </details></li>
-</ul>
-<ul>
-    <li><details open=""><summary><strong>themes</strong></summary>
-        <ul>
-            <li style="list-style-type:disc">dark.scss</li>      
-        </ul>
-</details></li>
-</ul>
+📄 bz-colors.scss<sup>[1](#footnote_1)</sup>  
+📁 <strong>utils</strong><sup>[2](#footnote_2)</sup>  
+　　📁 mixins  
+　　　　📄 _animation.scss  
+　　　　📄 _border.scss  
+　　　　📄 _component.scss  
+　　　　📄 _divider.scss  
+　　　　📄 _functions.scss  
+　　　　📄 _image.scss  
+　　　　📄 _layout.scss  
+　　　　📄 _position.scss  
+　　　　📄 _scroll.scss  
+　　　　📄 _text.scss  
+　　📁 variables  
+　　　　📄 _alignments.scss  
+　　　　📄 _columns.scss  
+　　　　📄 _flex.scss  
+　　　　📄 _spacing.scss  
+　　　　📄 _variables.scss  
+📁 <strong>base</strong><sup>[3](#footnote_3)</sup>  
+　　📄 _common.scss  
+　　📄 _font.scss  
+　　📄 _icons.scss  
+　　📄 _reset.scss  
+📁 <strong>layout</strong><sup>[4](#footnote_4)</sup>  
+　　📄 _content.scss  
+　　📄 _footer.scss  
+　　📄 _header.scss  
+　　📄 _navigation.scss  
+　　📄 _wrapper.scss  
+📁 <strong>components</strong><sup>[5](#footnote_5)</sup>  
+　　📄 _alerts.scss  
+　　📄 _avatar.scss  
+　　📄 _button.scss  
+　　📄 _form.scss  
+　　📄 _modal.scss  
+　　📄 _paging.scss  
+　　📄 _popup.scss  
+　　📄 _reply.scss  
+　　📄 _scrollbar.scss  
+　　📄 _tag.scss  
+　　📄 _thumbnail.scss  
+　　📄 _tooltip.scss  
+　　📄 _tree.scss  
+　　📄 _validation.scss  
+📁 <strong>page</strong><sup>[6](#footnote_6)</sup>  
+　　📄 document.scss  
+　　📄 formDesigner.scss  
+　　📄 portal.scss  
+　　📄 process.scss  
+　　📄 report.scss  
+📁 <strong>themes</strong><sup>[7](#footnote_7)</sup>  
+　　📄 dark.scss
 
 ### ※ 참고 링크
 <p>
 <a href="https://nuli.navercorp.com/data/convention/NHN_Coding_Conventions_for_Markup_Languages.pdf" target="_blank">NHN 코드 작성 규칙</a><br>
 <a href="https://imagineu.tistory.com/23">7-1 패턴</a>
 </p>
+
+---
+
+#### 상세설명
+<a id="footnote_1">1</a> : vender처럼 사용, 이 파일은 수정하지 않습니다.  
+<a id="footnote_2">2</a> : 실제 스타일은 없고, 다른 폴더에 정의된 스타일을 도와주는 역할  
+<a id="footnote_3">3</a> : 사이트 전반에 걸쳐서 재사용되는 스타일  
+<a id="footnote_4">4</a> : 사이트 구조에 해당하는 레이아웃  
+<a id="footnote_5">5</a> : 사이트 내에서 재사용가능한 작은 소형 레이아웃  
+<a id="footnote_6">6</a> : 각 페이지에 사용되는 스타일  
+<a id="footnote_7">7</a> : 테마에 따라 사용되는 스타일
