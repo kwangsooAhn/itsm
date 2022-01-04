@@ -659,7 +659,11 @@ function onlyNumber(event) {
  * 허용된 IP인지 확인한다.
  * @returns {boolean}
  */
-function ipAccessCheck(ipList, clientIp, Separator) {
+function ipAccessCheck(ipAccessControl, ipList, clientIp, Separator) {
+    if (ipAccessControl === 'false') {
+        return true;
+    }
+
     let isIpClassBand = false;
     let isSameIpClassBand = false;
     let count = ipList.length;
