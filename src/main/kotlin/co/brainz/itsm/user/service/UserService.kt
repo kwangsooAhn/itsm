@@ -122,12 +122,15 @@ class UserService(
         val absenceList = userCustomRepository.findByCustomType(UserConstants.UserCustom.USER_ABSENCE.code)
         absenceList?.forEach { absence ->
             val userAbsenceDto = mapper.readValue(absence.customValue, UserAbsenceDto::class.java)
-            if ((userAbsenceDto.startDt!! <= from && userAbsenceDto.endDt!! >= from) || (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)) {
+            if ((userAbsenceDto.startDt!! <= from && userAbsenceDto.endDt!! >= from) ||
+                (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)
+            ) {
                 excludeIds.add(absence.userKey)
             }
         }
         val userSearchCondition = UserSearchCondition(
-            searchValue = params["search"].toString(), isFilterUseYn = true
+            searchValue = params["search"].toString(),
+            isFilterUseYn = true
         )
         if (excludeIds.isNotEmpty()) {
             userSearchCondition.excludeIds = excludeIds
@@ -269,8 +272,10 @@ class UserService(
                 code = when (targetEntity.email == userEntity.email) {
                     true -> {
                         when (userEditType) {
-                            AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
-                            AliceUserConstants.UserEditType.SELF_USER_EDIT.code -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
+                            AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code ->
+                                AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
+                            AliceUserConstants.UserEditType.SELF_USER_EDIT.code ->
+                                AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
                             else -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
                         }
                     }
@@ -349,7 +354,9 @@ class UserService(
         for (userEntity in userList) {
             userDtoList.add(
                 UserSelectListDto(
-                    userKey = userEntity.userKey, userId = userEntity.userId, userName = userEntity.userName
+                    userKey = userEntity.userKey,
+                    userId = userEntity.userId,
+                    userName = userEntity.userName
                 )
             )
         }
@@ -485,7 +492,8 @@ class UserService(
     @Transactional
     fun updatePassword(userUpdatePasswordDto: UserUpdatePasswordDto): Long {
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-        val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+        val privateKey =
+            attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         val rawNewPassword = aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.newPassword!!)
         val rawNowPassword = aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.nowPassword!!)
         val userEntity = selectUser(userUpdatePasswordDto.userId!!)
@@ -598,23 +606,32 @@ class UserService(
                         ExcelRowVO(
                             cells = listOf(
                                 ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("user.label.id"), cellWidth = 5000
+                                    value = aliceMessageSource.getMessage("user.label.id"),
+                                    cellWidth = 5000
                                 ), ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("user.label.name"), cellWidth = 5000
+                                    value = aliceMessageSource.getMessage("user.label.name"),
+                                    cellWidth = 5000
                                 ), ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("user.label.email"), cellWidth = 7000
+                                    value = aliceMessageSource.getMessage("user.label.email"),
+                                    cellWidth = 7000
                                 ), ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("user.label.department"), cellWidth = 4000
+                                    value = aliceMessageSource.getMessage("user.label.department"),
+                                    cellWidth = 4000
                                 ), ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("user.label.position"), cellWidth = 4000
+                                    value = aliceMessageSource.getMessage("user.label.position"),
+                                    cellWidth = 4000
                                 ), ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("user.label.officeNumber"), cellWidth = 5000
+                                    value = aliceMessageSource.getMessage("user.label.officeNumber"),
+                                    cellWidth = 5000
                                 ), ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("user.label.mobileNumber"), cellWidth = 5000
+                                    value = aliceMessageSource.getMessage("user.label.mobileNumber"),
+                                    cellWidth = 5000
                                 ), ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("user.label.signUpDate"), cellWidth = 5000
+                                    value = aliceMessageSource.getMessage("user.label.signUpDate"),
+                                    cellWidth = 5000
                                 ), ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("user.label.usageStatus"), cellWidth = 4000
+                                    value = aliceMessageSource.getMessage("user.label.usageStatus"),
+                                    cellWidth = 4000
                                 )
                             )
                         )

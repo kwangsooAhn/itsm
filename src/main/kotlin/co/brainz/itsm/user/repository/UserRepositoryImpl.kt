@@ -9,7 +9,6 @@ package co.brainz.itsm.user.repository
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
-import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListExcelDto
 import co.brainz.itsm.user.dto.UserSearchCondition
@@ -24,6 +23,7 @@ import co.brainz.itsm.group.entity.QGroupEntity
 class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java), UserRepositoryCustom {
     override fun findAliceUserEntityList(userSearchCondition: UserSearchCondition): QueryResults<UserListDataDto> {
         val user = QAliceUserEntity.aliceUserEntity
+        val group = QGroupEntity.groupEntity
         val query = from(user)
             .select(
                 Projections.constructor(
@@ -33,8 +33,8 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.userName,
                     user.email,
                     user.position,
-                    user.groupId,
-                    Expressions.asString(""),
+                    group.groupId,
+                    group.groupName,
                     user.officeNumber,
                     user.mobileNumber,
                     user.avatarType,
@@ -45,10 +45,12 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.createDt
                 )
             )
+            .leftJoin(group).on(group.groupId.eq(user.groupId))
             .where(
                 super.likeIgnoreCase(user.userName, userSearchCondition.searchValue)
                     ?.or(super.likeIgnoreCase(user.userId, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.position, userSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(group.groupName, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.officeNumber, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.mobileNumber, userSearchCondition.searchValue))
             )
@@ -73,6 +75,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
 
     override fun findUserListForExcel(userSearchCondition: UserSearchCondition): QueryResults<UserListExcelDto> {
         val user = QAliceUserEntity.aliceUserEntity
+        val group = QGroupEntity.groupEntity
         val query = from(user)
             .select(
                 Projections.constructor(
@@ -80,18 +83,20 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.userId,
                     user.userName,
                     user.email,
-                    user.groupId,
                     user.position,
+                    group.groupName,
                     user.officeNumber,
                     user.mobileNumber,
                     user.createDt,
                     user.absenceYn
                 )
             )
+            .leftJoin(group).on(group.groupId.eq(user.groupId))
             .where(
                 super.likeIgnoreCase(user.userName, userSearchCondition.searchValue)
                     ?.or(super.likeIgnoreCase(user.userId, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.position, userSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(group.groupName, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.officeNumber, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.mobileNumber, userSearchCondition.searchValue))
             )
