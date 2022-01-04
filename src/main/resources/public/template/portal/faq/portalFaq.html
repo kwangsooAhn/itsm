@@ -14,6 +14,7 @@
         </div>
         <div class="z-page-search pb-4">
             <select id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')" class="col-5 mr-2">
+                <option value="" th:text="#{faq.label.all}"></option>
                 <option th:each="category:${faqs.faqCategory}"
                         th:text="${category.codeName}" th:value="${category.code}"></option>
             </select>
@@ -35,7 +36,7 @@
 
     function getFaqList(category, faqId) {
         let urlParam = '';
-        if (category !== '' && category !== 'faq.category.all') {
+        if (category !== '') {
             urlParam += 'category=' + category;
         }
         if (faqId !== '') {
