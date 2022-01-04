@@ -42,11 +42,11 @@ class GroupService(
         var groupSearchList = queryResults.results
 
         for (group in groupSearchList) {
-            var tempGroup = group.pGroupId
+            var tempGroup = group.pGroup
             do {
                 if (tempGroup !== null) {
                     pGroupList.add(tempGroup)
-                    tempGroup = tempGroup.pGroupId
+                    tempGroup = tempGroup.pGroup
                 }
             } while (tempGroup !== null)
         }
@@ -59,7 +59,7 @@ class GroupService(
             treeGroupList.add(
                 GroupDto(
                     groupId = group.groupId,
-                    pGroupId = group.pGroupId?.groupId,
+                    pGroupId = group.pGroup?.groupId,
                     groupName = group.groupName,
                     groupDesc = group.groupDesc,
                     useYn = group.useYn,
@@ -89,8 +89,8 @@ class GroupService(
         return GroupDetailDto(
             groupId = groupInfo.groupId,
             groupName = groupInfo.groupName,
-            pGroupId = groupInfo.pGroupId?.let { groupInfo.pGroupId!!.groupId },
-            pGroupName = groupInfo.pGroupId?.let { groupInfo.pGroupId!!.groupName },
+            pGroupId = groupInfo.pGroup?.let { groupInfo.pGroup!!.groupId },
+            pGroupName = groupInfo.pGroup?.let { groupInfo.pGroup!!.groupName },
             groupDesc = groupInfo.groupDesc,
             useYn = groupInfo.useYn,
             level = groupInfo.level,
@@ -112,7 +112,7 @@ class GroupService(
         }
         val group = groupRepository.save(
             GroupEntity(
-                pGroupId = groupRepository.findById(groupRoleDto.pGroupId).get(),
+                pGroup = groupRepository.findById(groupRoleDto.pGroupId).get(),
                 groupName = groupRoleDto.groupName,
                 groupDesc = groupRoleDto.groupDesc,
                 useYn = groupRoleDto.useYn,
@@ -142,7 +142,7 @@ class GroupService(
         val groupRoleList = mutableListOf<GroupRoleMapEntity>()
 
         group.groupId = groupRoleDto.groupId
-        group.pGroupId = groupRepository.findById(groupRoleDto.pGroupId).get()
+        group.pGroup = groupRepository.findById(groupRoleDto.pGroupId).get()
         group.groupName = groupRoleDto.groupName
         group.groupDesc = groupRoleDto.groupDesc
         group.useYn = groupRoleDto.useYn

@@ -31,7 +31,7 @@ data class GroupEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "p_group_id")
     @NotFound(action = NotFoundAction.IGNORE)
-    var pGroupId: GroupEntity? = null,
+    var pGroup: GroupEntity? = null,
 
     @Column(name = "group_name", length = 128)
     var groupName: String? = null,
