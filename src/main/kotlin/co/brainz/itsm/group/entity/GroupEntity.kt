@@ -18,7 +18,7 @@ data class GroupEntity(
     var groupId: String = "",
 
     @Column(name = "p_group_id", length = 100)
-    var pGroupId: String = "",
+    var pGroupId: String? = null,
 
     @Column(name = "group_name", length = 128)
     var groupName: String? = null,

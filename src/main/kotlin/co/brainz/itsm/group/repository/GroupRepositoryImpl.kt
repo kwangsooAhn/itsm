@@ -1,22 +1,22 @@
 package co.brainz.itsm.group.repository
 
-import co.brainz.cmdb.dto.SearchDto
 import co.brainz.itsm.group.dto.GroupShortDto
-import co.brainz.itsm.group.dto.PGroupListDto
-import co.brainz.itsm.group.entity.GroupEntity
+import co.brainz.itsm.group.dto.GroupSearchCondition
+import co.brainz.itsm.group.dto.PGroupDto
 import co.brainz.itsm.group.entity.QGroupEntity
+import co.brainz.itsm.group.entity.GroupEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class GroupRepositoryImpl : QuerydslRepositorySupport(GroupEntity::class.java), GroupRepositoryCustom {
 
-    override fun findGroupList(searchDto: SearchDto): QueryResults<PGroupListDto> {
+    override fun findGroupList(groupSearchCondition: GroupSearchCondition): QueryResults<PGroupDto> {
         val group = QGroupEntity.groupEntity
         val query = from(group)
             .select(
                 Projections.constructor(
-                    PGroupListDto::class.java,
+                    PGroupDto::class.java,
                     group.groupId,
                     group.pGroupId,
                     group.groupName,
@@ -24,13 +24,11 @@ class GroupRepositoryImpl : QuerydslRepositorySupport(GroupEntity::class.java), 
                 )
             )
             .where(
-                super.likeIgnoreCase(group.groupName, searchDto.search)
+                super.likeIgnoreCase(group.groupName, groupSearchCondition.searchValue)
             )
-        if (searchDto.limit != null) {
-            query.limit(searchDto.limit)
-        }
-        if (searchDto.offset != null) {
-            query.offset(searchDto.offset)
+        if (groupSearchCondition.isPaging) {
+            query.limit(groupSearchCondition.contentNumPerPage)
+            query.offset((groupSearchCondition.pageNum - 1) * groupSearchCondition.contentNumPerPage)
         }
         return query.fetchResults()
     }

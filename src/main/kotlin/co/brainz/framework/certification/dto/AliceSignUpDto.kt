@@ -15,7 +15,7 @@ data class AliceSignUpDto(
     var password: String?,
     var email: String,
     var position: String?,
-    var department: String?,
+    var groupId: String?,
     var officeNumber: String?,
     var mobileNumber: String?,
     var roles: Set<String>?,

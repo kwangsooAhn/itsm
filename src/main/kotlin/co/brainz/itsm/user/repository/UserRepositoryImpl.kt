@@ -18,6 +18,7 @@ import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
+import co.brainz.itsm.group.entity.QGroupEntity
 
 @Repository
 class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java), UserRepositoryCustom {
@@ -32,7 +33,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.userName,
                     user.email,
                     user.position,
-                    user.department,
+                    user.groupId,
                     Expressions.asString(""),
                     user.officeNumber,
                     user.mobileNumber,
@@ -72,7 +73,6 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
 
     override fun findUserListForExcel(userSearchCondition: UserSearchCondition): QueryResults<UserListExcelDto> {
         val user = QAliceUserEntity.aliceUserEntity
-        val code = QCodeEntity.codeEntity
         val query = from(user)
             .select(
                 Projections.constructor(
@@ -80,7 +80,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.userId,
                     user.userName,
                     user.email,
-                    code.codeValue.`as`("department"),
+                    user.groupId,
                     user.position,
                     user.officeNumber,
                     user.mobileNumber,
@@ -88,13 +88,10 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.absenceYn
                 )
             )
-
-            .leftJoin(code).on(code.code.eq(user.department))
             .where(
                 super.likeIgnoreCase(user.userName, userSearchCondition.searchValue)
                     ?.or(super.likeIgnoreCase(user.userId, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.position, userSearchCondition.searchValue))
-                    ?.or(super.likeIgnoreCase(code.codeName, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.officeNumber, userSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(user.mobileNumber, userSearchCondition.searchValue))
             )
