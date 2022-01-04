@@ -62,9 +62,9 @@ class AliceUrlRepositoryImpl : QuerydslRepositorySupport(AliceUrlEntity::class.j
             )
             .innerJoin(urlAuthMap).on(urlAuthMap.url.eq(url))
             .innerJoin(roleAuthMap).on(roleAuthMap.auth.authId.eq(urlAuthMap.auth.authId))
-            .innerJoin(groupRoleMap).on(groupRoleMap.role.roleId.eq(roleAuthMap.role.roleId))
+            .innerJoin(groupRoleMap).on(groupRoleMap.roleId.roleId.eq(roleAuthMap.role.roleId))
             .where(
-                groupRoleMap.group.groupId.eq(groupId)
+                groupRoleMap.groupId.groupId.eq(groupId)
             )
         return query.fetch().toSet()
     }

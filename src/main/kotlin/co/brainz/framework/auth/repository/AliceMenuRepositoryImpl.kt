@@ -64,9 +64,9 @@ class AliceMenuRepositoryImpl : QuerydslRepositorySupport(AliceMenuEntity::class
             )
             .innerJoin(menuAuthMap).on(menuAuthMap.menu.menuId.eq(menu.menuId))
             .innerJoin(roleAuthMap).on(roleAuthMap.auth.authId.eq(menuAuthMap.auth.authId))
-            .innerJoin(groupRoleMap).on(groupRoleMap.role.roleId.eq(roleAuthMap.role.roleId))
+            .innerJoin(groupRoleMap).on(groupRoleMap.roleId.roleId.eq(roleAuthMap.role.roleId))
             .where(
-                groupRoleMap.group.groupId.eq(groupId)
+                groupRoleMap.groupId.groupId.eq(groupId)
             )
 
         return query.fetch().toSet()

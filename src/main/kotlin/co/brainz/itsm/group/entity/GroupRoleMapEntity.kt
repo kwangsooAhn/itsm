@@ -34,4 +34,3 @@ data class GroupRoleMapEntityPk(
     val groupId: String = "",
     val roleId: String = ""
 ) : Serializable
- * Copyright 2021 Brainzcompany Co., Ltd.

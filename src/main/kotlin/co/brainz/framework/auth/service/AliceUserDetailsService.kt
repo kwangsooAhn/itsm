@@ -154,7 +154,7 @@ class AliceUserDetailsService(
             val roleList = mutableListOf<String>()
             groupRepository.findByIdOrNull(group).let { group ->
                 group?.groupRoleMapEntities?.forEach {
-                    roleList.add(it.role.roleId)
+                    roleList.add(it.roleId.roleId)
                 }
             }
             if (roleList.isNotEmpty()) {
