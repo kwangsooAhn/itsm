@@ -105,6 +105,10 @@ insert into awf_auth values ('form.create', '문서양식 등록', '', '0509e094
 insert into awf_auth values ('form.delete', '문서양식 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('form.read', '문서양식 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('form.update', '문서양식 변경', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('group.create', '조직 등록', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('group.delete', '조직 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('group.read', '조직 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('group.update', '조직 변경', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('image.create', '이미지 업로드', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('image.delete', '이미지 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('image.read', '이미지 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -693,13 +697,14 @@ insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE'
 insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
 insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
 insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
-insert into awf_menu values ('config.user', 'config', '/users/search', 1, 'TRUE');
-insert into awf_menu values ('config.auth', 'config', '/auths/search', 2, 'TRUE');
-insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
-insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
-insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
-insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
-insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
+insert into awf_menu values ('config.group', 'config', '/groups/search', 1, 'TRUE');
+insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
+insert into awf_menu values ('config.auth', 'config', '/auths/search', 3, 'TRUE');
+insert into awf_menu values ('config.role', 'config', '/roles/search', 4, 'TRUE');
+insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 5, 'TRUE');
+insert into awf_menu values ('config.code', 'config', '/codes/edit', 6, 'TRUE');
+insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 7, 'TRUE');
+insert into awf_menu values ('config.product', 'config', '', 8, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -736,6 +741,10 @@ insert into awf_menu_auth_map values ('config.code', 'code.read');
 insert into awf_menu_auth_map values ('config.code', 'code.create');
 insert into awf_menu_auth_map values ('config.code', 'code.update');
 insert into awf_menu_auth_map values ('config.code', 'code.delete');
+insert into awf_menu_auth_map values ('config.group', 'group.read');
+insert into awf_menu_auth_map values ('config.group', 'group.create');
+insert into awf_menu_auth_map values ('config.group', 'group.update');
+insert into awf_menu_auth_map values ('config.group', 'group.delete');
 insert into awf_menu_auth_map values ('config.role', 'role.read');
 insert into awf_menu_auth_map values ('config.role', 'role.create');
 insert into awf_menu_auth_map values ('config.role', 'role.update');
@@ -1139,6 +1148,10 @@ insert into awf_role_auth_map values ('admin', 'report.create');
 insert into awf_role_auth_map values ('admin', 'report.update');
 insert into awf_role_auth_map values ('admin', 'report.read');
 insert into awf_role_auth_map values ('admin', 'report.delete');
+insert into awf_role_auth_map values ('admin', 'group.create');
+insert into awf_role_auth_map values ('admin', 'group.update');
+insert into awf_role_auth_map values ('admin', 'group.read');
+insert into awf_role_auth_map values ('admin', 'group.delete');
 insert into awf_role_auth_map values ('auth.all', 'auth.create');
 insert into awf_role_auth_map values ('auth.all', 'auth.delete');
 insert into awf_role_auth_map values ('auth.all', 'auth.update');
