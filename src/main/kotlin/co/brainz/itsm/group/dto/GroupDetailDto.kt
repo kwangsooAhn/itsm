@@ -10,8 +10,9 @@ import java.io.Serializable
 
 data class GroupDetailDto(
     var groupId: String = "",
-    var pGroupId: String = "",
-    var groupName: String? = null,
+    var groupName: String? = "",
+    var pGroupId: String? = "",
+    var pGroupName: String? = "",
     var groupDesc: String? = null,
     var useYn: Boolean? = true,
     var level: Int? = null,

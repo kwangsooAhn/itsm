@@ -17,7 +17,6 @@ import co.brainz.itsm.group.entity.GroupEntity
 import co.brainz.itsm.group.entity.GroupRoleMapEntity
 import co.brainz.itsm.group.repository.GroupRepository
 import co.brainz.itsm.group.repository.GroupRoleMapRepository
-import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.repository.UserRepository
 import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
@@ -38,15 +37,29 @@ class GroupService(
      */
     fun getGroupList(searchValue: String): GroupListDto {
         val treeGroupList = mutableListOf<GroupDto>()
-        val queryResults: QueryResults<GroupEntity>
+        val pGroupList = mutableListOf<GroupEntity>()
+        val queryResults: QueryResults<GroupEntity> = groupRepository.findByGroupSearchList(searchValue)
+        var groupSearchList = queryResults.results
 
-        queryResults = groupRepository.findByGroupSearchList(searchValue)
-
-        for (group in queryResults.results) {
+        for (group in groupSearchList) {
+            var tempGroup = group.pGroupId
+            do {
+                if (tempGroup !== null) {
+                    pGroupList.add(tempGroup)
+                    tempGroup = tempGroup.pGroupId
+                }
+            } while (tempGroup !== null)
+        }
+        if (pGroupList.isNotEmpty()) {
+            groupSearchList.addAll(pGroupList)
+            groupSearchList = groupSearchList.distinct()
+        }
+        val count: Long = groupSearchList.size.toLong()
+        for (group in groupSearchList) {
             treeGroupList.add(
                 GroupDto(
                     groupId = group.groupId,
-                    pGroupId = group.pGroupId,
+                    pGroupId = group.pGroupId?.groupId,
                     groupName = group.groupName,
                     groupDesc = group.groupDesc,
                     useYn = group.useYn,
@@ -62,7 +75,7 @@ class GroupService(
         }
         return GroupListDto (
             data = treeGroupList,
-            totalCount = queryResults.total
+            totalCount = count
         )
     }
 
@@ -75,8 +88,9 @@ class GroupService(
 
         return GroupDetailDto(
             groupId = groupInfo.groupId,
-            pGroupId = groupInfo.pGroupId,
             groupName = groupInfo.groupName,
+            pGroupId = groupInfo.pGroupId?.let { groupInfo.pGroupId!!.groupId },
+            pGroupName = groupInfo.pGroupId?.let { groupInfo.pGroupId!!.groupName },
             groupDesc = groupInfo.groupDesc,
             useYn = groupInfo.useYn,
             level = groupInfo.level,
@@ -98,7 +112,7 @@ class GroupService(
         }
         val group = groupRepository.save(
             GroupEntity(
-                pGroupId = groupRoleDto.pGroupId,
+                pGroupId = groupRepository.findById(groupRoleDto.pGroupId).get(),
                 groupName = groupRoleDto.groupName,
                 groupDesc = groupRoleDto.groupDesc,
                 useYn = groupRoleDto.useYn,
@@ -124,24 +138,19 @@ class GroupService(
      */
     @Transactional
     fun updateGroup(groupRoleDto: GroupRoleDto) : Boolean {
-        val groupInfo = groupRepository.findByGroupId(groupRoleDto.groupId)
+        val group = groupRepository.findByGroupId(groupRoleDto.groupId)
         val groupRoleList = mutableListOf<GroupRoleMapEntity>()
 
-        val group = groupRepository.save(
-            GroupEntity(
-                groupId = groupRoleDto.groupId,
-                pGroupId = groupRoleDto.pGroupId,
-                groupName = groupRoleDto.groupName,
-                groupDesc = groupRoleDto.groupDesc,
-                useYn = groupRoleDto.useYn,
-                level = groupRoleDto.level,
-                seqNum = groupRoleDto.seqNum,
-                createUserKey = groupInfo.createUserKey,
-                createDt = groupInfo.createDt,
-                updateUserKey = currentSessionUser.getUserKey(),
-                updateDt = LocalDateTime.now()
-            )
-        )
+        group.groupId = groupRoleDto.groupId
+        group.pGroupId = groupRepository.findById(groupRoleDto.pGroupId).get()
+        group.groupName = groupRoleDto.groupName
+        group.groupDesc = groupRoleDto.groupDesc
+        group.useYn = groupRoleDto.useYn
+        group.level = groupRoleDto.level
+        group.seqNum = groupRoleDto.seqNum
+        group.updateUserKey = currentSessionUser.getUserKey()
+        group.updateDt = LocalDateTime.now()
+
         groupRoleMapRepository.deleteByGroupId(group)
         groupRoleMapRepository.flush()
         groupRoleDto.roles.forEach { role ->
