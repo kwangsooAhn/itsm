@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.portal.service
 
+import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.download.repository.DownloadRepository
@@ -51,7 +52,14 @@ class PortalService(
 
     fun getFaqCategories(faqId: String?): LinkedHashMap<String, Any> {
         val faqInfo = LinkedHashMap<String, Any>()
-        faqInfo["faqCategory"] = codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE)
+        val faqCategoryList = codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE)
+        val totalCodeDto = CodeDto(
+            code = FaqConstants.FAQ_CATEGORY_ALL,
+            pCode = FaqConstants.FAQ_CATEGORY_P_CODE,
+            codeName = FaqConstants.FAQ_CATEGORY_ALL_CODE_NAME
+        )
+        faqCategoryList.add(totalCodeDto)
+        faqInfo["faqCategory"] = faqCategoryList
         faqInfo["faqId"] = faqId ?: ""
         return faqInfo
     }

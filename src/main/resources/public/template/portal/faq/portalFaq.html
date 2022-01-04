@@ -35,10 +35,10 @@
 
     function getFaqList(category, faqId) {
         let urlParam = '';
-        if (category !== '') {
+        if (category !== '' && category !== 'faq.category.all') {
             urlParam += 'category=' + category;
         }
-        if (faqId !== '') {
+        if (faqId !== '' ) {
             urlParam += 'id=' + faqId;
         }
         aliceJs.fetchText('/portals/faqs?' + urlParam, {
