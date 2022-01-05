@@ -54,3 +54,12 @@ INSERT INTO awf_role VALUES ('configuration.change.assignee', '구성관리 담�
 /* 문제관리 */
 INSERT INTO awf_role VALUES ('problem.manager', '문제관리 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('problem.assignee', '문제관리 담당자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
+
+-- TO-BE
+INSERT INTO awf_role VALUES ('system.admin', '시스템 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_role VALUES ('service.admin', '서비스 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_role VALUES ('service.manage', '서비스 담당자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_role VALUES ('general.user', '일반 사용자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_role VALUES ('workflow.admin', '업무흐름 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_role VALUES ('cmdb.admin', 'CMDB 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
