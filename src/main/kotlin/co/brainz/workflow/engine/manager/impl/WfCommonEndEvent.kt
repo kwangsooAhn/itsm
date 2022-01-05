@@ -53,7 +53,7 @@ class WfCommonEndEvent(
                         mainProcessToken
                     )
                     createNextTokenDto.tokenId = mainProcessToken.tokenId
-                    createNextTokenDto.parentTokenId = ""
+                    createNextTokenDto.parentTokenId = null
 
                     token = wfTokenManagerService.saveToken(mainProcessToken)
                     token.tokenDataEntities =
