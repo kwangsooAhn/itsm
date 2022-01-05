@@ -13,15 +13,20 @@
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
-        <div class="z-edit-row flex-column">
-            <label th:classappend="${view} ? '' : 'required'" th:text="#{role.label.id}"></label>
-            <input class="z-input" id="txtRoleId" maxlength="100" name="txtRoleId" th:readonly="${view}"
-                   th:value="${role?.roleId}" type="text"/>
+        <div class="flex-column z-edit-row">
+            <h3 class="sub-title under-bar bold" th:text="#{role.menu.common}"></h3>
         </div>
-        <div class="z-edit-row flex-column">
-            <label th:classappend="${view} ? '' : 'required'" th:text="#{role.label.name}"></label>
-            <input class="z-input" id="txtRoleName" maxlength="100" name="txtRoleName" th:readonly="${view}"
-                   th:value="${role?.roleName}" type="text"/>
+        <div class="flex-row">
+            <div class="z-edit-row flex-column col-6 mr-4">
+                <label th:classappend="${view} ? '' : 'required'" th:text="#{role.label.id}"></label>
+                <input class="z-input" id="txtRoleId" maxlength="100" name="txtRoleId" th:readonly="${view}"
+                       th:value="${role?.roleId}" type="text"/>
+            </div>
+            <div class="z-edit-row flex-column col-6">
+                <label th:classappend="${view} ? '' : 'required'" th:text="#{role.label.name}"></label>
+                <input class="z-input" id="txtRoleName" maxlength="100" name="txtRoleName" th:readonly="${view}"
+                       th:value="${role?.roleName}" type="text"/>
+            </div>
         </div>
         <div class="z-edit-row flex-column">
             <label th:text="#{role.label.desc}"></label>
@@ -29,55 +34,26 @@
                       rows="7" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'" th:text="${role?.roleDesc}"></textarea>
         </div>
         <div class="z-edit-row flex-column">
-            <div class="flex-row">
-                <div class="flex-row">
-                    <label class="required" th:text="#{role.label.auth}"></label>
-                </div>
-                <div class="ml-auto" th:if="!${view}">
-                    <label class="z-checkbox z-checkbox-all p1-1">
-                        <input id="selectAll" name="selectAll" onclick="selectAll()" type="checkbox"/>
-                        <span></span>
-                        <span class="z-label" th:text="#{role.btn.selectAll}"></span>
-                    </label>
-                </div>
-            </div>
+            <label th:text="#{role.label.referenceCount}"></label>
+            <input class="z-input" id="userRoleMapCount" name="userRoleMapCount"
+                   readonly th:value="${role?.userRoleMapCount}" type="text"/>
+        </div>
+        <div class="z-edit-row flex-column">
+            <div class="flex-column z-edit-row">
+                <h3 class="sub-title under-bar bold" th:text="#{role.menu.auth}"></h3>
             <div class="z-checkbox-list">
                 <ul>
                     <li class="text-ellipsis" th:each="auth : ${authList}">
-                        <label class="z-checkbox" tabindex="0" th:for="${auth?.authId}">
-                            <input name="roleAuth" th:checked="${auth?.authDesc == 'checked'}" th:disabled="${view}" th:id="${auth?.authId}"
-                                   th:value="${auth?.authName}" type="checkbox">
-                            <span></span>
+                        <label class="z-switch" tabindex="0" th:for="${auth?.authId}">
                             <span class="z-label" th:text="${auth?.authName}"></span>
+                            <span class="z-label" th:text="#{|role.desc.${auth?.authId}|}"></span>
+                            <input type="checkbox" th:id="${auth?.authId}" name="roleAuth" th:value="${auth?.authName}"  th:disabled="${view}"
+                                   th:checked="${auth?.authDesc == 'checked'}">
+                            <span></span>
                         </label>
                     </li>
                 </ul>
             </div>
-        </div>
-        <div class="z-edit-row flex-column" th:if="${role?.roleId}">
-            <label th:text="#{common.label.createUser}"></label>
-            <input class="z-input" id="spanCreateUserKey" name="spanCreateUserKey"
-                   readonly th:value="${role?.createUserName}" type="text"/>
-        </div>
-        <div class="z-edit-row flex-column" th:if="${role?.roleId}">
-            <label th:text="#{common.label.createDate}"></label>
-            <input class="z-input" id="spanCreateDt" name="spanCreateDt" readonly
-                   th:value="${role?.createDt}" type="text"/>
-        </div>
-        <div class="z-edit-row flex-column" th:if="${role?.roleId}">
-            <label th:text="#{common.label.updateUser}"></label>
-            <input class="z-input" id="spanUpdateUserKey" name="spanUpdateUserKey"
-                   readonly th:value="${role?.updateUserName}" type="text"/>
-        </div>
-        <div class="z-edit-row flex-column" th:if="${role?.roleId}">
-            <label th:text="#{common.label.updateDate}"></label>
-            <input class="z-input" id="spanUpdateDt" name="spanUpdateDt" readonly
-                   th:value="${role?.updateDt}" type="text"/>
-        </div>
-        <div class="z-edit-row flex-column">
-            <label th:text="#{role.label.referenceCount}"></label>
-            <input class="z-input" id="userRoleMapCount" name="userRoleMapCount"
-                   readonly th:value="${role?.userRoleMapCount}" type="text"/>
         </div>
     </div>
     <div class="flex-row justify-content-between z-edit-row">
@@ -147,9 +123,6 @@
                         inheritedAttrs: "class"
                     }
                 });
-
-                document.getElementById('spanCreateDt').value = i18n.userDateTime(document.getElementById('spanCreateDt').value);
-                document.getElementById('spanUpdateDt').value = i18n.userDateTime(document.getElementById('spanUpdateDt').value);
             });
         }
     }
@@ -243,20 +216,6 @@
             btn.disabled = 'disabled';
         } else {
             btn.disabled = false;
-        }
-    }
-
-    function selectAll() {
-        let checkFlag = document.getElementById('selectAll').checked;
-        let roleAuths = document.getElementsByName('roleAuth');
-        if (checkFlag === false) {
-            for (let i = 0; i < roleAuths.length; i++) {
-                roleAuths[i].checked = false;
-            }
-        } else {
-            for (let i = 0; i < roleAuths.length; i++) {
-                roleAuths[i].checked = true;
-            }
         }
     }
 

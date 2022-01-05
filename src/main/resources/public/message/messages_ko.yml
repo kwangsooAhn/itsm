@@ -1161,6 +1161,15 @@ report:
 role:
   btn:
     selectAll: "전체 선택"
+  desc:
+    cmdb.manage: "CI 속성 및 그룹, 유형등 CMDB 관련 설정을 할 수 있습니다."
+    cmdb.view: "CMDB 내용을 검색하여 조회할 수 있습니다."
+    general: "신청서 작성 및 FAQ/자료실/종지사항을 조회할 수 있고, 게시판에 글을 등록하거나 조회할 수 있습니다."
+    report.manage: "사용자 정의 차트를 편집하고, 보고서 템플릿을 생성할 수 있습니다."
+    report.view: "보고서 내용을 검색하여 조회할 수 있습니다."
+    system.manage: "사용자, 역할, 게시판, 스케줄러, 코드 관리 권한을 가집니다."
+    workflow.manage: "문서양식, 프로세스를 편집할 수 있으며, 관련된 업무흐름을 설정할 수 있습니다."
+    workflow.process: "관련된 업무흐름을 처리할 수 있습니다."
   label:
     auth: "권한"
     count: "{0} 개"
@@ -1169,6 +1178,9 @@ role:
     name: "역할 이름"
     referenceCount: "사용자 참조 개수"
     role: "역할"
+  menu:
+    auth: "권한 설정"
+    common: "일반 정보"
   msg:
     duplicateRoleId: "중복되는 아이디가 있습니다. 다른 역할 아이디를 입력하세요."
     duplicateRoleName: "중복된 역할 이름이 있습니다. 다른 역할 이름을 입력하세요."
