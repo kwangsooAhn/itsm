@@ -2025,6 +2025,33 @@ select {
   word-wrap: normal;
 }
 
+.z-switch .z-label {
+  margin-left: 0;
+}
+.z-switch-list {
+  height: 13.5rem;
+  border: 0.0625rem solid #ABB0B5;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  padding: 0.5rem 0.625rem;
+}
+.z-switch-list .right {
+  right: 0.25rem;
+}
+.z-switch-list .padding {
+  padding: 0.1875rem 0 0.1875rem 0;
+}
+.z-switch-list li {
+  height: 1.5rem;
+  display: list-item;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+}
+
 /* _buttons.scss
  *
  * 적용 규칙  (자세한 건 UX팀 정승녕 팀장님과 협의)
