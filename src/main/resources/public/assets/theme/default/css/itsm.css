@@ -2025,15 +2025,22 @@ select {
   word-wrap: normal;
 }
 
+.z-switch {
+  display: inline-block;
+  width: 100%;
+  margin: 0 !important;
+}
 .z-switch .z-label {
   margin-left: 0;
 }
+.z-switch .z-label-name {
+  width: 12.5rem;
+}
+.z-switch input[type=checkbox] + span {
+  left: inherit;
+}
 .z-switch-list {
-  height: 13.5rem;
-  border: 0.0625rem solid #ABB0B5;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
+  height: 20rem;
   padding: 0.5rem 0.625rem;
 }
 .z-switch-list .right {
@@ -2043,13 +2050,14 @@ select {
   padding: 0.1875rem 0 0.1875rem 0;
 }
 .z-switch-list li {
-  height: 1.5rem;
   display: list-item;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   word-wrap: normal;
+  height: 2.5rem;
+  padding-left: 0.2rem;
 }
 
 /* _buttons.scss
