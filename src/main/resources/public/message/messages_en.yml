@@ -862,28 +862,6 @@ form:
     publish: "Publish"
     use: "Use"
 
-# Group
-group:
-  label:
-    group: "Group"
-    groupId: "Group Id"
-    description: "Group Description"
-    name: "Group Name"
-    pGroupName: "Parent Group Name"
-    role: "Member default role"
-    searchPlaceholder: "Group name"
-    seqNum: "The order of the output"
-    useYn: "Use enable"
-  msg:
-    duplicateGroupId: "Duplicate Group Id."
-    editDescription: "Add, view and manage group."
-    enterGroupId: "Please enter a Group Id."
-    enterGroupName: "Please enter a Group Name"
-    enterPGroupName: "Please enter a Parent Group Name."
-    pGroupNotExist: "Parent Group does not exist."
-    selectRole: "Please select a member default role."
-    failedGroupDelete: "Failed to delete the group because of a member."
-
 # Image
 image:
   label:
@@ -934,6 +912,7 @@ menu:
     auth: "Auth"
     boardAdmin: "Board management"
     code: "Code management"
+    organization: "Organization"
     parent: "System config"
     product: "Product Info"
     role: "Role"
@@ -1018,6 +997,29 @@ notification:
   msg:
     description: "Up to 50 displays."
     noNotificationData: "No notifications."
+
+# Organization
+organization:
+  label:
+    organization: "Organization"
+    organizationId: "Organization Id"
+    description: "Organization Description"
+    name: "Organization Name"
+    pOrganizationName: "Parent Organization Name"
+    role: "Member default role"
+    searchPlaceholder: "Organization name"
+    seqNum: "The order of the output"
+    useYn: "Use enable"
+  msg:
+    duplicateOrganizationId: "Duplicate Organization Id."
+    duplicateOrganizationName: "Duplicate Organization Name."
+    editDescription: "Add, view and manage organization."
+    enterOrganizationId: "Please enter a organization Id."
+    enterOrganizationName: "Please enter a organization Name"
+    enterPOrganizationName: "Please enter a parent organization Name."
+    pOrganizationNotExist: "Parent organization does not exist."
+    selectRole: "Please select a member default role."
+    failedOrganizationDelete: "Failed to delete the organization because of a member."
 
 # Portal
 portal:

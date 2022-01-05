@@ -16,8 +16,8 @@ import co.brainz.framework.auth.repository.AliceUrlRepository
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.util.AliceUtil
-import co.brainz.itsm.group.repository.GroupRepository
 import co.brainz.itsm.user.dto.UserListDataDto
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -37,7 +37,7 @@ class AliceUserDetailsService(
     private var aliceMenuRepository: AliceMenuRepository,
     private var aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private var aliceRoleAuthMapRepository: AliceRoleAuthMapRepository,
-    private var groupRepository: GroupRepository
+    private var groupRepository: OrganizationRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -148,13 +148,12 @@ class AliceUserDetailsService(
             }
         }
 
-        // 사용자가 속한 Group이 보유한 역할 및 권한을 추가한다.
+        // 사용자가 속한 Organization 이 보유한 역할 및 권한을 추가한다.
         if (!aliceUserAuthDto.department.isNullOrBlank()) {
-            val group = aliceUserAuthDto.department
             val roleList = mutableListOf<String>()
-            groupRepository.findByIdOrNull(group).let { group ->
-                group?.groupRoleMapEntities?.forEach {
-                    roleList.add(it.roleId.roleId)
+            groupRepository.findByIdOrNull(aliceUserAuthDto.department).let { organization ->
+                organization?.organizationRoleMapEntities?.forEach {
+                    roleList.add(it.role.roleId)
                 }
             }
             if (roleList.isNotEmpty()) {

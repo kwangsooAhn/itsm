@@ -11,7 +11,7 @@ import co.brainz.framework.auth.entity.QAliceRoleAuthMapEntity
 import co.brainz.framework.auth.entity.QAliceUrlAuthMapEntity
 import co.brainz.framework.auth.entity.QAliceUrlEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
-import co.brainz.itsm.group.entity.QGroupRoleMapEntity
+import co.brainz.framework.organization.entity.QOrganizationRoleMapEntity
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -48,7 +48,7 @@ class AliceUrlRepositoryImpl : QuerydslRepositorySupport(AliceUrlEntity::class.j
         val url = QAliceUrlEntity.aliceUrlEntity
         val urlAuthMap = QAliceUrlAuthMapEntity.aliceUrlAuthMapEntity
         val roleAuthMap = QAliceRoleAuthMapEntity.aliceRoleAuthMapEntity
-        val groupRoleMap = QGroupRoleMapEntity.groupRoleMapEntity
+        val organizationRoleMap = QOrganizationRoleMapEntity.organizationRoleMapEntity
 
         val query = from(url)
             .select(
@@ -62,9 +62,9 @@ class AliceUrlRepositoryImpl : QuerydslRepositorySupport(AliceUrlEntity::class.j
             )
             .innerJoin(urlAuthMap).on(urlAuthMap.url.eq(url))
             .innerJoin(roleAuthMap).on(roleAuthMap.auth.authId.eq(urlAuthMap.auth.authId))
-            .innerJoin(groupRoleMap).on(groupRoleMap.roleId.roleId.eq(roleAuthMap.role.roleId))
+            .innerJoin(organizationRoleMap).on(organizationRoleMap.role.roleId.eq(roleAuthMap.role.roleId))
             .where(
-                groupRoleMap.groupId.groupId.eq(groupId)
+                organizationRoleMap.organization.organizationId.eq(groupId)
             )
         return query.fetch().toSet()
     }

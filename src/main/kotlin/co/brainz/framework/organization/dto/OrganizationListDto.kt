@@ -3,16 +3,16 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.group.dto
+package co.brainz.framework.organization.dto
 
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class GroupDto(
-    var groupId: String? = null,
-    var pGroupId: String? = null,
-    var groupName: String? = null,
-    var groupDesc: String? = null,
+data class OrganizationListDto(
+    var organizationId: String? = null,
+    var pOrganizationId: String? = null,
+    var organizationName: String? = null,
+    var organizationDesc: String? = null,
     var useYn: Boolean? = true,
     var level: Int? = null,
     var seqNum: Int? = null,

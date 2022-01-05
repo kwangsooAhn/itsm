@@ -45,7 +45,7 @@ insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE'
 insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
 insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
 insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
-insert into awf_menu values ('config.group', 'config', '/groups/search', 1, 'TRUE');
+insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, true);
 insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
 insert into awf_menu values ('config.auth', 'config', '/auths/search', 3, 'TRUE');
 insert into awf_menu values ('config.role', 'config', '/roles/search', 4, 'TRUE');

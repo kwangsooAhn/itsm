@@ -4,12 +4,12 @@
  *
  */
 
-package co.brainz.itsm.group.dto
+package co.brainz.framework.organization.dto
 
-import java.io.Serializable
 import co.brainz.framework.constants.PagingConstants
+import java.io.Serializable
 
-data class GroupSearchCondition(
+data class OrganizationSearchCondition(
     val searchValue: String? = null,
     val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
