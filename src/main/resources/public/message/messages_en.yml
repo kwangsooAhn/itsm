@@ -626,6 +626,7 @@ error:
 # FAQ
 faq:
   label:
+    all: "ALL"
     category: "Category"
     edit: "FAQ Edit"
     faq: "FAQ"

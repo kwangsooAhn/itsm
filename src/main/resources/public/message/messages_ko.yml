@@ -626,6 +626,7 @@ error:
 # FAQ
 faq:
   label:
+    all: "전체"
     category: "분류"
     edit: "FAQ 수정"
     faq: "FAQ"
