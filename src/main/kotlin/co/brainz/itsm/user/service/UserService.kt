@@ -58,6 +58,18 @@ import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Optional
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.List
+import kotlin.collections.Map
+import kotlin.collections.MutableList
+import kotlin.collections.forEach
+import kotlin.collections.get
+import kotlin.collections.isNotEmpty
+import kotlin.collections.listOf
+import kotlin.collections.mutableListOf
+import kotlin.collections.mutableSetOf
+import kotlin.collections.set
+import kotlin.collections.setOf
 import kotlin.math.ceil
 import kotlin.random.Random
 import org.slf4j.Logger
@@ -168,7 +180,7 @@ class UserService(
             data = userList,
             paging = AlicePagingData(
                 totalCount = queryResult.total,
-                totalCountWithoutCondition = userRepository.countByUserIdNotContaining(AliceUserConstants.CREATE_USER_ID),
+                totalCountWithoutCondition = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID),
                 currentPageNum = userSearchCondition.pageNum,
                 totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
@@ -352,7 +364,7 @@ class UserService(
      * (selectbox 용으로 key, id, name 조회)
      */
     fun selectUserListOrderByName(): MutableList<UserSelectListDto> {
-        val userList = userRepository.findByOrderByUserNameAsc()
+        val userList = userRepository.findByUserIdNotOrderByUserNameAsc(AliceUserConstants.CREATE_USER_ID)
         val userDtoList = mutableListOf<UserSelectListDto>()
         for (userEntity in userList) {
             userDtoList.add(
@@ -657,7 +669,7 @@ class UserService(
                             value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(result.createDt)
                         ),
                         ExcelCellVO(
-                            value = if (result.absenceYn) {
+                            value = if (result.useYn) {
                                 aliceMessageSource.getMessage("user.status.true")
                             } else {
                                 aliceMessageSource.getMessage("user.status.false")

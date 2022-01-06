@@ -80,27 +80,17 @@
 
     //get notice list
     function getList(pageNum = 1) {
-        let urlParam = '';
         document.getElementById('toDt').value =
             i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
-        urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
-        restSubmit('get', '/portals/notices?' + urlParam);
-    }
 
-    //REST API
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                let listBody = document.querySelector('#noticeList');
-                listBody.innerHTML = response.responseText;
-                setDateTimeFormat(listBody);
-            }
-        };
-        aliceJs.sendXhr(opt);
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/portals/notices?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            const listBody = document.getElementById('noticeList');
+            listBody.innerHTML = htmlData;
+            setDateTimeFormat(listBody);
+        });
     }
 
     /**

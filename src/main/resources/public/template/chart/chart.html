@@ -114,7 +114,7 @@
                 <div class="z-button-list">
                     <a class="z-button secondary" href="/charts/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list">
+                <div class="z-button-list" th:if="!${view}">
                     <button sec:authorize="hasAuthority('chart.create')" th:if="!${chart?.chartId}" type="button"
                             id="insert"
                             class="z-button primary" onclick="saveChart('POST')" th:text="#{common.btn.register}">

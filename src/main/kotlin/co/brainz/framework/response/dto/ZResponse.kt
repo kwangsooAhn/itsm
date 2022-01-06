@@ -12,5 +12,4 @@ data class ZResponse(
     val status: Int = HttpStatus.OK.value(),
     var message: String? = HttpStatus.OK.reasonPhrase,
     val data: Any? = null
-) : Serializable {
-}
+) : Serializable

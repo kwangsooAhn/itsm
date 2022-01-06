@@ -456,14 +456,13 @@ class WfTokenManagerService(
         // 서브 업무흐름의 프로세스에서 CI와 관련된 엘리먼트 수집
         document.process.elementEntities.forEach { element ->
             element.elementDataEntities.forEach { elementData ->
-                if (elementData.attributeId == WfElementConstants.AttributeId.SCRIPT_TYPE.value
-                    && elementData.attributeValue == WfElementConstants.ScriptType.DOCUMENT_CMDB.value
+                if (elementData.attributeId == WfElementConstants.AttributeId.SCRIPT_TYPE.value &&
+                    elementData.attributeValue == WfElementConstants.ScriptType.DOCUMENT_CMDB.value
                 ) {
                     subCIElementList.add(element)
                 }
             }
         }
-
 
         // 서브 업무흐름의 문서양식이나 프로세스에서 CI 컴포넌트 및 엘리먼트가 존재하는 경우에만 CI 데이터에 대한 복사를 진행한다.
         if (subCIComponentList.isNotEmpty() && subCIElementList.isNotEmpty()) {

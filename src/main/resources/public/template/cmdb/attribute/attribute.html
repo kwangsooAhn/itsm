@@ -65,7 +65,7 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list">
+            <div class="z-button-list" th:if="!${view}">
                 <button class="z-button primary" onclick="saveAttribute('POST')"
                         sec:authorize="hasAuthority('cmdb.attribute.create')"
                         th:if="${attribute == null}" th:text="#{common.btn.register}"></button>

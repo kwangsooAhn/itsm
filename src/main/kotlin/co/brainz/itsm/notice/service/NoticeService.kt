@@ -41,7 +41,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = noticeRepository.count(),
                 currentPageNum = noticeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / noticeSearchCondition.contentNumPerPage).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

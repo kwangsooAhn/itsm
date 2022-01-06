@@ -411,6 +411,7 @@ cmdb:
       searchPlaceholder: "유형 이름"
       seq: "정렬 순서"
     msg:
+      enterClass: "CI 속성그룹을 선택하세요."
       enterPType: "부모 유형을 선택하세요."
       enterTypeAlias: "식별자를 입력하세요."
       enterTypeName: "유형 이름을 입력하세요."
@@ -625,6 +626,7 @@ error:
 # FAQ
 faq:
   label:
+    all: "전체"
     category: "분류"
     edit: "FAQ 수정"
     faq: "FAQ"
@@ -1308,6 +1310,7 @@ token:
     endDt: "신청서 종료일시"
     createUser: "신청서 생성자"
     application-form: "신청서"
+    workflow: "업무흐름"
 
 # WorkflowAdmin
 workflowAdmin:

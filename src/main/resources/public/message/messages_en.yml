@@ -411,6 +411,7 @@ cmdb:
       searchPlaceholder: "Type"
       seq: "Sort Order"
     msg:
+      enterClass: "Please choose CI class."
       enterPType: "Please choose Parent Type node."
       enterTypeAlias: "Please enter a Type Alias."
       enterTypeName: "Please enter a Type Name."
@@ -625,6 +626,7 @@ error:
 # FAQ
 faq:
   label:
+    all: "ALL"
     category: "Category"
     edit: "FAQ Edit"
     faq: "FAQ"
@@ -1308,6 +1310,7 @@ token:
     endDt: "Document End Data"
     createUser: "Document Create User"
     application-form: "application Form"
+    workflow: "Workflow"
 
 # WorkflowAdmin
 workflowAdmin:
