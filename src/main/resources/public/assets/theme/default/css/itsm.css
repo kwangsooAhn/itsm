@@ -2049,6 +2049,9 @@ select {
 .z-switch-list .padding {
   padding: 0.1875rem 0 0.1875rem 0;
 }
+.z-switch-list .os-content {
+  padding-top: 0 !important;
+}
 .z-switch-list li {
   display: list-item;
   max-width: 100%;
@@ -2057,7 +2060,7 @@ select {
   overflow: hidden;
   word-wrap: normal;
   height: 2.5rem;
-  padding-left: 0.2rem;
+  padding-right: 0.2rem;
 }
 
 /* _buttons.scss
