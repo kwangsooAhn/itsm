@@ -40,7 +40,8 @@ interface UserRepository : JpaRepository<AliceUserEntity, String>, JpaSpecificat
      */
     fun findByUserIdNotOrderByUserNameAsc(userId: String): MutableList<AliceUserEntity>
 
-    fun countByUserIdNotContaining(userId: String): Long
-
-    fun existsByDepartment(groupId: String): Boolean
+    /**
+     * 조직 존재 여부 확인
+     */
+    fun existsByDepartment(organizationId: String): Boolean
 }

@@ -168,7 +168,7 @@ class UserService(
             data = userList,
             paging = AlicePagingData(
                 totalCount = queryResult.total,
-                totalCountWithoutCondition = userRepository.countByUserIdNotContaining(AliceUserConstants.CREATE_USER_ID),
+                totalCountWithoutCondition = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID),
                 currentPageNum = userSearchCondition.pageNum,
                 totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
