@@ -37,6 +37,7 @@ insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.view');
 insert into awf_menu_auth_map values ('config', 'system.manage');
 insert into awf_menu_auth_map values ('config.auth', 'system.manage');
 insert into awf_menu_auth_map values ('config.boardAdmin', 'system.manage');
+insert into awf_menu_auth_map values ('config.boardAdmin', 'portal.manage');
 insert into awf_menu_auth_map values ('config.code', 'system.manage');
 insert into awf_menu_auth_map values ('config.product', 'system.manage');
 insert into awf_menu_auth_map values ('config.role', 'system.manage');

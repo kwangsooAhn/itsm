@@ -42,3 +42,5 @@ INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'cmdb.manage');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'general');
+INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'portal.manage');
