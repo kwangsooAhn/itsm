@@ -71,16 +71,16 @@
         <div class="z-button-list">
             <a class="z-button secondary" href="/auths/search" th:text="#{common.btn.list}"></a>
         </div>
-        <div class="z-button-list">
+        <div class="z-button-list" th:if="!${view}">
             <button class="z-button primary"
-                    id="btnRegist" name="btnRegist" sec:authorize="hasAuthority('auth.create')" th:if="!${auth?.authId} and !${view}" th:onclick="|javascript:onSave('post')|"
+                    id="btnRegist" name="btnRegist" sec:authorize="hasAuthority('auth.create')" th:if="!${auth?.authId}" th:onclick="|javascript:onSave('post')|"
                     th:text="#{common.btn.register}" type="button"></button>
             <button class="z-button primary"
-                    id="btnUpdate" name="btnUpdate" sec:authorize="hasAuthority('auth.update')" th:if="${auth?.authId} and !${view}" th:onclick="|javascript:onSave('put')|"
+                    id="btnUpdate" name="btnUpdate" sec:authorize="hasAuthority('auth.update')" th:if="${auth?.authId}" th:onclick="|javascript:onSave('put')|"
                     th:text="#{common.btn.modify}"
                     type="button"></button>
             <button class="z-button secondary"
-                    id="btnDelete" name="btnDelete" sec:authorize="hasAuthority('auth.delete')" th:if="${auth?.authId} and !${view}" th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                    id="btnDelete" name="btnDelete" sec:authorize="hasAuthority('auth.delete')" th:if="${auth?.authId}" th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                     th:text="#{common.btn.delete}"
                     type="button"></button>
         </div>
@@ -211,34 +211,32 @@
         if (flag !== 'post') {
             strUrl += '/' + document.getElementById('txtAuthId').value;
         }
-
-        const opt = {
+        aliceJs.fetchText(strUrl, {
             method: flag,
-            url: strUrl,
-            params: JSON.stringify(obj),
-            contentType: 'application/json',
-            callbackFunc: function () {
-                zAlert.success([[#{common.msg.save}]], function () {
-                    window.location.href = '/auths/search';
-                });
-            }
-        };
-
-        aliceJs.sendXhr(opt);
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        }).then((rtn) => {
+            zAlert.success([[#{common.msg.save}]], function () {
+                window.location.href = '/auths/search';
+            });
+        });
     }
 
     /* 삭제 버튼  */
     function onDelete() {
-        const opt = {
-            method: 'delete',
-            url: '/rest/auths/' + document.getElementById('txtAuthId').value,
-            callbackFunc: function () {
-                zAlert.success([[#{common.msg.delete}]], function () {
-                    window.location.href = '/auths/search';
-                });
-            }
-        };
-        aliceJs.sendXhr(opt);
+        aliceJs.fetchText('/rest/auths/' + document.getElementById('txtAuthId').value, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((rtn) => {
+            zAlert.success([[#{common.msg.delete}]], function () {
+                window.location.href = '/auths/search';
+            });
+        });
     }
 
     /** 삭제 버튼 활성, 비활성화 */

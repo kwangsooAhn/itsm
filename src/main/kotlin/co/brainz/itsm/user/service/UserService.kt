@@ -265,7 +265,8 @@ class UserService(
                         userUpdateDto.roles!!.forEach {
                             userRoleMapRepository.save(
                                 AliceUserRoleMapEntity(
-                                    targetEntity, roleRepository.findByRoleId(it)
+                                    targetEntity,
+                                    roleRepository.findByRoleId(it)
                                 )
                             )
                         }
@@ -352,7 +353,7 @@ class UserService(
      * (selectbox 용으로 key, id, name 조회)
      */
     fun selectUserListOrderByName(): MutableList<UserSelectListDto> {
-        val userList = userRepository.findByOrderByUserNameAsc()
+        val userList = userRepository.findByUserIdNotOrderByUserNameAsc(AliceUserConstants.CREATE_USER_ID)
         val userDtoList = mutableListOf<UserSelectListDto>()
         for (userEntity in userList) {
             userDtoList.add(
@@ -389,7 +390,8 @@ class UserService(
         val publicKey = aliceCryptoRsa.getPublicKey()
         val encryptPassword = aliceCryptoRsa.encrypt(publicKey, password)
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-        val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+        val privateKey =
+            attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         val decryptPassword = aliceCryptoRsa.decrypt(privateKey, encryptPassword)
         val targetEntity = userDetailsService.selectUserKey(userKey)
         targetEntity.password = BCryptPasswordEncoder().encode(decryptPassword)
@@ -611,28 +613,36 @@ class UserService(
                                 ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.id"),
                                     cellWidth = 5000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.name"),
                                     cellWidth = 5000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.email"),
                                     cellWidth = 7000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.department"),
                                     cellWidth = 4000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.position"),
                                     cellWidth = 4000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.officeNumber"),
                                     cellWidth = 5000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.mobileNumber"),
                                     cellWidth = 5000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.signUpDate"),
                                     cellWidth = 5000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.usageStatus"),
                                     cellWidth = 4000
                                 )
@@ -657,7 +667,7 @@ class UserService(
                             value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(result.createDt)
                         ),
                         ExcelCellVO(
-                            value = if (result.absenceYn) {
+                            value = if (result.useYn) {
                                 aliceMessageSource.getMessage("user.status.true")
                             } else {
                                 aliceMessageSource.getMessage("user.status.false")

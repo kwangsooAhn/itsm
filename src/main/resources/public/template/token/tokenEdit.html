@@ -59,7 +59,8 @@
 
         // 문서 생성
         aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {
-            method: 'GET'
+            method: 'GET',
+            showProgressbar: true
         }).then((formDataJson) => {
             document.getElementById('instanceId').value = formDataJson.instanceId;
             formDataJson.tokenId = document.getElementById('tokenId').value;

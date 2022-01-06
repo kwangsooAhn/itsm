@@ -293,20 +293,15 @@
                 callbackFunc();
             }
         } else {
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/i18n/messages',
-                async: false,
-                callbackFunc: function(xhr) {
-                    messages = JSON.parse(xhr.responseText);
-                    // 새로 로딩된 메시지를 세션 스토리지에 저장.
-                    sessionStorage.setItem(sessionStorageKey, xhr.responseText);
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
-                },
-                showProgressbar: false,
-                contentType: 'application/json; charset=utf-8'
+            aliceJs.fetchText('/i18n/messages', {
+                method: 'GET'
+            }).then((data) => {
+                messages = JSON.parse(data);
+                // 새로 로딩된 메시지를 세션 스토리지에 저장.
+                sessionStorage.setItem(sessionStorageKey, data);
+                if (typeof callbackFunc === 'function') {
+                    callbackFunc();
+                }
             });
         }
     }

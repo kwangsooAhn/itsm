@@ -250,7 +250,7 @@ class ZDocument {
      */
     processAction(actionType) {
         // 유효성 체크 (최대 글자 수)
-        const MaxLengthActionType = ['save', 'progress']
+        const MaxLengthActionType = ['save', 'progress'];
         const isMaxLengthCheck = MaxLengthActionType.includes(actionType);
 
         if (isMaxLengthCheck && zValidation.hasDOMElementError(this.domElement)) { return false; }
@@ -295,8 +295,6 @@ class ZDocument {
                         this.documentModal.hide();
                     }
                 });
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }

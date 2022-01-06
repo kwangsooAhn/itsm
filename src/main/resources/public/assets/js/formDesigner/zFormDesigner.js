@@ -34,8 +34,6 @@ class ZFormDesigner {
             method: 'GET'
         }).then((customData) => {
             FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
-        }).catch(err => {
-            zAlert.warning(err);
         });
 
         // 초기화
@@ -198,8 +196,6 @@ class ZFormDesigner {
             showProgressbar: true
         }).then((formData) => {
             this.reflowForm(formData);
-        }).catch(err => {
-            zAlert.warning(err);
         });
 
         document.addEventListener('click', this.onLeftClickHandler.bind(this), false);
@@ -743,11 +739,8 @@ class ZFormDesigner {
                     zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
                     break;
                 default:
-                    zAlert.danger(i18n.msg('common.label.fail'));
                     break;
             }
-        }).catch(err => {
-            zAlert.warning(err);
         });
     }
 
@@ -844,7 +837,7 @@ class ZFormDesigner {
     }
 
     isValidation () {
-         // 세부 속성 유효성 검증 실패시 동작을 중지한다.
+        // 세부 속성 유효성 검증 실패시 동작을 중지한다.
         if (!this.panel.validationStatus) { return false; }
 
         // 발행, 사용 상태일 경우, 저장이 불가능하다.
@@ -871,7 +864,7 @@ class ZFormDesigner {
 
             for (let i = 0; i < mappingIdList.length; i++) {
                 if ((mappingIdList[i].trim() !== '') && (mappingIdList.indexOf(mappingIdList[i]) !== mappingIdList.lastIndexOf(mappingIdList[i]))) {
-                    zAlert.warning(i18n.msg("form.msg.duplicateMappingId", mappingIdList[i]));
+                    zAlert.warning(i18n.msg('form.msg.duplicateMappingId', mappingIdList[i]));
                     return false;
                 }
             }

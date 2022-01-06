@@ -116,18 +116,14 @@
             method: 'GET'
         }).then((htmlData) => {
             document.getElementById('ciList').innerHTML = htmlData;
+            document.querySelectorAll('input[name=ciListTags]').forEach(function (tagInput) {
+                new zTag(tagInput, {
+                    suggestion: false,
+                    realtime: false,
+                    tagType: 'ci'
+                });
+            })
         });
-
-        let ciListTags = document.querySelectorAll('input[name=ciListTags]');
-        let ciIdList = (document.querySelectorAll('input[name=ciId]'));
-        for (let i = 0; i < ciListTags.length; i++) {
-            new zTag(ciListTags[i], {
-                suggestion: false,
-                realtime: false,
-                tagType: 'ci',
-                targetId: ciIdList[i].value
-            });
-        }
     }
 
     function onExcelDownload() {

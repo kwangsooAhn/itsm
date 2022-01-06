@@ -38,7 +38,7 @@ class NoticeController(private val noticeService: NoticeService) {
      */
     @GetMapping("")
     fun getNoticeList(noticeSearchCondition: NoticeSearchCondition, model: Model): String {
-        val topList = noticeService.findTopNotice();
+        val topList = noticeService.findTopNotice()
         // 화면 목록 스크롤 방지를 위해
         // 조회 갯수 = 페이지 당 조회 갯수 - top 갯수
         model.addAttribute("topNoticeList", topList)
@@ -76,7 +76,7 @@ class NoticeController(private val noticeService: NoticeService) {
         val notice = noticeService.findNoticeByNoticeNo(noticeId)
         var topNoticeCount = noticeService.findTopNotice().size.toLong()
         if (notice.topNoticeYn) {
-            topNoticeCount -= 1;
+            topNoticeCount -= 1
         }
         model.addAttribute("topNoticeCount", topNoticeCount)
         model.addAttribute("notice", notice)

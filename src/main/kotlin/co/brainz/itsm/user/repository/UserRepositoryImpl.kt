@@ -88,7 +88,8 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.officeNumber,
                     user.mobileNumber,
                     user.createDt,
-                    user.absenceYn
+                    user.absenceYn,
+                    user.useYn
                 )
             )
             .leftJoin(organization).on(organization.organizationId.eq(user.department))
