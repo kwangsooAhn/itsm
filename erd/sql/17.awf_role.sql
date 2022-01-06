@@ -31,3 +31,4 @@ INSERT INTO awf_role VALUES ('service.manager', '서비스 담당자', '', '0509
 INSERT INTO awf_role VALUES ('general.user', '일반 사용자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('workflow.admin', '업무흐름 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('cmdb.admin', 'CMDB 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_role VALUES ('portal.admin', '포털 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
