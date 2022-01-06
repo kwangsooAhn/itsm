@@ -1755,7 +1755,7 @@ insert into awf_url values ('/rest/numberingRules/{id}', 'get', '문서번호 �
 insert into awf_url values ('/rest/numberingRules/{id}', 'put', '문서번호 정보 변경', 'TRUE');
 insert into awf_url values ('/rest/numberingRules/{id}', 'delete', '문서번호 삭제', 'TRUE');
 insert into awf_url values ('/rest/organizations', 'get', '조직 조회', 'TRUE');
-insert into awf_url values ('/rest/organizations/{id}', 'get', '조직 상세 조회', 'TRUE');
+insert into awf_url values ('/rest/organizations/{id}', 'get', '조직 상세 조회', 'FALSE');
 insert into awf_url values ('/rest/organizations/{id}', 'put', '조직 수정', 'TRUE');
 insert into awf_url values ('/rest/organizations/{id}', 'delete', '조직 삭제', 'TRUE');
 insert into awf_url values ('/rest/organizations', 'post', '조직 등록', 'TRUE');
