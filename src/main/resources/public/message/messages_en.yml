@@ -1168,7 +1168,7 @@ role:
     reportManage: "You can edit custom charts and create report templates."
     reportView: "You can search for the report contents."
     systemManage: "Has user, role, board, scheduler, and code management rights."
-    workflowManage: "You can edit the document form and process, and set the related work flow."
+    workflowManage: "You can edit the document form and process, and set the related workflow."
     workflowProcess: "Can handle related workflows."
   label:
     auth: "Role Auth"
