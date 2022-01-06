@@ -3,17 +3,17 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.group.dto
+package co.brainz.framework.organization.dto
 
 import co.brainz.itsm.role.dto.RoleListDto
 import java.io.Serializable
 
-data class GroupDetailDto(
-    var groupId: String = "",
-    var groupName: String? = "",
-    var pGroupId: String? = "",
-    var pGroupName: String? = "",
-    var groupDesc: String? = null,
+data class OrganizationDetailDto(
+    var organizationId: String = "",
+    var organizationName: String? = "",
+    var pOrganizationId: String? = "",
+    var pOrganizationName: String? = "",
+    var organizationDesc: String? = null,
     var useYn: Boolean? = true,
     var level: Int? = null,
     var seqNum: Int? = null,

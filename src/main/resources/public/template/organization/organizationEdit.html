@@ -4,23 +4,23 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/itsm/pageType/treeEditLayout}">
 <head>
-    <title th:text="#{group.label.group}"></title>
+    <title th:text="#{organization.label.organization}"></title>
 </head>
 <th:block layout:fragment="pageHead">
     <script th:src="@{/assets/js/lib/zPageMutationObserver.js}"></script>
 </th:block>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{group.label.group}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{group.msg.editDescription}"></h6>
+    <h1 th:text="#{organization.label.organization}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{organization.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
     <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
-           maxlength="100" th:placeholder="#{group.label.searchPlaceholder}"/>
+           maxlength="100" th:placeholder="#{organization.label.searchPlaceholder}"/>
     <span id="totalCount" class="z-search-count"></span>
     <div class="ml-auto">
         <button type="button" class="z-button primary" id="btnCreate" name="btnCreate"
-                sec:authorize="hasAuthority('group.create')" th:text="#{common.btn.add}"
+                sec:authorize="hasAuthority('organization.create')" th:text="#{common.btn.add}"
                 th:onclick="|javascript:onCreate()|"></button>
     </div>
 </div>
@@ -31,51 +31,51 @@
     <div class="z-edit-form flex-fill">
         <div class="z-edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
-                <label class="required" th:text="#{group.label.groupId}" for="groupId"></label>
-                <input type="text" id="groupId" class="z-input text-ellipsis col-pct-12"
-                       th:value="${data?.groupId}" maxlength="100"/>
+                <label class="required" th:text="#{organization.label.organizationId}" for="organizationId"></label>
+                <input type="text" id="organizationId" class="z-input text-ellipsis col-pct-12"
+                       th:value="${data?.organizationId}" maxlength="100"/>
                 </span>
             </div>
             <div class="flex-column flex-fill">
-                <input type="hidden" id="pGroupId" th:value="${data?.pGroupId}"/>
-                <label class="required" th:text="#{group.label.pGroupName}" for="pGroupName"></label>
-                <input type="text" id="pGroupName" class="z-input text-ellipsis col-pct-12"
-                       th:value="${data?.pGroupName}" maxlength="100"/>
+                <input type="hidden" id="pOrganizationId"/>
+                <label class="required" th:text="#{organization.label.pOrganizationName}" for="pOrganizationName"></label>
+                <input type="text" id="pOrganizationName" class="z-input text-ellipsis col-pct-12"
+                       th:value="${data?.pOrganizationName}" maxlength="100"/>
                 </span>
             </div>
         </div>
         <div class="z-edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
-                <label class="required" th:text="#{group.label.name}" for="groupName"></label>
-                <input type="text" id="groupName" class="z-input text-ellipsis"
-                       th:value="${data?.groupName}" maxlength="100"/>
+                <label class="required" th:text="#{organization.label.name}" for="organizationName"></label>
+                <input type="text" id="organizationName" class="z-input text-ellipsis"
+                       th:value="${data?.organizationName}" maxlength="100"/>
             </div>
             <div class="flex-column flex-fill">
-                <label th:text="#{group.label.seqNum}" for="seqNum"></label>
+                <label th:text="#{organization.label.seqNum}" for="seqNum"></label>
                 <input type="text" id="seqNum" class="z-input text-ellipsis" th:value="${data?.seqNum}"
                        onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
             </div>
         </div>
         <div class="z-edit-row flex-column">
             <label class="z-switch">
-                <span class="z-label" th:text="#{group.label.useYn}"></span>
+                <span class="z-label" th:text="#{organization.label.useYn}"></span>
                 <input type="checkbox" id="useYn" name="useYn"
                        th:checked="${data?.useYn == null || data?.useYn == true}">
                 <span></span>
             </label>
         </div>
         <div class="z-edit-row flex-column">
-            <label th:text="#{group.label.description}" for="groupDesc"></label>
-            <textarea id="groupDesc" th:maxlength="200" th:rows="7"
-                      class="z-textarea textarea-scroll-wrapper" th:text="${data?.groupDesc}"></textarea>
+            <label th:text="#{organization.label.description}" for="organizationDesc"></label>
+            <textarea id="organizationDesc" th:maxlength="200" th:rows="7"
+                      class="z-textarea textarea-scroll-wrapper" th:text="${data?.organizationDesc}"></textarea>
         </div>
         <div class="z-edit-row flex-column">
-            <label th:text="#{group.label.role}"></label>
+            <label th:text="#{organization.label.role}"></label>
             <div class="z-checkbox-list">
                 <ul>
-                    <li class="text-ellipsis" th:each="role : ${data?.allRoles}">
+                    <li class="text-ellipsis" th:each="role : ${roleList}">
                         <label class="z-checkbox" tabindex="0" th:for="${role?.roleId}">
-                            <input type="checkbox" name="groupRole" th:checked="${#lists.contains(data?.groupUseRoles, '' + role.roleId)}"
+                            <input type="checkbox" name="organizationRole"
                                    th:disabled="${view}" th:id="${role?.roleId}" th:value="${role?.roleName}">
                             <span></span>
                             <span class="z-label" th:text="${role?.roleName}"></span>
@@ -86,13 +86,13 @@
         </div>
         <div class="flex-row justify-content-end">
             <div class="z-button-list">
-                <button sec:authorize="hasAuthority('group.create')"
+                <button sec:authorize="hasAuthority('organization.create')"
                         class="z-button primary" type="button" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
-                <button sec:authorize="hasAuthority('group.update')"
+                <button sec:authorize="hasAuthority('organization.update')"
                         class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
-                <button sec:authorize="hasAuthority('group.delete')"
+                <button sec:authorize="hasAuthority('organization.delete')"
                         class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
@@ -110,23 +110,28 @@
 
         OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
-        OverlayScrollbars(document.getElementById('groupDesc'), { className: 'scrollbar' });
+        OverlayScrollbars(document.getElementById('organizationDesc'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), { className: 'inner-scrollbar' });
 
-        document.getElementById('searchValue').addEventListener('keyup', getGroupList, false);
+        document.getElementById('searchValue').addEventListener('keyup', getOrganizationList, false);
         document.getElementById('searchValue').focus();
 
-        onCreate();
+        getOrganizationList();
 
-        getCodeList();
+        //첫번째 클릭
+        if (document.getElementById('treeList').querySelectorAll('.node') !== undefined) {
+            document.getElementById('treeList').querySelectorAll('.node')[0].click();
+        }
     };
 
     /** 조직 트리 조회 */
-    function getGroupList() {
+    function getOrganizationList() {
         const search = encodeURIComponent(document.getElementById('searchValue').value);
         tree.load({
-            dataUrl: '/rest/groups?search=' + search,
+            dataUrl: '/rest/organizations?searchValue=' + search,
             target: 'treeList',
-            text: 'tree',
+            source: 'organization',
+            text: 'organizationName',
             defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
             leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
             totalCount: true,
@@ -137,34 +142,34 @@
     }
 
     /** 트리 선택시 상세 정보 조회 */
-    function onGetDetail(groupId) {
+    function onGetDetail(organizationId) {
         if (!observer.canPageChange()) { return false; }
 
-        aliceJs.fetchJson('/rest/groups/' + groupId, {
+        aliceJs.fetchJson('/rest/organizations/' + organizationId, {
             method: 'GET',
         }).then((response) => {
             // 조직 ID
-            const groupIdElement = document.getElementById('groupId');
-            groupIdElement.value = response.data.groupId;
-            groupIdElement.disabled = true;
+            const organizationIdElement = document.getElementById('organizationId');
+            organizationIdElement.value = response.data.organizationId;
+            organizationIdElement.disabled = true;
             // 상위조직
-            document.getElementById('pGroupId').value = response.data.pGroupId;
-            const pGroupNameElement = document.getElementById('pGroupName');
-            pGroupNameElement.value = response.data.pGroupName;
-            pGroupNameElement.disabled = true;
+            document.getElementById('pOrganizationId').value = response.data.porganizationId;
+            const pOrganizationNameElement = document.getElementById('pOrganizationName');
+            pOrganizationNameElement.value = response.data.porganizationName;
+            pOrganizationNameElement.disabled = true;
             // 조직 이름
-            document.getElementById('groupName').value = response.data.groupName;
+            document.getElementById('organizationName').value = response.data.organizationName;
             // 순서
             document.getElementById('seqNum').value = response.data.seqNum;
             // 사용 여부
             document.getElementById('useYn').checked = response.data.useYn;
             // 조직설명
-            document.getElementById('groupDesc').value = response.data.groupDesc;
+            document.getElementById('organizationDesc').value = response.data.organizationDesc;
             // 구성원 기본 역할
-            const rolelements = document.querySelectorAll('input[name=groupRole]');
-            rolelements.forEach(function (chk) {
+            const roleElements = document.querySelectorAll('input[name=organizationRole]');
+            roleElements.forEach(function (chk) {
                 chk.checked = false;
-                const matching = response.data.groupUseRoles.find(function (role) {
+                const matching = response.data.roles.find(function (role) {
                     return role.roleId === chk.id;
                 });
 
@@ -180,9 +185,10 @@
             if (document.getElementById('btnDelete') != null) {
                 document.getElementById('btnDelete').style.display = 'block';
             }
-            if (document.getElementById('btnRegister') != null) {
-                document.getElementById('btnRegister').style.display = 'none';
+            if (document.getElementById('btnRegist') != null) {
+                document.getElementById('btnRegist').style.display = 'none';
             }
+
             // 버튼 활성화
             if (response.data.editable) {
                 if (document.getElementById('btnUpdate') != null) {
@@ -214,60 +220,63 @@
         if (document.getElementById('btnDelete') != null) {
             document.getElementById('btnDelete').style.display = 'none';
         }
-        if (document.getElementById('btnRegister') != null) {
-            document.getElementById('btnRegister').style.display = 'block';
+        if (document.getElementById('btnRegist') != null) {
+            document.getElementById('btnRegist').style.display = 'block';
         }
         // input 초기화
         const inputElements = document.querySelectorAll('input[type=text]');
         inputElements.forEach(function (input) {
             input.value = '';
         });
-        document.getElementById('pGroupId').value = '';
+        document.getElementById('pOrganizationId').value = '';
         // textarea 초기화
-        document.getElementById('groupDesc').value = '';
+        document.getElementById('organizationDesc').value = '';
         // 체크박스 초기화
-        let checkedElements = document.querySelectorAll('input[name=groupRole]:checked');
+        let checkedElements = document.querySelectorAll('input[name=organizationRole]:checked');
         checkedElements.forEach(function (chk) {
             chk.checked = false;
         });
         document.getElementById('useYn').checked = true;
 
+        let selectedNode = tree.getTreeSelectNode();
+        if (selectedNode !== null) {
+            document.querySelector('#pOrganizationId').value = selectedNode.dataset.value;
+            document.querySelector('#pOrganizationName').value = selectedNode.dataset.name;
+        }
         observer.isChanged = false;
     }
 
     /** save **/
     function onSave(method) {
         // 유효성 검증
-        if (isEmpty('groupId', 'group.msg.enterGroupId')) return false;
-        if (isEmpty('pGroupName', 'group.msg.enterPGroupName')) return false;
-        if (isEmpty('groupName', 'group.msg.enterGroupName')) return false;
-
-        // TODO: 조직 아이디 / 이름 중복체크
-        if (method === 'POST') {
-
+        if (method === 'PUT') {
+            if (isEmpty('organizationId', 'organization.msg.enterOrganizationId')) return false;
         }
+        if (isEmpty('pOrganizationName', 'organization.msg.enterPOrganizationName')) return false;
+        if (isEmpty('organizationName', 'organization.msg.enterOrganizationName')) return false;
 
         // 저장
-        const rolelements = document.querySelectorAll('input[name=groupRole]:checked');
-        let roles = [];
-        rolelements.forEach(function (chk) {
-            roles.push(chk.id);
+        const roleElements = document.querySelectorAll('input[name=organizationRole]:checked');
+        let roleIds = [];
+        roleElements.forEach(function (chk) {
+            roleIds.push(chk.id);
         });
         const saveData = {
-            groupId: document.getElementById('groupId').value,
-            pGroupId: document.getElementById('pGroupId').value,
-            groupName: document.getElementById('groupName').value,
-            groupDesc: document.getElementById('groupDesc').value,
+            organizationId: document.getElementById('organizationId').value,
+            pOrganizationId: document.getElementById('pOrganizationId').value,
+            organizationName: document.getElementById('organizationName').value,
+            organizationDesc: document.getElementById('organizationDesc').value,
             useYn: document.getElementById('useYn').checked,
             seqNum: document.getElementById('seqNum').value,
-            roles: roles
+            roleIds: roleIds
         };
 
-        let url = '/rest/groups';
+        let url = '/rest/organizations';
         if (method !== 'POST') {
-            url += '/' + document.getElementById('groupId').value;
+            url += '/' + document.getElementById('organizationId').value;
         }
-        aliceJs.fetchText(url, {
+
+        aliceJs.fetchJson(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
@@ -276,20 +285,22 @@
         }).then((response) => {
             if (response.status === 200) {
                 zAlert.success(i18n.msg('common.msg.register'), function () {
-                    window.location.href = '/groups/edit';
+                    window.location.href = '/organizations/edit';
                 });
+            } else {
+                zAlert.danger(response.message);
             }
         });
     }
 
     /** delete **/
     function onDelete() {
-        aliceJs.fetchText('/rest/groups/' + document.getElementById('groupId').value, {
+        aliceJs.fetchJson('/rest/organizations/' + document.getElementById('organizationId').value, {
             method: 'DELETE'
         }).then((response) => {
             if (response.status === 200) {
                 zAlert.success(i18n.msg('common.msg.delete'), function () {
-                    window.location.href = '/groups/edit';
+                    window.location.href = '/organizations/edit';
                 });
             }
         });

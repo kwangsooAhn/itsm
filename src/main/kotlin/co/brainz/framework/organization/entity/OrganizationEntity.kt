@@ -3,7 +3,7 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.group.entity
+package co.brainz.framework.organization.entity
 
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -21,23 +21,23 @@ import org.hibernate.annotations.NotFound
 import org.hibernate.annotations.NotFoundAction
 
 @Entity
-@Table(name = "awf_group")
-data class GroupEntity(
+@Table(name = "awf_organization")
+data class OrganizationEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "group_id", length = 100)
-    var groupId: String = "",
+    @Column(name = "organization_id", length = 100)
+    var organizationId: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "p_group_id")
+    @JoinColumn(name = "p_organization_id")
     @NotFound(action = NotFoundAction.IGNORE)
-    var pGroup: GroupEntity? = null,
+    var pOrganization: OrganizationEntity? = null,
 
-    @Column(name = "group_name", length = 128)
-    var groupName: String? = null,
+    @Column(name = "organization_name", length = 128)
+    var organizationName: String? = null,
 
-    @Column(name = "group_desc", length = 128)
-    var groupDesc: String? = null,
+    @Column(name = "organization_desc", length = 128)
+    var organizationDesc: String? = null,
 
     @Column(name = "use_yn")
     var useYn: Boolean? = true,
@@ -64,6 +64,6 @@ data class GroupEntity(
     var updateDt: LocalDateTime? = null
 
 ) : Serializable {
-    @OneToMany(mappedBy = "groupId", fetch = FetchType.LAZY)
-    val groupRoleMapEntities = mutableListOf<GroupRoleMapEntity>()
+    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
+    val organizationRoleMapEntities = mutableListOf<OrganizationRoleMapEntity>()
 }

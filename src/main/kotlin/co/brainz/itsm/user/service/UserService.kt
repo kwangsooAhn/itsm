@@ -23,6 +23,9 @@ import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
+import co.brainz.framework.organization.dto.OrganizationSearchCondition
+import co.brainz.framework.organization.entity.OrganizationEntity
+import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -31,9 +34,6 @@ import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.group.dto.GroupSearchCondition
-import co.brainz.itsm.group.dto.PGroupDto
-import co.brainz.itsm.group.repository.GroupRepository
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserAbsenceDto
@@ -92,7 +92,7 @@ class UserService(
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
     private val wfTokenRepository: WfTokenRepository,
-    private val groupRepository: GroupRepository
+    private val groupRepository: OrganizationRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -150,18 +150,18 @@ class UserService(
             userList.add(user)
         }
 
-        val groupList = groupRepository.findGroupList(groupSearchCondition = GroupSearchCondition())
+        val organizationList = groupRepository.findByOrganizationSearchList(OrganizationSearchCondition())
         queryResult.results.forEach { user ->
-            val group = groupList.results.firstOrNull { it.groupId == user.groupId }
-            var groupName = mutableListOf<String>()
-            if (group != null) {
-                if (group.pGroupId != null) {
-                    groupName = this.getRecursive(group, groupList.results, groupName)
+            val organization = organizationList.results.firstOrNull { it.organizationId == user.groupId }
+            var organizationName = mutableListOf<String>()
+            if (organization != null) {
+                if (organization.pOrganization != null) {
+                    organizationName = this.getRecursive(organization, organizationList.results, organizationName)
                 } else {
-                    groupName.add(group.groupName.toString())
+                    organizationName.add(organization.organizationName.toString())
                 }
             }
-            user.groupName = groupName.joinToString(" > ")
+            user.groupName = organizationName.joinToString(" > ")
         }
 
         return UserListReturnDto(
@@ -178,16 +178,20 @@ class UserService(
 
     //groupId 값을 이용하여 상위 레벨의 부서폴더이름 추출
     private fun getRecursive(
-        group: PGroupDto, allGroupList: List<PGroupDto>, groupName: MutableList<String>
+        organization: OrganizationEntity,
+        organizationList: List<OrganizationEntity>,
+        organizationName: MutableList<String>
     ): MutableList<String> {
-        groupName.add(group.groupName.toString())
-        if (group.pGroupId != null) {
-            val pGroup = allGroupList.firstOrNull { it.groupId == group.pGroupId }
-            if (pGroup != null) {
-                this.getRecursive(pGroup, allGroupList, groupName)
+        organizationName.add(organization.organizationName.toString())
+        if (organization.pOrganization != null) {
+            val pOrganization = organizationList.firstOrNull {
+                it.organizationId == organization.pOrganization!!.organizationId
+            }
+            if (pOrganization != null) {
+                this.getRecursive(pOrganization, organizationList, organizationName)
             }
         }
-        return groupName
+        return organizationName
     }
 
     /**

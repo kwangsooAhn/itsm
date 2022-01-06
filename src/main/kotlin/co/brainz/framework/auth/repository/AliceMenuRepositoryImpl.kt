@@ -11,7 +11,7 @@ import co.brainz.framework.auth.entity.QAliceMenuAuthMapEntity
 import co.brainz.framework.auth.entity.QAliceMenuEntity
 import co.brainz.framework.auth.entity.QAliceRoleAuthMapEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
-import co.brainz.itsm.group.entity.QGroupRoleMapEntity
+import co.brainz.framework.organization.entity.QOrganizationRoleMapEntity
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -41,6 +41,7 @@ class AliceMenuRepositoryImpl : QuerydslRepositorySupport(AliceMenuEntity::class
             .where(
                 userRoleMap.user.userKey.eq(userKey)
             )
+            .orderBy(menu.sort.asc())
 
         return query.fetch().toSet()
     }
@@ -49,7 +50,7 @@ class AliceMenuRepositoryImpl : QuerydslRepositorySupport(AliceMenuEntity::class
         val menu = QAliceMenuEntity.aliceMenuEntity
         val menuAuthMap = QAliceMenuAuthMapEntity.aliceMenuAuthMapEntity
         val roleAuthMap = QAliceRoleAuthMapEntity.aliceRoleAuthMapEntity
-        val groupRoleMap = QGroupRoleMapEntity.groupRoleMapEntity
+        val organizationRoleMap = QOrganizationRoleMapEntity.organizationRoleMapEntity
 
         val query = from(menu)
             .select(
@@ -64,10 +65,11 @@ class AliceMenuRepositoryImpl : QuerydslRepositorySupport(AliceMenuEntity::class
             )
             .innerJoin(menuAuthMap).on(menuAuthMap.menu.menuId.eq(menu.menuId))
             .innerJoin(roleAuthMap).on(roleAuthMap.auth.authId.eq(menuAuthMap.auth.authId))
-            .innerJoin(groupRoleMap).on(groupRoleMap.roleId.roleId.eq(roleAuthMap.role.roleId))
+            .innerJoin(organizationRoleMap).on(organizationRoleMap.role.roleId.eq(roleAuthMap.role.roleId))
             .where(
-                groupRoleMap.groupId.groupId.eq(groupId)
+                organizationRoleMap.organization.organizationId.eq(groupId)
             )
+            .orderBy(menu.sort.asc())
 
         return query.fetch().toSet()
     }

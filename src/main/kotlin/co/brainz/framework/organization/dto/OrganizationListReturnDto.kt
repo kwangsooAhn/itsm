@@ -3,11 +3,11 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.group.dto
+package co.brainz.framework.organization.dto
 
 import java.io.Serializable
 
-data class GroupListDto(
-    var data: List<GroupDto> = emptyList(),
+data class OrganizationListReturnDto(
+    var data: List<OrganizationListDto> = emptyList(),
     var totalCount: Long = 0L
 ) : Serializable
