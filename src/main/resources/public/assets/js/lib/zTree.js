@@ -700,6 +700,10 @@
                 if (options.expandTree) {
                     tree.expandTree();
                 }
+                // 트리 생성 후 호출되는 함수
+                if (typeof options.onCreate === 'function') {
+                    options.onCreate(this);
+                }
             } else {
                 // 데이터가 없는 경우 nodata 텍스트를 띄운다
                 document.querySelector('#' + options.target).innerHTML = `
