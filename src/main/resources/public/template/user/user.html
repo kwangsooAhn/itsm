@@ -31,6 +31,12 @@
                          th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <label for="userId">
                             <span th:classappend="${view} ? '':'required'" th:text="#{user.label.id}"></span>
+                            <div class="z-help-tooltip">
+                                <span class="z-icon i-tooltip"></span>
+                                <div class="z-tooltip-contents">
+                                    <span th:utext="#{user.tooltip.idRule}"></span>
+                                </div>
+                            </div>
                         </label>
                         <input class="z-input text-ellipsis" id="userId" maxlength="100" name="userId" th:readonly="${view}"
                                th:required="!${view}" th:value="${users?.userId}" type="text" />
