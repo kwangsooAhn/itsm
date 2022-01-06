@@ -84,20 +84,17 @@
         <div class="z-button-list">
             <a class="z-button secondary" href="/roles/search" th:text="#{common.btn.list}"></a>
         </div>
-        <div class="z-button-list" th:if="!${view}">
-            <button class="z-button primary" id="btnRegist" name="btnRegist"
-                    sec:authorize="hasAuthority('role.create')" th:if="!${role?.roleId}"
-                    th:onclick="|javascript:onSave('POST')|"
-                    th:text="#{common.btn.register}" type="button"></button>
-            <button class="z-button primary" id="btnUpdate" name="btnUpdate"
-                    sec:authorize="hasAuthority('role.update')" th:if="${role?.roleId}"
+        <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
+            <button type="button" class="z-button primary" id="btnRegist" name="btnRegist"
+                    th:if="!${role?.roleId}" th:text="#{common.btn.register}"
+                    th:onclick="|javascript:onSave('POST')|"></button>
+            <button type="button" class="z-button primary" id="btnUpdate" name="btnUpdate"
+                    th:if="${role?.roleId}" th:text="#{common.btn.modify}"
                     th:onclick="|javascript:onSave('PUT')|"
-                    th:text="#{common.btn.modify}" type="button"></button>
-            <button class="z-button secondary" id="btnDelete" name="btnDelete"
-                    sec:authorize="hasAuthority('role.delete')" th:if="${role?.roleId}"
-                    th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
-                    th:text="#{common.btn.delete}"
-                    type="button"></button>
+                    ></button>
+            <button type="button" class="z-button secondary" id="btnDelete" name="btnDelete"
+                    th:if="${role?.roleId}" th:text="#{common.btn.delete}"
+                    th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"></button>
         </div>
     </div>
 </div>

@@ -12,18 +12,18 @@
     <h6 class="description ml-2 pl-2" th:text="#{board.msg.adminSearchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="hidden" sec:authorize="hasAuthority('board.admin.update')" th:name="isRole"
+    <input type="hidden" sec:authorize="hasAuthority('system.manage')" th:name="isRole"
                th:value="true"/>
-        <input type="hidden" sec:authorize="!hasAuthority('board.admin.update')" th:name="isRole"
+        <input type="hidden" sec:authorize="!hasAuthority('system.manage')" th:name="isRole"
                th:value="false"/>
         <form id="searchFrm" onsubmit = "return false">
             <input type="text" id="searchValue" name="searchValue" class="z-input i-search text-ellipsis col-5 mr-2" maxlength="100"
                    th:placeholder="#{board.label.searchPlaceholder}"/>
             <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
         </form>
-        <div class="ml-auto">
+        <div class="ml-auto" sec:authorize="hasAuthority('system.manage')" >
             <button type="button" class="z-button secondary" onclick="openBoardAdminAdd()"
-                    sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.add}"></button>
+                    th:text="#{common.btn.add}"></button>
         </div>
 </div>
 <div layout:fragment="pageList">
