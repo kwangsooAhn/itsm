@@ -2025,6 +2025,44 @@ select {
   word-wrap: normal;
 }
 
+.z-switch {
+  display: inline-block;
+  width: 100%;
+  margin: 0 !important;
+}
+.z-switch .z-label {
+  margin-left: 0;
+}
+.z-switch .z-label-name {
+  width: 12.5rem;
+}
+.z-switch input[type=checkbox] + span {
+  left: inherit;
+}
+.z-switch-list {
+  height: 20rem;
+  padding: 0.5rem 0.625rem;
+}
+.z-switch-list .right {
+  right: 0.25rem;
+}
+.z-switch-list .padding {
+  padding: 0.1875rem 0 0.1875rem 0;
+}
+.z-switch-list .os-content {
+  padding-top: 0 !important;
+}
+.z-switch-list li {
+  display: list-item;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+  height: 2.5rem;
+  padding-right: 0.2rem;
+}
+
 /* _buttons.scss
  *
  * 적용 규칙  (자세한 건 UX팀 정승녕 팀장님과 협의)
