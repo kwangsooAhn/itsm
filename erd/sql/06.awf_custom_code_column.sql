@@ -28,3 +28,6 @@ insert into awf_custom_code_column values ('awf_user', 'search', 'position', '�
 insert into awf_custom_code_column values ('awf_user', 'search', 'use_yn', '사용자 사용여부');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_name', '사용자 이름');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_key', '사용자 식별키');
+insert into awf_custom_code_column values ('awf_organization', 'search', 'organization_name', '부서 이름');
+insert into awf_custom_code_column values ('awf_organization', 'search', 'use_yn', '사용여부');
+insert into awf_custom_code_column values ('awf_organization', 'value', 'organization_id', '부서 아이디');
