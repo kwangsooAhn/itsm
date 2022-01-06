@@ -9343,7 +9343,7 @@ CREATE TABLE awf_organization
     level integer,
     seq_num integer,
     editable boolean default true,
-    create_user_key character varying(128),
+    create_user_key varchar(128),
     create_dt timestamp,
     update_user_key varchar(128),
     update_dt timestamp,
