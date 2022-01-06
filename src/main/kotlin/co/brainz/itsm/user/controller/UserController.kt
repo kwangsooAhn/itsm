@@ -6,15 +6,6 @@
 
 package co.brainz.itsm.user.controller
 
-import co.brainz.framework.auth.mapper.AliceUserAuthMapper
-import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.constants.AliceUserConstants
-import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.role.service.RoleService
-import co.brainz.itsm.user.constants.UserConstants
-import co.brainz.itsm.user.dto.UserSearchCondition
-import co.brainz.itsm.user.service.UserService
 import javax.servlet.http.HttpServletRequest
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
@@ -24,6 +15,15 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import co.brainz.framework.auth.mapper.AliceUserAuthMapper
+import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.role.service.RoleService
+import co.brainz.itsm.user.constants.UserConstants
+import co.brainz.itsm.user.dto.UserSearchCondition
+import co.brainz.itsm.user.service.UserService
 
 /**
  * 사용자 관리 클래스
@@ -95,8 +95,8 @@ class UserController(
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
         if (!users.department.isNullOrBlank()) {
-            val deptCodeDetail = codeService.getDetailCodes(users.department!!)
-            model.addAttribute("deptCodeDetail", deptCodeDetail)
+//            val deptCodeDetail = codeService.getDetailCodes(users.department!!)
+//            model.addAttribute("deptCodeDetail", deptCodeDetail)
         }
 
         val allCodes = userService.getInitCodeList()
@@ -116,11 +116,13 @@ class UserController(
             }
             UserConstants.UserEdit.EDIT.code -> {
                 model.addAttribute("roles", roleService.getAllRolesToUserCheck(userEntity))
+                model.addAttribute("oRoles", userService.selectOrganizationRolesMap(users.userId))
                 model.addAttribute("view", false)
                 returnUrl = userPage
             }
             UserConstants.UserEdit.VIEW.code -> {
                 model.addAttribute("roles", roleService.getAllRolesToUserCheck(userEntity))
+                model.addAttribute("oRoles", userService.selectOrganizationRolesMap(users.userId))
                 model.addAttribute("view", true)
                 returnUrl = userPage
             }

@@ -151,6 +151,10 @@
         <div class="flex-column z-edit-row">
             <h3 class="sub-title under-bar bold required" th:text="#{user.label.role}"></h3>
         </div>
+
+        <th:block th:each="oRole : ${oRoles}">
+            <input th:type="hidden" th:value="${oRole.roleId}" id="organizationRoles">
+        </th:block>
         <div class="flex-column z-edit-row">
             <div class="z-checkbox-list">
                 <ul>
@@ -260,6 +264,7 @@
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
 
+        groupRolesCheck();
         setAbsenceDisplay();
     };
 
@@ -302,6 +307,22 @@
             }
         }
         restSubmit(method, url);
+    }
+
+    /**
+     * 부서에 부여된 권한이 있는지 확인 후 check와 disabled옵션 추가
+     */
+    function groupRolesCheck() {
+        let organizationRoles = document.querySelectorAll('#organizationRoles');
+        for (let oRoleId of organizationRoles.values()) {
+            let roles = document.querySelectorAll('input[name=roles]');
+            roles.forEach((roleId) => {
+                if (roleId.value === oRoleId.value) {
+                    roleId.checked = true;
+                    roleId.disabled = true;
+                }
+            });
+        }
     }
 
     function restSubmit(method, url) {
