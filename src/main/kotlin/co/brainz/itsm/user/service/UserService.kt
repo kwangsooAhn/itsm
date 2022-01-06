@@ -178,11 +178,15 @@ class UserService(
 
     //groupId 값을 이용하여 상위 레벨의 부서폴더이름 추출
     private fun getRecursive(
-        organization: OrganizationEntity, organizationList: List<OrganizationEntity>, organizationName: MutableList<String>
+        organization: OrganizationEntity,
+        organizationList: List<OrganizationEntity>,
+        organizationName: MutableList<String>
     ): MutableList<String> {
         organizationName.add(organization.organizationName.toString())
         if (organization.pOrganization != null) {
-            val pOrganization = organizationList.firstOrNull { it.organizationId == organization.pOrganization!!.organizationId }
+            val pOrganization = organizationList.firstOrNull {
+                it.organizationId == organization.pOrganization!!.organizationId
+            }
             if (pOrganization != null) {
                 this.getRecursive(pOrganization, organizationList, organizationName)
             }

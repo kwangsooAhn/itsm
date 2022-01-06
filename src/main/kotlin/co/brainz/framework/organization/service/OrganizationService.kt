@@ -91,8 +91,12 @@ class OrganizationService(
         return OrganizationDetailDto(
             organizationId = organizationEntity.organizationId,
             organizationName = organizationEntity.organizationName,
-            pOrganizationId = organizationEntity.pOrganization?.let { organizationEntity.pOrganization!!.organizationId },
-            pOrganizationName = organizationEntity.pOrganization?.let { organizationEntity.pOrganization!!.organizationName },
+            pOrganizationId = organizationEntity.pOrganization?.let {
+                organizationEntity.pOrganization!!.organizationId
+            },
+            pOrganizationName = organizationEntity.pOrganization?.let {
+                organizationEntity.pOrganization!!.organizationName
+            },
             organizationDesc = organizationEntity.organizationDesc,
             useYn = organizationEntity.useYn,
             level = organizationEntity.level,

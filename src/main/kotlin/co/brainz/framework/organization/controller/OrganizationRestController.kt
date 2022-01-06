@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/organizations")
-class OrganizationRestController(private val organizationService: OrganizationService) {
+class OrganizationRestController(
+    private val organizationService: OrganizationService
+) {
 
     /**
      * 조직 전체 목록 조회

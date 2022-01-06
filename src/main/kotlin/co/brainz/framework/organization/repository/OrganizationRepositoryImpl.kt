@@ -11,9 +11,12 @@ import co.brainz.framework.organization.entity.QOrganizationEntity
 import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
-class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity::class.java), OrganizationRepositoryCustom {
+class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity::class.java),
+    OrganizationRepositoryCustom {
 
-    override fun findByOrganizationSearchList(organizationSearchCondition: OrganizationSearchCondition): QueryResults<OrganizationEntity> {
+    override fun findByOrganizationSearchList(
+        organizationSearchCondition: OrganizationSearchCondition
+    ): QueryResults<OrganizationEntity> {
         val organization = QOrganizationEntity.organizationEntity
         val query = from(organization)
             .where(

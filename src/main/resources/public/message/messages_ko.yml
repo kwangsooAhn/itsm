@@ -862,29 +862,6 @@ form:
     publish: "발행"
     use: "사용"
 
-# Organization
-organization:
-  label:
-    organization: "조직"
-    organizationId: "조직 아이디"
-    description: "조직 설명"
-    name: "조직 이름"
-    pOrganizationName: "상위조직 이름"
-    role: "구성원 기본 역할"
-    searchPlaceholder: "조직 이름"
-    seqNum: "출력 순서"
-    useYn: "사용여부"
-  msg:
-    duplicateOrganizationId: "중복된 조직 아이디가 존재합니다."
-    duplicateOrganizationName: "중복된 조직 이름이 존재합니다."
-    editDescription: "조직 구조를 관리합니다."
-    enterOrganizationId: "조직 아이디를 입력하세요."
-    enterOrganizationName: "조직 이름을 입력하세요."
-    enterPOrganizationName: "상위조직 이름을 입력하세요."
-    pOrganizationNotExist: "상위조직이 존재하지 않습니다."
-    selectRole: "구성원 기본 역할을 선택하세요."
-    failedOrganizationDelete: "조직에 구성원이 존재하여 삭제할 수 없습니다."
-
 # Image
 image:
   label:
@@ -1020,6 +997,29 @@ notification:
   msg:
     description: "최대 50개까지 표시됩니다."
     noNotificationData: "알림이 없습니다."
+
+# Organization
+organization:
+  label:
+    organization: "조직"
+    organizationId: "조직 아이디"
+    description: "조직 설명"
+    name: "조직 이름"
+    pOrganizationName: "상위조직 이름"
+    role: "구성원 기본 역할"
+    searchPlaceholder: "조직 이름"
+    seqNum: "출력 순서"
+    useYn: "사용여부"
+  msg:
+    duplicateOrganizationId: "중복된 조직 아이디가 존재합니다."
+    duplicateOrganizationName: "중복된 조직 이름이 존재합니다."
+    editDescription: "조직 구조를 관리합니다."
+    enterOrganizationId: "조직 아이디를 입력하세요."
+    enterOrganizationName: "조직 이름을 입력하세요."
+    enterPOrganizationName: "상위조직 이름을 입력하세요."
+    pOrganizationNotExist: "상위조직이 존재하지 않습니다."
+    selectRole: "구성원 기본 역할을 선택하세요."
+    failedOrganizationDelete: "조직에 구성원이 존재하여 삭제할 수 없습니다."
 
 # Portal
 portal:

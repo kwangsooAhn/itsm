@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface OrganizationRoleMapRepository : JpaRepository<OrganizationRoleMapEntity, String>, OrganizationRoleMapRepositoryCustom {
-
+interface OrganizationRoleMapRepository : JpaRepository<OrganizationRoleMapEntity, String>,
+    OrganizationRoleMapRepositoryCustom {
     fun deleteByOrganization(organization: OrganizationEntity)
 }
