@@ -35,11 +35,13 @@ interface UserRepository : JpaRepository<AliceUserEntity, String>, JpaSpecificat
      */
     fun countByUserIdNot(userId: String): Long
 
-    fun existsByDepartment(groupId: String): Boolean
-
     /**
      *  특정 사용자를 제외하고, 사용자 목록을 사용자명으로 정렬조회한다.
      */
-    fun findByUserIdNotOrderByUserNameAsc(userId: String): MutableList<AliceUserEntity>
+    fun existsByDepartment(groupId: String): Boolean
 
+    /**
+     * 조직 존재 여부 확인
+     */
+    fun existsByDepartment(organizationId: String): Boolean
 }

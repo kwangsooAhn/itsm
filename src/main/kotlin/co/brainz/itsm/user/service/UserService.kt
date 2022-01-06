@@ -58,18 +58,6 @@ import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Optional
-import kotlin.collections.LinkedHashMap
-import kotlin.collections.List
-import kotlin.collections.Map
-import kotlin.collections.MutableList
-import kotlin.collections.forEach
-import kotlin.collections.get
-import kotlin.collections.isNotEmpty
-import kotlin.collections.listOf
-import kotlin.collections.mutableListOf
-import kotlin.collections.mutableSetOf
-import kotlin.collections.set
-import kotlin.collections.setOf
 import kotlin.math.ceil
 import kotlin.random.Random
 import org.slf4j.Logger
@@ -277,7 +265,8 @@ class UserService(
                         userUpdateDto.roles!!.forEach {
                             userRoleMapRepository.save(
                                 AliceUserRoleMapEntity(
-                                    targetEntity, roleRepository.findByRoleId(it)
+                                    targetEntity,
+                                    roleRepository.findByRoleId(it)
                                 )
                             )
                         }
@@ -401,7 +390,8 @@ class UserService(
         val publicKey = aliceCryptoRsa.getPublicKey()
         val encryptPassword = aliceCryptoRsa.encrypt(publicKey, password)
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-        val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+        val privateKey =
+            attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         val decryptPassword = aliceCryptoRsa.decrypt(privateKey, encryptPassword)
         val targetEntity = userDetailsService.selectUserKey(userKey)
         targetEntity.password = BCryptPasswordEncoder().encode(decryptPassword)
@@ -623,28 +613,36 @@ class UserService(
                                 ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.id"),
                                     cellWidth = 5000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.name"),
                                     cellWidth = 5000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.email"),
                                     cellWidth = 7000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.department"),
                                     cellWidth = 4000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.position"),
                                     cellWidth = 4000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.officeNumber"),
                                     cellWidth = 5000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.mobileNumber"),
                                     cellWidth = 5000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.signUpDate"),
                                     cellWidth = 5000
-                                ), ExcelCellVO(
+                                ),
+                                ExcelCellVO(
                                     value = aliceMessageSource.getMessage("user.label.usageStatus"),
                                     cellWidth = 4000
                                 )
