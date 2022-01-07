@@ -304,10 +304,3 @@ insert into awf_url_auth_map values ('/workflows/new', 'get', 'workflow.manage')
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'workflow.manage');
-
--- todo: 추후 auth 페이지 삭제 시 하단 map데이터와 URL데이터는 제거되어야 합니다.
-insert into awf_url_auth_map values ('/auths', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/new', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/search', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/{id}/edit', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/{id}/view', 'get', 'system.manage');

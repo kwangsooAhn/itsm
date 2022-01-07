@@ -598,12 +598,11 @@ insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE')
 insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
 insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('config.user', 'config', '/users/search', 1, 'TRUE');
-insert into awf_menu values ('config.auth', 'config', '/auths/search', 2, 'TRUE');
-insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
-insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
-insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
-insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
-insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
+insert into awf_menu values ('config.role', 'config', '/roles/search', 2, 'TRUE');
+insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 3, 'TRUE');
+insert into awf_menu values ('config.code', 'config', '/codes/edit', 4, 'TRUE');
+insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 5, 'TRUE');
+insert into awf_menu values ('config.product', 'config', '', 6, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -642,7 +641,6 @@ insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.view');
 insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.view');
 insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.view');
 insert into awf_menu_auth_map values ('config', 'system.manage');
-insert into awf_menu_auth_map values ('config.auth', 'system.manage');
 insert into awf_menu_auth_map values ('config.boardAdmin', 'system.manage');
 insert into awf_menu_auth_map values ('config.boardAdmin', 'portal.manage');
 insert into awf_menu_auth_map values ('config.code', 'system.manage');
@@ -1071,11 +1069,6 @@ COMMENT ON COLUMN awf_url.method IS 'method';
 COMMENT ON COLUMN awf_url.url_desc IS '설명';
 COMMENT ON COLUMN awf_url.is_required_auth IS '권한 필수여부';
 
-insert into awf_url values ('/auths/search', 'get', '권한 검색화면', 'TRUE');
-insert into awf_url values ('/auths/new', 'get', '권한 등록', 'TRUE');
-insert into awf_url values ('/auths/{id}/edit', 'get', '권한 수정', 'TRUE');
-insert into awf_url values ('/auths/{id}/view', 'get', '권한 상세 보기', 'TRUE');
-insert into awf_url values ('/auths', 'get', '권한 관리 목록', 'TRUE');
 insert into awf_url values ('/boards', 'get', '게시판 관리 리스트 호출화면', 'TRUE');
 insert into awf_url values ('/boards/new', 'get', '게시판 관리 신규 등록', 'TRUE');
 insert into awf_url values ('/boards/search', 'get', '게시판 관리 리스트 조회 화면', 'TRUE');
@@ -1678,13 +1671,6 @@ insert into awf_url_auth_map values ('/workflows/new', 'get', 'workflow.manage')
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'workflow.manage');
-
--- todo: 추후 auth 페이지 삭제 시 하단 map데이터와 URL데이터는 제거되어야 합니다.
-insert into awf_url_auth_map values ('/auths', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/new', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/search', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/{id}/edit', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/{id}/view', 'get', 'system.manage');
 
 /**
  * 사용자정보

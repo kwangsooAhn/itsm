@@ -46,9 +46,8 @@ insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE')
 insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
 insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('config.user', 'config', '/users/search', 1, 'TRUE');
-insert into awf_menu values ('config.auth', 'config', '/auths/search', 2, 'TRUE');
-insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
-insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
-insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
-insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
-insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
+insert into awf_menu values ('config.role', 'config', '/roles/search', 2, 'TRUE');
+insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 3, 'TRUE');
+insert into awf_menu values ('config.code', 'config', '/codes/edit', 4, 'TRUE');
+insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 5, 'TRUE');
+insert into awf_menu values ('config.product', 'config', '', 6, 'TRUE');

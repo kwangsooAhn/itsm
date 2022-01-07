@@ -18,11 +18,6 @@ COMMENT ON COLUMN awf_url.method IS 'method';
 COMMENT ON COLUMN awf_url.url_desc IS '설명';
 COMMENT ON COLUMN awf_url.is_required_auth IS '권한 필수여부';
 
-insert into awf_url values ('/auths/search', 'get', '권한 검색화면', 'TRUE');
-insert into awf_url values ('/auths/new', 'get', '권한 등록', 'TRUE');
-insert into awf_url values ('/auths/{id}/edit', 'get', '권한 수정', 'TRUE');
-insert into awf_url values ('/auths/{id}/view', 'get', '권한 상세 보기', 'TRUE');
-insert into awf_url values ('/auths', 'get', '권한 관리 목록', 'TRUE');
 insert into awf_url values ('/boards', 'get', '게시판 관리 리스트 호출화면', 'TRUE');
 insert into awf_url values ('/boards/new', 'get', '게시판 관리 신규 등록', 'TRUE');
 insert into awf_url values ('/boards/search', 'get', '게시판 관리 리스트 조회 화면', 'TRUE');
