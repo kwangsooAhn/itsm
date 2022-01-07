@@ -17,7 +17,7 @@
                    th:placeholder="#{board.label.searchPlaceholder}"/>
             <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
         </form>
-        <div class="ml-auto" sec:authorize="hasAuthority('system.manage') or hasAuthority('portal.admin')">
+        <div class="ml-auto" sec:authorize="hasAuthority('system.manage') or hasAuthority('portal.manage')">
             <button type="button" class="z-button secondary" onclick="openBoardAdminAdd()"
                     th:text="#{common.btn.add}"></button>
         </div>

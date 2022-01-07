@@ -23,7 +23,7 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" onclick="location.href='/notices/new'"
-                sec:authorize="hasAuthority('portal.admin')" th:text="#{common.btn.add}"></button>
+                sec:authorize="hasAuthority('portal.manage')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">

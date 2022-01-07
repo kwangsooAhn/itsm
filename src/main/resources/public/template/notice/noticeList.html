@@ -19,7 +19,7 @@
                 <a sec:authorize="hasAuthority('general')" th:text="${topNotice.noticeTitle}"
                    th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}" th:title="${topNotice.noticeTitle}">
                 </a>
-                <a sec:authorize="hasAuthority('portal.admin')" th:text="${topNotice.noticeTitle}"
+                <a sec:authorize="hasAuthority('portal.manage')" th:text="${topNotice.noticeTitle}"
                    th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}" th:title="${topNotice.noticeTitle}"></a>
             </td>
             <td style="width:5%;" th:if="${topNotice.popYn}" class="align-center">
@@ -40,7 +40,7 @@
             <td style="width:30%;" class="align-left underline">
                 <a sec:authorize="hasAuthority('general')" th:text="${notice.noticeTitle}"
                    th:href="@{/notices/{id}/view(id=${notice.noticeNo})}" th:title="${notice.noticeTitle}"></a>
-                <a sec:authorize="hasAuthority('portal.admin')" th:text="${notice.noticeTitle}"
+                <a sec:authorize="hasAuthority('portal.manage')" th:text="${notice.noticeTitle}"
                    th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}" th:title="${notice.noticeTitle}"></a>
             </td>
             <td style="width:5%;" class="align-center" th:if="${notice.popYn}">

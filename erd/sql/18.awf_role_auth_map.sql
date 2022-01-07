@@ -32,6 +32,7 @@ INSERT INTO awf_role_auth_map VALUES ('service.manager', 'general');
 INSERT INTO awf_role_auth_map VALUES ('service.manager', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('service.manager', 'report.view');
 INSERT INTO awf_role_auth_map VALUES ('general.user', 'general');
+INSERT INTO awf_role_auth_map VALUES ('general.user', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'workflow.manage');

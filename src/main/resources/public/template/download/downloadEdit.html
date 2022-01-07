@@ -41,7 +41,7 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" sec:authorize="hasAuthority('portal.admin')">
+            <div class="z-button-list" sec:authorize="hasAuthority('portal.manage')">
                 <button th:if="${download?.downloadId}" onclick="saveDownload('PUT')"
                         class="z-button primary" th:text="#{common.btn.modify}"></button>
                 <button th:unless="${download?.downloadId}" onclick="saveDownload('POST')"
