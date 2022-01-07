@@ -112,8 +112,8 @@
 </div>
 <div layout:fragment="pageSearchResult">
     <div class="z-document-content flex-fill">
-        <input type="hidden" sec:authorize="hasAuthority('document.create')" th:name="isRole" th:value="true"/>
-        <input type="hidden" sec:authorize="!hasAuthority('document.create')" th:name="isRole" th:value="false"/>
+        <input type="hidden" sec:authorize="hasAuthority('general')" th:name="isRole" th:value="true"/>
+        <input type="hidden" sec:authorize="!hasAuthority('general')" th:name="isRole" th:value="false"/>
         <div id="documentList"></div>
     </div>
     <template id="documentModalTemplate">

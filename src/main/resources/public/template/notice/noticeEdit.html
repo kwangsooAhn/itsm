@@ -95,14 +95,14 @@
                 <div class="z-button-list">
                     <a class="z-button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list">
-                    <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert"
+                <div class="z-button-list" sec:authorize="hasAuthority('general')">
+                    <button  th:if="!${notice?.noticeNo}" type="button" id="insert"
                             class="z-button primary" onclick="saveNotice('POST')" th:text="#{common.btn.register}">
                     </button>
-                    <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update"
+                    <button th:if="${notice?.noticeNo}" type="button" id="update"
                             class="z-button primary" onclick="saveNotice('PUT')" th:text="#{common.btn.modify}">
                     </button>
-                    <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete"
+                    <button th:if="${notice?.noticeNo}" type="button" id="delete"
                             class="z-button secondary" onclick="deleteNotice()" th:text="#{common.btn.delete}">
                     </button>
                 </div>

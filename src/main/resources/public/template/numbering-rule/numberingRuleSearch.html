@@ -17,7 +17,7 @@
     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" id="btnSearch" name="btnSearch" onclick="location.href='/numberingRules/new'"
-                sec:authorize="hasAuthority('numbering.rule.create')" th:text="#{common.btn.add}"></button>
+                sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">

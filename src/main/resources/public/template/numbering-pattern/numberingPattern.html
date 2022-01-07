@@ -79,18 +79,15 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/numberingPatterns/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}">
+            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
                 <button class="z-button primary" id="btnRegist" name="btnRegist"
-                        sec:authorize="hasAuthority('numbering.pattern.create')"
                         th:if="!${pattern?.patternId}" th:onclick="|javascript:onSave('POST')|"
                         th:text="#{common.btn.register}" type="button"></button>
                 <button class="z-button primary" id="btnUpdate" name="btnUpdate"
-                        sec:authorize="hasAuthority('numbering.pattern.update')"
                         th:if="${pattern?.patternId}" th:onclick="|javascript:onSave('PUT')|"
                         th:text="#{common.btn.modify}" type="button"></button>
                 <button class="z-button secondary" id="btnDelete"
-                        name="btnDelete"
-                        sec:authorize="hasAuthority('numbering.pattern.delete')" th:if="${pattern?.patternId}"
+                        name="btnDelete" th:if="${pattern?.patternId}"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"
                         type="button"></button>

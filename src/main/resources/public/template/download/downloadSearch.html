@@ -12,8 +12,8 @@
     <h6 class="description ml-2 pl-2" th:text="#{download.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="hidden" name="isRole" sec:authorize="hasAuthority('download.update')" th:value="true"/>
-    <input type="hidden" name="isRole" sec:authorize="!hasAuthority('download.update')" th:value="false"/>
+    <input type="hidden" name="isRole" sec:authorize="hasAuthority('general')" th:value="true"/>
+    <input type="hidden" name="isRole" sec:authorize="!hasAuthority('general')" th:value="false"/>
     <form id="searchFrm">
         <select id="category" name="category" class="col-3">
             <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="${category.codeName}"></option>
@@ -27,7 +27,7 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" onclick="location.href='/downloads/new'"
-                sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.add}">
+                sec:authorize="hasAuthority('general')" th:text="#{common.btn.add}">
         </button>
     </div>
 </div>

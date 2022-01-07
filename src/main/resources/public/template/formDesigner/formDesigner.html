@@ -99,7 +99,7 @@
                         </div>
                     </button>
                     <!--저장하기-->
-                    <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
+                    <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('workflow.manage')">
                         <div id="fileCommand">
                             <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="save" data-targetId="fileCommand"
                                     onclick="zFormDesigner.saveForm(false);">
@@ -127,7 +127,7 @@
                         </div>
                     </th:block>
                     <!--문서가 사용일때 다른이름으로 저장하기 만 가능-->
-                    <th:block th:unless="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
+                    <th:block th:unless="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('workflow.manage')">
                         <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" onclick="zFormDesigner.openSaveAsModal();">
                             <span class="z-icon i-save-as"></span>
                             <div class="z-header-tooltip-contents last">

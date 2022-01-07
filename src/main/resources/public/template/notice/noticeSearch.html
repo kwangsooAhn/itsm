@@ -12,8 +12,8 @@
     <h6 class="description ml-2 pl-2" th:text="#{notice.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>
-    <input type="hidden" name="isRole" sec:authorize="!hasAuthority('notice.update')" th:value="false"/>
+    <input type="hidden" name="isRole" sec:authorize="hasAuthority('general')" th:value="true"/>
+    <input type="hidden" name="isRole" sec:authorize="!hasAuthority('general')" th:value="false"/>
     <form id="searchFrm">
         <input type="text" class="z-input i-search col-5 text-ellipsis" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{notice.label.searchPlaceholder}"/>
@@ -25,7 +25,7 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" onclick="location.href='/notices/new'"
-                sec:authorize="hasAuthority('notice.create')" th:text="#{common.btn.add}"></button>
+                sec:authorize="hasAuthority('general')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
