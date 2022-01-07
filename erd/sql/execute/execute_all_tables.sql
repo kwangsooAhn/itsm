@@ -598,12 +598,11 @@ insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE')
 insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
 insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('config.user', 'config', '/users/search', 1, 'TRUE');
-insert into awf_menu values ('config.auth', 'config', '/auths/search', 2, 'TRUE');
-insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
-insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
-insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
-insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
-insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
+insert into awf_menu values ('config.role', 'config', '/roles/search', 2, 'TRUE');
+insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 3, 'TRUE');
+insert into awf_menu values ('config.code', 'config', '/codes/edit', 4, 'TRUE');
+insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 5, 'TRUE');
+insert into awf_menu values ('config.product', 'config', '', 6, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -637,12 +636,8 @@ insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.view');
-insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.view');
 insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.view');
-insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.view');
-insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.view');
 insert into awf_menu_auth_map values ('config', 'system.manage');
-insert into awf_menu_auth_map values ('config.auth', 'system.manage');
 insert into awf_menu_auth_map values ('config.boardAdmin', 'system.manage');
 insert into awf_menu_auth_map values ('config.boardAdmin', 'portal.manage');
 insert into awf_menu_auth_map values ('config.code', 'system.manage');
@@ -1071,11 +1066,6 @@ COMMENT ON COLUMN awf_url.method IS 'method';
 COMMENT ON COLUMN awf_url.url_desc IS '설명';
 COMMENT ON COLUMN awf_url.is_required_auth IS '권한 필수여부';
 
-insert into awf_url values ('/auths/search', 'get', '권한 검색화면', 'TRUE');
-insert into awf_url values ('/auths/new', 'get', '권한 등록', 'TRUE');
-insert into awf_url values ('/auths/{id}/edit', 'get', '권한 수정', 'TRUE');
-insert into awf_url values ('/auths/{id}/view', 'get', '권한 상세 보기', 'TRUE');
-insert into awf_url values ('/auths', 'get', '권한 관리 목록', 'TRUE');
 insert into awf_url values ('/boards', 'get', '게시판 관리 리스트 호출화면', 'TRUE');
 insert into awf_url values ('/boards/new', 'get', '게시판 관리 신규 등록', 'TRUE');
 insert into awf_url values ('/boards/search', 'get', '게시판 관리 리스트 조회 화면', 'TRUE');
@@ -1457,21 +1447,17 @@ insert into awf_url_auth_map values ('/dashboard/view', 'get', 'general');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads', 'get', 'portal.manage');
-insert into awf_url_auth_map values ('/downloads/new', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads/new', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/downloads/search', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads/search', 'get', 'portal.manage');
-insert into awf_url_auth_map values ('/downloads/{id}/edit', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads/{id}/edit', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/downloads/{id}/view', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads/{id}/view', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/faqs', 'get', 'general');
 insert into awf_url_auth_map values ('/faqs', 'get', 'portal.manage');
-insert into awf_url_auth_map values ('/faqs/new', 'get', 'general');
 insert into awf_url_auth_map values ('/faqs/new', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/faqs/search', 'get', 'general');
 insert into awf_url_auth_map values ('/faqs/search', 'get', 'portal.manage');
-insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'general');
 insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/faqs/{id}/view', 'get', 'general');
 insert into awf_url_auth_map values ('/faqs/{id}/view', 'get', 'portal.manage');
@@ -1483,11 +1469,9 @@ insert into awf_url_auth_map values ('/forms/{id}/view', 'get', 'workflow.manage
 insert into awf_url_auth_map values ('/images', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/notices', 'get', 'general');
 insert into awf_url_auth_map values ('/notices', 'get', 'portal.manage');
-insert into awf_url_auth_map values ('/notices/new', 'get', 'general');
 insert into awf_url_auth_map values ('/notices/new', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/notices/search', 'get', 'general');
 insert into awf_url_auth_map values ('/notices/search', 'get', 'portal.manage');
-insert into awf_url_auth_map values ('/notices/{id}/edit', 'get', 'general');
 insert into awf_url_auth_map values ('/notices/{id}/edit', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/notices/{id}/view', 'get', 'general');
 insert into awf_url_auth_map values ('/notices/{id}/view', 'get', 'portal.manage');
@@ -1591,13 +1575,9 @@ insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'system.m
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/documents/{id}/data', 'get', 'general');
-insert into awf_url_auth_map values ('/rest/downloads', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'portal.manage');
-insert into awf_url_auth_map values ('/rest/downloads', 'put', 'general');
 insert into awf_url_auth_map values ('/rest/downloads', 'put', 'portal.manage');
-insert into awf_url_auth_map values ('/rest/downloads/{id}', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/downloads/{id}', 'delete', 'portal.manage');
-insert into awf_url_auth_map values ('/rest/faqs', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/faqs', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'portal.manage');
@@ -1610,11 +1590,8 @@ insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'workflow.m
 insert into awf_url_auth_map values ('/rest/images', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/images', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/images/{id}', 'delete', 'workflow.manage');
-insert into awf_url_auth_map values ('/rest/notices', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/notices', 'post', 'portal.manage');
-insert into awf_url_auth_map values ('/rest/notices/{id}', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'delete', 'portal.manage');
-insert into awf_url_auth_map values ('/rest/notices/{id}', 'put', 'general');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'put', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/numberingPatterns', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/numberingPatterns', 'post', 'workflow.manage');
@@ -1692,13 +1669,6 @@ insert into awf_url_auth_map values ('/workflows/search', 'get', 'workflow.manag
 insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'workflow.manage');
 
--- todo: 추후 auth 페이지 삭제 시 하단 map데이터와 URL데이터는 제거되어야 합니다.
-insert into awf_url_auth_map values ('/auths', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/new', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/search', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/{id}/edit', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/auths/{id}/view', 'get', 'system.manage');
-
 /**
  * 사용자정보
  */
@@ -1770,8 +1740,14 @@ COMMENT ON COLUMN awf_user.uploaded IS '업로드 여부';
 COMMENT ON COLUMN awf_user.uploaded_location IS '업로드 경로';
 COMMENT ON COLUMN awf_user.user_absence IS '부재 여부';
 
-insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
 insert into awf_user values ('system', 'system', 'system', '', 'system@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
+insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
+insert into awf_user values ('4028b21c7c4df297017c4e595fd90000', 'service.admin', '서비스 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'service_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
+insert into awf_user values ('40288ad27c729b34017c729c2e370000', 'service.manager', '서비스 담당자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'service_manager@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
+insert into awf_user values ('40288ada7cfd3301017cfd3a78580000', 'user', '일반 사용자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'general_user@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
+insert into awf_user values ('2c9180867d0b3336017d0de8bf480001', 'workflow.admin', '업무흐름 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'workflow_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
+insert into awf_user values ('2c91808e7c75dad2017c781635e20000', 'cmdb.admin', 'CMDB 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'cmdb_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
+insert into awf_user values ('2c91808e7c75dad2017c781635e22000', 'portal.admin', '포털 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'portal_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
 
 /**
  * 사용자역할매핑
@@ -1792,6 +1768,12 @@ COMMENT ON COLUMN awf_user_role_map.user_key IS '사용자키';
 COMMENT ON COLUMN awf_user_role_map.role_id IS '역할아이디';
 
 insert into awf_user_role_map values ('0509e09412534a6e98f04ca79abb6424', 'system.admin');
+insert into awf_user_role_map values ('4028b21c7c4df297017c4e595fd90000', 'service.admin');
+insert into awf_user_role_map values ('40288ad27c729b34017c729c2e370000', 'service.manager');
+insert into awf_user_role_map values ('40288ada7cfd3301017cfd3a78580000', 'general.user');
+insert into awf_user_role_map values ('2c9180867d0b3336017d0de8bf480001', 'workflow.admin');
+insert into awf_user_role_map values ('2c91808e7c75dad2017c781635e20000', 'cmdb.admin');
+insert into awf_user_role_map values ('2c91808e7c75dad2017c781635e22000', 'portal.admin');
 /**
  * 게시판 관리
  */
