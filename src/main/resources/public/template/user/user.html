@@ -63,10 +63,10 @@
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.department}"></label>
                         <div class="flex-row z-input-button">
-                            <input id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"
+                            <input id="organizationId" name="organizationId" th:value="${organizationDetail?.organizationId}"
                                    type="hidden"/>
-                            <input class="z-input text-ellipsis" id="department" name="department" readonly
-                                   th:value="${deptCodeDetail?.codeValue}" type="text">
+                            <input class="z-input text-ellipsis" id="organization" name="organization" readonly
+                                   th:value="${organizationDetail?.organizationName}" type="text">
                             <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);"
                                   tabindex="-1" th:if="!${view}"></span>
                             <button class="z-button-search z-button form" onclick="deptPopUp();" th:if="!${view}"
@@ -151,21 +151,17 @@
         <div class="flex-column z-edit-row">
             <h3 class="sub-title under-bar bold required" th:text="#{user.label.role}"></h3>
         </div>
-
-        <th:block th:each="oRole : ${oRoles}">
-            <input th:type="hidden" th:value="${oRole.roleId}" id="organizationRoles">
-        </th:block>
         <div class="flex-column z-edit-row">
             <div class="z-checkbox-list">
                 <ul>
-                    <li class="user-role-checkbox-wrap" th:each="role : ${roles}">
-                        <label class="z-checkbox" tabindex="0" th:for="|roles*{roleStat.index}|"
-                               th:title="*{role.roleName}">
+                    <li class="user-role-checkbox-wrap" th:each="userRole : ${userRoles}">
+                        <label class="z-checkbox" tabindex="0" th:for="|userRoles*{userRoleStat.index}|"
+                               th:title="*{userRole.roleName}">
                             <input class="user-role-checkbox" name="roles"
-                                   th:checked="*{role.checked}" th:disabled="${view}"
-                                   th:id="|roles*{roleStat.index}|" th:value="*{role.roleId}" type="checkbox">
+                                   th:checked="*{userRole.checked}" th:disabled="${view}"
+                                   th:id="|userRoles*{userRoleStat.index}|" th:value="*{userRole.roleId}" type="checkbox">
                             <span></span>
-                            <span class="z-label" th:text="*{role.roleName}"></span>
+                            <span class="z-label" th:text="*{userRole.roleName}"></span>
                         </label>
                     </li>
                 </ul>
@@ -313,16 +309,17 @@
      * 부서에 부여된 권한이 있는지 확인 후 check와 disabled옵션 추가
      */
     function groupRolesCheck() {
-        let organizationRoles = document.querySelectorAll('#organizationRoles');
-        for (let oRoleId of organizationRoles.values()) {
-            let roles = document.querySelectorAll('input[name=roles]');
-            roles.forEach((roleId) => {
-                if (roleId.value === oRoleId.value) {
-                    roleId.checked = true;
-                    roleId.disabled = true;
+        let organizationRole = [];
+        let userRoles = document.querySelectorAll('input[name=roles]');
+        /*[# th:each="organizationRole : ${organizationRoles}"]*/
+        organizationRole =  /*[[${organizationRole.roleId}]]*/'';
+        userRoles.forEach((userRoleId) => {
+                if (userRoleId.value == organizationRole) {
+                    userRoleId.checked = true;
+                    userRoleId.disabled = true;
                 }
             });
-        }
+        /*[/]*/
     }
 
     function restSubmit(method, url) {
@@ -348,7 +345,7 @@
            email: document.getElementById('email').value,
            useYn: document.getElementById('usageStatus').checked,
            position: document.getElementById('position').value,
-           department: document.getElementById('departmentCode').value,
+           organization: document.getElementById('organizationId').value,
            officeNumber: document.getElementById('officeNumber').value,
            mobileNumber: document.getElementById('mobileNumber').value,
            timezone: document.getElementById('timezone').value,
@@ -473,9 +470,9 @@
         return true;
     }
 
-    function setDepartment(node) {
-        document.getElementById('department').value = node.textContent;
-        document.getElementById('departmentCode').value = node.id;
+    function setOrganization(node) {
+        document.getElementById('organization').value = node.textContent;
+        document.getElementById('organizationId').value = node.id;
     }
 
     function deptPopUp() {
@@ -491,9 +488,9 @@
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
             defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
             leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
-            selectedValue: document.getElementById('departmentCode').value,
+            selectedValue: document.getElementById('organizationId').value,
             callbackFunc: function (response) {
-                setDepartment(response);
+                setOrganization(response);
             }
         });
     }

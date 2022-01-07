@@ -6,6 +6,17 @@
 
 package co.brainz.itsm.user.controller
 
+import co.brainz.framework.auth.mapper.AliceUserAuthMapper
+import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.framework.organization.service.OrganizationService
+import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.role.service.RoleService
+import co.brainz.itsm.user.constants.UserConstants
+import co.brainz.itsm.user.dto.UserSearchCondition
+import co.brainz.itsm.user.service.UserService
 import javax.servlet.http.HttpServletRequest
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
@@ -15,15 +26,6 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import co.brainz.framework.auth.mapper.AliceUserAuthMapper
-import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.constants.AliceUserConstants
-import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.role.service.RoleService
-import co.brainz.itsm.user.constants.UserConstants
-import co.brainz.itsm.user.dto.UserSearchCondition
-import co.brainz.itsm.user.service.UserService
 
 /**
  * 사용자 관리 클래스
@@ -34,7 +36,9 @@ class UserController(
     private val codeService: CodeService,
     private val userService: UserService,
     private val roleService: RoleService,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val organizationService: OrganizationService,
+    private val organizationRepository: OrganizationRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -95,8 +99,12 @@ class UserController(
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
         if (!users.department.isNullOrBlank()) {
-//            val deptCodeDetail = codeService.getDetailCodes(users.department!!)
-//            model.addAttribute("deptCodeDetail", deptCodeDetail)
+            //현재 Organization테이블에 없는 Id값이 user.department에 저장되어 있어 오류 방지용 값 체크하는 부분 추가(103, 104번째 라인)
+            val organizationIds = organizationRepository.findAll().map { it.organizationId }.toSet()
+            if (organizationIds.contains(users.department!!)) {
+            val organizationDetail = organizationService.getDetailOrganization(users.department!!)
+                model.addAttribute("organizationDetail", organizationDetail)
+            }
         }
 
         val allCodes = userService.getInitCodeList()
@@ -115,14 +123,14 @@ class UserController(
                 returnUrl = userEditSelfPage
             }
             UserConstants.UserEdit.EDIT.code -> {
-                model.addAttribute("roles", roleService.getAllRolesToUserCheck(userEntity))
-                model.addAttribute("oRoles", userService.selectOrganizationRolesMap(users.userId))
+                model.addAttribute("userRoles", roleService.getAllRolesToUserCheck(userEntity))
+                model.addAttribute("organizationRoles", userService.selectOrganizationRolesMap(users.userId))
                 model.addAttribute("view", false)
                 returnUrl = userPage
             }
             UserConstants.UserEdit.VIEW.code -> {
-                model.addAttribute("roles", roleService.getAllRolesToUserCheck(userEntity))
-                model.addAttribute("oRoles", userService.selectOrganizationRolesMap(users.userId))
+                model.addAttribute("userRoles", roleService.getAllRolesToUserCheck(userEntity))
+                model.addAttribute("organizationRoles", userService.selectOrganizationRolesMap(users.userId))
                 model.addAttribute("view", true)
                 returnUrl = userPage
             }

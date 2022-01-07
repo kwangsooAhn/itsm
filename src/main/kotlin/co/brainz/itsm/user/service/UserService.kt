@@ -93,7 +93,7 @@ class UserService(
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
     private val wfTokenRepository: WfTokenRepository,
-    private val groupRepository: OrganizationRepository,
+    private val organizationRepository: OrganizationRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository
 ) {
 
@@ -152,7 +152,7 @@ class UserService(
             userList.add(user)
         }
 
-        val organizationList = groupRepository.findByOrganizationSearchList(OrganizationSearchCondition())
+        val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
         queryResult.results.forEach { user ->
             val organization = organizationList.results.firstOrNull { it.organizationId == user.groupId }
             var organizationName = mutableListOf<String>()
@@ -201,7 +201,7 @@ class UserService(
      */
     fun selectOrganizationRolesMap(userId: String): MutableList<RoleListDto> {
         val userDepartment = userRepository.findByUserId(userId).department.toString()
-        val organizationIds = groupRepository.findAll().map { it.organizationId }.toSet()
+        val organizationIds = organizationRepository.findAll().map { it.organizationId }.toSet()
         val oRoles: MutableList<RoleListDto> = mutableListOf()
 
         when (organizationIds.contains(userDepartment)) {
