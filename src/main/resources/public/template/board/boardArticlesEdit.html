@@ -72,7 +72,7 @@
                     <a class="z-button secondary"
                        th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list" sec:authorize="hasAuthority('general') or hasAuthority('system.manage')">
+                <div class="z-button-list" sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')">
                     <button class="z-button primary" th:if="${boardInfo?.boardId} and ${replyYn} == false"
                             th:text="#{common.btn.modify}" onclick ="saveBoard('PUT', 'normal')">
                     </button>

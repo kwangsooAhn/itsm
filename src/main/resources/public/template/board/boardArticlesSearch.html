@@ -26,8 +26,8 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button secondary" onclick="openBoardAdd()"
-                sec:authorize="hasAuthority('general') or hasAuthority('system.manage')" th:text="#{common.btn.add}"></button>
+        <button type="button" class="z-button secondary" onclick="openBoardAdd()" th:text="#{common.btn.add}"
+                sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')"></button>
     </div>
 </div>
 <div layout:fragment="pageList">

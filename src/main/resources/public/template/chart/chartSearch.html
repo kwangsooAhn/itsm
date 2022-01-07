@@ -20,8 +20,6 @@
     <h6 class="description ml-2 pl-2" th:text="#{chart.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="hidden" sec:authorize="hasAuthority('report.manage')" th:name="isRole" th:value="true"/>
-    <input type="hidden" sec:authorize="!hasAuthority('report.manage')" th:name="isRole" th:value="false"/>
     <form id="searchFrm">
         <select id="searchGroupName" name="searchGroupName" class="col-3">
             <option value="" th:text="#{chart.label.all}" selected></option>
@@ -32,12 +30,11 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button secondary" sec:authorize="hasAuthority('chart.create')"
+        <button type="button" class="z-button secondary" sec:authorize="hasAuthority('report.manage')"
                 th:text="#{common.btn.add}" onclick="location.href='/charts/new'"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
-    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''report.manage'')')}"/>
     <div class="z-list-content flex-row" id="chartList"></div>
 </div>
 </body>

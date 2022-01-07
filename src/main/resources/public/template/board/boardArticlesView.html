@@ -52,22 +52,20 @@
                th:text="#{common.btn.list}"></a>
         </div>
         <div class="z-button-list">
-            <button class="z-button primary"
-                    th:if="(${#authorization.expression('hasAuthority(''system.manage'')')})
+            <button type="button" class="z-button primary"
+                    th:if="(${#authorization.expression('hasAuthority(''system.manage'')')}) or (${#authorization.expression('hasAuthority(''portal.manage'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''general'')')})"
                     th:onclick="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
                     th:text="#{common.btn.toModify}">
             </button>
-            <button sec:authorize="hasAuthority('general')"
+            <button type="button" sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')"
                     class="z-button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
-                    th:onclick="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''"
-                    th:text="#{board.btn.reply}">
+                    th:onclick="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''" th:text="#{board.btn.reply}">
             </button>
-            <button class="z-button secondary"
-                    th:if="(${#authorization.expression('hasAuthority(''system.manage'')')})
+            <button type="button" class="z-button secondary"
+                    th:if="(${#authorization.expression('hasAuthority(''system.manage'')')}) or (${#authorization.expression('hasAuthority(''portal.manage'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''general'')')})"
-                    th:onclick="deleteBoard()"
-                    th:text="#{common.btn.delete}">
+                    th:onclick="deleteBoard()" th:text="#{common.btn.delete}">
             </button>
         </div>
     </div>

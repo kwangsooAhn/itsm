@@ -12,8 +12,6 @@
     <h6 class="description ml-2 pl-2" th:text="#{scheduler.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="hidden" sec:authorize="hasAuthority('system.manage')" th:name="isRole" th:value="true"/>
-    <input type="hidden" sec:authorize="!hasAuthority('system.manage')" th:name="isRole" th:value="false"/>
     <form id="searchFrm" onsubmit = "return false">
         <input type="text" id="searchValue" name="searchValue" class="z-input i-search text-ellipsis col-5 mr-2" maxlength="100"
                th:placeholder="#{scheduler.label.searchPlaceholder}"/>

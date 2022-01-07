@@ -12,8 +12,6 @@
     <h6 class="description ml-2 pl-2" th:text="#{customCode.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="hidden" sec:authorize="hasAuthority('workflow.manage')" th:name="isRole" th:value="true"/>
-    <input type="hidden" sec:authorize="!hasAuthority('workflow.manage')" th:name="isRole" th:value="false"/>
     <form id="searchFrm">
         <select id="searchType" name="searchType" class="col-3">
             <option value="" th:text="#{customCode.label.all}" selected></option>

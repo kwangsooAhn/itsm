@@ -41,8 +41,6 @@
 </div>
 <div layout:fragment="pageSearchResult">
     <div class="z-token-content flex-fill">
-        <input type="hidden" sec:authorize="hasAuthority('general')" th:name="isRole" th:value="true"/>
-        <input type="hidden" sec:authorize="!hasAuthority('general')" th:name="isRole" th:value="false"/>
         <div id="tokenList"></div>
     </div>
 </div>

@@ -95,7 +95,7 @@
                 <div class="z-button-list">
                     <a class="z-button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list" sec:authorize="hasAuthority('general')">
+                <div class="z-button-list" sec:authorize="hasAuthority('portal.admin')">
                     <button  th:if="!${notice?.noticeNo}" type="button" id="insert"
                             class="z-button primary" onclick="saveNotice('POST')" th:text="#{common.btn.register}">
                     </button>
