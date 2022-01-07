@@ -2040,7 +2040,7 @@ select {
   left: inherit;
 }
 .z-switch-list {
-  height: 20rem;
+  height: 22.5rem;
   padding: 0.5rem 0.625rem;
 }
 .z-switch-list .right {
@@ -7739,3 +7739,5 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
+
+/*# sourceMappingURL=itsm.css.map */
