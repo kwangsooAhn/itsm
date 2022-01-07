@@ -12,8 +12,6 @@
     <h6 class="description ml-2 pl-2" th:text="#{notice.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>
-    <input type="hidden" name="isRole" sec:authorize="!hasAuthority('notice.update')" th:value="false"/>
     <form id="searchFrm">
         <input type="text" class="z-input i-search col-5 text-ellipsis" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{notice.label.searchPlaceholder}"/>
@@ -25,7 +23,7 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" onclick="location.href='/notices/new'"
-                sec:authorize="hasAuthority('notice.create')" th:text="#{common.btn.add}"></button>
+                sec:authorize="hasAuthority('portal.admin')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
@@ -120,84 +118,6 @@
             dt.textContent = userDateTime;
             dt.setAttribute('title', userDateTime);
         });
-    }
-
-    // Tr 동적 데이터 만들기
-    function getDataTemplate(data) {
-        const div = document.querySelector('.z-table-body .os-content');
-        const tr = document.createElement('tr');
-        tr.className = 'flex-row align-items-center';
-
-        const tdNoticeTitle = document.createElement('td');
-        tdNoticeTitle.style.width = '30%';
-        tdNoticeTitle.className = 'align-left underline';
-        const aNoticeTitle = document.createElement('a');
-        if (document.getElementsByName('isRole')[0].value === 'true') {
-            aNoticeTitle.href = '/notices/'+ data.noticeNo +'/edit';
-        } else {
-            aNoticeTitle.href = '/notices/'+ data.noticeNo +'/view';
-        }
-        aNoticeTitle.innerText = data.noticeTitle;
-        aNoticeTitle.setAttribute('title', data.noticeTitle);
-        tdNoticeTitle.appendChild(aNoticeTitle);
-
-        const tdPopYn = document.createElement('td');
-        tdPopYn.style.width = '5%';
-        tdPopYn.className = 'align-center';
-        const aPopYn = document.createElement('a');
-        if (data.popYn === true) {
-            const popYnBtn = document.createElement('button');
-            popYnBtn.type = 'button';
-            popYnBtn.className = 'z-button-icon form';
-            const icon =  document.createElement('span');
-            icon.className = 'z-icon i-popup';
-            popYnBtn.appendChild(icon);
-            aPopYn.appendChild(popYnBtn);
-            aPopYn.onclick = function() {
-                openPopUp(data.noticeNo, data.popWidth, data.popHeight);
-            };
-            tdPopYn.appendChild(aPopYn);
-        }
-
-        const tdUserName = document.createElement('td');
-        tdUserName.innerText = data.createUserName;
-        tdUserName.setAttribute('title', data.createUserName);
-        tdUserName.style.width = '10%';
-        tdUserName.className = 'align-center';
-
-        const tdPopDt = document.createElement('td');
-        if (i18n.userDateTime(data.popStrtDt) !== '') {
-            const userDateTime = i18n.userDateTime(data.popStrtDt) + ' ~ ' + i18n.userDateTime(data.popStrtDt);
-            tdPopDt.innerText = userDateTime;
-            tdPopDt.setAttribute('title', userDateTime);
-        }
-        tdPopDt.style.width = '20%';
-        tdPopDt.className = 'align-left';
-
-        const tdNoticeDt = document.createElement('td');
-        if (i18n.userDateTime(data.topNoticeStrtDt) !== '') {
-            const userDateTime = i18n.userDateTime(data.topNoticeStrtDt) + ' ~ ' +
-                i18n.userDateTime(data.topNoticeEndDt);
-            tdNoticeDt.innerText = userDateTime;
-            tdNoticeDt.setAttribute('title', userDateTime);
-        }
-        tdNoticeDt.style.width = '20%';
-        tdNoticeDt.className = 'align-left';
-
-        const tdCreateDt = document.createElement('td');
-        const userDateTime = i18n.userDateTime(data.createDt);
-        tdCreateDt.innerText = userDateTime;
-        tdCreateDt.setAttribute('title', userDateTime);
-        tdCreateDt.style.width = '15%';
-        tdCreateDt.className = 'align-left';
-
-        tr.appendChild(tdNoticeTitle);
-        tr.appendChild(tdPopYn);
-        tr.appendChild(tdUserName);
-        tr.appendChild(tdPopDt);
-        tr.appendChild(tdNoticeDt);
-        tr.appendChild(tdCreateDt);
-        div.appendChild(tr);
     }
     /* ]]> */
 </script>

@@ -145,25 +145,20 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/schedulers/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}">
-                <button class="z-button primary" onclick="actionScheduler('post')"
-                        sec:authorize="hasAuthority('scheduler.create')"
+            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
+                <button type="button" class="z-button primary" onclick="actionScheduler('post')"
                         th:if="${schedule == null}" th:text="#{common.btn.register}"></button>
-                <button class="z-button primary" onclick="actionScheduler('put')"
-                        sec:authorize="hasAuthority('scheduler.update')"
+                <button type="button" class="z-button primary" onclick="actionScheduler('put')"
                         th:disabled="${!schedule.editable}" th:if="${schedule != null}"
                         th:text="#{common.btn.modify}">
                 </button>
-                <button class="z-button secondary" onclick="deleteScheduler()"
-                        sec:authorize="hasAuthority('scheduler.delete')"
+                <button type="button" class="z-button secondary" onclick="deleteScheduler()"
                         th:disabled="${!schedule.editable}" th:if="${schedule != null}"
                         th:text="#{common.btn.delete}">
                 </button>
-                <button class="z-button secondary" onclick="actionScheduler('execute')"
-                        sec:authorize="hasAuthority('scheduler.execute')"
+                <button type="button" class="z-button secondary" onclick="actionScheduler('execute')"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.immediatelyExecute}"></button>
-                <button class="z-button secondary" onclick="openHistoryViewModal(false)"
-                        sec:authorize="hasAuthority('scheduler.read')"
+                <button type="button" class="z-button secondary" onclick="openHistoryViewModal(false)"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.history}"></button>
             </div>
         </div>

@@ -118,17 +118,14 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}">
-                <button class="z-button primary" onclick="saveCustomCode('POST')"
-                        sec:authorize="hasAuthority('custom.code.create')"
+            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
+                <button type="button" class="z-button primary" onclick="saveCustomCode('POST')"
                         th:if="${customCode == null}" th:text="#{common.btn.register}"></button>
-                <button class="z-button primary" onclick="saveCustomCode('PUT')"
-                        sec:authorize="hasAuthority('custom.code.update')"
+                <button type="button" class="z-button primary" onclick="saveCustomCode('PUT')"
                         th:disabled="${!customCode.enabled}" th:if="${customCode?.customCodeId}"
                         th:text="#{common.btn.modify}">
                 </button>
-                <button class="z-button secondary" onclick="deleteCustomCode('DELETE')"
-                        sec:authorize="hasAuthority('custom.code.delete')"
+                <button type="button" class="z-button secondary" onclick="deleteCustomCode('DELETE')"
                         th:disabled="${!customCode.enabled}" th:if="${customCode?.customCodeId}"
                         th:text="#{common.btn.delete}">
                 </button>

@@ -65,15 +65,12 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}">
-                <button class="z-button primary" onclick="saveAttribute('POST')"
-                        sec:authorize="hasAuthority('cmdb.attribute.create')"
+            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('cmdb.manage')">
+                <button type="button" class="z-button primary" onclick="saveAttribute('POST')"
                         th:if="${attribute == null}" th:text="#{common.btn.register}"></button>
-                <button class="z-button primary" onclick="saveAttribute('PUT')"
-                        sec:authorize="hasAuthority('cmdb.attribute.update')"
+                <button type="button" class="z-button primary" onclick="saveAttribute('PUT')"
                         th:if="${attribute?.attributeId}" th:text="#{common.btn.modify}"></button>
-                <button class="z-button secondary" onclick="deleteAttribute()"
-                        sec:authorize="hasAuthority('cmdb.attribute.delete')"
+                <button type="button" class="z-button secondary" onclick="deleteAttribute()"
                         th:disabled="${!attribute.enabled}" th:if="${attribute?.attributeId}"
                         th:text="#{common.btn.delete}"></button>
             </div>

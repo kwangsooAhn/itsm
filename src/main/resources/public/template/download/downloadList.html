@@ -24,10 +24,10 @@
             <td style="width:5%;" class="align-center" th:text="|${download.downloadSeq}|" th:title="|${download.downloadSeq}|"></td>
             <td style="width:10%;" class="align-center" th:text="${download.downloadCategoryName}" th:title="${download.downloadCategoryName}"></td>
             <td style="width:45%;" class="align-left underline">
-                <a sec:authorize="!hasAuthority('download.update')" th:text="${download.downloadTitle}"
+                <a sec:authorize="hasAuthority('general')" th:text="${download.downloadTitle}"
                    th:href="@{/downloads/{id}/view(id=${download.downloadId})}" th:title="${download.downloadTitle}">
                 </a>
-                <a sec:authorize="hasAuthority('download.update')" th:text="${download.downloadTitle}"
+                <a sec:authorize="hasAuthority('portal.admin')" th:text="${download.downloadTitle}"
                    th:href="@{/downloads/{id}/edit(id=${download.downloadId})}" th:title="${download.downloadTitle}"></a>
             </td>
             <td style="width:10%;" class="align-center" th:text="${download.views}" th:title="${download.views}"></td>

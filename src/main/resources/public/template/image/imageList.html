@@ -15,9 +15,9 @@
     <span id="totalCount" class="z-search-count"></span>
 </div>
 <div layout:fragment="pageSearchResult">
-    <input type="hidden" id="creatable" th:value="${#authorization.expression('hasAuthority(''image.create'')')}"/>
-    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''image.update'')')}"/>
-    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''image.delete'')')}"/>
+    <input type="hidden" id="creatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
+    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
+    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
     <div class="z-image-content-edit flex-fill">
         <div class="z-thumbnail-main flex-row flex-wrap" id="thumbnailMain"></div>
     </div>

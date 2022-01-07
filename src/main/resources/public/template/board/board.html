@@ -131,13 +131,14 @@
         <div class="z-button-list">
             <a class="z-button secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
         </div>
-        <div class="z-button-list" th:if="!${view}">
-            <button class="z-button primary" onclick="saveBoardAdmin('POST')"
-                    sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.register}" th:unless="${boardAdmin?.boardAdminId}"></button>
-            <button class="z-button primary" onclick="saveBoardAdmin('PUT')"
-                    sec:authorize="hasAuthority('board.admin.update')" th:if="${boardAdmin?.boardAdminId}" th:text="#{common.btn.modify}"></button>
-            <button class="z-button secondary" onclick="deleteBoardAdmin()" sec:authorize="hasAuthority('board.admin.delete')"
-                    th:disabled="${!boardAdmin.enabled}" th:if="${boardAdmin?.boardAdminId}" th:text="#{common.btn.delete}"></button>
+        <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage') or hasAuthority('portal.admin')">
+            <button type="button" class="z-button primary" th:unless="${boardAdmin?.boardAdminId}"
+                    th:text="#{common.btn.register}" onclick="saveBoardAdmin('POST')"></button>
+            <button type="button"class="z-button primary" th:if="${boardAdmin?.boardAdminId}"
+                    th:text="#{common.btn.modify}" onclick="saveBoardAdmin('PUT')"></button>
+            <button type="button" class="z-button secondary" th:if="${boardAdmin?.boardAdminId}"
+                    th:disabled="${!boardAdmin.enabled}" th:text="#{common.btn.delete}"
+                    onclick="deleteBoardAdmin()"></button>
         </div>
     </div>
 </div>

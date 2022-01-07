@@ -16,7 +16,7 @@
     <h6 class="description ml-2 pl-2" th:text="#{process.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''process.update'')')}"/>
+    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
     <form id="searchFrm" onsubmit = "return false">
         <input type="text" id="searchValue" name="searchValue" class="z-input i-search text-ellipsis col-5 mr-2"  maxlength="100"
                th:placeholder="#{process.label.searchPlaceholder}"/>
@@ -24,9 +24,9 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button primary" onclick="openProcessRegister();"
-                sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.add}"></button>
+                sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.add}"></button>
         <button type="button" class="z-button secondary" onclick="openProcessImport();"
-                sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>
+                sec:authorize="hasAuthority('workflow.manage')" th:text="#{process.btn.import}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">

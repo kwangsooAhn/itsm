@@ -73,13 +73,8 @@ GET /rest/roles/{roleId}
     "updateDt": null,
     "arrAuthList": [
       {
-        "authId": "action.cancel",
-        "cuthName": "문서 취소",
-        "authDesc": null
-      },
-      {
-        "authId": "action.terminate",
-        "cuthName": "문서 종결",
+        "authId": "workflow.expire",
+        "cuthName": "업무 취소",
         "authDesc": null
       }
     ],
@@ -110,9 +105,8 @@ POST /rest/roles
   "updateUserName": null,
   "updateDt": null,
   "arrAuthId": {
-    0: "document.read.admin",
-    1: "role.create",
-    2: "document.read.admin"
+    0: "workflow.manage",
+    1: "role.create"
   },
   "arrAuthList": null,
   "userRoleMapCount": 0
