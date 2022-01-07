@@ -84,7 +84,7 @@ class WfElementService(
             } while (nextElementData.elementType != WfElementConstants.ElementType.USER_TASK.value)
         }
 
-        return wfElementRepository.getOne(nextElementId)
+        return nextElementData
     }
 
     /**
