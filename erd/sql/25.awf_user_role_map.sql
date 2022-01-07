@@ -16,4 +16,4 @@ COMMENT ON TABLE awf_user_role_map IS '사용자역할매핑';
 COMMENT ON COLUMN awf_user_role_map.user_key IS '사용자키';
 COMMENT ON COLUMN awf_user_role_map.role_id IS '역할아이디';
 
-insert into awf_user_role_map values ('0509e09412534a6e98f04ca79abb6424', 'admin');
+insert into awf_user_role_map values ('0509e09412534a6e98f04ca79abb6424', 'system.admin');

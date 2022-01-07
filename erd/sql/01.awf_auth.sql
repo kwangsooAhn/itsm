@@ -25,5 +25,12 @@ COMMENT ON COLUMN awf_auth.create_dt IS '등록일';
 COMMENT ON COLUMN awf_auth.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_auth.update_dt IS '수정일';
 
-insert into awf_auth values ('action.cancel', '문서 취소', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('action.terminate', '문서 종결', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('general', '일반 사용', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('workflow.manage', '업무흐름 관리', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('workflow.expire', '업무 취소', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.manage', 'CMDB 관리', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.view', 'CMDB 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('report.manage', '보고서 관리', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('report.view', '보고서 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('system.manage', '시스템 관리', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('portal.manage', '포털 관리', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);

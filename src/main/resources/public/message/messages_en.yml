@@ -1161,6 +1161,15 @@ report:
 role:
   btn:
     selectAll: "SELECT ALL"
+  desc:
+    cmdbManage: "You can configure CMDB related settings such as CI attributes, groups, and types."
+    cmdbView: "You can search the CMDB contents to inquire."
+    general: "You can fill out the application form and inquire about FAQ/Downloads/Notice, and you can register or inquire articles on the bulletin board."
+    reportManage: "You can edit custom charts and create report templates."
+    reportView: "You can search for the report contents."
+    systemManage: "Has user, role, board, scheduler, and code management rights."
+    workflowManage: "You can edit the document form and process, and set the related workflow."
+    workflowProcess: "Can handle related workflows."
   label:
     auth: "Role Auth"
     count: "total {0}"
