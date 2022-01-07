@@ -116,7 +116,7 @@ class WfDocumentService(
         val form = wfFormService.getFormData(documentEntity.form.formId)
         val dummyTokenDto =
             WfTokenDto(elementId = wfElementService.getStartElement(documentEntity.process.processId).elementId)
-        val firstElement = wfElementService.getNextElement(dummyTokenDto)
+        val firstElement = wfElementService.getFirstUserTaskElement(dummyTokenDto)
         val documentDisplayList =
             wfDocumentDisplayRepository.findByDocumentIdAndElementId(documentId, firstElement.elementId)
 
