@@ -102,7 +102,7 @@ class OrganizationService(
             level = organizationEntity.level,
             seqNum = organizationEntity.seqNum,
             editable= organizationEntity.editable,
-            roles = organizationRoleMapRepository.findOrganizationUseRoleByOrganizationId(organizationId)
+            roles = organizationRoleMapRepository.findRoleListByOrganizationId(organizationId)
         )
     }
 

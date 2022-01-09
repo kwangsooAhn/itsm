@@ -10,5 +10,5 @@ import co.brainz.itsm.role.dto.RoleListDto
 
 interface OrganizationRoleMapRepositoryCustom : AliceRepositoryCustom {
 
-    fun findOrganizationUseRoleByOrganizationId(organizationId: String): MutableList<RoleListDto>
+    fun findRoleListByOrganizationId(organizationId: String): MutableList<RoleListDto>
 }

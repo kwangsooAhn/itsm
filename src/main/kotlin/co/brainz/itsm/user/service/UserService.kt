@@ -26,7 +26,6 @@ import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.repository.OrganizationRepository
-import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -93,8 +92,7 @@ class UserService(
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
     private val wfTokenRepository: WfTokenRepository,
-    private val organizationRepository: OrganizationRepository,
-    private val organizationRoleMapRepository: OrganizationRoleMapRepository
+    private val organizationRepository: OrganizationRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -195,27 +193,6 @@ class UserService(
         }
         return organizationName
     }
-
-    /**
-     * 부서에 부여된 권한이 있을 시 부여된 권한 조회
-     */
-    fun selectOrganizationRolesMap(userId: String): MutableList<RoleListDto> {
-        val userDepartment = userRepository.findByUserId(userId).department.toString()
-        val organizationIds = organizationRepository.findAll().map { it.organizationId }.toSet()
-        val oRoles: MutableList<RoleListDto> = mutableListOf()
-
-        when (organizationIds.contains(userDepartment)) {
-            true -> {
-                val oRolesSearch: MutableList<RoleListDto> =
-                    organizationRoleMapRepository.findOrganizationUseRoleByOrganizationId(userDepartment)
-                for (oRole in oRolesSearch) {
-                    oRoles += oRole
-                }
-            }
-        }
-        return oRoles
-    }
-
 
     /**
      * 사용자 ID로 해당 정보를 1건 조회한다.

@@ -64,7 +64,7 @@ class TokenController(
             AliceUserConstants.Status.EDIT.code -> return statusPage
         }
         val documentSearchCondition = DocumentSearchCondition()
-        val userRoles = roleService.getUserRoles(userKey)
+        val userRoles = roleService.getUserRoleList(userKey)
         run loop@{
             userRoles.forEach { role ->
                 if (role.roleId == AliceUserConstants.ADMIN_ID) {

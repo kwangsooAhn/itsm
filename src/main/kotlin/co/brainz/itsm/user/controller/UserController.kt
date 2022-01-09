@@ -123,14 +123,16 @@ class UserController(
                 returnUrl = userEditSelfPage
             }
             UserConstants.UserEdit.EDIT.code -> {
-                model.addAttribute("userRoles", roleService.getAllRolesToUserCheck(userEntity))
-                model.addAttribute("organizationRoles", userService.selectOrganizationRolesMap(users.userId))
+                model.addAttribute("allRoles", roleService.getAllRoleList())
+                model.addAttribute("userRoles", roleService.getUserRoleList(userKey))
+                model.addAttribute("organizationRoles", roleService.getOrganizationRolesList(users.userId))
                 model.addAttribute("view", false)
                 returnUrl = userPage
             }
             UserConstants.UserEdit.VIEW.code -> {
-                model.addAttribute("userRoles", roleService.getAllRolesToUserCheck(userEntity))
-                model.addAttribute("organizationRoles", userService.selectOrganizationRolesMap(users.userId))
+                model.addAttribute("allRoles", roleService.getAllRoleList())
+                model.addAttribute("userRoles", roleService.getUserRoleList(userKey))
+                model.addAttribute("organizationRoles", roleService.getOrganizationRolesList(users.userId))
                 model.addAttribute("view", true)
                 returnUrl = userPage
             }
@@ -161,7 +163,7 @@ class UserController(
         val allCodes = userService.getInitCodeList()
         model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
         model.addAttribute("timezoneList", userService.selectTimezoneList())
-        model.addAttribute("roles", roleService.getAllRolesToUserCheck(null))
+        model.addAttribute("roles", roleService.getAllRoleList())
         model.addAttribute("themeList", allCodes["themeList"])
         model.addAttribute("langList", allCodes["langList"])
         model.addAttribute("dateList", allCodes["dateList"])

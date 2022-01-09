@@ -69,7 +69,7 @@
                                    th:value="${organizationDetail?.organizationName}" type="text">
                             <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);"
                                   tabindex="-1" th:if="!${view}"></span>
-                            <button class="z-button-search z-button form" onclick="deptPopUp();" th:if="!${view}"
+                            <button class="z-button-search z-button form" onclick="organizationPopUp();" th:if="!${view}"
                                     th:text="#{common.btn.select}" type="button"></button>
                         </div>
                     </div>
@@ -154,14 +154,14 @@
         <div class="flex-column z-edit-row">
             <div class="z-checkbox-list">
                 <ul>
-                    <li class="user-role-checkbox-wrap" th:each="userRole : ${userRoles}">
-                        <label class="z-checkbox" tabindex="0" th:for="|userRoles*{userRoleStat.index}|"
-                               th:title="*{userRole.roleName}">
+                    <li class="user-role-checkbox-wrap" th:each="allRole : ${allRoles}">
+                        <label class="z-checkbox" tabindex="0" th:for="|allRoles*{allRoleStat.index}|"
+                               th:title="*{allRole.roleName}">
                             <input class="user-role-checkbox" name="roles"
-                                   th:checked="*{userRole.checked}" th:disabled="${view}"
-                                   th:id="|userRoles*{userRoleStat.index}|" th:value="*{userRole.roleId}" type="checkbox">
+                                    th:disabled="${view}"
+                                   th:id="|allRoles*{allRoleStat.index}|" th:value="*{allRole.roleId}" type="checkbox">
                             <span></span>
-                            <span class="z-label" th:text="*{userRole.roleName}"></span>
+                            <span class="z-label" th:text="*{allRole.roleName}"></span>
                         </label>
                     </li>
                 </ul>
@@ -260,7 +260,8 @@
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
 
-        groupRolesCheck();
+        let organizationId = document.getElementById('organizationId').value;
+        setUserRoleCheck(organizationId);
         setAbsenceDisplay();
     };
 
@@ -305,23 +306,6 @@
         restSubmit(method, url);
     }
 
-    /**
-     * 부서에 부여된 권한이 있는지 확인 후 check와 disabled옵션 추가
-     */
-    function groupRolesCheck() {
-        let organizationRole = [];
-        let userRoles = document.querySelectorAll('input[name=roles]');
-        /*[# th:each="organizationRole : ${organizationRoles}"]*/
-        organizationRole =  /*[[${organizationRole.roleId}]]*/'';
-        userRoles.forEach((userRoleId) => {
-                if (userRoleId.value == organizationRole) {
-                    userRoleId.checked = true;
-                    userRoleId.disabled = true;
-                }
-            });
-        /*[/]*/
-    }
-
     function restSubmit(method, url) {
 
         let arrRoleValue = [];
@@ -345,7 +329,7 @@
            email: document.getElementById('email').value,
            useYn: document.getElementById('usageStatus').checked,
            position: document.getElementById('position').value,
-           organization: document.getElementById('organizationId').value,
+           department: document.getElementById('organizationId').value,
            officeNumber: document.getElementById('officeNumber').value,
            mobileNumber: document.getElementById('mobileNumber').value,
            timezone: document.getElementById('timezone').value,
@@ -470,27 +454,56 @@
         return true;
     }
 
-    function setOrganization(node) {
-        document.getElementById('organization').value = node.textContent;
-        document.getElementById('organizationId').value = node.id;
+    function setUserRoleCheck(organizationId) {
+        let userRoles = [];
+        /*[# th:each="userRole : ${userRoles}"]*/
+        userRoles.push(/*[[${userRole.roleId}]]*/);
+        /*[/]*/
+        const allRoles = document.querySelectorAll('input[name=roles]');
+
+        aliceJs.fetchJson('/rest/organizations/' + organizationId, {
+            method: 'GET',
+        }).then((response) => {
+            document.getElementById('organizationId').value = response.data.organizationId;
+            document.getElementById('organization').value = response.data.organizationName;
+
+            allRoles.forEach(function (userRole) {
+                userRole.disabled = false;
+                userRole.checked = false;
+                const matching = response.data.roles.find(function (organizationRole) {
+                    return organizationRole.roleId === userRole.value
+                });
+
+                if (matching) {
+                    userRole.disabled = true;
+                    userRole.checked = true;
+                }
+            });
+            userRoles.forEach(function (userRole) {
+                allRoles.forEach(function (allRole) {
+                    if (userRole === allRole.value) {
+                        allRole.checked = true;
+                    }
+                });
+            });
+        });
     }
 
-    function deptPopUp() {
-        const rootCode = 'department';
+    function organizationPopUp() {
+        const rootCode = 'organization';
         tree.load({
             view: 'modal',
             title: i18n.msg('department.label.deptList'),
-            dataUrl: '/rest/codes?pCode=' + rootCode,
-            root: rootCode,
-            rootLevel: 3,
+            dataUrl: '/rest/organizations',
+            source: rootCode,
             target: 'treeList',
-            text: 'codeName',
+            text: 'organizationName',
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
             defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
             leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
             selectedValue: document.getElementById('organizationId').value,
             callbackFunc: function (response) {
-                setOrganization(response);
+                setOrganization(response.id);
             }
         });
     }

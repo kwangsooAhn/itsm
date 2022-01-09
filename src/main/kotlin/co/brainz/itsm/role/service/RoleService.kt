@@ -9,10 +9,11 @@ import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceRoleAuthMapEntity
 import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
 import co.brainz.framework.auth.entity.AliceRoleEntity
-import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceAuthRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
@@ -27,6 +28,7 @@ import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.dto.RoleListReturnDto
 import co.brainz.itsm.role.dto.RoleSearchCondition
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.user.repository.UserRepository
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.springframework.http.ResponseEntity
@@ -39,7 +41,10 @@ class RoleService(
     private val authRepository: AliceAuthRepository,
     private val roleAuthMapRepository: AliceRoleAuthMapRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
-    private val excelComponent: ExcelComponent
+    private val excelComponent: ExcelComponent,
+    private val userRepository: UserRepository,
+    private val organizationRepository: OrganizationRepository,
+    private val organizationRoleMapRepository: OrganizationRoleMapRepository
 ) {
     /**
      * 상단 전체 역할정보를 가져온다.
@@ -167,35 +172,48 @@ class RoleService(
     }
 
     /**
+     * 전체 역할 목록 조회
+     */
+    fun getAllRoleList(): MutableList<RoleListDto> {
+        val allRoles = roleRepository.findAll()
+        val roleList: MutableList<RoleListDto> = mutableListOf()
+
+        allRoles.forEach {role ->
+            val roleDto = RoleListDto(
+                roleId = role.roleId,
+                roleName = role.roleName,
+                roleDesc = role.roleDesc
+            )
+            roleList.add(roleDto)
+        }
+        return roleList
+    }
+
+    /**
      * 사용자의 역할 조회
      */
-    fun getUserRoles(userKey: String): MutableList<RoleListDto> {
+    fun getUserRoleList(userKey: String): MutableList<RoleListDto> {
         return userRoleMapRepository.findUserRoleByUserKey(userKey)
     }
 
     /**
-     * 전체 역할 목록 조회 및 사용자가 가지고 있는 역할 체크
+     * 부서에 부여된 권한이 있을 시 부여된 권한 조회
      */
-    fun getAllRolesToUserCheck(userEntity: AliceUserEntity?): MutableList<RoleDetailDto> {
-        val allRoles = roleRepository.findAll()
-        val userRoleIds = mutableListOf<String>()
-        if (userEntity != null) {
-            val userRoles = this.getUserRoles(userEntity.userKey)
-            for (userRole in userRoles) {
-                userRoleIds.add(userRole.roleId)
+    fun getOrganizationRolesList(userId: String): MutableList<RoleListDto> {
+        val userOrganization = userRepository.findByUserId(userId).department.toString()
+        val organizationIds = organizationRepository.findAll().map { it.organizationId }.toSet()
+        val organizationRoleList: MutableList<RoleListDto> = mutableListOf()
+
+        when (organizationIds.contains(userOrganization)) {
+            true -> {
+                val roleList: MutableList<RoleListDto> =
+                    organizationRoleMapRepository.findRoleListByOrganizationId(userOrganization)
+                for (organizationRole in roleList) {
+                    organizationRoleList += organizationRole
+                }
             }
         }
-        val roleDetailDtoList = mutableListOf<RoleDetailDto>()
-        for (role in allRoles) {
-            roleDetailDtoList.add(
-                RoleDetailDto(
-                    roleId = role.roleId,
-                    roleName = role.roleName,
-                    checked = userRoleIds.contains(role.roleId)
-                )
-            )
-        }
-        return roleDetailDtoList
+        return organizationRoleList
     }
 
     /**
