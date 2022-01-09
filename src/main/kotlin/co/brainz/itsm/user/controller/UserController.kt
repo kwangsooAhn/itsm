@@ -125,14 +125,12 @@ class UserController(
             UserConstants.UserEdit.EDIT.code -> {
                 model.addAttribute("allRoles", roleService.getAllRoleList())
                 model.addAttribute("userRoles", roleService.getUserRoleList(userKey))
-                model.addAttribute("organizationRoles", roleService.getOrganizationRolesList(users.userId))
                 model.addAttribute("view", false)
                 returnUrl = userPage
             }
             UserConstants.UserEdit.VIEW.code -> {
                 model.addAttribute("allRoles", roleService.getAllRoleList())
                 model.addAttribute("userRoles", roleService.getUserRoleList(userKey))
-                model.addAttribute("organizationRoles", roleService.getOrganizationRolesList(users.userId))
                 model.addAttribute("view", true)
                 returnUrl = userPage
             }

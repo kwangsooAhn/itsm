@@ -467,16 +467,16 @@
             document.getElementById('organizationId').value = response.data.organizationId;
             document.getElementById('organization').value = response.data.organizationName;
 
-            allRoles.forEach(function (userRole) {
-                userRole.disabled = false;
-                userRole.checked = false;
+            allRoles.forEach(function (allRole) {
+                allRole.disabled = false;
+                allRole.checked = false;
                 const matching = response.data.roles.find(function (organizationRole) {
-                    return organizationRole.roleId === userRole.value
+                    return organizationRole.roleId === allRole.value
                 });
 
                 if (matching) {
-                    userRole.disabled = true;
-                    userRole.checked = true;
+                    allRole.disabled = true;
+                    allRole.checked = true;
                 }
             });
             userRoles.forEach(function (userRole) {
@@ -503,7 +503,7 @@
             leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
             selectedValue: document.getElementById('organizationId').value,
             callbackFunc: function (response) {
-                setOrganization(response.id);
+                setUserRoleCheck(response.id);
             }
         });
     }

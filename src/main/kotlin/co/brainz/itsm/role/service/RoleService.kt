@@ -197,26 +197,6 @@ class RoleService(
     }
 
     /**
-     * 부서에 부여된 권한이 있을 시 부여된 권한 조회
-     */
-    fun getOrganizationRolesList(userId: String): MutableList<RoleListDto> {
-        val userOrganization = userRepository.findByUserId(userId).department.toString()
-        val organizationIds = organizationRepository.findAll().map { it.organizationId }.toSet()
-        val organizationRoleList: MutableList<RoleListDto> = mutableListOf()
-
-        when (organizationIds.contains(userOrganization)) {
-            true -> {
-                val roleList: MutableList<RoleListDto> =
-                    organizationRoleMapRepository.findRoleListByOrganizationId(userOrganization)
-                for (organizationRole in roleList) {
-                    organizationRoleList += organizationRole
-                }
-            }
-        }
-        return organizationRoleList
-    }
-
-    /**
      * 역할 목록 Excel 다운로드
      */
     fun getRoleListExcelDownload(roleSearchCondition: RoleSearchCondition): ResponseEntity<ByteArray> {
