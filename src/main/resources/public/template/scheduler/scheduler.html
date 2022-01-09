@@ -179,6 +179,8 @@
     const STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST = '4';
     const STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST = '5';
     let offsetCount = 0;
+    let minExecuteTime = [[${executeTime.minExecuteTime}]];
+    let maxExecuteTime = [[${executeTime.maxExecuteTime}]];
 
     window.onload = function () {
         changeContainer(document.getElementById('taskType').value);

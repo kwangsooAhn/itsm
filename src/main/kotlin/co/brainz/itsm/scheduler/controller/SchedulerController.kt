@@ -77,6 +77,7 @@ class SchedulerController(
         )
         model.addAttribute("schedule", schedulerService.getSchedulerDetail(taskId))
         model.addAttribute("view", true)
+        model.addAttribute("executeTime", schedulerService.getSchedulerExecuteHistory(taskId))
         return schedulerPage
     }
 
@@ -92,6 +93,7 @@ class SchedulerController(
         )
         model.addAttribute("schedule", schedulerService.getSchedulerDetail(taskId))
         model.addAttribute("view", false)
+        model.addAttribute("executeTime", schedulerService.getSchedulerExecuteHistory(taskId))
         return schedulerPage
     }
 
