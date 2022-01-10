@@ -51,8 +51,8 @@
     // 화살표 아이콘
     .z-icon {
       &.i-arrow-right {
+        @include rotate(270);
         display: table-cell;
-        @include rotate(180);
         background: $group-accordion-icon-color;
         opacity: 0;
       }

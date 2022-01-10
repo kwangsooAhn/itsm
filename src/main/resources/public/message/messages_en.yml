@@ -626,6 +626,7 @@ error:
 # FAQ
 faq:
   label:
+    all: "ALL"
     category: "Category"
     edit: "FAQ Edit"
     faq: "FAQ"
@@ -913,6 +914,7 @@ menu:
     auth: "Auth"
     boardAdmin: "Board management"
     code: "Code management"
+    organization: "Department"
     parent: "System config"
     product: "Product Info"
     role: "Role"
@@ -997,6 +999,29 @@ notification:
   msg:
     description: "Up to 50 displays."
     noNotificationData: "No notifications."
+
+# Organization
+organization:
+  label:
+    organization: "Department"
+    organizationId: "Department Id"
+    description: "Department Description"
+    name: "Department Name"
+    pOrganizationName: "Parent Department Name"
+    role: "Member default role"
+    searchPlaceholder: "Department name"
+    seqNum: "The order of the output"
+    useYn: "Use enable"
+  msg:
+    duplicateOrganizationId: "Duplicate Department Id."
+    duplicateOrganizationName: "Duplicate department name."
+    editDescription: "Add, view and manage department."
+    enterOrganizationId: "Please enter a department Id."
+    enterOrganizationName: "Please enter a department name"
+    enterPOrganizationName: "Please enter a parent department name."
+    pOrganizationNotExist: "Parent organization does not exist."
+    selectRole: "Please select a member default role."
+    failedOrganizationDelete: "Failed to delete a department because of a member."
 
 # Portal
 portal:

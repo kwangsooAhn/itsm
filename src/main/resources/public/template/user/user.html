@@ -31,6 +31,12 @@
                          th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <label for="userId">
                             <span th:classappend="${view} ? '':'required'" th:text="#{user.label.id}"></span>
+                            <div class="z-help-tooltip">
+                                <span class="z-icon i-tooltip"></span>
+                                <div class="z-tooltip-contents">
+                                    <span th:utext="#{user.tooltip.idRule}"></span>
+                                </div>
+                            </div>
                         </label>
                         <input class="z-input text-ellipsis" id="userId" maxlength="100" name="userId" th:readonly="${view}"
                                th:required="!${view}" th:value="${users?.userId}" type="text" />
@@ -38,8 +44,8 @@
                     <div class="flex-column z-edit-row"
                          th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice') && !view}">
                         <label th:text="#{user.label.password}"></label>
-                        <button class="z-button primary" th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')" th:text="#{user.btn.resetPassword}"
-                                type="button"/>
+                        <button class="z-button primary" th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"
+                                th:text="#{user.btn.resetPassword}" type="button"/>
                     </div>
                     <div class="flex-column z-edit-row">
                         <label for="userName">
@@ -63,13 +69,13 @@
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.department}"></label>
                         <div class="flex-row z-input-button">
-                            <input id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"
+                            <input id="organizationId" name="organizationId" th:value="${organizationDetail?.organizationId}"
                                    type="hidden"/>
-                            <input class="z-input text-ellipsis" id="department" name="department" readonly
-                                   th:value="${deptCodeDetail?.codeValue}" type="text">
-                            <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);"
+                            <input class="z-input text-ellipsis" id="organization" name="organization" readonly
+                                   th:value="${organizationDetail?.organizationName}" type="text">
+                            <span class="z-icon i-clear" name="clearIcon" onclick="clearOrganization(this)"
                                   tabindex="-1" th:if="!${view}"></span>
-                            <button class="z-button-search z-button form" onclick="deptPopUp();" th:if="!${view}"
+                            <button class="z-button-search z-button form" onclick="organizationPopUp();" th:if="!${view}"
                                     th:text="#{common.btn.select}" type="button"></button>
                         </div>
                     </div>
@@ -154,14 +160,15 @@
         <div class="flex-column z-edit-row">
             <div class="z-checkbox-list">
                 <ul>
-                    <li class="user-role-checkbox-wrap" th:each="role : ${roles}">
-                        <label class="z-checkbox" tabindex="0" th:for="|roles*{roleStat.index}|"
-                               th:title="*{role.roleName}">
+                    <li class="user-role-checkbox-wrap" th:each="allRole : ${allRoles}">
+                        <label class="z-checkbox" tabindex="0" th:for="|allRoles*{allRoleStat.index}|"
+                               th:title="*{allRole.roleName}">
                             <input class="user-role-checkbox" name="roles"
-                                   th:checked="*{role.checked}" th:disabled="${view}"
-                                   th:id="|roles*{roleStat.index}|" th:value="*{role.roleId}" type="checkbox">
+                                    th:disabled="${view}"
+                                   th:id="|allRoles*{allRoleStat.index}|" th:value="*{allRole.roleId}" type="checkbox"
+                                   onclick="checkUserRole(this)">
                             <span></span>
-                            <span class="z-label" th:text="*{role.roleName}"></span>
+                            <span class="z-label" th:text="*{allRole.roleName}"></span>
                         </label>
                     </li>
                 </ul>
@@ -238,6 +245,12 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
+
+    let userRoles = [];
+    /*[# th:each="userRole : ${userRoles}"]*/
+    userRoles.push(/*[[${userRole.roleId}]]*/);
+    /*[/]*/
+
     window.onload = function () {
         document.getElementById('userId').focus();
         zFileUploader.avatar({
@@ -258,6 +271,10 @@
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
 
+        if (document.getElementById('organizationId').value !== '') {
+            setOrganizationRole();
+        }
+        setUserRole();
         setAbsenceDisplay();
     };
 
@@ -267,6 +284,16 @@
     const STATUS_SUCCESS_EDIT_EMAIL = '4';
     const STATUS_SUCCESS_EDIT_ADMIN = '5';
     const STATUS_SUCCESS_EDIT_PASSWORD = '6';
+
+    function checkUserRole(roleObject) {
+        if (roleObject.checked) {
+            if (!userRoles.includes(roleObject.value)) {
+                userRoles.push(roleObject.value);
+            }
+        } else {
+            userRoles = userRoles.filter((element) => element !== roleObject.value);
+        }
+    }
 
     function runAbsenceDocument() {
         if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
@@ -310,24 +337,24 @@
                 substituteUserKey: document.getElementById('substituteUserKey').value
             }
         }
-        const data = {
-            userKey: document.getElementById('userKey').value,
-            userId: document.getElementById('userId').value,
-            userName: document.getElementById('userName').value,
-            email: document.getElementById('email').value,
-            useYn: document.getElementById('usageStatus').checked,
-            position: document.getElementById('position').value,
-            department: document.getElementById('departmentCode').value,
-            officeNumber: document.getElementById('officeNumber').value,
-            mobileNumber: document.getElementById('mobileNumber').value,
-            timezone: document.getElementById('timezone').value,
-            lang: document.getElementById('lang').value,
-            theme: document.getElementById('theme').value,
-            absenceYn: ([[${users?.userKey}]] !== null) ? document.getElementById('userAbsence').checked : '',
-            timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
-            roles: arrRoleValue,
-            avatarUUID: document.getElementById('avatarUUID').value,
-            absence: absenceInfo
+       const data = {
+           userKey: document.getElementById('userKey').value,
+           userId: document.getElementById('userId').value,
+           userName: document.getElementById('userName').value,
+           email: document.getElementById('email').value,
+           useYn: document.getElementById('usageStatus').checked,
+           position: document.getElementById('position').value,
+           department: document.getElementById('organizationId').value,
+           officeNumber: document.getElementById('officeNumber').value,
+           mobileNumber: document.getElementById('mobileNumber').value,
+           timezone: document.getElementById('timezone').value,
+           lang: document.getElementById('lang').value,
+           theme: document.getElementById('theme').value,
+           absenceYn: ([[${users?.userKey}]] !== null) ? document.getElementById('userAbsence').checked : '',
+           timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
+           roles: arrRoleValue,
+           avatarUUID: document.getElementById('avatarUUID').value,
+           absence: absenceInfo
         };
 
         aliceJs.fetchText(url, {
@@ -442,27 +469,91 @@
         return true;
     }
 
-    function setDepartment(node) {
-        document.getElementById('department').value = node.textContent;
-        document.getElementById('departmentCode').value = node.id;
+    /**
+     * 역할 초기화
+     */
+    function clearRole() {
+        const allRoles = document.querySelectorAll('input[name=roles]');
+        allRoles.forEach(function (allRole) {
+            allRole.disabled = false;
+            allRole.checked = false;
+        });
     }
 
-    function deptPopUp() {
-        const rootCode = 'department';
+    /**
+     * 역할(조직) 선택
+     */
+    function setOrganizationRole() {
+        aliceJs.fetchJson('/rest/organizations/' + document.getElementById('organizationId').value, {
+            method: 'GET',
+        }).then((response) => {
+            const allRoles = document.querySelectorAll('input[name=roles]');
+            allRoles.forEach(function (allRole) {
+                const matching = response.data.roles.find(function (organizationRole) {
+                    return organizationRole.roleId === allRole.value
+                });
+                if (matching) {
+                    allRole.disabled = true;
+                    allRole.checked = true;
+                }
+            });
+        });
+    }
+
+    /**
+     * 역할(사용자) 선택
+     */
+    function setUserRole() {
+        const allRoles = document.querySelectorAll('input[name=roles]');
+        userRoles.forEach(function (userRole) {
+            allRoles.forEach(function (allRole) {
+                if (userRole === allRole.value) {
+                    allRole.checked = true;
+                }
+            });
+        });
+    }
+
+    /**
+     * 조직 초기화(조직의 역할 제거)
+     * @param obj
+     */
+    function clearOrganization(obj) {
+        aliceJs.clearText(obj);
+        const allRoles = document.querySelectorAll('input[name=roles]');
+        allRoles.forEach(function (allRole) {
+            allRole.disabled = false;
+            allRole.checked = false;
+        });
+
+        userRoles.forEach(function (userRole) {
+            allRoles.forEach(function (allRole) {
+                if (userRole === allRole.value) {
+                    allRole.checked = true;
+                }
+            });
+        });
+    }
+
+    function organizationPopUp() {
+        const rootCode = 'organization';
         tree.load({
             view: 'modal',
             title: i18n.msg('department.label.deptList'),
-            dataUrl: '/rest/codes?pCode=' + rootCode,
-            root: rootCode,
-            rootLevel: 3,
+            dataUrl: '/rest/organizations',
+            source: rootCode,
             target: 'treeList',
-            text: 'codeName',
+            text: 'organizationName',
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
             defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
             leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
-            selectedValue: document.getElementById('departmentCode').value,
+            selectedValue: document.getElementById('organizationId').value,
             callbackFunc: function (response) {
-                setDepartment(response);
+                document.getElementById('organizationId').value = response.id;
+                document.getElementById('organization').value = response.dataset.name;
+                clearRole();
+                setOrganizationRole();
+                setUserRole();
             }
         });
     }
