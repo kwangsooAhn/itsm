@@ -626,6 +626,7 @@ error:
 # FAQ
 faq:
   label:
+    all: "ALL"
     category: "Category"
     edit: "FAQ Edit"
     faq: "FAQ"
@@ -913,6 +914,7 @@ menu:
     auth: "Auth"
     boardAdmin: "Board management"
     code: "Code management"
+    organization: "Department"
     parent: "System config"
     product: "Product Info"
     role: "Role"
@@ -997,6 +999,29 @@ notification:
   msg:
     description: "Up to 50 displays."
     noNotificationData: "No notifications."
+
+# Organization
+organization:
+  label:
+    organization: "Department"
+    organizationId: "Department Id"
+    description: "Department Description"
+    name: "Department Name"
+    pOrganizationName: "Parent Department Name"
+    role: "Member default role"
+    searchPlaceholder: "Department name"
+    seqNum: "The order of the output"
+    useYn: "Use enable"
+  msg:
+    duplicateOrganizationId: "Duplicate Department Id."
+    duplicateOrganizationName: "Duplicate department name."
+    editDescription: "Add, view and manage department."
+    enterOrganizationId: "Please enter a department Id."
+    enterOrganizationName: "Please enter a department name"
+    enterPOrganizationName: "Please enter a parent department name."
+    pOrganizationNotExist: "Parent organization does not exist."
+    selectRole: "Please select a member default role."
+    failedOrganizationDelete: "Failed to delete a department because of a member."
 
 # Portal
 portal:
@@ -1373,6 +1398,7 @@ user:
     selectRole: "There must be at least one user role. <br/> Please select a user role."
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
     signUpFail: "Sign up failed."
+    systemUserNotExist: "You cannot modify user roles because you need at least one user with the system administrator role."
     updatePasswordNotice: "Recommend changing your password every {0} days for personal information protection and safe system use. Change your password."
     usageStatus: "※ If not using it, you won't be able to log in and use all systems."
     userAbsence: "※ When absent, the period of absence and the substitute must be set."

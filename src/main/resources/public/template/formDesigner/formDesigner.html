@@ -27,10 +27,10 @@
         ZSession.add('departmentName', '');
 
         if (!zValidation.isEmpty(ZSession.get('department'))) {
-            aliceJs.fetchJson('/rest/codes/' + ZSession.get('department'), {
+            aliceJs.fetchJson('/rest/organizations/' + ZSession.get('department'), {
                 method: 'GET'
-            }).then((codeData) => {
-                ZSession.add('departmentName', codeData.codeName);
+            }).then((response) => {
+                ZSession.add('departmentName', response.data.organizationName);
             });
         }
         zFormDesigner.initForm('[[${formId}]]', '[[${isView}]]');

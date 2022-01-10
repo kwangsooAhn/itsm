@@ -264,16 +264,15 @@
             const historyViewModal = new modal(historyOptions);
             historyViewModal.show();
         }
-        restModalSubmit('/schedulers/' + taskId + '/history?offset=' + offsetCount + '&isScroll=' + isScroll, 'GET', {}, false, isScroll);
+        restModalSubmit('/schedulers/' + taskId + '/history?offset=' + offsetCount + '&isScroll=' + isScroll, 'GET', false, isScroll);
     }
 
-    function restModalSubmit(url, method, data, progressbar, isScroll) {
+    function restModalSubmit(url, method, progressbar, isScroll) {
         aliceJs.fetchText(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data),
             showProgressbar: progressbar
         }).then((formData) => {
             if (isScroll) {

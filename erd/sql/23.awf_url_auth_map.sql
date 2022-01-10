@@ -122,6 +122,7 @@ insert into awf_url_auth_map values ('/numberingRules/search', 'get', 'workflow.
 insert into awf_url_auth_map values ('/numberingRules/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/numberingRules/{id}/view', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/oauth/{service}/login', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/organizations/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/process/{id}/status', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/process/{id}/view', 'get', 'workflow.manage');
@@ -239,6 +240,11 @@ insert into awf_url_auth_map values ('/rest/numberingRules', 'post', 'workflow.m
 insert into awf_url_auth_map values ('/rest/numberingRules/{id}', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/numberingRules/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/numberingRules/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/organizations', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/organizations/{id}', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/organizations/{id}', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/organizations/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/organizations', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'put', 'workflow.manage');

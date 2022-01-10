@@ -64,6 +64,30 @@ class WfElementService(
     }
 
     /**
+     * Get the first userTask Element after the commonStartEvent Element
+     *
+     * @param wfTokenDto 종료된 엘리먼트의 토큰
+     */
+    fun getFirstUserTaskElement(wfTokenDto: WfTokenDto): WfElementEntity {
+        var connector = this.getConnector(wfTokenDto)
+        var nextElementId = wfElementDataRepository.findByElementAndAttributeId(connector).attributeValue
+        var nextElementData = wfElementRepository.getOne(nextElementId)
+
+        if (nextElementData.elementType != WfElementConstants.ElementType.USER_TASK.value) {
+            do {
+                val wfTokenDto = WfTokenDto(
+                    elementId = nextElementData.elementId
+                )
+                connector = this.getConnector(wfTokenDto)
+                nextElementId = wfElementDataRepository.findByElementAndAttributeId(connector).attributeValue
+                nextElementData = wfElementRepository.getOne(nextElementId)
+            } while (nextElementData.elementType != WfElementConstants.ElementType.USER_TASK.value)
+        }
+
+        return nextElementData
+    }
+
+    /**
      * 현재 element[tokenDto] 정보로 연결된 connector 수에 따라 분기.
      * 다수의 connector 가 존재할 경우 설정 옵션에 따라 한 개를 선택.
      */

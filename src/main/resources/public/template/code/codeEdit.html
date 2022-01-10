@@ -160,6 +160,9 @@
             leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
             sessionKey: sessionKey,
             totalCount: true,
+            onCreate: function () {
+                document.getElementById('treeList').querySelector('.node').click();
+            },
             selectedNode: function (response) {
                 onGetDetail(response.id)
             }
@@ -170,7 +173,7 @@
         if (!observer.canPageChange()) {
             return;
         }
-        document.querySelectorAll('input[type=text]').forEach(function (object) {
+        document.querySelector('.z-page-edit').querySelectorAll('input[type=text]').forEach(function (object) {
             object.value = '';
         });
         document.querySelector('textarea').value = '';
@@ -178,11 +181,13 @@
         aliceJs.fetchJson('/rest/codes/' + codeId, {
             method: 'GET',
         }).then((responseJson) => {
-            document.getElementById('txtCode').value = responseJson.code;
-            document.getElementById('txtCode').setAttribute('disabled', '');
+            const txtCode = document.getElementById('txtCode');
+            txtCode.value = responseJson.code;
+            txtCode.disabled = true;
             document.getElementById('tooltipCode').title = responseJson.code;
-            document.getElementById('txtPCode').value = responseJson.pcode;
-            document.getElementById('txtPCode').setAttribute('disabled', '');
+            const pTxtCode = document.getElementById('txtPCode');
+            pTxtCode.value = responseJson.pcode;
+            pTxtCode.disabled = true;
             document.getElementById('tooltipPcode').title = responseJson.pcode;
             document.getElementById('txtCodeName').value = responseJson.codeName;
             document.getElementById('txtCodeValue').value = responseJson.codeValue;
@@ -241,7 +246,6 @@
         });
         document.querySelector('textarea').value = '';
         document.querySelector('#txtCode').removeAttribute('disabled');
-        document.querySelector('#txtPCode').removeAttribute('disabled');
         document.getElementById('codeLang').innerHTML = '';
 
         let selectedNode = tree.getTreeSelectNode();
@@ -314,7 +318,6 @@
         if (method !== 'POST') {
             url += '/' + document.getElementById('txtCode').value;
         }
-
         aliceJs.fetchJson(url, {
             method: method,
             headers: {

@@ -209,8 +209,9 @@
     /** 삭제 버튼 활성, 비활성화 */
     function disabledButton(count) {
         let btn = document.getElementById('btnDelete');
+        if (!btn) { return false; }
         if (count !== 0) {
-            btn.disabled = 'disabled';
+            btn.disabled = true;
         } else {
             btn.disabled = false;
         }

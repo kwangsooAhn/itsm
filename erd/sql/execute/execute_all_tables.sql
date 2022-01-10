@@ -597,12 +597,13 @@ insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE'
 insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
 insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
 insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
-insert into awf_menu values ('config.user', 'config', '/users/search', 1, 'TRUE');
-insert into awf_menu values ('config.role', 'config', '/roles/search', 2, 'TRUE');
-insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 3, 'TRUE');
-insert into awf_menu values ('config.code', 'config', '/codes/edit', 4, 'TRUE');
-insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 5, 'TRUE');
-insert into awf_menu values ('config.product', 'config', '', 6, 'TRUE');
+insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, 'TRUE');
+insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
+insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
+insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
+insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
+insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
+insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -639,6 +640,7 @@ insert into awf_menu_auth_map values ('cmdb', 'cmdb.view');
 insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.view');
 insert into awf_menu_auth_map values ('config', 'system.manage');
 insert into awf_menu_auth_map values ('config', 'portal.manage');
+insert into awf_menu_auth_map values ('config.organization', 'system.manage');
 insert into awf_menu_auth_map values ('config.boardAdmin', 'system.manage');
 insert into awf_menu_auth_map values ('config.boardAdmin', 'portal.manage');
 insert into awf_menu_auth_map values ('config.code', 'system.manage');
@@ -1486,6 +1488,7 @@ insert into awf_url_auth_map values ('/numberingRules/search', 'get', 'workflow.
 insert into awf_url_auth_map values ('/numberingRules/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/numberingRules/{id}/view', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/oauth/{service}/login', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/organizations/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/process/{id}/status', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/process/{id}/view', 'get', 'workflow.manage');
@@ -1603,6 +1606,11 @@ insert into awf_url_auth_map values ('/rest/numberingRules', 'post', 'workflow.m
 insert into awf_url_auth_map values ('/rest/numberingRules/{id}', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/numberingRules/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/numberingRules/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/organizations', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/organizations/{id}', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/organizations/{id}', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/organizations/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/organizations', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'put', 'workflow.manage');

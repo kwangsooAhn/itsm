@@ -5947,12 +5947,12 @@ body.modal-active {
   opacity: 1;
 }
 .z-group-label .z-icon.i-arrow-right {
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
   display: table-cell;
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  transform: rotate(180deg);
   background: #8B9094;
   opacity: 0;
 }

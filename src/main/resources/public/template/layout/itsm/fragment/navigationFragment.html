@@ -59,6 +59,12 @@
 
 		function accordionMenu(element) {
 			aliceJs.slideToggle(document.getElementById(element.dataset.menugroup), 200);
+
+			if (element.classList.contains('active')) {
+				element.classList.remove('active');
+			} else {
+				element.classList.add('active');
+			}
 		}
 
 		window.addEventListener('DOMContentLoaded', function(){
