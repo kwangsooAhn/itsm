@@ -3612,6 +3612,14 @@ select {
 .z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-gnb-link.active .z-icon {
   background: #339AF0;
 }
+.z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-gnb-link.active .i-arrow-right {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  background: #FFFFFF;
+}
 .z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-gnb-link.active-parent .z-menu-name {
   color: #FFFFFF;
 }
@@ -3620,11 +3628,6 @@ select {
 }
 .z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-gnb-link.active-parent .z-icon.i-arrow-right {
   background: #FFFFFF;
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
 }
 .z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-snb-group {
   display: none;

@@ -52,7 +52,6 @@
     .z-icon {
       &.i-arrow-right {
         display: table-cell;
-        @include rotate(180);
         background: $group-accordion-icon-color;
         opacity: 0;
       }
