@@ -27,7 +27,25 @@ class AliceScheduleHistoryRepositoryImpl : QuerydslRepositorySupport(AliceSchedu
             .where(history.taskId.eq(schedulerHistorySearchCondition.taskId))
             .offset(schedulerHistorySearchCondition.offset)
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
-        query.orderBy(history.executeTime.desc())
+        if (schedulerHistorySearchCondition.searchResult !== null) {
+            if (schedulerHistorySearchCondition.searchResult == true) {
+                query.where(history.result.eq(true))
+            } else {
+                query.where(history.result.eq(false))
+            }
+        }
+        query.where(
+            history.executeTime.goe(schedulerHistorySearchCondition.formattedFromDt),
+            history.executeTime.loe(schedulerHistorySearchCondition.formattedToDt)
+        )
+
+//        if (schedulerHistorySearchCondition.isModalOpen == false) {
+//            query.where(
+//                history.executeTime.goe(schedulerHistorySearchCondition.formattedFromDt),
+//                history.executeTime.loe(schedulerHistorySearchCondition.formattedToDt)
+//            )
+//        }
+        query.orderBy(history.historySeq.desc())
         return query.fetch()
     }
 

@@ -180,7 +180,9 @@
     const STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST = '5';
     let offsetCount = 0;
     let minExecuteTime = [[${executeTime.minExecuteTime}]];
-    let maxExecuteTime = [[${executeTime.maxExecuteTime}]];
+    //let maxExecuteTime = [[${executeTime.maxExecuteTime}]];
+    let maxExecuteTime = i18n.getDateTime()
+    console.log(test)
 
     window.onload = function () {
         changeContainer(document.getElementById('taskType').value);
@@ -255,7 +257,19 @@
             let historyOptions = {
                 title: i18n.msg('scheduler.label.history'),
                 classes: 'scheduler-list-modal',
-                body: `<div class="table-set" id="historyList"></div>`,
+                body:
+                    `<form id="searchFrm">` +
+                    `<select id="searchResult" name="searchResult" class="col-3 mr-1">` +
+                    `<option value="" selected="selected">${i18n.msg('customCode.label.all')}</option>` +
+                    `<option value="true">${i18n.msg('scheduler.result.true')}</option>` +
+                    `<option value="false">${i18n.msg('scheduler.result.false')}</option>` +
+                    `</select>` +
+                    `<input type="text" class="z-input i-datetime-picker search-datetime col-3 mr-1" id="searchFromDt" name="searchFromDt"` +
+                    `value="${minExecuteTime}"/>` +
+                    `<input type="text" class="z-input i-datetime-picker search-datetime col-3" id="searchToDt" name="searchToDt"` +
+                    `value="${maxExecuteTime}"/>` +
+                    `</form>` +
+                    `<div class="table-set" id="historyList"></div>`,
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
                     classes: 'z-button secondary',
@@ -270,17 +284,39 @@
             }
             const historyViewModal = new modal(historyOptions);
             historyViewModal.show();
+            aliceJs.initDesignedSelectTag();
+
+            const searchFromDtElement = document.getElementById('searchFromDt');
+            const searchToDtElement = document.getElementById('searchToDt');
+            setDateTimeFormat(document.getElementById('searchFrm'))
+            zDateTimePicker.initDateTimePicker(searchFromDtElement, changeDateTimePicker);
+            zDateTimePicker.initDateTimePicker(searchToDtElement, changeDateTimePicker);
+
+            document.getElementById('searchResult').addEventListener('change', function () { getList(false); });
         }
-        restModalSubmit('/schedulers/' + taskId + '/history?offset=' + offsetCount + '&isScroll=' + isScroll, 'GET', false, isScroll);
+        const url = '/schedulers/' + taskId + '/history?' +
+            aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+        restModalSubmit(url, isScroll);
     }
 
-    function restModalSubmit(url, method, progressbar, isScroll) {
+    /**
+     * 스케줄 이력 검색
+     */
+    function getList(isScroll) {
+        const taskId = /*[[${schedule?.taskId}]]*/''
+        const url = '/schedulers/' + taskId + '/history?' +
+            aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+        restModalSubmit(url, isScroll);
+    }
+
+    function restModalSubmit(url, isScroll) {
+        console.log(url)
         aliceJs.fetchText(url, {
-            method: method,
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
-            showProgressbar: progressbar
+            showProgressbar: false
         }).then((formData) => {
             if (isScroll) {
                 if (aliceJs.isEnableScrollEvent(offsetCount)) {
@@ -307,7 +343,7 @@
                             const clientHeight = e.target.clientHeight;
                             if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
                                 if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                    openHistoryViewModal(true)
+                                    getList(true)
                                 }
                             }
                         }
@@ -318,13 +354,42 @@
     }
 
     /**
+     * DateTimePicker 변경시 호출
+     */
+    function changeDateTimePicker(element, picker) {
+        if (typeof picker === 'undefined') { return false; }
+
+        if (element.id === 'searchFromDt') {
+            const searchToDtValue = document.getElementById('searchToDt').value;
+            if (!i18n.compareSystemDateTime(element.value, searchToDtValue)) {
+                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', searchToDtValue), function () {
+                    document.getElementById('searchFromDt').value = minExecuteTime
+                    setDateTimeFormat(document.getElementById('searchFrm'))
+                    picker.open();
+                });
+            } else {
+                getList(false);
+            }
+        } else {
+            const searchFromDtValue = document.getElementById('searchFromDt').value;
+            if (!i18n.compareSystemDateTime(searchFromDtValue, element.value)) {
+                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', searchFromDtValue), function () {
+                    document.getElementById('searchToDt').value = maxExecuteTime
+                    picker.open();
+                });
+            } else {
+                getList(false);
+            }
+        }
+    }
+
+    /**
      * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
      */
     function setDateTimeFormat(elem) {
-        elem.querySelectorAll('td[name=executeTime]').forEach(executeTimeEle => {
-            const excuteTime = i18n.userDateTime(executeTimeEle.textContent);
-            executeTimeEle.textContent = excuteTime;
-            executeTimeEle.setAttribute('title', excuteTime);
+        elem.querySelectorAll('td[name=executeTime], #searchFromDt').forEach(executeTimeEle => {
+            let target = executeTimeEle["textContent"] === "" ? "value" : "textContent";
+            executeTimeEle[target] = i18n.userDateTime(executeTimeEle[target]);
         });
     }
 
