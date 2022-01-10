@@ -163,8 +163,7 @@
                     <li class="user-role-checkbox-wrap" th:each="allRole : ${allRoles}">
                         <label class="z-checkbox" tabindex="0" th:for="|allRoles*{allRoleStat.index}|"
                                th:title="*{allRole.roleName}">
-                            <input class="user-role-checkbox" name="roles"
-                                    th:disabled="${view}"
+                            <input class="user-role-checkbox" name="roles" th:disabled="${view}"
                                    th:id="|allRoles*{allRoleStat.index}|" th:value="*{allRole.roleId}" type="checkbox">
                             <span></span>
                             <span class="z-label" th:text="*{allRole.roleName}"></span>
@@ -267,7 +266,9 @@
         OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
 
         let organizationId = document.getElementById('organizationId').value;
-        setUserRoleCheck(organizationId);
+        if(organizationId !== '') {
+            setUserRoleCheck(organizationId);
+        }
         setAbsenceDisplay();
     };
 
@@ -319,24 +320,25 @@
                 endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
                 substituteUserKey: document.getElementById('substituteUserKey').value
             }
-       const data = {
-           userKey: document.getElementById('userKey').value,
-           userId: document.getElementById('userId').value,
-           userName: document.getElementById('userName').value,
-           email: document.getElementById('email').value,
-           useYn: document.getElementById('usageStatus').checked,
-           position: document.getElementById('position').value,
-           department: document.getElementById('organizationId').value,
-           officeNumber: document.getElementById('officeNumber').value,
-           mobileNumber: document.getElementById('mobileNumber').value,
-           timezone: document.getElementById('timezone').value,
-           lang: document.getElementById('lang').value,
-           theme: document.getElementById('theme').value,
-           absenceYn: ([[${users?.userKey}]] !== null) ? document.getElementById('userAbsence').checked : '',
-           timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
-           roles: arrRoleValue,
-           avatarUUID: document.getElementById('avatarUUID').value,
-           absence: absenceInfo
+        }
+        const data = {
+            userKey: document.getElementById('userKey').value,
+            userId: document.getElementById('userId').value,
+            userName: document.getElementById('userName').value,
+            email: document.getElementById('email').value,
+            useYn: document.getElementById('usageStatus').checked,
+            position: document.getElementById('position').value,
+            department: document.getElementById('organizationId').value,
+            officeNumber: document.getElementById('officeNumber').value,
+            mobileNumber: document.getElementById('mobileNumber').value,
+            timezone: document.getElementById('timezone').value,
+            lang: document.getElementById('lang').value,
+            theme: document.getElementById('theme').value,
+            absenceYn: ([[${users?.userKey}]] !== null) ? document.getElementById('userAbsence').checked : '',
+            timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
+            roles: arrRoleValue,
+            avatarUUID: document.getElementById('avatarUUID').value,
+            absence: absenceInfo
         };
 
         aliceJs.fetchText(url, {
@@ -451,6 +453,7 @@
         return true;
     }
 
+    // 사용자에 저장된 권한과 조직에 저장된 권한 체크
     function setUserRoleCheck(organizationId) {
         let userRoles = [];
         /*[# th:each="userRole : ${userRoles}"]*/
@@ -487,17 +490,16 @@
     }
 
     function organizationPopUp() {
-        const rootCode = 'organization';
         tree.load({
             view: 'modal',
             title: i18n.msg('department.label.deptList'),
             dataUrl: '/rest/organizations',
-            source: rootCode,
             target: 'treeList',
+            source: 'organization',
             text: 'organizationName',
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
-            defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
-            leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
+            defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
+            leafIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
             selectedValue: document.getElementById('organizationId').value,
             callbackFunc: function (response) {
                 setUserRoleCheck(response.id);

@@ -99,12 +99,8 @@ class UserController(
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
         if (!users.department.isNullOrBlank()) {
-            //현재 Organization테이블에 없는 Id값이 user.department에 저장되어 있어 오류 방지용 값 체크하는 부분 추가(103, 104번째 라인)
-            val organizationIds = organizationRepository.findAll().map { it.organizationId }.toSet()
-            if (organizationIds.contains(users.department!!)) {
             val organizationDetail = organizationService.getDetailOrganization(users.department!!)
-                model.addAttribute("organizationDetail", organizationDetail)
-            }
+            model.addAttribute("organizationDetail", organizationDetail)
         }
 
         val allCodes = userService.getInitCodeList()
@@ -161,7 +157,7 @@ class UserController(
         val allCodes = userService.getInitCodeList()
         model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
         model.addAttribute("timezoneList", userService.selectTimezoneList())
-        model.addAttribute("roles", roleService.getAllRoleList())
+        model.addAttribute("allRoles", roleService.getAllRoleList())
         model.addAttribute("themeList", allCodes["themeList"])
         model.addAttribute("langList", allCodes["langList"])
         model.addAttribute("dateList", allCodes["dateList"])
