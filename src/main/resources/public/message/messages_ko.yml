@@ -28,6 +28,7 @@ common:
     blank: " "
     bracketOpen: "["
     bracketClose: "]"
+    categoryAsc: "분류 순"
     comment: "댓글"
     contents: "내용"
     colon: ":"
@@ -64,7 +65,7 @@ common:
     dataSelect: "{0} 을(를) 선택하세요."
     delete: "삭제되었습니다."
     deleteTartget: "삭제 대상을 선택하세요."
-    done: "실행되었습니다.<br>결과는 이력에서 확인 가능합니다"
+    done: "실행되었습니다.<br>결과는 이력에서 확인 가능합니다."
     emptyValue: "빈 값이 있습니다."
     enterContents: "내용을 입력하세요."
     enterTitle: "제목을 입력하세요."
@@ -362,7 +363,6 @@ cmdb:
       update: "CI 수정"
       view: "CI 상세 조회"
       relation: "연관 관계"
-      relationType: "연관 관계 타입"
       targetCiName: "대상 CI 이름"
       whetherToInterlink: "연동 여부"
       interlink: "연동"
@@ -371,7 +371,7 @@ cmdb:
       deleteEditableCI: "입력된 자산정보를 목록에서 삭제하시겠습니까?"
       deleteReadableCI: "자산정보를 목록에서 삭제하시겠습니까?"
       deleteInformation: "작성 중인 자산정보 내용이 모두 삭제됩니다."
-      duplicateRelatedCIData: "동일한 연관 관계 및 대상 CI가 존재합니다."
+      duplicateRelatedCIData: "동일한 연관관계 CI가 존재합니다."
       enterCiName: "CI 이름을 입력하세요."
       searchDescription: "CI를 조회 및 관리합니다."
       selectCI: "CI를 선택하세요."
@@ -411,6 +411,7 @@ cmdb:
       searchPlaceholder: "유형 이름"
       seq: "정렬 순서"
     msg:
+      enterClass: "CI 속성그룹을 선택하세요."
       enterPType: "부모 유형을 선택하세요."
       enterTypeAlias: "식별자를 입력하세요."
       enterTypeName: "유형 이름을 입력하세요."
@@ -434,7 +435,7 @@ code:
     codeLang: "다국어 코드"
     name: "코드 이름"
     pCode: "부모 코드"
-    searchPlaceholder: "코드"
+    searchPlaceholder: "코드 / 코드 이름"
     seqNum: "출력 순서"
     useYn: "사용여부"
   msg:
@@ -625,6 +626,7 @@ error:
 # FAQ
 faq:
   label:
+    all: "전체"
     category: "분류"
     edit: "FAQ 수정"
     faq: "FAQ"
@@ -675,6 +677,7 @@ form:
     update: "문서양식 수정"
     undo: "작업 취소"
   msg:
+    duplicateMappingId: "매핑 아이디({0})가 중복됩니다."
     enterFormName: "양식이름을 입력하세요."
     failedAllColumnDelete: "최소 1개 열은 필수입니다."
     failedDestroy: "관련 문서가 존재합니다.<br/>폐기할 수 없는 문서양식입니다."
@@ -911,6 +914,7 @@ menu:
     auth: "권한"
     boardAdmin: "게시판"
     code: "코드"
+    organization: "부서"
     parent: "시스템 관리"
     product: "제품 정보"
     role: "역할"
@@ -983,6 +987,7 @@ notice:
     enterToDt: "검색 종료 날짜를 입력하세요."
     enterTopNoticeEndDt: "상단 공지 종료일시을 입력하세요."
     enterTopNoticeStrtDt: "상단 공지 시작일시을 입력하세요."
+    maximunTopNoticeCount: "상단 공지 최대 갯수는 10개 입니다."
     portalDescription: "공지사항을 조회합니다."
     searchDescription: "공지사항을 조회 및 관리합니다."
     viewDescription: "공지사항에 대한 상세 정보를 조회합니다."
@@ -994,6 +999,29 @@ notification:
   msg:
     description: "최대 50개까지 표시됩니다."
     noNotificationData: "알림이 없습니다."
+
+# Organization
+organization:
+  label:
+    organization: "부서"
+    organizationId: "부서 아이디"
+    description: "부서 설명"
+    name: "부서 이름"
+    pOrganizationName: "상위부서 이름"
+    role: "구성원 기본 역할"
+    searchPlaceholder: "부서 이름"
+    seqNum: "출력 순서"
+    useYn: "사용여부"
+  msg:
+    duplicateOrganizationId: "중복된 부서 아이디가 존재합니다."
+    duplicateOrganizationName: "중복된 부서 이름이 존재합니다."
+    editDescription: "부서를 관리합니다."
+    enterOrganizationId: "부서 아이디를 입력하세요."
+    enterOrganizationName: "부서 이름을 입력하세요."
+    enterPOrganizationName: "상위부서 이름을 입력하세요."
+    pOrganizationNotExist: "상위부서가 존재하지 않습니다."
+    selectRole: "구성원 기본 역할을 선택하세요."
+    failedOrganizationDelete: "부서에 구성원이 존재하여 삭제할 수 없습니다."
 
 # Portal
 portal:
@@ -1046,6 +1074,7 @@ process:
     startElementMustOne: '시작 이벤트는 반드시 1개이어야만 합니다.'
     searchDescription: "프로세스를 조회 및 관리합니다."
     selectImportFile: "IMPORT 파일을 선택하세요."
+    uncheckWithdraw: "첫번째 엘리먼트일 경우 회수기능을 설정<br>할 수 없습니다.<br>'{0}' 엘리먼트의 회수 가능여부의 체크박스를 해제해주세요."
   title:
     preview: "Zenius ITSM : 프로세스 미리보기"
     processMap: "Zenius ITMS : 프로세스 맵"
@@ -1213,6 +1242,7 @@ scheduler:
     cronError: "정확한 크론표현식을 입력하세요."
     jarNotExist: "JAR 파일이 존재하지 않습니다."
     classNotExist: "Class 파일이 존재하지 않습니다."
+    unacceptableCharacters: "허용하지 않는 특수문자(: ? * \" < > |)가 포함되어 있습니다."
   status:
     true: "사용"
     false: "미사용"
@@ -1249,6 +1279,7 @@ token:
     relatedInstance: "관련 문서"
     relatedInstancePlaceholder: "신청서 이름/ 작성자"
     searchPlaceholder: "규칙 이름 / 작성자 / 내용"
+    status: "상태"
     startDt: "시작 일시"
     tagPlaceHolder: "#태그"
     view: "문서 조회"
@@ -1279,6 +1310,7 @@ token:
     endDt: "신청서 종료일시"
     createUser: "신청서 생성자"
     application-form: "신청서"
+    workflow: "업무흐름"
 
 # WorkflowAdmin
 workflowAdmin:

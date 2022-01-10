@@ -22,9 +22,6 @@ data class CIRelationEntity(
     @Column(name = "relation_id", length = 128)
     val relationId: String = "",
 
-    @Column(name = "relation_type", length = 100)
-    var relationType: String? = null,
-
     @Column(name = "ci_id", length = 128)
     val ciId: String = "",
 

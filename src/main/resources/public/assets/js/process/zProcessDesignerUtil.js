@@ -288,8 +288,8 @@
      * 자동 저장 (현재는 최초 오픈 시 start event 추가 후 저장 기능을 위해서만 사용중)
      */
     function autoSaveProcess() {
-        save(function (xhr) {
-            if (xhr.responseText === RESPONSE_SUCCESS) {
+        save(function (status) {
+            if (status === RESPONSE_SUCCESS) {
                 isEdited = false;
                 savedData = JSON.parse(JSON.stringify(zProcessDesigner.data));
                 changeProcessName();
@@ -303,12 +303,17 @@
      * @param callbackFunc 저장 처리 후 실행될 callback function
      */
     function save(callbackFunc) {
-        aliceJs.sendXhr({
+        aliceJs.fetchText('/rest/process/' + zProcessDesigner.data.process.id + '/data', {
             method: 'PUT',
-            url: '/rest/process/' + zProcessDesigner.data.process.id + '/data',
-            contentType: 'application/json; charset=utf-8',
-            params: JSON.stringify(zProcessDesigner.data),
-            callbackFunc: callbackFunc
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(zProcessDesigner.data),
+            showProgressbar: true
+        }).then((response) => {
+            if (typeof callbackFunc === 'function') {
+                callbackFunc(response);
+            }
         });
     }
 
@@ -341,32 +346,32 @@
             let processData = saveAsProcessData.process;
             processData.name = document.getElementById('newProcessName').value;
             processData.description = document.getElementById('newProcessDescription').value;
-            aliceJs.sendXhr({
+            aliceJs.fetchJson('/rest/processes' + '?saveType=saveas', {
                 method: 'POST',
-                url: '/rest/processes' + '?saveType=saveas',
-                callbackFunc: function (response) {
-                    let resultToJson = JSON.parse(response.responseText);
-                    let processId = resultToJson.processId;
-                    let resultCode = resultToJson.result;
-                    switch (resultCode.toString()) {
-                        case RESPONSE_DUPLICATION:
-                            zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
-                            return;
-                        case RESPONSE_FAIL:
-                            zAlert.warning(i18n.msg('common.msg.fail'));
-                            return;
-                        default:
-                            zAlert.success(i18n.msg('common.msg.save'), function () {
-                                opener.location.reload();
-
-                                window.name = 'process_' + processId + '_edit';
-                                location.href = '/process/' + processId + '/edit';
-                            });
-
-                    }
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                contentType: 'application/json; charset=utf-8',
-                params: JSON.stringify(saveAsProcessData)
+                body: JSON.stringify(saveAsProcessData),
+                showProgressbar: true
+            }).then((resultToJson) => {
+                let processId = resultToJson.processId;
+                let resultCode = resultToJson.result;
+                switch (resultCode.toString()) {
+                    case RESPONSE_DUPLICATION:
+                        zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
+                        return;
+                    case RESPONSE_FAIL:
+                        zAlert.warning(i18n.msg('common.msg.fail'));
+                        return;
+                    default:
+                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                            opener.location.reload();
+
+                            window.name = 'process_' + processId + '_edit';
+                            location.href = '/process/' + processId + '/edit';
+                        });
+
+                }
             });
         };
 
@@ -429,79 +434,77 @@
      * 시뮬레이션 점검 동작
      */
     function simulationProcess() {
-        aliceJs.sendXhr({
-            method: 'put',
-            url: '/rest/process/' + zProcessDesigner.data.process.id + '/simulation',
-            callbackFunc: function (xhr) {
-                if (document.querySelectorAll('.z-simulation-report-contents-main .details div').length > 0) {
-                    document.querySelectorAll('.z-simulation-report-contents-main .details div').forEach((element) => element.parentElement.removeChild(element));
-                    document.querySelector('.z-simulation-report-contents-main .result').classList.remove('success', 'failed');
-                }
-                const response = JSON.parse(xhr.responseText);
-
-                // 전체 결과
-                let mainResult = '';
-                let mainResultClassName = '';
-                if (response.success === true) {
-                    mainResult = i18n.msg('common.label.success');
-                    mainResultClassName = 'success';
-                } else {
-                    mainResult = i18n.msg('common.label.fail');
-                    mainResultClassName = 'failed';
-                }
-                document.querySelector('.z-simulation-report-contents-main .result').classList.add(mainResultClassName);
-                document.querySelector('.z-simulation-report-contents-main .result').textContent = mainResult;
-
-                // 세부 결과
-                for (let i = 0; i < response.simulationReport.length; i++) {
-                    const report = response.simulationReport[i];
-
-                    let successOrFailure = '';
-                    let order = '[' + [i + 1] + '/' + response.simulationReport.length + ']';
-                    let elementDescription = '[' + report.elementType + (report.elementName !== '' ? ':' + report.elementName : '') + ']';
-                    let message = '';
-                    let reportDetailClassName = '';
-                    if (report.success === true) {
-                        successOrFailure = '[' + i18n.msg('common.label.success') + ']';
-                        document.getElementById(report.elementId).classList.remove('selected', 'error');
-                    } else if (report.success === false) {
-                        successOrFailure = '[' + i18n.msg('common.label.fail') + ']';
-                        message = '[' + report.failedMessage + ']';
-                        reportDetailClassName = 'failed';
-                        document.getElementById(report.elementId).classList.add('selected', 'error');
-
-                    }
-                    const count = document.createElement('span');
-                    count.className = 'details-number-of';
-                    count.textContent = order;
-                    const result = document.createElement('span');
-                    result.className = 'details-result';
-                    result.textContent = successOrFailure;
-                    const elementInfo = document.createElement('span');
-                    elementInfo.className = 'details-element-info';
-                    elementInfo.textContent = elementDescription;
-                    const failedMessage = document.createElement('span');
-                    failedMessage.className = 'details-failed-message';
-                    failedMessage.textContent = message;
-
-                    const reportDetails = document.createElement('div');
-                    reportDetails.className = reportDetailClassName;
-                    reportDetails.appendChild(count);
-                    reportDetails.appendChild(result);
-                    reportDetails.appendChild(elementInfo);
-                    reportDetails.appendChild(failedMessage);
-
-                    document.querySelector('.z-simulation-report-contents-main .details').appendChild(reportDetails);
-                }
-
-                if (document.querySelector('.z-simulation-report').classList.contains('closed')) {
-                    document.querySelector('.z-button-simulation-report').click();
-                }
-                // 스크롤바 생성
-                OverlayScrollbars(document.querySelector('.z-simulation-report-contents-main'), { className: 'scrollbar' });
+        aliceJs.fetchJson('/rest/process/' + zProcessDesigner.data.process.id + '/simulation', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            contentType: 'application/json; charset=utf-8',
-            params: JSON.stringify(zProcessDesigner.data)
+            body: JSON.stringify(zProcessDesigner.data)
+        }).then((response) => {
+            if (document.querySelectorAll('.z-simulation-report-contents-main .details div').length > 0) {
+                document.querySelectorAll('.z-simulation-report-contents-main .details div').forEach((element) => element.parentElement.removeChild(element));
+                document.querySelector('.z-simulation-report-contents-main .result').classList.remove('success', 'failed');
+            }
+            // 전체 결과
+            let mainResult = '';
+            let mainResultClassName = '';
+            if (response.success === true) {
+                mainResult = i18n.msg('common.label.success');
+                mainResultClassName = 'success';
+            } else {
+                mainResult = i18n.msg('common.label.fail');
+                mainResultClassName = 'failed';
+            }
+            document.querySelector('.z-simulation-report-contents-main .result').classList.add(mainResultClassName);
+            document.querySelector('.z-simulation-report-contents-main .result').textContent = mainResult;
+
+            // 세부 결과
+            for (let i = 0; i < response.simulationReport.length; i++) {
+                const report = response.simulationReport[i];
+
+                let successOrFailure = '';
+                let order = '[' + [i + 1] + '/' + response.simulationReport.length + ']';
+                let elementDescription = '[' + report.elementType + (report.elementName !== '' ? ':' + report.elementName : '') + ']';
+                let message = '';
+                let reportDetailClassName = '';
+                if (report.success === true) {
+                    successOrFailure = '[' + i18n.msg('common.label.success') + ']';
+                    document.getElementById(report.elementId).classList.remove('selected', 'error');
+                } else if (report.success === false) {
+                    successOrFailure = '[' + i18n.msg('common.label.fail') + ']';
+                    message = '[' + report.failedMessage + ']';
+                    reportDetailClassName = 'failed';
+                    document.getElementById(report.elementId).classList.add('selected', 'error');
+
+                }
+                const count = document.createElement('span');
+                count.className = 'details-number-of';
+                count.textContent = order;
+                const result = document.createElement('span');
+                result.className = 'details-result';
+                result.textContent = successOrFailure;
+                const elementInfo = document.createElement('span');
+                elementInfo.className = 'details-element-info';
+                elementInfo.textContent = elementDescription;
+                const failedMessage = document.createElement('span');
+                failedMessage.className = 'details-failed-message';
+                failedMessage.textContent = message;
+
+                const reportDetails = document.createElement('div');
+                reportDetails.className = reportDetailClassName;
+                reportDetails.appendChild(count);
+                reportDetails.appendChild(result);
+                reportDetails.appendChild(elementInfo);
+                reportDetails.appendChild(failedMessage);
+
+                document.querySelector('.z-simulation-report-contents-main .details').appendChild(reportDetails);
+            }
+
+            if (document.querySelector('.z-simulation-report').classList.contains('closed')) {
+                document.querySelector('.z-button-simulation-report').click();
+            }
+            // 스크롤바 생성
+            OverlayScrollbars(document.querySelector('.z-simulation-report-contents-main'), { className: 'scrollbar' });
         });
     }
 
@@ -988,6 +991,7 @@ function validationCheck() {
     let deployableStatus = ['process.status.publish', 'process.status.use'];
     let nowStatus = zProcessDesigner.data.process.status;
     let commonStartCount = 0;
+    let commonStartId = '';
     // 발행, 사용 상태일 경우, 저장이 불가능하다.
     if (deployableStatus.includes(zProcessDesigner.initialStatus)) {
         zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
@@ -1005,6 +1009,7 @@ function validationCheck() {
         for (let i = 0; i < totalElements.length; i++) {
             if(totalElements[i].type === 'commonStart') {
                 commonStartCount++;
+                commonStartId = totalElements[i].id;
             }
             if (typeList.indexOf(totalElements[i].type) >= 0) {
                 requiredList = totalElements[i].required;
@@ -1036,9 +1041,24 @@ function validationCheck() {
                 }
             }
         }
+
         if (commonStartCount !== 1) {
             zAlert.warning(i18n.msg('process.msg.startElementMustOne'));
             return false;
+        }
+
+        for (let i = 0; i < totalElements.length; i++) { //첫번째 엘리먼트에 회수 기능 설정시 회수 기능 설정불가 알림
+            if (totalElements[i].type === 'arrowConnector' && totalElements[i].data['start-id'] == commonStartId) {
+                for (let j = 0; j < totalElements.length; j++) {
+                    if (totalElements[i].data['end-id'] == totalElements[j].id && totalElements[j].data['withdraw'] == 'Y') {
+                        const errorElem = document.getElementById(totalElements[j].id);
+                        zProcessDesigner.setSelectedElement(d3.select(errorElem));
+                        zProcessDesigner.setElementMenu(d3.select(errorElem));
+                        zAlert.warning(i18n.msg('process.msg.uncheckWithdraw', totalElements[j].name));
+                        return false;
+                    }
+                }
+            }
         }
         return true;
     }

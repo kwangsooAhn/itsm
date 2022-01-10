@@ -828,6 +828,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-download-as-excel {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../../media/icons/icon_download_xls.svg");
+  mask-image: url("../../../media/icons/icon_download_xls.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 .z-icon.i-gnb-board {
   width: 1.5rem;
@@ -1113,7 +1123,7 @@ table td, table th {
   background-color: #F5F5F5;
 }
 .z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
-  margin: 0 0 0 0.5rem;
+  margin: 0 0 0 0.75rem;
 }
 .z-option-table tr.z-option-table-row .z-input {
   width: 85%;
@@ -2070,7 +2080,7 @@ select {
 }
 .z-button.primary .z-icon,
 .z-button-icon.primary .z-icon {
-  display: inline-block;
+  display: block;
   background: #FFFFFF;
   pointer-events: none;
 }
@@ -2127,7 +2137,7 @@ select {
 }
 .z-button.secondary .z-icon,
 .z-button-icon.secondary .z-icon {
-  display: inline-block;
+  display: block;
   background: #339AF0;
   pointer-events: none;
 }
@@ -2184,7 +2194,7 @@ select {
 }
 .z-button.extra .z-icon,
 .z-button-icon.extra .z-icon {
-  display: inline-block;
+  display: block;
   background: #339AF0;
   pointer-events: none;
 }
@@ -2241,7 +2251,7 @@ select {
 }
 .z-button.form .z-icon,
 .z-button-icon.form .z-icon {
-  display: inline-block;
+  display: block;
   background: #424242;
   pointer-events: none;
 }
@@ -2519,7 +2529,7 @@ select {
 }
 
 .z-button-icon {
-  padding: 0.25rem 0.3125rem;
+  padding: 0.3125rem;
 }
 
 .z-button-list {
@@ -2712,6 +2722,11 @@ select {
 .z-button-toggle-group.vertical .z-button-toggle:not(:last-of-type) {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.z-button-code .z-icon.i-search {
+  background: #8B9094;
+  pointer-events: none;
 }
 
 /* _layout.scss
@@ -3597,6 +3612,14 @@ select {
 .z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-gnb-link.active .z-icon {
   background: #339AF0;
 }
+.z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-gnb-link.active .i-arrow-right {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  background: #FFFFFF;
+}
 .z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-gnb-link.active-parent .z-menu-name {
   color: #FFFFFF;
 }
@@ -3605,11 +3628,6 @@ select {
 }
 .z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-gnb-link.active-parent .z-icon.i-arrow-right {
   background: #FFFFFF;
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
 }
 .z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-snb-group {
   display: none;

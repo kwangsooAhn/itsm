@@ -139,8 +139,6 @@ class ZFormTokenTab {
                 rtn.forEach((token) => {
                     document.getElementById('history').insertAdjacentHTML('beforeend', this.makeHistoryFragment(token));
                 });
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -153,10 +151,10 @@ class ZFormTokenTab {
     makeHistoryFragment(token) {
         token.assigneeName = token.assigneeName ? token.assigneeName : '';
         return `<tr class="flex-row align-items-center">` +
-            `<td style="width: 35%;" class="align-left date-time" name="tokenDt" title="${token.tokenStartDt}">` + token.tokenStartDt + `</td>` +
-            `<td style="width: 25%;" class="align-left" title="${token.elementName}">` + token.elementName + `</td>` +
-            `<td style="width: 20%;" class="align-left" title="${token.assigneeName}">` + token.assigneeName + `</td>` +
-            `<td style="width: 20%;" class="align-left" title="${i18n.msg(token.tokenAction)}">` + i18n.msg(token.tokenAction) + `</td>` +
+            `<td style="width: 30%;" class="align-center date-time" name="tokenDt" title="${token.tokenStartDt}">` + token.tokenStartDt + `</td>` +
+            `<td style="width: 32%;" class="align-center" title="${token.elementName}">` + token.elementName + `</td>` +
+            `<td style="width: 20%;" class="align-center" title="${token.assigneeName}">` + token.assigneeName + `</td>` +
+            `<td style="width: 18%;" class="align-center" title="${i18n.msg(token.tokenAction)}">` + i18n.msg(token.tokenAction) + `</td>` +
             `</tr>`;
     }
     /***************************************************************************************************************
@@ -245,8 +243,6 @@ class ZFormTokenTab {
                         // 날짜 표기 변경
                         this.setDateTimeFormat();
                     });
-                } else {
-                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         }
@@ -270,8 +266,6 @@ class ZFormTokenTab {
                             document.getElementById('relatedDoc' + instanceId).remove();
                         }
                     });
-                } else {
-                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         });
@@ -306,8 +300,6 @@ class ZFormTokenTab {
                 });
                 // 날짜 표기 변경
                 this.setDateTimeFormat();
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -382,8 +374,6 @@ class ZFormTokenTab {
             if (rtn === 'true') {
                 document.getElementById('commentValue').value = '';
                 this.reloadTab();
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }
@@ -402,8 +392,6 @@ class ZFormTokenTab {
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
                         document.getElementById('comment' + commentId).remove();
                     });
-                } else {
-                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         });
@@ -426,8 +414,6 @@ class ZFormTokenTab {
                 rtn.forEach((comment) => {
                     document.querySelector('#tokenComments').lastElementChild.insertAdjacentElement('beforebegin', this.makeCommentsFragment(comment));
                 });
-            } else {
-                zAlert.danger(i18n.msg('common.msg.fail'));
             }
         });
     }

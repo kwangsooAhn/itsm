@@ -24,7 +24,7 @@ data class CIDetailDto(
     var classId: String? = null,
     var className: String? = null,
     var classes: List<CIClassDetailValueDto>? = null,
-    var ciRelations: MutableList<CIRelationDto>? = null,
+    var ciRelations: List<CIRelationDto>? = listOf(),
     var ciTags: List<AliceTagDto>? = null,
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,

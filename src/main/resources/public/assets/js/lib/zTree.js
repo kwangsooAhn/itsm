@@ -123,6 +123,10 @@
                     node_id = item.typeId;
                     node_name = item.typeName;
                     node_value = item.typeId;
+                } else if (item.organizationId !== '' && item.organizationId !== undefined) {
+                    node_id = item.organizationId;
+                    node_name = item.organizationName;
+                    node_value = item.organizationId;
                 } else {
                     node_id = item.classId;
                     node_name = item.className;
@@ -130,7 +134,7 @@
                 }
                 let node = {
                     id: node_id,
-                    text: item[options.text],
+                    text: aliceJs.filterXSS(item[options.text]),
                     parent: p_parentNode,
                     expanded : p_expanded,
                     childNodes : [],
@@ -561,6 +565,9 @@
                 case 'ciClass':
                     p_node_id = item.pclassId;
                     break;
+                case 'organization':
+                    p_node_id = item.porganizationId;
+                    break;
                 default:
                     p_node_id = item.pcode;
                     break;
@@ -662,57 +669,56 @@
         }
 
         // data source 옵션에 따라 데이터를 load 한다.
-        aliceJs.sendXhr({
-            method: 'get',
-            url: options.dataUrl,
-            async: false,
-            contentType: 'application/json; charset=utf-8',
-            callbackFunc: function(xhr) {
-                let responseJson = JSON.parse(xhr.responseText);
-                let totalCount = 0;
-                if (responseJson.data.length > 0) {
-                    options.data = responseJson.data;
-                    if (options.totalCount) {
-                        totalCount = responseJson.totalCount;
-                        document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', totalCount);
-                    }
-                    // 사용자가 root를 지정하지 않았을 경우, root는 가져온 데이터의 최상위로 지정
-                    if (options.view === 'modal' && options.source === 'code' && !userOptions.hasOwnProperty('root')) {
-                        const rootData = responseJson.data.reduce(function (prev, curr) {
-                            return prev.level < curr.level ? prev : curr;
+        aliceJs.fetchJson(options.dataUrl, {
+            method: 'GET'
+        }).then((responseJson) => {
+            let totalCount = 0;
+            if (responseJson.data.length > 0) {
+                options.data = responseJson.data;
+                if (options.totalCount) {
+                    totalCount = responseJson.totalCount;
+                    document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', totalCount);
+                }
+                // 사용자가 root를 지정하지 않았을 경우, root는 가져온 데이터의 최상위로 지정
+                if (options.view === 'modal' && options.source === 'code' && !userOptions.hasOwnProperty('root')) {
+                    const rootData = responseJson.data.reduce(function (prev, curr) {
+                        return prev.level < curr.level ? prev : curr;
+                    });
+                    options.root = rootData.code;
+                    options.rootLevel = Number(rootData.level);
+                }
+                let tree = makeTree();
+                // 트리 Node 클릭시 이벤트 처리
+                if (typeof selectedNode === 'function') {
+                    let nodes = document.querySelector('#' + options.target).querySelectorAll('span');
+                    nodes.forEach.call(nodes, function(node) {
+                        node.addEventListener('click', function(e) {
+                            selectedNode(this);
                         });
-                        options.root = rootData.code;
-                        options.rootLevel = Number(rootData.level);
-                    }
-                    let tree = makeTree();
-                    // 트리 Node 클릭시 이벤트 처리
-                    if (typeof selectedNode === 'function') {
-                        let nodes = document.querySelector('#' + options.target).querySelectorAll('span');
-                        nodes.forEach.call(nodes, function(node) {
-                            node.addEventListener('click', function(e) {
-                                selectedNode(this);
-                            });
-                        });
-                    }
-                    if (options.expandTree) {
-                        tree.expandTree();
-                    }
-                } else {
-                    // 데이터가 없는 경우 nodata 텍스트를 띄운다
-                    document.querySelector('#' + options.target).innerHTML = `
+                    });
+                }
+                if (options.expandTree) {
+                    tree.expandTree();
+                }
+                // 트리 생성 후 호출되는 함수
+                if (typeof options.onCreate === 'function') {
+                    options.onCreate(this);
+                }
+            } else {
+                // 데이터가 없는 경우 nodata 텍스트를 띄운다
+                document.querySelector('#' + options.target).innerHTML = `
                         <div class="align-center">
                             <label>${i18n.msg('common.msg.noData')}</label>
                         </div>
                     `;
-                    if (options.totalCount) {
-                        document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', 0);
-                    }
-                }
-                if (options.sessionKey !== null && sessionStorage.getItem(options.sessionKey) !== null) {
-                    sessionStorage.removeItem(options.sessionKey);
+                if (options.totalCount) {
+                    document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', 0);
                 }
             }
-        }, true);
+            if (options.sessionKey !== null && sessionStorage.getItem(options.sessionKey) !== null) {
+                sessionStorage.removeItem(options.sessionKey);
+            }
+        });
 
         if (options.view === 'modal') {
             treeModal.show();

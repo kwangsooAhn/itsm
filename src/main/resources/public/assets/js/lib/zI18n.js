@@ -6,9 +6,9 @@
     'use strict';
 
     let messages = {},
-        defaultDateTimeFormat = 'yyyy-MM-dd HH:mm:ss',
+        defaultDateTimeFormat = 'yyyy-MM-dd HH:mm', // ITSM 에서는 초 데이터(ss)를 쓸일이 없으니,  기본값 수정
         defaultDateFormat = 'yyyy-MM-dd',
-        defaultTimeFormat = 'HH:mm:ss', //HH = 24, hh = 12
+        defaultTimeFormat = 'HH:mm', //HH = 24, hh = 12
         defaultLang = 'ko',
         defaultTimezone = 'Asia/Seoul';
     
@@ -46,39 +46,56 @@
      * @param {Object} offset 날짜시간 계산을 위한 조정 값.
      * @return {String} 사용자 타임존과 포맷이 반영된 날짜 데이터.
      */
-    function getDateTime(offset) {
-        if (offset === undefined) {
-            offset = { 'days' : 0 };
-        }
-        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(i18n.dateTimeFormat);
+    function getDateTime(offset = { days : 0 }, format = i18n.dateTimeFormat) {
+        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(format);
     }
 
-    function getDate(offset) {
-        if (offset === undefined) {
-            offset = { 'days' : 0 };
-        }
-        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(i18n.dateFormat);
+    function getDate(offset = { days : 0 }, format = i18n.dateFormat) {
+        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(format);
     }
 
-    function getTime(offset) {
-        if (offset === undefined) {
-            offset = { 'hours' : 0 };
-        }
-        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(i18n.timeFormat);
+    function getTime(offset = { hours : 0 }, format = i18n.timeFormat) {
+        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(format);
     }
 
-    function getStartOfDate(offset, start) {
+    function getStartOfDateTime(offset = { days : 0 }, start, format = i18n.dateTimeFormat) {
         return luxon.DateTime.local().setZone(i18n.timezone).plus(offset)
-            .startOf(start).toFormat(i18n.dateFormat);
+            .startOf(start).toFormat(format);
     }
 
-    function getEndOfDate(offset, end) {
+    function getStartOfDate(offset = { days : 0 }, start, format = i18n.dateFormat) {
         return luxon.DateTime.local().setZone(i18n.timezone).plus(offset)
-            .endOf(end).toFormat(i18n.dateFormat);
+            .startOf(start).toFormat(format);
     }
 
-    function getCustomDate(year, month, day) {
-        return luxon.DateTime.local(year, month, day).setZone(i18n.timezone).toFormat(i18n.dateFormat);
+    function getEndOfDateTime(offset = { days : 0 }, end, format = i18n.dateTimeFormat) {
+        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset)
+            .endOf(end).toFormat(format);
+    }
+
+    function getEndOfDate(offset = { days : 0 }, end, format = i18n.dateFormat) {
+        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset)
+            .endOf(end).toFormat(format);
+    }
+
+    function getCustomDate(year, month, day, format = i18n.dateFormat) {
+        return luxon.DateTime.local(year, month, day).setZone(i18n.timezone).toFormat(format);
+    }
+
+    /**
+     * 사용자에게 날짜를 받아서 원하는 만큼 날짜를 더해서 날짜로만 반환한다.
+     *
+     * @author Kim Sung Min
+     * @since 2020-08-26
+     * @param {String}  beforeUserDate 사용자가 입력한 날짜시간.
+     * @param {{days: number}}  offset 더하고 싶은 날짜 수
+     * @return {String} i18n.dateFormat 으로 반환한다.
+     */
+    function makeUserDate(beforeUserDate, offset= { days : 0 }) {
+        if (beforeUserDate === null || beforeUserDate === '') { return ''; }
+
+        return luxon.DateTime.fromFormat(beforeUserDate, i18n.dateFormat, {zone: i18n.timezone})
+            .setZone(i18n.timezone).plus(offset).toFormat(i18n.dateFormat);
     }
 
     /**
@@ -89,16 +106,11 @@
      * @param {String}  beforeUserDateTime 사용자가 입력한 날짜시간.
      * @return {String} 변환된 데이터.
      */
-    function convertToSystemDateTime(beforeUserDateTime, offset, format = i18n.dateTimeFormat) {
-        if (beforeUserDateTime === null || beforeUserDateTime === '') {
-            return '';
-        } else {
-            if (offset === undefined) {
-                offset = { 'days' : 0 };
-            }
-            return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserDateTime), format,
-                {zone: i18n.timezone}).setZone('utc+0').plus(offset).toISO();
-        }
+    function convertToSystemDateTime(beforeUserDateTime, offset = { days : 0 }, format = i18n.dateTimeFormat) {
+        if (beforeUserDateTime === null || beforeUserDateTime === '') { return ''; }
+
+        return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserDateTime), format,
+            {zone: i18n.timezone}).setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -109,16 +121,11 @@
      * @param {String}  beforeUserDate 변환 대상 날짜.
      * @return {String} 변환된 데이터.
      */
-    function convertToSystemDate(beforeUserDate, offset, format =  i18n.dateFormat) {
-        if (beforeUserDate === null || beforeUserDate === '') {
-            return '';
-        } else {
-            if (offset === undefined) {
-                offset = { 'days' : 0 };
-            }
-            return luxon.DateTime.fromFormat(beforeUserDate, format, {zone: i18n.timezone})
-                .setZone('utc+0').plus(offset).toISO();
-        }
+    function convertToSystemDate(beforeUserDate, offset = { days : 0 }, format =  i18n.dateFormat) {
+        if (beforeUserDate === null || beforeUserDate === '') { return ''; }
+
+        return luxon.DateTime.fromFormat(beforeUserDate, format, {zone: i18n.timezone})
+            .setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -131,11 +138,9 @@
      * @return {String} 변환된 데이터.
      */
     function convertToSystemTime(beforeUserTime, format = i18n.timeFormat) {
-        if (beforeUserTime === null || beforeUserTime === '') {
-            return '';
-        } else {
-            return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserTime), format).toFormat('HH:mm');
-        }
+        if (beforeUserTime === null || beforeUserTime === '') { return ''; }
+
+        return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserTime), format).toFormat('HH:mm');
     }
 
     /**
@@ -166,11 +171,9 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserDateTime(beforeSystemDateTime,  format = i18n.dateTimeFormat) {
-        if (beforeSystemDateTime === null || beforeSystemDateTime === '') {
-            return '';
-        } else {
-            return luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(i18n.timezone).toFormat(format);
-        }
+        if (beforeSystemDateTime === null || beforeSystemDateTime === '') { return ''; }
+
+        return luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(i18n.timezone).toFormat(format);
     }
 
     /**
@@ -182,11 +185,9 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserDate(beforeSystemDate, format = i18n.dateFormat) {
-        if (beforeSystemDate === null || beforeSystemDate === '') {
-            return '';
-        } else {
-            return luxon.DateTime.fromISO(beforeSystemDate, {zone: 'utc'}).setZone(i18n.timezone).toFormat(format);
-        }
+        if (beforeSystemDate === null || beforeSystemDate === '') { return ''; }
+
+        return luxon.DateTime.fromISO(beforeSystemDate, {zone: 'utc'}).setZone(i18n.timezone).toFormat(format);
     }
 
     /**
@@ -199,11 +200,9 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserTime(beforeSystemTime, format = i18n.timeFormat) {
-        if (beforeSystemTime === null || beforeSystemTime === '') {
-            return '';
-        } else {
-            return luxon.DateTime.fromISO(beforeSystemTime).toFormat(format);
-        }
+        if (beforeSystemTime === null || beforeSystemTime === '') { return ''; }
+
+        return luxon.DateTime.fromISO(beforeSystemTime).toFormat(format);
     }
 
     /**
@@ -294,20 +293,15 @@
                 callbackFunc();
             }
         } else {
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/i18n/messages',
-                async: false,
-                callbackFunc: function(xhr) {
-                    messages = JSON.parse(xhr.responseText);
-                    // 새로 로딩된 메시지를 세션 스토리지에 저장.
-                    sessionStorage.setItem(sessionStorageKey, xhr.responseText);
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
-                },
-                showProgressbar: false,
-                contentType: 'application/json; charset=utf-8'
+            aliceJs.fetchText('/i18n/messages', {
+                method: 'GET'
+            }).then((data) => {
+                messages = JSON.parse(data);
+                // 새로 로딩된 메시지를 세션 스토리지에 저장.
+                sessionStorage.setItem(sessionStorageKey, data);
+                if (typeof callbackFunc === 'function') {
+                    callbackFunc();
+                }
             });
         }
     }
@@ -333,27 +327,6 @@
         return message;
     }
 
-    /**
-     * 사용자에게 날짜를 받아서 원하는 만큼 날짜를 더해서 날짜로만 반환한다.
-     *
-     * @author Kim Sung Min
-     * @since 2020-08-26
-     * @param {String}  beforeUserDate 사용자가 입력한 날짜시간.
-     * @param {{days: number}}  offset 더하고 싶은 날짜 수
-     * @return {String} i18n.dateFormat 으로 반환한다.
-     */
-    function makeUserDate(beforeUserDate, offset) {
-        if (beforeUserDate === null || beforeUserDate === '') {
-            return '';
-        } else {
-            if (offset === undefined) {
-                offset = { 'days' : 0 };
-            }
-            return luxon.DateTime.fromFormat(beforeUserDate, i18n.dateFormat, {zone: i18n.timezone})
-                .setZone(i18n.timezone).plus(offset).toFormat(i18n.dateFormat);
-        }
-    }
-
     exports.init = init;
     exports.initMessages = addMessages;
 
@@ -361,7 +334,9 @@
     exports.getTime = getTime;
     exports.getDateTime = getDateTime;
     exports.getStartOfDate = getStartOfDate;
+    exports.getStartOfDateTime = getStartOfDateTime;
     exports.getEndOfDate = getEndOfDate;
+    exports.getEndOfDateTime = getEndOfDateTime;
     exports.getCustomDate = getCustomDate;
     exports.systemDateTime = convertToSystemDateTime;
     exports.systemDate = convertToSystemDate;

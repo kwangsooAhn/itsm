@@ -52,14 +52,10 @@
         attributeId = document.getElementById('attributeId').value;
 
         // load custom-code list.
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/custom-codes?viewType=editor',
-            async: false,
-            callbackFunc: function(xhr) {
-                customCodeList = JSON.parse(xhr.responseText);
-            },
-            contentType: 'application/json; charset=utf-8'
+        aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
+            method: 'GET'
+        }).then((data) => {
+            customCodeList = data;
         });
     }
 
@@ -406,7 +402,6 @@
         const defaultValue = property.default !== undefined ? (defaultType === 'code' ?
             property.default.value.split('|')[0] : property.default.value) : '';
         const buttonText = property.button !== undefined ? property.button : '';
-
         // session
         const sessionOptions = [{
             'text': i18n.msg('user.label.name'),
@@ -416,7 +411,6 @@
                 `${(defaultType === 'session' && defaultValue === option.value) ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
-
         this.template =
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4">` +
@@ -462,7 +456,13 @@
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
             `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span></label></div>` +
             `<div class="flex-column col-1"></div>` +
-            `<div class="flex-column col-7"><select id="${objectId}-default-code" ${defaultType === 'code' ? '' : 'disabled=\'true\''}></select></div>` +
+            `<div class="flex-column col-7">` +
+                `<div class="flex-row z-input-button">` +
+                    `<input type="text" class="z-input" readonly="true" id="${objectId}-default-code-text" value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
+                    `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
+                    `<button class="z-button-icon z-button-code" type="button" id="${objectId}-default-code" data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}><span class="z-icon i-search"></span></button>` +
+                `</div>` +
+            `</div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4">` +
@@ -472,34 +472,25 @@
                 `<input type="text" class="z-input" id="${objectId}-button" maxlength="100" value="${buttonText}">` +
             `</div>` +
             `</div>`;
-
         parent.insertAdjacentHTML('beforeend', this.template);
+
+        aliceJs.initDesignedSelectTag();
 
         // custom-code 변경 시 데이터 변경
         const customCodeObject = document.getElementById(objectId + '-select');
         customCodeObject.addEventListener('change', function(e) {
             e.stopPropagation();
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/rest/custom-codes/' + this.value,
-                callbackFunc: function(xhr) {
-                    let customCodeData = JSON.parse(xhr.responseText);
-                    let customCodeDataObject = document.getElementById(objectId + '-default-code');
-                    customCodeDataObject.innerHTML = customCodeData.map(function(option) {
-                        return `<option value='${option.key}' ` +
-                            `${defaultValue === option.key ? 'selected=\'true\'' : ''}>` +
-                            `${aliceJs.filterXSS(option.value)}</option>`;
-                    }).join('');
-                    aliceJs.initDesignedSelectTag();
-                },
-                contentType: 'application/json; charset=utf-8',
-                showProgressbar: false
-            });
+
+            const codeBtn = document.getElementById(objectId + '-default-code');
+            codeBtn.setAttribute('data-value', this.value);
+
+            const codeText = document.getElementById(objectId + '-default-code-text');
+            codeText.value = '';
+            codeText.setAttribute('data-value', '');
         });
 
-        const evt = document.createEvent('HTMLEvents');
-        evt.initEvent('change', false, true);
-        customCodeObject.dispatchEvent(evt);
+        // 코드 선택 모달 오픈
+        document.getElementById(objectId + '-default-code').addEventListener('click', openCustomCodeTree, false);
 
         // disabled
         const defaultNoneObject = document.getElementById(objectId + '-none');
@@ -509,20 +500,46 @@
         defaultNoneObject.addEventListener('click', function(e) {
             e.stopPropagation();
             document.getElementById(objectId + '-default-session').disabled = true;
+            document.getElementById(objectId + '-default-code-text').disabled = true;
             document.getElementById(objectId + '-default-code').disabled = true;
             aliceJs.initDesignedSelectTag();
         });
         defaultSessionObject.addEventListener('click', function(e) {
             e.stopPropagation();
             document.getElementById(objectId + '-default-session').disabled = false;
+            document.getElementById(objectId + '-default-code-text').disabled = true;
             document.getElementById(objectId + '-default-code').disabled = true;
             aliceJs.initDesignedSelectTag();
         });
         defaultCodeObject.addEventListener('click', function(e) {
             e.stopPropagation();
             document.getElementById(objectId + '-default-session').disabled = true;
+            document.getElementById(objectId + '-default-code-text').disabled = false;
             document.getElementById(objectId + '-default-code').disabled = false;
             aliceJs.initDesignedSelectTag();
+        });
+    }
+
+    /**
+     * 커스텀 코드 데이터 트리 조회
+     */
+    function openCustomCodeTree(e) {
+        const customCodeId = e.target.getAttribute('data-value');
+        const inputElem = document.getElementById(e.target.id + '-text');
+        const selectedValue = inputElem.getAttribute('data-value');
+        tree.load({
+            view: 'modal',
+            title: i18n.msg('form.label.customCodeTarget'),
+            dataUrl: '/rest/custom-codes/' + customCodeId,
+            target: 'treeList',
+            text: 'codeName',
+            rootAvailable: false,
+            leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
+            selectedValue: selectedValue,
+            callbackFunc: (response) => {
+                inputElem.value = response.textContent;
+                inputElem.setAttribute('data-value', response.id);
+            }
         });
     }
 
@@ -816,8 +833,8 @@
                         defaultValue = parent.querySelector('#' + attributeTypeList[4].type + '-default-session').value;
                         break;
                     case 'code':
-                        const codeSelect = parent.querySelector('#' + attributeTypeList[4].type + '-default-code');
-                        defaultValue = codeSelect.value + '|' + codeSelect.options[codeSelect.selectedIndex].text;
+                        const codeText = parent.querySelector('#' + attributeTypeList[4].type + '-default-code-text');
+                        defaultValue = codeText.getAttribute('data-value') + '|' + codeText.value;
                         break;
                     default:
                         break;
@@ -999,7 +1016,7 @@
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
                         const selectOption = document.createElement('option');
-                        selectOption.textContent = attributeOption.text;
+                        selectOption.textContent = (elem.className == 'readonly' && attributeOption.value == '') ? '' : attributeOption.text;
                         selectOption.value = attributeOption.value;
                         if (selectOption.value === data.value) {
                             selectOption.selected = true;
@@ -1113,15 +1130,19 @@
 
                 const customBtnElem = document.createElement('button');
                 customBtnElem.type = 'button';
-                customBtnElem.className = 'secondary z-button';
+                customBtnElem.className = 'z-button z-button-icon secondary';
                 customBtnElem.disabled = (displayMode === 'view');
                 customBtnElem.setAttribute('data-custom-code', attributeValue.customCode);
+
+                const customSpanElem = document.createElement('span');
+                customSpanElem.className = 'z-icon i-search';
+                customBtnElem.appendChild(customSpanElem);
                 elem.appendChild(customBtnElem);
 
                 let customData = data.value; // 'key|값'
                 if (attributeValue !== '') {
                     let defaultValue = '';
-                    customBtnElem.textContent = attributeValue.button;
+                    customSpanElem.textContent = attributeValue.button;
                     // 커스텀 코드 기본 값 넣기
                     if (data.value === '' || data.value === null) {
                         switch (attributeValue.default.type) {

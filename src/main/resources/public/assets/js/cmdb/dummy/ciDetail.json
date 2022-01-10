@@ -34,8 +34,8 @@
       }
     ],
     "ciRelations": [
-      {"relationId":"","relationType":"","masterCIId":"","slaveCIId":""},
-      {"relationId":"","relationType":"","masterCIId":"","slaveCIId":""}
+      {"relationId":"","masterCIId":"","slaveCIId":""},
+      {"relationId":"","masterCIId":"","slaveCIId":""}
     ],
     "ciTags": [
       {"tagId":"88fc78892916dc310b4984858b28120a","tagName":"test111"},

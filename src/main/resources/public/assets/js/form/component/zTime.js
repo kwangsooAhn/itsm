@@ -190,6 +190,7 @@ export const timeMixin = {
             isValidationPass = i18n.compareSystemTime(e.value, this.validationMaxTime);
             zValidation.setDOMElementError(isValidationPass, e, i18n.msg('common.msg.selectBeforeTime', this.validationMaxTime));
         }
+        this.UIElement.UIComponent.UIElement.UIDate.removeUIClass('error');
         this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, e.value);
     },
     getProperty() {

@@ -42,21 +42,12 @@
      * Attribute 검색
      */
     function getList(pageNum = 1) {
-        restSubmit('get', '/cmdb/attributes?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
-    }
-
-    // REST API
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                document.getElementById('attributeList').innerHTML = response.responseText;
-            }
-        };
-        aliceJs.sendXhr(opt);
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/cmdb/attributes?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            document.getElementById('attributeList').innerHTML = htmlData;
+        });
     }
     /*]]>*/
 </script>

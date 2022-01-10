@@ -108,6 +108,9 @@ password.expired.period: 90
 # 로그인 플랫폼 사용여부
 login.platform.enabled: false
 
+# 사용자 계정만들기 사용여부
+create.account.enabled: false
+
 # 아이디 찾기 사용여부
 find.id.enabled: false
 
@@ -127,6 +130,14 @@ spring:
     password: ENC(Nkoufw9FfHXYGOYykZFpqA==) # itsm123
     driver-class-name: ENC(Arw4J0ZjOrhA7dVeRVgnR7n1SbuwU+e2b1TUmlskxnRbd0/Zf/hRY5wf4PEk43DU) # net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 file.upload.dir: /root/files
+---
+spring:
+  profiles: localhost
+  datasource:
+    url: jdbc:log4jdbc:postgresql://localhost:5432/itsm
+  jpa:
+    show-sql: false
+    properties.hibernate.format_sql: false
 ---
 spring:
   profiles: hcjung

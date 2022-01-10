@@ -8,11 +8,11 @@
 <th:block layout:fragment="content">
     <h1 style="text-align: left;" th:text="#{department.label.deptList}"></h1>
     <div class="container">
-        <tr th:if="${#arrays.isEmpty(departmentList)}">
+        <tr th:if="${#arrays.isEmpty(organizationList)}">
             <td style="width:100%" th:text="#{common.msg.noData}"></td>
         </tr>
-        <ul th:each="department : ${departmentList}">
-            <li th:id="${department.code}" th:text="${department.codeValue}" th:value="${department.code}"
+        <ul th:each="organization : ${organizationList}">
+            <li th:id="${organization.organizationId}" th:text="${organization.organizationName}" th:value="${organization.organizationId}"
                 onclick="transferData(this.id);" style="cursor: pointer"/>
         </ul>
     </div>
@@ -22,8 +22,8 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         function transferData(id) {
-            opener.document.getElementById('department').value = document.getElementById(id).textContent;
-            opener.document.getElementById('departmentCode').value = id;
+            opener.document.getElementById('organization').value = document.getElementById(id).textContent;
+            opener.document.getElementById('organizationId').value = id;
 
             window.close();
         }

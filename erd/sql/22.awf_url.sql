@@ -69,7 +69,7 @@ insert into awf_url values ('/custom-codes/new', 'get', '사용자 정의 코드
 insert into awf_url values ('/custom-codes/search', 'get', '사용자 정의 코드 리스트 호출 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/{id}/edit', 'get', '사용자 정의 코드 수정 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/{id}/view', 'get', '사용자 정의 코드 상세 정보 화면', 'TRUE');
-insert into awf_url values ('/dashboard/view', 'get', '대시보드 상세 정보 화면', 'TRUE');
+insert into awf_url values ('/dashboard/view', 'get', '대시보드 상세 정보 화면', 'FALSE');
 insert into awf_url values ('/workflows', 'get', '업무흐름 리스트 화면', 'TRUE');
 insert into awf_url values ('/workflows/new', 'get', '신청서 생성 화면', 'TRUE');
 insert into awf_url values ('/workflows/search', 'get', '업무흐름 데이터 + 목록화면', 'TRUE');
@@ -113,6 +113,7 @@ insert into awf_url values ('/numberingRules/{id}/edit', 'get', '문서번호 �
 insert into awf_url values ('/numberingRules/{id}/view', 'get', '문서번호 상세 보기', 'TRUE');
 insert into awf_url values ('/oauth/{service}/callback', 'get', 'OAuth 로그인 응답 콜백', 'TRUE');
 insert into awf_url values ('/oauth/{service}/login', 'get', 'OAuth 로그인 화면 호출', 'TRUE');
+insert into awf_url values ('/organizations/edit', 'get', '조직 관리 편집 화면', 'TRUE');
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
 insert into awf_url values ('/portals/browserguide', 'get', '포탈 브라우저 안내', 'FALSE');
 insert into awf_url values ('/portals/downloads', 'get', '포달 자료실 리스트', 'FALSE');
@@ -249,6 +250,11 @@ insert into awf_url values ('/rest/numberingRules', 'post', '문서번호 등록
 insert into awf_url values ('/rest/numberingRules/{id}', 'get', '문서번호 세부 조회', 'TRUE');
 insert into awf_url values ('/rest/numberingRules/{id}', 'put', '문서번호 정보 변경', 'TRUE');
 insert into awf_url values ('/rest/numberingRules/{id}', 'delete', '문서번호 삭제', 'TRUE');
+insert into awf_url values ('/rest/organizations', 'get', '조직 조회', 'TRUE');
+insert into awf_url values ('/rest/organizations/{id}', 'get', '조직 상세 조회', 'FALSE');
+insert into awf_url values ('/rest/organizations/{id}', 'put', '조직 수정', 'TRUE');
+insert into awf_url values ('/rest/organizations/{id}', 'delete', '조직 삭제', 'TRUE');
+insert into awf_url values ('/rest/organizations', 'post', '조직 등록', 'TRUE');
 insert into awf_url values ('/rest/portals', 'get', '포탈 조회 (페이징)', 'FALSE');
 insert into awf_url values ('/rest/portals/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filenameextensions', 'get', '포탈 첨부파일 확장자 조회', 'FALSE');

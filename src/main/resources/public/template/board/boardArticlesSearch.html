@@ -15,7 +15,7 @@
     <form id="searchFrm">
         <select class="search-selectBox col-3" id="boardAdminId" name="boardAdminId">
             <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
-                    th:text="#{${boardAdmin.boardAdminTitle}}"></option>
+                    th:text="#{${boardAdmin.boardAdminTitle}}" th:selected="${boardAdmin.boardAdminId == boardAdminId}"></option>
         </select>
         <input type="text" class="z-input i-search text-ellipsis col-3" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{board.label.searchBoardPlaceholder}"/>
@@ -27,7 +27,7 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" onclick="openBoardAdd()"
-                sec:authorize="hasAuthority('board.create')" th:text="#{common.btn.add}"></button>
+                sec:authorize="hasAuthority('board.create') or hasAuthority('board.admin.create')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
@@ -88,27 +88,20 @@
     function getList(pageNum = 1) {
         document.getElementById('toDt').value =
             i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
-        restSubmit('get', '/boards/articles?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/boards/articles?' + urlParam, {
+            method: 'GET',
+        }).then((htmlData) => {
+            const boardList = document.getElementById('boardList');
+            boardList.innerHTML = htmlData;
+            setDateTimeFormat(boardList);
+        });
     }
 
     //게시판 관리 등록
     function openBoardAdd() {
         location.href = '/boards/articles/' + document.getElementById('boardAdminId').value + '/new';
-    }
-
-    //REST API
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            callbackFunc: function(response) {
-                document.getElementById('boardList').innerHTML = response.responseText;
-                setDateTimeFormat(document.getElementById('boardList'));
-            },
-            showProgressbar: false
-        };
-        aliceJs.sendXhr(opt);
     }
 
     /**

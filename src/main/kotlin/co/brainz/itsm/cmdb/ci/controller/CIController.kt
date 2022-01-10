@@ -59,7 +59,7 @@ class CIController(
     fun getCIView(request: HttpServletRequest, model: Model, @PathVariable ciId: String): String {
         val ciData = ciService.getCI(ciId)
         val ciHistoryList = ciService.getCIHistory(ciId)
-        val ciRelationList = ciService.getCIRelation(ciId)
+        val ciRelationList = ciService.getCIRelations(ciId)
         model.addAttribute("ciData", ciData)
         model.addAttribute("ciHistoryList", ciHistoryList)
         model.addAttribute("userInfo", currentSessionUser.getUserDto())
@@ -82,11 +82,14 @@ class CIController(
     @PostMapping("/component/edit")
     fun getCIComponentEdit(request: HttpServletRequest, @RequestBody modifyCIData: String, model: Model): String {
         // TODO: 세션 정보를 화면에서 처리하도록 수정
+        val parameter = LinkedHashMap<String, String>()
+        parameter["ciId"] = request.getParameter("ciId")
+        parameter["componentId"] = request.getParameter("componentId")
+        parameter["instanceId"] = request.getParameter("instanceId")
+        parameter["interlink"] = request.getParameter("interlink")
         model.addAttribute(
             "ciData", ciService.getCIData(
-                request.getParameter("ciId"),
-                request.getParameter("componentId"),
-                request.getParameter("instanceId"),
+                parameter,
                 modifyCIData
             )
         )

@@ -296,8 +296,6 @@
                     zAlert.success([[#{common.msg.modify}]], () => {
                         window.location.reload();
                     });
-                } else {
-                    zAlert.success([[#{common.msg.fail}]]);
                 }
             });
         });
@@ -344,33 +342,33 @@
             data.password = rsa.encrypt(password);
         }
 
-        aliceJs.sendXhr({
+        aliceJs.fetchText(url, {
             method: 'PUT',
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success([[#{common.msg.modify}]], function () {
-                            window.location.reload();
-                        });
-                        break;
-                    case STATUS_SUCCESS_EDIT_EMAIL:
-                        zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
-                            window.location.reload();
-                        });
-                        break;
-                    case STATUS_ERROR_USER_ID_DUPLICATION:
-                        zAlert.warning([[#{user.msg.sameUserId}]]);
-                        break;
-                    case STATUS_ERROR_EMAIL_DUPLICATION:
-                        zAlert.warning([[#{user.msg.sameEmail}]]);
-                        break;
-                    default :
-                        zAlert.danger(i18n.msg('common.label.modify') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
-                        break;
-                }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            switch (response.responseText) {
+                case STATUS_SUCCESS:
+                    zAlert.success([[#{common.msg.modify}]], function () {
+                        window.location.reload();
+                    });
+                    break;
+                case STATUS_SUCCESS_EDIT_EMAIL:
+                    zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
+                        window.location.reload();
+                    });
+                    break;
+                case STATUS_ERROR_USER_ID_DUPLICATION:
+                    zAlert.warning([[#{user.msg.sameUserId}]]);
+                    break;
+                case STATUS_ERROR_EMAIL_DUPLICATION:
+                    zAlert.warning([[#{user.msg.sameEmail}]]);
+                    break;
+                default :
+                    zAlert.danger(i18n.msg('common.label.modify') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
+                    break;
             }
         });
     }
@@ -387,8 +385,8 @@
             const endDtElement = document.getElementById('absenceEndDt');
             startDtElement.value = startDtVal ? i18n.userDateTime(startDtVal) : i18n.getDateTime();
             endDtElement.value = endDtVal ? i18n.userDateTime(endDtVal) : i18n.getDateTime({'days':7});
-            zDateTimePicker.initDateTimePicker(startDtElement);
-            zDateTimePicker.initDateTimePicker(endDtElement);
+            zDateTimePicker.initDateTimePicker(startDtElement, changeDateTimePicker);
+            zDateTimePicker.initDateTimePicker(endDtElement, changeDateTimePicker);
             document.getElementById('substituteUserKey').value = /*[[${users?.absence?.substituteUserKey}]]*/'';
             document.getElementById('substituteUser').value = /*[[${users?.absence?.substituteUser}]]*/'';
             document.getElementById('absenceData').style.display = 'block';
@@ -398,6 +396,31 @@
             document.getElementById('substituteUserKey').value = '';
             document.getElementById('substituteUser').value = '';
             document.getElementById('absenceData').style.display = 'none';
+        }
+    }
+
+    /**
+     * DateTimePicker 변경시 호출
+     */
+    function changeDateTimePicker(element, picker) {
+        if (typeof picker === 'undefined') { return false; }
+
+        if (element.id === 'absenceStartDt') {
+            const toDtValue = document.getElementById('absenceEndDt').value;
+            if (!i18n.compareSystemDateTime(element.value, toDtValue)) {
+                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', toDtValue), function () {
+                    element.value = i18n.getDateTime({'days':7});
+                    picker.open();
+                });
+            }
+        } else {
+            const fromDtValue = document.getElementById('absenceStartDt').value;
+            if (!i18n.compareSystemDateTime(fromDtValue, element.value)) {
+                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', fromDtValue), function () {
+                    element.value = i18n.getDateTime();
+                    picker.open();
+                });
+            }
         }
     }
 
@@ -424,9 +447,6 @@
         if (document.getElementById('userAbsence').checked) {
             if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) return false;
             if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) return false;
-            if (isOrOperator((i18n.systemDateTime(document.getElementById('absenceStartDt').value) > i18n.systemDateTime(document.getElementById('absenceEndDt').value))
-                , (i18n.systemDateTime(document.getElementById('absenceStartDt').value) === i18n.systemDateTime(document.getElementById('absenceEndDt').value))
-                , 'user.msg.compareWithAbsenceDtValue')) return false;
             if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
         }
 
@@ -439,18 +459,16 @@
     }
 
     function deptPopUp() {
-        const rootCode = 'department';
         tree.load({
             view: 'modal',
             title: i18n.msg('department.label.deptList'),
-            dataUrl: '/rest/codes?pCode=' + rootCode,
-            root: rootCode,
-            rootLevel: 3,
+            dataUrl: '/rest/organizations',
             target: 'treeList',
-            text: 'codeName',
+            source: 'organization',
+            text: 'organizationName',
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
-            defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
-            leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
+            defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
+            leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
             selectedValue: document.getElementById('departmentCode').value,
             callbackFunc: function (response) {
                 setDepartment(response);
@@ -459,44 +477,49 @@
     }
 
     function openUserListPopup() {
-        const subUserModal = new modal({
-            title: i18n.msg('user.label.substituteUser'),
-            body: createModalContent(),
-            classes: 'sub-user-modal',
-            buttons: [{
-                content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
-                bindKey: false,
-                callback: (modal) => {
-                    const selectedSubUser = document.querySelector('input[type=radio]:checked');
-                    if (selectedSubUser === null) {
-                        zAlert.warning(i18n.msg('user.msg.enterSubstituteUser'));
-                        return false;
-                    } else {
-                        document.getElementById('substituteUserKey').value = selectedSubUser.value;
-                        document.getElementById('substituteUser').value = selectedSubUser.name;
+        let isValid = true
+        if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) isValid = false;
+        if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) isValid = false;
+        if (isValid) {
+            const subUserModal = new modal({
+                title: i18n.msg('user.label.substituteUser'),
+                body: createModalContent(),
+                classes: 'sub-user-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.select'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: (modal) => {
+                        const selectedSubUser = document.querySelector('input[type=radio]:checked');
+                        if (selectedSubUser === null) {
+                            zAlert.warning(i18n.msg('user.msg.enterSubstituteUser'));
+                            return false;
+                        } else {
+                            document.getElementById('substituteUserKey').value = selectedSubUser.id;
+                            document.getElementById('substituteUser').value = selectedSubUser.value;
+                        }
+                        modal.hide();
                     }
-                    modal.hide();
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: (modal) => {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: () => {
+                    document.getElementById('search').addEventListener('keyup', (e) => {
+                        this.getSubUserList(e.target.value, false);
+                    });
+                    this.getSubUserList(document.getElementById('search').value, true);
                 }
-            }, {
-                content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: (modal) => {
-                    modal.hide();
-                }
-            }],
-            close: {
-                closable: false,
-            },
-            onCreate: () => {
-                document.getElementById('search').addEventListener('keyup', (e) => {
-                    this.getSubUserList(e.target.value, false);
-                });
-                this.getSubUserList(document.getElementById('search').value, true);
-            }
-        });
-        subUserModal.show();
+            });
+            subUserModal.show();
+        }
     }
 
     function createModalContent() {
@@ -509,24 +532,32 @@
     
     function getSubUserList(search, showProgressbar) {
         let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
-        const opt = {
-            method: 'get',
-            url: strUrl,
-            contentType: 'application/json',
-            showProgressbar: showProgressbar,
-            callbackFunc: function (response) {
-                document.getElementById('subUserList').innerHTML = response.responseText;
-                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-                aliceJs.showTotalCount(document.querySelectorAll('.sub-user-list').length);
-                document.querySelectorAll('input[type=radio]').forEach(function (radio) {
-                    // 업무 대리인으로 자기 자신은 선택할 수 없다.
-                    if (radio.value === document.getElementById('userKey').value) {
-                        radio.disabled = true;
-                    }
-                });
+            + '&from=' + i18n.systemDateTime(document.getElementById('absenceStartDt').value)
+            + '&to=' + i18n.systemDateTime(document.getElementById('absenceEndDt').value)
+            + '&userKey=' + document.getElementById('userKey').value;
+
+        aliceJs.fetchText(strUrl, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            document.getElementById('subUserList').innerHTML = htmlData;
+            OverlayScrollbars(document.querySelector('.z-table-body'), { className: 'scrollbar' });
+            //갯수 카운트
+            const substituteUserList = document.getElementById('substituteUserList');
+            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
+            document.querySelectorAll('input[type=radio]').forEach(function (radio) {
+                // 업무 대리인으로 자기 자신은 선택할 수 없다.
+                if (radio.id === document.getElementById('userKey').value) {
+                    radio.disabled = true;
+                }
+            });
+            // 선택된 항목 표시
+            const selectedSubstituteUserKey = document.getElementById('substituteUserKey').value;
+            const radioElem = document.querySelector('input[id="' + selectedSubstituteUserKey + '"]');
+            if (radioElem) {
+                radioElem.checked = true;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
     /*]]>*/
 </script>

@@ -1,1 +1,10 @@
 @import "../../template/buttons";
+
+.z-button-code {
+  .z-icon {
+    &.i-search {
+      background: $element-icon-color;
+      pointer-events: none;
+    }
+  }
+}

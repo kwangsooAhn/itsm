@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.portal.repository
 
+import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.entity.QDownloadEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
@@ -25,6 +26,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
         val notice = QNoticeEntity.noticeEntity
         val faq = QFaqEntity.faqEntity
         val download = QDownloadEntity.downloadEntity
+        val code = QCodeEntity.codeEntity
 
         val noticeList =
             from(notice)
@@ -71,12 +73,13 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         PortalDto::class.java,
                         download.downloadId,
                         download.downloadTitle,
-                        download.downloadCategory,
+                        code.codeName,
                         download.createDt,
                         download.updateDt,
                         Expressions.asString("download")
                     )
                 )
+                .innerJoin(code).on(code.code.eq(download.downloadCategory)).fetchJoin()
                 .where(super.likeIgnoreCase(download.downloadTitle, searchValue))
                 .fetch()
 
@@ -86,7 +89,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
         list.addAll(downloadList)
 
         val totalSize = list.size
-        if (!list.isNullOrEmpty()) {
+        if (list.isNotEmpty()) {
             list.sortByDescending { portalDto -> portalDto.createDt }
             var fromRow = offset.toInt()
             var toRow = ItsmConstants.SEARCH_DATA_COUNT.toInt()

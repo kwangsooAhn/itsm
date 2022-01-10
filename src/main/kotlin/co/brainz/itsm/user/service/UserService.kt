@@ -23,6 +23,10 @@ import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
+import co.brainz.framework.organization.dto.OrganizationSearchCondition
+import co.brainz.framework.organization.entity.OrganizationEntity
+import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -52,6 +56,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.nio.file.Paths
 import java.security.PrivateKey
 import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Optional
 import kotlin.math.ceil
@@ -67,7 +72,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-
 /**
  * 사용자 관리 서비스
  */
@@ -87,7 +91,9 @@ class UserService(
     private val userDetailsService: AliceUserDetailsService,
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
-    private val wfTokenRepository: WfTokenRepository
+    private val wfTokenRepository: WfTokenRepository,
+    private val organizationRepository: OrganizationRepository,
+    private val organizationRoleMapRepository: OrganizationRoleMapRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -105,28 +111,88 @@ class UserService(
     }
 
     /**
+     * 부재중인 사용자를 제외한 사용자 목록 조회
+     *   - 사용자 부재 설정을 한 사용자로 기간 범위내 업무 대리인을 지정한 사용자 제외
+     */
+    fun selectNotAbsenceUserList(params: LinkedHashMap<String, Any>): UserListReturnDto {
+        val from = ZonedDateTime.parse(params["from"].toString()).toLocalDateTime()
+        val to = ZonedDateTime.parse(params["to"].toString()).toLocalDateTime()
+        val excludeIds = mutableSetOf<String>()
+        excludeIds.add(params["userKey"].toString())
+        val absenceList = userCustomRepository.findByCustomType(UserConstants.UserCustom.USER_ABSENCE.code)
+        absenceList?.forEach { absence ->
+            val userAbsenceDto = mapper.readValue(absence.customValue, UserAbsenceDto::class.java)
+            if ((userAbsenceDto.startDt!! <= from && userAbsenceDto.endDt!! >= from) ||
+                (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)
+            ) {
+                excludeIds.add(absence.userKey)
+            }
+        }
+        val userSearchCondition = UserSearchCondition(
+            searchValue = params["search"].toString(),
+            isFilterUseYn = true
+        )
+        if (excludeIds.isNotEmpty()) {
+            userSearchCondition.excludeIds = excludeIds
+        }
+
+        return this.selectUserList(userSearchCondition)
+    }
+
+    /**
      * 사용자 목록을 조회한다.
      */
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
         val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
         val userList: MutableList<UserListDataDto> = mutableListOf()
-
         for (user in queryResult.results) {
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
             userList.add(user)
         }
 
+        val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
+        queryResult.results.forEach { user ->
+            val organization = organizationList.results.firstOrNull { it.organizationId == user.groupId }
+            var organizationName = mutableListOf<String>()
+            if (organization != null) {
+                if (organization.pOrganization != null) {
+                    organizationName = this.getRecursive(organization, organizationList.results, organizationName)
+                } else {
+                    organizationName.add(organization.organizationName.toString())
+                }
+            }
+            user.groupName = organizationName.joinToString(" > ")
+        }
+
         return UserListReturnDto(
             data = userList,
             paging = AlicePagingData(
                 totalCount = queryResult.total,
-                totalCountWithoutCondition = userRepository.countByUserIdNotContaining(AliceUserConstants.CREATE_USER_ID),
+                totalCountWithoutCondition = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID),
                 currentPageNum = userSearchCondition.pageNum,
                 totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
+    }
+
+    //groupId 값을 이용하여 상위 레벨의 부서폴더이름 추출
+    private fun getRecursive(
+        organization: OrganizationEntity,
+        organizationList: List<OrganizationEntity>,
+        organizationName: MutableList<String>
+    ): MutableList<String> {
+        organizationName.add(organization.organizationName.toString())
+        if (organization.pOrganization != null) {
+            val pOrganization = organizationList.firstOrNull {
+                it.organizationId == organization.pOrganization!!.organizationId
+            }
+            if (pOrganization != null) {
+                this.getRecursive(pOrganization, organizationList, organizationName)
+            }
+        }
+        return organizationName
     }
 
     /**
@@ -196,6 +262,16 @@ class UserService(
                     true -> {
                         userEntity.userRoleMapEntities.forEach {
                             userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
+                        }
+                        //부서의 role 제외
+                        if (!targetEntity.department.isNullOrEmpty()) {
+                            val organizationRoles =
+                                organizationRoleMapRepository.findRoleListByOrganizationId(targetEntity.department!!)
+                            organizationRoles.forEach { organizationRole ->
+                                if (userUpdateDto.roles!!.contains(organizationRole.roleId)) {
+                                    userUpdateDto.roles!!.remove(organizationRole.roleId)
+                                }
+                            }
                         }
                         userUpdateDto.roles!!.forEach {
                             userRoleMapRepository.save(
@@ -288,7 +364,7 @@ class UserService(
      * (selectbox 용으로 key, id, name 조회)
      */
     fun selectUserListOrderByName(): MutableList<UserSelectListDto> {
-        val userList = userRepository.findByOrderByUserNameAsc()
+        val userList = userRepository.findByUserIdNotOrderByUserNameAsc(AliceUserConstants.CREATE_USER_ID)
         val userDtoList = mutableListOf<UserSelectListDto>()
         for (userEntity in userList) {
             userDtoList.add(
@@ -602,7 +678,7 @@ class UserService(
                             value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(result.createDt)
                         ),
                         ExcelCellVO(
-                            value = if (result.absenceYn) {
+                            value = if (result.useYn) {
                                 aliceMessageSource.getMessage("user.status.true")
                             } else {
                                 aliceMessageSource.getMessage("user.status.false")

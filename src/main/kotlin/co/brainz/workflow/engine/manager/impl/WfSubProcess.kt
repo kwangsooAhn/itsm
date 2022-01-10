@@ -36,6 +36,7 @@ class WfSubProcess(
             it.instanceId = AliceUtil().getUUID()
             it.instancePlatform = createTokenDto.instancePlatform
             WfEngine(wfTokenManagerService).startWorkflow(it)
+            wfTokenManagerService.copyComponentCIData(startTokenDto, it)
         }
 
         super.suspendToken(createTokenDto)

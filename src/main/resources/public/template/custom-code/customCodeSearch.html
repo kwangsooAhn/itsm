@@ -42,22 +42,13 @@
     };
 
     function getList(pageNum = 1) {
-        restSubmit('get', '/custom-codes?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
-    }
-
-    // REST API
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            callbackFunc: function(response) {
-                document.getElementById('customCodeList').innerHTML = response.responseText;
-                setDateTimeFormat(document.getElementById('customCodeList'));
-            },
-            showProgressbar: false
-        };
-        aliceJs.sendXhr(opt);
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/custom-codes?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            document.getElementById('customCodeList').innerHTML = htmlData;
+            setDateTimeFormat(document.getElementById('customCodeList'));
+        });
     }
 
     /**

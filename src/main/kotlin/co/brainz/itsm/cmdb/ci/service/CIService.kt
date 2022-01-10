@@ -90,9 +90,10 @@ class CIService(
     /**
      * CI 컴포넌트 - CI 데이터 조회
      */
-    fun getCIData(ciId: String, componentId: String, instanceId: String, modifyCIData: String): CIDetailDto {
+    fun getCIData(parameter: LinkedHashMap<String, String>, modifyCIData: String): CIDetailDto {
         var ciDetailDto = CIDetailDto(
-            ciId = ciId
+            ciId = parameter["ciId"] as String,
+            interlink = parameter["interlink"]?.toBoolean()
         )
         // 전달된 데이터로 변경
         val map = mapper.readValue(modifyCIData, LinkedHashMap::class.java)
@@ -105,7 +106,6 @@ class CIService(
             ciDetailDto.ciIconData = map["ciIconData"] as String
             ciDetailDto.ciDesc = map["ciDesc"] as String
             ciDetailDto.ciStatus = map["ciStatus"] as String
-            ciDetailDto.interlink = false
             ciDetailDto.typeId = map["typeId"] as String
             ciDetailDto.typeName = map["typeName"] as String
             ciDetailDto.classId = map["classId"] as String
@@ -119,12 +119,18 @@ class CIService(
             ciDetailDto.updateDt = LocalDateTime.now()
 
             // CI 데이터 추출
-            val ciClasses = ciClassService.getCIClassAttributes(ciId, map["classId"] as String)
+            val ciClasses = ciClassService.getCIClassAttributes(
+                parameter["ciId"] as String,
+                map["classId"] as String
+            )
 
             // 임시 테이블 데이터 조회
             val ciComponentData =
-                ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
-            val relationList = mutableListOf<CIRelationDto>()
+                ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(
+                    parameter["componentId"] as String,
+                    parameter["ciId"] as String,
+                    parameter["instanceId"] as String
+                )
             if (ciComponentData != null) {
                 val ciComponentDataValue: Map<String, Any> =
                     mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
@@ -135,10 +141,10 @@ class CIService(
                 )
             }
             ciDetailDto.classes = ciClasses
-            ciDetailDto.ciTags = tagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ciId)
-            ciDetailDto.ciRelations = relationList
+            ciDetailDto.ciTags =
+                tagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, parameter["ciId"] as String)
         } else { // 삭제, 조회시 DB에 저장된 CI 데이터 조회
-            ciDetailDto = getCI(ciId)
+            ciDetailDto = getCI(parameter["ciId"] as String)
         }
 
         return ciDetailDto
@@ -251,8 +257,38 @@ class CIService(
         return ciService.getHistory(ciId)
     }
 
-    fun getCIRelation(ciId: String): List<CIRelationDto> {
-        return ciService.getRelation(ciId)
+    /**
+     * CI 연관 관계 정보 조회
+     */
+    fun getCIRelations(parameter: Any): Any? {
+        var result: Any? = listOf<CIRelationDto>()
+        // 타라미터의 타입에 따라 분기 처리 진행하며, LinkedHashMap 타입의 데이터를 전송한 경우,
+        // wf_component_ci_data 테이블 데이터 유무에 따라 처리를 진행한다.
+        // wf_component_ci_data 테이블에 연관관계 데이터가 존재하는 경우, 해당 데이터를 사용하고
+        // 존재하지 않으면 cmdb_ci_relation 테이블에서 연관 관계 데이터를 가져온다.
+        when (parameter is String) {
+            true -> {
+                result = ciService.getCIRelations(parameter)
+            }
+            false -> {
+                if (parameter is LinkedHashMap<*, *>) {
+                    val ciComponentData = ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(
+                        componentId = parameter["componentId"] as String,
+                        ciId = parameter["ciId"] as String,
+                        instanceId = parameter["instanceId"] as String
+                    )
+                    result = if (ciComponentData != null) {
+                        val ciComponentDataValue: Map<String, Any> =
+                            mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
+                        ciComponentDataValue["relatedCIData"]
+                    } else {
+                        val ciRelationData = ciService.getCIRelations(ciId = parameter["ciId"] as String)
+                        ciRelationData
+                    }
+                }
+            }
+        }
+        return result
     }
 
     /**

@@ -48,13 +48,13 @@
                 </div>
                 <div class="z-button-list">
                     <button type="button" class="z-button primary" id="btnRegist"
-                            sec:authorize="hasAuthority('faq.create')"
+                            sec:authorize="hasAuthority('faq.create')" onclick="saveFaq('POST')"
                             th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
                     <button type="button" class="z-button primary" id="btnUpdate"
-                            sec:authorize="hasAuthority('faq.update')"
+                            sec:authorize="hasAuthority('faq.update')" onclick="saveFaq('PUT')"
                             th:if="${faq?.faqId}" th:text="#{common.btn.modify}"></button>
-                    <button type="button" class="z-button secondary" id="btnDelete"
-                            sec:authorize="hasAuthority('faq.delete')"
+                    <button type="button" class="z-button secondary"
+                            sec:authorize="hasAuthority('faq.delete')" onclick="deleteFaq()"
                             th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
                 </div>
             </div>
@@ -64,34 +64,62 @@
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    /**
-     * url을 요청한다.
-     */
-    function restSubmit(method, url) {
-        if (!validation()) {
-            return;
-        }
-
-        let formObj = aliceJs.formDataToObject(document.getElementById('faqForm'))
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(formObj),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                let result = response.responseText === "true";
-                let resultMsg = [[#{faq.msg.duplicateTitleInCategory}]];
-                if (result) {
-                    resultMsg = [[#{common.msg.save}]];
-                    zAlert.success(resultMsg, function () {
-                        window.location.href = '/faqs/search';
-                    });
-                } else {
-                    zAlert.warning(resultMsg);
-                }
+    window.onload = function () {
+        document.getElementById('faqTitle').focus();
+        OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+            className: 'scrollbar',
+            resize: 'vertical',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: "class"
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
+    };
+
+    /**
+     * FAQ 등록 / 수정
+     */
+    function saveFaq(method) {
+        if (!validation()) { return false; }
+        const faqId = (method === 'POST') ? '' : '/' + /*[[${faq?.faqId}]]*/'';
+        const data = aliceJs.formDataToObject(document.getElementById('faqForm'))
+        aliceJs.fetchJson('/rest/faqs' + faqId, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((result) => {
+            let resultMsg = [[#{common.msg.save}]];
+            if (result.status === 200) {
+                zAlert.success(resultMsg, function () {
+                    window.location.href = '/faqs/search';
+                });
+            }
+        });
+    }
+
+    /**
+     * FAQ 삭제
+     */
+    function deleteFaq() {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
+            aliceJs.fetchJson('/rest/faqs/' + /*[[${faq?.faqId}]]*/'', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then((result) => {
+                if (result.status === 200) {
+                    zAlert.success(i18n.msg('common.msg.delete'), () => {
+                        location.href = '/faqs/search';
+                    });
+                }
+            });
+        });
     }
 
     /**
@@ -106,48 +134,6 @@
         }
         return true;
     }
-
-    window.onload = function () {
-        document.getElementById('faqTitle').focus();
-        if ([[${faq?.faqId}]] === null) {
-            document.getElementById('btnRegist').addEventListener('click', function () {
-                restSubmit('post', [[@{/rest/faqs}]]);
-            });
-        } else {
-            document.getElementById('btnUpdate').addEventListener('click', function () {
-                restSubmit('put', [[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]);
-            });
-            document.getElementById('btnDelete').addEventListener('click', function () {
-                zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
-                    aliceJs.fetchText('/rest/faqs/' + /*[[${faq?.faqId}]]*/'', {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                    }).then((rtn) => {
-                        if (rtn === 'true') {
-                            zAlert.success(i18n.msg('common.msg.delete'), () => {
-                                location.href = '/faqs/search';
-                            });
-                        } else {
-                            zAlert.danger(i18n.msg('common.msg.fail'));
-                        }
-                    });
-                });
-            });
-        }
-        OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
-        OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
-            className: 'scrollbar',
-            resize: 'vertical',
-            sizeAutoCapable: true,
-            textarea: {
-                dynHeight: false,
-                dynWidth: false,
-                inheritedAttrs: "class"
-            }
-        });
-    };
     /*]]>*/
 </script>
 </html>

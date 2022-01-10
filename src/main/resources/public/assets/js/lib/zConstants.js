@@ -123,5 +123,16 @@ export const CHART = {
         MONTH: 'M',
         DAY: 'D',
         HOUR: 'H'
+    },
+    DATETIME_FORMAT: 'yyyy-MM-dd HH:mm:ss',
+    DATE_FORMAT: {
+        TYPE1: 'yyyy-MM-dd',
+        TYPE2: 'dd-MM-yyyy',
+        TYPE3: 'MM-dd-yyyy',
+        TYPE4: 'yyyy-dd-MM'
+    },
+    TIME_FORMAT: {
+        HOUR24: 'HH:mm',
+        HOUR12: 'hh:mm a'
     }
 };

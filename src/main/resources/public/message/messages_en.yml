@@ -28,6 +28,7 @@ common:
     blank: " "
     bracketOpen: "["
     bracketClose: "]"
+    categoryAsc: "Order by category"
     comment: "Comment"
     contents: "Contents"
     colon: ":"
@@ -353,7 +354,7 @@ cmdb:
       seqNum: "CI No"
       status:
         delete: "delete"
-        tyoe: "status"
+        type: "status"
         use: "use"
       tag: "Tag"
       tagPlaceholder: "#Tag"
@@ -362,7 +363,6 @@ cmdb:
       update: "CI Update"
       view: "CI View"
       relation: "CI Relation"
-      relationType: "Relation Type"
       targetCiName: "Target CI Name"
       whetherToInterlock: "Whether to Interlink"
       interlock: "Interlink"
@@ -371,12 +371,12 @@ cmdb:
       deleteEditableCI: "Do you want to delete the entered asset information from the list?"
       deleteReadableCI: "Do you want to delete asset information from the list?"
       deleteInformation: "All asset information being created will be deleted."
-      duplicateRelatedCIData: "The same relation and target CI exist."
+      duplicateRelatedCIData: "The same relation CI exist."
       enterCiName: "Please enter a CI Name."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
       tag: "Please enter a tag."
-        viewDescription: "Retrieve detailed information about a CI.."
+      viewDescription: "Retrieve detailed information about a CI.."
     btn:
       import: "Import"
       export: "Export"
@@ -411,6 +411,7 @@ cmdb:
       searchPlaceholder: "Type"
       seq: "Sort Order"
     msg:
+      enterClass: "Please choose CI class."
       enterPType: "Please choose Parent Type node."
       enterTypeAlias: "Please enter a Type Alias."
       enterTypeName: "Please enter a Type Name."
@@ -434,7 +435,7 @@ code:
     codeLang: "Multilingual Code"
     name: "Code Name"
     pCode: "Parent Code"
-    searchPlaceholder: "Code"
+    searchPlaceholder: "Code / Code name"
     seqNum: "The order of the output"
     useYn: "Use enable"
   msg:
@@ -625,6 +626,7 @@ error:
 # FAQ
 faq:
   label:
+    all: "ALL"
     category: "Category"
     edit: "FAQ Edit"
     faq: "FAQ"
@@ -675,6 +677,7 @@ form:
     undo: "Undo"
     update: "Update Form"
   msg:
+    duplicateMappingId: "Mapping ID({0}) is Duplicate"
     enterFormName: "Please enter a form name."
     failedAllColumnDelete: "At least one column is required."
     failedDestroy: "Related documents exist for this form.<br/>This can't be destroyed."
@@ -911,6 +914,7 @@ menu:
     auth: "Auth"
     boardAdmin: "Board management"
     code: "Code management"
+    organization: "Department"
     parent: "System config"
     product: "Product Info"
     role: "Role"
@@ -983,6 +987,7 @@ notice:
     enterToDt: "Please enter a search end date."
     enterTopNoticeEndDt: "Please enter a top notice end date."
     enterTopNoticeStrtDt: "Please enter a top notice start date."
+    maximunTopNoticeCount: "The maximum number at the top is 10."
     portalDescription: "View notice's information."
     searchDescrition: "View and manage notice's information."
     viewDescription: "Inquire detailed information about the notice."
@@ -994,6 +999,29 @@ notification:
   msg:
     description: "Up to 50 displays."
     noNotificationData: "No notifications."
+
+# Organization
+organization:
+  label:
+    organization: "Department"
+    organizationId: "Department Id"
+    description: "Department Description"
+    name: "Department Name"
+    pOrganizationName: "Parent Department Name"
+    role: "Member default role"
+    searchPlaceholder: "Department name"
+    seqNum: "The order of the output"
+    useYn: "Use enable"
+  msg:
+    duplicateOrganizationId: "Duplicate Department Id."
+    duplicateOrganizationName: "Duplicate department name."
+    editDescription: "Add, view and manage department."
+    enterOrganizationId: "Please enter a department Id."
+    enterOrganizationName: "Please enter a department name"
+    enterPOrganizationName: "Please enter a parent department name."
+    pOrganizationNotExist: "Parent organization does not exist."
+    selectRole: "Please select a member default role."
+    failedOrganizationDelete: "Failed to delete a department because of a member."
 
 # Portal
 portal:
@@ -1046,6 +1074,7 @@ process:
     startEventnMustOne: 'Only one start event is allowed.'
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
+    uncheckWithdraw: "Can't set withdraw in the first element.<br>Please uncheck withdraw in {0} element."
   title:
     preview: "Zenius ITSM : Process Preview"
     processMap: "Zenius ITMS : Process Map"
@@ -1213,6 +1242,7 @@ scheduler:
     cronError: "Enter the correct Cron expression."
     jarNotExist: "JAR file does not exist."
     classNotExist: "ClASS file does not exist."
+    unacceptableCharacters: "contains special characters(: ? * \" < > |) that are not allowed."
   status:
     true: "Use"
     false: "UnUsed"
@@ -1250,6 +1280,7 @@ token:
     relatedInstancePlaceholder: "Document Name / Create User"
     searchPlaceholder: "Document No / Create User / Contents"
     startDt: "Start Date"
+    status: "Status"
     tagPlaceHolder: "#Tags"
     view: "Document View"
     write: "My Document"
@@ -1279,6 +1310,7 @@ token:
     endDt: "Document End Data"
     createUser: "Document Create User"
     application-form: "application Form"
+    workflow: "Workflow"
 
 # WorkflowAdmin
 workflowAdmin:

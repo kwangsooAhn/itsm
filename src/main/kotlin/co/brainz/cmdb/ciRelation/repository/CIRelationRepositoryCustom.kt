@@ -9,5 +9,5 @@ import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface CIRelationRepositoryCustom : AliceRepositoryCustom {
-    fun selectByCiId(ciId: String): MutableList<CIRelationDto>
+    fun selectByCiId(ciId: String): List<CIRelationDto>
 }

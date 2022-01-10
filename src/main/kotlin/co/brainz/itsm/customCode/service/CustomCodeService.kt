@@ -331,7 +331,7 @@ class CustomCodeService(
 
         if (customCode.pCode != null) {
             val dataList = codeService.getCodeList("", customCode.pCode!!)
-            val pCodeIds = dataList.data.map{ it.code }
+            val pCodeIds = dataList.data.map { it.code }
             // 다국어 코드 조회
             val codeLangDataList = codeRepository.findCodeByCodeLang(pCodeIds.toSet(), lang)
             // 다국어 코드 병합

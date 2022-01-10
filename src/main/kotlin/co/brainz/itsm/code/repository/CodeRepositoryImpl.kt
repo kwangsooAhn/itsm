@@ -11,6 +11,7 @@ import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.code.entity.QCodeLangEntity
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
@@ -28,13 +29,14 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
 
     override fun findByCodeList(search: String, pCode: String): QueryResults<CodeEntity> {
         val code = QCodeEntity.codeEntity
+
+        val builder = BooleanBuilder()
+        builder.or(super.likeIgnoreCase(code.code, search))
+        builder.or(super.likeIgnoreCase(code.codeName, search))
+
         return from(code)
             .select(code)
-            .where(
-                super.likeIgnoreCase(
-                    code.code, search
-                )
-            )
+            .where(builder)
             .where(
                 super.eq(
                     code.pCode.code, pCode

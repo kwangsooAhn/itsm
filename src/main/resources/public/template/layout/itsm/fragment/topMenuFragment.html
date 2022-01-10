@@ -84,8 +84,10 @@
 
         // Get notification list.
         function getNotificationList(isShow) {
-            restSubmitNotification('get', '/notifications', function (result) {
-                notificationDiv.innerHTML = result;
+            aliceJs.fetchText('/notifications', {
+                method: 'GET'
+            }).then((htmlData) => {
+                notificationDiv.innerHTML = htmlData;
                 const noConfirmNotification = notificationDiv.querySelectorAll('div[isnot-confirm=false]'); // 확인 안된 알림
                 if (noConfirmNotification.length !== 0 && !document.querySelector('.z-icon-notification').classList.contains('active')) {
                     document.querySelector('.z-icon-notification').classList.add('active');
@@ -148,29 +150,20 @@
 
         // Update notification.
         function updateNotification(notificationId, target) {
-            restSubmitNotification('put', '/rest/notifications/' + notificationId + '/' + target, function () {
+            aliceJs.fetchText('/rest/notifications/' + notificationId + '/' + target, {
+                method: 'PUT'
+            }).then((status) => {
                 getNotificationList(false);
             });
         }
 
         // Delete notification.
         function deleteNotification(notificationId) {
-            restSubmitNotification('delete', '/rest/notifications/' + notificationId, function () {
+            aliceJs.fetchText('/rest/notifications/' + notificationId, {
+                method: 'DELETE'
+            }).then((status) => {
                 getNotificationList(false);
             });
-        }
-
-        // REST API.
-        function restSubmitNotification(method, url, result) {
-            const opt = {
-                method: method,
-                url: url,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    result(response.responseText);
-                }
-            };
-            aliceJs.sendXhr(opt);
         }
     </script>
 </div>

@@ -31,7 +31,6 @@
         /*<![CDATA[*/
         import ZChart from '../../assets/js/chart/zChart.js';
 
-        const CHART_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
         const zChartManager = {
             load: function(id, data) {
                 // 차트 초기화
@@ -94,12 +93,6 @@
                 `<div class="z-chart" id="${data.chartId}_chart"></div>` +
                 `</div>`;
             chartTarget.insertAdjacentHTML('beforeend', element);
-
-            // 사용자 날짜 데이터 변경
-            const fromDt = data.chartConfig.range.from;
-            const toDt = data.chartConfig.range.to;
-            data.chartConfig.range.from = i18n.userDateTime(fromDt, CHART_DATE_FORMAT);
-            data.chartConfig.range.to = i18n.userDateTime(toDt, CHART_DATE_FORMAT);
 
             // 차트 초기화
             zChartManager.load(data.chartId + '_chart', data);

@@ -41,7 +41,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = noticeRepository.count(),
                 currentPageNum = noticeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / noticeSearchCondition.contentNumPerPage).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -72,7 +72,8 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     }
 
     @Transactional
-    fun insertNotice(noticeDto: NoticeDto) {
+    fun insertNotice(noticeDto: NoticeDto): Boolean {
+        var isSuccess = true
         val noticeToSave = NoticeEntity(
             noticeDto.noticeNo,
             noticeDto.noticeTitle,
@@ -87,17 +88,22 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
             noticeDto.topNoticeEndDt
         )
         val savedNotice = noticeRepository.save(noticeToSave)
-        aliceFileService.upload(
-            AliceFileDto(
-                ownId = savedNotice.noticeNo,
-                fileSeq = noticeDto.fileSeq,
-                delFileSeq = noticeDto.delFileSeq
+        if (savedNotice.noticeNo.isNotEmpty()) {
+            aliceFileService.upload(
+                AliceFileDto(
+                    ownId = savedNotice.noticeNo,
+                    fileSeq = noticeDto.fileSeq,
+                    delFileSeq = noticeDto.delFileSeq
+                )
             )
-        )
+        } else {
+            isSuccess = false
+        }
+        return isSuccess
     }
 
     @Transactional
-    fun updateNotice(noticeId: String, noticeDto: NoticeDto) {
+    fun updateNotice(noticeId: String, noticeDto: NoticeDto): Boolean {
         val noticeEntity = noticeRepository.findByNoticeNo(noticeId)
         noticeEntity.noticeTitle = noticeDto.noticeTitle
         noticeEntity.noticeContents = noticeDto.noticeContents
@@ -117,11 +123,13 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
                 delFileSeq = noticeDto.delFileSeq
             )
         )
+        return true
     }
 
     @Transactional
-    fun delete(noticeNo: String) {
+    fun delete(noticeNo: String): Boolean {
         noticeRepository.deleteById(noticeNo)
         aliceFileService.delete(noticeNo)
+        return true
     }
 }

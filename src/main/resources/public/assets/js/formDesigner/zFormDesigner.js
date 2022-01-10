@@ -34,8 +34,6 @@ class ZFormDesigner {
             method: 'GET'
         }).then((customData) => {
             FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
-        }).catch(err => {
-            zAlert.warning(err);
         });
 
         // 초기화
@@ -198,8 +196,6 @@ class ZFormDesigner {
             showProgressbar: true
         }).then((formData) => {
             this.reflowForm(formData);
-        }).catch(err => {
-            zAlert.warning(err);
         });
 
         document.addEventListener('click', this.onLeftClickHandler.bind(this), false);
@@ -703,23 +699,7 @@ class ZFormDesigner {
      * @param boolean 저장후  팝업 닫을지 여부
      */
     saveForm(boolean) {
-        // 세부 속성 유효성 검증 실패시 동작을 중지한다.
-        if (!this.panel.validationStatus) { return false; }
-
-        // 발행, 사용 상태일 경우, 저장이 불가능하다.
-        const deployableStatus = ['form.status.publish', 'form.status.use'];
-        if (deployableStatus.includes(this.data.status)) {
-            zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
-            return false;
-        }
-
-        // '편집' 상태에서 '발행' or '사용' 상태로 저장하려는 경우 유효성 검증
-        // 컴포넌트별 설정이 발행이 가능한지 확인한다.
-        if (this.data.status === 'form.status.edit' && deployableStatus.includes(this.form.status)) {
-            if (!this.form.validationCheckOnPublish()) {
-                return false;
-            }
-        }
+        if(!this.isValidation()) return false;
 
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
@@ -759,11 +739,8 @@ class ZFormDesigner {
                     zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
                     break;
                 default:
-                    zAlert.danger(i18n.msg('common.label.fail'));
                     break;
             }
-        }).catch(err => {
-            zAlert.warning(err);
         });
     }
 
@@ -857,6 +834,46 @@ class ZFormDesigner {
         zFormButton.init({ form: previewData}, zDocument);
         zDocument.makeDocument(previewData); // Form 생성
         zDocument.documentModal.show(); // 모달 표시
+    }
+
+    isValidation () {
+        // 세부 속성 유효성 검증 실패시 동작을 중지한다.
+        if (!this.panel.validationStatus) { return false; }
+
+        // 발행, 사용 상태일 경우, 저장이 불가능하다.
+        const deployableStatus = ['form.status.publish', 'form.status.use'];
+        if (deployableStatus.includes(this.data.status)) {
+            zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
+            return false;
+        }
+
+        // '편집' 상태에서 '발행' or '사용' 상태로 저장하려는 경우 유효성 검증
+        // 컴포넌트별 설정이 발행이 가능한지 확인한다.
+        if (this.data.status === 'form.status.edit' && deployableStatus.includes(this.form.status)) {
+            //매핑아이디 중복체크
+            let mappingIdList = [];
+
+            for (let i = 0; i < this.form.children.length; i++) { //group
+                for (let j = 0; j < this.form.children[i].children.length; j++) { //row
+                    for (let k = 0; k < this.form.children[i].children[j].children.length; k++) // component
+                    {
+                        mappingIdList.push(this.form.children[i].children[j].children[k]._mapId);
+                    }
+                }
+            }
+
+            for (let i = 0; i < mappingIdList.length; i++) {
+                if ((mappingIdList[i].trim() !== '') && (mappingIdList.indexOf(mappingIdList[i]) !== mappingIdList.lastIndexOf(mappingIdList[i]))) {
+                    zAlert.warning(i18n.msg('form.msg.duplicateMappingId', mappingIdList[i]));
+                    return false;
+                }
+            }
+
+            if (!this.form.validationCheckOnPublish()) {
+                return false;
+            }
+        }
+        return true;
     }
     /**
      * 마우스 좌클릭 이벤트 핸들러

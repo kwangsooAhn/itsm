@@ -74,21 +74,17 @@
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
     window.addEventListener('load', function () {
-        document.getElementById('btnSend').addEventListener('click', function () {
-            restSubmit('get', '/certification/certifiedmail');
-        });
+        document.getElementById('btnSend').addEventListener('click', sendMail, false);
     });
 
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            params: new FormData(document.getElementById('sendForm')),
-            callbackFunc: function() {
-                zAlert.warning(i18n.msg('authentication.msg.resentAuthentication') + '\n' + i18n.msg('authentication.msg.emailCheck'));
-            }
-        };
-        aliceJs.sendXhr(opt)
+    function sendMail() {
+        aliceJs.fetchText('/certification/certifiedmail', {
+            method: 'GET',
+            body: new FormData(document.getElementById('sendForm')),
+            showProgressbar: true
+        }).then((rtn) => {
+            zAlert.warning(i18n.msg('authentication.msg.resentAuthentication') + '\n' + i18n.msg('authentication.msg.emailCheck'));
+        });
     }
     /*]]>*/
 </script>

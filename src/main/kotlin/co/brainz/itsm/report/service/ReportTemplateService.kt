@@ -32,11 +32,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
 import java.lang.Math.ceil
 import java.time.LocalDateTime
 import javax.transaction.Transactional
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
 
 @Service
 class ReportTemplateService(
@@ -67,7 +67,7 @@ class ReportTemplateService(
             template.charts?.forEach {
                 chartIds.add(it.chartId)
             }
-            chartRepository.findChartDataByChartIds(chartIds).forEach { chartData ->
+            chartRepository.findChartDataByChartIdsTemplateId(chartIds, template.templateId).forEach { chartData ->
                 chartList.add(
                     ChartDto(
                         chartId = chartData.chartId,
@@ -121,7 +121,7 @@ class ReportTemplateService(
         templateMapList?.forEach {
             chartIds.add(it.chartId)
         }
-        chartRepository.findChartDataByChartIds(chartIds).forEach { chartData ->
+        chartRepository.findChartDataByChartIdsTemplateId(chartIds, templateEntity.templateId).forEach { chartData ->
             chartList.add(
                 ChartDto(
                     chartId = chartData.chartId,

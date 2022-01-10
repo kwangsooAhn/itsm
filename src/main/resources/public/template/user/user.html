@@ -31,6 +31,12 @@
                          th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <label for="userId">
                             <span th:classappend="${view} ? '':'required'" th:text="#{user.label.id}"></span>
+                            <div class="z-help-tooltip">
+                                <span class="z-icon i-tooltip"></span>
+                                <div class="z-tooltip-contents">
+                                    <span th:utext="#{user.tooltip.idRule}"></span>
+                                </div>
+                            </div>
                         </label>
                         <input class="z-input text-ellipsis" id="userId" maxlength="100" name="userId" th:readonly="${view}"
                                th:required="!${view}" th:value="${users?.userId}" type="text" />
@@ -38,8 +44,8 @@
                     <div class="flex-column z-edit-row"
                          th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice') && !view}">
                         <label th:text="#{user.label.password}"></label>
-                        <button class="z-button primary" th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')" th:text="#{user.btn.resetPassword}"
-                                type="button"/>
+                        <button class="z-button primary" th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"
+                                th:text="#{user.btn.resetPassword}" type="button"/>
                     </div>
                     <div class="flex-column z-edit-row">
                         <label for="userName">
@@ -63,13 +69,13 @@
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.department}"></label>
                         <div class="flex-row z-input-button">
-                            <input id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"
+                            <input id="organizationId" name="organizationId" th:value="${organizationDetail?.organizationId}"
                                    type="hidden"/>
-                            <input class="z-input text-ellipsis" id="department" name="department" readonly
-                                   th:value="${deptCodeDetail?.codeValue}" type="text">
-                            <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);"
+                            <input class="z-input text-ellipsis" id="organization" name="organization" readonly
+                                   th:value="${organizationDetail?.organizationName}" type="text">
+                            <span class="z-icon i-clear" name="clearIcon" onclick="clearOrganization(this)"
                                   tabindex="-1" th:if="!${view}"></span>
-                            <button class="z-button-search z-button form" onclick="deptPopUp();" th:if="!${view}"
+                            <button class="z-button-search z-button form" onclick="organizationPopUp();" th:if="!${view}"
                                     th:text="#{common.btn.select}" type="button"></button>
                         </div>
                     </div>
@@ -154,14 +160,15 @@
         <div class="flex-column z-edit-row">
             <div class="z-checkbox-list">
                 <ul>
-                    <li class="user-role-checkbox-wrap" th:each="role : ${roles}">
-                        <label class="z-checkbox" tabindex="0" th:for="|roles*{roleStat.index}|"
-                               th:title="*{role.roleName}">
+                    <li class="user-role-checkbox-wrap" th:each="allRole : ${allRoles}">
+                        <label class="z-checkbox" tabindex="0" th:for="|allRoles*{allRoleStat.index}|"
+                               th:title="*{allRole.roleName}">
                             <input class="user-role-checkbox" name="roles"
-                                   th:checked="*{role.checked}" th:disabled="${view}"
-                                   th:id="|roles*{roleStat.index}|" th:value="*{role.roleId}" type="checkbox">
+                                    th:disabled="${view}"
+                                   th:id="|allRoles*{allRoleStat.index}|" th:value="*{allRole.roleId}" type="checkbox"
+                                   onclick="checkUserRole(this)">
                             <span></span>
-                            <span class="z-label" th:text="*{role.roleName}"></span>
+                            <span class="z-label" th:text="*{allRole.roleName}"></span>
                         </label>
                     </li>
                 </ul>
@@ -226,7 +233,7 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/users/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list">
+            <div class="z-button-list" th:if="!${view}">
                 <button class="z-button primary" sec:authorize="hasAuthority('user.create')"
                         th:if="!${users?.userKey}" th:onclick="preSubmitCheck('post', [[@{/rest/users}]], 'true')" th:text="#{auth.user.create}"
                         type="button"></button>
@@ -240,6 +247,12 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
+
+    let userRoles = [];
+    /*[# th:each="userRole : ${userRoles}"]*/
+    userRoles.push(/*[[${userRole.roleId}]]*/);
+    /*[/]*/
+
     window.onload = function () {
         document.getElementById('userId').focus();
         zFileUploader.avatar({
@@ -260,6 +273,10 @@
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
 
+        if (document.getElementById('organizationId').value !== '') {
+            setOrganizationRole();
+        }
+        setUserRole();
         setAbsenceDisplay();
     };
 
@@ -269,6 +286,16 @@
     const STATUS_SUCCESS_EDIT_EMAIL = '4';
     const STATUS_SUCCESS_EDIT_ADMIN = '5';
     const STATUS_SUCCESS_EDIT_PASSWORD = '6';
+
+    function checkUserRole(roleObject) {
+        if (roleObject.checked) {
+            if (!userRoles.includes(roleObject.value)) {
+                userRoles.push(roleObject.value);
+            }
+        } else {
+            userRoles = userRoles.filter((element) => element !== roleObject.value);
+        }
+    }
 
     function runAbsenceDocument() {
         if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
@@ -288,23 +315,15 @@
                     zAlert.success([[#{common.msg.modify}]], () => {
                         window.location.reload();
                     });
-                } else {
-                    zAlert.success([[#{common.msg.fail}]]);
                 }
             });
         });
     }
 
     function preSubmitCheck(method, url, activeValidation) {
-        if (activeValidation === 'true') {
-            if (!validation()) {
-                return false;
-            }
+        if (activeValidation === 'true' && !validation()) {
+            return false;
         }
-        restSubmit(method, url);
-    }
-
-    function restSubmit(method, url) {
 
         let arrRoleValue = [];
         document.querySelectorAll('input[name=roles]:checked').forEach(function (item) {
@@ -313,13 +332,13 @@
 
         // 사용자 부재 설정
         let absenceInfo = {};
-            if (document.getElementById('userAbsence').checked) {
-                absenceInfo = {
-                    startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
-                    endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
-                    substituteUserKey: document.getElementById('substituteUserKey').value
-                }
+        if (document.getElementById('userAbsence').checked) {
+            absenceInfo = {
+                startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
+                endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
+                substituteUserKey: document.getElementById('substituteUserKey').value
             }
+        }
        const data = {
            userKey: document.getElementById('userKey').value,
            userId: document.getElementById('userId').value,
@@ -327,7 +346,7 @@
            email: document.getElementById('email').value,
            useYn: document.getElementById('usageStatus').checked,
            position: document.getElementById('position').value,
-           department: document.getElementById('departmentCode').value,
+           department: document.getElementById('organizationId').value,
            officeNumber: document.getElementById('officeNumber').value,
            mobileNumber: document.getElementById('mobileNumber').value,
            timezone: document.getElementById('timezone').value,
@@ -340,41 +359,41 @@
            absence: absenceInfo
         };
 
-        aliceJs.sendXhr({
+        aliceJs.fetchText(url, {
             method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                        zAlert.success([[#{user.msg.createUser}]], function () {
-                            window.location.reload();
-                        });
-                        break;
-                    case STATUS_SUCCESS_EDIT_ADMIN:
-                        zAlert.success([[#{common.msg.modify}]], function () {
-                            window.location.reload();
-                        });
-                        break;
-                    case STATUS_SUCCESS_EDIT_EMAIL:
-                        zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
-                            window.location.reload();
-                        });
-                        break;
-                    case STATUS_SUCCESS_EDIT_PASSWORD:
-                        zAlert.success([[#{user.msg.resetPassword}]]);
-                        break;
-                    case STATUS_ERROR_USER_ID_DUPLICATION:
-                        zAlert.warning([[#{user.msg.sameUserId}]]);
-                        break;
-                    case STATUS_ERROR_EMAIL_DUPLICATION:
-                        zAlert.warning([[#{user.msg.sameEmail}]]);
-                        break;
-                    default:
-                        zAlert.danger([[#{common.msg.fail}]]);
-                        break;
-                }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            switch (response) {
+                case STATUS_SUCCESS:
+                    zAlert.success([[#{user.msg.createUser}]], function () {
+                        window.location.reload();
+                    });
+                    break;
+                case STATUS_SUCCESS_EDIT_ADMIN:
+                    zAlert.success([[#{common.msg.modify}]], function () {
+                        window.location.reload();
+                    });
+                    break;
+                case STATUS_SUCCESS_EDIT_EMAIL:
+                    zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
+                        window.location.reload();
+                    });
+                    break;
+                case STATUS_SUCCESS_EDIT_PASSWORD:
+                    zAlert.success([[#{user.msg.resetPassword}]]);
+                    break;
+                case STATUS_ERROR_USER_ID_DUPLICATION:
+                    zAlert.warning([[#{user.msg.sameUserId}]]);
+                    break;
+                case STATUS_ERROR_EMAIL_DUPLICATION:
+                    zAlert.warning([[#{user.msg.sameEmail}]]);
+                    break;
+                default:
+                    zAlert.danger([[#{common.msg.fail}]]);
+                    break;
             }
         });
     }
@@ -391,8 +410,8 @@
             const endDtElement = document.getElementById('absenceEndDt');
             startDtElement.value = startDtVal ? i18n.userDateTime(startDtVal) : i18n.getDateTime();
             endDtElement.value = endDtVal ? i18n.userDateTime(endDtVal) : i18n.getDateTime({'days':7});
-            zDateTimePicker.initDateTimePicker(startDtElement);
-            zDateTimePicker.initDateTimePicker(endDtElement);
+            zDateTimePicker.initDateTimePicker(startDtElement, changeDateTimePicker);
+            zDateTimePicker.initDateTimePicker(endDtElement, changeDateTimePicker);
             document.getElementById('substituteUserKey').value = /*[[${users?.absence?.substituteUserKey}]]*/'';
             document.getElementById('substituteUser').value = /*[[${users?.absence?.substituteUser}]]*/'';
             document.getElementById('absenceData').style.display = 'block';
@@ -402,6 +421,31 @@
             document.getElementById('substituteUserKey').value = '';
             document.getElementById('substituteUser').value = '';
             document.getElementById('absenceData').style.display = 'none';
+        }
+    }
+
+    /**
+     * DateTimePicker 변경시 호출
+     */
+    function changeDateTimePicker(element, picker) {
+        if (typeof picker === 'undefined') { return false; }
+
+        if (element.id === 'absenceStartDt') {
+            const toDtValue = document.getElementById('absenceEndDt').value;
+            if (!i18n.compareSystemDateTime(element.value, toDtValue)) {
+                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', toDtValue), function () {
+                    element.value = i18n.getDateTime({'days':7});
+                    picker.open();
+                });
+            }
+        } else {
+            const fromDtValue = document.getElementById('absenceStartDt').value;
+            if (!i18n.compareSystemDateTime(fromDtValue, element.value)) {
+                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', fromDtValue), function () {
+                    element.value = i18n.getDateTime();
+                    picker.open();
+                });
+            }
         }
     }
 
@@ -421,79 +465,145 @@
         if ([[${users?.userKey}]] !== null && document.getElementById('userAbsence').checked) {
             if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) return false;
             if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) return false;
-            if (isOrOperator((i18n.systemDateTime(document.getElementById('absenceStartDt').value) > i18n.systemDateTime(document.getElementById('absenceEndDt').value))
-                , (i18n.systemDateTime(document.getElementById('absenceStartDt').value) === i18n.systemDateTime(document.getElementById('absenceEndDt').value))
-                , 'user.msg.compareWithAbsenceDtValue')) return false;
             if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
         }
 
         return true;
     }
 
-    function setDepartment(node) {
-        document.getElementById('department').value = node.textContent;
-        document.getElementById('departmentCode').value = node.id;
+    /**
+     * 역할 초기화
+     */
+    function clearRole() {
+        const allRoles = document.querySelectorAll('input[name=roles]');
+        allRoles.forEach(function (allRole) {
+            allRole.disabled = false;
+            allRole.checked = false;
+        });
     }
 
-    function deptPopUp() {
-        const rootCode = 'department';
+    /**
+     * 역할(조직) 선택
+     */
+    function setOrganizationRole() {
+        aliceJs.fetchJson('/rest/organizations/' + document.getElementById('organizationId').value, {
+            method: 'GET',
+        }).then((response) => {
+            const allRoles = document.querySelectorAll('input[name=roles]');
+            allRoles.forEach(function (allRole) {
+                const matching = response.data.roles.find(function (organizationRole) {
+                    return organizationRole.roleId === allRole.value
+                });
+                if (matching) {
+                    allRole.disabled = true;
+                    allRole.checked = true;
+                }
+            });
+        });
+    }
+
+    /**
+     * 역할(사용자) 선택
+     */
+    function setUserRole() {
+        const allRoles = document.querySelectorAll('input[name=roles]');
+        userRoles.forEach(function (userRole) {
+            allRoles.forEach(function (allRole) {
+                if (userRole === allRole.value) {
+                    allRole.checked = true;
+                }
+            });
+        });
+    }
+
+    /**
+     * 조직 초기화(조직의 역할 제거)
+     * @param obj
+     */
+    function clearOrganization(obj) {
+        aliceJs.clearText(obj);
+        const allRoles = document.querySelectorAll('input[name=roles]');
+        allRoles.forEach(function (allRole) {
+            allRole.disabled = false;
+            allRole.checked = false;
+        });
+
+        userRoles.forEach(function (userRole) {
+            allRoles.forEach(function (allRole) {
+                if (userRole === allRole.value) {
+                    allRole.checked = true;
+                }
+            });
+        });
+    }
+
+    function organizationPopUp() {
+        const rootCode = 'organization';
         tree.load({
             view: 'modal',
             title: i18n.msg('department.label.deptList'),
-            dataUrl: '/rest/codes?pCode=' + rootCode,
-            root: rootCode,
-            rootLevel: 3,
+            dataUrl: '/rest/organizations',
+            source: rootCode,
             target: 'treeList',
-            text: 'codeName',
+            text: 'organizationName',
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
             defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
             leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
-            selectedValue: document.getElementById('departmentCode').value,
+            selectedValue: document.getElementById('organizationId').value,
             callbackFunc: function (response) {
-                setDepartment(response);
+                document.getElementById('organizationId').value = response.id;
+                document.getElementById('organization').value = response.dataset.name;
+                clearRole();
+                setOrganizationRole();
+                setUserRole();
             }
         });
     }
 
     function openUserListPopup() {
-        const subUserModal = new modal({
-            title: i18n.msg('user.label.substituteUser'),
-            body: createModalContent(),
-            classes: 'sub-user-modal',
-            buttons: [{
-                content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
-                bindKey: false,
-                callback: (modal) => {
-                    const selectedSubUser = document.querySelector('input[type=radio]:checked');
-                    if (selectedSubUser === null) {
-                        zAlert.warning(i18n.msg('user.msg.enterSubstituteUser'));
-                        return false;
-                    } else {
-                        document.getElementById('substituteUserKey').value = selectedSubUser.value;
-                        document.getElementById('substituteUser').value = selectedSubUser.name;
+        let isValid = true
+        if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) isValid = false;
+        if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) isValid = false;
+        if (isValid) {
+            const subUserModal = new modal({
+                title: i18n.msg('user.label.substituteUser'),
+                body: createModalContent(),
+                classes: 'sub-user-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.select'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: (modal) => {
+                        const selectedSubUser = document.querySelector('input[type=radio]:checked');
+                        if (selectedSubUser === null) {
+                            zAlert.warning(i18n.msg('user.msg.enterSubstituteUser'));
+                            return false;
+                        } else {
+                            document.getElementById('substituteUserKey').value = selectedSubUser.id;
+                            document.getElementById('substituteUser').value = selectedSubUser.value;
+                        }
+                        modal.hide();
                     }
-                    modal.hide();
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: (modal) => {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: () => {
+                    document.getElementById('search').addEventListener('keyup', (e) => {
+                        this.getSubUserList(e.target.value, false);
+                    });
+                    this.getSubUserList(document.getElementById('search').value, true);
                 }
-            }, {
-                content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: (modal) => {
-                    modal.hide();
-                }
-            }],
-            close: {
-                closable: false,
-            },
-            onCreate: () => {
-                document.getElementById('search').addEventListener('keyup', (e) => {
-                    this.getSubUserList(e.target.value, false);
-                });
-                this.getSubUserList(document.getElementById('search').value, true);
-            }
-        });
-        subUserModal.show();
+            });
+            subUserModal.show();
+        }
     }
 
     function createModalContent() {
@@ -506,24 +616,32 @@
 
     function getSubUserList(search, showProgressbar) {
         let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
-        const opt = {
-            method: 'get',
-            url: strUrl,
-            contentType: 'application/json',
-            showProgressbar: showProgressbar,
-            callbackFunc: function (response) {
-                document.getElementById('subUserList').innerHTML = response.responseText;
-                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-                aliceJs.showTotalCount(document.querySelectorAll('.sub-user-list').length);
-                document.querySelectorAll('input[type=radio]').forEach(function (radio) {
-                    // 업무 대리인으로 자기 자신은 선택할 수 없다.
-                    if (radio.value === document.getElementById('userKey').value) {
-                        radio.disabled = true;
-                    }
-                });
+            + '&from=' + i18n.systemDateTime(document.getElementById('absenceStartDt').value)
+            + '&to=' + i18n.systemDateTime(document.getElementById('absenceEndDt').value)
+            + '&userKey=' + document.getElementById('userKey').value;
+
+        aliceJs.fetchText(strUrl, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            document.getElementById('subUserList').innerHTML = htmlData;
+            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+            // 갯수 가운트
+            const substituteUserList = document.getElementById('substituteUserList');
+            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
+            document.querySelectorAll('input[type=radio]').forEach(function (radio) {
+                // 업무 대리인으로 자기 자신은 선택할 수 없다.
+                if (radio.id === document.getElementById('userKey').value) {
+                    radio.disabled = true;
+                }
+            });
+            // 선택된 항목 표시
+            const selectedSubstituteUserKey = document.getElementById('substituteUserKey').value;
+            const radioElem = document.querySelector('input[id="' + selectedSubstituteUserKey + '"]');
+            if (radioElem) {
+                radioElem.checked = true;
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
     /*]]>*/
 </script>

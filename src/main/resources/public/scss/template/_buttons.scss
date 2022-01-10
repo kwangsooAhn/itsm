@@ -55,7 +55,7 @@
       }
       // 아이콘이 존재한다면
       .z-icon {
-        display: inline-block;
+        display: block;
         background: map-get($value, 'default', 'font');
         pointer-events: none;
       }
@@ -182,7 +182,7 @@
 }
 
 .z-button-icon {
-  padding: 0.25rem 0.3125rem; // 4px 5px (버튼 기본 너비 높이 : 36px 36px)
+  padding: 0.3125rem; // 5px (버튼 기본 너비 높이 : 36px 36px)
 }
 
 // 버튼 목록
