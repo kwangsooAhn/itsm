@@ -44,8 +44,8 @@
                     <div class="flex-column z-edit-row"
                          th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice') && !view}">
                         <label th:text="#{user.label.password}"></label>
-                        <button class="z-button primary" th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')" th:text="#{user.btn.resetPassword}"
-                                type="button"/>
+                        <button class="z-button primary" th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"
+                                th:text="#{user.btn.resetPassword}" type="button"/>
                     </div>
                     <div class="flex-column z-edit-row">
                         <label for="userName">
@@ -69,13 +69,12 @@
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.department}"></label>
                         <div class="flex-row z-input-button">
-                            <input id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"
-                                   type="hidden"/>
-                            <input class="z-input text-ellipsis" id="department" name="department" readonly
-                                   th:value="${deptCodeDetail?.codeValue}" type="text">
+                            <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
+                            <input type="text" class="z-input text-ellipsis" id="department" name="department" readonly
+                                   th:value="${deptCodeDetail?.codeValue}" >
                             <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);"
                                   tabindex="-1" th:if="!${view}"></span>
-                            <button class="z-button-search z-button form" onclick="deptPopUp();" th:if="!${view}"
+                            <button class="z-button-search z-button form" onclick="organizationPopUp();" th:if="!${view}"
                                     th:text="#{common.btn.select}" type="button"></button>
                         </div>
                     </div>
@@ -450,27 +449,25 @@
         return true;
     }
 
-    function setDepartment(node) {
+    function setOrganization(node) {
         document.getElementById('department').value = node.textContent;
         document.getElementById('departmentCode').value = node.id;
     }
 
-    function deptPopUp() {
-        const rootCode = 'department';
+    function organizationPopUp() {
         tree.load({
             view: 'modal',
             title: i18n.msg('department.label.deptList'),
-            dataUrl: '/rest/codes?pCode=' + rootCode,
-            root: rootCode,
-            rootLevel: 3,
+            dataUrl: '/rest/organizations',
             target: 'treeList',
-            text: 'codeName',
+            source: 'organization',
+            text: 'organizationName',
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
-            defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',
-            leafIcon: '/assets/media/icons/tree/icon_tree_user.svg',
+            defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
+            leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
             selectedValue: document.getElementById('departmentCode').value,
             callbackFunc: function (response) {
-                setDepartment(response);
+                setOrganization(response);
             }
         });
     }
