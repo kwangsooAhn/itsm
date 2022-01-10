@@ -20,9 +20,9 @@
         </tr>
         <tr class="flex-row align-items-center" th:each="boardAdmin: ${boardAdminList}">
             <td style="width: 65%" class="align-left underline">
-                <a sec:authorize="!hasAuthority('system.manage') and !hasAuthority('portal.admin') " th:text="${boardAdmin.boardAdminTitle}"
+                <a sec:authorize="!hasAuthority('system.manage') and !hasAuthority('portal.manage') " th:text="${boardAdmin.boardAdminTitle}"
                    th:href="@{/boards/{id}/view(id=${boardAdmin.boardAdminId})}" th:title="${boardAdmin.boardAdminTitle}"></a>
-                <a sec:authorize="hasAuthority('system.manage') or hasAuthority('portal.admin')" th:text="${boardAdmin.boardAdminTitle}"
+                <a sec:authorize="hasAuthority('system.manage') or hasAuthority('portal.manage')" th:text="${boardAdmin.boardAdminTitle}"
                    th:href="@{/boards/{id}/edit(id=${boardAdmin.boardAdminId})}" th:title="${boardAdmin.boardAdminTitle}"></a>
             </td>
             <td style="width: 10%" class="align-left" th:text="${boardAdmin.boardBoardCount}" th:title="${boardAdmin.boardBoardCount}"></td>
