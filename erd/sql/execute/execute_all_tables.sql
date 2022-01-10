@@ -653,7 +653,6 @@ insert into awf_menu_auth_map values ('report.template', 'report.manage');
 insert into awf_menu_auth_map values ('report', 'report.view');
 insert into awf_menu_auth_map values ('report.chart', 'report.view');
 insert into awf_menu_auth_map values ('report.report', 'report.view');
-insert into awf_menu_auth_map values ('report.template', 'report.view');
 insert into awf_menu_auth_map values ('workflow', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.customCode', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.form', 'workflow.manage');
