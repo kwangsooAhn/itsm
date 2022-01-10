@@ -26,6 +26,7 @@ import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -71,7 +72,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-
 /**
  * 사용자 관리 서비스
  */
@@ -92,7 +92,8 @@ class UserService(
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
     private val wfTokenRepository: WfTokenRepository,
-    private val groupRepository: OrganizationRepository
+    private val organizationRepository: OrganizationRepository,
+    private val organizationRoleMapRepository: OrganizationRoleMapRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -150,7 +151,7 @@ class UserService(
             userList.add(user)
         }
 
-        val organizationList = groupRepository.findByOrganizationSearchList(OrganizationSearchCondition())
+        val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
         queryResult.results.forEach { user ->
             val organization = organizationList.results.firstOrNull { it.organizationId == user.groupId }
             var organizationName = mutableListOf<String>()
@@ -261,6 +262,16 @@ class UserService(
                     true -> {
                         userEntity.userRoleMapEntities.forEach {
                             userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
+                        }
+                        //부서의 role 제외
+                        if (!targetEntity.department.isNullOrEmpty()) {
+                            val organizationRoles =
+                                organizationRoleMapRepository.findRoleListByOrganizationId(targetEntity.department!!)
+                            organizationRoles.forEach { organizationRole ->
+                                if (userUpdateDto.roles!!.contains(organizationRole.roleId)) {
+                                    userUpdateDto.roles!!.remove(organizationRole.roleId)
+                                }
+                            }
                         }
                         userUpdateDto.roles!!.forEach {
                             userRoleMapRepository.save(

@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 class OrganizationRoleMapRepositoryImpl : QuerydslRepositorySupport(OrganizationRoleMapEntity::class.java),
     OrganizationRoleMapRepositoryCustom {
 
-    override fun findOrganizationUseRoleByOrganizationId(organizationId: String): MutableList<RoleListDto> {
+    override fun findRoleListByOrganizationId(organizationId: String): MutableList<RoleListDto> {
         val role = QAliceRoleEntity.aliceRoleEntity
         val organizationRoleMap = QOrganizationRoleMapEntity.organizationRoleMapEntity
 
