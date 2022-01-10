@@ -26,6 +26,7 @@ import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -34,7 +35,6 @@ import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserAbsenceDto
@@ -92,7 +92,8 @@ class UserService(
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
     private val wfTokenRepository: WfTokenRepository,
-    private val organizationRepository: OrganizationRepository
+    private val organizationRepository: OrganizationRepository,
+    private val organizationRoleMapRepository: OrganizationRoleMapRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -261,6 +262,16 @@ class UserService(
                     true -> {
                         userEntity.userRoleMapEntities.forEach {
                             userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
+                        }
+                        //부서의 role 제외
+                        if (!targetEntity.department.isNullOrEmpty()) {
+                            val organizationRoles =
+                                organizationRoleMapRepository.findRoleListByOrganizationId(targetEntity.department!!)
+                            organizationRoles.forEach { organizationRole ->
+                                if (userUpdateDto.roles!!.contains(organizationRole.roleId)) {
+                                    userUpdateDto.roles!!.remove(organizationRole.roleId)
+                                }
+                            }
                         }
                         userUpdateDto.roles!!.forEach {
                             userRoleMapRepository.save(

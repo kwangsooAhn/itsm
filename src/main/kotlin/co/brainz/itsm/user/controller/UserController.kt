@@ -10,7 +10,6 @@ import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
-import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.service.OrganizationService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
@@ -37,8 +36,7 @@ class UserController(
     private val userService: UserService,
     private val roleService: RoleService,
     private val userDetailsService: AliceUserDetailsService,
-    private val organizationService: OrganizationService,
-    private val organizationRepository: OrganizationRepository
+    private val organizationService: OrganizationService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
