@@ -317,7 +317,7 @@ class SchedulerService(
     }
 
     /**
-     * 스케줄러 실행 이력 조회 (최초, 마지막)
+     * 스케줄러 실행 최초 시간 조회
      */
     fun getSchedulerExecuteHistory(taskId: String): SchedulerExecuteHistoryDto {
         return aliceScheduleHistoryRepository.findSchedulerExecuteHistoryByTaskId(taskId)

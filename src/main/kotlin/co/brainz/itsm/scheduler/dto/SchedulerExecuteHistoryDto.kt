@@ -9,6 +9,5 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class SchedulerExecuteHistoryDto(
-    var minExecuteTime: LocalDateTime,
-    var maxExecuteTime: LocalDateTime
+    var minExecuteTime: LocalDateTime
 ) : Serializable

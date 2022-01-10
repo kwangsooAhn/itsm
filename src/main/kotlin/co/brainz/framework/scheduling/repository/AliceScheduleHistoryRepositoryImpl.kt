@@ -38,13 +38,6 @@ class AliceScheduleHistoryRepositoryImpl : QuerydslRepositorySupport(AliceSchedu
             history.executeTime.goe(schedulerHistorySearchCondition.formattedFromDt),
             history.executeTime.loe(schedulerHistorySearchCondition.formattedToDt)
         )
-
-//        if (schedulerHistorySearchCondition.isModalOpen == false) {
-//            query.where(
-//                history.executeTime.goe(schedulerHistorySearchCondition.formattedFromDt),
-//                history.executeTime.loe(schedulerHistorySearchCondition.formattedToDt)
-//            )
-//        }
         query.orderBy(history.historySeq.desc())
         return query.fetch()
     }
@@ -79,8 +72,7 @@ class AliceScheduleHistoryRepositoryImpl : QuerydslRepositorySupport(AliceSchedu
             .select(
                 Projections.constructor(
                     SchedulerExecuteHistoryDto::class.java,
-                    history.executeTime.min(),
-                    history.executeTime.max()
+                    history.executeTime.min()
                 )
             )
             .where(history.taskId.eq(taskId))
