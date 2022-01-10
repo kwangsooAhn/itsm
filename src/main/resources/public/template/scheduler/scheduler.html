@@ -180,9 +180,7 @@
     const STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST = '5';
     let offsetCount = 0;
     let minExecuteTime = [[${executeTime.minExecuteTime}]];
-    //let maxExecuteTime = [[${executeTime.maxExecuteTime}]];
     let maxExecuteTime = i18n.getDateTime()
-    console.log(test)
 
     window.onload = function () {
         changeContainer(document.getElementById('taskType').value);
@@ -260,7 +258,7 @@
                 body:
                     `<form id="searchFrm">` +
                     `<select id="searchResult" name="searchResult" class="col-3 mr-1">` +
-                    `<option value="" selected="selected">${i18n.msg('customCode.label.all')}</option>` +
+                    `<option value="" selected="selected">${i18n.msg('scheduler.label.all')}</option>` +
                     `<option value="true">${i18n.msg('scheduler.result.true')}</option>` +
                     `<option value="false">${i18n.msg('scheduler.result.false')}</option>` +
                     `</select>` +
@@ -362,7 +360,7 @@
         if (element.id === 'searchFromDt') {
             const searchToDtValue = document.getElementById('searchToDt').value;
             if (!i18n.compareSystemDateTime(element.value, searchToDtValue)) {
-                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', searchToDtValue), function () {
+                zAlert.warning(i18n.msg('scheduler.msg.compareWithSchedulerExecuteTimeValue', searchToDtValue), function () {
                     document.getElementById('searchFromDt').value = minExecuteTime
                     setDateTimeFormat(document.getElementById('searchFrm'))
                     picker.open();
@@ -373,7 +371,7 @@
         } else {
             const searchFromDtValue = document.getElementById('searchFromDt').value;
             if (!i18n.compareSystemDateTime(searchFromDtValue, element.value)) {
-                zAlert.warning(i18n.msg('user.msg.compareWithAbsenceDtValue', searchFromDtValue), function () {
+                zAlert.warning(i18n.msg('scheduler.msg.compareWithSchedulerExecuteTimeValue', searchFromDtValue), function () {
                     document.getElementById('searchToDt').value = maxExecuteTime
                     picker.open();
                 });
