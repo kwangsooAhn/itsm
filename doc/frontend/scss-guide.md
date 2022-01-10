@@ -66,61 +66,61 @@
 ---
 
 📄 bz-colors.scss<sup>[💡](#bz-colors)</sup>  
-📄 variable.scss<sup>[💡](#bz-colors)</sup>  
+📄 variable.scss<sup>[💡](#variable)</sup>  
 📁 <strong>utils</strong><sup>[💡](#utils)</sup>  
-📁 mixins  
-📄 _animation.scss  
-📄 _border.scss  
-📄 _component.scss  
-📄 _divider.scss  
-📄 _functions.scss  
-📄 _image.scss  
-📄 _layout.scss  
-📄 _position.scss  
-📄 _scroll.scss  
-📄 _text.scss  
-📁 variables  
-📄 _alignments.scss  
-📄 _columns.scss  
-📄 _flex.scss  
-📄 _spacing.scss  
-📄 _variables.scss  
-📁 <strong>base</strong><sup>[💡](#base)</sup>  
-📄 _common.scss  
-📄 _font.scss  
-📄 _icons.scss  
-📄 _reset.scss  
+　　📁 mixins  
+　　　　📄 _animation.scss  
+　　　　📄 _border.scss  
+　　　　📄 _component.scss  
+　　　　📄 _divider.scss  
+　　　　📄 _functions.scss  
+　　　　📄 _image.scss  
+　　　　📄 _layout.scss  
+　　　　📄 _position.scss  
+　　　　📄 _scroll.scss  
+　　　　📄 _text.scss  
+　　📁 variables  
+　　　　📄 _alignments.scss  
+　　　　📄 _columns.scss  
+　　　　📄 _flex.scss  
+　　　　📄 _spacing.scss  
+　　　　📄 _variables.scss  
+　　📁 <strong>base</strong><sup>[💡](#base)</sup>  
+　　　　📄 _common.scss  
+　　　　📄 _font.scss  
+　　　　📄 _icons.scss  
+　　　　📄 _reset.scss  
 📁 <strong>layout</strong><sup>[💡](#layout)</sup>  
-📄 _content.scss  
-📄 _footer.scss  
-📄 _header.scss  
-📄 _navigation.scss  
-📄 _wrapper.scss  
+　　📄 _content.scss  
+　　📄 _footer.scss  
+　　📄 _header.scss  
+　　📄 _navigation.scss  
+　　📄 _wrapper.scss  
 📁 <strong>components</strong><sup>[💡](#components)</sup>  
-📄 _alerts.scss  
-📄 _avatar.scss  
-📄 _button.scss  
-📄 _form.scss  
-📄 _modal.scss  
-📄 _paging.scss  
-📄 _popup.scss  
-📄 _reply.scss  
-📄 _scrollbar.scss  
-📄 _tag.scss  
-📄 _thumbnail.scss  
-📄 _tooltip.scss  
-📄 _tree.scss  
-📄 _validation.scss  
+　　📄 _alerts.scss  
+　　📄 _avatar.scss  
+　　📄 _button.scss  
+　　📄 _form.scss  
+　　📄 _modal.scss  
+　　📄 _paging.scss  
+　　📄 _popup.scss  
+　　📄 _reply.scss  
+　　📄 _scrollbar.scss  
+　　📄 _tag.scss  
+　　📄 _thumbnail.scss  
+　　📄 _tooltip.scss  
+　　📄 _tree.scss  
+　　📄 _validation.scss  
 📁 <strong>page</strong><sup>[💡](#page)</sup>  
-📄 utils.scss<sup>[💡](#page)</sup>   
-📄 document.scss  
-📄 formDesigner.scss  
-📄 portal.scss  
-📄 process.scss  
-📄 report.scss  
+　　📄 utils.scss<sup>[💡](#page)</sup>  
+　　📄 document.scss  
+　　📄 formDesigner.scss    
+　　📄 portal.scss  
+　　📄 process.scss  
+　　📄 report.scss  
 📁 <strong>themes</strong><sup>[💡](#themes)</sup>  
-📁 dark  
-📄 _variable.scss
+　　📁 dark  
+　　　　📄 _variable.scss
 
 ### ※ 참고 링크
 <p>
@@ -132,7 +132,7 @@
 
 #### 상세설명
 <a id="bz-colors">bz-colors.scss</a> : vender처럼 사용, 이 파일은 수정하지 않습니다.  
-<a id="bz-colors">variable.scss</a> : 공통 변수 및 기본 테마 색상 설정이 되어있습니다.  
+<a id="variable">variable.scss</a> : 공통 변수 및 기본 테마 색상 설정이 되어있습니다.  
 <a id="utils">utils</a> : 실제 스타일은 없고, 다른 폴더에 정의된 스타일을 모아놓은 폴더  
 <a id="base">base</a> : 사이트 전반에 걸쳐서 재사용되는 스타일을 모아놓은 폴더  
 <a id="layout">layout</a> : 사이트 구조에 해당하는 레이아웃을 모아놓은 폴더  
