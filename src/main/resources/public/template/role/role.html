@@ -46,7 +46,7 @@
                     <li class="text-ellipsis" th:each="auth : ${authList}">
                         <label class="z-switch" tabindex="0" th:for="${auth?.authId}">
                             <span class="z-label z-label-name" th:text="${auth?.authName}"></span>
-                            <span class="z-label" th:text="#{|role.desc.${auth?.authId}|}"></span>
+                            <span class="z-label" th:text="${auth?.authDesc}"></span>
                             <input type="checkbox" th:id="${auth?.authId}" name="roleAuth" th:value="${auth?.authName}"  th:disabled="${view}"
                                    th:checked="${auth?.authDesc == 'checked'}">
                             <span></span>
