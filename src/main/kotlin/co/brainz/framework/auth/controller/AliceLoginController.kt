@@ -127,6 +127,7 @@ class AliceLoginController(
             }
         }
 
+        model.addAttribute("ipAccessControlValue", ipAccessControlValue)
         model.addAttribute("isExpired", isExpired)
         model.addAttribute("passwordExpiredPeriod", passwordExpiredPeriod)
 

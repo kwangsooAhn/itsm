@@ -282,38 +282,32 @@ ZWorkflowUtil.isParseError = function(parsedDocument) {
  * @param processData 프로세스 데이터
  */
 ZWorkflowUtil.addRequiredProcessAttribute = function(processData) {
-    aliceJs.sendXhr({
-        method: 'GET',
-        async: false,
-        url: '/assets/js/process/elementAttribute.json',
-        callbackFunc: function(xhr) {
-            const elementAttributes = JSON.parse(xhr.responseText),
-                elementsKeys = Object.getOwnPropertyNames(elementAttributes),
-                elements = processData.elements;
-            elements.forEach(function(element) {
-                let requiredDataArr = [];
-                for (let j = 0, keyLen = elementsKeys.length; j < keyLen; j++) {
-                    let elementTypeData = elementAttributes[elementsKeys[j]].filter(function(e) {
-                        return e.type === element.type;
-                    });
-                    if (elementTypeData.length) {
-                        let attributeList = elementTypeData[0].attribute;
-                        attributeList.forEach(function(attr) {
-                            let items = attr.items;
-                            items.forEach(function(item) {
-                                if (item.required === 'Y') { requiredDataArr.push(item.id); }
-                            });
+    aliceJs.fetchJson('/assets/js/process/elementAttribute.json', {
+        method: 'GET'
+    }).then((elementAttributes) => {
+        const elementsKeys = Object.getOwnPropertyNames(elementAttributes),
+            elements = processData.elements;
+        elements.forEach(function(element) {
+            let requiredDataArr = [];
+            for (let j = 0, keyLen = elementsKeys.length; j < keyLen; j++) {
+                let elementTypeData = elementAttributes[elementsKeys[j]].filter(function(e) {
+                    return e.type === element.type;
+                });
+                if (elementTypeData.length) {
+                    let attributeList = elementTypeData[0].attribute;
+                    attributeList.forEach(function(attr) {
+                        let items = attr.items;
+                        items.forEach(function(item) {
+                            if (item.required === 'Y') { requiredDataArr.push(item.id); }
                         });
-                    }
-                    if (requiredDataArr.length) {
-                        break;
-                    }
+                    });
                 }
-                element.required = requiredDataArr;
-            });
-        },
-        contentType: 'application/json; charset=utf-8',
-        showProgressbar: false
+                if (requiredDataArr.length) {
+                    break;
+                }
+            }
+            element.required = requiredDataArr;
+        });
     });
 };
 
@@ -498,23 +492,21 @@ ZWorkflowUtil.saveImportData = function(type, data) {
     if (type === 'process') {
         saveUrl = '/rest/processes?saveType=saveas';
     }
-    // TODO: 프로세스 디자이너 리팩토링시 return 받는 데이터 타입을 text 로 통일한 후 받도록 처리하여 aliceJs.fetchText 로 변경 필요
-    aliceJs.sendXhr({
+    aliceJs.fetchText(saveUrl, {
         method: 'POST',
-        async: false,
-        url: saveUrl,
-        callbackFunc: function (response) {
-            if (type === 'process') {
-                let resultToJson = JSON.parse(response.responseText);
-                result = resultToJson.result;
-            } else {
-                if (response.responseText !== '') {
-                    result = true;
-                }
-            }
+        headers: {
+            'Content-Type': 'application/json'
         },
-        contentType: 'application/json; charset=utf-8',
-        params: JSON.stringify(data)
+        body: JSON.stringify(data)
+    }).then((response) => {
+        if (type === 'process') {
+            let resultToJson = JSON.parse(response.responseText);
+            result = resultToJson.result;
+        } else {
+            if (response.responseText !== '') {
+                result = true;
+            }
+        }
     });
     return result;
 };

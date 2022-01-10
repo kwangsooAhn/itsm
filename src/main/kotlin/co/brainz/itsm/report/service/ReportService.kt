@@ -101,7 +101,7 @@ class ReportService(
 
     @Transactional
     fun saveReport(templateId: String): String {
-        var resultCode = ReportConstants.ReportCreateStatus.STATUS_SUCCESS.code;
+        var resultCode = ReportConstants.ReportCreateStatus.STATUS_SUCCESS.code
         // 스케줄러에 의해 실행되어 awf_report_data 에 저장하는 기능
         val templateEntity = reportTemplateRepository.getOne(templateId)
 

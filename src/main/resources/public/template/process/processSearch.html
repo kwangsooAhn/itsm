@@ -55,8 +55,14 @@
 
     // 프로세스 리스트 조회
     function getList(pageNum = 1) {
-        let search = document.getElementById('searchValue').value
-        restSearchSubmit('GET', '/processes?searchValue=' + encodeURIComponent(search) + '&pageNum=' + pageNum);
+        const urlParam = encodeURIComponent(document.getElementById('searchValue').value) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/processes?searchValue=' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            const listBody = document.getElementById('processList');
+            listBody.innerHTML = htmlData;
+            setDateTimeFormat(listBody);
+        });
     }
 
     // 유효성 검증
@@ -76,22 +82,68 @@
      // 프로세스 등록/수정
     function saveProcess(processId, isDestroy, isEnabled) {
         // 빈 값 체크
-        if (checkValidation()) {
-            const processInfo = {
-                processName: document.getElementById('process_name').value,
-                processDesc: document.getElementById('process_description').value
-            };
-            if (processId === undefined) {
-                // 등록
-                restSubmit('POST', '/rest/processes', processInfo);
-            } else {
-                // 수정
-                processInfo.processId = processId;
-                processInfo.processStatus = isDestroy ? STATUS_DESTROY : document.getElementById('process_status').value;
-                isEnabled ? restSubmit('PUT', '/rest/processes/' + processId, processInfo)
-                    : zAlert.warning(i18n.msg('process.msg.failedDestroy'));
+        if (!checkValidation()) { return false; }
+
+        const processInfo = {
+            processName: document.getElementById('process_name').value,
+            processDesc: document.getElementById('process_description').value
+        };
+        let method = 'POST';
+        let url = '/rest/processes';
+
+        if (typeof processId !== 'undefined') {
+            if (!isEnabled) {
+                zAlert.warning(i18n.msg('process.msg.failedDestroy'));
+                return false;
             }
+            // 수정
+            method = 'PUT';
+            url += ('/' + processId);
+            processInfo.processId = processId;
+            processInfo.processStatus = isDestroy ? STATUS_DESTROY : document.getElementById('process_status').value;
         }
+        aliceJs.fetchText(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(processInfo)
+        }).then((result) => {
+            if (method === 'POST') {
+                const _width = 1800,
+                    _height = 920;
+                // 중앙 배치
+                const _left = Math.ceil((window.screen.width - _width) / 2);
+                const _top = Math.ceil((window.screen.height - _height) / 4);
+
+                let resultToJson = JSON.parse(result);
+                let processId = resultToJson.processId;
+                let resultCode = resultToJson.result;
+                switch (resultCode.toString()) {
+                    case RESPONSE_DUPLICATION:
+                        zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
+                        return;
+                    case RESPONSE_FAIL:
+                        zAlert.warning(i18n.msg('common.msg.fail'));
+                        return;
+                    default:
+                        sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
+                        let specs = 'left=' + _left + ',top=' + _top;
+                        specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                        window.open('/process/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                }
+            } else {
+                switch (result) {
+                    case RESPONSE_DUPLICATION:
+                        zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
+                        return;
+                    case RESPONSE_FAIL:
+                        zAlert.warning(i18n.msg('common.msg.fail'));
+                        return;
+                }
+            }
+            location.reload();
+        });
     }
 
     // 프로세스 삭제
@@ -99,9 +151,7 @@
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
             aliceJs.fetchText('/rest/process/' + processId, {
                 method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                showProgressbar: true
             }).then((rtn) => {
                 if (rtn === 'true') {
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
@@ -127,103 +177,99 @@
 
     // 프로세스 수정 / 보기 모달 오픈
     function openProcessEdit(processId, isView) {
-        if (processId !== undefined) { // 수정
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/rest/processes/' + processId + '/data',
-                callbackFunc: function(xhr) {
-                    let responseObject = JSON.parse(xhr.responseText);
-                    responseObject.isView = isView;
-                    let options = {
-                        title: isView ? i18n.msg('process.label.detail') : i18n.msg('process.label.edit') ,
-                        body: createModalContent(responseObject),
-                        classes: 'process-edit',
-                        buttons: [],
-                        close: {
-                            closable: false,
-                        },
-                        onCreate: function(modal) {
-                            // 스크롤바 추가
-                            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                            OverlayScrollbars(document.getElementById('process_description'), {
-                                className: 'inner-scrollbar',
-                                resize: 'vertical',
-                                sizeAutoCapable: true,
-                                textarea: {
-                                    dynHeight: false,
-                                    dynWidth: false,
-                                    inheritedAttrs: "class"
-                                }
-                            });
-                        }
-                    };
+        if (typeof processId === 'undefined') { return false; }
 
-                    // 버튼 설정
-                    if (responseObject.enabled && !isView) {
-                        // 내보내기 버튼
-                        options.buttons.push({
-                            content: i18n.msg('process.btn.export'),
-                            classes: 'z-button primary',
-                            bindKey: false,
-                            callback: function(modal) {
-                                ZWorkflowUtil.export(responseObject.id, 'process');
-                            }
-                        });
-                        // 수정
-                        options.buttons.push({
-                            content: i18n.msg('common.btn.modify'),
-                            classes: 'z-button primary',
-                            bindKey: false,
-                            callback: function(modal) {
-                                saveProcess(responseObject.id, false, true);
-                            }
-                        });
-                        // 삭제
-                        options.buttons.push({
-                            content: i18n.msg('common.btn.delete'),
-                            classes: 'z-button secondary',
-                            bindKey: false,
-                            callback: function(modal) {
-                                deleteProcess(responseObject.id);
-                            }
-                        });
-                    } else if (responseObject.status === STATUS_USE) {
-                        // 내보내기 버튼
-                        options.buttons.push({
-                            content: i18n.msg('process.btn.export'),
-                            classes: 'z-button primary',
-                            bindKey: false,
-                            callback: function(modal) {
-                                ZWorkflowUtil.export(responseObject.id, 'process');
-                            }
-                        });
-                        // 폐기
-                        options.buttons.push({
-                            content: i18n.msg('process.status.destroy'),
-                            classes: 'z-button secondary',
-                            bindKey: false,
-                            callback: function(modal) {
-                                saveProcess(responseObject.id, true, responseObject.enabled);
-                            }
-                        });
-                    }
-                    // 취소
-                    options.buttons.push({
-                        content: i18n.msg('common.btn.cancel'),
-                        classes: 'z-button secondary',
-                        bindKey: false,
-                        callback: function(modal) {
-                            modal.hide();
+        aliceJs.fetchJson('/rest/processes/' + processId + '/data', {
+            method: 'GET'
+        }).then((data) => {
+            data.isView = isView;
+            let options = {
+                title: isView ? i18n.msg('process.label.detail') : i18n.msg('process.label.edit') ,
+                body: createModalContent(data),
+                classes: 'process-edit',
+                buttons: [],
+                close: {
+                    closable: false,
+                },
+                onCreate: function(modal) {
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.getElementById('process_description'), {
+                        className: 'inner-scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
                         }
                     });
+                }
+            };
 
-                    // 모달 호출
-                    const processModal = new modal(options);
-                    processModal.show();
-                },
-                contentType: 'application/json; charset=utf-8'
+            // 버튼 설정
+            if (data.enabled && !isView) {
+                // 내보내기 버튼
+                options.buttons.push({
+                    content: i18n.msg('process.btn.export'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        ZWorkflowUtil.export(data.id, 'process');
+                    }
+                });
+                // 수정
+                options.buttons.push({
+                    content: i18n.msg('common.btn.modify'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        saveProcess(data.id, false, true);
+                    }
+                });
+                // 삭제
+                options.buttons.push({
+                    content: i18n.msg('common.btn.delete'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        deleteProcess(data.id);
+                    }
+                });
+            } else if (data.status === STATUS_USE) {
+                // 내보내기 버튼
+                options.buttons.push({
+                    content: i18n.msg('process.btn.export'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        ZWorkflowUtil.export(data.id, 'process');
+                    }
+                });
+                // 폐기
+                options.buttons.push({
+                    content: i18n.msg('process.status.destroy'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        saveProcess(data.id, true, data.enabled);
+                    }
+                });
+            }
+            // 취소
+            options.buttons.push({
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function(modal) {
+                    modal.hide();
+                }
             });
-        }
+
+            // 모달 호출
+            const processModal = new modal(options);
+            processModal.show();
+        });
     }
 
     // 프로세스 등록 모달 오픈
@@ -266,54 +312,6 @@
             }
         });
         processModal.show();
-    }
-
-    // REST API
-    function restSubmit(method, url, data) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                let result = response.responseText;
-                if (method === 'POST') {
-                    const _width = 1800,
-                        _height = 920;
-                    // 중앙 배치
-                    const _left = Math.ceil((window.screen.width - _width) / 2);
-                    const _top = Math.ceil((window.screen.height - _height) / 4);
-
-                    let resultToJson = JSON.parse(result);
-                    let processId = resultToJson.processId;
-                    let resultCode = resultToJson.result;
-                    switch (resultCode.toString()) {
-                        case RESPONSE_DUPLICATION:
-                            zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
-                            return;
-                        case RESPONSE_FAIL:
-                            zAlert.warning(i18n.msg('common.msg.fail'));
-                            return;
-                        default:
-                            sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
-                            let specs = 'left=' + _left + ',top=' + _top;
-                            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                            window.open('/process/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
-                    }
-                } else if (method === "PUT") {
-                    switch (result) {
-                        case RESPONSE_DUPLICATION:
-                            zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
-                            return;
-                        case RESPONSE_FAIL:
-                            zAlert.warning(i18n.msg('common.msg.fail'));
-                            return;
-                    }
-                }
-                location.reload();
-            }
-        };
-        aliceJs.sendXhr(opt);
     }
 
     // 프로세스 디자이너 편집화면 오픈
@@ -445,21 +443,6 @@
             }
         });
         importModal.show();
-    }
-
-    // REST API
-    function restSearchSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            showProgressbar: false,
-            callbackFunc: function(response) {
-                    document.getElementById('processList').innerHTML = response.responseText;
-                    setDateTimeFormat(document.getElementById('processList'));
-            }
-        };
-        aliceJs.sendXhr(opt);
     }
 
     /**

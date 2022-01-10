@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.user.dto
 
 import java.io.Serializable
@@ -12,5 +17,6 @@ class UserListExcelDto(
     var officeNumber: String? = null,
     var mobileNumber: String? = null,
     var createDt: LocalDateTime? = null,
-    var absenceYn: Boolean = false
+    var absenceYn: Boolean = false,
+    var useYn: Boolean = true
 ) : Serializable

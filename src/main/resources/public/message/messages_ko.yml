@@ -411,6 +411,7 @@ cmdb:
       searchPlaceholder: "유형 이름"
       seq: "정렬 순서"
     msg:
+      enterClass: "CI 속성그룹을 선택하세요."
       enterPType: "부모 유형을 선택하세요."
       enterTypeAlias: "식별자를 입력하세요."
       enterTypeName: "유형 이름을 입력하세요."
@@ -625,6 +626,7 @@ error:
 # FAQ
 faq:
   label:
+    all: "전체"
     category: "분류"
     edit: "FAQ 수정"
     faq: "FAQ"
@@ -912,7 +914,7 @@ menu:
     auth: "권한"
     boardAdmin: "게시판"
     code: "코드"
-    organization: "조직"
+    organization: "부서"
     parent: "시스템 관리"
     product: "제품 정보"
     role: "역할"
@@ -1001,25 +1003,25 @@ notification:
 # Organization
 organization:
   label:
-    organization: "조직"
-    organizationId: "조직 아이디"
-    description: "조직 설명"
-    name: "조직 이름"
-    pOrganizationName: "상위조직 이름"
+    organization: "부서"
+    organizationId: "부서 아이디"
+    description: "부서 설명"
+    name: "부서 이름"
+    pOrganizationName: "상위부서 이름"
     role: "구성원 기본 역할"
-    searchPlaceholder: "조직 이름"
+    searchPlaceholder: "부서 이름"
     seqNum: "출력 순서"
     useYn: "사용여부"
   msg:
-    duplicateOrganizationId: "중복된 조직 아이디가 존재합니다."
-    duplicateOrganizationName: "중복된 조직 이름이 존재합니다."
-    editDescription: "조직 구조를 관리합니다."
-    enterOrganizationId: "조직 아이디를 입력하세요."
-    enterOrganizationName: "조직 이름을 입력하세요."
-    enterPOrganizationName: "상위조직 이름을 입력하세요."
-    pOrganizationNotExist: "상위조직이 존재하지 않습니다."
+    duplicateOrganizationId: "중복된 부서 아이디가 존재합니다."
+    duplicateOrganizationName: "중복된 부서 이름이 존재합니다."
+    editDescription: "부서를 관리합니다."
+    enterOrganizationId: "부서 아이디를 입력하세요."
+    enterOrganizationName: "부서 이름을 입력하세요."
+    enterPOrganizationName: "상위부서 이름을 입력하세요."
+    pOrganizationNotExist: "상위부서가 존재하지 않습니다."
     selectRole: "구성원 기본 역할을 선택하세요."
-    failedOrganizationDelete: "조직에 구성원이 존재하여 삭제할 수 없습니다."
+    failedOrganizationDelete: "부서에 구성원이 존재하여 삭제할 수 없습니다."
 
 # Portal
 portal:
@@ -1308,6 +1310,7 @@ token:
     endDt: "신청서 종료일시"
     createUser: "신청서 생성자"
     application-form: "신청서"
+    workflow: "업무흐름"
 
 # WorkflowAdmin
 workflowAdmin:

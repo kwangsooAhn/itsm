@@ -50,16 +50,17 @@
         ZSession.add('departmentName', '');
 
         if (!zValidation.isEmpty(ZSession.get('department'))) {
-            aliceJs.fetchJson('/rest/codes/' + ZSession.get('department'), {
+            aliceJs.fetchJson('/rest/organizations/' + ZSession.get('department'), {
                 method: 'GET'
-            }).then((codeData) => {
-                ZSession.add('departmentName', codeData.codeName);
+            }).then((response) => {
+                ZSession.add('departmentName', response.data.organizationName);
             });
         }
 
         // 문서 생성
         aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {
-            method: 'GET'
+            method: 'GET',
+            showProgressbar: true
         }).then((formDataJson) => {
             document.getElementById('instanceId').value = formDataJson.instanceId;
             formDataJson.tokenId = document.getElementById('tokenId').value;

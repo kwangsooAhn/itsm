@@ -1218,7 +1218,7 @@ table td, table th {
   background-color: #F5F5F5;
 }
 .z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
-  margin: 0 0 0 0.5rem;
+  margin: 0 0 0 0.75rem;
 }
 .z-option-table tr.z-option-table-row .z-input {
   width: 85%;
@@ -2093,7 +2093,7 @@ select {
   pointer-events: none;
 }
 
-/* _print.scss 
+/* _print.scss
  *
  * 파일 경로 : document/_print.scss
  * @description 프린트 화면 디자인
@@ -2165,6 +2165,10 @@ select {
   }
   .z-print-main .z-drawing-board .z-form {
     display: table-row;
+  }
+  .z-print-main .z-drawing-board .z-form .z-group-tooltip {
+    page-break-after: auto;
+    break-inside: avoid;
   }
   .z-print-main .z-drawing-board .z-form .z-row-tooltip {
     break-inside: avoid;

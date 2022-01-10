@@ -39,26 +39,18 @@
     };
 
     function getList(pageNum = 1) {
-        restSubmit('get', '/schedulers?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/schedulers?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            const listBody = document.getElementById('schedulerList');
+            listBody.innerHTML = htmlData;
+            setDateTimeFormat(listBody);
+        });
     }
 
     function openSchedulerAdd() {
         location.href = '/schedulers/new';
-    }
-
-    // REST API
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            callbackFunc: function(response) {
-                document.getElementById('schedulerList').innerHTML = response.responseText;
-                setDateTimeFormat(document.getElementById('schedulerList'));
-            },
-            showProgressbar: false
-        };
-        aliceJs.sendXhr(opt);
     }
 
     /**

@@ -98,9 +98,6 @@
                 zAlert.success(resultMsg, function () {
                     window.location.href = '/faqs/search';
                 });
-            } else {
-                resultMsg = [[#{faq.msg.duplicateTitleInCategory}]];
-                zAlert.warning(resultMsg);
             }
         });
     }
@@ -120,8 +117,6 @@
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
                         location.href = '/faqs/search';
                     });
-                } else {
-                    zAlert.danger(i18n.msg('common.msg.fail'));
                 }
             });
         });

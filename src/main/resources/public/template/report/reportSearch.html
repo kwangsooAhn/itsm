@@ -37,21 +37,14 @@
     };
 
     function getList(pageNum = 1) {
-        restSearchSubmit('get', '/reports/report?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
-    }
-
-    function restSearchSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                document.getElementById('reportList').innerHTML = response.responseText;
-                setDateTimeFormat(document.getElementById('reportList'));
-            }
-        };
-        aliceJs.sendXhr(opt);
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/reports/report?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            const listBody = document.getElementById('reportList');
+            listBody.innerHTML = htmlData;
+            setDateTimeFormat(listBody);
+        });
     }
 
     /**

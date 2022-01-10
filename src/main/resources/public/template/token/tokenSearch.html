@@ -124,62 +124,53 @@
             offsetCount = 0;
         }
         let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-        restSubmit('get', '/tokens?' + urlParam, isScroll);
-    }
-
-    function restSubmit(method, url, isScroll) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                if (isScroll) {
-                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                        offsetCount = offsetCount + aliceJs.searchDataCount;
-                    }
-                    let tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = response.responseText;
-                    console.log(tempDiv)
-                    setDateTimeFormat(tempDiv);
-                    tempDiv.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
-                        new zTag(tagInput, {
-                            suggestion: false,
-                            realtime: false,
-                            tagType: 'instance'
-                        });
+        aliceJs.fetchText('/tokens?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            if (isScroll) {
+                if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                    offsetCount = offsetCount + aliceJs.searchDataCount;
+                }
+                let tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlData;
+                console.log(tempDiv)
+                setDateTimeFormat(tempDiv);
+                tempDiv.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
+                    new zTag(tagInput, {
+                        suggestion: false,
+                        realtime: false,
+                        tagType: 'instance'
                     });
-                    document.querySelector('.z-token-content .card-list').insertAdjacentHTML('beforeend', tempDiv.innerHTML);
-                } else {
-                    document.getElementById('tokenList').innerHTML = response.responseText;
-                    aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                    setDateTimeFormat(document.getElementById('tokenList'));
-                    OverlayScrollbars(document.querySelector('.z-page-content'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function (e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        tokenSearch(true);
-                                    }
+                });
+                document.querySelector('.z-token-content .card-list').insertAdjacentHTML('beforeend', tempDiv.innerHTML);
+            } else {
+                document.getElementById('tokenList').innerHTML = htmlData;
+                aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                setDateTimeFormat(document.getElementById('tokenList'));
+                OverlayScrollbars(document.querySelector('.z-page-content'), {
+                    className: 'scrollbar',
+                    callbacks: {
+                        onScroll: function (e) {
+                            const scrollHeight = e.target.scrollHeight;
+                            const scrollTop = e.target.scrollTop;
+                            const clientHeight = e.target.clientHeight;
+                            if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                    tokenSearch(true);
                                 }
                             }
                         }
+                    }
+                });
+                document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
+                    new zTag(tagInput, {
+                        suggestion: false,
+                        realtime: false,
+                        tagType: 'instance'
                     });
-                    document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
-                        new zTag(tagInput, {
-                            suggestion: false,
-                            realtime: false,
-                            tagType: 'instance'
-                        });
-                    });
-                }
+                });
             }
-        };
-        aliceJs.sendXhr(opt);
+        });
     }
 
     /**

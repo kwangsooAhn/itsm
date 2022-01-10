@@ -125,32 +125,26 @@
 	}
 
 	function openProductInfoModal() {
-		const opt = {
-			method: 'get',
-			url: '/rest/products/info',
-			contentType: 'application/json',
-			showProgressbar: false,
-			callbackFunc: function (response) {
-				const data = JSON.parse(response.responseText);
-				let modalOptions = {
-					title: '',
-					classes: 'product-info-modal',
-					body: createProductModalContent(data),
-					buttons: [],
-					close: {
-						closable: false,
-					},
-				}
-				const productInfoModal = new modal(modalOptions);
-				productInfoModal.show();
-
-				document.querySelector('.modal-backdrop').addEventListener('click', function(e) {
-					e.stopPropagation();
-					productInfoModal.hide();
-				});
+		aliceJs.fetchJson('/rest/products/info', {
+			method: 'GET'
+		}).then((data) => {
+			const modalOptions = {
+				title: '',
+				classes: 'product-info-modal',
+				body: createProductModalContent(data),
+				buttons: [],
+				close: {
+					closable: false,
+				},
 			}
-		};
-		aliceJs.sendXhr(opt);
+			const productInfoModal = new modal(modalOptions);
+			productInfoModal.show();
+
+			document.querySelector('.modal-backdrop').addEventListener('click', function(e) {
+				e.stopPropagation();
+				productInfoModal.hide();
+			});
+		});
 	}
 /* ]]> */
 </script>

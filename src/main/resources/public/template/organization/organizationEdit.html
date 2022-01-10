@@ -31,30 +31,23 @@
     <div class="z-edit-form flex-fill">
         <div class="z-edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
-                <label class="required" th:text="#{organization.label.organizationId}" for="organizationId"></label>
-                <input type="text" id="organizationId" class="z-input text-ellipsis col-pct-12"
-                       th:value="${data?.organizationId}" maxlength="100"/>
-                </span>
+                <input type="hidden" id="organizationId" th:value="${data?.organizationId}"/>
+                <label class="required" th:text="#{organization.label.name}" for="organizationName"></label>
+                <input type="text" id="organizationName" class="z-input text-ellipsis"
+                       th:value="${data?.organizationName}" maxlength="100"/>
             </div>
             <div class="flex-column flex-fill">
-                <input type="hidden" id="pOrganizationId"/>
+                <input type="hidden" id="pOrganizationId" th:value="${data?.pOrganizationId}"/>
                 <label class="required" th:text="#{organization.label.pOrganizationName}" for="pOrganizationName"></label>
                 <input type="text" id="pOrganizationName" class="z-input text-ellipsis col-pct-12"
                        th:value="${data?.pOrganizationName}" maxlength="100"/>
                 </span>
             </div>
         </div>
-        <div class="z-edit-row flex-row">
-            <div class="flex-column flex-fill mr-4">
-                <label class="required" th:text="#{organization.label.name}" for="organizationName"></label>
-                <input type="text" id="organizationName" class="z-input text-ellipsis"
-                       th:value="${data?.organizationName}" maxlength="100"/>
-            </div>
-            <div class="flex-column flex-fill">
-                <label th:text="#{organization.label.seqNum}" for="seqNum"></label>
-                <input type="text" id="seqNum" class="z-input text-ellipsis" th:value="${data?.seqNum}"
-                       onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
-            </div>
+        <div class="z-edit-row flex-column">
+            <label th:text="#{organization.label.seqNum}" for="seqNum"></label>
+            <input type="text" id="seqNum" class="z-input text-ellipsis" th:value="${data?.seqNum}"
+                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
         </div>
         <div class="z-edit-row flex-column">
             <label class="z-switch">
@@ -117,11 +110,6 @@
         document.getElementById('searchValue').focus();
 
         getOrganizationList();
-
-        //첫번째 클릭
-        if (document.getElementById('treeList').querySelectorAll('.node') !== undefined) {
-            document.getElementById('treeList').querySelectorAll('.node')[0].click();
-        }
     };
 
     /** 조직 트리 조회 */
@@ -135,6 +123,9 @@
             defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
             leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
             totalCount: true,
+            onCreate: function () {
+                document.getElementById('treeList').querySelector('.node').click();
+            },
             selectedNode: function (response) {
                 onGetDetail(response.id)
             }
@@ -255,6 +246,20 @@
         if (isEmpty('pOrganizationName', 'organization.msg.enterPOrganizationName')) return false;
         if (isEmpty('organizationName', 'organization.msg.enterOrganizationName')) return false;
 
+        // 조직 이름 중복 체크
+        const organizationName = document.getElementById('organizationName').value;
+        if (method === 'POST') {
+            const nodes = document.getElementById('treeList').querySelectorAll('.node');
+            let nodeNames = [];
+            nodes.forEach(function (node) {
+                nodeNames.push(node.getAttribute('data-name'));
+            });
+            if (nodeNames.includes(organizationName)) {
+                zAlert.warning(i18n.msg('organization.msg.duplicateOrganizationName'));
+                return false;
+            }
+        }
+
         // 저장
         const roleElements = document.querySelectorAll('input[name=organizationRole]:checked');
         let roleIds = [];
@@ -264,7 +269,7 @@
         const saveData = {
             organizationId: document.getElementById('organizationId').value,
             pOrganizationId: document.getElementById('pOrganizationId').value,
-            organizationName: document.getElementById('organizationName').value,
+            organizationName: organizationName,
             organizationDesc: document.getElementById('organizationDesc').value,
             useYn: document.getElementById('useYn').checked,
             seqNum: document.getElementById('seqNum').value,
@@ -275,7 +280,6 @@
         if (method !== 'POST') {
             url += '/' + document.getElementById('organizationId').value;
         }
-
         aliceJs.fetchJson(url, {
             method: method,
             headers: {

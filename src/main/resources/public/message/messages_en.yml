@@ -411,6 +411,7 @@ cmdb:
       searchPlaceholder: "Type"
       seq: "Sort Order"
     msg:
+      enterClass: "Please choose CI class."
       enterPType: "Please choose Parent Type node."
       enterTypeAlias: "Please enter a Type Alias."
       enterTypeName: "Please enter a Type Name."
@@ -625,6 +626,7 @@ error:
 # FAQ
 faq:
   label:
+    all: "ALL"
     category: "Category"
     edit: "FAQ Edit"
     faq: "FAQ"
@@ -912,7 +914,7 @@ menu:
     auth: "Auth"
     boardAdmin: "Board management"
     code: "Code management"
-    organization: "Organization"
+    organization: "Department"
     parent: "System config"
     product: "Product Info"
     role: "Role"
@@ -1001,25 +1003,25 @@ notification:
 # Organization
 organization:
   label:
-    organization: "Organization"
-    organizationId: "Organization Id"
-    description: "Organization Description"
-    name: "Organization Name"
-    pOrganizationName: "Parent Organization Name"
+    organization: "Department"
+    organizationId: "Department Id"
+    description: "Department Description"
+    name: "Department Name"
+    pOrganizationName: "Parent Department Name"
     role: "Member default role"
-    searchPlaceholder: "Organization name"
+    searchPlaceholder: "Department name"
     seqNum: "The order of the output"
     useYn: "Use enable"
   msg:
-    duplicateOrganizationId: "Duplicate Organization Id."
-    duplicateOrganizationName: "Duplicate Organization Name."
-    editDescription: "Add, view and manage organization."
-    enterOrganizationId: "Please enter a organization Id."
-    enterOrganizationName: "Please enter a organization Name"
-    enterPOrganizationName: "Please enter a parent organization Name."
+    duplicateOrganizationId: "Duplicate Department Id."
+    duplicateOrganizationName: "Duplicate department name."
+    editDescription: "Add, view and manage department."
+    enterOrganizationId: "Please enter a department Id."
+    enterOrganizationName: "Please enter a department name"
+    enterPOrganizationName: "Please enter a parent department name."
     pOrganizationNotExist: "Parent organization does not exist."
     selectRole: "Please select a member default role."
-    failedOrganizationDelete: "Failed to delete the organization because of a member."
+    failedOrganizationDelete: "Failed to delete a department because of a member."
 
 # Portal
 portal:
@@ -1308,6 +1310,7 @@ token:
     endDt: "Document End Data"
     createUser: "Document Create User"
     application-form: "application Form"
+    workflow: "Workflow"
 
 # WorkflowAdmin
 workflowAdmin:

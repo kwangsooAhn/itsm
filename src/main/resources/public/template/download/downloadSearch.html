@@ -51,8 +51,8 @@
         zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
         zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
 
-        document.getElementById('category').addEventListener('change', getList, false);
-        document.getElementById('searchValue').addEventListener('keyup', getList, false);
+        document.getElementById('category').addEventListener('change', function () { getList(); });
+        document.getElementById('searchValue').addEventListener('keyup', function () { getList(); });
 
         getList();
     };
@@ -89,6 +89,7 @@
             i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
 
         const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        console.log(urlParam)
         aliceJs.fetchText('/downloads?' + urlParam, {
             method: 'GET',
         }).then((htmlData) => {

@@ -40,16 +40,13 @@
             search: encodeURIComponent(document.getElementById('searchValue').value)
         };
         const urlParam = 'searchValue=' + data.search + '&pageNum=' + pageNum;
-        const opt = {
-            method: 'get',
-            url: '/numberingRules?' + urlParam,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                document.getElementById('ruleList').innerHTML = response.responseText;
-                setDateTimeFormat(document.getElementById('ruleList'));
-            }
-        };
-        aliceJs.sendXhr(opt);
+        aliceJs.fetchText('/numberingRules?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            const listBody = document.getElementById('ruleList');
+            listBody.innerHTML = htmlData;
+            setDateTimeFormat(listBody);
+        });
     }
 
     /**

@@ -11,9 +11,11 @@ import java.io.Serializable
 data class AliceSignUpDto(
     @CheckUnacceptableCharInUrl
     var userId: String,
+    @CheckUnacceptableCharInUrl
     var userName: String,
     var password: String?,
     var email: String,
+    @CheckUnacceptableCharInUrl
     var position: String?,
     var department: String?,
     var officeNumber: String?,
