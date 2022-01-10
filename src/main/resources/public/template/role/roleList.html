@@ -16,10 +16,11 @@
     </tr>
         <tr class="flex-row align-items-center" th:each="role : ${roleList}">
             <td style="width:25%;" class="align-left underline">
-                <a sec:authorize="!hasAuthority('system.manage')" th:text="${role.roleName}"
+                <!-- 시스템 관리자 역할을 가진 사용자는 최소 1명은 유지되어야 하기 때문에, 해당 역할을 수정 할 수 없다. -->
+                <a sec:authorize="!hasAuthority('system.manage') or role.roleId == 'system.admin'" th:text="${role.roleName}"
                    th:href="@{/roles/{id}/view(id=${role.roleId})}" th:title="${role.roleName}">
                 </a>
-                <a sec:authorize="hasAuthority('system.manage')" th:text="${role.roleName}"
+                <a sec:authorize="hasAuthority('system.manage') and role.roleId != 'system.admin'" th:text="${role.roleName}"
                    th:href="@{/roles/{id}/edit(id=${role.roleId})}" th:title="${role.roleName}"></a>
             </td>
             <td style="width:25%;" class="align-left" id="roleId" name="roleId" th:text="${role.roleId}" th:title="${role.roleId}"></td>
