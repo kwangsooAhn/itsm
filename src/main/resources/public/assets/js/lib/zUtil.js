@@ -451,46 +451,27 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
 /**
  * 파라미터로 받은 날짜 데이터 기준으로 얼마의 시간이 지났는지 계산하여 반환한다. (ex. n분 전, n일 전...)
  * @param date 입력받는 날짜
+ * @return string 사용자 언어로 변경된 메시지
+ *
+ * humanize-duration.min.js 사용
+ * https://github.com/EvanHahn/HumanizeDuration.js/
  */
 function dateFormatFromNow(date) {
-    let v_date = '';
-    let p_date = new Date(i18n.userDateTime(date));
-    let now = new Date();
-    let diff, day, hour, min, sec;
+    if (date) {
+        const durationMilliseconds = luxon.Interval.fromDateTimes(new Date(i18n.userDateTime(date)), new Date())
+            .toDuration()
+            .valueOf();
+        const humanizedString = humanizeDuration(durationMilliseconds, { largest : 1, floor : true, units : ['y','mo','d','h','m','s'] }).split(' ');
 
-    if (date === '' || date === null) {
-        return;
-    } else {
-        if (now.getFullYear() > p_date.getFullYear()) {
-            diff = now.getFullYear() - p_date.getFullYear();
-            v_date = i18n.msg('date.label.yearsAgo', diff);
-        } else if (now.getMonth() > p_date.getMonth()) {
-            diff = now.getMonth() - p_date.getMonth();
-            v_date = i18n.msg('date.label.monthsAgo', diff);
-        } else if (now.getDate() > p_date.getDate()) {
-            diff = now.getDate() - p_date.getDate();
-            v_date = i18n.msg('date.label.daysAgo', diff);
-        } else if (now.getDate() === p_date.getDate()) {
-            let nowTime = now.getTime();
-            let writeTime = p_date.getTime();
-            if (nowTime > writeTime) {
-                sec = parseInt(nowTime - writeTime) / 1000;
-                day = parseInt(sec / 60 / 60 / 24);
-                sec = (sec - (day * 60 * 60 * 24));
-                hour = parseInt(sec / 60 / 60);
-                sec = (sec - (hour * 60 * 60));
-                min = parseInt(sec / 60);
-                sec = parseInt(sec - (min * 60));
-                if (hour > 0) {
-                    v_date = i18n.msg('date.label.hoursAgo', hour);
-                } else if (min > 0) {
-                    v_date = i18n.msg('date.label.minutesAgo', min);
-                } else if (sec > 0) {
-                    v_date = i18n.msg('date.label.aMomentAgo');
-                }
-            }
+        switch (true) {
+            case humanizedString[1].includes('year') : return i18n.msg('date.label.yearsAgo', humanizedString[0]);
+            case humanizedString[1].includes('month') : return i18n.msg('date.label.monthsAgo', humanizedString[0]);
+            case humanizedString[1].includes('day') : return i18n.msg('date.label.daysAgo', humanizedString[0]);
+            case humanizedString[1].includes('hour') : return i18n.msg('date.label.hoursAgo', humanizedString[0]);
+            case humanizedString[1].includes('min') : return i18n.msg('date.label.minutesAgo', humanizedString[0]);
+            case humanizedString[1].includes('sec') : return i18n.msg('date.label.aMomentAgo', humanizedString[0]);
+            default : return '';
         }
-        return v_date;
     }
 }
 
