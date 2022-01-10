@@ -123,6 +123,10 @@
                     node_id = item.typeId;
                     node_name = item.typeName;
                     node_value = item.typeId;
+                } else if (item.organizationId !== '' && item.organizationId !== undefined) {
+                    node_id = item.organizationId;
+                    node_name = item.organizationName;
+                    node_value = item.organizationId;
                 } else {
                     node_id = item.classId;
                     node_name = item.className;
@@ -561,6 +565,9 @@
                 case 'ciClass':
                     p_node_id = item.pclassId;
                     break;
+                case 'organization':
+                    p_node_id = item.porganizationId;
+                    break;
                 default:
                     p_node_id = item.pcode;
                     break;
@@ -692,6 +699,10 @@
                 }
                 if (options.expandTree) {
                     tree.expandTree();
+                }
+                // 트리 생성 후 호출되는 함수
+                if (typeof options.onCreate === 'function') {
+                    options.onCreate(this);
                 }
             } else {
                 // 데이터가 없는 경우 nodata 텍스트를 띄운다

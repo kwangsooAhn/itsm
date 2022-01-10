@@ -10,6 +10,7 @@ import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.organization.service.OrganizationService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
@@ -34,7 +35,8 @@ class UserController(
     private val codeService: CodeService,
     private val userService: UserService,
     private val roleService: RoleService,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val organizationService: OrganizationService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -95,8 +97,8 @@ class UserController(
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
         if (!users.department.isNullOrBlank()) {
-            val deptCodeDetail = codeService.getDetailCodes(users.department!!)
-            model.addAttribute("deptCodeDetail", deptCodeDetail)
+            val organizationDetail = organizationService.getDetailOrganization(users.department!!)
+            model.addAttribute("organizationDetail", organizationDetail)
         }
 
         val allCodes = userService.getInitCodeList()
@@ -115,12 +117,14 @@ class UserController(
                 returnUrl = userEditSelfPage
             }
             UserConstants.UserEdit.EDIT.code -> {
-                model.addAttribute("roles", roleService.getAllRolesToUserCheck(userEntity))
+                model.addAttribute("allRoles", roleService.getAllRoleList())
+                model.addAttribute("userRoles", roleService.getUserRoleList(userKey))
                 model.addAttribute("view", false)
                 returnUrl = userPage
             }
             UserConstants.UserEdit.VIEW.code -> {
-                model.addAttribute("roles", roleService.getAllRolesToUserCheck(userEntity))
+                model.addAttribute("allRoles", roleService.getAllRoleList())
+                model.addAttribute("userRoles", roleService.getUserRoleList(userKey))
                 model.addAttribute("view", true)
                 returnUrl = userPage
             }
@@ -151,7 +155,7 @@ class UserController(
         val allCodes = userService.getInitCodeList()
         model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
         model.addAttribute("timezoneList", userService.selectTimezoneList())
-        model.addAttribute("roles", roleService.getAllRolesToUserCheck(null))
+        model.addAttribute("allRoles", roleService.getAllRoleList())
         model.addAttribute("themeList", allCodes["themeList"])
         model.addAttribute("langList", allCodes["langList"])
         model.addAttribute("dateList", allCodes["dateList"])
