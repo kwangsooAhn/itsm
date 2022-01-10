@@ -21,7 +21,7 @@ data class UserUpdateDto(
     var department: String?,
     var officeNumber: String?,
     var mobileNumber: String?,
-    var roles: Set<String>?,
+    var roles: MutableSet<String>?,
     var certificationCode: String?,
     var status: String?,
     var timezone: String?,
