@@ -446,7 +446,7 @@ COMMENT ON COLUMN awf_custom_code.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_custom_code.update_dt IS '수정일';
 
 INSERT INTO awf_custom_code VALUES ('40288a19736b46fb01736b89e46c0008', '사용자 이름 검색', 'table', 'awf_user', 'user_name', 'user_key', null, '[{"conditionKey":"use_yn","conditionOperator":"equal","conditionValue":"true"}]', 'userName', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0009', '사용자 부서 검색', 'code', null, null, null, 'department.group', null ,'departmentName', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_custom_code VALUES ('40288a19736b46fb01736b89e46c0009', '사용자 부서 검색', 'table', 'awf_organization', 'organization_name', 'organization_id', null, '[{"conditionKey":"use_yn","conditionOperator":"equal","conditionValue":"true"}]', 'departmentName', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288ab777dd21b50177dd52781e0000', '데이터베이스', 'code', null, null, null, 'cmdb.db.kind', null ,'', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0010', '서비스데스크 - 단순문의 : 서비스 항목', 'code', null, null, null, 'form.template.serviceDesk.inquiry.category', null ,'', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0011', '서비스데스크 - 장애신고 : 장애유형', 'code', null, null, null, 'form.template.serviceDesk.incident.category', null ,'', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -471,6 +471,7 @@ COMMENT ON COLUMN awf_custom_code_table.custom_code_table_name IS '테이블이�
 
 insert into awf_custom_code_table values ('awf_user', '사용자 정보 테이블');
 insert into awf_custom_code_table values ('awf_role', '역할 정보 테이블');
+insert into awf_custom_code_table values ('awf_organization', '조직 관리 테이블');
 
 /**
  * 사용자정의코드컬럼
@@ -502,6 +503,9 @@ insert into awf_custom_code_column values ('awf_user', 'search', 'position', '�
 insert into awf_custom_code_column values ('awf_user', 'search', 'use_yn', '사용자 사용여부');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_name', '사용자 이름');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_key', '사용자 식별키');
+insert into awf_custom_code_column values ('awf_organization', 'search', 'organization_name', '부서 이름');
+insert into awf_custom_code_column values ('awf_organization', 'search', 'use_yn', '사용여부');
+insert into awf_custom_code_column values ('awf_organization', 'value', 'organization_id', '부서 아이디');
 
 /**
  * 자료실
@@ -1755,7 +1759,7 @@ insert into awf_url values ('/rest/numberingRules/{id}', 'get', '문서번호 �
 insert into awf_url values ('/rest/numberingRules/{id}', 'put', '문서번호 정보 변경', 'TRUE');
 insert into awf_url values ('/rest/numberingRules/{id}', 'delete', '문서번호 삭제', 'TRUE');
 insert into awf_url values ('/rest/organizations', 'get', '조직 조회', 'TRUE');
-insert into awf_url values ('/rest/organizations/{id}', 'get', '조직 상세 조회', 'TRUE');
+insert into awf_url values ('/rest/organizations/{id}', 'get', '조직 상세 조회', 'FALSE');
 insert into awf_url values ('/rest/organizations/{id}', 'put', '조직 수정', 'TRUE');
 insert into awf_url values ('/rest/organizations/{id}', 'delete', '조직 삭제', 'TRUE');
 insert into awf_url values ('/rest/organizations', 'post', '조직 등록', 'TRUE');
