@@ -167,6 +167,10 @@ insert into awf_url_auth_map values ('/numberingRules/search', 'get', 'numbering
 insert into awf_url_auth_map values ('/numberingRules/new', 'get', 'numbering.rule.create');
 insert into awf_url_auth_map values ('/numberingRules/{id}/edit', 'get', 'numbering.rule.update');
 insert into awf_url_auth_map values ('/numberingRules/{id}/view', 'get', 'numbering.rule.read');
+insert into awf_url_auth_map values ('/organizations/edit', 'get', 'organization.read');
+insert into awf_url_auth_map values ('/organizations/edit', 'get', 'organization.create');
+insert into awf_url_auth_map values ('/organizations/edit', 'get', 'organization.update');
+insert into awf_url_auth_map values ('/organizations/edit', 'get', 'organization.delete');
 insert into awf_url_auth_map values ('/processes', 'get', 'process.read');
 insert into awf_url_auth_map values ('/processes', 'get', 'process.delete');
 insert into awf_url_auth_map values ('/processes', 'get', 'process.update');
@@ -322,6 +326,11 @@ insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.create'
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.update');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.read');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.delete');
+insert into awf_url_auth_map values ('/rest/organizations', 'get', 'organization.read');
+insert into awf_url_auth_map values ('/rest/organizations', 'post', 'organization.create');
+insert into awf_url_auth_map values ('/rest/organizations/{id}', 'get', 'organization.read');
+insert into awf_url_auth_map values ('/rest/organizations/{id}', 'put', 'organization.update');
+insert into awf_url_auth_map values ('/rest/organizations/{id}', 'delete', 'organization.delete');
 insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'role.read');
 insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'role.create');
 insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'role.update');

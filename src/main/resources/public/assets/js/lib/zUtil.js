@@ -1034,7 +1034,8 @@ aliceJs.fetchJson = function(url, option) {
         .then((data) => {
             const jsonData = data ? JSON.parse(data) : {};
             // 상태 코드가 200이 아닐 경우 경고 표시
-            if (jsonData.hasOwnProperty('status') && jsonData.status !== 200) {
+            if (jsonData.hasOwnProperty('status') && jsonData.status !== 200 &&
+                jsonData.hasOwnProperty('message')) {
                 zAlert.danger(jsonData.message);
             }
             return jsonData;

@@ -23,6 +23,10 @@ import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
+import co.brainz.framework.organization.dto.OrganizationSearchCondition
+import co.brainz.framework.organization.entity.OrganizationEntity
+import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -55,18 +59,6 @@ import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Optional
-import kotlin.collections.LinkedHashMap
-import kotlin.collections.List
-import kotlin.collections.Map
-import kotlin.collections.MutableList
-import kotlin.collections.forEach
-import kotlin.collections.get
-import kotlin.collections.isNotEmpty
-import kotlin.collections.listOf
-import kotlin.collections.mutableListOf
-import kotlin.collections.mutableSetOf
-import kotlin.collections.set
-import kotlin.collections.setOf
 import kotlin.math.ceil
 import kotlin.random.Random
 import org.slf4j.Logger
@@ -80,7 +72,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-
 /**
  * 사용자 관리 서비스
  */
@@ -100,7 +91,9 @@ class UserService(
     private val userDetailsService: AliceUserDetailsService,
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
-    private val wfTokenRepository: WfTokenRepository
+    private val wfTokenRepository: WfTokenRepository,
+    private val organizationRepository: OrganizationRepository,
+    private val organizationRoleMapRepository: OrganizationRoleMapRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -130,7 +123,8 @@ class UserService(
         absenceList?.forEach { absence ->
             val userAbsenceDto = mapper.readValue(absence.customValue, UserAbsenceDto::class.java)
             if ((userAbsenceDto.startDt!! <= from && userAbsenceDto.endDt!! >= from) ||
-                (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)) {
+                (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)
+            ) {
                 excludeIds.add(absence.userKey)
             }
         }
@@ -151,11 +145,24 @@ class UserService(
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
         val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
         val userList: MutableList<UserListDataDto> = mutableListOf()
-
         for (user in queryResult.results) {
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
             userList.add(user)
+        }
+
+        val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
+        queryResult.results.forEach { user ->
+            val organization = organizationList.results.firstOrNull { it.organizationId == user.groupId }
+            var organizationName = mutableListOf<String>()
+            if (organization != null) {
+                if (organization.pOrganization != null) {
+                    organizationName = this.getRecursive(organization, organizationList.results, organizationName)
+                } else {
+                    organizationName.add(organization.organizationName.toString())
+                }
+            }
+            user.groupName = organizationName.joinToString(" > ")
         }
 
         return UserListReturnDto(
@@ -168,6 +175,24 @@ class UserService(
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
+    }
+
+    //groupId 값을 이용하여 상위 레벨의 부서폴더이름 추출
+    private fun getRecursive(
+        organization: OrganizationEntity,
+        organizationList: List<OrganizationEntity>,
+        organizationName: MutableList<String>
+    ): MutableList<String> {
+        organizationName.add(organization.organizationName.toString())
+        if (organization.pOrganization != null) {
+            val pOrganization = organizationList.firstOrNull {
+                it.organizationId == organization.pOrganization!!.organizationId
+            }
+            if (pOrganization != null) {
+                this.getRecursive(pOrganization, organizationList, organizationName)
+            }
+        }
+        return organizationName
     }
 
     /**
@@ -237,6 +262,16 @@ class UserService(
                     true -> {
                         userEntity.userRoleMapEntities.forEach {
                             userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
+                        }
+                        //부서의 role 제외
+                        if (!targetEntity.department.isNullOrEmpty()) {
+                            val organizationRoles =
+                                organizationRoleMapRepository.findRoleListByOrganizationId(targetEntity.department!!)
+                            organizationRoles.forEach { organizationRole ->
+                                if (userUpdateDto.roles!!.contains(organizationRole.roleId)) {
+                                    userUpdateDto.roles!!.remove(organizationRole.roleId)
+                                }
+                            }
                         }
                         userUpdateDto.roles!!.forEach {
                             userRoleMapRepository.save(

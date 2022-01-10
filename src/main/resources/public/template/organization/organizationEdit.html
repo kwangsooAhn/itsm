@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/pageType/treeEditLayout}">
+<head>
+    <title th:text="#{organization.label.organization}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/lib/zPageMutationObserver.js}"></script>
+</th:block>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{organization.label.organization}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{organization.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
+           maxlength="100" th:placeholder="#{organization.label.searchPlaceholder}"/>
+    <span id="totalCount" class="z-search-count"></span>
+    <div class="ml-auto">
+        <button type="button" class="z-button primary" id="btnCreate" name="btnCreate"
+                sec:authorize="hasAuthority('organization.create')" th:text="#{common.btn.add}"
+                th:onclick="|javascript:onCreate()|"></button>
+    </div>
+</div>
+<div layout:fragment="pageTree">
+    <div id="treeList"></div>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <div class="z-edit-row flex-row">
+            <div class="flex-column flex-fill mr-4">
+                <input type="hidden" id="organizationId" th:value="${data?.organizationId}"/>
+                <label class="required" th:text="#{organization.label.name}" for="organizationName"></label>
+                <input type="text" id="organizationName" class="z-input text-ellipsis"
+                       th:value="${data?.organizationName}" maxlength="100"/>
+            </div>
+            <div class="flex-column flex-fill">
+                <input type="hidden" id="pOrganizationId" th:value="${data?.pOrganizationId}"/>
+                <label class="required" th:text="#{organization.label.pOrganizationName}" for="pOrganizationName"></label>
+                <input type="text" id="pOrganizationName" class="z-input text-ellipsis col-pct-12"
+                       th:value="${data?.pOrganizationName}" maxlength="100"/>
+                </span>
+            </div>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label th:text="#{organization.label.seqNum}" for="seqNum"></label>
+            <input type="text" id="seqNum" class="z-input text-ellipsis" th:value="${data?.seqNum}"
+                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label class="z-switch">
+                <span class="z-label" th:text="#{organization.label.useYn}"></span>
+                <input type="checkbox" id="useYn" name="useYn"
+                       th:checked="${data?.useYn == null || data?.useYn == true}">
+                <span></span>
+            </label>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label th:text="#{organization.label.description}" for="organizationDesc"></label>
+            <textarea id="organizationDesc" th:maxlength="200" th:rows="7"
+                      class="z-textarea textarea-scroll-wrapper" th:text="${data?.organizationDesc}"></textarea>
+        </div>
+        <div class="z-edit-row flex-column">
+            <label th:text="#{organization.label.role}"></label>
+            <div class="z-checkbox-list">
+                <ul>
+                    <li class="text-ellipsis" th:each="role : ${roleList}">
+                        <label class="z-checkbox" tabindex="0" th:for="${role?.roleId}">
+                            <input type="checkbox" name="organizationRole"
+                                   th:disabled="${view}" th:id="${role?.roleId}" th:value="${role?.roleName}">
+                            <span></span>
+                            <span class="z-label" th:text="${role?.roleName}"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="flex-row justify-content-end">
+            <div class="z-button-list">
+                <button sec:authorize="hasAuthority('organization.create')"
+                        class="z-button primary" type="button" id="btnRegist" name="btnRegist"
+                        th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
+                <button sec:authorize="hasAuthority('organization.update')"
+                        class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
+                        th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
+                <button sec:authorize="hasAuthority('organization.delete')"
+                        class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
+                        th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:text="#{common.btn.delete}"></button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    let observer = aliceJs.pageObserver;
+
+    window.onload = function () {
+        observer.set();
+
+        OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
+        OverlayScrollbars(document.getElementById('organizationDesc'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), { className: 'inner-scrollbar' });
+
+        document.getElementById('searchValue').addEventListener('keyup', getOrganizationList, false);
+        document.getElementById('searchValue').focus();
+
+        getOrganizationList();
+    };
+
+    /** 조직 트리 조회 */
+    function getOrganizationList() {
+        const search = encodeURIComponent(document.getElementById('searchValue').value);
+        tree.load({
+            dataUrl: '/rest/organizations?searchValue=' + search,
+            target: 'treeList',
+            source: 'organization',
+            text: 'organizationName',
+            defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
+            leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
+            totalCount: true,
+            onCreate: function () {
+                document.getElementById('treeList').querySelector('.node').click();
+            },
+            selectedNode: function (response) {
+                onGetDetail(response.id)
+            }
+        });
+    }
+
+    /** 트리 선택시 상세 정보 조회 */
+    function onGetDetail(organizationId) {
+        if (!observer.canPageChange()) { return false; }
+
+        aliceJs.fetchJson('/rest/organizations/' + organizationId, {
+            method: 'GET',
+        }).then((response) => {
+            // 조직 ID
+            const organizationIdElement = document.getElementById('organizationId');
+            organizationIdElement.value = response.data.organizationId;
+            organizationIdElement.disabled = true;
+            // 상위조직
+            document.getElementById('pOrganizationId').value = response.data.porganizationId;
+            const pOrganizationNameElement = document.getElementById('pOrganizationName');
+            pOrganizationNameElement.value = response.data.porganizationName;
+            pOrganizationNameElement.disabled = true;
+            // 조직 이름
+            document.getElementById('organizationName').value = response.data.organizationName;
+            // 순서
+            document.getElementById('seqNum').value = response.data.seqNum;
+            // 사용 여부
+            document.getElementById('useYn').checked = response.data.useYn;
+            // 조직설명
+            document.getElementById('organizationDesc').value = response.data.organizationDesc;
+            // 구성원 기본 역할
+            const roleElements = document.querySelectorAll('input[name=organizationRole]');
+            roleElements.forEach(function (chk) {
+                chk.checked = false;
+                const matching = response.data.roles.find(function (role) {
+                    return role.roleId === chk.id;
+                });
+
+                if (matching) {
+                    chk.checked = true;
+                }
+            });
+
+            // 버튼 초기화
+            if (document.getElementById('btnUpdate') != null) {
+                document.getElementById('btnUpdate').style.display = 'block';
+            }
+            if (document.getElementById('btnDelete') != null) {
+                document.getElementById('btnDelete').style.display = 'block';
+            }
+            if (document.getElementById('btnRegist') != null) {
+                document.getElementById('btnRegist').style.display = 'none';
+            }
+
+            // 버튼 활성화
+            if (response.data.editable) {
+                if (document.getElementById('btnUpdate') != null) {
+                    document.getElementById('btnUpdate').disabled = false;
+                }
+                if (document.getElementById('btnDelete') != null) {
+                    document.getElementById('btnDelete').disabled = false;
+                }
+            } else {
+                if (document.getElementById('btnUpdate') != null) {
+                    document.getElementById('btnUpdate').disabled = true;
+                }
+                if (document.getElementById('btnDelete') != null) {
+                    document.getElementById('btnDelete').disabled = true;
+                }
+            }
+
+            observer.isChanged = false;
+        });
+    }
+
+    /** create **/
+    function onCreate() {
+        if (!observer.canPageChange()) { return false; }
+        // 버튼 초기화
+        if (document.getElementById('btnUpdate') != null) {
+            document.getElementById('btnUpdate').style.display = 'none';
+        }
+        if (document.getElementById('btnDelete') != null) {
+            document.getElementById('btnDelete').style.display = 'none';
+        }
+        if (document.getElementById('btnRegist') != null) {
+            document.getElementById('btnRegist').style.display = 'block';
+        }
+        // input 초기화
+        const inputElements = document.querySelectorAll('input[type=text]');
+        inputElements.forEach(function (input) {
+            input.value = '';
+        });
+        document.getElementById('pOrganizationId').value = '';
+        // textarea 초기화
+        document.getElementById('organizationDesc').value = '';
+        // 체크박스 초기화
+        let checkedElements = document.querySelectorAll('input[name=organizationRole]:checked');
+        checkedElements.forEach(function (chk) {
+            chk.checked = false;
+        });
+        document.getElementById('useYn').checked = true;
+
+        let selectedNode = tree.getTreeSelectNode();
+        if (selectedNode !== null) {
+            document.querySelector('#pOrganizationId').value = selectedNode.dataset.value;
+            document.querySelector('#pOrganizationName').value = selectedNode.dataset.name;
+        }
+        observer.isChanged = false;
+    }
+
+    /** save **/
+    function onSave(method) {
+        // 유효성 검증
+        if (method === 'PUT') {
+            if (isEmpty('organizationId', 'organization.msg.enterOrganizationId')) return false;
+        }
+        if (isEmpty('pOrganizationName', 'organization.msg.enterPOrganizationName')) return false;
+        if (isEmpty('organizationName', 'organization.msg.enterOrganizationName')) return false;
+
+        // 조직 이름 중복 체크
+        const organizationName = document.getElementById('organizationName').value;
+        if (method === 'POST') {
+            const nodes = document.getElementById('treeList').querySelectorAll('.node');
+            let nodeNames = [];
+            nodes.forEach(function (node) {
+                nodeNames.push(node.getAttribute('data-name'));
+            });
+            if (nodeNames.includes(organizationName)) {
+                zAlert.warning(i18n.msg('organization.msg.duplicateOrganizationName'));
+                return false;
+            }
+        }
+
+        // 저장
+        const roleElements = document.querySelectorAll('input[name=organizationRole]:checked');
+        let roleIds = [];
+        roleElements.forEach(function (chk) {
+            roleIds.push(chk.id);
+        });
+        const saveData = {
+            organizationId: document.getElementById('organizationId').value,
+            pOrganizationId: document.getElementById('pOrganizationId').value,
+            organizationName: organizationName,
+            organizationDesc: document.getElementById('organizationDesc').value,
+            useYn: document.getElementById('useYn').checked,
+            seqNum: document.getElementById('seqNum').value,
+            roleIds: roleIds
+        };
+
+        let url = '/rest/organizations';
+        if (method !== 'POST') {
+            url += '/' + document.getElementById('organizationId').value;
+        }
+        aliceJs.fetchJson(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saveData)
+        }).then((response) => {
+            if (response.status === 200) {
+                zAlert.success(i18n.msg('common.msg.register'), function () {
+                    window.location.href = '/organizations/edit';
+                });
+            } else {
+                zAlert.danger(response.message);
+            }
+        });
+    }
+
+    /** delete **/
+    function onDelete() {
+        aliceJs.fetchJson('/rest/organizations/' + document.getElementById('organizationId').value, {
+            method: 'DELETE'
+        }).then((response) => {
+            if (response.status === 200) {
+                zAlert.success(i18n.msg('common.msg.delete'), function () {
+                    window.location.href = '/organizations/edit';
+                });
+            }
+        });
+    }
+    /*]]>*/
+</script>
+</html>

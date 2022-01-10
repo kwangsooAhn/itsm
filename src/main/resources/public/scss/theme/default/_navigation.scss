@@ -83,6 +83,10 @@
               .z-icon {
                 background: $menu-active-color;
               }
+              .i-arrow-right {
+                @include rotate(90);
+                background: $menu-selected-color;
+              }
             }
             &.active-parent {
               .z-menu-name { color: $menu-selected-color; }
@@ -91,7 +95,6 @@
 
                 &.i-arrow-right {
                   background: $menu-selected-color;
-                  @include rotate(90);
                 }
               }
             }
