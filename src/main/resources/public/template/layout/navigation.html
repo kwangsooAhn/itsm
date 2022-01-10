@@ -69,10 +69,10 @@
 	function accordionMenu(element) {
 		aliceJs.slideToggle(document.getElementById(element.dataset.menugroup), 200);
 
-		if (element.querySelector('.i-arrow-right').classList.contains('active')) {
-			element.querySelector('.i-arrow-right').classList.remove('active');
+		if (element.classList.contains('active')) {
+			element.classList.remove('active');
 		} else {
-			element.querySelector('.i-arrow-right').classList.add('active');
+			element.classList.add('active');
 		}
 	}
 
@@ -82,16 +82,6 @@
 			evt.initEvent('click', false, true);
 			document.querySelector('.active-parent').dispatchEvent(evt);
 		}
-
-		document.querySelector('.z-gnb-link').addEventListener('click', function (e) {
-			e.preventDefault();
-			console.log('aaa')
-			if (this.classList.contains('active')) {
-				this.classList.remove('active');
-			} else {
-				this.classList.add('active');
-			}
-		});
 
 		OverlayScrollbars(document.querySelector('.z-menu'), {
 			className: 'inner-scrollbar-dark',
