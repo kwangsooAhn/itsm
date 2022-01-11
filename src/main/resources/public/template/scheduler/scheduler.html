@@ -303,7 +303,7 @@
      */
     function getList(isScroll) {
         const taskId = /*[[${schedule?.taskId}]]*/''
-        if (!isScroll) { offsetCount = 0; }
+        offsetCount = 0;
         const url = '/schedulers/' + taskId + '/history?' +
             aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
         restModalSubmit(url, isScroll);
