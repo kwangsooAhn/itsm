@@ -115,7 +115,7 @@
 📁 <strong>themes</strong><sup>[💡](#themes)</sup>  
 　　📁 dark  
 　　　　📄 _variable.scss  
-　　　　📄 dark.scss
+　　　　📄 itsm.scss
 
 ### ※ 참고 링크
 <p>
