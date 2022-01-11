@@ -81,7 +81,7 @@ GET /rest/organizations/{organizationId}
   "data": {
     "organizationId": "4028b2d57d37168e017d371a5f3d0006",
     "organizationName": "팀 1-1-2",
-    "organizationDesc": "ffffdddd",
+    "organizationDesc": null,
     "useYn": true,
     "level": 3,
     "seqNum": 3,
@@ -90,7 +90,7 @@ GET /rest/organizations/{organizationId}
       {
         "roleId": "faq.all",
         "roleName": "FAQ관리자",
-        "roleDesc": "12341"
+        "roleDesc": "faq를 관리 할 수 있는 역할 입니다."
       },
       ...
     ],
@@ -114,14 +114,14 @@ POST /rest/organizations
 
 ```json
 {
-  "organizationId": "",
+  "organizationId": null,
   "pOrganizationId": "4028b2d57d37168e017d37197bb40001",
   "organizationName": "팀 1-1-3",
-  "organizationDesc": "",
+  "organizationDesc": null,
   "useYn": true,
   "seqNum": 4,
   "roleIds": [
-    "faq.all", "~!@#$^&*()", "ㅅㄷㄴ"
+    "faq.all", "document", "document.manager"
   ]
 }
 ```
@@ -153,11 +153,11 @@ PUT /rest/organizations/{organizationId}
   "organizationId": "40288a9d7e464e58017e468796fc0000",
   "pOrganizationId": "4028b2d57d37168e017d37197bb40001",
   "organizationName": "팀 1-1-3",
-  "organizationDesc": "",
+  "organizationDesc": null,
   "useYn": true,
   "seqNum": 2,
   "roleIds": [
-    "faq.all", "notice.all", "notice.view"
+    "notice.all", "notice.view"
   ]
 }
 ```
