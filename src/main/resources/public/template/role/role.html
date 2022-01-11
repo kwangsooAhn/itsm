@@ -86,7 +86,7 @@
         const roleId = document.getElementById('txtRoleId');
         if (roleId && roleId.value) {
             roleId.setAttribute('disabled', '');
-            aliceJs.fetchJson('/rest/roles/' + roleId.value, {
+            aliceJs.fetchJson('/rest/roles/' + encodeURIComponent(roleId.value), {
                 method: 'GET'
             }).then((responseJson) => {
                 let arrAuthList = responseJson.arrAuthList;
