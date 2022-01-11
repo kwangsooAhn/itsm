@@ -64,10 +64,10 @@
 ## SCSS Directory 구조
 
 ---
-
-📄 bz-colors.scss<sup>[💡](#bz-colors)</sup>  
-📄 variable.scss<sup>[💡](#variable)</sup>  
+ 
 📁 <strong>utils</strong><sup>[💡](#utils)</sup>  
+   📄 bz-colors.scss<sup>[💡](#bz-colors)</sup>  
+   📄 variable.scss<sup>[💡](#variable)</sup>  
 　　📁 mixins  
 　　　　📄 _animation.scss  
 　　　　📄 _border.scss  
@@ -83,8 +83,7 @@
 　　　　📄 _alignments.scss  
 　　　　📄 _columns.scss  
 　　　　📄 _flex.scss  
-　　　　📄 _spacing.scss  
-　　　　📄 _variables.scss  
+　　　　📄 _spacing.scss   
 　　📁 <strong>base</strong><sup>[💡](#base)</sup>  
 　　　　📄 _common.scss  
 　　　　📄 _font.scss  
@@ -111,16 +110,12 @@
 　　📄 _tooltip.scss  
 　　📄 _tree.scss  
 　　📄 _validation.scss  
-📁 <strong>page</strong><sup>[💡](#page)</sup>  
-　　📄 utils.scss<sup>[💡](#page)</sup>  
-　　📄 document.scss  
-　　📄 formDesigner.scss    
-　　📄 portal.scss  
-　　📄 process.scss  
-　　📄 report.scss  
+📄 portal.scss<sup>[💡](#portal)</sup>    
+📄 itsm.scss<sup>[💡](#itsm)</sup>       
 📁 <strong>themes</strong><sup>[💡](#themes)</sup>  
 　　📁 dark  
-　　　　📄 _variable.scss
+　　　　📄 _variable.scss  
+　　　　📄 itsm.scss
 
 ### ※ 참고 링크
 <p>
@@ -137,6 +132,6 @@
 <a id="base">base</a> : 사이트 전반에 걸쳐서 재사용되는 스타일을 모아놓은 폴더  
 <a id="layout">layout</a> : 사이트 구조에 해당하는 레이아웃을 모아놓은 폴더  
 <a id="components">components</a> : 사이트 내에서 재사용가능한 작은 소형 레이아웃을 모아놓은 폴더  
-<a id="page">page</a> : 각 페이지에 사용되는 스타일을 모아놓은 폴더  
-<a id="page">utils.scss</a> : utils 폴더를 import한 scss 파일 (이 파일은 공통 스타일만을 모아 두었으며, 최상단에 정의됩니다.)  
+<a id="portal">portal.scss</a> : 포탈 전용 스타일이 정의된 scss 파일  
+<a id="itsm">itsm.scss</a> : 기본 스타일이 정의된 scss 파일 
 <a id="themes">themes</a> : 테마에 따라 사용되는 스타일을 모아놓은 폴더

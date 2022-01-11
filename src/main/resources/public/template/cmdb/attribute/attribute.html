@@ -33,11 +33,11 @@
         </div>
         <div class="flex-column z-edit-row">
             <label for="attributeText">
-                <span th:text="#{cmdb.attribute.label.label}"></span>
+                <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.label}"></span>
             </label>
-            <input class="z-input" id="attributeText" maxlength="100" th:readonly="${view}"
-                   th:value="${attribute?.attributeText}"
-                   type="text"/>
+            <input class="z-input" id="attributeText" maxlength="100" required="true"
+                   th:attr="data-validation-required-name=#{cmdb.attribute.label.label}"
+                   th:readonly="${view}" th:value="${attribute?.attributeText}" type="text"/>
         </div>
         <div class="flex-column z-edit-row">
             <label for="mappingId">

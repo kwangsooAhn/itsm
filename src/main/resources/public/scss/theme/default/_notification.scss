@@ -137,6 +137,10 @@
           text-decoration: underline;
         }
       }
+      &.z-document-no {
+        font-size: $notification-content-date-font-size;
+        color: $notification-content-date-color;
+      }
       &.z-message {
         display: block;
         max-width: 22.5rem; // 360px
