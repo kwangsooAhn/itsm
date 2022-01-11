@@ -13,7 +13,7 @@
         </div>
         <div class="z-notification-content" th:unless="${#arrays.isEmpty(notificationList)}"
              th:each="notification: ${notificationList}"
-             th:id="${notification.notificationId}" th:attr="instance-id=${notification.instanceId}"
+             th:id="${notification.notificationId}" th:attr="token-id=${notification.tokenId}"
              th:attrappend="isnot-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}"
              th:classappend="${notification.confirmYn} ? confirm">
 
@@ -22,7 +22,8 @@
                               th:onclick="updateNotification([[${notification.notificationId}]], 'confirm')"
                               th:disabled="${notification.confirmYn}"/></label>
                 <span class="z-title text-ellipsis" th:text="${notification.title}" th:classappend="${notification.confirmYn} ? confirm"
-                    th:onclick="openTokenPage([[${notification.notificationId}]], [[${notification.instanceId}]])"></span>
+                    th:onclick="openTokenPage([[${notification.notificationId}]], [[${notification.tokenId}]])"></span>
+                <span class="z-document-no ml-2 text-ellipsis" th:text="${notification.documentNo}"></span>
                 <button class="z-icon i-delete float-right" th:onclick="deleteNotification([[${notification.notificationId}]])"></button>
             </div>
             <div class="z-message">
