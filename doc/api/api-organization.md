@@ -3,7 +3,7 @@
 사용자가 소속 될 수 있는 `부서의 정보`를 담고 있다.
 
 상위 부서에서 하위 부서로 연결되어 있는 트리 형태로 구성되어 있다.  
-(ex. 연구개발본부 > 개발2그룹 > ITSM)
+(ex. 본부 1 > 그룹 1-1 > 팀 1-1-1)
 
 부서 마다 각각의 기본 역할 설정이 가능하며, 이 역할 설정은 각 조직의 상세 정보 조회 화면에서 등록 및 삭제가 가능하다.
 
@@ -115,9 +115,9 @@ POST /rest/organizations
 ```json
 {
   "organizationId": "",
-  "pOrganizationId": "40289eb27e28b4ea017e28bdd3b70002",
-  "organizationName": "MD등록 예시",
-  "organizationDesc": "Md확인용",
+  "pOrganizationId": "4028b2d57d37168e017d37197bb40001",
+  "organizationName": "팀 1-1-3",
+  "organizationDesc": "",
   "useYn": true,
   "seqNum": 4,
   "roleIds": [
@@ -150,14 +150,14 @@ PUT /rest/organizations/{organizationId}
 
 ```json
 {
-  "organizationId": "40288a9d7e2e0e28017e2e3233f40000",
-  "pOrganizationId": "40289eb27e28b4ea017e28bdd3b70002",
-  "organizationName": "md수정 예시",
-  "organizationDesc": "Md확인용",
+  "organizationId": "40288a9d7e464e58017e468796fc0000",
+  "pOrganizationId": "4028b2d57d37168e017d37197bb40001",
+  "organizationName": "팀 1-1-3",
+  "organizationDesc": "",
   "useYn": true,
-  "seqNum": 4,
+  "seqNum": 2,
   "roleIds": [
-    "users.general", "serviceDesk.manager", "serviceDesk.assignee", "service.manager"
+    "faq.all", "notice.all", "notice.view"
   ]
 }
 ```
@@ -166,9 +166,9 @@ PUT /rest/organizations/{organizationId}
 
 ```json
 {
-  "status":200,
-  "message":"OK",
-  "data":null
+  "status": 200,
+  "message": "OK",
+  "data": null
 }
 ```
 
@@ -186,7 +186,7 @@ DELETE /rest/organizations/{organizationId}
 
 ```json
 {
-  "organizationId": "40288a9d7e2e0e28017e2e3233f40000"
+  "organizationId": "40288a9d7e464e58017e468796fc0000"
 }
 ```
 
@@ -194,8 +194,8 @@ DELETE /rest/organizations/{organizationId}
 
 ```json
 {
-  "status":200,
-  "message":"OK",
-  "data":null
+  "status": 200,
+  "message": "OK",
+  "data": null
 }
 ```
