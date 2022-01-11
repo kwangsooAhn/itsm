@@ -262,10 +262,8 @@
                     `<option value="true">${i18n.msg('scheduler.result.true')}</option>` +
                     `<option value="false">${i18n.msg('scheduler.result.false')}</option>` +
                     `</select>` +
-                    `<input type="text" class="z-input i-datetime-picker search-datetime col-3 mr-1" id="searchFromDt" name="searchFromDt"` +
-                    `value="${minExecuteTime}"/>` +
-                    `<input type="text" class="z-input i-datetime-picker search-datetime col-3" id="searchToDt" name="searchToDt"` +
-                    `value="${maxExecuteTime}"/>` +
+                    `<input type="text" class="z-input i-datetime-picker datetime col-3 mr-1" id="searchFromDt" name="searchFromDt" value=""/>` +
+                    `<input type="text" class="z-input i-datetime-picker datetime col-3" id="searchToDt" name="searchToDt" value=""/>` +
                     `</form>` +
                     `<div class="table-set" id="historyList"></div>`,
                 buttons: [{
@@ -278,19 +276,22 @@
                 }],
                 close: {
                     closable: false
+                },
+                onCreate: function(modal) {
+                    const searchFromDtElement = document.getElementById('searchFromDt');
+                    const searchToDtElement = document.getElementById('searchToDt');
+                    searchFromDtElement.value = minExecuteTime;
+                    searchToDtElement.value = maxExecuteTime;
+                    setDateTimeFormat(document.getElementById('searchFrm'));
+                    zDateTimePicker.initDateTimePicker(searchFromDtElement, changeDateTimePicker);
+                    zDateTimePicker.initDateTimePicker(searchToDtElement, changeDateTimePicker);
+
+                    aliceJs.initDesignedSelectTag();
+                    document.getElementById('searchResult').addEventListener('change', function () { getList(false); });
                 }
             }
             const historyViewModal = new modal(historyOptions);
             historyViewModal.show();
-            aliceJs.initDesignedSelectTag();
-
-            const searchFromDtElement = document.getElementById('searchFromDt');
-            const searchToDtElement = document.getElementById('searchToDt');
-            setDateTimeFormat(document.getElementById('searchFrm'))
-            zDateTimePicker.initDateTimePicker(searchFromDtElement, changeDateTimePicker);
-            zDateTimePicker.initDateTimePicker(searchToDtElement, changeDateTimePicker);
-
-            document.getElementById('searchResult').addEventListener('change', function () { getList(false); });
         }
         const url = '/schedulers/' + taskId + '/history?' +
             aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
@@ -308,7 +309,6 @@
     }
 
     function restModalSubmit(url, isScroll) {
-        console.log(url)
         aliceJs.fetchText(url, {
             method: 'GET',
             headers: {
