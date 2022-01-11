@@ -6863,6 +6863,10 @@ body.modal-active {
   cursor: pointer;
   text-decoration: underline;
 }
+.z-notification-content span.z-document-no {
+  font-size: 0.875rem;
+  color: #8B9094;
+}
 .z-notification-content span.z-message {
   display: block;
   max-width: 22.5rem;
