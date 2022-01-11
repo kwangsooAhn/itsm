@@ -990,9 +990,6 @@
                         const userKeyCode = e.keyCode ? e.keyCode : e.which;
                         if (userKeyCode === 13) { return false; }
 
-
-                        console.log(attributeValue.validate)
-
                         const target = e.target;
                         if (attributeValue.validate === 'char') {
                             isValidChar(target.id, true);
