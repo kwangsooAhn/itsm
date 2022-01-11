@@ -9,7 +9,6 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
-import co.brainz.framework.scheduling.dto.ScheduleHistoryDto
 import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
 import co.brainz.framework.scheduling.repository.AliceScheduleHistoryRepository
@@ -303,7 +302,8 @@ class SchedulerService(
     /**
      * 스케줄 이력 조회
      */
-    fun getSchedulerHistory(schedulerHistorySearchCondition: SchedulerHistorySearchCondition
+    fun getSchedulerHistory(
+        schedulerHistorySearchCondition: SchedulerHistorySearchCondition
     ): List<AliceScheduleHistoryEntity> {
         return aliceScheduleHistoryRepository.findScheduleHistoryByTaskId(schedulerHistorySearchCondition)
     }
@@ -311,7 +311,8 @@ class SchedulerService(
     /**
      * 스케줄 이력 개수
      */
-    fun getSchedulerHistoryTotalCount(schedulerHistorySearchCondition: SchedulerHistorySearchCondition
+    fun getSchedulerHistoryTotalCount(
+        schedulerHistorySearchCondition: SchedulerHistorySearchCondition
     ): Long {
         return aliceScheduleHistoryRepository.countScheduleHistoryByTaskId(schedulerHistorySearchCondition.taskId)
     }
