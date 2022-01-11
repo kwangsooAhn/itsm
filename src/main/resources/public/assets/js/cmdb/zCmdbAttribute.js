@@ -990,11 +990,14 @@
                         const userKeyCode = e.keyCode ? e.keyCode : e.which;
                         if (userKeyCode === 13) { return false; }
 
+
+                        console.log(attributeValue.validate)
+
                         const target = e.target;
                         if (attributeValue.validate === 'char') {
-                            isValidNumber(target.id, true);
-                        } else if (attributeValue.validate === 'number') {
                             isValidChar(target.id, true);
+                        } else if (attributeValue.validate === 'number') {
+                            isValidNumber(target.id, true);
                         }
 
                         if (attributeValue.maxLength !== '') {
