@@ -91,12 +91,12 @@
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.department}"></label>
                         <div class="flex-row z-input-button">
-                            <input type="hidden" id="departmentCode" name="departmentCode"
-                                   th:value="${deptCodeDetail?.code}"/>
-                            <input type="text" class="z-input col-5" id="department" name="department"
-                                   th:value="${deptCodeDetail?.codeValue}" readonly>
+                            <input type="hidden" id="organizationCode" name="organizationCode"
+                                   th:value="${organizationDetail?.organizationId}"/>
+                            <input type="text" class="z-input col-5" id="organization" name="organization"
+                                   th:value="${organizationDetail?.organizationName}" readonly>
                             <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);"
-                                  tabindex="-1"></span>
+                                  tabindex="-1" th:if="!${view}"></span>
                             <button type="button" class="z-button-search z-button form" onclick="deptPopUp();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
@@ -321,7 +321,7 @@
             userName: document.getElementById('userName').value,
             email: document.getElementById('email').value,
             position: document.getElementById('position').value,
-            department: document.getElementById('departmentCode').value,
+            department: document.getElementById('organizationCode').value,
             officeNumber: document.getElementById('officeNumber').value,
             mobileNumber: document.getElementById('mobileNumber').value,
             timezone: document.getElementById('timezone').value,
@@ -349,7 +349,7 @@
             },
             body: JSON.stringify(data)
         }).then((response) => {
-            switch (response.responseText) {
+            switch (response) {
                 case STATUS_SUCCESS:
                     zAlert.success([[#{common.msg.modify}]], function () {
                         window.location.reload();
@@ -454,8 +454,8 @@
     }
 
     function setDepartment(node) {
-        document.getElementById('department').value = node.textContent;
-        document.getElementById('departmentCode').value = node.id;
+        document.getElementById('organization').value = node.textContent;
+        document.getElementById('organizationCode').value = node.id;
     }
 
     function deptPopUp() {
@@ -469,7 +469,7 @@
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
             defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
             leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
-            selectedValue: document.getElementById('departmentCode').value,
+            selectedValue: document.getElementById('organizationCode').value,
             callbackFunc: function (response) {
                 setDepartment(response);
             }
