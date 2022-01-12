@@ -9,20 +9,21 @@ import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceRoleAuthMapEntity
 import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
 import co.brainz.framework.auth.entity.AliceRoleEntity
+import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.repository.AliceAuthRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
-import co.brainz.framework.organization.repository.OrganizationRepository
-import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
+import co.brainz.framework.organization.entity.OrganizationRoleMapEntity
+import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
-import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.dto.RoleListReturnDto
@@ -43,7 +44,6 @@ class RoleService(
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val excelComponent: ExcelComponent,
     private val userRepository: UserRepository,
-    private val organizationRepository: OrganizationRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository
 ) {
     /**
@@ -228,5 +228,93 @@ class RoleService(
             )
         }
         return excelComponent.download(excelVO)
+    }
+
+    /**
+     * 사용자(수정)에서 시스템 관리자 역할 존재 여부 판단
+     *   1. 현재 데이터에 시스템 관리자 역할이 존재하는지 확인
+     *   2. 사용자 전체에서 본인을 제외하고 시스템 관리자 역할이 존재하는지 확인
+     *   3. 조직 중에 시스템 관리자 역할을 가지고 있는 조직을 조회한 후 해당 조직에 소속된 사용자가 존재하는지 확인
+     */
+    fun isExistSystemRoleByUser(userKey: String, roleIds: Set<String>?): Boolean {
+        var isExist = roleIds?.contains(AliceConstants.SYSTEM_ROLE) ?: false
+        if (!isExist) {
+            val userRoleListByNotSelfRole = mutableListOf<AliceUserRoleMapEntity>()
+            userRoleMapRepository.findAll().forEach { userRole ->
+                if (userRole.user.userKey != userKey) {
+                    userRoleListByNotSelfRole.add(userRole)
+                }
+            }
+            isExist = this.isExistSystemRoleByUserList(userRoleListByNotSelfRole)
+            if (!isExist) {
+                isExist = isExistSystemRoleByOrganizationList(organizationRoleMapRepository.findAll())
+            }
+        }
+        return isExist
+    }
+
+    /**
+     * 조직(수정)에서 시스템 관리자 역할 존재 여부 판단
+     *   1. 현재 데이터에 시스템 관리자 역할이 존재하는지 확인
+     *   2. 조직 중에 시스템 관리자 역할을 가지고 있는 조직을 조회한 후 해당 조직에 소속된 사용자가 존재하는지 확인
+     *   3. 사용자 전체에서 시스템 관리자 역할이 존재하는지 확인
+     */
+    fun isExistSystemRoleByOrganization(organizationId: String, roleIds: Set<String>?): Boolean {
+        var isExist = roleIds?.contains(AliceConstants.SYSTEM_ROLE) ?: false
+        // 현재 데이터에 시스템 관리자가 역할이 존재할 경우 조직에 사용자가 존재하는지 체크
+        if (isExist) {
+            if (userRepository.getUserListInOrganization(setOf(organizationId)).results.isNullOrEmpty()) {
+                isExist = false
+            }
+        }
+        if (!isExist) {
+            val organizationRoleListByNotSelfRole = mutableListOf<OrganizationRoleMapEntity>()
+            organizationRoleMapRepository.findAll().forEach { organizationRole ->
+                if (organizationRole.organization.organizationId != organizationId) {
+                    organizationRoleListByNotSelfRole.add(organizationRole)
+                }
+            }
+            isExist = isExistSystemRoleByOrganizationList(organizationRoleListByNotSelfRole)
+            if (!isExist) {
+                isExist = isExistSystemRoleByUserList(userRoleMapRepository.findAll())
+            }
+        }
+        return isExist
+    }
+
+    /**
+     * 사용자역할 목록에서 시스템 관리자 역할이 존재하는지 확인
+     */
+    private fun isExistSystemRoleByUserList(userRoleList: List<AliceUserRoleMapEntity>): Boolean {
+        var isExist = false
+        run loop@{
+            userRoleList.forEach { userRole ->
+                if (userRole.role.roleId == AliceConstants.SYSTEM_ROLE) {
+                    isExist = true
+                    return@loop
+                }
+            }
+        }
+        return isExist
+    }
+
+    /**
+     * 조직역할 목록에서 시스템 관리자 역할이 포함된 조직에 사용자가 존재하는지 확인
+     */
+    private fun isExistSystemRoleByOrganizationList(organizationRoleList: List<OrganizationRoleMapEntity>): Boolean {
+        var isExist = false
+        val organizationIds = mutableSetOf<String>()
+        organizationRoleList.forEach { organizationRole ->
+            if (organizationRole.role.roleId == AliceConstants.SYSTEM_ROLE) {
+                organizationIds.add(organizationRole.organization.organizationId)
+            }
+        }
+        if (organizationIds.isNotEmpty()) {
+            val organizationUserList = userRepository.getUserListInOrganization(organizationIds).results
+            if (organizationUserList.isNotEmpty()) {
+                isExist = true
+            }
+        }
+        return isExist
     }
 }

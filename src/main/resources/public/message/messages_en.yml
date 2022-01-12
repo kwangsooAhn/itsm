@@ -1018,10 +1018,11 @@ organization:
     editDescription: "Add, view and manage department."
     enterOrganizationId: "Please enter a department Id."
     enterOrganizationName: "Please enter a department name"
+    failedOrganizationDelete: "Failed to delete a department because of a member."
     enterPOrganizationName: "Please enter a parent department name."
     pOrganizationNotExist: "Parent organization does not exist."
     selectRole: "Please select a member default role."
-    failedOrganizationDelete: "Failed to delete a department because of a member."
+    systemUserNotExist: "You cannot modify because you need at least one user with the system administrator role."
 
 # Portal
 portal:
