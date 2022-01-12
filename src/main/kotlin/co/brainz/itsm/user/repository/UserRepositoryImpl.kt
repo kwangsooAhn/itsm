@@ -108,4 +108,11 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
 
         return query.fetchResults()
     }
+
+    override fun getUserListInOrganization(organizationIds: Set<String>): QueryResults<AliceUserEntity> {
+        val user = QAliceUserEntity.aliceUserEntity
+        return from(user)
+            .where(user.department.`in`(organizationIds))
+            .fetchResults()
+    }
 }
