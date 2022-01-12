@@ -87,7 +87,6 @@
             i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
 
         const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
-        console.log(urlParam)
         aliceJs.fetchText('/downloads?' + urlParam, {
             method: 'GET',
         }).then((htmlData) => {
