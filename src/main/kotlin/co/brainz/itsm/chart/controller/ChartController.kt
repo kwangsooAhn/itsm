@@ -8,6 +8,7 @@ package co.brainz.itsm.chart.controller
 
 import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartSearchCondition
+import co.brainz.itsm.chart.service.ChartConditionService
 import co.brainz.itsm.chart.service.ChartService
 import co.brainz.itsm.code.service.CodeService
 import org.springframework.stereotype.Controller
@@ -20,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/charts")
 class ChartController(
     private val chartService: ChartService,
-    private val codeService: CodeService
+    private val codeService: CodeService,
+    private val chartConditionService: ChartConditionService
 ) {
 
     private val chartSearchPage: String = "chart/chartSearch"
@@ -33,6 +35,7 @@ class ChartController(
     @GetMapping("/search")
     fun getChartSearch(model: Model): String {
         model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.PCode.TYPE.code))
+        chartConditionService.executeCondition()
         return chartSearchPage
     }
 
