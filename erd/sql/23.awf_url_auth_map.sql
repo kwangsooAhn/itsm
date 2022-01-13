@@ -221,6 +221,7 @@ insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/forms/{id}', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'workflow.manage');
