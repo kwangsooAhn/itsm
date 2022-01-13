@@ -46,9 +46,8 @@ abstract class ChartManager(
         // 1. [chartDto.chartConfig.range] to, from 값을 기준으로 category 를 생성
         val category = this.getCategory(chartDto.chartConfig)
 
-        // 2. tag 별로 range(from, to) 범위의 instance 목록 가져오기
-        // TODO: [chartDto.chartConfig.documentStatus] 값에 따라 문서의 검색 조건 변경 필요
-        var tagInstances = this.getTagInstances(chartDto.tags, chartDto.chartConfig.range)
+        // 2. tag 별로 range(from, to) 범위와 문서 상태에 따른 instance 목록 가져오기
+        var tagInstances = this.getTagInstances(chartDto.tags, chartDto.chartConfig.range, chartDto.chartConfig.documentStatus)
 
         // TODO: [tagInstances] 목록에 조건식 적용
         tagInstances = this.setChartConditionByTagInstances(chartDto, tagInstances)
@@ -296,13 +295,17 @@ abstract class ChartManager(
     /**
      * [tags] 목록으로 각각의 tag 별 range 범위내 instance 목록을 조회
      */
-    private fun getTagInstances(tags: List<AliceTagDto>, range: ChartRange): List<ChartTagInstanceDto> {
+    private fun getTagInstances(
+        tags: List<AliceTagDto>,
+        range: ChartRange,
+        documentStatus: String?
+    ): List<ChartTagInstanceDto> {
         val tagInstances = mutableListOf<ChartTagInstanceDto>()
         tags.forEach { tag ->
             tagInstances.add(
                 ChartTagInstanceDto(
                     tag = tag,
-                    instances = chartManagerService.getInstanceListInTag(tag.tagValue, range)
+                    instances = chartManagerService.getInstanceListInTag(tag.tagValue, range, documentStatus)
                 )
             )
         }
