@@ -96,10 +96,10 @@ aliceJs.serialize = function (form) {
         // Convert field data to a query string
         else if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
             let fieldValue = encodeURIComponent(field.value);
-            if (field.classList.contains('datetime')) {
-                fieldValue = i18n.systemDateTime(encodeURIComponent(field.value));
+            if (field.classList.contains('search-datetime') || field.classList.contains('datetime')) {
+                fieldValue = encodeURIComponent(i18n.systemDateTime(field.value));
             } else if (field.classList.contains('search-date') || field.classList.contains('date')) {
-                fieldValue = i18n.systemDate(encodeURIComponent(field.value));
+                fieldValue = encodeURIComponent(i18n.systemDate(field.value));
             }
             serialized.push(encodeURIComponent(field.name) + '=' + fieldValue);
         }
