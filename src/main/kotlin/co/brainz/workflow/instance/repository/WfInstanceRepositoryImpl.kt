@@ -10,7 +10,6 @@ import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
-import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.folder.entity.QWfFolderEntity
@@ -457,8 +456,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
     override fun getInstanceListInTag(
         tagValue: String,
-        range: ChartRange,
-        documentStatus: String?
+        range: ChartRange
     ): List<WfInstanceEntity> {
         val component = QWfComponentEntity.wfComponentEntity
         val query = from(instance)
@@ -478,25 +476,8 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     ))
                     .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
             ))
-        if (documentStatus == ChartConstants.DocumentStatus.EVEN_RUNNING.code) {
-            query.where(
-                (instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
-                    .and(instance.instanceStartDt.goe(range.from))
-                    .and(instance.instanceEndDt.loe(range.to)))
-                    .or(
-                        (instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code)
-                            .and(instance.instanceStartDt.goe(range.from)))
-                    )
-            )
-        } else {
-            query.where(
-                instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
-                    .and(
-                        instance.instanceStartDt.goe(range.from)
-                            .and(instance.instanceEndDt.loe(range.to))
-                    )
-            )
-        }
+            .where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
+            .where(instance.instanceStartDt.goe(range.from).and(instance.instanceEndDt.loe(range.to)))
         return query.fetch()
     }
 }

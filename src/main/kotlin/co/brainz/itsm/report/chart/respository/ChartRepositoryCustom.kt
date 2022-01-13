@@ -1,0 +1,18 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
+package co.brainz.itsm.report.chart.respository
+
+import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.itsm.report.chart.dto.ChartDataDto
+import co.brainz.itsm.report.chart.dto.ChartListDto
+import co.brainz.itsm.report.chart.dto.ChartSearchCondition
+import com.querydsl.core.QueryResults
+
+interface ChartRepositoryCustom : AliceRepositoryCustom {
+    fun findChartList(chartSearchCondition: ChartSearchCondition): QueryResults<ChartListDto>
+    fun findChartDataByChartIdsTemplateId(chartIds: Set<String>, templateId: String): List<ChartDataDto>
+}
