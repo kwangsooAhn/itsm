@@ -1209,6 +1209,7 @@ scheduler:
     immediatelyExecute: "즉시 실행"
     history: "이력"
   label:
+    all: "전체"
     args: "Arguments"
     class: "클래스"
     command: "명령어"
@@ -1238,6 +1239,7 @@ scheduler:
     scheduleDescription: "스케줄 세부 정보와 이력을 확인할 수 있습니다."
     searchDescription: "반복적인 작업을 등록하여 관리합니다."
     useSchedule: "사용중인 스케줄입니다."
+    compareWithSchedulerExecuteTimeValue: "스케줄러의 실행 시작 시각이 종료 시각보다 크거나 같습니다."
     cronValue: "크론은 6개의 field까지 입력이 가능합니다."
     cronError: "정확한 크론표현식을 입력하세요."
     jarNotExist: "JAR 파일이 존재하지 않습니다."
