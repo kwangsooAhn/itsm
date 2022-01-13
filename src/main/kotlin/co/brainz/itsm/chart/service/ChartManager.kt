@@ -47,7 +47,11 @@ abstract class ChartManager(
         val category = this.getCategory(chartDto.chartConfig)
 
         // 2. tag 별로 range(from, to) 범위의 instance 목록 가져오기
-        val tagInstances = this.getTagInstances(chartDto.tags, chartDto.chartConfig.range)
+        // TODO: [chartDto.chartConfig.documentStatus] 값에 따라 문서의 검색 조건 변경 필요
+        var tagInstances = this.getTagInstances(chartDto.tags, chartDto.chartConfig.range)
+
+        // TODO: [tagInstances] 목록에 조건식 적용
+        tagInstances = this.setChartConditionByTagInstances(chartDto, tagInstances)
 
         // 3. [chartDto.chartData] 변수에 처리한 데이터 적용
         val data = when (chartDto.chartConfig.operation) {
@@ -198,62 +202,10 @@ abstract class ChartManager(
         category: LinkedHashSet<String>,
         tagInstances: List<ChartTagInstanceDto>
     ): List<ChartData> {
-        val valueList = mutableListOf<ChartData>()
-
-        // category 별로 tag 정보와 건수를 담는다. (데이터는 category x tag 수)
-        val categoryTagList = mutableListOf<ChartCategoryTag>()
-        category.iterator().forEach {
-            val categoryDateTime = LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-            val periodUnitValue = this.getPeriodUnitValue(chartConfig.periodUnit!!, categoryDateTime)
-
-            var totalCount = 0 // category 별 전체 건수 (tag 별 퍼센트 비율이기 때문에 category 별로 묶는다)
-            val tagCountList = mutableListOf<ChartTagCount>()
-            // tag 수만큼 반복 처리
-            tagInstances.forEach { tagInstances ->
-                var count = 0
-                tagInstances.instances.forEach { instance ->
-                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceEndDt!!)) {
-                        count++
-                    }
-                }
-                // 각 tag 별 건수 저장 (tag 별 1건씩 저장)
-                tagCountList.add(
-                    ChartTagCount(
-                        tag = tagInstances.tag,
-                        count = count
-                    )
-                )
-                totalCount += count
-            }
-            // category 데이터 저장 (tag 에 상관없이 전체 건수, tag 별 데이터)
-            categoryTagList.add(
-                ChartCategoryTag(
-                    category = it,
-                    totalCount = totalCount,
-                    tagCountList = tagCountList
-                )
-            )
+        return when (chartConfig.condition.isNullOrEmpty()) {
+            true -> calculationPercent(chartConfig, category, tagInstances)
+            else -> calculationConditionPercent(chartConfig, category, tagInstances)
         }
-
-        // category 별 전체 건수 와 tag 건수를 비교하여 percent 구하기
-        categoryTagList.forEach { categoryTag ->
-            categoryTag.tagCountList.forEach { tagCount ->
-                var percentValue = 0.0
-                if (categoryTag.totalCount > 0) {
-                    percentValue = (tagCount.count.toDouble() / categoryTag.totalCount.toDouble()) * 100
-                }
-                valueList.add(
-                    ChartData(
-                        id = tagCount.tag.tagId.toString(),
-                        category = categoryTag.category,
-                        value = String.format("%.2f", percentValue),
-                        series = tagCount.tag.tagValue
-                    )
-                )
-            }
-        }
-
-        return valueList
     }
 
     /**
@@ -355,5 +307,103 @@ abstract class ChartManager(
             )
         }
         return tagInstances
+    }
+
+    /**
+     * 조건식에 따라 목록 데이터 처리
+     */
+    private fun setChartConditionByTagInstances(
+        chartDto: ChartDto,
+        tagInstances: List<ChartTagInstanceDto>
+    ): List<ChartTagInstanceDto> {
+        val instanceList = mutableListOf<ChartTagInstanceDto>()
+        // TODO: 조건식에 따른 처리
+
+
+        return instanceList
+    }
+
+    /**
+     * 퍼센트 계산 (조건식 X)
+     */
+    private fun calculationPercent(
+        chartConfig: ChartConfig,
+        category: LinkedHashSet<String>,
+        tagInstances: List<ChartTagInstanceDto>
+    ): List<ChartData> {
+        val valueList = mutableListOf<ChartData>()
+
+        // category 별로 tag 정보와 건수를 담는다. (데이터는 category x tag 수)
+        val categoryTagList = mutableListOf<ChartCategoryTag>()
+        category.iterator().forEach {
+            val categoryDateTime = LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            val periodUnitValue = this.getPeriodUnitValue(chartConfig.periodUnit!!, categoryDateTime)
+
+            var totalCount = 0 // category 별 전체 건수 (tag 별 퍼센트 비율이기 때문에 category 별로 묶는다)
+            val tagCountList = mutableListOf<ChartTagCount>()
+            // tag 수만큼 반복 처리
+            tagInstances.forEach { tagInstances ->
+                var count = 0
+                tagInstances.instances.forEach { instance ->
+                    if (periodUnitValue == this.getPeriodUnitValue(
+                            chartConfig.periodUnit!!,
+                            instance.instanceEndDt!!
+                        )
+                    ) {
+                        count++
+                    }
+                }
+                // 각 tag 별 건수 저장 (tag 별 1건씩 저장)
+                tagCountList.add(
+                    ChartTagCount(
+                        tag = tagInstances.tag,
+                        count = count
+                    )
+                )
+                totalCount += count
+            }
+            // category 데이터 저장 (tag 에 상관없이 전체 건수, tag 별 데이터)
+            categoryTagList.add(
+                ChartCategoryTag(
+                    category = it,
+                    totalCount = totalCount,
+                    tagCountList = tagCountList
+                )
+            )
+        }
+
+        // category 별 전체 건수 와 tag 건수를 비교하여 percent 구하기
+        categoryTagList.forEach { categoryTag ->
+            categoryTag.tagCountList.forEach { tagCount ->
+                var percentValue = 0.0
+                if (categoryTag.totalCount > 0) {
+                    percentValue = (tagCount.count.toDouble() / categoryTag.totalCount.toDouble()) * 100
+                }
+                valueList.add(
+                    ChartData(
+                        id = tagCount.tag.tagId.toString(),
+                        category = categoryTag.category,
+                        value = String.format("%.2f", percentValue),
+                        series = tagCount.tag.tagValue
+                    )
+                )
+            }
+        }
+        return valueList
+    }
+
+    /**
+     * 퍼센트 계산 (조건식 O)
+     */
+    private fun calculationConditionPercent(
+        chartConfig: ChartConfig,
+        category: LinkedHashSet<String>,
+        tagInstances: List<ChartTagInstanceDto>
+    ): List<ChartData> {
+        val valueList = mutableListOf<ChartData>()
+
+        //TODO: 조건식에 따른 퍼센트 계산 구현
+
+        return valueList
     }
 }
