@@ -91,12 +91,12 @@
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.department}"></label>
                         <div class="flex-row z-input-button">
-                            <input type="hidden" id="departmentCode" name="departmentCode"
-                                   th:value="${deptCodeDetail?.code}"/>
-                            <input type="text" class="z-input col-5" id="department" name="department"
-                                   th:value="${deptCodeDetail?.codeValue}" readonly>
+                            <input type="hidden" id="organizationCode" name="organizationCode"
+                                   th:value="${organizationDetail?.organizationId}"/>
+                            <input type="text" class="z-input col-5" id="organization" name="organization"
+                                   th:value="${organizationDetail?.organizationName}" readonly>
                             <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);"
-                                  tabindex="-1"></span>
+                                  tabindex="-1" th:if="!${view}"></span>
                             <button type="button" class="z-button-search z-button form" onclick="deptPopUp();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
@@ -276,6 +276,7 @@
     const STATUS_ERROR_USER_ID_DUPLICATION = '1';
     const STATUS_ERROR_EMAIL_DUPLICATION = '3';
     const STATUS_SUCCESS_EDIT_EMAIL = '4';
+    const STATUS_ERROR_SYSTEM_USER_NOT_EXIST = '7';
     const alicePlatform = 'user.platform.alice';
 
     function runAbsenceDocument() {
@@ -321,7 +322,7 @@
             userName: document.getElementById('userName').value,
             email: document.getElementById('email').value,
             position: document.getElementById('position').value,
-            department: document.getElementById('departmentCode').value,
+            department: document.getElementById('organizationCode').value,
             officeNumber: document.getElementById('officeNumber').value,
             mobileNumber: document.getElementById('mobileNumber').value,
             timezone: document.getElementById('timezone').value,
@@ -349,7 +350,7 @@
             },
             body: JSON.stringify(data)
         }).then((response) => {
-            switch (response.responseText) {
+            switch (response) {
                 case STATUS_SUCCESS:
                     zAlert.success([[#{common.msg.modify}]], function () {
                         window.location.reload();
@@ -365,6 +366,11 @@
                     break;
                 case STATUS_ERROR_EMAIL_DUPLICATION:
                     zAlert.warning([[#{user.msg.sameEmail}]]);
+                    break;
+                case STATUS_ERROR_SYSTEM_USER_NOT_EXIST:
+                    // 시스템 관리자 역할을 가진 사용자는 최소 1명은 유지되어야 하기 때문에,
+                    // 해당 사용자의 역할을 수정하거나 사용자를 삭제하려면 화면에서 경고창을 표시되도록 유효성 검증을 추가한다.
+                    zAlert.warning([[#{user.msg.systemUserNotExist}]]);
                     break;
                 default :
                     zAlert.danger(i18n.msg('common.label.modify') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
@@ -454,8 +460,8 @@
     }
 
     function setDepartment(node) {
-        document.getElementById('department').value = node.textContent;
-        document.getElementById('departmentCode').value = node.id;
+        document.getElementById('organization').value = node.textContent;
+        document.getElementById('organizationCode').value = node.id;
     }
 
     function deptPopUp() {
@@ -469,7 +475,7 @@
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
             defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
             leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
-            selectedValue: document.getElementById('departmentCode').value,
+            selectedValue: document.getElementById('organizationCode').value,
             callbackFunc: function (response) {
                 setDepartment(response);
             }

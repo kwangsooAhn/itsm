@@ -20,9 +20,9 @@
         </tr>
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(attributeList)}" th:each="attribute: ${attributeList}">
             <td style="width: 25%" class="align-left underline">
-                <a sec:authorize="hasAuthority('cmdb.attribute.create') || hasAuthority('cmdb.attribute.update')" th:text="${attribute.attributeName}"
+                <a sec:authorize="hasAuthority('cmdb.manage')" th:text="${attribute.attributeName}"
                    th:href="@{/cmdb/attributes/{id}/edit(id=${attribute.attributeId})}" th:title="${attribute.attributeName}"></a>
-                <a sec:authorize="!hasAuthority('cmdb.attribute.create') && !hasAuthority('cmdb.attribute.update')" th:text="${attribute.attributeName}"
+                <a sec:authorize="!hasAuthority('cmdb.manage')" th:text="${attribute.attributeName}"
                    th:href="@{/cmdb/attributes/{id}/view(id=${attribute.attributeId})}" th:title="${attribute.attributeName}"></a>
             </td>
             <td style="width: 25%" class="align-left" th:text="${attribute.attributeText}" th:title="${attribute.attributeText}"></td>

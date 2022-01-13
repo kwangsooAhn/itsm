@@ -18,13 +18,11 @@
     <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
            maxlength="100" th:placeholder="#{code.label.searchPlaceholder}"/>
     <span id="totalCount" class="z-search-count"></span>
-    <div class="ml-auto">
+    <div class="ml-auto" sec:authorize="hasAuthority('system.manage')">
         <button type="button" class="z-button primary" id="btnCreate" name="btnCreate"
-                sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.add}"
-                th:onclick="|javascript:onCreate()|"></button>
+                th:text="#{common.btn.add}" th:onclick="|javascript:onCreate()|"></button>
         <button type="button" class="z-button secondary" id="btnExcelDownload" name="btnExcelDownload"
-                sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.export}"
-                th:onclick="|javascript:onExcelDownload()|"></button>
+                th:text="#{common.btn.export}" th:onclick="|javascript:onExcelDownload()|"></button>
     </div>
 </div>
 <div layout:fragment="pageTree">
@@ -81,8 +79,8 @@
         <div class="z-edit-row flex-column flex-fill">
             <div class="flex-row justify-content-between">
                 <label th:text="#{code.label.codeLang}"></label>
-                <button sec:authorize="hasAuthority('code.create') || hasAuthority('code.update')"
-                        type="button" class="z-button-icon extra float-right" id="btnCodeLang">
+                <button sec:authorize="hasAuthority('system.manage')" type="button"
+                        class="z-button-icon extra float-right" id="btnCodeLang">
                     <span class="z-icon i-plus"></span>
                 </button>
             </div>
@@ -90,15 +88,12 @@
             <div id="codeLang"></div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="z-button-list">
-                <button sec:authorize="hasAuthority('code.create')"
-                        class="z-button primary" type="button" id="btnRegist" name="btnRegist"
+            <div class="z-button-list" sec:authorize="hasAuthority('system.manage')">
+                <button type="button" class="z-button primary" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
-                <button sec:authorize="hasAuthority('code.update')"
-                        class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
+                <button type="button" class="z-button primary" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
-                <button sec:authorize="hasAuthority('code.delete')"
-                        class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
+                <button type="button" class="z-button secondary" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
@@ -110,7 +105,7 @@
             <div class="col-2 ml-3 mr-5"><select></select></div>
             <label class="required" th:text="#{code.label.name}"></label>
             <input class="z-input text-ellipsis flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
-            <button sec:authorize="hasAuthority('code.create') || hasAuthority('code.update')" class="z-button-icon extra">
+            <button type="button" sec:authorize="hasAuthority('system.manage')" class="z-button-icon extra">
                 <span class="z-icon i-delete"></span>
             </button>
         </div>

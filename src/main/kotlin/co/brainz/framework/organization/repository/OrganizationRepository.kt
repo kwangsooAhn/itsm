@@ -5,12 +5,16 @@
 
 package co.brainz.framework.organization.repository
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.organization.entity.OrganizationEntity
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.stereotype.Repository
 
 @Repository
-interface OrganizationRepository : JpaRepository<OrganizationEntity, String>, OrganizationRepositoryCustom {
+interface OrganizationRepository : JpaRepository<OrganizationEntity, String>,
+    JpaSpecificationExecutor<OrganizationEntity>,
+    OrganizationRepositoryCustom {
     fun findByOrganizationId(organizationId: String): OrganizationEntity
     fun deleteByOrganizationId(organizationId: String)
 }

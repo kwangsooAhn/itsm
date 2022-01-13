@@ -38,12 +38,12 @@
             <td style="width: 20%;" class="align-left" th:text="${document.documentDesc}" th:title="${document.documentDesc}"></td>
             <td style="width: 10%;" class="align-center" th:text="#{${document.documentStatus}}" th:title="#{${document.documentStatus}}"></td>
             <td style="width: 10%;" class="align-center">
-                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('document.admin.update')" th:onclick="openDocumentEdit([[${document.documentId}]])">
+                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="openDocumentEdit([[${document.documentId}]])">
                     <span class="z-icon i-edit"></span>
                 </button>
             </td>
             <td style="width: 10%;" class="align-center">
-                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('document.admin.delete')" th:onclick="deleteDocument([[${document.documentId}]])">
+                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="deleteDocument([[${document.documentId}]])">
                     <span class="z-icon i-delete"></span>
                 </button>
             </td>

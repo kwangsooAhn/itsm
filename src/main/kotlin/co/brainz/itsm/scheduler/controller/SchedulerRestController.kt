@@ -5,10 +5,14 @@
 
 package co.brainz.itsm.scheduler.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.scheduler.dto.SchedulerDto
 import co.brainz.itsm.scheduler.service.SchedulerService
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -54,5 +58,13 @@ class SchedulerRestController(
     @PostMapping("/{taskId}/execute")
     fun immediateExecuteScheduler(@RequestBody schedulerDto: SchedulerDto): String {
         return schedulerService.immediateExecuteScheduler(schedulerDto)
+    }
+
+    /**
+     * 스케줄러 최초 실행 시각 조회
+     */
+    @GetMapping("/{taskId}/executeTime")
+    fun getSchedulerExecuteHistory(@PathVariable taskId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(schedulerService.getSchedulerExecuteHistory(taskId))
     }
 }
