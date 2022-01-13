@@ -667,6 +667,7 @@ insert into awf_menu_auth_map values ('workflow.numberingPattern', 'workflow.man
 insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
+
 /**
  * 알림
  */
@@ -1249,7 +1250,7 @@ insert into awf_url values ('/rest/custom-codes', 'get', '커스텀 코드 조�
 insert into awf_url values ('/rest/custom-codes', 'put', '커스텀 코드 수정', 'TRUE');
 insert into awf_url values ('/rest/custom-codes', 'post', '커스텀 코드 등록', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'delete', '커스텀 코드 삭제', 'TRUE');
-insert into awf_url values ('/rest/custom-codes/{id}', 'get', '커스텀코드 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/custom-codes/{id}', 'get', '커스텀코드 목록 조회', 'FALSE');
 insert into awf_url values ('/rest/dashboard/statistic', 'get', '업무 통계 조회', 'FALSE');
 insert into awf_url values ('/rest/documents', 'get', '신청서 문서 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows', 'post', '신청서 작성', 'TRUE');
@@ -1793,6 +1794,7 @@ insert into awf_user_role_map values ('40288ada7cfd3301017cfd3a78580000', 'gener
 insert into awf_user_role_map values ('2c9180867d0b3336017d0de8bf480001', 'workflow.admin');
 insert into awf_user_role_map values ('2c91808e7c75dad2017c781635e20000', 'cmdb.admin');
 insert into awf_user_role_map values ('2c91808e7c75dad2017c781635e22000', 'portal.admin');
+
 /**
  * 게시판 관리
  */
@@ -8701,4 +8703,67 @@ COMMENT ON COLUMN awf_report_data.report_id IS '보고서아이디';
 COMMENT ON COLUMN awf_report_data.chart_id IS '차트아이디';
 COMMENT ON COLUMN awf_report_data.display_order IS '차트순서';
 COMMENT ON COLUMN awf_report_data.values IS '데이터';
+
+/**
+ * 조직관리 테이블
+ */
+DROP TABLE IF EXISTS awf_organization cascade;
+
+CREATE TABLE awf_organization
+(
+    organization_id varchar(100) NOT NULL,
+    p_organization_id  varchar(100),
+    organization_name varchar(128),
+    organization_desc text,
+    use_yn boolean default true,
+    level integer,
+    seq_num integer,
+    editable boolean default true,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT awf_organization_pk PRIMARY KEY (organization_id),
+    CONSTRAINT awf_organization_uk UNIQUE (organization_name)
+);
+
+COMMENT ON TABLE awf_organization IS '조직관리';
+COMMENT ON COLUMN awf_organization.organization_id IS '조직아이디';
+COMMENT ON COLUMN awf_organization.p_organization_id IS '부모조직아이디';
+COMMENT ON COLUMN awf_organization.organization_name IS '조직명';
+COMMENT ON COLUMN awf_organization.organization_desc IS '조직설명';
+COMMENT ON COLUMN awf_organization.use_yn IS '사용여부';
+COMMENT ON COLUMN awf_organization.level IS '그룹 레벨';
+COMMENT ON COLUMN awf_organization.seq_num IS '정렬 순서';
+COMMENT ON COLUMN awf_organization.editable IS '수정여부';
+COMMENT ON COLUMN awf_organization.create_user_key IS '등록자';
+COMMENT ON COLUMN awf_organization.create_dt IS '등록일';
+COMMENT ON COLUMN awf_organization.update_user_key IS '수정자';
+COMMENT ON COLUMN awf_organization.update_dt IS '수정일';
+
+insert into awf_organization values ('4028b2d57d37168e017d3716cgf00000', null, '조직구성', null, true, 0, 0, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d3715fae00002', '4028b2d57d37168e017d3716cgf00000', '본부 1', null, true, 1, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d3713bb430003', '4028b2d57d37168e017d3716cgf00000', '본부 2', null, true, 1, 2, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d37197bb40001', '4028b2d57d37168e017d3715fae00002', '그룹 1-1', null, true, 2, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d371a4c1f0002', '4028b2d57d37168e017d3715fae00002', '그룹 1-2', null, true, 2, 2, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d371a5f7f0004', '4028b2d57d37168e017d37197bb40001', '팀 1-1-1', null, true, 3, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d371a5f3d0006', '4028b2d57d37168e017d37197bb40001', '팀 1-1-2', null, true, 3, 2, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
+/**
+  조직역할매핑
+ */
+DROP TABLE IF EXISTS awf_organization_role_map cascade;
+
+create table awf_organization_role_map
+(
+    organization_id varchar(100) NOT NULL,
+    role_id varchar(100) NOT NULL,
+    CONSTRAINT awf_organization_role_map_pk PRIMARY KEY (organization_id, role_id),
+    CONSTRAINT awf_organization_role_map_fk1 FOREIGN KEY (organization_id) REFERENCES awf_organization (organization_id),
+    CONSTRAINT awf_organization_role_map_fk2 FOREIGN KEY (role_id) REFERENCES awf_role (role_id)
+);
+
+COMMENT ON TABLE awf_organization_role_map IS '조직역할매핑';
+COMMENT ON COLUMN awf_organization_role_map.organization_id IS '그룹아이디';
+COMMENT ON COLUMN awf_organization_role_map.role_id IS '역할아이디';
 
