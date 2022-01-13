@@ -74,4 +74,12 @@ object ChartConstants {
         COUNT("count"),
         AVERAGE("average")
     }
+
+    /**
+     * chart document status
+     */
+    enum class DocumentStatus(val code: String) {
+        ONLY_FINISH("only.finish.document"),
+        EVEN_RUNNING("even.running.document")
+    }
 }

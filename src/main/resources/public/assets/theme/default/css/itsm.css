@@ -6071,10 +6071,10 @@ body.modal-active {
 
 .modal-dialog.scheduler-list-modal {
   width: 62.5rem;
-  height: 38.125rem;
+  height: 40.625rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content {
-  height: calc(38.125rem - 3.875rem - 5rem);
+  height: calc(40.625rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content .table-set {
@@ -6862,6 +6862,10 @@ body.modal-active {
 .z-notification-content span.z-title:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+.z-notification-content span.z-document-no {
+  font-size: 0.875rem;
+  color: #8B9094;
 }
 .z-notification-content span.z-message {
   display: block;
