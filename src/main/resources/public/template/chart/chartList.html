@@ -23,10 +23,10 @@
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(chartList)}" th:each="chart: ${chartList}">
             <td style="width: 20%;" class="align-left underline pointer">
                 <a sec:authorize="hasAuthority('chart.update')" th:text="${chart.chartName}"
-                   th:href="@{/charts/customChart/{id}/edit(id=${chart?.chartId})}" th:title="${chart.chartName}">
+                   th:href="@{/charts/{id}/edit(id=${chart?.chartId})}" th:title="${chart.chartName}">
                 </a>
                 <a sec:authorize="!hasAuthority('chart.update')" th:text="${chart.chartName}"
-                   th:href="@{/charts/customChart/{id}/view(id=${chart?.chartId})}" th:title="${chart.chartName}">
+                   th:href="@{/charts/{id}/view(id=${chart?.chartId})}" th:title="${chart.chartName}">
                 </a>
             </td>
             <td style="width: 20%;" class="align-left" th:text="#{|chart.${chart.chartType}|}" th:title="#{|chart.${chart.chartType}|}"></td>

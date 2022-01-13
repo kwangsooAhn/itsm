@@ -6,7 +6,7 @@
 
 package co.brainz.workflow.token.repository
 
-import co.brainz.itsm.chart.dto.average.ChartTokenData
+import co.brainz.itsm.report.chart.dto.average.ChartTokenData
 import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.form.entity.QWfFormEntity
@@ -55,13 +55,13 @@ class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::c
             .fetch()
     }
 
-    override fun getTokenDataList(componentIds: Set<String>, tokenIds: Set<String>, componentTypeSet: Set<String>): List<ChartTokenData> {
+    override fun getTokenDataList(componentIds: Set<String>, tokenIds: Set<String>, componentTypeSet: Set<String>): List<co.brainz.itsm.report.chart.dto.average.ChartTokenData> {
         val tokenData = QWfTokenDataEntity.wfTokenDataEntity
         val component = QWfComponentEntity.wfComponentEntity
         return from(tokenData)
             .select(
                 Projections.constructor(
-                    ChartTokenData::class.java,
+                    co.brainz.itsm.report.chart.dto.average.ChartTokenData::class.java,
                     tokenData.token.instance.instanceId,
                     tokenData.token.instance.instanceStartDt,
                     tokenData.token.instance.instanceEndDt,
