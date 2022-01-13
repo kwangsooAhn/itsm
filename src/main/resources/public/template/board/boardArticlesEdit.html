@@ -72,21 +72,15 @@
                     <a class="z-button secondary"
                        th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list">
-                    <button class="z-button primary" sec:authorize="hasAuthority('board.update') or hasAuthority('board.admin.update')"
-                            th:if="${boardInfo?.boardId} and ${replyYn} == false"
-                            onclick ="saveBoard('PUT', 'normal')"
-                            th:text="#{common.btn.modify}">
+                <div class="z-button-list" sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')">
+                    <button class="z-button primary" th:if="${boardInfo?.boardId} and ${replyYn} == false"
+                            th:text="#{common.btn.modify}" onclick ="saveBoard('PUT', 'normal')">
                     </button>
-                    <button class="z-button primary" sec:authorize="hasAuthority('board.create') or hasAuthority('board.admin.create')"
-                            th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
-                            onclick="saveBoard('POST', 'normal')"
-                            th:text="#{common.btn.register}">
+                    <button class="z-button primary" th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
+                            th:text="#{common.btn.register}" onclick="saveBoard('POST', 'normal')">
                     </button>
-                    <button class="z-button secondary" sec:authorize="hasAuthority('board.create') or hasAuthority('board.admin.create')"
-                            th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
-                            onclick="saveBoard('POST', 'reply')"
-                            th:text="#{board.btn.reply}">
+                    <button class="z-button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
+                            th:text="#{board.btn.reply}" onclick="saveBoard('POST', 'reply')">
                     </button>
                 </div>
             </div>

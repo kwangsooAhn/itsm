@@ -59,6 +59,7 @@ object CustomCodeConstants {
      */
     enum class TableName(val code: String) {
         ROLE("awf_role"),
-        USER("awf_user")
+        USER("awf_user"),
+        ORGANIZATION("awf_organization")
     }
 }

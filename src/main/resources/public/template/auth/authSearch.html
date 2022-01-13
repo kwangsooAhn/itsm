@@ -17,7 +17,7 @@
     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate" onclick="location.href='/auths/new'"
-                sec:authorize="hasAuthority('auth.create')" th:text="#{common.btn.add}"></button>
+                sec:authorize="hasAuthority('system.admin')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">

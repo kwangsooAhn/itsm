@@ -153,7 +153,6 @@ class DocumentActionService(
         var isReject = false
         var isWithDraw = false
         var isCancel = false
-        var isTerminate = false
 
         // 반환할 버튼 정보
         val actionsResult = JsonArray()
@@ -161,10 +160,8 @@ class DocumentActionService(
         val tokensActions = tokenObject.get("actions").asJsonArray
         // 회수자 정보
         val revokeAssignee = tokenObject.get("stakeholders").asJsonObject.get("revokeAssignee").asString
-        // 취소 권한이 있는지 확인
+        // 취소, 종결 권한이 있는지 확인
         val isCancelAuth = this.checkUserAuth(userEntity, AuthConstants.AuthType.CANCEL.value)
-        // 종결 권한이 있는지 확인
-        val isTerminateAuth = this.checkUserAuth(userEntity, AuthConstants.AuthType.TERMINATE.value)
 
         // 각 버튼의 권한을 체크 한다.
         if (isProgress) {
@@ -178,9 +175,6 @@ class DocumentActionService(
             }
             if (isProgress && isCancelAuth) {
                 isCancel = true
-            }
-            if (isProgress && isTerminateAuth) {
-                isTerminate = true
             }
         }
 
@@ -201,7 +195,7 @@ class DocumentActionService(
                 WfElementConstants.Action.CANCEL.value -> if (isCancel) {
                     actionsResult.add(actions)
                 }
-                WfElementConstants.Action.TERMINATE.value -> if (isTerminate) {
+                WfElementConstants.Action.TERMINATE.value -> if (isCancel) {
                     actionsResult.add(actions)
                 }
                 WfElementConstants.Action.CLOSE.value -> {
