@@ -11,6 +11,7 @@ import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.chart.constants.ChartConstants
+import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.folder.entity.QWfFolderEntity
@@ -455,11 +456,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         return query.fetch()
     }
 
-    override fun getInstanceListInTag(
-        tagValue: String,
-        range: ChartRange,
-        documentStatus: String?
-    ): List<WfInstanceEntity> {
+    override fun getInstanceListInTag(chartDto: ChartDto, tagValue: String): List<WfInstanceEntity> {
         val component = QWfComponentEntity.wfComponentEntity
         val query = from(instance)
             .where(instance.document.documentId.`in`(
@@ -478,7 +475,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     ))
                     .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
             ))
-        if (documentStatus == ChartConstants.DocumentStatus.EVEN_RUNNING.code) {
+        if (chartDto.chartConfig.documentStatus == ChartConstants.DocumentStatus.EVEN_RUNNING.code) {
             query.where(
                 instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
                     .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
@@ -486,7 +483,10 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         } else {
             query.where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
         }
-        query.where(instance.instanceStartDt.goe(range.from).and(instance.instanceEndDt.loe(range.to)))
+        query.where(
+            instance.instanceStartDt.goe(chartDto.chartConfig.range.from)
+                .and(instance.instanceEndDt.loe(chartDto.chartConfig.range.to))
+        )
         return query.fetch()
     }
 }
