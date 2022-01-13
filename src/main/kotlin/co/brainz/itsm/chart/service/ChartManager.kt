@@ -254,11 +254,22 @@ abstract class ChartManager(
         val to = chartConfig.range.to!!
         when (chartConfig.periodUnit) {
             ChartConstants.Unit.YEAR.code -> {
-                val period: Long = ChronoUnit.YEARS.between(from, to)
+                var period: Long = ChronoUnit.YEARS.between(from, to)
                 for (i in 0..period) {
                     category.add(
-                        ((chartConfig.range.from!!.year + i).toString()) + "-01-01 00:00:00"
+                        ((from.year + i).toString()) +
+                                "-" + String.format("%02d", from.monthValue) +
+                                "-" + String.format("%02d", from.dayOfMonth) +
+                                " " + String.format("%02d", from.hour) + ":00:00"
                     )
+                }
+                // category 에 to 날짜의 year 날짜의 month, day, hour 의 데이터가 없을 경우 추가
+                val toDate = to.year.toString() +
+                        "-" + String.format("%02d", from.monthValue) +
+                        "-" + String.format("%02d", from.dayOfMonth) +
+                        " " + String.format("%02d", from.hour) + ":00:00"
+                if (!category.contains(toDate)) {
+                    category.add(toDate)
                 }
             }
             ChartConstants.Unit.MONTH.code -> {
@@ -266,17 +277,42 @@ abstract class ChartManager(
                 for (i in 0..period) {
                     val nextCategory = from.plusMonths(i)
                     category.add(
-                        (nextCategory.year.toString() + "-" + String.format("%02d", nextCategory.monthValue)) + "-01 00:00:00"
+                        nextCategory.year.toString() +
+                                "-" + String.format("%02d", nextCategory.monthValue) +
+                                "-" + String.format("%02d", nextCategory.dayOfMonth) +
+                                " " + String.format("%02d", nextCategory.hour) + ":00:00"
                     )
                 }
+                // category 에 to 날짜의 month + from 날짜의 day, hour 의 데이터가 없을 경우 추가
+                // ex. 2021-10-31 15:00:00 ~ 2021-12-01 15:00:00 경우
+                //     2021-10-31 15:00:00, 2021-11-31 15:00:00, 2021-12:31 15:00:00 (2+1)
+                //     문서에서 날짜 비교시 2021-10, 2021-11, 2021-12 값으로 비교하기 때문에 뒤의 day, hour 값은 from 값을 사용
+                val toDate = to.year.toString() +
+                        "-" + String.format("%02d", to.monthValue) +
+                        "-" + String.format("%02d", from.dayOfMonth) +
+                        " " + String.format("%02d", from.hour) + ":00:00"
+                if (!category.contains(toDate)) {
+                    category.add(toDate)
+                }
+
             }
             ChartConstants.Unit.DAY.code -> {
                 val period: Long = ChronoUnit.DAYS.between(from, to)
                 for (i in 0..period) {
                     val nextCategory = from.plusDays(i)
                     category.add(
-                        (nextCategory.year.toString() + "-" + String.format("%02d", nextCategory.monthValue) + "-" + String.format("%02d", nextCategory.dayOfMonth)) + " 00:00:00"
+                        nextCategory.year.toString() +
+                                "-" + String.format("%02d", nextCategory.monthValue) +
+                                "-" + String.format("%02d", nextCategory.dayOfMonth) +
+                                " " + String.format("%02d", nextCategory.hour) + ":00:00"
                     )
+                }
+                val toDate = to.year.toString() +
+                        "-" + String.format("%02d", to.monthValue) +
+                        "-" + String.format("%02d", to.dayOfMonth) +
+                        " " + String.format("%02d", from.hour) + ":00:00"
+                if (!category.contains(toDate)) {
+                    category.add(toDate)
                 }
             }
             ChartConstants.Unit.HOUR.code -> {
@@ -284,7 +320,10 @@ abstract class ChartManager(
                 for (i in 0..period) {
                     val nextCategory = from.plusHours(i)
                     category.add(
-                        (nextCategory.year.toString() + "-" + String.format("%02d", nextCategory.monthValue) + "-" + String.format("%02d", nextCategory.dayOfMonth) + " " + String.format("%02d", nextCategory.hour)) + ":00:00"
+                        nextCategory.year.toString() +
+                                "-" + String.format("%02d", nextCategory.monthValue) +
+                                "-" + String.format("%02d", nextCategory.dayOfMonth) +
+                                " " + String.format("%02d", nextCategory.hour) + ":00:00"
                     )
                 }
             }
