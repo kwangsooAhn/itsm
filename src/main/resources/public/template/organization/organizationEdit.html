@@ -20,7 +20,7 @@
     <span id="totalCount" class="z-search-count"></span>
     <div class="ml-auto">
         <button type="button" class="z-button primary" id="btnCreate" name="btnCreate"
-                sec:authorize="hasAuthority('organization.create')" th:text="#{common.btn.add}"
+                sec:authorize="hasAuthority('system.manage')" th:text="#{common.btn.add}"
                 th:onclick="|javascript:onCreate()|"></button>
     </div>
 </div>
@@ -78,15 +78,12 @@
             </div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="z-button-list">
-                <button sec:authorize="hasAuthority('organization.create')"
-                        class="z-button primary" type="button" id="btnRegist" name="btnRegist"
+            <div class="z-button-list" sec:authorize="hasAuthority('system.manage')">
+                <button class="z-button primary" type="button" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
-                <button sec:authorize="hasAuthority('organization.update')"
-                        class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
+                <button class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
-                <button sec:authorize="hasAuthority('organization.delete')"
-                        class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
+                <button class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
@@ -292,8 +289,6 @@
                 zAlert.success(i18n.msg('common.msg.register'), function () {
                     window.location.href = '/organizations/edit';
                 });
-            } else {
-                zAlert.danger(response.message);
             }
         });
     }

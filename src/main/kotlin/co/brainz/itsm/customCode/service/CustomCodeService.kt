@@ -7,6 +7,8 @@
 package co.brainz.itsm.customCode.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.framework.organization.specification.OrganizationCustomCodeSpecification
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.entity.CodeEntity
@@ -52,6 +54,7 @@ class CustomCodeService(
     private val customCodeTableRepository: CustomCodeTableRepository,
     private val customCodeColumnRepository: CustomCodeColumnRepository,
     private val roleRepository: RoleRepository,
+    private val organizationRepository: OrganizationRepository,
     private val userRepository: UserRepository,
     private val componentService: ComponentService,
     private val codeRepository: CodeRepository,
@@ -264,7 +267,7 @@ class CustomCodeService(
      * @return MutableList<CustomCodeDataDto>
      */
     private fun getTableTypeData(customCode: CustomCodeCoreDto): CustomCodeTreeReturnDto {
-        val customDataList = mutableListOf<CustomCodeTreeDto>()
+        var customDataList = mutableListOf<CustomCodeTreeDto>()
         var dataList = mutableListOf<Any>()
         val condition = jsonToArrayByCondition(customCode.condition)
         val sort = Sort(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
@@ -275,48 +278,68 @@ class CustomCodeService(
             CustomCodeConstants.TableName.USER.code -> {
                 dataList = userRepository.findAll(UserCustomCodeSpecification(condition), sort).toMutableList()
             }
+            CustomCodeConstants.TableName.ORGANIZATION.code -> {
+                dataList = organizationRepository.findAll(OrganizationCustomCodeSpecification(condition), sort).toMutableList()
+            }
         }
         if (dataList.size > 0) {
-            // 부모 코드 추가
-            customDataList.add(
-                CustomCodeTreeDto(
-                    code = customCode.customCodeId,
-                    codeName = customCode.customCodeName,
-                    level = 0,
-                    seqNum = 0
-                )
-            )
-            for ((index, data) in dataList.withIndex()) {
-                val customCodeDataDto = CustomCodeTreeDto(
-                    code = "",
-                    pCode = customCode.customCodeId,
-                    codeName = "",
-                    level = 1,
-                    seqNum = index
-                )
-                val dataFields = data::class.java.declaredFields
-                for (dataField in dataFields) {
-                    if (dataField.isAnnotationPresent(Column::class.java)) {
-                        dataField.isAccessible = true
-                        val columnName = dataField.getAnnotation(Column::class.java)?.name
-                        if (columnName == customCode.valueColumn) {
-                            customCodeDataDto.code = dataField.get(data) as? String ?: ""
-                        }
-                        if (columnName == customCode.searchColumn) {
-                            customCodeDataDto.codeName = dataField.get(data) as? String ?: ""
-                        }
-                        dataField.isAccessible = false
-                    }
-                }
-                if (customCodeDataDto.code.isNotEmpty() && !customCodeDataDto.codeName.isNullOrEmpty()) {
-                    customDataList.add(customCodeDataDto)
-                }
-            }
+            customDataList = convertTableTypeDataToTree(customCode, dataList)
         }
         return CustomCodeTreeReturnDto(
             data = customDataList,
             totalCount = customDataList.size.toLong()
         )
+    }
+
+    /**
+     * 타입인 테이블의 데이터를 트리로 변환.
+     *
+     * @param customCode CustomCodeEntity
+     * @param dataList MutableList<Any>
+     * @return MutableList<CustomCodeTreeDto>
+     */
+    private fun convertTableTypeDataToTree(
+        customCode: CustomCodeCoreDto,
+        dataList: MutableList<Any>
+    ): MutableList<CustomCodeTreeDto> {
+        val customDataTree = mutableListOf<CustomCodeTreeDto>()
+        // 부모 코드 추가
+        customDataTree.add(
+            CustomCodeTreeDto(
+                code = customCode.customCodeId,
+                codeName = customCode.customCodeName,
+                level = 0,
+                seqNum = 0
+            )
+        )
+        for ((index, data) in dataList.withIndex()) {
+            val customCodeDataDto = CustomCodeTreeDto(
+                code = "",
+                pCode = customCode.customCodeId,
+                codeName = "",
+                level = 1,
+                seqNum = index
+            )
+            val dataFields = data::class.java.declaredFields
+            for (dataField in dataFields) {
+                if (dataField.isAnnotationPresent(Column::class.java)) {
+                    dataField.isAccessible = true
+                    val columnName = dataField.getAnnotation(Column::class.java)?.name
+                    if (columnName == customCode.valueColumn) {
+                        customCodeDataDto.code = dataField.get(data) as? String ?: ""
+                    }
+                    if (columnName == customCode.searchColumn) {
+                        customCodeDataDto.codeName = dataField.get(data) as? String ?: ""
+                    }
+                    dataField.isAccessible = false
+                }
+            }
+            if (customCodeDataDto.code.isNotEmpty() && !customCodeDataDto.codeName.isNullOrEmpty()) {
+                customDataTree.add(customCodeDataDto)
+            }
+        }
+
+        return customDataTree
     }
 
     /**

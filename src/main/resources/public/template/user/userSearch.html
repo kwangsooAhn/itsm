@@ -15,12 +15,11 @@
     <input class="z-input i-search text-ellipsis col-5 mr-2 pl-2" id="searchValue" type="text" maxlength="100"
            th:placeholder="#{user.label.searchPlaceholder}"/>
     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
-    <div class="ml-auto">
+    <div class="ml-auto" sec:authorize="hasAuthority('system.manage')">
         <button type="button" class="z-button secondary" onclick="location.href='/users/new'"
-                sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.add}"></button>
+                th:text="#{common.btn.add}"></button>
         <button type="button" class="z-button secondary" id="btnExcelDownload" name="btnExcelDownload"
-                th:onclick="|javascript:onExcelDownload()|"
-                sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.export}"></button>
+                th:onclick="|javascript:onExcelDownload()|" th:text="#{common.btn.export}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">

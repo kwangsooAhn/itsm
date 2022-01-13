@@ -276,6 +276,7 @@
     const STATUS_ERROR_USER_ID_DUPLICATION = '1';
     const STATUS_ERROR_EMAIL_DUPLICATION = '3';
     const STATUS_SUCCESS_EDIT_EMAIL = '4';
+    const STATUS_ERROR_SYSTEM_USER_NOT_EXIST = '7';
     const alicePlatform = 'user.platform.alice';
 
     function runAbsenceDocument() {
@@ -365,6 +366,11 @@
                     break;
                 case STATUS_ERROR_EMAIL_DUPLICATION:
                     zAlert.warning([[#{user.msg.sameEmail}]]);
+                    break;
+                case STATUS_ERROR_SYSTEM_USER_NOT_EXIST:
+                    // 시스템 관리자 역할을 가진 사용자는 최소 1명은 유지되어야 하기 때문에,
+                    // 해당 사용자의 역할을 수정하거나 사용자를 삭제하려면 화면에서 경고창을 표시되도록 유효성 검증을 추가한다.
+                    zAlert.warning([[#{user.msg.systemUserNotExist}]]);
                     break;
                 default :
                     zAlert.danger(i18n.msg('common.label.modify') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));

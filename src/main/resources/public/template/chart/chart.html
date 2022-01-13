@@ -114,21 +114,18 @@
                 <div class="z-button-list">
                     <a class="z-button secondary" href="/charts/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list" th:if="!${view}">
-                    <button sec:authorize="hasAuthority('chart.create')" th:if="!${chart?.chartId}" type="button"
-                            id="insert"
-                            class="z-button primary" onclick="saveChart('POST')" th:text="#{common.btn.register}">
+                <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('report.manage')">
+                    <button type="button" th:if="!${chart?.chartId}" id="insert" class="z-button primary"
+                            onclick="saveChart('POST')" th:text="#{common.btn.register}">
                     </button>
-                    <button sec:authorize="hasAuthority('chart.update')" th:if="${chart?.chartId}" type="button"
-                            id="update"
-                            class="z-button primary" onclick="saveChart('PUT')" th:text="#{common.btn.modify}">
+                    <button type="button" th:if="${chart?.chartId}" id="update" class="z-button primary"
+                            onclick="saveChart('PUT')" th:text="#{common.btn.modify}">
                     </button>
-                    <button type="button" id="preview" class="z-button secondary" sec:authorize="hasAuthority('chart.update')"
+                    <button type="button" id="preview" class="z-button secondary"
                             onclick="previewChart()" th:text="#{common.btn.preview}">
                     </button>
-                    <button sec:authorize="hasAuthority('chart.delete')" th:if="${chart?.chartId}" type="button"
-                            id="delete"
-                            class="z-button secondary" onclick="deleteChart()" th:text="#{common.btn.delete}">
+                    <button type="button" th:if="${chart?.chartId}" id="delete" class="z-button secondary"
+                            onclick="deleteChart()" th:text="#{common.btn.delete}">
                     </button>
                 </div>
             </div>

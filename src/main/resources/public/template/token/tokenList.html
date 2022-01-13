@@ -11,7 +11,7 @@
     </div>
     <th:block th:fragment="list">
         <div class="card flex-row" th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}"
-             sec:authorize="hasAuthority('token.read')" th:onclick="openTokenEdit([[${token.tokenId}]])">
+             sec:authorize="hasAuthority('general')" th:onclick="openTokenEdit([[${token.tokenId}]])">
             <div class="z-document-color" th:style="|background-color: ${token.documentColor}|"></div>
             <div class="z-document-row flex-fill flex-row justify-content-between">
                 <div class="z-document-row-content">

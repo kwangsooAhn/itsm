@@ -55,7 +55,7 @@ class DocumentService(
         val aliceUserDto = currentSessionUser.getUserDto()
         if (aliceUserDto!!.grantedAuthorises != null) {
             aliceUserDto.grantedAuthorises?.forEachIndexed { _, grantedAuthority ->
-                if (grantedAuthority.authority == "document.read.admin") {
+                if (grantedAuthority.authority == "workflow.manage") {
                     documentSearchCondition.viewType = "admin"
                 }
             }

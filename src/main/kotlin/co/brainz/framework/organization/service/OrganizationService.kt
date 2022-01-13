@@ -19,6 +19,7 @@ import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.repository.UserRepository
 import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
@@ -32,7 +33,8 @@ class OrganizationService(
     private val userRepository: UserRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val aliceMessageSource: AliceMessageSource,
-    private val roleRepository: RoleRepository
+    private val roleRepository: RoleRepository,
+    private val roleService: RoleService
 ) {
 
     /**
@@ -153,6 +155,16 @@ class OrganizationService(
                 aliceMessageSource.getMessage("organization.msg.duplicateOrganizationName")
             )
         }
+
+        if (!roleService.isExistSystemRoleByOrganization(
+                organizationRoleDto.organizationId,
+                organizationRoleDto.roleIds.toSet())) {
+            throw AliceException(
+                AliceErrorConstants.ERR_00004,
+                aliceMessageSource.getMessage("organization.msg.systemUserNotExist")
+            )
+        }
+
         val organizationEntity = organizationRepository.findByOrganizationId(organizationRoleDto.organizationId)
         organizationEntity.pOrganization =
             organizationRoleDto.pOrganizationId?.let { organizationRepository.findById(it).get() }
