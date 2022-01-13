@@ -30,12 +30,12 @@ class ReportRestController(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @PostMapping("/template")
+    @PostMapping("/customTemplate")
     fun createReportTemplate(@RequestBody templateData: String): RestTemplateReturnDto {
         return reportTemplateService.saveReportTemplate(templateData)
     }
 
-    @PutMapping("/template/{templateId}")
+    @PutMapping("/customTemplate/{templateId}")
     fun updateReportTemplate(
         @PathVariable templateId: String,
         @RequestBody templateData: String
@@ -43,19 +43,19 @@ class ReportRestController(
         return reportTemplateService.updateReportTemplate(templateData)
     }
 
-    @DeleteMapping("/template/{templateId}")
+    @DeleteMapping("/customTemplate/{templateId}")
     fun deleteReportTemplate(@PathVariable templateId: String): RestTemplateReturnDto {
         return reportTemplateService.deleteReportTemplate(templateId)
     }
 
-    @GetMapping("/template/charts")
+    @GetMapping("/customTemplate/charts")
     fun getReportTemplateChart(request: HttpServletRequest): List<ChartDto> {
         val chartIds = request.getParameterValues("chartId")
         return reportTemplateService.getReportTemplateChart(chartIds)
     }
 
     // 임시적으로 보고서를 생성하는 URL 추가
-    @PostMapping("/template/{templateId}")
+    @PostMapping("/customTemplate/{templateId}")
     fun saveReport(@PathVariable templateId: String): String {
         return reportService.saveReport(templateId)
     }

@@ -4,11 +4,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
-    <title th:text="#{menu.report.report}"></title>
+    <title th:text="#{menu.report.customReport}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{menu.report.report}"></h1>
+    <h1 th:text="#{menu.report.customReport}"></h1>
     <h6 class="description ml-2 pl-2" th:text="#{report.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
@@ -34,7 +34,7 @@
 
     function getList(pageNum = 1) {
         const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
-        aliceJs.fetchText('/reports/report?' + urlParam, {
+        aliceJs.fetchText('/reports/customReport?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {
             const listBody = document.getElementById('reportList');
@@ -55,7 +55,7 @@
     }
 
     function download(reportId) {
-        window.open('/reports/report/' + reportId + '/view', '_blank');
+        window.open('/reports/customReport/' + reportId + '/view', '_blank');
     }
     /*]]>*/
 </script>

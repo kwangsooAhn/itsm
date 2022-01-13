@@ -72,7 +72,7 @@
                     }
                     urlParam += 'chartId=' + item.chartId;
                 });
-                aliceJs.fetchJson('/rest/reports/template/charts?' + urlParam, {
+                aliceJs.fetchJson('/rest/reports/customTemplate/charts?' + urlParam, {
                     method: 'GET',
                     showProgressbar: true
                 }).then((dataList) => {

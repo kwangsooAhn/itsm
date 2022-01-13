@@ -38,13 +38,16 @@ class ReportController(
     private val reportSearchPage: String = "report/reportSearch"
     private val reportListPage: String = "report/reportList"
     private val reportViewPage: String = "report/reportView"
+    private val basicReportSearchPage: String = "report/basicReportSearch"
+    private val dashboardTemplateSearch: String = "report/dashboardTemplateSearch"
+    private val dashboardManagement: String = "report/dashboardManagementEdit"
 
-    @GetMapping("/template/search")
+    @GetMapping("/customTemplate/search")
     fun getReportTemplateSearch(request: HttpServletRequest, model: Model): String {
         return templateSearchPage
     }
 
-    @GetMapping("/template")
+    @GetMapping("/customTemplate")
     fun getReportTemplates(reportTemplateCondition: ReportTemplateCondition, model: Model): String {
         val result = reportTemplateService.getReportTemplateList(reportTemplateCondition)
         model.addAttribute("templateList", result.data)
@@ -52,14 +55,14 @@ class ReportController(
         return templateListPage
     }
 
-    @GetMapping("/template/new")
+    @GetMapping("/customTemplate/new")
     fun getReportTemplateNew(model: Model): String {
         model.addAttribute("view", false)
         model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
         return reportTemplatePage
     }
 
-    @GetMapping("/template/{templateId}/edit")
+    @GetMapping("/customTemplate/{templateId}/edit")
     fun getReportTemplateEdit(@PathVariable templateId: String, model: Model): String {
         model.addAttribute("view", false)
         model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
@@ -67,7 +70,7 @@ class ReportController(
         return reportTemplatePage
     }
 
-    @GetMapping("/template/{templateId}/view")
+    @GetMapping("/customTemplate/{templateId}/view")
     fun getReportTemplateView(@PathVariable templateId: String, model: Model): String {
         model.addAttribute("view", true)
         model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
@@ -75,19 +78,19 @@ class ReportController(
         return reportTemplatePage
     }
 
-    @GetMapping("/template/preview")
+    @GetMapping("/customTemplate/preview")
     fun getReportTemplatePreview(model: Model): String {
         model.addAttribute("time", LocalDateTime.now())
         return templatePreviewPage
     }
 
-    @GetMapping("/report/search")
+    @GetMapping("/customReport/search")
     fun getReportSearch(request: HttpServletRequest, model: Model): String {
         model.addAttribute("categoryList", reportService.getDistinctReportCategoryList())
         return reportSearchPage
     }
 
-    @GetMapping("/report")
+    @GetMapping("/customReport")
     fun getReports(reportSearchCondition: ReportSearchCondition, model: Model): String {
         val result = reportService.getReportList(reportSearchCondition)
         model.addAttribute("reportList", result.data)
@@ -95,9 +98,24 @@ class ReportController(
         return reportListPage
     }
 
-    @GetMapping("/report/{reportId}/view")
+    @GetMapping("/customReport/{reportId}/view")
     fun getReportView(@PathVariable reportId: String, model: Model): String {
         model.addAttribute("report", reportService.getReportDetail(reportId))
         return reportViewPage
+    }
+
+    @GetMapping("/basicReport/search")
+    fun getBasicReportSearch(request: HttpServletRequest, model: Model): String {
+        return  basicReportSearchPage
+    }
+
+    @GetMapping("/dashboardTemplate/search")
+    fun getDashboardTemplateSearch(request: HttpServletRequest, model: Model): String {
+        return dashboardTemplateSearch
+    }
+
+    @GetMapping("/dashboardManagement/edit")
+    fun getDashboardManagementList(request: HttpServletRequest,model: Model): String {
+        return dashboardManagement
     }
 }

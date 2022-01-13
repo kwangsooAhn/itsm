@@ -942,10 +942,14 @@ menu:
   notice:
     parent: "공지사항"
   report:
-    chart: "사용자 정의 차트"
-    parent: "보고서"
-    report: "보고서 조회"
-    template: "보고서 템플릿"
+    basicReport: "기본 보고서 조회"
+    basicChart: "기본 차트"
+    customChart: "사용자 정의 차트"
+    dashboardTemplate: "현황판 템플릿"
+    dashboardManagement: "개인 현황판 관리"
+    parent: "통계/보고서"
+    customReport: "보고서 조회"
+    customTemplate: "보고서 템플릿"
   setting:
     editMyInfo: "자기정보 수정"
   token:
