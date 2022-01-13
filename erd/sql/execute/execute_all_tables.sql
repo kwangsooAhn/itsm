@@ -220,7 +220,7 @@ insert into awf_code values ('user.default', 'user', null, '기본 값', null, f
 insert into awf_code values ('user.default.menu', 'user.default', null, '기본 메뉴', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.default.menu.dashboard', 'user.default.menu', 'dashboard', '개인 현황판 메뉴 아이디', null, true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.default.role', 'user.default', null, '기본 역할', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null);
-insert into awf_code values ('user.default.role.users.general', 'user.default.role', 'users.general', '역할 - 사용자 일반', null, false, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.default.role.users.general', 'user.default.role', 'general.user', '역할 - 사용자 일반', null, false, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.default.url', 'user.default', null, '기본 URL', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.default.url.dashboard', 'user.default.url', '/dashboard/view', '개인 현황판 URL', null, true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.default.url.dashboard.get', 'user.default.url.dashboard', 'get', 'GET', '', true, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -5410,7 +5410,7 @@ INSERT INTO wf_element_data VALUES ('337ab138ae9e4250b41be736e0a09c5b','reject-i
 INSERT INTO wf_element_data VALUES ('337ab138ae9e4250b41be736e0a09c5b','withdraw','Y',3,false);
 INSERT INTO wf_element_data VALUES ('3cc34436df104c9eaf6852f52d0ad8a2','target-document-list','4028b21f7c90d996017c91aeff1b0050',0,true);
 INSERT INTO wf_element_data VALUES ('4be94f828adb4b5a938b82a25feca589','assignee-type','assignee.type.candidate.groups',0,true);
-INSERT INTO wf_element_data VALUES ('4be94f828adb4b5a938b82a25feca589','assignee','serviceDesk.assignee',1,true);
+INSERT INTO wf_element_data VALUES ('4be94f828adb4b5a938b82a25feca589','assignee','service.manager',1,true);
 INSERT INTO wf_element_data VALUES ('4be94f828adb4b5a938b82a25feca589','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('4be94f828adb4b5a938b82a25feca589','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('536974f7f4484443acd76b5bd80fc159','action-name','승인',0,false);
@@ -5442,7 +5442,7 @@ INSERT INTO wf_element_data VALUES ('6c42da85993f4ae9b551ef67b15c5d49','start-na
 INSERT INTO wf_element_data VALUES ('6c42da85993f4ae9b551ef67b15c5d49','end-id','337ab138ae9e4250b41be736e0a09c5b',6,true);
 INSERT INTO wf_element_data VALUES ('6c42da85993f4ae9b551ef67b15c5d49','end-name','승인',7,false);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','assignee-type','assignee.type.candidate.groups',0,true);
-INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','assignee','users.general',1,true);
+INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','assignee','general.user',1,true);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('a727237e2c6f9dbdbbff693ed151c85d','action-name','신청서 등록',0,false);
@@ -5509,7 +5509,7 @@ INSERT INTO wf_element_data VALUES ('a03d8919f63a4e99e0ace283a7119717','start-na
 INSERT INTO wf_element_data VALUES ('a03d8919f63a4e99e0ace283a7119717','end-id','aa900688d722cd451b47e72dda93fca8',6,true);
 INSERT INTO wf_element_data VALUES ('a03d8919f63a4e99e0ace283a7119717','end-name','승인요청',7,false);
 INSERT INTO wf_element_data VALUES ('a117f0729b2cd106fa00b36f12fe1cfb','assignee-type','assignee.type.candidate.groups',0,true);
-INSERT INTO wf_element_data VALUES ('a117f0729b2cd106fa00b36f12fe1cfb','assignee','serviceDesk.assignee',1,true);
+INSERT INTO wf_element_data VALUES ('a117f0729b2cd106fa00b36f12fe1cfb','assignee','service.manager',1,true);
 INSERT INTO wf_element_data VALUES ('a117f0729b2cd106fa00b36f12fe1cfb','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('a117f0729b2cd106fa00b36f12fe1cfb','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','action-name','',0,false);
@@ -5521,7 +5521,7 @@ INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','start-na
 INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','end-id','a7acf388af93de92a17b7068f846c073',6,true);
 INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','end-name','종료',7,false);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','assignee-type','assignee.type.candidate.groups',0,true);
-INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','assignee','users.general',1,true);
+INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','assignee','general.user',1,true);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('a271b9f3a790280811cd6a6ff94c02e1','action-name','',0,false);
@@ -5662,7 +5662,7 @@ INSERT INTO wf_element_data VALUES ('5e98b781b4e74d85ac90e6703cd052a6','is-defau
 INSERT INTO wf_element_data VALUES ('5e98b781b4e74d85ac90e6703cd052a6','condition-value','',3,false);
 INSERT INTO wf_element_data VALUES ('5e98b781b4e74d85ac90e6703cd052a6','start-id','8b962df9ad894d3283ac188d8759267b',4,true);
 INSERT INTO wf_element_data VALUES ('04195a896b4a4c5f8c2e8d221c536bc8','assignee-type','assignee.type.candidate.groups',0,true);
-INSERT INTO wf_element_data VALUES ('04195a896b4a4c5f8c2e8d221c536bc8','assignee','serviceDesk.assignee',1,true);
+INSERT INTO wf_element_data VALUES ('04195a896b4a4c5f8c2e8d221c536bc8','assignee','service.manager',1,true);
 INSERT INTO wf_element_data VALUES ('04195a896b4a4c5f8c2e8d221c536bc8','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('04195a896b4a4c5f8c2e8d221c536bc8','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('095e98b2596a4019ae25c01de033aed3','complete-action','',0,false);
@@ -5769,7 +5769,7 @@ INSERT INTO wf_element_data VALUES ('af8674894f8bc525c6f41a482bcf4300','start-na
 INSERT INTO wf_element_data VALUES ('af8674894f8bc525c6f41a482bcf4300','end-id','74a586945aca4bd598297f1f72e2bbd2',6,true);
 INSERT INTO wf_element_data VALUES ('af8674894f8bc525c6f41a482bcf4300','end-name','만족도 평가',7,false);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','assignee-type','assignee.type.candidate.groups',0,true);
-INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','assignee','users.general',1,true);
+INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','assignee','general.user',1,true);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('d0d3a5405e974ec8ad00a72a9eaf6f25','action-name','APP 변경 이관',0,false);
@@ -5843,7 +5843,7 @@ INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'assigne
 INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'reject-id', 'ab36dd6e4472d6de4b3fa70b7ea7ec19', 2, false);
 INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
-INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'users.general', 1, true);
+INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'general.user', 1, true);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('a84bf98428f6a55b44779396edbd99bc', 'action-name', '접수', 0, false);
@@ -5891,7 +5891,7 @@ INSERT INTO wf_element_data VALUES ('ab542343e22b028245e16f908633382b', 'start-n
 INSERT INTO wf_element_data VALUES ('ab542343e22b028245e16f908633382b', 'end-id', 'a08ec2f3395eea9cf2bc67daaf0120fa', 6, true);
 INSERT INTO wf_element_data VALUES ('ab542343e22b028245e16f908633382b', 'end-name', '만족도 평가', 7, false);
 INSERT INTO wf_element_data VALUES ('aca4b8413caa4fbd2ba6c6ec801a3434', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
-INSERT INTO wf_element_data VALUES ('aca4b8413caa4fbd2ba6c6ec801a3434', 'assignee', 'serviceDesk.assignee', 1, true);
+INSERT INTO wf_element_data VALUES ('aca4b8413caa4fbd2ba6c6ec801a3434', 'assignee', 'service.manager', 1, true);
 INSERT INTO wf_element_data VALUES ('aca4b8413caa4fbd2ba6c6ec801a3434', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('aca4b8413caa4fbd2ba6c6ec801a3434', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('ad0047f9879a77055fd42755a7f66655', 'sub-document-id', '4028b8817cc50161017cc53233c206b0', 0, true);
@@ -6051,7 +6051,7 @@ INSERT INTO wf_element_data VALUES ('be6990d4bd1f4c3586df37fe147b2dea', 'assigne
 INSERT INTO wf_element_data VALUES ('be6990d4bd1f4c3586df37fe147b2dea', 'reject-id', '8b8564b9f8164971bee112f0a73e66f3', 2, false);
 INSERT INTO wf_element_data VALUES ('be6990d4bd1f4c3586df37fe147b2dea', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('c9c7ed6d193b4fd58b726668cbddccae', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
-INSERT INTO wf_element_data VALUES ('c9c7ed6d193b4fd58b726668cbddccae', 'assignee', 'infra.change.assignee', 1, true);
+INSERT INTO wf_element_data VALUES ('c9c7ed6d193b4fd58b726668cbddccae', 'assignee', 'service.manager', 1, true);
 INSERT INTO wf_element_data VALUES ('c9c7ed6d193b4fd58b726668cbddccae', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('c9c7ed6d193b4fd58b726668cbddccae', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('e15d71bd48bc485f860d2abb70d8d16e', 'action-name', '승인요청', 0, false);
@@ -6072,7 +6072,7 @@ INSERT INTO wf_element_data VALUES ('e2c199ab8f4a4c2ab7cdfc67073b3340', 'end-nam
 INSERT INTO wf_element_data VALUES ('e2c199ab8f4a4c2ab7cdfc67073b3340', 'action-name', '', 7, false);
 /* 구성 관리 */
 INSERT INTO wf_element_data VALUES ('207d88e0a17b418b9517cc1a7dc0e8d6', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
-INSERT INTO wf_element_data VALUES ('207d88e0a17b418b9517cc1a7dc0e8d6', 'assignee', 'configuration.change.assignee', 1, true);
+INSERT INTO wf_element_data VALUES ('207d88e0a17b418b9517cc1a7dc0e8d6', 'assignee', 'service.manager', 1, true);
 INSERT INTO wf_element_data VALUES ('207d88e0a17b418b9517cc1a7dc0e8d6', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('207d88e0a17b418b9517cc1a7dc0e8d6', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('37ce97795586439598cd17b45e720b90', 'action-name', '', 0, false);
@@ -6279,7 +6279,7 @@ INSERT INTO wf_element_data VALUES ('e078955879bc4c55b00451414344ab83', 'assigne
 INSERT INTO wf_element_data VALUES ('e078955879bc4c55b00451414344ab83', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('e078955879bc4c55b00451414344ab83', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('ed4e9110985a4b11b4cc01a6b091e7b2', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
-INSERT INTO wf_element_data VALUES ('ed4e9110985a4b11b4cc01a6b091e7b2', 'assignee', 'application.change.assignee', 1, true);
+INSERT INTO wf_element_data VALUES ('ed4e9110985a4b11b4cc01a6b091e7b2', 'assignee', 'service.manager', 1, true);
 INSERT INTO wf_element_data VALUES ('ed4e9110985a4b11b4cc01a6b091e7b2', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('ed4e9110985a4b11b4cc01a6b091e7b2', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('fb46cc9d78324285a8866763b505201e', 'assignee-type', 'assignee.type.assignee', 0, true);
@@ -6296,7 +6296,7 @@ INSERT INTO wf_element_data VALUES ('140aad796c004402836403e8271d381f','complete
 INSERT INTO wf_element_data VALUES ('156dd10ee966487c9a09e87cb0a43066','condition-item','#{action}',0,true);
 INSERT INTO wf_element_data VALUES ('19f55a5dcb8d4955ac8bda0f134cc311','complete-action','',0,false);
 INSERT INTO wf_element_data VALUES ('1d3d4e1867194b53a7975861f2530d54', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
-INSERT INTO wf_element_data VALUES ('1d3d4e1867194b53a7975861f2530d54', 'assignee', 'problem.assignee', 1, true);
+INSERT INTO wf_element_data VALUES ('1d3d4e1867194b53a7975861f2530d54', 'assignee', 'service.manager', 1, true);
 INSERT INTO wf_element_data VALUES ('1d3d4e1867194b53a7975861f2530d54', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('1d3d4e1867194b53a7975861f2530d54', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('2a4dafa487ec4ccab8af8ccba7d9c48f','sub-document-id','4028b8817cbfc7a7017cc0e65b260bdf',0,true);
@@ -6424,7 +6424,7 @@ INSERT INTO wf_element_data VALUES ('04f71a998f7741169f8d352ca6b5cbe5', 'start-n
 INSERT INTO wf_element_data VALUES ('04f71a998f7741169f8d352ca6b5cbe5', 'end-id', 'ee2b39fe1d5a412ab88f49c56d9a87ba', 6, true);
 INSERT INTO wf_element_data VALUES ('04f71a998f7741169f8d352ca6b5cbe5', 'end-name', 'INFRA 변경관리 이관', 7, false);
 INSERT INTO wf_element_data VALUES ('13377743f52341609222f75825862a5e', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
-INSERT INTO wf_element_data VALUES ('13377743f52341609222f75825862a5e', 'assignee', 'incident.assignee', 1, true);
+INSERT INTO wf_element_data VALUES ('13377743f52341609222f75825862a5e', 'assignee', 'service.manager', 1, true);
 INSERT INTO wf_element_data VALUES ('13377743f52341609222f75825862a5e', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('13377743f52341609222f75825862a5e', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('1618bb27cf3e408ba170ad37fe530fab','condition-item','#{action}',0,true);
