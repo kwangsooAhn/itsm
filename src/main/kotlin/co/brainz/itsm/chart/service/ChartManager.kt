@@ -316,11 +316,9 @@ abstract class ChartManager(
         chartDto: ChartDto,
         tagInstances: List<ChartTagInstanceDto>
     ): List<ChartTagInstanceDto> {
-        val instanceList = mutableListOf<ChartTagInstanceDto>()
         // TODO: 조건식에 따른 처리
 
-
-        return instanceList
+        return tagInstances
     }
 
     /**
