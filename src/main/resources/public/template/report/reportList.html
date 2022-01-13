@@ -16,7 +16,7 @@
     </tr>
     <tr class="flex-row align-items-center" th:each="report : ${reportList}">
         <td style="width: 70%" class="align-left underline">
-            <a th:text="${report.reportName}" th:href="@{/reports/report/{id}/view(id=${report.reportId})}" th:target="_blank" th:title="${report.reportName}"></a>
+            <a th:text="${report.reportName}" th:href="@{/reports/customReport/{id}/view(id=${report.reportId})}" th:target="_blank" th:title="${report.reportName}"></a>
         </td>
         <td style="width:30%;" class="align-center date-time" name="createDt" th:text="${report.publishDt}" th:title="${report.publishDt}"></td>
     </tr>

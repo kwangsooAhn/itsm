@@ -35,7 +35,7 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" sec:authorize="hasAuthority('chart.create')"
-                th:text="#{common.btn.add}" onclick="location.href='/charts/new'"></button>
+                th:text="#{common.btn.add}" onclick="location.href='/charts/customChart/new'"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
@@ -61,7 +61,7 @@
          */
         function getList(pageNum = 1) {
             const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
-            aliceJs.fetchText('/charts?' + urlParam, {
+            aliceJs.fetchText('/charts/customChart?' + urlParam, {
                 method: 'GET',
             }).then((htmlData) => {
                 document.getElementById('chartList').innerHTML = htmlData;
@@ -121,7 +121,7 @@
         }
 
         function getChart(chartId) {
-            aliceJs.fetchJson('/rest/charts/' + chartId, {
+            aliceJs.fetchJson('/rest/charts/customChart/' + chartId, {
                 method: 'GET',
                 showProgressbar: true
             }).then((data) => {

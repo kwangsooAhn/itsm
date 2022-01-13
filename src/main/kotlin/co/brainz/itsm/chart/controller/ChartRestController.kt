@@ -24,7 +24,7 @@ class ChartRestController(private val chartService: ChartService) {
     /**
      * 사용자 정의 차트 등록
      */
-    @PostMapping("")
+    @PostMapping("/customChart")
     fun createChart(@RequestBody chartDto: ChartDto): String {
         return chartService.saveChart(chartDto)
     }
@@ -32,7 +32,7 @@ class ChartRestController(private val chartService: ChartService) {
     /**
      * 사용자 정의 차트 수정
      */
-    @PutMapping("/{chartId}")
+    @PutMapping("/customChart/{chartId}")
     fun updateChart(@PathVariable chartId: String, @RequestBody chartDto: ChartDto): String {
         return chartService.saveChart(chartDto)
     }
@@ -40,7 +40,7 @@ class ChartRestController(private val chartService: ChartService) {
     /**
      * 사용자 정의 차트 삭제
      */
-    @DeleteMapping("/{chartId}")
+    @DeleteMapping("/customChart/{chartId}")
     fun deleteChart(@PathVariable chartId: String): String {
         return chartService.deleteChart(chartId)
     }
@@ -48,7 +48,7 @@ class ChartRestController(private val chartService: ChartService) {
     /**
      * 사용자 정의 차트 미리보기 데이터
      */
-    @PostMapping("/{chartId}/preview")
+    @PostMapping("/customChart/{chartId}/preview")
     fun getPreviewChart(@PathVariable chartId: String, @RequestBody chartDto: ChartDto): ChartDto {
         return chartService.getChartPreviewDetail(chartId, chartDto)
     }
@@ -56,7 +56,7 @@ class ChartRestController(private val chartService: ChartService) {
     /**
      * 사용자 정의 차트 미리보기
      */
-    @GetMapping("/{chartId}")
+    @GetMapping("/customChart/{chartId}")
     fun getChart(@PathVariable chartId: String): ChartDto {
         return chartService.getChartDetail(chartId)
     }

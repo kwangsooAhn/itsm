@@ -70,7 +70,7 @@
         </div>
         <div class="flex-row justify-content-between z-edit-row">
             <div class="z-button-list">
-                <a class="z-button secondary" href="/reports/template/search" th:text="#{common.btn.list}"></a>
+                <a class="z-button secondary" href="/reports/customTemplate/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="z-button-list" th:if="!${view}">
                 <button class="z-button primary" th:if="${template == null}"
@@ -184,12 +184,12 @@
 
     function deleteReportTemplate() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchJson('/rest/reports/template/' + /*[[${template?.templateId}]]*/'', {
+            aliceJs.fetchJson('/rest/reports/customTemplate/' + /*[[${template?.templateId}]]*/'', {
                 method: 'DELETE'
             }).then((status) => {
                 if (status.code === STATUS_SUCCESS) {
                     zAlert.success(i18n.msg('common.msg.delete'), function () {
-                        location.href = '/reports/template/search';
+                        location.href = '/reports/customTemplate/search';
                     });
                 }
             });
@@ -207,7 +207,7 @@
             reportName: document.getElementById('reportName').value,
             automatic: document.getElementById('automatic').checked
         }
-        let url = '/rest/reports/template';
+        let url = '/rest/reports/customTemplate';
         if (method === 'PUT') {
             url += '/' + /*[[${template?.templateId}]]*/'';
             data.templateId = /*[[${template?.templateId}]]*/'';
@@ -233,7 +233,7 @@
             switch (status.code) {
                 case STATUS_SUCCESS:
                     zAlert.success(i18n.msg('common.msg.save'), function () {
-                        location.href = '/reports/template/search';
+                        location.href = '/reports/customTemplate/search';
                     });
                     break;
                 case STATUS_ERROR_TEMPLATE_NAME_DUPLICATION:
@@ -267,7 +267,7 @@
             charts: charts
         }
         sessionStorage.setItem("alice_report", JSON.stringify(reportData));
-        window.open('/reports/template/preview', '_blank');
+        window.open('/reports/customTemplate/preview', '_blank');
     }
     /*]]>*/
 </script>

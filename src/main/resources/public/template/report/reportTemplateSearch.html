@@ -4,11 +4,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
-    <title th:text="#{menu.report.template}"></title>
+    <title th:text="#{menu.report.customTemplate}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{menu.report.template}"></h1>
+    <h1 th:text="#{menu.report.customTemplate}"></h1>
     <h6 class="description ml-2 pl-2" th:text="#{report.msg.configDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
@@ -45,7 +45,7 @@
 
     function getList(pageNum = 1) {
         const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
-        aliceJs.fetchText('/reports/template?' + urlParam, {
+        aliceJs.fetchText('/reports/customTemplate?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {
             const listBody = document.getElementById('templateList');
@@ -66,11 +66,11 @@
     }
 
     function openTemplateAdd() {
-        location.href = '/reports/template/new';
+        location.href = '/reports/customTemplate/new';
     }
 
     function makeReport(templateId) {
-        aliceJs.fetchText('/rest/reports/template/' + templateId, {
+        aliceJs.fetchText('/rest/reports/customTemplate/' + templateId, {
             method: 'POST'
         }).then((status) => {
             switch (status) {
