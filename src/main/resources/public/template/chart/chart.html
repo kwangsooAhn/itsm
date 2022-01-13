@@ -18,7 +18,7 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="${chart != null} ? #{chart.label.edit} : #{chart.label.register}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{chart.msg.searchDescription}"></h6>
+    <h6 class="description ml-2 pl-4" th:text="#{chart.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
@@ -30,50 +30,62 @@
         </div>
         <form id="frm" method="post">
             <div class="flex-column z-edit-row">
-                <h4 class="sub-title under-bar bold" th:text="#{chart.label.defaultInfo}"></h4>
+                <h4 class="sub-title under-bar bold" th:text="#{chart.label.chartSetting}"></h4>
             </div>
-            <div class="flex-column z-edit-row col-4">
-                <label class="field-label" th:text="#{chart.label.type}"></label>
-                <select id="typeSelectBox" name="typeSelectBox" onchange="changeChartType(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
-                    <option th:each="type:${code.type}" th:value="${type.codeValue}"
-                            th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
-                </select>
+            <div class="flex-row">
+                <div class="flex-column z-edit-row col-4">
+                    <label class="field-label" th:text="#{chart.label.type}"></label>
+                    <select id="typeSelectBox" name="typeSelectBox" onchange="changeChartType(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
+                        <option th:each="type:${code.type}" th:value="${type.codeValue}"
+                                th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
+                    </select>
+                </div>
+                <div class="flex-column z-edit-row col-6 pl-4">
+                    <label class="field-label required" th:text="#{chart.label.name}"></label>
+                    <input type="text" id="chartName" name="chartName" class="z-input" th:value="${chart?.chartName}"
+                           maxlength="100" th:readonly="${view}" />
+                </div>
             </div>
-            <div class="flex-column z-edit-row col-4">
-                <label class="field-label required" th:text="#{chart.label.name}"></label>
-                <input type="text" id="chartName" name="chartName" class="z-input" th:value="${chart?.chartName}"
-                       maxlength="100" th:readonly="${view}" />
-            </div>
-            <div class="flex-column z-edit-row">
+            <div class="flex-column z-edit-row col-10">
                 <label class="field-label" th:text="#{chart.label.description}"></label>
-                <input type="text" id="chartDesc" name="chartDesc" class="z-input" th:value="${chart?.chartDesc}"
-                       maxlength="100" th:readonly="${view}" />
+                <textarea id="chartDesc" name="chartDesc" class="z-textarea textarea-scroll-wrapper"
+                                                         rows="2" maxlength="128" th:text="${chart?.chartDesc}" th:readonly="${view}"></textarea>
             </div>
-            <div class="flex-column z-edit-row">
-                <h4 class="sub-title under-bar bold" th:text="#{chart.label.queryInfo}"></h4>
+            <div class="flex-row">
+                <div class="flex-column z-edit-row col-3" id="operation">
+                    <!--/* 연산 */-->
+                    <label class="field-label" th:text="#{chart.label.operation}"></label>
+                    <select id="operationSelectBox" name="operationSelectBox" th:classappend="${view ? 'readonly' : ''}">
+                        <option th:each="operation:${code.operation}" th:value="${operation.codeValue}"
+                                th:text="${operation.codeName}"
+                                th:selected="${operation.codeValue} == ${chart?.chartConfig?.operation}"></option>
+                    </select>
+                </div>
+                <div class="flex-column z-edit-row col-3 pl-4" id="periodUnit">
+                    <!--/* 간격 */-->
+                    <label id="periodUnitLabel" class="field-label required" th:text="#{chart.label.periodUnit}"></label>
+                    <select id="periodUnitSelectBox" name="periodUnitSelectBox" th:classappend="${view ? 'readonly' : ''}">
+                        <option th:each="unit:${code.unit}" th:value="${unit.codeValue}"
+                                th:text="${unit.codeName}"
+                                th:selected="${unit.codeValue} == ${chart?.chartConfig?.periodUnit}"></option>
+                    </select>
+                </div>
             </div>
-            <div class="flex-column z-edit-row col-3" id="operation">
-                <!--/* 연산 */-->
-                <label class="field-label" th:text="#{chart.label.operation}"></label>
-                <select id="operationSelectBox" name="operationSelectBox" th:classappend="${view ? 'readonly' : ''}">
-                    <option th:each="operation:${code.operation}" th:value="${operation.codeValue}"
-                            th:text="${operation.codeName}"
-                            th:selected="${operation.codeValue} == ${chart?.chartConfig?.operation}"></option>
-                </select>
-            </div>
-            <div class="flex-column z-edit-row col-3" id="periodUnit">
-                <!--/* 간격 */-->
-                <label id="periodUnitLabel" class="field-label required" th:text="#{chart.label.periodUnit}"></label>
-                <select id="periodUnitSelectBox" name="periodUnitSelectBox" th:classappend="${view ? 'readonly' : ''}">
-                    <option th:each="unit:${code.unit}" th:value="${unit.codeValue}"
-                            th:text="${unit.codeName}"
-                            th:selected="${unit.codeValue} == ${chart?.chartConfig?.periodUnit}"></option>
+            <div class="flex-column z-edit-row col-3" id="targetStatus">
+                <!--/* 대상 문서 상태 */-->
+                <label id="targetStatusLabel" class="field-label required" th:text="#{chart.label.targetStatus}"></label>
+                <select id="targetStatusSelectBox" name="targetStatusSelectBox" th:classappend="${view ? 'readonly' : ''}">
+<!--                    <option th:each="targetStatus:${code.targetStatus}" th:value="${targetStatus.codeValue}"-->
+<!--                            th:text="${targetStatus.codeName}"-->
+<!--                            th:selected="${targetStatus.codeValue} == ${chart?.chartConfig?.targetStatus}"></option>-->
+                    <option th:text="#{chart.option.targetStatus.finishedOnly}" selected></option>
+                    <option th:text="#{chart.option.targetStatus.inProgress}"></option>
                 </select>
             </div>
             <div class="z-edit-row">
                 <div class="flex-row">
                     <!--/* 기간 */-->
-                    <div class="flex-column col-3 mr-5">
+                    <div class="flex-column col-3">
                         <label class="field-label required" th:text="#{chart.label.duration}"></label>
                         <div>
                             <select id="rangeType" name="rangeType" onchange="changeRangeType(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
@@ -85,14 +97,14 @@
                     </div>
                     <!--/* 기간 수동 설정 시 날짜 간격 입력 */-->
                     <div id="rangeDate" class="flex-row">
-                        <div class="flex-column col-3 mr-2">
+                        <div class="flex-column col-3 pl-4">
                             <label class="field-label required" th:text="#{common.label.startDate}"></label>
                             <div>
                                 <input type="text" class="z-input i-date-picker search-date" id="rangeFromDt"
                                        name="rangeFromDt" th:value="${chart?.chartConfig?.range?.from}" th:readonly="${view}" />
                             </div>
                         </div>
-                        <div class="flex-column col-3">
+                        <div class="flex-column col-3 pl-4">
                             <label class="field-label required" th:text="#{common.label.endDate}"></label>
                             <div>
                                 <input type="text" class="z-input i-date-picker search-date" id="rangeToDt"
@@ -104,10 +116,33 @@
             </div>
             <div class="flex-column z-edit-row">
                 <!--/* 차트 대상 태그 */-->
-                <div class="flex-column col-6 mr-4">
-                    <label class="field-label required" th:text="#{chart.label.targetTags}"></label>
+                <div class="flex-column col-6">
+                    <label>
+                        <span class="field-label required" th:text="#{chart.label.targetTags}"></span>
+                        <div class="z-help-tooltip">
+                            <span class="z-icon i-tooltip"></span>
+                            <div class="z-tooltip-contents">
+                                <span th:utext="#{chart.tooltip.targetTags}"></span>
+                            </div>
+                        </div>
+                    </label>
                     <input type="text" id="targetTags" name="targetTags" class="col-pct-12"
                            th:value="${chart?.tags}" th:readonly="${view}" th:classappend="${view}?'':'z-input'">
+                </div>
+                <!--/* 차트 조건식 */-->
+                <div class="flex-column col-6">
+                    <label>
+                        <span class="field-label required" th:text="#{chart.label.conditional}"></span>
+                        <div class="z-help-tooltip">
+                            <span class="z-icon i-tooltip"></span>
+                            <div class="z-tooltip-contents">
+                                <span th:utext="#{chart.tooltip.conditional}"></span>
+                            </div>
+                        </div>
+                    </label>
+                    <input type="text" id="conditional" name="conditional" class="col-pct-12"
+                           th:readonly="${view}" th:classappend="${view}?'':'z-input'">
+                    <!-- th:value="${chart?.conditional}"-->
                 </div>
             </div>
             <div class="flex-row justify-content-between z-edit-row">
