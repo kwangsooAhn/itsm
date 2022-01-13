@@ -483,8 +483,9 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
                     .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
             )
+        } else {
+            query.where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
         }
-        query.where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
         query.where(instance.instanceStartDt.goe(range.from).and(instance.instanceEndDt.loe(range.to)))
         return query.fetch()
     }
