@@ -169,7 +169,7 @@ abstract class ChartManager(
                 var totalCount = 0
                 var valueSum = 0.0
                 instanceTagTokenData.tokenDataList.forEach { tokenData ->
-                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, tokenData.instanceEndDt)) {
+                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, tokenData.instanceStartDt)) {
                         totalCount++ // 숫자가 아닌 잘못된 값도 전체 건수에 포함한다. (제외하려면 한줄 아래로...)
                         if (tokenData.value.chars().allMatch(Character::isDigit) && tokenData.value.isNotEmpty()) {
                             valueSum += tokenData.value.toDouble()
@@ -225,7 +225,7 @@ abstract class ChartManager(
             tagInstances.forEach { tagInstance ->
                 var count = 0
                 tagInstance.instances.forEach { instance ->
-                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceEndDt!!)) {
+                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceStartDt!!)) {
                         count++
                     }
                 }
@@ -346,7 +346,7 @@ abstract class ChartManager(
                 tagInstances.instances.forEach { instance ->
                     if (periodUnitValue == this.getPeriodUnitValue(
                             chartConfig.periodUnit!!,
-                            instance.instanceEndDt!!
+                            instance.instanceStartDt!!
                         )
                     ) {
                         count++
