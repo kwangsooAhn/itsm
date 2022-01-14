@@ -11,5 +11,6 @@ import java.io.Serializable
 
 data class ChartTagCount(
     val tag: AliceTagDto,
-    val count: Int = 0
+    val count: Int = 0,
+    val conditionCount: Int =0
 ) : Serializable
