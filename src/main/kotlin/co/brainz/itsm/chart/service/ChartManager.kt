@@ -9,12 +9,10 @@ package co.brainz.itsm.chart.service
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.tag.constants.AliceTagConstants
-import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartData
 import co.brainz.itsm.chart.dto.ChartDto
-import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.chart.dto.ChartTagInstanceDto
 import co.brainz.itsm.chart.dto.average.ChartTagTokenData
 import co.brainz.itsm.chart.dto.percent.ChartCategoryTag
@@ -340,7 +338,11 @@ abstract class ChartManager(
             tagInstances.add(
                 ChartTagInstanceDto(
                     tag = tag,
-                    instances = chartManagerService.getInstanceListInTag(chartDto, tag.tagValue)
+                    instances = chartManagerService.getInstanceListInTag(
+                        tag.tagValue,
+                        chartDto.chartConfig.range,
+                        chartDto.chartConfig.documentStatus
+                    )
                 )
             )
         }

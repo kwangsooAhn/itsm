@@ -8,7 +8,6 @@ package co.brainz.itsm.chart.service
 
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.repository.AliceTagRepository
-import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.chart.dto.average.ChartTokenData
 import co.brainz.workflow.component.entity.WfComponentEntity
@@ -44,8 +43,8 @@ class ChartManagerService(
         return wfFormRepository.findByFormIdIn(formIds)
     }
 
-    fun getInstanceListInTag(chartDto: ChartDto, tagValue: String): List<WfInstanceEntity> {
-        return wfInstanceRepository.getInstanceListInTag(chartDto, tagValue)
+    fun getInstanceListInTag(tagValue: String, range: ChartRange, documentStatus: String?): List<WfInstanceEntity> {
+        return wfInstanceRepository.getInstanceListInTag(tagValue, range, documentStatus)
     }
 
     fun getLastTokenList(instanceIds: Set<String>): List<WfTokenEntity> {
