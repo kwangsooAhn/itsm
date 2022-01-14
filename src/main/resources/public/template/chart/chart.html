@@ -203,7 +203,7 @@
                 fromDtElement.value = i18n.getDate({ months: -1 });
                 fromDtElement.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                 toDtElement.value = i18n.getDate();
-                toDtElement.setAttribute('data-userDateTime',  i18n.getEndOfDateTime({ days: 0 }, 'day'));
+                toDtElement.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
             }
             zDateTimePicker.initDatePicker(fromDtElement, changeDatePicker);
             zDateTimePicker.initDatePicker(toDtElement, changeDatePicker);
