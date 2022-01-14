@@ -74,14 +74,14 @@
             </div>
             <div class="z-button-list" th:if="!${view}">
                 <button class="z-button primary" th:if="${template == null}"
-                        sec:authorize="hasAuthority('report.create')"
+                        sec:authorize="hasAuthority('report.manage')"
                         onclick="saveReportTemplate('POST')" th:text="#{common.btn.register}"></button>
                 <button class="z-button primary" th:if="${template?.templateId}"
-                        sec:authorize="hasAuthority('report.update')"
+                        sec:authorize="hasAuthority('report.manage')"
                         onclick="saveReportTemplate('PUT')" th:text="#{common.btn.modify}"></button>
                 <button class="z-button secondary" onclick="preview()" th:text="#{common.btn.preview}"></button>
                 <button class="z-button secondary" th:if="${template?.templateId}"
-                        sec:authorize="hasAuthority('report.delete')"
+                        sec:authorize="hasAuthority('report.manage')"
                         onclick="deleteReportTemplate()" th:text="#{common.btn.delete}"></button>
             </div>
         </div>

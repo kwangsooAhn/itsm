@@ -31,22 +31,22 @@ class ReportController(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    private val templateSearchPage: String = "report/reportTemplateSearch"
-    private val templateListPage: String = "report/reportTemplateList"
-    private val reportTemplatePage: String = "report/reportTemplate"
-    private val templatePreviewPage: String = "report/reportTemplatePreview"
-    private val reportSearchPage: String = "report/reportSearch"
-    private val reportListPage: String = "report/reportList"
-    private val reportViewPage: String = "report/reportView"
-    private val basicReportSearchPage: String = "report/basicReportSearch"
+    private val templateSearchPage: String = "report/report/customTemplateSearch"
+    private val templateListPage: String = "report/report/customTemplateList"
+    private val reportTemplatePage: String = "report/report/customTemplate"
+    private val templatePreviewPage: String = "report/report/customTemplatePreview"
+    private val reportSearchPage: String = "report/report/customReportSearch"
+    private val reportListPage: String = "report/report/customReportList"
+    private val reportViewPage: String = "report/report/customReportView"
+    private val basicReportSearchPage: String = "report/report/basicReportSearch"
 
     @GetMapping("/customTemplate/search")
-    fun getReportTemplateSearch(request: HttpServletRequest, model: Model): String {
+    fun getCustomTemplateSearch(request: HttpServletRequest, model: Model): String {
         return templateSearchPage
     }
 
     @GetMapping("/customTemplate")
-    fun getReportTemplates(reportTemplateCondition: ReportTemplateCondition, model: Model): String {
+    fun getCustomTemplates(reportTemplateCondition: ReportTemplateCondition, model: Model): String {
         val result = reportTemplateService.getReportTemplateList(reportTemplateCondition)
         model.addAttribute("templateList", result.data)
         model.addAttribute("paging", result.paging)
@@ -54,14 +54,14 @@ class ReportController(
     }
 
     @GetMapping("/customTemplate/new")
-    fun getReportTemplateNew(model: Model): String {
+    fun getCustomTemplateNew(model: Model): String {
         model.addAttribute("view", false)
         model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
         return reportTemplatePage
     }
 
     @GetMapping("/customTemplate/{templateId}/edit")
-    fun getReportTemplateEdit(@PathVariable templateId: String, model: Model): String {
+    fun getCustomTemplateEdit(@PathVariable templateId: String, model: Model): String {
         model.addAttribute("view", false)
         model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
         model.addAttribute("template", reportTemplateService.getReportTemplateDetail(templateId))
@@ -69,7 +69,7 @@ class ReportController(
     }
 
     @GetMapping("/customTemplate/{templateId}/view")
-    fun getReportTemplateView(@PathVariable templateId: String, model: Model): String {
+    fun getCustomTemplateView(@PathVariable templateId: String, model: Model): String {
         model.addAttribute("view", true)
         model.addAttribute("chartList", chartService.getCharts(ChartSearchCondition()).data)
         model.addAttribute("template", reportTemplateService.getReportTemplateDetail(templateId))
@@ -77,19 +77,19 @@ class ReportController(
     }
 
     @GetMapping("/customTemplate/preview")
-    fun getReportTemplatePreview(model: Model): String {
+    fun getCustomTemplatePreview(model: Model): String {
         model.addAttribute("time", LocalDateTime.now())
         return templatePreviewPage
     }
 
     @GetMapping("/customReport/search")
-    fun getReportSearch(request: HttpServletRequest, model: Model): String {
+    fun getCustomReportSearch(request: HttpServletRequest, model: Model): String {
         model.addAttribute("categoryList", reportService.getDistinctReportCategoryList())
         return reportSearchPage
     }
 
     @GetMapping("/customReport")
-    fun getReports(reportSearchCondition: ReportSearchCondition, model: Model): String {
+    fun getCustomReports(reportSearchCondition: ReportSearchCondition, model: Model): String {
         val result = reportService.getReportList(reportSearchCondition)
         model.addAttribute("reportList", result.data)
         model.addAttribute("paging", result.paging)
@@ -97,7 +97,7 @@ class ReportController(
     }
 
     @GetMapping("/customReport/{reportId}/view")
-    fun getReportView(@PathVariable reportId: String, model: Model): String {
+    fun getCustomReportView(@PathVariable reportId: String, model: Model): String {
         model.addAttribute("report", reportService.getReportDetail(reportId))
         return reportViewPage
     }

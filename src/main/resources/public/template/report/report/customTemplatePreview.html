@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="report/reportCore">
+      layout:decorator="report/report/reportCore">
 <head>
     <title th:text="#{common.label.preview}"></title>
 </head>
@@ -29,7 +29,7 @@
 <th:block layout:fragment="pageScript">
     <script type="module">
         /*<![CDATA[*/
-        import ZChart from '../../assets/js/chart/zChart.js';
+        import ZChart from '../../../assets/js/chart/zChart.js';
 
         const zChartManager = {
             load: function(id, data) {
