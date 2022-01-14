@@ -72,13 +72,16 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/reports/customTemplate/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('report.manage')">
-                <button type="button" class="z-button primary" th:if="${template == null}"
+            <div class="z-button-list" th:if="!${view}">
+                <button class="z-button primary" th:if="${template == null}"
+                        sec:authorize="hasAuthority('report.create')"
                         onclick="saveReportTemplate('POST')" th:text="#{common.btn.register}"></button>
-                <button type="button" class="z-button primary" th:if="${template?.templateId}"
+                <button class="z-button primary" th:if="${template?.templateId}"
+                        sec:authorize="hasAuthority('report.update')"
                         onclick="saveReportTemplate('PUT')" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="z-button secondary" onclick="preview()" th:text="#{common.btn.preview}"></button>
-                <button type="button" class="z-button secondary" th:if="${template?.templateId}"
+                <button class="z-button secondary" onclick="preview()" th:text="#{common.btn.preview}"></button>
+                <button class="z-button secondary" th:if="${template?.templateId}"
+                        sec:authorize="hasAuthority('report.delete')"
                         onclick="deleteReportTemplate()" th:text="#{common.btn.delete}"></button>
             </div>
         </div>

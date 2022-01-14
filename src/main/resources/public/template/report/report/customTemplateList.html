@@ -32,7 +32,7 @@
         <td style="width:10%;" class="align-center" id="userName" th:text="${template?.createUserName}" th:title="${template?.createUserName}"></td>
         <td style="width:15%;" class="align-center date-time" name="createDt" th:text="${template.createDt}" th:title="${template.createDt}"></td>
         <td style="width: 5%;">
-            <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('report.create')"
+            <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('report.manage')"
                     th:onclick="makeReport([[${template.templateId}]])">
                 <span class="z-icon i-edit"></span>
             </button>

@@ -24,10 +24,9 @@ class ChartController(
     private val codeService: CodeService
 ) {
 
-    private val chartSearchPage: String = "chart/chartSearch"
-    private val chartListPage: String = "chart/chartList"
-    private val chartPage: String = "chart/chart"
-    private val basicChartSearchPage: String = "chart/basicChartSearch"
+    private val chartSearchPage: String = "report/chart/customChartSearch"
+    private val chartListPage: String = "report/chart/customChartList"
+    private val chartPage: String = "report/chart/customChart"
 
     /**
      * 사용자 정의 차트 목록 검색 화면 호출
@@ -80,10 +79,5 @@ class ChartController(
         model.addAttribute("code", chartService.getCodeListForChart())
         model.addAttribute("chart", chartService.getChartDetail(chartId))
         return chartPage
-    }
-
-    @GetMapping("/basicChart/search")
-    fun getBasicChartSearch(request: HttpServletRequest, model: Model): String {
-        return basicChartSearchPage
     }
 }
