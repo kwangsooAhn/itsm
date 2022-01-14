@@ -152,6 +152,7 @@
         const PERIOD_MONTH = 'M';
         const PERIOD_DAY = 'D';
         const PERIOD_HOUR = 'H';
+        const MAX_PERIOD_RANGE = 3; // 시간 단위일경우 최대 간격 (일단위)
 
         window.onload = function () {
             OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
@@ -317,6 +318,17 @@
             }
             if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
                 return false;
+            }
+
+            // 간격이 '시간' 단위일때, 시작일자와 종료일자의 차이가 3일 이상일 경우 경고창 표시
+            if (document.getElementById('periodUnitSelectBox').value === PERIOD_HOUR) {
+                const fromDtValue = document.getElementById('rangeFromDt').value;
+                const validToDtValue =  i18n.userDate(i18n.systemDate(fromDtValue, { days : MAX_PERIOD_RANGE }));
+                const toDtValue = document.getElementById('rangeToDt').value;
+                if (!i18n.compareSystemDate(toDtValue, validToDtValue)) {
+                    zAlert.warning(i18n.msg('chart.msg.maxPeriodUnitRange', MAX_PERIOD_RANGE));
+                    return false;
+                }
             }
 
             return true;
