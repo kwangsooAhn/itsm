@@ -37,7 +37,7 @@ abstract class ChartManager(
      *     - PeriodUnit 값에 따라 년, 월, 일, 시 의 전체 목록 생성
      *   2) range(from, to) 범위에 해당되는 instance 목록 조회
      *   3) category 목록에 해당되는 instance 목록 적용
-     *     - tag 별로 instanceEndDt 값이 instance 적용
+     *     - tag 별로 instanceStartDt 값이 instance 적용
      *     - count, percent, average 에 따른 처리
      */
     fun getChart(chartDto: ChartDto): ChartDto {
