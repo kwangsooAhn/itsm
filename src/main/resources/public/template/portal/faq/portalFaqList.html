@@ -14,7 +14,7 @@
 			<summary class="z-faq-row-title" th:text="${faqT.faqTitle}" th:title="${faqT.faqTitle}"></summary>
 			<div class="horizontal-bar"></div>
 			<div class="z-faq-row-content" th:each="faqC:${faqs.faqList}" th:if="${faqC.faqId} == ${faqT.faqId}">
-				<p class="text-ellipsis" th:text="${faqC.faqContent}" th:title="${faqC.faqContent}"></p>
+				<p th:text="${faqC.faqContent}" th:title="${faqC.faqContent}"></p>
 			</div>
 		</details>
 	</details>

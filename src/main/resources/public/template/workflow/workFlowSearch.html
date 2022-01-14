@@ -15,8 +15,8 @@
     <h6 class="description ml-2 pl-2" th:text="#{document.msg.adminSearchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''document.admin.update'')')}"/>
-    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''document.admin.delete'')')}"/>
+    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
+    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
     <form id="searchDocumentsFrm">
         <select id="searchGroupName" name="searchGroupName" class="col-3">
             <option value="" th:text="#{document.label.all}" selected></option>
@@ -35,7 +35,7 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" onclick="openDocumentEdit();"
-                sec:authorize="hasAuthority('document.admin.create')" th:text="#{common.btn.add}"></button>
+                sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">

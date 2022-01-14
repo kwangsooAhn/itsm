@@ -36,6 +36,7 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.dto.UserCustomDto
@@ -93,7 +94,8 @@ class UserService(
     private val currentSessionUser: CurrentSessionUser,
     private val wfTokenRepository: WfTokenRepository,
     private val organizationRepository: OrganizationRepository,
-    private val organizationRoleMapRepository: OrganizationRoleMapRepository
+    private val organizationRoleMapRepository: OrganizationRoleMapRepository,
+    private val roleService: RoleService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -325,6 +327,9 @@ class UserService(
                 if (aliceCertificationRepository.countByEmail(userUpdateDto.email!!) > 0) {
                     code = AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                 }
+            }
+            !roleService.isExistSystemRoleByUser(userUpdateDto.userKey, userUpdateDto.roles) -> {
+                code = AliceUserConstants.UserEditStatus.STATUS_ERROR_SYSTEM_USER_NOT_EXIST.code
             }
         }
         return code
@@ -689,5 +694,12 @@ class UserService(
             )
         }
         return excelComponent.download(excelVO)
+    }
+
+    /**
+     * 조직에 속하 사용자 목록 조회
+     */
+    fun getUserListInOrganization(organizationIds: Set<String>): List<AliceUserEntity> {
+        return userRepository.getUserListInOrganization(organizationIds).results
     }
 }

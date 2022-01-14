@@ -1022,10 +1022,11 @@ organization:
     editDescription: "Add, view and manage department."
     enterOrganizationId: "Please enter a department Id."
     enterOrganizationName: "Please enter a department name"
+    failedOrganizationDelete: "Failed to delete a department because of a member."
     enterPOrganizationName: "Please enter a parent department name."
     pOrganizationNotExist: "Parent organization does not exist."
     selectRole: "Please select a member default role."
-    failedOrganizationDelete: "Failed to delete a department because of a member."
+    systemUserNotExist: "You cannot modify because you need at least one user with the system administrator role."
 
 # Portal
 portal:
@@ -1213,6 +1214,7 @@ scheduler:
     immediatelyExecute: "Immediately Execute"
     history: "History"
   label:
+    all: "All"
     args: "Arguments"
     class: "Class"
     command: "Command"
@@ -1242,6 +1244,7 @@ scheduler:
     scheduleDescription: "Check the schedule details and history."
     searchDescription: "Register and manage repetitive tasks."
     useSchedule: "Schedule in use."
+    compareWithSchedulerExecuteTimeValue: "Scheduler start execute time is greater than or equal to end execute time."
     cronValue: "Cron can be entered up to 6 fields."
     cronError: "Enter the correct Cron expression."
     jarNotExist: "JAR file does not exist."
@@ -1402,6 +1405,7 @@ user:
     selectRole: "There must be at least one user role. <br/> Please select a user role."
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
     signUpFail: "Sign up failed."
+    systemUserNotExist: "You cannot modify user roles because you need at least one user with the system administrator role."
     updatePasswordNotice: "Recommend changing your password every {0} days for personal information protection and safe system use. Change your password."
     usageStatus: "※ If not using it, you won't be able to log in and use all systems."
     userAbsence: "※ When absent, the period of absence and the substitute must be set."

@@ -18,11 +18,6 @@ COMMENT ON COLUMN awf_url.method IS 'method';
 COMMENT ON COLUMN awf_url.url_desc IS '설명';
 COMMENT ON COLUMN awf_url.is_required_auth IS '권한 필수여부';
 
-insert into awf_url values ('/auths/search', 'get', '권한 검색화면', 'TRUE');
-insert into awf_url values ('/auths/new', 'get', '권한 등록', 'TRUE');
-insert into awf_url values ('/auths/{id}/edit', 'get', '권한 수정', 'TRUE');
-insert into awf_url values ('/auths/{id}/view', 'get', '권한 상세 보기', 'TRUE');
-insert into awf_url values ('/auths', 'get', '권한 관리 목록', 'TRUE');
 insert into awf_url values ('/boards', 'get', '게시판 관리 리스트 호출화면', 'TRUE');
 insert into awf_url values ('/boards/new', 'get', '게시판 관리 신규 등록', 'TRUE');
 insert into awf_url values ('/boards/search', 'get', '게시판 관리 리스트 조회 화면', 'TRUE');
@@ -199,7 +194,7 @@ insert into awf_url values ('/rest/custom-codes', 'get', '커스텀 코드 조�
 insert into awf_url values ('/rest/custom-codes', 'put', '커스텀 코드 수정', 'TRUE');
 insert into awf_url values ('/rest/custom-codes', 'post', '커스텀 코드 등록', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'delete', '커스텀 코드 삭제', 'TRUE');
-insert into awf_url values ('/rest/custom-codes/{id}', 'get', '커스텀코드 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/custom-codes/{id}', 'get', '커스텀코드 목록 조회', 'FALSE');
 insert into awf_url values ('/rest/dashboard/statistic', 'get', '업무 통계 조회', 'FALSE');
 insert into awf_url values ('/rest/documents', 'get', '신청서 문서 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows', 'post', '신청서 작성', 'TRUE');
@@ -324,3 +319,4 @@ insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음�
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
 insert into awf_url values ('/rest/tokens/excel', 'get', '문서함 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/users/absence', 'post', '사용자 현재 문서 이관', 'FALSE');
+insert into awf_url values ('/rest/schedulers/{id}/executeTime', 'get', '스케줄러 최초 실행 시각 조회', 'FALSE');

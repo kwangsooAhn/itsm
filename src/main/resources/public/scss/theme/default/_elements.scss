@@ -25,3 +25,28 @@
     }
   }
 }
+// 스위치 목록
+// ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
+.z-switch {
+  display: inline-block;
+  width: 100%;
+  margin: 0 !important;
+  .z-label {
+    margin-left: 0;
+    &-name { width: 12.5rem; } //200px
+  }
+  input[type=checkbox] + span { left: inherit }
+  // 목록
+  &-list {
+    height: 22.5rem; // 360px
+    padding: 0.5rem 0.625rem; // 8px 10px
+    .right { right: 0.25rem; } // 4px
+    .padding { padding: 0.1875rem 0 0.1875rem 0; } // 3px
+    .os-content { padding-top: 0 !important; }
+    li {
+      @include ellipsis(list-item);
+      height: 2.5rem; // 40px
+      padding-right: 0.2rem;
+    }
+  }
+}

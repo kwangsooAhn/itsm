@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
     <title th:text="${download != null} ? #{download.label.edit} : #{download.label.register}"></title>
@@ -40,7 +41,7 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list">
+            <div class="z-button-list" sec:authorize="hasAuthority('portal.manage')">
                 <button th:if="${download?.downloadId}" onclick="saveDownload('PUT')"
                         class="z-button primary" th:text="#{common.btn.modify}"></button>
                 <button th:unless="${download?.downloadId}" onclick="saveDownload('POST')"
