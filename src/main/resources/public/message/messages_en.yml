@@ -279,9 +279,10 @@ chart:
       percent: "percent"
   msg:
     searchDescription: "View and manage various user custom charts."
+    enterChartCondition: "Please enter chart's Condition."
     enterChartName: "Please enter a chart name."
-    enterTargetTags: "Please enter a target tags."
     enterDurationDigit: "Please enter a Duration."
+    enterTargetTags: "Please enter a target tags."
     periodUnitOutOfRange: "The duration is greater than the period."
   chart:
     basicLine: "Basic Line Chart"

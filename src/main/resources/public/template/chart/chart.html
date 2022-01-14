@@ -119,7 +119,7 @@
                         <span class="field-label required" th:text="#{chart.label.targetTags}"></span>
                         <div class="z-help-tooltip">
                             <span class="z-icon i-tooltip"></span>
-                            <div class="z-tooltip-contents">
+                            <div class="z-tooltip-contents right">
                                 <span th:utext="#{chart.tooltip.targetTags}"></span>
                             </div>
                         </div>
@@ -133,7 +133,7 @@
                         <span class="field-label required" th:text="#{chart.label.condition}"></span>
                         <div class="z-help-tooltip">
                             <span class="z-icon i-tooltip"></span>
-                            <div class="z-tooltip-contents">
+                            <div class="z-tooltip-contents right">
                                 <span th:utext="#{chart.tooltip.condition}"></span>
                             </div>
                         </div>
@@ -352,6 +352,9 @@
                 return false;
             }
             if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
+                return false;
+            }
+            if (isEmpty('condition', 'chart.msg.enterChartCondition')) {
                 return false;
             }
 
