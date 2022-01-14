@@ -282,6 +282,7 @@ chart:
     enterChartName: "Please enter a chart name."
     enterDurationDigit: "Please enter a Duration."
     enterTargetTags: "Please enter a target tags."
+    maxPeriodUnitRange: "If the interval is hourly, please set the period within {0} days."
     periodUnitOutOfRange: "The duration is greater than the period."
   chart:
     basicLine: "Basic Line Chart"
