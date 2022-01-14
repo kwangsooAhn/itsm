@@ -203,7 +203,7 @@
                 fromDtElement.value = i18n.getDate({ months: -1 });
                 fromDtElement.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                 toDtElement.value = i18n.getDate();
-                toDtElement.setAttribute('data-userDateTime', i18n.getDateTime());
+                toDtElement.setAttribute('data-userDateTime',  i18n.getEndOfDateTime({ days: 0 }, 'day'));
             }
             zDateTimePicker.initDatePicker(fromDtElement, changeDatePicker);
             zDateTimePicker.initDatePicker(toDtElement, changeDatePicker);
@@ -250,11 +250,11 @@
                 }
             } else {
                 const fromDtValue = document.getElementById('rangeFromDt').value;
-                element.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(element.value, { hours: 23 })));
+                element.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(element.value, { hours: 23, minute: 59 })));
                 if (!i18n.compareSystemDate(fromDtValue, element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
                         element.value = i18n.getDate();
-                        element.setAttribute('data-userDateTime', i18n.getDateTime());
+                        element.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
                         picker.open();
                     });
                 }
