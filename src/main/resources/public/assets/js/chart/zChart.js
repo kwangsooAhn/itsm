@@ -238,6 +238,18 @@ export  default class ZChart {
                 return '%Y-%m-%d';
         }
     }
+
+    /**
+     *
+     * @param utcTime 카테고리 시간 문자열 (전달된 서버시간 2021-12-01 15:00:00)
+     * @returns localTime 변환된 시간 문자열 (local 시간 2021-12-01 00:00:00)
+     */
+    convertCategoryToLocal(utcTime) {
+        const systemLocalTime = luxon.DateTime.fromFormat(
+            i18n.systemHourType(utcTime), CHART.DATETIME_FORMAT, { zone: 'utc' }).setZone(i18n.timezone).toISO();
+        return i18n.userDateTime(systemLocalTime, CHART.DATETIME_FORMAT);
+    }
+
     /**
      * 전달받은 데이터의 날짜 데이터를 Date 타입으로 변경
      * @param userDateTime 데이터 문자열

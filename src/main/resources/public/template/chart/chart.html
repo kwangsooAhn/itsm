@@ -169,7 +169,7 @@
                 fromDtElement.value = i18n.getDate({ months: -1 });
                 fromDtElement.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                 toDtElement.value = i18n.getDate();
-                toDtElement.setAttribute('data-userDateTime', i18n.getDateTime());
+                toDtElement.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
             }
             zDateTimePicker.initDatePicker(fromDtElement, changeDatePicker);
             zDateTimePicker.initDatePicker(toDtElement, changeDatePicker);
@@ -216,11 +216,11 @@
                 }
             } else {
                 const fromDtValue = document.getElementById('rangeFromDt').value;
-                element.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(element.value, { hours: 23 })));
+                element.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(element.value, { hours: 23, minute: 59 })));
                 if (!i18n.compareSystemDate(fromDtValue, element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
                         element.value = i18n.getDate();
-                        element.setAttribute('data-userDateTime', i18n.getDateTime());
+                        element.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
                         picker.open();
                     });
                 }
@@ -381,7 +381,7 @@
                         fromDt.value = i18n.getDate({ months: -1 });
                         fromDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                         toDt.value = i18n.getDate();
-                        toDt.setAttribute('data-userDateTime', i18n.getDateTime());
+                        toDt.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
                         break;
                     case RANGE_LAST_MONTH: // 지난달
                         // 시작일자(from) = 지난달 01일 데이터
@@ -398,7 +398,7 @@
                         fromDt.value = i18n.getCustomDate(2000, 1, 1);
                         fromDt.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(fromDt.value)));
                         toDt.value = i18n.getDate();
-                        toDt.setAttribute('data-userDateTime', getFromPeriodUnit(document.getElementById('periodUnitSelectBox').value));
+                        toDt.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
                         break;
                     case RANGE_LAST_DAY: // 어제
                         // 시작일자(from) = 어제 날짜 00시 00분 00초 데이터
@@ -431,28 +431,6 @@
             // select box 디자인
             aliceJs.initDesignedSelectTag(range);
         }
-        /**
-         * 전체 기간일 경우, 간격에 따라 종료일자를 조정하여 보여줌
-         * 년 - 현재 년도 포함
-         * 월 - 현재 월 포함
-         * 일 - 오늘 포함
-         * 시간 - 현재 시간 포함
-         */
-        function getFromPeriodUnit(periodUnit) {
-            switch (periodUnit) {
-                case PERIOD_YEAR:
-                    return i18n.getStartOfDateTime({ year: 1 }, 'year');
-                case PERIOD_MONTH:
-                    return i18n.getStartOfDateTime({ months: 1 }, 'month');
-                case PERIOD_DAY:
-                    return i18n.getStartOfDateTime({ days: 1 }, 'day');
-                case PERIOD_HOUR:
-                    return i18n.getStartOfDateTime({ hours: 1 }, 'hour');
-                default:
-                    return i18n.getDateTime();
-            }
-        }
-
 
         /**
          * 차트 데이터 조회
