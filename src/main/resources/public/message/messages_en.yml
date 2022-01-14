@@ -279,7 +279,6 @@ chart:
       percent: "percent"
   msg:
     searchDescription: "View and manage various user custom charts."
-    enterChartCondition: "Please enter chart's Condition."
     enterChartName: "Please enter a chart name."
     enterDurationDigit: "Please enter a Duration."
     enterTargetTags: "Please enter a target tags."

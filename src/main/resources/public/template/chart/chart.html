@@ -130,7 +130,7 @@
                 <!--/* 차트 조건식 */-->
                 <div class="flex-column col-6">
                     <label>
-                        <span class="field-label required" th:text="#{chart.label.condition}"></span>
+                        <span class="field-label" th:text="#{chart.label.condition}"></span>
                         <div class="z-help-tooltip">
                             <span class="z-icon i-tooltip"></span>
                             <div class="z-tooltip-contents right">
@@ -354,10 +354,6 @@
             if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
                 return false;
             }
-            if (isEmpty('condition', 'chart.msg.enterChartCondition')) {
-                return false;
-            }
-
             return true;
         }
 
