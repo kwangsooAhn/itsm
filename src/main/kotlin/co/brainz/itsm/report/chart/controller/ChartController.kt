@@ -32,7 +32,7 @@ class ChartController(
     /**
      * 사용자 정의 차트 목록 검색 화면 호출
      */
-    @GetMapping("/search")
+    @GetMapping("/customChart/search")
     fun getChartSearch(model: Model): String {
         model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.PCode.TYPE.code))
         return chartSearchPage
@@ -41,7 +41,7 @@ class ChartController(
     /**
      * 사용자 정의 차트 목록 화면 호출
      */
-    @GetMapping("")
+    @GetMapping("/customChart")
     fun getCharts(chartSearchCondition: ChartSearchCondition, model: Model): String {
         val result = chartService.getCharts(chartSearchCondition)
         model.addAttribute("chartList", result.data)
@@ -52,7 +52,7 @@ class ChartController(
     /**
      * Chart 등록 화면 호출
      */
-    @GetMapping("/new")
+    @GetMapping("/customChart/new")
     fun getChartNew(model: Model): String {
         model.addAttribute("view", false)
         model.addAttribute("code", chartService.getCodeListForChart())
@@ -63,7 +63,7 @@ class ChartController(
     /**
      * Chart 수정 화면 호출
      */
-    @GetMapping("/{chartId}/edit")
+    @GetMapping("/customChart/{chartId}/edit")
     fun getChartEdit(@PathVariable chartId: String, model: Model): String {
         model.addAttribute("view", false)
         model.addAttribute("code", chartService.getCodeListForChart())
@@ -74,7 +74,7 @@ class ChartController(
     /**
      * chart 설정 보기 화면 호출
      */
-    @GetMapping("/{chartId}/view")
+    @GetMapping("/customChart/{chartId}/view")
     fun getChartView(@PathVariable chartId: String, model: Model): String {
         model.addAttribute("view", true)
         model.addAttribute("code", chartService.getCodeListForChart())
