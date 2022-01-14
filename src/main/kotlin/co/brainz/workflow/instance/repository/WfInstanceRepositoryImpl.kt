@@ -478,7 +478,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         if (chartDto.chartConfig.documentStatus == ChartConstants.DocumentStatus.EVEN_RUNNING.code) {
             query.where(
                 instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
-                    .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
+                    .or(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
             )
         } else {
             query.where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
