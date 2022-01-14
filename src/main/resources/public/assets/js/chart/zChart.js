@@ -240,7 +240,8 @@ export  default class ZChart {
     }
 
     /**
-     *
+     * 전달받은 category 날짜 데이터를 사용자 시간으로 변환하여 준다.
+     * 자세한 내용은 #1874 일감을 참고한다.
      * @param utcTime 카테고리 시간 문자열 (전달된 서버시간 2021-12-01 15:00:00)
      * @returns localTime 변환된 시간 문자열 (local 시간 2021-12-01 00:00:00)
      */
