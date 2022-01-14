@@ -134,6 +134,11 @@ object AliceConstants {
      * 알림 개수.
      */
     const val NOTIFICATION_SIZE = 50L
+
+    /**
+     * 시스템 관리자 역할
+     */
+    const val SYSTEM_ROLE = "system.admin"
 }
 
 /**

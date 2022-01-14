@@ -77,7 +77,7 @@ class ZAliceResponse {
          */
         fun responseError(body: ResponseEntity<MutableMap<String, Any>>): ResponseEntity<Map<String, Any?>> {
             val response = LinkedHashMap<String, Any?>()
-            response["status"] = body.statusCodeValue
+            response["status"] = body.body?.get("status") ?: body.statusCode
             response["message"] = body.body?.get("message") ?: body.statusCode.reasonPhrase
             response["data"] = null
             return ResponseEntity(response, body.statusCode)

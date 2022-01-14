@@ -17,9 +17,9 @@
     </tr>
     <tr class="flex-row align-items-center" th:each="rule : ${ruleList}">
         <td style="width:30%;" class="align-left underline" th:id="${rule.numberingId}">
-            <a sec:authorize="!hasAuthority('numbering.rule.update')" th:text="${rule.numberingName}"
+            <a sec:authorize="!hasAuthority('workflow.manage')" th:text="${rule.numberingName}"
                th:href="@{/numberingRules/{id}/view(id=${rule.numberingId})}" th:title="${rule.numberingName}"></a>
-            <a sec:authorize="hasAuthority('numbering.rule.update')" th:text="${rule.numberingName}"
+            <a sec:authorize="hasAuthority('workflow.manage')" th:text="${rule.numberingName}"
                th:href="@{/numberingRules/{id}/edit(id=${rule.numberingId})}" th:title="${rule.numberingName}"></a>
         </td>
         <td style="width:30%;" class="align-left" id="ruleDesc" th:text="${rule.numberingDesc}" th:title="${rule.numberingDesc}"></td>
