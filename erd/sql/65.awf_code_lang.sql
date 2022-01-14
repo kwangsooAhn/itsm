@@ -71,6 +71,8 @@ insert into awf_code_lang values ('chart.type.pie', 'Pie Chart', 'en');
 insert into awf_code_lang values ('chart.type.stackedColumn', 'Stacked Column Chart', 'en');
 insert into awf_code_lang values ('chart.type.stackedBar', 'Stacked Bar Chart', 'en');
 insert into awf_code_lang values ('chart.type.gauge', 'Gauge Chart', 'en');
+insert into awf_code_lang values ('chart.documentStatus.even.running.document', 'Document in progress also', 'en');
+insert into awf_code_lang values ('chart.documentStatus.only.finish.document', 'Finished document only', 'en');
 /* 자료실 */
 insert into awf_code_lang values ('download.category.companyPolicy', 'Company Policy', 'en');
 insert into awf_code_lang values ('download.category.etc', 'Etc', 'en');

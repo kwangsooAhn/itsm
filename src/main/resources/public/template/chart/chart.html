@@ -73,13 +73,11 @@
             </div>
             <div class="flex-column z-edit-row col-3" id="targetStatus">
                 <!--/* 대상 문서 상태 */-->
-                <label id="targetStatusLabel" class="field-label required" th:text="#{chart.label.targetStatus}"></label>
+                <label id="targetStatusLabel" class="field-label required" th:text="#{chart.label.documentStatus}"></label>
                 <select id="targetStatusSelectBox" name="targetStatusSelectBox" th:classappend="${view ? 'readonly' : ''}">
-<!--                    <option th:each="targetStatus:${code.targetStatus}" th:value="${targetStatus.codeValue}"-->
-<!--                            th:text="${targetStatus.codeName}"-->
-<!--                            th:selected="${targetStatus.codeValue} == ${chart?.chartConfig?.targetStatus}"></option>-->
-                    <option th:text="#{chart.option.targetStatus.finishedOnly}" selected></option>
-                    <option th:text="#{chart.option.targetStatus.inProgress}"></option>
+                    <option th:each="documentStatus:${code.documentStatus}" th:value="${documentStatus.codeValue}"
+                            th:text="${documentStatus.codeName}"
+                            th:selected="${documentStatus.codeValue} == ${chart?.chartConfig?.documentStatus}"></option>
                 </select>
             </div>
             <div class="z-edit-row">
@@ -132,17 +130,17 @@
                 <!--/* 차트 조건식 */-->
                 <div class="flex-column col-6">
                     <label>
-                        <span class="field-label required" th:text="#{chart.label.conditional}"></span>
+                        <span class="field-label required" th:text="#{chart.label.condition}"></span>
                         <div class="z-help-tooltip">
                             <span class="z-icon i-tooltip"></span>
                             <div class="z-tooltip-contents">
-                                <span th:utext="#{chart.tooltip.conditional}"></span>
+                                <span th:utext="#{chart.tooltip.condition}"></span>
                             </div>
                         </div>
                     </label>
-                    <input type="text" id="conditional" name="conditional" class="col-pct-12"
+                    <input type="text" id="condition" name="condition" class="col-pct-12"
+                           th:value="${chart?.chartConfig?.condition}"
                            th:readonly="${view}" th:classappend="${view}?'':'z-input'">
-                    <!-- th:value="${chart?.conditional}"-->
                 </div>
             </div>
             <div class="flex-row justify-content-between z-edit-row">
@@ -522,7 +520,9 @@
                         type: document.getElementById('rangeType').value,
                         from: fromDt,
                         to: toDt
-                    }
+                    },
+                    documentStatus: document.getElementById('targetStatusSelectBox').value,
+                    condition: document.getElementById('condition').value
                 },
                 tags: tags
             };

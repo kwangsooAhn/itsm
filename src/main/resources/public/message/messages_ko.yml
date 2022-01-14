@@ -245,15 +245,15 @@ chart:
     all: "전체"
     average: "평균"
     chart: "사용자 정의 차트"
-    conditional: "조건식"
+    condition: "조건식"
     chartSetting: "차트 설정"
     description: "차트 설명"
+    documentStatus: "대상 문서상태"
     edit: "차트 편집"
     editDescription: "사용자 정의 차트를 등록하거나 수정, 삭제합니다."
     name: "차트 이름"
     queryInfo: "쿼리 정보"
     register: "차트 등록"
-    targetStatus: "대상 문서상태"
     targetTags: "대상 태그"
     type: "차트 종류"
     periodUnit: "간격"
@@ -265,9 +265,6 @@ chart:
     docRatio: "문서 차지 비율"
     searchPlaceholder: "차트 이름"
   option:
-    targetStatus:
-      finishedOnly: "완료된 문서만"
-      inProgress: "진행 중인 문서까지"
     label:
       subTitle: "사용자 정의 차트 보고서"
       yAxisTitle: "문서 수"
@@ -295,9 +292,12 @@ chart:
     gauge: "Gauge Chart"
   tooltip:
     targetTags: "차트를 그릴 데이터의 대상을 태그로 입력합니다."
-    conditional: "• 조건식은 산술 연산자 중 사칙연산(+, -, *, /)과 논리연산자(&&, ||)와 비교 연산자(==, !=, <, >, <=, >=)를 지원합니다.<br/><br/>
-    • 태그를 표현하려면 []를 사용하세요. 만약 태그명에 대괄호([ 또는 ])가 들어가 있다면 '\\]'와 같이 태그명을 작성합니다.<br/><br/>
-    • 논리 연산의 우선순위 표기하려면 ()를 사용하세요. 만약 태그명에 소괄호(( 또는 ))가 사용된다면 '\\)'와 같이 태그명을 작성합니다."
+    condition: "• 조건식은 산술 연산자 중 사칙연산(+, -, *, /)과<br/>
+    &nbsp; 논리연산자(&&, ||)와 비교 연산자(==, !=, <, >, <=, >=)를<br/>&nbsp; 지원합니다.<br/><br/>
+    • 태그를 표현하려면 []를 사용하세요.<br/>
+    &nbsp; 만약 태그명에 대괄호([ 또는 ])가 들어가 있다면 '\\]'와 같이<br/>&nbsp; 태그명을 작성합니다.<br/><br/>
+    • 논리 연산의 우선순위 표기하려면 ()를 사용하세요.<br/>
+    &nbsp; 만약 태그명에 소괄호(( 또는 ))가 사용된다면 '\\)'와 같이<br/>&nbsp; 태그명을 작성합니다."
 
 # CMDB
 cmdb:

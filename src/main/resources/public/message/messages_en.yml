@@ -245,15 +245,15 @@ chart:
     all: "All"
     average: "Average"
     chartt: "User Custom Chart"
-    conditional: "Conditional"
+    condition: "condition"
     chartSetting: "Chart Setting"
     description: "Chart Description"
+    documentStatus: "Target document Status"
     edit: "Chart Edit"
     editDescription: "Register or Edit for custom chart."
     name: "Chart Name"
     queryInfo: "Query Info"
     register: "New Chart"
-    targetStatus: "Target document Status"
     targetTags: "Target Tags"
     type: "Chart Type"
     periodUnit: "PeriodUnit"
@@ -265,9 +265,6 @@ chart:
     docRatio: "Documents Ratio"
     searchPlaceholder: "Chart Name"
   option:
-    documentStatus:
-      finishedOnly: "Finished document only"
-      inProgress: "Document in progress also"
     label:
       subTitle: "User custom chart report"
       yAxisTitle: "Number of Documents"
@@ -295,7 +292,7 @@ chart:
     gauge: "Gauge Chart"
   tooltip:
     targetTags: "Enter the target of the data to be charted as a tag."
-    conditional: "• The conditional expression supports arithmetic operations (+, -, *, /) and logical operators &&, ||, and comparative operators such as ==, !=, <, >, <=, >= .<br/><br/>
+    condition: "• The condition expression supports arithmetic operations (+, -, *, /) and logical operators &&, ||, and comparative operators such as ==, !=, <, >, <=, >= .<br/><br/>
     • [] can be used to express the tag. If the tag name contains brackets ([ or ]), write the tag name in the expression such as '\\]'.<br/><br/>
     • () can be used to prioritize logical operations. If the tag name contains brackets (( or )), write the tag name in the expression such as '\\)'."
 
