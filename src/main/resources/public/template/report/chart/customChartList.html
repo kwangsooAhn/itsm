@@ -25,7 +25,7 @@
                 <a sec:authorize="hasAuthority('report.manage')" th:text="${chart.chartName}"
                    th:href="@{/charts/customChart/{id}/edit(id=${chart?.chartId})}" th:title="${chart.chartName}">
                 </a>
-                <a sec:authorize="!hasAuthority('report.manage')" th:text="${chart.chartName}"
+                <a sec:authorize="!hasAuthority('report.manage') and hasAuthority('report.view')" th:text="${chart.chartName}"
                    th:href="@{/charts/customChart/{id}/view(id=${chart?.chartId})}" th:title="${chart.chartName}">
                 </a>
             </td>
