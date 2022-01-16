@@ -154,6 +154,7 @@ class ChartService(
         codeListMap["operation"] = codeService.selectCodeByParent(ChartConstants.PCode.OPERATION.code)
         codeListMap["range"] = codeService.selectCodeByParent(ChartConstants.PCode.RANGE.code)
         codeListMap["unit"] = codeService.selectCodeByParent(ChartConstants.PCode.UNIT.code)
+        codeListMap["documentStatus"] = codeService.selectCodeByParent(ChartConstants.PCode.DOCUMENT_STATUS.code)
 
         return codeListMap
     }

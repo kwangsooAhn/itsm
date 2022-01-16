@@ -78,7 +78,8 @@ export const zPieChartMixin = {
             formatter: function () {
                 return `${this.series.name}<br/>` +
                     `<span style="color:${this.color}">\u25CF</span> ${this.key} : ` +
-                    `${Highcharts.numberFormat(this.percentage, 2, '.', '')} % (${this.y} / ${this.total})`;
+                    `${Highcharts.numberFormat(this.percentage, 2, '.', '')} % ` +
+                    `(${this.y} / ${this.total === undefined ? 0 : this.total})`;
             }
         });
     },
