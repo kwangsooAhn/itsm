@@ -2224,6 +2224,63 @@ select {
 .z-button-icon.secondary.disabled .z-icon {
   background: #ABB0B5;
 }
+.z-button.tertiary,
+.z-button-icon.tertiary {
+  color: #1959AC;
+  background-color: #84D1FA;
+  border-color: #84D1FA;
+}
+.z-button.tertiary .z-icon,
+.z-button-icon.tertiary .z-icon {
+  display: block;
+  background: #1959AC;
+  pointer-events: none;
+}
+.z-button.tertiary:focus,
+.z-button-icon.tertiary:focus {
+  color: #339AF0;
+  background-color: #FFFFFF;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-button.tertiary:focus .z-icon,
+.z-button-icon.tertiary:focus .z-icon {
+  background: #339AF0;
+}
+.z-button.tertiary:hover,
+.z-button-icon.tertiary:hover {
+  color: #339AF0;
+  background-color: #E3F5FC;
+  border-color: #339AF0;
+}
+.z-button.tertiary:hover .z-icon,
+.z-button-icon.tertiary:hover .z-icon {
+  background: #339AF0;
+}
+.z-button.tertiary:enabled:active, .z-button.tertiary:enabled.active,
+.z-button-icon.tertiary:enabled:active,
+.z-button-icon.tertiary:enabled.active {
+  color: #1959AC;
+  background-color: #ADE6FD;
+  border-color: #2578CE;
+}
+.z-button.tertiary:enabled:active .z-icon, .z-button.tertiary:enabled.active .z-icon,
+.z-button-icon.tertiary:enabled:active .z-icon,
+.z-button-icon.tertiary:enabled.active .z-icon {
+  background: #1959AC;
+}
+.z-button.tertiary:disabled, .z-button.tertiary.disabled,
+.z-button-icon.tertiary:disabled,
+.z-button-icon.tertiary.disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+}
+.z-button.tertiary:disabled .z-icon, .z-button.tertiary.disabled .z-icon,
+.z-button-icon.tertiary:disabled .z-icon,
+.z-button-icon.tertiary.disabled .z-icon {
+  background: #ABB0B5;
+}
 .z-button.extra,
 .z-button-icon.extra {
   color: #339AF0;
@@ -2954,11 +3011,11 @@ select {
 .z-itsm-container .z-main-content .z-page-result .z-document-row .document-temp-status {
   padding: 0.375rem;
   font-size: 0.75rem;
-  color: #FFFFFF;
-  background-color: #CFD5D9;
-  border-radius: 0.5rem;
-  -webkit-border-radius: 0.5rem;
-  -moz-border-radius: 0.5rem;
+  color: #1959AC;
+  background-color: #84D1FA;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
 }
 .z-itsm-container .z-main-content .z-page-result .sub-title {
   margin: 1.25rem 0;
@@ -3432,11 +3489,11 @@ select {
 .z-document-content .document-column .document-temp-status {
   padding: 0.375rem;
   font-size: 0.75rem;
-  color: #FFFFFF;
-  background-color: #CFD5D9;
-  border-radius: 0.5rem;
-  -webkit-border-radius: 0.5rem;
-  -moz-border-radius: 0.5rem;
+  color: #1959AC;
+  background-color: #84D1FA;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
 }
 
 .z-token-content,

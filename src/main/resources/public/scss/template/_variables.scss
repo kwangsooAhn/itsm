@@ -186,6 +186,13 @@ $button-themes-default: (
     'active': ('font': $blue700, 'background': $blue200, 'border': $blue600),
     'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
   ),
+  'tertiary': (
+    'default': ('font': $blue700, 'background': $blue300, 'border': $blue300),
+    'hover': ('font' : $blue500, 'background': $blue100, 'border': $blue500),
+    'focus': ('font': $blue500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $blue700, 'background': $blue200, 'border': $blue600),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  ),
   'extra': (
     'default': ('font': $blue500, 'background': $white, 'border': $white),
     'hover': ('font' : $blue500, 'background': $blue100, 'border': $blue100),
