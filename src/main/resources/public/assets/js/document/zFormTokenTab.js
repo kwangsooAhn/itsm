@@ -25,45 +25,36 @@ class ZFormTokenTab {
         this.folderId = formDataJson.folderId;
         this.editable = editable;
 
-        // todo : 참조인 기능 추가 예정.
-        if (zFormTokenTab.tokenId !== undefined && zFormTokenTab.folderId !== undefined) {
-            // 탭 생성
-            aliceJs.fetchText('/tokens/' + this.tokenId + '/tokenTab', {
-                method: 'GET'
-            }).then((htmlData) => {
-                this.propertiesElement.innerHTML = htmlData;
-                // 탭 이벤트
-                document.querySelectorAll('.z-token-tab').forEach((tab) => {
-                    tab.addEventListener('click', this.selectTokenTab, false);
-                });
-
-                const selectedTabId = sessionStorage.getItem('alice_token-tab-selected') ?
-                    sessionStorage.getItem('alice_token-tab-selected') : 'tokenInformation';
-                document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
-
-                this.reloadTab();
-
-                new zTag(document.getElementById('tokenTags'), {
-                    suggestion: true,
-                    realtime: true,
-                    tagType: 'instance',
-                    targetId: this.instanceId
-                });
-
-                OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
-                OverlayScrollbars(document.getElementById('commentValue'), {
-                    className: 'scrollbar',
-                    resize: 'vertical',
-                    sizeAutoCapable: true,
-                    textarea: {
-                        dynHeight: false,
-                        dynWidth: false,
-                        inheritedAttrs: 'class'
-                    }
-                });
-                aliceJs.initDesignedSelectTag();
+        // todo : 참조인 기능 추가
+        // 탭 생성
+        aliceJs.fetchText('/tokens/tokenTab', {
+            method: 'GET'
+        }).then((htmlData) => {
+            this.propertiesElement.innerHTML = htmlData;
+            // 탭 이벤트
+            document.querySelectorAll('.z-token-tab').forEach((tab) => {
+                tab.addEventListener('click', this.selectTokenTab, false);
             });
-        }
+
+            const selectedTabId = sessionStorage.getItem('alice_token-tab-selected') ?
+                sessionStorage.getItem('alice_token-tab-selected') : 'tokenInformation';
+            document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
+
+            this.reloadTab();
+
+            OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
+            OverlayScrollbars(document.getElementById('commentValue'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: 'class'
+                }
+            });
+            aliceJs.initDesignedSelectTag();
+        });
     }
     /**
      * 탭 생성 : 우측 문서 정보, 의견, 태그 영역
@@ -72,7 +63,8 @@ class ZFormTokenTab {
         const history = this.reloadHistory();
         const relatedInstance = this.reloadRelatedInstance();
         const comment = this.reloadTokenComment();
-        Promise.all([history, relatedInstance, comment]).then(() => {
+        const tag = this.reloadTokenTag();
+        Promise.all([history, relatedInstance, comment, tag]).then(() => {
             // 날짜 표기 변경
             this.setDateTimeFormat();
         });
@@ -452,6 +444,26 @@ class ZFormTokenTab {
             `</div>`;
 
         return aliceJs.makeElementFromString(htmlString);
+    }
+
+    /***************************************************************************************************************
+     * 태그 조회
+     ***************************************************************************************************************/
+    reloadTokenTag() {
+        return aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/tags', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((rtn) => {
+            document.getElementById('tokenTags').value = JSON.stringify(rtn);
+            new zTag(document.getElementById('tokenTags'), {
+                suggestion: true,
+                realtime: true,
+                tagType: 'instance',
+                targetId: this.instanceId
+            });
+        });
     }
 }
 
