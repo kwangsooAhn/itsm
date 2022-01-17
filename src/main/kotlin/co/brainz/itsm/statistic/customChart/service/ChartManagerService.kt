@@ -43,8 +43,8 @@ class ChartManagerService(
         return wfFormRepository.findByFormIdIn(formIds)
     }
 
-    fun getInstanceListInTag(tagValue: String, range: ChartRange): List<WfInstanceEntity> {
-        return wfInstanceRepository.getInstanceListInTag(tagValue, range)
+    fun getInstanceListInTag(tagValue: String, range: ChartRange, documentStatus: String?): List<WfInstanceEntity> {
+        return wfInstanceRepository.getInstanceListInTag(tagValue, range, documentStatus)
     }
 
     fun getLastTokenList(instanceIds: Set<String>): List<WfTokenEntity> {
