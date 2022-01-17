@@ -1285,6 +1285,10 @@ insert into awf_url values ('/rest/instances/{instanceId}/history', 'get', '문�
 insert into awf_url values ('/rest/instances/{instanceId}/comments', 'get', '댓글 조회', false);
 insert into awf_url values ('/rest/instances/{instanceId}/comments', 'post', '댓글 등록', false);
 insert into awf_url values ('/rest/instances/{instanceId}/comments/{commentId}', 'delete', '댓글 삭제', false);
+insert into awf_url values ('/rest/instances/{id}/viewer/', 'get', '참조인 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/', 'post', '참조인 등록(수정)', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}', 'delete', '참조인 삭제', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}/read', 'post', '참조인 읽음', 'TRUE');
 insert into awf_url values ('/rest/notices', 'post', '공지사항 등록', 'TRUE');
 insert into awf_url values ('/rest/notices/{id}', 'delete', '공지사항 삭제', 'TRUE');
 insert into awf_url values ('/rest/notices/{id}', 'put', '공지사항 수정', 'TRUE');
@@ -1607,6 +1611,10 @@ insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'workflow.m
 insert into awf_url_auth_map values ('/rest/images', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/images', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/images/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/{userkey}', 'delete', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/{userkey}/read', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/notices', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'delete', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'put', 'portal.manage');
