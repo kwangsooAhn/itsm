@@ -14,14 +14,15 @@
 
   .z-document-main {
     @include fixedContainer;
+    @include scrollbarHidden;
     background-color: $layout-main-bg-color;
     z-index: 1000;
-    @include scrollbarHidden;
 
     // 상단 영역
     .z-document-main-header {
       width: $drawing-board-width;
       max-width: $drawing-board-width;
+      margin: 0 auto;
       padding: 4rem 0 0.75rem 0; // 64px 0 12px 0
 
       // 문서 번호
@@ -41,10 +42,16 @@
       }
     }
 
+    // board 영역
+    .z-drawing-board {
+      .z-form { margin: 0 6.25rem !important; } // 100px
+    }
+
     // 하단 영역
     .z-document-main-footer {
       width: $drawing-board-width;
       max-width: $drawing-board-width;
+      margin: 0 auto;
       padding: 0.75rem 0 4rem 0; // 12px 0 64px 0
     }
   }

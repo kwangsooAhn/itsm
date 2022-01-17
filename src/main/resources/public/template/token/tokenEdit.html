@@ -57,6 +57,10 @@
             });
         }
 
+        window.addEventListener('DOMContentLoaded', function() {
+            OverlayScrollbars(document.querySelectorAll('.z-document-main'), { className: 'scrollbar' });
+        });
+
         // 문서 생성
         aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {
             method: 'GET',
