@@ -39,10 +39,10 @@ GET /rest/instances/{instanceId}/viewer/
   "message": "OK",
   "data": [
     {
-      "instanceId": "71b48ef3ccca47a09c5a9c038d8b7a2a",
       "viewerKey": "2c9180ab7b2a039b017b2a15b1f40001",
       "viewerName": "ADMIN",
       "organizationName": "연구개발본부 / 개발 2그룹 / ITSM 팀",
+      "avatarPath": "/assets/media/images/avatar/img_avatar_01.png",
       "reviewYn": false,
       "displayYn ": false,
       "createUserKey": "0509e09412534a6e98f04ca79abb6424",
