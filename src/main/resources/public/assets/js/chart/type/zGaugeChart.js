@@ -218,7 +218,7 @@ export const zGaugeChartMixin = {
                 const temp = data[j];
                 if (tag.value === temp.series) {
                     seriesId = temp.id;
-                    category = temp.category;
+                    category = this.convertCategoryToLocal(temp.category);
                     series.push({
                         name: temp.series,
                         color: Highcharts.getOptions().colors[i],
