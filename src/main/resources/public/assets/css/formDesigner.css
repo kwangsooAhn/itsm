@@ -2278,7 +2278,7 @@ select {
   width: 100%;
   background-color: transparent;
   padding: 0;
-  border: none;
+  border: none !important;
   vertical-align: unset;
   pointer-events: none;
 }
