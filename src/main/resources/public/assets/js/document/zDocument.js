@@ -48,7 +48,7 @@ class ZDocument {
      * 신청서 데이터 조회 후 모달 오픈
      * @param documentId 신청서 아이디
      */
-    openDocumentModal(documentId) {
+    openDocumentPopup(documentId) {
         aliceJs.fetchJson('/rest/documents/' + documentId + '/data', {
             method: 'GET',
             showProgressbar: true
@@ -62,6 +62,9 @@ class ZDocument {
             this.documentModal.show();
             aliceJs.initDesignedSelectTag();
         });
+
+        // let popUpUrl = '/documents/' + documentId + '/edit';
+        // window.open(popUpUrl, 'document_' + documentId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
     }
     /**
      * 진행 중 문서 초기화

@@ -25,42 +25,45 @@ class ZFormTokenTab {
         this.folderId = formDataJson.folderId;
         this.editable = editable;
 
-        // 탭 생성
-        aliceJs.fetchText('/tokens/' + this.tokenId + '/tokenTab', {
-            method: 'GET'
-        }).then((htmlData) => {
-            this.propertiesElement.innerHTML = htmlData;
-            // 탭 이벤트
-            document.querySelectorAll('.z-token-tab').forEach((tab) => {
-                tab.addEventListener('click', this.selectTokenTab, false);
+        // todo : 참조인 기능 추가 예정.
+        if (zFormTokenTab.tokenId !== undefined && zFormTokenTab.folderId !== undefined) {
+            // 탭 생성
+            aliceJs.fetchText('/tokens/' + this.tokenId + '/tokenTab', {
+                method: 'GET'
+            }).then((htmlData) => {
+                this.propertiesElement.innerHTML = htmlData;
+                // 탭 이벤트
+                document.querySelectorAll('.z-token-tab').forEach((tab) => {
+                    tab.addEventListener('click', this.selectTokenTab, false);
+                });
+
+                const selectedTabId = sessionStorage.getItem('alice_token-tab-selected') ?
+                    sessionStorage.getItem('alice_token-tab-selected') : 'tokenInformation';
+                document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
+
+                this.reloadTab();
+
+                new zTag(document.getElementById('tokenTags'), {
+                    suggestion: true,
+                    realtime: true,
+                    tagType: 'instance',
+                    targetId: this.instanceId
+                });
+
+                OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
+                OverlayScrollbars(document.getElementById('commentValue'), {
+                    className: 'scrollbar',
+                    resize: 'vertical',
+                    sizeAutoCapable: true,
+                    textarea: {
+                        dynHeight: false,
+                        dynWidth: false,
+                        inheritedAttrs: 'class'
+                    }
+                });
+                aliceJs.initDesignedSelectTag();
             });
-
-            const selectedTabId = sessionStorage.getItem('alice_token-tab-selected') ?
-                sessionStorage.getItem('alice_token-tab-selected') : 'tokenInformation';
-            document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
-
-            this.reloadTab();
-
-            new zTag(document.getElementById('tokenTags'), {
-                suggestion: true,
-                realtime: true,
-                tagType: 'instance',
-                targetId: this.instanceId
-            });
-
-            OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
-            OverlayScrollbars(document.getElementById('commentValue'), {
-                className: 'scrollbar',
-                resize: 'vertical',
-                sizeAutoCapable: true,
-                textarea: {
-                    dynHeight: false,
-                    dynWidth: false,
-                    inheritedAttrs: 'class'
-                }
-            });
-            aliceJs.initDesignedSelectTag();
-        });
+        }
     }
     /**
      * 탭 생성 : 우측 문서 정보, 의견, 태그 영역
