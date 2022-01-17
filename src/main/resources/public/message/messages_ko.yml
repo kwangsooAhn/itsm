@@ -941,15 +941,15 @@ menu:
     parent: "FAQ"
   notice:
     parent: "공지사항"
-  report:
-    basicReport: "기본 보고서 조회"
+  statistic:
     basicChart: "기본 차트"
+    basicReport: "기본 보고서 조회"
     customChart: "사용자 정의 차트"
-    dashboardTemplate: "현황판 템플릿"
-    dashboardManagement: "개인 현황판 관리"
-    parent: "통계/보고서"
+    customDashboardTemplate: "개인 현황판 관리"
     customReport: "보고서 조회"
-    customTemplate: "보고서 템플릿"
+    customReportTemplate: "보고서 템플릿"
+    dashboardTemplate: "현황판 템플릿"
+    parent: "통계/보고서"
   setting:
     editMyInfo: "자기정보 수정"
   token:
@@ -1167,8 +1167,8 @@ process:
       userTask: "유저 태스크"
       withdraw: "회수 가능여부"
 
-# Report
-report:
+# statistic
+statistic:
   btn:
     pdf: "PDF"
   label:
@@ -1176,11 +1176,11 @@ report:
     chart: "사용자 정의 차트"
     description: "설명"
     publishDate: "발행 일시"
-    report: "보고서"
+    customReport: "사용자 정의 보고서"
     reportName: "보고서 이름"
     search: "보고서 조회"
     searchPlaceholder: "템플릿 이름"
-    template: "템플릿"
+    customReportTemplate: "사용자 정의 보고서 템플릿"
     templateEdit: "템플릿 수정"
     templateName: "템플릿 이름"
     templateRegister: "템플릿 등록"

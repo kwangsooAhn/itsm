@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head></head>
+<body>
+<table class="z-table">
+    <thead class="z-table-head">
+    <tr class="flex-row align-items-center">
+        <th style="width:70%;" class="align-left" th:text="#{statistic.label.reportName}"></th>
+        <th style="width:30%;" class="align-center" th:text="#{statistic.label.publishDate}"></th>
+    </tr>
+    </thead>
+    <tbody class="z-table-body">
+    <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(reportList)}">
+        <td style="width:100%" colspan="2" class="align-center" th:text="#{common.msg.noData}"></td>
+    </tr>
+    <tr class="flex-row align-items-center" th:each="report : ${reportList}">
+        <td style="width: 70%" class="align-left underline">
+            <a th:text="${report.reportName}" th:href="@{/statistics/customReport/{id}/view(id=${report.reportId})}" th:target="_blank" th:title="${report.reportName}"></a>
+        </td>
+        <td style="width:30%;" class="align-center date-time" name="createDt" th:text="${report.publishDt}" th:title="${report.publishDt}"></td>
+    </tr>
+</table>
+<th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
+</body>
+</html>

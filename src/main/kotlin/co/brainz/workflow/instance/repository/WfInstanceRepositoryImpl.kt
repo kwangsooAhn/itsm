@@ -10,7 +10,7 @@ import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
-import co.brainz.itsm.report.chart.dto.ChartRange
+import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
@@ -456,7 +456,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
     override fun getInstanceListInTag(
         tagValue: String,
-        range: co.brainz.itsm.report.chart.dto.ChartRange
+        range: ChartRange
     ): List<WfInstanceEntity> {
         val component = QWfComponentEntity.wfComponentEntity
         val query = from(instance)
