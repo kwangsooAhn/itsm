@@ -938,15 +938,15 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
-  report:
-    basicReport: "Basic Report Inquiry"
+  statistic:
     basicChart: "Basic Chart"
+    basicReport: "Basic Report Inquiry"
     customChart: "User custom chart"
-    dashboardTemplate: "Dashboard Template"
-    dashboardManagement: "Dashboard Management"
-    parent: "Statistics/Report"
+    customDashboardTemplate: "Custom Dashboard Template"
     customReport: " Report List"
+    customReportTemplate: "Custom Dashboard Template"
     customTemplate: " Report Template"
+    parent: "Statistics/Report"
   setting:
     editMyInfo: "Edit My Info"
   token:
@@ -1164,8 +1164,8 @@ process:
       userTask: "User Task"
       withdraw: "Withdraw"
 
-# Report
-report:
+# statistic
+statistic:
   btn:
     pdf: "PDF"
   label:
@@ -1173,11 +1173,11 @@ report:
     chart: "Chart"
     description: "Description"
     publishDate: "Publish Date"
-    report: "Report"
+    customReport: "Custom Report"
     reportName: "Report Name"
     search: "Report Search"
     searchPlaceholder: "Template name"
-    template: "Template"
+    customReportTemplate: "custom Report Template"
     templateEdit: "Template Edit"
     templateName: "Template Name"
     templateRegister: "Template Register"

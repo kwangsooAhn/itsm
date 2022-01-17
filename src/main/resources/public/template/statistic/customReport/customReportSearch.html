@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
+<head>
+    <title th:text="#{menu.statistic.customReport}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{menu.statistic.customReport}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{statistic.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="hidden" sec:authorize="hasAuthority('report.create') || hasAuthority('report.update')"
+           th:name="isRole" th:value="true"/>
+    <input type="hidden" sec:authorize="!hasAuthority('report.create') && !hasAuthority('report.update')"
+           th:name="isRole" th:value="false"/>
+    <form id="searchFrm">
+        <select id="searchTemplate" name="searchTemplate" class="col-3 mr-2">
+            <option value="" th:text="#{statistic.template.all}"></option>
+            <option th:each="category: ${categoryList}" th:value="${category.templateId}" th:text="#{${category.reportName}}"></option>
+        </select>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content flex-row" id="reportList"></div>
+</div>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    let offsetCount = 0;
+    window.onload = function() {
+        document.getElementById('searchTemplate').addEventListener('change', function() { getList(); });
+        getList();
+    };
+
+    function getList(pageNum = 1) {
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/statistics/customReport?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            const listBody = document.getElementById('reportList');
+            listBody.innerHTML = htmlData;
+            setDateTimeFormat(listBody);
+        });
+    }
+
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = userDateTime;
+            dt.setAttribute('title', userDateTime);
+        });
+    }
+
+    function download(reportId) {
+        window.open('/statistics/customReport/' + reportId + '/view', '_blank');
+    }
+    /*]]>*/
+</script>
+</html>
