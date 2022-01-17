@@ -170,42 +170,46 @@
     }
 
     function onGetDetail(codeId) {
-        if (!observer.canPageChange()) {
-            return;
-        }
-        document.querySelector('.z-page-edit').querySelectorAll('input[type=text]').forEach(function (object) {
-            object.value = '';
-        });
-        document.querySelector('textarea').value = '';
+        if (!observer.canPageChange()) { return false; }
 
         aliceJs.fetchJson('/rest/codes/' + codeId, {
             method: 'GET',
         }).then((responseJson) => {
+            // 코드
             const txtCode = document.getElementById('txtCode');
             txtCode.value = responseJson.code;
             txtCode.disabled = true;
             document.getElementById('tooltipCode').title = responseJson.code;
+            // 부모 코드
             const pTxtCode = document.getElementById('txtPCode');
             pTxtCode.value = responseJson.pcode;
             pTxtCode.disabled = true;
             document.getElementById('tooltipPcode').title = responseJson.pcode;
+            // 코드 이름
             document.getElementById('txtCodeName').value = responseJson.codeName;
+            // 코드 값
             document.getElementById('txtCodeValue').value = responseJson.codeValue;
-            document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
+            // 출력 순서
             document.getElementById('txtSeqNum').value = responseJson.seqNum;
+            // 코드 설명
+            const txtCodeDesc = document.getElementById('txtCodeDesc');
+            txtCodeDesc.value = responseJson.codeDesc;
+            // 사용 여부
             document.getElementById('codeUseYn').checked = responseJson.useYn;
-            initCodeLang(responseJson.codeLang);
-            if (CODE_CREATE) {
-                document.querySelector('#btnRegist').style.display = 'none';
-            }
+            // 다국어 코드
+            initCodeLang(responseJson.codeLang, responseJson.editable);
+            // 편집 가능 여부에 따른 처리
             if (responseJson.editable) {
                 if (CODE_UPDATE) {
-                    document.getElementById('btnUpdate').removeAttribute('disabled');
+                    document.getElementById('btnUpdate').disabled = false;
+                    document.getElementById('codeUseYn').disabled = false;
                 }
                 if (CODE_DELETE) {
-                    document.getElementById('btnDelete').removeAttribute('disabled');
+                    document.getElementById('btnDelete').disabled = false;
                 }
-                document.getElementById('codeUseYn').removeAttribute('disabled');
+                document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+                txtCodeDesc.readOnly = false;
+                document.getElementById('btnCodeLang').disabled = false;
             } else {
                 if (CODE_UPDATE) {
                     document.getElementById('btnUpdate').disabled = true;
@@ -214,10 +218,15 @@
                 if (CODE_DELETE) {
                     document.getElementById('btnDelete').disabled = true;
                 }
+                document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
+                txtCodeDesc.readOnly = true;
+                document.getElementById('btnCodeLang').disabled = true;
             }
-            if (CODE_CREATE) {
-                document.querySelector('#btnRegist').setAttribute('disabled', 'true');
-            }
+            // 편집 불가 처리
+            const editInputElems = document.querySelector('.z-page-edit').querySelectorAll('input[type=text]');
+            editInputElems.forEach((elem) => {
+                elem.readOnly = !responseJson.editable;
+            });
             onEdit();
             observer.isChanged = false;
         });
@@ -225,45 +234,41 @@
 
     /** create **/
     function onCreate() {
-        if (!observer.canPageChange()) {
-            return;
-        }
+        if (!observer.canPageChange()) { return false; }
 
+        if (CODE_CREATE) {
+            document.getElementById('btnRegist').style.display = 'block';
+        }
         if (CODE_UPDATE) {
-            document.querySelector('#btnUpdate').style.display = 'none';
-            document.querySelector('#btnUpdate').setAttribute('disabled', 'true');
+            document.getElementById('btnUpdate').style.display = 'none';
         }
         if (CODE_DELETE) {
-            document.querySelector('#btnDelete').style.display = 'none';
-            document.querySelector('#btnDelete').setAttribute('disabled', 'true');
+            document.getElementById('btnDelete').style.display = 'none';
         }
-        if (CODE_CREATE) {
-            document.querySelector('#btnRegist').removeAttribute('disabled');
-            document.querySelector('#btnRegist').style.display = 'block';
-        }
+
         document.querySelectorAll('input[type=text]').forEach(function (object) {
             object.value = '';
         });
         document.querySelector('textarea').value = '';
-        document.querySelector('#txtCode').removeAttribute('disabled');
+        document.getElementById('txtCode').disabled = false;
         document.getElementById('codeLang').innerHTML = '';
 
         let selectedNode = tree.getTreeSelectNode();
         if (selectedNode !== null) {
-            document.querySelector('#txtPCode').value = selectedNode.id;
+            document.getElementById('txtPCode').value = selectedNode.id;
         }
         observer.isChanged = false;
     }
 
     function onEdit() {
         if (CODE_UPDATE) {
-            document.querySelector('#btnUpdate').style.display = 'block';
+            document.getElementById('btnUpdate').style.display = 'block';
         }
         if (CODE_DELETE) {
-            document.querySelector('#btnDelete').style.display = 'block';
+            document.getElementById('btnDelete').style.display = 'block';
         }
         if (CODE_CREATE) {
-            document.querySelector('#btnRegist').style.display = 'none';
+            document.getElementById('btnRegist').style.display = 'none';
         }
     }
 
@@ -400,7 +405,7 @@
         observer.set();
     }
 
-    function initCodeLang(param) {
+    function initCodeLang(param, editable) {
         const divCodeLang = document.getElementById('codeLang');
         while (divCodeLang.hasChildNodes()) {
             divCodeLang.removeChild(divCodeLang.firstChild);
@@ -411,6 +416,9 @@
                 drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeValue});
             }
         }
+        divCodeLang.querySelectorAll('button').forEach((elem) => {
+            elem.disabled = !editable;
+        });
     }
 
     function onExcelDownload() {
