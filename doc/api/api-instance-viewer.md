@@ -19,6 +19,7 @@
 1. [전체 데이터 조회](#전체-데이터-조회)
 2. [데이터 등록](#데이터-등록)
 3. [데이터 삭제](#데이터-삭제)
+4. [참조인 읽음](#참조인-읽음)
 
 ## 전체 데이터 조회
 
@@ -72,8 +73,6 @@ POST /rest/instances/{instanceId}/viewer/
   "data": [
     {
       "viewerKey": "2c9180ab7b2a039b017b2a15b1f40001",
-      "viewerName": "ADMIN",
-      "organizationName": "연구개발본부 / 개발 2그룹 / ITSM 팀",
       "reviewYn": false,
       "displayYn ": false,
       "viewerType": "register|modify|delete"
@@ -112,3 +111,31 @@ DELETE /rest/instances/{instanceId}/viewer/{viewerKey}
   "data": null
 }
 ```
+
+## 참조인 읽음
+
+---
+
+참조인이 읽음 버튼을 누른 경우 wf_instance_viewer 테이블의 review_yn 의 값을 true 로 변경한다.
+
+### URL
+
+```
+POST /rest/instances/{instanceId}/viewer/{viewerKey}/read
+```
+### Parameter Sample
+
+```json
+{
+  "viewerKey": "2c9180ab7b2a039b017b2a15b1f40001"
+}
+```
+
+### Response Sample
+
+```json
+{
+  "status": 200,
+  "message": "OK",
+  "data": null
+}
