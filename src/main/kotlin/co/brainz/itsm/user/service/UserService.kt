@@ -117,17 +117,21 @@ class UserService(
      *   - 사용자 부재 설정을 한 사용자로 기간 범위내 업무 대리인을 지정한 사용자 제외
      */
     fun selectNotAbsenceUserList(params: LinkedHashMap<String, Any>): UserListReturnDto {
-        val from = ZonedDateTime.parse(params["from"].toString()).toLocalDateTime()
-        val to = ZonedDateTime.parse(params["to"].toString()).toLocalDateTime()
         val excludeIds = mutableSetOf<String>()
         excludeIds.add(params["userKey"].toString())
-        val absenceList = userCustomRepository.findByCustomType(UserConstants.UserCustom.USER_ABSENCE.code)
-        absenceList?.forEach { absence ->
-            val userAbsenceDto = mapper.readValue(absence.customValue, UserAbsenceDto::class.java)
-            if ((userAbsenceDto.startDt!! <= from && userAbsenceDto.endDt!! >= from) ||
-                (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)
-            ) {
-                excludeIds.add(absence.userKey)
+        if (params["from"].toString().isNotEmpty() && params["to"].toString().isNotEmpty()) {
+            val from = ZonedDateTime.parse(params["from"].toString()).toLocalDateTime()
+            val to = ZonedDateTime.parse(params["to"].toString()).toLocalDateTime()
+            val absenceList =
+                userCustomRepository.findByCustomType(UserConstants.UserCustom.USER_ABSENCE.code)
+            absenceList?.forEach { absence ->
+                val userAbsenceDto =
+                    mapper.readValue(absence.customValue, UserAbsenceDto::class.java)
+                if ((userAbsenceDto.startDt!! <= from && userAbsenceDto.endDt!! >= from) ||
+                    (userAbsenceDto.startDt!! <= to && userAbsenceDto.endDt!! >= to)
+                ) {
+                    excludeIds.add(absence.userKey)
+                }
             }
         }
         val userSearchCondition = UserSearchCondition(

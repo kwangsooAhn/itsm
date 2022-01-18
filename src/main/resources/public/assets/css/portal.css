@@ -1553,10 +1553,10 @@ table td, table th {
   background-color: transparent;
   border: none;
 }
-.z-table td, .z-table th {
+.z-table td:not(.p-0), .z-table th:not(.p-0) {
   padding: 0 0.9375rem;
 }
-.z-table td:first-child, .z-table th:first-child {
+.z-table td:not(.p-0):first-child, .z-table th:not(.p-0):first-child {
   padding-left: 1.25rem;
 }
 .z-table td a, .z-table th a {

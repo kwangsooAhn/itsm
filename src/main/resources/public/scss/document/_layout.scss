@@ -248,6 +248,24 @@
             margin: 0.625rem 0 0 0; // 10px 0 0 0
           }
         }
+
+        // 참조인
+        &-viewer {
+          &-table {
+            td, th {
+              &:nth-child(3) { color: $gray500; }
+            }
+            .z-table-body {
+              border: none;
+              tr:hover { background-color: transparent; }
+            }
+            .z-icon {
+              &.i-clear {
+                background: $element-icon-color;
+              }
+            }
+          }
+        }
       }
     }
   }
