@@ -19,7 +19,7 @@
                         <h3 th:text="${token.documentName}" class="mr-2 text-wordWrap"></h3>
                         <span th:text="${token.documentNo}" class="z-document-numbering text-wordWrap mr-2"></span>
                         <span th:if="${token.documentStatus} == 'document.status.temporary'"
-                              th:text="#{document.label.tempDocument}" class="document-temp-status"></span>
+                              th:text="#{document.label.tempDocument}" class="label normal document-temp-status"></span>
                     </div>
                     <div class="z-document-topic">
                         <label class="topic" th:each="topic: ${token.topics}" th:text="${topic}"></label>

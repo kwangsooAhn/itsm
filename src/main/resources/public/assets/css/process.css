@@ -3223,6 +3223,21 @@ svg path.connector.hidden {
   border-bottom-right-radius: 0;
 }
 
+.label {
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  padding: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.0625rem;
+}
+.label.normal {
+  color: #1959AC;
+  background-color: #84D1FA;
+  border-color: #84D1FA;
+}
+
 .z-header-button.z-button-icon .z-icon {
   pointer-events: none;
 }

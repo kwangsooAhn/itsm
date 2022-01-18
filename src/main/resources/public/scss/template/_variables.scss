@@ -243,6 +243,12 @@ $button-group: (
   'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
   'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
 );
+// 기본 라벨 테마
+$label-themes-default: (
+        'normal': (
+                'default': ('font': $blue700, 'background': $blue300, 'border': $blue300)
+        )
+);
 
 //////////////////////////////// layout ////////////////////////////////
 $layout-header-height:                       3.125rem; // 50px

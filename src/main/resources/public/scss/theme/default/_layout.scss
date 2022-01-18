@@ -289,8 +289,7 @@
     .document-temp-status {
       padding: 0.375rem; // 6px
       font-size: $font-size-xxs; // 12px
-      color: $blue700;
-      background-color: $blue300;
+      line-height: 1;
       @include borderRadius(0.125rem); // 2px
     }
   }
