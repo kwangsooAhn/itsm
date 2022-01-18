@@ -1375,7 +1375,6 @@ insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음�
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
 insert into awf_url values ('/rest/tokens/excel', 'get', '문서함 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/users/absence', 'post', '사용자 현재 문서 이관', 'FALSE');
-insert into awf_url values ('/rest/schedulers/{id}/executeTime', 'get', '스케줄러 최초 실행 시각 조회', 'FALSE');
 
 /**
  * URL별권한매핑

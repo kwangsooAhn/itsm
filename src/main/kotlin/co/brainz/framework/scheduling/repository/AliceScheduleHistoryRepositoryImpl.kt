@@ -10,7 +10,6 @@ import co.brainz.framework.scheduling.dto.ScheduleHistoryDto
 import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
 import co.brainz.framework.scheduling.entity.QAliceScheduleHistoryEntity
 import co.brainz.itsm.constants.ItsmConstants
-import co.brainz.itsm.scheduler.dto.SchedulerExecuteHistoryDto
 import co.brainz.itsm.scheduler.dto.SchedulerHistorySearchCondition
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
@@ -63,19 +62,5 @@ class AliceScheduleHistoryRepositoryImpl : QuerydslRepositorySupport(AliceSchedu
             )
             .groupBy(history.taskId, history.executeTime, history.result)
             .fetch()
-    }
-
-    override fun findSchedulerExecuteHistoryByTaskId(taskId: String): SchedulerExecuteHistoryDto {
-        val history = QAliceScheduleHistoryEntity.aliceScheduleHistoryEntity
-
-        return from(history)
-            .select(
-                Projections.constructor(
-                    SchedulerExecuteHistoryDto::class.java,
-                    history.executeTime.min()
-                )
-            )
-            .where(history.taskId.eq(taskId))
-            .fetchOne()
     }
 }
