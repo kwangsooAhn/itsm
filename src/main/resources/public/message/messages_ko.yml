@@ -17,6 +17,7 @@ common:
     register: "등록"
     reject: "반려"
     return: "돌아가기"
+    review: "읽음"
     save: "저장"
     saveAs: "다른 이름으로 저장"
     select: "선택"
