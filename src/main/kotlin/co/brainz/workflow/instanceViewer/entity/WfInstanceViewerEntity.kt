@@ -1,11 +1,12 @@
 /*
- * Copyright 2020 Brainzcompany Co., Ltd.
+ * Copyright 2022 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
 
-package co.brainz.workflow.instance.entity
+package co.brainz.workflow.instanceViewer.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
