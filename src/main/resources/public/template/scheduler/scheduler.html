@@ -241,62 +241,58 @@
 
     /** 이력 모달 **/
     function openHistoryViewModal(isScroll) {
-        const taskId = /*[[${schedule?.taskId}]]*/''
-
-        aliceJs.fetchJson('/rest/schedulers/' + taskId + '/executeTime', {
-            method: 'GET'
-        }).then((response) => {
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
-                let historyOptions = {
-                    title: i18n.msg('scheduler.label.history'),
-                    classes: 'scheduler-list-modal',
-                    body:
-                        `<form id="searchFrm">` +
-                        `<select id="searchResult" name="searchResult" class="col-3 mr-1">` +
-                        `<option value="" selected="selected">${i18n.msg('scheduler.label.all')}</option>` +
-                        `<option value="true">${i18n.msg('scheduler.result.true')}</option>` +
-                        `<option value="false">${i18n.msg('scheduler.result.false')}</option>` +
-                        `</select>` +
-                        `<input type="text" class="z-input i-datetime-picker datetime col-3 mr-1" id="searchFromDt" name="searchFromDt" value=""/>` +
-                        `<input type="text" class="z-input i-datetime-picker datetime col-3" id="searchToDt" name="searchToDt" value=""/>` +
-                        `</form>` +
-                        `<div class="table-set" id="historyList"></div>`,
-                    buttons: [{
-                        content: i18n.msg('common.btn.close'),
-                        classes: 'z-button secondary',
-                        bindKey: false,
-                        callback: function (modal) {
-                            modal.hide();
-                        }
-                    }],
-                    close: {
-                        closable: false
-                    },
-                    onCreate: function(modal) {
-                        const searchFromDtElement = document.getElementById('searchFromDt');
-                        const searchToDtElement = document.getElementById('searchToDt');
-                        searchFromDtElement.value = minExecuteTime;
-                        searchToDtElement.value = maxExecuteTime;
-                        setDateTimeFormat(document.getElementById('searchFrm'));
-                        zDateTimePicker.initDateTimePicker(searchFromDtElement, changeDateTimePicker);
-                        zDateTimePicker.initDateTimePicker(searchToDtElement, changeDateTimePicker);
-
-                        aliceJs.initDesignedSelectTag();
-                        document.getElementById('searchResult').addEventListener('change', function () { getList(false); });
-                    }
-                }
-                const historyViewModal = new modal(historyOptions);
-                historyViewModal.show();
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.searchDataCount;
             }
-            const url = '/schedulers/' + taskId + '/history?' +
-                aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restModalSubmit(url, isScroll);
-        })
+        } else {
+            offsetCount = 0;
+            let historyOptions = {
+                title: i18n.msg('scheduler.label.history'),
+                classes: 'scheduler-list-modal',
+                body:
+                    `<form id="searchFrm">` +
+                    `<select id="searchResult" name="searchResult" class="col-3 mr-1">` +
+                    `<option value="" selected="selected">${i18n.msg('scheduler.label.all')}</option>` +
+                    `<option value="true">${i18n.msg('scheduler.result.true')}</option>` +
+                    `<option value="false">${i18n.msg('scheduler.result.false')}</option>` +
+                    `</select>` +
+                    `<input type="text" class="z-input i-datetime-picker datetime col-3 mr-1" id="searchFromDt" name="searchFromDt" value=""/>` +
+                    `<input type="text" class="z-input i-datetime-picker datetime col-3" id="searchToDt" name="searchToDt" value=""/>` +
+                    `</form>` +
+                    `<div class="table-set" id="historyList"></div>`,
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false
+                },
+                onCreate: function (modal) {
+                    const searchFromDtElement = document.getElementById('searchFromDt');
+                    const searchToDtElement = document.getElementById('searchToDt');
+                    searchFromDtElement.value = minExecuteTime;
+                    searchToDtElement.value = maxExecuteTime;
+                    setDateTimeFormat(document.getElementById('searchFrm'));
+                    zDateTimePicker.initDateTimePicker(searchFromDtElement, changeDateTimePicker);
+                    zDateTimePicker.initDateTimePicker(searchToDtElement, changeDateTimePicker);
+
+                    aliceJs.initDesignedSelectTag();
+                    document.getElementById('searchResult').addEventListener('change', function () {
+                        getList(false);
+                    });
+                }
+            }
+            const historyViewModal = new modal(historyOptions);
+            historyViewModal.show();
+        }
+        const url = '/schedulers/' + taskId + '/history?' +
+            aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+        restModalSubmit(url, isScroll);
     }
 
     /**
