@@ -173,9 +173,10 @@
     const STATUS_ERROR_SCHEDULER_EXECUTE = '3';
     const STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST = '4';
     const STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST = '5';
+    const taskId = /*[[${schedule?.taskId}]]*/;
     let offsetCount = 0;
-    let maxExecuteTime = i18n.getDateTime()
-    let minExecuteTime = '';
+    let maxExecuteTime = i18n.getDateTime();
+    let minExecuteTime = i18n.getDateTime({days: -30});
 
     window.onload = function () {
         changeContainer(document.getElementById('taskType').value);
@@ -245,8 +246,6 @@
         aliceJs.fetchJson('/rest/schedulers/' + taskId + '/executeTime', {
             method: 'GET'
         }).then((response) => {
-            minExecuteTime = response.data.minExecuteTime;
-
             if (isScroll) {
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
@@ -304,10 +303,17 @@
      * 스케줄 이력 검색
      */
     function getList(isScroll) {
-        const taskId = /*[[${schedule?.taskId}]]*/''
-        offsetCount = 0;
-        const url = '/schedulers/' + taskId + '/history?' +
-            aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+        let url = '/schedulers/' + taskId + '/history?' +
+            aliceJs.serialize(document.getElementById('searchFrm')) + '&isScroll=' + isScroll;
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.searchDataCount;
+            }
+            url += '&offset=' + offsetCount;
+        } else {
+            offsetCount = 0;
+            url += '&offset=' + offsetCount;
+        }
         restModalSubmit(url, isScroll);
     }
 
@@ -388,7 +394,7 @@
      * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
      */
     function setDateTimeFormat(elem) {
-        elem.querySelectorAll('td[name=executeTime], #searchFromDt').forEach(executeTimeEle => {
+        elem.querySelectorAll('td[name=executeTime]').forEach(executeTimeEle => {
             let target = executeTimeEle["textContent"] === "" ? "value" : "textContent";
             executeTimeEle[target] = i18n.userDateTime(executeTimeEle[target]);
         });
