@@ -3,12 +3,12 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.statistic.customReport.dto
+package co.brainz.itsm.statistic.customReportTemplate.dto
 
 import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
-data class CustomTemplateListReturnDto(
-    val data: List<CustomTemplateListDto> = emptyList(),
+data class CustomReportTemplateListReturnDto(
+    val data: List<CustomReportTemplateListDto> = emptyList(),
     val paging: AlicePagingData
 ) : Serializable

@@ -20,7 +20,7 @@ import co.brainz.itsm.statistic.customReport.entity.CustomReportDataEntity
 import co.brainz.itsm.statistic.customReport.entity.ReportEntity
 import co.brainz.itsm.statistic.customReport.repository.CustomReportDataRepository
 import co.brainz.itsm.statistic.customReport.repository.CusmtomReportRepository
-import co.brainz.itsm.statistic.customReport.repository.CustomTemplateRepository
+import co.brainz.itsm.statistic.customReportTemplate.repository.CustomReportTemplateRepository
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service
 class CustomReportService(
     private val customReportRepository: CusmtomReportRepository,
     private val customReportDataRepository: CustomReportDataRepository,
-    private val customTemplateRepository: CustomTemplateRepository,
+    private val customReportTemplateRepository: CustomReportTemplateRepository,
     private val chartManagerFactory: ChartManagerFactory,
     private val customChartRepository: CustomChartRepository,
     private val aliceTagService: AliceTagService
@@ -101,7 +101,7 @@ class CustomReportService(
     fun saveReport(templateId: String): String {
         var resultCode = CustomReportConstants.ReportCreateStatus.STATUS_SUCCESS.code
         // 스케줄러에 의해 실행되어 awf_report_data 에 저장하는 기능
-        val templateEntity = customTemplateRepository.getOne(templateId)
+        val templateEntity = customReportTemplateRepository.getOne(templateId)
 
         // new report
         // 보고서명이 존재하면 보고서 명을 사용하고 없으면 템플릿 명을 사용한다.

@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.itsm.statistic.customReport.entity
+package co.brainz.itsm.statistic.customReportTemplate.entity
 
 import java.io.Serializable
 import javax.persistence.Column
@@ -23,7 +23,7 @@ data class ReportTemplateMapEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "template_id")
-    val template: CustomTemplateEntity,
+    val template: CustomReportTemplateEntity,
 
     @Id
     @Column(name = "chart_id")

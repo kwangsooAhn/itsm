@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.itsm.statistic.customReport.entity
+package co.brainz.itsm.statistic.customReportTemplate.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
@@ -22,7 +22,7 @@ import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "awf_report_template")
-data class CustomTemplateEntity(
+data class CustomReportTemplateEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "template_id")

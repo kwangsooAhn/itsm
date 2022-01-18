@@ -3,11 +3,11 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.statistic.customReport.dto
+package co.brainz.itsm.statistic.customReportTemplate.dto
 
 import java.io.Serializable
 
-data class CustomTemplateMapDto(
+data class CustomReportTemplateMapDto(
     val templateId: String,
     val chartId: String,
     val displayOrder: Int

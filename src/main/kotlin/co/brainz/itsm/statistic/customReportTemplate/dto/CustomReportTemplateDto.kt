@@ -3,15 +3,15 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.statistic.customReport.dto
+package co.brainz.itsm.statistic.customReportTemplate.dto
 
 import java.io.Serializable
 
-data class CustomTemplateDto(
+data class CustomReportTemplateDto(
     val templateId: String,
     val templateName: String,
     val templateDesc: String? = null,
     val reportName: String? = null,
     val automatic: Boolean,
-    var charts: List<CustomTemplateMapDto>? = null
+    var charts: List<CustomReportTemplateMapDto>? = null
 ) : Serializable

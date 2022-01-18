@@ -4,19 +4,19 @@
  *
  */
 
-package co.brainz.itsm.chart.service
+package co.brainz.itsm.statistic.customChart.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.tag.constants.AliceTagConstants
-import co.brainz.itsm.chart.constants.ChartConstants
-import co.brainz.itsm.chart.dto.ChartConfig
-import co.brainz.itsm.chart.dto.ChartData
-import co.brainz.itsm.chart.dto.ChartDto
-import co.brainz.itsm.chart.dto.ChartTagInstanceDto
-import co.brainz.itsm.chart.dto.average.ChartTagTokenData
-import co.brainz.itsm.chart.dto.percent.ChartCategoryTag
-import co.brainz.itsm.chart.dto.percent.ChartTagCount
+import co.brainz.itsm.statistic.customChart.constants.ChartConstants
+import co.brainz.itsm.statistic.customChart.dto.ChartConfig
+import co.brainz.itsm.statistic.customChart.dto.ChartData
+import co.brainz.itsm.statistic.customChart.dto.ChartDto
+import co.brainz.itsm.statistic.customChart.dto.ChartTagInstanceDto
+import co.brainz.itsm.statistic.customChart.dto.average.ChartTagTokenData
+import co.brainz.itsm.statistic.customChart.dto.percent.ChartCategoryTag
+import co.brainz.itsm.statistic.customChart.dto.percent.ChartTagCount
 import co.brainz.workflow.component.constants.WfComponentConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule

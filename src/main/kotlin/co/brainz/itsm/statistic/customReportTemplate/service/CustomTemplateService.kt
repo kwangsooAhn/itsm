@@ -3,7 +3,7 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.statistic.customReport.service
+package co.brainz.itsm.statistic.customReportTemplate.service
 
 import co.brainz.cmdb.dto.RestTemplateReturnDto
 import co.brainz.framework.auth.repository.AliceUserRepository
@@ -12,13 +12,13 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.statistic.customReport.dto.CustomTemplateCondition
-import co.brainz.itsm.statistic.customReport.dto.CustomTemplateDetailDto
-import co.brainz.itsm.statistic.customReport.dto.CustomTemplateDto
-import co.brainz.itsm.statistic.customReport.dto.CustomTemplateListDto
-import co.brainz.itsm.statistic.customReport.dto.CustomTemplateListReturnDto
-import co.brainz.itsm.statistic.customReport.dto.CustomTemplateMapDto
-import co.brainz.itsm.statistic.customReport.entity.ReportTemplateMapEntity
+import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateCondition
+import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateDetailDto
+import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateDto
+import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateListDto
+import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateListReturnDto
+import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateMapDto
+import co.brainz.itsm.statistic.customReportTemplate.entity.ReportTemplateMapEntity
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -34,16 +34,16 @@ import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
 import co.brainz.itsm.statistic.customChart.service.CustomChartService
 import co.brainz.itsm.statistic.customReport.constants.CustomReportConstants
-import co.brainz.itsm.statistic.customReport.entity.CustomTemplateEntity
-import co.brainz.itsm.statistic.customReport.repository.CustomTemplateMapRepository
-import co.brainz.itsm.statistic.customReport.repository.CustomTemplateRepository
+import co.brainz.itsm.statistic.customReportTemplate.entity.CustomReportTemplateEntity
+import co.brainz.itsm.statistic.customReportTemplate.repository.CustomReportTemplateMapRepository
+import co.brainz.itsm.statistic.customReportTemplate.repository.CustomReportTemplateRepository
 
 @Service
 class CustomTemplateService(
     private val aliceUserRepository: AliceUserRepository,
     private val currentSessionUser: CurrentSessionUser,
-    private val customTemplateRepository: CustomTemplateRepository,
-    private val customTemplateMapRepository: CustomTemplateMapRepository,
+    private val customReportTemplateRepository: CustomReportTemplateRepository,
+    private val customReportTemplateMapRepository: CustomReportTemplateMapRepository,
     private val customChartRepository: CustomChartRepository,
     private val customChartService: CustomChartService
 ) {
@@ -58,9 +58,9 @@ class CustomTemplateService(
     /**
      * 템플릿 목록 조회
      */
-    fun getReportTemplateList(customTemplateCondition: CustomTemplateCondition): CustomTemplateListReturnDto {
-        val queryResult = customTemplateRepository.getReportTemplateList(customTemplateCondition)
-        val reportTemplateList = mutableListOf<CustomTemplateListDto>()
+    fun getReportTemplateList(customReportTemplateCondition: CustomReportTemplateCondition): CustomReportTemplateListReturnDto {
+        val queryResult = customReportTemplateRepository.getReportTemplateList(customReportTemplateCondition)
+        val reportTemplateList = mutableListOf<CustomReportTemplateListDto>()
         queryResult.results.forEach { template ->
             val chartList = mutableListOf<ChartDto>()
             val chartIds = mutableSetOf<String>()
@@ -82,7 +82,7 @@ class CustomTemplateService(
                 )
             }
             reportTemplateList.add(
-                CustomTemplateListDto(
+                CustomReportTemplateListDto(
                     templateId = template.templateId,
                     templateName = template.templateName,
                     createDt = template.createDt,
@@ -94,12 +94,12 @@ class CustomTemplateService(
             )
         }
 
-        return CustomTemplateListReturnDto(
+        return CustomReportTemplateListReturnDto(
             data = reportTemplateList,
             paging = AlicePagingData(
                 totalCount = queryResult.total,
-                totalCountWithoutCondition = customTemplateRepository.count(),
-                currentPageNum = customTemplateCondition.pageNum,
+                totalCountWithoutCondition = customReportTemplateRepository.count(),
+                currentPageNum = customReportTemplateCondition.pageNum,
                 totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
@@ -109,9 +109,9 @@ class CustomTemplateService(
     /**
      * 템플릿 조회
      */
-    fun getReportTemplateDetail(templateId: String): CustomTemplateDetailDto {
-        val templateEntity = customTemplateRepository.getReportTemplateDetail(templateId)
-        val reportTemplateDto = CustomTemplateDetailDto(
+    fun getReportTemplateDetail(templateId: String): CustomReportTemplateDetailDto {
+        val templateEntity = customReportTemplateRepository.getReportTemplateDetail(templateId)
+        val reportTemplateDto = CustomReportTemplateDetailDto(
             templateId = templateEntity.templateId,
             templateName = templateEntity.templateName,
             templateDesc = templateEntity.templateDesc,
@@ -147,11 +147,11 @@ class CustomTemplateService(
     fun saveReportTemplate(templateData: String): RestTemplateReturnDto {
         val templateDto = this.makeReportTemplateDto(templateData)
         val existCount =
-            customTemplateRepository.findDuplicationTemplateName(templateDto.templateName, templateDto.templateId)
+            customReportTemplateRepository.findDuplicationTemplateName(templateDto.templateName, templateDto.templateId)
         val restTemplateReturnDto = RestTemplateReturnDto()
         when (existCount) {
             0L -> {
-                var templateEntity = CustomTemplateEntity(
+                var templateEntity = CustomReportTemplateEntity(
                     templateId = "",
                     templateName = templateDto.templateName,
                     templateDesc = templateDto.templateDesc,
@@ -160,7 +160,7 @@ class CustomTemplateService(
                     createDt = LocalDateTime.now(),
                     createUser = aliceUserRepository.findAliceUserEntityByUserKey(currentSessionUser.getUserKey())
                 )
-                templateEntity = customTemplateRepository.save(templateEntity)
+                templateEntity = customReportTemplateRepository.save(templateEntity)
 
                 // map
                 templateDto.charts?.forEach { chart ->
@@ -169,7 +169,7 @@ class CustomTemplateService(
                         template = templateEntity,
                         displayOrder = chart.displayOrder
                     )
-                    customTemplateMapRepository.save(templateMapEntity)
+                    customReportTemplateMapRepository.save(templateMapEntity)
                 }
             }
             else -> {
@@ -186,12 +186,12 @@ class CustomTemplateService(
     @Transactional
     fun updateReportTemplate(templateData: String): RestTemplateReturnDto {
         val templateDto = this.makeReportTemplateDto(templateData)
-        val templateEntity = customTemplateRepository.findByTemplateId(templateDto.templateId) ?: throw AliceException(
+        val templateEntity = customReportTemplateRepository.findByTemplateId(templateDto.templateId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[Report Template Entity]"
         )
         val existCount =
-            customTemplateRepository.findDuplicationTemplateName(templateDto.templateName, templateDto.templateId)
+            customReportTemplateRepository.findDuplicationTemplateName(templateDto.templateName, templateDto.templateId)
         val restTemplateReturnDto = RestTemplateReturnDto()
         when (existCount) {
             0L -> {
@@ -202,17 +202,17 @@ class CustomTemplateService(
                 templateEntity.updateDt = LocalDateTime.now()
                 templateEntity.updateUser =
                     aliceUserRepository.findAliceUserEntityByUserKey(currentSessionUser.getUserKey())
-                customTemplateRepository.save(templateEntity)
+                customReportTemplateRepository.save(templateEntity)
 
                 // map
-                customTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
+                customReportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
                 templateDto.charts?.forEach { chart ->
                     val templateMapEntity = ReportTemplateMapEntity(
                         chartId = chart.chartId,
                         template = templateEntity,
                         displayOrder = chart.displayOrder
                     )
-                    customTemplateMapRepository.save(templateMapEntity)
+                    customReportTemplateMapRepository.save(templateMapEntity)
                 }
             }
             else -> {
@@ -226,10 +226,10 @@ class CustomTemplateService(
     /**
      * Template 데이터 파싱
      */
-    private fun makeReportTemplateDto(templateData: String): CustomTemplateDto {
+    private fun makeReportTemplateDto(templateData: String): CustomReportTemplateDto {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         val map = mapper.readValue(templateData, LinkedHashMap::class.java)
-        val customTemplateDto = CustomTemplateDto(
+        val customReportTemplateDto = CustomReportTemplateDto(
             templateId = map["templateId"] as String,
             templateName = map["templateName"] as String,
             templateDesc = map["templateDesc"] as String,
@@ -240,19 +240,19 @@ class CustomTemplateService(
         if (map["charts"] != null) {
             val chartList: List<Map<String, Any>> =
                 mapper.convertValue(map["charts"], object : TypeReference<List<Map<String, Any>>>() {})
-            val templateMapList = mutableListOf<CustomTemplateMapDto>()
+            val templateMapList = mutableListOf<CustomReportTemplateMapDto>()
             chartList.forEach { chart ->
                 templateMapList.add(
-                    CustomTemplateMapDto(
-                        templateId = customTemplateDto.templateId,
+                    CustomReportTemplateMapDto(
+                        templateId = customReportTemplateDto.templateId,
                         chartId = chart["id"] as String,
                         displayOrder = chart["order"] as Int
                     )
                 )
             }
-            customTemplateDto.charts = templateMapList
+            customReportTemplateDto.charts = templateMapList
         }
-        return customTemplateDto
+        return customReportTemplateDto
     }
 
     /**
@@ -260,7 +260,7 @@ class CustomTemplateService(
      */
     @Transactional
     fun deleteReportTemplate(templateId: String): RestTemplateReturnDto {
-        val templateEntity = customTemplateRepository.findByTemplateId(templateId)
+        val templateEntity = customReportTemplateRepository.findByTemplateId(templateId)
         val restTemplateReturnDto = RestTemplateReturnDto()
         when (templateEntity) {
             null -> {
@@ -268,8 +268,8 @@ class CustomTemplateService(
                 restTemplateReturnDto.code = CustomReportConstants.Template.EditStatus.STATUS_ERROR_NOT_EXIST.code
             }
             else -> {
-                customTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
-                customTemplateRepository.delete(templateEntity)
+                customReportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
+                customReportTemplateRepository.delete(templateEntity)
             }
         }
         return restTemplateReturnDto

@@ -4,12 +4,12 @@
  *
  */
 
-package co.brainz.itsm.statistic.customReport.controller
+package co.brainz.itsm.statistic.customReportTemplate.controller
 
 import co.brainz.cmdb.dto.RestTemplateReturnDto
 import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customReport.service.CustomReportService
-import co.brainz.itsm.statistic.customReport.service.CustomTemplateService
+import co.brainz.itsm.statistic.customReportTemplate.service.CustomTemplateService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/statistics")
-class CustomReportRestController(
+class CustomReportTemplateRestController(
     private val customTemplateService: CustomTemplateService,
     private val customReportService: CustomReportService
 ) {
