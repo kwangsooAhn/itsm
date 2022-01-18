@@ -28,7 +28,7 @@ class ZFormTokenTab {
         this.viewerList = []; // 참조인 목록
 
         // 탭 생성
-        aliceJs.fetchText('/tokens/' + this.tokenId + '/tokenTab', {
+        aliceJs.fetchText('/tokens/tokenTab', {
             method: 'GET'
         }).then((htmlData) => {
             this.propertiesElement.innerHTML = htmlData;
@@ -42,13 +42,6 @@ class ZFormTokenTab {
             document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
 
             this.reloadTab();
-
-            new zTag(document.getElementById('tokenTags'), {
-                suggestion: true,
-                realtime: true,
-                tagType: 'instance',
-                targetId: this.instanceId
-            });
 
             OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
             OverlayScrollbars(document.getElementById('commentValue'), {
@@ -72,8 +65,8 @@ class ZFormTokenTab {
         const viewer = this.reloadViewer();
         const relatedInstance = this.reloadRelatedInstance();
         const comment = this.reloadTokenComment();
-
-        Promise.all([history, viewer, relatedInstance, comment]).then(() => {
+        const tag = this.reloadTokenTag();
+        Promise.all([history, viewer, relatedInstance, comment, tag]).then(() => {
             // 날짜 표기 변경
             this.setDateTimeFormat();
         });
@@ -634,6 +627,26 @@ class ZFormTokenTab {
             `</div>`;
 
         return aliceJs.makeElementFromString(htmlString);
+    }
+
+    /***************************************************************************************************************
+     * 태그 조회
+     ***************************************************************************************************************/
+    reloadTokenTag() {
+        return aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/tags', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((rtn) => {
+            document.getElementById('tokenTags').value = JSON.stringify(rtn);
+            new zTag(document.getElementById('tokenTags'), {
+                suggestion: true,
+                realtime: true,
+                tagType: 'instance',
+                targetId: this.instanceId
+            });
+        });
     }
 }
 

@@ -1054,3 +1054,20 @@ select {
 .z-view-hover {
   pointer-events: none;
 }
+
+// label default
+.label {
+  @include borderRadius(0.125rem); // 2px
+  padding: 0.375rem; // 6px
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  line-height: 1.0625rem; //17px
+  // 기본 테마별 라벨
+  @each $theme, $value in $label-themes-default {
+    &.#{$theme} {
+      color: map-get($value, 'default', 'font');
+      background-color: map-get($value, 'default', 'background');
+      border-color: map-get($value, 'default', 'border');
+    }
+  }
+}

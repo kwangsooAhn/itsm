@@ -1,5 +1,6 @@
 package co.brainz.itsm.instance.controller
 
+import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.instance.dto.InstanceCommentDto
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
@@ -35,5 +36,10 @@ class InstanceRestController(
     @DeleteMapping("/{instanceId}/comments/{commentId}")
     fun deleteComment(@PathVariable instanceId: String, @PathVariable commentId: String): Boolean {
         return instanceService.deleteComment(instanceId, commentId)
+    }
+
+    @GetMapping("/{instanceId}/tags")
+    fun getTag(@PathVariable instanceId: String): List<AliceTagDto> {
+        return instanceService.getInstanceTags(instanceId)
     }
 }
