@@ -48,20 +48,9 @@ class ZDocument {
      * 신청서 데이터 조회 후 모달 오픈
      * @param documentId 신청서 아이디
      */
-    openDocumentModal(documentId) {
-        aliceJs.fetchJson('/rest/documents/' + documentId + '/data', {
-            method: 'GET',
-            showProgressbar: true
-        }).then((documentData) => {
-            this.data = documentData;
-            this.editable = true; // 신청서는 view, edit 모드가 존재하지 않는다. 권한만 있으면 editable 가능하다.
-            document.getElementById('instanceId').value = this.data.instanceId;
-            this.sortJsonToForm(documentData.form); // 정렬
-            this.makeDocument(this.data.form); // 화면 출력
-            zFormButton.init(documentData, this); // 버튼 초기화
-            this.documentModal.show();
-            aliceJs.initDesignedSelectTag();
-        });
+    openDocumentPopup(documentId) {
+        let popUpUrl = '/documents/' + documentId + '/edit';
+        window.open(popUpUrl, 'document_' + documentId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
     }
     /**
      * 진행 중 문서 초기화

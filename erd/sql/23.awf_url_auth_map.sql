@@ -80,6 +80,7 @@ insert into awf_url_auth_map values ('/custom-codes/search', 'get', 'system.mana
 insert into awf_url_auth_map values ('/custom-codes/{id}/edit', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/dashboard/view', 'get', 'general');
+insert into awf_url_auth_map values ('/documents/{id}/edit', 'get', 'general');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads', 'get', 'portal.manage');
@@ -303,7 +304,7 @@ insert into awf_url_auth_map values ('/tokens/{id}/edit', 'get', 'general');
 insert into awf_url_auth_map values ('/tokens/{id}/print', 'get', 'general');
 insert into awf_url_auth_map values ('/tokens/{id}/view', 'get', 'general');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'general');
-insert into awf_url_auth_map values ('/tokens/{tokenId}/tokenTab', 'get', 'general');
+insert into awf_url_auth_map values ('/tokens/tokenTab', 'get', 'general');
 insert into awf_url_auth_map values ('/users', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/users/new', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/users/search', 'get', 'system.manage');
