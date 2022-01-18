@@ -849,21 +849,11 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-icon.i-gnb-chart {
+.z-icon.i-gnb-statistic {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
-  mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-report {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
-  mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_statistic.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_statistic.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
