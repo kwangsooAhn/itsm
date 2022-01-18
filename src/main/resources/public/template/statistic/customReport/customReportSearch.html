@@ -4,21 +4,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
-    <title th:text="#{menu.statistic.customReport}"></title>
+    <title th:text="#{menu.report.report}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{menu.statistic.customReport}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{statistic.msg.searchDescription}"></h6>
+    <h1 th:text="#{menu.report.report}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{report.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="hidden" sec:authorize="hasAuthority('report.create') || hasAuthority('report.update')"
-           th:name="isRole" th:value="true"/>
-    <input type="hidden" sec:authorize="!hasAuthority('report.create') && !hasAuthority('report.update')"
-           th:name="isRole" th:value="false"/>
     <form id="searchFrm">
         <select id="searchTemplate" name="searchTemplate" class="col-3 mr-2">
-            <option value="" th:text="#{statistic.template.all}"></option>
+            <option value="" th:text="#{report.template.all}"></option>
             <option th:each="category: ${categoryList}" th:value="${category.templateId}" th:text="#{${category.reportName}}"></option>
         </select>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
@@ -38,7 +34,7 @@
 
     function getList(pageNum = 1) {
         const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
-        aliceJs.fetchText('/statistics/customReport?' + urlParam, {
+        aliceJs.fetchText('/reports/report?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {
             const listBody = document.getElementById('reportList');
@@ -59,7 +55,7 @@
     }
 
     function download(reportId) {
-        window.open('/statistics/customReport/' + reportId + '/view', '_blank');
+        window.open('/reports/report/' + reportId + '/view', '_blank');
     }
     /*]]>*/
 </script>

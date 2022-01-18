@@ -4,21 +4,19 @@
  *
  */
 
-package co.brainz.itsm.report.chart.service
+package co.brainz.itsm.chart.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.tag.constants.AliceTagConstants
-import co.brainz.framework.tag.dto.AliceTagDto
-import co.brainz.itsm.report.chart.constants.ChartConstants
-import co.brainz.itsm.report.chart.dto.ChartConfig
-import co.brainz.itsm.report.chart.dto.ChartData
-import co.brainz.itsm.report.chart.dto.ChartDto
-import co.brainz.itsm.report.chart.dto.ChartRange
-import co.brainz.itsm.report.chart.dto.ChartTagInstanceDto
-import co.brainz.itsm.report.chart.dto.average.ChartTagTokenData
-import co.brainz.itsm.report.chart.dto.percent.ChartCategoryTag
-import co.brainz.itsm.report.chart.dto.percent.ChartTagCount
+import co.brainz.itsm.chart.constants.ChartConstants
+import co.brainz.itsm.chart.dto.ChartConfig
+import co.brainz.itsm.chart.dto.ChartData
+import co.brainz.itsm.chart.dto.ChartDto
+import co.brainz.itsm.chart.dto.ChartTagInstanceDto
+import co.brainz.itsm.chart.dto.average.ChartTagTokenData
+import co.brainz.itsm.chart.dto.percent.ChartCategoryTag
+import co.brainz.itsm.chart.dto.percent.ChartTagCount
 import co.brainz.workflow.component.constants.WfComponentConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -39,16 +37,15 @@ abstract class ChartManager(
      *     - PeriodUnit 값에 따라 년, 월, 일, 시 의 전체 목록 생성
      *   2) range(from, to) 범위에 해당되는 instance 목록 조회
      *   3) category 목록에 해당되는 instance 목록 적용
-     *     - tag 별로 instanceEndDt 값이 instance 적용
+     *     - tag 별로 instanceStartDt 값이 instance 적용
      *     - count, percent, average 에 따른 처리
      */
     fun getChart(chartDto: ChartDto): ChartDto {
         // 1. [chartDto.chartConfig.range] to, from 값을 기준으로 category 를 생성
         val category = this.getCategory(chartDto.chartConfig)
 
-        // 2. tag 별로 range(from, to) 범위의 instance 목록 가져오기
-        // TODO: [chartDto.chartConfig.documentStatus] 값에 따라 문서의 검색 조건 변경 필요
-        var tagInstances = this.getTagInstances(chartDto.tags, chartDto.chartConfig.range)
+        // 2. tag 별로 range(from, to) 범위와 문서 상태에 따른 instance 목록 가져오기
+        var tagInstances = this.getTagInstances(chartDto)
 
         // TODO: [tagInstances] 목록에 조건식 적용
         tagInstances = this.setChartConditionByTagInstances(chartDto, tagInstances)
@@ -170,7 +167,7 @@ abstract class ChartManager(
                 var totalCount = 0
                 var valueSum = 0.0
                 instanceTagTokenData.tokenDataList.forEach { tokenData ->
-                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, tokenData.instanceEndDt)) {
+                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, tokenData.instanceStartDt)) {
                         totalCount++ // 숫자가 아닌 잘못된 값도 전체 건수에 포함한다. (제외하려면 한줄 아래로...)
                         if (tokenData.value.chars().allMatch(Character::isDigit) && tokenData.value.isNotEmpty()) {
                             valueSum += tokenData.value.toDouble()
@@ -226,7 +223,7 @@ abstract class ChartManager(
             tagInstances.forEach { tagInstance ->
                 var count = 0
                 tagInstance.instances.forEach { instance ->
-                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceEndDt!!)) {
+                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceStartDt!!)) {
                         count++
                     }
                 }
@@ -308,13 +305,17 @@ abstract class ChartManager(
     /**
      * [tags] 목록으로 각각의 tag 별 range 범위내 instance 목록을 조회
      */
-    private fun getTagInstances(tags: List<AliceTagDto>, range: ChartRange): List<ChartTagInstanceDto> {
+    private fun getTagInstances(chartDto: ChartDto): List<ChartTagInstanceDto> {
         val tagInstances = mutableListOf<ChartTagInstanceDto>()
-        tags.forEach { tag ->
+        chartDto.tags.forEach { tag ->
             tagInstances.add(
                 ChartTagInstanceDto(
                     tag = tag,
-                    instances = chartManagerService.getInstanceListInTag(tag.tagValue, range)
+                    instances = chartManagerService.getInstanceListInTag(
+                        tag.tagValue,
+                        chartDto.chartConfig.range,
+                        chartDto.chartConfig.documentStatus
+                    )
                 )
             )
         }
@@ -357,7 +358,7 @@ abstract class ChartManager(
                 tagInstances.instances.forEach { instance ->
                     if (periodUnitValue == this.getPeriodUnitValue(
                             chartConfig.periodUnit!!,
-                            instance.instanceEndDt!!
+                            instance.instanceStartDt!!
                         )
                     ) {
                         count++

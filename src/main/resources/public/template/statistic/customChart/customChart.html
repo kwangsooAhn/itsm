@@ -18,7 +18,7 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="${chart != null} ? #{chart.label.edit} : #{chart.label.register}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{chart.msg.searchDescription}"></h6>
+    <h6 class="description ml-2 pl-4" th:text="#{chart.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
@@ -30,50 +30,60 @@
         </div>
         <form id="frm" method="post">
             <div class="flex-column z-edit-row">
-                <h4 class="sub-title under-bar bold" th:text="#{chart.label.defaultInfo}"></h4>
+                <h4 class="sub-title under-bar bold" th:text="#{chart.label.chartSetting}"></h4>
             </div>
-            <div class="flex-column z-edit-row col-4">
-                <label class="field-label" th:text="#{chart.label.type}"></label>
-                <select id="typeSelectBox" name="typeSelectBox" onchange="changeChartType(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
-                    <option th:each="type:${code.type}" th:value="${type.codeValue}"
-                            th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
-                </select>
+            <div class="flex-row">
+                <div class="flex-column z-edit-row col-4">
+                    <label class="field-label" th:text="#{chart.label.type}"></label>
+                    <select id="typeSelectBox" name="typeSelectBox" onchange="changeChartType(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
+                        <option th:each="type:${code.type}" th:value="${type.codeValue}"
+                                th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
+                    </select>
+                </div>
+                <div class="flex-column z-edit-row col-6 pl-4">
+                    <label class="field-label required" th:text="#{chart.label.name}"></label>
+                    <input type="text" id="chartName" name="chartName" class="z-input" th:value="${chart?.chartName}"
+                           maxlength="100" th:readonly="${view}" />
+                </div>
             </div>
-            <div class="flex-column z-edit-row col-4">
-                <label class="field-label required" th:text="#{chart.label.name}"></label>
-                <input type="text" id="chartName" name="chartName" class="z-input" th:value="${chart?.chartName}"
-                       maxlength="100" th:readonly="${view}" />
-            </div>
-            <div class="flex-column z-edit-row">
+            <div class="flex-column z-edit-row col-10">
                 <label class="field-label" th:text="#{chart.label.description}"></label>
-                <input type="text" id="chartDesc" name="chartDesc" class="z-input" th:value="${chart?.chartDesc}"
-                       maxlength="100" th:readonly="${view}" />
+                <textarea id="chartDesc" name="chartDesc" class="z-textarea textarea-scroll-wrapper"
+                                                         rows="2" maxlength="128" th:text="${chart?.chartDesc}" th:readonly="${view}"></textarea>
             </div>
-            <div class="flex-column z-edit-row">
-                <h4 class="sub-title under-bar bold" th:text="#{chart.label.queryInfo}"></h4>
+            <div class="flex-row">
+                <div class="flex-column z-edit-row col-3" id="operation">
+                    <!--/* 연산 */-->
+                    <label class="field-label" th:text="#{chart.label.operation}"></label>
+                    <select id="operationSelectBox" name="operationSelectBox" th:classappend="${view ? 'readonly' : ''}">
+                        <option th:each="operation:${code.operation}" th:value="${operation.codeValue}"
+                                th:text="${operation.codeName}"
+                                th:selected="${operation.codeValue} == ${chart?.chartConfig?.operation}"></option>
+                    </select>
+                </div>
+                <div class="flex-column z-edit-row col-3 pl-4" id="periodUnit">
+                    <!--/* 간격 */-->
+                    <label id="periodUnitLabel" class="field-label required" th:text="#{chart.label.periodUnit}"></label>
+                    <select id="periodUnitSelectBox" name="periodUnitSelectBox" th:classappend="${view ? 'readonly' : ''}">
+                        <option th:each="unit:${code.unit}" th:value="${unit.codeValue}"
+                                th:text="${unit.codeName}"
+                                th:selected="${unit.codeValue} == ${chart?.chartConfig?.periodUnit}"></option>
+                    </select>
+                </div>
             </div>
-            <div class="flex-column z-edit-row col-3" id="operation">
-                <!--/* 연산 */-->
-                <label class="field-label" th:text="#{chart.label.operation}"></label>
-                <select id="operationSelectBox" name="operationSelectBox" th:classappend="${view ? 'readonly' : ''}">
-                    <option th:each="operation:${code.operation}" th:value="${operation.codeValue}"
-                            th:text="${operation.codeName}"
-                            th:selected="${operation.codeValue} == ${chart?.chartConfig?.operation}"></option>
-                </select>
-            </div>
-            <div class="flex-column z-edit-row col-3" id="periodUnit">
-                <!--/* 간격 */-->
-                <label id="periodUnitLabel" class="field-label required" th:text="#{chart.label.periodUnit}"></label>
-                <select id="periodUnitSelectBox" name="periodUnitSelectBox" th:classappend="${view ? 'readonly' : ''}">
-                    <option th:each="unit:${code.unit}" th:value="${unit.codeValue}"
-                            th:text="${unit.codeName}"
-                            th:selected="${unit.codeValue} == ${chart?.chartConfig?.periodUnit}"></option>
+            <div class="flex-column z-edit-row col-3" id="targetStatus">
+                <!--/* 대상 문서 상태 */-->
+                <label id="targetStatusLabel" class="field-label required" th:text="#{chart.label.documentStatus}"></label>
+                <select id="targetStatusSelectBox" name="targetStatusSelectBox" th:classappend="${view ? 'readonly' : ''}">
+                    <option th:each="documentStatus:${code.documentStatus}" th:value="${documentStatus.codeValue}"
+                            th:text="${documentStatus.codeName}"
+                            th:selected="${documentStatus.codeValue} == ${chart?.chartConfig?.documentStatus}"></option>
                 </select>
             </div>
             <div class="z-edit-row">
                 <div class="flex-row">
                     <!--/* 기간 */-->
-                    <div class="flex-column col-3 mr-5">
+                    <div class="flex-column col-3">
                         <label class="field-label required" th:text="#{chart.label.duration}"></label>
                         <div>
                             <select id="rangeType" name="rangeType" onchange="changeRangeType(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
@@ -85,14 +95,14 @@
                     </div>
                     <!--/* 기간 수동 설정 시 날짜 간격 입력 */-->
                     <div id="rangeDate" class="flex-row">
-                        <div class="flex-column col-3 mr-2">
+                        <div class="flex-column col-3 pl-4">
                             <label class="field-label required" th:text="#{common.label.startDate}"></label>
                             <div>
                                 <input type="text" class="z-input i-date-picker search-date" id="rangeFromDt"
                                        name="rangeFromDt" th:value="${chart?.chartConfig?.range?.from}" th:readonly="${view}" />
                             </div>
                         </div>
-                        <div class="flex-column col-3">
+                        <div class="flex-column col-3 pl-4">
                             <label class="field-label required" th:text="#{common.label.endDate}"></label>
                             <div>
                                 <input type="text" class="z-input i-date-picker search-date" id="rangeToDt"
@@ -104,31 +114,51 @@
             </div>
             <div class="flex-column z-edit-row">
                 <!--/* 차트 대상 태그 */-->
-                <div class="flex-column col-6 mr-4">
-                    <label class="field-label required" th:text="#{chart.label.targetTags}"></label>
+                <div class="flex-column col-6">
+                    <label>
+                        <span class="field-label required" th:text="#{chart.label.targetTags}"></span>
+                        <div class="z-help-tooltip">
+                            <span class="z-icon i-tooltip"></span>
+                            <div class="z-tooltip-contents right">
+                                <span th:utext="#{chart.tooltip.targetTags}"></span>
+                            </div>
+                        </div>
+                    </label>
                     <input type="text" id="targetTags" name="targetTags" class="col-pct-12"
                            th:value="${chart?.tags}" th:readonly="${view}" th:classappend="${view}?'':'z-input'">
+                </div>
+                <!--/* 차트 조건식 */-->
+                <div class="flex-column col-6">
+                    <label>
+                        <span class="field-label" th:text="#{chart.label.condition}"></span>
+                        <div class="z-help-tooltip">
+                            <span class="z-icon i-tooltip"></span>
+                            <div class="z-tooltip-contents right">
+                                <span th:utext="#{chart.tooltip.condition}"></span>
+                            </div>
+                        </div>
+                    </label>
+                    <input type="text" id="condition" name="condition" class="col-pct-12"
+                           th:value="${chart?.chartConfig?.condition}"
+                           th:readonly="${view}" th:classappend="${view}?'':'z-input'">
                 </div>
             </div>
             <div class="flex-row justify-content-between z-edit-row">
                 <div class="z-button-list">
-                    <a class="z-button secondary" href="/statistics/customChart/search" th:text="#{common.btn.list}"></a>
+                    <a class="z-button secondary" href="/charts/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list" th:if="!${view}">
-                    <button sec:authorize="hasAuthority('chart.create')" th:if="!${chart?.chartId}" type="button"
-                            id="insert"
-                            class="z-button primary" onclick="saveChart('POST')" th:text="#{common.btn.register}">
+                <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('report.manage')">
+                    <button type="button" th:if="!${chart?.chartId}" id="insert" class="z-button primary"
+                            onclick="saveChart('POST')" th:text="#{common.btn.register}">
                     </button>
-                    <button sec:authorize="hasAuthority('chart.update')" th:if="${chart?.chartId}" type="button"
-                            id="update"
-                            class="z-button primary" onclick="saveChart('PUT')" th:text="#{common.btn.modify}">
+                    <button type="button" th:if="${chart?.chartId}" id="update" class="z-button primary"
+                            onclick="saveChart('PUT')" th:text="#{common.btn.modify}">
                     </button>
-                    <button type="button" id="preview" class="z-button secondary" sec:authorize="hasAuthority('chart.update')"
+                    <button type="button" id="preview" class="z-button secondary"
                             onclick="previewChart()" th:text="#{common.btn.preview}">
                     </button>
-                    <button sec:authorize="hasAuthority('chart.delete')" th:if="${chart?.chartId}" type="button"
-                            id="delete"
-                            class="z-button secondary" onclick="deleteChart()" th:text="#{common.btn.delete}">
+                    <button type="button" th:if="${chart?.chartId}" id="delete" class="z-button secondary"
+                            onclick="deleteChart()" th:text="#{common.btn.delete}">
                     </button>
                 </div>
             </div>
@@ -155,6 +185,7 @@
         const PERIOD_MONTH = 'M';
         const PERIOD_DAY = 'D';
         const PERIOD_HOUR = 'H';
+        const MAX_PERIOD_RANGE = 3; // 시간 단위일경우 최대 간격 (일단위)
 
         window.onload = function () {
             OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
@@ -172,7 +203,7 @@
                 fromDtElement.value = i18n.getDate({ months: -1 });
                 fromDtElement.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                 toDtElement.value = i18n.getDate();
-                toDtElement.setAttribute('data-userDateTime', i18n.getDateTime());
+                toDtElement.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
             }
             zDateTimePicker.initDatePicker(fromDtElement, changeDatePicker);
             zDateTimePicker.initDatePicker(toDtElement, changeDatePicker);
@@ -219,11 +250,11 @@
                 }
             } else {
                 const fromDtValue = document.getElementById('rangeFromDt').value;
-                element.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(element.value, { hours: 23 })));
+                element.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(element.value, { hours: 23, minute: 59 })));
                 if (!i18n.compareSystemDate(fromDtValue, element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
                         element.value = i18n.getDate();
-                        element.setAttribute('data-userDateTime', i18n.getDateTime());
+                        element.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
                         picker.open();
                     });
                 }
@@ -238,7 +269,7 @@
 
             const previewData = getChartData();
             // 서버에 전달시 from , to 날짜 데이터 포맷 변경
-            aliceJs.fetchJson('/rest/statistics/customChart/' + chartId + '/preview', {
+            aliceJs.fetchJson('/rest/charts/' + chartId + '/preview', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -265,7 +296,7 @@
             if (!isValidation()) { return false; }
 
             const saveData = getChartData();
-            const url = '/rest/statistics/customChart' + (chartId !== null ? '/' + chartId : '');
+            const url = '/rest/charts' + (chartId !== null ? '/' + chartId : '');
             aliceJs.fetchText(url, {
                 method: method,
                 headers: {
@@ -276,7 +307,7 @@
                 switch (rtn) {
                     case STATUS_SUCCESS:
                         zAlert.success(i18n.msg('common.msg.save'), function () {
-                            location.href = '/statistics/customChart/search';
+                            location.href = '/charts/search';
                         });
                         break;
                     default:
@@ -291,7 +322,7 @@
          */
         function deleteChart() {
             zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
-                aliceJs.fetchText('/rest/statistics/customChart/' + chartId, {
+                aliceJs.fetchText('/rest/charts/' + chartId, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
@@ -300,7 +331,7 @@
                     switch (rtn) {
                         case STATUS_SUCCESS:
                             zAlert.success(/*[[#{common.msg.delete}]]*/'', function () {
-                                window.location.href = '/statistics/customChart/search';
+                                window.location.href = '/charts/search';
                             });
                             break;
                         default:
@@ -321,7 +352,16 @@
             if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
                 return false;
             }
-
+            // 간격이 '시간' 단위일때, 시작일자와 종료일자의 차이가 3일 이상일 경우 경고창 표시
+            if (document.getElementById('periodUnitSelectBox').value === PERIOD_HOUR) {
+                const fromDtValue = document.getElementById('rangeFromDt').value;
+                const validToDtValue =  i18n.userDate(i18n.systemDate(fromDtValue, { days : MAX_PERIOD_RANGE }));
+                const toDtValue = document.getElementById('rangeToDt').value;
+                if (!i18n.compareSystemDate(toDtValue, validToDtValue)) {
+                    zAlert.warning(i18n.msg('chart.msg.maxPeriodUnitRange', MAX_PERIOD_RANGE));
+                    return false;
+                }
+            }
             return true;
         }
 
@@ -384,7 +424,7 @@
                         fromDt.value = i18n.getDate({ months: -1 });
                         fromDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                         toDt.value = i18n.getDate();
-                        toDt.setAttribute('data-userDateTime', i18n.getDateTime());
+                        toDt.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
                         break;
                     case RANGE_LAST_MONTH: // 지난달
                         // 시작일자(from) = 지난달 01일 데이터
@@ -401,7 +441,7 @@
                         fromDt.value = i18n.getCustomDate(2000, 1, 1);
                         fromDt.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(fromDt.value)));
                         toDt.value = i18n.getDate();
-                        toDt.setAttribute('data-userDateTime', getFromPeriodUnit(document.getElementById('periodUnitSelectBox').value));
+                        toDt.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
                         break;
                     case RANGE_LAST_DAY: // 어제
                         // 시작일자(from) = 어제 날짜 00시 00분 00초 데이터
@@ -434,28 +474,6 @@
             // select box 디자인
             aliceJs.initDesignedSelectTag(range);
         }
-        /**
-         * 전체 기간일 경우, 간격에 따라 종료일자를 조정하여 보여줌
-         * 년 - 현재 년도 포함
-         * 월 - 현재 월 포함
-         * 일 - 오늘 포함
-         * 시간 - 현재 시간 포함
-         */
-        function getFromPeriodUnit(periodUnit) {
-            switch (periodUnit) {
-                case PERIOD_YEAR:
-                    return i18n.getStartOfDateTime({ year: 1 }, 'year');
-                case PERIOD_MONTH:
-                    return i18n.getStartOfDateTime({ months: 1 }, 'month');
-                case PERIOD_DAY:
-                    return i18n.getStartOfDateTime({ days: 1 }, 'day');
-                case PERIOD_HOUR:
-                    return i18n.getStartOfDateTime({ hours: 1 }, 'hour');
-                default:
-                    return i18n.getDateTime();
-            }
-        }
-
 
         /**
          * 차트 데이터 조회
@@ -487,7 +505,9 @@
                         type: document.getElementById('rangeType').value,
                         from: fromDt,
                         to: toDt
-                    }
+                    },
+                    documentStatus: document.getElementById('targetStatusSelectBox').value,
+                    condition: document.getElementById('condition').value
                 },
                 tags: tags
             };

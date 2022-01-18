@@ -16,7 +16,10 @@
     </tr>
     <tr class="flex-row align-items-center" th:each="report : ${reportList}">
         <td style="width: 70%" class="align-left underline">
-            <a th:text="${report.reportName}" th:href="@{/reports/customReport/{id}/view(id=${report.reportId})}" th:target="_blank" th:title="${report.reportName}"></a>
+            <a sec:authorize="hasAuthority('report.view') or hasAuthority('report.manage')" th:text="${report.reportName}"
+               th:href="@{/reports/report/{id}/view(id=${report.reportId})}" th:target="_blank" th:title="${report.reportName}"></a>
+            <span sec:authorize="!hasAuthority('report.view') and !hasAuthority('report.manage')" th:text="${report.reportName}"
+               th:title="${report.reportName}"></span>
         </td>
         <td style="width:30%;" class="align-center date-time" name="createDt" th:text="${report.publishDt}" th:title="${report.publishDt}"></td>
     </tr>
