@@ -8,12 +8,12 @@ package co.brainz.itsm.statistic.customChart.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 import co.brainz.itsm.statistic.customChart.service.impl.BasicLine
 import co.brainz.itsm.statistic.customChart.service.impl.Pie
 import co.brainz.itsm.statistic.customChart.service.impl.StackedBar
 import co.brainz.itsm.statistic.customChart.service.impl.StackedColumn
 import org.springframework.stereotype.Component
-import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 
 @Component
 class ChartManagerFactory(

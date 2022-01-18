@@ -36,7 +36,9 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
                 )
             )
             .innerJoin(chart.createUser, user)
-            .where(super.eq(chart.chartType, chartSearchCondition.searchGroupName))
+            .where(
+                super.eq(chart.chartType, chartSearchCondition.searchGroupName)
+            )
             .where(
                 super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue)
             )

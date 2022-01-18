@@ -6,8 +6,8 @@
 
 package co.brainz.itsm.statistic.customChart.dto
 
-import java.io.Serializable
 import co.brainz.itsm.statistic.customChart.constants.ChartConstants
+import java.io.Serializable
 
 data class ChartConfig(
     var range: ChartRange,

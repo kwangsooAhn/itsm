@@ -9,6 +9,8 @@ import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.itsm.statistic.customChart.dto.ChartConfig
+import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
 import co.brainz.itsm.statistic.customChart.service.ChartManagerFactory
 import co.brainz.itsm.statistic.customReport.constants.CustomReportConstants
@@ -67,7 +69,7 @@ class CustomReportService(
 
         // 저장된 테이블에서 차트 정보를 조회하여 가져온다 >>> chartDto를 만든다.
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        val chartDataList = mutableListOf<co.brainz.itsm.statistic.customChart.dto.ChartDto>()
+        val chartDataList = mutableListOf<ChartDto>()
         val reportDataEntities = customReportDataRepository.getReportDataEntitiesByReport(reportEntity)
         reportDataEntities.forEach { data ->
 
@@ -76,12 +78,12 @@ class CustomReportService(
             val chart = mapper.convertValue(map["chart"], LinkedHashMap::class.java)
             val configStr = mapper.writeValueAsString(chart["config"])
 
-            val chartDto = co.brainz.itsm.statistic.customChart.dto.ChartDto(
+            val chartDto = ChartDto(
                 chartId = data.chartId!!,
                 chartName = chart["name"] as String,
                 chartType = chart["type"] as String,
                 chartDesc = chart["desc"] as String,
-                chartConfig = mapper.readValue(configStr, co.brainz.itsm.statistic.customChart.dto.ChartConfig::class.java),
+                chartConfig = mapper.readValue(configStr, ChartConfig::class.java),
                 tags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CHART.code, data.chartId)
             )
 
