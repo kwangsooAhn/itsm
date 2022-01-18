@@ -155,9 +155,8 @@ class TokenController(
         return tokenInstanceListPage
     }
 
-    @GetMapping("{tokenId}/tokenTab")
-    fun getDocumentEditTab(@PathVariable tokenId: String, model: Model): String {
-        model.addAttribute("tagList", instanceService.getInstanceTags(instanceService.getInstanceId(tokenId)!!))
+    @GetMapping("/tokenTab")
+    fun getDocumentEditTab(model: Model): String {
         return tokenTabPage
     }
 }
