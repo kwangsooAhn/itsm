@@ -18,6 +18,7 @@ import co.brainz.itsm.chart.dto.average.ChartTagTokenData
 import co.brainz.itsm.chart.dto.percent.ChartCategoryTag
 import co.brainz.itsm.chart.dto.percent.ChartTagCount
 import co.brainz.workflow.component.constants.WfComponentConstants
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -134,8 +135,9 @@ abstract class ChartManager(
             }
 
             // tag 별 instance 목록를 합쳐 모든 instance 의 마지막 token 를 조회한 후 tokenId 를 추출한다.
+            val instances = getValueOfInstance(chartConfig.condition, tagInstance)
             val instanceIds = mutableSetOf<String>()
-            tagInstance.instances.forEach {
+            instances.forEach {
                 instanceIds.add(it.instanceId)
             }
             val lastTokenList = chartManagerService.getLastTokenList(instanceIds)
@@ -222,7 +224,8 @@ abstract class ChartManager(
             // tag 별 instance 를 loop 돌리면서 count 계산
             tagInstances.forEach { tagInstance ->
                 var count = 0
-                tagInstance.instances.forEach { instance ->
+                val instances = getValueOfInstance(chartConfig.condition, tagInstance)
+                instances.forEach { instance ->
                     if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceStartDt!!)) {
                         count++
                     }
@@ -251,7 +254,7 @@ abstract class ChartManager(
         val to = chartConfig.range.to!!
         when (chartConfig.periodUnit) {
             ChartConstants.Unit.YEAR.code -> {
-                var period: Long = ChronoUnit.YEARS.between(from, to)
+                val period: Long = ChronoUnit.YEARS.between(from, to)
                 for (i in 0..period) {
                     category.add(
                         ((from.year + i).toString()) +
@@ -330,7 +333,15 @@ abstract class ChartManager(
         tagInstances: List<ChartTagInstanceDto>
     ): List<ChartTagInstanceDto> {
         // TODO: 조건식에 따른 처리
-
+        // 임시적으로 instance 목록이 존재하면 태그별 1건씩만 conditionInstances 에 추가
+        chartDto.chartConfig.condition = "test"
+        tagInstances.forEach { tagInstance ->
+            tagInstance.instances.forEachIndexed { index, wfInstanceEntity ->
+                if (index == 0) {
+                    tagInstance.conditionInstances.add(wfInstanceEntity)
+                }
+            }
+        }
         return tagInstances
     }
 
@@ -413,8 +424,75 @@ abstract class ChartManager(
     ): List<ChartData> {
         val valueList = mutableListOf<ChartData>()
 
-        //TODO: 조건식에 따른 퍼센트 계산 구현
+        // category 별로 tag 정보와 전체 건수, tag 별 건수, tag 별 condition 건수를 담는다.
+        // 실질적으로 전체 tag 의 건수는 사용하지 않는다.
+        val categoryTagList = mutableListOf<ChartCategoryTag>()
+        category.iterator().forEach {
+            val categoryDateTime = LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            val periodUnitValue = this.getPeriodUnitValue(chartConfig.periodUnit!!, categoryDateTime)
 
+            var totalCount = 0
+            val tagCountList = mutableListOf<ChartTagCount>()
+            tagInstances.forEach{ tagInstances ->
+                var count = 0
+                var conditionCount = 0
+                tagInstances.instances.forEach { instance ->
+                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceStartDt!!)) {
+                        count++
+                        if (tagInstances.conditionInstances.contains(instance)) {
+                            conditionCount++
+                        }
+                    }
+                }
+                // 각 tag 별 건수와 condition 건수
+                tagCountList.add(
+                    ChartTagCount(
+                        tag = tagInstances.tag,
+                        count = count,
+                        conditionCount = conditionCount
+                    )
+                )
+                totalCount += count
+            }
+            // category 데이터 저장 (전체 건수, tag 별 전체 건수, tag 별 condition 건수)
+            categoryTagList.add(
+                ChartCategoryTag(
+                    category = it,
+                    totalCount = totalCount,
+                    tagCountList = tagCountList
+                )
+            )
+        }
+
+        categoryTagList[0].category
+        categoryTagList[0].tagCountList[0].tag
+        categoryTagList[0].tagCountList[0].count
+        categoryTagList[0].tagCountList[0].conditionCount
+
+        // category 에서 tag 별 전체 건수 와 tag 별 condition 건수를 percent 구하기
+        categoryTagList.forEach { categoryTag ->
+            categoryTag.tagCountList.forEach { tagCount ->
+                var percentValue = 0.0
+                if (categoryTag.totalCount > 0 && tagCount.count > 0) {
+                    percentValue = (tagCount.conditionCount.toDouble() / tagCount.count.toDouble()) * 100
+                }
+                valueList.add(
+                    ChartData(
+                        id = tagCount.tag.tagId.toString(),
+                        category = categoryTag.category,
+                        value = String.format("%.2f", percentValue),
+                        series = tagCount.tag.tagValue
+                    )
+                )
+            }
+        }
         return valueList
+    }
+
+    /**
+     * [condition] 사용여부에 따라 저장되는 instance 위치 설정
+     */
+    private fun getValueOfInstance(condition: String?, tagInstance: ChartTagInstanceDto): List<WfInstanceEntity> {
+        return if (condition?.isEmpty() == true) tagInstance.instances else tagInstance.conditionInstances
     }
 }
