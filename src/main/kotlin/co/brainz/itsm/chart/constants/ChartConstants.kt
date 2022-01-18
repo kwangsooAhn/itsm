@@ -15,7 +15,8 @@ object ChartConstants {
         TYPE("chart.type"),
         OPERATION("chart.operation"),
         UNIT("chart.unit"),
-        RANGE("chart.range") // 차트 데이터 대상 기간
+        RANGE("chart.range"), // 차트 데이터 대상 기간
+        DOCUMENT_STATUS("chart.documentStatus") // 차트 데이터 대상 문서 상태
     }
 
     /**
