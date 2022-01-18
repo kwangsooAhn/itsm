@@ -1282,6 +1282,10 @@ insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE'
 insert into awf_url values ('/rest/images/{id}', 'get', '이미지 조회', 'FALSE');
 insert into awf_url values ('/rest/images/{id}', 'delete', '이미지 삭제', 'TRUE');
 insert into awf_url values ('/rest/images', 'get', '이미지 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{id}/viewer/', 'get', '참조인 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/', 'post', '참조인 등록(수정)', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}', 'delete', '참조인 삭제', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}/read', 'post', '참조인 읽음', 'TRUE');
 insert into awf_url values ('/rest/instances/{instanceId}/history', 'get', '문서 이력조회', 'FALSE');
 insert into awf_url values ('/rest/instances/{instanceId}/comments', 'get', '댓글 조회', 'FALSE');
 insert into awf_url values ('/rest/instances/{instanceId}/comments', 'post', '댓글 등록', 'FALSE');
@@ -1610,6 +1614,10 @@ insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'workflow.m
 insert into awf_url_auth_map values ('/rest/images', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/images', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/images/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/{userkey}', 'delete', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/{userkey}/read', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/notices', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'delete', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'put', 'portal.manage');
@@ -8775,30 +8783,30 @@ COMMENT ON COLUMN awf_organization_role_map.role_id IS '역할아이디';
 /**
   참조인 관리
  */
-DROP TABLE IF EXISTS wf_instance_reference cascade;
+DROP TABLE IF EXISTS wf_instance_viewer cascade;
 
-CREATE TABLE wf_instance_reference
+CREATE TABLE wf_instance_viewer
 (
     instance_id varchar(128) NOT NULL,
-    reference_user_key varchar(128) NOT NULL,
+    viewer_key varchar(128) NOT NULL,
     review_yn boolean default false,
     display_yn boolean default false,
     create_user_key varchar(128),
     create_dt timestamp,
     update_user_key varchar(128),
     update_dt timestamp,
-    CONSTRAINT wf_instance_reference_pk PRIMARY KEY (instance_id, reference_user_key),
-    CONSTRAINT wf_instance_reference_fk1 FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id),
-    CONSTRAINT wf_instance_reference_fk2 FOREIGN KEY (reference_user_key) REFERENCES awf_user (user_key)
+    CONSTRAINT wf_instance_viewer_pk PRIMARY KEY (instance_id, viewer_key),
+    CONSTRAINT wf_instance_viewer_fk1 FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id),
+    CONSTRAINT wf_instance_viewer_fk2 FOREIGN KEY (viewer_key) REFERENCES awf_user (user_key)
 );
 
-COMMENT ON TABLE wf_instance_reference IS '참조인관리';
-COMMENT ON COLUMN wf_instance_reference.instance_id IS '인스턴스아이디';
-COMMENT ON COLUMN wf_instance_reference.reference_user_key IS '참조인아이디';
-COMMENT ON COLUMN wf_instance_reference.review_yn IS '읽음여부';
-COMMENT ON COLUMN wf_instance_reference.display_yn IS '표시여부';
-COMMENT ON COLUMN wf_instance_reference.create_user_key IS '생성자';
-COMMENT ON COLUMN wf_instance_reference.create_dt IS '생성일시';
-COMMENT ON COLUMN wf_instance_reference.create_user_key IS '수정자';
-COMMENT ON COLUMN wf_instance_reference.create_dt IS '수정일시';
+COMMENT ON TABLE wf_instance_viewer IS '참조인관리';
+COMMENT ON COLUMN wf_instance_viewer.instance_id IS '인스턴스아이디';
+COMMENT ON COLUMN wf_instance_viewer.viewer_key IS '참조인';
+COMMENT ON COLUMN wf_instance_viewer.review_yn IS '읽음여부';
+COMMENT ON COLUMN wf_instance_viewer.display_yn IS '표시여부';
+COMMENT ON COLUMN wf_instance_viewer.create_user_key IS '생성자';
+COMMENT ON COLUMN wf_instance_viewer.create_dt IS '생성일시';
+COMMENT ON COLUMN wf_instance_viewer.create_user_key IS '수정자';
+COMMENT ON COLUMN wf_instance_viewer.create_dt IS '수정일시';
 

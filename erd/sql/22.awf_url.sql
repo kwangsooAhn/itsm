@@ -226,6 +226,10 @@ insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE'
 insert into awf_url values ('/rest/images/{id}', 'get', '이미지 조회', 'FALSE');
 insert into awf_url values ('/rest/images/{id}', 'delete', '이미지 삭제', 'TRUE');
 insert into awf_url values ('/rest/images', 'get', '이미지 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{id}/viewer/', 'get', '참조인 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/', 'post', '참조인 등록(수정)', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}', 'delete', '참조인 삭제', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}/read', 'post', '참조인 읽음', 'TRUE');
 insert into awf_url values ('/rest/instances/{instanceId}/history', 'get', '문서 이력조회', 'FALSE');
 insert into awf_url values ('/rest/instances/{instanceId}/comments', 'get', '댓글 조회', 'FALSE');
 insert into awf_url values ('/rest/instances/{instanceId}/comments', 'post', '댓글 등록', 'FALSE');
