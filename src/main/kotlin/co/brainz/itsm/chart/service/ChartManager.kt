@@ -226,7 +226,7 @@ abstract class ChartManager(
                 var count = 0
                 val instances = getValueOfInstance(chartConfig.condition, tagInstance)
                 instances.forEach { instance ->
-                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceEndDt!!)) {
+                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceStartDt!!)) {
                         count++
                     }
                 }
@@ -333,12 +333,15 @@ abstract class ChartManager(
         tagInstances: List<ChartTagInstanceDto>
     ): List<ChartTagInstanceDto> {
         // TODO: 조건식에 따른 처리
-
-        // 조건식에 필터링 된 데이터를 따로 저장한다.
-        /*tagInstances.forEach { tagInstance ->
-            tagInstance.conditionInstances
-        }*/
-
+        // 임시적으로 instance 목록이 존재하면 태그별 1건씩만 conditionInstances 에 추가
+        chartDto.chartConfig.condition = "test"
+        tagInstances.forEach { tagInstance ->
+            tagInstance.instances.forEachIndexed { index, wfInstanceEntity ->
+                if (index == 0) {
+                    tagInstance.conditionInstances.add(wfInstanceEntity)
+                }
+            }
+        }
         return tagInstances
     }
 
