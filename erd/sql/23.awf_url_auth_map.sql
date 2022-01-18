@@ -273,7 +273,7 @@ insert into awf_url_auth_map values ('/schedulers/{id}/edit', 'get', 'system.man
 insert into awf_url_auth_map values ('/schedulers/{id}/history', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/schedulers/{id}/view', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/statistics/basicChart/search', 'get', 'report.view');
-insert into awf_url_auth_map values('/statistics/basicReport/search', 'get', 'report.view');
+insert into awf_url_auth_map values ('/statistics/basicReport/search', 'get', 'report.view');
 insert into awf_url_auth_map values ('/statistics/customChart', 'get', 'report.manage');
 insert into awf_url_auth_map values ('/statistics/customChart', 'get', 'report.view');
 insert into awf_url_auth_map values ('/statistics/customChart/new', 'get', 'report.manage');

@@ -254,11 +254,11 @@ insert into awf_url values ('/rest/statistics/customChart/{id}', 'get', '사용�
 insert into awf_url values ('/rest/statistics/customChart/{id}', 'put', '사용자 정의 차트 수정', 'TRUE');
 insert into awf_url values ('/rest/statistics/customChart/{id}', 'delete', '사용자 정의 차트 삭제', 'TRUE');
 insert into awf_url values ('/rest/statistics/customChart/{id}/preview', 'post', '사용자 정의 차트 미리보기', 'TRUE');
-insert into awf_url values ('/rest/statistics/customReportTemplate', 'post', '템플릿 설정 등록 처리', 'true');
-insert into awf_url values ('/rest/statistics/customReportTemplate/charts', 'get', '템플릿 차트 데이터 조회', 'true');
-insert into awf_url values ('/rest/statistics/customReportTemplate/{id}', 'delete', '템플릿 설정 삭제 처리', 'true');
-insert into awf_url values ('/rest/statistics/customReportTemplate/{id}', 'post', '보고서 생성 (임시)', 'true');
-insert into awf_url values ('/rest/statistics/customReportTemplate/{id}', 'put', '템플릿 설정 수정 처리', 'true');
+insert into awf_url values ('/rest/statistics/customReportTemplate', 'post', '템플릿 설정 등록 처리', 'TRUE');
+insert into awf_url values ('/rest/statistics/customReportTemplate/charts', 'get', '템플릿 차트 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/statistics/customReportTemplate/{id}', 'delete', '템플릿 설정 삭제 처리', 'TRUE');
+insert into awf_url values ('/rest/statistics/customReportTemplate/{id}', 'post', '보고서 생성 (임시)', 'TRUE');
+insert into awf_url values ('/rest/statistics/customReportTemplate/{id}', 'put', '템플릿 설정 수정 처리', 'TRUE');
 insert into awf_url values ('/rest/tags/whitelist', 'get', 'Tag 추천 목록 조회', 'FALSE');
 insert into awf_url values ('/rest/tags', 'post', 'Tag 저장', 'FALSE');
 insert into awf_url values ('/rest/tags/{id}', 'delete', 'Tag 삭제', 'FALSE');
@@ -299,7 +299,7 @@ insert into awf_url values ('/statistics/customReport/search', 'get', '보고서
 insert into awf_url values ('/statistics/customReport/{id}/view', 'get', '보고서 상세화면', 'TRUE');
 insert into awf_url values ('/statistics/customReportTemplate', 'get', '템플릿 설정 목록 조회', 'TRUE');
 insert into awf_url values ('/statistics/customReportTemplate/new', 'get', '템플릿 설정 등록', 'TRUE');
-insert into awf_url values ('/statistics/customReportTemplate/preview', 'get', '템플릿 미리보기', 'true');
+insert into awf_url values ('/statistics/customReportTemplate/preview', 'get', '템플릿 미리보기', 'TRUE');
 insert into awf_url values ('/statistics/customReportTemplate/search', 'get', '템플릿 설정 검색 화면 호출', 'TRUE');
 insert into awf_url values ('/statistics/customReportTemplate/{id}/edit', 'get', '템플릿 설정 수정', 'TRUE');
 insert into awf_url values ('/statistics/customReportTemplate/{id}/view', 'get', '템플릿 설정 미리보기', 'TRUE');
