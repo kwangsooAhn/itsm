@@ -56,5 +56,5 @@ data class CustomReportTemplateEntity(
 
 ) : Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "template")
-    val charts: List<ReportTemplateMapEntity>? = mutableListOf()
+    val charts: List<CustomReportTemplateMapEntity>? = mutableListOf()
 }

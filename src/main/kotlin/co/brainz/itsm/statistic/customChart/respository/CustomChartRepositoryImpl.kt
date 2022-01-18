@@ -12,7 +12,7 @@ import co.brainz.itsm.statistic.customChart.dto.CustomChartListDto
 import co.brainz.itsm.statistic.customChart.dto.ChartSearchCondition
 import co.brainz.itsm.statistic.customChart.entity.ChartEntity
 import co.brainz.itsm.statistic.customChart.entity.QChartEntity
-import co.brainz.itsm.statistic.customReportTemplate.entity.QReportTemplateMapEntity
+import co.brainz.itsm.statistic.customReportTemplate.entity.QCustomReportTemplateMapEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -50,7 +50,7 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
 
     override fun findChartDataByChartIdsTemplateId(chartIds: Set<String>, templateId: String): List<ChartDataDto> {
         val chart = QChartEntity.chartEntity
-        val reportMap = QReportTemplateMapEntity.reportTemplateMapEntity
+        val reportMap = QCustomReportTemplateMapEntity.customReportTemplateMapEntity
         return from(chart)
             .select(
                 Projections.constructor(

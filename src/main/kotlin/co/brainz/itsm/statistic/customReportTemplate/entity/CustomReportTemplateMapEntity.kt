@@ -19,7 +19,7 @@ import javax.persistence.Table
 @Entity
 @IdClass(ReportTemplateMapPk::class)
 @Table(name = "awf_report_template_map")
-data class ReportTemplateMapEntity(
+data class CustomReportTemplateMapEntity (
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "template_id")

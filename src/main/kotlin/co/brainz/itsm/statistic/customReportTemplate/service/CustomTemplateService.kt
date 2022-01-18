@@ -26,7 +26,7 @@ import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateDto
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateListDto
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateListReturnDto
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateMapDto
-import co.brainz.itsm.statistic.customReportTemplate.entity.ReportTemplateMapEntity
+import co.brainz.itsm.statistic.customReportTemplate.entity.CustomReportTemplateMapEntity
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -164,7 +164,7 @@ class CustomTemplateService(
 
                 // map
                 templateDto.charts?.forEach { chart ->
-                    val templateMapEntity = ReportTemplateMapEntity(
+                    val templateMapEntity = CustomReportTemplateMapEntity(
                         chartId = chart.chartId,
                         template = templateEntity,
                         displayOrder = chart.displayOrder
@@ -207,7 +207,7 @@ class CustomTemplateService(
                 // map
                 customReportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
                 templateDto.charts?.forEach { chart ->
-                    val templateMapEntity = ReportTemplateMapEntity(
+                    val templateMapEntity = CustomReportTemplateMapEntity(
                         chartId = chart.chartId,
                         template = templateEntity,
                         displayOrder = chart.displayOrder

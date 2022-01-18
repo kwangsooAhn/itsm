@@ -7,11 +7,11 @@
 package co.brainz.itsm.statistic.customReportTemplate.repository
 
 import co.brainz.itsm.statistic.customReportTemplate.entity.CustomReportTemplateEntity
-import co.brainz.itsm.statistic.customReportTemplate.entity.ReportTemplateMapEntity
+import co.brainz.itsm.statistic.customReportTemplate.entity.CustomReportTemplateMapEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CustomReportTemplateMapRepository : JpaRepository<ReportTemplateMapEntity, String> {
+interface CustomReportTemplateMapRepository : JpaRepository<CustomReportTemplateMapEntity, String> {
     fun deleteReportTemplateMapEntityByTemplate(templateEntity: CustomReportTemplateEntity)
 }
