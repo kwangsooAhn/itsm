@@ -31,7 +31,7 @@ class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewe
             .fetchFirst() != null
     }
 
-    override fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerReviewDto {
+    override fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerReviewDto? {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
         return from(viewer)

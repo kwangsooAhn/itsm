@@ -48,7 +48,9 @@ class WfActionService(
             val nextElementId = getNextElementId(arrow)
             val nextElement = getElement(nextElementId)
 
-            actions.addAll(reviewActions(instanceId))
+            if (instanceId !== "") {
+                actions.addAll(reviewActions(instanceId))
+            }
             actions.addAll(typeActions(arrow, nextElement))
             actions.addAll(postActions(currentElement))
             actions.addAll(preActions())
@@ -244,7 +246,7 @@ class WfActionService(
         // 참조인이 문서를 읽었는지 여부 확인
         val isReview = wfInstanceViewerRepository.getReviewYnByViewKey(instanceId, userKey)
 
-        if (isViewer && !isReview.reviewYn) {
+        if (isViewer && isReview!!.reviewYn == false) {
             reviewActions.add(
                 RestTemplateActionDto(
                     name = "common.btn.review",

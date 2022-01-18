@@ -12,6 +12,6 @@ interface WfInstanceViewerRepositoryCustom : AliceRepositoryCustom {
 
     fun existsByViewerKey(instanceId: String, userKey: String): Boolean
 
-    fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerReviewDto
+    fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerReviewDto?
 
 }
