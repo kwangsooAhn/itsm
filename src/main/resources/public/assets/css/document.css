@@ -739,7 +739,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-icon.i-clear {
+.z-icon.i-remove {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/icon_clear.svg");
@@ -1354,23 +1354,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input.success {
   border: 0.0625rem solid #76BD26 !important;
 }
-.z-input-clear {
-  position: relative;
-  display: inline-block;
-}
-.z-input-clear input {
-  width: 100%;
-}
-.z-input-clear .z-icon {
-  -webkit-print-color-adjust: exact;
-}
-.z-input-clear .z-icon.i-clear {
-  position: absolute;
-  right: 0rem;
-  padding: 1.125rem 0.875rem;
-  background: #8B9094;
-  cursor: pointer;
-}
 .z-input.i-search {
   background-image: url("../media/icons/icon_search.svg");
   background-size: auto;
@@ -1429,12 +1412,11 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input-button .z-button-search:focus, .z-input-button .z-button-search:hover, .z-input-button .z-button-search:active {
   z-index: 25;
 }
-.z-input-button .z-icon.i-clear {
+.z-input-button .z-button-icon-sm {
   position: absolute;
-  right: calc(0rem + 5rem);
-  padding: 1.125rem 0.875rem;
-  background: #8B9094;
-  cursor: pointer;
+  top: 0.625rem;
+  right: 5rem;
+  -webkit-print-color-adjust: exact;
 }
 .z-input::-webkit-outer-spin-button, .z-input::-webkit-inner-spin-button {
   -webkit-appearance: none;

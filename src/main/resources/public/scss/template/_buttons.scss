@@ -183,6 +183,25 @@
 
 .z-button-icon {
   padding: 0.3125rem; // 5px (버튼 기본 너비 높이 : 36px 36px)
+  &-sm {
+    width: 1rem; // 16px
+    height: 1rem; // 16px
+    border: none;
+    @include borderRadius(50%);
+    padding: 0;
+    background-color: $gray400;
+    cursor: pointer;
+    .z-icon {
+      width: 0.5rem;
+      height: 0.5rem;
+      margin: 0.25rem;
+      background-color: $gray600;
+    }
+    &:hover {
+      background-color: $gray800; // $gray500
+      .z-icon { background-color: $white; }
+    }
+  }
 }
 
 // 버튼 목록

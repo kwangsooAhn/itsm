@@ -303,23 +303,6 @@ input, textarea, select {
     @include border($validation-success-border-width, solid, $validation-success-border-color !important, all);
   }
 
-  &-clear {
-    @include relative();
-    display: inline-block;
-
-    input { width: 100%; }
-
-    .z-icon {
-      -webkit-print-color-adjust:exact;
-      &.i-clear {
-        @include absolute($right: $input-clear-right);
-        padding: 1.125rem 0.875rem; // 18px 14px
-        background: $input-bg-icon-color;
-        cursor: pointer;
-      }
-    }
-  }
-
   // z-input with background img
   &.i-search {
     @include backgroundImage($icon-folder-path + 'icon_search.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
@@ -364,13 +347,9 @@ input, textarea, select {
       }
     }
 
-    .z-icon {
-      &.i-clear {
-        @include absolute($right: calc(#{$input-clear-right} + 5rem));
-        padding: 1.125rem 0.875rem; // 18px 14px
-        background: $element-icon-color;
-        cursor: pointer;
-      }
+    .z-button-icon-sm {
+      @include absolute($top: 0.625rem, $right: $input-clear-right + 5rem);
+      -webkit-print-color-adjust:exact;
     }
   }
 

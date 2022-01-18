@@ -73,8 +73,10 @@
                                    type="hidden"/>
                             <input class="z-input text-ellipsis" id="organization" name="organization" readonly
                                    th:value="${organizationDetail?.organizationName}" type="text">
-                            <span class="z-icon i-clear" name="clearIcon" onclick="clearOrganization(this)"
-                                  tabindex="-1" th:if="!${view}"></span>
+                            <button type="button" class="z-button-icon-sm" onclick="clearOrganization(this);"
+                                    th:if="!${view}" tabindex="-1">
+                                <span class="z-icon i-remove"></span>
+                            </button>
                             <button class="z-button-search z-button form" onclick="organizationPopUp();" th:if="!${view}"
                                     th:text="#{common.btn.select}" type="button"></button>
                         </div>
@@ -204,8 +206,10 @@
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
                             <input type="text" class="z-input col-5" id="substituteUser" name="substituteUser"
                                    readonly>
-                            <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);"
-                                  tabindex="-1"></span>
+                            <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);"
+                                    tabindex="-1">
+                                <span class="z-icon i-remove"></span>
+                            </button>
                             <button type="button" class="z-button-search z-button form" onclick="openUserListPopup();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
