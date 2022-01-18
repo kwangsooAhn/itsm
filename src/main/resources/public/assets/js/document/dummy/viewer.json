@@ -1,0 +1,41 @@
+{
+  "status": 200,
+  "message": "OK",
+  "data": [
+      {
+        "viewerKey": "0509e09412534a6e98f04ca79abb6424",
+        "viewerName": "ADMIN",
+        "organizationName": "연구개발본부 / 개발 2그룹 / ITSM팀",
+        "avatarPath": "/assets/media/images/avatar/img_avatar_01.png",
+        "reviewYn": false,
+        "displayYn": false,
+        "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+        "createDt": "2022-01-17T15:00:00.615042",
+        "updateUserKey": null,
+        "updateDt": null
+      },
+      {
+        "viewerKey": "4028b21c7c4df297017c4e595fd90000",
+        "viewerName": "서비스 관리자",
+        "organizationName": "연구개발본부 / 개발 2그룹 / 인프라웹팀",
+        "avatarPath": "/assets/media/images/avatar/img_avatar_02.png",
+        "reviewYn": true,
+        "displayYn": true,
+        "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+        "createDt": "2022-01-17T15:00:00.615042",
+        "updateUserKey": null,
+        "updateDt": null
+      },
+      {
+        "viewerKey": "40288ada7cfd3301017cfd3a78580000",
+        "viewerName": "일반사용자",
+        "organizationName": "연구개발본부 / 개발 2그룹 / ITSM팀",
+        "avatarPath": "/assets/media/images/avatar/img_avatar_03.png",
+        "reviewYn": false,
+        "displayYn": false,
+        "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+        "createDt": "2022-01-17T15:00:00.615042",
+        "updateUserKey": null,
+        "updateDt": null
+      }]
+}

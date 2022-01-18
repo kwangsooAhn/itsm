@@ -74,8 +74,10 @@ table {
   border: none;
 
   td, th {
-    padding: 0 0.9375rem; // 0 15px
-    &:first-child { padding-left: 1.25rem; } // 20px
+    &:not(.p-0) {
+      padding: 0 0.9375rem;   // 0 15px
+      &:first-child { padding-left: 1.25rem; } // 20px
+    }
 
     a { color: $element-font-color; }
   }

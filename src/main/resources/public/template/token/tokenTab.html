@@ -20,6 +20,19 @@
                 <tbody class="z-table-body" id="history"></tbody>
             </table>
         </div>
+        <!-- 참조인 -->
+        <div class="z-token-viewer">
+            <div class="flex-row align-items-end justify-content-between mb-2">
+                <label class="z-token-related-sub-title" th:text="#{token.label.viewer}"></label>
+                <button type="button" class="z-button secondary float-right"
+                        th:text="#{token.label.viewerAdd}"
+                        th:onclick="zFormTokenTab.openViewerModal()">
+                </button>
+            </div>
+            <table class="z-table z-token-viewer-table">
+                <tbody class="z-table-body" id="viewer"></tbody>
+            </table>
+        </div>
         <!-- 관련문서 -->
         <div class="z-token-related" id="related">
             <label class="z-token-related-sub-title" th:text="#{token.label.relatedInstance}"></label>
@@ -51,5 +64,14 @@
                th:placeholder="#{token.label.relatedInstancePlaceholder}"/>
         <span id="spanTotalCount" class="z-search-count"></span>
         <div class="table-set" id="instanceList"></div>
+    </div>
+</template>
+<!-- 사용자 모달 -->
+<template id="viewerModalTemplate">
+    <div class="sub-user-list">
+        <input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
+               th:placeholder="#{user.label.substituteUserSearchPlaceholder}">
+        <span id="spanTotalCount" class="search-count"></span>
+        <div class="table-set" id="subUserList"></div>
     </div>
 </template>
