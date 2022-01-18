@@ -7,7 +7,7 @@
 package co.brainz.itsm.statistic.customReportTemplate.repository
 
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateCondition
-import co.brainz.itsm.statistic.customReport.entity.QCustomTemplateEntity
+import co.brainz.itsm.statistic.customReportTemplate.entity.QCustomReportTemplateEntity
 import co.brainz.itsm.statistic.customReportTemplate.entity.CustomReportTemplateEntity
 import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -21,7 +21,7 @@ class CustomReportTemplateRepositoryImpl : QuerydslRepositorySupport(CustomRepor
      * 템플릿 조회
      */
     override fun getReportTemplateList(customReportTemplateCondition: CustomReportTemplateCondition): QueryResults<CustomReportTemplateEntity> {
-        val template = QCustomTemplateEntity.customTemplateEntity
+        val template = QCustomReportTemplateEntity.customReportTemplateEntity
         val query = from(template)
             .where(
                 super.likeIgnoreCase(template.templateName, customReportTemplateCondition.searchValue)
@@ -39,7 +39,7 @@ class CustomReportTemplateRepositoryImpl : QuerydslRepositorySupport(CustomRepor
      * 템플릿 상세 조회
      */
     override fun getReportTemplateDetail(templateId: String): CustomReportTemplateEntity {
-        val template = QCustomTemplateEntity.customTemplateEntity
+        val template = QCustomReportTemplateEntity.customReportTemplateEntity
         return from(template)
             .where(template.templateId.eq(templateId))
             .fetchOne()
@@ -49,7 +49,7 @@ class CustomReportTemplateRepositoryImpl : QuerydslRepositorySupport(CustomRepor
      * Template 명 중복 체크
      */
     override fun findDuplicationTemplateName(templateName: String, templateId: String): Long {
-        val template = QCustomTemplateEntity.customTemplateEntity
+        val template = QCustomReportTemplateEntity.customReportTemplateEntity
         val query = from(template)
             .where(template.templateName.eq(templateName))
         if (templateId.isNotEmpty()) {
