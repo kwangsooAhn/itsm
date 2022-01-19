@@ -1,3 +1,8 @@
+/*
+ * Copyright 2022 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.element.service
 
 import co.brainz.framework.util.CurrentSessionUser
@@ -37,22 +42,19 @@ class WfActionService(
         val startElement = wfElementService.getStartElement(processId)
         val startArrow = this.getArrowElements(startElement.elementId)[0]
         val registerElementId = this.getNextElementId(startArrow)
-        return this.actions(registerElementId,null)
+        return this.actions(registerElementId, null)
     }
 
     fun actions(elementId: String, instanceId: String?): MutableList<RestTemplateActionDto> {
         val actions: MutableList<RestTemplateActionDto> = mutableListOf()
-        val currentElement = getElement(elementId)
+        val currentElement = this.getElement(elementId)
         if (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
-            val arrow = getArrowElements(elementId)[0]
-            val nextElementId = getNextElementId(arrow)
-            val nextElement = getElement(nextElementId)
-
-            if (!instanceId.isNullOrEmpty()) {
-                actions.addAll(preActions(instanceId))
-            }
-            actions.addAll(typeActions(arrow, nextElement))
-            actions.addAll(postActions(currentElement))
+            val arrow = this.getArrowElements(elementId)[0]
+            val nextElementId = this.getNextElementId(arrow)
+            val nextElement = this.getElement(nextElementId)
+            actions.addAll(this.preActions(instanceId))
+            actions.addAll(this.typeActions(arrow, nextElement))
+            actions.addAll(this.postActions(currentElement))
         }
         return actions
     }
@@ -92,25 +94,34 @@ class WfActionService(
      *
      * @return MutableList<RestTemplateActionDto>
      */
-    private fun preActions(instanceId: String): MutableList<RestTemplateActionDto> {
+    private fun preActions(instanceId: String?): MutableList<RestTemplateActionDto> {
         val preActions: MutableList<RestTemplateActionDto> = mutableListOf()
-        // 로그인 유저 조회
-        val userKey = currentSessionUser.getUserKey()
-        // 로그인 유저의 참조인 여부, 문서 읽음 여부 확인
-        val isViewerReview = wfInstanceViewerRepository.getReviewYnByViewKey(instanceId, userKey)
 
-        if (isViewerReview !== null) {
-            if (!isViewerReview.reviewYn!!) {
-                preActions.add(
-                    RestTemplateActionDto(
-                        name = "common.btn.review",
-                        value = WfElementConstants.Action.REVIEW.value,
-                        customYn = false
-                    )
+        if (this.isReviewAction(instanceId)) {
+            preActions.add(
+                RestTemplateActionDto(
+                    name = "common.btn.review",
+                    value = WfElementConstants.Action.REVIEW.value,
+                    customYn = false
                 )
-            }
+            )
         }
         return preActions
+    }
+
+    /**
+     * Review Action.
+     */
+    fun isReviewAction(instanceId: String?): Boolean {
+        var isAction = false
+        if (!instanceId.isNullOrBlank()) {
+            val userKey = currentSessionUser.getUserKey()
+            val instanceViewer = wfInstanceViewerRepository.getReviewYnByViewKey(instanceId, userKey)
+            if (instanceViewer !== null && !instanceViewer.reviewYn) {
+                isAction = true
+            }
+        }
+        return isAction
     }
 
     /**
