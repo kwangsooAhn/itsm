@@ -3019,6 +3019,20 @@ select {
 .z-button-text.form.disabled .z-icon {
   background: #ABB0B5;
 }
+.z-button.default,
+.z-button-icon.default,
+.z-button-text.default {
+  color: #ABB0B5;
+  background-color: transparent;
+  border-color: transparent;
+}
+.z-button.default .z-icon,
+.z-button-icon.default .z-icon,
+.z-button-text.default .z-icon {
+  display: block;
+  background: #ABB0B5;
+  pointer-events: none;
+}
 .z-button.light-primary,
 .z-button-icon.light-primary,
 .z-button-text.light-primary {
