@@ -2559,20 +2559,17 @@ select {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   padding: 0;
-  background-color: #E1E6EA;
+  background-color: #E0E0E0;
   cursor: pointer;
 }
 .z-button-icon-sm .z-icon {
   width: 0.5rem;
   height: 0.5rem;
   margin: 0.25rem;
-  background-color: #63686C;
+  background-color: #424242;
 }
 .z-button-icon-sm:hover {
-  background-color: #ABB0B5;
-}
-.z-button-icon-sm:hover .z-icon {
-  background-color: #222529;
+  background-color: #EEEEEE;
 }
 
 .z-button-list {

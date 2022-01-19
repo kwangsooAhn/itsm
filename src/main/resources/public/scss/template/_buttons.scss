@@ -189,17 +189,16 @@
     border: none;
     @include borderRadius(50%);
     padding: 0;
-    background-color: $gray200;
+    background-color: $neutral300;
     cursor: pointer;
     .z-icon {
       width: 0.5rem;
       height: 0.5rem;
       margin: 0.25rem;
-      background-color: $gray600;
+      background-color: $neutral800;
     }
     &:hover {
-      background-color: $gray400; // $gray500
-      .z-icon { background-color: $gray800; } //$white;
+      background-color: $neutral200; // $gray500
     }
   }
 }
