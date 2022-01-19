@@ -10,8 +10,8 @@ import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
-import co.brainz.itsm.chart.constants.ChartConstants
-import co.brainz.itsm.chart.dto.ChartRange
+import co.brainz.itsm.statistic.customChart.constants.ChartConstants
+import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
