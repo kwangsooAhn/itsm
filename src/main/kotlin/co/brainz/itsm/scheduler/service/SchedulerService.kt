@@ -20,7 +20,6 @@ import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeQuery
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.scheduler.constants.SchedulerConstants
 import co.brainz.itsm.scheduler.dto.SchedulerDto
-import co.brainz.itsm.scheduler.dto.SchedulerExecuteHistoryDto
 import co.brainz.itsm.scheduler.dto.SchedulerHistorySearchCondition
 import co.brainz.itsm.scheduler.dto.SchedulerListDto
 import co.brainz.itsm.scheduler.dto.SchedulerListReturnDto
@@ -315,13 +314,6 @@ class SchedulerService(
         schedulerHistorySearchCondition: SchedulerHistorySearchCondition
     ): Long {
         return aliceScheduleHistoryRepository.countScheduleHistoryByTaskId(schedulerHistorySearchCondition.taskId)
-    }
-
-    /**
-     * 스케줄러 최초 실행 시각 조회
-     */
-    fun getSchedulerExecuteHistory(taskId: String): SchedulerExecuteHistoryDto {
-        return aliceScheduleHistoryRepository.findSchedulerExecuteHistoryByTaskId(taskId)
     }
 
     private fun validateJarFile(src: String, executeCommand: String): Boolean {
