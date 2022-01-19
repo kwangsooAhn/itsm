@@ -34,7 +34,7 @@ data class WfInstanceViewerEntity(
     var viewer: AliceUserEntity,
 
     @Column(name = "review_yn")
-    val reviewYn: Boolean? = false,
+    val reviewYn: Boolean = false,
 
     @Column(name = "display_yn")
     var displayYn: Boolean? = false,

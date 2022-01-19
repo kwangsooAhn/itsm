@@ -146,7 +146,7 @@ export default class ZOptionListProperty extends ZProperty {
         removeTD.removeButton = new UIButton()
             .setUIClass('z-button-icon')
             .onUIClick(this.removeRow.bind(this));
-        removeTD.removeButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-clear'));
+        removeTD.removeButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
         removeTD.addUI(removeTD.removeButton);
 
         optionRow.addUICell(checkedTD);
