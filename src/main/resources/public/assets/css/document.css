@@ -2102,6 +2102,11 @@ select {
   border-color: #84D1FA;
 }
 
+.z-button-icon-sm .z-icon {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
 /* _print.scss
  *
  * 파일 경로 : document/_print.scss

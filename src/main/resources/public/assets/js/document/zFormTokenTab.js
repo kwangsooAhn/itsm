@@ -196,7 +196,9 @@ class ZFormTokenTab {
             `<td style="width: 52%;" class="align-left" title="${viewer.organizationName}">${viewer.organizationName}</td>` +
             `<td style="width: 15%;" class="align-center">` +
                 (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
-                `<span class="z-icon i-clear" onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')"></span>`) +
+                `<button type="button" class="z-button-icon-sm" tabindex="-1" onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
+                    `<span class="z-icon i-remove"></span>` +
+                `</button>`) +
             `</td>` +
             `</tr>`;
     }
