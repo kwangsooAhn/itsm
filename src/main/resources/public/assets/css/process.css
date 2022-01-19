@@ -3020,7 +3020,7 @@ svg path.connector.hidden {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   padding: 0;
-  background-color: #ABB0B5;
+  background-color: #E1E6EA;
   cursor: pointer;
 }
 .z-button-icon-sm .z-icon {
@@ -3030,10 +3030,10 @@ svg path.connector.hidden {
   background-color: #63686C;
 }
 .z-button-icon-sm:hover {
-  background-color: #222529;
+  background-color: #ABB0B5;
 }
 .z-button-icon-sm:hover .z-icon {
-  background-color: #FFFFFF;
+  background-color: #222529;
 }
 
 .z-button-list {

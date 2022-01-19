@@ -189,7 +189,7 @@
     border: none;
     @include borderRadius(50%);
     padding: 0;
-    background-color: $gray400;
+    background-color: $gray200;
     cursor: pointer;
     .z-icon {
       width: 0.5rem;
@@ -198,8 +198,8 @@
       background-color: $gray600;
     }
     &:hover {
-      background-color: $gray800; // $gray500
-      .z-icon { background-color: $white; }
+      background-color: $gray400; // $gray500
+      .z-icon { background-color: $gray800; } //$white;
     }
   }
 }
