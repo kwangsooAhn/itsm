@@ -249,7 +249,7 @@ export const dynamicRowTableMixin = {
             .setUIClass('z-button-icon')
             .addUIClass('extra')
             .onUIClick(this.removeTableRow.bind(this, targetTable, row))
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-clear'));
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
         const td = new UICell(row)
             .addUIClass('align-center')
             .setUICSSText('width:35' + UNIT.PX)
