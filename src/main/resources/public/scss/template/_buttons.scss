@@ -17,7 +17,8 @@
 
 // <a class='z-button'></a>  or <button class='z-button'>
 .z-button,
-.z-button-icon {
+.z-button-icon,
+.z-button-text {
   display: inline-block;
   font-family: $button-font-family;
   font-size: $button-font-size;
@@ -183,6 +184,12 @@
 
 .z-button-icon {
   padding: 0.3125rem; // 5px (버튼 기본 너비 높이 : 36px 36px)
+}
+
+.z-button-text {
+  padding: 0;
+  line-height: 1.25rem; // 20px
+  &:hover { @include underline; }
 }
 
 // 버튼 목록
