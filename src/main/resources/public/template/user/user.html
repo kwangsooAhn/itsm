@@ -617,7 +617,8 @@
 
     function createModalContent() {
         return `<div class="sub-user-list">` +
-            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('user.label.searchPlaceholder')}">` +
+            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+            `placeholder="${i18n.msg('user.label.substituteUserSearchPlaceholder')}">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="subUserList"></div>` +
             `</div>`;
@@ -627,7 +628,8 @@
         let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
             + '&from=' + i18n.systemDateTime(document.getElementById('absenceStartDt').value)
             + '&to=' + i18n.systemDateTime(document.getElementById('absenceEndDt').value)
-            + '&userKey=' + document.getElementById('userKey').value;
+            + '&userKey=' + document.getElementById('userKey').value
+            + '&multiSelect=false';
 
         aliceJs.fetchText(strUrl, {
             method: 'GET',

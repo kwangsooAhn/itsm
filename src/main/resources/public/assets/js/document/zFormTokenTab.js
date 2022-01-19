@@ -7,6 +7,7 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+import { DOCUMENT } from '../lib/zConstants.js';
 import { ZSession } from '../lib/zSession.js';
 import { zValidation } from '../lib/zValidation.js';
 
@@ -24,8 +25,8 @@ class ZFormTokenTab {
         this.tokenId = formDataJson.tokenId;
         this.folderId = formDataJson.folderId;
         this.editable = editable;
+        this.viewerList = []; // 참조인 목록
 
-        // todo : 참조인 기능 추가
         // 탭 생성
         aliceJs.fetchText('/tokens/tokenTab', {
             method: 'GET'
@@ -61,10 +62,11 @@ class ZFormTokenTab {
      */
     reloadTab() {
         const history = this.reloadHistory();
+        const viewer = this.reloadViewer();
         const relatedInstance = this.reloadRelatedInstance();
         const comment = this.reloadTokenComment();
         const tag = this.reloadTokenTag();
-        Promise.all([history, relatedInstance, comment, tag]).then(() => {
+        Promise.all([history, viewer, relatedInstance, comment, tag]).then(() => {
             // 날짜 표기 변경
             this.setDateTimeFormat();
         });
@@ -125,10 +127,7 @@ class ZFormTokenTab {
         document.getElementById('history').innerHTML = '';
 
         return aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/history', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            method: 'GET'
         }).then((rtn) => {
             if (rtn) {
                 rtn.forEach((token) => {
@@ -156,6 +155,199 @@ class ZFormTokenTab {
      * 관련문서 처리 로직
      * - 이것도 사실 파일을 분리했으면 좋겠다. 그치만, 문서조회 팝업의 전체의 구조 및 디자인 변경을 하게 되면 그때 같이 하자.
      ***************************************************************************************************************/
+
+    /***************************************************************************************************************
+     * 참조인 조회
+     ***************************************************************************************************************/
+    reloadViewer() {
+        // 참조인 clear
+        this.viewerList = [];
+        document.getElementById('viewer').innerHTML = '';
+
+        // 가데이터 표시
+        aliceJs.fetchJson('../../assets/js/document/dummy/viewer.json', {
+        //aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
+            method: 'GET'
+        }).then((response) => {
+            response.data.forEach((viewer) => {
+                this.viewerList.push({
+                    viewerKey: viewer.viewerKey,
+                    viewerName: viewer.viewerName,
+                    organizationName: viewer.organizationName,
+                    avatarPath: viewer.avatarPath,
+                    reviewYn: viewer.reviewYn,
+                    displayYn: viewer.displayYn,
+                    viewerType: DOCUMENT.VIEWER_TYPE.MODIFY
+                });
+                document.getElementById('viewer').insertAdjacentHTML('beforeend', this.makeViewerFragment(viewer));
+            });
+        });
+    }
+
+    /**
+     * 참조인 리스트 화면 조각
+     */
+    makeViewerFragment(viewer) {
+        return `<tr class="flex-row align-items-center" id="viewer${viewer.viewerKey}">` +
+            `<td style="width: 8%;" class="align-left p-0">` +
+                `<img class="z-img i-profile-photo" src="${viewer.avatarPath}" width="30" height="30" alt=""/>` +
+            `</td>` +
+            `<td style="width: 25%;" class="align-left" title="${viewer.viewerName}">${viewer.viewerName}</td>` +
+            `<td style="width: 52%;" class="align-left" title="${viewer.organizationName}">${viewer.organizationName}</td>` +
+            `<td style="width: 15%;" class="align-center">` +
+                (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
+                `<span class="z-icon i-clear" onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')"></span>`) +
+            `</td>` +
+            `</tr>`;
+    }
+
+    /**
+     * 참조인 등록/수정 모달 오픈
+     */
+    openViewerModal() {
+        const viewerModalTemplate = document.getElementById('viewerModalTemplate');
+        const viewerModal = new modal({
+            title: i18n.msg('token.label.viewer'),
+            body: viewerModalTemplate.content.cloneNode(true),
+            classes: 'sub-user-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.check'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: (modal) => {
+                    const substituteUserList = document.getElementById('substituteUserList');
+                    const selectedViewerList = substituteUserList.querySelectorAll('input[type=checkbox]:checked');
+                    const clonedViewerList = JSON.parse(JSON.stringify(this.viewerList));
+                    const saveViewerData = [];
+                    selectedViewerList.forEach((viewer) => {
+                        const findIndex = clonedViewerList.findIndex(function (item) {
+                            return item.viewerKey === viewer.id;
+                        });
+
+                        // 신규 추가
+                        if (findIndex === -1) {
+                            saveViewerData.push({
+                                viewerKey: viewer.id,
+                                viewerName: viewer.value,
+                                organizationName: viewer.getAttribute('data-organizationName'),
+                                avatarPath: viewer.getAttribute('data-avatarPath'),
+                                reviewYn: false,
+                                displayYn: false,
+                                viewerType: DOCUMENT.VIEWER_TYPE.REGISTER
+                            });
+                        } else { // 기존 수정
+                            const matchingViewer = clonedViewerList[findIndex];
+                            matchingViewer.viewerType = DOCUMENT.VIEWER_TYPE.MODIFY;
+                            saveViewerData.push(matchingViewer);
+                            clonedViewerList.splice(findIndex, 1);
+                        }
+                    });
+                    // 자기 자신일 경우, 포함시키고 아닐 경우 삭제
+                    clonedViewerList.forEach((viewer) => {
+                        if (viewer.viewerKey === ZSession.get('userKey')) {
+                            viewer.viewerType = DOCUMENT.VIEWER_TYPE.MODIFY;
+                        } else {
+                            viewer.viewerType = DOCUMENT.VIEWER_TYPE.DELETE;
+                        }
+                        saveViewerData.push(viewer);
+                    });
+                    // 저장
+                    this.saveViewer(saveViewerData);
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: (modal) => {
+                    modal.hide();
+                }
+            }],
+            close: { closable: false },
+            onCreate: () => {
+                document.getElementById('search').addEventListener('keyup', (e) => {
+                    this.getViewerList(e.target.value, false);
+                });
+                this.getViewerList(document.getElementById('search').value, true);
+            }
+        });
+        viewerModal.show();
+    }
+
+    /**
+     * 참조인 목록 조회
+     * @param search
+     * @param showProgressbar
+     */
+    getViewerList(search, showProgressbar) {
+        let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
+            + '&from=&to=&userKey=' + ZSession.get('userKey')
+            + '&multiSelect=true';
+        aliceJs.fetchText(strUrl, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            document.getElementById('subUserList').innerHTML = htmlData;
+            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+            // 갯수 가운트
+            const substituteUserList = document.getElementById('substituteUserList');
+            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
+
+            this.viewerList.forEach((viewer) => {
+                const checkElem = substituteUserList.querySelector('input[id="' + viewer.viewerKey + '"]');
+                if (checkElem) {
+                    checkElem.checked = true;
+                    // 읽음일 경우 편집 불가능
+                    if (viewer.reviewYn) {
+                        checkElem.disabled = true;
+                    }
+                }
+            });
+        });
+    }
+
+    /**
+     * 참조인 등록/수정
+     */
+    saveViewer(dataList) {
+        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataList)
+        }).then((response) => {
+            if (response.status === 200) {
+                // 테이블 새로 그려주기 - 동시 작업으로 인해 읽음 처리될 경우도 있으므로 새로 데이터를 가져옴
+                this.reloadViewer();
+            }
+        });
+    }
+
+    /**
+     * 참조인 삭제
+     * @param viewerKey 참조인 userKey
+     */
+    removeViewer(viewerKey) {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+            aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/' + viewerKey, {
+                method: 'DELETE'
+            }).then((response) => {
+                if (response.status === 200) {
+                    // 테이블 삭제
+                    const removeRow = document.getElementById('viewer' + viewerKey);
+                    const parent = document.getElementById('viewer');
+                    parent.removeChild(removeRow);
+                    // 데이터 삭제
+                    const findIndex = this.viewerList.findIndex(function (item) {
+                        return item.viewerKey === viewerKey;
+                    });
+                    this.viewerList.splice(findIndex, 1);
+                }
+            });
+        });
+    }
+
     /**
      * 관련 문서 모달 오픈 : 관련문서를 찾기 위한 모달
      */
@@ -250,10 +442,7 @@ class ZFormTokenTab {
     removeRelatedDoc(folderId, instanceId) {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
             aliceJs.fetchText('/rest/folders/' + folderId + '/instances/' + instanceId, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                method: 'DELETE'
             }).then((rtn) => {
                 if (rtn === 'true') {
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
@@ -284,10 +473,7 @@ class ZFormTokenTab {
         });
 
         return aliceJs.fetchJson('/rest/folders/' + this.folderId, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            method: 'GET'
         }).then((rtn) => {
             if (rtn) {
                 rtn.forEach((instance) => {
@@ -378,10 +564,7 @@ class ZFormTokenTab {
     removeComment(commentId) {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
             aliceJs.fetchText('/rest/instances/' + this.instanceId + '/comments/' + commentId, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                method: 'DELETE'
             }).then((rtn) => {
                 if (rtn === 'true') {
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
