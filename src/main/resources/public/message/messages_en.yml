@@ -17,6 +17,7 @@ common:
     register: "REGISTER"
     reject: "REJECT"
     return: "GO BACK"
+    review: "REVIEW"
     save: "SAVE"
     saveAs: "SAVE AS"
     select: "SELECT"
