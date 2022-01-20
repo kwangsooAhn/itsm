@@ -172,6 +172,8 @@
       .z-document-main,
       .z-document-main-header,
       .z-document-main-footer { right: 0; }
+
+      .z-document-main-header { width: 100%; }
     }
     // 트리 모달
     &.tree {

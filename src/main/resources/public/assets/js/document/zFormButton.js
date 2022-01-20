@@ -26,7 +26,6 @@ class ZFormButton {
         this.isToken = !!(formDataJson.tokenId);
         this.defaultButtonElement = document.getElementById('defaultButtonArea');
         this.actionButtonTopElement = document.getElementById('actionButtonTopArea'); // 상단 동적 버튼 영역
-        this.actionButtonBottomElement = document.getElementById('actionButtonBottomArea'); // 하단 동적 버튼 영역
         this.formDataJson = formDataJson;
         this.zForm = zForm;
         // 기본 버튼 추가
@@ -77,15 +76,12 @@ class ZFormButton {
      */
     makeActionButton(actions) {
         if (!zValidation.isDefined(actions) ||
-            !zValidation.isDefined(this.actionButtonTopElement) ||
-            !zValidation.isDefined(this.actionButtonBottomElement)) { return false; }
+            !zValidation.isDefined(this.actionButtonTopElement)) { return false; }
         // 초기화
         this.actionButtonTopElement.innerHTML = '';
-        this.actionButtonBottomElement.innerHTML = '';
 
         // 버튼 목록 생성
         const UIButtonTopGroup = new UIDiv().setUIClass('z-button-list').addUIClass('justify-content-end');
-        const UIButtonBottomGroup = new UIDiv().setUIClass('z-button-list').addUIClass('justify-content-end');
         // 동적 버튼
         actions.forEach( (btn) => {
             if (zValidation.isEmpty(btn.name)) { return false; }
@@ -93,14 +89,8 @@ class ZFormButton {
                 .addUIClass('primary')
                 .onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
             UIButtonTopGroup.addUI(UIActionTopButton);
-
-            const UIActionBottomButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
-                .addUIClass('primary')
-                .onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
-            UIButtonBottomGroup.addUI(UIActionBottomButton);
         });
         this.actionButtonTopElement.appendChild(UIButtonTopGroup.domElement);
-        this.actionButtonBottomElement.appendChild(UIButtonBottomGroup.domElement);
     }
 }
 
