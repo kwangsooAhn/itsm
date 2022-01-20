@@ -37,6 +37,7 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
+import co.brainz.workflow.instanceViewer.repository.WfInstanceViewerRepository
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
@@ -69,7 +70,8 @@ class WfTokenManagerService(
     private val aliceFileLocRepository: AliceFileLocRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val ciComponentDataRepository: CIComponentDataRepository,
-    private val ciService: CIService
+    private val ciService: CIService,
+    private val wfInstanceViewerRepository: WfInstanceViewerRepository
 ) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -283,7 +285,7 @@ class WfTokenManagerService(
     }
 
     /**
-     * 토큰이 속한 엘리먼트의 notification가 true인 경우, candidate 데이터와 assignee를 대상으로 알림.
+     * 토큰이 속한 엘리먼트의 notification가 true인 경우, candidate 데이터와 assignee, 참조인을 대상으로 알림.
      */
     fun notificationCheck(token: WfTokenEntity) {
         if (!token.element.notification) {
@@ -331,6 +333,18 @@ class WfTokenManagerService(
                     notification.receivedUser = userRoleMapEntity.user.userKey
                     notifications.add(notification)
                 }
+            }
+        }
+        // 참조인 알림
+        val viewerEntities = wfInstanceViewerRepository.findViewerByInstanceId(token.instance.instanceId)
+
+        if (viewerEntities.isNotEmpty()) {
+            for (viewerEntity in viewerEntities) {
+                val notification = commonNotification.copy()
+                if (viewerEntity != null) {
+                    notification.receivedUser = viewerEntity.viewer.userKey
+                }
+                notifications.add(notification)
             }
         }
         notificationService.insertNotificationList(notifications.distinct())
