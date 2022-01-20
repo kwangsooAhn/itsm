@@ -92,6 +92,9 @@ function zTag(inputElement, userSettings, tagifySettings) {
                 value: tag.detail.data.value,
                 targetId: tag.detail.tagify.settings.targetId
             };
+            if (userSettings.hasOwnProperty('options')) {
+                jsonData.options = userSettings.options;
+            }
             aliceJs.fetchText(TAG_URL, {
                 method: 'POST',
                 headers: {
