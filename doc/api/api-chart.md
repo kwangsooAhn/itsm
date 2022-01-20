@@ -1,5 +1,18 @@
-# 차트
+# 사용자 정의 차트
 
+사용자 정의 차트는 4가지 종류의 차트가 제공된다.
+1. Basic Line Chart
+2. Pie Chart
+3. Stacked Column Chart 
+4. Stacked Bar Chart
+
+연산 방법으로는 카운트, 평균, 퍼센트 3가지 방법이 제공되며
+
+'조건식' 항목에는 간단한 조건문을 추가할 수 있다.
+
+'대상 문서 상태' 옵션에 따라 차트의 문서 범위를 '완료된 문서' 혹은 '진행중인 문서' 까지 대상으로 지정할 수 있다.
+
+해당 API는 차트를 추가 / 수정 / 삭제 / 미리보기 / 미리보기 데이터 확인을 하는 API이다.
 
 ## 목차
 
@@ -17,7 +30,7 @@
 
 ### URL
 ```
-POST /rest/charts
+POST rest/statistics/customChart
 ```
 
 ### Parameter Sample
@@ -26,24 +39,25 @@ POST /rest/charts
 {
   "chartId": "",
   "chartType": "chart.basicLine",
-  "chartName": "박주현_TEST",
-  "chartDesc": "TEST",
+  "chartName": "박주현_차트TEST",
+  "chartDesc": "박주현_차트TEST",
   "chartConfig": {
     "operation": "count",
-    "periodUnit": "Y",
+    "periodUnit": "M",
     "range": {
       "type": "chart.range.between",
-      "from": "2021-10-31T15:00:00.000Z",
-      "to": "2021-12-15T02:17:00.000Z"
-    }
+      "from": "2021-11-30T15:00:00.000Z",
+      "to": "2022-01-20T14:59:00.000Z"
+    },
+    "documentStatus": "even.running.document",
+    "condition": ""
   },
   "tags": [
     {
-      "value": "test"
+      "value": "단순문의"
     }
   ]
 }
-
 ```
 
 ### Response Sample
@@ -58,29 +72,31 @@ POST /rest/charts
 
 ### URL
 ```
-PUT /rest/charts/{chartId}
+PUT /rest/statistics/customChart/{chartId}
 ```
 
 ### Parameter Sample
 
 ```json
 {
-  "chartId": "4028adf67dbb3a90017dbbe20cb5000a",
+  "chartId": "40288a8c7e75c923017e75f047be0000",
   "chartType": "chart.basicLine",
-  "chartName": "박주현_수정",
-  "chartDesc": "TEST",
+  "chartName": "박주현_차트_수정TEST",
+  "chartDesc": "박주현_차트_수정TEST",
   "chartConfig": {
     "operation": "count",
-    "periodUnit": "Y",
+    "periodUnit": "M",
     "range": {
-      "type": "chart.range.between",
-      "from": "2021-10-31T15:00:00.000Z",
-      "to": "2021-12-15T02:17:00.000Z"
-    }
+      "type": "chart.range.last.month",
+      "from": "2021-11-30T15:00:00.000Z",
+      "to": "2021-12-31T14:59:00.000Z"
+    },
+    "documentStatus": "only.finish.document",
+    "condition": ""
   },
   "tags": [
     {
-      "value": "test"
+      "value": "단순문의"
     }
   ]
 }
@@ -98,14 +114,14 @@ PUT /rest/charts/{chartId}
 
 ### URL
 ```
-DELETE /rest/charts/{chartId}
+DELETE /rest/statistics/customChart/{chartId}
 ```
 
 ### Parameter Sample
 
 ```json
 {
-  "chartId": "4028adf67dbb3a90017dbbe20cb5000a"
+  "chartId": "40288a8c7e75c923017e75f047be0000"
 }
 ```
 
@@ -121,29 +137,31 @@ DELETE /rest/charts/{chartId}
 
 ### URL
 ```
-POST /rest/charts/{chartId}/preview
+POST /rest/statistics/customChart/{chartId}/preview
 ```
 
 ### Parameter Sample
 
 ```json
 {
-  "chartId": "4028adf67dbb3a90017dbbec7dc2000d",
+  "chartId": "40288a8c7e75c923017e75f9f6fc0003",
   "chartType": "chart.basicLine",
-  "chartName": "차트_미리보기 데이터",
-  "chartDesc": "",
+  "chartName": "박주현_차트_미리보기데이터TEST",
+  "chartDesc": "박주현_차트_미리보기데이터TEST",
   "chartConfig": {
     "operation": "count",
     "periodUnit": "Y",
     "range": {
       "type": "chart.range.between",
-      "from": "2021-10-31T15:00:00.000Z",
-      "to": "2021-12-15T02:28:00.000Z"
-    }
+      "from": "2021-11-30T15:00:00.000Z",
+      "to": "2022-01-20T14:59:00.000Z"
+    },
+    "documentStatus": "only.finish.document",
+    "condition": ""
   },
   "tags": [
     {
-      "value": "test"
+      "value": "장애신고"
     }
   ]
 }
@@ -153,31 +171,33 @@ POST /rest/charts/{chartId}/preview
 
 ```json
 {
-  "chartId": "4028adf67dbb3a90017dbbec7dc2000d",
-  "chartName": "차트_미리보기 데이터",
+  "chartId": "40288a8c7e75c923017e75f9f6fc0003",
+  "chartName": "박주현_차트_미리보기데이터TEST",
   "chartType": "chart.basicLine",
-  "chartDesc": "",
+  "chartDesc": "박주현_차트_미리보기데이터TEST",
   "tags": [
     {
       "tagId": null,
-      "value": "test"
+      "value": "장애신고"
     }
   ],
   "chartConfig": {
     "range": {
       "type": "chart.range.between",
-      "from": "2021-10-31T15:00:00",
-      "to": "2021-12-15T02:28:00"
+      "from": "2021-11-30T15:00:00",
+      "to": "2022-01-20T14:59:00"
     },
     "operation": "count",
-    "periodUnit": "Y"
+    "periodUnit": "Y",
+    "documentStatus": "only.finish.document",
+    "condition": ""
   },
   "chartData": [
     {
       "id": "null",
-      "category": "2021-01-01 00:00:00",
+      "category": "2021-11-30 15:00:00",
       "value": "0",
-      "series": "test"
+      "series": "장애신고"
     }
   ]
 }
@@ -189,14 +209,14 @@ POST /rest/charts/{chartId}/preview
 
 ### URL
 ```
-GET /rest/charts/{chartId}
+GET /rest/statistics/customChart/{chartId}
 ```
 
 ### Parameter Sample
 
 ```json
 {
-  "chartId": "4028adf67dbb3a90017dbbec7dc2000d"
+  "chartId": "40288a8c7e75c923017e75f9f6fc0003"
 }
 ```
 
@@ -204,31 +224,33 @@ GET /rest/charts/{chartId}
 
 ```json
 {
-  "chartId": "4028adf67dbb3a90017dbbec7dc2000d",
-  "chartName": "차트_미리보기 데이터",
+  "chartId": "40288a8c7e75c923017e75f9f6fc0003",
+  "chartName": "박주현_차트_미리보기데이터TEST",
   "chartType": "chart.basicLine",
-  "chartDesc": "",
+  "chartDesc": "박주현_차트_미리보기데이터TEST",
   "tags": [
     {
-      "tagId": "4028adf67dbb3a90017dbbec7dd9000e",
-      "value": "test"
+      "tagId": "40288a8c7e75c923017e75f9f7080004",
+      "value": "장애신고"
     }
   ],
   "chartConfig": {
     "range": {
       "type": "chart.range.between",
-      "from": "2021-10-31T15:00:00",
-      "to": "2021-12-15T02:28:00"
+      "from": "2021-11-30T15:00:00",
+      "to": "2022-01-20T14:59:00"
     },
     "operation": "count",
-    "periodUnit": "Y"
+    "periodUnit": "Y",
+    "documentStatus": "only.finish.document",
+    "condition": ""
   },
   "chartData": [
     {
-      "id": "4028adf67dbb3a90017dbbec7dd9000e",
-      "category": "2021-01-01 00:00:00",
+      "id": "40288a8c7e75c923017e75f9f7080004",
+      "category": "2021-11-30 15:00:00",
       "value": "0",
-      "series": "test"
+      "series": "장애신고"
     }
   ]
 }
