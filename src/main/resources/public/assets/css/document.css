@@ -890,14 +890,6 @@ input, button, select, optgroup, textarea {
   background: #339AF0;
   z-index: 100;
 }
-.z-document-container .z-document-main .z-document-main-header .z-document-numbering {
-  width: 100%;
-  color: #FFFFFF;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  text-align: center;
-}
 .z-document-container .z-document-main .z-document-main-header .z-action-button-top-area .z-button-list {
   width: 100%;
 }
@@ -910,10 +902,14 @@ input, button, select, optgroup, textarea {
 .z-document-container .z-document-main .z-document-main-content {
   display: inline-block;
   width: 100%;
+  margin: 6.25rem 0 3rem;
   text-align: center;
 }
-.z-document-container .z-document-main .z-drawing-board {
-  margin: 6.25rem 0 3rem;
+.z-document-container .z-document-main .z-document-main-content .z-document-numbering {
+  width: 100%;
+  margin-bottom: 0.625rem;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
 }
 .z-document-container .z-document-main .z-drawing-board .z-form {
   margin: 0 6.25rem !important;

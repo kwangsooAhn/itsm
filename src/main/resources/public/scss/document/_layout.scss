@@ -27,16 +27,6 @@
       background: $blue500;
       z-index: $z-index-gnb;
 
-      // 문서 번호
-      .z-document-numbering {
-        width: 100%;
-        color: $white;
-        font-family: $document-numbering-font-family;
-        font-size: $font-size-s;
-        font-weight: $font-weight-bold;
-        text-align: center;
-      }
-
       .z-action-button-top-area {
         .z-button-list { width: 100%; }
       }
@@ -50,12 +40,19 @@
     .z-document-main-content {
       display: inline-block;
       width: 100%;
+      margin: 6.25rem 0 3rem; // 100px 48px
       text-align: center;
+      // 문서 번호
+      .z-document-numbering {
+        width: 100%;
+        margin-bottom: 0.625rem; // 10px
+        font-family: $document-numbering-font-family;
+        font-size: $font-size-xs;
+      }
     }
 
     // board 영역
     .z-drawing-board {
-      margin: 6.25rem 0 3rem; // 100px 48px
       .z-form { margin: 0 6.25rem !important; } // 100px
     }
 
