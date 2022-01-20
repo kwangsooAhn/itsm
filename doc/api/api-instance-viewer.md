@@ -72,6 +72,7 @@ POST /rest/instances/{instanceId}/viewer/
 {
   "data": [
     {
+      "documentId": "4028b21f7c90d996017c91ae7987004f",
       "viewerKey": "2c9180ab7b2a039b017b2a15b1f40001",
       "reviewYn": false,
       "displayYn ": false,
