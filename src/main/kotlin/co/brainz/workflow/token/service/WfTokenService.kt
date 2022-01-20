@@ -191,7 +191,7 @@ class WfTokenService(
             token = tokenData,
             instanceId = tokenEntity.get().instance.instanceId,
             form = formData,
-            actions = wfActionService.actions(tokenEntity.get().element.elementId),
+            actions = wfActionService.actions(tokenEntity.get().element.elementId, tokenEntity.get().instance.instanceId),
             stakeholders = this.getTokenStakeholders(tokenEntity.get())
         )
     }

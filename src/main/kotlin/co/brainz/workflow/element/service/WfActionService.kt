@@ -1,10 +1,17 @@
+/*
+ * Copyright 2022 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.element.service
 
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.repository.WfElementDataRepository
 import co.brainz.workflow.element.repository.WfElementRepository
+import co.brainz.workflow.instanceViewer.repository.WfInstanceViewerRepository
 import co.brainz.workflow.provider.dto.RestTemplateActionDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -17,7 +24,9 @@ import org.springframework.stereotype.Service
 class WfActionService(
     private val wfElementService: WfElementService,
     private val wfElementRepository: WfElementRepository,
-    private val wfElementDataRepository: WfElementDataRepository
+    private val wfElementDataRepository: WfElementDataRepository,
+    private val wfInstanceViewerRepository: WfInstanceViewerRepository,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -33,20 +42,19 @@ class WfActionService(
         val startElement = wfElementService.getStartElement(processId)
         val startArrow = this.getArrowElements(startElement.elementId)[0]
         val registerElementId = this.getNextElementId(startArrow)
-        return this.actions(registerElementId)
+        return this.actions(registerElementId, null)
     }
 
-    fun actions(elementId: String): MutableList<RestTemplateActionDto> {
+    fun actions(elementId: String, instanceId: String?): MutableList<RestTemplateActionDto> {
         val actions: MutableList<RestTemplateActionDto> = mutableListOf()
-        val currentElement = getElement(elementId)
+        val currentElement = this.getElement(elementId)
         if (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
-            val arrow = getArrowElements(elementId)[0]
-            val nextElementId = getNextElementId(arrow)
-            val nextElement = getElement(nextElementId)
-
-            actions.addAll(typeActions(arrow, nextElement))
-            actions.addAll(postActions(currentElement))
-            actions.addAll(preActions())
+            val arrow = this.getArrowElements(elementId)[0]
+            val nextElementId = this.getNextElementId(arrow)
+            val nextElement = this.getElement(nextElementId)
+            actions.addAll(this.preActions(instanceId))
+            actions.addAll(this.typeActions(arrow, nextElement))
+            actions.addAll(this.postActions(currentElement))
         }
         return actions
     }
@@ -86,16 +94,34 @@ class WfActionService(
      *
      * @return MutableList<RestTemplateActionDto>
      */
-    private fun preActions(): MutableList<RestTemplateActionDto> {
+    private fun preActions(instanceId: String?): MutableList<RestTemplateActionDto> {
         val preActions: MutableList<RestTemplateActionDto> = mutableListOf()
-        preActions.add(
-            RestTemplateActionDto(
-                name = "common.btn.save",
-                value = WfElementConstants.Action.SAVE.value,
-                customYn = false
+
+        if (this.isReviewAction(instanceId)) {
+            preActions.add(
+                RestTemplateActionDto(
+                    name = "common.btn.review",
+                    value = WfElementConstants.Action.REVIEW.value,
+                    customYn = false
+                )
             )
-        )
+        }
         return preActions
+    }
+
+    /**
+     * Review Action.
+     */
+    fun isReviewAction(instanceId: String?): Boolean {
+        var isAction = false
+        if (!instanceId.isNullOrBlank()) {
+            val userKey = currentSessionUser.getUserKey()
+            val instanceViewer = wfInstanceViewerRepository.getReviewYnByViewKey(instanceId, userKey)
+            if (instanceViewer !== null && !instanceViewer.reviewYn) {
+                isAction = true
+            }
+        }
+        return isAction
     }
 
     /**
@@ -142,6 +168,13 @@ class WfActionService(
             RestTemplateActionDto(
                 name = "common.btn.terminate",
                 value = WfElementConstants.Action.TERMINATE.value,
+                customYn = false
+            )
+        )
+        postActions.add(
+            RestTemplateActionDto(
+                name = "common.btn.save",
+                value = WfElementConstants.Action.SAVE.value,
                 customYn = false
             )
         )

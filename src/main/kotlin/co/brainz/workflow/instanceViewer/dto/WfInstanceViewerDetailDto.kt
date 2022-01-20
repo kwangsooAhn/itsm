@@ -3,7 +3,7 @@ package co.brainz.workflow.instanceViewer.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class InstanceViewerDetailDto(
+data class WfInstanceViewerDetailDto(
     var instanceId: String = "",
     var viewerKey: String = "",
     var reviewYn: Boolean? = false,

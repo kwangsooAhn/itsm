@@ -1,7 +1,9 @@
 package co.brainz.workflow.instanceViewer.repository
 
-import co.brainz.workflow.instanceViewer.dto.InstanceViewerDetailDto
+import co.brainz.workflow.instanceViewer.entity.WfInstanceViewerEntity
+import co.brainz.framework.querydsl.AliceRepositoryCustom
 
-interface WfInstanceViewerRepositoryCustom {
-    fun findInstanceViewer(instanceId: String, viewer: String): InstanceViewerDetailDto
+interface WfInstanceViewerRepositoryCustom : AliceRepositoryCustom {
+
+    fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerEntity?
 }

@@ -1,34 +1,28 @@
+/*
+ * Copyright 2022 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.workflow.instanceViewer.repository
 
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
-import org.springframework.stereotype.Repository
-import co.brainz.workflow.instanceViewer.dto.InstanceViewerDetailDto
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.instanceViewer.entity.QWfInstanceViewerEntity
 import co.brainz.workflow.instanceViewer.entity.WfInstanceViewerEntity
-import com.querydsl.core.types.Projections
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
+import org.springframework.stereotype.Repository
 
 @Repository
-class WfInstanceViewerRepositoryImpl: QuerydslRepositorySupport(WfInstanceViewerEntity::class.java), WfInstanceViewerRepositoryCustom {
-    override fun findInstanceViewer(instanceId: String, viewer: String): InstanceViewerDetailDto {
-        val instanceView = QWfInstanceViewerEntity.wfInstanceViewerEntity
+class WfInstanceViewerRepositoryImpl: QuerydslRepositorySupport(WfInstanceViewerEntity::class.java),
+    WfInstanceViewerRepositoryCustom {
 
-        return from(instanceView)
-            .select(
-                Projections.constructor(
-                    InstanceViewerDetailDto::class.java,
-                    instanceView.instance.instanceId,
-                    instanceView.viewer.userKey,
-                    instanceView.reviewYn,
-                    instanceView.displayYn,
-                    instanceView.createUserKey,
-                    instanceView.createDt,
-                    instanceView.updateUserKey,
-                    instanceView.updateDt
-                )
-            )
+    override fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerEntity? {
+        val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
+
+        return from(viewer)
             .where(
-                instanceView.instance.instanceId.eq(instanceId)
-                    .and(instanceView.viewer.userKey.eq(viewer))
+                viewer.instance.instanceId.eq(instanceId)
+                    .and(viewer.viewer.eq(AliceUserEntity(userKey)))
             )
             .fetchOne()
     }
