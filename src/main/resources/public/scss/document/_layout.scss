@@ -25,7 +25,7 @@
       width: calc(100% - 38.13rem);
       padding: 0.75rem 1rem ; // 12px
       background: $blue500;
-      z-index: 999;
+      z-index: $z-index-gnb;
 
       // 문서 번호
       .z-document-numbering {
