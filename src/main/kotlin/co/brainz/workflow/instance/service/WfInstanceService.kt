@@ -10,7 +10,7 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
-import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.itsm.token.dto.TokenSearchCondition
@@ -54,7 +54,7 @@ class WfInstanceService(
     private val numberingRuleService: NumberingRuleService,
     private val aliceUserRepository: AliceUserRepository,
     private val folderService: FolderService,
-    private val aliceTagService: AliceTagService,
+    private val aliceTagManager: AliceTagManager,
     private val userDetailsService: AliceUserDetailsService
 ) {
 
@@ -124,7 +124,7 @@ class WfInstanceService(
         queryResults.results.forEach {
             instanceIds.add(it.instanceEntity.instanceId)
         }
-        val tagList = aliceTagService.getTagsByTargetIds(
+        val tagList = aliceTagManager.getTagsByTargetIds(
             AliceTagConstants.TagType.INSTANCE.code,
             instanceIds
         )
@@ -319,7 +319,7 @@ class WfInstanceService(
      * Get Instance Tags.
      */
     fun getInstanceTags(instanceId: String): List<AliceTagDto> {
-        return aliceTagService.getTagsByTargetId(
+        return aliceTagManager.getTagsByTargetId(
             AliceTagConstants.TagType.INSTANCE.code,
             instanceId
         )

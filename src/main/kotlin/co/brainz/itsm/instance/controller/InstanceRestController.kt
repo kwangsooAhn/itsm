@@ -1,6 +1,7 @@
 package co.brainz.itsm.instance.controller
 
 import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.itsm.instance.dto.CommentDto
 import co.brainz.itsm.instance.dto.InstanceCommentDto
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
@@ -29,8 +30,8 @@ class InstanceRestController(
     }
 
     @PostMapping("/{instanceId}/comments")
-    fun setComment(@PathVariable instanceId: String, @RequestBody contents: String): Boolean {
-        return instanceService.setComment(instanceId, contents)
+    fun setComment(@PathVariable instanceId: String, @RequestBody commentDto: CommentDto): Boolean {
+        return instanceService.setComment(instanceId, commentDto)
     }
 
     @DeleteMapping("/{instanceId}/comments/{commentId}")
