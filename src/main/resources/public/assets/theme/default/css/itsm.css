@@ -2727,15 +2727,6 @@ select {
   text-underline-position: under;
 }
 
-.z-button-text {
-  padding: 0;
-  line-height: 1.25rem;
-}
-.z-button-text:hover {
-  text-decoration: underline;
-  text-underline-position: under;
-}
-
 .z-button-list {
   display: inline-flex;
   vertical-align: middle;
@@ -7894,5 +7885,3 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
-
-/*# sourceMappingURL=itsm.css.map */

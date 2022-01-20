@@ -3188,15 +3188,6 @@ svg path.connector.hidden {
   text-underline-position: under;
 }
 
-.z-button-text {
-  padding: 0;
-  line-height: 1.25rem;
-}
-.z-button-text:hover {
-  text-decoration: underline;
-  text-underline-position: under;
-}
-
 .z-button-list {
   display: inline-flex;
   vertical-align: middle;

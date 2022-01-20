@@ -7,7 +7,7 @@ data class WfInstanceViewerDataDto(
     var viewerName: String = "",
     var organizationName: String? = "",
     var avatarPath: String? = "",
-    var reviewYn: Boolean? = false,
+    var reviewYn: Boolean = false,
     var displayYn: Boolean? = false,
     var viewerType: String? = ""
 ) : Serializable

@@ -27,14 +27,14 @@ class WfInstanceViewerService(
         val instance = wfInstanceRepository.findByInstanceId(instanceId)
 
         wfInstanceViewerDataDtoList.forEach {
-            val viewerKey = aliceUserRepository.findAliceUserEntityByUserKey(it.viewerKey)
+            val viewer = aliceUserRepository.findAliceUserEntityByUserKey(it.viewerKey)
             when(it.viewerType) {
                 WfInstanceViewerConstants.ViewType.REGISTER.value -> {
                     val instanceViewerEntity =
                         WfInstanceViewerEntity(
                             instance = instance!!,
-                            viewer = viewerKey,
-                            reviewYn = it.reviewYn!!,
+                            viewer = viewer,
+                            reviewYn = it.reviewYn,
                             displayYn = it.displayYn,
                             createUserKey = currentSessionUser.getUserKey(),
                             createDt = LocalDateTime.now()

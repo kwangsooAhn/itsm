@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class WfInstanceViewerRepositoryImpl: QuerydslRepositorySupport(WfInstanceViewerEntity::class.java),
+class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::class.java),
     WfInstanceViewerRepositoryCustom {
 
     override fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerEntity? {

@@ -210,12 +210,6 @@
   &:hover { @include underline; }
 }
 
-.z-button-text {
-  padding: 0;
-  line-height: 1.25rem; // 20px
-  &:hover { @include underline; }
-}
-
 // 버튼 목록
 .z-button-list {
   display: inline-flex;

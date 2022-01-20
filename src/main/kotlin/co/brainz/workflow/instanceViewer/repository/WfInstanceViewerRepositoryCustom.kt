@@ -11,4 +11,5 @@ import co.brainz.workflow.instanceViewer.entity.WfInstanceViewerEntity
 interface WfInstanceViewerRepositoryCustom : AliceRepositoryCustom {
 
     fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerEntity?
+
 }
