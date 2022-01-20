@@ -739,7 +739,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-icon.i-clear {
+.z-icon.i-remove {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/icon_clear.svg");
@@ -1604,23 +1604,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input.success {
   border: 0.0625rem solid #76BD26 !important;
 }
-.z-input-clear {
-  position: relative;
-  display: inline-block;
-}
-.z-input-clear input {
-  width: 100%;
-}
-.z-input-clear .z-icon {
-  -webkit-print-color-adjust: exact;
-}
-.z-input-clear .z-icon.i-clear {
-  position: absolute;
-  right: 0rem;
-  padding: 1.125rem 0.875rem;
-  background: #8B9094;
-  cursor: pointer;
-}
 .z-input.i-search {
   background-image: url("../media/icons/icon_search.svg");
   background-size: auto;
@@ -1679,12 +1662,11 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input-button .z-button-search:focus, .z-input-button .z-button-search:hover, .z-input-button .z-button-search:active {
   z-index: 25;
 }
-.z-input-button .z-icon.i-clear {
+.z-input-button .z-button-icon-sm {
   position: absolute;
-  right: calc(0rem + 5rem);
-  padding: 1.125rem 0.875rem;
-  background: #8B9094;
-  cursor: pointer;
+  top: 0.625rem;
+  right: 5rem;
+  -webkit-print-color-adjust: exact;
 }
 .z-input::-webkit-outer-spin-button, .z-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -3176,6 +3158,35 @@ svg path.connector.hidden {
 .z-button-icon {
   padding: 0.3125rem;
 }
+.z-button-icon-sm {
+  width: 1rem;
+  height: 1rem;
+  border: none;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  padding: 0;
+  background-color: #E0E0E0;
+  cursor: pointer;
+}
+.z-button-icon-sm .z-icon {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0.25rem;
+  background-color: #424242;
+}
+.z-button-icon-sm:hover {
+  background-color: #EEEEEE;
+}
+
+.z-button-text {
+  padding: 0;
+  line-height: 1.25rem;
+}
+.z-button-text:hover {
+  text-decoration: underline;
+  text-underline-position: under;
+}
 
 .z-button-text {
   padding: 0;
@@ -3798,7 +3809,7 @@ svg path.connector.hidden {
   background-position-x: 1rem;
   background-position-y: center;
 }
-.z-validation.info .z-icon.i-clear {
+.z-validation.info .z-icon.i-remove {
   background: #339AF0;
 }
 .z-validation.error {
@@ -3811,7 +3822,7 @@ svg path.connector.hidden {
   background-position-x: 1rem;
   background-position-y: center;
 }
-.z-validation.error .z-icon.i-clear {
+.z-validation.error .z-icon.i-remove {
   background: #F52525;
 }
 .z-validation.success {
@@ -3824,10 +3835,10 @@ svg path.connector.hidden {
   background-position-x: 1rem;
   background-position-y: center;
 }
-.z-validation.success .z-icon.i-clear {
+.z-validation.success .z-icon.i-remove {
   background: #5CA21B;
 }
-.z-validation .z-icon.i-clear {
+.z-validation .z-icon.i-remove {
   padding-right: 0.9375rem;
   background: #8B9094;
 }
@@ -4309,7 +4320,7 @@ svg path.connector.hidden {
   padding: 0;
   visibility: hidden;
 }
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item .z-custom-color-palette-item-clear .z-icon.i-clear {
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item .z-custom-color-palette-item-clear .z-icon.i-remove {
   width: 0.5rem;
   height: 0.5rem;
   background: #FFFFFF;
