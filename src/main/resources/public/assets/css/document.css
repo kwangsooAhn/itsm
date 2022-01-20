@@ -871,38 +871,52 @@ input, button, select, optgroup, textarea {
   bottom: 0;
   left: 0;
   overflow-y: auto;
-  background-color: #FAFAFA;
-  z-index: 1000;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+  background-color: #FAFAFA;
+  z-index: 1000;
 }
 .z-document-container .z-document-main::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
 .z-document-container .z-document-main .z-document-main-header {
-  width: 60rem;
-  max-width: 60rem;
-  padding: 4rem 0 0.75rem 0;
-}
-.z-document-container .z-document-main .z-document-main-header .z-document-numbering {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  color: #222529;
-}
-.z-document-container .z-document-main .z-document-main-header .z-action-button-top-area {
-  width: 100%;
-  margin: 0.75rem 0 0 0;
+  position: fixed;
+  right: 38.13rem;
+  width: calc(100% - 38.13rem);
+  padding: 0.75rem 1rem;
+  background: #339AF0;
+  z-index: 100;
 }
 .z-document-container .z-document-main .z-document-main-header .z-action-button-top-area .z-button-list {
   width: 100%;
 }
+.z-document-container .z-document-main .z-document-main-header .z-button-list .primary {
+  border-color: #FFFFFF;
+}
+.z-document-container .z-document-main .z-document-main-header .z-button-list .secondary {
+  border-color: #FFFFFF;
+}
+.z-document-container .z-document-main .z-document-main-content {
+  display: inline-block;
+  width: 100%;
+  margin: 6.25rem 0 3rem;
+  text-align: center;
+}
+.z-document-container .z-document-main .z-document-main-content .z-document-numbering {
+  width: 100%;
+  margin-bottom: 0.625rem;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+}
+.z-document-container .z-document-main .z-drawing-board .z-form {
+  margin: 0 6.25rem !important;
+}
 .z-document-container .z-document-main .z-document-main-footer {
-  width: 60rem;
-  max-width: 60rem;
-  padding: 0.75rem 0 4rem 0;
+  width: 100%;
+  padding: 0.75rem 0 4rem;
 }
 .z-document-container .z-token-properties {
   position: fixed;
@@ -2403,8 +2417,13 @@ body.modal-active {
   display: initial;
   line-height: 1.2;
 }
-.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main {
+.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main,
+.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main-header,
+.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main-footer {
   right: 0;
+}
+.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main-header {
+  width: 100%;
 }
 .modal-wrapper .modal-dialog.tree {
   width: 40rem;
