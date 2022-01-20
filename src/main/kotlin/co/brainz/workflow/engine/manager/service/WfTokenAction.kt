@@ -27,7 +27,6 @@ class WfTokenAction(
             WfElementConstants.Action.TERMINATE.value -> this.actionTerminate(tokenDto)
             WfElementConstants.Action.WITHDRAW.value -> this.actionWithdraw(tokenDto)
             WfElementConstants.Action.REJECT.value -> this.actionReject(tokenDto)
-            WfElementConstants.Action.REVIEW.value -> this.actionReview(tokenDto)
         }
     }
 
@@ -122,13 +121,6 @@ class WfTokenAction(
         }) ?: throw AliceException(AliceErrorConstants.ERR_00005, "Not found reject element in tokens.")
 
         this.createToken(tokenDto.copy(), tokenToWithDraw)
-    }
-
-    /**
-     * Review.
-     */
-    private fun actionReview(tokenDto: WfTokenDto) {
-        this.updateToken(tokenDto)
     }
 
     /**
