@@ -8,7 +8,7 @@ const rgbaReg = /^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i;
 const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
 
 aliceJs.searchDataCount = 15;
-aliceJs.imageOffsetCount = 17;
+aliceJs.fileOffsetCount = 17;
 aliceJs.autoRefreshPeriod = 60000;
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
@@ -496,7 +496,7 @@ aliceJs.thumbnail = function(options) {
         // image 미선택 시 알림창 출력
         let selectedFile = document.querySelector('.z-thumbnail.selected');
         if (!selectedFile) {
-            zAlert.warning(i18n.msg('image.msg.fileSelect'));
+            zAlert.warning(i18n.msg('file.msg.fileSelect'));
             return false;
         }
         const targetElem = document.getElementById(targetId);

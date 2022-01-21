@@ -45,6 +45,13 @@
       background-repeat: no-repeat;
       background-position: center center;
     }
+    .z-thumbnail-image {
+      @include relative();
+      img {
+        @include absolute(0, 0, 0, 0);
+        margin: auto;
+      }
+    }
     // 썸네일 정보
     .z-thumbnail-info {
       height: 6.563rem; // 105px

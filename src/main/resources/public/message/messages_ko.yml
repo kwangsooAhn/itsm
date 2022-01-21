@@ -864,21 +864,6 @@ form:
     publish: "발행"
     use: "사용"
 
-# Image
-image:
-  label:
-    name: "이미지 이름"
-    list: "이미지 관리"
-    placeholder: "Select Your Image"
-    popupTitle: "이미지 선택"
-    upload: "이미지 업로드"
-  msg:
-    existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
-    failedRename: "파일명 수정이 실패하였습니다. 동일한 파일명이 있거나 수정 권한이 있는지 확인하세요."
-    fileSelect: "파일을 선택하세요."
-    registrationSuccess: "이미지 등록에 성공하였습니다"
-    searchDescription: "문서양식에서 사용할 이미지를 추가하거나 조회 및 관리합니다."
-
 # Login
 login:
   btn:
@@ -942,7 +927,7 @@ menu:
   workflow:
     customCode: "커스텀 코드"
     form: "문서양식"
-    image: "이미지 관리"
+    file: "파일 관리"
     numberingPattern: "패턴"
     numberingRule: "문서번호 규칙"
     parent: "업무흐름 관리"
@@ -1470,10 +1455,20 @@ project:
 # uploader
 file:
   label:
+    list: "파일 관리"
+    name: "파일 이름"
     or: "또는"
+    placeholder: "Select Your File"
+    popupTitle: "파일 선택"
+    upload: "파일 업로드"
   msg:
     browser: "파일을 직접 찾으세요."
+    existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
+    failedRename: "파일명 수정이 실패하였습니다. 동일한 파일명이 있거나 수정 권한이 있는지 확인하세요."
+    fileSelect: "파일을 선택하세요."
     noAttachFile: "첨부 파일이 없습니다."
+    registrationSuccess: "파일 등록에 성공하였습니다"
+    searchDescription: "문서양식에서 사용할 파일을 추가하거나 조회 및 관리합니다."
     upload: "업로드하려면 여기로 파일을 드래그하세요."
 
 # Pattern
