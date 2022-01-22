@@ -19,11 +19,9 @@ import org.springframework.web.bind.annotation.RestController
 class WfInstanceViewerRestController(
     private val wfInstanceViewerService: WfInstanceViewerService
 ) {
-
-    //todo : 일감 #12117 - [참조인 관리] 문서 상세 조회시 참조인 정보 추가 진행시 추가 예정 현재 오류때문에 임시로 지정
     @GetMapping("/{instanceId}/viewer/")
     fun getInstanceViewerList(@PathVariable instanceId: String): WfInstanceViewerListReturnDto? {
-        return null
+        return wfInstanceViewerService.getInstanceViewerList(instanceId)
     }
 
     //참조인 등록

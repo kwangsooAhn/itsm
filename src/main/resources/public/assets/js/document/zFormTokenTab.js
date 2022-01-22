@@ -21,6 +21,7 @@ class ZFormTokenTab {
      */
     init(formDataJson, editable) {
         this.propertiesElement = document.getElementById('documentProperties'); // 우측 문서 정보, 의견, 태그가 표시되는 엘리먼트
+        this.documentId = formDataJson.documentId || '';
         this.instanceId = formDataJson.instanceId;
         this.tokenId = formDataJson.tokenId;
         this.folderId = formDataJson.folderId;
@@ -129,12 +130,20 @@ class ZFormTokenTab {
         return aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/history', {
             method: 'GET'
         }).then((rtn) => {
-            if (rtn) {
+            if (rtn.length === 0) {
+                document.getElementById('history').insertAdjacentHTML('beforeend', this.makeNoDataFragment());
+            } else {
                 rtn.forEach((token) => {
                     document.getElementById('history').insertAdjacentHTML('beforeend', this.makeHistoryFragment(token));
                 });
             }
         });
+    }
+
+    makeNoDataFragment() {
+        return `<tr class="flex-row align-items-center no-data-found-list">` +
+            `<td style="width:100%" colspan="6" class="align-center">` + i18n.msg('common.msg.noData') + `</td>` +
+            `</tr>`;
     }
 
     /**
@@ -165,12 +174,14 @@ class ZFormTokenTab {
         document.getElementById('viewer').innerHTML = '';
 
         // 가데이터 표시
-        aliceJs.fetchJson('../../assets/js/document/dummy/viewer.json', {
-        //aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
+        // aliceJs.fetchJson('../../assets/js/document/dummy/viewer.json', {
+        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
             method: 'GET'
         }).then((response) => {
             response.data.forEach((viewer) => {
                 this.viewerList.push({
+                    documentId: this.documentId,
+                    instanceId: this.instanceId,
                     viewerKey: viewer.viewerKey,
                     viewerName: viewer.viewerName,
                     organizationName: viewer.organizationName,
@@ -229,18 +240,21 @@ class ZFormTokenTab {
                         // 신규 추가
                         if (findIndex === -1) {
                             saveViewerData.push({
+                                documentId: this.documentId,
                                 viewerKey: viewer.id,
-                                viewerName: viewer.value,
-                                organizationName: viewer.getAttribute('data-organizationName'),
-                                avatarPath: viewer.getAttribute('data-avatarPath'),
                                 reviewYn: false,
                                 displayYn: false,
                                 viewerType: DOCUMENT.VIEWER_TYPE.REGISTER
                             });
                         } else { // 기존 수정
                             const matchingViewer = clonedViewerList[findIndex];
-                            matchingViewer.viewerType = DOCUMENT.VIEWER_TYPE.MODIFY;
-                            saveViewerData.push(matchingViewer);
+                            saveViewerData.push({
+                                documentId: this.documentId,
+                                viewerKey: matchingViewer.viewerKey,
+                                reviewYn: matchingViewer.reviewYn,
+                                displayYn: matchingViewer.displayYn,
+                                viewerType: DOCUMENT.VIEWER_TYPE.MODIFY
+                            });
                             clonedViewerList.splice(findIndex, 1);
                         }
                     });
@@ -251,7 +265,13 @@ class ZFormTokenTab {
                         } else {
                             viewer.viewerType = DOCUMENT.VIEWER_TYPE.DELETE;
                         }
-                        saveViewerData.push(viewer);
+                        saveViewerData.push({
+                            documentId: this.documentId,
+                            viewerKey: viewer.viewerKey,
+                            reviewYn: viewer.reviewYn,
+                            displayYn: viewer.displayYn,
+                            viewerType: viewer.viewerType
+                        });
                     });
                     // 저장
                     this.saveViewer(saveViewerData);
@@ -312,6 +332,9 @@ class ZFormTokenTab {
      * 참조인 등록/수정
      */
     saveViewer(dataList) {
+        // dataList.push({
+        //
+        // })
         aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
             method: 'POST',
             headers: {
@@ -415,10 +438,11 @@ class ZFormTokenTab {
         } else {
             let jsonArray = [];
             for (let i = 0; i < checked.length; i++) {
-                let jsonObject = {};
-                jsonObject.folderId = this.folderId;
-                jsonObject.instanceId = checked[i].value;
-                jsonArray.push(jsonObject);
+                jsonArray.push({
+                    documentId: this.documentId,
+                    folderId: this.folderId,
+                    instanceId: checked[i].value
+                });
             }
             aliceJs.fetchText('/rest/folders', {
                 method: 'POST',
@@ -547,12 +571,16 @@ class ZFormTokenTab {
             zAlert.warning(i18n.msg('comment.msg.enterComments'));
             return false;
         }
+        const saveData = {
+            documentId: this.documentId,
+            commentValue: commentElem.value
+        };
         aliceJs.fetchText('/rest/instances/' + this.instanceId + '/comments', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: commentElem.value
+            body: JSON.stringify(saveData)
         }).then((rtn) => {
             if (rtn === 'true') {
                 document.getElementById('commentValue').value = '';
@@ -585,10 +613,7 @@ class ZFormTokenTab {
         });
 
         return aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/comments', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            method: 'GET'
         }).then((rtn) => {
             if (rtn) {
                 rtn.forEach((comment) => {
@@ -646,7 +671,10 @@ class ZFormTokenTab {
                 suggestion: true,
                 realtime: true,
                 tagType: 'instance',
-                targetId: this.instanceId
+                targetId: this.instanceId,
+                options: {
+                    documentId: this.documentId
+                }
             });
         });
     }

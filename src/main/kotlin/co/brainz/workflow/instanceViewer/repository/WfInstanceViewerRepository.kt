@@ -15,11 +15,4 @@ import org.springframework.stereotype.Repository
 @Repository
 interface WfInstanceViewerRepository : JpaRepository<WfInstanceViewerEntity, String>,
     WfInstanceViewerRepositoryCustom {
-    @Transactional
-    @Modifying
-    @Query(
-        "DELETE FROM WfInstanceViewerEntity viewerData " +
-                "WHERE viewerData.instance.instanceId = :instanceId and viewerData.viewer.userKey = :viewerKey"
-    )
-    fun deleteByInstanceViewer(instanceId: String, viewerKey: String)
 }
