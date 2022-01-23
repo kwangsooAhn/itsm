@@ -245,7 +245,7 @@ class ZDocument {
         if (isMaxLengthCheck && zValidation.hasDOMElementError(this.domElement)) { return false; }
 
         // 아래 상태를 가질 경우 유효성 체크를 진행하지 않음 (필수값)
-        const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
+        const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw', 'review'];
 
         const isActionTypeCheck = validationUncheckActionType.includes(actionType);
         if (!isActionTypeCheck && !this.saveValidationCheck()) {
@@ -277,12 +277,8 @@ class ZDocument {
         }).then(rtn => {
             if (rtn === 'true') {
                 zAlert.success(i18n.msg(actionMsg),  () => {
-                    if (zValidation.isDefined(window.opener)) {
-                        opener.location.reload();
-                        window.close();
-                    } else {
-                        this.documentModal.hide();
-                    }
+                    opener.location.reload();
+                    window.close();
                 });
             }
         });
