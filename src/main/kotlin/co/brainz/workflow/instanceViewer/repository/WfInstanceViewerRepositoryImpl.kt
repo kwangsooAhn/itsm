@@ -49,6 +49,7 @@ class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewe
     @Modifying
     override fun deleteByInstanceIdAndViewerKey(instanceId: String, viewerKey: String) {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
+
         delete(viewer)
             .where(
                 viewer.instance.instanceId.`in`(instanceId)

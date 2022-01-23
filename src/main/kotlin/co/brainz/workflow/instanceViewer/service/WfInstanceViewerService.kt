@@ -4,6 +4,7 @@
  */
 package co.brainz.workflow.instanceViewer.service
 
+import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.workflow.instanceViewer.constants.WfInstanceViewerConstants
@@ -23,7 +24,8 @@ class WfInstanceViewerService(
     private val currentSessionUser: CurrentSessionUser,
     private val wfInstanceViewerRepository: WfInstanceViewerRepository,
     private val aliceUserRepository: AliceUserRepository,
-    private val wfInstanceRepository: WfInstanceRepository
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val userDetailsService: AliceUserDetailsService
 ) {
     fun getInstanceViewerList(instanceId: String): WfInstanceViewerListReturnDto? {
         val viewerReturnList: MutableList<WfInstanceViewerListDto> = mutableListOf()
@@ -32,15 +34,16 @@ class WfInstanceViewerService(
         if (queryResults != null) {
             val viewerList = queryResults.results
             val count: Long = viewerList.size.toLong()
-
+            
             for (viewer in viewerList) {
+                val avatarPath = userDetailsService.makeAvatarPath(viewer.viewer)
                 viewerReturnList.add(
                     WfInstanceViewerListDto(
                         instanceId = viewer.instance.instanceId,
                         viewerKey = viewer.viewer.userKey,
                         viewerName = viewer.viewer.userName,
                         organizationName = viewer.viewer.department,
-                        avatarPath = viewer.viewer.avatarValue,
+                        avatarPath = avatarPath,
                         reviewYn = viewer.reviewYn,
                         displayYn = viewer.displayYn,
                         createUserKey = viewer.createUserKey,
