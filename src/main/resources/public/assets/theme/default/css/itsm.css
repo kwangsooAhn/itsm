@@ -3507,7 +3507,7 @@ select {
   pointer-events: none;
 }
 
-.z-image-content-edit {
+.z-file-content-edit {
   padding: 0 3.75rem;
   background-color: #FFFFFF;
 }
@@ -6367,6 +6367,17 @@ body.modal-active {
   background-repeat: no-repeat;
   background-position: center center;
 }
+.z-thumbnail-main .z-thumbnail .z-thumbnail-image {
+  position: relative;
+}
+.z-thumbnail-main .z-thumbnail .z-thumbnail-image img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
 .z-thumbnail-main .z-thumbnail .z-thumbnail-info {
   height: 6.563rem;
   padding: 0.75rem 0.9375rem;
@@ -6489,11 +6500,14 @@ body.modal-active {
   width: 760px;
   height: 645px;
 }
+.modal-dialog.z-thumbnail-preview .modal-header .z-thumbnail-preview-name {
+  line-height: 1.2;
+}
 .modal-dialog.z-thumbnail-preview .modal-content {
   height: calc(645px - 3.875rem - 5rem);
   padding: 30px;
 }
-.modal-dialog.z-thumbnail-preview .modal-content .z-thumbnail-preview-image {
+.modal-dialog.z-thumbnail-preview .modal-content .z-thumbnail-preview-file {
   width: 100%;
   height: 100%;
   background-size: contain;

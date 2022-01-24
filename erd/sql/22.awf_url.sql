@@ -88,7 +88,7 @@ insert into awf_url values ('/forms/{id}/view', 'get', '폼 디자이너 상세�
 insert into awf_url values ('/forms/{id}/preview', 'get', '폼 디자이너 미리보기 화면', 'TRUE');
 insert into awf_url values ('/forms', 'get', '폼 리스트 화면', 'TRUE');
 insert into awf_url values ('/forms/search', 'get', '폼 리스트 검색 호출 화면', 'TRUE');
-insert into awf_url values ('/images', 'get', '이미지 관리 화면', 'TRUE');
+insert into awf_url values ('/files', 'get', '파일 관리 화면', 'TRUE');
 insert into awf_url values ('/notices', 'get', '공지사항 목록', 'TRUE');
 insert into awf_url values ('/notices/new', 'get', '공지사항 신규 등록 화면', 'TRUE');
 insert into awf_url values ('/notices/search', 'get', '공지사항 검색 화면 호출 처리', 'TRUE');
@@ -220,11 +220,11 @@ insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 �
 insert into awf_url values ('/rest/forms', 'post', '폼 디자이너 기본 정보 저장 / 다른 이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}', 'put', '폼 디자이너 기본 정보 수정', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}', 'get', '폼 디자이너 기본 정보 조회', true);
-insert into awf_url values ('/rest/images', 'post', '이미지 업로드', 'TRUE');
-insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE');
-insert into awf_url values ('/rest/images/{id}', 'get', '이미지 조회', 'FALSE');
-insert into awf_url values ('/rest/images/{id}', 'delete', '이미지 삭제', 'TRUE');
-insert into awf_url values ('/rest/images', 'get', '이미지 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/files', 'post', '파일 업로드', 'TRUE');
+insert into awf_url values ('/rest/files', 'put', '파일명 수정', 'TRUE');
+insert into awf_url values ('/rest/files/{id}', 'get', '파일 조회', 'FALSE');
+insert into awf_url values ('/rest/files/{id}', 'delete', '파일 삭제', 'TRUE');
+insert into awf_url values ('/rest/files', 'get', '파일 전체 조회', 'FALSE');
 insert into awf_url values ('/rest/instances/{instanceId}/history', 'get', '문서 이력조회', false);
 insert into awf_url values ('/rest/instances/{instanceId}/comments', 'get', '댓글 조회', false);
 insert into awf_url values ('/rest/instances/{instanceId}/comments', 'post', '댓글 등록', false);

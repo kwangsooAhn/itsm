@@ -864,21 +864,6 @@ form:
     publish: "Publish"
     use: "Use"
 
-# Image
-image:
-  label:
-    name: "Image"
-    list: "Image Management"
-    placeholder: "Select Your Image"
-    popupTitle: "Select Image"
-    upload: "Upload Your Image"
-  msg:
-    existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
-    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
-    fileSelect: "Please select a file."
-    registrationSuccess: "Image Registration Success."
-    searchDescription: "Add, view and manage images to be used in forms."
-
 # Login
 login:
   btn:
@@ -942,7 +927,7 @@ menu:
   workflow:
     customCode: "Custom Code"
     form: "Form"
-    image: "Image"
+    file: "File"
     numberingPattern: "Pattern"
     numberingRule: "Document Number"
     parent: "Workflow"
@@ -1467,10 +1452,20 @@ project:
 # uploader
 file:
   label:
+    list: "File Management"
+    name: "File"
     or: "or"
+    placeholder: "Select Your File"
+    popupTitle: "Select File"
+    upload: "Upload Your File"
   msg:
     browser: "Find the file yourself."
+    existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
+    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
+    fileSelect: "Please select a file."
     noAttachFile: "There are no attachments."
+    registrationSuccess: "File Registration Success."
+    searchDescription: "Add, view and manage Files to be used in forms."
     upload: "Drop files here to upload."
 
 # Pattern
