@@ -28,7 +28,8 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 abstract class ChartManager(
-    private val chartManagerService: ChartManagerService
+    private val chartManagerService: ChartManagerService,
+    private val chartConditionService: ChartConditionService
 ) {
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -319,6 +320,7 @@ abstract class ChartManager(
         val instanceList = mutableListOf<ChartTagInstanceDto>()
         // TODO: 조건식에 따른 처리
 
+        chartConditionService.executeCondition(tagInstances)
 
         return instanceList
     }

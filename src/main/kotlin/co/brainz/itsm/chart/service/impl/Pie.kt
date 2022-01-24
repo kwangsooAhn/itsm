@@ -10,6 +10,7 @@ import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartData
 import co.brainz.itsm.chart.dto.ChartTagInstanceDto
+import co.brainz.itsm.chart.service.ChartConditionService
 import co.brainz.itsm.chart.service.ChartManager
 import co.brainz.itsm.chart.service.ChartManagerService
 import org.slf4j.Logger
@@ -18,9 +19,10 @@ import org.springframework.stereotype.Component
 
 @Component
 class Pie(
-    chartManagerService: ChartManagerService
+    chartManagerService: ChartManagerService,
+    chartConditionService: ChartConditionService
 ) : ChartManager(
-    chartManagerService
+    chartManagerService, chartConditionService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
