@@ -335,7 +335,8 @@ class WfTokenManagerService(
                 }
             }
         }
-        // 참조인 알림
+        // 참조인 toast알림 발송
+        // TODO : 참조인 알림 메일 발송
         val viewerEntities = wfInstanceViewerRepository.findViewerByInstanceId(token.instance.instanceId)
 
         if (viewerEntities.isNotEmpty()) {
