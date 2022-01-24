@@ -69,27 +69,14 @@ class InstanceService(
         return wfInstanceService.getInstanceTags(instanceId)
     }
 
-    fun getAllInstanceListAndSearch(
-        tokenId: String,
+    /**
+     * [instanceId] 값으로 본인을 제외한 전체 문서 목록 조회 (관련된 문서 여부를 포함)
+     */
+    fun findAllInstanceListByRelatedCheck(
+        instanceId: String,
         searchValue: String
     ): List<RestTemplateInstanceListDto>? {
-        val allInstanceList = wfInstanceService.getAllInstanceListAndSearch(this.getInstanceId(tokenId)!!, searchValue)
-
-        if (!allInstanceList.isNullOrEmpty()) {
-            val relatedInstanceList = folderService.getFolderByTokenId(tokenId)
-            val relatedInstanceIds = mutableListOf<String>()
-            relatedInstanceList?.forEach { relatedInstance ->
-                relatedInstance.instanceId?.let { relatedInstanceIds.add(it) }
-            }
-            if (relatedInstanceIds.isNotEmpty()) {
-                for (instance in allInstanceList) {
-                    if (relatedInstanceIds.contains(instance.instanceId)) {
-                        instance.related = true
-                    }
-                }
-            }
-        }
-        return allInstanceList
+        return wfInstanceService.findAllInstanceListByRelatedCheck(instanceId, searchValue)
     }
 
     /**

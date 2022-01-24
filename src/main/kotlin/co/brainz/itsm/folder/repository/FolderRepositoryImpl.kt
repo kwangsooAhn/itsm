@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.folder.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
@@ -55,20 +60,5 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
             .where(folder.relatedType.eq("reference").or(folder.relatedType.eq("related")))
             .orderBy(folder.instance.instanceStartDt.asc())
             .fetch()
-    }
-
-    override fun findFolderIdByTokenId(tokenId: String): String {
-        val folder = QWfFolderEntity.wfFolderEntity
-        val token = QWfTokenEntity.wfTokenEntity
-
-        return from(folder, token)
-            .select(folder.folderId)
-            .where(
-                folder.instance.eq(token.instance).and(token.tokenId.eq(tokenId)).and(
-                    folder.relatedType.eq(
-                        "origin"
-                    )
-                )
-            ).fetchOne()
     }
 }

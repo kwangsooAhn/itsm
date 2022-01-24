@@ -414,7 +414,7 @@ class ZFormTokenTab {
      * @param showProgressbar ProgressBar 표시여부
      */
     getRelatedDoc(search, showProgressbar) {
-        aliceJs.fetchText('/tokens/view-pop/documents?searchValue=' + search.trim() + '&tokenId=' + this.tokenId, {
+        aliceJs.fetchText('/tokens/view-pop/documents?searchValue=' + search.trim() + '&instanceId=' + this.instanceId, {
             method: 'GET',
             showProgressbar: showProgressbar
         }).then((htmlData) => {

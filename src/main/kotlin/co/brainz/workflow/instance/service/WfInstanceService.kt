@@ -326,10 +326,13 @@ class WfInstanceService(
     }
 
     /**
-     * Get Instance List
+     * [instanceId] 값으로 본인을 제외한 전체 문서 목록 조회 (관련된 문서 여부를 포함)
      */
-    fun getAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto> {
-        return wfInstanceRepository.findAllInstanceListAndSearch(instanceId, searchValue)
+    fun findAllInstanceListByRelatedCheck(
+        instanceId: String,
+        searchValue: String
+    ): MutableList<RestTemplateInstanceListDto> {
+        return wfInstanceRepository.findAllInstanceListByRelatedCheck(instanceId, searchValue)
     }
 
     fun instancesForExcel(tokenSearchCondition: TokenSearchCondition): MutableList<RestTemplateInstanceExcelDto> {
