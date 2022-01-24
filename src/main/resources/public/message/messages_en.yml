@@ -1051,6 +1051,7 @@ process:
     title: "Process Designer"
     undo: "Undo"
   msg:
+    condition: "The applicable documentation specified in accordance with conditions to enter is registered as an attachment."
     duplicateProcessName: "Duplicate process name! Please enter other process name."
     duplicateData: "The same data exists."
     enterRequired: "{0} Required field is empty.<br>Please enter Required field"
@@ -1060,6 +1061,9 @@ process:
     startEventnMustOne: 'Only one start event is allowed.'
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
+    sourceMappingId: "Mapping ID of the component to which the attachment is to be added.<br>※ The working target component may be a file upload component or an image component."
+    targetFileMappingId: "Mapping ID of the component to which the working condition is to be applied.<br>Compare the input value of the component with the working conditions."
+    targetCIMappingId: "Mapping ID of CI component to reflect CMDB changes"
     uncheckWithdraw: "Can't set withdraw in the first element.<br>Please uncheck withdraw in {0} element."
   title:
     preview: "Zenius ITSM : Process Preview"
