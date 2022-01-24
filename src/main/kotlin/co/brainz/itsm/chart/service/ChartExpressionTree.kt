@@ -1,6 +1,7 @@
 package co.brainz.itsm.chart.service
 
 import co.brainz.itsm.chart.dto.ChartConditionNode
+import co.brainz.itsm.chart.dto.ChartTagInstanceDto
 import org.springframework.stereotype.Service
 
 @Service
@@ -10,14 +11,13 @@ class ChartExpressionTree {
     var index = 0
     var target = ""
 
-    fun execute(condition: String): Int {
+    fun execute(condition: String, tagInstanceList: List<ChartTagInstanceDto>?): Int {
         // create root node
         this.initGlobalVariable(condition)
+        // init root
         this.initRoot()
-        this.createExpressionTree()
-
         // create expression tree
-
+        this.createExpressionTree(tagInstanceList)
         return this.calculateNode()
     }
 
@@ -35,12 +35,21 @@ class ChartExpressionTree {
      * 최상단 루트 초기화 및 설정
      */
     private fun initRoot() {
-        // 첫 문자에 음수가 오는 경우
         when (condition[0]) {
             '-' -> {
+                var target = "-"
                 root = ChartConditionNode(data = "0")
-                index = 1
-                this.addNode("-")
+                this.addNode("+")
+                for (innerIndex in index + 1..condition.indices.last) {
+                    if (condition[innerIndex] in '0'..'9') {
+                        target += condition[innerIndex]
+                        index = innerIndex
+                    } else {
+                        break
+                    }
+                    index++
+                }
+                this.addNode(target)
             }
             else -> {
                 while (index < condition.length) {
@@ -51,7 +60,15 @@ class ChartExpressionTree {
                             if (condition[innerIndex] == ']') {
                                 target = condition.substring(index, innerIndex + 1)
                                 index = innerIndex
-                                break;
+                                break
+                            }
+                        }
+                    } else if (condition[index] == '"') {
+                        for (innerIndex in index + 1..condition.indices.last) {
+                            if (condition[innerIndex] == '"') {
+                                target = condition.substring(index, innerIndex + 1)
+                                index = innerIndex
+                                break
                             }
                         }
                     } else {
@@ -67,7 +84,7 @@ class ChartExpressionTree {
     /**
      * 수식 트리 (Expression Tree) 생성 진행
      */
-    private fun createExpressionTree() {
+    private fun createExpressionTree(tagInstanceList: List<ChartTagInstanceDto>?) {
         while (index < condition.length) {
             when (condition[index]) {
                 in '0'..'9' -> {
@@ -82,6 +99,16 @@ class ChartExpressionTree {
                         index++
                     }
                     this.addNode(target)
+                }
+                '"' -> {
+                    for (innerIndex in index + 1..condition.indices.last) {
+                        if (condition[innerIndex] == '"') {
+                            val target = condition.substring(index..innerIndex)
+                            this.addNode(target)
+                            index = innerIndex
+                            break
+                        }
+                    }
                 }
                 '(' -> {
                     this.addNode("(")
@@ -204,7 +231,6 @@ class ChartExpressionTree {
     }
 
     fun calculateNode(targetNode: ChartConditionNode?): Int {
-        var targetNodeData = targetNode?.data
         when (targetNode) {
             null -> return 0
             else -> {
@@ -285,8 +311,8 @@ class ChartExpressionTree {
      * 연산자 우선순쉬
      */
     private fun getOperatorPrecedence(target: String): Int {
-        if (target == "&&") return 14
-        if (target == "||") return 13
+        if (target == "||") return 14
+        if (target == "&&") return 13
         if (target == "!=") return 12
         if (target == "==") return 11
         if (target == ">=") return 10
