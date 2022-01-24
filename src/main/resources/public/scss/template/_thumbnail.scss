@@ -122,8 +122,8 @@
   }
   // 아이콘
   .z-icon {
-    &.i-image-upload {
-      @include maskImage('#{$icon-folder-path}icon_image_upload.svg', 4.813rem, 4.813rem, no-repeat, center); // 77px 77px
+    &.i-file-upload {
+      @include maskImage('#{$icon-folder-path}icon_file_upload.svg', 5rem, 5rem, no-repeat, center); // 80px 80px
       background: $thumbnail-icon-color;
     }
   }
