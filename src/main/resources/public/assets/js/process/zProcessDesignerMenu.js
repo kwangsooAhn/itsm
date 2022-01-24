@@ -1077,7 +1077,7 @@
             let targetMappingTooltipContents = document.createElement('div');
             targetMappingTooltipContents.className = 'z-tooltip-contents';
             let targetMappingTooltipText = document.createElement('span');
-            targetMappingTooltipText.textContent = i18n.msg('process.msg.targetFileMappingId');
+            targetMappingTooltipText.innerHTML = i18n.msg('process.msg.targetFileMappingId');
             targetMappingTooltipContents.appendChild(targetMappingTooltipText);
             targetMappingTooltip.appendChild(targetMappingTooltipIcon);
             targetMappingTooltip.appendChild(targetMappingTooltipContents);
@@ -1108,7 +1108,7 @@
             let sourceMappingTooltipContents = document.createElement('div');
             sourceMappingTooltipContents.className = 'z-tooltip-contents';
             let sourceMappingTooltipText = document.createElement('span');
-            sourceMappingTooltipText.textContent = i18n.msg('process.msg.sourceMappingId');
+            sourceMappingTooltipText.innerHTML = i18n.msg('process.msg.sourceMappingId');
             sourceMappingTooltipContents.appendChild(sourceMappingTooltipText);
             sourceMappingTooltip.appendChild(sourceMappingTooltipIcon);
             sourceMappingTooltip.appendChild(sourceMappingTooltipContents);
@@ -1160,7 +1160,7 @@
             let targetMappingTooltipContents = document.createElement('div');
             targetMappingTooltipContents.className = 'z-tooltip-contents';
             let targetMappingTooltipText = document.createElement('span');
-            targetMappingTooltipText.textContent = i18n.msg('process.msg.targetCIMappingId');
+            targetMappingTooltipText.innerHTML = i18n.msg('process.msg.targetCIMappingId');
             targetMappingTooltipContents.appendChild(targetMappingTooltipText);
             targetMappingTooltip.appendChild(targetMappingTooltipIcon);
             targetMappingTooltip.appendChild(targetMappingTooltipContents);
@@ -1228,7 +1228,7 @@
             let conditionTooltipContents = document.createElement('div');
             conditionTooltipContents.className = 'z-tooltip-contents';
             let conditionTooltipText = document.createElement('span');
-            conditionTooltipText.textContent = i18n.msg('process.msg.condition');
+            conditionTooltipText.innerHTML = i18n.msg('process.msg.condition');
             conditionTooltipContents.appendChild(conditionTooltipText);
             conditionTooltip.appendChild(conditionTooltipIcon);
             conditionTooltip.appendChild(conditionTooltipContents);
