@@ -44,11 +44,11 @@ insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search',
 insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
 insert into awf_menu values ('statistic.customReportTemplate', 'statistic', '/statistic/customReportTemplate/search', 1, 'TRUE');
 insert into awf_menu values ('statistic.customReport', 'statistic', '/statistic/customReport/search', 2, 'TRUE');
-insert into awf_menu values ('statistic.basicReport', 'statistic', '/statistic/basicReport/search', 3, 'TRUE');
+insert into awf_menu values ('statistic.basicReport', 'statistic', '/statistic/basicReport/search', 3, 'FALSE');
 insert into awf_menu values ('statistic.customChart', 'statistic', '/statistic/customChart/search', 4, 'TRUE');
-insert into awf_menu values ('statistic.basicChart', 'statistic', '/statistic/basicChart/search', 5, 'TRUE');
-insert into awf_menu values ('statistic.dashboardTemplate', 'statistic', '/statistic/dashboardTemplate/search', 6, 'TRUE');
-insert into awf_menu values ('statistic.customDashboardTemplate', 'statistic', '/statistic/customDashboardTemplate/edit', 7, 'TRUE');
+insert into awf_menu values ('statistic.basicChart', 'statistic', '/statistic/basicChart/search', 5, 'FALSE');
+insert into awf_menu values ('statistic.dashboardTemplate', 'statistic', '/statistic/dashboardTemplate/search', 6, 'FALSE');
+insert into awf_menu values ('statistic.customDashboardTemplate', 'statistic', '/statistic/customDashboardTemplate/edit', 7, 'FALSE');
 insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1, 'TRUE');
 insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2, 'TRUE');
 insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3, 'TRUE');
