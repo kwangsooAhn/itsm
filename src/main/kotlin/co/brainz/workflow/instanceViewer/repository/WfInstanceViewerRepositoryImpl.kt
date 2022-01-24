@@ -15,7 +15,6 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import com.querydsl.core.QueryResults
-import com.querydsl.core.types.Projections
 
 @Repository
 class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::class.java),
@@ -45,15 +44,13 @@ class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewe
             .fetchOne()
     }
 
-    @Transactional
-    @Modifying
-    override fun deleteByInstanceIdAndViewerKey(instanceId: String, viewerKey: String) {
+    override fun findByInstanceIdAndViewerKey(instanceId: String, viewerKey: String): WfInstanceViewerEntity? {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
-        delete(viewer)
+        return from(viewer)
             .where(
-                viewer.instance.instanceId.`in`(instanceId)
-                    .and(viewer.viewer.userKey.`in`(viewerKey))
-            )
+                viewer.instance.instanceId.eq(instanceId)
+                    .and(viewer.viewer.userKey.eq(viewerKey))
+            ).fetchOne()
     }
 }

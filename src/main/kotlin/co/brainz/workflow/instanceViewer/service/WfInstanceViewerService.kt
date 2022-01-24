@@ -6,7 +6,10 @@ package co.brainz.workflow.instanceViewer.service
 
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.organization.dto.OrganizationSearchCondition
+import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.instanceViewer.constants.WfInstanceViewerConstants
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instanceViewer.dto.WfInstanceViewerDataDto
@@ -25,17 +28,30 @@ class WfInstanceViewerService(
     private val wfInstanceViewerRepository: WfInstanceViewerRepository,
     private val aliceUserRepository: AliceUserRepository,
     private val wfInstanceRepository: WfInstanceRepository,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val organizationRepository: OrganizationRepository,
+    private val userService: UserService
 ) {
     fun getInstanceViewerList(instanceId: String): WfInstanceViewerListReturnDto? {
         val viewerReturnList: MutableList<WfInstanceViewerListDto> = mutableListOf()
-        val queryResults: QueryResults<WfInstanceViewerEntity>? =
+        val viewerResults: QueryResults<WfInstanceViewerEntity>? =
             wfInstanceViewerRepository.findByInstanceViewerList(instanceId)
-        if (queryResults != null) {
-            val viewerList = queryResults.results
+        if (viewerResults != null) {
+            val viewerList = viewerResults.results
             val count: Long = viewerList.size.toLong()
-            
             for (viewer in viewerList) {
+                val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
+                val organization = organizationList.results.firstOrNull { it.organizationId == viewer.viewer.department }
+                var organizationName = mutableListOf<String>()
+                if (organization != null) {
+                    if (organization.pOrganization != null) {
+                        organizationName = userService.getRecursive(organization, organizationList.results, organizationName)
+                    } else {
+                        organizationName.add(organization.organizationName.toString())
+                    }
+                }
+                viewer.viewer.department = organizationName.joinToString(" > ")
+
                 val avatarPath = userDetailsService.makeAvatarPath(viewer.viewer)
                 viewerReturnList.add(
                     WfInstanceViewerListDto(
@@ -68,7 +84,6 @@ class WfInstanceViewerService(
 
         wfInstanceViewerDataDtoList.forEach {
             val viewer = aliceUserRepository.findAliceUserEntityByUserKey(it.viewerKey)
-            val documentId = it.documentId  //오류나서 임시 저장하면서 사용
             when (it.viewerType) {
                 WfInstanceViewerConstants.ViewType.REGISTER.value -> {
                     val instanceViewerEntity =
@@ -90,8 +105,11 @@ class WfInstanceViewerService(
         return true
     }
 
+    @Transactional
     fun deleteInstanceViewer(instanceId: String, viewerKey: String): Boolean {
-        wfInstanceViewerRepository.deleteByInstanceIdAndViewerKey(instanceId, viewerKey)
+        wfInstanceViewerRepository.delete(
+            wfInstanceViewerRepository.findByInstanceIdAndViewerKey(instanceId, viewerKey)!!
+        )
         return true
     }
 }
