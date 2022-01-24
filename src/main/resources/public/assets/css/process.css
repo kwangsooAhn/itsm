@@ -4297,13 +4297,13 @@ svg path.connector.hidden {
 }
 .z-help-tooltip .z-tooltip-contents {
   position: absolute;
-  left: auto;
+  left: 0;
   visibility: hidden;
   background-color: #FFFFFF;
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   color: #339AF0;
-  width: 28.125rem;
+  width: 100%;
   border: 0.125rem solid #339AF0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -4520,6 +4520,10 @@ svg path.connector.hidden {
   left: 50%;
   content: "";
   margin-left: -0.313rem;
+}
+
+.z-help-tooltip {
+  position: static;
 }
 
 /* _modal.scss
