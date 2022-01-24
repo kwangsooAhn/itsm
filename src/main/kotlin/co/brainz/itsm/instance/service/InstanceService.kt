@@ -9,7 +9,6 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.dto.CommentDto
 import co.brainz.itsm.instance.dto.InstanceCommentDto
 import co.brainz.itsm.instance.entity.WfCommentEntity
@@ -34,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional
 class InstanceService(
     private val aliceUserRepository: AliceUserRepository,
     private val userDetailsService: AliceUserDetailsService,
-    private val folderService: FolderService,
     private val wfInstanceService: WfInstanceService,
     private val wfTokenService: WfTokenService,
     private val currentSessionUser: CurrentSessionUser,

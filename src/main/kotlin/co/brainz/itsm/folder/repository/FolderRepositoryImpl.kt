@@ -6,6 +6,7 @@
 package co.brainz.itsm.folder.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.itsm.folder.constants.FolderConstants
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.folder.entity.WfFolderEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
@@ -39,6 +40,7 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
                             .where(folder.instance.instanceId.eq(token.instance.instanceId)),
                         "tokenId"
                     ),
+                    folder.instance.document.documentId,
                     folder.instance.documentNo,
                     folder.instance.document.documentName,
                     folder.instance.document.documentColor,
@@ -60,5 +62,14 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
             .where(folder.relatedType.eq("reference").or(folder.relatedType.eq("related")))
             .orderBy(folder.instance.instanceStartDt.asc())
             .fetch()
+    }
+
+    override fun findFolderOriginByInstanceId(instanceId: String): WfFolderEntity {
+        val folder = QWfFolderEntity.wfFolderEntity
+        return from(folder)
+            .where(folder.instance.instanceId.eq(instanceId)
+                .and(folder.relatedType.eq(FolderConstants.RelatedType.ORIGIN.code))
+            )
+            .fetchOne()
     }
 }

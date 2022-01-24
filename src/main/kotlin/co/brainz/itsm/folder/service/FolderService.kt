@@ -9,9 +9,11 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.folder.constants.FolderConstants
+import co.brainz.itsm.folder.dto.InstanceFolderListDto
 import co.brainz.itsm.folder.dto.InstanceInFolderDto
 import co.brainz.itsm.folder.entity.WfFolderEntity
 import co.brainz.itsm.folder.repository.FolderRepository
+import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDataDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
@@ -22,8 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
-import java.util.UUID
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class FolderService(
@@ -33,26 +35,21 @@ class FolderService(
     private val folderRepository: FolderRepository,
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfInstanceRepository: WfInstanceRepository
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val folderManager: FolderManager,
+    private val instanceService: InstanceService
 ) {
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun createFolder(instance: WfInstanceEntity): WfFolderEntity {
-        return folderRepository.save(
-            WfFolderEntity(
-                folderId = UUID.randomUUID().toString().replace("-", ""),
-                instance = instance,
-                relatedType = FolderConstants.RelatedType.ORIGIN.code,
-                createDt = LocalDateTime.now()
-            )
-        )
+        return folderManager.createFolder(instance)
     }
 
     /**
      * [folderId]의 관련 문서 조회
      */
     fun getFolder(folderId: String): List<InstanceInFolderDto>? {
-        val relatedInstances = folderRepository.findRelatedDocumentListByFolderId(folderId)
+        val relatedInstances = folderManager.findRelatedDocumentListByFolderId(folderId)
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
         val relatedInstanceList: MutableList<InstanceInFolderDto> = mutableListOf()
         for (relatedInstance in relatedInstances) {
@@ -61,6 +58,7 @@ class FolderService(
                 instanceId = relatedInstance.instanceId,
                 relatedType = relatedInstance.relatedType,
                 tokenId = relatedInstance.tokenId,
+                documentId = relatedInstance.documentId,
                 documentNo = relatedInstance.documentNo,
                 documentName = relatedInstance.documentName,
                 documentColor = relatedInstance.documentColor,
@@ -114,36 +112,33 @@ class FolderService(
         return folderId
     }
 
-    fun insertFolderDto(folderDtoList: List<InstanceInFolderDto>): Boolean {
-        folderDtoList.forEach {
-            val wfFolderEntity = WfFolderEntity(
-                folderId = it.folderId!!,
-                instance = wfInstanceRepository.findByInstanceId(it.instanceId!!)!!,
-                relatedType = it.relatedType ?: FolderConstants.RelatedType.REFERENCE.code,
-                createUserKey = currentSessionUser.getUserKey(),
-                createDt = LocalDateTime.now()
-            )
-            folderRepository.save(wfFolderEntity)
+    @Transactional
+    fun insertFolderDto(instanceFolderListDto: InstanceFolderListDto): String {
+        var isSuccess = true
+        var folderId = ""
+        if (instanceFolderListDto.instanceId.isNotEmpty()) {
+            isSuccess = instanceService.setInitInstance(instanceFolderListDto.instanceId, instanceFolderListDto.documentId)
+            folderId = folderManager.findFolderOriginByInstanceId(instanceFolderListDto.instanceId).folderId
+            instanceFolderListDto.folders.forEach { it.folderId = folderId }
         }
-        return true
-    }
-
-    fun insertInstance(originInstance: WfInstanceEntity, relatedInstance: WfInstanceEntity) {
-        lateinit var folderId: String
-        originInstance.folders?.forEach {
-            if (it.relatedType == FolderConstants.RelatedType.ORIGIN.code) {
-                folderId = it.folderId
-                return@forEach
+        if (isSuccess) {
+            instanceFolderListDto.folders.forEach {
+                val wfFolderEntity = WfFolderEntity(
+                    folderId = it.folderId!!,
+                    instance = wfInstanceRepository.findByInstanceId(it.instanceId!!)!!,
+                    relatedType = it.relatedType ?: FolderConstants.RelatedType.REFERENCE.code,
+                    createUserKey = currentSessionUser.getUserKey(),
+                    createDt = LocalDateTime.now()
+                )
+                folderRepository.save(wfFolderEntity)
             }
         }
 
-        folderRepository.save(
-            WfFolderEntity(
-                folderId = folderId,
-                instance = relatedInstance,
-                relatedType = FolderConstants.RelatedType.RELATED.code
-            )
-        )
+        return folderId
+    }
+
+    fun insertInstance(originInstance: WfInstanceEntity, relatedInstance: WfInstanceEntity) {
+        return folderManager.insertInstance(originInstance, relatedInstance)
     }
 
     fun deleteInstanceInFolder(folderId: String, instanceId: String): Boolean {

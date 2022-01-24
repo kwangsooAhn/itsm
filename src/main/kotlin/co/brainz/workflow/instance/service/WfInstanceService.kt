@@ -11,7 +11,7 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagManager
-import co.brainz.itsm.folder.service.FolderService
+import co.brainz.itsm.folder.service.FolderManager
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -53,7 +53,7 @@ class WfInstanceService(
     private val wfDocumentRepository: WfDocumentRepository,
     private val numberingRuleService: NumberingRuleService,
     private val aliceUserRepository: AliceUserRepository,
-    private val folderService: FolderService,
+    private val folderManager: FolderManager,
     private val aliceTagManager: AliceTagManager,
     private val userDetailsService: AliceUserDetailsService
 ) {
@@ -245,12 +245,12 @@ class WfInstanceService(
         )
         val instance = wfInstanceRepository.save(instanceEntity)
         instance.let {
-            val folders = folderService.createFolder(instance)
+            val folders = folderManager.createFolder(instance)
             instance.folders = mutableListOf(folders)
             instance.pTokenId?.let { id ->
                 val parentToken = wfTokenRepository.getOne(id)
-                folderService.insertInstance(parentToken.instance, instance)
-                folderService.insertInstance(instance, parentToken.instance)
+                folderManager.insertInstance(parentToken.instance, instance)
+                folderManager.insertInstance(instance, parentToken.instance)
             }
         }
 

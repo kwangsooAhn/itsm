@@ -433,6 +433,10 @@ class ZFormTokenTab {
         if (checked.length === 0) {
             zAlert.warning(i18n.msg('token.msg.selectToken'));
         } else {
+            let data = {
+                instanceId: this.instanceId,
+                documentId: this.documentId
+            }
             let jsonArray = [];
             for (let i = 0; i < checked.length; i++) {
                 jsonArray.push({
@@ -441,14 +445,16 @@ class ZFormTokenTab {
                     instanceId: checked[i].value
                 });
             }
+            data.folders = jsonArray;
             aliceJs.fetchText('/rest/folders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(jsonArray)
-            }).then((rtn) => {
-                if (rtn === 'true') {
+                body: JSON.stringify(data)
+            }).then((result) => {
+                if (result !== '') {
+                    this.folderId = result;
                     this.reloadRelatedInstance().then(() => {
                         // 날짜 표기 변경
                         this.setDateTimeFormat();
