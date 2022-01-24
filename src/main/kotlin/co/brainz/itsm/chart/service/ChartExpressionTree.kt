@@ -12,7 +12,7 @@ class ChartExpressionTree {
 
     fun execute(condition: String): Int {
         // create root node
-        this.initCondition(condition)
+        this.initGlobalVariable(condition)
         this.initRoot()
         this.createExpressionTree()
 
@@ -22,21 +22,19 @@ class ChartExpressionTree {
     }
 
     /**
-     * 조건문 초기화
+     * 전역변수 초기화
      */
-    private fun initCondition(condition: String) {
+    private fun initGlobalVariable(condition: String) {
+        this.root = null
         this.condition = condition
+        this.index = 0
+        this.target = ""
     }
 
     /**
      * 최상단 루트 초기화 및 설정
      */
     private fun initRoot() {
-        this.index = 0
-        this.target = ""
-
-
-
         // 첫 문자에 음수가 오는 경우
         when (condition[0]) {
             '-' -> {
@@ -92,10 +90,47 @@ class ChartExpressionTree {
                     this.addNode(")")
                 }
                 '+' -> {
+                    if (condition[index - 1] == '(' ||
+                        condition[index - 1] == '+' ||
+                        condition[index - 1] == '-' ||
+                        condition[index - 1] == '*' ||
+                        condition[index - 1] == '/'
+                    ) {
+                        var target = "+"
+                        for (innerIndex in index + 1..condition.indices.last) {
+                            if (condition[innerIndex] in '0'..'9') {
+                                target += condition[innerIndex]
+                                index = innerIndex
+                            } else {
+                                index = innerIndex - 1
+                                break
+                            }
+                        }
+                        this.addNode(target)
+                    }
                     this.addNode("+")
                 }
                 '-' -> {
-                    this.addNode("-")
+                    if (condition[index - 1] == '(' ||
+                        condition[index - 1] == '+' ||
+                        condition[index - 1] == '-' ||
+                        condition[index - 1] == '*' ||
+                        condition[index - 1] == '/'
+                    ) {
+                        var target = "-"
+                        for (innerIndex in index + 1..condition.indices.last) {
+                            if (condition[innerIndex] in '0'..'9') {
+                                target += condition[innerIndex]
+                                index = innerIndex
+                            } else {
+                                index = innerIndex - 1
+                                break
+                            }
+                        }
+                        this.addNode(target)
+                    } else {
+                        this.addNode("-")
+                    }
                 }
                 '*' -> {
                     this.addNode("*")
@@ -144,7 +179,7 @@ class ChartExpressionTree {
                     }
                 }
                 '[' -> {
-                    for (innerIndex in index .. condition.indices.last) {
+                    for (innerIndex in index..condition.indices.last) {
                         if (condition[innerIndex] == ']') {
                             val target = condition.substring(index..innerIndex)
                             this.addNode(target)
@@ -169,33 +204,28 @@ class ChartExpressionTree {
     }
 
     fun calculateNode(targetNode: ChartConditionNode?): Int {
-        if (targetNode == null) return 0
-
-        if (targetNode.data[0] in '0'..'9') {
-            return targetNode.data.toInt()
+        var targetNodeData = targetNode?.data
+        when (targetNode) {
+            null -> return 0
+            else -> {
+                if (targetNode.data != "+" && targetNode.data != "-" && targetNode.data.matches(("[+-]?\\d*(\\.\\d+)?").toRegex())) {
+                    return targetNode.data.toInt()
+                }
+                if (targetNode.data == "+") {
+                    return calculateNode(targetNode.leftNode) + calculateNode(targetNode.rightNode)
+                }
+                if (targetNode.data == "-") {
+                    return calculateNode(targetNode.leftNode) - calculateNode(targetNode.rightNode)
+                }
+                if (targetNode.data == "*") {
+                    return calculateNode(targetNode.leftNode) * calculateNode(targetNode.rightNode)
+                }
+                if (targetNode.data == "/") {
+                    return calculateNode(targetNode.leftNode) / calculateNode(targetNode.rightNode)
+                }
+                return 0
+            }
         }
-        if (targetNode.data == "+") {
-            return calculateNode(targetNode.leftNode) + calculateNode(targetNode.rightNode)
-        }
-        if (targetNode.data == "-") {
-            return calculateNode(targetNode.leftNode) - calculateNode(targetNode.rightNode)
-        }
-        if (targetNode.data == "*") {
-            return calculateNode(targetNode.leftNode) * calculateNode(targetNode.rightNode)
-        }
-        if (targetNode.data == "/") {
-            return calculateNode(targetNode.leftNode) / calculateNode(targetNode.rightNode)
-        }
-/*
-        if (targetNode.data == ">") {
-
-        }
-        if (targetNode.data == "<") {
-
-        }
-*/
-
-        return 0
     }
 
     fun addNode(target: String) {
@@ -204,18 +234,23 @@ class ChartExpressionTree {
 
     private fun addNode(overallRoot: ChartConditionNode?, target: String): ChartConditionNode? {
         var root: ChartConditionNode? = overallRoot
+        // root가 null이거나 root의 데이터가 비어있는 경우
         if (root == null || root.data.isEmpty()) {
             root = ChartConditionNode(data = target)
-        } else if (root.data == "(" && target != ")") {
+        }
+        // root의 data는 "("이고 대상은 ")"이 아닌 경우
+        else if (root.data == "(" && target != ")") {
             root.leftNode = addNode(root.leftNode, target)
-        } else if (root.data == "(" && target == ")") {
+        }
+        // root의 data는 "("이고 대상은 ")"인 경우
+        else if (root.data == "(" && target == ")") {
+            // 해당 루트에 "("가 존재하지 않으면
             if (!hasParentheses(root.leftNode)) {
                 var data = calculateNode(root.leftNode)
                 if (data < 0) {
-                    data *= -1
                     root.rightNode = ChartConditionNode(data = data.toString())
-                    root.data = "-"
-                    root.leftNode = null
+                    root.data = "+"
+                    root.leftNode = ChartConditionNode(data = "0")
                 } else {
                     root.data = data.toString()
                     root.leftNode = null
@@ -223,16 +258,24 @@ class ChartExpressionTree {
             } else {
                 root.leftNode = addNode(root.leftNode, target)
             }
-        } else if (hasParentheses(root)) {
+        }
+        // root에 "("가 존재하고 있는 경우
+        else if (hasParentheses(root)) {
             root.rightNode = addNode(root.rightNode, target)
-        } else if (getOperatorPrecedence(root.data) < getOperatorPrecedence(target)) {
+        }
+        // root.data의 우선순위가 target의 우선순위보다 작은 경우
+        else if (getOperatorPrecedence(root.data) < getOperatorPrecedence(target)) {
             val node = ChartConditionNode(data = target)
             node.leftNode = root
             return node
-        } else if (root.data != "(" && getOperatorPrecedence(root.data) >= getOperatorPrecedence(target) && root.leftNode == null) {
-            root.leftNode = addNode(root.leftNode, target)
-        } else if (root.data != "(" && getOperatorPrecedence(root.data) >= getOperatorPrecedence(target) && root.leftNode != null) {
-            root.rightNode = addNode(root.rightNode, target)
+        }
+        // root.data는 "("가 아니고 root.data의 우선순위가 target의 우선순위보다 크거나 같은 경우
+        else if (root.data != "(" && getOperatorPrecedence(root.data) >= getOperatorPrecedence(target)) {
+            if (root.leftNode == null) {
+                root.leftNode = addNode(root.leftNode, target)
+            } else {
+                root.rightNode = addNode(root.rightNode, target)
+            }
         }
 
         return root
