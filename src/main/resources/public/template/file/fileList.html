@@ -145,7 +145,7 @@
         const thumbnailTemplate = `<div class="z-thumbnail" tabindex="-1">` +
             `${isImageFile ?
                 `<div class="z-thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>` :
-                `<div class="z-thumbnail-image" onclick="downLoadFile();"><img src="${getFileIcon(fileExtention)}"></div>`}` +
+                `<div class="z-thumbnail-image" onclick="downLoadFile(this);"><img src="${getFileIcon(fileExtention)}"></div>`}` +
                 `<div class="z-thumbnail-info">` +
                     `<p class="z-thumbnail-info-text">` +
                         `<label name="updateLabel" class="z-thumbnail-image-name text-ellipsis" ondblclick="renameFile(this);" title="${image.name}">${image.name}</label>` +
@@ -170,7 +170,7 @@
         if (thumbnailCnt === 0) {
             let thumbnailUploadTemplate = `
                 <div class="z-thumbnail-upload align-center" onclick="document.getElementById('uploadFile').click();" tabindex="-1">
-                    <span class="z-icon i-image-upload"></span>
+                    <span class="z-icon i-file-upload"></span>
                     <p class="z-thumbnail-upload-text underline mt-2">${i18n.msg('file.label.upload')}</p>
                     <input type="file" id="uploadFile" accept="${acceptFileNameList.join()}" multiple onchange="uploadFile(this);" style="display: none;"/>
                 </div>
@@ -288,8 +288,28 @@
         }
     }
     // 다운로드
-    function downLoadFile() {
+    function downLoadFile(thumbnail) {
         // TODO: 파일 다운로드 구현
+        /*const fileName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
+        aliceJs.fetchBlob('/rest/files/download?fileName=' + fileName, {
+            method: 'GET',
+            showProgressbar: true
+        }).then(blob => {
+            if (typeof blob === 'object') {
+                const a = document.createElement('a');
+                const url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                document.body.append(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            } else {
+                zAlert.warning(i18n.msg('file.msg.noAttachFile'));
+            }
+        }).catch(err => {
+            zAlert.warning(err);
+        });*/
     }
     // 이미지 미리보기
     function imagePreview(thumbnail) {

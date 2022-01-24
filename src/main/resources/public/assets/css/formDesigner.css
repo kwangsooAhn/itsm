@@ -5590,11 +5590,11 @@ body.modal-active {
   border: 0.0625rem solid #339AF0;
   background-color: #E3F5FC;
 }
-.z-thumbnail-main .z-icon.i-image-upload {
-  width: 4.813rem;
-  height: 4.813rem;
-  -webkit-mask-image: url("../media/icons/icon_image_upload.svg");
-  mask-image: url("../media/icons/icon_image_upload.svg");
+.z-thumbnail-main .z-icon.i-file-upload {
+  width: 5rem;
+  height: 5rem;
+  -webkit-mask-image: url("../media/icons/icon_file_upload.svg");
+  mask-image: url("../media/icons/icon_file_upload.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
