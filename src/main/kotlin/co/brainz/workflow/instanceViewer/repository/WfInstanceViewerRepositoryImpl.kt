@@ -17,23 +17,23 @@ class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewe
     WfInstanceViewerRepositoryCustom {
 
     override fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerEntity? {
-        val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
+        val instanceViewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
-        return from(viewer)
+        return from(instanceViewer)
             .where(
-                viewer.instance.instanceId.eq(instanceId)
-                    .and(viewer.viewer.eq(AliceUserEntity(userKey)))
+                instanceViewer.instance.instanceId.eq(instanceId)
+                    .and(instanceViewer.viewer.eq(AliceUserEntity(userKey)))
             )
             .fetchOne()
     }
 
     override fun findViewerByInstanceId(instanceId: String): MutableList<WfInstanceViewerEntity> {
-        val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
+        val instanceViewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
-        return from(viewer)
+        return from(instanceViewer)
             .where(
-                viewer.instance.instanceId.eq(instanceId)
-                    .and(viewer.displayYn.eq(false))
+                instanceViewer.instance.instanceId.eq(instanceId)
+                    .and(instanceViewer.displayYn.eq(false))
             )
             .fetch()
     }
