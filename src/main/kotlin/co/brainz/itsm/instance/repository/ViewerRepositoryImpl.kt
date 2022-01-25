@@ -4,18 +4,22 @@
  *
  */
 
-package co.brainz.workflow.instanceViewer.repository
+package co.brainz.itsm.instance.repository
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.instanceViewer.entity.QWfInstanceViewerEntity
 import co.brainz.workflow.instanceViewer.entity.WfInstanceViewerEntity
 import com.querydsl.core.QueryResults
+import co.brainz.itsm.instance.entity.QWfInstanceViewerEntity
+import co.brainz.itsm.instance.entity.WfInstanceViewerEntity
+import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
+import com.querydsl.core.QueryResults
 
 @Repository
-class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::class.java),
-    WfInstanceViewerRepositoryCustom {
+class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::class.java),
+    ViewerRepositoryCustom {
 
     override fun findByInstanceViewerList(instanceId: String): QueryResults<WfInstanceViewerEntity>? {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity

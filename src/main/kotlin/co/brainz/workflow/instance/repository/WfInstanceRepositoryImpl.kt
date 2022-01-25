@@ -12,6 +12,7 @@ import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
+import co.brainz.itsm.folder.constants.FolderConstants
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.instance.entity.QWfCommentEntity
@@ -38,8 +39,9 @@ import co.brainz.workflow.token.entity.QWfTokenDataEntity
 import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.QueryResults
+import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
-import com.querydsl.core.types.dsl.Expressions
+import com.querydsl.core.types.dsl.CaseBuilder
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
 import java.time.LocalDateTime
@@ -413,7 +415,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             .execute()
     }
 
-    override fun findAllInstanceListAndSearch(
+    override fun findAllInstanceListByRelatedCheck(
         instanceId: String,
         searchValue: String
     ): MutableList<RestTemplateInstanceListDto> {
@@ -428,7 +430,22 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     instance.instanceEndDt,
                     user.userKey,
                     user.userName,
-                    Expressions.asBoolean(false)
+                    ExpressionUtils.`as`(
+                        JPAExpressions.select(
+                            CaseBuilder()
+                                .`when`(folder.count().gt(0)).then(true).otherwise(false))
+                            .from(folder)
+                            .where(folder.relatedType.`in`(
+                                FolderConstants.RelatedType.REFERENCE.code, FolderConstants.RelatedType.RELATED.code)
+                                .and(folder.instance.eq(instance))
+                                .and(folder.folderId.eq(
+                                    from(folder)
+                                        .select(folder.folderId)
+                                        .where(folder.instance.instanceId.eq(instanceId)
+                                            .and(folder.relatedType.eq(FolderConstants.RelatedType.ORIGIN.code)))
+                                ))
+                            ), "related"
+                    )
                 )
             )
             .distinct()

@@ -3,7 +3,7 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.workflow.instanceViewer.entity
+package co.brainz.itsm.instance.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity

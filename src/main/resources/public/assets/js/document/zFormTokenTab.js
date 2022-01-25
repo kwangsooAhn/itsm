@@ -238,7 +238,6 @@ class ZFormTokenTab {
                         // 신규 추가
                         if (findIndex === -1) {
                             saveViewerData.push({
-                                documentId: this.documentId,
                                 viewerKey: viewer.id,
                                 reviewYn: false,
                                 displayYn: false,
@@ -247,7 +246,6 @@ class ZFormTokenTab {
                         } else { // 기존 수정
                             const matchingViewer = clonedViewerList[findIndex];
                             saveViewerData.push({
-                                documentId: this.documentId,
                                 viewerKey: matchingViewer.viewerKey,
                                 reviewYn: matchingViewer.reviewYn,
                                 displayYn: matchingViewer.displayYn,
@@ -264,15 +262,19 @@ class ZFormTokenTab {
                             viewer.viewerType = DOCUMENT.VIEWER_TYPE.DELETE;
                         }
                         saveViewerData.push({
-                            documentId: this.documentId,
                             viewerKey: viewer.viewerKey,
                             reviewYn: viewer.reviewYn,
                             displayYn: viewer.displayYn,
                             viewerType: viewer.viewerType
                         });
                     });
-                    // 저장
-                    this.saveViewer(saveViewerData);
+
+                    let data = {
+                        instanceId: this.instanceId,
+                        documentId: this.documentId,
+                        viewers: saveViewerData
+                    }
+                    this.saveViewer(data);
                     modal.hide();
                 }
             }, {
@@ -329,19 +331,15 @@ class ZFormTokenTab {
     /**
      * 참조인 등록/수정
      */
-    saveViewer(dataList) {
-        // dataList.push({
-        //
-        // })
+    saveViewer(data) {
         aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dataList)
+            body: JSON.stringify(data)
         }).then((response) => {
             if (response.status === 200) {
-                // 테이블 새로 그려주기 - 동시 작업으로 인해 읽음 처리될 경우도 있으므로 새로 데이터를 가져옴
                 this.reloadViewer();
             }
         });
@@ -415,7 +413,7 @@ class ZFormTokenTab {
      * @param showProgressbar ProgressBar 표시여부
      */
     getRelatedDoc(search, showProgressbar) {
-        aliceJs.fetchText('/tokens/view-pop/documents?searchValue=' + search.trim() + '&tokenId=' + this.tokenId, {
+        aliceJs.fetchText('/tokens/view-pop/documents?searchValue=' + search.trim() + '&instanceId=' + this.instanceId, {
             method: 'GET',
             showProgressbar: showProgressbar
         }).then((htmlData) => {
@@ -434,6 +432,10 @@ class ZFormTokenTab {
         if (checked.length === 0) {
             zAlert.warning(i18n.msg('token.msg.selectToken'));
         } else {
+            let data = {
+                instanceId: this.instanceId,
+                documentId: this.documentId
+            }
             let jsonArray = [];
             for (let i = 0; i < checked.length; i++) {
                 jsonArray.push({
@@ -442,14 +444,16 @@ class ZFormTokenTab {
                     instanceId: checked[i].value
                 });
             }
+            data.folders = jsonArray;
             aliceJs.fetchText('/rest/folders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(jsonArray)
-            }).then((rtn) => {
-                if (rtn === 'true') {
+                body: JSON.stringify(data)
+            }).then((result) => {
+                if (result !== '') {
+                    this.folderId = result;
                     this.reloadRelatedInstance().then(() => {
                         // 날짜 표기 변경
                         this.setDateTimeFormat();
@@ -582,7 +586,7 @@ class ZFormTokenTab {
         }).then((rtn) => {
             if (rtn === 'true') {
                 document.getElementById('commentValue').value = '';
-                this.reloadTab();
+                this.reloadTokenComment();
             }
         });
     }
