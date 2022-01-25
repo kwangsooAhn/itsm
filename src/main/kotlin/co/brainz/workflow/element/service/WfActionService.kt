@@ -6,12 +6,12 @@
 package co.brainz.workflow.element.service
 
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.instance.repository.ViewerRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.repository.WfElementDataRepository
 import co.brainz.workflow.element.repository.WfElementRepository
-import co.brainz.workflow.instanceViewer.repository.WfInstanceViewerRepository
 import co.brainz.workflow.provider.dto.RestTemplateActionDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -25,7 +25,7 @@ class WfActionService(
     private val wfElementService: WfElementService,
     private val wfElementRepository: WfElementRepository,
     private val wfElementDataRepository: WfElementDataRepository,
-    private val wfInstanceViewerRepository: WfInstanceViewerRepository,
+    private val viewerRepository: ViewerRepository,
     private val currentSessionUser: CurrentSessionUser
 ) {
 
@@ -116,7 +116,7 @@ class WfActionService(
         var isAction = false
         if (!instanceId.isNullOrBlank()) {
             val userKey = currentSessionUser.getUserKey()
-            val instanceViewer = wfInstanceViewerRepository.getReviewYnByViewKey(instanceId, userKey)
+            val instanceViewer = viewerRepository.getReviewYnByViewKey(instanceId, userKey)
             if (instanceViewer !== null && !instanceViewer.reviewYn) {
                 isAction = true
             }

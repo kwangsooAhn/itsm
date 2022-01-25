@@ -12,7 +12,7 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.repository.AliceTagRepository
-import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartConfig
@@ -38,7 +38,7 @@ class ChartService(
     private val chartRepository: ChartRepository,
     private val chartManagerFactory: ChartManagerFactory,
     private val codeService: CodeService,
-    private val aliceTagService: AliceTagService,
+    private val aliceTagManager: AliceTagManager,
     private val aliceTagRepository: AliceTagRepository
 ) {
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -96,7 +96,7 @@ class ChartService(
             chartDesc = chart.chartDesc,
             chartConfig = mapper.readValue(chart.chartConfig, ChartConfig::class.java)
         )
-        chartDto.tags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CHART.code, chart.chartId)
+        chartDto.tags = aliceTagManager.getTagsByTargetId(AliceTagConstants.TagType.CHART.code, chart.chartId)
 
         return chartManagerFactory.getChartManager(chart.chartType).getChart(chartDto)
     }
@@ -122,7 +122,7 @@ class ChartService(
 
         if (chartDto.tags.isNotEmpty()) {
             chartDto.tags.forEach { tag ->
-                aliceTagService.insertTag(
+                aliceTagManager.insertTag(
                     AliceTagDto(
                         tagType = AliceTagConstants.TagType.CHART.code,
                         tagValue = tag.tagValue,

@@ -1,9 +1,14 @@
-package co.brainz.workflow.instanceViewer.dto
+/*
+ * Copyright 2022 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
+package co.brainz.itsm.instance.dto
 
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class WfInstanceViewerListDto(
+data class ViewerListDto(
     var instanceId: String,
     var viewerKey: String,
     var viewerName: String = "",

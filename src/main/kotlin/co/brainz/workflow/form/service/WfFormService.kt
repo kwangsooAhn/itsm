@@ -10,7 +10,7 @@ import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.AliceTagEntity
 import co.brainz.framework.tag.repository.AliceTagRepository
-import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.workflow.component.entity.WfComponentEntity
@@ -53,7 +53,7 @@ class WfFormService(
     private val wfFormRowRepository: WfFormRowRepository,
     private val wfComponentPropertyRepository: WfComponentPropertyRepository,
     private val wfFormGroupPropertyRepository: WfFormGroupPropertyRepository,
-    private val aliceTagService: AliceTagService
+    private val aliceTagManager: AliceTagManager
 ) {
 
     private val wfFormMapper: WfFormMapper = Mappers.getMapper(
@@ -147,7 +147,7 @@ class WfFormService(
                         type = componentEntity.componentType,
                         mapId = componentEntity.mappingId,
                         isTopic = componentEntity.isTopic,
-                        tags = aliceTagService.getTagsByTargetId(
+                        tags = aliceTagManager.getTagsByTargetId(
                             AliceTagConstants.TagType.COMPONENT.code,
                             componentEntity.componentId
                         )
