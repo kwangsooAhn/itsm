@@ -21,6 +21,7 @@ import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
+import co.brainz.itsm.instance.repository.ViewerRepository
 import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -37,7 +38,6 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.instanceViewer.repository.WfInstanceViewerRepository
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
@@ -71,7 +71,7 @@ class WfTokenManagerService(
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val ciComponentDataRepository: CIComponentDataRepository,
     private val ciService: CIService,
-    private val wfInstanceViewerRepository: WfInstanceViewerRepository
+    private val viewerRepository: ViewerRepository
 ) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -337,7 +337,7 @@ class WfTokenManagerService(
         }
         // 참조인 toast알림 발송
         // TODO : 참조인 알림 메일 발송
-        val viewerEntities = wfInstanceViewerRepository.findViewerByInstanceId(token.instance.instanceId)
+        val viewerEntities = viewerRepository.findViewerByInstanceId(token.instance.instanceId)
 
         if (viewerEntities.isNotEmpty()) {
             for (viewerEntity in viewerEntities) {
@@ -345,7 +345,7 @@ class WfTokenManagerService(
                     notification.receivedUser = viewerEntity.viewer.userKey
                 notifications.add(notification)
                 // 알림 목록에 추가된 후 flag 변경
-                wfInstanceViewerRepository.updateDisplayYn(token.instance.instanceId, viewerEntity.viewer.userKey)
+                viewerRepository.updateDisplayYn(token.instance.instanceId, viewerEntity.viewer.userKey)
             }
         }
         notificationService.insertNotificationList(notifications.distinct())

@@ -7,15 +7,11 @@
 package co.brainz.itsm.instance.repository
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.workflow.instanceViewer.entity.QWfInstanceViewerEntity
-import co.brainz.workflow.instanceViewer.entity.WfInstanceViewerEntity
-import com.querydsl.core.QueryResults
 import co.brainz.itsm.instance.entity.QWfInstanceViewerEntity
 import co.brainz.itsm.instance.entity.WfInstanceViewerEntity
 import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
-import com.querydsl.core.QueryResults
 
 @Repository
 class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::class.java),
@@ -34,36 +30,36 @@ class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::c
     }
 
     override fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerEntity? {
-        val instanceViewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
+        val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
-        return from(instanceViewer)
+        return from(viewer)
             .where(
-                instanceViewer.instance.instanceId.eq(instanceId)
-                    .and(instanceViewer.viewer.eq(AliceUserEntity(userKey)))
+                viewer.instance.instanceId.eq(instanceId)
+                    .and(viewer.viewer.eq(AliceUserEntity(userKey)))
             )
             .fetchOne()
     }
 
     override fun findViewerByInstanceId(instanceId: String): MutableList<WfInstanceViewerEntity> {
-        val instanceViewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
+        val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
-        return from(instanceViewer)
+        return from(viewer)
             .where(
-                instanceViewer.instance.instanceId.eq(instanceId)
-                    .and(instanceViewer.displayYn.eq(false))
+                viewer.instance.instanceId.eq(instanceId)
+                    .and(viewer.displayYn.eq(false))
             )
             .fetch()
     }
 
     override fun updateDisplayYn(instanceId: String, viewerKey: String) {
-        val instanceViewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
+        val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
-        update(instanceViewer)
+        update(viewer)
             .where(
-                instanceViewer.instance.instanceId.eq(instanceId)
-                    .and(instanceViewer.viewer.eq(AliceUserEntity(viewerKey)))
+                viewer.instance.instanceId.eq(instanceId)
+                    .and(viewer.viewer.eq(AliceUserEntity(viewerKey)))
             )
-            .set(instanceViewer.displayYn, true)
+            .set(viewer.displayYn, true)
             .execute()
     }
 
