@@ -344,6 +344,7 @@ class WfTokenManagerService(
                 val notification = commonNotification.copy()
                     notification.receivedUser = viewerEntity.viewer.userKey
                 notifications.add(notification)
+                // 알림 목록에 추가된 후 flag 변경
                 wfInstanceViewerRepository.updateDisplayYn(token.instance.instanceId, viewerEntity.viewer.userKey)
             }
         }
