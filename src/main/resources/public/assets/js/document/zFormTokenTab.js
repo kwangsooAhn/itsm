@@ -587,7 +587,7 @@ class ZFormTokenTab {
         }).then((rtn) => {
             if (rtn === 'true') {
                 document.getElementById('commentValue').value = '';
-                this.reloadTab();
+                this.reloadTokenComment();
             }
         });
     }
