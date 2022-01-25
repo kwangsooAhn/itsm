@@ -1,86 +1,176 @@
 package co.brainz.itsm.chart.service
 
 import co.brainz.itsm.chart.constants.ChartConditionConstants
+import co.brainz.itsm.chart.dto.ChartConditionNode
+import co.brainz.itsm.chart.dto.ChartDto
+import co.brainz.itsm.chart.dto.ChartTagInstanceDto
+import java.util.Stack
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class ChartConditionService() {
-
-    val condition = " (  [완료 희망일][완료 희망일] - [완료 일][완료 희망일] >= -5 || [완료 희망일] - [완료 일] >= 1   ) "
+class ChartConditionService(private val chartExpressionTree: ChartExpressionTree) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+    var data: String? = null
+    var chartCondition: String = ""
+    var root: ChartConditionNode? = null
 
     /**
      * 메인 함수
      */
-    fun executeCondition(): String {
-        val chartCondition = this.preVerification(condition)
-        chartCondition.let { condition ->
-            val binaryTree = this.createBinaryTree(condition)
-        }
-
-
+    fun executeCondition(chartDto: ChartDto, tagInstanceList: List<ChartTagInstanceDto>): String {
+        val te3 = chartExpressionTree.execute("1+1", tagInstanceList)
+        val test102 = chartExpressionTree.execute("100-100", tagInstanceList)
+        val test103 = chartExpressionTree.execute("-100-100", tagInstanceList)
+        val test105 = chartExpressionTree.execute("-500*-500", tagInstanceList)
+        val test106 = chartExpressionTree.execute("(-500*-500)", tagInstanceList)
+        val test111 = chartExpressionTree.execute("(-900+800)*-1", tagInstanceList)
+        val test112 = chartExpressionTree.execute("(-900*800)*-1", tagInstanceList)
+        val test113 = chartExpressionTree.execute("(-900*800)*1", tagInstanceList)
+        val test114 = chartExpressionTree.execute("-1-1*3", tagInstanceList)
+        val test99 = chartExpressionTree.execute("[a]+[b]", tagInstanceList)
+        val test104 = chartExpressionTree.execute( "\"test\"+\"test1\"", tagInstanceList)
         return ""
     }
 
     /**
      * [step 2] 조건식 이진 트리 생성
      */
-    private fun createBinaryTree(chartCondition: String?): String {
+    private fun createBinaryTree(): String {
         return ""
     }
+
 
     /**
      * 이진 트리 데이터 수집
+     * 데이터 수집은 후위 순회 방식으로 인스턴스 리스트 수집을 진행한다
      */
-    fun collectionBinaryTreeData(): String {
+    fun collectBinaryTreeData(): String {
         return ""
     }
 
 
     /**
-     * [step 1] 조건식 데이터 파싱
-     * 조건식 전체가 소괄호가 적용되어 있는 경우 제거를 진행한다.
-     * 조건식에서 대괄호로 처리된 부분을 제외하고 공백을 제거한다.
-     * */
-    private fun preVerification(condition: String): String? {
-        return if (condition.isNotBlank()) {
-            // 앞뒤 공백 제거 및 조건식 전체가 소괄호가 적용되어 있는 경우, 공백 제거 및 소괄호 제거를 진행한다.
-            var parsingCondition = condition.trim()
-            if (parsingCondition.startsWith(ChartConditionConstants.parentheses.prefixParentheses.value) &&
-                parsingCondition.endsWith(ChartConditionConstants.parentheses.suffixParentheses.value)
+     * 생성된 조건식 이진트리에 대하여 검증을 진행한다. (중위 순회)
+     *
+     */
+/*
+    private fun inOrderVerification(condition: String, root: ChartConditionNode): Boolean {
+        val inOrderData = this.inOrder(root)
+        return if (condition == inOrderData) {
+            data = ""
+            true
+        } else {
+            false
+        }
+    }
+*/
+
+    /*  */
+    /**
+     * 중위 순회 탐색 진행 (inOrder)
+     *
+     *//*
+    private fun inOrder(root: ChartConditionNode): String? {
+        if (root.leftNode != null) {
+            inOrder(root.leftNode!!)
+        }
+        if (!root.data?.value.isNullOrBlank()) {
+            data += root.data?.value
+        }
+        if (root.rightNode != null) {
+            inOrder(root.rightNode!!)
+        }
+        return data
+    }
+*/
+
+    /**
+     * 조건식 소괄호 제거
+     *
+     **/
+    private fun removeParentheses(condition: String): String {
+        var parsingCondition = condition.trim()
+        if (condition.isNotBlank()) {
+            if (parsingCondition.startsWith(ChartConditionConstants.Parentheses.PREFIX_PARENTHESES.value) &&
+                parsingCondition.endsWith(ChartConditionConstants.Parentheses.SUFFIX_PARENTHESES.value)
             ) {
                 parsingCondition = parsingCondition.removeSurrounding(
-                    ChartConditionConstants.parentheses.prefixParentheses.value.toString(),
-                    ChartConditionConstants.parentheses.suffixParentheses.value.toString()
+                    ChartConditionConstants.Parentheses.PREFIX_PARENTHESES.value,
+                    ChartConditionConstants.Parentheses.SUFFIX_PARENTHESES.value
                 )
             }
+        }
 
-            // 문자열에서 태그 선언 부분을 제외한 모든 공백에 대한 제거를 진행한다.
+        return parsingCondition
+    }
+
+    /**
+     * 조건식 내부 공백 제거
+     *
+     * */
+    private fun removeSpace(condition: String): String {
+        var parsingCondition = ""
+        if (condition.isNotBlank()) {
             var startIndex = 0
-            var returnCondition = ""
-            println(parsingCondition.indices.last)
-            while (startIndex < parsingCondition.length) {
-                if (parsingCondition[startIndex] == ChartConditionConstants.parentheses.prefixSquareBrackets.value) {
-                    for (index in startIndex..parsingCondition.indices.last) {
-                        if (parsingCondition[index] == ChartConditionConstants.parentheses.suffixSquareBrackets.value) {
-                            returnCondition = returnCondition.plus(parsingCondition.substring(startIndex, index + 1))
+            val condition = condition.trim()
+            while (startIndex < condition.length) {
+                if (condition[startIndex].toString() == ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value) {
+                    for (index in startIndex..condition.indices.last) {
+                        if (condition[index].toString() == ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value) {
+                            parsingCondition =
+                                parsingCondition.plus(condition.substring(startIndex, index + 1))
                             startIndex = index + 1
                             break
                         }
                     }
                     continue
                 }
-                println(parsingCondition[startIndex])
-                if (parsingCondition[startIndex].toString().isNotBlank()) {
-                    returnCondition = returnCondition.plus(parsingCondition[startIndex])
+                if (condition[startIndex].toString().isNotBlank()) {
+                    parsingCondition = parsingCondition.plus(condition[startIndex])
                 }
                 startIndex++
             }
-            returnCondition
-        } else {
-            null
         }
+
+        return parsingCondition
     }
 
+    /**
+     * 조건식 소괄호 및 대괄호 검사
+     *
+     **/
+    private fun parenthesesInspection(condition: String): Boolean {
+        val prefixParentheses = ChartConditionConstants.Parentheses.PREFIX_PARENTHESES.value.single()
+        val suffixParentheses = ChartConditionConstants.Parentheses.SUFFIX_PARENTHESES.value.single()
+        val prefixSquareBrackets = ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value.single()
+        val suffixSquareBrackets = ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value.single()
+        val stack = Stack<Char>()
+        var testCh: Char
+        var openPair: Char
+
+        for (index in condition) {
+            testCh = index
+            when (testCh) {
+                prefixParentheses,
+                prefixSquareBrackets
+                -> stack.push(testCh)
+                suffixParentheses,
+                suffixSquareBrackets
+                -> if (stack.isEmpty()) {
+                    return false
+                } else {
+                    openPair = stack.pop()
+                    if ((testCh !== prefixParentheses) && (openPair === suffixParentheses) ||
+                        (testCh !== prefixSquareBrackets) && (openPair === suffixSquareBrackets)
+                    ) {
+                        return false
+                    }
+                }
+            }
+        }
+
+        return stack.isEmpty()
+    }
 }
+

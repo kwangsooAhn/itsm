@@ -35,7 +35,6 @@ class ChartController(
     @GetMapping("/search")
     fun getChartSearch(model: Model): String {
         model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.PCode.TYPE.code))
-        chartConditionService.executeCondition()
         return chartSearchPage
     }
 

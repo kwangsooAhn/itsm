@@ -2,6 +2,7 @@ package co.brainz.itsm.chart.service
 
 import co.brainz.itsm.chart.constants.ChartConditionConstants
 import co.brainz.itsm.chart.dto.ChartConditionNode
+import co.brainz.itsm.chart.dto.ChartConditionNodeDataDto
 import co.brainz.itsm.chart.dto.ChartTagInstanceDto
 import org.springframework.stereotype.Service
 
@@ -12,14 +13,14 @@ class ChartExpressionTree {
     var index = 0
     var target = ""
 
-    fun execute(condition: String, tagInstanceList: List<ChartTagInstanceDto>?): Int {
+    fun execute(condition: String, tagInstanceList: List<ChartTagInstanceDto>): List<ChartTagInstanceDto> {
         // create root node
         this.initGlobalVariable(condition)
         // init root
         this.initRoot()
         // create expression tree
-        this.createExpressionTree(tagInstanceList)
-        return this.calculateNode()
+        this.createExpressionTree()
+        return this.calculate(tagInstanceList)
     }
 
     /**
@@ -40,7 +41,12 @@ class ChartExpressionTree {
             // 음수인 경우
             '-' -> {
                 var target = "-"
-                root = ChartConditionNode(data = "0")
+                root = ChartConditionNode(
+                    data = ChartConditionNodeDataDto(
+                        value = "0",
+                        identifier = ChartConditionConstants.Identifier.LONG.value
+                    )
+                )
                 this.addNode("+")
                 for (innerIndex in index + 1..condition.indices.last) {
                     if (condition[innerIndex] in '0'..'9') {
@@ -83,7 +89,12 @@ class ChartExpressionTree {
                     }
                     index++
                 }
-                root = ChartConditionNode(data = target)
+                root = ChartConditionNode(
+                    data = ChartConditionNodeDataDto(
+                        value = target,
+                        identifier = this.getIdentifier(target)
+                    )
+                )
             }
         }
     }
@@ -91,7 +102,7 @@ class ChartExpressionTree {
     /**
      * 수식 트리 (Expression Tree) 생성 진행
      */
-    private fun createExpressionTree(tagInstanceList: List<ChartTagInstanceDto>?) {
+    private fun createExpressionTree() {
         while (index < condition.length) {
             when (condition[index]) {
                 in '0'..'9' -> {
@@ -228,32 +239,84 @@ class ChartExpressionTree {
     }
 
     private fun hasParentheses(targetNode: ChartConditionNode?): Boolean {
-        if (targetNode == null || targetNode.data.isEmpty()) return false
-        if (targetNode.data == "(") return true
+        if (targetNode == null || targetNode.data.value!!.isBlank()) return false
+        if (targetNode.data.value == "(") return true
         return hasParentheses(targetNode.leftNode) || hasParentheses(targetNode.rightNode)
     }
 
-    fun calculateNode(): Int {
+    fun calculateNode(): Long {
         return calculateNode(root)
     }
 
-    fun calculateNode(targetNode: ChartConditionNode?): Int {
+    private fun calculate(tagInstanceList: List<ChartTagInstanceDto>): List<ChartTagInstanceDto> {
+        when (root?.data?.identifier) {
+            ChartConditionConstants.Identifier.LOGICAL.value -> {
+
+            }
+            ChartConditionConstants.Identifier.COMPARISON.value -> {
+                return tagInstanceList
+            }
+            ChartConditionConstants.Identifier.ARITHMETIC.value -> {
+               return tagInstanceList
+            }
+            // 문자나 숫자가 오는 경우는 그대로 리턴해준다.
+            ChartConditionConstants.Identifier.LONG.value, ChartConditionConstants.Identifier.STRING.value -> {
+
+            }
+            ChartConditionConstants.Identifier.PARENTHESES.value -> {
+
+            }
+            ChartConditionConstants.Identifier.TAG.value -> {
+
+            }
+            else -> {
+
+            }
+        }
+        return tagInstanceList
+    }
+
+    private fun arithmetic(targetNode: ChartConditionNode?): Long {
         when (targetNode) {
             null -> return 0
             else -> {
-                if (targetNode.data != "+" && targetNode.data != "-" && targetNode.data.matches(("[+-]?\\d*(\\.\\d+)?").toRegex())) {
-                    return targetNode.data.toInt()
+                if (targetNode.data.value != "+" && targetNode.data.value != "-" && targetNode.data.value!!.matches(("[+-]?\\d*(\\.\\d+)?").toRegex())) {
+                    return targetNode.data.value!!.toLong()
                 }
-                if (targetNode.data == "+") {
+                if (targetNode.data.value == "+") {
+                    return arithmetic(targetNode.leftNode) + arithmetic(targetNode.rightNode)
+                }
+                if (targetNode.data.value == "-") {
+                    return arithmetic(targetNode.leftNode) - arithmetic(targetNode.rightNode)
+                }
+                if (targetNode.data.value == "*") {
+                    return arithmetic(targetNode.leftNode) * arithmetic(targetNode.rightNode)
+                }
+                if (targetNode.data.value == "/") {
+                    return arithmetic(targetNode.leftNode) / arithmetic(targetNode.rightNode)
+                }
+                return 0
+            }
+        }
+    }
+
+    private fun calculateNode(targetNode: ChartConditionNode?): Long {
+        when (targetNode) {
+            null -> return 0
+            else -> {
+                if (targetNode.data.value != "+" && targetNode.data.value != "-" && targetNode.data.value!!.matches(("[+-]?\\d*(\\.\\d+)?").toRegex())) {
+                    return targetNode.data.value!!.toLong()
+                }
+                if (targetNode.data.value == "+") {
                     return calculateNode(targetNode.leftNode) + calculateNode(targetNode.rightNode)
                 }
-                if (targetNode.data == "-") {
+                if (targetNode.data.value == "-") {
                     return calculateNode(targetNode.leftNode) - calculateNode(targetNode.rightNode)
                 }
-                if (targetNode.data == "*") {
+                if (targetNode.data.value == "*") {
                     return calculateNode(targetNode.leftNode) * calculateNode(targetNode.rightNode)
                 }
-                if (targetNode.data == "/") {
+                if (targetNode.data.value == "/") {
                     return calculateNode(targetNode.leftNode) / calculateNode(targetNode.rightNode)
                 }
                 return 0
@@ -268,24 +331,41 @@ class ChartExpressionTree {
     private fun addNode(overallRoot: ChartConditionNode?, target: String): ChartConditionNode? {
         var root: ChartConditionNode? = overallRoot
         // root가 null이거나 root의 데이터가 비어있는 경우
-        if (root == null || root.data.isEmpty()) {
-            root = ChartConditionNode(data = target)
+        if (root == null || root.data.value!!.isEmpty()) {
+            root = ChartConditionNode(
+                data = ChartConditionNodeDataDto(
+                    value = target,
+                    identifier = this.getIdentifier(target)
+                )
+            )
         }
         // root의 data는 "("이고 대상은 ")"이 아닌 경우
-        else if (root.data == "(" && target != ")") {
+        else if (root.data.value == "(" && target != ")") {
             root.leftNode = addNode(root.leftNode, target)
         }
         // root의 data는 "("이고 대상은 ")"인 경우
-        else if (root.data == "(" && target == ")") {
+        else if (root.data.value == "(" && target == ")") {
             // 해당 루트에 "("가 존재하지 않으면
             if (!hasParentheses(root.leftNode)) {
                 var data = calculateNode(root.leftNode)
                 if (data < 0) {
-                    root.rightNode = ChartConditionNode(data = data.toString())
-                    root.data = "+"
-                    root.leftNode = ChartConditionNode(data = "0")
+                    root.rightNode = ChartConditionNode(
+                        data = ChartConditionNodeDataDto(
+                            value = data.toString(),
+                            identifier = this.getIdentifier(data.toString())
+                        )
+                    )
+                    root.data.value = "+"
+                    root.data.identifier = this.getIdentifier(ChartConditionConstants.Identifier.ARITHMETIC.value)
+                    root.leftNode = ChartConditionNode(
+                        data = ChartConditionNodeDataDto(
+                            value = "0",
+                            identifier = ChartConditionConstants.Identifier.LONG.value
+                        )
+                    )
                 } else {
-                    root.data = data.toString()
+                    root.data.value = data.toString()
+                    root.data.identifier = this.getIdentifier(data.toString())
                     root.leftNode = null
                 }
             } else {
@@ -297,13 +377,18 @@ class ChartExpressionTree {
             root.rightNode = addNode(root.rightNode, target)
         }
         // root.data의 우선순위가 target의 우선순위보다 작은 경우
-        else if (getOperatorPrecedence(root.data) < getOperatorPrecedence(target)) {
-            val node = ChartConditionNode(data = target)
+        else if (getOperatorPrecedence(root.data.value!!) < getOperatorPrecedence(target)) {
+            val node = ChartConditionNode(
+                data = ChartConditionNodeDataDto(
+                    value = target,
+                    identifier = this.getIdentifier(target)
+                )
+            )
             node.leftNode = root
             return node
         }
         // root.data는 "("가 아니고 root.data의 우선순위가 target의 우선순위보다 크거나 같은 경우
-        else if (root.data != "(" && getOperatorPrecedence(root.data) >= getOperatorPrecedence(target)) {
+        else if (root.data.value != "(" && getOperatorPrecedence(root.data.value!!) >= getOperatorPrecedence(target)) {
             if (root.leftNode == null) {
                 root.leftNode = addNode(root.leftNode, target)
             } else {

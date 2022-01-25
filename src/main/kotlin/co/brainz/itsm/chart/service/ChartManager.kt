@@ -320,7 +320,7 @@ abstract class ChartManager(
         val instanceList = mutableListOf<ChartTagInstanceDto>()
         // TODO: 조건식에 따른 처리
 
-        chartConditionService.executeCondition(tagInstances)
+        chartConditionService.executeCondition(chartDto, tagInstances)
 
         return instanceList
     }
