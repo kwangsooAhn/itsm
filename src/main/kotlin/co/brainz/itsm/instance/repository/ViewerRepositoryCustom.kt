@@ -11,6 +11,13 @@ import com.querydsl.core.QueryResults
 
 interface ViewerRepositoryCustom : AliceRepositoryCustom {
     fun findByInstanceViewerList(instanceId: String): QueryResults<WfInstanceViewerEntity>?
+
     fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerEntity?
+
+    fun findViewerByInstanceId(instanceId: String): MutableList<WfInstanceViewerEntity>
+
+    fun updateDisplayYn(instanceId: String, viewerKey: String)
+
     fun findByInstanceIdAndViewerKey(instanceId: String, viewerKey: String): WfInstanceViewerEntity?
+
 }

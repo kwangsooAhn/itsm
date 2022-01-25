@@ -40,6 +40,29 @@ class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::c
             .fetchOne()
     }
 
+    override fun findViewerByInstanceId(instanceId: String): MutableList<WfInstanceViewerEntity> {
+        val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
+
+        return from(viewer)
+            .where(
+                viewer.instance.instanceId.eq(instanceId)
+                    .and(viewer.displayYn.eq(false))
+            )
+            .fetch()
+    }
+
+    override fun updateDisplayYn(instanceId: String, viewerKey: String) {
+        val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
+
+        update(viewer)
+            .where(
+                viewer.instance.instanceId.eq(instanceId)
+                    .and(viewer.viewer.eq(AliceUserEntity(viewerKey)))
+            )
+            .set(viewer.displayYn, true)
+            .execute()
+    }
+
     override fun findByInstanceIdAndViewerKey(instanceId: String, viewerKey: String): WfInstanceViewerEntity? {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 

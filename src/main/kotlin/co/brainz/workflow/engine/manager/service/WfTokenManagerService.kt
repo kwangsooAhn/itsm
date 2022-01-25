@@ -21,6 +21,7 @@ import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
+import co.brainz.itsm.instance.repository.ViewerRepository
 import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -69,7 +70,8 @@ class WfTokenManagerService(
     private val aliceFileLocRepository: AliceFileLocRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val ciComponentDataRepository: CIComponentDataRepository,
-    private val ciService: CIService
+    private val ciService: CIService,
+    private val viewerRepository: ViewerRepository
 ) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -283,7 +285,7 @@ class WfTokenManagerService(
     }
 
     /**
-     * 토큰이 속한 엘리먼트의 notification가 true인 경우, candidate 데이터와 assignee를 대상으로 알림.
+     * 토큰이 속한 엘리먼트의 notification가 true인 경우, candidate 데이터와 assignee, 참조인을 대상으로 알림.
      */
     fun notificationCheck(token: WfTokenEntity) {
         if (!token.element.notification) {
@@ -331,6 +333,19 @@ class WfTokenManagerService(
                     notification.receivedUser = userRoleMapEntity.user.userKey
                     notifications.add(notification)
                 }
+            }
+        }
+        // 참조인 toast알림 발송
+        // TODO : 참조인 알림 메일 발송
+        val viewerEntities = viewerRepository.findViewerByInstanceId(token.instance.instanceId)
+
+        if (viewerEntities.isNotEmpty()) {
+            for (viewerEntity in viewerEntities) {
+                val notification = commonNotification.copy()
+                    notification.receivedUser = viewerEntity.viewer.userKey
+                notifications.add(notification)
+                // 알림 목록에 추가된 후 flag 변경
+                viewerRepository.updateDisplayYn(token.instance.instanceId, viewerEntity.viewer.userKey)
             }
         }
         notificationService.insertNotificationList(notifications.distinct())
