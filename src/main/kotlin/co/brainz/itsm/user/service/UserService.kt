@@ -184,7 +184,7 @@ class UserService(
     }
 
     //groupId 값을 이용하여 상위 레벨의 부서폴더이름 추출
-    private fun getRecursive(
+    fun getRecursive(
         organization: OrganizationEntity,
         organizationList: List<OrganizationEntity>,
         organizationName: MutableList<String>

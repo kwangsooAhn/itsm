@@ -37,7 +37,7 @@ data class WfInstanceViewerEntity(
     val reviewYn: Boolean = false,
 
     @Column(name = "display_yn")
-    var displayYn: Boolean? = false,
+    var displayYn: Boolean = false,
 
     @Column(name = "create_user_key", length = 128)
     var createUserKey: String? = null,
