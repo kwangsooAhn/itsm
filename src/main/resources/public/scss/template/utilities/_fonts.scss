@@ -8,3 +8,6 @@
 @each $fname, $weight in $font-face-map {
   @include fontFace("Noto Sans KR", $font-folder-path + "/" + $fname , "opentype", normal, $weight);
 }
+@each $fname, $weight in $pretendard-face-map {
+  @include fontFace("Pretendard", $font-folder-path + "/pretendard/" + $fname, "opentype", normal, $weight);
+}

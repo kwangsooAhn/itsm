@@ -10,10 +10,18 @@ $font-face-map: (
     'NotoSansKR-Bold.otf':                    700,
     'NotoSansKR-Black.otf':                   900
 );
+$pretendard-face-map: (
+    'Pretendard-Thin.otf':                    100,
+    'Pretendard-Light.otf':                   300,
+    'Pretendard-Regular.otf':                 400,
+    'Pretendard-Medium.otf':                  500,
+    'Pretendard-Bold.otf':                    700,
+    'Pretendard-Black.otf':                   900
+);
 // 폰트는 맑은고딕, Noto Sans KR을 사용합니다. 14px 이하는 맑은고딕 폰트를 사용하고, 16px 이상은 Noto Sans KR 폰트 사용
 // 폰트 패밀리만 작은 따옴표(') 대신 큰 따옴표 (') 사용
-$font-family-m:                               'Noto Sans KR', '맑은고딕', 'Malgun Gothic', dotum, gulim, sans-serif;
-$font-family-s:                               '맑은고딕', 'Malgun Gothic', 'Noto Sans KR', dotum, gulim, sans-serif;
+$font-family-m:                               'Pretendard', 'Noto Sans KR', '맑은고딕', 'Malgun Gothic', dotum, gulim, sans-serif;
+$font-family-s:                               'Pretendard', '맑은고딕', 'Malgun Gothic', 'Noto Sans KR', dotum, gulim, sans-serif;
 
 // font size
 $font-size-xxl:                               2.5rem !default;   // 45px
