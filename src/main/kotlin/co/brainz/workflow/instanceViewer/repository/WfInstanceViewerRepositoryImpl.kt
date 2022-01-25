@@ -9,9 +9,9 @@ package co.brainz.workflow.instanceViewer.repository
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.instanceViewer.entity.QWfInstanceViewerEntity
 import co.brainz.workflow.instanceViewer.entity.WfInstanceViewerEntity
+import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
-import com.querydsl.core.QueryResults
 
 @Repository
 class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::class.java),
@@ -55,8 +55,10 @@ class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewe
         val instanceViewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
         update(instanceViewer)
-            .where(instanceViewer.instance.instanceId.eq(instanceId)
-                .and(instanceViewer.viewer.eq(AliceUserEntity(viewerKey))))
+            .where(
+                instanceViewer.instance.instanceId.eq(instanceId)
+                    .and(instanceViewer.viewer.eq(AliceUserEntity(viewerKey)))
+            )
             .set(instanceViewer.displayYn, true)
             .execute()
     }
