@@ -1,5 +1,6 @@
 package co.brainz.itsm.chart.service
 
+import co.brainz.itsm.chart.constants.ChartConditionConstants
 import co.brainz.itsm.chart.dto.ChartConditionNode
 import co.brainz.itsm.chart.dto.ChartTagInstanceDto
 import org.springframework.stereotype.Service
@@ -32,10 +33,11 @@ class ChartExpressionTree {
     }
 
     /**
-     * 최상단 루트 초기화 및 설정
+     * 최상단 루트에 대한 설정 및 초기화를 진행한다.
      */
     private fun initRoot() {
         when (condition[0]) {
+            // 음수인 경우
             '-' -> {
                 var target = "-"
                 root = ChartConditionNode(data = "0")
@@ -53,9 +55,12 @@ class ChartExpressionTree {
             }
             else -> {
                 while (index < condition.length) {
+                    // 첫 문자가 숫자인 경우
                     if (condition[index] in '0'..'9') {
                         target += condition[index]
-                    } else if (condition[index] == '[') {
+                    }
+                    // 첫 문자가 괄호인 경우
+                    else if (condition[index] == '[') {
                         for (innerIndex in index..condition.indices.last) {
                             if (condition[innerIndex] == ']') {
                                 target = condition.substring(index, innerIndex + 1)
@@ -63,7 +68,9 @@ class ChartExpressionTree {
                                 break
                             }
                         }
-                    } else if (condition[index] == '"') {
+                    }
+                    // 첫 문자가 쌍따옴표로 시작하는 경우
+                    else if (condition[index] == '"') {
                         for (innerIndex in index + 1..condition.indices.last) {
                             if (condition[innerIndex] == '"') {
                                 target = condition.substring(index, innerIndex + 1)
@@ -327,4 +334,53 @@ class ChartExpressionTree {
         if (target in "0".."9") return 1
         return 0;
     }
+
+    /**
+     * 대상 식별자에 대한 분리를 진행한다
+     */
+    private fun getIdentifier(target: String): String? {
+        // blank
+        if (target.isBlank()) {
+            return null
+        }
+        // Logical Operator / 논리 연산자
+        for (data in ChartConditionConstants.Logical.values()) {
+            if (target == data.operator) {
+                return ChartConditionConstants.Identifier.LOGICAL.value
+            }
+        }
+        // Comparison Operator / 비교 연산자
+        for (data in ChartConditionConstants.Comparison.values()) {
+            if (target == data.operator) {
+                return ChartConditionConstants.Identifier.COMPARISON.value
+            }
+        }
+        // Arithmetic Operator / 산술 연산자
+        for (data in ChartConditionConstants.Arithmetic.values()) {
+            if (target == data.operator) {
+                return ChartConditionConstants.Identifier.ARITHMETIC.value
+            }
+        }
+        // Parentheses / 괄호
+        for (data in ChartConditionConstants.Parentheses.values()) {
+            if (target == data.value) {
+                return ChartConditionConstants.Identifier.PARENTHESES.value
+            }
+        }
+        // Number(Long Type) / 숫자
+        return if (target.matches(("[+-]?\\d*(\\.\\d+)?").toRegex())) {
+            ChartConditionConstants.Identifier.LONG.value
+        }
+        // Tag / 태그
+        else if (target.startsWith(ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value) &&
+            target.endsWith(ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value)
+        ) {
+            ChartConditionConstants.Identifier.TAG.value
+        }
+        // String / 문자열
+        else {
+            ChartConditionConstants.Identifier.STRING.value
+        }
+    }
 }
+
