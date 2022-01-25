@@ -26,7 +26,7 @@
             </td>
             <input type="hidden" name="ciId" th:value="${ci.ciId}">
             <td style="width: 21%;" class="align-left underline pointer">
-                <a sec:authorize="hasAuthority('cmdb.ci.read')" th:text="${ci.ciNo}"
+                <a sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')" th:text="${ci.ciNo}"
                    th:href="@{/cmdb/cis/{id}/view(id=${ci.ciId})}" th:title="${ci.ciNo}">
                 </a>
             </td>

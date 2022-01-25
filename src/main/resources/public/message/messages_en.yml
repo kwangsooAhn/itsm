@@ -245,8 +245,10 @@ chart:
     all: "All"
     average: "Average"
     chartt: "User Custom Chart"
-    defaultInfo: "Default Info"
+    condition: "condition"
+    chartSetting: "Chart Setting"
     description: "Chart Description"
+    documentStatus: "Target document Status"
     edit: "Chart Edit"
     editDescription: "Register or Edit for custom chart."
     name: "Chart Name"
@@ -278,8 +280,9 @@ chart:
   msg:
     searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
-    enterTargetTags: "Please enter a target tags."
     enterDurationDigit: "Please enter a Duration."
+    enterTargetTags: "Please enter a target tags."
+    maxPeriodUnitRange: "If the interval is hourly, please set the period within {0} days."
     periodUnitOutOfRange: "The duration is greater than the period."
   chart:
     basicLine: "Basic Line Chart"
@@ -288,6 +291,11 @@ chart:
     stackedBar: "Stacked Bar Chart"
     lineAndColumn: "Line And Column Chart"
     gauge: "Gauge Chart"
+  tooltip:
+    targetTags: "Enter the target of the data to be charted as a tag."
+    condition: "• The condition expression supports arithmetic operations (+, -, *, /) and logical operators &&, ||, and comparative operators such as ==, !=, <, >, <=, >= .<br/><br/>
+    • [] can be used to express the tag. If the tag name contains brackets ([ or ]), write the tag name in the expression such as '\\]'.<br/><br/>
+    • () can be used to prioritize logical operations. If the tag name contains brackets (( or )), write the tag name in the expression such as '\\)'."
 
 # CMDB
 cmdb:
@@ -930,11 +938,15 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
-  report:
-    chart: "User custom chart"
-    parent: "Report"
-    report: "Report List"
-    template: "Report Template"
+  statistic:
+    basicChart: "Basic Chart"
+    basicReport: "Basic Report Inquiry"
+    customChart: "User custom chart"
+    customDashboardTemplate: "Custom Dashboard Template"
+    customReport: " Report List"
+    customReportTemplate: "Custom Dashboard Template"
+    customTemplate: " Report Template"
+    parent: "Statistics/Report"
   setting:
     editMyInfo: "Edit My Info"
   token:
@@ -1018,10 +1030,11 @@ organization:
     editDescription: "Add, view and manage department."
     enterOrganizationId: "Please enter a department Id."
     enterOrganizationName: "Please enter a department name"
+    failedOrganizationDelete: "Failed to delete a department because of a member."
     enterPOrganizationName: "Please enter a parent department name."
     pOrganizationNotExist: "Parent organization does not exist."
     selectRole: "Please select a member default role."
-    failedOrganizationDelete: "Failed to delete a department because of a member."
+    systemUserNotExist: "You cannot modify because you need at least one user with the system administrator role."
 
 # Portal
 portal:
@@ -1151,8 +1164,8 @@ process:
       userTask: "User Task"
       withdraw: "Withdraw"
 
-# Report
-report:
+# statistic
+statistic:
   btn:
     pdf: "PDF"
   label:
@@ -1160,11 +1173,11 @@ report:
     chart: "Chart"
     description: "Description"
     publishDate: "Publish Date"
-    report: "Report"
+    customReport: "Custom Report"
     reportName: "Report Name"
     search: "Report Search"
     searchPlaceholder: "Template name"
-    template: "Template"
+    customReportTemplate: "custom Report Template"
     templateEdit: "Template Edit"
     templateName: "Template Name"
     templateRegister: "Template Register"
@@ -1400,6 +1413,7 @@ user:
     selectRole: "There must be at least one user role. <br/> Please select a user role."
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
     signUpFail: "Sign up failed."
+    systemUserNotExist: "You cannot modify user roles because you need at least one user with the system administrator role."
     updatePasswordNotice: "Recommend changing your password every {0} days for personal information protection and safe system use. Change your password."
     usageStatus: "※ If not using it, you won't be able to log in and use all systems."
     userAbsence: "※ When absent, the period of absence and the substitute must be set."

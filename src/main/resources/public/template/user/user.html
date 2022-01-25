@@ -233,13 +233,11 @@
             <div class="z-button-list">
                 <a class="z-button secondary" href="/users/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}">
-                <button class="z-button primary" sec:authorize="hasAuthority('user.create')"
-                        th:if="!${users?.userKey}" th:onclick="preSubmitCheck('post', [[@{/rest/users}]], 'true')" th:text="#{auth.user.create}"
-                        type="button"></button>
-                <button class="z-button primary" sec:authorize="hasAuthority('user.update')"
-                        th:if="${users?.userKey}" th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')" th:text="#{common.btn.modify}"
-                        type="button"></button>
+            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
+                <button type="button" class="z-button primary" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
+                        th:onclick="preSubmitCheck('post', [[@{/rest/users}]], 'true')"></button>
+                <button type="button" class="z-button primary" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
+                        th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')"></button>
             </div>
         </div>
     </div>
@@ -286,6 +284,7 @@
     const STATUS_SUCCESS_EDIT_EMAIL = '4';
     const STATUS_SUCCESS_EDIT_ADMIN = '5';
     const STATUS_SUCCESS_EDIT_PASSWORD = '6';
+    const STATUS_ERROR_SYSTEM_USER_NOT_EXIST = '7';
 
     function checkUserRole(roleObject) {
         if (roleObject.checked) {
@@ -320,13 +319,36 @@
         });
     }
 
+    function validation() {
+        if (isEmpty('userId', 'user.msg.enterUserId')) return false;
+        if (!isValidUserId("userId", true)) return false;
+        if (isEmpty('userName', 'user.msg.enterUserName')) return false;
+        if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
+        if (!isValidEmail('email', true)) return false;
+        if(isNotEmpty('officeNumber')) {
+            if(!isPhoneNumberOrExtenstionNumber('officeNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')) return false;
+        }
+        if(isNotEmpty('mobileNumber')) {
+            if(!isPhoneNumber('mobileNumber','validation.msg.checkPhoneNumberFormat')) return false;
+        }
+        if (!isChecked('roles', 'user.msg.selectRole')) return false;
+        if ([[${users?.userKey}]] !== null && document.getElementById('userAbsence').checked) {
+            if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) return false;
+            if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) return false;
+            if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
+        }
+
+        return true;
+    }
+
     function preSubmitCheck(method, url, activeValidation) {
         if (activeValidation === 'true' && !validation()) {
             return false;
         }
 
+        const checkedRoles = document.querySelectorAll('input[name=roles]:checked');
         let arrRoleValue = [];
-        document.querySelectorAll('input[name=roles]:checked').forEach(function (item) {
+        checkedRoles.forEach(function (item) {
             arrRoleValue.push(item.value);
         });
 
@@ -339,24 +361,24 @@
                 substituteUserKey: document.getElementById('substituteUserKey').value
             }
         }
-       const data = {
-           userKey: document.getElementById('userKey').value,
-           userId: document.getElementById('userId').value,
-           userName: document.getElementById('userName').value,
-           email: document.getElementById('email').value,
-           useYn: document.getElementById('usageStatus').checked,
-           position: document.getElementById('position').value,
-           department: document.getElementById('organizationId').value,
-           officeNumber: document.getElementById('officeNumber').value,
-           mobileNumber: document.getElementById('mobileNumber').value,
-           timezone: document.getElementById('timezone').value,
-           lang: document.getElementById('lang').value,
-           theme: document.getElementById('theme').value,
-           absenceYn: ([[${users?.userKey}]] !== null) ? document.getElementById('userAbsence').checked : '',
-           timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
-           roles: arrRoleValue,
-           avatarUUID: document.getElementById('avatarUUID').value,
-           absence: absenceInfo
+        const data = {
+            userKey: document.getElementById('userKey').value,
+            userId: document.getElementById('userId').value,
+            userName: document.getElementById('userName').value,
+            email: document.getElementById('email').value,
+            useYn: document.getElementById('usageStatus').checked,
+            position: document.getElementById('position').value,
+            department: document.getElementById('organizationId').value,
+            officeNumber: document.getElementById('officeNumber').value,
+            mobileNumber: document.getElementById('mobileNumber').value,
+            timezone: document.getElementById('timezone').value,
+            lang: document.getElementById('lang').value,
+            theme: document.getElementById('theme').value,
+            absenceYn: ([[${users?.userKey}]] !== null) ? document.getElementById('userAbsence').checked : '',
+            timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
+            roles: arrRoleValue,
+            avatarUUID: document.getElementById('avatarUUID').value,
+            absence: absenceInfo
         };
 
         aliceJs.fetchText(url, {
@@ -390,6 +412,11 @@
                     break;
                 case STATUS_ERROR_EMAIL_DUPLICATION:
                     zAlert.warning([[#{user.msg.sameEmail}]]);
+                    break;
+                case STATUS_ERROR_SYSTEM_USER_NOT_EXIST:
+                    // 시스템 관리자 역할을 가진 사용자는 최소 1명은 유지되어야 하기 때문에,
+                    // 해당 사용자의 역할을 수정하거나 사용자를 삭제하려면 화면에서 경고창을 표시되도록 유효성 검증을 추가한다.
+                    zAlert.warning([[#{user.msg.systemUserNotExist}]]);
                     break;
                 default:
                     zAlert.danger([[#{common.msg.fail}]]);
@@ -447,28 +474,6 @@
                 });
             }
         }
-    }
-
-    function validation() {
-        if (isEmpty('userId', 'user.msg.enterUserId')) return false;
-        if (!isValidUserId("userId", true)) return false;
-        if (isEmpty('userName', 'user.msg.enterUserName')) return false;
-        if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
-        if (!isValidEmail('email', true)) return false;
-        if(isNotEmpty('officeNumber')) {
-            if(!isPhoneNumberOrExtenstionNumber('officeNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')) return false;
-        }
-        if(isNotEmpty('mobileNumber')) {
-            if(!isPhoneNumber('mobileNumber','validation.msg.checkPhoneNumberFormat')) return false;
-        }
-        if (!isChecked('roles', 'user.msg.selectRole')) return false;
-        if ([[${users?.userKey}]] !== null && document.getElementById('userAbsence').checked) {
-            if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) return false;
-            if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) return false;
-            if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
-        }
-
-        return true;
     }
 
     /**

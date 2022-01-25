@@ -33,7 +33,7 @@
                maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
         <span id="spanTotalCount" class="z-search-count"></span>
         <button type="button" class="z-button-icon secondary ml-4" id="btnExcelDownload" name="btnExcelDownload"
-                sec:authorize="hasAuthority('token.create')" th:title="#{common.btn.export}"
+                sec:authorize="hasAuthority('general')" th:title="#{common.btn.export}"
                 th:onclick="|javascript:onExcelDownload()|">
             <span class="z-icon i-download-as-excel"></span>
         </button>
@@ -41,8 +41,6 @@
 </div>
 <div layout:fragment="pageSearchResult">
     <div class="z-token-content flex-fill">
-        <input type="hidden" sec:authorize="hasAuthority('token.read')" th:name="isRole" th:value="true"/>
-        <input type="hidden" sec:authorize="!hasAuthority('token.read')" th:name="isRole" th:value="false"/>
         <div id="tokenList"></div>
     </div>
 </div>

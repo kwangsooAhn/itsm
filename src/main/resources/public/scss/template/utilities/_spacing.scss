@@ -24,7 +24,7 @@
 @for $i from 1 through 5 {
   $margin: $i * 0.3125rem; // 5px 씩 증가
   .mt-#{$i} { margin-top: $margin; }
-  .mr-#{$i} { margin-right: $margin; }
+  .mr-#{$i} { margin-right: $margin !important; }
   .mb-#{$i} { margin-bottom: $margin; }
   .ml-#{$i} { margin-left: $margin; }
 }

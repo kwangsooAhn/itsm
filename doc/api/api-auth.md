@@ -1,198 +1,71 @@
 # 권한
 
-## 목차
+## 2021-01 업데이트
 
----
+### 히스토리
+* 2022년 1월 기준, 권한 메뉴 제거
 
-1. [데이터 목록 조회](#데이터-목록-조회)
-2. [데이터 상세 조회](#데이터-상세-조회)
-3. [데이터 등록](#데이터-등록)
-4. [데이터 수정](#데이터-수정)
-5. [데이터 삭제](#데이터-삭제)
+### 수정방향
+* 권한을 화면을 통해서 추가 / 수정 / 삭제 할 수 없도록 권한 메뉴를 제거  
 
-## 데이터 목록 조회
+* 역할과 권한의 관계에 대해서 근본적으로 사용 패턴을 재정리
 
----
+* 개발 및 사용이 최대한 간단하면서 유연한 구조를 가지도록 수정
 
-### URL
+* 단, 메뉴만 제거하기 떄문에 `awf_auth` 테이블의 기존의 스키마를 그대로 사용
 
-```
-GET /rest/auths
-```
+* 권한 추가 / 수정 / 삭제 시, 직접 DB를 수정
 
-### Response Sample
+### 수정사항
+#### 기본 패키지에서 권한의 개수를 최소화 하고 혼란이 없도록 재구성
+##### 1) 기본 권한 예제
+* 아래 첨부된 표를 기준으로 기본 템플릿에 9개의 권한을 구성한다.  
 
-```json
-{
-  "data": [
-    {
-      "authId": "cmdb.attribute.update",
-      "authName": "CMDB Attribute 변경",
-      "authDesc": "CMDB Attribute 변경 권한"
-    },
-    ...
-  ],
-  "paging": {
-    "totalCount": 104,
-    "totalCountWithoutCondition": 104,
-    "currentPageNum": 0,
-    "totalPageNum": 0,
-    "orderType": null
-  }
-}
+|권한 이름|설명|
+|:---:|---|
+|일반 사용|개인현황판|
+| |문서함 조회|
+| |신청서 작성|
+| |업무흐름 처리|
+| |FAQ / 자료실  / 공지사항 조회|
+| |게시판 조회 및 등록|
+|시스템 관리|시스템 관련 설정|
+|CMDB 관리|CMDB 관련 설정|
+|CMDB 조회|CMDB 조회|
+|업무흐름 관리|업무흐름 관련 설정|
+|보고서 관리|보고서 관련 설정|
+|보고서 조회|보고서 조회|
+|업무 취소|업무 취소 및 종결|
+|포털 관리|FAQ / 자료실  / 공지사항 관리 설정|
 
-```
+##### 2) 기본 권한 설명
+　**일반사용**  
+　　- 공지사항, FAQ, 자료실을 검색하고 조회할 수 있다.  
+　　- 게시판에 글을 등록하거나 조회할 수 있다.  
+　　- 신청서를 작성할 수 있고, 담당자로 지정될 수도 있으며, 자신과 관련된 문서들을 편집할 수 있다.  
 
-## 데이터 상세 조회
+　**시스템 관리**  
+　　- 시스템 관리에 속한 모든 메뉴에 대해 편집이 가능하다.  
+                                                                                                                                                                                                         
+　**CMDB 관리**  
+　　- CMDB와 관련된 CI 속성항목, CI 속성그룹, CI 유형 등을 편집할 수 있다.    
+　　- CI를 조회할 수 있다.  
 
----
+　**CMDB 조회**  
+　　- CI를 조회할 수 있다.  
 
-### URL
+　**업무흐름 관리**  
+　　- 프로세스, 문서양식, 업무흐름을 편집할 수 있다.  
+　　- 커스텀 코드, 이미지 관리, 패턴 및 문서번호 규칙을 편집할 수 있다.  
 
-```
-GET /rest/auths/{authId}
-```
+　**보고서 조회**  
+　　- 사용자 정의 차트, 보고서를 조회할 수 있다.  
 
-### Parameter Sample
+　**업무 취소**  
+　　- 신청서나 기타 업무흐름 문서를 취소하거나 종결시킬 수 있다.   
 
-```json
-{
-  "authId": "cmdb.attribute.update"
-}
-```
+　**보고서 관리**  
+　　- 사용자 정의 차트, 보고서 템플릿을 편집할 수 있다.  
 
-### Response Sample
-
-```json
-{
-  "authId": "cmdb.attribute.update",
-  "authName": "CMDB Attribute 변경",
-  "authDesc": "CMDB Attribute 변경 권한",
-  "arrMenuId": null,
-  "arrMenuList": [
-    {
-      "authId": "cmdb.attribute.update",
-      "menuId": "cmdb"
-    },
-    {
-      "authId": "cmdb.attribute.update",
-      "menuId": "cmdb.attribute"
-    }
-  ],
-  "arrUrl": null,
-  "arrUrlList": [
-    {
-      "url": "cmdb/attribute/{id}/edit",
-      "method": "get",
-      "authId": "cmdb.attribute.update"
-    },
-    ...
-  ],
-  "roleAuthMapCount": 1
-}
-```
-
-## 데이터 등록
-
-### URL
-
-```
-POST /rest/auths
-```
-
-### Parameter Sample
-
-```json
-{
-  "authId": "test.auths",
-  "authName": "테스트 새 권한",
-  "authDesc": "등록 및 수정, 삭제 테스트 데이터",
-  "arrMenuId": {
-    0: "board",
-    1: "cmdb"
-  },
-  "arrMenuList": null,
-  "arrUrl": {
-    0: "/rest/boards/articles/comments/{id}",
-    1: "/rest/boards/articles/{id}",
-    2: "/rest/boards/{id}"
-  },
-  "arrUrlList": null,
-  "roleAuthMapCount": 0
-}
-```
-
-### Response Sample
-
-```
-{
-  "test.auths"
-}
-```
-
-## 데이터 수정
-
----
-
-### URL
-
-```
-PUT /rest/auths/{authId}
-```
-
-### Parameter Sample
-
-```json
-{
-  "authId": "test.auths",
-  "authName": "테스트 권한 제목 수정",
-  "authDesc": "등록 및 수정, 삭제 테스트 데이터",
-  "arrMenuId": {
-    0: "board",
-    1: "cmdb",
-    2: "cmdb.attribute",
-    3: "dashboard"
-  },
-  "arrMenuList": null,
-  "arrUrl": {
-    0: "/rest/boards/articles/comments/{id}",
-    1: "/rest/boards/articles/{id}",
-    2: "/dashboard/view"
-  },
-  "arrUrlList": null,
-  "roleAuthMapCount": 0
-}
-```
-
-### Response Sample
-
-```
-{
-  "test.auths"
-}
-```
-
-## 데이터 삭제
-
----
-
-### URL
-
-```
-DELETE /rest/auths/{authId}
-```
-
-### Parameter Sample
-
-```json
-{
-  "authId": "test.auths"
-}
-```
-
-### Response Sample
-```
-{
-  "true"
-}
-```
+　**포털 관리**  
+　　- FAQ 등록, 게시판 생성, 공지사항 등록 등 포털과 관련된 설정이 가능하다.  

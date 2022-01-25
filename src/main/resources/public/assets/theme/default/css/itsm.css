@@ -430,7 +430,7 @@ input, button, select, optgroup, textarea {
 }
 
 .mr-1 {
-  margin-right: 0.3125rem;
+  margin-right: 0.3125rem !important;
 }
 
 .mb-1 {
@@ -446,7 +446,7 @@ input, button, select, optgroup, textarea {
 }
 
 .mr-2 {
-  margin-right: 0.625rem;
+  margin-right: 0.625rem !important;
 }
 
 .mb-2 {
@@ -462,7 +462,7 @@ input, button, select, optgroup, textarea {
 }
 
 .mr-3 {
-  margin-right: 0.9375rem;
+  margin-right: 0.9375rem !important;
 }
 
 .mb-3 {
@@ -478,7 +478,7 @@ input, button, select, optgroup, textarea {
 }
 
 .mr-4 {
-  margin-right: 1.25rem;
+  margin-right: 1.25rem !important;
 }
 
 .mb-4 {
@@ -494,7 +494,7 @@ input, button, select, optgroup, textarea {
 }
 
 .mr-5 {
-  margin-right: 1.5625rem;
+  margin-right: 1.5625rem !important;
 }
 
 .mb-5 {
@@ -849,21 +849,11 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-icon.i-gnb-chart {
+.z-icon.i-gnb-statistic {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
-  mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-report {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
-  mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_statistic.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_statistic.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2023,6 +2013,44 @@ select {
   white-space: nowrap;
   overflow: hidden;
   word-wrap: normal;
+}
+
+.z-switch {
+  display: inline-block;
+  width: 100%;
+  margin: 0 !important;
+}
+.z-switch .z-label {
+  margin-left: 0;
+}
+.z-switch .z-label-name {
+  width: 12.5rem;
+}
+.z-switch input[type=checkbox] + span {
+  left: inherit;
+}
+.z-switch-list {
+  height: 22.5rem;
+  padding: 0.5rem 0.625rem;
+}
+.z-switch-list .right {
+  right: 0.25rem;
+}
+.z-switch-list .padding {
+  padding: 0.1875rem 0 0.1875rem 0;
+}
+.z-switch-list .os-content {
+  padding-top: 0 !important;
+}
+.z-switch-list li {
+  display: list-item;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+  height: 2.5rem;
+  padding-right: 0.2rem;
 }
 
 /* _buttons.scss

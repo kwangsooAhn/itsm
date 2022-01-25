@@ -16,9 +16,9 @@
     </tr>
     <tr class="flex-row align-items-center" th:each="pattern : ${patternList}">
         <td style="width:25%;" class="align-left underline" th:id="${pattern.patternId}">
-            <a sec:authorize="!hasAuthority('numbering.pattern.update')" th:text="${pattern.patternName}"
+            <a sec:authorize="!hasAuthority('workflow.manage')" th:text="${pattern.patternName}"
                th:href="@{/numberingPatterns/{id}/view(id=${pattern.patternId})}" th:title="${pattern.patternName}"></a>
-            <a sec:authorize="hasAuthority('numbering.pattern.update')" th:text="${pattern.patternName}"
+            <a sec:authorize="hasAuthority('workflow.manage')" th:text="${pattern.patternName}"
                th:href="@{/numberingPatterns/{id}/edit(id=${pattern.patternId})}" th:title="${pattern.patternName}"></a>
         </td>
         <td style="width:25%;" class="align-left" id="patternType" th:text="${pattern.patternType}" th:title="${pattern.patternType}"></td>
