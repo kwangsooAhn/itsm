@@ -342,9 +342,7 @@ class WfTokenManagerService(
         if (viewerEntities.isNotEmpty()) {
             for (viewerEntity in viewerEntities) {
                 val notification = commonNotification.copy()
-                if (viewerEntity != null) {
                     notification.receivedUser = viewerEntity.viewer.userKey
-                }
                 notifications.add(notification)
             }
         }

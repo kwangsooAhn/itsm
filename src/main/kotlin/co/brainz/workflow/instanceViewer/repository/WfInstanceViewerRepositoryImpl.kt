@@ -28,7 +28,7 @@ class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewe
             .fetchOne()
     }
 
-    override fun findViewerByInstanceId(instanceId: String): MutableList<WfInstanceViewerEntity?> {
+    override fun findViewerByInstanceId(instanceId: String): MutableList<WfInstanceViewerEntity> {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
         val notification = QNotificationEntity.notificationEntity
 
