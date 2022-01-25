@@ -6,14 +6,11 @@
 
 package co.brainz.workflow.instanceViewer.repository
 
-import javax.transaction.Transactional
-import org.springframework.data.jpa.repository.Modifying
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.instanceViewer.entity.QWfInstanceViewerEntity
 import co.brainz.workflow.instanceViewer.entity.WfInstanceViewerEntity
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
-import co.brainz.framework.auth.entity.QAliceUserEntity
 import com.querydsl.core.QueryResults
 
 @Repository
@@ -22,13 +19,12 @@ class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewe
 
     override fun findByInstanceViewerList(instanceId: String): QueryResults<WfInstanceViewerEntity>? {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
-        val user = QAliceUserEntity.aliceUserEntity
 
         return from(viewer)
             .where(
                 viewer.instance.instanceId.eq(instanceId)
             )
-            .orderBy(viewer.createDt.desc())
+            .orderBy(viewer.createDt.asc())
             .fetchResults()
 
     }
