@@ -7,5 +7,9 @@ package co.brainz.workflow.instanceViewer.repository
 
 import co.brainz.workflow.instanceViewer.entity.WfInstanceViewerEntity
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-interface WfInstanceViewerRepository : JpaRepository<WfInstanceViewerEntity, String>, WfInstanceViewerRepositoryCustom
+@Repository
+interface WfInstanceViewerRepository : JpaRepository<WfInstanceViewerEntity, String>,
+    WfInstanceViewerRepositoryCustom {
+}
