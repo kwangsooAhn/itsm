@@ -14,4 +14,6 @@ interface WfInstanceViewerRepositoryCustom : AliceRepositoryCustom {
 
     fun findViewerByInstanceId(instanceId: String): MutableList<WfInstanceViewerEntity>
 
+    fun updateDisplayYn(instanceId: String, viewerKey: String)
+
 }

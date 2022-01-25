@@ -344,6 +344,7 @@ class WfTokenManagerService(
                 val notification = commonNotification.copy()
                     notification.receivedUser = viewerEntity.viewer.userKey
                 notifications.add(notification)
+                wfInstanceViewerRepository.updateDisplayYn(token.instance.instanceId, viewerEntity.viewer.userKey)
             }
         }
         notificationService.insertNotificationList(notifications.distinct())

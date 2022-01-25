@@ -7,7 +7,6 @@
 package co.brainz.workflow.instanceViewer.repository
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.notification.entity.QNotificationEntity
 import co.brainz.workflow.instanceViewer.entity.QWfInstanceViewerEntity
 import co.brainz.workflow.instanceViewer.entity.WfInstanceViewerEntity
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -30,15 +29,22 @@ class WfInstanceViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewe
 
     override fun findViewerByInstanceId(instanceId: String): MutableList<WfInstanceViewerEntity> {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
-        val notification = QNotificationEntity.notificationEntity
 
         return from(viewer)
-            .leftJoin(notification)
-            .on(notification.receivedUser.userKey.eq(viewer.viewer.userKey))
             .where(
                 viewer.instance.instanceId.eq(instanceId)
-                    .and(notification.receivedUser.isNull)
+                    .and(viewer.displayYn.eq(false))
             )
             .fetch()
+    }
+
+    override fun updateDisplayYn(instanceId: String, viewerKey: String) {
+        val instanceViewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
+
+        update(instanceViewer)
+            .where(instanceViewer.instance.instanceId.eq(instanceId)
+                .and(instanceViewer.viewer.eq(AliceUserEntity(viewerKey))))
+            .set(instanceViewer.displayYn, true)
+            .execute()
     }
 }
