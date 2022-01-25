@@ -173,9 +173,7 @@ class ZFormTokenTab {
         this.viewerList = [];
         document.getElementById('viewer').innerHTML = '';
 
-        // 가데이터 표시
-        aliceJs.fetchJson('../../assets/js/document/dummy/viewer.json', {
-        //aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
+        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
             method: 'GET'
         }).then((response) => {
             response.data.forEach((viewer) => {
@@ -332,6 +330,9 @@ class ZFormTokenTab {
      * 참조인 등록/수정
      */
     saveViewer(dataList) {
+        // dataList.push({
+        //
+        // })
         aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
             method: 'POST',
             headers: {
