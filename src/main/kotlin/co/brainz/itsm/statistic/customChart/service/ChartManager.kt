@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.statistic.customChart.service
 
+import java.io.*
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.tag.constants.AliceTagConstants
@@ -25,6 +26,15 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.LinkedHashSet
+import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.workflow.document.repository.WfDocumentRepository
+import com.google.gson.JsonElement
+import com.google.gson.JsonParser
 
 abstract class ChartManager(
     private val chartManagerService: ChartManagerService
@@ -44,9 +54,10 @@ abstract class ChartManager(
     fun getChart(chartDto: ChartDto): ChartDto {
         // 1. [chartDto.chartConfig.range] to, from 값을 기준으로 category 를 생성
         val category = this.getCategory(chartDto.chartConfig)
+        var tagInstances = chartManagerService.getFileReadFun()
 
         // 2. tag 별로 range(from, to) 범위와 문서 상태에 따른 instance 목록 가져오기
-        var tagInstances = this.getTagInstances(chartDto)
+//        var tagInstances = this.getTagInstances(chartDto) //가데이터작업 하기
 
         // TODO: [tagInstances] 목록에 조건식 적용
         tagInstances = this.setChartConditionByTagInstances(chartDto, tagInstances)
