@@ -7,6 +7,7 @@ aliceJs.systemCalendarTimeFormat = 'HH:mm:ss';
 const rgbaReg = /^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i;
 const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
 
+aliceJs.imageExtensions = ['png', 'jpg', 'jpeg', 'gif'];
 aliceJs.searchDataCount = 15;
 aliceJs.fileOffsetCount = 17;
 aliceJs.autoRefreshPeriod = 60000;
@@ -476,6 +477,15 @@ function dateFormatFromNow(date) {
 }
 
 /**
+ * 확장자에 따른 아이콘 조회
+ * @param extension 확장자
+ * @returns icon path 파일명
+ */
+aliceJs.getFileExtensionIcon = function(extension){
+    return '/assets/media/icons/fileUploader/icon_document_' + extension + '.svg';
+};
+
+/**
  * 썸네일
  *
  * @param options 옵션
@@ -532,6 +542,31 @@ aliceJs.thumbnail = function(options) {
         }
     };
 
+    const getThumbnail = function (type, file) {
+        let thumbnailTemplate = '';
+        switch (type) {
+            case 'image':
+                thumbnailTemplate = `<div class="z-thumbnail-image" ` +
+                    `style="background-image:url('data:image/${file.extension};base64,${file.data}');">` +
+                    `</div>`;
+                break;
+            case 'icon':
+            case 'cmdb-icon':
+                thumbnailTemplate = `<div class="z-thumbnail-icon" ` +
+                    `style="background-image:url('data:image/${file.extension};base64,${file.data}');background-size:100%;">` +
+                    `</div>`;
+                break;
+            case 'file':
+                thumbnailTemplate = `<div class="z-thumbnail-file">` +
+                    `<img src="${aliceJs.getFileExtensionIcon((file.extension).trim().toLowerCase())}"></div>` +
+                    `</div>`;
+                break;
+            default:
+                break;
+        }
+        return thumbnailTemplate;
+    };
+
     /**
      * 썸네일 content.
      *
@@ -545,7 +580,8 @@ aliceJs.thumbnail = function(options) {
         if (files.data.length > 0) {
             for (let i = 0, len = files.data.length; i < len; i++) {
                 let file = files.data[i];
-
+                const fileExtension = (file.extension).trim().toLowerCase();
+                const isImageFile = aliceJs.imageExtensions.includes(fileExtension);
                 const thumbnail = document.createElement('div');
                 thumbnail.className = 'z-thumbnail';
                 thumbnail.setAttribute('data-name', file.name);
@@ -562,18 +598,9 @@ aliceJs.thumbnail = function(options) {
                 }
 
                 container.appendChild(thumbnail);
-
-                const thumbnailImg = document.createElement('div');
-                if (options.type === 'image') {
-                    thumbnailImg.className = 'z-thumbnail-image';
-                } else if (options.type === 'icon' || options.type === 'cmdb-icon') {
-                    thumbnailImg.className = 'z-thumbnail-icon';
-                    thumbnailImg.style.backgroundSize = '100%';
-                } else if (options.type === 'file') {
-                    thumbnailImg.className = 'z-thumbnail-file';
-                }
-                thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
-                thumbnail.appendChild(thumbnailImg);
+                // 썸네일 조회
+                const fileType = (options.type === 'file' && isImageFile) ? 'image' : options.type;
+                thumbnail.insertAdjacentHTML('beforeend', getThumbnail(fileType, file));
 
                 if (options.isThumbnailInfo) {
                     const thumbnailInfo = document.createElement('div');
@@ -585,9 +612,10 @@ aliceJs.thumbnail = function(options) {
                     thumbnailName.innerHTML = `<label class="text-ellipsis">${file.name}</label>`;
                     thumbnailInfo.appendChild(thumbnailName);
 
+                    const thumbnailText = (isImageFile) ? `${file.width} X ${file.height} (${file.size})` : `${file.size}`;
                     const thumbnailSize = document.createElement('p');
                     thumbnailSize.className = 'z-thumbnail-info-text';
-                    thumbnailSize.innerHTML = `<label class="text-ellipsis">${file.width} X ${file.height} ${file.size}</label>`;
+                    thumbnailSize.innerHTML = `<label class="text-ellipsis">${thumbnailText}</label>`;
                     thumbnailInfo.appendChild(thumbnailSize);
 
                     if (options.type !== 'file') {
@@ -611,7 +639,7 @@ aliceJs.thumbnail = function(options) {
     };
 
     // 이미지 파일 로드
-    aliceJs.fetchJson('/rest/images?type=' + options.type, {
+    aliceJs.fetchJson('/rest/files?type=' + options.type, {
         method: 'GET'
     }).then((files) => {
         const modalOptions = {

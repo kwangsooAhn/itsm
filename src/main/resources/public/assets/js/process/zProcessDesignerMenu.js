@@ -1099,7 +1099,6 @@
             let sourceMappingLabel = document.createElement('label');
             sourceMappingLabel.className = 'properties-title mb-2';
             sourceMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'sourceMappingId');
-            sourceMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
             let sourceMappingTooltip = document.createElement('div');
             sourceMappingTooltip.className = 'z-help-tooltip';
@@ -1118,7 +1117,6 @@
             sourceMappingInput.id = 'source-mapping-id';
             sourceMappingInput.name = 'source-mapping-id';
             sourceMappingInput.maxLength = 150;
-            sourceMappingInput.required = true;
 
             sourceMappingProperties.appendChild(sourceMappingLabel);
             sourceMappingProperties.appendChild(sourceMappingInput);
@@ -1241,7 +1239,7 @@
 
             // file 생성
             let fileLabel = document.createElement('label');
-            fileLabel.className = 'properties-title mb-2';
+            fileLabel.className = 'properties-title mb-2 mt-3';
             fileLabel.textContent = i18n.msg(i18nMsgPrefix + 'file');
             actionContainer.appendChild(fileLabel);
 
@@ -1295,16 +1293,17 @@
 
             btnAdd.addEventListener('click', function() {
                 let targetMappingValue = document.querySelector('#target-mapping-id').value.trim();
-                let sourceMappingValue = document.querySelector('#source-mapping-id').value.trim();
 
-                if (targetMappingValue === '' || sourceMappingValue === '') {
-                    let msgTarget = targetMappingValue === '' ? 'targetMappingId' : 'sourceMappingId';
-                    zAlert.warning(i18n.msg('validation.msg.required', i18n.msg('process.designer.attribute.' + msgTarget)));
-                }
-
-                if (conditionInput.value.trim() === '' || fileInput.value.trim() === '') {
+                if (targetMappingValue === '') {
+                    zAlert.warning(i18n.msg('validation.msg.required', i18n.msg('process.designer.attribute.targetMappingId')));
                     return false;
                 }
+
+                if (fileInput.value.trim() === '') {
+                    zAlert.warning(i18n.msg('validation.msg.fileSelect'));
+                    return false;
+                }
+
                 let dataBody = inputObject.parentNode.parentNode.querySelector('tbody'),
                     rows = dataBody.querySelectorAll('tr');
                 let isDuplicate = false,

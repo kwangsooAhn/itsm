@@ -24,7 +24,6 @@
 </div>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    const imageExtensions = ['png', 'jpg', 'jpeg', 'gif'];
     const creatable = document.getElementById('creatable').value;
     const updatable = document.getElementById('updatable').value;
     const deletable = document.getElementById('deletable').value;
@@ -132,20 +131,16 @@
         });
     }
 
-    function getFileIcon(extention) {
-        return '/assets/media/icons/fileUploader/icon_document_' + extention + '.svg';
-    }
-
     function addThumbnail(image) {
-        const fileExtention = (image.extension).trim().toLowerCase();
-        let isImageFile = imageExtensions.includes(fileExtention);
+        const fileExtension = (image.extension).trim().toLowerCase();
+        const isImageFile = aliceJs.imageExtensions.includes(fileExtension);
         // 확장자가 이미지일 경우에는 미리보기 가능, 나머지 파일은 다운로드되도록 처리
         const thumbnailContainer = document.getElementById('thumbnailMain');
         const thumbnailText = (isImageFile) ? `${image.width} X ${image.height} (${image.size})` : `${image.size}`;
         const thumbnailTemplate = `<div class="z-thumbnail" tabindex="-1">` +
             `${isImageFile ?
                 `<div class="z-thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>` :
-                `<div class="z-thumbnail-image" onclick="downLoadFile(this);"><img src="${getFileIcon(fileExtention)}"></div>`}` +
+                `<div class="z-thumbnail-image" onclick="downLoadFile(this);"><img src="${aliceJs.getFileExtensionIcon(fileExtension)}"></div>`}` +
                 `<div class="z-thumbnail-info">` +
                     `<p class="z-thumbnail-info-text">` +
                         `<label name="updateLabel" class="z-thumbnail-image-name text-ellipsis" ondblclick="renameFile(this);" title="${image.name}">${image.name}</label>` +

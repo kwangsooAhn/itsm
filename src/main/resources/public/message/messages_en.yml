@@ -1424,6 +1424,7 @@ validation:
     checkUserIdFormat: "Please enter the correct userId format."
     dataNotDuplicate: "Duplicate data cannot be included."
     elementNotExist: "The element does not exist."
+    fileSelect: "Please select a file."
     integer: "Please enter only integer."
     max: "Please enter below {0}."
     maxLength: "Please enter less than {0} characters."

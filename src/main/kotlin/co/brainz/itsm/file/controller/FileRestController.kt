@@ -65,11 +65,11 @@ class FileRestController(
      * 파일 전체 목록 가져오기.
      */
     @GetMapping("")
-    fun getFileFileList(
+    fun getFileList(
         @RequestParam(value = "type", defaultValue = "") type: String,
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         @RequestParam(value = "offset", defaultValue = "-1") offset: String
     ): AliceImageFileListReturnDto {
-        return fileProvider.getImageFileList(type, searchValue, offset.toInt())
+        return fileProvider.getFileList(type, searchValue, offset.toInt())
     }
 }

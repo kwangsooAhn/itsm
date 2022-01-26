@@ -45,7 +45,8 @@
       background-repeat: no-repeat;
       background-position: center center;
     }
-    .z-thumbnail-image {
+    .z-thumbnail-image,
+    .z-thumbnail-file {
       @include relative();
       img {
         @include absolute(0, 0, 0, 0);

@@ -6367,10 +6367,12 @@ body.modal-active {
   background-repeat: no-repeat;
   background-position: center center;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-image {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-image,
+.z-thumbnail-main .z-thumbnail .z-thumbnail-file {
   position: relative;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-image img {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-image img,
+.z-thumbnail-main .z-thumbnail .z-thumbnail-file img {
   position: absolute;
   top: 0;
   right: 0;
