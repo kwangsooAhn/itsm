@@ -220,7 +220,11 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 JPAExpressions
                     .select(tokenSub.instance.instanceId)
                     .from(tokenSub)
-                    .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey))
+                    .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey)
+                        .or(
+                            instanceViewer.viewer.userKey.eq(tokenSearchCondition.userKey)
+                        )
+                    )
             )
         )
         status?.forEach { statusValue ->
@@ -232,6 +236,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         }
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
+            .leftJoin(instanceViewer).on(instance.instanceId.eq(instanceViewer.instance.instanceId))
             .orderBy(instance.instanceStartDt.desc())
         if (tokenSearchCondition.isScroll) {
             query.limit(searchDataCount)
