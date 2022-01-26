@@ -16,6 +16,7 @@ import co.brainz.itsm.folder.constants.FolderConstants
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.instance.entity.QWfCommentEntity
+import co.brainz.itsm.instance.entity.QWfInstanceViewerEntity
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
@@ -64,6 +65,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     val searchDataCount: Long = WfTokenConstants.searchDataCount
     val element: QWfElementEntity = QWfElementEntity.wfElementEntity
     val ciComponent: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
+    val instanceViewer: QWfInstanceViewerEntity = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -129,6 +131,9 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         builder.and(
             token.assigneeId.eq(tokenSearchCondition.userKey)
                 .or(
+                    instanceViewer.viewer.userKey.eq(tokenSearchCondition.userKey)
+                )
+                .or(
                     token.element.elementId.`in`(assigneeUsers)
                 ).or(
                     token.element.elementId.`in`(assigneeGroups)
@@ -148,6 +153,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         )
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
+            .leftJoin(instanceViewer).on(instance.instanceId.eq(instanceViewer.instance.instanceId))
             .orderBy(instance.instanceStartDt.desc())
         if (tokenSearchCondition.isScroll) {
             query.limit(searchDataCount)
