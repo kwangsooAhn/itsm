@@ -156,7 +156,11 @@ class AliceFileProvider(
             FileConstants.Type.ICON_CI_TYPE.code -> {
                 FileConstants.Path.ICON_CI_TYPE.path
             }
-            else -> {
+            FileConstants.Type.IMAGE.code -> {
+                // TODO: 폼 디자이너 > 이미지 컴포넌트 > 이미지 파일만 가져온다. (파일경로는 동일)
+                FileConstants.Path.IMAGE.path
+            }
+            else -> { // TODO: 프로세스 디자이너 > script Task > 모든 파일을 가져온다. (파일경로는 동일)
                 FileConstants.Path.IMAGE.path
             }
         }
