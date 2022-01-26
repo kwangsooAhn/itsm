@@ -148,7 +148,7 @@ class AliceFileProvider(
      * 이미지리스트 전체 또는 offset 단위로 가져오기
      *
      */
-    fun getImageFileList(type: String, searchValue: String, currentOffset: Int = -1): AliceImageFileListReturnDto {
+    fun getFileList(type: String, searchValue: String, currentOffset: Int = -1): AliceImageFileListReturnDto {
         val dir = when (type) {
             FileConstants.Type.ICON.code -> {
                 FileConstants.Path.ICON_DOCUMENT.path
