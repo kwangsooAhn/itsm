@@ -6,10 +6,12 @@
 
 package co.brainz.workflow.instance.repository
 
+import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.folder.entity.QWfFolderEntity
@@ -48,7 +50,9 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::class.java),
+class WfInstanceRepositoryImpl(
+    private val currentSessionUser: CurrentSessionUser
+) : QuerydslRepositorySupport(WfInstanceEntity::class.java),
     WfInstanceRepositoryCustom {
 
     val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
@@ -124,14 +128,18 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         builder.and(instance.instanceStatus.`in`(status))
         builder.and(token.tokenStatus.`in`(tokenStatus))
         builder.and(token.element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value))
-        builder.and(
-            token.assigneeId.eq(tokenSearchCondition.userKey)
-                .or(
-                    token.element.elementId.`in`(assigneeUsers)
-                ).or(
-                    token.element.elementId.`in`(assigneeGroups)
-                )
-        )
+
+        if (!hasDocumentViewAuth()) {
+            builder.and(
+                token.assigneeId.eq(tokenSearchCondition.userKey)
+                    .or(
+                        token.element.elementId.`in`(assigneeUsers)
+                    ).or(
+                        token.element.elementId.`in`(assigneeGroups)
+                    )
+            )
+        }
+
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
@@ -154,6 +162,13 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         return query.fetchResults()
     }
 
+    /**
+     * 전체 문서 허용 권한 여부.
+     */
+    private fun hasDocumentViewAuth(): Boolean {
+        return currentSessionUser.getAuth().contains(AuthConstants.AuthType.DOCUMENT_VIEW.value)
+    }
+
     override fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto> {
         val tokenSub = QWfTokenEntity("tokenSub")
         val builder = getInstancesWhereCondition(
@@ -162,7 +177,9 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             tokenSearchCondition.searchFromDt,
             tokenSearchCondition.searchToDt
         )
-        builder.and(instance.instanceCreateUser.userKey.eq(tokenSearchCondition.userKey))
+        if (!hasDocumentViewAuth()) {
+            builder.and(instance.instanceCreateUser.userKey.eq(tokenSearchCondition.userKey))
+        }
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
@@ -207,14 +224,16 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.instance.instanceId.eq(instance.instanceId))
             )
         )
-        builder.and(
-            instance.instanceId.`in`(
-                JPAExpressions
-                    .select(tokenSub.instance.instanceId)
-                    .from(tokenSub)
-                    .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey))
+        if (!hasDocumentViewAuth()) {
+            builder.and(
+                instance.instanceId.`in`(
+                    JPAExpressions
+                        .select(tokenSub.instance.instanceId)
+                        .from(tokenSub)
+                        .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey))
+                )
             )
-        )
+        }
         status?.forEach { statusValue ->
             if (statusValue == WfInstanceConstants.Status.FINISH.code) {
                 builder.and(

@@ -34,3 +34,4 @@ insert into awf_auth values ('report.manage', '보고서 관리', '사용자 정
 insert into awf_auth values ('report.view', '보고서 조회', '보고서 내용을 검색하여 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('system.manage', '시스템 관리', '"사용자, 역할, 스케줄러, 게시판, 코드 관리 권한을 가집니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('portal.manage', '포털 관리', 'FAQ 등록, 게시판 생성, 공지사항 등록 등 포털과 관련된 설정이 가능합니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('document.view', '문서함 검색', '문서함 조회시 모든 문서를 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
