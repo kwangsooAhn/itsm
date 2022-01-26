@@ -50,6 +50,7 @@ insert into awf_auth values ('report.manage', '보고서 관리', '사용자 정
 insert into awf_auth values ('report.view', '보고서 조회', '보고서 내용을 검색하여 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('system.manage', '시스템 관리', '"사용자, 역할, 스케줄러, 게시판, 코드 관리 권한을 가집니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('portal.manage', '포털 관리', 'FAQ 등록, 게시판 생성, 공지사항 등록 등 포털과 관련된 설정이 가능합니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('document.view', '문서함 검색', '문서함 조회시 모든 문서를 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 아바타
@@ -827,13 +828,16 @@ INSERT INTO awf_role_auth_map VALUES ('system.admin', 'report.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'report.view');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'system.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'portal.manage');
+INSERT INTO awf_role_auth_map VALUES ('system.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'workflow.expire');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('service.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('service.manager', 'general');
 INSERT INTO awf_role_auth_map VALUES ('service.manager', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('service.manager', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('service.manager', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('general.user', 'general');
 INSERT INTO awf_role_auth_map VALUES ('general.user', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'general');
@@ -841,12 +845,15 @@ INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'workflow.manage');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'report.manage');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'cmdb.manage');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'portal.manage');
+INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'document.view');
 
 /**
  * 문서번호패턴맵핑
