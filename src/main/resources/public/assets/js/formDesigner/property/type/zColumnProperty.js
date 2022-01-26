@@ -153,7 +153,6 @@ export default class ZColumnProperty extends ZProperty {
             .setUIClass('z-button-icon')
             .addUIClass('z-tab')
             .setUIId('column' + index)
-            .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-check'))
             .onUIClick(this.selectColumn.bind(this, 'column' + index));
         this.UITabPanel.tabGroup.addUI(tab);
         this.tabs.push(tab);
