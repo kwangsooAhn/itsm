@@ -15,4 +15,30 @@ class CurrentSessionUser {
     fun getUserKey(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.userKey
     fun getUserId(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.userId
     fun getEmail(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.email
+
+    fun getAuth(): Set<String> {
+        val authorises = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!
+            .grantedAuthorises ?: emptySet()
+        val prefix = "ROLE_"
+        val auths = mutableSetOf<String>()
+        authorises.iterator().forEach {
+            if (!it.authority.startsWith(prefix)) {
+                auths.add(it.authority)
+            }
+        }
+        return auths.toSet()
+    }
+
+    fun getRoles(): Set<String> {
+        val authorises = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!
+            .grantedAuthorises ?: emptySet()
+        val roles = mutableSetOf<String>()
+        val prefix = "ROLE_"
+        authorises.iterator().forEach {
+           if (it.authority.startsWith(prefix)) {
+               roles.add(it.authority.replace(prefix, ""))
+           }
+        }
+        return roles.toSet()
+    }
 }
