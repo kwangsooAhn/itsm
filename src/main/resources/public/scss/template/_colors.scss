@@ -1,0 +1,19 @@
+/*
+ *  _colors.scss
+
+ * 파일 경로 : template/_colors.scss
+ * @description 폰트 색상, 배경 색상 클래스 모음
+ * @author wdj
+ * @version 1.0
+ */
+
+@each $color_name, $color in $colors {
+  @each $color_type, $color_value in $color {
+    .text-#{$color_type} {
+      color: $color_value !important;
+    }
+    .bg-#{$color_type} {
+      background-color: $color_value !important;
+    }
+  }
+}

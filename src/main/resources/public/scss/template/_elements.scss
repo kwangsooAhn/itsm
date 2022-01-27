@@ -9,7 +9,7 @@
 // 기본 글꼴 설정.
 // 모바일 기기 회전시에 사용자가 확대하지 않아도 글씨 크기가 재조정되는 것을 예방.
 body {
-  font-family: $font-family-m;
+  font-family: $font-family;
   font-size: $font-size-s;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -17,7 +17,7 @@ body {
 
 // headings
 h1, h2, h3, h4, h5, h6 {
-  font-family: $font-family-m;
+  font-family: $font-family;
   font-weight: $headings-font-weight;
   line-height: $headings-line-height;
   color: $headings-font-color;
@@ -40,7 +40,7 @@ h5 {
   font-size: $h5-font-size;
 }
 h6 {
-  font-family: $font-family-s;
+  font-family: $font-family;
   font-size: $h6-font-size;
 }
 // a
