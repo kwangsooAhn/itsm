@@ -316,7 +316,8 @@ export default class ZColumnProperty extends ZProperty {
 
         [this.value[curIndex], this.value[changeIndex]] = [this.value[changeIndex], this.value[curIndex]];
 
-        this.UITabPanel.panelGroup.domElement.childNodes[changeIndex].childNodes[0].childNodes[2].innerHTML= changeIndex + 1
+        this.UITabPanel.panelGroup.domElement.childNodes[curIndex].childNodes[0].childNodes[2].innerHTML= curIndex+1
+        this.UITabPanel.panelGroup.domElement.childNodes[changeIndex].childNodes[0].childNodes[2].innerHTML= changeIndex+1
 
         this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
     }
