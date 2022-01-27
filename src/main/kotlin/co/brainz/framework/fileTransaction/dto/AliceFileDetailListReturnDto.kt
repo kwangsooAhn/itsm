@@ -8,7 +8,7 @@ package co.brainz.framework.fileTransaction.dto
 
 import java.io.Serializable
 
-data class AliceImageFileListReturnDto(
-    val data: List<AliceImageFileDto> = emptyList(),
+data class AliceFileDetailListReturnDto(
+    val data: List<AliceFileDetailDto> = emptyList(),
     val totalCount: Long = 0
 ) : Serializable
