@@ -199,6 +199,7 @@ export default class ZColumnProperty extends ZProperty {
         columnCommonGroup.addUI(
             new UISpan().setUIClass('panel-name').setUIInnerHTML(i18n.msg('form.properties.element.columnOrder')),
             arrowLeftButton,
+            new UISpan().setUIInnerHTML(index + 1),
             arrowRightButton,
             deleteButton
         );
