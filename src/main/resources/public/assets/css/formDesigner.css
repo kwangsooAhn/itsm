@@ -7190,7 +7190,7 @@ body.modal-active {
   white-space: nowrap;
   overflow: hidden;
   word-wrap: normal;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
 }
 .z-component .z-element .z-dr-table .z-dr-table-row .z-button-icon {
   padding: 0;
