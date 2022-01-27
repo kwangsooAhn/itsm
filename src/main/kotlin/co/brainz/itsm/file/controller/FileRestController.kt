@@ -5,11 +5,13 @@
 
 package co.brainz.itsm.file.controller
 
-import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
-import co.brainz.framework.fileTransaction.dto.AliceImageFileListReturnDto
+import co.brainz.framework.fileTransaction.dto.AliceFileDetailDto
+import co.brainz.framework.fileTransaction.dto.AliceFileDetailListReturnDto
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.file.dto.FileRenameDto
+import org.springframework.core.io.InputStreamResource
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -33,8 +35,8 @@ class FileRestController(
      * 파일 업로드.
      */
     @PostMapping("")
-    fun uploadFile(@RequestPart("files") multipartFiles: List<MultipartFile>): List<AliceImageFileDto> {
-        return fileService.uploadImageFiles(multipartFiles)
+    fun uploadFile(@RequestPart("files") multipartFiles: List<MultipartFile>): Boolean {
+        return fileService.uploadFiles(multipartFiles)
     }
 
     /**
@@ -42,7 +44,7 @@ class FileRestController(
      */
     @DeleteMapping("/{name}")
     fun deleteFile(@PathVariable name: String): Boolean {
-        return fileService.deleteImage(name)
+        return fileService.deleteFile(name)
     }
 
     /**
@@ -50,15 +52,15 @@ class FileRestController(
      */
     @PutMapping("")
     fun renameFile(@RequestBody fileRenameDto: FileRenameDto): Boolean {
-        return fileService.renameImage(fileRenameDto.originName, fileRenameDto.modifyName)
+        return fileService.renameFile(fileRenameDto.originName, fileRenameDto.modifyName)
     }
 
     /**
      * 파일 조회
      */
     @GetMapping("/{name}")
-    fun getFile(@PathVariable name: String): AliceImageFileDto? {
-        return fileService.getImageFile(name)
+    fun getFile(@PathVariable name: String): AliceFileDetailDto? {
+        return fileService.getFile(name)
     }
 
     /**
@@ -69,7 +71,14 @@ class FileRestController(
         @RequestParam(value = "type", defaultValue = "") type: String,
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         @RequestParam(value = "offset", defaultValue = "-1") offset: String
-    ): AliceImageFileListReturnDto {
-        return fileProvider.getFileList(type, searchValue, offset.toInt())
+    ): AliceFileDetailListReturnDto {
+        return fileProvider.getExternalFileList(type, searchValue, offset.toInt())
+    }
+
+    @GetMapping("/download")
+    fun download(
+        @RequestParam(value = "fileName", defaultValue = "") fileName: String
+    ): ResponseEntity<InputStreamResource> {
+        return fileService.download(fileName)
     }
 }

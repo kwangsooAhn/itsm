@@ -84,7 +84,7 @@
         });
     }
     function getFiles(isScroll) {
-        let urlParam = 'searchValue=' + document.getElementById('searchValue').value;
+        let urlParam = 'type=file&searchValue=' + document.getElementById('searchValue').value;
         if (isScroll) {
             if (offsetCount === 0) {
                 offsetCount = aliceJs.fileOffsetCount;
@@ -284,8 +284,7 @@
     }
     // 다운로드
     function downLoadFile(thumbnail) {
-        // TODO: 파일 다운로드 구현
-        /*const fileName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
+        const fileName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
         aliceJs.fetchBlob('/rest/files/download?fileName=' + fileName, {
             method: 'GET',
             showProgressbar: true
@@ -304,7 +303,7 @@
             }
         }).catch(err => {
             zAlert.warning(err);
-        });*/
+        });
     }
     // 이미지 미리보기
     function imagePreview(thumbnail) {

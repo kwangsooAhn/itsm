@@ -211,6 +211,7 @@ insert into awf_url values ('/rest/faqs/{id}', 'put', 'FAQ 수정 처리', 'TRUE
 insert into awf_url values ('/rest/faqs/{id}', 'get', 'FAQ 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'delete', 'FAQ 삭제 처리', 'TRUE');
 insert into awf_url values ('/rest/filenameextensions', 'get', '파일 확장자목록', 'FALSE');
+insert into awf_url values ('/rest/files/download', 'get', '파일관리 다운로드', 'FALSE');
 insert into awf_url values ('/rest/folders', 'post', '폴더 등록', 'FALSE');
 insert into awf_url values ('/rest/folders/{folderId}/instances/{instanceId}', 'delete', '폴더 삭제', false);
 insert into awf_url values ('/rest/folders/{folderId}', 'get', '폴더조회', false);
