@@ -91,7 +91,7 @@ $view-title-font-size:                        $font-size-m; // 18px
 $view-title-font-weight:                      $font-weight-medium;
 $view-title-font-color:                       $gray800;
 
-$view-sub-title-font-family:                  $font-family-s;
+$view-sub-title-font-family:                  $font-family;
 $view-sub-title-font-size:                    $font-size-xs; // 14px
 $view-sub-title-font-weight:                  $font-weight-regular;
 $view-sub-title-font-color:                   $gray500;
@@ -160,12 +160,12 @@ $notification-panel-color:                    $gray800;
 $notification-panel-background:               $white;
 
 $notification-header-color:                   $white;
-$notification-header-background:              $category01;
+$notification-header-background:              $blue500;
 $notification-header-font-size:               $font-size-xs;
-$notification-header-font-family:             $font-family-s;
+$notification-header-font-family:             $font-family;
 $notification-header-font-weight:             $font-weight-regular;
 $notification-header-title-font-size:         $font-size-s;
-$notification-header-title-font-family:       $font-family-m;
+$notification-header-title-font-family:       $font-family;
 $notification-header-title-font-weight:       $font-weight-medium;
 
 $notification-content-border-color:           $neutral200;
@@ -173,27 +173,27 @@ $notification-content-background:             $blue300;
 
 $notification-content-title-font-size:        $font-size-s;
 $notification-content-title-font-weight:      $font-weight-medium;
-$notification-content-title-font-family:      $font-family-m;
+$notification-content-title-font-family:      $font-family;
 $notification-content-title-color:            $gray800;
 
 $notification-content-message-font-size:      $font-size-s;
 $notification-content-message-font-weight:    $font-weight-regular;
-$notification-content-message-font-family:    $font-family-m;
+$notification-content-message-font-family:    $font-family;
 $notification-content-message-color:          $gray800;
 $notification-content-message-confirm-color:  $gray400;
 
 $notification-content-date-font-size:         $font-size-xs;
 $notification-content-date-font-weight:       $font-weight-regular;
-$notification-content-date-font-family:       $font-family-s;
+$notification-content-date-font-family:       $font-family;
 $notification-content-date-color:             $gray500;
 
 $notification-checkbox-size:                  1.125rem; // 18px
 $notification-checkbox-border:                0.063rem; // 1px
-$notification-checkbox-border-color:          $category01;
+$notification-checkbox-border-color:          $blue500;
 $notification-checkbox-checked-color:         $gray300;
 $notification-checkbox-checked-border-color:  $neutral200;
 $notification-checkbox-checked-font-size:     $font-size-s;
-$notification-checkbox-checked-font-family:   $font-family-m;
+$notification-checkbox-checked-font-family:   $font-family;
 
 // Toastify 하단 알람
 $toastify-height:                             6.25rem; // 100px
@@ -206,15 +206,15 @@ $toastify-content-border-color:               $neutral200;
 $toastify-content-title-color:                $gray800;
 $toastify-content-title-font-size:            $font-size-s;
 $toastify-content-title-font-weight:          $font-weight-medium;
-$toastify-content-title-font-family:          $font-family-m;
+$toastify-content-title-font-family:          $font-family;
 $toastify-content-message-color:              $gray800;
 $toastify-content-message-font-size:          $font-size-s;
 $toastify-content-message-font-weight:        $font-weight-regular;
-$toastify-content-message-font-family:        $font-family-m;
+$toastify-content-message-font-family:        $font-family;
 $toastify-content-date-color:                 $gray500;
 $toastify-content-date-font-size:             $font-size-xs;
 $toastify-content-date-font-weight:           $font-weight-regular;
-$toastify-content-date-font-family:           $font-family-s;
+$toastify-content-date-font-family:           $font-family;
 
 ///////////////////////////// Tree ////////////////////////////////
 $tree-modal-width:                            40rem; // 640px
@@ -267,7 +267,7 @@ $scheduler-modal-height:                      40.625rem; // 650px
 $chart-edit-modal-width:                      62.5rem; // 1000px
 $chart-edit-modal-height:                     53.0625rem; // 849px
 
-$chart-title-font-family:                     $font-family-m;
+$chart-title-font-family:                     $font-family;
 $chart-title-font-size:                       $font-size-m;
 $chart-title-font-color:                      $gray800;
 $chart-title-font-weight:                     $font-weight-bold;
