@@ -6,5 +6,5 @@
  * @version 1.0
  */
 @each $fname, $weight in $font-face-map {
-  @include fontFace("Noto Sans KR", $font-folder-path + "/" + $fname , "woff", normal, $weight);
+  @include fontFace("Pretendard", $font-folder-path + "/" + $fname , "woff2", normal, $weight);
 }
