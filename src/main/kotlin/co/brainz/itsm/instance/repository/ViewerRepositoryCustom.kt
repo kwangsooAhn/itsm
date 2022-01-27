@@ -20,4 +20,6 @@ interface ViewerRepositoryCustom : AliceRepositoryCustom {
 
     fun findByInstanceIdAndViewerKey(instanceId: String, viewerKey: String): WfInstanceViewerEntity?
 
+    fun updateReviewYn(instanceId: String, viewerKey: String)
+
 }

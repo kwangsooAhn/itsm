@@ -19,6 +19,7 @@ import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.instance.repository.ViewerRepository
@@ -71,7 +72,8 @@ class WfTokenManagerService(
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val ciComponentDataRepository: CIComponentDataRepository,
     private val ciService: CIService,
-    private val viewerRepository: ViewerRepository
+    private val viewerRepository: ViewerRepository,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -524,5 +526,15 @@ class WfTokenManagerService(
         }
 
         return keyPairMappingIdToTokenDataValue
+    }
+
+    /**
+     *  Review 읽음 버튼 처리
+     */
+    fun updateReview(instanceId: String) {
+        val viewerKey = currentSessionUser.getUserKey()
+        if (viewerRepository.findByInstanceIdAndViewerKey(instanceId, viewerKey) != null) {
+            viewerRepository.updateReviewYn(instanceId, viewerKey)
+        }
     }
 }

@@ -94,6 +94,7 @@ class TokenService(
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
             tokenId = restTemplateTokenDataUpdateDto.tokenId,
             documentId = restTemplateTokenDataUpdateDto.documentId,
+            instanceId = restTemplateTokenDataUpdateDto.instanceId,
             data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
             action = restTemplateTokenDataUpdateDto.action,
             instancePlatform = RestTemplateConstants.InstancePlatform.ITSM.code
