@@ -6808,7 +6808,7 @@ body.modal-active {
   height: 2.5rem;
   padding: 0 0.938rem;
   align-items: baseline;
-  background-color: #0096ff;
+  background-color: #339AF0;
 }
 .z-notification-header span {
   display: inline-block;
@@ -6860,7 +6860,7 @@ body.modal-active {
   height: 1.125rem;
   padding: 0.313rem;
   margin: 0;
-  border: 0.063rem solid #0096ff;
+  border: 0.063rem solid #339AF0;
   border-radius: 0.063rem;
   -webkit-border-radius: 0.063rem;
   -moz-border-radius: 0.063rem;
