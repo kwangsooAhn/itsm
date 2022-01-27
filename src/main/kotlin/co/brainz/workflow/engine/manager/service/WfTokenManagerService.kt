@@ -19,6 +19,7 @@ import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.instance.repository.ViewerRepository
@@ -52,7 +53,6 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
 import org.springframework.stereotype.Service
-import co.brainz.framework.util.CurrentSessionUser
 
 @Service
 class WfTokenManagerService(
@@ -529,7 +529,7 @@ class WfTokenManagerService(
     }
 
     /**
-     *  Review읽음버튼 처리
+     *  Review 읽음 버튼 처리
      */
     fun updateReview(instanceId: String) {
         val viewerKey = currentSessionUser.getUserKey()
