@@ -27,7 +27,15 @@ class WfTokenAction(
             WfElementConstants.Action.TERMINATE.value -> this.actionTerminate(tokenDto)
             WfElementConstants.Action.WITHDRAW.value -> this.actionWithdraw(tokenDto)
             WfElementConstants.Action.REJECT.value -> this.actionReject(tokenDto)
+            WfElementConstants.Action.REVIEW.value -> this.actionReview(tokenDto.instanceId)
         }
+    }
+
+    /**
+     * Review
+     */
+    private fun actionReview(instanceId: String) {
+        wfTokenManagerService.updateReview(instanceId)
     }
 
     /**
@@ -137,6 +145,7 @@ class WfTokenAction(
         newTokenDto.assigneeId = baseToken.assigneeId
         val tokenManager = WfTokenManagerFactory(wfTokenManagerService).createTokenManager(newTokenDto.elementType)
         tokenManager.createToken(newTokenDto)
+        this.actionReview(newTokenDto.instanceId)
     }
 
     /**
@@ -149,7 +158,7 @@ class WfTokenAction(
         if (tokenDataEntities.isNotEmpty()) {
             wfTokenManagerService.saveAllTokenData(tokenDataEntities)
         }
-
+        this.actionReview(tokenDto.instanceId)
         return wfTokenManagerService.saveToken(token)
     }
 

@@ -52,6 +52,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
 import org.springframework.stereotype.Service
+import co.brainz.framework.util.CurrentSessionUser
 
 @Service
 class WfTokenManagerService(
@@ -71,7 +72,8 @@ class WfTokenManagerService(
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val ciComponentDataRepository: CIComponentDataRepository,
     private val ciService: CIService,
-    private val viewerRepository: ViewerRepository
+    private val viewerRepository: ViewerRepository,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -524,5 +526,12 @@ class WfTokenManagerService(
         }
 
         return keyPairMappingIdToTokenDataValue
+    }
+
+    /**
+     *  Review읽음버튼 처리
+     */
+    fun updateReview(instanceId: String) {
+        viewerRepository.updateReviewYn(instanceId, currentSessionUser.getUserKey())
     }
 }
