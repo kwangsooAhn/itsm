@@ -532,6 +532,9 @@ class WfTokenManagerService(
      *  Review읽음버튼 처리
      */
     fun updateReview(instanceId: String) {
-        viewerRepository.updateReviewYn(instanceId, currentSessionUser.getUserKey())
+        val viewerKey = currentSessionUser.getUserKey()
+        if (viewerRepository.findByInstanceIdAndViewerKey(instanceId, viewerKey) != null) {
+            viewerRepository.updateReviewYn(instanceId, viewerKey)
+        }
     }
 }
