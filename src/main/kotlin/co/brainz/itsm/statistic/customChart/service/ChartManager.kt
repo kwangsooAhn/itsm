@@ -54,7 +54,14 @@ abstract class ChartManager(
     fun getChart(chartDto: ChartDto): ChartDto {
         // 1. [chartDto.chartConfig.range] to, from 값을 기준으로 category 를 생성
         val category = this.getCategory(chartDto.chartConfig)
+
+
+        // dummy데이터로 차트 확인
         var tagInstances = chartManagerService.getFileReadFun()
+        chartDto.tags = emptyList()
+        for(tagInstance in tagInstances) {
+            chartDto.tags.let { chartDto.tags += listOf(tagInstance.tag) }
+            }
 
         // 2. tag 별로 range(from, to) 범위와 문서 상태에 따른 instance 목록 가져오기
 //        var tagInstances = this.getTagInstances(chartDto) //가데이터작업 하기

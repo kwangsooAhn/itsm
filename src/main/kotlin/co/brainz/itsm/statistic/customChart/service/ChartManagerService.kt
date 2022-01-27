@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 
 @Service
@@ -71,19 +72,22 @@ class ChartManagerService(
     fun getTokenDataList(componentIds: Set<String>, tokenIds: Set<String>, componentTypeSet: Set<String>): List<ChartTokenData> {
         return wfTokenDataRepository.getTokenDataList(componentIds, tokenIds, componentTypeSet)
     }
+
+    //더미데이터로 차트확인 
     fun getFileReadFun(): List<ChartTagInstanceDto> {
         val findDocument = wfDocumentRepository.findDocumentEntityByDocumentId("4028b21f7c90d996017c91ae7987004f")
         val user = aliceUserRepository.findAliceUserEntityByUserKey("0509e09412534a6e98f04ca79abb6424")
         val chartList : MutableList<ChartTagInstanceDto> = mutableListOf()
-        val instanceList: MutableList<WfInstanceEntity> = mutableListOf()
+
         val file = File("src/main/kotlin/co/brainz/itsm/statistic/customChart/instances.json")
 
-        val params =
-            mapper.readValue(file, Map::class.java)
-        val chartTagInstance:Map<String, Any?> = params["ChartTagInstanceDto"] as Map<String, Any?>
+        val params = mapper.readValue(file, Map::class.java)
+        val paramList = params["ChartTagInstanceDto"]
+        val list: List<Map<String, Any>> = paramList as List<Map<String,Any>>
 
-        for(pram in params) {
-            val tag = chartTagInstance.get("tag").toString()
+        for(param in list) {
+            val instanceList: MutableList<WfInstanceEntity> = mutableListOf()
+            val tag = param["tag"].toString()
             val parser = JsonParser()
             val element: JsonElement = parser.parse(tag)
             val tagId: String = element.getAsJsonObject().get("tagId").getAsString()
@@ -97,10 +101,9 @@ class ChartManagerService(
                 targetId = targetId
             )
 
-            val instances:ArrayList<LinkedHashMap<String,Any>> = chartTagInstance.get("instances") as ArrayList<LinkedHashMap<String,Any>>
+            val instances:ArrayList<LinkedHashMap<String,Any>> = param.get("instances") as ArrayList<LinkedHashMap<String,Any>>
 
             for(instance in instances) {
-
                 val instanceId = instance.get("instanceId")
                 val instanceStatus = instance.get("instanceStatus")
                 val instanceStartDt = instance.get("instanceStartDt")
