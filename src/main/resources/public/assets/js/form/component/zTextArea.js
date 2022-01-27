@@ -16,6 +16,7 @@ import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxPropert
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZTextAreaProperty from '../../formDesigner/property/type/zTextAreaProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UITextArea } from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
@@ -183,7 +184,7 @@ export const textAreaMixin = {
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZInputBoxProperty('elementRows', 'element.rows', this.elementRows))
-                .addProperty(new ZInputBoxProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder)),
+                .addProperty(new ZTextAreaProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
                 .addProperty(new ZInputBoxProperty('validationMinLength', 'validation.minLength', this.validationMinLength))
