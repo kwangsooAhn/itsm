@@ -213,6 +213,7 @@ export default class ZColumnProperty extends ZProperty {
         this.makePropertyRecursive(columnIndividualGroup, property);
         return columnIndividualGroup;
     }
+    panelCount(option, index) {}
     // 세부 속성 추가 (Recursive)
     makePropertyRecursive(target, property) {
         property.map(propertyObject => {
@@ -314,6 +315,9 @@ export default class ZColumnProperty extends ZProperty {
         [this.panels[curIndex], this.panels[changeIndex]] = [this.panels[changeIndex], this.panels[curIndex]];
 
         [this.value[curIndex], this.value[changeIndex]] = [this.value[changeIndex], this.value[curIndex]];
+
+        this.UITabPanel.panelGroup.domElement.childNodes[changeIndex].childNodes[0].childNodes[2].innerHTML= changeIndex + 1
+
         this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
     }
     // 컬럼 세부 속성 - 공통
