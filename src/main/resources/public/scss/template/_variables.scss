@@ -3,20 +3,23 @@
 
 // font family
 $font-face-map: (
-    'NotoSansKR-Thin.otf':                    100,
-    'NotoSansKR-Light.otf':                   300,
-    'NotoSansKR-Regular.otf':                 400,
-    'NotoSansKR-Medium.otf':                  500,
-    'NotoSansKR-Bold.otf':                    700,
-    'NotoSansKR-Black.otf':                   900
+    'NotoSansKR-Thin.woff2':                    100,
+    'NotoSansKR-Light.woff2':                   300,
+    'NotoSansKR-Regular.woff2':                 400,
+    'NotoSansKR-Medium.woff2':                  500,
+    'NotoSansKR-Bold.woff2':                    700,
+    'NotoSansKR-Black.woff2':                   900
 );
 $pretendard-face-map: (
-    'Pretendard-Thin.otf':                    100,
-    'Pretendard-Light.otf':                   300,
-    'Pretendard-Regular.otf':                 400,
-    'Pretendard-Medium.otf':                  500,
-    'Pretendard-Bold.otf':                    700,
-    'Pretendard-Black.otf':                   900
+    'Pretendard-Thin.woff2':                    100,
+    'Pretendard-ExtraLight.woff2':              200,
+    'Pretendard-Light.woff2':                   300,
+    'Pretendard-Regular.woff2':                 400,
+    'Pretendard-Medium.woff2':                  500,
+    'Pretendard-SemiBold.woff2':                600,
+    'Pretendard-Bold.woff2':                    700,
+    'Pretendard-ExtraBold.woff2':               800,
+    'Pretendard-Black.woff2':                   900
 );
 // 폰트는 Pretendard를 사용합니다. 예비 폰트로는 Noto Sans와 맑은 고딕을 사용합니다.
 // 폰트 패밀리만 작은 따옴표(') 대신 큰 따옴표 (') 사용

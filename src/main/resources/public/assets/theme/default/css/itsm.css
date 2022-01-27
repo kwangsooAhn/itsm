@@ -530,73 +530,91 @@ input, button, select, optgroup, textarea {
  */
 @font-face {
   font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Thin.otf") format("opentype");
+  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Thin.woff2") format("woff2");
   font-style: normal;
   font-weight: 100;
 }
 @font-face {
   font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Light.otf") format("opentype");
+  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-ExtraLight.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Light.woff2") format("woff2");
   font-style: normal;
   font-weight: 300;
 }
 @font-face {
   font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Regular.otf") format("opentype");
+  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Regular.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
 }
 @font-face {
   font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Medium.otf") format("opentype");
+  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Medium.woff2") format("woff2");
   font-style: normal;
   font-weight: 500;
 }
 @font-face {
   font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Bold.otf") format("opentype");
+  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-SemiBold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Bold.woff2") format("woff2");
   font-style: normal;
   font-weight: 700;
 }
 @font-face {
   font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Black.otf") format("opentype");
+  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-ExtraBold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 800;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Black.woff2") format("woff2");
   font-style: normal;
   font-weight: 900;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.woff2") format("woff");
   font-style: normal;
   font-weight: 100;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.woff2") format("woff");
   font-style: normal;
   font-weight: 300;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.woff2") format("woff");
   font-style: normal;
   font-weight: 400;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.woff2") format("woff");
   font-style: normal;
   font-weight: 500;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.woff2") format("woff");
   font-style: normal;
   font-weight: 700;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.woff2") format("woff");
   font-style: normal;
   font-weight: 900;
 }
