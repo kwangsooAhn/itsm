@@ -567,13 +567,14 @@ document:
     status: "Service Request Status"
     tempDocument: "Temporary Application"
     type: "Document Type"
-    write: "Service Request Write"
+    write: "WorkFlow Edit"
   msg:
     adminSearchDescription: "View and manage workflow by combining process and document form."
     changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status will be deleted."
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
     enterBusinessFlowColor: "Please enter Business Flow Color."
+    enterDocumentLink: "Please enter document's link."
     enterDocumentName: "Please enter document's name."
     launchedInstance: "There is an instance started and cannot be deleted."
     lengthMax: "Please enter less than {0} characters."
@@ -582,6 +583,9 @@ document:
     process: "It has been processed."
     requiredFileupload: "Please upload a file."
     searchDescription: "Inquire and apply for a document"
+    selectForm: "Please select Form."
+    selectProcess: "Please select Form."
+    selectNumberingRule: "Please select numbering rule"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
@@ -593,6 +597,7 @@ document:
     use: "Use"
   type:
     applicationForm: "Application Form"
+    applicationFormLink: "Application Form - Link"
     workflow: "WorkFlow"
 
 # Download

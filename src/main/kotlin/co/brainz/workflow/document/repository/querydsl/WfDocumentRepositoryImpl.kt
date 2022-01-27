@@ -10,6 +10,7 @@ import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
+import co.brainz.workflow.document.entity.QWfDocumentLinkEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
@@ -23,6 +24,8 @@ class WfDocumentRepositoryImpl :
     override fun findByDocuments(documentSearchCondition: DocumentSearchCondition):
             QueryResults<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
+        val documentLink = QWfDocumentLinkEntity.wfDocumentLinkEntity
+
         val query = from(document)
             .select(
                 Projections.constructor(
@@ -38,6 +41,7 @@ class WfDocumentRepositoryImpl :
                     document.documentColor,
                     document.documentGroup,
                     document.apiEnable,
+                    documentLink.documentLinkUrl,
                     document.createUserKey,
                     document.createDt,
                     document.updateUserKey,
@@ -48,6 +52,7 @@ class WfDocumentRepositoryImpl :
             .join(document.process)
             .join(document.form)
             .join(document.numberingRule)
+            .leftJoin(documentLink).on(document.documentId.eq(documentLink.document.documentId))
             .where(
                 super.eq(document.documentGroup, documentSearchCondition.searchGroupName),
                 super.eq(document.documentType, documentSearchCondition.searchDocumentType),
@@ -88,6 +93,8 @@ class WfDocumentRepositoryImpl :
     override fun findAllByDocuments(documentSearchCondition: DocumentSearchCondition):
             MutableList<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
+        val documentLink = QWfDocumentLinkEntity.wfDocumentLinkEntity
+
         val query = from(document)
             .select(
                 Projections.constructor(
@@ -103,6 +110,7 @@ class WfDocumentRepositoryImpl :
                     document.documentColor,
                     document.documentGroup,
                     document.apiEnable,
+                    documentLink.documentLinkUrl,
                     document.createUserKey,
                     document.createDt,
                     document.updateUserKey,
@@ -110,6 +118,7 @@ class WfDocumentRepositoryImpl :
                     document.documentIcon
                 )
             )
+            .leftJoin(documentLink).on(document.documentId.eq(documentLink.document.documentId))
             .where(
                 if (documentSearchCondition.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
                     document.documentStatus.`in`(

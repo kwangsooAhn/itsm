@@ -11,16 +11,8 @@ import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
 import java.io.Serializable
 import java.time.LocalDateTime
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.OneToMany
-import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
+import javax.persistence.*
 
 @Entity
 @Table(name = "wf_document")
@@ -86,4 +78,7 @@ data class WfDocumentEntity(
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
     val display: MutableList<WfDocumentDisplayEntity> = mutableListOf()
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "document")
+    val documentLink: WfDocumentLinkEntity ? = null
 }

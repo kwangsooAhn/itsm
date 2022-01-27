@@ -6212,10 +6212,10 @@ body.modal-active {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
-.modal-dialog.document-edit .modal-content .document-icon-content {
+.modal-dialog.document-edit .modal-content .hidden-control-content {
   display: none;
 }
-.modal-dialog.document-edit .modal-content .document-icon-content.on {
+.modal-dialog.document-edit .modal-content .hidden-control-content.on {
   display: block;
 }
 .modal-dialog.document-display {
@@ -7764,5 +7764,3 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
-
-/*# sourceMappingURL=itsm.css.map */

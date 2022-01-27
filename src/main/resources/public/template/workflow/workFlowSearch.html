@@ -75,8 +75,23 @@
 
     // 빈 값 체크
     function emptyValidation() {
+        let documentType = document.getElementById('document-type').value;
+
         if (isEmpty('document-name', 'document.msg.enterDocumentName')) { return false };
         if (isEmpty('documentColor', 'document.msg.enterBusinessFlowColor')) { return false };
+
+        switch (documentType) {
+            case 'workflow':
+            case 'application-form':
+                if (isEmpty('document-form', 'document.msg.selectForm')) { return false };
+                if (isEmpty('document-process', 'document.msg.selectProcess')) { return false };
+                if (isEmpty('document-numbering-rule', 'document.msg.selectNumberingRule')) { return false };
+                break;
+            case 'application-form-link':
+                if (isEmpty('document-link', 'document.msg.enterDocumentLink')) { return false };
+                break;
+            default:
+        }
         return true;
     }
     // 신청서 저장 / 수정
@@ -88,6 +103,7 @@
         let documentProcess = document.getElementById('document-process');
         let documentStatus = document.getElementById('document-status');
         let apiEnable = document.getElementById('api-enable');
+        let documentLink = document.getElementById('document-link');
         let documentNumberingRule = document.getElementById('document-numbering-rule');
         let documentGroup = document.getElementById('document-group');
 
@@ -98,8 +114,9 @@
             formId: documentForm.options[documentForm.selectedIndex].value,
             processId: documentProcess.options[documentProcess.selectedIndex].value,
             documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
-            documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
-            apiEnable: apiEnable.options[apiEnable.selectedIndex].value,
+            documentStatus: documentType.value === 'application-form-link' ? 'document.status.use' : documentStatus.options[documentStatus.selectedIndex].value,
+            apiEnable: documentType.value === 'application-form-link' ? 'false' : apiEnable.options[apiEnable.selectedIndex].value,
+            documentLink: documentType.value === 'application-form-link' ? documentLink.value : null,
             documentColor: document.getElementById('documentColor').value,
             documentGroup: documentGroup.options[documentGroup.selectedIndex].value,
         };
@@ -153,14 +170,55 @@
         const groupElem = document.getElementById('document-group');
         groupElem.disabled = (type === 'workflow');
 
+        const documentFormElem = document.getElementById('document-form-content');
+        const documentProcessElem = document.getElementById('document-process-content');
+        const documentNumberingRuleElem = document.getElementById('document-numbering-rule-content');
+        const documentStatusElem = document.getElementById('document-status-content');
+        const documentApiElem = document.getElementById('document-api-content');
+        const documentLinkElem = document.getElementById('document-link-content');
+        const documentColorElem = document.getElementById('document-color-content');
         const documentIconElem = document.getElementById('document-icon-content');
-        if (type === 'workflow') {
-            groupElem.selectedIndex = 0;
-            groupElem.nextElementSibling.classList.add('disabled-select');
-            documentIconElem.classList.remove('on');
-        } else {
-            groupElem.nextElementSibling.classList.remove('disabled-select');
-            documentIconElem.classList.add('on');
+
+        switch (type) {
+            case "workflow":
+                groupElem.selectedIndex = 0;
+                groupElem.nextElementSibling.classList.add('disabled-select');
+
+                documentIconElem.classList.remove('on');
+                documentFormElem.classList.add('on');
+                documentProcessElem.classList.add('on');
+                documentNumberingRuleElem.classList.add('on');
+                documentStatusElem.classList.add('on');
+                documentApiElem.classList.add('on');
+                documentLinkElem.classList.remove('on');
+                documentColorElem.classList.add('on');
+                break;
+            case "application-form":
+                groupElem.nextElementSibling.classList.remove('disabled-select');
+
+                documentIconElem.classList.add('on');
+                documentFormElem.classList.add('on');
+                documentProcessElem.classList.add('on');
+                documentNumberingRuleElem.classList.add('on');
+                documentStatusElem.classList.add('on');
+                documentApiElem.classList.add('on');
+                documentLinkElem.classList.remove('on');
+                documentColorElem.classList.add('on');
+                break;
+            case "application-form-link":
+                groupElem.nextElementSibling.classList.remove('disabled-select');
+
+                documentColorElem.classList.remove('on')
+                documentFormElem.classList.remove('on');
+                documentProcessElem.classList.remove('on');
+                documentNumberingRuleElem.classList.remove('on');
+                documentStatusElem.classList.remove('on');
+                documentApiElem.classList.remove('on');
+                documentLinkElem.classList.add('on');
+                documentColorElem.classList.remove('on');
+                documentIconElem.classList.add('on');
+                break;
+            default:
         }
     }
 
@@ -194,6 +252,7 @@
                     closable: false,
                 },
                 onCreate: function(modal) {
+                    setDocumentType('application-form')
                     // color picker 초기화
                     new zColorPicker(document.getElementById('documentColor'), { type: 'fill' });
                     // 신청서 상태 초기화
