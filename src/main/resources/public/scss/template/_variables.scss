@@ -3,17 +3,19 @@
 
 // font family
 $font-face-map: (
-    'NotoSansKR-Thin.otf':                    100,
-    'NotoSansKR-Light.otf':                   300,
-    'NotoSansKR-Regular.otf':                 400,
-    'NotoSansKR-Medium.otf':                  500,
-    'NotoSansKR-Bold.otf':                    700,
-    'NotoSansKR-Black.otf':                   900
+    'Pretendard-Thin.woff2':                    100,
+    'Pretendard-ExtraLight.woff2':              200,
+    'Pretendard-Light.woff2':                   300,
+    'Pretendard-Regular.woff2':                 400,
+    'Pretendard-Medium.woff2':                  500,
+    'Pretendard-SemiBold.woff2':                600,
+    'Pretendard-Bold.woff2':                    700,
+    'Pretendard-ExtraBold.woff2':               800,
+    'Pretendard-Black.woff2':                   900
 );
-// 폰트는 맑은고딕, Noto Sans KR을 사용합니다. 14px 이하는 맑은고딕 폰트를 사용하고, 16px 이상은 Noto Sans KR 폰트 사용
-// 폰트 패밀리만 작은 따옴표(') 대신 큰 따옴표 (') 사용
-$font-family-m:                               'Noto Sans KR', '맑은고딕', 'Malgun Gothic', dotum, gulim, sans-serif;
-$font-family-s:                               '맑은고딕', 'Malgun Gothic', 'Noto Sans KR', dotum, gulim, sans-serif;
+
+// 폰트 패밀리만 작은 따옴표(') 대신 큰 따옴표 (") 사용
+$font-family:                                 'Pretendard', '맑은고딕', 'Malgun Gothic', dotum, gulim, sans-serif;
 
 // font size
 $font-size-xxl:                               2.5rem !default;   // 45px
@@ -56,7 +58,7 @@ $vertical-bar-margin:                         0 1.875rem 0 0; // 0 30px 0 0
 
 //////////////////////////////// element //////////////////////////////////
 // element default
-$element-font-family:                         $font-family-s;
+$element-font-family:                         $font-family;
 $element-font-size:                           $font-size-xs;
 $element-font-color:                          $gray800;
 $element-font-weight:                         $font-weight-regular;
@@ -144,13 +146,13 @@ $headings-font-weight:                        $font-weight-medium;
 $headings-line-height:                        1.2;
 
 // label
-$label-font-family:                           $font-family-s;
+$label-font-family:                           $font-family;
 $label-font-color:                            $gray500;
 $label-font-size:                             $font-size-xs;
 $label-font-weight:                           $font-weight-bold;
 
 // table
-$table-head-font-family:                      $font-family-m;
+$table-head-font-family:                      $font-family;
 $table-head-font-size:                        $font-size-s;
 $table-head-font-color:                       $gray800;
 $table-head-font-weight:                      $font-weight-medium;
@@ -165,7 +167,7 @@ $option-table-icon-color:                     $gray400;
 $option-table-icon-hover-color:               $blue500;
 
 // button, a
-$button-font-family:                          $font-family-s;
+$button-font-family:                          $font-family;
 $button-font-size:                            $font-size-xs;
 $button-font-weight:                          $font-weight-bold;
 $button-border-width:                         0.0625rem; // 1px
@@ -246,7 +248,7 @@ $button-group: (
 
 //////////////////////////////// layout ////////////////////////////////
 $layout-header-height:                       3.125rem; // 50px
-$layout-header-search-font-family:           $font-family-s;
+$layout-header-search-font-family:           $font-family;
 $layout-header-search-font-size:             $font-size-xs;
 $layout-header-search-color:                 $gray500;
 $layout-header-search-font-weight:           $font-weight-bold;
@@ -289,7 +291,7 @@ $column-count: 12;
 $column-init: 5rem; // 80px
 
 //////////////////////////////// fileuploader ////////////////////////////////
-$file-uploader-font-family:                  $font-family-s;
+$file-uploader-font-family:                  $font-family;
 $file-uploader-font-size:                    $font-size-xs;
 $file-uploader-font-color:                   $gray500;
 $file-uploader-font-weight:                  $font-weight-bold;
@@ -358,7 +360,7 @@ $avatar-image-bg-color:                      $white;
 
 ///////////////////////////////// date picker /////////////////////////////////
 $datepicker-font-color:                      $gray800;
-$datepicker-font-family:                     $font-family-s;
+$datepicker-font-family:                     $font-family;
 $datepicker-font-size:                       $font-size-xs;
 $datepicker-font-weight:                     $font-weight-regular;
 $datepicker-line-height:                     1.2;
@@ -468,7 +470,7 @@ $alert-box-sizing:                           border-box;
   --data-color: '';
 }
 $color-picker-width:                         7.5rem; // 120px
-$color-picker-font-family:                   $font-family-s;
+$color-picker-font-family:                   $font-family;
 $color-picker-font-size:                     $font-size-xs;
 $color-picker-font-weight:                   $font-weight-bold;
 $color-picker-font-color:                    $gray500;
@@ -501,7 +503,7 @@ $custom-color-plus: (
 );
 
 ////////////////////////////// thumbnail /////////////////////////////
-$thumbnail-font-family:                      $font-family-s;
+$thumbnail-font-family:                      $font-family;
 $thumbnail-font-size:                        $font-size-xs;
 $thumbnail-font-weight:                      $font-weight-medium;
 $thumbnail-font-color:                       $gray500;
@@ -537,14 +539,14 @@ $thumbnail-preview-modal-width:              760px; // 760px
 $thumbnail-preview-modal-height:             645px; // 645px
 
 // 썸네일 데이터 없을때
-$thumbnail-nodata-font-family:               $font-family-m;
+$thumbnail-nodata-font-family:               $font-family;
 $thumbnail-nodata-font-size:                 $font-size-xl;
 $thumbnail-nodata-font-weight:               $font-weight-bold;
 $thumbnail-nodata-font-color:                $gray500;
 
 /////////////////////////////// tooltip ///////////////////////////////
 $tooltip-help-margin:                        0.3125rem; // 5px
-$tooltip-font-family:                        $font-family-s;
+$tooltip-font-family:                        $font-family;
 $tooltip-font-size:                          $font-size-xs;
 $tooltip-contents-background:                $white;
 $tooltip-contents-color:                     $blue500;
@@ -557,7 +559,7 @@ $tooltip-border-radius:                      0.125rem; // 2px
 $tooltip-box-shadow-color:                   $gray300;
 
 // header tooltip
-$header-tooltip-font-family:                 $font-family-s;
+$header-tooltip-font-family:                 $font-family;
 $header-tooltip-font-size:                   $font-size-xs;
 $header-tooltip-font-color:                  $gray800;
 $header-tooltip-font-weight:                 $font-weight-medium;
@@ -571,7 +573,7 @@ $header-tooltip-margin:                      16px 0 0 0; // 16px
 
 // clipboard tooltip
 // ID 복사하는 용도 > _tooltip.scss에 정의되어 있음
-$clipboard-tooltip-font-family:              $font-family-s;
+$clipboard-tooltip-font-family:              $font-family;
 $clipboard-tooltip-font-size:                $font-size-xs;
 $clipboard-tooltip-font-weight:              $font-weight-regular;
 $clipboard-tooltip-font-color:               $blue500;
