@@ -8,7 +8,7 @@
 // header
 $layout-header-height:                             2.875rem; // 46px
 $layout-header-padding:                            0.75rem; // 12px
-$layout-header-font-family:                        $font-family-m;
+$layout-header-font-family:                        $font-family;
 $layout-header-font-size:                          $font-size-m;
 $layout-header-font-color:                         $white;
 $layout-header-font-weight:                        $font-weight-medium;
@@ -33,7 +33,7 @@ $layout-component-palette-border-width:            0.0625rem; // 1px
 $layout-component-palette-box-shadow-color:        $blue600;
 // component palette > accordion
 $layout-component-palette-accordion-height:        40px; // 40px
-$layout-component-palette-accordion-font-family:   $font-family-m;
+$layout-component-palette-accordion-font-family:   $font-family;
 $layout-component-palette-accordion-font-size:     $font-size-s;
 $layout-component-palette-accordion-font-weight:   $font-weight-bold;
 $layout-component-palette-accordion-font-color:    $gray800;
@@ -41,7 +41,7 @@ $layout-component-palette-accordion-icon-color:    $gray500; // 화살표 아이
 // 컴포넌트 아이콘 > default
 $component-icon-width:                             6.188rem; // 99px
 $component-icon-height:                            4.6875rem; // 75px
-$component-icon-font-family:                       $font-family-s;
+$component-icon-font-family:                       $font-family;
 $component-icon-font-size:                         $font-size-xs;
 $component-icon-font-weight:                       $font-weight-medium;
 $component-icon: (
@@ -73,7 +73,7 @@ $layout-properties-panel-border:                   0.0625rem solid $gray300; // 
 // main
 $layout-main-bg-color:                             $neutral50;
 // main - save info
-$layout-main-save-info-font-family:                $font-family-s;
+$layout-main-save-info-font-family:                $font-family;
 $layout-main-save-info-font-size:                  $font-size-xs;
 $layout-main-save-info-font-weight:                $font-weight-bold;
 $layout-main-save-info-font-color:                 $gray500;
@@ -151,7 +151,7 @@ $save-as-modal-height:                             25.63rem; // 410px
 $property-font-size:                               $font-size-xs; // 14px
 
 $property-group-label-color:                       $gray800;
-$property-group-label-font-family:                 $font-family-m;
+$property-group-label-font-family:                 $font-family;
 $property-group-label-font-size:                   $font-size-s; // 16px
 $property-group-label-font-weight:                 $font-weight-medium;
 

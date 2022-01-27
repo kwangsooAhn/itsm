@@ -5,10 +5,6 @@
  * @author jy.lim
  * @version 1.0
  */
-@each $fname, $weight in $pretendard-face-map {
-  @include fontFace("Pretendard", $font-folder-path + "/pretendard/" + $fname, "woff2", normal, $weight);
-}
-
 @each $fname, $weight in $font-face-map {
   @include fontFace("Noto Sans KR", $font-folder-path + "/" + $fname , "woff", normal, $weight);
 }

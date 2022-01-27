@@ -530,92 +530,56 @@ input, button, select, optgroup, textarea {
  * @version 1.0
  */
 @font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Thin.woff2") format("woff2");
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/Pretendard-Thin.woff2") format("woff");
   font-style: normal;
   font-weight: 100;
 }
 @font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-ExtraLight.woff2") format("woff2");
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/Pretendard-ExtraLight.woff2") format("woff");
   font-style: normal;
   font-weight: 200;
 }
 @font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Light.woff2") format("woff2");
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/Pretendard-Light.woff2") format("woff");
   font-style: normal;
   font-weight: 300;
 }
 @font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Regular.woff2") format("woff2");
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/Pretendard-Regular.woff2") format("woff");
   font-style: normal;
   font-weight: 400;
 }
 @font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Medium.woff2") format("woff2");
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/Pretendard-Medium.woff2") format("woff");
   font-style: normal;
   font-weight: 500;
 }
 @font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-SemiBold.woff2") format("woff2");
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/Pretendard-SemiBold.woff2") format("woff");
   font-style: normal;
   font-weight: 600;
 }
 @font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Bold.woff2") format("woff2");
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/Pretendard-Bold.woff2") format("woff");
   font-style: normal;
   font-weight: 700;
 }
 @font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-ExtraBold.woff2") format("woff2");
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/Pretendard-ExtraBold.woff2") format("woff");
   font-style: normal;
   font-weight: 800;
 }
 @font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/pretendard/Pretendard-Black.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 900;
-}
-@font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.woff2") format("woff");
-  font-style: normal;
-  font-weight: 100;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.woff2") format("woff");
-  font-style: normal;
-  font-weight: 300;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.woff2") format("woff");
-  font-style: normal;
-  font-weight: 400;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.woff2") format("woff");
-  font-style: normal;
-  font-weight: 500;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.woff2") format("woff");
-  font-style: normal;
-  font-weight: 700;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.woff2") format("woff");
+  src: local("Noto Sans KR"), url("../fonts/Pretendard-Black.woff2") format("woff");
   font-style: normal;
   font-weight: 900;
 }
@@ -1264,7 +1228,7 @@ input, button, select, optgroup, textarea {
   top: 0;
   width: 100%;
   height: 2.875rem;
-  font-family: "Pretendard", "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1.125rem;
   font-weight: 500;
   color: #FFFFFF;
@@ -1368,7 +1332,7 @@ input, button, select, optgroup, textarea {
 }
 .z-component-accordion-box .z-component-accordion .z-accordion-label {
   height: 40px;
-  font-family: "Pretendard", "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
   font-weight: 700;
   color: #222529;
@@ -1437,7 +1401,7 @@ input, button, select, optgroup, textarea {
 }
 .z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-icon .z-component-name {
   display: block;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   color: #63686C;
@@ -1682,7 +1646,7 @@ input, button, select, optgroup, textarea {
 .z-save-info {
   min-height: 1.5625rem;
   line-height: 1.5;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 700;
   color: #8B9094;
@@ -1697,14 +1661,14 @@ input, button, select, optgroup, textarea {
  * @version 1.0
  */
 body {
-  font-family: "Pretendard", "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Pretendard", "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
   line-height: 1.2;
   color: #222529;
@@ -1732,7 +1696,7 @@ h5 {
 }
 
 h6 {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
 }
 
@@ -1765,7 +1729,7 @@ table td, table th {
 }
 
 .z-table {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #222529;
@@ -1782,7 +1746,7 @@ table td, table th {
   color: #222529;
 }
 .z-table th {
-  font-family: "Pretendard", "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
   font-weight: 500;
   color: #222529;
@@ -1815,7 +1779,7 @@ table td, table th {
 }
 
 .z-option-table {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #ABB0B5;
@@ -1833,7 +1797,7 @@ table td, table th {
 }
 .z-option-table tr.z-option-table-header {
   height: 2rem;
-  font-family: "Pretendard", "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
   font-weight: 500;
   color: #ABB0B5;
@@ -1868,7 +1832,7 @@ span {
 }
 
 label {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   color: #8B9094;
   font-size: 0.875rem;
   font-weight: 700;
@@ -1900,7 +1864,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 
 .z-input {
   height: 2.25rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2069,7 +2033,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 .z-textarea {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2141,7 +2105,7 @@ div.z-textarea-readonly {
 .z-switch {
   position: relative;
   height: 1.125rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2215,7 +2179,7 @@ div.z-textarea-readonly {
 select {
   width: inherit;
   height: 2.25rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2261,7 +2225,7 @@ select {
   left: 0;
   width: 100%;
   padding: 0.5625rem 1.75rem 0.5625rem 1rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2512,7 +2476,7 @@ select {
 
 .z-checkbox {
   margin-right: 0.5rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2606,7 +2570,7 @@ select {
 .z-radio {
   position: relative;
   margin-right: 0.5rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.6;
@@ -2741,7 +2705,7 @@ select {
 .z-button,
 .z-button-icon {
   display: inline-block;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 700;
   background-color: transparent;
@@ -3251,7 +3215,7 @@ select {
 .z-button-toggle-group .z-button-toggle {
   flex: 1 1 auto;
   display: inline-block;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 700;
   color: #222529;
@@ -4166,7 +4130,7 @@ select {
 .file-uploader-edit {
   display: flex;
   flex-direction: column;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
 .file-uploader-edit .file-uploader-title {
   font-size: 0.875rem;
@@ -4558,7 +4522,7 @@ select {
   display: flex;
   align-items: center;
   min-height: 3.125rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   padding: 0.125rem 1.25rem;
 }
 .file-uploader-view .file-uploader-title {
@@ -4637,7 +4601,7 @@ select {
   display: none;
   position: fixed;
   min-width: 12.5rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -4899,7 +4863,7 @@ select {
   outline: none !important;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   border: 0.0625rem solid #ABB0B5;
   padding: 0;
 }
@@ -5110,7 +5074,7 @@ select {
 }
 .ql-wrapper-container .ql-container.ql-snow {
   height: auto;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -5182,7 +5146,7 @@ select {
  * @version 1.0
  */
 .z-color-picker-wrapper {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 700;
   color: #8B9094;
@@ -5542,7 +5506,7 @@ body.modal-active {
  * @version 1.0
  */
 .z-thumbnail-main {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   color: #8B9094;
@@ -5648,7 +5612,7 @@ body.modal-active {
   display: inline-block;
   width: 100%;
   height: 100%;
-  font-family: "Pretendard", "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 2rem;
   font-weight: 700;
   color: #8B9094;
@@ -5719,7 +5683,7 @@ body.modal-active {
   left: 0;
   visibility: hidden;
   background-color: #FFFFFF;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   color: #339AF0;
   width: 100%;
@@ -5858,7 +5822,7 @@ body.modal-active {
   transform: translate(-70%, 0);
 }
 .z-header-tooltip .z-header-tooltip-contents .z-header-tooltip-text {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   color: #222529;
   font-weight: 500;
@@ -5912,7 +5876,7 @@ body.modal-active {
   bottom: 120%;
   left: 50%;
   width: 9.375rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #339AF0;
@@ -6325,7 +6289,7 @@ body.modal-active {
  * @version 1.0
  */
 ul.tree {
-  font-family: "Pretendard", "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   color: #222529;
@@ -6439,7 +6403,7 @@ span.modal_node_selected label {
 
 .tree-container {
   position: relative;
-  font-family: "Pretendard", "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   margin: 1.875rem 2.5rem;
 }
 .tree-container .tree-title {
@@ -6478,7 +6442,7 @@ span.modal_node_selected label {
 }
 .property-group .property-group-label {
   width: 100%;
-  font-family: "Pretendard", "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
   font-weight: 500;
   color: #222529;
