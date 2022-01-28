@@ -35,7 +35,7 @@ open class AliceFileUtil(
     /**
      * 파일명으로 사용할 값 리턴 (난수화)
      */
-    fun getRandomFilename(): String {
+    open fun getRandomFilename(): String {
         var charCode: Char
         var fileName = ""
         for (i in 0 until 12) {
@@ -144,7 +144,7 @@ open class AliceFileUtil(
      * @param root 업로드할 경로
      * @param fileName 업로드할 파일명
      */
-    fun getUploadFilePath(root: String, fileName: String?): Path {
+    open fun getUploadFilePath(root: String, fileName: String?): Path {
         val cal = Calendar.getInstance()
         val df = SimpleDateFormat("yyyyMMdd")
         var dir = Paths.get(this.getPath(root).toString() + File.separator + df.format(cal.time))
