@@ -146,6 +146,12 @@ INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','end-id',
 INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','end-name','종료',7,false);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','assignee','general.user',1,true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('a271b9f3a790280811cd6a6ff94c02e1','action-name','',0,false);
@@ -394,6 +400,12 @@ INSERT INTO wf_element_data VALUES ('af8674894f8bc525c6f41a482bcf4300','end-id',
 INSERT INTO wf_element_data VALUES ('af8674894f8bc525c6f41a482bcf4300','end-name','만족도 평가',7,false);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','assignee','general.user',1,true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('d0d3a5405e974ec8ad00a72a9eaf6f25','action-name','APP 변경 이관',0,false);
@@ -468,6 +480,12 @@ INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'reject-
 INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'general.user', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('a84bf98428f6a55b44779396edbd99bc', 'action-name', '접수', 0, false);
