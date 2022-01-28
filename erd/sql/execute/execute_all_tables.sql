@@ -5450,6 +5450,12 @@ INSERT INTO wf_element_data VALUES ('6c42da85993f4ae9b551ef67b15c5d49','end-id',
 INSERT INTO wf_element_data VALUES ('6c42da85993f4ae9b551ef67b15c5d49','end-name','승인',7,false);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','assignee','general.user',1,true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('a727237e2c6f9dbdbbff693ed151c85d','action-name','신청서 등록',0,false);
