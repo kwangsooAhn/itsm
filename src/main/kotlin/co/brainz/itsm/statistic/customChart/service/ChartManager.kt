@@ -333,16 +333,7 @@ abstract class ChartManager(
         chartDto: ChartDto,
         tagInstances: List<ChartTagInstanceDto>
     ): List<ChartTagInstanceDto> {
-        // TODO: 조건식에 따른 처리
-        // 임시적으로 instance 목록이 존재하면 태그별 1건씩만 conditionInstances 에 추가
-        /*chartDto.chartConfig.condition = "test"
-        tagInstances.forEach { tagInstance ->
-            tagInstance.instances.forEachIndexed { index, wfInstanceEntity ->
-                if (index == 0) {
-                    tagInstance.conditionInstances.add(wfInstanceEntity)
-                }
-            }
-        }*/
+        chartDto.chartCondition = "[구성관리 만족도 데이터1]==\"test\""
         chartConditionService.executeCondition(chartDto, tagInstances)
         return tagInstances
     }

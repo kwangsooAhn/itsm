@@ -13,5 +13,5 @@ import java.io.Serializable
 data class ChartTagInstanceDto(
     val tag: AliceTagDto,
     val instances: List<WfInstanceEntity> = emptyList(),
-    val conditionInstances: MutableList<WfInstanceEntity> = mutableListOf()
+    var conditionInstances: List<WfInstanceEntity> = mutableListOf()
 ) : Serializable

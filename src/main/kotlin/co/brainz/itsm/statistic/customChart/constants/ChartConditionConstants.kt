@@ -8,7 +8,8 @@ object ChartConditionConstants {
         LOGICAL("logical"),
         ARITHMETIC("arithmetic"),
         COMPARISON("comparison"),
-        PARENTHESES("parentheses")
+        PARENTHESES("parentheses"),
+        BOOLEAN("boolean")
     }
 
     enum class Arithmetic(val operator: String) {
