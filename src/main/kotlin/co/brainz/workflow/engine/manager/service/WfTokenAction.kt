@@ -34,7 +34,7 @@ class WfTokenAction(
     /**
      * Review
      */
-    private fun actionReview(instanceId: String) {
+    fun actionReview(instanceId: String) {
         wfTokenManagerService.updateReview(instanceId)
     }
 
