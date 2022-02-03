@@ -35,13 +35,24 @@ class ZFormDesigner {
         }).then((customData) => {
             FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
         });
+    }
 
-        // 초기화
+    /**
+     * 초기화
+     * @param formId 폼 아이디
+     * @param isView 편집화면인지 보기화면인지 판단
+     */
+    init(formId, isView) {
+        this.isView = (isView === 'true');
+        this.formId = formId;
+        // 메뉴 및 단축키 초기화
         this.initMenuBar();
         this.initShortcut();
         this.initComponentPalette();
         // 미리보기 초기화
         zDocument.initDocumentModal();
+        // 폼 초기화
+        this.initForm();
     }
     /**
      * 상단 메뉴바 초기화 및 이벤트 등록
@@ -84,6 +95,7 @@ class ZFormDesigner {
      * 컴포넌트 팔레트 초기화 및 이벤트 추가
      */
     initComponentPalette() {
+        if (this.isView) { return false; }
         // drag & drop 이벤트 추가
         const componentIconBoxes = document.querySelectorAll('.z-component-icon-box');
         componentIconBoxes.forEach(icon => {
@@ -185,12 +197,8 @@ class ZFormDesigner {
     }
     /**
      * 폼 초기화 및 이벤트 추가
-     * @param formId 폼 아이디
-     * @param isView 편집화면인지 보기화면인지 판단
      */
-    initForm(formId, isView) {
-        this.isView = (isView === 'true');
-        this.formId = formId;
+    initForm() {
         aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
             method: 'GET',
             showProgressbar: true

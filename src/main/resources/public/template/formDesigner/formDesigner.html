@@ -33,7 +33,7 @@
                 ZSession.add('departmentName', response.data.organizationName);
             });
         }
-        zFormDesigner.initForm('[[${formId}]]', '[[${isView}]]');
+        zFormDesigner.init('[[${formId}]]', '[[${isView}]]');
         window.zFormDesigner = zFormDesigner;
 
         window.addEventListener('DOMContentLoaded', function() {
