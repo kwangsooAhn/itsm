@@ -19,8 +19,8 @@ const propertyExtends = {
 };
 
 export default class ZClipboardProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'clipboardProperty', value);
+    constructor(key, name, value, alwaysEdit) {
+        super(key, name, 'clipboardProperty', value, alwaysEdit);
     }
 
     // DOM Element 생성

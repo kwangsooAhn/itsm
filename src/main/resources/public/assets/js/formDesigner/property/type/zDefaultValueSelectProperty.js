@@ -32,8 +32,8 @@ const propertyExtends = {
 };
 
 export default class ZDefaultValueSelectProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'defaultValueSelectProperty', value);
+    constructor(key, name, value, alwaysEdit) {
+        super(key, name, 'defaultValueSelectProperty', value, alwaysEdit);
 
         this.options = propertyExtends.options;
         this.selectOptions = propertyExtends.selectOptions;

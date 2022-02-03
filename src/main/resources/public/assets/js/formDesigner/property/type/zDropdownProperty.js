@@ -20,8 +20,8 @@ const propertyExtends = {
 };
 
 export default class ZDropdownProperty extends ZProperty {
-    constructor(key, name, value, options) {
-        super(key, name, 'dropdownProperty', value);
+    constructor(key, name, value, options, alwaysEdit) {
+        super(key, name, 'dropdownProperty', value, alwaysEdit);
 
         this.options = options;
     }

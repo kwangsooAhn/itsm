@@ -22,8 +22,8 @@ const propertyExtends = {
 };
 
 export default class ZSliderProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'sliderProperty', value);
+    constructor(key, name, value, alwaysEdit) {
+        super(key, name, 'sliderProperty', value, alwaysEdit);
     }
     // DOM Element 생성
     makeProperty(panel) {

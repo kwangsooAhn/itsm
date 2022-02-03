@@ -19,8 +19,8 @@ const propertyExtends = {
 };
 
 export default class ZTextAreaProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'textAreaProperty', value);
+    constructor(key, name, value, alwaysEdit) {
+        super(key, name, 'textAreaProperty', value, alwaysEdit);
     }
     // DOM Element 생성
     makeProperty(panel) {

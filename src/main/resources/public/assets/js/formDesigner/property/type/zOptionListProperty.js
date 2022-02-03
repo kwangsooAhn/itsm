@@ -24,8 +24,8 @@ const propertyExtends = {
 };
 
 export default class ZOptionListProperty extends ZProperty {
-    constructor(key, name, value, flag) {
-        super(key, name, 'optionListProperty', value);
+    constructor(key, name, value, alwaysEdit, flag) {
+        super(key, name, 'optionListProperty', value, alwaysEdit);
         this.multipleSelect = flag; // 다중 선택 여부
     }
 
@@ -126,7 +126,7 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
-            .setUIAttribute('name','optionName')
+            .setUIAttribute('name', 'optionName')
             .onUIFocusout(this.updateProperty.bind(this));
         nameTD.addUI(nameTD.inputName);
 
@@ -138,7 +138,7 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
-            .setUIAttribute('name','optionValue')
+            .setUIAttribute('name', 'optionValue')
             .onUIFocusout(this.updateProperty.bind(this));
         valueTD.addUI(valueTD.inputValue);
 
@@ -179,13 +179,13 @@ export default class ZOptionListProperty extends ZProperty {
                     e.target.value = '';
                     e.target.focus();
                     return false;
-                })
+                });
             } else if (e.target.name === 'optionValue' && optionListValue.length > 1) {
                 zAlert.warning(i18n.msg('form.msg.duplicateOptionsValue'), function () {
                     e.target.value = '';
                     e.target.focus();
                     return false;
-                })
+                });
             }
         }
         this.panel.update.call(this.panel, this.key, this.getPropertyValue(this.UIElement.UIOptionTable.domElement));

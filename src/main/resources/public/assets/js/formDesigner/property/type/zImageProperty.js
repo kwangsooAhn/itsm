@@ -18,8 +18,8 @@ const propertyExtends = {
 };
 
 export default class ZImageProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'imageProperty', value);
+    constructor(key, name, value, alwaysEdit) {
+        super(key, name, 'imageProperty', value, alwaysEdit);
     }
     // DOM Element 생성
     makeProperty(panel) {

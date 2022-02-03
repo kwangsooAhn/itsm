@@ -97,8 +97,8 @@ export const propertyExtends = {
 };
 
 export default class ZColumnProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'columnProperty', value);
+    constructor(key, name, value, alwaysEdit) {
+        super(key, name, 'columnProperty', value, alwaysEdit);
 
         this.tabs = [];
         this.panels = [];
@@ -450,7 +450,8 @@ export default class ZColumnProperty extends ZProperty {
     getPropertyForColumnTypeDropdown(option, id) {
         return [
             new ZGroupProperty('group.columnElement').addProperty(
-                new ZOptionListProperty(id + '|columnElement.options', 'element.options', option.columnElement.options, false).setValidation(true,'','','','','')
+                new ZOptionListProperty(id + '|columnElement.options', 'element.options', option.columnElement.options, false, false)
+                    .setValidation(true, '', '', '', '', '')
             )
         ];
     }

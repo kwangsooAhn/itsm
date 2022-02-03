@@ -20,8 +20,8 @@ const propertyExtends = {
 };
 
 export default class ZBoxModelProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'boxModelProperty', value);
+    constructor(key, name, value, alwaysEdit) {
+        super(key, name, 'boxModelProperty', value, alwaysEdit);
     }
     // DOM Element 생성
     makeProperty(panel) {

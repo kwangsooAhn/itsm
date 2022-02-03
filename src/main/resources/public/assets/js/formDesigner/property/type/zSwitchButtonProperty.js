@@ -19,8 +19,8 @@ const propertyExtends = {
 };
 
 export default class ZSwitchButtonProperty extends ZProperty {
-    constructor(key, name, value, options) {
-        super(key, name, 'switchButtonProperty', value);
+    constructor(key, name, value, options, alwaysEdit) {
+        super(key, name, 'switchButtonProperty', value, alwaysEdit);
 
         this.options = options;
     }

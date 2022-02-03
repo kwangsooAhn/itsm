@@ -19,8 +19,8 @@ const propertyExtends = {
 };
 
 export default class ZToggleButtonProperty extends ZProperty {
-    constructor(key, name, value, options) {
-        super(key, name, 'toggleButtonProperty', value);
+    constructor(key, name, value, options, alwaysEdit) {
+        super(key, name, 'toggleButtonProperty', value, alwaysEdit);
 
         this.options = options;
     }

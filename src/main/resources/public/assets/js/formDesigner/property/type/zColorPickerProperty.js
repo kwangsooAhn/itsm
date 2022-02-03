@@ -19,8 +19,8 @@ const propertyExtends = {
 };
 
 export default class ZColorPickerProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'colorPickerProperty', value);
+    constructor(key, name, value, alwaysEdit) {
+        super(key, name, 'colorPickerProperty', value, alwaysEdit);
     }
     // DOM Element 생성
     makeProperty(panel) {

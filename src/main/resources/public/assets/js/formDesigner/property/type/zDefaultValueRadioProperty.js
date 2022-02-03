@@ -21,8 +21,8 @@ const propertyExtends = {
 };
 
 export default class ZDefaultValueRadioProperty extends ZProperty {
-    constructor(key, name, value, options) {
-        super(key, name, 'defaultValueRadioProperty', value);
+    constructor(key, name, value, options, alwaysEdit) {
+        super(key, name, 'defaultValueRadioProperty', value, alwaysEdit);
 
         this.options = options;
     }

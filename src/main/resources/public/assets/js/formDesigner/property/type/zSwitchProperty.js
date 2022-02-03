@@ -20,8 +20,8 @@ const propertyExtends = {
 };
 
 export default class ZSwitchProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'switchProperty', value);
+    constructor(key, name, value, alwaysEdit) {
+        super(key, name, 'switchProperty', value, alwaysEdit);
     }
     // DOM Element 생성
     makeProperty(panel) {

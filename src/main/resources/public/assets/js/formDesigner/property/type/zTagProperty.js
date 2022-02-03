@@ -18,8 +18,8 @@ const propertyExtends = {
 };
 
 export default class ZTagProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'tagProperty', value);
+    constructor(key, name, value, alwaysEdit) {
+        super(key, name, 'tagProperty', value, alwaysEdit);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -35,8 +35,8 @@ export default class ZTagProperty extends ZProperty {
         // 아래와 같이 스트링으로 변환하여 input box 의 값으로 넣어줘야 tagify 에서 파싱해서 쓸 수 있다.
         let valueString = '[' +
             this.value.map(function (tag) {
-            return JSON.stringify(tag);
-        }).toString() + ']';
+                return JSON.stringify(tag);
+            }).toString() + ']';
 
         this.UIElement.UIInput = new UIInput()//.removeUIClass('z-input').addUIClass('input')
             .setUIId(this.key).setUIValue(valueString);
