@@ -6,3 +6,17 @@
     @include absolute($right: calc(#{$input-clear-right} + 2.625rem));
   }
 }
+
+// radio button
+.z-component {
+  .z-radio {
+    input[type=radio] {
+      // ⓞ 로 사용될 span
+      + span {
+        &::after { // 선택시 작은 원
+          top: 0.35rem; // 5.6px
+        }
+      }
+    }
+  }
+}

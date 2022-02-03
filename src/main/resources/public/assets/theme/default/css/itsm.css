@@ -2915,7 +2915,7 @@ select {
 .z-radio input[type=radio] + span::after {
   content: "";
   position: absolute;
-  top: -0.225rem;
+  top: -0.35rem;
   left: 0;
   width: 0.625rem;
   height: 0.625rem;
@@ -8740,5 +8740,3 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
-
-/*# sourceMappingURL=itsm.css.map */

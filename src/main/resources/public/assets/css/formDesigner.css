@@ -3580,7 +3580,7 @@ select {
 .z-radio input[type=radio] + span::after {
   content: "";
   position: absolute;
-  top: -0.225rem;
+  top: -0.35rem;
   left: 0;
   width: 0.625rem;
   height: 0.625rem;
@@ -3660,6 +3660,10 @@ select {
 .z-input-button .z-button-clear {
   position: absolute;
   right: calc(0rem + 2.625rem);
+}
+
+.z-component .z-radio input[type=radio] + span::after {
+  top: 0.35rem;
 }
 
 /* _buttons.scss

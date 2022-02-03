@@ -949,7 +949,7 @@ select {
 
       &::after { // 선택시 작은 원
         content: '';
-        @include absolute($top: -0.225rem, $left: 0); // top: -3.6px
+        @include absolute($top: -0.35rem, $left: 0); // top: -5.6 px
         width: $radio-inner-size;
         height: $radio-inner-size;
         background-color: transparent;
