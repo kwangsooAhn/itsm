@@ -1,7 +1,7 @@
 {
   "ChartTagInstanceDto": [{
     "tag": {
-      "tagId": "4028b21f7dbcb982017dbcc0b25f0005",
+      "tagId": "1",
       "tagType": "chart",
       "tagValue": "단순문의",
       "targetId": "4028b8817cd4629c017cd46affee0001"
@@ -120,7 +120,7 @@
   },
     {
       "tag": {
-        "tagId": "2c9180867cc31a25017cc7a68ef1051b",
+        "tagId": "2",
         "tagType": "chart",
         "tagValue": "서비스요청",
         "targetId": "40v2ka817cd462912d246affee0001"

@@ -6,12 +6,6 @@
 
 package co.brainz.itsm.statistic.customChart.service
 
-import java.io.File
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.LinkedHashMap
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.statistic.customChart.dto.ChartRange
@@ -32,9 +26,12 @@ import co.brainz.workflow.document.repository.WfDocumentRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
+import java.io.File
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashMap
 
 @Service
 class ChartManagerService(
@@ -74,73 +71,82 @@ class ChartManagerService(
     }
 
     //더미데이터로 차트확인 
-    fun getFileReadFun(): List<ChartTagInstanceDto> {
+    fun getFileReadFun(aliceTagDto: List<AliceTagDto>): List<ChartTagInstanceDto> {
         val findDocument = wfDocumentRepository.findDocumentEntityByDocumentId("4028b21f7c90d996017c91ae7987004f")
         val user = aliceUserRepository.findAliceUserEntityByUserKey("0509e09412534a6e98f04ca79abb6424")
-        val chartList : MutableList<ChartTagInstanceDto> = mutableListOf()
-
+        val chartList: MutableList<ChartTagInstanceDto> = mutableListOf()
         val file = File("src/main/kotlin/co/brainz/itsm/statistic/customChart/instances.json")
-
         val params = mapper.readValue(file, Map::class.java)
         val paramList = params["ChartTagInstanceDto"]
-        val list: List<Map<String, Any>> = paramList as List<Map<String,Any>>
+        val list: List<Map<String, Any>> = paramList as List<Map<String, Any>>
 
-        for(param in list) {
-            val instanceList: MutableList<WfInstanceEntity> = mutableListOf()
-            val tag = param["tag"].toString()
-            val parser = JsonParser()
-            val element: JsonElement = parser.parse(tag)
-            val tagId: String = element.getAsJsonObject().get("tagId").getAsString()
-            val tagType: String = element.getAsJsonObject().get("tagType").getAsString()
-            val tagValue: String = element.getAsJsonObject().get("tagValue").getAsString()
-            val targetId: String = element.getAsJsonObject().get("targetId").getAsString()
-            val aliceTagDto = AliceTagDto(
-                tagId = tagId,
-                tagType = tagType,
-                tagValue = tagValue,
-                targetId = targetId
-            )
+        if (aliceTagDto.size != 0) {
+            for (param in list) {
+                val instanceList: MutableList<WfInstanceEntity> = mutableListOf()
+                val tag: Map<String, Any> = param["tag"] as Map<String, Any>
+                val tagId = tag["tagId"]
+                var tagData = AliceTagDto()
 
-            val instances:ArrayList<LinkedHashMap<String,Any>> = param.get("instances") as ArrayList<LinkedHashMap<String,Any>>
+                when (tagId) {
+                    "1" ->
+                        tagData = AliceTagDto(
+                            tagId = aliceTagDto.component1().tagId,
+                            tagValue = aliceTagDto.component1().tagValue,
+                            tagType = aliceTagDto.component1().tagType,
+                            targetId = aliceTagDto.component1().targetId
+                        )
+                    "2" ->
+                        if (aliceTagDto.size >= 2) {
+                            tagData = AliceTagDto(
+                                tagId = aliceTagDto.component2().tagId,
+                                tagValue = aliceTagDto.component2().tagValue,
+                                tagType = aliceTagDto.component2().tagType,
+                                targetId = aliceTagDto.component2().targetId
+                            )
+                        }
+                }
 
-            for(instance in instances) {
-                val instanceId = instance.get("instanceId")
-                val instanceStatus = instance.get("instanceStatus")
-                val instanceStartDt = instance.get("instanceStartDt")
-                val instanceEndDt = instance.get("instanceEndDt")
-                val instanceCreateUser = user
-                val pTokenId = instance.get("pTokenId")
-                val document = findDocument
-                val documentNo = instance.get("documentNo")
-                val instancePlatform = instance.get("instancePlatform")
-                val patten: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withLocale(Locale.US)
-                val formattedStartDt: LocalDateTime? = instanceStartDt?.let { LocalDateTime.parse(it.toString(), patten) }
-                val formattedEndDt: LocalDateTime? = instanceEndDt?.let { LocalDateTime.parse(it.toString(), patten) }
+                val instances: ArrayList<LinkedHashMap<String, Any>> =
+                    param["instances"] as ArrayList<LinkedHashMap<String, Any>>
 
-                val wfInstanceEntity = WfInstanceEntity(
-                    instanceId = instanceId.toString(),
-                    instanceStatus = instanceStatus.toString(),
-                    instanceStartDt = formattedStartDt as LocalDateTime,
-                    instanceEndDt = formattedEndDt as LocalDateTime,
-                    instanceCreateUser = instanceCreateUser,
-                    document = document,
-                    pTokenId = pTokenId as String?,
-                    documentNo = documentNo as String?,
-                    instancePlatform = instancePlatform as String?
+                if (tagData.tagValue.isNotEmpty()) {
+                    for (instance in instances) {
+                        val instanceId = instance["instanceId"]
+                        val instanceStatus = instance["instanceStatus"]
+                        val instanceStartDt = instance["instanceStartDt"]
+                        val instanceEndDt = instance["instanceEndDt"]
+                        val pTokenId = instance["pTokenId"]
+                        val documentNo = instance["documentNo"]
+                        val instancePlatform = instance["instancePlatform"]
+                        val patten: DateTimeFormatter =
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withLocale(Locale.US)
+                        val formattedStartDt: LocalDateTime? =
+                            instanceStartDt?.let { LocalDateTime.parse(it.toString(), patten) }
+                        val formattedEndDt: LocalDateTime? =
+                            instanceEndDt?.let { LocalDateTime.parse(it.toString(), patten) }
+
+                        val wfInstanceEntity = WfInstanceEntity(
+                            instanceId = instanceId.toString(),
+                            instanceStatus = instanceStatus.toString(),
+                            instanceStartDt = formattedStartDt as LocalDateTime,
+                            instanceEndDt = formattedEndDt as LocalDateTime,
+                            instanceCreateUser = user,
+                            document = findDocument,
+                            pTokenId = pTokenId.toString(),
+                            documentNo = documentNo.toString(),
+                            instancePlatform = instancePlatform.toString()
+                        )
+                        instanceList.add(wfInstanceEntity)
+                    }
+                }
+                chartList.add(
+                    ChartTagInstanceDto(
+                        tag = tagData,
+                        instances = instanceList
+                    )
                 )
-                instanceList.add(wfInstanceEntity)
-
             }
-            chartList.add(
-                ChartTagInstanceDto(
-                    tag = aliceTagDto,
-                    instances = instanceList
-
-                )
-            )
         }
-
         return chartList
     }
-
 }
