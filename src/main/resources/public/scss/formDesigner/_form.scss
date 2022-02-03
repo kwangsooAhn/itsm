@@ -17,7 +17,7 @@
   &.selected {
     @include border($group-selected-border-width, solid, $group-selected-border-color, all); // 1px
     background-color: $group-selected-bg-color;
-    > .z-tooltip-menu { visibility: visible; }
+    > .z-tooltip-menu:not(.off) { visibility: visible; }
   }
   &.focus {
     background-color: $group-selected-bg-color;
@@ -113,7 +113,7 @@
   &.selected {
     @include border($row-selected-border-width, solid, $row-selected-border-color, all); // 1px
     background-color: $row-selected-bg-color;
-    > .z-tooltip-menu { visibility: visible; }
+    > .z-tooltip-menu:not(.off) { visibility: visible; }
   }
   // displayType이 hidden일 경우
   &.off { display: none; }
@@ -134,7 +134,7 @@
   &.selected {
     @include border($component-selected-border-width, solid, $component-selected-border-color, all); // 1px
     background-color: $component-selected-bg-color;
-    >.z-tooltip-menu { visibility: visible; }
+    >.z-tooltip-menu:not(.off) { visibility: visible; }
 
     // component
     .z-component {

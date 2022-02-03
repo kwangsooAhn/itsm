@@ -284,9 +284,10 @@ class ZFormDesigner {
         switch(type) {
             case FORM.LAYOUT.FORM:
                 addObject = new ZForm(data);
-
-                // drag & drop 이벤트 추가
                 addObject.UIElement.addUIClass('list-group');
+
+                if (this.isView) { break; }
+                // drag & drop 이벤트 추가
                 new Sortable(addObject.UIElement.domElement, {
                     group: {
                         name: 'form',
@@ -316,10 +317,14 @@ class ZFormDesigner {
                 break;
             case FORM.LAYOUT.GROUP:
                 addObject = new ZGroup(data);
-
-                // drag & drop 이벤트 추가
                 addObject.UIElement.addUIClass('list-group-item');
                 addObject.UIElement.UIGroup.addUIClass('list-group');
+
+                if (this.isView) {
+                    addObject.UIElement.UITooltipMenu.addUIClass('off');
+                    break;
+                }
+                // drag & drop 이벤트 추가
                 new Sortable(addObject.UIElement.UIGroup.domElement, {
                     group: {
                         name: 'group',
@@ -407,10 +412,14 @@ class ZFormDesigner {
                 break;
             case FORM.LAYOUT.ROW:
                 addObject = new ZRow(data);
-
-                // drag & drop 이벤트 추가
                 addObject.UIElement.addUIClass('list-group-item');
                 addObject.UIElement.UIRow.addUIClass('list-group');
+
+                if (this.isView) {
+                    addObject.UIElement.UITooltipMenu.addUIClass('off');
+                    break;
+                }
+                // drag & drop 이벤트 추가
                 new Sortable(addObject.UIElement.UIRow.domElement, {
                     group: {
                         name: 'row',
@@ -518,7 +527,10 @@ class ZFormDesigner {
                 break;
             case FORM.LAYOUT.COMPONENT:
                 addObject = new ZComponent(data);
-                addObject.UIElement.addUIClass('list-group-item'); // drag & drop 이벤트 추가
+                addObject.UIElement.addUIClass('list-group-item');
+                if (this.isView) {
+                    addObject.UIElement.UITooltipMenu.addUIClass('off');
+                }
                 break;
             default:
                 break;

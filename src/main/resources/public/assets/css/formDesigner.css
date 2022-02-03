@@ -5915,7 +5915,7 @@ body.modal-active {
   border: 0.0625rem solid #339AF0;
   background-color: #F1F9FC;
 }
-.z-group-tooltip.selected > .z-tooltip-menu {
+.z-group-tooltip.selected > .z-tooltip-menu:not(.off) {
   visibility: visible;
 }
 .z-group-tooltip.focus {
@@ -6004,7 +6004,7 @@ body.modal-active {
   border: 0.0625rem solid #339AF0;
   background-color: #F1F9FC;
 }
-.z-row-tooltip.selected > .z-tooltip-menu {
+.z-row-tooltip.selected > .z-tooltip-menu:not(.off) {
   visibility: visible;
 }
 .z-row-tooltip.off {
@@ -6029,7 +6029,7 @@ body.modal-active {
   border: 0.0625rem solid #339AF0;
   background-color: #F1F9FC;
 }
-.z-component-tooltip.selected > .z-tooltip-menu {
+.z-component-tooltip.selected > .z-tooltip-menu:not(.off) {
   visibility: visible;
 }
 .z-component-tooltip.selected .z-component .z-element .z-imagebox-placeholder {
