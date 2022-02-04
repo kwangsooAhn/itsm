@@ -125,13 +125,18 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 )
             )
 
+        val viewer = JPAExpressions
+            .select(instanceViewer.instance.instanceId)
+            .from(instanceViewer)
+            .where(instanceViewer.viewer.userKey.eq(tokenSearchCondition.userKey))
+
         builder.and(instance.instanceStatus.`in`(status))
         builder.and(token.tokenStatus.`in`(tokenStatus))
         builder.and(token.element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value))
         builder.and(
             token.assigneeId.eq(tokenSearchCondition.userKey)
                 .or(
-                    instanceViewer.viewer.userKey.eq(tokenSearchCondition.userKey)
+                    instance.instanceId.`in`(viewer)
                 )
                 .or(
                     token.element.elementId.`in`(assigneeUsers)
@@ -153,7 +158,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         )
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
-            .leftJoin(instanceViewer).on(instance.instanceId.eq(instanceViewer.instance.instanceId))
             .orderBy(instance.instanceStartDt.desc())
         if (tokenSearchCondition.isScroll) {
             query.limit(searchDataCount)
