@@ -19,4 +19,13 @@
       }
     }
   }
+  .z-checkbox {
+    input[type=checkbox] {
+      + span {
+        &::after {
+          top: 0.75rem;
+        }
+      }
+    }
+  }
 }
