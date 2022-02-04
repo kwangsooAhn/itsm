@@ -783,7 +783,7 @@ form:
       color: "색상"
       columns: "컬럼 설정"
       columnName: "컬럼명"
-      columnOrder: "순서 변경"
+      columnOrder: "선택 컬럼"
       columnType: "입력 유형"
       defaultValue: "기본값"
       DefaultValueCustomCode: "Custom Code"
