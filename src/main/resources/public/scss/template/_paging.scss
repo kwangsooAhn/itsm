@@ -19,6 +19,8 @@
   line-height: 1.5rem;
 
   a.z-paging-arrow {
+    @include border(0.0625rem, solid, #E1E3E6, all); // 1px
+    border-left: 0;
     cursor: text;
     &.active {
       span.z-icon {
@@ -47,26 +49,25 @@
     a {
       display: inline-block;
       min-width: 1.5rem; // 24px
-      line-height: 1.375rem; // 22px
+      color: $paging-num-font-color;
       font-weight: $font-weight-regular;
       text-align: center;
-      color: $paging-num-font-color;
+      line-height: 1.375rem; // 22px
+      @include border(0.0625rem, solid, #E1E3E6, all); // 1px
+      border-left: 0;
       &:hover {
         color: $paging-num-hover-font-color;
         background-color: $paging-num-hover-bg-color;
-        @include borderRadius(50%); // 24px
       }
       &.selected-page {
-        font-weight: $font-weight-bold;
+        background-color: $paging-num-active-bg-color;
         color: $paging-num-selected-font-color;
-        @include border($color: $paging-num-selected-border-color);
-        @include borderRadius(50%); // 24px
+        font-weight: $font-weight-bold;
       }
       &:active {
-        font-weight: $font-weight-bold;
-        color: $paging-num-active-font-color;
         background-color: $paging-num-active-bg-color;
-        @include borderRadius(50%); // 24px
+        color: $paging-num-active-font-color;
+        font-weight: $font-weight-bold;
       }
     }
   }

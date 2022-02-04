@@ -8651,6 +8651,8 @@ body.modal-active {
   line-height: 1.5rem;
 }
 .z-page-paging a.z-paging-arrow {
+  border: 0.0625rem solid #E1E3E6;
+  border-left: 0;
   cursor: text;
 }
 .z-page-paging a.z-paging-arrow.active {
@@ -8706,33 +8708,26 @@ body.modal-active {
 .z-page-paging .z-paging-numbers a {
   display: inline-block;
   min-width: 1.5rem;
-  line-height: 1.375rem;
+  color: #222529;
   font-weight: 400;
   text-align: center;
-  color: #222529;
+  line-height: 1.375rem;
+  border: 0.0625rem solid #E1E3E6;
+  border-left: 0;
 }
 .z-page-paging .z-paging-numbers a:hover {
   color: #222529;
   background-color: #E3F5FC;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
 }
 .z-page-paging .z-paging-numbers a.selected-page {
+  background-color: #84D1FA;
+  color: #1959AC;
   font-weight: 700;
-  color: #2578CE;
-  border: 1px solid #2578CE;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
 }
 .z-page-paging .z-paging-numbers a:active {
-  font-weight: 700;
+  background-color: #84D1FA;
   color: #1959AC;
-  background-color: #ADE6FD;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
+  font-weight: 700;
 }
 .z-page-paging #spanCurrentPageNum {
   font-weight: 700;
