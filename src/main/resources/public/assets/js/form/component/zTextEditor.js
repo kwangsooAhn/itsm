@@ -176,7 +176,7 @@ export const textEditorMixin = {
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZInputBoxProperty('elementRows', 'element.rows', this.elementRows))
-                .addProperty(new ZInputBoxProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder)),
+                .addProperty(new ZInputBoxProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder, true)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
                 .addProperty(new ZInputBoxProperty('validationMinLength', 'validation.minLength', this.validationMinLength))

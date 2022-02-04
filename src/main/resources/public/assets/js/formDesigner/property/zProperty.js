@@ -20,7 +20,7 @@ import { UIDiv, UILabel, UISpan } from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
 
 export default class ZProperty {
-    constructor(key, name, type, value, flag) {
+    constructor(key, name, type, value, flag = false) {
         this._key = key;
         this._name = zValidation.isEmpty(name) ? '' : 'form.properties.' + name;
         this._type = type;
@@ -36,7 +36,7 @@ export default class ZProperty {
             maxLength: '128',
             minLength: ''
         };
-        this._alwaysEdit = flag || false; // 수정 가능한 속성인지 여부
+        this._isAlwaysEditable = flag; // 항시 가능한 속성인지 여부
     }
     get key() {
         return this._key;
@@ -116,12 +116,12 @@ export default class ZProperty {
         return this;
     }
 
-    get alwaysEdit() {
-        return this._alwaysEdit;
+    get isAlwaysEditable() {
+        return this._isAlwaysEditable;
     }
 
-    set alwaysEdit(flag) {
-        this._alwaysEdit = flag;
+    set isAlwaysEditable(flag) {
+        this._isAlwaysEditable = flag;
     }
     /**
      * 세부 속성 공통 라벨 생성

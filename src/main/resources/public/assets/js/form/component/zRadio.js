@@ -202,7 +202,7 @@ export const radioMixin = {
                     {'name': 'i-display-position-left', 'value': 'left'},
                     {'name': 'i-display-position-right', 'value': 'right'},
                 ]))
-                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, false, false)
+                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, false)
                     .setValidation(true, '', '', '', '', '')),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))

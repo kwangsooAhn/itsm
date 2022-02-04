@@ -19,13 +19,15 @@ const propertyExtends = {
 };
 
 export default class ZDateTimePickerProperty extends ZProperty {
-    constructor(key, name, value, pickerType, alwaysEdit) {
-        super(key, name, 'dateTimePickerProperty', value, alwaysEdit);
+    constructor(key, name, value, pickerType, isAlwaysEditable) {
+        super(key, name, 'dateTimePickerProperty', value, isAlwaysEditable);
         this.pickerType = pickerType;
     }
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
@@ -34,6 +36,7 @@ export default class ZDateTimePickerProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
         // inputbox
         this.UIElement.UIInput = new UIInput(this.value)
+            .setUIReadOnly(!this.isEditable)
             .setUIId(this.key);
 
         switch (this.pickerType) {
@@ -55,6 +58,7 @@ export default class ZDateTimePickerProperty extends ZProperty {
 
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
+        if (!this.isEditable) { return false; }
         switch (this.pickerType) {
             case FORM.DATE_TYPE.DATE_PICKER:
                 zDateTimePicker.initDatePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));

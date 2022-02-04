@@ -19,12 +19,14 @@ const propertyExtends = {
 };
 
 export default class ZInputBoxProperty extends ZProperty {
-    constructor(key, name, value, alwaysEdit) {
-        super(key, name, 'inputBoxProperty', value, alwaysEdit);
+    constructor(key, name, value, isAlwaysEditable) {
+        super(key, name, 'inputBoxProperty', value, isAlwaysEditable);
     }
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
@@ -35,6 +37,7 @@ export default class ZInputBoxProperty extends ZProperty {
         this.UIElement.UIInput = new UIInput()
             .setUIId(this.key)
             .setUIValue(this.value)
+            .setUIReadOnly(!this.isEditable)
             .setUIAttribute('data-validation-required', this.validation.required)
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
             .setUIAttribute('data-validation-type', this.validation.type)

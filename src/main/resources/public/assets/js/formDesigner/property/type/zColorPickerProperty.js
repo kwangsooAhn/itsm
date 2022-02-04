@@ -19,12 +19,14 @@ const propertyExtends = {
 };
 
 export default class ZColorPickerProperty extends ZProperty {
-    constructor(key, name, value, alwaysEdit) {
-        super(key, name, 'colorPickerProperty', value, alwaysEdit);
+    constructor(key, name, value, isAlwaysEditable) {
+        super(key, name, 'colorPickerProperty', value, isAlwaysEditable);
     }
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
@@ -42,7 +44,7 @@ export default class ZColorPickerProperty extends ZProperty {
 
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
-        new zColorPicker(this.UIElement.UIColorPicker.domElement, { type: 'fill' });
+        new zColorPicker(this.UIElement.UIColorPicker.domElement, { type: 'fill', readOnly: !this.isEditable });
     }
 
     // 속성 변경시 발생하는 이벤트 핸들러

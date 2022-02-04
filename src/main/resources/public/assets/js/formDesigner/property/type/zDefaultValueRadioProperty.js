@@ -21,8 +21,8 @@ const propertyExtends = {
 };
 
 export default class ZDefaultValueRadioProperty extends ZProperty {
-    constructor(key, name, value, options, alwaysEdit) {
-        super(key, name, 'defaultValueRadioProperty', value, alwaysEdit);
+    constructor(key, name, value, options, isAlwaysEditable) {
+        super(key, name, 'defaultValueRadioProperty', value, isAlwaysEditable);
 
         this.options = options;
     }
@@ -30,7 +30,9 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
-
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
+        
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
 
@@ -59,6 +61,11 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 .onUIChange(this.updateProperty.bind(this));
             radioGroup.UILabel.addUI(radioGroup.UILabel.UIRadio);
             radioGroup.UILabel.addUI(new UISpan());
+
+            if (!this.isEditable) {
+                radioGroup.UILabel.addUIClass('readonly');
+                radioGroup.UILabel.UIRadio.addUIClass('readonly');
+            }
             
             if (!zValidation.isEmpty(item.name)) {
                 radioGroup.UILabel.addUI(new UISpan().setUIClass('z-label').setUIInnerHTML(i18n.msg(item.name)));
@@ -73,6 +80,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                         .setUIAttribute('name', this.key)
                         .setUIAttribute('data-validation-type', 'number')
                         .setUIAttribute('data-validation-max', '1000')
+                        .setUIReadOnly(!this.isEditable)
                         .onUIKeyUp(this.updateProperty.bind(this))
                         .onUIChange(this.updateProperty.bind(this));
                     radioGroup.UIDiv.addUI(radioGroup.UIDiv.UIInput);
@@ -85,10 +93,12 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                         .setUIClass('z-input i-date-picker text-ellipsis')
                         .addUIClass('picker')
                         .setUIId('dateProperty')
-                        .setUIAttribute('name', this.key);
+                        .setUIAttribute('name', this.key)
+                        .setUIReadOnly(!this.isEditable);
                     radioGroup.addUI(radioGroup.UIInput);
-
-                    zDateTimePicker.initDatePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
+                    if (!this.isEditable) {
+                        zDateTimePicker.initDatePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
+                    }
                     break;
                 case FORM.DATE_TYPE.HOURS:
                     radioGroup.UIDiv = new UIDiv().setUIClass('radio-item');
@@ -98,6 +108,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                         .setUIAttribute('name', this.key)
                         .setUIAttribute('data-validation-type', 'number')
                         .setUIAttribute('data-validation-max', '1000')
+                        .setUIReadOnly(!this.isEditable)
                         .onUIKeyUp(this.updateProperty.bind(this))
                         .onUIChange(this.updateProperty.bind(this));
                     radioGroup.UIDiv.addUI(radioGroup.UIDiv.UIInput);
@@ -109,9 +120,12 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                         .setUIClass('z-input i-time-picker')
                         .addUIClass('picker')
                         .setUIId('timeProperty')
-                        .setUIAttribute('name', this.key);
+                        .setUIAttribute('name', this.key)
+                        .setUIReadOnly(!this.isEditable);
                     radioGroup.addUI(radioGroup.UIInput);
-                    zDateTimePicker.initTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
+                    if (!this.isEditable) {
+                        zDateTimePicker.initTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
+                    }
                     break;
                 case FORM.DATE_TYPE.DATETIME:
                     radioGroup.UIDiv = new UIDiv().setUIClass('radio-item');
@@ -120,6 +134,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                         .setUIAttribute('name', this.key)
                         .setUIAttribute('data-validation-type', 'number')
                         .setUIAttribute('data-validation-max', '1000')
+                        .setUIReadOnly(!this.isEditable)
                         .onUIKeyUp(this.updateProperty.bind(this))
                         .onUIChange(this.updateProperty.bind(this)));
                     radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.day')));
@@ -127,6 +142,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                         .setUIAttribute('name', this.key)
                         .setUIAttribute('data-validation-type', 'number')
                         .setUIAttribute('data-validation-max', '1000')
+                        .setUIReadOnly(!this.isEditable)
                         .onUIKeyUp(this.updateProperty.bind(this))
                         .onUIChange(this.updateProperty.bind(this)));
                     radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.hours')));
@@ -137,9 +153,12 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                         .setUIClass('z-input i-datetime-picker')
                         .addUIClass('picker')
                         .setUIId('timeProperty')
-                        .setUIAttribute('name', this.key);
+                        .setUIAttribute('name', this.key)
+                        .setUIReadOnly(!this.isEditable);
                     radioGroup.addUI(radioGroup.UIInput);
-                    zDateTimePicker.initDateTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
+                    if (!this.isEditable) {
+                        zDateTimePicker.initDateTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
+                    }
                     break;
             }
 

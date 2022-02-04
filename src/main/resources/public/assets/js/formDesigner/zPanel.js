@@ -27,7 +27,7 @@ export default class ZPanel {
         // 세부 속성 이름 출력
         this.setPropertyName(this.editor.selectedObject.propertyName);
 
-        // 세부 속성 표시
+        // 세부 속성
         const property = this.editor.selectedObject.getProperty();
         property.map(propertyObject => {
             const propertyObjectElement = propertyObject.makeProperty(this);

@@ -25,6 +25,7 @@ const DEFAULT_OPTIONS = {
     ],
     rgbReg: /^\d{1,3}$/,
     hexReg: /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/,
+    readOnly: false,
     maxCustomColor: 10
 };
 
@@ -63,6 +64,10 @@ function zColorPicker(targetElement, options) {
     colorPicker.className = 'z-color-picker';
     colorPicker.tabIndex = 0;
     wrapperContainer.appendChild(colorPicker);
+
+    if (this.options.readOnly) {
+        colorPicker.classList.add('readonly');
+    }
     this.colorPicker = colorPicker;
 
     // color box
@@ -107,6 +112,7 @@ function zColorPicker(targetElement, options) {
         this.setColor(this.value);
     });
 
+    if (this.options.readOnly) { return false; }
     // color picker toggle event
     const self = this;
     this.colorPicker.addEventListener('click', function (e) {

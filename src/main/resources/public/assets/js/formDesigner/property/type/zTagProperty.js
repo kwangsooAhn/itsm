@@ -18,12 +18,14 @@ const propertyExtends = {
 };
 
 export default class ZTagProperty extends ZProperty {
-    constructor(key, name, value, alwaysEdit) {
-        super(key, name, 'tagProperty', value, alwaysEdit);
+    constructor(key, name, value, isAlwaysEditable) {
+        super(key, name, 'tagProperty', value, isAlwaysEditable);
     }
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
@@ -39,7 +41,8 @@ export default class ZTagProperty extends ZProperty {
             }).toString() + ']';
 
         this.UIElement.UIInput = new UIInput()//.removeUIClass('z-input').addUIClass('input')
-            .setUIId(this.key).setUIValue(valueString);
+            .setUIId(this.key).setUIValue(valueString)
+            .setUIReadOnly(!this.isEditable);
         this.UIElement.addUI(this.UIElement.UIInput);
 
         // tag 는 실제 그려진 UI를 이용해서 tagify 적용이 필요함.
@@ -47,7 +50,7 @@ export default class ZTagProperty extends ZProperty {
         panel.domElement.appendChild(this.UIElement.domElement);
         if (this.panel.editor.selectedObject.id) {
             new zTag(document.querySelector('input[id=tags]'), {
-                suggestion: true,
+                suggestion: this.isEditable,
                 realtime: false,
                 tagType: 'component',
                 targetId: this.panel.editor.selectedObject.id

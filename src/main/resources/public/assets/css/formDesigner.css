@@ -5162,10 +5162,10 @@ select {
 .z-color-picker-wrapper .z-color-picker:focus, .z-color-picker-wrapper .z-color-picker:hover {
   outline: 0;
 }
-.z-color-picker-wrapper .z-color-picker:hover {
+.z-color-picker-wrapper .z-color-picker:hover:not(.readonly) {
   border-color: #64BBF6;
 }
-.z-color-picker-wrapper .z-color-picker:focus {
+.z-color-picker-wrapper .z-color-picker:focus:not(.readonly) {
   border-color: #2578CE;
   -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
