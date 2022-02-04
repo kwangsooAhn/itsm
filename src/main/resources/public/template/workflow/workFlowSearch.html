@@ -88,7 +88,7 @@
                 if (isEmpty('document-numbering-rule', 'document.msg.selectNumberingRule')) { return false };
                 break;
             case 'application-form-link':
-                if (isEmpty('document-link', 'document.msg.enterDocumentLink')) { return false };
+                if (isEmpty('document-url-link', 'document.msg.enterDocumentLink')) { return false };
                 break;
             default:
         }
@@ -103,9 +103,10 @@
         let documentProcess = document.getElementById('document-process');
         let documentStatus = document.getElementById('document-status');
         let apiEnable = document.getElementById('api-enable');
-        let documentLink = document.getElementById('document-link');
+        let documentLinkUrl = document.getElementById('document-url-link');
         let documentNumberingRule = document.getElementById('document-numbering-rule');
         let documentGroup = document.getElementById('document-group');
+        let documentIcon = document.getElementById('document-icon');
 
         let documentInfo = {
             documentType: documentType.options[documentType.selectedIndex].value,
@@ -114,24 +115,21 @@
             formId: documentForm.options[documentForm.selectedIndex].value,
             processId: documentProcess.options[documentProcess.selectedIndex].value,
             documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
-            documentStatus: documentType.value === 'application-form-link' ? 'document.status.use' : documentStatus.options[documentStatus.selectedIndex].value,
+            documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
             apiEnable: documentType.value === 'application-form-link' ? 'false' : apiEnable.options[apiEnable.selectedIndex].value,
-            documentLink: documentType.value === 'application-form-link' ? documentLink.value : null,
+            documentLinkUrl: documentType.value === 'application-form-link' ? documentLinkUrl.value : null,
             documentColor: document.getElementById('documentColor').value,
             documentGroup: documentGroup.options[documentGroup.selectedIndex].value,
+            documentIcon: (documentIcon !== null && documentType.options[documentType.selectedIndex].value !== 'workflow') ?  documentIcon.value : null
         };
-        let documentIcon = document.getElementById('document-icon');
-        if (documentIcon !== null && documentInfo.documentType !== 'workflow') {
-            documentInfo.documentIcon = documentIcon.value;
-        }
 
-        let url = '/rest/workflows';
+        let url = documentType.value === 'application-form-link' ? '/rest/workflows/workflowLink' : '/rest/workflows';
         if (method === 'put' && documentId !== undefined) {
             documentInfo.documentId = documentId;
             url += '/' + documentId;
         }
 
-        if (document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 수정
+        if (documentType.value !== 'application-form-link' && document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 신청서/업무흐름 수정(신청서 링크 제외)
             zAlert.confirm(i18n.msg('document.msg.changeStatusEnabled'), () => {
                 restSubmit(method, url + '?isDeleteData=true', documentInfo, () => {
                     zAlert.success(i18n.msg('common.msg.save'), () => {
@@ -140,9 +138,9 @@
                 })
             });
         } else {
-            restSubmit(method, url, documentInfo, function(result) {
-                zAlert.success(i18n.msg('common.msg.save'), function() {
-                    if (documentId === undefined) { // 신규 등록일 경우에만 팝업 호출한다.
+            restSubmit(method, url, documentInfo, function (result) {
+                zAlert.success(i18n.msg('common.msg.save'), function () {
+                    if (documentId === undefined && documentType.value !== 'application-form-link') { // 신청서/업무흐름 신규 등록일 경우에만 팝업 호출한다.(신청서 링크 제외)
                         openDocumentDisplay(result);
                     } else {
                         location.reload();
@@ -167,69 +165,64 @@
 
     // 업무흐름 구분 변경
     function setDocumentType(type) {
+        const documentGroupDiv = document.getElementById('document-group-content');
+        const documentFormDiv = document.getElementById('document-form-content');
+        const documentProcessDiv = document.getElementById('document-process-content');
+        const documentNumberingRuleDiv = document.getElementById('document-numbering-rule-content');
+        const documentApiDiv = document.getElementById('document-api-content');
+        const documentLinkDiv = document.getElementById('document-link-content');
+        const documentIconDiv = document.getElementById('document-icon-content');
         const groupElem = document.getElementById('document-group');
+
         groupElem.disabled = (type === 'workflow');
-
-        const documentFormElem = document.getElementById('document-form-content');
-        const documentProcessElem = document.getElementById('document-process-content');
-        const documentNumberingRuleElem = document.getElementById('document-numbering-rule-content');
-        const documentStatusElem = document.getElementById('document-status-content');
-        const documentApiElem = document.getElementById('document-api-content');
-        const documentLinkElem = document.getElementById('document-link-content');
-        const documentColorElem = document.getElementById('document-color-content');
-        const documentIconElem = document.getElementById('document-icon-content');
-
         switch (type) {
             case "workflow":
-                groupElem.selectedIndex = 0;
-                groupElem.nextElementSibling.classList.add('disabled-select');
+                documentGroupDiv.classList.add('on');
+                documentIconDiv.classList.remove('on');
+                documentFormDiv.classList.add('on');
+                documentProcessDiv.classList.add('on');
+                documentNumberingRuleDiv.classList.add('on');
+                documentApiDiv.classList.add('on');
+                documentLinkDiv.classList.remove('on');
 
-                documentIconElem.classList.remove('on');
-                documentFormElem.classList.add('on');
-                documentProcessElem.classList.add('on');
-                documentNumberingRuleElem.classList.add('on');
-                documentStatusElem.classList.add('on');
-                documentApiElem.classList.add('on');
-                documentLinkElem.classList.remove('on');
-                documentColorElem.classList.add('on');
+                groupElem.selectedIndex = 0;
+                if (groupElem.nextElementSibling != null) groupElem.nextElementSibling.classList.add('disabled-select');
                 break;
             case "application-form":
-                groupElem.nextElementSibling.classList.remove('disabled-select');
+                documentGroupDiv.classList.add('on');
+                documentIconDiv.classList.add('on');
+                documentFormDiv.classList.add('on');
+                documentProcessDiv.classList.add('on');
+                documentNumberingRuleDiv.classList.add('on');
+                documentApiDiv.classList.add('on');
 
-                documentIconElem.classList.add('on');
-                documentFormElem.classList.add('on');
-                documentProcessElem.classList.add('on');
-                documentNumberingRuleElem.classList.add('on');
-                documentStatusElem.classList.add('on');
-                documentApiElem.classList.add('on');
-                documentLinkElem.classList.remove('on');
-                documentColorElem.classList.add('on');
+                if (groupElem.nextElementSibling != null) groupElem.nextElementSibling.classList.remove('disabled-select');
                 break;
             case "application-form-link":
-                groupElem.nextElementSibling.classList.remove('disabled-select');
-
-                documentColorElem.classList.remove('on')
-                documentFormElem.classList.remove('on');
-                documentProcessElem.classList.remove('on');
-                documentNumberingRuleElem.classList.remove('on');
-                documentStatusElem.classList.remove('on');
-                documentApiElem.classList.remove('on');
-                documentLinkElem.classList.add('on');
-                documentColorElem.classList.remove('on');
-                documentIconElem.classList.add('on');
+                documentGroupDiv.classList.remove('on');
+                documentFormDiv.classList.remove('on');
+                documentProcessDiv.classList.remove('on');
+                documentNumberingRuleDiv.classList.remove('on');
+                documentApiDiv.classList.remove('on');
+                documentLinkDiv.classList.add('on');
+                documentIconDiv.classList.add('on');
                 break;
             default:
         }
     }
 
     // 업무흐름 등록 , 수정
-    function openDocumentEdit(documentId) {
-        const url = (documentId !== undefined) ? '/workflows/' + documentId + '/edit' : '/workflows/new';
+    function openDocumentEdit(documentId, isDocumentLink) {
+        let url = '';
+        if (isDocumentLink) url = (documentId !== undefined) ? '/workflows/workflowLink/' + documentId + '/edit' : '/workflows/new'; //신청서 링크일경우
+        else url = (documentId !== undefined) ? '/workflows/' + documentId + '/edit' : '/workflows/new'; // 신청서, 업무흐름일경우
+
+
         aliceJs.fetchText(url, {
             method: 'GET'
         }).then((htmlData) => {
             let modalOptions = {
-                title: (documentId !== undefined) ? i18n.msg('document.label.edit') : i18n.msg('document.label.register'),
+                title: (documentId !== undefined) ? i18n.msg('document.label.edit') : i18n.msg('document.label.write'),
                 body: htmlData,
                 classes: 'document-edit',
                 buttons: [{
@@ -252,12 +245,14 @@
                     closable: false,
                 },
                 onCreate: function(modal) {
-                    setDocumentType('application-form')
+                    const documentType = document.getElementById('document-type').value;
+                    setDocumentType(documentType)
                     // color picker 초기화
-                    new zColorPicker(document.getElementById('documentColor'), { type: 'fill' });
-                    // 신청서 상태 초기화
+                    new zColorPicker(document.getElementById('documentColor'), {type: 'fill'});
+
                     const statusElem = document.getElementById('document-status');
                     const prevStatus = document.getElementById('prev-document-status').value;
+                    // 신청서 상태 초기화
                     switch (prevStatus) {
                         case STATUS_TEMPORARY:
                             statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
@@ -271,7 +266,6 @@
                             break;
                         default: // 신규 등록
                     }
-
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                     OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
@@ -288,8 +282,9 @@
                     aliceJs.initDesignedSelectTag();
                 }
             }
+
             // 수정일 경우 신청서 양식 편집 버튼 추가
-            if (documentId !== undefined) {
+            if (documentId !== undefined && !isDocumentLink ) {
                 modalOptions.buttons.splice(1, 0, {
                     content: i18n.msg('document.label.display'),
                     classes: 'z-button secondary',
@@ -305,6 +300,7 @@
             documentAdminModal.show();
         });
     }
+
 
     // 신청서 양식 편집 화면
     function openDocumentDisplay(documentId) {
@@ -374,16 +370,20 @@
         });
     }
 
-    function deleteDocument(documentId) {
+    function deleteDocument(documentId, isDocumentLink) {
+        let url = '';
+        if (isDocumentLink) url = '/rest/workflows/workflowLink/' + documentId;
+        else url = '/rest/workflows/' + documentId
+
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchText('/rest/workflows/' + documentId, {
+            aliceJs.fetchText(url, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 },
             }).then((rtn) => {
                 if (JSON.parse(rtn)) {
-                    zAlert.success([[#{common.msg.delete}]], function() {
+                    zAlert.success([[#{common.msg.delete}]], function () {
                         location.reload();
                     });
                 } else {

@@ -12,13 +12,16 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
+import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.WfDocumentDisplayEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
+import co.brainz.workflow.document.entity.WfDocumentLinkEntity
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
+import co.brainz.workflow.document.repository.WfDocumentLinkRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
@@ -51,6 +54,7 @@ class WfDocumentService(
     private val wfActionService: WfActionService,
     private val wfElementService: WfElementService,
     private val wfDocumentRepository: WfDocumentRepository,
+    private val wfDocumentLinkRepository: WfDocumentLinkRepository,
     private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfProcessRepository: WfProcessRepository,
@@ -99,6 +103,34 @@ class WfDocumentService(
             documentColor = document.documentColor,
             documentGroup = document.documentGroup,
             documentIcon = document.documentIcon
+        )
+    }
+
+    /**
+     * Search Document.
+     *
+     * @param documentId
+     * @return RestTemplateDocumentDto
+     */
+    fun getDocumentLink(documentId: String): DocumentDto {
+        val documentLink = wfDocumentLinkRepository.findByDocumentLinkId(documentId)
+        return DocumentDto(
+            documentId = documentLink.documentLinkId,
+            documentType = DocumentConstants.DocumentType.APPLICATION_FORM_LINK.value,
+            documentName = documentLink.documentName,
+            documentDesc = documentLink.documentDesc,
+            documentLinkUrl = documentLink.documentLinkUrl,
+            documentStatus = documentLink.documentStatus,
+            processId = "",
+            formId = "",
+            apiEnable = false,
+            createDt = documentLink.createDt,
+            createUserKey = documentLink.createUserKey,
+            updateDt = documentLink.updateDt,
+            updateUserKey = documentLink.updateUserKey,
+            documentNumberingRuleId = "",
+            documentColor = documentLink.documentColor,
+            documentIcon = documentLink.documentIcon
         )
     }
 
@@ -208,6 +240,35 @@ class WfDocumentService(
         }
     }
 
+    @Transactional
+    fun createDocumentLink(documentDto: DocumentDto): DocumentDto {
+        val documentLinkEntity = WfDocumentLinkEntity(
+            documentLinkId = documentDto.documentId,
+            documentName = documentDto.documentName,
+            documentDesc = documentDto.documentDesc,
+            documentStatus = documentDto.documentStatus,
+            documentLinkUrl = documentDto.documentLinkUrl!!,
+            documentColor = documentDto.documentColor,
+            createDt = documentDto.createDt,
+            createUserKey = documentDto.createUserKey,
+            documentIcon = documentDto.documentIcon
+        )
+
+        val dataEntity = wfDocumentLinkRepository.save(documentLinkEntity)
+
+        return DocumentDto(
+            documentId = dataEntity.documentLinkId,
+            documentName = dataEntity.documentName,
+            documentDesc = dataEntity.documentDesc,
+            documentStatus = dataEntity.documentStatus,
+            documentLinkUrl = dataEntity.documentLinkUrl,
+            documentColor = documentDto.documentColor,
+            createDt = dataEntity.createDt,
+            createUserKey = dataEntity.createUserKey,
+            documentIcon = dataEntity.documentIcon
+        )
+    }
+
     /**
      * Update Document.
      *
@@ -276,6 +337,29 @@ class WfDocumentService(
         return true
     }
 
+    /**
+     * Update DocumentLink.
+     *
+     * @param documentDto
+     * @return Boolean
+     */
+    @Transactional
+    fun updateDocumentLink(
+        documentDto: DocumentDto,
+        params: LinkedHashMap<String, Any>
+    ) {
+        val wfDocumentLinkEntity = wfDocumentLinkRepository.findByDocumentLinkId(documentDto.documentId)
+
+        wfDocumentLinkEntity.documentName = documentDto.documentName
+        wfDocumentLinkEntity.documentDesc = documentDto.documentDesc
+        wfDocumentLinkEntity.documentStatus = documentDto.documentStatus
+        wfDocumentLinkEntity.documentLinkUrl = documentDto.documentLinkUrl.toString()
+        wfDocumentLinkEntity.documentColor = documentDto.documentColor
+        wfDocumentLinkEntity.documentIcon = documentDto.documentIcon
+        wfDocumentLinkEntity.updateUserKey = documentDto.updateUserKey
+        wfDocumentLinkEntity.updateDt = documentDto.updateDt
+    }
+
     fun getDocumentListByNumberingId(numberingId: String): List<WfDocumentEntity> {
         return wfDocumentRepository.getDocumentListByNumberingId(numberingId)
     }
@@ -325,6 +409,17 @@ class WfDocumentService(
         }
         logger.info("Delete document result. {}", isDel)
         return isDel
+    }
+
+    /**
+     * Delete DocumentLink.
+     *
+     * @param documentId
+     * @return Boolean
+     */
+    @Transactional
+    fun deleteDocumentLink(documentId: String): Boolean {
+        return wfDocumentLinkRepository.deleteByDocumentLinkId(documentId) === 1
     }
 
     /**

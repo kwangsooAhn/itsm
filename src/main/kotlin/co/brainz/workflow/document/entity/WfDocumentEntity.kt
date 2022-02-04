@@ -78,7 +78,4 @@ data class WfDocumentEntity(
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
     val display: MutableList<WfDocumentDisplayEntity> = mutableListOf()
-
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "document")
-    val documentLink: WfDocumentLinkEntity ? = null
 }

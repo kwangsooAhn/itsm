@@ -9,10 +9,10 @@
                 <span th:text="#{document.label.type}"></span>
                 <span class="required"></span>
             </label>
-            <select id="document-type" onchange="setDocumentType(this.value)">
-                <option value="application-form" th:text="#{document.type.applicationForm}" selected></option>
+            <select id="document-type" onchange="setDocumentType(this.value)" th:disabled="${documentData?.documentId != undefined}">
+                <option value="application-form" th:text="#{document.type.applicationForm}" th:selected="${documentData?.documentType == 'application-form'}"></option>
                 <option value="workflow" th:text="#{document.type.workflow}" th:selected="${documentData?.documentType == 'workflow'}"></option>
-                <option value="application-form-link" th:text="#{document.type.applicationFormLink}" ></option>
+                <option value="application-form-link" th:text="#{document.type.applicationFormLink}" th:selected="${documentData?.documentType == 'application-form-link'}"></option>
             </select>
             <!-- 신청서 이름 -->
             <label class="field-label" for="document-name">
@@ -25,12 +25,14 @@
             <textarea id="document-desc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"
                       th:text="${documentData?.documentDesc}"></textarea>
             <!-- 그룹 -->
-            <label class="field-label" th:text="#{common.label.group}" for="document-group"></label>
-            <select id="document-group" th:disabled="${documentData?.documentType == 'workflow'}">
-                <option value="" th:text="#{document.label.notSelect}" selected></option>
-                <option th:each="group:${groupList}" th:value="${group.code}"
-                        th:text="${group.codeValue}" th:selected="${documentData?.documentGroup} == ${group.code}"></option>
-            </select>
+            <div id="document-group-content" class="hidden-control-content">
+                <label class="field-label" th:text="#{common.label.group}" for="document-group"></label>
+                <select id="document-group" th:disabled="${documentData?.documentType == 'workflow'}">
+                    <option value="" th:text="#{document.label.notSelect}" selected></option>
+                    <option th:each="group:${groupList}" th:value="${group.code}"
+                            th:text="${group.codeValue}" th:selected="${documentData?.documentGroup} == ${group.code}"></option>
+                </select>
+            </div>
             <!-- 문서양식 -->
             <div id="document-form-content" class="hidden-control-content" >
                 <label class="field-label" for="document-form">
@@ -77,7 +79,7 @@
                 </select>
             </div>
             <!-- 신청서 상태 -->
-            <div id="document-status-content" class="hidden-control-content" >
+            <div id="document-status-content">
                 <label class="field-label" th:text="#{document.label.status}" for="document-status"></label>
                 <input type="hidden" id="prev-document-status" name="prev-document-status" th:value="${documentData?.documentStatus}"/>
                 <select id="document-status">
@@ -93,18 +95,18 @@
                     <option value="false" th:text="#{document.label.disable}" th:selected="${documentData?.apiEnable == false}"></option>
                 </select>
             </div>
-            <!-- url 링크 활성화 -->
+            <!-- url 링크 -->
             <div id="document-link-content" class="hidden-control-content">
-                <label class="field-label" for="document-link">
+                <label class="field-label" for="document-url-link">
                     <span th:text="#{document.label.link}"></span>
                     <span class="required"></span>
                 </label>
                 <div class="flex-column">
-                    <input type="text" class="z-input" id="document-link" maxlength="512"/> <!-- 여기에 데이터 넣어놔라-->
+                    <input type="text" class="z-input" id="document-url-link" th:value="${documentData?.documentLinkUrl}" maxlength="512"/>
                 </div>
             </div>
             <!-- 업무 흐름 색상 -->
-            <div id="document-color-content" class="hidden-control-content">
+            <div id="document-color-content">
                 <label class="field-label" for="documentColor">
                     <span th:text="#{document.label.businessFlowColor}"></span>
                     <span class="required"></span>

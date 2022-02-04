@@ -10,10 +10,10 @@ import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
-import co.brainz.workflow.document.entity.QWfDocumentLinkEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions.constant
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -24,9 +24,8 @@ class WfDocumentRepositoryImpl :
     override fun findByDocuments(documentSearchCondition: DocumentSearchCondition):
             QueryResults<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
-        val documentLink = QWfDocumentLinkEntity.wfDocumentLinkEntity
 
-        val query = from(document)
+        val documentQuery = from(document)
             .select(
                 Projections.constructor(
                     DocumentDto::class.java,
@@ -41,7 +40,7 @@ class WfDocumentRepositoryImpl :
                     document.documentColor,
                     document.documentGroup,
                     document.apiEnable,
-                    documentLink.documentLinkUrl,
+                    constant(""),
                     document.createUserKey,
                     document.createDt,
                     document.updateUserKey,
@@ -52,7 +51,6 @@ class WfDocumentRepositoryImpl :
             .join(document.process)
             .join(document.form)
             .join(document.numberingRule)
-            .leftJoin(documentLink).on(document.documentId.eq(documentLink.document.documentId))
             .where(
                 super.eq(document.documentGroup, documentSearchCondition.searchGroupName),
                 super.eq(document.documentType, documentSearchCondition.searchDocumentType),
@@ -82,20 +80,13 @@ class WfDocumentRepositoryImpl :
                 super.likeIgnoreCase(document.form.formName, documentSearchCondition.searchFormName)
             ).orderBy(document.documentName.asc())
 
-        if (documentSearchCondition.isPaging) {
-            query.limit(documentSearchCondition.contentNumPerPage)
-            query.offset((documentSearchCondition.pageNum - 1) * documentSearchCondition.contentNumPerPage)
-        }
-
-        return query.fetchResults()
+        return documentQuery.fetchResults()
     }
 
     override fun findAllByDocuments(documentSearchCondition: DocumentSearchCondition):
             MutableList<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
-        val documentLink = QWfDocumentLinkEntity.wfDocumentLinkEntity
-
-        val query = from(document)
+        val documentQuery = from(document)
             .select(
                 Projections.constructor(
                     DocumentDto::class.java,
@@ -110,7 +101,7 @@ class WfDocumentRepositoryImpl :
                     document.documentColor,
                     document.documentGroup,
                     document.apiEnable,
-                    documentLink.documentLinkUrl,
+                    constant(""),
                     document.createUserKey,
                     document.createDt,
                     document.updateUserKey,
@@ -118,7 +109,6 @@ class WfDocumentRepositoryImpl :
                     document.documentIcon
                 )
             )
-            .leftJoin(documentLink).on(document.documentId.eq(documentLink.document.documentId))
             .where(
                 if (documentSearchCondition.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
                     document.documentStatus.`in`(
@@ -134,7 +124,7 @@ class WfDocumentRepositoryImpl :
                 }
             ).orderBy(document.documentName.asc())
             .fetchResults()
-        return query.results
+        return documentQuery.results
     }
 
     override fun getDocumentListByNumberingId(numberingId: String): List<WfDocumentEntity> {
