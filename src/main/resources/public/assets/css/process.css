@@ -4058,7 +4058,6 @@ svg path.connector.hidden {
   text-decoration: none;
   user-select: none;
   white-space: nowrap;
-  vertical-align: middle;
   overflow: visible;
   cursor: pointer;
   border: 0.0625rem solid #CFD5D9;
@@ -4073,6 +4072,7 @@ svg path.connector.hidden {
 .z-button-toggle-group .z-button-toggle .z-icon {
   display: inline-block;
   background: #222529;
+  vertical-align: middle;
   pointer-events: none;
 }
 .z-button-switch-group .z-button-switch:focus,
