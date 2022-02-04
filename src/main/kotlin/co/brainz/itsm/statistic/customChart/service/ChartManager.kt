@@ -333,9 +333,7 @@ abstract class ChartManager(
         chartDto: ChartDto,
         tagInstances: List<ChartTagInstanceDto>
     ): List<ChartTagInstanceDto> {
-        chartDto.chartCondition = "[구성관리 만족도 데이터1]==\"test\""
-        chartConditionService.executeCondition(chartDto, tagInstances)
-        return tagInstances
+        return chartConditionService.getChartConditionByTagInstances(chartDto.chartConfig.condition, tagInstances)
     }
 
     /**
@@ -488,4 +486,8 @@ abstract class ChartManager(
     private fun getValueOfInstance(condition: String?, tagInstance: ChartTagInstanceDto): List<WfInstanceEntity> {
         return if (condition?.isEmpty() == true) tagInstance.instances else tagInstance.conditionInstances
     }
+
+    /**
+     * [condition] 사용여부에 따라
+     */
 }

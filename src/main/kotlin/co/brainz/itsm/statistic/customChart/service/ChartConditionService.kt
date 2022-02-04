@@ -1,113 +1,249 @@
 package co.brainz.itsm.statistic.customChart.service
 
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.statistic.customChart.constants.ChartConditionConstants
-import co.brainz.itsm.statistic.customChart.dto.ChartConditionNode
-import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.dto.ChartTagInstanceDto
-import java.util.Stack
+import co.brainz.workflow.instance.entity.WfInstanceEntity
+import co.brainz.workflow.token.repository.WfTokenDataRepository
+import java.text.SimpleDateFormat
 import org.slf4j.LoggerFactory
+import org.springframework.expression.Expression
+import org.springframework.expression.ExpressionParser
+import org.springframework.expression.spel.standard.SpelExpressionParser
 import org.springframework.stereotype.Service
 
+
 @Service
-class ChartConditionService(private val chartExpressionTree: ChartExpressionTree) {
+class ChartConditionService(
+    private val tagRepository: AliceTagRepository,
+    private val chartManagerService: ChartManagerService,
+    private val wfTokenDataRepository: WfTokenDataRepository
+) {
     private val logger = LoggerFactory.getLogger(this::class.java)
-    var data: String? = null
-    var chartCondition: String = ""
-    var root: ChartConditionNode? = null
 
     /**
-     * 메인 함수
+     * 조건에 일치하는 인스턴스 리스트를 리턴한다.
      */
-    fun executeCondition(chartDto: ChartDto, tagInstanceList: List<ChartTagInstanceDto>): List<ChartTagInstanceDto> {
-
-        return chartExpressionTree.execute(chartDto, tagInstanceList)
+    fun getChartConditionByTagInstances(
+        chartCondition: String?,
+        tagInstanceList: List<ChartTagInstanceDto>
+    ): List<ChartTagInstanceDto> {
+        return if (!chartCondition.isNullOrBlank() && tagInstanceList.isNotEmpty()) {
+            // 1. 조건식(chartCondition)에서 대괄호("[","]")를 제외한 태그만 추출한다.
+            val tags = this.getTagsInCondition(chartCondition)
+            if (tags.isNotEmpty()) {
+                // 2. 위에서 추출한 태그를 모두 포함하고 있는 인스턴스를 추출한다.
+                val targetInstanceList = this.getInstanceListIncludeTags(tagInstanceList, tags)
+                // 3. 조건문에 통과되는 인스턴스만 모두 추출한다.
+                this.getTagInstanceList(chartCondition, targetInstanceList, tags)
+            } else {
+                tagInstanceList
+            }
+        } else {
+            tagInstanceList
+        }
     }
 
     /**
-     * 조건식 소괄호 제거
-     *
-     **/
-    private fun removeParentheses(condition: String): String {
-        var parsingCondition = condition.trim()
-        if (condition.isNotBlank()) {
-            if (parsingCondition.startsWith(ChartConditionConstants.Parentheses.PREFIX_PARENTHESES.value) &&
-                parsingCondition.endsWith(ChartConditionConstants.Parentheses.SUFFIX_PARENTHESES.value)
-            ) {
-                parsingCondition = parsingCondition.removeSurrounding(
-                    ChartConditionConstants.Parentheses.PREFIX_PARENTHESES.value,
-                    ChartConditionConstants.Parentheses.SUFFIX_PARENTHESES.value
+     * 인스턴스가 조건문과 일치하는지 판별한다.
+     */
+    private fun getTagInstanceList(
+        chartCondition: String,
+        targetInstanceList: List<ChartTagInstanceDto>,
+        tags: LinkedHashSet<String>
+    ): List<ChartTagInstanceDto> {
+        val instanceList = mutableListOf<WfInstanceEntity>()
+        targetInstanceList.forEach { chartTagInstanceDto ->
+            chartTagInstanceDto.conditionInstances.forEach { conditionInstance ->
+                if (this.conditionDiscrimination(chartCondition, conditionInstance, tags)) {
+                    instanceList.add(conditionInstance)
+                }
+            }
+            chartTagInstanceDto.conditionInstances = instanceList
+        }
+
+        return targetInstanceList
+    }
+
+    /**
+     * 조건식이 타당한지 판별하고 조건식에 타당하면 리턴한다.
+     */
+    private fun conditionDiscrimination(
+        chartCondition: String,
+        instance: WfInstanceEntity,
+        tags: LinkedHashSet<String>
+    ): Boolean {
+        // 태그가 달린 컴포넌트의 최신 값을 가져온다.
+        val tagDataMap = this.getConditionTagValue(instance, tags)
+        return if (tagDataMap.isNotEmpty()) {
+            val chartCondition = this.replaceConditionTagValue(chartCondition, tagDataMap)
+            val parser: ExpressionParser = SpelExpressionParser()
+            try {
+                val discriminant: Expression = parser.parseExpression(chartCondition)
+                discriminant.value as Boolean
+            } catch (e: Exception) {
+                false
+            }
+        } else {
+            false
+        }
+    }
+
+
+    /**
+     * 사용자가 설정한 태그를 모두 포함하고 있는 인스턴스의 리스트만 가져온다.
+     */
+    private fun getInstanceListIncludeTags(
+        tagInstanceList: List<ChartTagInstanceDto>,
+        tags: LinkedHashSet<String>
+    ): List<ChartTagInstanceDto> {
+        tagInstanceList.forEach { chartTagInstanceDto ->
+            val instanceList = mutableListOf<WfInstanceEntity>()
+            chartTagInstanceDto.instances.forEach { wfInstanceEntity ->
+                // "대상 태그"를 포함하고 있는 인스턴스 중에서 tagSet에 담겨있는 "조건 태그"를 모두 포함하고 있는 인스턴스를 수집.
+                val targetTagSet = LinkedHashSet<String>()
+                val componentIds = LinkedHashSet<String>()
+                // 해당 인스턴스의 컴포넌트 아이디 수집
+                wfInstanceEntity.document.form.components.forEach { wfComponentEntity ->
+                    componentIds.add(wfComponentEntity.componentId)
+                }
+                // 위에서 수집한 컴포넌트 아이디를 사용하여 awf_tag 테이블의 tag 데이터를 가져온다.
+                val targetTags =
+                    tagRepository.findByTargetIds(AliceTagConstants.TagType.COMPONENT.code, componentIds)
+                targetTags.forEach { tag ->
+                    targetTagSet.add(tag.tagValue)
+                }
+
+                if (targetTagSet.containsAll(tags)) {
+                    instanceList.add(wfInstanceEntity)
+                }
+            }
+            chartTagInstanceDto.conditionInstances = instanceList
+        }
+
+        return tagInstanceList
+    }
+
+    /**
+     * 조건문(chartCondition)에서 태그 데이터를 추출한다.
+     */
+    private fun getTagsInCondition(chartCondition: String): LinkedHashSet<String> {
+        val chartConditionTags = LinkedHashSet<String>()
+        val returnSet = LinkedHashSet<String>()
+        var startIndex = 0
+
+        while (startIndex < chartCondition.length) {
+            if (chartCondition[startIndex].toString() == ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value) {
+                for (index in startIndex + 1..chartCondition.indices.last) {
+                    if (chartCondition[index].toString() == ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value) {
+                        var tag = chartCondition.substring(startIndex, index + 1)
+                        chartConditionTags.add(tag)
+                        startIndex = index
+                        break
+                    }
+                }
+            }
+            startIndex++
+        }
+
+        if (chartConditionTags.isNotEmpty()) {
+            chartConditionTags.forEach { chartConditionTag ->
+                returnSet.add(
+                    chartConditionTag.removeSurrounding(
+                        ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value,
+                        ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value
+                    )
                 )
             }
         }
 
-        return parsingCondition
+        return returnSet
     }
 
     /**
-     * 조건식 내부 공백 제거
-     *
-     * */
-    private fun removeSpace(condition: String): String {
-        var parsingCondition = ""
-        if (condition.isNotBlank()) {
-            var startIndex = 0
-            val condition = condition.trim()
-            while (startIndex < condition.length) {
-                if (condition[startIndex].toString() == ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value) {
-                    for (index in startIndex..condition.indices.last) {
-                        if (condition[index].toString() == ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value) {
-                            parsingCondition =
-                                parsingCondition.plus(condition.substring(startIndex, index + 1))
-                            startIndex = index + 1
-                            break
+     * 인스턴스의 조건 태그 값을 구한다.
+     */
+    private fun getConditionTagValue(
+        instance: WfInstanceEntity,
+        tags: LinkedHashSet<String>
+    ): LinkedHashMap<String, String> {
+        // 컴포넌트 타입의 태그에 대한 수집을 진행한다.
+        val componentTagList = chartManagerService.getTagValueList(
+            AliceTagConstants.TagType.COMPONENT.code,
+            tags.toList()
+        )
+
+        // 인스턴스의 마지막 토큰을 수집한다.
+        val lastToken = instance.tokens?.let {
+            it.last()
+        }
+        // 위에서 수집한 마지막 토큰을 가지고
+        // wf_token_data 테이블에 접근하여 해당 컴포넌트의 최신 값을 추출한다.
+        // 이때 LinkedHashMap에 데이터를 tagValue : value 형태로 담는다
+        // tagValue의 경우 중복이 발생할 수 있는데, 이 경우 가장 첫 번째로 입력되는 데이터만 사용한다. (기술적 한계)
+        var tagDataMap = LinkedHashMap<String, String>()
+        if (lastToken != null) {
+            val lastTokenData = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(lastToken.tokenId)
+            lastTokenData.forEach { wfTokenDataEntity ->
+                componentTagList.forEach { componentTag ->
+                    if (wfTokenDataEntity.component.componentId == componentTag.targetId) {
+                        if (tagDataMap[componentTag.tagValue] == null) {
+                            var tagKey =
+                                ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value + componentTag.tagValue +
+                                        ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value
+                            tagDataMap[tagKey] = this.replaceTagDataFormat(wfTokenDataEntity.value)
                         }
                     }
-                    continue
                 }
-                if (condition[startIndex].toString().isNotBlank()) {
-                    parsingCondition = parsingCondition.plus(condition[startIndex])
-                }
-                startIndex++
             }
         }
 
-        return parsingCondition
+        return tagDataMap
     }
 
     /**
-     * 조건식 소괄호 및 대괄호 검사
-     *
-     **/
-    private fun parenthesesInspection(condition: String): Boolean {
-        val prefixParentheses = ChartConditionConstants.Parentheses.PREFIX_PARENTHESES.value.single()
-        val suffixParentheses = ChartConditionConstants.Parentheses.SUFFIX_PARENTHESES.value.single()
-        val prefixSquareBrackets = ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value.single()
-        val suffixSquareBrackets = ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value.single()
-        val stack = Stack<Char>()
-        var testCh: Char
-        var openPair: Char
-
-        for (index in condition) {
-            testCh = index
-            when (testCh) {
-                prefixParentheses,
-                prefixSquareBrackets
-                -> stack.push(testCh)
-                suffixParentheses,
-                suffixSquareBrackets
-                -> if (stack.isEmpty()) {
-                    return false
-                } else {
-                    openPair = stack.pop()
-                    if ((testCh !== prefixParentheses) && (openPair === suffixParentheses) ||
-                        (testCh !== prefixSquareBrackets) && (openPair === suffixSquareBrackets)
-                    ) {
-                        return false
-                    }
-                }
+     * 조건문에서 태그 값을 컴포넌트의 값으로 치환한다.
+     */
+    private fun replaceConditionTagValue(
+        chartCondition: String,
+        tagDataMap: LinkedHashMap<String, String>
+    ): String {
+        var targetCondition = ""
+        tagDataMap.forEach { tagData ->
+            var value = ""
+            value = if (targetCondition.isBlank()) {
+                chartCondition
+            } else {
+                targetCondition
             }
+            targetCondition = value.replace(tagData.key, tagData.value)
         }
 
-        return stack.isEmpty()
+        return targetCondition
+    }
+
+
+    /**
+     * 해당 값의 숫자, 문자, 날짜에 따라 각 형식에 맞게 리턴하도록 한다.
+     */
+    private fun replaceTagDataFormat(value: String): String {
+        // 숫자
+        return if (value.matches(("^[+-]?\\d*(\\.?\\d*)\$").toRegex())) {
+            value
+        } else {
+            try {
+                // 날짜
+                val existDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                val modifiedDateFormat = SimpleDateFormat("yyyyMMddHHmmss")
+                val datetime = modifiedDateFormat.format(existDateFormat.parse(value))
+                modifiedDateFormat.isLenient = false
+                modifiedDateFormat.parse(datetime)
+                datetime
+            } catch (e: Exception) {
+                // 문자
+                "\'" + value + "\'"
+            }
+        }
     }
 }
