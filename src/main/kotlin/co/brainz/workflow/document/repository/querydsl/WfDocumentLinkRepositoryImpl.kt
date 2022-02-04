@@ -9,12 +9,9 @@ import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.workflow.document.constants.WfDocumentConstants
-import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.document.entity.QWfDocumentLinkEntity
-import co.brainz.workflow.document.entity.WfDocumentEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
-import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.core.types.dsl.Expressions.constant
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository

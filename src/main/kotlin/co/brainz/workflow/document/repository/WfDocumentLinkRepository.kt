@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository
 interface WfDocumentLinkRepository : JpaRepository<WfDocumentLinkEntity, String>, AliceRepositoryCustom {
     fun findByDocumentLink(documentSearchCondition: DocumentSearchCondition): QueryResults<DocumentDto>
     fun findByDocumentLinkId(documentLinkId: String): WfDocumentLinkEntity
-    fun deleteByDocumentLinkId(documentLinkId: String) : Int
+    fun deleteByDocumentLinkId(documentLinkId: String): Int
 }

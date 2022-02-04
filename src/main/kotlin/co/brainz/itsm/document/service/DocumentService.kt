@@ -72,7 +72,7 @@ class DocumentService(
 
         totalResult.sortByDescending { it.createDt }
 
-        var fromIndex = 0 //문서함(documentSearch.html)에서 호출할 경우
+        var fromIndex = 0 // 문서함(documentSearch.html)에서 호출할 경우
         var toIndex = totalResult.size
 
         if (documentSearchCondition.pageNum > 0) { // 업무흐름(workflowSearch.html) 에서 호출할 경우

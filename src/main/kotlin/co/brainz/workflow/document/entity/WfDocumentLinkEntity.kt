@@ -5,12 +5,14 @@
 
 package co.brainz.workflow.document.entity
 
-
-import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
-
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "wf_document_link")
