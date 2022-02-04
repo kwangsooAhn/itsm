@@ -486,8 +486,4 @@ abstract class ChartManager(
     private fun getValueOfInstance(condition: String?, tagInstance: ChartTagInstanceDto): List<WfInstanceEntity> {
         return if (condition?.isEmpty() == true) tagInstance.instances else tagInstance.conditionInstances
     }
-
-    /**
-     * [condition] 사용여부에 따라
-     */
 }

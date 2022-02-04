@@ -16,6 +16,5 @@ data class ChartDto(
     var chartDesc: String? = null,
     var tags: List<AliceTagDto> = emptyList(),
     var chartConfig: ChartConfig,
-    var chartData: MutableList<ChartData> = mutableListOf(),
-    var chartCondition: String = ""
+    var chartData: MutableList<ChartData> = mutableListOf()
 ) : Serializable
