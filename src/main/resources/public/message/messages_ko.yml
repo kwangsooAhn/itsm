@@ -569,6 +569,7 @@ document:
     status: "신청서 상태"
     tempDocument: "임시 신청서"
     type: "업무흐름 구분"
+    useYn: "신청서 사용여부"
     write: "업무흐름 편집"
   msg:
     adminSearchDescription: "프로세스와 문서양식을 조합하여 업무흐름을 조회 및 관리합니다."
