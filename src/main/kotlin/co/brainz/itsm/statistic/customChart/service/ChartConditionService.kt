@@ -53,8 +53,8 @@ class ChartConditionService(
         targetInstanceList: List<ChartTagInstanceDto>,
         tags: LinkedHashSet<String>
     ): List<ChartTagInstanceDto> {
-        val instanceList = mutableListOf<WfInstanceEntity>()
         targetInstanceList.forEach { chartTagInstanceDto ->
+            val instanceList = mutableListOf<WfInstanceEntity>()
             chartTagInstanceDto.conditionInstances.forEach { conditionInstance ->
                 if (this.conditionDiscrimination(chartCondition, conditionInstance, tags)) {
                     instanceList.add(conditionInstance)
