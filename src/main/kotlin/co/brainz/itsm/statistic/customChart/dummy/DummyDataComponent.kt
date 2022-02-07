@@ -34,7 +34,7 @@ class DummyDataComponent(
         val findDocument = wfDocumentRepository.findDocumentEntityByDocumentId("4028b21f7c90d996017c91ae7987004f")
         val user = aliceUserRepository.findAliceUserEntityByUserKey("0509e09412534a6e98f04ca79abb6424")
         val chartList: MutableList<ChartTagInstanceDto> = mutableListOf()
-        val file = File("src/main/kotlin/co/brainz/itsm/statistic/dummy/DummyInstances.json")
+        val file = File("src/main/kotlin/co/brainz/itsm/statistic/customChart/dummy/DummyInstances.json")
         val params = mapper.readValue(file, Map::class.java)
         val paramList = params["ChartTagInstanceDto"]
         val list: List<Map<String, Any>> = paramList as List<Map<String, Any>>
