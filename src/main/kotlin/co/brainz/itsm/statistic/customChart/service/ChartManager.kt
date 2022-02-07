@@ -47,9 +47,8 @@ abstract class ChartManager(
         val category = this.getCategory(chartDto.chartConfig)
 
         // 2. tag 별로 range(from, to) 범위와 문서 상태에 따른 instance 목록 가져오기
+        // 2-1) 테스트 컴포넌트 : chartManagerService.getDummyDataList(chartDto.tags)
         var tagInstances = this.getTagInstances(chartDto)
-        // 2. 번 대신 dummy데이터로 차트 확인
-//        var tagInstances = chartManagerService.getDummyDataList(chartDto.tags)
 
         // TODO: [tagInstances] 목록에 조건식 적용
         tagInstances = this.setChartConditionByTagInstances(chartDto, tagInstances)

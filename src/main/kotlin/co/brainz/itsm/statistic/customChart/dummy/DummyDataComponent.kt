@@ -3,7 +3,7 @@
  * https://www.brainz.co.kr
  *
  */
-package co.brainz.itsm.statistic.dummy
+package co.brainz.itsm.statistic.customChart.dummy
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.tag.dto.AliceTagDto
@@ -19,11 +19,11 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
 
-@Service
-class DummyDataService(
+@Component
+class DummyDataComponent(
     private val wfDocumentRepository: WfDocumentRepository,
     private val aliceUserRepository: AliceUserRepository
 ) {
