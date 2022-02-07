@@ -6,11 +6,12 @@ import co.brainz.itsm.statistic.customChart.constants.ChartConditionConstants
 import co.brainz.itsm.statistic.customChart.dto.ChartTagInstanceDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.token.repository.WfTokenDataRepository
-import java.text.SimpleDateFormat
 import org.slf4j.LoggerFactory
+import org.springframework.expression.EvaluationContext
 import org.springframework.expression.Expression
 import org.springframework.expression.ExpressionParser
 import org.springframework.expression.spel.standard.SpelExpressionParser
+import org.springframework.expression.spel.support.StandardEvaluationContext
 import org.springframework.stereotype.Service
 
 
@@ -77,11 +78,12 @@ class ChartConditionService(
         // 태그가 달린 컴포넌트의 최신 값을 가져온다.
         val tagDataMap = this.getConditionTagValue(instance, tags)
         return if (tagDataMap.isNotEmpty()) {
+            val context: EvaluationContext = StandardEvaluationContext(ZonedDateTimeUtil())
             val chartCondition = this.replaceConditionTagValue(chartCondition, tagDataMap)
             val parser: ExpressionParser = SpelExpressionParser()
             try {
                 val discriminant: Expression = parser.parseExpression(chartCondition)
-                discriminant.value as Boolean
+                discriminant.getValue(context) as Boolean
             } catch (e: Exception) {
                 false
             }
@@ -232,18 +234,8 @@ class ChartConditionService(
         return if (value.matches(("^[+-]?\\d*(\\.?\\d*)\$").toRegex())) {
             value
         } else {
-            try {
-                // 날짜
-                val existDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                val modifiedDateFormat = SimpleDateFormat("yyyyMMddHHmmss")
-                val datetime = modifiedDateFormat.format(existDateFormat.parse(value))
-                modifiedDateFormat.isLenient = false
-                modifiedDateFormat.parse(datetime)
-                datetime
-            } catch (e: Exception) {
-                // 문자
-                "\'" + value + "\'"
-            }
+            // 문자열 혹은 날짜
+            "\'" + value + "\'"
         }
     }
 }
