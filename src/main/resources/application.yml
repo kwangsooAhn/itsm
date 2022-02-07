@@ -164,12 +164,6 @@ spring:
 schedule.plugins.dir: D:\Joohyun\Project\itsm\plugins
 ---
 spring:
-  profiles: jaeyong
-  datasource:
-    url: jdbc:log4jdbc:postgresql://10.0.10.175:32848/itsm
-schedule.plugins.dir: D:\Joohyun\Project\itsm\plugins
----
-spring:
   profiles: mo
   datasource:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32846/itsm
