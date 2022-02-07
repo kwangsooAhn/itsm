@@ -75,6 +75,7 @@ object WorkflowConstants {
      * Operator
      */
     enum class Operator(val code: String) {
+        EQUAL("="),
         LITTLE("<"),
         LITTLE_EQUAL("<="),
         GREATER(">"),

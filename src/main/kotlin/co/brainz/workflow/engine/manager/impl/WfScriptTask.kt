@@ -310,143 +310,180 @@ class WfScriptTask(
     }
 
     /**
-     * 1. [targetMappingId] 값으로 조건이 되는 컴포넌트를 찾고
-     * 2. 값을 비교하여 찾은 파일을
-     * 3. [sourceMappingId] 값으로 매핑된 컴포넌트에 추가한다.
+     * 1. [element.elementScriptDataEntities] 에서 scriptValue 컬럼 값을 저장 (복수 가능)
+     * 2. scriptValue 값으로 scriptActionList(설정 정보), targetMappingId, sourceMappingId 추출
+     * 3. 설정 정보에 따라 처리하여 첨부파일 목록 생성
+     *   3-1) sourceMappingId (O) + 조건식 (O) -> sourceMappingId 컴포넌트 value 값을 조건식에 비교
+     *   3-2) sourceMappingId (O) + 조건식 (X) -> 자동 추가
+     *   3-3) sourceMappingId (X) + 조건식 (X) -> 자동 추가
+     * 4. 첨부파일 목록이 존재할 경우 데이터 추가
      */
     private fun setDocumentAttachFile(createTokenDto: WfTokenDto, element: WfElementEntity) {
-        var targetMappingId = ""
-        var sourceMappingId = ""
-        val scriptActionList: MutableList<Map<String, Any>> = mutableListOf()
-        for (scriptData in element.elementScriptDataEntities) {
-            if (!scriptData.scriptValue.isNullOrEmpty()) {
-                val scriptMap: Map<String, Any> =
-                    mapper.readValue(scriptData.scriptValue, object : TypeReference<Map<String, Any>>() {})
-                targetMappingId = scriptMap[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value].toString()
-                sourceMappingId = scriptMap[WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value].toString()
-                if (scriptMap[WfElementConstants.AttributeId.ACTION.value] != null) {
-                    val actionList: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
-                        scriptMap[WfElementConstants.AttributeId.ACTION.value],
-                        TypeFactory.defaultInstance()
-                            .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
-                    )
-                    for (action in actionList) {
-                        val map = HashMap<String, Any>()
-                        val condition = action[WfElementConstants.AttributeId.CONDITION.value].toString()
-                        val conditionArray =
-                            condition.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
-                        if (conditionArray.size == 2) {
-                            map["operator"] = conditionArray[0]
-                            map["value"] = conditionArray[1]
+        val scriptList = this.getScriptList(element)
+        scriptList.forEach { script ->
+            val targetMappingId = script[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value].toString()
+            val sourceMappingId = script[WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value].toString()
+            val scriptActionList = this.getScriptActionList(script)
+
+            val componentIds: MutableList<String> = mutableListOf()
+            var componentValue = ""
+            if (sourceMappingId.isNotEmpty()) {
+                createTokenDto.data?.forEach { componentIds.add(it.componentId) }
+                val sourceComponentId =
+                    wfTokenManagerService.getComponentIdInAndMappingId(componentIds, sourceMappingId).componentId
+                componentValue = wfTokenManagerService.getComponentValue(
+                    createTokenDto.tokenId,
+                    sourceComponentId,
+                    WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
+                )
+            }
+
+            val attachFileNames: MutableList<String> = mutableListOf()
+            scriptActionList.forEach { action ->
+                attachFileNames.add(this.getAttachFileName(action, componentValue))
+            }
+
+            if (attachFileNames.isNotEmpty()) {
+                val fileSeqList: MutableList<Long> = mutableListOf()
+                for (attachFileName in attachFileNames) {
+                    val processFilePath = wfTokenManagerService.getProcessFilePath(attachFileName)
+                    val fileName = wfTokenManagerService.getRandomFilename()
+                    val uploadFilePath = wfTokenManagerService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
+                    try {
+                        Files.copy(processFilePath, uploadFilePath, StandardCopyOption.REPLACE_EXISTING)
+                        if (Files.exists(uploadFilePath)) {
+                            val aliceFileLocEntity = AliceFileLocEntity(
+                                fileSeq = 0,
+                                uploadedLocation = uploadFilePath.parent.toString(),
+                                sort = 0,
+                                randomName = fileName,
+                                originName = attachFileName,
+                                fileSize = uploadFilePath.toFile().length(),
+                                uploaded = true,
+                                fileOwner = super.assigneeId
+                            )
+                            fileSeqList.add(wfTokenManagerService.uploadProcessFile(aliceFileLocEntity).fileSeq)
                         }
-                        map["file"] = action[WfElementConstants.AttributeId.FILE.value].toString()
-                        scriptActionList.add(map)
+                    } catch (e: Exception) {
+                        logger.error(e.message)
                     }
+                }
+
+                if (fileSeqList.isNotEmpty()) {
+                    var fileSeqValue = ""
+                    fileSeqList.forEachIndexed { index, fileSeq ->
+                        if (index != 0) {
+                            fileSeqValue += ","
+                        }
+                        fileSeqValue += fileSeq
+                    }
+
+                    // 토큰 데이터에 파일 seq 값을 저장
+                    val targetComponentId =
+                        wfTokenManagerService.getComponentIdInAndMappingId(componentIds, targetMappingId).componentId
+                    run loop@{
+                        createTokenDto.data?.forEach { data ->
+                            if (data.componentId == targetComponentId) {
+                                data.value = fileSeqValue
+                                return@loop
+                            }
+                        }
+                    }
+                    super.tokenEntity.tokenDataEntities =
+                        wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
                 }
             }
         }
+    }
 
-        val componentIds: MutableList<String> = mutableListOf()
-        createTokenDto.data?.forEach { componentIds.add(it.componentId) }
-        val sourceComponentId =
-            wfTokenManagerService.getComponentIdInAndMappingId(componentIds, sourceMappingId).componentId
-        val componentValue = wfTokenManagerService.getComponentValue(
-            createTokenDto.tokenId,
-            sourceComponentId,
-            WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
-        )
-        val attachFileNames: MutableList<String> = mutableListOf()
-        scriptActionList.forEach { action ->
+    /**
+     * [script] 데이터에서 action 정보를 추출 (조건식이 없을 경우 file 만 존재)
+     */
+    private fun getScriptActionList(script: Map<String, Any>): List<Map<String, Any>> {
+        val scriptActionList: MutableList<Map<String, Any>> = mutableListOf()
+        if (script[WfElementConstants.AttributeId.ACTION.value] != null) {
+            val actionList: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
+                script[WfElementConstants.AttributeId.ACTION.value],
+                TypeFactory.defaultInstance()
+                    .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
+            )
+            for (action in actionList) {
+                val map = HashMap<String, Any>()
+                val condition = action[WfElementConstants.AttributeId.CONDITION.value].toString()
+                val conditionArray =
+                    condition.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
+                if (conditionArray.size == 2) {
+                    map["operator"] = conditionArray[0]
+                    map["value"] = conditionArray[1]
+                }
+                map["file"] = action[WfElementConstants.AttributeId.FILE.value].toString()
+                scriptActionList.add(map)
+            }
+        }
+        return scriptActionList
+    }
+
+    /**
+     * [scriptValue] 값을 찾아 Map 형태로 반환 (Element 의 복수를 가능하기 위해 List 반환)
+     */
+    private fun getScriptList(element: WfElementEntity): List<Map<String, Any>> {
+        val scriptList = mutableListOf<Map<String, Any>>()
+        element.elementScriptDataEntities.forEach { elementData ->
+            if (!elementData.scriptValue.isNullOrEmpty()) {
+                scriptList.add(
+                    mapper.readValue(elementData.scriptValue, object : TypeReference<Map<String, Any>>() {})
+                )
+            }
+        }
+        return scriptList
+    }
+
+    /**
+     * 첨부파일 찾기 (componentValue 값이 없을 경우 자동 추가)
+     */
+    private fun getAttachFileName(action: Map<String, Any>, componentValue: String): String {
+        var attachFileName = ""
+        run loop@{
             if (action["operator"] != null) {
                 when (action["operator"]) {
-                    "=" -> {
+                    WorkflowConstants.Operator.EQUAL.code -> {
                         if (componentValue == action["value"]) {
-                            attachFileNames.add(action["file"].toString())
-                            return@forEach
+                            attachFileName = action["file"].toString()
+                            return@loop
                         }
                     }
                     WorkflowConstants.Operator.LITTLE_EQUAL.code -> {
                         if (componentValue.toInt() <= (action["value"] ?: 0) as Int) {
-                            attachFileNames.add(action["file"].toString())
-                            return@forEach
+                            attachFileName = action["file"].toString()
+                            return@loop
                         }
                     }
                     WorkflowConstants.Operator.LITTLE.code -> {
                         if (componentValue.toInt() < (action["value"] ?: 0) as Int) {
-                            attachFileNames.add(action["file"].toString())
-                            return@forEach
+                            attachFileName = action["file"].toString()
+                            return@loop
                         }
                     }
                     WorkflowConstants.Operator.GREATER_EQUAL.code -> {
                         if (componentValue.toInt() >= (action["value"] ?: 0) as Int) {
-                            attachFileNames.add(action["file"].toString())
-                            return@forEach
+                            attachFileName = action["file"].toString()
+                            return@loop
                         }
                     }
                     WorkflowConstants.Operator.GREATER.code -> {
                         if (componentValue.toInt() > (action["value"] ?: 0) as Int) {
-                            attachFileNames.add(action["file"].toString())
-                            return@forEach
-                        }
-                    }
-                }
-            } else {
-                // 조건이 없는 경우
-                if (action["file"] != null) {
-                    attachFileNames.add(action["file"].toString())
-                }
-            }
-        }
-
-        if (attachFileNames.isNotEmpty()) {
-            val fileSeqList: MutableList<Long> = mutableListOf()
-            for (attachFileName in attachFileNames) {
-                val processFilePath = wfTokenManagerService.getProcessFilePath(attachFileName)
-                val fileName = wfTokenManagerService.getRandomFilename()
-                val uploadFilePath = wfTokenManagerService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
-                try {
-                    Files.copy(processFilePath, uploadFilePath, StandardCopyOption.REPLACE_EXISTING)
-                    if (Files.exists(uploadFilePath)) {
-                        val aliceFileLocEntity = AliceFileLocEntity(
-                            fileSeq = 0,
-                            uploadedLocation = uploadFilePath.parent.toString(),
-                            sort = 0,
-                            randomName = fileName,
-                            originName = attachFileName,
-                            fileSize = uploadFilePath.toFile().length(),
-                            uploaded = true,
-                            fileOwner = super.assigneeId
-                        )
-                        fileSeqList.add(wfTokenManagerService.uploadProcessFile(aliceFileLocEntity).fileSeq)
-                    }
-                } catch (e: Exception) {
-                    logger.error(e.message)
-                }
-            }
-
-            if (fileSeqList.isNotEmpty()) {
-                var fileSeqValue = ""
-                fileSeqList.forEachIndexed { index, fileSeq ->
-                    if (index != 0) {
-                        fileSeqValue += ","
-                    }
-                    fileSeqValue += fileSeq
-                }
-
-                // 토큰 데이터에 파일 seq 값을 저장
-                val targetComponentId =
-                    wfTokenManagerService.getComponentIdInAndMappingId(componentIds, targetMappingId).componentId
-                run loop@{
-                    createTokenDto.data?.forEach { data ->
-                        if (data.componentId == targetComponentId) {
-                            data.value = fileSeqValue
+                            attachFileName = action["file"].toString()
                             return@loop
                         }
                     }
                 }
-                super.tokenEntity.tokenDataEntities =
-                    wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
+            } else {
+                // 조건 없이 파일이 존재하는 경우 자동 추가
+                if (action["file"] != null) {
+                    attachFileName = action["file"].toString()
+                }
             }
         }
+        return attachFileName
     }
 }
