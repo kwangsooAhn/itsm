@@ -682,54 +682,6 @@ input, button, select, optgroup, textarea {
   background-color: #FF850A !important;
 }
 
-.text-normal {
-  color: #54cd3e !important;
-}
-
-.bg-normal {
-  background-color: #54cd3e !important;
-}
-
-.text-info {
-  color: #06deff !important;
-}
-
-.bg-info {
-  background-color: #06deff !important;
-}
-
-.text-caution {
-  color: #ffc439 !important;
-}
-
-.bg-caution {
-  background-color: #ffc439 !important;
-}
-
-.text-danger {
-  color: #ff9130 !important;
-}
-
-.bg-danger {
-  background-color: #ff9130 !important;
-}
-
-.text-urgent {
-  color: #c54ce8 !important;
-}
-
-.bg-urgent {
-  background-color: #c54ce8 !important;
-}
-
-.text-critical {
-  color: #f43b51 !important;
-}
-
-.bg-critical {
-  background-color: #f43b51 !important;
-}
-
 .text-blue900 {
   color: #092C73 !important;
 }
