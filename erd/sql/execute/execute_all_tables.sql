@@ -50,6 +50,7 @@ insert into awf_auth values ('report.manage', '보고서 관리', '사용자 정
 insert into awf_auth values ('report.view', '보고서 조회', '보고서 내용을 검색하여 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('system.manage', '시스템 관리', '"사용자, 역할, 스케줄러, 게시판, 코드 관리 권한을 가집니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('portal.manage', '포털 관리', 'FAQ 등록, 게시판 생성, 공지사항 등록 등 포털과 관련된 설정이 가능합니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('document.view', '문서함 검색', '문서함 조회시 모든 문서를 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 아바타
@@ -827,13 +828,16 @@ INSERT INTO awf_role_auth_map VALUES ('system.admin', 'report.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'report.view');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'system.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'portal.manage');
+INSERT INTO awf_role_auth_map VALUES ('system.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'workflow.expire');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('service.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('service.manager', 'general');
 INSERT INTO awf_role_auth_map VALUES ('service.manager', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('service.manager', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('service.manager', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('general.user', 'general');
 INSERT INTO awf_role_auth_map VALUES ('general.user', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'general');
@@ -841,12 +845,15 @@ INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'workflow.manage');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'report.manage');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'cmdb.manage');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'portal.manage');
+INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'document.view');
 
 /**
  * 문서번호패턴맵핑
@@ -1381,7 +1388,6 @@ insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음�
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
 insert into awf_url values ('/rest/tokens/excel', 'get', '문서함 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/users/absence', 'post', '사용자 현재 문서 이관', 'FALSE');
-insert into awf_url values ('/rest/schedulers/{id}/executeTime', 'get', '스케줄러 최초 실행 시각 조회', 'FALSE');
 
 /**
  * URL별권한매핑
@@ -5455,6 +5461,12 @@ INSERT INTO wf_element_data VALUES ('6c42da85993f4ae9b551ef67b15c5d49','end-id',
 INSERT INTO wf_element_data VALUES ('6c42da85993f4ae9b551ef67b15c5d49','end-name','승인',7,false);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','assignee','general.user',1,true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('a727237e2c6f9dbdbbff693ed151c85d','action-name','신청서 등록',0,false);
@@ -5534,6 +5546,12 @@ INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','end-id',
 INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','end-name','종료',7,false);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','assignee','general.user',1,true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('a271b9f3a790280811cd6a6ff94c02e1','action-name','',0,false);
@@ -5782,6 +5800,12 @@ INSERT INTO wf_element_data VALUES ('af8674894f8bc525c6f41a482bcf4300','end-id',
 INSERT INTO wf_element_data VALUES ('af8674894f8bc525c6f41a482bcf4300','end-name','만족도 평가',7,false);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','assignee','general.user',1,true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('d0d3a5405e974ec8ad00a72a9eaf6f25','action-name','APP 변경 이관',0,false);
@@ -5856,6 +5880,12 @@ INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'reject-
 INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'general.user', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('a84bf98428f6a55b44779396edbd99bc', 'action-name', '접수', 0, false);

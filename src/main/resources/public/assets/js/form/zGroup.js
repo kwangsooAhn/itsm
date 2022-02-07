@@ -72,7 +72,7 @@ export default class ZGroup {
         // 라벨
         groupTooltip.UIGroup.UILabel.setUIFor('chk-' + accordionId)
             .addUIClass((this.labelVisibility ? 'on' : 'off')) // 라벨 사용여부: 라벨 숨김 또는 보임
-            .setUICSSText(`text-align: ${this.labelAlign}; font-family: ${this.getFontFamily(this.labelFontSize)};`);
+            .setUICSSText(`text-align: ${this.labelAlign};`);
         // 라벨 텍스트
         const groupLabelCssText = `color:${this.labelFontColor};` +
             `font-size:${this.labelFontSize + UNIT.PX};` +
@@ -246,7 +246,7 @@ export default class ZGroup {
         }
         this._label.fontSize = size;
         this.UIElement.UIGroup.UILabel.UILabelText
-            .setUIFontSize(size + UNIT.PX).setUIFontFamily(this.getFontFamily(size));
+            .setUIFontSize(size + UNIT.PX);
     }
 
     get labelFontSize() {
@@ -307,13 +307,6 @@ export default class ZGroup {
 
     get propertyName() {
         return this._propertyName;
-    }
-
-    /**
-     * 라벨 폰트 패밀리
-     */
-    getFontFamily(fontSize) {
-        return (Number(fontSize) < 16) ? '맑은고딕' : 'Noto Sans KR';
     }
 
     // 세부 속성

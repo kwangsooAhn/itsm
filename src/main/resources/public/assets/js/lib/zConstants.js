@@ -77,8 +77,8 @@ export const FORM = {
     CUSTOM_CODE: [],
     // 옵션 속성에 추가되는 기본 값
     DEFAULT_OPTION_ROW: { name: '', value: '', checked: false },
-    // 6개 column 제한 (dynamic table)
-    MAX_COLUMN_IN_TABLE: 6
+    // 15개 column 제한 (dynamic table)
+    MAX_COLUMN_IN_TABLE: 15
 };
 // 프로세스
 export const PROCESS = {};

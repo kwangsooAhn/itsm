@@ -248,7 +248,6 @@
     text-decoration: none;
     user-select: none;
     white-space: nowrap;
-    vertical-align: middle;
     overflow:visible;
     cursor: pointer;
     @include border($button-border-width, solid, map-get($button-group, 'default', 'border'), all);
@@ -262,6 +261,7 @@
     .z-icon {
       display: inline-block;
       background: map-get($button-group, 'default', 'font');
+      vertical-align: middle;
       pointer-events: none;
     }
 

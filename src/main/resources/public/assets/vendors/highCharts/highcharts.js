@@ -9605,4 +9605,3 @@
     a["masters/highcharts.src.js"]._modules = a;
     return a["masters/highcharts.src.js"]
 });
-//# sourceMappingURL=highcharts.js.map

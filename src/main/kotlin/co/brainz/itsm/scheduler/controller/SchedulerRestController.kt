@@ -60,11 +60,4 @@ class SchedulerRestController(
         return schedulerService.immediateExecuteScheduler(schedulerDto)
     }
 
-    /**
-     * 스케줄러 최초 실행 시각 조회
-     */
-    @GetMapping("/{taskId}/executeTime")
-    fun getSchedulerExecuteHistory(@PathVariable taskId: String): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(schedulerService.getSchedulerExecuteHistory(taskId))
-    }
 }

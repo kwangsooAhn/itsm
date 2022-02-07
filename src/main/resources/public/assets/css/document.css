@@ -530,38 +530,56 @@ input, button, select, optgroup, textarea {
  * @version 1.0
  */
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Thin.woff2") format("woff2");
   font-style: normal;
   font-weight: 100;
 }
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-ExtraLight.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Light.woff2") format("woff2");
   font-style: normal;
   font-weight: 300;
 }
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Regular.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
 }
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Medium.woff2") format("woff2");
   font-style: normal;
   font-weight: 500;
 }
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-SemiBold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Bold.woff2") format("woff2");
   font-style: normal;
   font-weight: 700;
 }
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-ExtraBold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 800;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Black.woff2") format("woff2");
   font-style: normal;
   font-weight: 900;
 }
@@ -639,6 +657,982 @@ input, button, select, optgroup, textarea {
 
 .pointer {
   cursor: pointer;
+}
+
+/*
+ *  _colors.scss
+
+ * 파일 경로 : template/_colors.scss
+ * @description 폰트 색상, 배경 색상 클래스 모음
+ * @author wdj
+ * @version 1.0
+ */
+.text-brainz {
+  color: #0066FF !important;
+}
+
+.bg-brainz {
+  background-color: #0066FF !important;
+}
+
+.text-zenius {
+  color: #FF850A !important;
+}
+
+.bg-zenius {
+  background-color: #FF850A !important;
+}
+
+.text-normal {
+  color: #54cd3e !important;
+}
+
+.bg-normal {
+  background-color: #54cd3e !important;
+}
+
+.text-info {
+  color: #06deff !important;
+}
+
+.bg-info {
+  background-color: #06deff !important;
+}
+
+.text-caution {
+  color: #ffc439 !important;
+}
+
+.bg-caution {
+  background-color: #ffc439 !important;
+}
+
+.text-danger {
+  color: #ff9130 !important;
+}
+
+.bg-danger {
+  background-color: #ff9130 !important;
+}
+
+.text-urgent {
+  color: #c54ce8 !important;
+}
+
+.bg-urgent {
+  background-color: #c54ce8 !important;
+}
+
+.text-critical {
+  color: #f43b51 !important;
+}
+
+.bg-critical {
+  background-color: #f43b51 !important;
+}
+
+.text-blue900 {
+  color: #092C73 !important;
+}
+
+.bg-blue900 {
+  background-color: #092C73 !important;
+}
+
+.text-blue800 {
+  color: #103F8B !important;
+}
+
+.bg-blue800 {
+  background-color: #103F8B !important;
+}
+
+.text-blue700 {
+  color: #1959AC !important;
+}
+
+.bg-blue700 {
+  background-color: #1959AC !important;
+}
+
+.text-blue600 {
+  color: #2578CE !important;
+}
+
+.bg-blue600 {
+  background-color: #2578CE !important;
+}
+
+.text-blue500 {
+  color: #339AF0 !important;
+}
+
+.bg-blue500 {
+  background-color: #339AF0 !important;
+}
+
+.text-blue400 {
+  color: #64BBF6 !important;
+}
+
+.bg-blue400 {
+  background-color: #64BBF6 !important;
+}
+
+.text-blue300 {
+  color: #84D1FA !important;
+}
+
+.bg-blue300 {
+  background-color: #84D1FA !important;
+}
+
+.text-blue200 {
+  color: #ADE6FD !important;
+}
+
+.bg-blue200 {
+  background-color: #ADE6FD !important;
+}
+
+.text-blue100 {
+  color: #E3F5FC !important;
+}
+
+.bg-blue100 {
+  background-color: #E3F5FC !important;
+}
+
+.text-blue50 {
+  color: #F1F9FC !important;
+}
+
+.bg-blue50 {
+  background-color: #F1F9FC !important;
+}
+
+.text-green900 {
+  color: #235A07 !important;
+}
+
+.bg-green900 {
+  background-color: #235A07 !important;
+}
+
+.text-green800 {
+  color: #316D0C !important;
+}
+
+.bg-green800 {
+  background-color: #316D0C !important;
+}
+
+.text-green700 {
+  color: #468813 !important;
+}
+
+.bg-green700 {
+  background-color: #468813 !important;
+}
+
+.text-green600 {
+  color: #5CA21B !important;
+}
+
+.bg-green600 {
+  background-color: #5CA21B !important;
+}
+
+.text-green500 {
+  color: #76BD26 !important;
+}
+
+.bg-green500 {
+  background-color: #76BD26 !important;
+}
+
+.text-green400 {
+  color: #A0D756 !important;
+}
+
+.bg-green400 {
+  background-color: #A0D756 !important;
+}
+
+.text-green300 {
+  color: #C0EB7A !important;
+}
+
+.bg-green300 {
+  background-color: #C0EB7A !important;
+}
+
+.text-green200 {
+  color: #DBF8A9 !important;
+}
+
+.bg-green200 {
+  background-color: #DBF8A9 !important;
+}
+
+.text-green100 {
+  color: #F6FCE0 !important;
+}
+
+.bg-green100 {
+  background-color: #F6FCE0 !important;
+}
+
+.text-green50 {
+  color: #F8FDF1 !important;
+}
+
+.bg-green50 {
+  background-color: #F8FDF1 !important;
+}
+
+.text-yellow900 {
+  color: #776308 !important;
+}
+
+.bg-yellow900 {
+  background-color: #776308 !important;
+}
+
+.text-yellow800 {
+  color: #907A0E !important;
+}
+
+.bg-yellow800 {
+  background-color: #907A0E !important;
+}
+
+.text-yellow700 {
+  color: #B39A16 !important;
+}
+
+.bg-yellow700 {
+  background-color: #B39A16 !important;
+}
+
+.text-yellow600 {
+  color: #D7BC20 !important;
+}
+
+.bg-yellow600 {
+  background-color: #D7BC20 !important;
+}
+
+.text-yellow500 {
+  color: #FADF2D !important;
+}
+
+.bg-yellow500 {
+  background-color: #FADF2D !important;
+}
+
+.text-yellow400 {
+  color: #FBE961 !important;
+}
+
+.bg-yellow400 {
+  background-color: #FBE961 !important;
+}
+
+.text-yellow300 {
+  color: #FDF080 !important;
+}
+
+.bg-yellow300 {
+  background-color: #FDF080 !important;
+}
+
+.text-yellow200 {
+  color: #FEF6AB !important;
+}
+
+.bg-yellow200 {
+  background-color: #FEF6AB !important;
+}
+
+.text-yellow100 {
+  color: #FEFBD4 !important;
+}
+
+.bg-yellow100 {
+  background-color: #FEFBD4 !important;
+}
+
+.text-yellow50 {
+  color: #FEFDEB !important;
+}
+
+.bg-yellow50 {
+  background-color: #FEFDEB !important;
+}
+
+.text-orange900 {
+  color: #7A2601 !important;
+}
+
+.bg-orange900 {
+  background-color: #7A2601 !important;
+}
+
+.text-orange800 {
+  color: #933603 !important;
+}
+
+.bg-orange800 {
+  background-color: #933603 !important;
+}
+
+.text-orange700 {
+  color: #B74C05 !important;
+}
+
+.bg-orange700 {
+  background-color: #B74C05 !important;
+}
+
+.text-orange600 {
+  color: #DB6707 !important;
+}
+
+.bg-orange600 {
+  background-color: #DB6707 !important;
+}
+
+.text-orange500 {
+  color: #FF850A !important;
+}
+
+.bg-orange500 {
+  background-color: #FF850A !important;
+}
+
+.text-orange400 {
+  color: #FFAC47 !important;
+}
+
+.bg-orange400 {
+  background-color: #FFAC47 !important;
+}
+
+.text-orange300 {
+  color: #FFC46C !important;
+}
+
+.bg-orange300 {
+  background-color: #FFC46C !important;
+}
+
+.text-orange200 {
+  color: #FFDC9C !important;
+}
+
+.bg-orange200 {
+  background-color: #FFDC9C !important;
+}
+
+.text-orange100 {
+  color: #FFEDD1 !important;
+}
+
+.bg-orange100 {
+  background-color: #FFEDD1 !important;
+}
+
+.text-orange50 {
+  color: #FFF8E9 !important;
+}
+
+.bg-orange50 {
+  background-color: #FFF8E9 !important;
+}
+
+.text-red900 {
+  color: #75072D !important;
+}
+
+.bg-red900 {
+  background-color: #75072D !important;
+}
+
+.text-red800 {
+  color: #8E0B2D !important;
+}
+
+.bg-red800 {
+  background-color: #8E0B2D !important;
+}
+
+.text-red700 {
+  color: #B0122D !important;
+}
+
+.bg-red700 {
+  background-color: #B0122D !important;
+}
+
+.text-red600 {
+  color: #D21B2A !important;
+}
+
+.bg-red600 {
+  background-color: #D21B2A !important;
+}
+
+.text-red500 {
+  color: #F52525 !important;
+}
+
+.bg-red500 {
+  background-color: #F52525 !important;
+}
+
+.text-red400 {
+  color: #F9685A !important;
+}
+
+.bg-red400 {
+  background-color: #F9685A !important;
+}
+
+.text-red300 {
+  color: #FC917B !important;
+}
+
+.bg-red300 {
+  background-color: #FC917B !important;
+}
+
+.text-red200 {
+  color: #FEBEA7 !important;
+}
+
+.bg-red200 {
+  background-color: #FEBEA7 !important;
+}
+
+.text-red100 {
+  color: #FEE2D3 !important;
+}
+
+.bg-red100 {
+  background-color: #FEE2D3 !important;
+}
+
+.text-red50 {
+  color: #FEF2EB !important;
+}
+
+.bg-red50 {
+  background-color: #FEF2EB !important;
+}
+
+.text-violet900 {
+  color: #301270 !important;
+}
+
+.bg-violet900 {
+  background-color: #301270 !important;
+}
+
+.text-violet800 {
+  color: #451D88 !important;
+}
+
+.bg-violet800 {
+  background-color: #451D88 !important;
+}
+
+.text-violet700 {
+  color: #632FA9 !important;
+}
+
+.bg-violet700 {
+  background-color: #632FA9 !important;
+}
+
+.text-violet600 {
+  color: #8444CA !important;
+}
+
+.bg-violet600 {
+  background-color: #8444CA !important;
+}
+
+.text-violet500 {
+  color: #A95EEB !important;
+}
+
+.bg-violet500 {
+  background-color: #A95EEB !important;
+}
+
+.text-violet400 {
+  color: #C585F3 !important;
+}
+
+.bg-violet400 {
+  background-color: #C585F3 !important;
+}
+
+.text-violet300 {
+  color: #D89FF9 !important;
+}
+
+.bg-violet300 {
+  background-color: #D89FF9 !important;
+}
+
+.text-violet200 {
+  color: #EAC0FD !important;
+}
+
+.bg-violet200 {
+  background-color: #EAC0FD !important;
+}
+
+.text-violet100 {
+  color: #F6DFFE !important;
+}
+
+.bg-violet100 {
+  background-color: #F6DFFE !important;
+}
+
+.text-violet50 {
+  color: #FBF0FE !important;
+}
+
+.bg-violet50 {
+  background-color: #FBF0FE !important;
+}
+
+.text-gray900 {
+  color: #171D21 !important;
+}
+
+.bg-gray900 {
+  background-color: #171D21 !important;
+}
+
+.text-gray800 {
+  color: #222529 !important;
+}
+
+.bg-gray800 {
+  background-color: #222529 !important;
+}
+
+.text-gray700 {
+  color: #505559 !important;
+}
+
+.bg-gray700 {
+  background-color: #505559 !important;
+}
+
+.text-gray600 {
+  color: #63686C !important;
+}
+
+.bg-gray600 {
+  background-color: #63686C !important;
+}
+
+.text-gray500 {
+  color: #8B9094 !important;
+}
+
+.bg-gray500 {
+  background-color: #8B9094 !important;
+}
+
+.text-gray400 {
+  color: #ABB0B5 !important;
+}
+
+.bg-gray400 {
+  background-color: #ABB0B5 !important;
+}
+
+.text-gray300 {
+  color: #CFD5D9 !important;
+}
+
+.bg-gray300 {
+  background-color: #CFD5D9 !important;
+}
+
+.text-gray200 {
+  color: #E1E6EA !important;
+}
+
+.bg-gray200 {
+  background-color: #E1E6EA !important;
+}
+
+.text-gray100 {
+  color: #EBF1F5 !important;
+}
+
+.bg-gray100 {
+  background-color: #EBF1F5 !important;
+}
+
+.text-gray50 {
+  color: #F6F8FA !important;
+}
+
+.bg-gray50 {
+  background-color: #F6F8FA !important;
+}
+
+.text-neutral900 {
+  color: #212121 !important;
+}
+
+.bg-neutral900 {
+  background-color: #212121 !important;
+}
+
+.text-neutral800 {
+  color: #424242 !important;
+}
+
+.bg-neutral800 {
+  background-color: #424242 !important;
+}
+
+.text-neutral700 {
+  color: #616161 !important;
+}
+
+.bg-neutral700 {
+  background-color: #616161 !important;
+}
+
+.text-neutral600 {
+  color: #757575 !important;
+}
+
+.bg-neutral600 {
+  background-color: #757575 !important;
+}
+
+.text-neutral500 {
+  color: #9E9E9E !important;
+}
+
+.bg-neutral500 {
+  background-color: #9E9E9E !important;
+}
+
+.text-neutral400 {
+  color: #BDBDBD !important;
+}
+
+.bg-neutral400 {
+  background-color: #BDBDBD !important;
+}
+
+.text-neutral300 {
+  color: #E0E0E0 !important;
+}
+
+.bg-neutral300 {
+  background-color: #E0E0E0 !important;
+}
+
+.text-neutral200 {
+  color: #EEEEEE !important;
+}
+
+.bg-neutral200 {
+  background-color: #EEEEEE !important;
+}
+
+.text-neutral100 {
+  color: #F5F5F5 !important;
+}
+
+.bg-neutral100 {
+  background-color: #F5F5F5 !important;
+}
+
+.text-neutral50 {
+  color: #FAFAFA !important;
+}
+
+.bg-neutral50 {
+  background-color: #FAFAFA !important;
+}
+
+.text-black {
+  color: #000000 !important;
+}
+
+.bg-black {
+  background-color: #000000 !important;
+}
+
+.text-white {
+  color: #FFFFFF !important;
+}
+
+.bg-white {
+  background-color: #FFFFFF !important;
+}
+
+.text-transparent {
+  color: transparent !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+.text-pink900 {
+  color: #731376 !important;
+}
+
+.bg-pink900 {
+  background-color: #731376 !important;
+}
+
+.text-pink800 {
+  color: #8F1F87 !important;
+}
+
+.bg-pink800 {
+  background-color: #8F1F87 !important;
+}
+
+.text-pink700 {
+  color: #B1319C !important;
+}
+
+.bg-pink700 {
+  background-color: #B1319C !important;
+}
+
+.text-pink600 {
+  color: #D448AF !important;
+}
+
+.bg-pink600 {
+  background-color: #D448AF !important;
+}
+
+.text-pink500 {
+  color: #F763C1 !important;
+}
+
+.bg-pink500 {
+  background-color: #F763C1 !important;
+}
+
+.text-pink400 {
+  color: #FA89C6 !important;
+}
+
+.bg-pink400 {
+  background-color: #FA89C6 !important;
+}
+
+.text-pink300 {
+  color: #FCA1C9 !important;
+}
+
+.bg-pink300 {
+  background-color: #FCA1C9 !important;
+}
+
+.text-pink200 {
+  color: #FEC1D5 !important;
+}
+
+.bg-pink200 {
+  background-color: #FEC1D5 !important;
+}
+
+.text-pink100 {
+  color: #FEE0E7 !important;
+}
+
+.bg-pink100 {
+  background-color: #FEE0E7 !important;
+}
+
+.text-pink50 {
+  color: #FEF1F4 !important;
+}
+
+.bg-pink50 {
+  background-color: #FEF1F4 !important;
+}
+
+.text-cyan900 {
+  color: #0C446B !important;
+}
+
+.bg-cyan900 {
+  background-color: #0C446B !important;
+}
+
+.text-cyan800 {
+  color: #155E81 !important;
+}
+
+.bg-cyan800 {
+  background-color: #155E81 !important;
+}
+
+.text-cyan700 {
+  color: #2181A1 !important;
+}
+
+.bg-cyan700 {
+  background-color: #2181A1 !important;
+}
+
+.text-cyan600 {
+  color: #30A8C0 !important;
+}
+
+.bg-cyan600 {
+  background-color: #30A8C0 !important;
+}
+
+.text-cyan500 {
+  color: #47D1DE !important;
+}
+
+.bg-cyan500 {
+  background-color: #47D1DE !important;
+}
+
+.text-cyan400 {
+  color: #67DDE0 !important;
+}
+
+.bg-cyan400 {
+  background-color: #67DDE0 !important;
+}
+
+.text-cyan300 {
+  color: #91EBEB !important;
+}
+
+.bg-cyan300 {
+  background-color: #91EBEB !important;
+}
+
+.text-cyan200 {
+  color: #B8F5F3 !important;
+}
+
+.bg-cyan200 {
+  background-color: #B8F5F3 !important;
+}
+
+.text-cyan100 {
+  color: #DCFAFA !important;
+}
+
+.bg-cyan100 {
+  background-color: #DCFAFA !important;
+}
+
+.text-cyan50 {
+  color: #E8F9FA !important;
+}
+
+.bg-cyan50 {
+  background-color: #E8F9FA !important;
+}
+
+.text-indigo900 {
+  color: #131F76 !important;
+}
+
+.bg-indigo900 {
+  background-color: #131F76 !important;
+}
+
+.text-indigo800 {
+  color: #21308F !important;
+}
+
+.bg-indigo800 {
+  background-color: #21308F !important;
+}
+
+.text-indigo700 {
+  color: #3448B1 !important;
+}
+
+.bg-indigo700 {
+  background-color: #3448B1 !important;
+}
+
+.text-indigo600 {
+  color: #4C64D4 !important;
+}
+
+.bg-indigo600 {
+  background-color: #4C64D4 !important;
+}
+
+.text-indigo500 {
+  color: #6885F7 !important;
+}
+
+.bg-indigo500 {
+  background-color: #6885F7 !important;
+}
+
+.text-indigo400 {
+  color: #8DA5FA !important;
+}
+
+.bg-indigo400 {
+  background-color: #8DA5FA !important;
+}
+
+.text-indigo300 {
+  color: #A4BAFC !important;
+}
+
+.bg-indigo300 {
+  background-color: #A4BAFC !important;
+}
+
+.text-indigo200 {
+  color: #C3D2FE !important;
+}
+
+.bg-indigo200 {
+  background-color: #C3D2FE !important;
+}
+
+.text-indigo100 {
+  color: #E1E9FE !important;
+}
+
+.bg-indigo100 {
+  background-color: #E1E9FE !important;
+}
+
+.text-indigo50 {
+  color: #F1F5FE !important;
+}
+
+.bg-indigo50 {
+  background-color: #F1F5FE !important;
 }
 
 /* _icons.scss
@@ -871,38 +1865,52 @@ input, button, select, optgroup, textarea {
   bottom: 0;
   left: 0;
   overflow-y: auto;
-  background-color: #FAFAFA;
-  z-index: 1000;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+  background-color: #FAFAFA;
+  z-index: 1000;
 }
 .z-document-container .z-document-main::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
 .z-document-container .z-document-main .z-document-main-header {
-  width: 60rem;
-  max-width: 60rem;
-  padding: 4rem 0 0.75rem 0;
-}
-.z-document-container .z-document-main .z-document-main-header .z-document-numbering {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  color: #222529;
-}
-.z-document-container .z-document-main .z-document-main-header .z-action-button-top-area {
-  width: 100%;
-  margin: 0.75rem 0 0 0;
+  position: fixed;
+  right: 38.13rem;
+  width: calc(100% - 38.13rem);
+  padding: 0.75rem 1rem;
+  background: #339AF0;
+  z-index: 100;
 }
 .z-document-container .z-document-main .z-document-main-header .z-action-button-top-area .z-button-list {
   width: 100%;
 }
+.z-document-container .z-document-main .z-document-main-header .z-button-list .primary {
+  border-color: #FFFFFF;
+}
+.z-document-container .z-document-main .z-document-main-header .z-button-list .secondary {
+  border-color: #FFFFFF;
+}
+.z-document-container .z-document-main .z-document-main-content {
+  display: inline-block;
+  width: 100%;
+  margin: 6.25rem 0 3rem;
+  text-align: center;
+}
+.z-document-container .z-document-main .z-document-main-content .z-document-numbering {
+  width: 100%;
+  margin-bottom: 0.625rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+}
+.z-document-container .z-document-main .z-drawing-board .z-form {
+  margin: 0 6.25rem !important;
+}
 .z-document-container .z-document-main .z-document-main-footer {
-  width: 60rem;
-  max-width: 60rem;
-  padding: 0.75rem 0 4rem 0;
+  width: 100%;
+  padding: 0.75rem 0 4rem;
 }
 .z-document-container .z-token-properties {
   position: fixed;
@@ -1085,14 +2093,14 @@ input, button, select, optgroup, textarea {
  * @version 1.0
  */
 body {
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
   line-height: 1.2;
   color: #222529;
@@ -1120,7 +2128,7 @@ h5 {
 }
 
 h6 {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
 }
 
@@ -1153,7 +2161,7 @@ table td, table th {
 }
 
 .z-table {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #222529;
@@ -1170,7 +2178,7 @@ table td, table th {
   color: #222529;
 }
 .z-table th {
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
   font-weight: 500;
   color: #222529;
@@ -1203,7 +2211,7 @@ table td, table th {
 }
 
 .z-option-table {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #ABB0B5;
@@ -1221,7 +2229,7 @@ table td, table th {
 }
 .z-option-table tr.z-option-table-header {
   height: 2rem;
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
   font-weight: 500;
   color: #ABB0B5;
@@ -1256,7 +2264,7 @@ span {
 }
 
 label {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   color: #8B9094;
   font-size: 0.875rem;
   font-weight: 700;
@@ -1288,7 +2296,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 
 .z-input {
   height: 2.25rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1439,7 +2447,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 .z-textarea {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1511,7 +2519,7 @@ div.z-textarea-readonly {
 .z-switch {
   position: relative;
   height: 1.125rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1585,7 +2593,7 @@ div.z-textarea-readonly {
 select {
   width: inherit;
   height: 2.25rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1631,7 +2639,7 @@ select {
   left: 0;
   width: 100%;
   padding: 0.5625rem 1.75rem 0.5625rem 1rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1702,7 +2710,7 @@ select {
   width: 100%;
   background-color: transparent;
   padding: 0;
-  border: none;
+  border: none !important;
   vertical-align: unset;
   pointer-events: none;
 }
@@ -1882,7 +2890,7 @@ select {
 
 .z-checkbox {
   margin-right: 0.5rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1914,7 +2922,7 @@ select {
 .z-checkbox input[type=checkbox]:checked + span::after {
   content: "";
   position: absolute;
-  top: 0.125rem;
+  top: -0.04rem;
   left: 0;
   width: 0.75rem;
   height: 0.375rem;
@@ -1976,7 +2984,7 @@ select {
 .z-radio {
   position: relative;
   margin-right: 0.5rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.6;
@@ -2010,7 +3018,7 @@ select {
 .z-radio input[type=radio] + span::after {
   content: "";
   position: absolute;
-  top: -0.225rem;
+  top: -0.35rem;
   left: 0;
   width: 0.625rem;
   height: 0.625rem;
@@ -2417,8 +3425,13 @@ body.modal-active {
   display: initial;
   line-height: 1.2;
 }
-.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main {
+.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main,
+.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main-header,
+.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main-footer {
   right: 0;
+}
+.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main-header {
+  width: 100%;
 }
 .modal-wrapper .modal-dialog.tree {
   width: 40rem;
@@ -2563,7 +3576,7 @@ body.modal-active {
   min-height: 2.25rem;
   align-items: flex-start;
   flex-wrap: wrap;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   cursor: text;
   outline: 0;
@@ -2815,7 +3828,7 @@ body.modal-active {
   -moz-border-radius: 50%;
   order: 5;
   cursor: pointer;
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
   color: #63686C;
@@ -2967,7 +3980,7 @@ body.modal-active {
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   box-sizing: inherit;
   cursor: pointer;

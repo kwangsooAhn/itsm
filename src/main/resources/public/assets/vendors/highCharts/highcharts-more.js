@@ -3266,4 +3266,3 @@
         h.compose(e.Chart, e.Legend, e.Series)
     })
 });
-//# sourceMappingURL=highcharts-more.js.map

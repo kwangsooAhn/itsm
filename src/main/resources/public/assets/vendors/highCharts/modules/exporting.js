@@ -684,4 +684,3 @@
         b.compose(a.Chart, a.Renderer)
     })
 });
-//# sourceMappingURL=exporting.js.map

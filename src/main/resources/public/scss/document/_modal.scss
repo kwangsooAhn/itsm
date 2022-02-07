@@ -169,7 +169,11 @@
     // 신청서
     &.document-modal-dialog {
       // 신청서일 경우 우측 properties가 존재하지 않음
-      .z-document-main { right: 0; }
+      .z-document-main,
+      .z-document-main-header,
+      .z-document-main-footer { right: 0; }
+
+      .z-document-main-header { width: 100%; }
     }
     // 트리 모달
     &.tree {
