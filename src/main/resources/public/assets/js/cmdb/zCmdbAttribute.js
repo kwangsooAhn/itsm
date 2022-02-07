@@ -690,7 +690,9 @@
                 `</label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-                `<input name="${objectId}-minDate" id="${objectId}-minDate" class="z-input i-date-picker search-date col-3 mr-2" value="${minDate}">` +
+                `<input name="${objectId}-minDate" id="${objectId}-minDate" 
+                        class="z-input i-date-picker search-date col-3 mr-2" 
+                        value="${minDate}" placeholder="${i18n.dateFormat}">` +
             `</div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
@@ -700,7 +702,9 @@
                 `</label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-                `<input name="${objectId}-maxDate" id="${objectId}-maxDate" class="z-input i-date-picker search-date col-3 mr-2" value="${maxDate}">` +
+                `<input name="${objectId}-maxDate" id="${objectId}-maxDate" 
+                        class="z-input i-date-picker search-date col-3 mr-2" 
+                        value="${maxDate}" placeholder="${i18n.dateFormat}">` +
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -743,7 +747,9 @@
                 `</label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-                `<input name="${objectId}-minDateTime" id="${objectId}-minDateTime" class="z-input i-datetime-picker search-datetime col-3 mr-2" value="${minDateTime}">` +
+                `<input name="${objectId}-minDateTime" id="${objectId}-minDateTime" 
+                        class="z-input i-datetime-picker search-datetime col-3 mr-2" 
+                        value="${minDateTime}" placeholder="${i18n.dateTimeFormat}">` +
             `</div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
@@ -753,7 +759,9 @@
                 `</label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-                `<input name="${objectId}-maxDateTime" id="${objectId}-maxDateTime" class="z-input i-datetime-picker search-datetime col-3 mr-2" value="${maxDateTime}">` +
+                `<input name="${objectId}-maxDateTime" id="${objectId}-maxDateTime" 
+                        class="z-input i-datetime-picker search-datetime col-3 mr-2" 
+                        value="${maxDateTime}" placeholder="${i18n.dateTimeFormat}">` +
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -1351,6 +1359,7 @@
                 dateElem.setAttribute('data-attributeId', data.attributeId);
                 dateElem.value = data.value;
                 dateElem.readOnly = (displayMode === 'view');
+                dateElem.placeholder = i18n.dateFormat;
                 if (attributeValue !== '') {
                     if (attributeValue.required === 'true') {
                         dateElem.required = true;
@@ -1374,6 +1383,7 @@
                 dateTimeElem.setAttribute('type', type);
                 dateTimeElem.value = data.value;
                 dateTimeElem.readOnly = (displayMode === 'view');
+                dateTimeElem.placeholder = i18n.dateTimeFormat;
                 if (attributeValue !== '') {
                     if (attributeValue.required === 'true') {
                         dateTimeElem.required = true;
@@ -1398,12 +1408,12 @@
      */
     function validateDateTimeValue(target) {
         // 최소 날짜 ,최대 날짜 유효성 검증
-        if (target.value < target.getAttribute('data-validation-min-date')) {
+        if (target.getAttribute('data-validation-min-date') && target.value < target.getAttribute('data-validation-min-date')) {
             zAlert.warning(i18n.msg('common.msg.selectAfterDate', target.getAttribute('data-validation-min-date')),() => {
                target.classList.add('error');
                target.focus();
             });
-        } else if (target.value > target.getAttribute('data-validation-max-date')) {
+        } else if (target.getAttribute('data-validation-max-date') && target.value > target.getAttribute('data-validation-max-date')) {
             zAlert.warning(i18n.msg('common.msg.selectBeforeDate', target.getAttribute('data-validation-max-date')),() => {
                 target.classList.add('error');
                 target.focus();
