@@ -315,7 +315,8 @@ class WfScriptTask(
      * 3. 설정 정보에 따라 처리하여 첨부파일 목록 생성
      *   3-1) sourceMappingId (O) + 조건식 (O) -> sourceMappingId 컴포넌트 value 값을 조건식에 비교
      *   3-2) sourceMappingId (O) + 조건식 (X) -> 자동 추가
-     *   3-3) sourceMappingId (X) + 조건식 (X) -> 자동 추가
+     *   3-3) sourceMappingId (X) + 조건식 (O) -> 자동 추가
+     *   3-4) sourceMappingId (X) + 조건식 (X) -> 자동 추가
      * 4. 첨부파일 목록이 존재할 경우 데이터 추가
      */
     private fun setDocumentAttachFile(createTokenDto: WfTokenDto, element: WfElementEntity) {
