@@ -67,9 +67,10 @@ class DocumentService(
 
         var totalResult = mutableListOf<DocumentDto>() // document + documentLink 합치기
 
-        totalResult.addAll(documentLinkQueryResult.results)
         totalResult.addAll(documentQueryResult.results)
-
+        if (documentSearchCondition.searchProcessName.equals("") && documentSearchCondition.searchFormName.equals("")) { // 폼, 프로세스 검색시 documnetLink 결과는 제외
+            totalResult.addAll(documentLinkQueryResult.results)
+        }
         totalResult.sortByDescending { it.createDt }
 
         var fromIndex = 0 // 문서함(documentSearch.html)에서 호출할 경우
