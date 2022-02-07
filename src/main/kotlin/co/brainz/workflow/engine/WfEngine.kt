@@ -59,12 +59,14 @@ class WfEngine(
             logger.warn("Token action data is null.")
             return false
         }
-
+        val elementTypeEnd = WfElementConstants.ElementType.COMMON_END_EVENT.value
+        if (elementTypeEnd != tokenDto.elementType) {
+            WfTokenAction(wfTokenManagerService).actionReview(tokenDto.instanceId)
+        }
         if (WfElementConstants.Action.isApplicationAction(tokenDto.action!!)) {
             // 프로세스로 그려지진 않았지만 반려나 회수처럼 시스템에서 기본적으로 제공하는 동작 선택 시.
             WfTokenAction(wfTokenManagerService).progressApplicationAction(tokenDto)
         } else {
-            WfTokenAction(wfTokenManagerService).actionReview(tokenDto.instanceId)
             // 프로세스로 그려진 동적인 흐름을 진행하는 동작.
             var currentTokenDto = tokenDto.copy()
             var currentTokenManager: WfTokenManager
