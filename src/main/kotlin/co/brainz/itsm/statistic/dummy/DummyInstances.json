@@ -2,9 +2,9 @@
   "ChartTagInstanceDto": [{
     "tag": {
       "tagId": "1",
-      "tagType": "chart",
-      "tagValue": "단순문의",
-      "targetId": "4028b8817cd4629c017cd46affee0001"
+      "tagType": "",
+      "tagValue": "",
+      "targetId": ""
     },
     "instances": [{
       "instanceId": "11675e26bd8a462a9a91ee104ce53ab9",
@@ -121,9 +121,9 @@
     {
       "tag": {
         "tagId": "2",
-        "tagType": "chart",
-        "tagValue": "서비스요청",
-        "targetId": "40v2ka817cd462912d246affee0001"
+        "tagType": "",
+        "tagValue": "",
+        "targetId": ""
       },
     "instances": [
       {
