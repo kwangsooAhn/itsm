@@ -7,7 +7,7 @@
 package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.form.service.FormService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormDataDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -65,7 +65,7 @@ class FormRestController(private val formService: FormService) {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
-            RestTemplateConstants.FormSaveType.SAVE_AS.code ->
+            WorkflowConstants.FormSaveType.SAVE_AS.code ->
                 formService.saveAsForm(formData)
             else -> formService.createForm(formData)
         }

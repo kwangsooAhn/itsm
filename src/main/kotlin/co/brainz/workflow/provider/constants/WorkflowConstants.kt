@@ -5,7 +5,7 @@
 
 package co.brainz.workflow.provider.constants
 
-object RestTemplateConstants {
+object WorkflowConstants {
 
     /**
      * Form SaveType.
@@ -51,17 +51,6 @@ object RestTemplateConstants {
     }
 
     /**
-     * Document Status.
-     *
-     * @param value
-     */
-    enum class DocumentStatus(val value: String) {
-        TEMPORARY("document.status.temporary"),
-        USE("document.status.use"),
-        DESTROY("document.status.destroy")
-    }
-
-    /**
      * Process SaveType.
      */
     enum class ProcessSaveType(val code: String) {
@@ -80,5 +69,15 @@ object RestTemplateConstants {
     enum class InstancePlatform(val code: String) {
         ITSM("itsm"),
         API("api")
+    }
+
+    /**
+     * Operator
+     */
+    enum class Operator(val code: String) {
+        LITTLE("<"),
+        LITTLE_EQUAL("<="),
+        GREATER(">"),
+        GREATER_EQUAL(">=")
     }
 }

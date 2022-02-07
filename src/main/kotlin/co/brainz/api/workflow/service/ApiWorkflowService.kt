@@ -14,7 +14,7 @@ import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.ApiComponentDto
 import co.brainz.workflow.provider.dto.ComponentPropertyDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
@@ -69,7 +69,7 @@ class ApiWorkflowService(
                 // if (requestDto.optionData != null) { }
 
                 val tokenDto = apiWorkflowMapper.callDataMapper(documentId, requestDto)
-                tokenDto.instancePlatform = RestTemplateConstants.InstancePlatform.API.code
+                tokenDto.instancePlatform = WorkflowConstants.InstancePlatform.API.code
                 return wfEngine.startWorkflow(wfEngine.toTokenDto(tokenDto))
             }
             false -> {

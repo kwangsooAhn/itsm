@@ -22,6 +22,7 @@ import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.CollectionType
@@ -313,8 +314,6 @@ class WfScriptTask(
      * 2. 값을 비교하여 찾은 파일을
      * 3. [sourceMappingId] 값으로 매핑된 컴포넌트에 추가한다.
      */
-
-    // TODO: 조건이 없을 경우 추가
     private fun setDocumentAttachFile(createTokenDto: WfTokenDto, element: WfElementEntity) {
         var targetMappingId = ""
         var sourceMappingId = ""
@@ -366,25 +365,25 @@ class WfScriptTask(
                             return@forEach
                         }
                     }
-                    "<=" -> {
+                    WorkflowConstants.Operator.LITTLE_EQUAL.code -> {
                         if (componentValue.toInt() <= (action["value"] ?: 0) as Int) {
                             attachFileNames.add(action["file"].toString())
                             return@forEach
                         }
                     }
-                    "<" -> {
+                    WorkflowConstants.Operator.LITTLE.code -> {
                         if (componentValue.toInt() < (action["value"] ?: 0) as Int) {
                             attachFileNames.add(action["file"].toString())
                             return@forEach
                         }
                     }
-                    ">=" -> {
+                    WorkflowConstants.Operator.GREATER_EQUAL.code -> {
                         if (componentValue.toInt() >= (action["value"] ?: 0) as Int) {
                             attachFileNames.add(action["file"].toString())
                             return@forEach
                         }
                     }
-                    ">" -> {
+                    WorkflowConstants.Operator.GREATER.code -> {
                         if (componentValue.toInt() > (action["value"] ?: 0) as Int) {
                             attachFileNames.add(action["file"].toString())
                             return@forEach

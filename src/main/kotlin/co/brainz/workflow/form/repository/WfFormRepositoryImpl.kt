@@ -11,7 +11,7 @@ import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.form.entity.QWfFormEntity
 import co.brainz.workflow.form.entity.WfFormEntity
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.dsl.CaseBuilder
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -36,10 +36,10 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
             query.where(form.formStatus.`in`(formSearchCondition.statusArray)).orderBy(form.formName.asc())
         } else {
             val statusNumber = CaseBuilder()
-                .`when`(form.formStatus.eq(RestTemplateConstants.FormStatus.EDIT.value)).then(1)
-                .`when`(form.formStatus.eq(RestTemplateConstants.FormStatus.PUBLISH.value)).then(2)
-                .`when`(form.formStatus.eq(RestTemplateConstants.FormStatus.USE.value)).then(3)
-                .`when`(form.formStatus.eq(RestTemplateConstants.FormStatus.DESTROY.value)).then(4)
+                .`when`(form.formStatus.eq(WorkflowConstants.FormStatus.EDIT.value)).then(1)
+                .`when`(form.formStatus.eq(WorkflowConstants.FormStatus.PUBLISH.value)).then(2)
+                .`when`(form.formStatus.eq(WorkflowConstants.FormStatus.USE.value)).then(3)
+                .`when`(form.formStatus.eq(WorkflowConstants.FormStatus.DESTROY.value)).then(4)
                 .otherwise(5)
             query.orderBy(statusNumber.asc())
                 .orderBy(form.updateDt.coalesce(form.createDt).desc())
