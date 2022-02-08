@@ -21,7 +21,9 @@
         {'type': 'radio', 'name': 'Radio Button'},
         {'type': 'checkbox', 'name': 'Checkbox'},
         {'type': 'custom-code', 'name': 'Custom Code'},
-        {'type': 'group-list', 'name': 'Group List'}
+        {'type': 'group-list', 'name': 'Group List'},
+        {'type': 'date', 'name': 'Date'},
+        {'type': 'datetime', 'name': 'Date Time'}
     ];
 
     // Validation 목록
@@ -97,6 +99,12 @@
                 break;
             case 'group-list':
                 attributeObject = new GroupList(attributesProperty);
+                break;
+            case 'date':
+                attributeObject = new Date(attributesProperty);
+                break;
+            case 'datetime':
+                attributeObject = new DateTime(attributesProperty);
                 break;
             default:
                 break;
@@ -651,6 +659,120 @@
     }
 
     /**
+     * Date.
+     *
+     * @param {Object} property Attribute 데이터
+     * @constructor
+     */
+    function Date(property) {
+        const objectId = attributeTypeList[6].type; // date
+        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
+            return `<option value='${option.value}' ` +
+                `${property.required === option.value ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.text)}</option>`;
+        }).join('');
+        const minDate = property.minDate !== undefined ? property.minDate : '';
+        const maxDate = property.maxDate !== undefined ? property.maxDate : '';
+        this.template =
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span>` +
+                    `<span class="required"></span>` +
+                `</label>` +
+            `</div>` +
+            `<div class="flex-column col-9"><select id="${objectId}-required">${booleanOptions}</select></div>` +
+            `</div>` +
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minDate')}</span>` +
+                `</label>` +
+            `</div>` +
+            `<div class="flex-column col-9">` +
+                `<input name="${objectId}-minDate" id="${objectId}-minDate" 
+                        class="z-input i-date-picker search-date col-3 mr-2" 
+                        value="${minDate}" placeholder="${i18n.dateFormat}">` +
+            `</div>` +
+            `</div>` +
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxDate')}</span>` +
+                `</label>` +
+            `</div>` +
+            `<div class="flex-column col-9">` +
+                `<input name="${objectId}-maxDate" id="${objectId}-maxDate" 
+                        class="z-input i-date-picker search-date col-3 mr-2" 
+                        value="${maxDate}" placeholder="${i18n.dateFormat}">` +
+            `</div>` +
+            `</div>`;
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        const minDateElement = document.getElementById(objectId + '-minDate');
+        const maxDateElement = document.getElementById(objectId + '-maxDate');
+        zDateTimePicker.initDatePicker(minDateElement);
+        zDateTimePicker.initDatePicker(maxDateElement);
+    }
+
+    /**
+     * Date Time.
+     *
+     * @param {Object} property Attribute 데이터
+     * @constructor
+     */
+    function DateTime(property) {
+        const objectId = attributeTypeList[7].type; // datetime
+        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
+            return `<option value='${option.value}' ` +
+                `${property.required === option.value ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.text)}</option>`;
+        }).join('');
+        const minDateTime = property.minDateTime !== undefined ? property.minDateTime : '';
+        const maxDateTime = property.maxDateTime !== undefined ? property.maxDateTime : '';
+        this.template =
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span>` +
+                    `<span class="required"></span>` +
+                `</label>` +
+            `</div>` +
+            `<div class="flex-column col-9"><select id="${objectId}-required">${booleanOptions}</select></div>` +
+            `</div>` +
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minDateTime')}</span>` +
+                `</label>` +
+            `</div>` +
+            `<div class="flex-column col-9">` +
+                `<input name="${objectId}-minDateTime" id="${objectId}-minDateTime" 
+                        class="z-input i-datetime-picker search-datetime col-3 mr-2" 
+                        value="${minDateTime}" placeholder="${i18n.dateTimeFormat}">` +
+            `</div>` +
+            `</div>` +
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-2 mr-4">` +
+                `<label>` +
+                    `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxDateTime')}</span>` +
+                `</label>` +
+            `</div>` +
+            `<div class="flex-column col-9">` +
+                `<input name="${objectId}-maxDateTime" id="${objectId}-maxDateTime" 
+                        class="z-input i-datetime-picker search-datetime col-3 mr-2" 
+                        value="${maxDateTime}" placeholder="${i18n.dateTimeFormat}">` +
+            `</div>` +
+            `</div>`;
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        const minDateTimeElement = document.getElementById(objectId + '-minDateTime');
+        const maxDateTimeElement = document.getElementById(objectId + '-maxDateTime');
+        zDateTimePicker.initDateTimePicker(minDateTimeElement);
+        zDateTimePicker.initDateTimePicker(maxDateTimeElement);
+    }
+
+    /**
      * Attribute 목록 모달 오픈
      */
     function openAttributeListModal() {
@@ -856,6 +978,24 @@
                 });
                 details.option = groupListOption;
                 break;
+            case 'date':
+                details.required = parent.querySelector('#' + attributeTypeList[6].type + '-required').value;
+                details.minDate = parent.querySelector('#' + attributeTypeList[6].type + '-minDate').value;
+                details.maxDate = parent.querySelector('#' + attributeTypeList[6].type + '-maxDate').value;
+                if ((details.minDate !== '' && details.maxDate !== '') && details.maxDate < details.minDate) {
+                    zAlert.warning(i18n.msg('cmdb.attribute.msg.maxDate'));
+                    return false;
+                }
+                break;
+            case 'datetime':
+                details.required = parent.querySelector('#' + attributeTypeList[7].type + '-required').value;
+                details.minDateTime = parent.querySelector('#' + attributeTypeList[7].type + '-minDateTime').value;
+                details.maxDateTime = parent.querySelector('#' + attributeTypeList[7].type + '-maxDateTime').value;
+                if ((details.minDateTime !== '' && details.maxDateTime !== '') && details.maxDateTime < details.minDateTime) {
+                    zAlert.warning(i18n.msg('cmdb.attribute.msg.maxDateTime'));
+                    return false;
+                }
+                break;
             default:
                 break;
         }
@@ -966,7 +1106,7 @@
                 elem.appendChild(labelTextElem);
                 parent.appendChild(elem);
                 // 필수여부
-                if (typeof attributeValue.required !== 'undefined' && attributeValue.required === 'true') {
+                if (typeof attributeValue.required !== 'undefined' && attributeValue.required === 'true' && displayMode === 'edit') {
                     elem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                 }
                 return elem;
@@ -1211,8 +1351,75 @@
                 }
                 parent.appendChild(elem);
                 return elem;
+            case 'date':
+                elem = document.createElement('div');
+                const dateElem = document.createElement('input');
+                dateElem.className = 'z-input i-date-picker search-date col-3';
+                dateElem.id = ZWorkflowUtil.generateUUID();
+                dateElem.setAttribute('data-attributeId', data.attributeId);
+                dateElem.value = data.value;
+                dateElem.readOnly = (displayMode === 'view');
+                dateElem.placeholder = i18n.dateFormat;
+                if (attributeValue !== '') {
+                    if (attributeValue.required === 'true') {
+                        dateElem.required = true;
+                        dateElem.setAttribute('data-validation-required', 'true');
+                        dateElem.setAttribute('data-validation-required-name', data.attributeText);
+                        dateElem.setAttribute('data-validation-min-date', attributeValue.minDate !== undefined ? attributeValue.minDate : '');
+                        dateElem.setAttribute('data-validation-max-date', attributeValue.maxDate !== undefined ? attributeValue.maxDate : '');
+                    }
+                }
+
+                elem.append(dateElem);
+                zDateTimePicker.initDatePicker(dateElem, validateDateTimeValue);
+                parent.appendChild(elem);
+                return elem;
+            case 'datetime':
+                elem = document.createElement('div');
+                const dateTimeElem = document.createElement('input');
+                dateTimeElem.className = 'z-input i-datetime-picker search-datetime col-3';
+                dateTimeElem.id = ZWorkflowUtil.generateUUID();
+                dateTimeElem.setAttribute('data-attributeId', data.attributeId);
+                dateTimeElem.setAttribute('type', type);
+                dateTimeElem.value = data.value;
+                dateTimeElem.readOnly = (displayMode === 'view');
+                dateTimeElem.placeholder = i18n.dateTimeFormat;
+                if (attributeValue !== '') {
+                    if (attributeValue.required === 'true') {
+                        dateTimeElem.required = true;
+                        dateTimeElem.setAttribute('data-validation-required', 'true');
+                        dateTimeElem.setAttribute('data-validation-required-name', data.attributeText);
+                        dateTimeElem.setAttribute('data-validation-min-date', attributeValue.minDateTime !== undefined ? attributeValue.minDateTime : '');
+                        dateTimeElem.setAttribute('data-validation-max-date', attributeValue.maxDateTime !== undefined ? attributeValue.maxDateTime : '');
+                    }
+                }
+                elem.append(dateTimeElem);
+                zDateTimePicker.initDateTimePicker(dateTimeElem, validateDateTimeValue);
+                parent.appendChild(elem);
+                return elem;
             default:
                 break;
+        }
+    }
+
+    /**
+     * Date, DateTime 유효성 검증
+     * @param target
+     */
+    function validateDateTimeValue(target) {
+        // 최소 날짜 ,최대 날짜 유효성 검증
+        if (target.getAttribute('data-validation-min-date') && target.value < target.getAttribute('data-validation-min-date')) {
+            zAlert.warning(i18n.msg('common.msg.selectAfterDate', target.getAttribute('data-validation-min-date')),() => {
+               target.classList.add('error');
+               target.focus();
+            });
+        } else if (target.getAttribute('data-validation-max-date') && target.value > target.getAttribute('data-validation-max-date')) {
+            zAlert.warning(i18n.msg('common.msg.selectBeforeDate', target.getAttribute('data-validation-max-date')),() => {
+                target.classList.add('error');
+                target.focus();
+            });
+        } else {
+            target.classList.remove('error');
         }
     }
 
