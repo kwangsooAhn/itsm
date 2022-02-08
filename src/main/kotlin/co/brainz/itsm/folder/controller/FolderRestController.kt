@@ -1,5 +1,11 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.folder.controller
 
+import co.brainz.itsm.folder.dto.InstanceFolderListDto
 import co.brainz.itsm.folder.dto.InstanceInFolderDto
 import co.brainz.itsm.folder.service.FolderService
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -22,8 +28,8 @@ class FolderRestController(
     }
 
     @PostMapping("")
-    fun insertFolderDto(@RequestBody instanceInFolderDtoList: List<InstanceInFolderDto>): Boolean {
-        return folderService.insertFolderDto(instanceInFolderDtoList)
+    fun insertFolderDto(@RequestBody instanceFolderListDto: InstanceFolderListDto): String {
+        return folderService.insertFolderDto(instanceFolderListDto)
     }
 
     @DeleteMapping("/{folderId}/instances/{instanceId}")

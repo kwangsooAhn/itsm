@@ -495,7 +495,7 @@ Object.assign(zColorPicker.prototype, {
             ` data-color="${color}" style="background-color: ${isSelected ? 'transparent' : color};" >`+
             `<sapn class="z-custom-color-palette-item-inner" style="background-color: ${color}"></sapn>` +
             `<button type="button" class="z-button-icon z-custom-color-palette-item-clear">` +
-            `<span class="z-icon i-clear"></span>` +
+            `<span class="z-icon i-remove"></span>` +
             `</button>` +
             `</span>`;
     },

@@ -521,6 +521,9 @@ $button-themes-default: (
     'focus': ('font': $neutral800, 'background': $neutral300, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
     'active': ('font': $neutral800, 'background': $neutral300, 'border': $neutral400),
     'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  ),
+  'default': (
+    'default': ('font': $gray400, 'background': transparent, 'border': transparent),
   )
 );
 // 어두운 배경에서 사용되는 버튼 테마
@@ -564,6 +567,12 @@ $button-group: (
   'active': ('font': $blue700, 'background': $blue200, 'border': $blue400),
   'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
   'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
+);
+// 기본 라벨 테마
+$label-themes-default: (
+        'normal': (
+                'default': ('font': $blue700, 'background': $blue300, 'border': $blue300)
+        )
 );
 
 //////////////////////////////// layout ////////////////////////////////
