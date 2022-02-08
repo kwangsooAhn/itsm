@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.statistic.customChart.service
 
 import co.brainz.framework.tag.constants.AliceTagConstants
@@ -78,11 +84,12 @@ class ChartConditionService(
         // 태그가 달린 컴포넌트의 최신 값을 가져온다.
         val tagDataMap = this.getConditionTagValue(instance, tags)
         return if (tagDataMap.isNotEmpty()) {
-            val context: EvaluationContext = StandardEvaluationContext(ZonedDateTimeUtil())
+            val context: EvaluationContext = StandardEvaluationContext(ChartConditionDateTimeUtil())
             val chartCondition = this.replaceConditionTagValue(chartCondition, tagDataMap)
             val parser: ExpressionParser = SpelExpressionParser()
             try {
                 val discriminant: Expression = parser.parseExpression(chartCondition)
+                val test = discriminant.getValue(context) as Boolean
                 discriminant.getValue(context) as Boolean
             } catch (e: Exception) {
                 false
