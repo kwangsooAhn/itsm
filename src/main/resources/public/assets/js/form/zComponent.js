@@ -270,7 +270,7 @@ export default class ZComponent {
         }
         this._label.fontSize = size;
         this.UIElement.UIComponent.UILabel.UILabelText
-            .setUIFontSize(size + UNIT.PX).setUIFontFamily(this.getFontFamily(size));
+            .setUIFontSize(size + UNIT.PX);
     }
 
     get labelFontSize() {
@@ -340,7 +340,7 @@ export default class ZComponent {
     makeLabel() {
         const label = new UILabel().setUIClass('z-component-label')
             .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
-            .setUICSSText(`text-align: ${this.labelAlign}; font-family: ${this.getFontFamily(this.labelFontSize)};`)
+            .setUICSSText(`text-align: ${this.labelAlign};`)
             .setUIProperty('--data-align', this.getLabelAlign(this.labelAlign))
             .setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
         // 라벨 문구
@@ -360,13 +360,6 @@ export default class ZComponent {
         label.addUI(label.UIRequiredText);
 
         return label;
-    }
-
-    /**
-     * 라벨 폰트 패밀리
-     */
-    getFontFamily(fontSize) {
-        return (Number(fontSize) < 16) ? '맑은고딕' : 'Noto Sans KR';
     }
 
     /**

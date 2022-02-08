@@ -504,6 +504,18 @@ export const ciMixin = {
                     });
                 });
                 break;
+            case 'date':
+                const dateElem = el.querySelector('input');
+                rtn.id = dateElem.getAttribute('data-attributeId');
+                rtn.type = type;
+                rtn.value = dateElem.value;
+                break;
+            case 'datetime':
+                const dateTimeElem = el.querySelector('input');
+                rtn.id = dateTimeElem.getAttribute('data-attributeId');
+                rtn.type = type;
+                rtn.value = dateTimeElem.value;
+                break;
             default:
                 break;
         }
