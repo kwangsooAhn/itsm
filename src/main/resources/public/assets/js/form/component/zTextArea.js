@@ -184,7 +184,7 @@ export const textAreaMixin = {
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZInputBoxProperty('elementRows', 'element.rows', this.elementRows))
-                .addProperty(new ZTextAreaProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder)),
+                .addProperty(new ZTextAreaProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder, true)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
                 .addProperty(new ZInputBoxProperty('validationMinLength', 'validation.minLength', this.validationMinLength))

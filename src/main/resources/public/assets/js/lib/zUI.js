@@ -426,6 +426,11 @@ class UISwitch extends UIElement {
         this.UISpan.setUITextContent(value);
         return this;
     }
+
+    setUIDisabled(value) {
+        this.UICheckbox.domElement.disabled = value;
+        return this;
+    }
 }
 
 class UIBreak extends UIElement {
@@ -506,6 +511,11 @@ class UISlider extends UIElement {
     setUIRange(max) {
         const rangeValue = this.UIRange.getUIValue() * 100 / max;
         this.UIRange.setUICSSText(`background:linear-gradient(to right, #339AF0 0%, #339AF0 ${rangeValue}%, #EEEEEE ${rangeValue}%, #EEEEEE 100%);`);
+    }
+
+    setUIDisabled(value) {
+        this.UIRange.domElement.disabled = value;
+        return this;
     }
 }
 

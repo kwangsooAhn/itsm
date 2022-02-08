@@ -208,7 +208,7 @@ export const checkBoxMixin = {
                     { 'name': 'i-display-position-right', 'value': 'right' },
                 ]))
                 .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, true)
-                    .setValidation(true,'','','','','')),
+                    .setValidation(true, '', '', '', '', '')),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
