@@ -26,7 +26,7 @@
     @include backgroundImage('#{$icon-folder-path}validation/icon_info.svg', null, no-repeat, 1rem, center, null);
 
     .z-icon {
-      &.i-clear {
+      &.i-remove {
         background: $validation-info-font-color;
       }
     }
@@ -38,7 +38,7 @@
     @include backgroundImage('#{$icon-folder-path}validation/icon_error.svg', null, no-repeat, 1rem, center, null);
 
     .z-icon {
-      &.i-clear {
+      &.i-remove {
         background: $validation-error-font-color;
       }
     }
@@ -50,14 +50,14 @@
     @include backgroundImage('#{$icon-folder-path}validation/icon_success.svg', null, no-repeat, 1rem, center, null);
 
     .z-icon {
-      &.i-clear {
+      &.i-remove {
         background: $validation-success-font-color;
       }
     }
   }
 
   .z-icon {
-    &.i-clear {
+    &.i-remove {
       padding-right: 0.9375rem; // 15px
       background: $element-icon-color;
     }

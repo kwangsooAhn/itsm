@@ -144,6 +144,7 @@ class UserController(
         params["to"] = request.getParameter("to")
         params["userKey"] = request.getParameter("userKey")
         model.addAttribute("userList", userService.selectNotAbsenceUserList(params).data)
+        model.addAttribute("multiSelect", request.getParameter("multiSelect"))
         return userListModalPage
     }
 

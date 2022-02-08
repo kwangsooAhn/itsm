@@ -5,7 +5,7 @@
 
 package co.brainz.framework.tag.controller
 
-import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.framework.tag.dto.AliceCustomTagDto
 import co.brainz.framework.tag.service.AliceTagService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,8 +23,8 @@ class AliceTagRestController(
 ) {
 
     @PostMapping("")
-    fun setTag(@RequestBody aliceTagDto: AliceTagDto): String {
-        return aliceTagService.insertTag(aliceTagDto)
+    fun setTag(@RequestBody aliceCustomTagDto: AliceCustomTagDto): String {
+        return aliceTagService.insertTag(aliceCustomTagDto)
     }
 
     @DeleteMapping("/{tagId}")

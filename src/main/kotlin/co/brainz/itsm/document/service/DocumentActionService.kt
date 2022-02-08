@@ -201,6 +201,9 @@ class DocumentActionService(
                 WfElementConstants.Action.CLOSE.value -> {
                     actionsResult.add(actions)
                 }
+                WfElementConstants.Action.REVIEW.value -> {
+                    actionsResult.add(actions)
+                }
                 else -> {
                     if (isProgress && isAssignee) {
                         actionsResult.add(actions)

@@ -1685,7 +1685,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-icon.i-clear {
+.z-icon.i-remove {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/icon_clear.svg");
@@ -2024,6 +2024,18 @@ input, button, select, optgroup, textarea {
 .z-document-container .z-token-properties .z-token-panels .z-token-comment .z-comment-add {
   margin: 0.625rem 0 0 0;
 }
+.z-document-container .z-token-properties .z-token-panels .z-token-viewer-table td:nth-child(3), .z-document-container .z-token-properties .z-token-panels .z-token-viewer-table th:nth-child(3) {
+  color: #8B9094;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-viewer-table .z-table-body {
+  border: none;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-viewer-table .z-table-body tr:hover {
+  background-color: transparent;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-viewer-table .z-icon.i-clear {
+  background: #8B9094;
+}
 
 /* _elements.scss
  *
@@ -2108,10 +2120,10 @@ table td, table th {
   background-color: transparent;
   border: none;
 }
-.z-table td, .z-table th {
+.z-table td:not(.p-0), .z-table th:not(.p-0) {
   padding: 0 0.9375rem;
 }
-.z-table td:first-child, .z-table th:first-child {
+.z-table td:not(.p-0):first-child, .z-table th:not(.p-0):first-child {
   padding-left: 1.25rem;
 }
 .z-table td a, .z-table th a {
@@ -2314,23 +2326,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input.success {
   border: 0.0625rem solid #76BD26 !important;
 }
-.z-input-clear {
-  position: relative;
-  display: inline-block;
-}
-.z-input-clear input {
-  width: 100%;
-}
-.z-input-clear .z-icon {
-  -webkit-print-color-adjust: exact;
-}
-.z-input-clear .z-icon.i-clear {
-  position: absolute;
-  right: 0rem;
-  padding: 1.125rem 0.875rem;
-  background: #8B9094;
-  cursor: pointer;
-}
 .z-input.i-search {
   background-image: url("../media/icons/icon_search.svg");
   background-size: auto;
@@ -2389,12 +2384,11 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input-button .z-button-search:focus, .z-input-button .z-button-search:hover, .z-input-button .z-button-search:active {
   z-index: 25;
 }
-.z-input-button .z-icon.i-clear {
+.z-input-button .z-button-icon-sm {
   position: absolute;
-  right: calc(0rem + 5rem);
-  padding: 1.125rem 0.875rem;
-  background: #8B9094;
-  cursor: pointer;
+  top: 0.625rem;
+  right: 5rem;
+  -webkit-print-color-adjust: exact;
 }
 .z-input::-webkit-outer-spin-button, .z-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -3053,6 +3047,26 @@ select {
   pointer-events: none;
 }
 
+.label {
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  padding: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.0625rem;
+}
+.label.normal {
+  color: #1959AC;
+  background-color: #84D1FA;
+  border-color: #84D1FA;
+}
+
+.z-button-icon-sm .z-icon {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
 /* _print.scss
  *
  * 파일 경로 : document/_print.scss
@@ -3405,6 +3419,27 @@ body.modal-active {
 }
 .modal-wrapper .modal-dialog.custom-code-list .custom-code-main {
   padding-top: 1.25rem;
+}
+.modal-wrapper .modal-dialog.sub-user-modal {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content {
+  height: calc(53.0625rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem;
+}
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list {
+  margin-top: 0.9375rem;
+}
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set {
+  margin-top: 1.875rem;
+}
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body {
+  display: block;
+  width: 60rem;
+  height: 35.313rem;
+  overflow-y: auto;
+  border: none;
 }
 
 /* form, group, row, component 디자인 - document ver. */
