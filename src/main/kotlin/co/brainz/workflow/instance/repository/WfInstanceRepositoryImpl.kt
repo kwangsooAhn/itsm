@@ -309,47 +309,6 @@ class WfInstanceRepositoryImpl(
             .execute()
     }
 
-    override fun findAllInstanceListAndSearch(
-        instanceId: String,
-        searchValue: String
-    ): MutableList<RestTemplateInstanceListDto> {
-        val query = from(instance)
-            .select(
-                Projections.constructor(
-                    RestTemplateInstanceListDto::class.java,
-                    instance.instanceId,
-                    document.documentName,
-                    instance.documentNo,
-                    instance.instanceStartDt,
-                    instance.instanceEndDt,
-                    user.userKey,
-                    user.userName,
-                    Expressions.asBoolean(false)
-                )
-            )
-            .distinct()
-            .innerJoin(document).on(document.documentId.eq(instance.document.documentId))
-            .leftJoin(user).on(user.userKey.eq(instance.instanceCreateUser.userKey))
-            .where(
-                instance.instanceId.notIn(instanceId).and(
-                    instance.instanceId.notIn(
-                        JPAExpressions
-                            .select(token.instance.instanceId)
-                            .from(token)
-                            .where(token.tokenAction.eq(WfTokenConstants.FinishAction.CANCEL.code))
-                    )
-                )
-            )
-        if (searchValue.isNotEmpty()) {
-            query.where(
-                document.documentName.likeIgnoreCase("%$searchValue%")
-                    .or(user.userName.likeIgnoreCase("%$searchValue%"))
-            )
-        }
-        query.orderBy(instance.instanceStartDt.asc())
-        return query.fetch()
-    }
-
     override fun getInstanceListInTag(
         tagValue: String,
         range: ChartRange
@@ -510,61 +469,6 @@ class WfInstanceRepositoryImpl(
         return builder
     }
 
-    /**
-     * 전체 문서 허용 권한 여부.
-     */
-    private fun hasDocumentViewAuth(): Boolean {
-        return currentSessionUser.getAuth().contains(AuthConstants.AuthType.DOCUMENT_VIEW.value)
-    }
-
-    override fun findInstanceHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto> {
-        val elementTypes = listOf(
-            InstanceConstants.ElementListForHistoryViewing.USER_TASK.value,
-            InstanceConstants.ElementListForHistoryViewing.SCRIPT_TASK.value,
-            InstanceConstants.ElementListForHistoryViewing.MANUAL_TASK.value,
-            InstanceConstants.ElementListForHistoryViewing.COMMON_END_EVENT.value,
-            InstanceConstants.ElementListForHistoryViewing.TIMER_START_EVENT.value,
-            InstanceConstants.ElementListForHistoryViewing.SUB_PROCESS.value,
-            InstanceConstants.ElementListForHistoryViewing.SIGNAL_SEND.value
-        )
-        return from(token)
-            .select(
-                Projections.constructor(
-                    RestTemplateInstanceHistoryDto::class.java,
-                    token.tokenStartDt,
-                    token.tokenEndDt,
-                    token.element.elementName,
-                    token.element.elementType,
-                    token.tokenStatus,
-                    token.tokenAction,
-                    token.assigneeId,
-                    user.userName
-                )
-            )
-            .innerJoin(token.instance)
-            .innerJoin(token.element)
-            .leftJoin(user).on(token.assigneeId.eq(user.userKey))
-            .where(token.instance.instanceId.eq(instanceId).and(token.element.elementType.`in`(elementTypes)))
-            .orderBy(token.tokenStartDt.asc())
-            .fetch()
-    }
-
-    override fun deleteInstances(instances: MutableList<WfInstanceEntity>) {
-        val tokens = from(token).where(token.instance.`in`(instances)).fetch()
-        val instanceIds = mutableListOf<String>()
-        instances.forEach { instanceIds.add(it.instanceId) }
-
-        // Delete instance relation data.
-        delete(tokenData).where(tokenData.token.`in`(tokens)).execute()
-        delete(token).where(token.instance.`in`(instances)).execute()
-        delete(folder).where(folder.instance.`in`(instances)).execute()
-        delete(comment).where(comment.instance.`in`(instances)).execute()
-        delete(instance).where(instance.instanceId.`in`(instanceIds)).execute()
-        delete(ciComponent).where(ciComponent.instanceId.`in`(instanceIds)).execute()
-        delete(tag).where(tag.tagType.eq(AliceTagConstants.TagType.INSTANCE.code).and(tag.targetId.`in`(instanceIds)))
-            .execute()
-    }
-
     override fun findAllInstanceListByRelatedCheck(
         instanceId: String,
         searchValue: String
@@ -621,30 +525,10 @@ class WfInstanceRepositoryImpl(
         return query.fetch()
     }
 
-    override fun getInstanceListInTag(
-        tagValue: String,
-        range: ChartRange
-    ): List<WfInstanceEntity> {
-        val component = QWfComponentEntity.wfComponentEntity
-        val query = from(instance)
-            .where(instance.document.documentId.`in`(
-                JPAExpressions.select(document.documentId)
-                    .from(document)
-                    .where(document.form.formId.`in`(
-                        JPAExpressions.select(component.form.formId)
-                            .from(component)
-                            .where(component.componentId.`in`(
-                                JPAExpressions.select(tag.targetId)
-                                    .from(tag)
-                                    .where(tag.tagValue.eq(tagValue))
-                                    .where(tag.tagType.eq(AliceTagConstants.TagType.COMPONENT.code))
-                            ))
-                            .where(component.form.formStatus.ne(WfFormConstants.FormStatus.EDIT.value))
-                    ))
-                    .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
-            ))
-            .where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
-            .where(instance.instanceStartDt.goe(range.from).and(instance.instanceEndDt.loe(range.to)))
-        return query.fetch()
+    /**
+     * 전체 문서 허용 권한 여부.
+     */
+    private fun hasDocumentViewAuth(): Boolean {
+        return currentSessionUser.getAuth().contains(AuthConstants.AuthType.DOCUMENT_VIEW.value)
     }
 }
