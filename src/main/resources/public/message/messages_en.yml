@@ -73,7 +73,7 @@ common:
     minValue: "Minimum input is {0}"
     modify: "Modified."
     noData: "There is no data."
-    onlySaveInEdit: "It cannot be saved in the publish/edit."
+    onlySaveInEdit: "It cannot be saved in the destroy."
     processedOrDelete: "Already processed or deleted."
     register: "Registered."
     required: "Please enter {0}."

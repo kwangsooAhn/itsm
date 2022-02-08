@@ -64,6 +64,10 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
                 .onUIClick(this.updateProperty.bind(this))
                 .addUI(new UISpan().setUIClass('z-text').setUITextContent(i18n.msg(item.name)));
 
+            if (!this.isEditable) {
+                this.UIElement.UIGroup.UIButtonGroup['UIButton' + name].addUIClass('disabled');
+            }
+
             if (defaultTypeValueArray[0] === item.value) {
                 this.UIElement.UIGroup.UIButtonGroup['UIButton' + name].addUIClass('selected');
             }

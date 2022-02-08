@@ -135,11 +135,6 @@ export default class ZOptionListProperty extends ZProperty {
         }
         checkedTD.labelGroup.addUI(new UISpan());
 
-        if (!this.isEditable) {
-            checkedTD.labelGroup.addUIClass('readonly');
-            checkedTD.labelGroup[0].addUIClass('readonly');
-        }
-
         const nameTD = new UICell(optionRow);
         nameTD.inputName =  new UIInput()
             .setUIPlaceholder(i18n.msg('form.properties.optionList.namePlaceholder'))

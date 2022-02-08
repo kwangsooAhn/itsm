@@ -40,10 +40,15 @@ export default class ZTagProperty extends ZProperty {
                 return JSON.stringify(tag);
             }).toString() + ']';
 
-        this.UIElement.UIInput = new UIInput()//.removeUIClass('z-input').addUIClass('input')
+        this.UIElement.UIInput = new UIInput()
             .setUIId(this.key).setUIValue(valueString)
             .setUIReadOnly(!this.isEditable);
         this.UIElement.addUI(this.UIElement.UIInput);
+
+        // tagify 는 readonly 일때, z-input을 삭제한다.
+        if (!this.isEditable) {
+            this.UIElement.UIInput.setUIClass('');
+        }
 
         // tag 는 실제 그려진 UI를 이용해서 tagify 적용이 필요함.
         // 여기서 append 를 하고 리턴을 null.

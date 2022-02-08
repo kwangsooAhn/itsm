@@ -659,6 +659,7 @@ class ZFormDesigner {
      * group, row, component 객체 복제
      */
     copyObject() {
+        if (!this.isEditable) { return false; }
         if (this.selectedObject === null) { return false; }
         if (this.selectedObject instanceof ZForm) { return false; }
 
@@ -668,6 +669,7 @@ class ZFormDesigner {
      * group, row, component 객체 삭제
      */
     removeObject() {
+        if (!this.isEditable) { return false; }
         if (this.selectedObject === null) { return false; }
         if (this.selectedObject instanceof ZForm) { return false; }
 
@@ -858,9 +860,8 @@ class ZFormDesigner {
         // 세부 속성 유효성 검증 실패시 동작을 중지한다.
         if (!this.panel.validationStatus) { return false; }
 
-        // 발행, 사용 상태일 경우, 저장이 불가능하다.
-        const deployableStatus = ['form.status.publish', 'form.status.use'];
-        if (deployableStatus.includes(this.data.status)) {
+        // 폐기상태일 경우 저장 불가능
+        if (this.isDestory) {
             zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
             return false;
         }

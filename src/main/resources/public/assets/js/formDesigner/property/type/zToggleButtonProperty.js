@@ -51,6 +51,10 @@ export default class ZToggleButtonProperty extends ZProperty {
                 .onUIClick(this.updateProperty.bind(this))
                 .addUI(new UISpan().setUIClass('z-icon').addUIClass(item.name));
 
+            if (!this.isEditable) {
+                this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('disabled');
+            }
+
             if (toggleValueArray[index] === 'Y') {
                 this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('selected');
             }
