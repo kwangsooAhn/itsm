@@ -6491,8 +6491,9 @@ span.modal_node_selected label {
 .property .z-input:not(.tagify).i-unit-px:not(:last-child) {
   margin-right: 0.25rem;
 }
-.property .z-textArea {
-  min-height: 7.5rem;
+.property .z-textarea {
+  line-height: 1.6;
+  min-height: 5.625rem;
 }
 .property .input-button .z-button {
   height: 2.5rem;
