@@ -20,7 +20,6 @@ import org.springframework.expression.spel.standard.SpelExpressionParser
 import org.springframework.expression.spel.support.StandardEvaluationContext
 import org.springframework.stereotype.Service
 
-
 @Service
 class ChartConditionService(
     private val tagRepository: AliceTagRepository,
@@ -89,7 +88,6 @@ class ChartConditionService(
             val parser: ExpressionParser = SpelExpressionParser()
             try {
                 val discriminant: Expression = parser.parseExpression(chartCondition)
-                val test = discriminant.getValue(context) as Boolean
                 discriminant.getValue(context) as Boolean
             } catch (e: Exception) {
                 false
