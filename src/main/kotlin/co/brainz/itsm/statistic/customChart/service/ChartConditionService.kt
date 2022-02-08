@@ -97,7 +97,6 @@ class ChartConditionService(
         }
     }
 
-
     /**
      * 사용자가 설정한 태그를 모두 포함하고 있는 인스턴스의 리스트만 가져온다.
      */
