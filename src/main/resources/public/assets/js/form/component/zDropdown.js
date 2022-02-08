@@ -145,7 +145,7 @@ export const dropdownMixin = {
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, false)
-                    .setValidation(true,'','','','','')),
+                    .setValidation(true, '', '', '', '', '')),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];

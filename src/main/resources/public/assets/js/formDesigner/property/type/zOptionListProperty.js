@@ -24,8 +24,8 @@ const propertyExtends = {
 };
 
 export default class ZOptionListProperty extends ZProperty {
-    constructor(key, name, value, flag) {
-        super(key, name, 'optionListProperty', value);
+    constructor(key, name, value, flag, isAlwaysEditable) {
+        super(key, name, 'optionListProperty', value, isAlwaysEditable);
         this.multipleSelect = flag; // 다중 선택 여부
     }
 
@@ -41,6 +41,9 @@ export default class ZOptionListProperty extends ZProperty {
      */
     makeProperty(panel) {
         this.panel = panel;
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
+
         this.UIElement = new UIDiv().setUIClass('property').setUIProperty('--data-column', this.columnWidth);
 
         // 라벨
@@ -52,6 +55,7 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIClass('z-button-icon')
             .addUIClass('extra')
             .addUIClass('float-right')
+            .setUIDisabled(!this.isEditable)
             .onUIClick(this.addRow.bind(this));
         this.UIElement.UIButton.addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'));
         this.UIElement.UILabel.addUI(this.UIElement.UIButton);
@@ -101,6 +105,11 @@ export default class ZOptionListProperty extends ZProperty {
         checkedTD.labelGroup = new UILabel()
             .setUIFor(checkedId);
         checkedTD.addUI(checkedTD.labelGroup);
+
+        if (!this.isEditable) {
+            checkedTD.labelGroup.addUIClass('readonly');
+        }
+
         if (this.multipleSelect) {
             checkedTD.labelGroup.addUIClass('z-checkbox');
             checkedTD.labelGroup.checbox = new UICheckbox(option.checked || false)
@@ -108,6 +117,10 @@ export default class ZOptionListProperty extends ZProperty {
                 .setUIAttribute('value', option.value)
                 .onUIChange(this.updateProperty.bind(this));
             checkedTD.labelGroup.addUI(checkedTD.labelGroup.checbox);
+
+            if (!this.isEditable) {
+                checkedTD.labelGroup.checbox.addUIClass('readonly');
+            }
         } else {
             checkedTD.labelGroup.addUIClass('z-radio');
             checkedTD.labelGroup.radio = new UIRadioButton(option.checked || false)
@@ -115,6 +128,10 @@ export default class ZOptionListProperty extends ZProperty {
                 .setUIAttribute('name', 'z-option-radio')
                 .onUIChange(this.updateProperty.bind(this));
             checkedTD.labelGroup.addUI(checkedTD.labelGroup.radio);
+
+            if (!this.isEditable) {
+                checkedTD.labelGroup.radio.addUIClass('readonly');
+            }
         }
         checkedTD.labelGroup.addUI(new UISpan());
 
@@ -126,7 +143,8 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
-            .setUIAttribute('name','optionName')
+            .setUIAttribute('name', 'optionName')
+            .setUIReadOnly(!this.isEditable)
             .onUIFocusout(this.updateProperty.bind(this));
         nameTD.addUI(nameTD.inputName);
 
@@ -138,13 +156,15 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
-            .setUIAttribute('name','optionValue')
+            .setUIAttribute('name', 'optionValue')
+            .setUIReadOnly(!this.isEditable)
             .onUIFocusout(this.updateProperty.bind(this));
         valueTD.addUI(valueTD.inputValue);
 
         const removeTD = new UICell(optionRow);
         removeTD.removeButton = new UIButton()
             .setUIClass('z-button-icon')
+            .setUIDisabled(!this.isEditable)
             .onUIClick(this.removeRow.bind(this));
         removeTD.removeButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
         removeTD.addUI(removeTD.removeButton);
@@ -179,13 +199,13 @@ export default class ZOptionListProperty extends ZProperty {
                     e.target.value = '';
                     e.target.focus();
                     return false;
-                })
+                });
             } else if (e.target.name === 'optionValue' && optionListValue.length > 1) {
                 zAlert.warning(i18n.msg('form.msg.duplicateOptionsValue'), function () {
                     e.target.value = '';
                     e.target.focus();
                     return false;
-                })
+                });
             }
         }
         this.panel.update.call(this.panel, this.key, this.getPropertyValue(this.UIElement.UIOptionTable.domElement));
