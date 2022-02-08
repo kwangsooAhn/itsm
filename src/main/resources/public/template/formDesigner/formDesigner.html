@@ -33,7 +33,13 @@
                 ZSession.add('departmentName', response.data.organizationName);
             });
         }
-        zFormDesigner.initForm('[[${formId}]]', '[[${isView}]]');
+        // 데이터 조회
+        aliceJs.fetchJson('/rest/forms/[[${formId}]]/data', {
+            method: 'GET',
+            showProgressbar: true
+        }).then((formData) => {
+            zFormDesigner.init(formData, '[[${isView}]]');
+        });
         window.zFormDesigner = zFormDesigner;
 
         window.addEventListener('DOMContentLoaded', function() {
@@ -62,7 +68,7 @@
                 <img class="z-img i-form-designer" th:src="@{/assets/media/icons/formDesigner/topmenu/icon_form_designer.svg}" width="169" height="25" alt="Form Designer" />
                 <span class="z-form-name ml-auto mr-auto" id="formName"></span>
                 <!--버튼 영역-->
-                <div class="z-form-button-list flex-row mr-3">
+                <div class="z-form-button-list flex-row mr-3" id="formButtonGroup">
                     <!--undo-->
                     <th:block th:if="${#strings.isEmpty(isView)}">
                         <div id="editCommand">

@@ -18,12 +18,14 @@ const propertyExtends = {
 };
 
 export default class ZImageProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'imageProperty', value);
+    constructor(key, name, value, isAlwaysEditable) {
+        super(key, name, 'imageProperty', value, isAlwaysEditable);
     }
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
@@ -44,6 +46,7 @@ export default class ZImageProperty extends ZProperty {
         // button
         this.UIElement.UIDiv.UIButton = new UIButton().setUIClass('z-button-icon').addUIClass('z-button-attach-file')
             .setUIId('imageUploadPopUp')
+            .setUIDisabled(!this.isEditable)
             .onUIClick(this.openThumbnailModal.bind(this));
         this.UIElement.UIDiv.UIButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-folder'));
         this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIButton);

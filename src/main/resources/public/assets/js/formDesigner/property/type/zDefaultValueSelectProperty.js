@@ -32,8 +32,8 @@ const propertyExtends = {
 };
 
 export default class ZDefaultValueSelectProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'defaultValueSelectProperty', value);
+    constructor(key, name, value, isAlwaysEditable) {
+        super(key, name, 'defaultValueSelectProperty', value, isAlwaysEditable);
 
         this.options = propertyExtends.options;
         this.selectOptions = propertyExtends.selectOptions;
@@ -41,6 +41,8 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
@@ -58,8 +60,13 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
             this.UIElement.UIGroup.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(this.key)
                 .setUIAttribute('data-type', item.value)
                 .setUIClass('z-button-switch')
+                .setUIDisabled(!this.isEditable)
                 .onUIClick(this.updateProperty.bind(this))
                 .addUI(new UISpan().setUIClass('z-text').setUITextContent(i18n.msg(item.name)));
+
+            if (!this.isEditable) {
+                this.UIElement.UIGroup.UIButtonGroup['UIButton' + name].addUIClass('disabled');
+            }
 
             if (defaultTypeValueArray[0] === item.value) {
                 this.UIElement.UIGroup.UIButtonGroup['UIButton' + name].addUIClass('selected');
@@ -74,6 +81,7 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
             .setUIValue((defaultTypeValueArray[0] === 'input') ? defaultTypeValueArray[1] : '')
             .setUIAttribute('data-validation-min-length', this.validation.minLength)
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
+            .setUIReadOnly(!this.isEditable)
             .onUIKeyUp(this.updateProperty.bind(this))
             .onUIChange(this.updateProperty.bind(this));
         this.UIElement.UIGroup.addUI(this.UIElement.UIGroup.UIInput);
@@ -92,6 +100,10 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
             .setUIOptions(selectOption).setUIValue(selectOptionValue)
             .onUIChange(this.updateProperty.bind(this));
         this.UIElement.UIGroup.addUI(this.UIElement.UIGroup.UISelect);
+
+        if (!this.isEditable) {
+            this.UIElement.UIGroup.UISelect.addUIClass('readonly');
+        }
 
         this.UIElement.addUI(this.UIElement.UIGroup);
 

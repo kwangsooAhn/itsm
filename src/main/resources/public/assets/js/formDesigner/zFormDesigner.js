@@ -23,8 +23,9 @@ class ZFormDesigner {
         this.domElement = document.getElementById('formDrawingBoard') || document.body;
         // edit, view, complete 등 문서의 상태에 따라 아코디언, 컴포넌트 등 동작을 막음
         this.domElement.classList.add('edit');
-        this.isView = false; // 편집 가능 여부
-
+        this.isView = false; // view 모드인지 여부 > TODO: 추후 없어질 예정
+        this.isEditable = true; // 편집 여부
+        this.isDestory = false; // 폐기 여부
         this.history = new ZHistory(this);  // 이력 관리
         this.panel = new ZPanel(this); // 세부 속성 관리
         this.selectedObject = null;
@@ -35,18 +36,37 @@ class ZFormDesigner {
         }).then((customData) => {
             FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
         });
+    }
 
-        // 초기화
+    /**
+     * 초기화
+     * @param formData 폼 데이터
+     */
+    init(formData, isView) {
+        this.formId = formData.id;
+        this.isView = (isView === 'true');
+        // 문서 상태
+        this.isEditable = formData.status === FORM.STATUS.EDIT;
+        this.isDestory = formData.status === FORM.STATUS.DESTROY;
+        // 메뉴 및 단축키 초기화
         this.initMenuBar();
         this.initShortcut();
         this.initComponentPalette();
         // 미리보기 초기화
         zDocument.initDocumentModal();
+        // 폼 초기화
+        document.addEventListener('click', this.onLeftClickHandler.bind(this), false);
+        // 폼 초기화
+        this.reflowForm(formData);
     }
     /**
      * 상단 메뉴바 초기화 및 이벤트 등록
      */
     initMenuBar() {
+        // 폐기 상태일 경우, 버튼 비활성화
+        if (this.isDestory) {
+            document.getElementById('formButtonGroup').style.display = 'none';
+        }
         // 사용자가 페이지를 떠날 때 정말로 떠날 것인지 묻는 확인창 표시
         window.addEventListener('beforeunload', (e) => {
             if (this.history.status && !this.isView) {
@@ -65,8 +85,8 @@ class ZFormDesigner {
             { 'keys': 'ctrl+z', 'command': 'zFormDesigner.history.undo();', 'force': false },                        //폼 편집 화면 작업 취소
             { 'keys': 'ctrl+shift+z', 'command': 'zFormDesigner.history.redo();', 'force': false },                  //폼 편집 화면 작업 재실행
             { 'keys': 'ctrl+e', 'command': 'zFormDesigner.preview();', 'force': false },                             //폼 양식 미리보기
-            { 'keys': 'insert', 'command': 'zFormDesigner.copyObject();', 'force': false },           //복사하여 바로 아래 추가
-            { 'keys': 'ctrl+x,delete', 'command': 'zFormDesigner.removeObject();', 'force': false },  //객체 삭제
+            { 'keys': 'insert', 'command': 'zFormDesigner.copyObject();', 'force': false },                          //복사하여 바로 아래 추가
+            { 'keys': 'ctrl+x,delete', 'command': 'zFormDesigner.removeObject();', 'force': false },                 //객체 삭제
             { 'keys': 'ctrl+home', 'command': 'zFormDesigner.selectFirstGroup();', 'force': false },                 //첫번째 그룹 선택
             { 'keys': 'ctrl+end', 'command': 'zFormDesigner.selectLastGroup();', 'force': false },                   //마지막 그룹 선택
             { 'keys': 'up', 'command': 'zFormDesigner.selectUpObject();', 'force': false },                          //바로 위 동일 타입 객체 선택
@@ -84,6 +104,7 @@ class ZFormDesigner {
      * 컴포넌트 팔레트 초기화 및 이벤트 추가
      */
     initComponentPalette() {
+        if (!this.isEditable) { return false; }
         // drag & drop 이벤트 추가
         const componentIconBoxes = document.querySelectorAll('.z-component-icon-box');
         componentIconBoxes.forEach(icon => {
@@ -184,23 +205,6 @@ class ZFormDesigner {
         });
     }
     /**
-     * 폼 초기화 및 이벤트 추가
-     * @param formId 폼 아이디
-     * @param isView 편집화면인지 보기화면인지 판단
-     */
-    initForm(formId, isView) {
-        this.isView = (isView === 'true');
-        this.formId = formId;
-        aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
-            method: 'GET',
-            showProgressbar: true
-        }).then((formData) => {
-            this.reflowForm(formData);
-        });
-
-        document.addEventListener('click', this.onLeftClickHandler.bind(this), false);
-    }
-    /**
      * JSON 데이터 정렬 (Recursive)
      * @param data JSON 데이터
      */
@@ -276,9 +280,10 @@ class ZFormDesigner {
         switch(type) {
             case FORM.LAYOUT.FORM:
                 addObject = new ZForm(data);
-
-                // drag & drop 이벤트 추가
                 addObject.UIElement.addUIClass('list-group');
+
+                if (!this.isEditable) { break; }
+                // drag & drop 이벤트 추가
                 new Sortable(addObject.UIElement.domElement, {
                     group: {
                         name: 'form',
@@ -308,10 +313,14 @@ class ZFormDesigner {
                 break;
             case FORM.LAYOUT.GROUP:
                 addObject = new ZGroup(data);
-
-                // drag & drop 이벤트 추가
                 addObject.UIElement.addUIClass('list-group-item');
                 addObject.UIElement.UIGroup.addUIClass('list-group');
+
+                if (!this.isEditable) {
+                    addObject.UIElement.UITooltipMenu.addUIClass('off');
+                    break;
+                }
+                // drag & drop 이벤트 추가
                 new Sortable(addObject.UIElement.UIGroup.domElement, {
                     group: {
                         name: 'group',
@@ -399,10 +408,14 @@ class ZFormDesigner {
                 break;
             case FORM.LAYOUT.ROW:
                 addObject = new ZRow(data);
-
-                // drag & drop 이벤트 추가
                 addObject.UIElement.addUIClass('list-group-item');
                 addObject.UIElement.UIRow.addUIClass('list-group');
+
+                if (!this.isEditable) {
+                    addObject.UIElement.UITooltipMenu.addUIClass('off');
+                    break;
+                }
+                // drag & drop 이벤트 추가
                 new Sortable(addObject.UIElement.UIRow.domElement, {
                     group: {
                         name: 'row',
@@ -510,7 +523,10 @@ class ZFormDesigner {
                 break;
             case FORM.LAYOUT.COMPONENT:
                 addObject = new ZComponent(data);
-                addObject.UIElement.addUIClass('list-group-item'); // drag & drop 이벤트 추가
+                addObject.UIElement.addUIClass('list-group-item');
+                if (!this.isEditable) {
+                    addObject.UIElement.UITooltipMenu.addUIClass('off');
+                }
                 break;
             default:
                 break;
@@ -592,6 +608,8 @@ class ZFormDesigner {
         // 현재 선택된 객체 디자인 추가
         this.UIElement.addUIClass('selected');
         editor.selectedObject = this;
+        // this.isEditable = formData.status === FORM.STATUS.EDIT
+        // this.panel.editor.isEditable || ( 사용 or 발행 중 항시 편집이 true 일때)
         editor.panel.on(); // 세부 속성 출력
     }
     /**
@@ -641,6 +659,7 @@ class ZFormDesigner {
      * group, row, component 객체 복제
      */
     copyObject() {
+        if (!this.isEditable) { return false; }
         if (this.selectedObject === null) { return false; }
         if (this.selectedObject instanceof ZForm) { return false; }
 
@@ -650,6 +669,7 @@ class ZFormDesigner {
      * group, row, component 객체 삭제
      */
     removeObject() {
+        if (!this.isEditable) { return false; }
         if (this.selectedObject === null) { return false; }
         if (this.selectedObject instanceof ZForm) { return false; }
 
@@ -840,9 +860,8 @@ class ZFormDesigner {
         // 세부 속성 유효성 검증 실패시 동작을 중지한다.
         if (!this.panel.validationStatus) { return false; }
 
-        // 발행, 사용 상태일 경우, 저장이 불가능하다.
-        const deployableStatus = ['form.status.publish', 'form.status.use'];
-        if (deployableStatus.includes(this.data.status)) {
+        // 폐기상태일 경우 저장 불가능
+        if (this.isDestory) {
             zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
             return false;
         }
