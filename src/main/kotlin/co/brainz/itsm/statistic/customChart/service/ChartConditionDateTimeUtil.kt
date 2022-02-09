@@ -177,14 +177,13 @@ class ChartConditionDateTimeUtil {
      * String 문자열에 대하여 format 검사를 진행하고 LocalDateTime의 타입으로 변경한다.
      */
     fun getLocalDateTime(dateTime: String): LocalDateTime {
+        var dateFormatParser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        dateFormatParser.isLenient = false
         return try {
-            val dateFormatParser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-            dateFormatParser.isLenient = false
             dateFormatParser.parse(dateTime)
-
             LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME)
         } catch (e: Exception) {
-            val dateFormatParser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            dateFormatParser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             dateFormatParser.isLenient = false
             dateFormatParser.parse(dateTime)
             val localDateTime =
