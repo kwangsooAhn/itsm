@@ -74,7 +74,7 @@ class TokenService(
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
             when (wfComponentService
                 .getComponentTypeById(it.componentId) ==
-                    (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+                (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
@@ -102,7 +102,7 @@ class TokenService(
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
             when (wfComponentService
                 .getComponentTypeById(it.componentId) ==
-                    (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+                (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
@@ -133,7 +133,7 @@ class TokenService(
             userKey = currentSessionUser.getUserKey(),
             searchTokenType = WfTokenConstants.SearchType.TODO.code
         )
-    ).totalCount
+    ).paging.totalCount
 
     /**
      * 해당 인스턴스를 가진 토큰 데이터를 조회한다.

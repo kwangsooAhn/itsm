@@ -155,10 +155,6 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.isScroll) {
-            query.limit(searchDataCount)
-                .offset(tokenSearchCondition.offset)
-        }
         return query.fetchResults()
     }
 
@@ -189,10 +185,6 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.isScroll) {
-            query.limit(searchDataCount)
-                .offset(tokenSearchCondition.offset)
-        }
         return query.fetchResults()
     }
 
@@ -237,10 +229,6 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.isScroll) {
-            query.limit(searchDataCount)
-                .offset(tokenSearchCondition.offset)
-        }
         return query.fetchResults()
     }
 

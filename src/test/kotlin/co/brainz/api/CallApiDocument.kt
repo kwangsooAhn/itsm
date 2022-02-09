@@ -207,7 +207,6 @@ class CallApiDocument {
             searchTokenType = WfTokenConstants.SearchType.COMPLETED.code,
             searchFromDt = LocalDateTime.now().minusMonths(1).atZone(ZoneOffset.UTC).toString(),
             searchToDt = LocalDateTime.now().atZone(ZoneOffset.UTC).toString(),
-            offset = 0,
             searchTag = ""
         )
 
