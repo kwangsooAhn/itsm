@@ -9,7 +9,6 @@ package co.brainz.itsm.statistic.customChart.service
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.statistic.customChart.constants.ChartConditionConstants
-import co.brainz.itsm.statistic.customChart.dto.ChartTagInstanceDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import org.slf4j.LoggerFactory
@@ -31,23 +30,23 @@ class ChartConditionService(
     /**
      * 조건에 일치하는 인스턴스 리스트를 리턴한다.
      */
-    fun getChartConditionByTagInstances(
+    fun getChartConditionByTagInstance(
         chartCondition: String?,
-        tagInstanceList: List<ChartTagInstanceDto>
-    ): List<ChartTagInstanceDto> {
-        return if (!chartCondition.isNullOrBlank() && tagInstanceList.isNotEmpty()) {
+        instanceList: List<WfInstanceEntity>
+    ): List<WfInstanceEntity> {
+        return if (!chartCondition.isNullOrBlank() && instanceList.isNotEmpty()) {
             // 1. 조건식(chartCondition)에서 대괄호("[","]")를 제외한 태그만 추출한다.
             val tags = this.getTagsInCondition(chartCondition)
             if (tags.isNotEmpty()) {
                 // 2. 위에서 추출한 태그를 모두 포함하고 있는 인스턴스를 추출한다.
-                val targetInstanceList = this.getInstanceListIncludeTags(tagInstanceList, tags)
+                val targetInstanceList = this.getInstanceListIncludeTags(instanceList, tags)
                 // 3. 조건문에 통과되는 인스턴스만 모두 추출한다.
                 this.getTagInstanceList(chartCondition, targetInstanceList, tags)
             } else {
-                tagInstanceList
+                emptyList()
             }
         } else {
-            tagInstanceList
+            emptyList()
         }
     }
 
@@ -56,20 +55,17 @@ class ChartConditionService(
      */
     private fun getTagInstanceList(
         chartCondition: String,
-        targetInstanceList: List<ChartTagInstanceDto>,
+        targetInstanceList: List<WfInstanceEntity>,
         tags: LinkedHashSet<String>
-    ): List<ChartTagInstanceDto> {
-        targetInstanceList.forEach { chartTagInstanceDto ->
-            val instanceList = mutableListOf<WfInstanceEntity>()
-            chartTagInstanceDto.conditionInstances.forEach { conditionInstance ->
-                if (this.conditionDiscrimination(chartCondition, conditionInstance, tags)) {
-                    instanceList.add(conditionInstance)
-                }
+    ): List<WfInstanceEntity> {
+        val instanceList = mutableListOf<WfInstanceEntity>()
+        targetInstanceList.forEach { targetInstance ->
+            if (this.conditionDiscrimination(chartCondition, targetInstance, tags)) {
+                instanceList.add(targetInstance)
             }
-            chartTagInstanceDto.conditionInstances = instanceList
         }
 
-        return targetInstanceList
+        return instanceList
     }
 
     /**
@@ -101,34 +97,31 @@ class ChartConditionService(
      * 사용자가 설정한 태그를 모두 포함하고 있는 인스턴스의 리스트만 가져온다.
      */
     private fun getInstanceListIncludeTags(
-        tagInstanceList: List<ChartTagInstanceDto>,
+        instanceList: List<WfInstanceEntity>,
         tags: LinkedHashSet<String>
-    ): List<ChartTagInstanceDto> {
-        tagInstanceList.forEach { chartTagInstanceDto ->
-            val instanceList = mutableListOf<WfInstanceEntity>()
-            chartTagInstanceDto.instances.forEach { wfInstanceEntity ->
-                // "대상 태그"를 포함하고 있는 인스턴스 중에서 tagSet에 담겨있는 "조건 태그"를 모두 포함하고 있는 인스턴스를 수집.
-                val targetTagSet = LinkedHashSet<String>()
-                val componentIds = LinkedHashSet<String>()
-                // 해당 인스턴스의 컴포넌트 아이디 수집
-                wfInstanceEntity.document.form.components.forEach { wfComponentEntity ->
-                    componentIds.add(wfComponentEntity.componentId)
-                }
-                // 위에서 수집한 컴포넌트 아이디를 사용하여 awf_tag 테이블의 tag 데이터를 가져온다.
-                val targetTags =
-                    tagRepository.findByTargetIds(AliceTagConstants.TagType.COMPONENT.code, componentIds)
-                targetTags.forEach { tag ->
-                    targetTagSet.add(tag.tagValue)
-                }
-
-                if (targetTagSet.containsAll(tags)) {
-                    instanceList.add(wfInstanceEntity)
-                }
+    ): List<WfInstanceEntity> {
+        val targetInstanceList = mutableListOf<WfInstanceEntity>()
+        instanceList.forEach { instance ->
+            // "대상 태그"를 포함하고 있는 인스턴스 중에서 tagSet에 담겨있는 "조건 태그"를 모두 포함하고 있는 인스턴스를 수집.
+            val targetTagSet = LinkedHashSet<String>()
+            val componentIds = LinkedHashSet<String>()
+            // 해당 인스턴스의 컴포넌트 아이디 수집
+            instance.document.form.components.forEach { wfComponentEntity ->
+                componentIds.add(wfComponentEntity.componentId)
             }
-            chartTagInstanceDto.conditionInstances = instanceList
+            // 위에서 수집한 컴포넌트 아이디를 사용하여 awf_tag 테이블의 tag 데이터를 가져온다.
+            val targetTags =
+                tagRepository.findByTargetIds(AliceTagConstants.TagType.COMPONENT.code, componentIds)
+            targetTags.forEach { tag ->
+                targetTagSet.add(tag.tagValue)
+            }
+
+            if (targetTagSet.containsAll(tags)) {
+                targetInstanceList.add(instance)
+            }
         }
 
-        return tagInstanceList
+        return targetInstanceList
     }
 
     /**
@@ -143,7 +136,7 @@ class ChartConditionService(
             if (chartCondition[startIndex].toString() == ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value) {
                 for (index in startIndex + 1..chartCondition.indices.last) {
                     if (chartCondition[index].toString() == ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value) {
-                        var tag = chartCondition.substring(startIndex, index + 1)
+                        var tag = chartCondition.substring(startIndex + 1, index)
                         chartConditionTags.add(tag)
                         startIndex = index
                         break
@@ -151,17 +144,6 @@ class ChartConditionService(
                 }
             }
             startIndex++
-        }
-
-        if (chartConditionTags.isNotEmpty()) {
-            chartConditionTags.forEach { chartConditionTag ->
-                returnSet.add(
-                    chartConditionTag.removeSurrounding(
-                        ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value,
-                        ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value
-                    )
-                )
-            }
         }
 
         return returnSet

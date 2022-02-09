@@ -333,7 +333,12 @@ abstract class ChartManager(
         chartDto: ChartDto,
         tagInstances: List<ChartTagInstanceDto>
     ): List<ChartTagInstanceDto> {
-        return chartConditionService.getChartConditionByTagInstances(chartDto.chartConfig.condition, tagInstances)
+        tagInstances.forEach { tagInstance ->
+            tagInstance.conditionInstances =
+                chartConditionService.getChartConditionByTagInstance(chartDto.chartConfig.condition, tagInstance.instances)
+        }
+
+        return tagInstances
     }
 
     /**
