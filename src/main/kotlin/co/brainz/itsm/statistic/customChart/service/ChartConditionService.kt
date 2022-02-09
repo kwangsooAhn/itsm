@@ -128,8 +128,7 @@ class ChartConditionService(
      * 조건문(chartCondition)에서 태그 데이터를 추출한다.
      */
     private fun getTagsInCondition(chartCondition: String): LinkedHashSet<String> {
-        val chartConditionTags = LinkedHashSet<String>()
-        val returnSet = LinkedHashSet<String>()
+        val tagSet = LinkedHashSet<String>()
         var startIndex = 0
 
         while (startIndex < chartCondition.length) {
@@ -137,7 +136,7 @@ class ChartConditionService(
                 for (index in startIndex + 1..chartCondition.indices.last) {
                     if (chartCondition[index].toString() == ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value) {
                         var tag = chartCondition.substring(startIndex + 1, index)
-                        chartConditionTags.add(tag)
+                        tagSet.add(tag)
                         startIndex = index
                         break
                     }
@@ -146,7 +145,7 @@ class ChartConditionService(
             startIndex++
         }
 
-        return returnSet
+        return tagSet
     }
 
     /**
