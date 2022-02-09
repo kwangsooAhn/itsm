@@ -20,7 +20,7 @@ import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.document.service.WfDocumentService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
@@ -162,8 +162,8 @@ class DocumentService(
      */
     fun getFormList(): List<RestTemplateFormDto> {
         val formStatus = ArrayList<String>()
-        formStatus.add(RestTemplateConstants.FormStatus.PUBLISH.value)
-        formStatus.add(RestTemplateConstants.FormStatus.USE.value)
+        formStatus.add(WorkflowConstants.FormStatus.PUBLISH.value)
+        formStatus.add(WorkflowConstants.FormStatus.USE.value)
         return formService.findForms(
             FormSearchCondition(
                 searchValue = "",
@@ -181,8 +181,8 @@ class DocumentService(
      */
     fun getProcessList(): List<RestTemplateProcessViewDto> {
         val processStatus = ArrayList<String>()
-        processStatus.add(RestTemplateConstants.ProcessStatus.PUBLISH.value)
-        processStatus.add(RestTemplateConstants.ProcessStatus.USE.value)
+        processStatus.add(WorkflowConstants.ProcessStatus.PUBLISH.value)
+        processStatus.add(WorkflowConstants.ProcessStatus.USE.value)
         return processAdminService.getProcesses(
             ProcessSearchCondition(
                 searchValue = "",

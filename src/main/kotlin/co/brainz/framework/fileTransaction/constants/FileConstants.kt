@@ -15,7 +15,8 @@ object FileConstants {
     enum class Type(val code: String) {
         IMAGE("image"),
         ICON("icon"),
-        ICON_CI_TYPE("cmdb-icon")
+        ICON_CI_TYPE("cmdb-icon"),
+        FILE("file")
     }
 
     /**
@@ -25,6 +26,7 @@ object FileConstants {
         ICON_DOCUMENT("icons${File.separator}document"),
         ICON_CI_TYPE("icons${File.separator}ciType"),
         IMAGE("images"),
+        FILE("shared"),
         PROCESSES("processes"),
         UPLOAD("uploadRoot"),
         TEMP("temp")
