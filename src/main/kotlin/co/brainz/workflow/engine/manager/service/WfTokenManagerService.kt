@@ -73,7 +73,8 @@ class WfTokenManagerService(
     private val ciComponentDataRepository: CIComponentDataRepository,
     private val ciService: CIService,
     private val viewerRepository: ViewerRepository,
-    private val currentSessionUser: CurrentSessionUser
+    private val currentSessionUser: CurrentSessionUser,
+    environment: Environment
 ): AliceFileUtil(environment) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
