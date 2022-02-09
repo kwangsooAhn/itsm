@@ -293,9 +293,9 @@ insert into awf_code values ('chart.range.between', 'chart.range', 'chart.range.
 insert into awf_code values ('chart.range.last.day', 'chart.range', 'chart.range.last.day', '어제', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.range.last.month', 'chart.range', 'chart.range.last.month', '지난 달', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.range.all', 'chart.range', 'chart.range.all', '전체', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('chart.documentStatus', 'chart', null, 'CHART DOCUMENT STATUS',null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', '2022-01-14 00:37:29.030176', now(), null, true);
-insert into awf_code values ('chart.documentStatus.only.finish.document', 'chart.documentStatus', 'only.finish.document', '완료된 문서만',null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', '2022-01-14 00:37:29.030176', now(), null, true);
-insert into awf_code values ('chart.documentStatus.even.running.document', 'chart.documentStatus', 'even.running.document', '진행 중인 문서까지',null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', '2022-01-14 00:37:29.030176', now(), null, true);
+insert into awf_code values ('chart.documentStatus', 'chart', null, 'CHART DOCUMENT STATUS', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', '2022-01-14 00:37:29.030176', now(), null);
+insert into awf_code values ('chart.documentStatus.only.finish.document', 'chart.documentStatus', 'only.finish.document', '완료된 문서만', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', '2022-01-14 00:37:29.030176', now(), null);
+insert into awf_code values ('chart.documentStatus.even.running.document', 'chart.documentStatus', 'even.running.document', '진행 중인 문서까지', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', '2022-01-14 00:37:29.030176', now(), null);
 insert into awf_code values ('instance', 'root', null, '인스턴스', null, true, true, 1, 15, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('instance.platform', 'instance', null, '인스턴스 플랫폼', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('instance.platform.itsm', 'instance.platform', 'ITSM', 'ITSM', null, faLse, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
