@@ -7,7 +7,7 @@ package co.brainz.framework.tag
 
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
-import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.workflow.instance.service.WfInstanceService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assumptions.assumeTrue
@@ -28,7 +28,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class AliceTagServiceTest {
 
     @Autowired
-    private lateinit var aliceTagService: AliceTagService
+    private lateinit var aliceTagManager: AliceTagManager
 
     @Autowired
     private lateinit var wfInstanceService: WfInstanceService
@@ -53,7 +53,7 @@ class AliceTagServiceTest {
             targetId = this.instanceId
         )
 
-        assumeTrue(aliceTagService.insertTag(tagDto) != "")
+        assumeTrue(aliceTagManager.insertTag(tagDto) != "")
     }
 
     @Test
@@ -65,14 +65,14 @@ class AliceTagServiceTest {
             instanceDto.instanceId.isNotEmpty()
         ) {
             val instanceTagList =
-                aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.INSTANCE.code, instanceDto.instanceId)
+                aliceTagManager.getTagsByTargetId(AliceTagConstants.TagType.INSTANCE.code, instanceDto.instanceId)
 
             val tempTagValue = instanceTagList.filter {
                 it.tagValue == this.tagValue
             }[0]
             assertEquals(tempTagValue.tagValue, this.tagValue)
 
-            tempTagValue.tagId?.let { aliceTagService.deleteTag(it) }
+            tempTagValue.tagId?.let { aliceTagManager.deleteTag(it) }
         }
     }
 }

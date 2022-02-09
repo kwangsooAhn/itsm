@@ -115,7 +115,8 @@ object WfElementConstants {
         WITHDRAW("withdraw"),
         CANCEL("cancel"),
         TERMINATE("terminate"),
-        CLOSE("close")
+        CLOSE("close"),
+        REVIEW("review")
         ;
 
         companion object {

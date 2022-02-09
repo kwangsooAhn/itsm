@@ -1071,7 +1071,7 @@ CREATE TABLE awf_url
 	url varchar(512) NOT NULL,
 	method varchar(16) NOT NULL,
 	url_desc varchar(256),
-	is_required_auth boolean DEFAULT 'true',
+	is_required_auth boolean DEFAULT 'TRUE',
 	CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
 );
 
@@ -1135,6 +1135,7 @@ insert into awf_url values ('/workflows/{id}/edit', 'get', '신청서 수정 화
 insert into awf_url values ('/workflows/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
 insert into awf_url values ('/documents', 'get', '신청서 리스트 화면', 'FALSE');
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
+insert into awf_url values ('/documents/{id}/edit', 'get', '신청서 조회', 'TRUE');
 insert into awf_url values ('/documents/{id}/print', 'get', '신청서 프린트 화면', 'TRUE');
 insert into awf_url values ('/downloads', 'get', '자료실 리스트 화면', 'TRUE');
 insert into awf_url values ('/downloads/new', 'get', '자료실 신규 등록', 'TRUE');
@@ -1193,15 +1194,15 @@ insert into awf_url values ('/reports/report/search', 'get', '보고서 조회 �
 insert into awf_url values ('/reports/report/{id}/view', 'get', '보고서 상세화면', 'TRUE');
 insert into awf_url values ('/reports/template', 'get', '템플릿 설정 목록 조회', 'TRUE');
 insert into awf_url values ('/reports/template/new', 'get', '템플릿 설정 등록', 'TRUE');
-insert into awf_url values ('/reports/template/preview', 'get', '템플릿 미리보기', 'true');
+insert into awf_url values ('/reports/template/preview', 'get', '템플릿 미리보기', 'TRUE');
 insert into awf_url values ('/reports/template/search', 'get', '템플릿 설정 검색 화면 호출', 'TRUE');
 insert into awf_url values ('/reports/template/{id}/edit', 'get', '템플릿 설정 수정', 'TRUE');
 insert into awf_url values ('/reports/template/{id}/view', 'get', '템플릿 설정 미리보기', 'TRUE');
-insert into awf_url values ('/rest/reports/template', 'post', '템플릿 설정 등록 처리', 'true');
-insert into awf_url values ('/rest/reports/template/charts', 'get', '템플릿 차트 데이터 조회', 'true');
-insert into awf_url values ('/rest/reports/template/{id}', 'delete', '템플릿 설정 삭제 처리', 'true');
-insert into awf_url values ('/rest/reports/template/{id}', 'post', '보고서 생성 (임시)', 'true');
-insert into awf_url values ('/rest/reports/template/{id}', 'put', '템플릿 설정 수정 처리', 'true');
+insert into awf_url values ('/rest/reports/template', 'post', '템플릿 설정 등록 처리', 'TRUE');
+insert into awf_url values ('/rest/reports/template/charts', 'get', '템플릿 차트 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/reports/template/{id}', 'delete', '템플릿 설정 삭제 처리', 'TRUE');
+insert into awf_url values ('/rest/reports/template/{id}', 'post', '보고서 생성 (임시)', 'TRUE');
+insert into awf_url values ('/rest/reports/template/{id}', 'put', '템플릿 설정 수정 처리', 'TRUE');
 insert into awf_url values ('/rest/auths', 'get', '권한 전체 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/auths', 'post', '권한 등록', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'get', '권한 상세 정보 조회', 'TRUE');
@@ -1274,25 +1275,29 @@ insert into awf_url values ('/rest/faqs/{id}', 'put', 'FAQ 수정 처리', 'TRUE
 insert into awf_url values ('/rest/faqs/{id}', 'get', 'FAQ 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'delete', 'FAQ 삭제 처리', 'TRUE');
 insert into awf_url values ('/rest/filenameextensions', 'get', '파일 확장자목록', 'FALSE');
-insert into awf_url values ('/rest/files/download', 'get', '파일관리 다운로드', 'FALSE');
 insert into awf_url values ('/rest/folders', 'post', '폴더 등록', 'FALSE');
-insert into awf_url values ('/rest/folders/{folderId}/instances/{instanceId}', 'delete', '폴더 삭제', false);
-insert into awf_url values ('/rest/folders/{folderId}', 'get', '폴더조회', false);
+insert into awf_url values ('/rest/folders/{folderId}/instances/{instanceId}', 'delete', '폴더 삭제', 'FALSE');
+insert into awf_url values ('/rest/folders/{folderId}', 'get', '폴더조회', 'FALSE');
 insert into awf_url values ('/rest/forms/{id}', 'delete', '폼 디자이너 삭제', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'get', '폼 디자이너 세부 정보 불러오기', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
 insert into awf_url values ('/rest/forms', 'post', '폼 디자이너 기본 정보 저장 / 다른 이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}', 'put', '폼 디자이너 기본 정보 수정', 'TRUE');
-insert into awf_url values ('/rest/forms/{id}', 'get', '폼 디자이너 기본 정보 조회', true);
+insert into awf_url values ('/rest/forms/{id}', 'get', '폼 디자이너 기본 정보 조회', 'TRUE');
 insert into awf_url values ('/rest/files', 'post', '파일 업로드', 'TRUE');
 insert into awf_url values ('/rest/files', 'put', '파일명 수정', 'TRUE');
 insert into awf_url values ('/rest/files/{id}', 'get', '파일 조회', 'FALSE');
 insert into awf_url values ('/rest/files/{id}', 'delete', '파일 삭제', 'TRUE');
 insert into awf_url values ('/rest/files', 'get', '파일 전체 조회', 'FALSE');
-insert into awf_url values ('/rest/instances/{instanceId}/history', 'get', '문서 이력조회', false);
-insert into awf_url values ('/rest/instances/{instanceId}/comments', 'get', '댓글 조회', false);
-insert into awf_url values ('/rest/instances/{instanceId}/comments', 'post', '댓글 등록', false);
-insert into awf_url values ('/rest/instances/{instanceId}/comments/{commentId}', 'delete', '댓글 삭제', false);
+insert into awf_url values ('/rest/instances/{id}/viewer/', 'get', '참조인 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/', 'post', '참조인 등록(수정)', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}', 'delete', '참조인 삭제', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}/read', 'post', '참조인 읽음', 'TRUE');
+insert into awf_url values ('/rest/instances/{instanceId}/history', 'get', '문서 이력조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{instanceId}/comments', 'get', '댓글 조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{instanceId}/comments', 'post', '댓글 등록', 'FALSE');
+insert into awf_url values ('/rest/instances/{instanceId}/comments/{commentId}', 'delete', '댓글 삭제', 'FALSE');
+insert into awf_url values ('/rest/instances/{instanceId}/tags', 'get', '태그 조회', 'FALSE');
 insert into awf_url values ('/rest/notices', 'post', '공지사항 등록', 'TRUE');
 insert into awf_url values ('/rest/notices/{id}', 'delete', '공지사항 삭제', 'TRUE');
 insert into awf_url values ('/rest/notices/{id}', 'put', '공지사항 수정', 'TRUE');
@@ -1370,7 +1375,7 @@ insert into awf_url values ('/tokens/{id}/edit', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/print', 'get', '처리할 문서 프린트 화면', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view-pop', 'get', '관련문서 팝업 화면', 'TRUE');
-insert into awf_url values ('/tokens/{tokenId}/tokenTab','get','문서조회 탭화면', true);
+insert into awf_url values ('/tokens/tokenTab','get','문서조회 탭화면', 'TRUE');
 insert into awf_url values ('/users', 'get', '사용자 조회 목록 화면', 'TRUE');
 insert into awf_url values ('/users/new', 'get', '사용자 등록 화면', 'TRUE');
 insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 등 메인이 되는 조회 화면', 'TRUE');
@@ -1466,6 +1471,7 @@ insert into awf_url_auth_map values ('/custom-codes/search', 'get', 'system.mana
 insert into awf_url_auth_map values ('/custom-codes/{id}/edit', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/dashboard/view', 'get', 'general');
+insert into awf_url_auth_map values ('/documents/{id}/edit', 'get', 'general');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads', 'get', 'portal.manage');
@@ -1614,6 +1620,10 @@ insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'workflow.m
 insert into awf_url_auth_map values ('/rest/files', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/files', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/files/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/{userkey}', 'delete', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/{userkey}/read', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/notices', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'delete', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'put', 'portal.manage');
@@ -1685,7 +1695,7 @@ insert into awf_url_auth_map values ('/tokens/{id}/edit', 'get', 'general');
 insert into awf_url_auth_map values ('/tokens/{id}/print', 'get', 'general');
 insert into awf_url_auth_map values ('/tokens/{id}/view', 'get', 'general');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'general');
-insert into awf_url_auth_map values ('/tokens/{tokenId}/tokenTab', 'get', 'general');
+insert into awf_url_auth_map values ('/tokens/tokenTab', 'get', 'general');
 insert into awf_url_auth_map values ('/users', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/users/new', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/users/search', 'get', 'system.manage');
@@ -5451,6 +5461,12 @@ INSERT INTO wf_element_data VALUES ('6c42da85993f4ae9b551ef67b15c5d49','end-id',
 INSERT INTO wf_element_data VALUES ('6c42da85993f4ae9b551ef67b15c5d49','end-name','승인',7,false);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','assignee','general.user',1,true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('a727237e2c6f9dbdbbff693ed151c85d','action-name','신청서 등록',0,false);
@@ -5530,6 +5546,12 @@ INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','end-id',
 INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','end-name','종료',7,false);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','assignee','general.user',1,true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('a271b9f3a790280811cd6a6ff94c02e1','action-name','',0,false);
@@ -5778,6 +5800,12 @@ INSERT INTO wf_element_data VALUES ('af8674894f8bc525c6f41a482bcf4300','end-id',
 INSERT INTO wf_element_data VALUES ('af8674894f8bc525c6f41a482bcf4300','end-name','만족도 평가',7,false);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','assignee','general.user',1,true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('d0d3a5405e974ec8ad00a72a9eaf6f25','action-name','APP 변경 이관',0,false);
@@ -5852,6 +5880,12 @@ INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'reject-
 INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'general.user', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('a84bf98428f6a55b44779396edbd99bc', 'action-name', '접수', 0, false);
@@ -8775,4 +8809,34 @@ create table awf_organization_role_map
 COMMENT ON TABLE awf_organization_role_map IS '조직역할매핑';
 COMMENT ON COLUMN awf_organization_role_map.organization_id IS '그룹아이디';
 COMMENT ON COLUMN awf_organization_role_map.role_id IS '역할아이디';
+
+/**
+  참조인 관리
+ */
+DROP TABLE IF EXISTS wf_instance_viewer cascade;
+
+CREATE TABLE wf_instance_viewer
+(
+    instance_id varchar(128) NOT NULL,
+    viewer_key varchar(128) NOT NULL,
+    review_yn boolean default false,
+    display_yn boolean default false,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT wf_instance_viewer_pk PRIMARY KEY (instance_id, viewer_key),
+    CONSTRAINT wf_instance_viewer_fk1 FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id),
+    CONSTRAINT wf_instance_viewer_fk2 FOREIGN KEY (viewer_key) REFERENCES awf_user (user_key)
+);
+
+COMMENT ON TABLE wf_instance_viewer IS '참조인관리';
+COMMENT ON COLUMN wf_instance_viewer.instance_id IS '인스턴스아이디';
+COMMENT ON COLUMN wf_instance_viewer.viewer_key IS '참조인';
+COMMENT ON COLUMN wf_instance_viewer.review_yn IS '읽음여부';
+COMMENT ON COLUMN wf_instance_viewer.display_yn IS '표시여부';
+COMMENT ON COLUMN wf_instance_viewer.create_user_key IS '생성자';
+COMMENT ON COLUMN wf_instance_viewer.create_dt IS '생성일시';
+COMMENT ON COLUMN wf_instance_viewer.create_user_key IS '수정자';
+COMMENT ON COLUMN wf_instance_viewer.create_dt IS '수정일시';
 

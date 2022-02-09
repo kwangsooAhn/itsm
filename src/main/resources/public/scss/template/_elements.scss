@@ -9,7 +9,7 @@
 // 기본 글꼴 설정.
 // 모바일 기기 회전시에 사용자가 확대하지 않아도 글씨 크기가 재조정되는 것을 예방.
 body {
-  font-family: $font-family-m;
+  font-family: $font-family;
   font-size: $font-size-s;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -17,7 +17,7 @@ body {
 
 // headings
 h1, h2, h3, h4, h5, h6 {
-  font-family: $font-family-m;
+  font-family: $font-family;
   font-weight: $headings-font-weight;
   line-height: $headings-line-height;
   color: $headings-font-color;
@@ -40,7 +40,7 @@ h5 {
   font-size: $h5-font-size;
 }
 h6 {
-  font-family: $font-family-s;
+  font-family: $font-family;
   font-size: $h6-font-size;
 }
 // a
@@ -74,8 +74,10 @@ table {
   border: none;
 
   td, th {
-    padding: 0 0.9375rem; // 0 15px
-    &:first-child { padding-left: 1.25rem; } // 20px
+    &:not(.p-0) {
+      padding: 0 0.9375rem;   // 0 15px
+      &:first-child { padding-left: 1.25rem; } // 20px
+    }
 
     a { color: $element-font-color; }
   }
@@ -303,23 +305,6 @@ input, textarea, select {
     @include border($validation-success-border-width, solid, $validation-success-border-color !important, all);
   }
 
-  &-clear {
-    @include relative();
-    display: inline-block;
-
-    input { width: 100%; }
-
-    .z-icon {
-      -webkit-print-color-adjust:exact;
-      &.i-clear {
-        @include absolute($right: $input-clear-right);
-        padding: 1.125rem 0.875rem; // 18px 14px
-        background: $input-bg-icon-color;
-        cursor: pointer;
-      }
-    }
-  }
-
   // z-input with background img
   &.i-search {
     @include backgroundImage($icon-folder-path + 'icon_search.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
@@ -364,13 +349,9 @@ input, textarea, select {
       }
     }
 
-    .z-icon {
-      &.i-clear {
-        @include absolute($right: calc(#{$input-clear-right} + 5rem));
-        padding: 1.125rem 0.875rem; // 18px 14px
-        background: $element-icon-color;
-        cursor: pointer;
-      }
+    .z-button-icon-sm {
+      @include absolute($top: 0.625rem, $right: $input-clear-right + 5rem);
+      -webkit-print-color-adjust:exact;
     }
   }
 
@@ -830,7 +811,7 @@ select {
         // 체크 기호
         &::after {
           content: '';
-          @include absolute($top: 0.125rem, $left: 0); // 2px
+          @include absolute($top: -0.04rem, $left: 0); // 2px
           width: 0.75rem; // 12px
           height: 0.375rem; // 6px
           @include border(0.125rem, solid, $element-checked-color, bottom, top);
@@ -949,7 +930,7 @@ select {
 
       &::after { // 선택시 작은 원
         content: '';
-        @include absolute($top: -0.225rem, $left: 0); // top: -3.6px
+        @include absolute($top: -0.35rem, $left: 0); // top: -5.6 px
         width: $radio-inner-size;
         height: $radio-inner-size;
         background-color: transparent;
@@ -1051,4 +1032,21 @@ select {
 
 .z-view-hover {
   pointer-events: none;
+}
+
+// label default
+.label {
+  @include borderRadius(0.125rem); // 2px
+  padding: 0.375rem; // 6px
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  line-height: 1.0625rem; //17px
+  // 기본 테마별 라벨
+  @each $theme, $value in $label-themes-default {
+    &.#{$theme} {
+      color: map-get($value, 'default', 'font');
+      background-color: map-get($value, 'default', 'background');
+      border-color: map-get($value, 'default', 'border');
+    }
+  }
 }

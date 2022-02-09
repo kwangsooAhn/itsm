@@ -97,8 +97,8 @@ export const propertyExtends = {
 };
 
 export default class ZColumnProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'columnProperty', value);
+    constructor(key, name, value, isAlwaysEditable) {
+        super(key, name, 'columnProperty', value, isAlwaysEditable);
 
         this.tabs = [];
         this.panels = [];
@@ -109,6 +109,8 @@ export default class ZColumnProperty extends ZProperty {
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
@@ -134,6 +136,7 @@ export default class ZColumnProperty extends ZProperty {
             .addUIClass('extra')
             .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
             .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'))
+            .setUIDisabled(!this.isEditable)
             .onUIClick(this.addColumn.bind(this, { columnType: 'input' }, -1));
         this.UITabPanel.tabGroup.addUI(this.UITabPanel.tabGroup.addButton);
 
@@ -153,7 +156,6 @@ export default class ZColumnProperty extends ZProperty {
             .setUIClass('z-button-icon')
             .addUIClass('z-tab')
             .setUIId('column' + index)
-            .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-check'))
             .onUIClick(this.selectColumn.bind(this, 'column' + index));
         this.UITabPanel.tabGroup.addUI(tab);
         this.tabs.push(tab);
@@ -188,18 +190,22 @@ export default class ZColumnProperty extends ZProperty {
         // 순서 변경 < > 버튼 추가
         const arrowLeftButton = new UIButton().setUIClass('z-button-icon')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-prev'))
+            .setUIDisabled(!this.isEditable)
             .onUIClick(this.swapColumn.bind(this, 'column' + index, - 1));
         const arrowRightButton = new UIButton().setUIClass('z-button-icon')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-next'))
+            .setUIDisabled(!this.isEditable)
             .onUIClick(this.swapColumn.bind(this, 'column' + index, + 1));
         // 패널 삭제 버튼 추가
         const deleteButton = new UIButton().setUIClass('z-button-icon').addUIClass('panel-delete-button')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'))
+            .setUIDisabled(!this.isEditable)
             .onUIClick(this.removeColumn.bind(this, 'column' + index));
 
         columnCommonGroup.addUI(
             new UISpan().setUIClass('panel-name').setUIInnerHTML(i18n.msg('form.properties.element.columnOrder')),
             arrowLeftButton,
+            new UISpan().setUIInnerHTML(index + 1).setUIId('count'+index),
             arrowRightButton,
             deleteButton
         );
@@ -213,8 +219,10 @@ export default class ZColumnProperty extends ZProperty {
         this.makePropertyRecursive(columnIndividualGroup, property);
         return columnIndividualGroup;
     }
+    panelCount(option, index) {}
     // 세부 속성 추가 (Recursive)
     makePropertyRecursive(target, property) {
+        this.editor = this.panel.editor;
         property.map(propertyObject => {
             const propertyObjectElement = propertyObject.makeProperty(this);
 
@@ -314,6 +322,10 @@ export default class ZColumnProperty extends ZProperty {
         [this.panels[curIndex], this.panels[changeIndex]] = [this.panels[changeIndex], this.panels[curIndex]];
 
         [this.value[curIndex], this.value[changeIndex]] = [this.value[changeIndex], this.value[curIndex]];
+
+        this.UITabPanel.panelGroup.domElement.childNodes[curIndex].childNodes[0].childNodes[2].innerHTML= curIndex+1
+        this.UITabPanel.panelGroup.domElement.childNodes[changeIndex].childNodes[0].childNodes[2].innerHTML= changeIndex+1
+
         this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
     }
     // 컬럼 세부 속성 - 공통
@@ -333,7 +345,7 @@ export default class ZColumnProperty extends ZProperty {
         columnHeadInputProperty.columnWidth = '9';
 
         // head - fontColor
-        const columnHeadColorProperty = new ZColorPickerProperty(id + '|columnHead.fontColor', 'columnHead.fontColor', option.columnHead.fontColor, false)
+        const columnHeadColorProperty = new ZColorPickerProperty(id + '|columnHead.fontColor', 'columnHead.fontColor', option.columnHead.fontColor)
             .setValidation(false, 'rgb', '', '', '', '25');
         columnHeadColorProperty.columnWidth = '9';
 
@@ -450,7 +462,8 @@ export default class ZColumnProperty extends ZProperty {
     getPropertyForColumnTypeDropdown(option, id) {
         return [
             new ZGroupProperty('group.columnElement').addProperty(
-                new ZOptionListProperty(id + '|columnElement.options', 'element.options', option.columnElement.options, false).setValidation(true,'','','','','')
+                new ZOptionListProperty(id + '|columnElement.options', 'element.options', option.columnElement.options, false, false)
+                    .setValidation(true, '', '', '', '', '')
             )
         ];
     }

@@ -1,1 +1,8 @@
 @import "../template/_elements.scss";
+
+.z-button-icon-sm {
+  .z-icon {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+}
