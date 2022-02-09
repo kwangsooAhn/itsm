@@ -86,6 +86,7 @@ COMMENT ON COLUMN awf_code.code_value IS '코드 값';
 COMMENT ON COLUMN awf_code.code_name IS '코드 명';
 COMMENT ON COLUMN awf_code.code_desc IS '코드 설명';
 COMMENT ON COLUMN awf_code.editable IS '수정가능여부';
+COMMENT ON COLUMN awf_code.use_yn IS '사용여부';
 COMMENT ON COLUMN awf_code.level IS '코드 레벨';
 COMMENT ON COLUMN awf_code.seq_num IS '정렬 순서';
 COMMENT ON COLUMN awf_code.create_user_key IS '등록자';
@@ -276,7 +277,7 @@ insert into awf_code values ('chart.type', 'chart', null, 'CHART TYPE', null, tr
 insert into awf_code values ('chart.type.basicLine', 'chart.type', 'chart.basicLine', 'Basic Line Chart', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type.pie', 'chart.type', 'chart.pie', 'Pie Chart', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type.stackedColumn', 'chart.type', 'chart.stackedColumn', 'Stacked Column Chart', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('chart.type.stackedBar', 'chart.type', 'chart.stackedBar', 'Stacked Bar Chart', null, true, true, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type.stackedBar', 'chart.type', 'chart.stackedBar', 'Stacked Bar Chart', null, true, false, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type.gauge', 'chart.type', 'chart.gauge', 'Gauge Chart', null, true, false, 3, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.operation', 'chart', null, 'CHART OPERATION', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.operation.count', 'chart.operation', 'count', '카운트', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
