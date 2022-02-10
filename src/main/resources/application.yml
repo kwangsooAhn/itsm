@@ -183,6 +183,11 @@ spring:
 file.upload.dir: C:\files
 ---
 spring:
+  profiles: jylee
+  datasource:
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32848/itsm
+---
+spring:
   profiles: hyeongyu
   datasource:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32796/itsm

@@ -244,7 +244,7 @@ chart:
   label:
     all: "All"
     average: "Average"
-    chartt: "User Custom Chart"
+    chart: "User Custom Chart"
     condition: "condition"
     chartSetting: "Chart Setting"
     description: "Chart Description"
@@ -943,9 +943,9 @@ menu:
     basicReport: "Basic Report Inquiry"
     customChart: "User custom chart"
     customDashboardTemplate: "Custom Dashboard Template"
-    customReport: " Report List"
-    customReportTemplate: "Custom Dashboard Template"
-    customTemplate: " Report Template"
+    customReport: "Report Inquiry"
+    customReportTemplate: "Custom Report Template"
+    dashboardTemplate: "Dashboard Template"
     parent: "Statistics/Report"
   setting:
     editMyInfo: "Edit My Info"
