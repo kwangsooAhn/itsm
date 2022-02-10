@@ -868,6 +868,7 @@ class ZFormDesigner {
 
         // '편집' 상태에서 '발행' or '사용' 상태로 저장하려는 경우 유효성 검증
         // 컴포넌트별 설정이 발행이 가능한지 확인한다.
+        const deployableStatus = ['form.status.publish', 'form.status.use'];
         if (this.data.status === 'form.status.edit' && deployableStatus.includes(this.form.status)) {
             //매핑아이디 중복체크
             let mappingIdList = [];
