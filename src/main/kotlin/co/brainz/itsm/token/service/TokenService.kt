@@ -133,7 +133,7 @@ class TokenService(
             userKey = currentSessionUser.getUserKey(),
             searchTokenType = WfTokenConstants.SearchType.TODO.code
         )
-    ).paging.totalCount
+    ).paging.totalCountWithoutCondition
 
     /**
      * 해당 인스턴스를 가진 토큰 데이터를 조회한다.
