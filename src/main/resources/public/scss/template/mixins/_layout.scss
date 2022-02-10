@@ -248,6 +248,7 @@
     display: flex;
     flex: 1;  // flex: 1 1 0;
     padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
+    overflow-x: auto;
 
     .z-list-content {
       flex: 1;
@@ -261,6 +262,53 @@
 
     .z-list-tree {
       height: 37.88rem; // 606px
+    }
+
+    // 그리드
+    .grid {
+      display: grid;
+      flex: 1;
+      align-content: start;
+
+      &__row {
+        display: grid;
+        grid-template-columns: var(--data-columns-width);
+        grid-template-rows: 49px;
+        &:hover { background-color: $grid-hover-bg-color; }
+      }
+
+      &__cell {
+        display: flex;
+        height: 100%;
+        align-items: center;
+      }
+
+      &__head {
+        .grid__row {
+          color: $grid-head-color;
+          @include border(0.125rem, solid, $grid-border-color, bottom);
+          .grid__cell:not([data-grid-sortable='false']) {
+            cursor: pointer;
+          }
+        }
+      }
+
+      &__body {
+        overflow: auto;
+
+        .grid__row {
+          color: $grid-body-color;
+          @include border(0.0625rem, solid, $grid-border-color, bottom);
+        }
+      }
+
+      // 데이터가 없을때
+      &--noData {
+        .grid__row {
+          grid-column: 1 / -1;
+          justify-content: center;
+        }
+      }
     }
   }
 }

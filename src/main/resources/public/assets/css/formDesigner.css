@@ -7811,7 +7811,7 @@ span.modal_node_selected label {
   min-height: 2.25rem;
   align-items: flex-start;
   flex-wrap: wrap;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   cursor: text;
   outline: 0;
@@ -8063,7 +8063,7 @@ span.modal_node_selected label {
   -moz-border-radius: 50%;
   order: 5;
   cursor: pointer;
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
   color: #63686C;
@@ -8215,7 +8215,7 @@ span.modal_node_selected label {
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   box-sizing: inherit;
   cursor: pointer;

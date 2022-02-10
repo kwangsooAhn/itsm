@@ -7,7 +7,7 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-const DEFAULT_OPTIONS = {
+const PAGING_DEFAULT_OPTIONS = {
     numOfPageNums : 5, // 출력되는 페이징 숫자의 개수
     activeArrowClass : 'active', // 유효한 화살표용 클래스 이름
     pageNumSelector : 'div.z-paging-numbers a', // 페이지 번호 목록 셀렉터
@@ -15,7 +15,7 @@ const DEFAULT_OPTIONS = {
 };
 export default class ZPaging {
     constructor(options) {
-        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
+        this.options = Object.assign({}, PAGING_DEFAULT_OPTIONS, options);
         // 리스트 목록에 옵져버 설정. 조회되어 리스트가 변하면 자동으로 페이징 처리
         const config = {childList: true, subtree: true};
         const observer = new MutationObserver(this.update.bind(this));
