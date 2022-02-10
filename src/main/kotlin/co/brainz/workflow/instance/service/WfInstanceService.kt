@@ -79,13 +79,6 @@ class WfInstanceService(
         return set
     }
 
-    fun getTodoTokenCount(): Long = instances(
-        TokenSearchCondition(
-            userKey = currentSessionUser.getUserKey(),
-            searchTokenType = WfTokenConstants.SearchType.TODO.code
-        )
-    ).paging.totalCountWithoutCondition
-
     /**
      * Search Instances.
      */
