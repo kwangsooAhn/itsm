@@ -72,9 +72,7 @@ class TokenService(
         )
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
-            when (wfComponentService
-                .getComponentTypeById(it.componentId) ==
-                (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+            when (this.isFileUploadComponent(it.componentId) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
@@ -100,9 +98,7 @@ class TokenService(
         )
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
-            when (wfComponentService
-                .getComponentTypeById(it.componentId) ==
-                (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+            when (this.isFileUploadComponent(it.componentId) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
@@ -150,6 +146,13 @@ class TokenService(
     ): MutableList<RestTemplateInstanceExcelDto> {
         tokenSearchCondition.userKey = currentSessionUser.getUserKey()
         return wfInstanceService.instancesForExcel(tokenSearchCondition)
+    }
+
+    /**
+     * 컴포넌트 파일업로드 판단
+     */
+    private fun isFileUploadComponent(componentId: String): Boolean {
+        return wfComponentService.getComponentTypeById(componentId) == WfComponentConstants.ComponentType.FILEUPLOAD.code
     }
 
     /**
