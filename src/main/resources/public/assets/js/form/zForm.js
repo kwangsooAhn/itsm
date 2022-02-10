@@ -248,7 +248,7 @@ export default class ZForm {
     getProperty() {
         // display 속성 - width
         const displayWidthProperty = new ZInputBoxProperty('displayWidth', 'display.width', this.displayWidth)
-            .setValidation(true, 'number', '0', '8192', '', '');
+            .setValidation(true, 'number', '0', '1920', '', '');
         displayWidthProperty.unit = UNIT.PX;
 
         // display 속성 - margin

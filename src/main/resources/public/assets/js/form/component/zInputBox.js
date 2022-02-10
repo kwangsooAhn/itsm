@@ -46,7 +46,7 @@ Object.freeze(DEFAULT_COMPONENT_PROPERTY);
 /**
  * 불필요한 key Event를 막기 위한 ascii key code
  */
-const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, ,92, 93,
+const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, , 92, 93,
     112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 144, 145];
 
 export const inputBoxMixin = {
@@ -227,7 +227,7 @@ export const inputBoxMixin = {
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZInputBoxProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder))
+                .addProperty(new ZInputBoxProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder, true))
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(defaultValueProperty),
             new ZGroupProperty('group.validation')

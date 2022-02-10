@@ -17,6 +17,7 @@ common:
     register: "REGISTER"
     reject: "REJECT"
     return: "GO BACK"
+    review: "REVIEW"
     save: "SAVE"
     saveAs: "SAVE AS"
     select: "SELECT"
@@ -73,7 +74,7 @@ common:
     minValue: "Minimum input is {0}"
     modify: "Modified."
     noData: "There is no data."
-    onlySaveInEdit: "It cannot be saved in the publish/edit."
+    onlySaveInEdit: "It cannot be saved in the destroy."
     processedOrDelete: "Already processed or deleted."
     register: "Registered."
     required: "Please enter {0}."
@@ -316,6 +317,10 @@ cmdb:
         required: "Required"
         label: "Label"
         none: "None"
+        maxDate: "Max Date"
+        minDate: "Min Date"
+        maxDateTime: "Max Date Time"
+        minDateTime: "Min Date Time"
         maxLength: "Max Length"
         minLength: "Min Length"
         session: "Session"
@@ -333,6 +338,8 @@ cmdb:
       viewDescription: "Inquires detailed information about the attribute."
       editDescription: "Register, modify, or delete information on attribute."
       maxLength: "Please enter max length below 1000."
+      maxDate: "Please select max date after min date."
+      maxDateTime: "Please select max date time after min date time."
       comepareWithMaxLength: "Enter a number max length is greater than min length."
     btn:
       import: "Import"
@@ -872,21 +879,6 @@ form:
     publish: "Publish"
     use: "Use"
 
-# Image
-image:
-  label:
-    name: "Image"
-    list: "Image Management"
-    placeholder: "Select Your Image"
-    popupTitle: "Select Image"
-    upload: "Upload Your Image"
-  msg:
-    existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
-    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
-    fileSelect: "Please select a file."
-    registrationSuccess: "Image Registration Success."
-    searchDescription: "Add, view and manage images to be used in forms."
-
 # Login
 login:
   btn:
@@ -954,7 +946,7 @@ menu:
   workflow:
     customCode: "Custom Code"
     form: "Form"
-    image: "Image"
+    file: "File"
     numberingPattern: "Pattern"
     numberingRule: "Document Number"
     parent: "Workflow"
@@ -1078,6 +1070,7 @@ process:
     title: "Process Designer"
     undo: "Undo"
   msg:
+    condition: "The applicable documentation specified in accordance with conditions to enter is registered as an attachment."
     duplicateProcessName: "Duplicate process name! Please enter other process name."
     duplicateData: "The same data exists."
     enterRequired: "{0} Required field is empty.<br>Please enter Required field"
@@ -1087,6 +1080,9 @@ process:
     startEventnMustOne: 'Only one start event is allowed.'
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
+    sourceMappingId: "Mapping ID of the component to which the attachment is to be added.<br>※ The working target component may be a file upload component or an image component."
+    targetFileMappingId: "Mapping ID of the component to which the working condition is to be applied.<br>Compare the input value of the component with the working conditions."
+    targetCIMappingId: "Mapping ID of CI component to reflect CMDB changes"
     uncheckWithdraw: "Can't set withdraw in the first element.<br>Please uncheck withdraw in {0} element."
   title:
     preview: "Zenius ITSM : Process Preview"
@@ -1291,6 +1287,7 @@ token:
     information: "Information"
     list: "My Document List"
     print: "Process Document Print"
+    read: "Read"
     relatedInstance: "Related Documents"
     relatedInstancePlaceholder: "Document Name / Create User"
     searchPlaceholder: "Document No / Create User / Contents"
@@ -1298,6 +1295,8 @@ token:
     status: "Status"
     tagPlaceHolder: "#Tags"
     view: "Document View"
+    viewer: "CC"
+    viewerAdd: "+ CC Add"
     write: "My Document"
     process: "Process"
   msg:
@@ -1370,6 +1369,7 @@ user:
     searchPlaceholder: "ID/Name/Dept/Position/Number"
     signUpDate: "SignUp Date"
     substituteUser: "Substitute User"
+    substituteUserSearchPlaceholder: "ID/Name/Department"
     theme: "Theme"
     time: "Time Format"
     timeFormat: "Date/Time Format"
@@ -1447,6 +1447,7 @@ validation:
     checkUserIdFormat: "Please enter the correct userId format."
     dataNotDuplicate: "Duplicate data cannot be included."
     elementNotExist: "The element does not exist."
+    fileSelect: "Please select a file."
     integer: "Please enter only integer."
     max: "Please enter below {0}."
     maxLength: "Please enter less than {0} characters."
@@ -1479,10 +1480,20 @@ project:
 # uploader
 file:
   label:
+    list: "File Management"
+    name: "File"
     or: "or"
+    placeholder: "Select Your File"
+    popupTitle: "Select File"
+    upload: "Upload Your File"
   msg:
     browser: "Find the file yourself."
+    existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
+    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
+    fileSelect: "Please select a file."
     noAttachFile: "There are no attachments."
+    registrationSuccess: "File Registration Success."
+    searchDescription: "Add, view and manage Files to be used in forms."
     upload: "Drop files here to upload."
 
 # Pattern

@@ -90,8 +90,9 @@
     }
   }
   // textarea 엘리먼트
-  .z-textArea {
-    min-height: 7.5rem; // 120px
+  .z-textarea {
+    line-height: 1.6;
+    min-height: 5.625rem; // 90px
   }
   // input + button
   .input-button {
@@ -169,7 +170,7 @@
       .z-input-button {
         width: 100%;
         .z-icon {
-          &.i-clear {
+          &.i-remove {
             right: 2.5rem;
           }
         }
@@ -182,11 +183,19 @@
   .z-tab-panel {
     .z-tabs {
       .z-button-icon {
-        padding: 0.25rem 0.563rem; // 4px 9px
+        height: 2rem; // 32px
+        padding: 0.25rem 0.409rem; // 4px 6.5px
 
-        &:not(:last-child) {
-          margin-right: 0.3125rem; // 5px
+        &:not(:first-child) { margin-left: 0.3125rem; } // 5px
+
+        // 추가 버튼
+        &:last-child { padding: 0.25rem 0; }
+        .z-icon { width: 0.82rem; } // 15px
+        .i-plus {
+          -webkit-mask-size: 1.2rem;
+          mask-size: 1.2rem;
         }
+
         // 버튼 안보이게 처리
         &.off { display: none; }
       }

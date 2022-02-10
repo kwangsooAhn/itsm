@@ -172,4 +172,3 @@
     f(a, "masters/modules/solid-gauge.src.js", [], function () {
     })
 });
-//# sourceMappingURL=solid-gauge.js.map

@@ -29,6 +29,13 @@ insert into awf_menu values ('download', 'menu', '/downloads/search', 6, 'TRUE')
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7, 'TRUE');
 insert into awf_menu values ('statistic', 'menu', '', 8, 'TRUE');
 insert into awf_menu values ('workflow', 'menu', '', 9, 'TRUE');
+insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1, 'TRUE');
+insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2, 'TRUE');
+insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3, 'TRUE');
+insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4, 'TRUE');
+insert into awf_menu values ('workflow.file', 'workflow', '/files', 5, 'TRUE');
+insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, 'TRUE');
+insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, 'TRUE');
 insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
 insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
@@ -49,10 +56,3 @@ insert into awf_menu values ('statistic.customChart', 'statistic', '/statistics/
 insert into awf_menu values ('statistic.basicChart', 'statistic', '/statistics/basicChart/search', 5, 'FALSE');
 insert into awf_menu values ('statistic.dashboardTemplate', 'statistic', '/statistics/dashboardTemplate/search', 6, 'FALSE');
 insert into awf_menu values ('statistic.customDashboardTemplate', 'statistic', '/statistics/customDashboardTemplate/edit', 7, 'FALSE');
-insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1, 'TRUE');
-insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2, 'TRUE');
-insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3, 'TRUE');
-insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4, 'TRUE');
-insert into awf_menu values ('workflow.image', 'workflow', '/images', 5, 'TRUE');
-insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, 'TRUE');
-insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, 'TRUE');

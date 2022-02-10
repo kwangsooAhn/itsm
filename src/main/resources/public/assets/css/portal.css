@@ -530,38 +530,56 @@ input, button, select, optgroup, textarea {
  * @version 1.0
  */
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Thin.woff2") format("woff2");
   font-style: normal;
   font-weight: 100;
 }
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-ExtraLight.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Light.woff2") format("woff2");
   font-style: normal;
   font-weight: 300;
 }
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Regular.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
 }
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Medium.woff2") format("woff2");
   font-style: normal;
   font-weight: 500;
 }
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-SemiBold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Bold.woff2") format("woff2");
   font-style: normal;
   font-weight: 700;
 }
 @font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-ExtraBold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 800;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../fonts/Pretendard-Black.woff2") format("woff2");
   font-style: normal;
   font-weight: 900;
 }
@@ -639,6 +657,934 @@ input, button, select, optgroup, textarea {
 
 .pointer {
   cursor: pointer;
+}
+
+/*
+ *  _colors.scss
+
+ * 파일 경로 : template/_colors.scss
+ * @description 폰트 색상, 배경 색상 클래스 모음
+ * @author wdj
+ * @version 1.0
+ */
+.text-brainz {
+  color: #0066FF !important;
+}
+
+.bg-brainz {
+  background-color: #0066FF !important;
+}
+
+.text-zenius {
+  color: #FF850A !important;
+}
+
+.bg-zenius {
+  background-color: #FF850A !important;
+}
+
+.text-blue900 {
+  color: #092C73 !important;
+}
+
+.bg-blue900 {
+  background-color: #092C73 !important;
+}
+
+.text-blue800 {
+  color: #103F8B !important;
+}
+
+.bg-blue800 {
+  background-color: #103F8B !important;
+}
+
+.text-blue700 {
+  color: #1959AC !important;
+}
+
+.bg-blue700 {
+  background-color: #1959AC !important;
+}
+
+.text-blue600 {
+  color: #2578CE !important;
+}
+
+.bg-blue600 {
+  background-color: #2578CE !important;
+}
+
+.text-blue500 {
+  color: #339AF0 !important;
+}
+
+.bg-blue500 {
+  background-color: #339AF0 !important;
+}
+
+.text-blue400 {
+  color: #64BBF6 !important;
+}
+
+.bg-blue400 {
+  background-color: #64BBF6 !important;
+}
+
+.text-blue300 {
+  color: #84D1FA !important;
+}
+
+.bg-blue300 {
+  background-color: #84D1FA !important;
+}
+
+.text-blue200 {
+  color: #ADE6FD !important;
+}
+
+.bg-blue200 {
+  background-color: #ADE6FD !important;
+}
+
+.text-blue100 {
+  color: #E3F5FC !important;
+}
+
+.bg-blue100 {
+  background-color: #E3F5FC !important;
+}
+
+.text-blue50 {
+  color: #F1F9FC !important;
+}
+
+.bg-blue50 {
+  background-color: #F1F9FC !important;
+}
+
+.text-green900 {
+  color: #235A07 !important;
+}
+
+.bg-green900 {
+  background-color: #235A07 !important;
+}
+
+.text-green800 {
+  color: #316D0C !important;
+}
+
+.bg-green800 {
+  background-color: #316D0C !important;
+}
+
+.text-green700 {
+  color: #468813 !important;
+}
+
+.bg-green700 {
+  background-color: #468813 !important;
+}
+
+.text-green600 {
+  color: #5CA21B !important;
+}
+
+.bg-green600 {
+  background-color: #5CA21B !important;
+}
+
+.text-green500 {
+  color: #76BD26 !important;
+}
+
+.bg-green500 {
+  background-color: #76BD26 !important;
+}
+
+.text-green400 {
+  color: #A0D756 !important;
+}
+
+.bg-green400 {
+  background-color: #A0D756 !important;
+}
+
+.text-green300 {
+  color: #C0EB7A !important;
+}
+
+.bg-green300 {
+  background-color: #C0EB7A !important;
+}
+
+.text-green200 {
+  color: #DBF8A9 !important;
+}
+
+.bg-green200 {
+  background-color: #DBF8A9 !important;
+}
+
+.text-green100 {
+  color: #F6FCE0 !important;
+}
+
+.bg-green100 {
+  background-color: #F6FCE0 !important;
+}
+
+.text-green50 {
+  color: #F8FDF1 !important;
+}
+
+.bg-green50 {
+  background-color: #F8FDF1 !important;
+}
+
+.text-yellow900 {
+  color: #776308 !important;
+}
+
+.bg-yellow900 {
+  background-color: #776308 !important;
+}
+
+.text-yellow800 {
+  color: #907A0E !important;
+}
+
+.bg-yellow800 {
+  background-color: #907A0E !important;
+}
+
+.text-yellow700 {
+  color: #B39A16 !important;
+}
+
+.bg-yellow700 {
+  background-color: #B39A16 !important;
+}
+
+.text-yellow600 {
+  color: #D7BC20 !important;
+}
+
+.bg-yellow600 {
+  background-color: #D7BC20 !important;
+}
+
+.text-yellow500 {
+  color: #FADF2D !important;
+}
+
+.bg-yellow500 {
+  background-color: #FADF2D !important;
+}
+
+.text-yellow400 {
+  color: #FBE961 !important;
+}
+
+.bg-yellow400 {
+  background-color: #FBE961 !important;
+}
+
+.text-yellow300 {
+  color: #FDF080 !important;
+}
+
+.bg-yellow300 {
+  background-color: #FDF080 !important;
+}
+
+.text-yellow200 {
+  color: #FEF6AB !important;
+}
+
+.bg-yellow200 {
+  background-color: #FEF6AB !important;
+}
+
+.text-yellow100 {
+  color: #FEFBD4 !important;
+}
+
+.bg-yellow100 {
+  background-color: #FEFBD4 !important;
+}
+
+.text-yellow50 {
+  color: #FEFDEB !important;
+}
+
+.bg-yellow50 {
+  background-color: #FEFDEB !important;
+}
+
+.text-orange900 {
+  color: #7A2601 !important;
+}
+
+.bg-orange900 {
+  background-color: #7A2601 !important;
+}
+
+.text-orange800 {
+  color: #933603 !important;
+}
+
+.bg-orange800 {
+  background-color: #933603 !important;
+}
+
+.text-orange700 {
+  color: #B74C05 !important;
+}
+
+.bg-orange700 {
+  background-color: #B74C05 !important;
+}
+
+.text-orange600 {
+  color: #DB6707 !important;
+}
+
+.bg-orange600 {
+  background-color: #DB6707 !important;
+}
+
+.text-orange500 {
+  color: #FF850A !important;
+}
+
+.bg-orange500 {
+  background-color: #FF850A !important;
+}
+
+.text-orange400 {
+  color: #FFAC47 !important;
+}
+
+.bg-orange400 {
+  background-color: #FFAC47 !important;
+}
+
+.text-orange300 {
+  color: #FFC46C !important;
+}
+
+.bg-orange300 {
+  background-color: #FFC46C !important;
+}
+
+.text-orange200 {
+  color: #FFDC9C !important;
+}
+
+.bg-orange200 {
+  background-color: #FFDC9C !important;
+}
+
+.text-orange100 {
+  color: #FFEDD1 !important;
+}
+
+.bg-orange100 {
+  background-color: #FFEDD1 !important;
+}
+
+.text-orange50 {
+  color: #FFF8E9 !important;
+}
+
+.bg-orange50 {
+  background-color: #FFF8E9 !important;
+}
+
+.text-red900 {
+  color: #75072D !important;
+}
+
+.bg-red900 {
+  background-color: #75072D !important;
+}
+
+.text-red800 {
+  color: #8E0B2D !important;
+}
+
+.bg-red800 {
+  background-color: #8E0B2D !important;
+}
+
+.text-red700 {
+  color: #B0122D !important;
+}
+
+.bg-red700 {
+  background-color: #B0122D !important;
+}
+
+.text-red600 {
+  color: #D21B2A !important;
+}
+
+.bg-red600 {
+  background-color: #D21B2A !important;
+}
+
+.text-red500 {
+  color: #F52525 !important;
+}
+
+.bg-red500 {
+  background-color: #F52525 !important;
+}
+
+.text-red400 {
+  color: #F9685A !important;
+}
+
+.bg-red400 {
+  background-color: #F9685A !important;
+}
+
+.text-red300 {
+  color: #FC917B !important;
+}
+
+.bg-red300 {
+  background-color: #FC917B !important;
+}
+
+.text-red200 {
+  color: #FEBEA7 !important;
+}
+
+.bg-red200 {
+  background-color: #FEBEA7 !important;
+}
+
+.text-red100 {
+  color: #FEE2D3 !important;
+}
+
+.bg-red100 {
+  background-color: #FEE2D3 !important;
+}
+
+.text-red50 {
+  color: #FEF2EB !important;
+}
+
+.bg-red50 {
+  background-color: #FEF2EB !important;
+}
+
+.text-violet900 {
+  color: #301270 !important;
+}
+
+.bg-violet900 {
+  background-color: #301270 !important;
+}
+
+.text-violet800 {
+  color: #451D88 !important;
+}
+
+.bg-violet800 {
+  background-color: #451D88 !important;
+}
+
+.text-violet700 {
+  color: #632FA9 !important;
+}
+
+.bg-violet700 {
+  background-color: #632FA9 !important;
+}
+
+.text-violet600 {
+  color: #8444CA !important;
+}
+
+.bg-violet600 {
+  background-color: #8444CA !important;
+}
+
+.text-violet500 {
+  color: #A95EEB !important;
+}
+
+.bg-violet500 {
+  background-color: #A95EEB !important;
+}
+
+.text-violet400 {
+  color: #C585F3 !important;
+}
+
+.bg-violet400 {
+  background-color: #C585F3 !important;
+}
+
+.text-violet300 {
+  color: #D89FF9 !important;
+}
+
+.bg-violet300 {
+  background-color: #D89FF9 !important;
+}
+
+.text-violet200 {
+  color: #EAC0FD !important;
+}
+
+.bg-violet200 {
+  background-color: #EAC0FD !important;
+}
+
+.text-violet100 {
+  color: #F6DFFE !important;
+}
+
+.bg-violet100 {
+  background-color: #F6DFFE !important;
+}
+
+.text-violet50 {
+  color: #FBF0FE !important;
+}
+
+.bg-violet50 {
+  background-color: #FBF0FE !important;
+}
+
+.text-gray900 {
+  color: #171D21 !important;
+}
+
+.bg-gray900 {
+  background-color: #171D21 !important;
+}
+
+.text-gray800 {
+  color: #222529 !important;
+}
+
+.bg-gray800 {
+  background-color: #222529 !important;
+}
+
+.text-gray700 {
+  color: #505559 !important;
+}
+
+.bg-gray700 {
+  background-color: #505559 !important;
+}
+
+.text-gray600 {
+  color: #63686C !important;
+}
+
+.bg-gray600 {
+  background-color: #63686C !important;
+}
+
+.text-gray500 {
+  color: #8B9094 !important;
+}
+
+.bg-gray500 {
+  background-color: #8B9094 !important;
+}
+
+.text-gray400 {
+  color: #ABB0B5 !important;
+}
+
+.bg-gray400 {
+  background-color: #ABB0B5 !important;
+}
+
+.text-gray300 {
+  color: #CFD5D9 !important;
+}
+
+.bg-gray300 {
+  background-color: #CFD5D9 !important;
+}
+
+.text-gray200 {
+  color: #E1E6EA !important;
+}
+
+.bg-gray200 {
+  background-color: #E1E6EA !important;
+}
+
+.text-gray100 {
+  color: #EBF1F5 !important;
+}
+
+.bg-gray100 {
+  background-color: #EBF1F5 !important;
+}
+
+.text-gray50 {
+  color: #F6F8FA !important;
+}
+
+.bg-gray50 {
+  background-color: #F6F8FA !important;
+}
+
+.text-neutral900 {
+  color: #212121 !important;
+}
+
+.bg-neutral900 {
+  background-color: #212121 !important;
+}
+
+.text-neutral800 {
+  color: #424242 !important;
+}
+
+.bg-neutral800 {
+  background-color: #424242 !important;
+}
+
+.text-neutral700 {
+  color: #616161 !important;
+}
+
+.bg-neutral700 {
+  background-color: #616161 !important;
+}
+
+.text-neutral600 {
+  color: #757575 !important;
+}
+
+.bg-neutral600 {
+  background-color: #757575 !important;
+}
+
+.text-neutral500 {
+  color: #9E9E9E !important;
+}
+
+.bg-neutral500 {
+  background-color: #9E9E9E !important;
+}
+
+.text-neutral400 {
+  color: #BDBDBD !important;
+}
+
+.bg-neutral400 {
+  background-color: #BDBDBD !important;
+}
+
+.text-neutral300 {
+  color: #E0E0E0 !important;
+}
+
+.bg-neutral300 {
+  background-color: #E0E0E0 !important;
+}
+
+.text-neutral200 {
+  color: #EEEEEE !important;
+}
+
+.bg-neutral200 {
+  background-color: #EEEEEE !important;
+}
+
+.text-neutral100 {
+  color: #F5F5F5 !important;
+}
+
+.bg-neutral100 {
+  background-color: #F5F5F5 !important;
+}
+
+.text-neutral50 {
+  color: #FAFAFA !important;
+}
+
+.bg-neutral50 {
+  background-color: #FAFAFA !important;
+}
+
+.text-black {
+  color: #000000 !important;
+}
+
+.bg-black {
+  background-color: #000000 !important;
+}
+
+.text-white {
+  color: #FFFFFF !important;
+}
+
+.bg-white {
+  background-color: #FFFFFF !important;
+}
+
+.text-transparent {
+  color: transparent !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+.text-pink900 {
+  color: #731376 !important;
+}
+
+.bg-pink900 {
+  background-color: #731376 !important;
+}
+
+.text-pink800 {
+  color: #8F1F87 !important;
+}
+
+.bg-pink800 {
+  background-color: #8F1F87 !important;
+}
+
+.text-pink700 {
+  color: #B1319C !important;
+}
+
+.bg-pink700 {
+  background-color: #B1319C !important;
+}
+
+.text-pink600 {
+  color: #D448AF !important;
+}
+
+.bg-pink600 {
+  background-color: #D448AF !important;
+}
+
+.text-pink500 {
+  color: #F763C1 !important;
+}
+
+.bg-pink500 {
+  background-color: #F763C1 !important;
+}
+
+.text-pink400 {
+  color: #FA89C6 !important;
+}
+
+.bg-pink400 {
+  background-color: #FA89C6 !important;
+}
+
+.text-pink300 {
+  color: #FCA1C9 !important;
+}
+
+.bg-pink300 {
+  background-color: #FCA1C9 !important;
+}
+
+.text-pink200 {
+  color: #FEC1D5 !important;
+}
+
+.bg-pink200 {
+  background-color: #FEC1D5 !important;
+}
+
+.text-pink100 {
+  color: #FEE0E7 !important;
+}
+
+.bg-pink100 {
+  background-color: #FEE0E7 !important;
+}
+
+.text-pink50 {
+  color: #FEF1F4 !important;
+}
+
+.bg-pink50 {
+  background-color: #FEF1F4 !important;
+}
+
+.text-cyan900 {
+  color: #0C446B !important;
+}
+
+.bg-cyan900 {
+  background-color: #0C446B !important;
+}
+
+.text-cyan800 {
+  color: #155E81 !important;
+}
+
+.bg-cyan800 {
+  background-color: #155E81 !important;
+}
+
+.text-cyan700 {
+  color: #2181A1 !important;
+}
+
+.bg-cyan700 {
+  background-color: #2181A1 !important;
+}
+
+.text-cyan600 {
+  color: #30A8C0 !important;
+}
+
+.bg-cyan600 {
+  background-color: #30A8C0 !important;
+}
+
+.text-cyan500 {
+  color: #47D1DE !important;
+}
+
+.bg-cyan500 {
+  background-color: #47D1DE !important;
+}
+
+.text-cyan400 {
+  color: #67DDE0 !important;
+}
+
+.bg-cyan400 {
+  background-color: #67DDE0 !important;
+}
+
+.text-cyan300 {
+  color: #91EBEB !important;
+}
+
+.bg-cyan300 {
+  background-color: #91EBEB !important;
+}
+
+.text-cyan200 {
+  color: #B8F5F3 !important;
+}
+
+.bg-cyan200 {
+  background-color: #B8F5F3 !important;
+}
+
+.text-cyan100 {
+  color: #DCFAFA !important;
+}
+
+.bg-cyan100 {
+  background-color: #DCFAFA !important;
+}
+
+.text-cyan50 {
+  color: #E8F9FA !important;
+}
+
+.bg-cyan50 {
+  background-color: #E8F9FA !important;
+}
+
+.text-indigo900 {
+  color: #131F76 !important;
+}
+
+.bg-indigo900 {
+  background-color: #131F76 !important;
+}
+
+.text-indigo800 {
+  color: #21308F !important;
+}
+
+.bg-indigo800 {
+  background-color: #21308F !important;
+}
+
+.text-indigo700 {
+  color: #3448B1 !important;
+}
+
+.bg-indigo700 {
+  background-color: #3448B1 !important;
+}
+
+.text-indigo600 {
+  color: #4C64D4 !important;
+}
+
+.bg-indigo600 {
+  background-color: #4C64D4 !important;
+}
+
+.text-indigo500 {
+  color: #6885F7 !important;
+}
+
+.bg-indigo500 {
+  background-color: #6885F7 !important;
+}
+
+.text-indigo400 {
+  color: #8DA5FA !important;
+}
+
+.bg-indigo400 {
+  background-color: #8DA5FA !important;
+}
+
+.text-indigo300 {
+  color: #A4BAFC !important;
+}
+
+.bg-indigo300 {
+  background-color: #A4BAFC !important;
+}
+
+.text-indigo200 {
+  color: #C3D2FE !important;
+}
+
+.bg-indigo200 {
+  background-color: #C3D2FE !important;
+}
+
+.text-indigo100 {
+  color: #E1E9FE !important;
+}
+
+.bg-indigo100 {
+  background-color: #E1E9FE !important;
+}
+
+.text-indigo50 {
+  color: #F1F5FE !important;
+}
+
+.bg-indigo50 {
+  background-color: #F1F5FE !important;
 }
 
 /* _icons.scss
@@ -739,7 +1685,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-icon.i-clear {
+.z-icon.i-remove {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/icon_clear.svg");
@@ -1082,7 +2028,7 @@ input, button, select, optgroup, textarea {
   padding: 2.5rem 0;
 }
 .z-portal-container .z-main .z-main-content .z-main-header .z-page-search .z-search-count {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 700;
   font-size: 0.875rem;
   color: #8B9094;
@@ -1195,7 +2141,7 @@ input, button, select, optgroup, textarea {
   border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 .z-portal-container .z-main .z-main-content .z-main-view .view-sub-title {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #8B9094;
@@ -1478,14 +2424,14 @@ input, button, select, optgroup, textarea {
  * @version 1.0
  */
 body {
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
   line-height: 1.2;
   color: #222529;
@@ -1513,7 +2459,7 @@ h5 {
 }
 
 h6 {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
 }
 
@@ -1546,24 +2492,24 @@ table td, table th {
 }
 
 .z-table {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #222529;
   background-color: transparent;
   border: none;
 }
-.z-table td, .z-table th {
+.z-table td:not(.p-0), .z-table th:not(.p-0) {
   padding: 0 0.9375rem;
 }
-.z-table td:first-child, .z-table th:first-child {
+.z-table td:not(.p-0):first-child, .z-table th:not(.p-0):first-child {
   padding-left: 1.25rem;
 }
 .z-table td a, .z-table th a {
   color: #222529;
 }
 .z-table th {
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
   font-weight: 500;
   color: #222529;
@@ -1596,7 +2542,7 @@ table td, table th {
 }
 
 .z-option-table {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #ABB0B5;
@@ -1614,7 +2560,7 @@ table td, table th {
 }
 .z-option-table tr.z-option-table-header {
   height: 2rem;
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1rem;
   font-weight: 500;
   color: #ABB0B5;
@@ -1649,7 +2595,7 @@ span {
 }
 
 label {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   color: #8B9094;
   font-size: 0.875rem;
   font-weight: 700;
@@ -1681,7 +2627,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 
 .z-input {
   height: 2.25rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1759,23 +2705,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input.success {
   border: 0.0625rem solid #76BD26 !important;
 }
-.z-input-clear {
-  position: relative;
-  display: inline-block;
-}
-.z-input-clear input {
-  width: 100%;
-}
-.z-input-clear .z-icon {
-  -webkit-print-color-adjust: exact;
-}
-.z-input-clear .z-icon.i-clear {
-  position: absolute;
-  right: 0rem;
-  padding: 1.125rem 0.875rem;
-  background: #8B9094;
-  cursor: pointer;
-}
 .z-input.i-search {
   background-image: url("../media/icons/icon_search.svg");
   background-size: auto;
@@ -1834,12 +2763,11 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input-button .z-button-search:focus, .z-input-button .z-button-search:hover, .z-input-button .z-button-search:active {
   z-index: 25;
 }
-.z-input-button .z-icon.i-clear {
+.z-input-button .z-button-icon-sm {
   position: absolute;
-  right: calc(0rem + 5rem);
-  padding: 1.125rem 0.875rem;
-  background: #8B9094;
-  cursor: pointer;
+  top: 0.625rem;
+  right: 5rem;
+  -webkit-print-color-adjust: exact;
 }
 .z-input::-webkit-outer-spin-button, .z-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -1850,7 +2778,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 .z-textarea {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1922,7 +2850,7 @@ div.z-textarea-readonly {
 .z-switch {
   position: relative;
   height: 1.125rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -1996,7 +2924,7 @@ div.z-textarea-readonly {
 select {
   width: inherit;
   height: 2.25rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2042,7 +2970,7 @@ select {
   left: 0;
   width: 100%;
   padding: 0.5625rem 1.75rem 0.5625rem 1rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2113,7 +3041,7 @@ select {
   width: 100%;
   background-color: transparent;
   padding: 0;
-  border: none;
+  border: none !important;
   vertical-align: unset;
   pointer-events: none;
 }
@@ -2293,7 +3221,7 @@ select {
 
 .z-checkbox {
   margin-right: 0.5rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2325,7 +3253,7 @@ select {
 .z-checkbox input[type=checkbox]:checked + span::after {
   content: "";
   position: absolute;
-  top: 0.125rem;
+  top: -0.04rem;
   left: 0;
   width: 0.75rem;
   height: 0.375rem;
@@ -2387,7 +3315,7 @@ select {
 .z-radio {
   position: relative;
   margin-right: 0.5rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.6;
@@ -2421,7 +3349,7 @@ select {
 .z-radio input[type=radio] + span::after {
   content: "";
   position: absolute;
-  top: -0.225rem;
+  top: -0.35rem;
   left: 0;
   width: 0.625rem;
   height: 0.625rem;
@@ -2498,6 +3426,21 @@ select {
   pointer-events: none;
 }
 
+.label {
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  padding: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.0625rem;
+}
+.label.normal {
+  color: #1959AC;
+  background-color: #84D1FA;
+  border-color: #84D1FA;
+}
+
 label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
@@ -2541,9 +3484,10 @@ summary:focus {
  * @version 1.0
  */
 .z-button,
-.z-button-icon {
+.z-button-icon,
+.z-button-text {
   display: inline-block;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 700;
   background-color: transparent;
@@ -2563,472 +3507,631 @@ summary:focus {
 }
 .z-button:focus, .z-button:hover,
 .z-button-icon:focus,
-.z-button-icon:hover {
+.z-button-icon:hover,
+.z-button-text:focus,
+.z-button-text:hover {
   outline: 0;
 }
 .z-button:disabled, .z-button.disabled,
 .z-button-icon:disabled,
-.z-button-icon.disabled {
+.z-button-icon.disabled,
+.z-button-text:disabled,
+.z-button-text.disabled {
   cursor: default;
 }
 .z-button.primary,
-.z-button-icon.primary {
+.z-button-icon.primary,
+.z-button-text.primary {
   color: #FFFFFF;
   background-color: #339AF0;
   border-color: #339AF0;
 }
 .z-button.primary .z-icon,
-.z-button-icon.primary .z-icon {
+.z-button-icon.primary .z-icon,
+.z-button-text.primary .z-icon {
   display: block;
   background: #FFFFFF;
   pointer-events: none;
 }
 .z-button.primary:focus,
-.z-button-icon.primary:focus {
+.z-button-icon.primary:focus,
+.z-button-text.primary:focus {
   color: #FFFFFF;
   background-color: #339AF0;
   border-color: #2578CE;
   box-shadow: 0 0 0.125rem #2578CE;
 }
 .z-button.primary:focus .z-icon,
-.z-button-icon.primary:focus .z-icon {
+.z-button-icon.primary:focus .z-icon,
+.z-button-text.primary:focus .z-icon {
   background: #FFFFFF;
 }
 .z-button.primary:hover,
-.z-button-icon.primary:hover {
+.z-button-icon.primary:hover,
+.z-button-text.primary:hover {
   color: #FFFFFF;
   background-color: #64BBF6;
   border-color: #64BBF6;
 }
 .z-button.primary:hover .z-icon,
-.z-button-icon.primary:hover .z-icon {
+.z-button-icon.primary:hover .z-icon,
+.z-button-text.primary:hover .z-icon {
   background: #FFFFFF;
 }
 .z-button.primary:enabled:active, .z-button.primary:enabled.active,
 .z-button-icon.primary:enabled:active,
-.z-button-icon.primary:enabled.active {
+.z-button-icon.primary:enabled.active,
+.z-button-text.primary:enabled:active,
+.z-button-text.primary:enabled.active {
   color: #FFFFFF;
   background-color: #2578CE;
   border-color: #1959AC;
 }
 .z-button.primary:enabled:active .z-icon, .z-button.primary:enabled.active .z-icon,
 .z-button-icon.primary:enabled:active .z-icon,
-.z-button-icon.primary:enabled.active .z-icon {
+.z-button-icon.primary:enabled.active .z-icon,
+.z-button-text.primary:enabled:active .z-icon,
+.z-button-text.primary:enabled.active .z-icon {
   background: #FFFFFF;
 }
 .z-button.primary:disabled, .z-button.primary.disabled,
 .z-button-icon.primary:disabled,
-.z-button-icon.primary.disabled {
+.z-button-icon.primary.disabled,
+.z-button-text.primary:disabled,
+.z-button-text.primary.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
 .z-button.primary:disabled .z-icon, .z-button.primary.disabled .z-icon,
 .z-button-icon.primary:disabled .z-icon,
-.z-button-icon.primary.disabled .z-icon {
+.z-button-icon.primary.disabled .z-icon,
+.z-button-text.primary:disabled .z-icon,
+.z-button-text.primary.disabled .z-icon {
   background: #ABB0B5;
 }
 .z-button.secondary,
-.z-button-icon.secondary {
+.z-button-icon.secondary,
+.z-button-text.secondary {
   color: #339AF0;
   background-color: #FFFFFF;
   border-color: #339AF0;
 }
 .z-button.secondary .z-icon,
-.z-button-icon.secondary .z-icon {
+.z-button-icon.secondary .z-icon,
+.z-button-text.secondary .z-icon {
   display: block;
   background: #339AF0;
   pointer-events: none;
 }
 .z-button.secondary:focus,
-.z-button-icon.secondary:focus {
+.z-button-icon.secondary:focus,
+.z-button-text.secondary:focus {
   color: #339AF0;
   background-color: #FFFFFF;
   border-color: #2578CE;
   box-shadow: 0 0 0.125rem #2578CE;
 }
 .z-button.secondary:focus .z-icon,
-.z-button-icon.secondary:focus .z-icon {
+.z-button-icon.secondary:focus .z-icon,
+.z-button-text.secondary:focus .z-icon {
   background: #339AF0;
 }
 .z-button.secondary:hover,
-.z-button-icon.secondary:hover {
+.z-button-icon.secondary:hover,
+.z-button-text.secondary:hover {
   color: #339AF0;
   background-color: #E3F5FC;
   border-color: #339AF0;
 }
 .z-button.secondary:hover .z-icon,
-.z-button-icon.secondary:hover .z-icon {
+.z-button-icon.secondary:hover .z-icon,
+.z-button-text.secondary:hover .z-icon {
   background: #339AF0;
 }
 .z-button.secondary:enabled:active, .z-button.secondary:enabled.active,
 .z-button-icon.secondary:enabled:active,
-.z-button-icon.secondary:enabled.active {
+.z-button-icon.secondary:enabled.active,
+.z-button-text.secondary:enabled:active,
+.z-button-text.secondary:enabled.active {
   color: #1959AC;
   background-color: #ADE6FD;
   border-color: #2578CE;
 }
 .z-button.secondary:enabled:active .z-icon, .z-button.secondary:enabled.active .z-icon,
 .z-button-icon.secondary:enabled:active .z-icon,
-.z-button-icon.secondary:enabled.active .z-icon {
+.z-button-icon.secondary:enabled.active .z-icon,
+.z-button-text.secondary:enabled:active .z-icon,
+.z-button-text.secondary:enabled.active .z-icon {
   background: #1959AC;
 }
 .z-button.secondary:disabled, .z-button.secondary.disabled,
 .z-button-icon.secondary:disabled,
-.z-button-icon.secondary.disabled {
+.z-button-icon.secondary.disabled,
+.z-button-text.secondary:disabled,
+.z-button-text.secondary.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
 .z-button.secondary:disabled .z-icon, .z-button.secondary.disabled .z-icon,
 .z-button-icon.secondary:disabled .z-icon,
-.z-button-icon.secondary.disabled .z-icon {
+.z-button-icon.secondary.disabled .z-icon,
+.z-button-text.secondary:disabled .z-icon,
+.z-button-text.secondary.disabled .z-icon {
   background: #ABB0B5;
 }
 .z-button.extra,
-.z-button-icon.extra {
+.z-button-icon.extra,
+.z-button-text.extra {
   color: #339AF0;
   background-color: #FFFFFF;
   border-color: #FFFFFF;
 }
 .z-button.extra .z-icon,
-.z-button-icon.extra .z-icon {
+.z-button-icon.extra .z-icon,
+.z-button-text.extra .z-icon {
   display: block;
   background: #339AF0;
   pointer-events: none;
 }
 .z-button.extra:focus,
-.z-button-icon.extra:focus {
+.z-button-icon.extra:focus,
+.z-button-text.extra:focus {
   color: #339AF0;
   background-color: #FFFFFF;
   border-color: #2578CE;
   box-shadow: 0 0 0.125rem #2578CE;
 }
 .z-button.extra:focus .z-icon,
-.z-button-icon.extra:focus .z-icon {
+.z-button-icon.extra:focus .z-icon,
+.z-button-text.extra:focus .z-icon {
   background: #339AF0;
 }
 .z-button.extra:hover,
-.z-button-icon.extra:hover {
+.z-button-icon.extra:hover,
+.z-button-text.extra:hover {
   color: #339AF0;
   background-color: #E3F5FC;
   border-color: #E3F5FC;
 }
 .z-button.extra:hover .z-icon,
-.z-button-icon.extra:hover .z-icon {
+.z-button-icon.extra:hover .z-icon,
+.z-button-text.extra:hover .z-icon {
   background: #339AF0;
 }
 .z-button.extra:enabled:active, .z-button.extra:enabled.active,
 .z-button-icon.extra:enabled:active,
-.z-button-icon.extra:enabled.active {
+.z-button-icon.extra:enabled.active,
+.z-button-text.extra:enabled:active,
+.z-button-text.extra:enabled.active {
   color: #1959AC;
   background-color: #ADE6FD;
   border-color: #ADE6FD;
 }
 .z-button.extra:enabled:active .z-icon, .z-button.extra:enabled.active .z-icon,
 .z-button-icon.extra:enabled:active .z-icon,
-.z-button-icon.extra:enabled.active .z-icon {
+.z-button-icon.extra:enabled.active .z-icon,
+.z-button-text.extra:enabled:active .z-icon,
+.z-button-text.extra:enabled.active .z-icon {
   background: #1959AC;
 }
 .z-button.extra:disabled, .z-button.extra.disabled,
 .z-button-icon.extra:disabled,
-.z-button-icon.extra.disabled {
+.z-button-icon.extra.disabled,
+.z-button-text.extra:disabled,
+.z-button-text.extra.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
 .z-button.extra:disabled .z-icon, .z-button.extra.disabled .z-icon,
 .z-button-icon.extra:disabled .z-icon,
-.z-button-icon.extra.disabled .z-icon {
+.z-button-icon.extra.disabled .z-icon,
+.z-button-text.extra:disabled .z-icon,
+.z-button-text.extra.disabled .z-icon {
   background: #ABB0B5;
 }
 .z-button.form,
-.z-button-icon.form {
+.z-button-icon.form,
+.z-button-text.form {
   color: #424242;
   background-color: #E0E0E0;
   border-color: #E0E0E0;
 }
 .z-button.form .z-icon,
-.z-button-icon.form .z-icon {
+.z-button-icon.form .z-icon,
+.z-button-text.form .z-icon {
   display: block;
   background: #424242;
   pointer-events: none;
 }
 .z-button.form:focus,
-.z-button-icon.form:focus {
+.z-button-icon.form:focus,
+.z-button-text.form:focus {
   color: #424242;
   background-color: #E0E0E0;
   border-color: #2578CE;
   box-shadow: 0 0 0.125rem #2578CE;
 }
 .z-button.form:focus .z-icon,
-.z-button-icon.form:focus .z-icon {
+.z-button-icon.form:focus .z-icon,
+.z-button-text.form:focus .z-icon {
   background: #424242;
 }
 .z-button.form:hover,
-.z-button-icon.form:hover {
+.z-button-icon.form:hover,
+.z-button-text.form:hover {
   color: #424242;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
 .z-button.form:hover .z-icon,
-.z-button-icon.form:hover .z-icon {
+.z-button-icon.form:hover .z-icon,
+.z-button-text.form:hover .z-icon {
   background: #424242;
 }
 .z-button.form:enabled:active, .z-button.form:enabled.active,
 .z-button-icon.form:enabled:active,
-.z-button-icon.form:enabled.active {
+.z-button-icon.form:enabled.active,
+.z-button-text.form:enabled:active,
+.z-button-text.form:enabled.active {
   color: #424242;
   background-color: #E0E0E0;
   border-color: #BDBDBD;
 }
 .z-button.form:enabled:active .z-icon, .z-button.form:enabled.active .z-icon,
 .z-button-icon.form:enabled:active .z-icon,
-.z-button-icon.form:enabled.active .z-icon {
+.z-button-icon.form:enabled.active .z-icon,
+.z-button-text.form:enabled:active .z-icon,
+.z-button-text.form:enabled.active .z-icon {
   background: #424242;
 }
 .z-button.form:disabled, .z-button.form.disabled,
 .z-button-icon.form:disabled,
-.z-button-icon.form.disabled {
+.z-button-icon.form.disabled,
+.z-button-text.form:disabled,
+.z-button-text.form.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
 .z-button.form:disabled .z-icon, .z-button.form.disabled .z-icon,
 .z-button-icon.form:disabled .z-icon,
-.z-button-icon.form.disabled .z-icon {
+.z-button-icon.form.disabled .z-icon,
+.z-button-text.form:disabled .z-icon,
+.z-button-text.form.disabled .z-icon {
   background: #ABB0B5;
 }
+.z-button.default,
+.z-button-icon.default,
+.z-button-text.default {
+  color: #ABB0B5;
+  background-color: transparent;
+  border-color: transparent;
+}
+.z-button.default .z-icon,
+.z-button-icon.default .z-icon,
+.z-button-text.default .z-icon {
+  display: block;
+  background: #ABB0B5;
+  pointer-events: none;
+}
 .z-button.light-primary,
-.z-button-icon.light-primary {
+.z-button-icon.light-primary,
+.z-button-text.light-primary {
   color: #FFFFFF;
   background-color: #339AF0;
   border-color: #339AF0;
 }
 .z-button.light-primary .z-icon,
-.z-button-icon.light-primary .z-icon {
+.z-button-icon.light-primary .z-icon,
+.z-button-text.light-primary .z-icon {
   display: inline-block;
   background: #FFFFFF;
   pointer-events: none;
 }
 .z-button.light-primary:focus,
-.z-button-icon.light-primary:focus {
+.z-button-icon.light-primary:focus,
+.z-button-text.light-primary:focus {
   color: #FFFFFF;
   background-color: #339AF0;
   border-color: #2578CE;
   box-shadow: 0 0 0.125rem #2578CE;
 }
 .z-button.light-primary:focus .z-icon,
-.z-button-icon.light-primary:focus .z-icon {
+.z-button-icon.light-primary:focus .z-icon,
+.z-button-text.light-primary:focus .z-icon {
   background: #FFFFFF;
 }
 .z-button.light-primary:hover,
-.z-button-icon.light-primary:hover {
+.z-button-icon.light-primary:hover,
+.z-button-text.light-primary:hover {
   color: #FFFFFF;
   background-color: #64BBF6;
   border-color: #64BBF6;
 }
 .z-button.light-primary:hover .z-icon,
-.z-button-icon.light-primary:hover .z-icon {
+.z-button-icon.light-primary:hover .z-icon,
+.z-button-text.light-primary:hover .z-icon {
   background: #FFFFFF;
 }
 .z-button.light-primary:enabled:active, .z-button.light-primary:enabled.active,
 .z-button-icon.light-primary:enabled:active,
-.z-button-icon.light-primary:enabled.active {
+.z-button-icon.light-primary:enabled.active,
+.z-button-text.light-primary:enabled:active,
+.z-button-text.light-primary:enabled.active {
   color: #FFFFFF;
   background-color: #2578CE;
   border-color: #1959AC;
 }
 .z-button.light-primary:enabled:active .z-icon, .z-button.light-primary:enabled.active .z-icon,
 .z-button-icon.light-primary:enabled:active .z-icon,
-.z-button-icon.light-primary:enabled.active .z-icon {
+.z-button-icon.light-primary:enabled.active .z-icon,
+.z-button-text.light-primary:enabled:active .z-icon,
+.z-button-text.light-primary:enabled.active .z-icon {
   background: #FFFFFF;
 }
 .z-button.light-primary:disabled, .z-button.light-primary.disabled,
 .z-button-icon.light-primary:disabled,
-.z-button-icon.light-primary.disabled {
+.z-button-icon.light-primary.disabled,
+.z-button-text.light-primary:disabled,
+.z-button-text.light-primary.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
 .z-button.light-primary:disabled .z-icon, .z-button.light-primary.disabled .z-icon,
 .z-button-icon.light-primary:disabled .z-icon,
-.z-button-icon.light-primary.disabled .z-icon {
+.z-button-icon.light-primary.disabled .z-icon,
+.z-button-text.light-primary:disabled .z-icon,
+.z-button-text.light-primary.disabled .z-icon {
   background: #ABB0B5;
 }
 .z-button.light-secondary,
-.z-button-icon.light-secondary {
+.z-button-icon.light-secondary,
+.z-button-text.light-secondary {
   color: #FFFFFF;
   background-color: transparent;
   border-color: #FFFFFF;
 }
 .z-button.light-secondary .z-icon,
-.z-button-icon.light-secondary .z-icon {
+.z-button-icon.light-secondary .z-icon,
+.z-button-text.light-secondary .z-icon {
   display: inline-block;
   background: #FFFFFF;
   pointer-events: none;
 }
 .z-button.light-secondary:focus,
-.z-button-icon.light-secondary:focus {
+.z-button-icon.light-secondary:focus,
+.z-button-text.light-secondary:focus {
   color: #FFFFFF;
   background-color: transparent;
   border-color: #FFFFFF;
   box-shadow: 0 0 0.125rem #2578CE;
 }
 .z-button.light-secondary:focus .z-icon,
-.z-button-icon.light-secondary:focus .z-icon {
+.z-button-icon.light-secondary:focus .z-icon,
+.z-button-text.light-secondary:focus .z-icon {
   background: #FFFFFF;
 }
 .z-button.light-secondary:hover,
-.z-button-icon.light-secondary:hover {
+.z-button-icon.light-secondary:hover,
+.z-button-text.light-secondary:hover {
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.2);
   border-color: #FFFFFF;
 }
 .z-button.light-secondary:hover .z-icon,
-.z-button-icon.light-secondary:hover .z-icon {
+.z-button-icon.light-secondary:hover .z-icon,
+.z-button-text.light-secondary:hover .z-icon {
   background: #FFFFFF;
 }
 .z-button.light-secondary:enabled:active, .z-button.light-secondary:enabled.active,
 .z-button-icon.light-secondary:enabled:active,
-.z-button-icon.light-secondary:enabled.active {
+.z-button-icon.light-secondary:enabled.active,
+.z-button-text.light-secondary:enabled:active,
+.z-button-text.light-secondary:enabled.active {
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.4);
   border-color: #FFFFFF;
 }
 .z-button.light-secondary:enabled:active .z-icon, .z-button.light-secondary:enabled.active .z-icon,
 .z-button-icon.light-secondary:enabled:active .z-icon,
-.z-button-icon.light-secondary:enabled.active .z-icon {
+.z-button-icon.light-secondary:enabled.active .z-icon,
+.z-button-text.light-secondary:enabled:active .z-icon,
+.z-button-text.light-secondary:enabled.active .z-icon {
   background: #FFFFFF;
 }
 .z-button.light-secondary:disabled, .z-button.light-secondary.disabled,
 .z-button-icon.light-secondary:disabled,
-.z-button-icon.light-secondary.disabled {
+.z-button-icon.light-secondary.disabled,
+.z-button-text.light-secondary:disabled,
+.z-button-text.light-secondary.disabled {
   color: #ABB0B5;
   border-color: #EEEEEE;
 }
 .z-button.light-secondary:disabled .z-icon, .z-button.light-secondary.disabled .z-icon,
 .z-button-icon.light-secondary:disabled .z-icon,
-.z-button-icon.light-secondary.disabled .z-icon {
+.z-button-icon.light-secondary.disabled .z-icon,
+.z-button-text.light-secondary:disabled .z-icon,
+.z-button-text.light-secondary.disabled .z-icon {
   background: #ABB0B5;
 }
 .z-button.light-extra,
-.z-button-icon.light-extra {
+.z-button-icon.light-extra,
+.z-button-text.light-extra {
   color: #FFFFFF;
   background-color: transparent;
   border-color: transparent;
 }
 .z-button.light-extra .z-icon,
-.z-button-icon.light-extra .z-icon {
+.z-button-icon.light-extra .z-icon,
+.z-button-text.light-extra .z-icon {
   display: inline-block;
   background: #FFFFFF;
   pointer-events: none;
 }
 .z-button.light-extra:focus,
-.z-button-icon.light-extra:focus {
+.z-button-icon.light-extra:focus,
+.z-button-text.light-extra:focus {
   color: #FFFFFF;
   background-color: transparent;
   border-color: #2578CE;
   box-shadow: 0 0 0.125rem #2578CE;
 }
 .z-button.light-extra:focus .z-icon,
-.z-button-icon.light-extra:focus .z-icon {
+.z-button-icon.light-extra:focus .z-icon,
+.z-button-text.light-extra:focus .z-icon {
   background: #FFFFFF;
 }
 .z-button.light-extra:hover,
-.z-button-icon.light-extra:hover {
+.z-button-icon.light-extra:hover,
+.z-button-text.light-extra:hover {
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.2);
 }
 .z-button.light-extra:hover .z-icon,
-.z-button-icon.light-extra:hover .z-icon {
+.z-button-icon.light-extra:hover .z-icon,
+.z-button-text.light-extra:hover .z-icon {
   background: #FFFFFF;
 }
 .z-button.light-extra:enabled:active, .z-button.light-extra:enabled.active,
 .z-button-icon.light-extra:enabled:active,
-.z-button-icon.light-extra:enabled.active {
+.z-button-icon.light-extra:enabled.active,
+.z-button-text.light-extra:enabled:active,
+.z-button-text.light-extra:enabled.active {
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.4);
   border-color: rgba(255, 255, 255, 0.4);
 }
 .z-button.light-extra:enabled:active .z-icon, .z-button.light-extra:enabled.active .z-icon,
 .z-button-icon.light-extra:enabled:active .z-icon,
-.z-button-icon.light-extra:enabled.active .z-icon {
+.z-button-icon.light-extra:enabled.active .z-icon,
+.z-button-text.light-extra:enabled:active .z-icon,
+.z-button-text.light-extra:enabled.active .z-icon {
   background: #FFFFFF;
 }
 .z-button.light-extra:disabled, .z-button.light-extra.disabled,
 .z-button-icon.light-extra:disabled,
-.z-button-icon.light-extra.disabled {
+.z-button-icon.light-extra.disabled,
+.z-button-text.light-extra:disabled,
+.z-button-text.light-extra.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
 .z-button.light-extra:disabled .z-icon, .z-button.light-extra.disabled .z-icon,
 .z-button-icon.light-extra:disabled .z-icon,
-.z-button-icon.light-extra.disabled .z-icon {
+.z-button-icon.light-extra.disabled .z-icon,
+.z-button-text.light-extra:disabled .z-icon,
+.z-button-text.light-extra.disabled .z-icon {
   background: #ABB0B5;
 }
 .z-button.light-form,
-.z-button-icon.light-form {
+.z-button-icon.light-form,
+.z-button-text.light-form {
   color: #424242;
   background-color: #E0E0E0;
   border-color: #E0E0E0;
 }
 .z-button.light-form .z-icon,
-.z-button-icon.light-form .z-icon {
+.z-button-icon.light-form .z-icon,
+.z-button-text.light-form .z-icon {
   display: inline-block;
   background: #424242;
   pointer-events: none;
 }
 .z-button.light-form:focus,
-.z-button-icon.light-form:focus {
+.z-button-icon.light-form:focus,
+.z-button-text.light-form:focus {
   color: #424242;
   background-color: #E0E0E0;
   border-color: #2578CE;
   box-shadow: 0 0 0.125rem #2578CE;
 }
 .z-button.light-form:focus .z-icon,
-.z-button-icon.light-form:focus .z-icon {
+.z-button-icon.light-form:focus .z-icon,
+.z-button-text.light-form:focus .z-icon {
   background: #424242;
 }
 .z-button.light-form:hover,
-.z-button-icon.light-form:hover {
+.z-button-icon.light-form:hover,
+.z-button-text.light-form:hover {
   color: #424242;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
 .z-button.light-form:hover .z-icon,
-.z-button-icon.light-form:hover .z-icon {
+.z-button-icon.light-form:hover .z-icon,
+.z-button-text.light-form:hover .z-icon {
   background: #424242;
 }
 .z-button.light-form:enabled:active, .z-button.light-form:enabled.active,
 .z-button-icon.light-form:enabled:active,
-.z-button-icon.light-form:enabled.active {
+.z-button-icon.light-form:enabled.active,
+.z-button-text.light-form:enabled:active,
+.z-button-text.light-form:enabled.active {
   color: #424242;
   background-color: #E0E0E0;
   border-color: #BDBDBD;
 }
 .z-button.light-form:enabled:active .z-icon, .z-button.light-form:enabled.active .z-icon,
 .z-button-icon.light-form:enabled:active .z-icon,
-.z-button-icon.light-form:enabled.active .z-icon {
+.z-button-icon.light-form:enabled.active .z-icon,
+.z-button-text.light-form:enabled:active .z-icon,
+.z-button-text.light-form:enabled.active .z-icon {
   background: #424242;
 }
 .z-button.light-form:disabled, .z-button.light-form.disabled,
 .z-button-icon.light-form:disabled,
-.z-button-icon.light-form.disabled {
+.z-button-icon.light-form.disabled,
+.z-button-text.light-form:disabled,
+.z-button-text.light-form.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
 .z-button.light-form:disabled .z-icon, .z-button.light-form.disabled .z-icon,
 .z-button-icon.light-form:disabled .z-icon,
-.z-button-icon.light-form.disabled .z-icon {
+.z-button-icon.light-form.disabled .z-icon,
+.z-button-text.light-form:disabled .z-icon,
+.z-button-text.light-form.disabled .z-icon {
   background: #ABB0B5;
 }
 
 .z-button-icon {
   padding: 0.3125rem;
+}
+.z-button-icon-sm {
+  width: 1rem;
+  height: 1rem;
+  border: none;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  padding: 0;
+  background-color: #E0E0E0;
+  cursor: pointer;
+}
+.z-button-icon-sm .z-icon {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0.25rem;
+  background-color: #424242;
+}
+.z-button-icon-sm:hover {
+  background-color: #EEEEEE;
+}
+
+.z-button-text {
+  padding: 0;
+  line-height: 1.25rem;
+}
+.z-button-text:hover {
+  text-decoration: underline;
+  text-underline-position: under;
 }
 
 .z-button-list {
@@ -3053,7 +4156,7 @@ summary:focus {
 .z-button-toggle-group .z-button-toggle {
   flex: 1 1 auto;
   display: inline-block;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 700;
   color: #222529;
@@ -3064,7 +4167,6 @@ summary:focus {
   text-decoration: none;
   user-select: none;
   white-space: nowrap;
-  vertical-align: middle;
   overflow: visible;
   cursor: pointer;
   border: 0.0625rem solid #CFD5D9;
@@ -3079,6 +4181,7 @@ summary:focus {
 .z-button-toggle-group .z-button-toggle .z-icon {
   display: inline-block;
   background: #222529;
+  vertical-align: middle;
   pointer-events: none;
 }
 .z-button-switch-group .z-button-switch:focus,
@@ -3469,7 +4572,7 @@ summary:focus {
   background-position-x: 1rem;
   background-position-y: center;
 }
-.z-validation.info .z-icon.i-clear {
+.z-validation.info .z-icon.i-remove {
   background: #339AF0;
 }
 .z-validation.error {
@@ -3482,7 +4585,7 @@ summary:focus {
   background-position-x: 1rem;
   background-position-y: center;
 }
-.z-validation.error .z-icon.i-clear {
+.z-validation.error .z-icon.i-remove {
   background: #F52525;
 }
 .z-validation.success {
@@ -3495,10 +4598,10 @@ summary:focus {
   background-position-x: 1rem;
   background-position-y: center;
 }
-.z-validation.success .z-icon.i-clear {
+.z-validation.success .z-icon.i-remove {
   background: #5CA21B;
 }
-.z-validation .z-icon.i-clear {
+.z-validation .z-icon.i-remove {
   padding-right: 0.9375rem;
   background: #8B9094;
 }
@@ -3903,7 +5006,7 @@ summary:focus {
 .file-uploader-edit {
   display: flex;
   flex-direction: column;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
 .file-uploader-edit .file-uploader-title {
   font-size: 0.875rem;
@@ -4295,7 +5398,7 @@ summary:focus {
   display: flex;
   align-items: center;
   min-height: 3.125rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   padding: 0.125rem 1.25rem;
 }
 .file-uploader-view .file-uploader-title {
@@ -4552,7 +5655,7 @@ summary:focus {
   display: none;
   position: fixed;
   min-width: 12.5rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
@@ -4579,14 +5682,14 @@ summary:focus {
   border-bottom: 0.0625rem solid #CFD5D9;
   padding: 0.75rem 0;
 }
-.z-picker-modal-title .z-icon.i-clear {
+.z-picker-modal-title .z-icon.i-remove {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   background: #8B9094;
   cursor: pointer;
 }
-.z-picker-modal-title .z-icon.i-clear:hover {
+.z-picker-modal-title .z-icon.i-remove:hover {
   background: #64BBF6;
 }
 .z-picker-modal-sub-title {
@@ -4850,7 +5953,7 @@ summary:focus {
   left: auto;
   visibility: hidden;
   background-color: #FFFFFF;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   color: #339AF0;
   width: 28.125rem;
@@ -4989,7 +6092,7 @@ summary:focus {
   transform: translate(-70%, 0);
 }
 .z-header-tooltip .z-header-tooltip-contents .z-header-tooltip-text {
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   color: #222529;
   font-weight: 500;
@@ -5043,7 +6146,7 @@ summary:focus {
   bottom: 120%;
   left: 50%;
   width: 9.375rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #339AF0;
@@ -5201,7 +6304,7 @@ body.modal-active {
   flex-direction: row !important;
   padding: 0 3.75rem 1.875rem 3.75rem;
   justify-content: center;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   line-height: 1.5rem;
 }

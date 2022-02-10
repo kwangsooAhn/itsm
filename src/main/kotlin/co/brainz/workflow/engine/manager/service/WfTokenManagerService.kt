@@ -16,11 +16,13 @@ import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
-import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
+import co.brainz.framework.util.AliceFileUtil
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
+import co.brainz.itsm.instance.repository.ViewerRepository
 import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -50,6 +52,7 @@ import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 
 @Service
@@ -64,13 +67,15 @@ class WfTokenManagerService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfComponentRepository: WfComponentRepository,
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
-    private val aliceFileService: AliceFileService,
     private val aliceUserRepository: AliceUserRepository,
     private val aliceFileLocRepository: AliceFileLocRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val ciComponentDataRepository: CIComponentDataRepository,
-    private val ciService: CIService
-) {
+    private val ciService: CIService,
+    private val viewerRepository: ViewerRepository,
+    private val currentSessionUser: CurrentSessionUser,
+    environment: Environment
+): AliceFileUtil(environment) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -176,17 +181,10 @@ class WfTokenManagerService(
     }
 
     /**
-     * 첨부파일 업로드 경로(파일명 포함).
-     */
-    fun getUploadFilePath(fileName: String): Path {
-        return aliceFileService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
-    }
-
-    /**
      * 프로세스 파일 경로.
      */
     fun getProcessFilePath(attachFileName: String): Path {
-        return Paths.get(FileConstants.Path.IMAGE.path + File.separator + attachFileName)
+        return Paths.get(super.getPath(FileConstants.Path.FILE.path).toString() + File.separator + attachFileName)
     }
 
     /**
@@ -237,13 +235,6 @@ class WfTokenManagerService(
     }
 
     /**
-     * 랜덤 파일명 생성.
-     */
-    fun getRandomFilename(): String {
-        return aliceFileService.getRandomFilename()
-    }
-
-    /**
      * 파일 데이터 업로드.
      */
     fun uploadProcessFile(aliceFileLocEntity: AliceFileLocEntity): AliceFileLocEntity {
@@ -283,7 +274,7 @@ class WfTokenManagerService(
     }
 
     /**
-     * 토큰이 속한 엘리먼트의 notification가 true인 경우, candidate 데이터와 assignee를 대상으로 알림.
+     * 토큰이 속한 엘리먼트의 notification가 true인 경우, candidate 데이터와 assignee, 참조인을 대상으로 알림.
      */
     fun notificationCheck(token: WfTokenEntity) {
         if (!token.element.notification) {
@@ -331,6 +322,19 @@ class WfTokenManagerService(
                     notification.receivedUser = userRoleMapEntity.user.userKey
                     notifications.add(notification)
                 }
+            }
+        }
+        // 참조인 toast알림 발송
+        // TODO : 참조인 알림 메일 발송
+        val viewerEntities = viewerRepository.findViewerByInstanceId(token.instance.instanceId)
+
+        if (viewerEntities.isNotEmpty()) {
+            for (viewerEntity in viewerEntities) {
+                val notification = commonNotification.copy()
+                    notification.receivedUser = viewerEntity.viewer.userKey
+                notifications.add(notification)
+                // 알림 목록에 추가된 후 flag 변경
+                viewerRepository.updateDisplayYn(token.instance.instanceId, viewerEntity.viewer.userKey)
             }
         }
         notificationService.insertNotificationList(notifications.distinct())
@@ -509,5 +513,15 @@ class WfTokenManagerService(
         }
 
         return keyPairMappingIdToTokenDataValue
+    }
+
+    /**
+     *  Review 읽음 버튼 처리
+     */
+    fun updateReview(instanceId: String) {
+        val viewerKey = currentSessionUser.getUserKey()
+        if (viewerRepository.findByInstanceIdAndViewerKey(instanceId, viewerKey) != null) {
+            viewerRepository.updateReviewYn(instanceId, viewerKey)
+        }
     }
 }

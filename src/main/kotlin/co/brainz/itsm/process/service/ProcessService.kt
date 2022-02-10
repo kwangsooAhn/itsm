@@ -12,7 +12,7 @@ import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.process.service.WfProcessService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -54,7 +54,7 @@ class ProcessService(
     fun createProcess(restTemplateProcessDto: RestTemplateProcessDto): String {
         restTemplateProcessDto.createUserKey = currentSessionUser.getUserKey()
         restTemplateProcessDto.createDt = LocalDateTime.now()
-        restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
+        restTemplateProcessDto.processStatus = WorkflowConstants.ProcessStatus.EDIT.value
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessDto.processName)
         val resultMap = mutableMapOf("processId" to "", "result" to WfProcessConstants.ResultCode.FAIL.code)
         if (duplicateCount > 0) {
@@ -95,7 +95,7 @@ class ProcessService(
         restTemplateProcessElementDto.process?.createUserKey = currentSessionUser.getUserKey()
         restTemplateProcessElementDto.process?.updateDt = null
         restTemplateProcessElementDto.process?.updateUserKey = null
-        restTemplateProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.value
+        restTemplateProcessElementDto.process?.status = WorkflowConstants.ProcessStatus.EDIT.value
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessElementDto.process!!.name!!)
         val resultMap = mutableMapOf("processId" to "", "result" to WfProcessConstants.ResultCode.FAIL.code)
         if (duplicateCount > 0) {

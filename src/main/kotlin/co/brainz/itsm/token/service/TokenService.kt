@@ -21,7 +21,7 @@ import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceExcelDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
@@ -68,7 +68,7 @@ class TokenService(
             data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
             instanceCreateUser = restTemplateTokenDataUpdateDto.assigneeId?.let { AliceUserEntity(userKey = it) },
             action = restTemplateTokenDataUpdateDto.action,
-            instancePlatform = RestTemplateConstants.InstancePlatform.ITSM.code
+            instancePlatform = WorkflowConstants.InstancePlatform.ITSM.code
         )
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
@@ -94,9 +94,10 @@ class TokenService(
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
             tokenId = restTemplateTokenDataUpdateDto.tokenId,
             documentId = restTemplateTokenDataUpdateDto.documentId,
+            instanceId = restTemplateTokenDataUpdateDto.instanceId,
             data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
             action = restTemplateTokenDataUpdateDto.action,
-            instancePlatform = RestTemplateConstants.InstancePlatform.ITSM.code
+            instancePlatform = WorkflowConstants.InstancePlatform.ITSM.code
         )
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {

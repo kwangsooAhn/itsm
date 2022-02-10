@@ -41,7 +41,7 @@ const DEFAULT_CHART_PROPERTY = {
         title: {
             y: -100,
             style: {
-                fontFamily: 'Noto Sans KR, 맑은고딕, Malgun Gothic, dotum, gulim, sans-serif',
+                fontFamily: 'Pretendard, 맑은고딕, Malgun Gothic, dotum, gulim, sans-serif',
                 fontSize: '16px',
                 fontWeight: 'bold',
                 color: '#222529'

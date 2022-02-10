@@ -21,7 +21,7 @@ const HIGHCHARTS_THEME = {
     chart: {
         backgroundColor: 'transparent',
         style: {
-            fontFamily: '맑은고딕, Malgun Gothic, Noto Sans KR, dotum, gulim, sans-serif',
+            fontFamily: 'Pretendard, 맑은고딕, Malgun Gothic, dotum, gulim, sans-serif',
             fontSize: '14px',
             color: '#222529'
         },
@@ -31,7 +31,7 @@ const HIGHCHARTS_THEME = {
     title: {
         text:'',
         style : {
-            fontFamily: 'Noto Sans KR, 맑은고딕, Malgun Gothic, dotum, gulim, sans-serif',
+            fontFamily: 'Pretendard, 맑은고딕, Malgun Gothic, dotum, gulim, sans-serif',
             fontSize: '18px',
             color: '#222529',
             fontWeight: 'bold',
@@ -78,7 +78,7 @@ const HIGHCHARTS_THEME = {
         x: -30,
         y: 30,
         itemStyle: {
-            fontFamily: '맑은고딕, Malgun Gothic, Noto Sans KR, dotum, gulim, sans-serif',
+            fontFamily: 'Pretendard, 맑은고딕, Malgun Gothic, dotum, gulim, sans-serif',
             fontSize: '14px',
             color: '#222529',
             fontWeight: 'normal'

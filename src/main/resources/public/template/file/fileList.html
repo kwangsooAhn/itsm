@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonSearchLayout}">
+<head>
+    <title th:text="#{file.label.list}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{file.label.list}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{file.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{file.label.name}"/>
+    <span id="totalCount" class="z-search-count"></span>
+</div>
+<div layout:fragment="pageSearchResult">
+    <input type="hidden" id="creatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
+    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
+    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
+    <div class="z-file-content-edit flex-fill">
+        <div class="z-thumbnail-main flex-row flex-wrap" id="thumbnailMain"></div>
+    </div>
+</div>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    const creatable = document.getElementById('creatable').value;
+    const updatable = document.getElementById('updatable').value;
+    const deletable = document.getElementById('deletable').value;
+    let previewModal;
+    let acceptFileNameList;
+    let offsetCount = 0;
+    window.onload = function () {
+        // 파일 허용 확장자 조회 (awf_file_name_extension 테이블)
+        acceptFileNameList = (/*[[${acceptFileNameList}]]*/'').map((fileName) => {
+            return '.' + (fileName.fileNameExtension).trim().toLowerCase();
+        });
+        getFiles(false);
+        // 미리보기 모달 생성
+        previewModal = new modal({
+            title: `<span class="z-thumbnail-preview-name text-ellipsis"></span>`,
+            body: `<div class="z-thumbnail-preview-file"></div>`,
+            classes: 'z-thumbnail-preview',
+            buttons: [{
+                content: i18n.msg('common.btn.close'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function(modal) {
+                    modal.hide();
+                }
+            }],
+            close: { closable: false },
+            onHide: function(modal) {
+                // 기존 선택된  클래스를 제거
+                const selectedThumbnails = document.querySelectorAll('.z-thumbnail.selected');
+                for (let i = 0, len = selectedThumbnails.length; i < len; i++) {
+                    selectedThumbnails[i].classList.remove('selected');
+                }
+            }
+        });
+        // 썸네일 표시
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function () {
+            aliceJs.pressKeyForAction(event, 'Enter', function () {
+                document.getElementById('thumbnailMain').innerHTML = '';
+                getFiles(false);
+            });
+        });
+        // 스크롤바 표시
+        OverlayScrollbars(document.querySelector('.z-page-content'), {
+            className: 'scrollbar',
+            callbacks: {
+                onScroll: function (e) {
+                    const scrollHeight = e.target.scrollHeight;
+                    const scrollTop = e.target.scrollTop;
+                    const clientHeight = e.target.clientHeight;
+                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            getFiles(true);
+                        }
+                    }
+                }
+            }
+        });
+    }
+    function getFiles(isScroll) {
+        let urlParam = 'type=file&searchValue=' + document.getElementById('searchValue').value;
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.fileOffsetCount;
+            }
+            urlParam += '&offset=' + offsetCount;
+        } else {
+            offsetCount = 0;
+            urlParam += '&offset=' + offsetCount;
+        }
+        aliceJs.fetchJson('/rest/files?' + urlParam, {
+            method: 'GET',
+            showProgressbar: true
+        }).then((fileList) => {
+            if (creatable === 'true') {
+                addThumbnailUpload();
+            }
+            if (isScroll) {
+                if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                    offsetCount = offsetCount + aliceJs.fileOffsetCount;
+                    fileList.data.forEach(function (file) {
+                        addThumbnail(file);
+                    });
+                }
+            } else {
+                let count = JSON.stringify(fileList.totalCount)
+                aliceJs.showTotalCount(count, 'totalCount');
+                document.getElementById('totalCount').value = count;
+                fileList.data.forEach(function (file) {
+                    addThumbnail(file);
+                });
+            }
+            if (updatable === 'false') {
+                document.querySelectorAll('label[name="updateLabel"]').forEach(function (updateLabel) {
+                    updateLabel.ondblclick = function () {
+                        return;
+                    }
+                });
+            }
+            if (deletable === 'false') {
+                document.querySelectorAll('button[name="deleteBtn"]').forEach(function (deleteBtn) {
+                    deleteBtn.style.display = 'none';
+                });
+            }
+        });
+    }
+
+    function addThumbnail(image) {
+        const fileExtension = (image.extension).trim().toLowerCase();
+        const isImageFile = aliceJs.imageExtensions.includes(fileExtension);
+        // 확장자가 이미지일 경우에는 미리보기 가능, 나머지 파일은 다운로드되도록 처리
+        const thumbnailContainer = document.getElementById('thumbnailMain');
+        const thumbnailText = (isImageFile) ? `${image.width} X ${image.height} (${image.size})` : `${image.size}`;
+        const thumbnailTemplate = `<div class="z-thumbnail" tabindex="-1">` +
+            `${isImageFile ?
+                `<div class="z-thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>` :
+                `<div class="z-thumbnail-image" onclick="downLoadFile(this);"><img src="${aliceJs.getFileExtensionIcon(fileExtension)}"></div>`}` +
+                `<div class="z-thumbnail-info">` +
+                    `<p class="z-thumbnail-info-text">` +
+                        `<label name="updateLabel" class="z-thumbnail-image-name text-ellipsis" ondblclick="renameFile(this);" title="${image.name}">${image.name}</label>` +
+                        `<input type="text" class="z-input float-left" />` +
+                    `</p>` +
+                    `<p class="z-thumbnail-info-text">` +
+                        `<label class="text-ellipsis">${thumbnailText}</label>` +
+                    `</p> ` +
+                `</div>` +
+                `<div class="z-thumbnail-bottom">` +
+                    `<label class="file-update-dt">${i18n.userDateTime(image.updateDt)}</label>` +
+                    `<button name="deleteBtn" type="button" class="z-button-icon float-right" data-name="${image.name}" onclick="removeFile(this);">` +
+                        `<span class="z-icon i-delete"></span>` +
+                    `</button>` +
+                `</div>` +
+            `</div>`;
+        thumbnailContainer.insertAdjacentHTML('beforeend', thumbnailTemplate);
+    }
+
+    function addThumbnailUpload() {
+        const thumbnailCnt = document.getElementById('thumbnailMain').querySelectorAll('.z-thumbnail-upload').length;
+        if (thumbnailCnt === 0) {
+            let thumbnailUploadTemplate = `
+                <div class="z-thumbnail-upload align-center" onclick="document.getElementById('uploadFile').click();" tabindex="-1">
+                    <span class="z-icon i-file-upload"></span>
+                    <p class="z-thumbnail-upload-text underline mt-2">${i18n.msg('file.label.upload')}</p>
+                    <input type="file" id="uploadFile" accept="${acceptFileNameList.join()}" multiple onchange="uploadFile(this);" style="display: none;"/>
+                </div>
+            `;
+            document.getElementById('thumbnailMain').insertAdjacentHTML('beforeend', thumbnailUploadTemplate);
+        }
+    }
+    // 파일 삭제
+    function removeFile(imgObj) {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), function() {
+            aliceJs.fetchText('/rest/files/' + imgObj.dataset.name, {
+                method: 'delete',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((rtn) => {
+                if (rtn === 'true') {
+                    zAlert.success(i18n.msg('common.msg.delete'));
+                    document.getElementById('thumbnailMain').removeChild(imgObj.parentNode.parentNode);
+                    let deleteAfterCount = Number(document.getElementById('totalCount').value) - 1;
+                    document.getElementById('totalCount').value = deleteAfterCount;
+                    aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
+                }
+            });
+        });
+    }
+
+    function renameEventHandler(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        e.target.removeEventListener('blur', renameEventHandler);
+        e.target.removeEventListener('keyup', renameEventHandler);
+
+        const labelElem = e.target.parentNode.querySelector('label');
+        e.target.style.display = 'none';
+        labelElem.style.display = 'block';
+
+        let name = labelElem.textContent.trim();
+        let extension = name.split('.').pop();
+
+        let modifyName = '';
+        if (e.target.value.trim() !== '') {
+            modifyName = e.target.value.trim() + '.' + extension;
+        }
+        if (name === modifyName) { return false; }
+        aliceJs.fetchText('/rest/files', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ originName: name, modifyName: modifyName })
+        }).then((rtn) => {
+            if (rtn === 'true') {
+                labelElem.textContent = modifyName;
+                labelElem.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
+            } else {
+                zAlert.warning(i18n.msg('file.msg.failedRename'));
+            }
+        });
+    }
+    // 파일명 변경
+    function renameFile(target) {
+        const name = target.textContent.trim();
+        target.style.display = 'none';
+
+        let inputObj = target.parentNode.querySelector('input');
+        let extension = name.split('.').pop();
+        inputObj.value = name.split('.' + extension)[0];
+        inputObj.style.display = 'block';
+
+        inputObj.addEventListener('blur', renameEventHandler, false);
+        inputObj.addEventListener('keyup', function (e) {
+            if (e.keyCode === 13) {
+                e.target.blur();
+            }
+        }, false);
+        inputObj.focus();
+    }
+    // 업로드
+    function uploadFile(fileObj) {
+        let fileList = fileObj.files;
+        if (fileList.length > 0) {
+            const allowedExtensions = acceptFileNameList.map((extentionName) => {
+                return extentionName.replace('.', '');
+            });
+            const saveFile = function () {
+                let xhr = new XMLHttpRequest(),
+                    formData = new FormData();
+                for (let i = 0, len = fileList.length; i < len; i++) {
+                    formData.append('files', fileList[i]);
+                }
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        let list = JSON.parse(xhr.responseText);
+                        for (let i = 0, len = list.length; i < len; i++) {
+                            addThumbnail(list[i]);
+                        }
+                    }
+                }
+                xhr.open('POST', '/rest/files', true);
+                xhr.send(formData);
+                document.getElementById('uploadFile').value = '';
+            }
+
+            if (isAllowedExtensions(allowedExtensions, fileList)) {
+                saveFile();
+                zAlert.success(i18n.msg('file.msg.registrationSuccess'), () => {
+                    location.reload();
+                });
+            } else {
+                zAlert.confirm(i18n.msg('file.msg.existNotAllowedExtension'), saveFile);
+                document.getElementById('uploadFile').value = '';  // CANCEL 시 file object 값 비움 처리
+            }
+        }
+    }
+    // 다운로드
+    function downLoadFile(thumbnail) {
+        const fileName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
+        aliceJs.fetchBlob('/rest/files/download?fileName=' + fileName, {
+            method: 'GET',
+            showProgressbar: true
+        }).then(blob => {
+            if (typeof blob === 'object') {
+                const a = document.createElement('a');
+                const url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                document.body.append(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            } else {
+                zAlert.warning(i18n.msg('file.msg.noAttachFile'));
+            }
+        }).catch(err => {
+            zAlert.warning(err);
+        });
+    }
+    // 이미지 미리보기
+    function imagePreview(thumbnail) {
+        thumbnail.parentNode.classList.add('selected');
+
+        // 이미지 파일명 제목 표시
+        const previewModalHeader = previewModal.wrapper.querySelector('.z-thumbnail-preview-name');
+        if (previewModalHeader !== null) {
+            const imageName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
+            previewModalHeader.textContent = imageName;
+            previewModalHeader.setAttribute('title', imageName);
+        }
+
+        // 내부 이미지 경로 변경
+        const previewModalContent = previewModal.wrapper.querySelector('.z-thumbnail-preview-file');
+        if (previewModalContent !== null) {
+            previewModalContent.style.backgroundImage = thumbnail.style.backgroundImage;
+        }
+        // 모달 호출
+        previewModal.show();
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>

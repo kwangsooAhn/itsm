@@ -32,7 +32,10 @@ interface WfInstanceRepositoryCustom {
 
     fun deleteInstances(instances: MutableList<WfInstanceEntity>)
 
-    fun findAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto>
+    fun findAllInstanceListByRelatedCheck(
+        instanceId: String,
+        searchValue: String
+    ): MutableList<RestTemplateInstanceListDto>
 
     fun getInstanceListInTag(tagValue: String, range: ChartRange, documentStatus: String?): List<WfInstanceEntity>
 }

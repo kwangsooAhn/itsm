@@ -478,14 +478,6 @@ class ZValidation {
             KEY_UP_VALID_TYPE.includes(target.getAttribute('data-validation-type'))) {
             rtn = this.emit(target.getAttribute('data-validation-type'), target);
         }
-        if (rtn && target.hasAttribute('data-validation-min') &&
-            target.getAttribute('data-validation-min') !== '') {
-            rtn = this.emit('min', target, target.getAttribute('data-validation-min'));
-        }
-        if (rtn && target.hasAttribute('data-validation-max') &&
-            target.getAttribute('data-validation-max') !== '') {
-            rtn = this.emit('max', target, target.getAttribute('data-validation-max'));
-        }
 
         return rtn;
     }
@@ -514,6 +506,14 @@ class ZValidation {
         if (rtn && target.hasAttribute('data-validation-max-length') &&
             target.getAttribute('data-validation-max-length') !== '') {
             rtn = this.emit('maxLength', target, target.getAttribute('data-validation-max-length'));
+        }
+        if (rtn && target.hasAttribute('data-validation-min') &&
+            target.getAttribute('data-validation-min') !== '') {
+            rtn = this.emit('min', target, target.getAttribute('data-validation-min'));
+        }
+        if (rtn && target.hasAttribute('data-validation-max') &&
+            target.getAttribute('data-validation-max') !== '') {
+            rtn = this.emit('max', target, target.getAttribute('data-validation-max'));
         }
         return rtn;
     }

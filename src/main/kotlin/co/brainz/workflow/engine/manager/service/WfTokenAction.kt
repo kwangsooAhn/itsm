@@ -31,6 +31,13 @@ class WfTokenAction(
     }
 
     /**
+     * Review
+     */
+    fun actionReview(instanceId: String) {
+        wfTokenManagerService.updateReview(instanceId)
+    }
+
+    /**
      * Save.
      */
     private fun actionSave(tokenDto: WfTokenDto) {
@@ -149,7 +156,6 @@ class WfTokenAction(
         if (tokenDataEntities.isNotEmpty()) {
             wfTokenManagerService.saveAllTokenData(tokenDataEntities)
         }
-
         return wfTokenManagerService.saveToken(token)
     }
 
@@ -158,13 +164,15 @@ class WfTokenAction(
      */
     private fun getTokenDataEntities(token: WfTokenEntity, tokenDto: WfTokenDto): MutableList<WfTokenDataEntity> {
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
-        for (tokenDataDto in tokenDto.data!!) {
-            val tokenDataEntity = WfTokenDataEntity(
-                token = token,
-                component = wfTokenManagerService.getComponent(tokenDataDto.componentId),
-                value = tokenDataDto.value
-            )
-            tokenDataEntities.add(tokenDataEntity)
+        if (!tokenDto.data.isNullOrEmpty()) {
+            for (tokenDataDto in tokenDto.data!!) {
+                val tokenDataEntity = WfTokenDataEntity(
+                    token = token,
+                    component = wfTokenManagerService.getComponent(tokenDataDto.componentId),
+                    value = tokenDataDto.value
+                )
+                tokenDataEntities.add(tokenDataEntity)
+            }
         }
 
         return tokenDataEntities

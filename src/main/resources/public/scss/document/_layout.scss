@@ -14,38 +14,52 @@
 
   .z-document-main {
     @include fixedContainer;
+    @include scrollbarHidden;
     background-color: $layout-main-bg-color;
     z-index: 1000;
-    @include scrollbarHidden;
 
     // 상단 영역
     .z-document-main-header {
-      width: $drawing-board-width;
-      max-width: $drawing-board-width;
-      padding: 4rem 0 0.75rem 0; // 64px 0 12px 0
-
-      // 문서 번호
-      .z-document-numbering {
-        font-family: $document-numbering-font-family;
-        font-size: $document-numbering-font-size;
-        color: $document-numbering-color;
-      }
+      position: fixed;
+      right: 38.13rem;
+      width: calc(100% - 38.13rem);
+      padding: 0.75rem 1rem ; // 12px
+      background: $blue500;
+      z-index: $z-index-gnb;
 
       .z-action-button-top-area {
-        width: 100%;
-        margin: 0.75rem 0 0 0; // 12px 0 0 0
-
-        .z-button-list {
-          width: 100%;
-        }
+        .z-button-list { width: 100%; }
       }
+
+      .z-button-list {
+        .primary { border-color: $white; }
+        .secondary { border-color: $white; }
+      }
+    }
+
+    .z-document-main-content {
+      display: inline-block;
+      width: 100%;
+      margin: 6.25rem 0 3rem; // 100px 48px
+      text-align: center;
+      // 문서 번호
+      .z-document-numbering {
+        width: 100%;
+        margin-bottom: 0.625rem; // 10px
+        font-family: $document-numbering-font-family;
+        font-size: $font-size-xs;
+      }
+    }
+
+    // board 영역
+    .z-drawing-board {
+      .z-form { margin: 0 6.25rem !important; } // 100px
     }
 
     // 하단 영역
     .z-document-main-footer {
-      width: $drawing-board-width;
-      max-width: $drawing-board-width;
-      padding: 0.75rem 0 4rem 0; // 12px 0 64px 0
+      width: 100%;
+      padding: 0.75rem 0 4rem; // 12px 0 64px
     }
   }
 
@@ -246,6 +260,24 @@
           // 댓글 추가
           .z-comment-add {
             margin: 0.625rem 0 0 0; // 10px 0 0 0
+          }
+        }
+
+        // 참조인
+        &-viewer {
+          &-table {
+            td, th {
+              &:nth-child(3) { color: $gray500; }
+            }
+            .z-table-body {
+              border: none;
+              tr:hover { background-color: transparent; }
+            }
+            .z-icon {
+              &.i-clear {
+                background: $element-icon-color;
+              }
+            }
           }
         }
       }

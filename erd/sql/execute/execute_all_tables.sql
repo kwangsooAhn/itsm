@@ -50,6 +50,7 @@ insert into awf_auth values ('report.manage', '보고서 관리', '사용자 정
 insert into awf_auth values ('report.view', '보고서 조회', '보고서 내용을 검색하여 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('system.manage', '시스템 관리', '"사용자, 역할, 스케줄러, 게시판, 코드 관리 권한을 가집니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('portal.manage', '포털 관리', 'FAQ 등록, 게시판 생성, 공지사항 등록 등 포털과 관련된 설정이 가능합니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('document.view', '문서함 검색', '문서함 조회시 모든 문서를 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 아바타
@@ -286,15 +287,12 @@ insert into awf_code values ('chart.unit', 'chart', null, 'CHART UNIT', null, tr
 insert into awf_code values ('chart.unit.year', 'chart.unit', 'Y', '년', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.unit.month', 'chart.unit', 'M', '월', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.unit.day', 'chart.unit', 'D', '일', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('chart.unit.hour', 'chart.unit', 'H', '시간', null, true, true, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.unit.hour', 'chart.unit', 'H', '시간', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.range', 'chart', null, 'CHART RANGE', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.range.between', 'chart.range', 'chart.range.between', '기간 지정', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('chart.range.last.day', 'chart.range', 'chart.range.last.day', '어제', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.range.last.month', 'chart.range', 'chart.range.last.month', '지난 달', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.range.last.day', 'chart.range', 'chart.range.last.day', '어제', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.range.all', 'chart.range', 'chart.range.all', '전체', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('chart.documentStatus', 'chart', null, 'CHART DOCUMENT STATUS',null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', '2022-01-14 00:37:29.030176', now(), null, true);
-insert into awf_code values ('chart.documentStatus.only.finish.document', 'chart.documentStatus', 'only.finish.document', '완료된 문서만',null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', '2022-01-14 00:37:29.030176', now(), null, true);
-insert into awf_code values ('chart.documentStatus.even.running.document', 'chart.documentStatus', 'even.running.document', '진행 중인 문서까지',null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', '2022-01-14 00:37:29.030176', now(), null, true);
 insert into awf_code values ('instance', 'root', null, '인스턴스', null, true, true, 1, 15, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('instance.platform', 'instance', null, '인스턴스 플랫폼', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('instance.platform.itsm', 'instance.platform', 'ITSM', 'ITSM', null, faLse, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -586,14 +584,24 @@ insert into awf_menu values ('notice', 'menu', '/notices/search', 4, 'TRUE');
 insert into awf_menu values ('faq', 'menu', '/faqs/search', 5, 'TRUE');
 insert into awf_menu values ('download', 'menu', '/downloads/search', 6, 'TRUE');
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7, 'TRUE');
-insert into awf_menu values ('statistic', 'menu', '', 8, 'TRUE');
+insert into awf_menu values ('report', 'menu', '', 8, 'TRUE');
+insert into awf_menu values ('report.template', 'report', '/reports/template/search', 1, 'TRUE');
+insert into awf_menu values ('report.report', 'report', '/reports/report/search', 2, 'TRUE');
+insert into awf_menu values ('report.chart', 'report', '/charts/search', 3, 'TRUE');
 insert into awf_menu values ('workflow', 'menu', '', 9, 'TRUE');
+insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1, 'TRUE');
+insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2, 'TRUE');
+insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3, 'TRUE');
+insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4, 'TRUE');
+insert into awf_menu values ('workflow.file', 'workflow', '/files', 5, 'TRUE');
+insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, 'TRUE');
+insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, 'TRUE');
 insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
-insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
 insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
 insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
+insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, 'TRUE');
 insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
 insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
@@ -601,20 +609,6 @@ insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
 insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
-insert into awf_menu values ('statistic.customReportTemplate', 'statistic', '/statistics/customReportTemplate/search', 1, 'TRUE');
-insert into awf_menu values ('statistic.customReport', 'statistic', '/statistics/customReport/search', 2, 'TRUE');
-insert into awf_menu values ('statistic.basicReport', 'statistic', '/statistics/basicReport/search', 3, 'FALSE');
-insert into awf_menu values ('statistic.customChart', 'statistic', '/statistics/customChart/search', 4, 'TRUE');
-insert into awf_menu values ('statistic.basicChart', 'statistic', '/statistics/basicChart/search', 5, 'FALSE');
-insert into awf_menu values ('statistic.dashboardTemplate', 'statistic', '/statistics/dashboardTemplate/search', 6, 'FALSE');
-insert into awf_menu values ('statistic.customDashboardTemplate', 'statistic', '/statistics/customDashboardTemplate/edit', 7, 'FALSE');
-insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1, 'TRUE');
-insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2, 'TRUE');
-insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3, 'TRUE');
-insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4, 'TRUE');
-insert into awf_menu values ('workflow.image', 'workflow', '/images', 5, 'TRUE');
-insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, 'TRUE');
-insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -659,21 +653,17 @@ insert into awf_menu_auth_map values ('config.product', 'system.manage');
 insert into awf_menu_auth_map values ('config.role', 'system.manage');
 insert into awf_menu_auth_map values ('config.scheduler', 'system.manage');
 insert into awf_menu_auth_map values ('config.user', 'system.manage');
-insert into awf_menu_auth_map values ('statistic', 'report.manage');
-insert into awf_menu_auth_map values ('statistic', 'report.view');
-insert into awf_menu_auth_map values ('statistic.basicReport', 'report.view');
-insert into awf_menu_auth_map values ('statistic.basicChart', 'report.view');
-insert into awf_menu_auth_map values ('statistic.customChart', 'report.manage');
-insert into awf_menu_auth_map values ('statistic.customChart', 'report.view');
-insert into awf_menu_auth_map values ('statistic.customDashboardTemplate', 'report.view');
-insert into awf_menu_auth_map values ('statistic.customReport', 'report.manage');
-insert into awf_menu_auth_map values ('statistic.customReport', 'report.view');
-insert into awf_menu_auth_map values ('statistic.customReportTemplate', 'report.manage');
-insert into awf_menu_auth_map values ('statistic.dashboardTemplate', 'report.view');
+insert into awf_menu_auth_map values ('report', 'report.manage');
+insert into awf_menu_auth_map values ('report.chart', 'report.manage');
+insert into awf_menu_auth_map values ('report.report', 'report.manage');
+insert into awf_menu_auth_map values ('report.template', 'report.manage');
+insert into awf_menu_auth_map values ('report', 'report.view');
+insert into awf_menu_auth_map values ('report.chart', 'report.view');
+insert into awf_menu_auth_map values ('report.report', 'report.view');
 insert into awf_menu_auth_map values ('workflow', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.customCode', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.form', 'workflow.manage');
-insert into awf_menu_auth_map values ('workflow.image', 'workflow.manage');
+insert into awf_menu_auth_map values ('workflow.file', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.numberingPattern', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
@@ -838,13 +828,16 @@ INSERT INTO awf_role_auth_map VALUES ('system.admin', 'report.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'report.view');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'system.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'portal.manage');
+INSERT INTO awf_role_auth_map VALUES ('system.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'workflow.expire');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('service.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('service.manager', 'general');
 INSERT INTO awf_role_auth_map VALUES ('service.manager', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('service.manager', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('service.manager', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('general.user', 'general');
 INSERT INTO awf_role_auth_map VALUES ('general.user', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'general');
@@ -852,12 +845,15 @@ INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'workflow.manage');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'report.manage');
 INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('workflow.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'cmdb.manage');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'portal.manage');
+INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'document.view');
 
 /**
  * 문서번호패턴맵핑
@@ -1075,7 +1071,7 @@ CREATE TABLE awf_url
 	url varchar(512) NOT NULL,
 	method varchar(16) NOT NULL,
 	url_desc varchar(256),
-	is_required_auth boolean DEFAULT 'true',
+	is_required_auth boolean DEFAULT 'TRUE',
 	CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
 );
 
@@ -1104,6 +1100,11 @@ insert into awf_url values ('/certification', 'post', '회원 가입 요청(인�
 insert into awf_url values ('/certification/signup', 'get', '회원 가입 화면 호출', 'FALSE');
 insert into awf_url values ('/certification/status', 'get', '메일 인증 상태/재발송 요청 화면', 'FALSE');
 insert into awf_url values ('/certification/valid', 'get', '메일 인증', 'FALSE');
+insert into awf_url values ('/charts', 'get', '사용자 정의 차트 목록', 'TRUE');
+insert into awf_url values ('/charts/search', 'get', '사용자 정의 차트 목록 조회 화면', 'TRUE');
+insert into awf_url values ('/charts/new', 'get', '사용자 정의 차트 등록 화면', 'TRUE');
+insert into awf_url values ('/charts/{id}/edit', 'get', '사용자 정의 차트 수정 화면', 'TRUE');
+insert into awf_url values ('/charts/{id}/view', 'get', '사용자 정의 차트 조회 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/new', 'get', 'CMDB Attribute 등록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
@@ -1134,6 +1135,7 @@ insert into awf_url values ('/workflows/{id}/edit', 'get', '신청서 수정 화
 insert into awf_url values ('/workflows/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
 insert into awf_url values ('/documents', 'get', '신청서 리스트 화면', 'FALSE');
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
+insert into awf_url values ('/documents/{id}/edit', 'get', '신청서 조회', 'TRUE');
 insert into awf_url values ('/documents/{id}/print', 'get', '신청서 프린트 화면', 'TRUE');
 insert into awf_url values ('/downloads', 'get', '자료실 리스트 화면', 'TRUE');
 insert into awf_url values ('/downloads/new', 'get', '자료실 신규 등록', 'TRUE');
@@ -1150,7 +1152,7 @@ insert into awf_url values ('/forms/{id}/view', 'get', '폼 디자이너 상세�
 insert into awf_url values ('/forms/{id}/preview', 'get', '폼 디자이너 미리보기 화면', 'TRUE');
 insert into awf_url values ('/forms', 'get', '폼 리스트 화면', 'TRUE');
 insert into awf_url values ('/forms/search', 'get', '폼 리스트 검색 호출 화면', 'TRUE');
-insert into awf_url values ('/images', 'get', '이미지 관리 화면', 'TRUE');
+insert into awf_url values ('/files', 'get', '파일 관리 화면', 'TRUE');
 insert into awf_url values ('/notices', 'get', '공지사항 목록', 'TRUE');
 insert into awf_url values ('/notices/new', 'get', '공지사항 신규 등록 화면', 'TRUE');
 insert into awf_url values ('/notices/search', 'get', '공지사항 검색 화면 호출 처리', 'TRUE');
@@ -1187,6 +1189,20 @@ insert into awf_url values ('/processes/search', 'get', '프로세스 리스트 
 insert into awf_url values ('/process/{id}/edit', 'get', '프로세스 디자이너 편집 화면' ,'TRUE');
 insert into awf_url values ('/process/{id}/view', 'get', '프로세스 디자이너 보기 화면' ,'TRUE');
 insert into awf_url values ('/process/{id}/status', 'get', '프로세스 상태', 'TRUE');
+insert into awf_url values ('/reports/report', 'get', '보고서 조회', 'TRUE');
+insert into awf_url values ('/reports/report/search', 'get', '보고서 조회 검색 화면 호출', 'TRUE');
+insert into awf_url values ('/reports/report/{id}/view', 'get', '보고서 상세화면', 'TRUE');
+insert into awf_url values ('/reports/template', 'get', '템플릿 설정 목록 조회', 'TRUE');
+insert into awf_url values ('/reports/template/new', 'get', '템플릿 설정 등록', 'TRUE');
+insert into awf_url values ('/reports/template/preview', 'get', '템플릿 미리보기', 'TRUE');
+insert into awf_url values ('/reports/template/search', 'get', '템플릿 설정 검색 화면 호출', 'TRUE');
+insert into awf_url values ('/reports/template/{id}/edit', 'get', '템플릿 설정 수정', 'TRUE');
+insert into awf_url values ('/reports/template/{id}/view', 'get', '템플릿 설정 미리보기', 'TRUE');
+insert into awf_url values ('/rest/reports/template', 'post', '템플릿 설정 등록 처리', 'TRUE');
+insert into awf_url values ('/rest/reports/template/charts', 'get', '템플릿 차트 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/reports/template/{id}', 'delete', '템플릿 설정 삭제 처리', 'TRUE');
+insert into awf_url values ('/rest/reports/template/{id}', 'post', '보고서 생성 (임시)', 'TRUE');
+insert into awf_url values ('/rest/reports/template/{id}', 'put', '템플릿 설정 수정 처리', 'TRUE');
 insert into awf_url values ('/rest/auths', 'get', '권한 전체 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/auths', 'post', '권한 등록', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'get', '권한 상세 정보 조회', 'TRUE');
@@ -1203,6 +1219,11 @@ insert into awf_url values ('/rest/boards/articles/comments', 'post', '게시판
 insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '게시판 댓글 삭제', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
+insert into awf_url values ('/rest/charts', 'post', '사용자 정의 차트 등록', 'TRUE');
+insert into awf_url values ('/rest/charts/{id}', 'get', '사용자 정의 차트 미리보기');
+insert into awf_url values ('/rest/charts/{id}', 'put', '사용자 정의 차트 수정', 'TRUE');
+insert into awf_url values ('/rest/charts/{id}', 'delete', '사용자 정의 차트 삭제', 'TRUE');
+insert into awf_url values ('/rest/charts/{id}/preview', 'post', '사용자 정의 차트 미리보기', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
@@ -1254,24 +1275,30 @@ insert into awf_url values ('/rest/faqs/{id}', 'put', 'FAQ 수정 처리', 'TRUE
 insert into awf_url values ('/rest/faqs/{id}', 'get', 'FAQ 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'delete', 'FAQ 삭제 처리', 'TRUE');
 insert into awf_url values ('/rest/filenameextensions', 'get', '파일 확장자목록', 'FALSE');
+insert into awf_url values ('/rest/files/download', 'get', '파일관리 다운로드', 'FALSE');
 insert into awf_url values ('/rest/folders', 'post', '폴더 등록', 'FALSE');
-insert into awf_url values ('/rest/folders/{folderId}/instances/{instanceId}', 'delete', '폴더 삭제', false);
-insert into awf_url values ('/rest/folders/{folderId}', 'get', '폴더조회', false);
+insert into awf_url values ('/rest/folders/{folderId}/instances/{instanceId}', 'delete', '폴더 삭제', 'FALSE');
+insert into awf_url values ('/rest/folders/{folderId}', 'get', '폴더조회', 'FALSE');
 insert into awf_url values ('/rest/forms/{id}', 'delete', '폼 디자이너 삭제', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'get', '폼 디자이너 세부 정보 불러오기', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
 insert into awf_url values ('/rest/forms', 'post', '폼 디자이너 기본 정보 저장 / 다른 이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}', 'put', '폼 디자이너 기본 정보 수정', 'TRUE');
-insert into awf_url values ('/rest/forms/{id}', 'get', '폼 디자이너 기본 정보 조회', true);
-insert into awf_url values ('/rest/images', 'post', '이미지 업로드', 'TRUE');
-insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE');
-insert into awf_url values ('/rest/images/{id}', 'get', '이미지 조회', 'FALSE');
-insert into awf_url values ('/rest/images/{id}', 'delete', '이미지 삭제', 'TRUE');
-insert into awf_url values ('/rest/images', 'get', '이미지 전체 조회', 'FALSE');
-insert into awf_url values ('/rest/instances/{instanceId}/history', 'get', '문서 이력조회', false);
-insert into awf_url values ('/rest/instances/{instanceId}/comments', 'get', '댓글 조회', false);
-insert into awf_url values ('/rest/instances/{instanceId}/comments', 'post', '댓글 등록', false);
-insert into awf_url values ('/rest/instances/{instanceId}/comments/{commentId}', 'delete', '댓글 삭제', false);
+insert into awf_url values ('/rest/forms/{id}', 'get', '폼 디자이너 기본 정보 조회', 'TRUE');
+insert into awf_url values ('/rest/files', 'post', '파일 업로드', 'TRUE');
+insert into awf_url values ('/rest/files', 'put', '파일명 수정', 'TRUE');
+insert into awf_url values ('/rest/files/{id}', 'get', '파일 조회', 'FALSE');
+insert into awf_url values ('/rest/files/{id}', 'delete', '파일 삭제', 'TRUE');
+insert into awf_url values ('/rest/files', 'get', '파일 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{id}/viewer/', 'get', '참조인 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/', 'post', '참조인 등록(수정)', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}', 'delete', '참조인 삭제', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}/read', 'post', '참조인 읽음', 'TRUE');
+insert into awf_url values ('/rest/instances/{instanceId}/history', 'get', '문서 이력조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{instanceId}/comments', 'get', '댓글 조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{instanceId}/comments', 'post', '댓글 등록', 'FALSE');
+insert into awf_url values ('/rest/instances/{instanceId}/comments/{commentId}', 'delete', '댓글 삭제', 'FALSE');
+insert into awf_url values ('/rest/instances/{instanceId}/tags', 'get', '태그 조회', 'FALSE');
 insert into awf_url values ('/rest/notices', 'post', '공지사항 등록', 'TRUE');
 insert into awf_url values ('/rest/notices/{id}', 'delete', '공지사항 삭제', 'TRUE');
 insert into awf_url values ('/rest/notices/{id}', 'put', '공지사항 수정', 'TRUE');
@@ -1316,16 +1343,6 @@ insert into awf_url values ('/rest/schedulers', 'post', '스케줄러 등록', '
 insert into awf_url values ('/rest/schedulers/{id}', 'delete', '스케줄러 삭제', 'TRUE');
 insert into awf_url values ('/rest/schedulers/{id}', 'put', '스케줄러 수정', 'TRUE');
 insert into awf_url values ('/rest/schedulers/{id}/execute', 'post', '스케줄러 실행', 'TRUE');
-insert into awf_url values ('/rest/statistics/customChart', 'post', '사용자 정의 차트 등록', 'TRUE');
-insert into awf_url values ('/rest/statistics/customChart/{id}', 'get', '사용자 정의 차트 미리보기');
-insert into awf_url values ('/rest/statistics/customChart/{id}', 'put', '사용자 정의 차트 수정', 'TRUE');
-insert into awf_url values ('/rest/statistics/customChart/{id}', 'delete', '사용자 정의 차트 삭제', 'TRUE');
-insert into awf_url values ('/rest/statistics/customChart/{id}/preview', 'post', '사용자 정의 차트 미리보기', 'TRUE');
-insert into awf_url values ('/rest/statistics/customReportTemplate', 'post', '템플릿 설정 등록 처리', 'TRUE');
-insert into awf_url values ('/rest/statistics/customReportTemplate/charts', 'get', '템플릿 차트 데이터 조회', 'TRUE');
-insert into awf_url values ('/rest/statistics/customReportTemplate/{id}', 'delete', '템플릿 설정 삭제 처리', 'TRUE');
-insert into awf_url values ('/rest/statistics/customReportTemplate/{id}', 'post', '보고서 생성 (임시)', 'TRUE');
-insert into awf_url values ('/rest/statistics/customReportTemplate/{id}', 'put', '템플릿 설정 수정 처리', 'TRUE');
 insert into awf_url values ('/rest/tags/whitelist', 'get', 'Tag 추천 목록 조회', 'FALSE');
 insert into awf_url values ('/rest/tags', 'post', 'Tag 저장', 'FALSE');
 insert into awf_url values ('/rest/tags/{id}', 'delete', 'Tag 삭제', 'FALSE');
@@ -1352,25 +1369,6 @@ insert into awf_url values ('/schedulers/search', 'get', '스케줄러 리스트
 insert into awf_url values ('/schedulers/{id}/edit', 'get', '스케줄러 상세 수정 화면', 'TRUE');
 insert into awf_url values ('/schedulers/{id}/history', 'get', '스케줄러 이력 리스트 모달 화면', 'TRUE');
 insert into awf_url values ('/schedulers/{id}/view', 'get', '스케줄러 상세 조회 화면', 'TRUE');
-insert into awf_url values ('/statistics/basicChart/search', 'get', '기본 차트 목록 조회 화면', 'TRUE');
-insert into awf_url values ('/statistics/basicReport/search', 'get', '기본 보고서 목록 조회 화면', 'TRUE');
-insert into awf_url values ('/statistics/customChart', 'get', '사용자 정의 차트 목록', 'TRUE');
-insert into awf_url values ('/statistics/customChart/search', 'get', '사용자 정의 차트 목록 조회 화면', 'TRUE');
-insert into awf_url values ('/statistics/customChart/new', 'get', '사용자 정의 차트 등록 화면', 'TRUE');
-insert into awf_url values ('/statistics/customChart/{id}/edit', 'get', '사용자 정의 차트 수정 화면', 'TRUE');
-insert into awf_url values ('/statistics/customChart/{id}/view', 'get', '사용자 정의 차트 조회 화면', 'TRUE');
-insert into awf_url values ('/statistics/customChart/{id}/preview', 'get', '사용자 정의차트 미리보기', 'TRUE');
-insert into awf_url values ('/statistics/customDashboardTemplate/edit', 'get', '개인 현황판 관리 화면', 'TRUE');
-insert into awf_url values ('/statistics/customReport', 'get', '보고서 조회', 'TRUE');
-insert into awf_url values ('/statistics/customReport/search', 'get', '보고서 조회 검색 화면 호출', 'TRUE');
-insert into awf_url values ('/statistics/customReport/{id}/view', 'get', '보고서 상세화면', 'TRUE');
-insert into awf_url values ('/statistics/customReportTemplate', 'get', '템플릿 설정 목록 조회', 'TRUE');
-insert into awf_url values ('/statistics/customReportTemplate/new', 'get', '템플릿 설정 등록', 'TRUE');
-insert into awf_url values ('/statistics/customReportTemplate/preview', 'get', '템플릿 미리보기', 'TRUE');
-insert into awf_url values ('/statistics/customReportTemplate/search', 'get', '템플릿 설정 검색 화면 호출', 'TRUE');
-insert into awf_url values ('/statistics/customReportTemplate/{id}/edit', 'get', '템플릿 설정 수정', 'TRUE');
-insert into awf_url values ('/statistics/customReportTemplate/{id}/view', 'get', '템플릿 설정 미리보기', 'TRUE');
-insert into awf_url values ('/statistics/dashboardTemplate/search', 'get', '현황판 템플릿 목록 조회 화면', 'TRUE');
 insert into awf_url values ('/tokens', 'get', '처리할 문서 리스트 조회', 'FALSE');
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');
 insert into awf_url values ('/tokens/view-pop/documents', 'get', '관련문서 리스트', 'TRUE');
@@ -1378,7 +1376,7 @@ insert into awf_url values ('/tokens/{id}/edit', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/print', 'get', '처리할 문서 프린트 화면', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view-pop', 'get', '관련문서 팝업 화면', 'TRUE');
-insert into awf_url values ('/tokens/{tokenId}/tokenTab','get','문서조회 탭화면', true);
+insert into awf_url values ('/tokens/tokenTab','get','문서조회 탭화면', 'TRUE');
 insert into awf_url values ('/users', 'get', '사용자 조회 목록 화면', 'TRUE');
 insert into awf_url values ('/users/new', 'get', '사용자 등록 화면', 'TRUE');
 insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 등 메인이 되는 조회 화면', 'TRUE');
@@ -1391,7 +1389,6 @@ insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음�
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
 insert into awf_url values ('/rest/tokens/excel', 'get', '문서함 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/users/absence', 'post', '사용자 현재 문서 이관', 'FALSE');
-insert into awf_url values ('/rest/schedulers/{id}/executeTime', 'get', '스케줄러 최초 실행 시각 조회', 'FALSE');
 
 /**
  * URL별권한매핑
@@ -1440,6 +1437,14 @@ insert into awf_url_auth_map values ('/boards/articles/{id}/reply/edit', 'get', 
 insert into awf_url_auth_map values ('/boards/articles/{id}/reply/edit', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'general');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'portal.manage');
+insert into awf_url_auth_map values ('/charts', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/charts', 'get', 'report.view');
+insert into awf_url_auth_map values ('/charts/new', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/charts/search', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/charts/search', 'get', 'report.view');
+insert into awf_url_auth_map values ('/charts/{id}/edit', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/charts/{id}/view', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/charts/{id}/view', 'get', 'report.view');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/attributes/list-modal', 'get', 'cmdb.manage');
@@ -1467,6 +1472,7 @@ insert into awf_url_auth_map values ('/custom-codes/search', 'get', 'system.mana
 insert into awf_url_auth_map values ('/custom-codes/{id}/edit', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/dashboard/view', 'get', 'general');
+insert into awf_url_auth_map values ('/documents/{id}/edit', 'get', 'general');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads', 'get', 'general');
 insert into awf_url_auth_map values ('/downloads', 'get', 'portal.manage');
@@ -1489,7 +1495,7 @@ insert into awf_url_auth_map values ('/forms/search', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/forms/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/forms/{id}/preview', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/forms/{id}/view', 'get', 'workflow.manage');
-insert into awf_url_auth_map values ('/images', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/files', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/notices', 'get', 'general');
 insert into awf_url_auth_map values ('/notices', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/notices/new', 'get', 'portal.manage');
@@ -1515,6 +1521,22 @@ insert into awf_url_auth_map values ('/process/{id}/status', 'get', 'workflow.ma
 insert into awf_url_auth_map values ('/process/{id}/view', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/processes', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/processes/search', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/reports/report', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/reports/report', 'get', 'report.view');
+insert into awf_url_auth_map values ('/reports/report/search', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/reports/report/search', 'get', 'report.view');
+insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/reports/report/{id}/view', 'get', 'report.view');
+insert into awf_url_auth_map values ('/reports/template', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/reports/template', 'get', 'report.view');
+insert into awf_url_auth_map values ('/reports/template/new', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/reports/template/preview', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/reports/template/preview', 'get', 'report.view');
+insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/reports/template/search', 'get', 'report.view');
+insert into awf_url_auth_map values ('/reports/template/{id}/edit', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/reports/template/{id}/view', 'get', 'report.view');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/rest/auths', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/auths/{id}', 'get', 'system.manage');
@@ -1542,6 +1564,13 @@ insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'gen
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/charts', 'post', 'report.manage');
+insert into awf_url_auth_map values ('/rest/charts/{id}', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/rest/charts/{id}', 'get', 'report.view');
+insert into awf_url_auth_map values ('/rest/charts/{id}', 'put', 'report.manage');
+insert into awf_url_auth_map values ('/rest/charts/{id}', 'delete', 'report.manage');
+insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'report.manage');
+insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'report.view');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.manage');
@@ -1589,9 +1618,13 @@ insert into awf_url_auth_map values ('/rest/forms/{id}', 'get', 'workflow.manage
 insert into awf_url_auth_map values ('/rest/forms/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'workflow.manage');
-insert into awf_url_auth_map values ('/rest/images', 'put', 'workflow.manage');
-insert into awf_url_auth_map values ('/rest/images', 'post', 'workflow.manage');
-insert into awf_url_auth_map values ('/rest/images/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/files', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/files', 'post', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/files/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/{userkey}', 'delete', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/{userkey}/read', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/notices', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'delete', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'put', 'portal.manage');
@@ -1619,6 +1652,10 @@ insert into awf_url_auth_map values ('/rest/processes/all', 'get', 'workflow.man
 insert into awf_url_auth_map values ('/rest/processes/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/processes/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/products/info', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/reports/template', 'post', 'report.manage');
+insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.manage');
+insert into awf_url_auth_map values ('/rest/reports/template/charts', 'get', 'report.view');
+insert into awf_url_auth_map values ('/rest/reports/template/{id}', 'post', 'report.manage');
 insert into awf_url_auth_map values ('/rest/roles', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/rest/roles', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/roles/excel', 'get', 'system.manage');
@@ -1629,19 +1666,6 @@ insert into awf_url_auth_map values ('/rest/schedulers', 'post', 'system.manage'
 insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/schedulers/{id}/execute', 'post', 'system.manage');
-insert into awf_url_auth_map values ('/rest/statistics/customChart', 'post', 'report.manage');
-insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'get', 'report.view');
-insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'put', 'report.manage');
-insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'delete', 'report.manage');
-insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}/preview', 'post', 'report.manage');
-insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}/preview', 'post', 'report.view');
-insert into awf_url_auth_map values ('/rest/statistics/customReportTemplate', 'post', 'report.manage');
-insert into awf_url_auth_map values ('/rest/statistics/customReportTemplate/charts', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/rest/statistics/customReportTemplate/charts', 'get', 'report.view');
-insert into awf_url_auth_map values ('/rest/statistics/customReportTemplate/{id}', 'put', 'report.manage');
-insert into awf_url_auth_map values ('/rest/statistics/customReportTemplate/{id}', 'post', 'report.manage');
-insert into awf_url_auth_map values ('/rest/statistics/customReportTemplate/{id}', 'delete', 'report.manage');
 insert into awf_url_auth_map values ('/rest/tokens/data', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'general');
@@ -1667,40 +1691,12 @@ insert into awf_url_auth_map values ('/schedulers/search', 'get', 'system.manage
 insert into awf_url_auth_map values ('/schedulers/{id}/edit', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/schedulers/{id}/history', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/schedulers/{id}/view', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/statistics/basicChart/search', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/basicReport/search', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/customChart', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customChart', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/customChart/new', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customChart/search', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customChart/search', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/customChart/{id}/edit', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customChart/{id}/view', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customChart/{id}/view', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/customDashboardTemplate/edit', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/customReport', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customReport', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/customReport/search', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customReport/search', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/customReport/{id}/view', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customReport/{id}/view', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/customReportTemplate', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customReportTemplate', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/customReportTemplate/new', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customReportTemplate/preview', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customReportTemplate/preview', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/customReportTemplate/search', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customReportTemplate/search', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/customReportTemplate/{id}/edit', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customReportTemplate/{id}/view', 'get', 'report.manage');
-insert into awf_url_auth_map values ('/statistics/customReportTemplate/{id}/view', 'get', 'report.view');
-insert into awf_url_auth_map values ('/statistics/dashboardTemplate/search', 'get', 'report.view');
 insert into awf_url_auth_map values ('/tokens/view-pop/documents', 'get', 'general');
 insert into awf_url_auth_map values ('/tokens/{id}/edit', 'get', 'general');
 insert into awf_url_auth_map values ('/tokens/{id}/print', 'get', 'general');
 insert into awf_url_auth_map values ('/tokens/{id}/view', 'get', 'general');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'general');
-insert into awf_url_auth_map values ('/tokens/{tokenId}/tokenTab', 'get', 'general');
+insert into awf_url_auth_map values ('/tokens/tokenTab', 'get', 'general');
 insert into awf_url_auth_map values ('/users', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/users/new', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/users/search', 'get', 'system.manage');
@@ -5466,6 +5462,12 @@ INSERT INTO wf_element_data VALUES ('6c42da85993f4ae9b551ef67b15c5d49','end-id',
 INSERT INTO wf_element_data VALUES ('6c42da85993f4ae9b551ef67b15c5d49','end-name','승인',7,false);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','assignee','general.user',1,true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('9c7c235aa4eb43d8a912b2e524264c79', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('9c7c235aa4eb43d8a912b2e524264c79','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('a727237e2c6f9dbdbbff693ed151c85d','action-name','신청서 등록',0,false);
@@ -5545,6 +5547,12 @@ INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','end-id',
 INSERT INTO wf_element_data VALUES ('a13cd52a4338bde9db939249fcb722f7','end-name','종료',7,false);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','assignee','general.user',1,true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('a1c6c91a6dd476ae8ffb5e0c7e9c0d53','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('a271b9f3a790280811cd6a6ff94c02e1','action-name','',0,false);
@@ -5793,6 +5801,12 @@ INSERT INTO wf_element_data VALUES ('af8674894f8bc525c6f41a482bcf4300','end-id',
 INSERT INTO wf_element_data VALUES ('af8674894f8bc525c6f41a482bcf4300','end-name','만족도 평가',7,false);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','assignee-type','assignee.type.candidate.groups',0,true);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','assignee','general.user',1,true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('cc4048cd712147b8af4016e647e69b14', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','reject-id','',2,false);
 INSERT INTO wf_element_data VALUES ('cc4048cd712147b8af4016e647e69b14','withdraw','N',3,false);
 INSERT INTO wf_element_data VALUES ('d0d3a5405e974ec8ad00a72a9eaf6f25','action-name','APP 변경 이관',0,false);
@@ -5867,6 +5881,12 @@ INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'reject-
 INSERT INTO wf_element_data VALUES ('a5a2d1736c0bfab89d11ffd573721cf0', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'general.user', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'system.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'service.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'service.manager', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'workflow.admin',1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'cmdb.admin', 1, true);
+insert into wf_element_data values ('a62447bd30ddcc4b7738ed3bae7285d0', 'assignee', 'portal.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'reject-id', '', 2, false);
 INSERT INTO wf_element_data VALUES ('a62447bd30ddcc4b7738ed3bae7285d0', 'withdraw', 'N', 3, false);
 INSERT INTO wf_element_data VALUES ('a84bf98428f6a55b44779396edbd99bc', 'action-name', '접수', 0, false);
@@ -8385,17 +8405,17 @@ COMMENT ON COLUMN awf_chart.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_chart.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_chart.update_dt IS '수정일시';
 
-INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd479a9890005', 'chart.pie', '년간 만족도 평가건수', '월별로 단순문의, 장애관리, 변경관리, 구성관리의 만족도 평가 값의 건수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"Y","documentStatus":"only.finish.document","condition":""}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd46affee0001', 'chart.stackedColumn', '월간 유형별 완료건수', '월별로 서비스데스크 유형별 완료 건수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M","documentStatus":"only.finish.document","condition":""}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4838b2e0007', 'chart.stackedColumn', '월간 단순문의 만족도 평가', '월별로 단순문의 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"average","periodUnit":"M","documentStatus":"only.finish.document","condition":""}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd48588b50008', 'chart.stackedColumn', '월간 장애관리 만족도 평가', '월별로 장애관리 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"average","periodUnit":"M","documentStatus":"only.finish.document","condition":""}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4863bfc0009', 'chart.stackedColumn', '월간 변경관리 만족도 평가', '월별로 변경관리 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"average","periodUnit":"M","documentStatus":"only.finish.document","condition":""}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd47a4c0d0006', 'chart.stackedColumn', '월간 구성관리 만족도 평가', '월별로 구성관리 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"average","periodUnit":"M","documentStatus":"only.finish.document","condition":""}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd49c25e2000c', 'chart.basicLine', '월간 장애 완료건수', '월별로 장애관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M","documentStatus":"only.finish.document","condition":""}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd49fec730010', 'chart.basicLine', '월간 문제관리 완료건수', '월별로 문제관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M","documentStatus":"only.finish.document","condition":""}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a3758c0013', 'chart.basicLine', '월간 인프라변경관리 완료건수', '월별로 인프라 변경관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M","documentStatus":"only.finish.document","condition":""}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a7b2f10017', 'chart.basicLine', '월간 어플리케이션변경관리 완료건수', '월별로 어플리케이션 변경관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M","documentStatus":"only.finish.document","condition":""}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4aa4abf001b', 'chart.basicLine', '월간 구성관리 완료건수', '월별로 구성관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M","documentStatus":"only.finish.document","condition":""}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd479a9890005', 'chart.pie', '년간 만족도 평가건수', '월별로 단순문의, 장애관리, 변경관리, 구성관리의 만족도 평가 값의 건수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"Y"}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd46affee0001', 'chart.stackedColumn', '월간 유형별 완료건수', '월별로 서비스데스크 유형별 완료 건수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M"}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4838b2e0007', 'chart.stackedColumn', '월간 단순문의 만족도 평가', '월별로 단순문의 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"average","periodUnit":"M"}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd48588b50008', 'chart.stackedColumn', '월간 장애관리 만족도 평가', '월별로 장애관리 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"average","periodUnit":"M"}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4863bfc0009', 'chart.stackedColumn', '월간 변경관리 만족도 평가', '월별로 변경관리 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"average","periodUnit":"M"}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd47a4c0d0006', 'chart.stackedColumn', '월간 구성관리 만족도 평가', '월별로 구성관리 만족도 평가 값의 점수를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"average","periodUnit":"M"}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd49c25e2000c', 'chart.basicLine', '월간 장애 완료건수', '월별로 장애관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M"}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd49fec730010', 'chart.basicLine', '월간 문제관리 완료건수', '월별로 문제관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M"}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a3758c0013', 'chart.basicLine', '월간 인프라변경관리 완료건수', '월별로 인프라 변경관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M"}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4a7b2f10017', 'chart.basicLine', '월간 어플리케이션변경관리 완료건수', '월별로 어플리케이션 변경관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M"}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd4aa4abf001b', 'chart.basicLine', '월간 구성관리 완료건수', '월별로 구성관리 완료 건수를 확인한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"count","periodUnit":"M"}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /* TODO: 값 연산 불가능 - 납기 준수율 = 어플리케이션 변경관리 완료희망일시 >= 어플리케이션 변경관리 완료일시 인 경우만 카운트 > 일감 등록 #11860 [사용자 정의 차트] 값을 기준으로 비교 연산 기능 추가
 INSERT INTO awf_chart VALUES ('4028b8817cd4629c017cd47752aa0002', 'chart.stackedColumn', '월간 납기준수율 - 단순문의', '월별로 서비스데스크- 단순문의 납기준수율 건수(성공/실패)를 확인 한다.', '{"range":{"type":"chart.range.between","from":"2020-12-31T15:00:00","to":"2021-12-31T14:59:00"},"operation":"percent","periodUnit":"M","tags":[{"value":"단순문의 완료희망일시"},{"value":"단순문의 완료일시"}]}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -8557,10 +8577,6 @@ insert into awf_code_lang values ('form.template.serviceDesk.request.category.et
 insert into awf_code_lang values ('chart.operation.percent', 'percent', 'en');
 insert into awf_code_lang values ('chart.operation.count', 'count', 'en');
 insert into awf_code_lang values ('chart.operation.average', 'average', 'en');
-insert into awf_code_lang values ('chart.range.between', 'Designate Period', 'en');
-insert into awf_code_lang values ('chart.range.last.month', 'Last Month', 'en');
-insert into awf_code_lang values ('chart.range.last.day', 'Yesterday', 'en');
-insert into awf_code_lang values ('chart.range.all', 'All', 'en');
 insert into awf_code_lang values ('chart.unit.year', 'year', 'en');
 insert into awf_code_lang values ('chart.unit.month', 'month', 'en');
 insert into awf_code_lang values ('chart.unit.hour', 'hour', 'en');
@@ -8570,8 +8586,6 @@ insert into awf_code_lang values ('chart.type.pie', 'Pie Chart', 'en');
 insert into awf_code_lang values ('chart.type.stackedColumn', 'Stacked Column Chart', 'en');
 insert into awf_code_lang values ('chart.type.stackedBar', 'Stacked Bar Chart', 'en');
 insert into awf_code_lang values ('chart.type.gauge', 'Gauge Chart', 'en');
-insert into awf_code_lang values ('chart.documentStatus.even.running.document', 'Even Running Document', 'en');
-insert into awf_code_lang values ('chart.documentStatus.only.finish.document', 'Finished document only', 'en');
 /* 자료실 */
 insert into awf_code_lang values ('download.category.companyPolicy', 'Company Policy', 'en');
 insert into awf_code_lang values ('download.category.etc', 'Etc', 'en');
@@ -8796,4 +8810,34 @@ create table awf_organization_role_map
 COMMENT ON TABLE awf_organization_role_map IS '조직역할매핑';
 COMMENT ON COLUMN awf_organization_role_map.organization_id IS '그룹아이디';
 COMMENT ON COLUMN awf_organization_role_map.role_id IS '역할아이디';
+
+/**
+  참조인 관리
+ */
+DROP TABLE IF EXISTS wf_instance_viewer cascade;
+
+CREATE TABLE wf_instance_viewer
+(
+    instance_id varchar(128) NOT NULL,
+    viewer_key varchar(128) NOT NULL,
+    review_yn boolean default false,
+    display_yn boolean default false,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT wf_instance_viewer_pk PRIMARY KEY (instance_id, viewer_key),
+    CONSTRAINT wf_instance_viewer_fk1 FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id),
+    CONSTRAINT wf_instance_viewer_fk2 FOREIGN KEY (viewer_key) REFERENCES awf_user (user_key)
+);
+
+COMMENT ON TABLE wf_instance_viewer IS '참조인관리';
+COMMENT ON COLUMN wf_instance_viewer.instance_id IS '인스턴스아이디';
+COMMENT ON COLUMN wf_instance_viewer.viewer_key IS '참조인';
+COMMENT ON COLUMN wf_instance_viewer.review_yn IS '읽음여부';
+COMMENT ON COLUMN wf_instance_viewer.display_yn IS '표시여부';
+COMMENT ON COLUMN wf_instance_viewer.create_user_key IS '생성자';
+COMMENT ON COLUMN wf_instance_viewer.create_dt IS '생성일시';
+COMMENT ON COLUMN wf_instance_viewer.create_user_key IS '수정자';
+COMMENT ON COLUMN wf_instance_viewer.create_dt IS '수정일시';
 

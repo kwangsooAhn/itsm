@@ -62,7 +62,7 @@ export const imageMixin = {
         // placeholder
         element.UIDiv = new UIDiv().setUIClass('z-imagebox-placeholder')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-no-image'))
-            .addUI(new UIText().addUIClass('mt-2').setUIInnerHTML(i18n.msg('image.label.placeholder')));
+            .addUI(new UIText().addUIClass('mt-2').setUIInnerHTML(i18n.msg('file.label.placeholder')));
         element.addUI(element.UIDiv);
         return element;
     },
@@ -70,7 +70,7 @@ export const imageMixin = {
     afterEvent() {
         // path 추가
         if (!zValidation.isEmpty(this.elementPath) && this.elementPath.startsWith('file:///')) {
-            aliceJs.fetchJson('/rest/images/' + this.elementPath.split('file:///')[1], {
+            aliceJs.fetchJson('/rest/files/' + this.elementPath.split('file:///')[1], {
                 method: 'GET'
             }).then((imageData) => {
                 this.UIElement.UIComponent.UIElement.UIImg.setUISrc('data:image/' + imageData.extension + ';base64,' + imageData.data);
@@ -98,7 +98,7 @@ export const imageMixin = {
     set elementPath(path) {
         this._element.path = path;
         if (path.startsWith('file:///')) {
-            aliceJs.fetchJson('/rest/images/' + path.split('file:///')[1], {
+            aliceJs.fetchJson('/rest/files/' + path.split('file:///')[1], {
                 method: 'GET'
             }).then((imageData) => {
                 this.UIElement.UIComponent.UIElement.UIImg.setUISrc('data:image/' + imageData.extension + ';base64,' + imageData.data);

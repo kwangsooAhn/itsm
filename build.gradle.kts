@@ -105,14 +105,13 @@ tasks.withType<Test>().configureEach {
 // KTLINT
 ktlint {
     version.set("0.35.0")
-    debug.set(true)
+    debug.set(false)
     verbose.set(true)
     android.set(false)
     outputToConsole.set(true)
-    outputColorName.set("RED")
+    outputColorName.set("BLUE")
     ignoreFailures.set(true)
     reporters {
-        reporter(ReporterType.PLAIN)
         reporter(ReporterType.CHECKSTYLE)
     }
     kotlinScriptAdditionalPaths {

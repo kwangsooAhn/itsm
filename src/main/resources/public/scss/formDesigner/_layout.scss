@@ -48,10 +48,10 @@
   }
   &-main {
     @include fixedContainer;
+    @include scrollbarHidden;
     left: $layout-component-palette-width;
     right: $layout-properties-panel-width;
     background-color: $layout-main-bg-color;
-    @include scrollbarHidden;
   }
   &-properties-panel-header {
     @include fixed($top: $layout-header-height, $right: 0);
