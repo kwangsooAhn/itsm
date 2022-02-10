@@ -4141,9 +4141,6 @@ select {
   grid-template-columns: var(--data-columns-width);
   grid-template-rows: 49px;
 }
-.z-itsm-container .z-main-content .z-page-list .grid__row:hover {
-  background-color: #EEEEEE;
-}
 .z-itsm-container .z-main-content .z-page-list .grid__cell {
   display: flex;
   height: 100%;
@@ -4162,6 +4159,9 @@ select {
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row {
   color: #222529;
   border-bottom: 0.0625rem solid #CFD5D9;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__body .grid__row:hover {
+  background-color: #EEEEEE;
 }
 .z-itsm-container .z-main-content .z-page-list .grid--noData .grid__row {
   grid-column: 1/-1;

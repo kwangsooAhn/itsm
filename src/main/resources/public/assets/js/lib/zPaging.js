@@ -27,6 +27,7 @@ export default class ZPaging {
      *   1) 관련 정보 : 검색건수, 전체 데이터 건수, 정렬 순서, 현재 페이지 번호 출력
      *   2) 페이지 번호 목록 : 기존 출력된 페이지 번호 목록은 지우고 새로 페이지 번호 표시
      *   3) 화살표 처리 : 페이지 번호 목록에 따라 페이징 화살표 링크를 다르게 수정.
+     *   4) 정렬 추가 : 상단 제목 선택시 데이터 재정렬.
      *
      * @return {boolean}
      */
@@ -109,6 +110,14 @@ export default class ZPaging {
             this.makePagingArrow('pagingNextArrow', endPageNum + 1);
         }
 
+        // 4) 정렬
+        const gridHead = document.querySelector('.grid__head');
+        if (gridHead) {
+            gridHead.querySelectorAll('.grid__cell[data-grid-sortable="true"]').forEach((element) => {
+                element.addEventListener('click', this.sortGrid, false);
+            });
+        }
+
         // 스크롤바는 paging이 아니지만 옵져버가 새로 계산할 때마다 필요하기 때문에 임시로 이 곳에 작성.
         // 팀장님께서 다시 정리하신다고 하셨음.! by.mo
         OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
@@ -119,5 +128,11 @@ export default class ZPaging {
         let pagingArrow = document.getElementById(elementId);
         pagingArrow.classList.add(this.options.activeArrowClass);
         pagingArrow.setAttribute('href', 'javascript:getList(' + (pageNum) + ')');
+    }
+
+    sortGrid(e) {
+        if (aliceJs.clickInsideElement(e, 'grid__cell')) { return false; }
+
+        console.log(e.target);
     }
 }

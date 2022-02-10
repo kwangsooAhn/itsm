@@ -274,7 +274,6 @@
         display: grid;
         grid-template-columns: var(--data-columns-width);
         grid-template-rows: 49px;
-        &:hover { background-color: $grid-hover-bg-color; }
       }
 
       &__cell {
@@ -299,6 +298,7 @@
         .grid__row {
           color: $grid-body-color;
           @include border(0.0625rem, solid, $grid-border-color, bottom);
+          &:hover { background-color: $grid-hover-bg-color; }
         }
       }
 
