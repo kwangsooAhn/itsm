@@ -8557,6 +8557,10 @@ insert into awf_code_lang values ('form.template.serviceDesk.request.category.et
 insert into awf_code_lang values ('chart.operation.percent', 'percent', 'en');
 insert into awf_code_lang values ('chart.operation.count', 'count', 'en');
 insert into awf_code_lang values ('chart.operation.average', 'average', 'en');
+insert into awf_code_lang values ('chart.range.between', 'Designate Period', 'en');
+insert into awf_code_lang values ('chart.range.last.month', 'Last Month', 'en');
+insert into awf_code_lang values ('chart.range.last.day', 'Yesterday', 'en');
+insert into awf_code_lang values ('chart.range.all', 'All', 'en');
 insert into awf_code_lang values ('chart.unit.year', 'year', 'en');
 insert into awf_code_lang values ('chart.unit.month', 'month', 'en');
 insert into awf_code_lang values ('chart.unit.hour', 'hour', 'en');
