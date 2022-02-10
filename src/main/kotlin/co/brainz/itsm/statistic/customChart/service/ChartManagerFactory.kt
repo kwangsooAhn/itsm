@@ -17,22 +17,23 @@ import org.springframework.stereotype.Component
 
 @Component
 class ChartManagerFactory(
-    private val chartManagerService: ChartManagerService
+    private val chartManagerService: ChartManagerService,
+    private val chartConditionService: ChartConditionService
 ) {
 
     fun getChartManager(chartType: String): ChartManager {
         return when (chartType) {
             ChartConstants.Type.BASIC_LINE.code -> BasicLine(
-                chartManagerService
+                chartManagerService, chartConditionService
             )
             ChartConstants.Type.PIE.code -> Pie(
-                chartManagerService
+                chartManagerService, chartConditionService
             )
             ChartConstants.Type.STACKED_COLUMN.code -> StackedColumn(
-                chartManagerService
+                chartManagerService, chartConditionService
             )
             ChartConstants.Type.STACKED_BAR.code -> StackedBar(
-                chartManagerService
+                chartManagerService, chartConditionService
             )
             else -> throw AliceException(AliceErrorConstants.ERR, "ChartManager not found.")
         }

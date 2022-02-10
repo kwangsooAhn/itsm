@@ -9,6 +9,7 @@ package co.brainz.itsm.statistic.customChart.service.impl
 import co.brainz.itsm.statistic.customChart.dto.ChartConfig
 import co.brainz.itsm.statistic.customChart.dto.ChartData
 import co.brainz.itsm.statistic.customChart.dto.ChartTagInstanceDto
+import co.brainz.itsm.statistic.customChart.service.ChartConditionService
 import co.brainz.itsm.statistic.customChart.service.ChartManager
 import co.brainz.itsm.statistic.customChart.service.ChartManagerService
 import org.slf4j.Logger
@@ -18,9 +19,10 @@ import org.springframework.stereotype.Component
 
 @Component
 class BasicLine(
-    chartManagerService: ChartManagerService
+    chartManagerService: ChartManagerService,
+    chartConditionService: ChartConditionService
 ) : ChartManager(
-    chartManagerService
+    chartManagerService, chartConditionService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)

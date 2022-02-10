@@ -25,10 +25,10 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import kotlin.collections.LinkedHashSet
 
 abstract class ChartManager(
-    private val chartManagerService: ChartManagerService
+    private val chartManagerService: ChartManagerService,
+    private val chartConditionService: ChartConditionService
 ) {
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -50,7 +50,6 @@ abstract class ChartManager(
         // 2-1) 테스트 컴포넌트 : chartManagerService.getDummyDataList(chartDto.tags)
         var tagInstances = this.getTagInstances(chartDto)
 
-        // TODO: [tagInstances] 목록에 조건식 적용
         tagInstances = this.setChartConditionByTagInstances(chartDto, tagInstances)
 
         // 3. [chartDto.chartData] 변수에 처리한 데이터 적용
@@ -171,7 +170,11 @@ abstract class ChartManager(
                 var totalCount = 0
                 var valueSum = 0.0
                 instanceTagTokenData.tokenDataList.forEach { tokenData ->
-                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, tokenData.instanceStartDt)) {
+                    if (periodUnitValue == this.getPeriodUnitValue(
+                            chartConfig.periodUnit!!,
+                            tokenData.instanceStartDt
+                        )
+                    ) {
                         totalCount++ // 숫자가 아닌 잘못된 값도 전체 건수에 포함한다. (제외하려면 한줄 아래로...)
                         if (tokenData.value.chars().allMatch(Character::isDigit) && tokenData.value.isNotEmpty()) {
                             valueSum += tokenData.value.toDouble()
@@ -228,7 +231,11 @@ abstract class ChartManager(
                 var count = 0
                 val instances = getValueOfInstance(chartConfig.condition, tagInstance)
                 instances.forEach { instance ->
-                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceStartDt!!)) {
+                    if (periodUnitValue == this.getPeriodUnitValue(
+                            chartConfig.periodUnit!!,
+                            instance.instanceStartDt!!
+                        )
+                    ) {
                         count++
                     }
                 }
@@ -334,16 +341,14 @@ abstract class ChartManager(
         chartDto: ChartDto,
         tagInstances: List<ChartTagInstanceDto>
     ): List<ChartTagInstanceDto> {
-        // TODO: 조건식에 따른 처리
-        // 임시적으로 instance 목록이 존재하면 태그별 1건씩만 conditionInstances 에 추가
-        /*chartDto.chartConfig.condition = "test"
         tagInstances.forEach { tagInstance ->
-            tagInstance.instances.forEachIndexed { index, wfInstanceEntity ->
-                if (index == 0) {
-                    tagInstance.conditionInstances.add(wfInstanceEntity)
-                }
-            }
-        }*/
+            tagInstance.conditionInstances =
+                chartConditionService.getChartConditionByTagInstance(
+                    chartDto.chartConfig.condition,
+                    tagInstance.instances
+                )
+        }
+
         return tagInstances
     }
 
@@ -435,11 +440,15 @@ abstract class ChartManager(
 
             var totalCount = 0
             val tagCountList = mutableListOf<ChartTagCount>()
-            tagInstances.forEach{ tagInstances ->
+            tagInstances.forEach { tagInstances ->
                 var count = 0
                 var conditionCount = 0
                 tagInstances.instances.forEach { instance ->
-                    if (periodUnitValue == this.getPeriodUnitValue(chartConfig.periodUnit!!, instance.instanceStartDt!!)) {
+                    if (periodUnitValue == this.getPeriodUnitValue(
+                            chartConfig.periodUnit!!,
+                            instance.instanceStartDt!!
+                        )
+                    ) {
                         count++
                         if (tagInstances.conditionInstances.contains(instance)) {
                             conditionCount++
