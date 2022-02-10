@@ -90,8 +90,9 @@
     }
   }
   // textarea 엘리먼트
-  .z-textArea {
-    min-height: 7.5rem; // 120px
+  .z-textarea {
+    line-height: 1.6;
+    min-height: 5.625rem; // 90px
   }
   // input + button
   .input-button {
@@ -169,7 +170,7 @@
       .z-input-button {
         width: 100%;
         .z-icon {
-          &.i-clear {
+          &.i-remove {
             right: 2.5rem;
           }
         }

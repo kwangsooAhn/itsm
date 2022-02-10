@@ -23,7 +23,7 @@ import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
-import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
@@ -51,7 +51,7 @@ class CIService(
     private val ciComponentDataRepository: CIComponentDataRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val excelComponent: ExcelComponent,
-    private val tagService: AliceTagService
+    private val aliceTagManager: AliceTagManager
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -142,7 +142,7 @@ class CIService(
             }
             ciDetailDto.classes = ciClasses
             ciDetailDto.ciTags =
-                tagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, parameter["ciId"] as String)
+                aliceTagManager.getTagsByTargetId(AliceTagConstants.TagType.CI.code, parameter["ciId"] as String)
         } else { // 삭제, 조회시 DB에 저장된 CI 데이터 조회
             ciDetailDto = getCI(parameter["ciId"] as String)
         }

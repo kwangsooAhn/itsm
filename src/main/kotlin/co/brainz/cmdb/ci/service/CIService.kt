@@ -45,7 +45,7 @@ import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.entity.AliceTagEntity
 import co.brainz.framework.tag.repository.AliceTagRepository
-import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.workflow.instance.repository.WfInstanceRepository
@@ -75,7 +75,7 @@ class CIService(
     private val ciInstanceRelationRepository: CIInstanceRelationRepository,
     private val aliceUserRepository: AliceUserRepository,
     private val aliceTagRepository: AliceTagRepository,
-    private val aliceTagService: AliceTagService
+    private val aliceTagManager: AliceTagManager
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -127,7 +127,7 @@ class CIService(
                 createDt = ci.createDt,
                 updateUserKey = ci.updateUser?.userKey,
                 updateDt = ci.updateDt,
-                ciTags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ci.ciId)
+                ciTags = aliceTagManager.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ci.ciId)
             )
             ciList.add(ciListDto)
         }
@@ -171,7 +171,7 @@ class CIService(
             ciDetailDto.createDt = ciEntity.createDt
             ciDetailDto.updateUserKey = ciEntity.updateUser?.userKey
             ciDetailDto.updateDt = ciEntity.updateDt
-            ciDetailDto.ciTags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ciEntity.ciId)
+            ciDetailDto.ciTags = aliceTagManager.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ciEntity.ciId)
             ciDetailDto.ciRelations = relationList
             ciDetailDto.classes = ciClassService.getCIClassAttributes(
                 ciEntity.ciId,
@@ -241,7 +241,7 @@ class CIService(
                 // CITagEntity 등록
                 ciDto.ciTags?.forEach {
                     val ciTag = it.asJsonObject
-                    aliceTagService.insertTag(
+                    aliceTagManager.insertTag(
                         AliceTagDto(
                             tagType = AliceTagConstants.TagType.CI.code,
                             tagValue = ciTag.get("tagValue").asString,

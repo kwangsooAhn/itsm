@@ -1,3 +1,8 @@
+/*
+ * Copyright 2022 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.instance.constants
 
 class InstanceConstants {
@@ -20,5 +25,15 @@ class InstanceConstants {
         fun isHistoryElement(elementType: String?): Boolean {
             return map[elementType] != null
         }
+    }
+
+    /**
+     * ViewType status.
+     */
+
+    enum class ViewType(val value: String) {
+        REGISTER("register"),
+        MODIFY("modify"),
+        DELETE("delete")
     }
 }

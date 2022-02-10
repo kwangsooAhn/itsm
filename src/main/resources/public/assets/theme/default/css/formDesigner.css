@@ -795,7 +795,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-icon.i-clear {
+.z-icon.i-remove {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/icon_clear.svg");
@@ -1892,7 +1892,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input-clear input {
   width: 100%;
 }
-.z-input-clear .z-icon.i-clear {
+.z-input-clear .z-icon.i-remove {
   position: absolute;
   right: 0rem;
   padding: 1.125rem 0.875rem;
@@ -1956,7 +1956,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input-button .z-button-search:focus, .z-input-button .z-button-search:hover, .z-input-button .z-button-search:active {
   z-index: 25;
 }
-.z-input-button .z-icon.i-clear {
+.z-input-button .z-icon.i-remove {
   position: absolute;
   right: calc(0rem + 5rem);
   padding: 1.125rem 0.875rem;
@@ -3594,7 +3594,7 @@ select {
   background-position-x: 1rem;
   background-position-y: center;
 }
-.z-validation.info .z-icon.i-clear {
+.z-validation.info .z-icon.i-remove {
   background: #339AF0;
 }
 .z-validation.error {
@@ -3607,7 +3607,7 @@ select {
   background-position-x: 1rem;
   background-position-y: center;
 }
-.z-validation.error .z-icon.i-clear {
+.z-validation.error .z-icon.i-remove {
   background: #F52525;
 }
 .z-validation.success {
@@ -3620,10 +3620,10 @@ select {
   background-position-x: 1rem;
   background-position-y: center;
 }
-.z-validation.success .z-icon.i-clear {
+.z-validation.success .z-icon.i-remove {
   background: #5CA21B;
 }
-.z-validation .z-icon.i-clear {
+.z-validation .z-icon.i-remove {
   padding-right: 0.9375rem;
   background: #8B9094;
 }
@@ -4457,14 +4457,14 @@ select {
   border-bottom: 0.0625rem solid #CFD5D9;
   padding: 0.75rem 0;
 }
-.z-picker-modal-title .z-icon.i-clear {
+.z-picker-modal-title .z-icon.i-remove {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   background: #8B9094;
   cursor: pointer;
 }
-.z-picker-modal-title .z-icon.i-clear:hover {
+.z-picker-modal-title .z-icon.i-remove:hover {
   background: #64BBF6;
 }
 .z-picker-modal-sub-title {
@@ -5141,7 +5141,7 @@ select {
   padding: 0;
   visibility: hidden;
 }
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item .z-custom-color-palette-item-clear .z-icon.i-clear {
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item .z-custom-color-palette-item-clear .z-icon.i-remove {
   width: 0.5rem;
   height: 0.5rem;
   background: #FFFFFF;

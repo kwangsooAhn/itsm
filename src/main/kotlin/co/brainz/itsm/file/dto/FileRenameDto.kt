@@ -1,6 +1,6 @@
-package co.brainz.itsm.image.dto
+package co.brainz.itsm.file.dto
 
-data class ImageRenameDto(
+data class FileRenameDto(
     var originName: String = "",
     var modifyName: String = ""
 )

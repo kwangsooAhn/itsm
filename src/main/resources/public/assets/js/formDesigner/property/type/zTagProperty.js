@@ -18,12 +18,14 @@ const propertyExtends = {
 };
 
 export default class ZTagProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'tagProperty', value);
+    constructor(key, name, value, isAlwaysEditable) {
+        super(key, name, 'tagProperty', value, isAlwaysEditable);
     }
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
@@ -35,19 +37,25 @@ export default class ZTagProperty extends ZProperty {
         // 아래와 같이 스트링으로 변환하여 input box 의 값으로 넣어줘야 tagify 에서 파싱해서 쓸 수 있다.
         let valueString = '[' +
             this.value.map(function (tag) {
-            return JSON.stringify(tag);
-        }).toString() + ']';
+                return JSON.stringify(tag);
+            }).toString() + ']';
 
-        this.UIElement.UIInput = new UIInput()//.removeUIClass('z-input').addUIClass('input')
-            .setUIId(this.key).setUIValue(valueString);
+        this.UIElement.UIInput = new UIInput()
+            .setUIId(this.key).setUIValue(valueString)
+            .setUIReadOnly(!this.isEditable);
         this.UIElement.addUI(this.UIElement.UIInput);
+
+        // tagify 는 readonly 일때, z-input을 삭제한다.
+        if (!this.isEditable) {
+            this.UIElement.UIInput.setUIClass('');
+        }
 
         // tag 는 실제 그려진 UI를 이용해서 tagify 적용이 필요함.
         // 여기서 append 를 하고 리턴을 null.
         panel.domElement.appendChild(this.UIElement.domElement);
         if (this.panel.editor.selectedObject.id) {
             new zTag(document.querySelector('input[id=tags]'), {
-                suggestion: true,
+                suggestion: this.isEditable,
                 realtime: false,
                 tagType: 'component',
                 targetId: this.panel.editor.selectedObject.id

@@ -3,13 +3,15 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.image.controller
+package co.brainz.itsm.file.controller
 
-import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
-import co.brainz.framework.fileTransaction.dto.AliceImageFileListReturnDto
+import co.brainz.framework.fileTransaction.dto.AliceFileDetailDto
+import co.brainz.framework.fileTransaction.dto.AliceFileDetailListReturnDto
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
-import co.brainz.itsm.image.dto.ImageRenameDto
+import co.brainz.itsm.file.dto.FileRenameDto
+import org.springframework.core.io.InputStreamResource
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -23,53 +25,60 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
-@RequestMapping("/rest/images")
-class ImageRestController(
+@RequestMapping("/rest/files")
+class FileRestController(
     private val fileService: AliceFileService,
     private val fileProvider: AliceFileProvider
 ) {
 
     /**
-     * 이미지 파일 업로드.
+     * 파일 업로드.
      */
     @PostMapping("")
-    fun uploadFile(@RequestPart("files") multipartFiles: List<MultipartFile>): List<AliceImageFileDto> {
-        return fileService.uploadImageFiles(multipartFiles)
+    fun uploadFile(@RequestPart("files") multipartFiles: List<MultipartFile>): Boolean {
+        return fileService.uploadFiles(multipartFiles)
     }
 
     /**
-     * 이미지 삭제
+     * 파일 삭제
      */
     @DeleteMapping("/{name}")
     fun deleteFile(@PathVariable name: String): Boolean {
-        return fileService.deleteImage(name)
+        return fileService.deleteFile(name)
     }
 
     /**
-     * 이미지명 수정
+     * 파일명 수정
      */
     @PutMapping("")
-    fun renameFile(@RequestBody imageRenameDto: ImageRenameDto): Boolean {
-        return fileService.renameImage(imageRenameDto.originName, imageRenameDto.modifyName)
+    fun renameFile(@RequestBody fileRenameDto: FileRenameDto): Boolean {
+        return fileService.renameFile(fileRenameDto.originName, fileRenameDto.modifyName)
     }
 
     /**
-     * 이미지 조회
+     * 파일 조회
      */
     @GetMapping("/{name}")
-    fun getFile(@PathVariable name: String): AliceImageFileDto? {
-        return fileService.getImageFile(name)
+    fun getFile(@PathVariable name: String): AliceFileDetailDto? {
+        return fileService.getFile(name)
     }
 
     /**
-     * 이미지 파일 전체 목록 가져오기.
+     * 파일 전체 목록 가져오기.
      */
     @GetMapping("")
-    fun getImageFileList(
+    fun getFileList(
         @RequestParam(value = "type", defaultValue = "") type: String,
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         @RequestParam(value = "offset", defaultValue = "-1") offset: String
-    ): AliceImageFileListReturnDto {
-        return fileProvider.getImageFileList(type, searchValue, offset.toInt())
+    ): AliceFileDetailListReturnDto {
+        return fileProvider.getExternalFileList(type, searchValue, offset.toInt())
+    }
+
+    @GetMapping("/download")
+    fun download(
+        @RequestParam(value = "fileName", defaultValue = "") fileName: String
+    ): ResponseEntity<InputStreamResource> {
+        return fileService.download(fileName)
     }
 }

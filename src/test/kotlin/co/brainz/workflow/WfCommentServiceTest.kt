@@ -5,6 +5,7 @@
 
 package co.brainz.workflow
 
+import co.brainz.itsm.instance.dto.CommentDto
 import co.brainz.itsm.instance.service.InstanceService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assumptions.assumeTrue
@@ -47,7 +48,11 @@ class WfCommentServiceTest {
     @DisplayName("Comment 등록")
     @Order(1)
     fun a_insertComment() {
-        assumeTrue(instanceService.setComment(this.instanceId, this.commentContent))
+        val commentDto = CommentDto(
+            documentId = "",
+            commentValue = this.commentContent
+        )
+        assumeTrue(instanceService.setComment(this.instanceId, commentDto))
     }
 
     @Test
