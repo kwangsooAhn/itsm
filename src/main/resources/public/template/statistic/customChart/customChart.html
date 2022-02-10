@@ -56,8 +56,9 @@
                     <!--/* 연산 */-->
                     <label class="field-label" th:text="#{chart.label.operation}"></label>
                     <select id="operationSelectBox" name="operationSelectBox" th:classappend="${view ? 'readonly' : ''}">
-                        <option th:each="operation:${code.operation}" th:value="${operation.codeValue}"
-                                th:text="${operation.codeName}"
+                        <option th:each="operation:${code.operation}"
+                                th:if="${chart?.chartType} != 'chart.pie' or ( ${chart?.chartType} == 'chart.pie' and ${operation.codeValue} == 'count')"
+                                th:value="${operation.codeValue}" th:text="${operation.codeName}"
                                 th:selected="${operation.codeValue} == ${chart?.chartConfig?.operation}"></option>
                     </select>
                 </div>
@@ -374,10 +375,11 @@
             // 초기화
             let operationSelectBox = document.getElementById('operationSelectBox');
             operationSelectBox.options.length = 0;
+
             // 라인차트, stacked 컬럼 / 바 차트는 '카운트', '평균', '퍼센트' 사용
             // 파이차트는 '카운트' 만 사용
             let options = (type === PIE_CHART) ? ['count'] : ['count', 'average', 'percent'];
-            for (let i = 0;i < options.length; i++) {
+            for (let i = 0; i < options.length; i++) {
                 const option = document.createElement('option');
                 option.text = i18n.msg('chart.option.text.' + options[i]);
                 option.value = i18n.msg('chart.option.value.' + options[i]);
