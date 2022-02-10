@@ -34,20 +34,18 @@ class ChartConditionService(
         chartCondition: String?,
         instanceList: List<WfInstanceEntity>
     ): List<WfInstanceEntity> {
-        return if (!chartCondition.isNullOrBlank() && instanceList.isNotEmpty()) {
+        val conditionInstances = mutableListOf<WfInstanceEntity>()
+        if (!chartCondition.isNullOrBlank() && instanceList.isNotEmpty()) {
             // 1. 조건식(chartCondition)에서 대괄호("[","]")를 제외한 태그만 추출한다.
             val tags = this.getTagsInCondition(chartCondition)
             if (tags.isNotEmpty()) {
                 // 2. 위에서 추출한 태그를 모두 포함하고 있는 인스턴스를 추출한다.
                 val targetInstanceList = this.getInstanceListIncludeTags(instanceList, tags)
-                // 3. 조건문에 통과되는 인스턴스만 모두 추출한다.
-                this.getTagInstanceList(chartCondition, targetInstanceList, tags)
-            } else {
-                emptyList()
+                // 3. 조건문에 통과되는 인스턴스만 모두 추출하여 담는다.
+                conditionInstances.addAll(this.getTagInstanceList(chartCondition, targetInstanceList, tags))
             }
-        } else {
-            emptyList()
         }
+        return conditionInstances
     }
 
     /**
@@ -80,10 +78,10 @@ class ChartConditionService(
         val tagDataMap = this.getConditionTagValue(instance, tags)
         return if (tagDataMap.isNotEmpty()) {
             val context: EvaluationContext = StandardEvaluationContext(ChartConditionDateTimeUtil())
-            val chartCondition = this.replaceConditionTagValue(chartCondition, tagDataMap)
+            val replacedCondition = this.replaceConditionTagValue(chartCondition, tagDataMap)
             val parser: ExpressionParser = SpelExpressionParser()
             try {
-                val discriminant: Expression = parser.parseExpression(chartCondition)
+                val discriminant: Expression = parser.parseExpression(replacedCondition)
                 discriminant.getValue(context) as Boolean
             } catch (e: Exception) {
                 false
@@ -135,8 +133,7 @@ class ChartConditionService(
             if (chartCondition[startIndex].toString() == ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value) {
                 for (index in startIndex + 1..chartCondition.indices.last) {
                     if (chartCondition[index].toString() == ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value) {
-                        var tag = chartCondition.substring(startIndex + 1, index)
-                        tagSet.add(tag)
+                        tagSet.add(chartCondition.substring(startIndex + 1, index))
                         startIndex = index
                         break
                     }
@@ -162,9 +159,8 @@ class ChartConditionService(
         )
 
         // 인스턴스의 마지막 토큰을 수집한다.
-        val lastToken = instance.tokens?.let {
-            it.last()
-        }
+        val lastToken = instance.tokens?.last()
+
         // 위에서 수집한 마지막 토큰을 가지고
         // wf_token_data 테이블에 접근하여 해당 컴포넌트의 최신 값을 추출한다.
         // 이때 LinkedHashMap에 데이터를 tagValue : value 형태로 담는다
@@ -176,7 +172,7 @@ class ChartConditionService(
                 componentTagList.forEach { componentTag ->
                     if (wfTokenDataEntity.component.componentId == componentTag.targetId) {
                         if (tagDataMap[componentTag.tagValue] == null) {
-                            var tagKey =
+                            val tagKey =
                                 ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value + componentTag.tagValue +
                                         ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value
                             tagDataMap[tagKey] = this.replaceTagDataFormat(wfTokenDataEntity.value)
