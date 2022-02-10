@@ -30,6 +30,7 @@ import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListDocumentDto
 import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDto
+import co.brainz.workflow.instance.dto.WfInstanceListUserDto
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
@@ -387,12 +388,19 @@ class WfInstanceRepositoryImpl(
                         instance.pTokenId,
                         instance.document,
                         instance.documentNo
+                    ),
+                    Projections.constructor(
+                        WfInstanceListUserDto::class.java,
+                        user.userId,
+                        user.userName
                     )
                 )
             )
             .innerJoin(instance).on(token.instance.eq(instance))
             .fetchJoin()
             .innerJoin(document).on(instance.document.eq(document))
+            .fetchJoin()
+            .leftJoin(user).on(token.assigneeId.eq(user.userKey))
             .fetchJoin()
         if (tags.isNotEmpty()) {
             query.where(
