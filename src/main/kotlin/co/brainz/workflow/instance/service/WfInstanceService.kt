@@ -13,6 +13,7 @@ import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.itsm.token.dto.TokenSearchCondition
@@ -58,7 +59,8 @@ class WfInstanceService(
     private val aliceUserRepository: AliceUserRepository,
     private val folderService: FolderService,
     private val aliceTagService: AliceTagService,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -77,30 +79,67 @@ class WfInstanceService(
         return set
     }
 
+    fun getTodoTokenCount(): Long = instances(
+        TokenSearchCondition(
+            userKey = currentSessionUser.getUserKey(),
+            searchTokenType = WfTokenConstants.SearchType.TODO.code
+        )
+    ).paging.totalCountWithoutCondition
+
     /**
      * Search Instances.
      */
     fun instances(tokenSearchCondition: TokenSearchCondition): RestTemplateInstanceListReturnDto {
+        var totalCountWithoutCondition: Long
+
         // Get Document List
         val queryResults = when (tokenSearchCondition.searchTokenType) {
             WfTokenConstants.SearchType.REQUESTED.code -> {
+                totalCountWithoutCondition = requestedInstances(
+                    TokenSearchCondition(
+                        userKey = currentSessionUser.getUserKey(),
+                        searchTokenType = WfTokenConstants.SearchType.REQUESTED.code
+                    )
+                ).total
                 requestedInstances(
                     tokenSearchCondition
                 )
             }
             WfTokenConstants.SearchType.PROGRESS.code -> {
+                totalCountWithoutCondition = relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
+                    TokenSearchCondition(
+                        userKey = currentSessionUser.getUserKey(),
+                        searchTokenType = WfTokenConstants.SearchType.REQUESTED.code
+                    )
+                ).total
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
                     tokenSearchCondition
                 )
             }
             WfTokenConstants.SearchType.COMPLETED.code -> {
+                totalCountWithoutCondition = relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
+                    TokenSearchCondition(
+                        userKey = currentSessionUser.getUserKey(),
+                        searchTokenType = WfTokenConstants.SearchType.REQUESTED.code
+                    )
+                ).total
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
                     tokenSearchCondition
                 )
             }
             else -> {
+                totalCountWithoutCondition = todoInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
+                    WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
+                    TokenSearchCondition(
+                        userKey = currentSessionUser.getUserKey(),
+                        searchTokenType = WfTokenConstants.SearchType.TODO.code
+                    )
+                ).total
                 todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
@@ -185,8 +224,7 @@ class WfInstanceService(
             data = tokens,
             paging = AlicePagingData(
                 totalCount = queryResults.total,
-                //totalCountWithoutCondition = faqRepository.count(),
-                totalCountWithoutCondition = queryResults.total,
+                totalCountWithoutCondition = totalCountWithoutCondition,
                 currentPageNum = tokenSearchCondition.pageNum,
                 totalPageNum = ceil(queryResults.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
