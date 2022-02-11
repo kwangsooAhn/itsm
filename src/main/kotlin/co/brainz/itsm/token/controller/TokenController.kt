@@ -81,8 +81,8 @@ class TokenController(
     fun getTokenList(tokenSearchCondition: TokenSearchCondition, model: Model): String {
         val result = tokenService.getTokenList(tokenSearchCondition)
         model.addAttribute("tokenList", result.data)
-        model.addAttribute("tokenCount", result.totalCount)
-        return if (tokenSearchCondition.isScroll) tokenListFragment else tokenListPage
+        model.addAttribute("paging", result.paging)
+        return tokenListPage
     }
 
     /**

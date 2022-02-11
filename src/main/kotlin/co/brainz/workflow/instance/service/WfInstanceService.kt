@@ -8,9 +8,12 @@ package co.brainz.workflow.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.framework.util.AlicePagingData
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.itsm.token.dto.TokenSearchCondition
@@ -40,6 +43,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
+import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -55,7 +59,8 @@ class WfInstanceService(
     private val aliceUserRepository: AliceUserRepository,
     private val folderService: FolderService,
     private val aliceTagService: AliceTagService,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -78,26 +83,43 @@ class WfInstanceService(
      * Search Instances.
      */
     fun instances(tokenSearchCondition: TokenSearchCondition): RestTemplateInstanceListReturnDto {
+        val totalCountWithoutCondition: Long
+
         // Get Document List
+        val countSearchCondition = TokenSearchCondition(userKey = currentSessionUser.getUserKey())
         val queryResults = when (tokenSearchCondition.searchTokenType) {
             WfTokenConstants.SearchType.REQUESTED.code -> {
+                totalCountWithoutCondition = requestedInstances(countSearchCondition).total
                 requestedInstances(
                     tokenSearchCondition
                 )
             }
             WfTokenConstants.SearchType.PROGRESS.code -> {
+                totalCountWithoutCondition = relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
+                    countSearchCondition
+                ).total
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
                     tokenSearchCondition
                 )
             }
             WfTokenConstants.SearchType.COMPLETED.code -> {
+                totalCountWithoutCondition = relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
+                    countSearchCondition
+                ).total
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
                     tokenSearchCondition
                 )
             }
             else -> {
+                totalCountWithoutCondition = todoInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
+                    WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
+                    countSearchCondition
+                ).total
                 todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
@@ -157,7 +179,8 @@ class WfInstanceService(
                 topics = topics,
                 createDt = instance.instanceEntity.instanceStartDt,
                 assigneeUserKey = instance.tokenEntity.assigneeId,
-                assigneeUserName = "",
+                assigneeUserId = instance.userEntity.assigneeUserId,
+                assigneeUserName = instance.userEntity.assigneeUserName,
                 createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
                 createUserName = instance.instanceEntity.instanceCreateUser?.userName,
                 documentId = instance.documentEntity.documentId,
@@ -179,7 +202,13 @@ class WfInstanceService(
 
         return RestTemplateInstanceListReturnDto(
             data = tokens,
-            totalCount = queryResults.total
+            paging = AlicePagingData(
+                totalCount = queryResults.total,
+                totalCountWithoutCondition = totalCountWithoutCondition,
+                currentPageNum = tokenSearchCondition.pageNum,
+                totalPageNum = ceil(queryResults.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
         )
     }
 

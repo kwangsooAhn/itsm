@@ -30,6 +30,7 @@ import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListDocumentDto
 import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDto
+import co.brainz.workflow.instance.dto.WfInstanceListUserDto
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
@@ -63,7 +64,6 @@ class WfInstanceRepositoryImpl(
     val tag: QAliceTagEntity = QAliceTagEntity.aliceTagEntity
     val folder: QWfFolderEntity = QWfFolderEntity.wfFolderEntity
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
-    val searchDataCount: Long = WfTokenConstants.searchDataCount
     val element: QWfElementEntity = QWfElementEntity.wfElementEntity
     val ciComponent: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
 
@@ -155,10 +155,6 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.isScroll) {
-            query.limit(searchDataCount)
-                .offset(tokenSearchCondition.offset)
-        }
         return query.fetchResults()
     }
 
@@ -189,10 +185,6 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.isScroll) {
-            query.limit(searchDataCount)
-                .offset(tokenSearchCondition.offset)
-        }
         return query.fetchResults()
     }
 
@@ -237,10 +229,6 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.isScroll) {
-            query.limit(searchDataCount)
-                .offset(tokenSearchCondition.offset)
-        }
         return query.fetchResults()
     }
 
@@ -399,12 +387,19 @@ class WfInstanceRepositoryImpl(
                         instance.pTokenId,
                         instance.document,
                         instance.documentNo
+                    ),
+                    Projections.constructor(
+                        WfInstanceListUserDto::class.java,
+                        user.userId,
+                        user.userName
                     )
                 )
             )
             .innerJoin(instance).on(token.instance.eq(instance))
             .fetchJoin()
             .innerJoin(document).on(instance.document.eq(document))
+            .fetchJoin()
+            .leftJoin(user).on(token.assigneeId.eq(user.userKey))
             .fetchJoin()
         if (tags.isNotEmpty()) {
             query.where(
