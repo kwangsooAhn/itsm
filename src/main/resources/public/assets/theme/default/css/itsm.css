@@ -1784,6 +1784,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-sorting {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../../media/icons/icon_sorting.svg");
+  mask-image: url("../../../media/icons/icon_sorting.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 .z-icon.i-gnb-board {
   width: 1.5rem;
@@ -4152,6 +4162,24 @@ select {
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
   cursor: pointer;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
+  pointer-events: none;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
+  background: #63686C;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .z-icon.i-sorting {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body {
   overflow: auto;

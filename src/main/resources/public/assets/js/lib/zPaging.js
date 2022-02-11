@@ -7,6 +7,8 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+import { PAGING } from './zConstants.js';
+
 const PAGING_DEFAULT_OPTIONS = {
     numOfPageNums : 5, // 출력되는 페이징 숫자의 개수
     activeArrowClass : 'active', // 유효한 화살표용 클래스 이름
@@ -111,10 +113,11 @@ export default class ZPaging {
         }
 
         // 4) 정렬
+        this.makeSortGridIcon();
         const gridHead = document.querySelector('.grid__head');
         if (gridHead) {
             gridHead.querySelectorAll('.grid__cell[data-grid-sortable="true"]').forEach((element) => {
-                element.addEventListener('click', this.sortGrid, false);
+                element.addEventListener('click', this.sortGrid.bind(this), false);
             });
         }
 
@@ -130,9 +133,41 @@ export default class ZPaging {
         pagingArrow.setAttribute('href', 'javascript:getList(' + (pageNum) + ')');
     }
 
+    // 정렬
     sortGrid(e) {
-        if (aliceJs.clickInsideElement(e, 'grid__cell')) { return false; }
+        if (!e.target.classList.contains('grid__cell')) { return false; }
 
-        console.log(e.target);
+        const sortColumn = e.target.getAttribute('data-grid-column');
+        const orderColNameElem = document.getElementById('orderColName');
+        const orderDirElem = document.getElementById('orderDir');
+
+        if (!orderColNameElem || !orderDirElem) { return false; }
+
+        if (sortColumn === orderColNameElem.value) { // 정렬 순서 변경
+            if (orderDirElem.value === PAGING.ORDER_DIRECTION.ASC) {
+                orderDirElem.value = PAGING.ORDER_DIRECTION.DESC;
+            } else {
+                orderDirElem.value = PAGING.ORDER_DIRECTION.ASC;
+            }
+        } else { // 정렬 대상 변경
+            orderColNameElem.value = sortColumn;
+            orderDirElem.value = PAGING.ORDER_DIRECTION.ASC;
+        }
+        
+        // 데이터 재 호출
+        const curPageLink = document.querySelector('.' + this.options.selectedPage);
+        if (curPageLink) {
+            curPageLink.click();
+        }
+    }
+    // 정렬 아이콘 추가
+    makeSortGridIcon() {
+        const orderColNameElem = document.getElementById('orderColName');
+        const orderDirElem = document.getElementById('orderDir');
+        if (!orderColNameElem || !orderDirElem || orderColNameElem.value === '') { return false; }
+
+        const sortColElem = document.querySelector('.grid__cell[data-grid-column="' + orderColNameElem.value +'"]');
+        sortColElem.setAttribute('data-grid-sorting-type', orderDirElem.value);
+        sortColElem.insertAdjacentHTML('beforeend', `<span class="z-icon i-sorting"></span>`);
     }
 }

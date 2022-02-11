@@ -288,6 +288,21 @@
           @include border(0.125rem, solid, $grid-border-color, bottom);
           .grid__cell:not([data-grid-sortable='false']) {
             cursor: pointer;
+            > * { pointer-events: none; }
+
+            .z-icon {
+              &.i-sorting {
+                background: $grid-head-color;
+                @include rotate(180);
+              }
+            }
+            &[data-grid-sorting-type='desc'] {
+              .z-icon {
+                &.i-sorting {
+                  @include rotate(0);
+                }
+              }
+            }
           }
         }
       }

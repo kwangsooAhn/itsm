@@ -55,7 +55,11 @@
          * Chart 검색
          */
         function getList(pageNum = 1) {
-            const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+            const orderColNameElem = document.getElementById('orderColName');
+            const orderDirElem = document.getElementById('orderDir');
+            const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum +
+                '&orderColName=' + orderColNameElem.value +
+                '&orderDir=' + orderDirElem.value;
             aliceJs.fetchText('/charts?' + urlParam, {
                 method: 'GET',
             }).then((htmlData) => {

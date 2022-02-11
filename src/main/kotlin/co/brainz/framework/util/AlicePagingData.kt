@@ -25,4 +25,6 @@ data class AlicePagingData(
     var currentPageNum: Long = 0L,
     var totalPageNum: Long = 0L,
     var orderType: String?
+    //val orderColName: String? = null,
+    //val orderDir: String? = null
 ) : Serializable
