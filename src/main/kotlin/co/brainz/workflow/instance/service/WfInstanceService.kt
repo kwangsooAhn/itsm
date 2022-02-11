@@ -186,7 +186,8 @@ class WfInstanceService(
                 documentId = instance.documentEntity.documentId,
                 documentNo = instance.instanceEntity.documentNo,
                 documentColor = instance.documentEntity.documentColor,
-                avatarPath = avatarPath
+                avatarPath = avatarPath,
+                documentGroup = instance.documentEntity.documentGroup
             )
 
             val tagDataList = mutableListOf<AliceTagDto>()
