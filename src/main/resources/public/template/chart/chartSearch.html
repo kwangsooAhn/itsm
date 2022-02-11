@@ -60,6 +60,7 @@
             const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum
                 + '&orderColName=' + orderColName
                 + '&orderDir=' + orderDir;
+            console.log(urlParam);
             aliceJs.fetchText('/charts?' + urlParam, {
                 method: 'GET',
             }).then((htmlData) => {
