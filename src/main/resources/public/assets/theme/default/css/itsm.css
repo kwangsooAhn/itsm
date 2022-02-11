@@ -4505,6 +4505,7 @@ select {
 }
 .z-document-content .document-column .document-name {
   width: 17.5rem;
+  color: #000000;
   font-size: 1.5rem;
   font-weight: 500;
 }

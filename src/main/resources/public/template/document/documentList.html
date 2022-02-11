@@ -12,9 +12,8 @@
     </div>
     <th:block th:fragment="list">
         <div class="card document-card" th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}"
-             sec:authorize="hasAuthority('general')" th:onclick="zDocument.openDocumentModal([[${document.documentId}]])">
-            <a th:if="${document.documentType == 'application-form-link'}"
-               th:href="@{${document.documentLinkUrl}}" th:target="_blank">
+             sec:authorize="hasAuthority('general')">
+            <a th:if="${document.documentType == 'application-form-link'}" th:href="@{${document.documentLinkUrl}}" th:target="_blank">
                 <div class="document-column">
                     <div class="flex-row align-items-center mb-2">
                           <span th:if="${document.documentStatus} == 'document.status.temporary'"
@@ -29,7 +28,7 @@
                     </div>
                 </div>
             </a>
-            <div class="document-column">
+            <div th:unless="${document.documentType == 'application-form-link'}" class="document-column"  th:onclick="zDocument.openDocumentPopup([[${document.documentId}]])">
                 <div class="flex-row align-items-center mb-2">
                 <span th:if="${document.documentStatus} == 'document.status.temporary'"
                       th:text="#{document.label.tempDocument}" class="label normal document-temp-status"></span>

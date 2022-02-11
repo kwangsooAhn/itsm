@@ -65,10 +65,10 @@ class DocumentService(
         val documentQueryResult = wfDocumentRepository.findByDocuments(documentSearchCondition)
         val documentLinkQueryResult = wfDocumentLinkRepository.findByDocumentLink(documentSearchCondition)
 
-        var totalResult = mutableListOf<DocumentDto>() // document + documentLink 합치기
+        val totalResult = mutableListOf<DocumentDto>() // document + documentLink 합치기
 
         totalResult.addAll(documentQueryResult.results)
-        if (documentSearchCondition.searchProcessName.equals("") && documentSearchCondition.searchFormName.equals("")) { // 폼, 프로세스 검색시 documnetLink 결과는 제외
+        if (documentSearchCondition.searchProcessName.isNullOrEmpty() && documentSearchCondition.searchFormName.isNullOrEmpty()) { // 폼, 프로세스 검색시 documnetLink 결과는 제외
             totalResult.addAll(documentLinkQueryResult.results)
         }
         totalResult.sortByDescending { it.createDt }
@@ -88,7 +88,7 @@ class DocumentService(
         val documentList = DocumentListReturnDto(
             data = if (totalResult.isNotEmpty()) totalResult.subList(fromIndex, toIndex) else totalResult,
             paging = AlicePagingData(
-                totalCount = documentQueryResult.total + documentLinkQueryResult.total,
+                totalCount = totalResult.size.toLong(),
                 totalCountWithoutCondition = wfDocumentRepository.count() + wfDocumentLinkRepository.count(),
                 currentPageNum = documentSearchCondition.pageNum,
                 totalPageNum = ceil(totalResult.size / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
@@ -192,19 +192,18 @@ class DocumentService(
     }
 
     /**
-     * Update Document.
+     * Update DocumentLink.
      *
      * @param documentDto
-     * @return Boolean
+     * @return String
      */
     fun updateDocumentLink(
-        documentDto: DocumentDto,
-        params: LinkedHashMap<String, Any>
+        documentDto: DocumentDto
     ): String? {
         val documentId = documentDto.documentId
         documentDto.updateUserKey = currentSessionUser.getUserKey()
         documentDto.updateDt = LocalDateTime.now()
-        wfDocumentService.updateDocumentLink(documentDto, params)
+        wfDocumentService.updateDocumentLink(documentDto)
         return documentId
     }
 
@@ -227,6 +226,7 @@ class DocumentService(
     fun deleteDocumentLink(documentId: String): Boolean {
         return wfDocumentService.deleteDocumentLink(documentId)
     }
+
     /**
      * Get Form List.
      *

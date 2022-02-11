@@ -105,9 +105,8 @@
         margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
       }
 
-      // 숨김 컨트롤 컨텐츠( 업무흐름 편집 모달내 문서양식, 프로세스, 문서번호 규칙, 신청서 상태, API 활성화, 업무 흐름 색상 신청서 아이콘)
       .hidden-control-content {
-        
+
         display: none;
 
         &.on { display: block; }

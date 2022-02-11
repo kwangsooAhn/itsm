@@ -95,17 +95,14 @@ class WorkFlowRestController(
      * 신청서링크 수정
      *
      * @param documentId
-     * @param documentDto
+     * @param String
      * */
     @PutMapping("/workflowLink/{documentId}")
     fun updateWorkFlowLink(
         @PathVariable documentId: String,
-        @RequestBody documentDto: DocumentDto,
-        @RequestParam(value = "isDeleteData", defaultValue = "false") isDeleteData: String
+        @RequestBody documentDto: DocumentDto
     ): String? {
-        val params = LinkedHashMap<String, Any>()
-        params["isDeleteData"] = isDeleteData
-        return documentService.updateDocumentLink(documentDto, params)
+        return documentService.updateDocumentLink(documentDto)
     }
 
     /**

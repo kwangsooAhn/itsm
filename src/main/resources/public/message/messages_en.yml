@@ -583,6 +583,7 @@ document:
     changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status will be deleted."
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
+    checkUrlLink: "Please enter it according to the URL format"
     enterBusinessFlowColor: "Please enter Business Flow Color."
     enterDocumentLink: "Please enter document's link."
     enterDocumentName: "Please enter document's name."

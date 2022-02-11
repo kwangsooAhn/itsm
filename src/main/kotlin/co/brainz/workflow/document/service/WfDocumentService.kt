@@ -110,7 +110,7 @@ class WfDocumentService(
      * Search Document.
      *
      * @param documentId
-     * @return RestTemplateDocumentDto
+     * @return DocumentDto
      */
     fun getDocumentLink(documentId: String): DocumentDto {
         val documentLink = wfDocumentLinkRepository.findByDocumentLinkId(documentId)
@@ -240,6 +240,12 @@ class WfDocumentService(
         }
     }
 
+    /**
+     * Create DocumentLink.
+     *
+     * @param documentDto
+     * @return DocumentDto
+     */
     @Transactional
     fun createDocumentLink(documentDto: DocumentDto): DocumentDto {
         val documentLinkEntity = WfDocumentLinkEntity(
@@ -341,12 +347,10 @@ class WfDocumentService(
      * Update DocumentLink.
      *
      * @param documentDto
-     * @return Boolean
      */
     @Transactional
     fun updateDocumentLink(
-        documentDto: DocumentDto,
-        params: LinkedHashMap<String, Any>
+        documentDto: DocumentDto
     ) {
         val wfDocumentLinkEntity = wfDocumentLinkRepository.findByDocumentLinkId(documentDto.documentId)
 
