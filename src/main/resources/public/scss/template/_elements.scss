@@ -49,6 +49,7 @@ a:link,
 a:visited,
 a:hover,
 a:active {
+  color: $element-font-color;
   text-decoration: none;
 }
 
@@ -171,6 +172,8 @@ table {
     }
   }
 }
+
+
 
 // span
 span {
