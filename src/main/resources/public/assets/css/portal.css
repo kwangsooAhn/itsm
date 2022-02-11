@@ -6309,7 +6309,11 @@ body.modal-active {
   line-height: 1.5rem;
 }
 .z-page-paging a.z-paging-arrow {
+  border: 0.0625rem solid #E1E3E6;
   cursor: text;
+}
+.z-page-paging a.z-paging-arrow:not(:first-child) {
+  border-left: 0;
 }
 .z-page-paging a.z-paging-arrow.active {
   cursor: pointer;
@@ -6348,7 +6352,7 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #ABB0B5;
+  background: #1959AC;
 }
 .z-page-paging a.z-paging-arrow .z-icon.i-paging-end-arrow {
   width: 1.5rem;
@@ -6359,38 +6363,39 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #ABB0B5;
+  background: #1959AC;
 }
 .z-page-paging .z-paging-numbers a {
   display: inline-block;
-  min-width: 1.5rem;
-  line-height: 1.375rem;
+  min-width: 1.5625rem;
+  height: 100%;
+  color: #222529;
   font-weight: 400;
   text-align: center;
-  color: #222529;
+  border: 0.0625rem solid #CFD5D9;
+  border-left: 0;
 }
 .z-page-paging .z-paging-numbers a:hover {
   color: #222529;
   background-color: #E3F5FC;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
 }
 .z-page-paging .z-paging-numbers a.selected-page {
+  background-color: #84D1FA;
+  color: #1959AC;
   font-weight: 700;
-  color: #2578CE;
-  border: 1px solid #2578CE;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
 }
 .z-page-paging .z-paging-numbers a:active {
-  font-weight: 700;
+  background-color: #84D1FA;
   color: #1959AC;
-  background-color: #ADE6FD;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
+  font-weight: 700;
+}
+.z-page-paging #pagingStartArrow {
+  border-top-left-radius: 0.15rem;
+  border-bottom-left-radius: 0.15rem;
+}
+.z-page-paging #pagingEndArrow {
+  border-top-right-radius: 0.15rem;
+  border-bottom-right-radius: 0.15rem;
 }
 .z-page-paging #spanCurrentPageNum {
   font-weight: 700;

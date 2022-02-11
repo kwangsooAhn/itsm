@@ -47,11 +47,6 @@ object WfTokenConstants {
     const val mappingExpression: String = """[$][{][a-zA-Z0-9]+[}]"""
 
     /**
-     * 문서함 데이터 로딩 개수.
-     */
-    const val searchDataCount: Long = 15
-
-    /**
      * 토큰의 조회 종류에 따라 문서함에서 조회할 토큰의 상태값을 리턴
      */
     fun getTargetTokenStatusGroup(searchType: SearchType): List<String>? {
