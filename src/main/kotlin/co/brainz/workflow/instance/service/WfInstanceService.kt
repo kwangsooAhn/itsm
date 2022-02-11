@@ -83,17 +83,13 @@ class WfInstanceService(
      * Search Instances.
      */
     fun instances(tokenSearchCondition: TokenSearchCondition): RestTemplateInstanceListReturnDto {
-        var totalCountWithoutCondition: Long
+        val totalCountWithoutCondition: Long
 
         // Get Document List
+        val countSearchCondition = TokenSearchCondition(userKey = currentSessionUser.getUserKey())
         val queryResults = when (tokenSearchCondition.searchTokenType) {
             WfTokenConstants.SearchType.REQUESTED.code -> {
-                totalCountWithoutCondition = requestedInstances(
-                    TokenSearchCondition(
-                        userKey = currentSessionUser.getUserKey(),
-                        searchTokenType = WfTokenConstants.SearchType.REQUESTED.code
-                    )
-                ).total
+                totalCountWithoutCondition = requestedInstances(countSearchCondition).total
                 requestedInstances(
                     tokenSearchCondition
                 )
@@ -101,10 +97,7 @@ class WfInstanceService(
             WfTokenConstants.SearchType.PROGRESS.code -> {
                 totalCountWithoutCondition = relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
-                    TokenSearchCondition(
-                        userKey = currentSessionUser.getUserKey(),
-                        searchTokenType = WfTokenConstants.SearchType.REQUESTED.code
-                    )
+                    countSearchCondition
                 ).total
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
@@ -114,10 +107,7 @@ class WfInstanceService(
             WfTokenConstants.SearchType.COMPLETED.code -> {
                 totalCountWithoutCondition = relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
-                    TokenSearchCondition(
-                        userKey = currentSessionUser.getUserKey(),
-                        searchTokenType = WfTokenConstants.SearchType.REQUESTED.code
-                    )
+                    countSearchCondition
                 ).total
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
@@ -128,10 +118,7 @@ class WfInstanceService(
                 totalCountWithoutCondition = todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
-                    TokenSearchCondition(
-                        userKey = currentSessionUser.getUserKey(),
-                        searchTokenType = WfTokenConstants.SearchType.TODO.code
-                    )
+                    countSearchCondition
                 ).total
                 todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
