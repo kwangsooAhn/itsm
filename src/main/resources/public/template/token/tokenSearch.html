@@ -11,7 +11,7 @@
     <h1 th:text="#{token.label.list}"></h1>
     <h6 class="description ml-2 pl-2" th:text="#{token.msg.searchDescription}"></h6>
 </div>
-<div layout:fragment="pageSearching" class="z-page-token-search">
+<div layout:fragment="pageSearching">
     <form id="frmSearch">
         <select class="col-3" name="searchTokenType" id="searchTokenType">
             <option value="token.type.todo" th:text="#{token.type.todo}" selected></option>
@@ -26,28 +26,23 @@
         </select>
         <input class="z-input text-ellipsis i-search col-3" type="text" name="searchValue" id="searchValue"
                maxlength="100" th:placeholder="#{token.label.searchPlaceholder}"/>
-        <input type="text" class="z-input i-date-picker search-date col-3" id="searchFromDt" name="searchFromDt"/>
-        <input type="text" class="z-input i-date-picker search-date col-3" id="toDt" name="toDt"/>
+        <input type="text" class="z-input i-date-picker search-date col-2" id="searchFromDt" name="searchFromDt"/>
+        <input type="text" class="z-input i-date-picker search-date col-2" id="toDt" name="toDt"/>
         <input type="hidden" class="search-date col-2" id="searchToDt" name="searchToDt" readonly="readonly"/>
         <input type="text" class="z-input i-search col-3 mr-2" id="searchTag" name="searchTag"
                maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
         <span id="spanTotalCount" class="z-search-count"></span>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
         <button type="button" class="z-button-icon secondary ml-4" id="btnExcelDownload" name="btnExcelDownload"
                 sec:authorize="hasAuthority('general')" th:title="#{common.btn.export}"
                 th:onclick="|javascript:onExcelDownload()|">
             <span class="z-icon i-download-as-excel"></span>
         </button>
-        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
 </div>
 <div layout:fragment="pageList">
     <div class="z-list-content flex-row" id="tokenList"></div>
 </div>
-<!--<div layout:fragment="pageSearchResult">
-    <div class="z-token-content flex-fill">
-        <div id="tokenList"></div>
-    </div>
-</div>-->
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[ */
     let offsetCount = 0;
@@ -122,6 +117,7 @@
         let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&pageNum=' + pageNum;
         //    + '&orderColName=' + orderColName
         //    + '&orderDir=' + orderDir;
+        console.log(urlParam);
         aliceJs.fetchText('/tokens?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {
@@ -134,49 +130,6 @@
                     tagType: 'instance'
                 });
             });
-
-            /*if (isScroll) {
-                if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                    offsetCount = offsetCount + aliceJs.searchDataCount;
-                }
-                let tempDiv = document.createElement('div');
-                tempDiv.innerHTML = htmlData;
-                setDateTimeFormat(tempDiv);
-                tempDiv.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
-                    new zTag(tagInput, {
-                        suggestion: false,
-                        realtime: false,
-                        tagType: 'instance'
-                    });
-                });
-                document.querySelector('.z-token-content .card-list').insertAdjacentHTML('beforeend', tempDiv.innerHTML);
-            } else {
-                document.getElementById('tokenList').innerHTML = htmlData;
-                aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                setDateTimeFormat(document.getElementById('tokenList'));
-                OverlayScrollbars(document.querySelector('.z-page-content'), {
-                    className: 'scrollbar',
-                    callbacks: {
-                        onScroll: function (e) {
-                            const scrollHeight = e.target.scrollHeight;
-                            const scrollTop = e.target.scrollTop;
-                            const clientHeight = e.target.clientHeight;
-                            if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                    tokenSearch();
-                                }
-                            }
-                        }
-                    }
-                });
-                document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
-                    new zTag(tagInput, {
-                        suggestion: false,
-                        realtime: false,
-                        tagType: 'instance'
-                    });
-                });
-            }*/
         });
     }
 
@@ -184,9 +137,15 @@
      * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
      */
     function setDateTimeFormat(elem) {
-        elem.querySelectorAll('.date-time').forEach(tokenCreateDt => {
-            tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
-            tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
+        elem.querySelectorAll('.date-time-from-now').forEach(dt => {
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = dateFormatFromNow(userDateTime);
+        });
+
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = userDateTime;
+            dt.setAttribute('title', userDateTime);
         });
     }
 
