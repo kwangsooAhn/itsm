@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    layout:decorate="~{layout/itsm/pageType/commonSearchLayout}">
+    layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{token.label.list}"></title>
 </head>
@@ -37,13 +37,17 @@
                 th:onclick="|javascript:onExcelDownload()|">
             <span class="z-icon i-download-as-excel"></span>
         </button>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
 </div>
-<div layout:fragment="pageSearchResult">
+<div layout:fragment="pageList">
+    <div class="z-list-content flex-row" id="tokenList"></div>
+</div>
+<!--<div layout:fragment="pageSearchResult">
     <div class="z-token-content flex-fill">
         <div id="tokenList"></div>
     </div>
-</div>
+</div>-->
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[ */
     let offsetCount = 0;
@@ -62,12 +66,10 @@
 
         // 검색 이벤트 핸들러 셋업
         document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function (element) {
-            element.addEventListener('change', () => tokenSearch(false), false);
+            element.addEventListener('change', getList, false);
         });
 
-        document.getElementById('searchValue').addEventListener('keyup', () => {
-            tokenSearch(false);
-        }, false);
+        document.getElementById('searchValue').addEventListener('keyup', getList, false);
 
         new zTag(document.getElementById('searchTag'), {
             suggestion: true,
@@ -75,11 +77,11 @@
             tagType: 'instance',
             targetId: '',
             callback: function () {
-                tokenSearch(false);
+                getList();
             }
         });
 
-        tokenSearch(false);
+        getList();
     };
 
     function setDatePicker(element, picker) {
@@ -94,7 +96,7 @@
                     picker.open();
                 });
             } else {
-                tokenSearch(false);
+                getList();
             }
         } else {
             const fromDtValue = document.getElementById('searchFromDt').value;
@@ -104,7 +106,7 @@
                     picker.open();
                 });
             } else {
-                tokenSearch(false);
+                getList();
             }
         }
     }
@@ -112,20 +114,28 @@
     /**
      * 문서함을 검색한다.
      */
-    function tokenSearch(isScroll) {
+    function getList(pageNum = 1) {
         document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
-        if (isScroll) {
-            if (offsetCount === 0) {
-                offsetCount = aliceJs.searchDataCount;
-            }
-        } else {
-            offsetCount = 0;
-        }
-        let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+        const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
+        const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
+
+        let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&pageNum=' + pageNum;
+        //    + '&orderColName=' + orderColName
+        //    + '&orderDir=' + orderDir;
         aliceJs.fetchText('/tokens?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {
-            if (isScroll) {
+            document.getElementById('tokenList').innerHTML = htmlData;
+            setDateTimeFormat(document.getElementById('tokenList'));
+            document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
+                new zTag(tagInput, {
+                    suggestion: false,
+                    realtime: false,
+                    tagType: 'instance'
+                });
+            });
+
+            /*if (isScroll) {
                 if (aliceJs.isEnableScrollEvent(offsetCount)) {
                     offsetCount = offsetCount + aliceJs.searchDataCount;
                 }
@@ -153,7 +163,7 @@
                             const clientHeight = e.target.clientHeight;
                             if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
                                 if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                    tokenSearch(true);
+                                    tokenSearch();
                                 }
                             }
                         }
@@ -166,7 +176,7 @@
                         tagType: 'instance'
                     });
                 });
-            }
+            }*/
         });
     }
 
@@ -201,7 +211,6 @@
             fileName: i18n.msg('token.label.list') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
         });
     }
-
     /* ]]> */
 </script>
 </body>
