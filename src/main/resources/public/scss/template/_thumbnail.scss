@@ -45,6 +45,14 @@
       background-repeat: no-repeat;
       background-position: center center;
     }
+    .z-thumbnail-image,
+    .z-thumbnail-file {
+      @include relative();
+      img {
+        @include absolute(0, 0, 0, 0);
+        margin: auto;
+      }
+    }
     // 썸네일 정보
     .z-thumbnail-info {
       height: 6.563rem; // 105px
@@ -115,8 +123,8 @@
   }
   // 아이콘
   .z-icon {
-    &.i-image-upload {
-      @include maskImage('#{$icon-folder-path}icon_image_upload.svg', 4.813rem, 4.813rem, no-repeat, center); // 77px 77px
+    &.i-file-upload {
+      @include maskImage('#{$icon-folder-path}icon_file_upload.svg', 5rem, 5rem, no-repeat, center); // 80px 80px
       background: $thumbnail-icon-color;
     }
   }

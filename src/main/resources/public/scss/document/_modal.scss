@@ -217,5 +217,32 @@
         padding-top: 1.25rem; // 20px
       }
     }
+
+    // 신청서, 처리할 문서 > 참조인 모달
+    &.sub-user-modal {
+      width: $token-list-modal-width;
+      height: $token-list-modal-height;
+
+      .modal-content {
+        height: calc(#{$token-list-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+        padding: 0.625rem 1.25rem; // 10px 20px
+
+        .sub-user-list {
+          margin-top: 0.9375rem; // 15px
+          .table-set {
+            margin-top: 1.875rem; // 30px
+            .z-table {
+              .z-table-body {
+                display: block;
+                width: 60rem; // 960px
+                height: 35.313rem; // 565px
+                overflow-y: auto;
+                border: none;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

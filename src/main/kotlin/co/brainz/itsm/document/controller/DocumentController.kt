@@ -11,6 +11,7 @@ import co.brainz.itsm.document.service.DocumentService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
@@ -21,6 +22,7 @@ class DocumentController(
 
     private val documentSearchPage: String = "document/documentSearch"
     private val documentListPage: String = "document/documentList"
+    private val documentEditPage: String = "document/documentEdit"
 
     /**
      * 신청서 리스트 호출 화면.
@@ -44,5 +46,17 @@ class DocumentController(
         model.addAttribute("documentList", result.data)
         model.addAttribute("paging", result.paging)
         return documentListPage
+    }
+
+    /**
+     * 신청서 상세 화면.
+     *
+     * @param documentId
+     * @return String
+     */
+    @GetMapping("{documentId}/edit")
+    fun getDocumentEdit(@PathVariable documentId: String, model: Model): String {
+        model.addAttribute("documentId", documentId)
+        return documentEditPage
     }
 }

@@ -13,7 +13,7 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.service.WfFormService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormDataDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateFormListReturnDto
@@ -98,7 +98,7 @@ class FormService(
                 val newFormId = wfFormService.createForm(
                     RestTemplateFormDto(
                         name = formData.name,
-                        status = RestTemplateConstants.FormStatus.EDIT.value,
+                        status = WorkflowConstants.FormStatus.EDIT.value,
                         desc = formData.desc,
                         editable = true,
                         createUserKey = currentSessionUser.getUserKey(),
@@ -158,7 +158,7 @@ class FormService(
                 WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
             }
             else -> {
-                formData.status = RestTemplateConstants.FormStatus.EDIT.value
+                formData.status = WorkflowConstants.FormStatus.EDIT.value
                 formData.createUserKey = currentSessionUser.getUserKey()
                 formData.createDt = LocalDateTime.now()
                 val newFormId = wfFormService.saveAsFormData(formData).id

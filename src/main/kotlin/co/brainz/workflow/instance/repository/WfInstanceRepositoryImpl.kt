@@ -14,9 +14,11 @@ import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
+import co.brainz.itsm.folder.constants.FolderConstants
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.instance.entity.QWfCommentEntity
+import co.brainz.itsm.instance.entity.QWfInstanceViewerEntity
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
@@ -41,8 +43,9 @@ import co.brainz.workflow.token.entity.QWfTokenDataEntity
 import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.QueryResults
+import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
-import com.querydsl.core.types.dsl.Expressions
+import com.querydsl.core.types.dsl.CaseBuilder
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
 import java.time.LocalDateTime
@@ -66,6 +69,7 @@ class WfInstanceRepositoryImpl(
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val element: QWfElementEntity = QWfElementEntity.wfElementEntity
     val ciComponent: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
+    val instanceViewer: QWfInstanceViewerEntity = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -125,6 +129,11 @@ class WfInstanceRepositoryImpl(
                 )
             )
 
+        val viewer = JPAExpressions
+            .select(instanceViewer.instance.instanceId)
+            .from(instanceViewer)
+            .where(instanceViewer.viewer.userKey.eq(tokenSearchCondition.userKey))
+
         builder.and(instance.instanceStatus.`in`(status))
         builder.and(token.tokenStatus.`in`(tokenStatus))
         builder.and(token.element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value))
@@ -132,6 +141,9 @@ class WfInstanceRepositoryImpl(
         if (!hasDocumentViewAuth()) {
             builder.and(
                 token.assigneeId.eq(tokenSearchCondition.userKey)
+                    .or(
+                        instance.instanceId.`in`(viewer)
+                    )
                     .or(
                         token.element.elementId.`in`(assigneeUsers)
                     ).or(
@@ -215,7 +227,12 @@ class WfInstanceRepositoryImpl(
                     JPAExpressions
                         .select(tokenSub.instance.instanceId)
                         .from(tokenSub)
-                        .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey))
+                        .leftJoin(instanceViewer).on(tokenSub.instance.instanceId.eq(instanceViewer.instance.instanceId))
+                        .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey)
+                            .or(
+                                instanceViewer.viewer.userKey.eq(tokenSearchCondition.userKey)
+                            )
+                        )
                 )
             )
         }
@@ -278,47 +295,6 @@ class WfInstanceRepositoryImpl(
         delete(ciComponent).where(ciComponent.instanceId.`in`(instanceIds)).execute()
         delete(tag).where(tag.tagType.eq(AliceTagConstants.TagType.INSTANCE.code).and(tag.targetId.`in`(instanceIds)))
             .execute()
-    }
-
-    override fun findAllInstanceListAndSearch(
-        instanceId: String,
-        searchValue: String
-    ): MutableList<RestTemplateInstanceListDto> {
-        val query = from(instance)
-            .select(
-                Projections.constructor(
-                    RestTemplateInstanceListDto::class.java,
-                    instance.instanceId,
-                    document.documentName,
-                    instance.documentNo,
-                    instance.instanceStartDt,
-                    instance.instanceEndDt,
-                    user.userKey,
-                    user.userName,
-                    Expressions.asBoolean(false)
-                )
-            )
-            .distinct()
-            .innerJoin(document).on(document.documentId.eq(instance.document.documentId))
-            .leftJoin(user).on(user.userKey.eq(instance.instanceCreateUser.userKey))
-            .where(
-                instance.instanceId.notIn(instanceId).and(
-                    instance.instanceId.notIn(
-                        JPAExpressions
-                            .select(token.instance.instanceId)
-                            .from(token)
-                            .where(token.tokenAction.eq(WfTokenConstants.FinishAction.CANCEL.code))
-                    )
-                )
-            )
-        if (searchValue.isNotEmpty()) {
-            query.where(
-                document.documentName.likeIgnoreCase("%$searchValue%")
-                    .or(user.userName.likeIgnoreCase("%$searchValue%"))
-            )
-        }
-        query.orderBy(instance.instanceStartDt.asc())
-        return query.fetch()
     }
 
     override fun getInstanceListInTag(
@@ -487,6 +463,62 @@ class WfInstanceRepositoryImpl(
             )
         )
         return builder
+    }
+
+    override fun findAllInstanceListByRelatedCheck(
+        instanceId: String,
+        searchValue: String
+    ): MutableList<RestTemplateInstanceListDto> {
+        val query = from(instance)
+            .select(
+                Projections.constructor(
+                    RestTemplateInstanceListDto::class.java,
+                    instance.instanceId,
+                    document.documentName,
+                    instance.documentNo,
+                    instance.instanceStartDt,
+                    instance.instanceEndDt,
+                    user.userKey,
+                    user.userName,
+                    ExpressionUtils.`as`(
+                        JPAExpressions.select(
+                            CaseBuilder()
+                                .`when`(folder.count().gt(0)).then(true).otherwise(false))
+                            .from(folder)
+                            .where(folder.relatedType.`in`(
+                                FolderConstants.RelatedType.REFERENCE.code, FolderConstants.RelatedType.RELATED.code)
+                                .and(folder.instance.eq(instance))
+                                .and(folder.folderId.eq(
+                                    from(folder)
+                                        .select(folder.folderId)
+                                        .where(folder.instance.instanceId.eq(instanceId)
+                                            .and(folder.relatedType.eq(FolderConstants.RelatedType.ORIGIN.code)))
+                                ))
+                            ), "related"
+                    )
+                )
+            )
+            .distinct()
+            .innerJoin(document).on(document.documentId.eq(instance.document.documentId))
+            .leftJoin(user).on(user.userKey.eq(instance.instanceCreateUser.userKey))
+            .where(
+                instance.instanceId.notIn(instanceId).and(
+                    instance.instanceId.notIn(
+                        JPAExpressions
+                            .select(token.instance.instanceId)
+                            .from(token)
+                            .where(token.tokenAction.eq(WfTokenConstants.FinishAction.CANCEL.code))
+                    )
+                )
+            )
+        if (searchValue.isNotEmpty()) {
+            query.where(
+                document.documentName.likeIgnoreCase("%$searchValue%")
+                    .or(user.userName.likeIgnoreCase("%$searchValue%"))
+            )
+        }
+        query.orderBy(instance.instanceStartDt.asc())
+        return query.fetch()
     }
 
     /**
