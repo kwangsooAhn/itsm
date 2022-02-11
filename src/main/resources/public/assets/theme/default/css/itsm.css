@@ -4180,7 +4180,7 @@ select {
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row:hover {
   background-color: #EEEEEE;
 }
-.z-itsm-container .z-main-content .z-page-list .grid--noData .grid__row {
+.z-itsm-container .z-main-content .z-page-list .grid--noData .grid__cell {
   grid-column: 1/-1;
   justify-content: center;
 }

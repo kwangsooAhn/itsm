@@ -30,7 +30,7 @@
             <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
         </div>
         <div class="grid__row" th:unless="${#arrays.isEmpty(chartList)}" th:each="chart: ${chartList}">
-            <div class="grid__cell pr-2 underline pointer" th:data-grid-sortValue="${chart.chartName}">
+            <div class="grid__cell pr-2 underline pointer">
                 <a class="text-ellipsis" sec:authorize="hasAuthority('report.manage')" th:text="${chart.chartName}"
                    th:href="@{/charts/{id}/edit(id=${chart?.chartId})}" th:title="${chart.chartName}">
                 </a>
@@ -38,10 +38,10 @@
                    th:href="@{/charts/{id}/view(id=${chart?.chartId})}" th:title="${chart.chartName}">
                 </a>
             </div>
-            <div class="grid__cell pr-2 pl-2" th:data-grid-sortValue="#{|chart.${chart.chartType}|}">
+            <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis" th:text="#{|chart.${chart.chartType}|}" th:title="#{|chart.${chart.chartType}|}"></span>
             </div>
-            <div class="grid__cell pr-2 pl-2" th:data-grid-sortValue="${chart.chartDesc}">
+            <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis" th:text="${chart.chartDesc}" th:title="${chart.chartDesc}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
@@ -50,10 +50,10 @@
                     <span class="z-icon i-popup"></span>
                 </button>
             </div>
-            <div class="grid__cell pr-2 pl-2" th:data-grid-sortValue="${chart.createUserName}">
+            <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis" th:text="${chart.createUserName}" th:title="${chart.createUserName}"></span>
             </div>
-            <div class="grid__cell pl-2" th:data-grid-sortValue="${chart.createDt}">
+            <div class="grid__cell pl-2">
                 <span class="text-ellipsis date-time" th:text="${chart.createDt}" th:title="${chart.createDt}"></span>
             </div>
         </div>
