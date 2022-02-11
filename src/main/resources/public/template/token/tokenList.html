@@ -1,50 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head></head>
 <body>
-<div class="card-list flex-row justify-content-start align-itmes-start">
-    <input th:type="hidden" id="totalCount" th:value="${tokenCount}"/>
-    <div class="card flex-row justify-content-center no-data-found" th:if="${#arrays.isEmpty(tokenList)}">
-        <img class="z-img i-no-card" />
-        <span class="no-data-text" th:text="#{common.msg.noData}"></span>
-    </div>
-    <th:block th:fragment="list">
-        <div class="card flex-row" th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}"
-             sec:authorize="hasAuthority('general')" th:onclick="openTokenEdit([[${token.tokenId}]])">
-            <div class="z-document-color" th:style="|background-color: ${token.documentColor}|"></div>
-            <div class="z-document-row flex-fill flex-row justify-content-between">
-                <div class="z-document-row-content">
-                    <div class="z-document-title flex-row align-items-center">
-                        <h3 th:text="${token.documentName}" class="mr-2 text-wordWrap"></h3>
-                        <span th:text="${token.documentNo}" class="z-document-numbering text-wordWrap mr-2"></span>
-                        <span th:if="${token.documentStatus} == 'document.status.temporary'"
-                              th:text="#{document.label.tempDocument}" class="label normal"></span>
-                    </div>
-                    <div class="z-document-topic">
-                        <label class="topic" th:each="topic: ${token.topics}" th:text="${topic}"></label>
-                    </div>
-                </div>
-                <div class="z-document-row-info">
-                    <div class="z-document-detail flex-row align-items-center float-right">
-                        <div class="inline-flex align-items-center justify-content-center">
-                            <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.avatarPath}"
-                                 width="32" height="32">
-                            <span class="user-name" th:text="${token.createUserName}"></span>
-                        </div>
-                        <span class="vertical-bar"></span>
-                        <span class="create-dt date-time" th:text="${token.createDt}"></span>
-                        <span class="vertical-bar"></span>
-                        <span class="element-name" th:text="${token.elementName}"></span>
-                    </div>
-                    <div class="z-document-tag align-right">
-                        <input type="text" name="tokenTagList" class="align-left text-ellipsis" th:value="${token.tags}"
-                               readonly></input>
-                    </div>
-                </div>
+<div class="grid" style="--data-columns-width: 3% 12% 20% 15% 15% 10% 10% 15%;">
+    <div class="grid__head">
+        <div class="grid__row">
+            <div class="grid__cell" data-grid-sortable="false"></div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="documentNo">
+                <span class="text-ellipsis" th:text="#{token.label.docNo}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="topics">
+                <span class="text-ellipsis" th:text="#{token.label.name}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="documentGroup">
+                <span class="text-ellipsis" th:text="#{token.label.documentGroup}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="assigneeUserName">
+                <span class="text-ellipsis" th:text="#{token.label.assignee}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="elementName">
+                <span class="text-ellipsis" th:text="#{token.label.status}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="createUserName">
+                <span class="text-ellipsis" th:text="#{common.label.createUser}"></span>
+            </div>
+            <div class="grid__cell pl-2" data-grid-sortable="true" data-grid-column="createDt">
+                <span class="text-ellipsis" th:text="#{common.label.createDate}"></span>
             </div>
         </div>
-    </th:block>
+    </div>
+    <div class="grid__body">
+        <div class="grid__row grid--noData" th:if="${#arrays.isEmpty(tokenList)}">
+            <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
+        </div>
+        <div class="grid__row" th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}">
+            <div class="grid__cell pr-2 pl-4">
+                <span class="document-color-round" th:style="|background-color: ${token.documentColor}|"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis" th:text="${token.documentNo}" th:title="${token.documentNo}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis" th:if="${#arrays.length(token.topics)} > 0" th:text="${token.topics[0]}" th:title="${token.topics[0]}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis" th:text="${token.documentGroup}" th:title="${token.documentGroup}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.avatarPath}"
+                     width="32" height="32">
+                <span class="text-ellipsis" th:text="${token.assigneeUserName}"></span>
+                <span class="text-ellipsis" th:text="${token.assigneeUserId}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis" th:text="${token.elementName}" th:title="${token.elementName}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.avatarPath}"
+                     width="32" height="32">
+                <span class="text-ellipsis" th:text="${token.createUserName}"></span>
+            </div>
+            <div class="grid__cell pl-2">
+                <span class="text-ellipsis date-time-from-now mr-2" th:text="${token.createDt}" th:title="${token.createDt}"></span>
+                <span class="text-ellipsis date-time" th:text="${token.createDt}" th:title="${token.createDt}"></span>
+            </div>
+        </div>
+    </div>
 </div>
+<th:block th:insert="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 </body>
 </html>

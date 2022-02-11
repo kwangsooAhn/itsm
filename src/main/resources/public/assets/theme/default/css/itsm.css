@@ -4013,17 +4013,6 @@ select {
   font-size: 0.875rem;
   color: #8B9094;
 }
-.z-itsm-container .z-main-content .z-page-token-search {
-  display: flex;
-  flex-direction: row;
-  padding: 0 0 1.25rem 3.75rem;
-}
-.z-itsm-container .z-main-content .z-page-token-search .z-search-count {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-weight: 700;
-  font-size: 0.875rem;
-  color: #8B9094;
-}
 .z-itsm-container .z-main-content .z-page-result {
   display: flex;
   flex-direction: column;
@@ -4191,7 +4180,7 @@ select {
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row:hover {
   background-color: #EEEEEE;
 }
-.z-itsm-container .z-main-content .z-page-list .grid--noData .grid__row {
+.z-itsm-container .z-main-content .z-page-list .grid--noData .grid__cell {
   grid-column: 1/-1;
   justify-content: center;
 }
@@ -4484,6 +4473,14 @@ select {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   background-color: transparent;
+}
+
+.document-color-round {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  width: 0.9375rem;
+  height: 0.9375rem;
 }
 
 .user-name {
