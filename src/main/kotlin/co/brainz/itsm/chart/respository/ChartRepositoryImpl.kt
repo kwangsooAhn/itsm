@@ -7,6 +7,7 @@
 package co.brainz.itsm.chart.respository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.querydsl.QuerydslConstants
 import co.brainz.itsm.chart.dto.ChartDataDto
 import co.brainz.itsm.chart.dto.ChartListDto
 import co.brainz.itsm.chart.dto.ChartSearchCondition
@@ -14,7 +15,10 @@ import co.brainz.itsm.chart.entity.ChartEntity
 import co.brainz.itsm.chart.entity.QChartEntity
 import co.brainz.itsm.report.entity.QReportTemplateMapEntity
 import com.querydsl.core.QueryResults
+import com.querydsl.core.types.Order
+import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -42,7 +46,22 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
             .where(
                 super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue)
             )
-            .orderBy(chart.createDt.desc(), chart.chartName.asc(), chart.chartType.asc())
+
+        if (chartSearchCondition.orderColName.isNullOrEmpty()) {
+            query.orderBy(chart.createDt.desc(), chart.chartName.asc(), chart.chartType.asc())
+        } else {
+            val column = when (chartSearchCondition.orderColName) {
+                QuerydslConstants.OrderColumn.CREATE_USER_NAME.code -> {
+                    chart.createUser.userName
+                }
+                else -> Expressions.stringPath(chart, chartSearchCondition.orderColName)
+            }
+            val direction = when (chartSearchCondition.orderDir) {
+                QuerydslConstants.OrderSpecifier.DESC.code -> Order.DESC
+                else -> Order.ASC
+            }
+            query.orderBy(OrderSpecifier(direction, column))
+        }
         if (chartSearchCondition.isPaging) {
             query.limit(chartSearchCondition.contentNumPerPage)
             query.offset((chartSearchCondition.pageNum - 1) * chartSearchCondition.contentNumPerPage)
