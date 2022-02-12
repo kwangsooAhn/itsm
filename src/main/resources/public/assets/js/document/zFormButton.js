@@ -26,7 +26,7 @@ class ZFormButton {
         this.isToken = !!(formDataJson.tokenId);
         this.defaultButtonElement = document.getElementById('defaultButtonArea');
         this.actionButtonTopElement = document.getElementById('actionButtonTopArea'); // 상단 동적 버튼 영역
-        this.returnButtonElement = document.getElementById('returnButtonArea');
+        this.returnButtonElement = document.getElementById('returnButtonArea'); // 미리보기 버튼 영역
         this.formDataJson = formDataJson;
         this.zForm = zForm;
         // 기본 버튼 추가
