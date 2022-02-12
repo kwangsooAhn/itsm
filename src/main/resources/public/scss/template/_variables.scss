@@ -3,14 +3,7 @@
 //브랜드 컬러
 $brand-color-brainz: #0066FF;
 $brand-color-zenius: #FF850A;
-
-//심각도 팔레트
-$normal: #54cd3e;
-$info: #06deff;
-$caution: #ffc439;
-$danger: #ff9130;
-$urgent: #c54ce8;
-$critical: #f43b51;
+$brand-color-itsm : #0014c3;
 
 //Blue
 $blue900: #092C73;
@@ -155,14 +148,6 @@ $brand-color: (
         "brainz": $brand-color-brainz,
         "zenius": $brand-color-zenius
 );
-$alert-color: (
-        "normal": $normal,
-        "info": $info,
-        "caution": $caution,
-        "danger": $danger,
-        "urgent": $urgent,
-        "critical": $critical
-);
 $blue: (
         'blue900': $blue900,
         'blue800': $blue800,
@@ -303,7 +288,6 @@ $indigo: (
 
 $colors: (
         'brand': $brand-color,
-        'alert': $alert-color,
         'blue': $blue,
         'green': $green,
         'yellow': $yellow,
@@ -486,6 +470,12 @@ $option-table-header-bg-color:                $neutral100;
 $option-table-icon-color:                     $gray400;
 $option-table-icon-hover-color:               $blue500;
 
+// grid
+$grid-head-color:                             $gray600;
+$grid-body-color:                             $gray800;
+$grid-border-color:                           $gray300;
+$grid-hover-bg-color:                         $neutral200;
+
 // button, a
 $button-font-family:                          $font-family;
 $button-font-size:                            $font-size-xs;
@@ -521,6 +511,9 @@ $button-themes-default: (
     'focus': ('font': $neutral800, 'background': $neutral300, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
     'active': ('font': $neutral800, 'background': $neutral300, 'border': $neutral400),
     'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  ),
+  'default': (
+    'default': ('font': $gray400, 'background': transparent, 'border': transparent),
   )
 );
 // 어두운 배경에서 사용되는 버튼 테마
@@ -564,6 +557,12 @@ $button-group: (
   'active': ('font': $blue700, 'background': $blue200, 'border': $blue400),
   'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
   'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
+);
+// 기본 라벨 테마
+$label-themes-default: (
+        'normal': (
+                'default': ('font': $blue700, 'background': $blue300, 'border': $blue300)
+        )
 );
 
 //////////////////////////////// layout ////////////////////////////////
@@ -998,11 +997,12 @@ $validation-success-border-width:            0.0625rem; // 1px
 ////////////////////////////// paging /////////////////////////////
 $paging-current-num-font-color:              $gray500;
 $paging-num-font-color:                      $gray800;
-$paging-num-selected-font-color:             $blue600;
-$paging-num-selected-border-color:           $blue600;
+$paging-num-selected-font-color:             $blue700;
+$paging-num-selected-border-color:           $blue700;
 $paging-num-active-font-color:               $blue700;
-$paging-num-active-bg-color:                 $blue200;
+$paging-num-active-bg-color:                 $blue300;
 $paging-num-hover-font-color:                $gray800;
 $paging-num-hover-bg-color:                  $blue100;
-$paging-arrow-icon-inactive-color:           $gray400;
+$paging-arrow-icon-prev-color:               $gray400;
+$paging-arrow-icon-next-color:               $blue700;
 $paging-arrow-icon-active-color:             $gray500;

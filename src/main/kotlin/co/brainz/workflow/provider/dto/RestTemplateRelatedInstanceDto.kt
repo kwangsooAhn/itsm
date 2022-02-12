@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
@@ -8,6 +13,7 @@ data class RestTemplateRelatedInstanceDto(
     val instanceId: String?,
     val relatedType: String?,
     val tokenId: String? = null,
+    val documentId: String?,
     val documentNo: String?,
     val documentName: String?,
     val documentColor: String?,

@@ -43,11 +43,11 @@
       outline: 0;
     }
 
-    &:hover {
+    &:hover:not(.readonly) {
       border-color: $color-picker-hover-border-color;
     }
 
-    &:focus {
+    &:focus:not(.readonly) {
       border-color: $color-picker-focus-border-color;
       @include boxShadow(0, 0, 0.125rem, 0, $color-picker-focus-border-color); // 0 0 2px 0
     }
@@ -176,7 +176,7 @@
             visibility: hidden;
 
             .z-icon {
-              &.i-clear {
+              &.i-remove {
                 width: 0.5rem; // 8px
                 height: 0.5rem; // 8px
                 background: $white;

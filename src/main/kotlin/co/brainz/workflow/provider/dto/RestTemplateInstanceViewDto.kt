@@ -21,11 +21,13 @@ data class RestTemplateInstanceViewDto(
     var tags: List<AliceTagDto> = mutableListOf(),
     var createDt: LocalDateTime?,
     val assigneeUserKey: String? = "",
+    val assigneeUserId: String? = "",
     val assigneeUserName: String? = "",
     val createUserKey: String? = "",
     val createUserName: String? = "",
     val documentId: String,
     val documentNo: String? = null,
     val documentColor: String?,
-    val avatarPath: String? = ""
+    val avatarPath: String? = "",
+    val documentGroup: String? = ""
 ) : Serializable

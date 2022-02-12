@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="~{formDesigner/formCore}">
+<head>
+    <title th:text="#{document.label.write}"></title>
+</head>
+<th:block layout:fragment="content">
+    <div class="z-document-container">
+        <form id="frm" name="frm">
+            <div class="z-document-main flex-column align-items-center">
+                <input type="hidden" id="instanceId" />
+                <div class="z-document-main-header flex-row justify-content-between align-items-center">
+                    <div id="defaultButtonArea"></div>
+                    <div class="z-action-button-top-area" id="actionButtonTopArea"></div>
+                </div>
+                <div class="z-document-main-content">
+                    <div class="z-drawing-board" id="documentDrawingBoard" data-display="running"></div>
+                </div>
+            </div>
+        </form>
+        <!-- 탭 영역 -->
+        <div class="z-token-properties flex-column" id="documentProperties"></div>
+    </div>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <link th:href="@{/assets/theme/{theme}/css/itsm.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
+    <script type="module">
+        /*<![CDATA[*/
+        import { ZSession } from '../../assets/js/lib/zSession.js';
+        import { zValidation } from '../../assets/js/lib/zValidation.js';
+        import { zDocument } from '../../assets/js/document/zDocument.js';
+        import { zFormButton } from "../../assets/js/document/zFormButton.js";
+        import { zFormTokenTab } from "../../assets/js/document/zFormTokenTab.js";
+
+        ZSession.add('userKey', '[[${#authentication.details.userKey}]]');
+        ZSession.add('userId', '[[${#authentication.details.userId}]]');
+        ZSession.add('userName', '[[${#authentication.details.userName}]]');
+        ZSession.add('email', '[[${#authentication.details.email}]]');
+        ZSession.add('position', '[[${#authentication.details.position}]]');
+        ZSession.add('department', '[[${#authentication.details.department}]]');
+        ZSession.add('officeNumber', '[[${#authentication.details.officeNumber}]]');
+        ZSession.add('mobileNumber', '[[${#authentication.details.mobileNumber}]]');
+        ZSession.add('departmentName', '');
+
+        if (!zValidation.isEmpty(ZSession.get('department'))) {
+            aliceJs.fetchJson('/rest/organizations/' + ZSession.get('department'), {
+                method: 'GET'
+            }).then((response) => {
+                ZSession.add('departmentName', response.data.organizationName);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            OverlayScrollbars(document.querySelectorAll('.z-document-main'), { className: 'scrollbar' });
+        });
+
+        aliceJs.fetchJson('/rest/documents/' + '[[${documentId}]]' + '/data', {
+            method: 'GET',
+            showProgressbar: true
+        }).then((documentData) => {
+            document.getElementById('instanceId').value = documentData.instanceId;
+            zDocument.init(documentData, true);
+            zFormButton.init(documentData, zDocument);
+            zFormTokenTab.init(documentData, true);
+            aliceJs.initDesignedSelectTag();
+            window.zDocument = zDocument;
+            window.zFormTokenTab = zFormTokenTab;
+        });
+        /*]]>*/
+    </script>
+</th:block>
+</html>

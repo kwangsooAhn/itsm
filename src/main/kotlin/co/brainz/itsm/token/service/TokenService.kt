@@ -21,7 +21,7 @@ import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceExcelDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
@@ -68,13 +68,11 @@ class TokenService(
             data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
             instanceCreateUser = restTemplateTokenDataUpdateDto.assigneeId?.let { AliceUserEntity(userKey = it) },
             action = restTemplateTokenDataUpdateDto.action,
-            instancePlatform = RestTemplateConstants.InstancePlatform.ITSM.code
+            instancePlatform = WorkflowConstants.InstancePlatform.ITSM.code
         )
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
-            when (wfComponentService
-                .getComponentTypeById(it.componentId) ==
-                    (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+            when (this.isFileUploadComponent(it.componentId) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
@@ -94,15 +92,14 @@ class TokenService(
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
             tokenId = restTemplateTokenDataUpdateDto.tokenId,
             documentId = restTemplateTokenDataUpdateDto.documentId,
+            instanceId = restTemplateTokenDataUpdateDto.instanceId,
             data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
             action = restTemplateTokenDataUpdateDto.action,
-            instancePlatform = RestTemplateConstants.InstancePlatform.ITSM.code
+            instancePlatform = WorkflowConstants.InstancePlatform.ITSM.code
         )
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
-            when (wfComponentService
-                .getComponentTypeById(it.componentId) ==
-                    (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+            when (this.isFileUploadComponent(it.componentId) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
@@ -133,7 +130,7 @@ class TokenService(
             userKey = currentSessionUser.getUserKey(),
             searchTokenType = WfTokenConstants.SearchType.TODO.code
         )
-    ).totalCount
+    ).paging.totalCountWithoutCondition
 
     /**
      * 해당 인스턴스를 가진 토큰 데이터를 조회한다.
@@ -150,6 +147,13 @@ class TokenService(
     ): MutableList<RestTemplateInstanceExcelDto> {
         tokenSearchCondition.userKey = currentSessionUser.getUserKey()
         return wfInstanceService.instancesForExcel(tokenSearchCondition)
+    }
+
+    /**
+     * 컴포넌트 파일업로드 판단
+     */
+    private fun isFileUploadComponent(componentId: String): Boolean {
+        return wfComponentService.getComponentTypeById(componentId) == WfComponentConstants.ComponentType.FILEUPLOAD.code
     }
 
     /**
