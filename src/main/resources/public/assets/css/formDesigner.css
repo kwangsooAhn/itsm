@@ -7272,6 +7272,22 @@ body.modal-active {
   background: #339AF0;
 }
 
+.preview .z-group-tooltip {
+  border: 0.0625rem solid #FFFFFF;
+}
+.preview .z-row-tooltip {
+  border: 0.0625rem solid #FFFFFF;
+}
+.preview .z-component {
+  padding: 0 1rem;
+}
+.preview .z-component-tooltip {
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-color: transparent !important;
+}
+
 /* _tree.scss 
  *
  * 파일 경로 : template/_tree.scss

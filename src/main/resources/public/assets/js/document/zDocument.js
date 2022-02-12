@@ -334,6 +334,12 @@ class ZDocument {
             this.documentModal.hide();
         }
     }
+    /**
+     * 돌아가기
+     */
+    return() {
+        history.go(-1);
+    }
 }
 
 export const zDocument = new ZDocument();
