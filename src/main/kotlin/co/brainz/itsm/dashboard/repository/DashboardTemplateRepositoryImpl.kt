@@ -15,7 +15,7 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
         document: String,
         organization: String,
         status: String
-    ): Long {
+    ): String {
         TODO("Not yet implemented")
     }
 }

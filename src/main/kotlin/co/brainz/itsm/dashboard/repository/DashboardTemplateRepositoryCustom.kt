@@ -6,7 +6,8 @@
 package co.brainz.itsm.dashboard.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
 
 interface DashboardTemplateRepositoryCustom : AliceRepositoryCustom {
-    fun countByDocumentIdAndStatusAndOrganization(document: String, organization: String, status: String): Long
+    fun findByStatusGroupByUserKey(status: String): List<WfInstanceListInstanceDto>
 }

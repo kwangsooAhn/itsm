@@ -5,7 +5,6 @@
 
 package co.brainz.itsm.dashboard.service
 
-import kotlin.math.log
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 import co.brainz.itsm.dashboard.dto.TemplateComponentData
@@ -21,8 +20,6 @@ import org.springframework.stereotype.Service
 import co.brainz.itsm.chart.dto.ChartData
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
-import co.brainz.workflow.instance.entity.WfInstanceEntity
-import co.brainz.workflow.instance.repository.WfInstanceRepository
 
 @Service
 class DashboardTemplateService(
@@ -72,21 +69,29 @@ class DashboardTemplateService(
     /**
      *  부서별 요청현황 조회
      */
-    private fun getRequestStatusByOrganizationCharts(component: LinkedHashMap<String, Any>) {
+    private fun getRequestStatusByOrganizationCharts(component: LinkedHashMap<String, Any>): List<ChartData> {
         val key = component["key"]
         val target: LinkedHashMap<String, ArrayList<ArrayList<String>>> = component["target"] as LinkedHashMap<String,ArrayList<ArrayList<String>>>
         val organizationList: ArrayList<String> = target["organizations"] as ArrayList<String>
         val documentList: ArrayList<String> = target["documents"] as ArrayList<String>
-        var instanceCreateUserList: MutableList<WfInstanceEntity> = mutableListOf()
-        var count = 0L
+        val chartList: MutableList<ChartData> = mutableListOf()
+        val instanceList: MutableList<WfInstanceListInstanceDto> = mutableListOf()
+//        dashboardTemplateRepository.countByDocumentIdAndStatusAndOrganization(document,organization,WfInstanceConstants.Status.RUNNING.code)
+//        instanceList = dashboardTemplateRepository.findByStatusGroupByUserKey(WfInstanceConstants.Status.RUNNING.code)
+
         for (document in documentList) {
             for (organization in organizationList) {
-                count = dashboardTemplateRepository
-                    .countByDocumentIdAndStatusAndOrganization(document, organization, WfInstanceConstants.Status.RUNNING.code)
-                println(instanceCreateUserList)
+                chartList.add(ChartData(
+                    id = organization,
+                    category = document,
+                    value = "0",
+                    series = organization
+
+                ))
             }
         }
 
+        return chartList
     }
 
     /**
