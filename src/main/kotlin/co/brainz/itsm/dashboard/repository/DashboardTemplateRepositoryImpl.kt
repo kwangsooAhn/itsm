@@ -10,4 +10,12 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTemplateEntity::class.java), DashboardTemplateRepositoryCustom
+class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTemplateEntity::class.java), DashboardTemplateRepositoryCustom {
+    override fun countByDocumentIdAndStatusAndOrganization(
+        document: String,
+        organization: String,
+        status: String
+    ): Long {
+        TODO("Not yet implemented")
+    }
+}

@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.dashboard.service
 
+import kotlin.math.log
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 import co.brainz.itsm.dashboard.dto.TemplateComponentData
@@ -17,6 +18,11 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import co.brainz.itsm.chart.dto.ChartData
+import co.brainz.workflow.instance.constants.WfInstanceConstants
+import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
+import co.brainz.workflow.instance.entity.WfInstanceEntity
+import co.brainz.workflow.instance.repository.WfInstanceRepository
 
 @Service
 class DashboardTemplateService(
@@ -46,6 +52,17 @@ class DashboardTemplateService(
     private fun getTemplateComponentConfigList(templateId: String): List<TemplateComponentConfig> {
         val template = dashboardTemplateRepository.findById(templateId).get()
         val templateConfig = mapper.readValue(template.templateConfig, LinkedHashMap::class.java)
+        val components: ArrayList<LinkedHashMap<String, Any>> = templateConfig["components"] as ArrayList<LinkedHashMap<String, Any>>
+
+        for (component in components) {
+            val keyValue = component["key"]
+            when (keyValue.toString()) {
+              "requestStatusByOrganization.chart"  -> {
+                  this.getRequestStatusByOrganizationCharts(component)
+
+              }
+            }
+        }
         return mapper.convertValue(
             templateConfig["components"],
             TypeFactory.defaultInstance().constructCollectionType(List::class.java, TemplateComponentConfig::class.java)
@@ -53,10 +70,32 @@ class DashboardTemplateService(
     }
 
     /**
+     *  부서별 요청현황 조회
+     */
+    private fun getRequestStatusByOrganizationCharts(component: LinkedHashMap<String, Any>) {
+        val key = component["key"]
+        val target: LinkedHashMap<String, ArrayList<ArrayList<String>>> = component["target"] as LinkedHashMap<String,ArrayList<ArrayList<String>>>
+        val organizationList: ArrayList<String> = target["organizations"] as ArrayList<String>
+        val documentList: ArrayList<String> = target["documents"] as ArrayList<String>
+        var instanceCreateUserList: MutableList<WfInstanceEntity> = mutableListOf()
+        var count = 0L
+        for (document in documentList) {
+            for (organization in organizationList) {
+                count = dashboardTemplateRepository
+                    .countByDocumentIdAndStatusAndOrganization(document, organization, WfInstanceConstants.Status.RUNNING.code)
+                println(instanceCreateUserList)
+            }
+        }
+
+    }
+
+    /**
      * 템플릿 컴포넌트별 조회 (데이터 포함)
      */
     private fun getTemplateComponentResult(templateComponentList: List<TemplateComponentConfig>): List<TemplateComponentData> {
         val templateComponentResultList = mutableListOf<TemplateComponentData>()
+        var chartDataList : MutableList<ChartData> = mutableListOf()
+
         templateComponentList.forEach { component ->
             templateComponentResultList.add(
                 TemplateComponentData(
