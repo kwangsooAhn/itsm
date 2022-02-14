@@ -313,17 +313,13 @@ class ZDocument {
      * 문서 닫기
      */
     close() {
-        if (zValidation.isDefined(window.opener)) {
-            window.close();
-        } else {
-            this.documentModal.hide();
-        }
+        window.close();
     }
     /**
      * 미리보기 뒤로가기
      */
     back() {
-        window.history.back()
+        this.documentModal.hide();
     }
 }
 
