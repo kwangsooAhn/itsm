@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="statistic/customReport/reportCore">
+<head>
+    <title th:text="#{common.label.preview}"></title>
+</head>
+<th:block layout:fragment="css">
+    <link th:href="@{/assets/css/report.css}" rel="stylesheet"/>
+</th:block>
+<body>
+<th:block layout:fragment="content">
+    <div class="z-report-wrapper">
+        <div class="z-option-button align-right">
+            <button type="button" class="z-button secondary" th:text="#{statistic.btn.pdf}" th:onclick="download()"></button>
+        </div>
+        <div class="z-report">
+            <div class="z-report-main">
+                <div class="z-report-main-header align-center" th:text="${report.reportName}"></div>
+                <div class="z-report-area">
+                    <div class="z-drawing-board" id="reportContents">
+                    </div>
+                </div>
+                <div class="z-report-main-footer flex-row justify-content-between">
+                    <div>
+                        <img class="z-img i-portal-notice pointer" th:src="@{/assets/media/icons/logo/icon_logo_print.svg}" width="152" height="26" alt="logo" />
+                    </div>
+                    <div class="z-paging"></div>
+                    <div class="align-right mr-4" id="report-information"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const report = /*[[${report}]]*/ null;
+
+        window.onload = function() {
+            // footer
+            const userName = '[[${#authentication.details.userName}]]';
+            const userEmail = '[[${#authentication.details.email}]]';
+            const time = /*[[${report.publishDt}]]*/'';
+            const reportInfo = document.getElementById('report-information');
+            reportInfo.innerHTML = userName + ' [' + userEmail + ']<br>' + i18n.printFormat(time);
+
+            // chart 그리기
+            if (report['data'] !== undefined) {
+                report['data'].forEach((item) => {
+                    addChartContent(item);
+                });
+            }
+        };
+
+        function addChartContent(data) {
+            let chartTarget = document.querySelector('#reportContents');
+            let element =
+                `<div class="z-chart-content">` +
+                `<div class="z-chart" id="${data.chartId}_chart"></div>` +
+                `</div>`;
+            chartTarget.insertAdjacentHTML('beforeend', element);
+
+            // 태그 데이터를 tagValue > value 로 변경한다.
+            const tags = data.tags.reduce((acc, cur) => {
+                acc.push({ value: cur.tagValue });
+                return acc;
+            }, []);
+            data.tags = tags;
+
+            // 차트 초기화
+            zChartManager.load(data.chartId + '_chart', data);
+        }
+
+        function download() {
+            html2pdf().from(document.querySelector('.z-report')).set({
+                margin: 6,
+                filename: report['reportName'] + '.pdf',
+                html2canvas: { scale: 1 },
+                jsPDF: {orientation: 'portrait', unit: 'mm', format: 'a4', compressPDF: true}
+            }).save();
+        }
+        /*]]>*/
+    </script>
+    <script type="module">
+        /*<![CDATA[*/
+        import ZChart from '../../../assets/js/chart/zChart.js';
+
+        const zChartManager = {
+            load: function(id, data) {
+                // 차트 초기화
+                this.zChart = new ZChart(id, data);
+
+                // 데이터 업데이트
+                this.zChart.update(data.chartData);
+            }
+        }
+        window.zChartManager = zChartManager;
+
+        /*]]>*/
+    </script>
+</th:block>
+</html>

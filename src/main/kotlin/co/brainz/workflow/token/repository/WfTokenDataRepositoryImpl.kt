@@ -6,7 +6,7 @@
 
 package co.brainz.workflow.token.repository
 
-import co.brainz.itsm.chart.dto.average.ChartTokenData
+import co.brainz.itsm.statistic.customChart.dto.average.ChartTokenData
 import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.form.entity.QWfFormEntity

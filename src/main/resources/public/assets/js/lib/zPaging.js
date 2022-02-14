@@ -52,7 +52,7 @@ export default class ZPaging {
 
         // 2-2) 현재 페이지 번호, 전체 페이지 수
         let currentPageNum = Number(document.getElementById('currentPageNum').value);
-        let totalPageNum = Number(document.getElementById('totalPageNum').value);
+        let totalPageNum = (document.getElementById('totalPageNum').value === '0') ? 1 : Number(document.getElementById('totalPageNum').value);
         document.getElementById('spanCurrentPageNum').innerText = i18n.msg('common.label.totalPageNum', totalPageNum);
 
         // 2-3) 현재 페이지번호가 이미 있는 경우 -> class 적용만하고 끝냄.
@@ -153,7 +153,7 @@ export default class ZPaging {
             orderColNameElem.value = sortColumn;
             orderDirElem.value = PAGING.ORDER_DIRECTION.ASC;
         }
-        
+
         // 데이터 재 호출
         const curPageLink = document.querySelector('.' + this.options.selectedPage);
         if (curPageLink) {
@@ -168,6 +168,6 @@ export default class ZPaging {
 
         const sortColElem = document.querySelector('.grid__cell[data-grid-column="' + orderColNameElem.value +'"]');
         sortColElem.setAttribute('data-grid-sorting-type', orderDirElem.value);
-        sortColElem.insertAdjacentHTML('beforeend', `<span class="z-icon i-sorting"></span>`);
+        //sortColElem.insertAdjacentHTML('beforeend', `<span class="z-icon i-sorting"></span>`);
     }
 }
