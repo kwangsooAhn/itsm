@@ -19,7 +19,7 @@ export default class ZPaging {
     constructor(options) {
         this.options = Object.assign({}, PAGING_DEFAULT_OPTIONS, options);
         // 리스트 목록에 옵져버 설정. 조회되어 리스트가 변하면 자동으로 페이징 처리
-        const config = {childList: true, subtree: true};
+        const config = {childList: true, subtree: false};
         const observer = new MutationObserver(this.update.bind(this));
         observer.observe(document.querySelector('.z-list-content'), config);
     }
@@ -168,6 +168,6 @@ export default class ZPaging {
 
         const sortColElem = document.querySelector('.grid__cell[data-grid-column="' + orderColNameElem.value +'"]');
         sortColElem.setAttribute('data-grid-sorting-type', orderDirElem.value);
-        //sortColElem.insertAdjacentHTML('beforeend', `<span class="z-icon i-sorting"></span>`);
+        sortColElem.insertAdjacentHTML('beforeend', `<span class="z-icon i-sorting"></span>`);
     }
 }

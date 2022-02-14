@@ -26,9 +26,12 @@
                 <div class="document-color-circle" th:style="|background-color:${document.documentColor}|"></div>
                 <span th:text="${document.documentName}" th:title="${document.documentName}"></span>
             </td>
-            <td style="width: 10%;" class="align-left" th:if="${document.documentType} == 'application-form'" th:text="#{document.type.applicationForm}" th:title="#{document.type.applicationForm}"></td>
-            <td style="width: 10%;" class="align-left" th:unless="${document.documentType} == 'application-form'" th:text="#{document.type.workflow}" th:title="#{document.type.workflow}"></td>
-            <td style="width: 15%;" class="align-left">
+            <th:block th:switch="${document.documentType}">
+                <td style="width: 10%;" class="align-left" th:case = "application-form" th:text="#{document.type.applicationForm}" th:title="#{document.type.applicationForm}"></td>
+                <td style="width: 10%;" class="align-left" th:case = "workflow" th:text="#{document.type.workflow}" th:title="#{document.type.workflow}"></td>
+                <td style="width: 10%;" class="align-left" th:case = "application-form-link" th:text="#{document.type.applicationFormLink}" th:title="#{document.type.applicationFormLink}"></td>
+            </th:block>
+             <td style="width: 15%;" class="align-left">
                 <th:block th:if="${document.documentGroup != null && document.documentGroup != ''}">
                     <th:block th:each="group, index : ${groupList}">
                         <label th:if="${group.code} == ${document.documentGroup}" th:text="${group.codeValue}" th:title="${group.codeValue}"></label>
@@ -38,12 +41,18 @@
             <td style="width: 20%;" class="align-left" th:text="${document.documentDesc}" th:title="${document.documentDesc}"></td>
             <td style="width: 10%;" class="align-center" th:text="#{${document.documentStatus}}" th:title="#{${document.documentStatus}}"></td>
             <td style="width: 10%;" class="align-center">
-                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="openDocumentEdit([[${document.documentId}]])">
+                <button type="button" class="z-button-icon form" th:if="${document.documentType} == 'application-form-link'" sec:authorize="hasAuthority('workflow.manage')" th:onclick="openDocumentEdit([[${document.documentId}]],true)">
+                    <span class="z-icon i-edit"></span>
+                </button>
+                <button type="button" class="z-button-icon form" th:unless="${document.documentType} == 'application-form-link'" sec:authorize="hasAuthority('workflow.manage')" th:onclick="openDocumentEdit([[${document.documentId}]],false)">
                     <span class="z-icon i-edit"></span>
                 </button>
             </td>
             <td style="width: 10%;" class="align-center">
-                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="deleteDocument([[${document.documentId}]])">
+                <button type="button" class="z-button-icon form"  th:if="${document.documentType} == 'application-form-link'" sec:authorize="hasAuthority('workflow.manage')" th:onclick="deleteDocument([[${document.documentId}]], true)">
+                    <span class="z-icon i-delete"></span>
+                </button>
+                <button type="button" class="z-button-icon form" th:unless="${document.documentType} == 'application-form-link'" sec:authorize="hasAuthority('workflow.manage')" th:onclick="deleteDocument([[${document.documentId}]], false)">
                     <span class="z-icon i-delete"></span>
                 </button>
             </td>

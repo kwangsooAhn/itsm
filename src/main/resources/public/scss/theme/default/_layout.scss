@@ -262,6 +262,7 @@
     //신청서 문서이름
     .document-name {
       width: 17.5rem; //280px
+      color: $element-font-color;
       font-size: $font-size-l;
       font-weight: $font-weight-medium;
     }

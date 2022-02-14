@@ -1407,6 +1407,10 @@ insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음�
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
 insert into awf_url values ('/rest/tokens/excel', 'get', '문서함 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/users/absence', 'post', '사용자 현재 문서 이관', 'FALSE');
+insert into	awf_url values ('/rest/workflows/workflowLink', 'post', '업무흐름 링크 등록', 'TRUE');
+insert into awf_url values ('/workflows/workflowLink/{id}/edit', 'get', '업무흐름 링크 편집', 'TRUE');
+insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'delete', '업무흐름 링크 삭제', 'TRUE');
+insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'put', '업무흐름 링크 변경', 'TRUE');
 
 /**
  * URL별권한매핑
@@ -1732,6 +1736,10 @@ insert into awf_url_auth_map values ('/workflows/new', 'get', 'workflow.manage')
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','workflow.manage');
+insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
 
 /**
  * 사용자정보
@@ -8840,6 +8848,38 @@ create table awf_organization_role_map
 COMMENT ON TABLE awf_organization_role_map IS '조직역할매핑';
 COMMENT ON COLUMN awf_organization_role_map.organization_id IS '그룹아이디';
 COMMENT ON COLUMN awf_organization_role_map.role_id IS '역할아이디';
+
+/**
+  신청서 링크
+ */
+DROP TABLE IF EXISTS wf_document_link cascade;
+
+create table wf_document_link
+(
+    document_link_id varchar(128) NOT NULL,
+    document_name varchar(256) NOT NULL,
+    document_desc varchar(256),
+    document_link_url varchar(256),
+    document_status varchar(100) DEFAULT 'document.status.use',
+    document_color  varchar(128),
+    document_icon varchar(100),
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT wf_document_link_pk PRIMARY KEY (document_link_id)
+);
+
+COMMENT ON TABLE wf_document_link IS '신청서 링크 정보';
+COMMENT ON COLUMN wf_document_link.document_link_id IS '신청서 링크 아이디';
+COMMENT ON COLUMN wf_document_link.document_name IS '신청서 이름';
+COMMENT ON COLUMN wf_document_link.document_desc IS '신청서 설명';
+COMMENT ON COLUMN wf_document_link.document_link_url IS '신청서 링크 URL';
+COMMENT ON COLUMN wf_document_link.document_status IS '신청서 상태';
+COMMENT ON COLUMN wf_document_link.create_user_key IS '생성자';
+COMMENT ON COLUMN wf_document_link.create_dt IS '생성일시';
+COMMENT ON COLUMN wf_document_link.update_user_key IS '수정자';
+COMMENT ON COLUMN wf_document_link.update_dt IS '수정일시';
 
 /**
   참조인 관리
