@@ -147,7 +147,10 @@ export const zLineChartMixin = {
                 const temp = data[j];
                 if (tag.options.name === temp.series) {
                     seriesId = temp.id;
-                    series.push({ x: this.getStringToDateTime(temp.category), y: Number(temp.value) });
+                    series.push({
+                        x: this.getStringToDateTime(this.convertCategoryToLocal(temp.category)),
+                        y: Number(temp.value)
+                    });
                 }
             }
             this.chart.series[i].update({ id: seriesId }, false);
