@@ -19,7 +19,7 @@
   line-height: 1.5rem;
 
   a.z-paging-arrow {
-    @include border(0.0625rem, solid, #E1E3E6, all); // 1px
+    @include border(0.0625rem, solid, $gray300, all); // 1px
     &:not(:first-child) { border-left: 0; }
     cursor: text;
     &.active {
