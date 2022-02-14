@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <clipPath id="clip-path">
+      <path fill="#222529" d="M0-72H78V0H0Z"/>
+    </clipPath>
+  </defs>
+  <g transform="translate(-6572 -1506)">
+    <g transform="translate(0 200)">
+      <rect fill="none" width="80" height="80" transform="translate(6572 1306)"/>
+    </g>
+    <g transform="translate(6574 1586)">
+      <g clip-path="url(#clip-path)">
+        <g transform="translate(5 -64)">
+          <path fill="#222529" d="M0,0H34V-6H66V7H0ZM57,54H.92L-2.91,9H68.91L67.55,25a1,1,0,0,0,2,0L71,8a1,1,0,0,0-1-1H68V-7a1,1,0,0,0-1-1H33a1,1,0,0,0-1,1v5H-1A1,1,0,0,0-2-1V7H-4A1,1,0,0,0-5,8l4,47a1,1,0,0,0,1,1H57a1,1,0,0,0,0-2"/>
+        </g>
+        <g transform="translate(77.707 -27.708)">
+          <path fill="#222529" d="M0,0-9-9c-.007-.007-.017-.009-.023-.016a1.006,1.006,0,0,0-.3-.2,1,1,0,0,0-.383-.077,1,1,0,0,0-.383.077,1.006,1.006,0,0,0-.3.2c-.006.007-.016.009-.023.016l-9,9a1,1,0,0,0,0,1.414,1,1,0,0,0,1.414,0l7.293-7.293V26.708a1,1,0,0,0,1,1,1,1,0,0,0,1-1V-5.879l7.293,7.293A1,1,0,0,0,0,1.414,1,1,0,0,0,0,0"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

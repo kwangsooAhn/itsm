@@ -1,6 +1,12 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.folder.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.itsm.folder.constants.FolderConstants
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.folder.entity.WfFolderEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
@@ -34,6 +40,7 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
                             .where(folder.instance.instanceId.eq(token.instance.instanceId)),
                         "tokenId"
                     ),
+                    folder.instance.document.documentId,
                     folder.instance.documentNo,
                     folder.instance.document.documentName,
                     folder.instance.document.documentColor,
@@ -57,18 +64,12 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
             .fetch()
     }
 
-    override fun findFolderIdByTokenId(tokenId: String): String {
+    override fun findFolderOriginByInstanceId(instanceId: String): WfFolderEntity {
         val folder = QWfFolderEntity.wfFolderEntity
-        val token = QWfTokenEntity.wfTokenEntity
-
-        return from(folder, token)
-            .select(folder.folderId)
-            .where(
-                folder.instance.eq(token.instance).and(token.tokenId.eq(tokenId)).and(
-                    folder.relatedType.eq(
-                        "origin"
-                    )
-                )
-            ).fetchOne()
+        return from(folder)
+            .where(folder.instance.instanceId.eq(instanceId)
+                .and(folder.relatedType.eq(FolderConstants.RelatedType.ORIGIN.code))
+            )
+            .fetchOne()
     }
 }

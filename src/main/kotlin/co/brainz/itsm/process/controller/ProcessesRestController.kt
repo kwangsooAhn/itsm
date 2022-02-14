@@ -7,7 +7,7 @@ package co.brainz.itsm.process.controller
 import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.itsm.process.service.ProcessService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
@@ -45,7 +45,7 @@ class ProcessesRestController(
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
-            RestTemplateConstants.ProcessSaveType.SAVE_AS.code -> processService.saveAsProcess(
+            WorkflowConstants.ProcessSaveType.SAVE_AS.code -> processService.saveAsProcess(
                 mapper.convertValue(
                     jsonData,
                     RestTemplateProcessElementDto::class.java

@@ -11,10 +11,10 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
-import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.folder.service.FolderService
+import co.brainz.itsm.folder.service.FolderManager
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -57,8 +57,8 @@ class WfInstanceService(
     private val wfDocumentRepository: WfDocumentRepository,
     private val numberingRuleService: NumberingRuleService,
     private val aliceUserRepository: AliceUserRepository,
-    private val folderService: FolderService,
-    private val aliceTagService: AliceTagService,
+    private val folderManager: FolderManager,
+    private val aliceTagManager: AliceTagManager,
     private val userDetailsService: AliceUserDetailsService,
     private val currentSessionUser: CurrentSessionUser
 ) {
@@ -146,7 +146,7 @@ class WfInstanceService(
         queryResults.results.forEach {
             instanceIds.add(it.instanceEntity.instanceId)
         }
-        val tagList = aliceTagService.getTagsByTargetIds(
+        val tagList = aliceTagManager.getTagsByTargetIds(
             AliceTagConstants.TagType.INSTANCE.code,
             instanceIds
         )
@@ -276,12 +276,12 @@ class WfInstanceService(
         )
         val instance = wfInstanceRepository.save(instanceEntity)
         instance.let {
-            val folders = folderService.createFolder(instance)
+            val folders = folderManager.createFolder(instance)
             instance.folders = mutableListOf(folders)
             instance.pTokenId?.let { id ->
                 val parentToken = wfTokenRepository.getOne(id)
-                folderService.insertInstance(parentToken.instance, instance)
-                folderService.insertInstance(instance, parentToken.instance)
+                folderManager.insertInstance(parentToken.instance, instance)
+                folderManager.insertInstance(instance, parentToken.instance)
             }
         }
 
@@ -350,17 +350,20 @@ class WfInstanceService(
      * Get Instance Tags.
      */
     fun getInstanceTags(instanceId: String): List<AliceTagDto> {
-        return aliceTagService.getTagsByTargetId(
+        return aliceTagManager.getTagsByTargetId(
             AliceTagConstants.TagType.INSTANCE.code,
             instanceId
         )
     }
 
     /**
-     * Get Instance List
+     * [instanceId] 값으로 본인을 제외한 전체 문서 목록 조회 (관련된 문서 여부를 포함)
      */
-    fun getAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto> {
-        return wfInstanceRepository.findAllInstanceListAndSearch(instanceId, searchValue)
+    fun findAllInstanceListByRelatedCheck(
+        instanceId: String,
+        searchValue: String
+    ): MutableList<RestTemplateInstanceListDto> {
+        return wfInstanceRepository.findAllInstanceListByRelatedCheck(instanceId, searchValue)
     }
 
     fun instancesForExcel(tokenSearchCondition: TokenSearchCondition): MutableList<RestTemplateInstanceExcelDto> {

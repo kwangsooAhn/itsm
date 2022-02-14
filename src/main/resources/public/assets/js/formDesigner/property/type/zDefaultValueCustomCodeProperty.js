@@ -33,8 +33,8 @@ const propertyExtends = {
 };
 
 export default class ZDefaultValueCustomCodeProperty extends ZProperty {
-    constructor(key, name, value) {
-        super(key, name, 'defaultValueCustomCodeProperty', value);
+    constructor(key, name, value, isAlwaysEditable) {
+        super(key, name, 'defaultValueCustomCodeProperty', value, isAlwaysEditable);
 
         this.options = propertyExtends.options;
         this.selectOptions = propertyExtends.selectOptions;
@@ -43,7 +43,9 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
-
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
+        
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
         // 라벨
@@ -69,6 +71,10 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             .setUIAttribute('data-value', 'customCode')
             .onUIChange(this.updateCustomCodeData.bind(this));
         this.UIElement.addUI(this.UIElement.UISelect);
+
+        if (!this.isEditable) {
+            this.UIElement.UISelect.addUIClass('readonly');
+        }
 
         // 기본 값
         // 기본 값 - 라벨
@@ -99,6 +105,11 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             radioGroup.UILabel.addUI(radioGroup.UILabel.UIRadio);
             radioGroup.UILabel.addUI(new UISpan());
 
+            if (!this.isEditable) {
+                radioGroup.UILabel.addUIClass('readonly');
+                radioGroup.UILabel.UIRadio.addUIClass('readonly');
+            }
+
             if (!zValidation.isEmpty(item.name)) {
                 radioGroup.UILabel.addUI(new UISpan().setUIClass('z-label').setUIInnerHTML(i18n.msg(item.name)));
             }
@@ -123,12 +134,16 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                         .setUIValue(customCodeText)
                         .onUIChange(this.updateProperty.bind(this));
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIInput);
-                    // icon
-                    radioGroup.UIInputButton.UIIcon = new UISpan()
-                        .setUIClass('z-icon')
-                        .addUIClass('i-clear')
+                    // small icon button
+                    radioGroup.UIInputButton.UIIconButton = new UIButton()
+                        .setUIClass('z-button-icon-sm')
+                        .setUIAttribute('tabindex', '-1')
                         .onUIClick(this.clearText.bind(this));
-                    radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIcon);
+                    radioGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
+                        .setUIClass('z-icon')
+                        .addUIClass('i-remove');
+                    radioGroup.UIInputButton.UIIconButton.addUI(radioGroup.UIInputButton.UIIconButton.UIIcon);
+                    radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
                     // button
                     radioGroup.UIInputButton.UIButton = new UIButton()
                         .setUIClass('z-button-icon')

@@ -12,6 +12,9 @@
     <input th:type="hidden" id="currentPageNum" name="currentPageNum" th:value="${paging.currentPageNum}">
     <input th:type="hidden" id="totalPageNum" name="totalPageNum" th:value="${paging.totalPageNum}">
     <input th:type="hidden" id="orderType" name="orderType" th:value="${paging.orderType}">
+    <!-- 정렬 -->
+    <input th:type="hidden" id="orderColName" th:value="${paging.orderColName}">
+    <input th:type="hidden" id="orderDir" th:value="${paging.orderDir}">
 </th:block>
 </body>
 </html>

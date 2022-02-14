@@ -13,6 +13,8 @@ data class ChartSearchCondition(
     val searchGroupName: String? = null,
     val searchValue: String? = null,
     val pageNum: Long = 0L,
+    val orderColName: String? = null,
+    val orderDir: String? = null,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
     val isPaging = pageNum > 0

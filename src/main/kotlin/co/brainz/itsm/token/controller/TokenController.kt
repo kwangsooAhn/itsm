@@ -147,17 +147,17 @@ class TokenController(
      */
     @GetMapping("/view-pop/documents")
     fun getAllInstanceListAndSearch(
-        @RequestParam(value = "tokenId", defaultValue = "") tokenId: String,
+        @RequestParam(value = "instanceId", defaultValue = "") instanceId: String,
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         model: Model
     ): String {
-        model.addAttribute("instanceList", instanceService.getAllInstanceListAndSearch(tokenId, searchValue))
+        model.addAttribute("instanceList",
+            instanceService.findAllInstanceListByRelatedCheck(instanceId, searchValue))
         return tokenInstanceListPage
     }
 
-    @GetMapping("{tokenId}/tokenTab")
-    fun getDocumentEditTab(@PathVariable tokenId: String, model: Model): String {
-        model.addAttribute("tagList", instanceService.getInstanceTags(instanceService.getInstanceId(tokenId)!!))
+    @GetMapping("/tokenTab")
+    fun getDocumentEditTab(model: Model): String {
         return tokenTabPage
     }
 }

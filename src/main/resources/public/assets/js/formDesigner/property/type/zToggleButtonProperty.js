@@ -19,14 +19,16 @@ const propertyExtends = {
 };
 
 export default class ZToggleButtonProperty extends ZProperty {
-    constructor(key, name, value, options) {
-        super(key, name, 'toggleButtonProperty', value);
+    constructor(key, name, value, options, isAlwaysEditable) {
+        super(key, name, 'toggleButtonProperty', value, isAlwaysEditable);
 
         this.options = options;
     }
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
+        // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
@@ -45,8 +47,13 @@ export default class ZToggleButtonProperty extends ZProperty {
                 .setUIId(this.key + name)
                 .setUIAttribute('data-value', (toggleValueArray[index] === 'Y'))
                 .setUIClass('z-button-toggle')
+                .setUIDisabled(!this.isEditable)
                 .onUIClick(this.updateProperty.bind(this))
                 .addUI(new UISpan().setUIClass('z-icon').addUIClass(item.name));
+
+            if (!this.isEditable) {
+                this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('disabled');
+            }
 
             if (toggleValueArray[index] === 'Y') {
                 this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('selected');

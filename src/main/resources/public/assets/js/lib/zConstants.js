@@ -84,7 +84,12 @@ export const FORM = {
 export const PROCESS = {};
 // 문서
 export const DOCUMENT = {
-    ASSIGNEE_TYPE: 'assignee.type.assignee'
+    ASSIGNEE_TYPE: 'assignee.type.assignee',
+    VIEWER_TYPE: {
+        REGISTER: 'register',
+        MODIFY: 'modify',
+        DELETE: 'delete'
+    }
 };
 // CI
 export const CI = {
@@ -134,5 +139,12 @@ export const CHART = {
     TIME_FORMAT: {
         HOUR24: 'HH:mm',
         HOUR12: 'hh:mm a'
+    }
+};
+// 페이징
+export const PAGING = {
+    ORDER_DIRECTION: {
+        ASC: 'asc',
+        DESC: 'desc'
     }
 };

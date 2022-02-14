@@ -1070,6 +1070,19 @@
             targetMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'targetMappingId');
             targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
+            let targetMappingTooltip = document.createElement('div');
+            targetMappingTooltip.className = 'z-help-tooltip';
+            let targetMappingTooltipIcon = document.createElement('span');
+            targetMappingTooltipIcon.className = 'z-icon i-tooltip';
+            let targetMappingTooltipContents = document.createElement('div');
+            targetMappingTooltipContents.className = 'z-tooltip-contents';
+            let targetMappingTooltipText = document.createElement('span');
+            targetMappingTooltipText.innerHTML = i18n.msg('process.msg.targetFileMappingId');
+            targetMappingTooltipContents.appendChild(targetMappingTooltipText);
+            targetMappingTooltip.appendChild(targetMappingTooltipIcon);
+            targetMappingTooltip.appendChild(targetMappingTooltipContents);
+            targetMappingLabel.appendChild(targetMappingTooltip);
+
             let targetMappingInput = document.createElement('input');
             targetMappingInput.className = 'z-input';
             targetMappingInput.id = 'target-mapping-id';
@@ -1086,14 +1099,24 @@
             let sourceMappingLabel = document.createElement('label');
             sourceMappingLabel.className = 'properties-title mb-2';
             sourceMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'sourceMappingId');
-            sourceMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
+            let sourceMappingTooltip = document.createElement('div');
+            sourceMappingTooltip.className = 'z-help-tooltip';
+            let sourceMappingTooltipIcon = document.createElement('span');
+            sourceMappingTooltipIcon.className = 'z-icon i-tooltip';
+            let sourceMappingTooltipContents = document.createElement('div');
+            sourceMappingTooltipContents.className = 'z-tooltip-contents';
+            let sourceMappingTooltipText = document.createElement('span');
+            sourceMappingTooltipText.innerHTML = i18n.msg('process.msg.sourceMappingId');
+            sourceMappingTooltipContents.appendChild(sourceMappingTooltipText);
+            sourceMappingTooltip.appendChild(sourceMappingTooltipIcon);
+            sourceMappingTooltip.appendChild(sourceMappingTooltipContents);
+            sourceMappingLabel.appendChild(sourceMappingTooltip);
             let sourceMappingInput = document.createElement('input');
             sourceMappingInput.className = 'z-input';
             sourceMappingInput.id = 'source-mapping-id';
             sourceMappingInput.name = 'source-mapping-id';
             sourceMappingInput.maxLength = 150;
-            sourceMappingInput.required = true;
 
             sourceMappingProperties.appendChild(sourceMappingLabel);
             sourceMappingProperties.appendChild(sourceMappingInput);
@@ -1127,6 +1150,19 @@
             targetMappingLabel.className = 'properties-title mb-2';
             targetMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'targetMappingId');
             targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
+
+            let targetMappingTooltip = document.createElement('div');
+            targetMappingTooltip.className = 'z-help-tooltip';
+            let targetMappingTooltipIcon = document.createElement('span');
+            targetMappingTooltipIcon.className = 'z-icon i-tooltip';
+            let targetMappingTooltipContents = document.createElement('div');
+            targetMappingTooltipContents.className = 'z-tooltip-contents';
+            let targetMappingTooltipText = document.createElement('span');
+            targetMappingTooltipText.innerHTML = i18n.msg('process.msg.targetCIMappingId');
+            targetMappingTooltipContents.appendChild(targetMappingTooltipText);
+            targetMappingTooltip.appendChild(targetMappingTooltipIcon);
+            targetMappingTooltip.appendChild(targetMappingTooltipContents);
+            targetMappingLabel.appendChild(targetMappingTooltip);
 
             let targetMappingInput = document.createElement('input');
             targetMappingInput.className = 'z-input';
@@ -1183,6 +1219,19 @@
             conditionLabel.textContent = i18n.msg(i18nMsgPrefix + 'condition');
             actionContainer.appendChild(conditionLabel);
 
+            let conditionTooltip = document.createElement('div');
+            conditionTooltip.className = 'z-help-tooltip';
+            let conditionTooltipIcon = document.createElement('span');
+            conditionTooltipIcon.className = 'z-icon i-tooltip';
+            let conditionTooltipContents = document.createElement('div');
+            conditionTooltipContents.className = 'z-tooltip-contents';
+            let conditionTooltipText = document.createElement('span');
+            conditionTooltipText.innerHTML = i18n.msg('process.msg.condition');
+            conditionTooltipContents.appendChild(conditionTooltipText);
+            conditionTooltip.appendChild(conditionTooltipIcon);
+            conditionTooltip.appendChild(conditionTooltipContents);
+            conditionLabel.appendChild(conditionTooltip);
+
             let conditionInput = document.createElement('input');
             conditionInput.className = 'z-input';
             conditionInput.maxLength = 150;
@@ -1190,7 +1239,7 @@
 
             // file 생성
             let fileLabel = document.createElement('label');
-            fileLabel.className = 'properties-title mb-2';
+            fileLabel.className = 'properties-title mb-2 mt-3';
             fileLabel.textContent = i18n.msg(i18nMsgPrefix + 'file');
             actionContainer.appendChild(fileLabel);
 
@@ -1244,16 +1293,17 @@
 
             btnAdd.addEventListener('click', function() {
                 let targetMappingValue = document.querySelector('#target-mapping-id').value.trim();
-                let sourceMappingValue = document.querySelector('#source-mapping-id').value.trim();
 
-                if (targetMappingValue === '' || sourceMappingValue === '') {
-                    let msgTarget = targetMappingValue === '' ? 'targetMappingId' : 'sourceMappingId';
-                    zAlert.warning(i18n.msg('validation.msg.required', i18n.msg('process.designer.attribute.' + msgTarget)));
-                }
-
-                if (conditionInput.value.trim() === '' || fileInput.value.trim() === '') {
+                if (targetMappingValue === '') {
+                    zAlert.warning(i18n.msg('validation.msg.required', i18n.msg('process.designer.attribute.targetMappingId')));
                     return false;
                 }
+
+                if (fileInput.value.trim() === '') {
+                    zAlert.warning(i18n.msg('validation.msg.fileSelect'));
+                    return false;
+                }
+
                 let dataBody = inputObject.parentNode.parentNode.querySelector('tbody'),
                     rows = dataBody.querySelectorAll('tr');
                 let isDuplicate = false,
