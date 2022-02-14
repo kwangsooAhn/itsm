@@ -13,6 +13,10 @@ object QuerydslConstants {
     }
 
     enum class OrderColumn(val code: String) {
-        CREATE_USER_NAME("createUserName")
+        CREATE_USER_NAME("createUserName"),
+        CREATE_DT("createDt"),
+        DOCUMENT_GROUP("documentGroup"),
+        ASSIGNEE_USER_NAME("assigneeUserName"),
+        ELEMENT_NAME("elementName")
     }
 }

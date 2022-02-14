@@ -8,8 +8,9 @@
             <div class="grid__cell" data-grid-sortable="false"></div>
             <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="documentNo">
                 <span class="text-ellipsis" th:text="#{token.label.docNo}"></span>
+                <span class="z-icon i-arrow-right"></span>
             </div>
-            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="topics">
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="topics">
                 <span class="text-ellipsis" th:text="#{token.label.name}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="documentGroup">
@@ -33,7 +34,8 @@
         <div class="grid__row grid--noData" th:if="${#arrays.isEmpty(tokenList)}">
             <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
         </div>
-        <div class="grid__row" th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}">
+        <div class="grid__row" th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}"
+             sec:authorize="hasAuthority('general')" th:onclick="openTokenEdit([[${token.tokenId}]])">
             <div class="grid__cell pr-2 pl-4">
                 <span class="document-color-round" th:style="|background-color: ${token.documentColor}|"></span>
             </div>
