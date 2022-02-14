@@ -322,3 +322,7 @@ insert into awf_url_auth_map values ('/workflows/new', 'get', 'workflow.manage')
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','workflow.manage');
+insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
