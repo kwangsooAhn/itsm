@@ -14,6 +14,7 @@ import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
+import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.instance.entity.QWfCommentEntity
@@ -66,6 +67,7 @@ class WfInstanceRepositoryImpl(
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val element: QWfElementEntity = QWfElementEntity.wfElementEntity
     val ciComponent: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
+    val code: QCodeEntity = QCodeEntity.codeEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -376,7 +378,7 @@ class WfInstanceRepositoryImpl(
                         document.form,
                         document.numberingRule,
                         document.documentIcon,
-                        document.documentGroup
+                        code.codeName
                     ),
                     Projections.constructor(
                         WfInstanceListInstanceDto::class.java,
@@ -401,6 +403,8 @@ class WfInstanceRepositoryImpl(
             .innerJoin(document).on(instance.document.eq(document))
             .fetchJoin()
             .leftJoin(user).on(token.assigneeId.eq(user.userKey))
+            .fetchJoin()
+            .leftJoin(code).on(document.documentGroup.eq(code.code))
             .fetchJoin()
         if (tags.isNotEmpty()) {
             query.where(

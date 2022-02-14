@@ -165,9 +165,9 @@ class WfInstanceService(
                 }
             }
 
-            val avatarPath = instance.instanceEntity.instanceCreateUser?.let {
-                userDetailsService.makeAvatarPath(it)
-            }
+            val createUserAvatarPath = instance.instanceEntity.instanceCreateUser?.let { userDetailsService.makeAvatarPath(it) }
+            val assigneeUserAvatarPath = instance.tokenEntity.assigneeId?.let { userDetailsService.selectUserKey(it) }
+                ?.let { userDetailsService.makeAvatarPath(it) }
 
             val restTemplateInstanceViewDto = RestTemplateInstanceViewDto(
                 tokenId = instance.tokenEntity.tokenId,
@@ -186,8 +186,9 @@ class WfInstanceService(
                 documentId = instance.documentEntity.documentId,
                 documentNo = instance.instanceEntity.documentNo,
                 documentColor = instance.documentEntity.documentColor,
-                avatarPath = avatarPath,
-                documentGroup = instance.documentEntity.documentGroup
+                createUserAvatarPath = createUserAvatarPath,
+                assigneeUserAvatarPath = assigneeUserAvatarPath,
+                documentGroupName = instance.documentEntity.documentGroupName
             )
 
             val tagDataList = mutableListOf<AliceTagDto>()
