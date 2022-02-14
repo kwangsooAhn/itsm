@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="statistic/customReport/reportCore">
+<head>
+    <title th:text="#{common.label.preview}"></title>
+</head>
+<th:block layout:fragment="css">
+    <link th:href="@{/assets/css/report.css}" rel="stylesheet"/>
+</th:block>
+<body>
+<th:block layout:fragment="content">
+    <div class="z-report">
+        <div class="z-report-main">
+            <div class="z-report-main-header align-center" id="reportName"></div>
+            <div class="z-report-area">
+                <div class="z-drawing-board" id="reportContents">
+                </div>
+            </div>
+            <div class="z-report-main-footer flex-row justify-content-between">
+                <div class="z-logo"></div>
+                <div class="z-paging"></div>
+                <div class="z-info float-right align-right" id="report-information"></div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script type="module">
+        /*<![CDATA[*/
+        import ZChart from '../../../assets/js/chart/zChart.js';
+
+        const zChartManager = {
+            load: function(id, data) {
+                // 차트 초기화
+                this.zChart = new ZChart(id, data);
+
+                // 데이터 업데이트
+                this.zChart.update(data.chartData);
+            },
+            destroy: function () {
+                if (this.zChart) {
+                    this.zChart.destroy();
+                    this.zChart = null;
+                    delete this.zChart;
+                }
+            }
+        }
+        window.zChartManager = zChartManager;
+        window.onload = function() {
+            const userName = '[[${#authentication.details.userName}]]';
+            const userEmail = '[[${#authentication.details.email}]]';
+            const time = '[[${time}]]';
+
+            let reportData = sessionStorage.getItem('alice_report');
+            let data = JSON.parse(reportData)
+
+            // 보고서 제목
+            document.querySelector('#reportName').innerHTML = data.reportName;
+
+            // footer
+            const reportInfo = document.getElementById('report-information');
+            reportInfo.innerHTML = userName + ' [' + userEmail + ']<br>' + i18n.printFormat(time);
+
+            // 차트 데이터 조회
+            if (data.charts !== undefined) {
+                let urlParam = '';
+                data.charts.forEach((item, index) => {
+                    if (index > 0) {
+                        urlParam += '&';
+                    }
+                    urlParam += 'chartId=' + item.chartId;
+                });
+                aliceJs.fetchJson('/rest/statistics/customReportTemplate/charts?' + urlParam, {
+                    method: 'GET',
+                    showProgressbar: true
+                }).then((dataList) => {
+                    if (dataList.length === 0) { return false; }
+                    dataList.forEach((data) => {
+                        addChartContent(data);
+                    });
+                });
+            }
+        };
+
+        // 차트 추가
+        function addChartContent(data) {
+            let chartTarget = document.querySelector('#reportContents');
+            let element =
+                `<div class="z-chart-content">` +
+                `<div class="z-title align-left">${data.chartName}</div>` +
+                `<div class="z-chart" id="${data.chartId}_chart"></div>` +
+                `</div>`;
+            chartTarget.insertAdjacentHTML('beforeend', element);
+
+            // 차트 초기화
+            zChartManager.load(data.chartId + '_chart', data);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

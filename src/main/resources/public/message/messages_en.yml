@@ -246,9 +246,11 @@ chart:
   label:
     all: "All"
     average: "Average"
-    chartt: "User Custom Chart"
-    defaultInfo: "Default Info"
+    chart: "User Custom Chart"
+    condition: "condition"
+    chartSetting: "Chart Setting"
     description: "Chart Description"
+    documentStatus: "Target document Status"
     edit: "Chart Edit"
     editDescription: "Register or Edit for custom chart."
     name: "Chart Name"
@@ -280,8 +282,9 @@ chart:
   msg:
     searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
-    enterTargetTags: "Please enter a target tags."
     enterDurationDigit: "Please enter a Duration."
+    enterTargetTags: "Please enter a target tags."
+    maxPeriodUnitRange: "If the interval is hourly, please set the period within {0} days."
     periodUnitOutOfRange: "The duration is greater than the period."
   chart:
     basicLine: "Basic Line Chart"
@@ -290,6 +293,11 @@ chart:
     stackedBar: "Stacked Bar Chart"
     lineAndColumn: "Line And Column Chart"
     gauge: "Gauge Chart"
+  tooltip:
+    targetTags: "Enter the target of the data to be charted as a tag."
+    condition: "• The condition expression supports arithmetic operations (+, -, *, /) and logical operators &&, ||, and comparative operators such as ==, !=, <, >, <=, >= .<br/><br/>
+    • [] can be used to express the tag. If the tag name contains brackets ([ or ]), write the tag name in the expression such as '\\]'.<br/><br/>
+    • () can be used to prioritize logical operations. If the tag name contains brackets (( or )), write the tag name in the expression such as '\\)'."
 
 # CMDB
 cmdb:
@@ -931,11 +939,15 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
-  report:
-    chart: "User custom chart"
-    parent: "Report"
-    report: "Report List"
-    template: "Report Template"
+  statistic:
+    basicChart: "Basic Chart"
+    basicReport: "Basic Report Inquiry"
+    customChart: "User custom chart"
+    customDashboardTemplate: "Custom Dashboard Template"
+    customReport: "Report Inquiry"
+    customReportTemplate: "Custom Report Template"
+    dashboardTemplate: "Dashboard Template"
+    parent: "Statistics/Report"
   setting:
     editMyInfo: "Edit My Info"
   token:
@@ -1157,8 +1169,8 @@ process:
       userTask: "User Task"
       withdraw: "Withdraw"
 
-# Report
-report:
+# statistic
+statistic:
   btn:
     pdf: "PDF"
   label:
@@ -1166,11 +1178,11 @@ report:
     chart: "Chart"
     description: "Description"
     publishDate: "Publish Date"
-    report: "Report"
+    customReport: "Custom Report"
     reportName: "Report Name"
     search: "Report Search"
     searchPlaceholder: "Template name"
-    template: "Template"
+    customReportTemplate: "custom Report Template"
     templateEdit: "Template Edit"
     templateName: "Template Name"
     templateRegister: "Template Register"

@@ -11,8 +11,9 @@ import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
+import co.brainz.itsm.statistic.customChart.constants.ChartConstants
+import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.chart.dto.ChartRange
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.folder.constants.FolderConstants
 import co.brainz.itsm.folder.entity.QWfFolderEntity
@@ -309,33 +310,6 @@ class WfInstanceRepositoryImpl(
             .execute()
     }
 
-    override fun getInstanceListInTag(
-        tagValue: String,
-        range: ChartRange
-    ): List<WfInstanceEntity> {
-        val component = QWfComponentEntity.wfComponentEntity
-        val query = from(instance)
-            .where(instance.document.documentId.`in`(
-                JPAExpressions.select(document.documentId)
-                    .from(document)
-                    .where(document.form.formId.`in`(
-                        JPAExpressions.select(component.form.formId)
-                            .from(component)
-                            .where(component.componentId.`in`(
-                                JPAExpressions.select(tag.targetId)
-                                    .from(tag)
-                                    .where(tag.tagValue.eq(tagValue))
-                                    .where(tag.tagType.eq(AliceTagConstants.TagType.COMPONENT.code))
-                            ))
-                            .where(component.form.formStatus.ne(WfFormConstants.FormStatus.EDIT.value))
-                    ))
-                    .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
-            ))
-            .where(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
-            .where(instance.instanceStartDt.goe(range.from).and(instance.instanceEndDt.loe(range.to)))
-        return query.fetch()
-    }
-
     /**
      * 문서함 목록 조회.
      */
@@ -522,6 +496,57 @@ class WfInstanceRepositoryImpl(
             )
         }
         query.orderBy(instance.instanceStartDt.asc())
+        return query.fetch()
+    }
+
+    override fun getInstanceListInTag(
+        tagValue: String,
+        range: ChartRange,
+        documentStatus: String?
+    ): List<WfInstanceEntity> {
+        val component = QWfComponentEntity.wfComponentEntity
+        val query = from(instance)
+            .where(
+                instance.document.documentId.`in`(
+                    JPAExpressions.select(document.documentId)
+                        .from(document)
+                        .where(
+                            document.form.formId.`in`(
+                                JPAExpressions.select(component.form.formId)
+                                    .from(component)
+                                    .where(
+                                        component.componentId.`in`(
+                                            JPAExpressions.select(tag.targetId)
+                                                .from(tag)
+                                                .where(tag.tagValue.eq(tagValue))
+                                                .where(tag.tagType.eq(AliceTagConstants.TagType.COMPONENT.code))
+                                        )
+                                    )
+                                    .where(component.form.formStatus.ne(WfFormConstants.FormStatus.EDIT.value))
+                            )
+                        )
+                        .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
+                )
+            )
+        if (documentStatus == ChartConstants.DocumentStatus.EVEN_RUNNING.code) {
+            query.where(
+                (instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
+                    .and(instance.instanceStartDt.goe(range.from))
+                    .and(instance.instanceEndDt.loe(range.to)))
+                    .or(
+                        (instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code)
+                            .and(instance.instanceStartDt.goe(range.from)))
+                    )
+            )
+        } else {
+            query.where(
+                instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
+                    .and(
+                        instance.instanceStartDt.goe(range.from)
+                            .and(instance.instanceEndDt.loe(range.to))
+                    )
+            )
+        }
         return query.fetch()
     }
 
