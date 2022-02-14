@@ -41,7 +41,7 @@
                 <span class="text-ellipsis" th:text="${token.documentNo}" th:title="${token.documentNo}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <span class="text-ellipsis" th:if="${#arrays.length(token.topics)} > 0" th:text="${token.topics[0]}" th:title="${token.topics[0]}"></span>
+                <span class="text-ellipsis bold" th:if="${#arrays.length(token.topics)} > 0" th:text="${token.topics[0]}" th:title="${token.topics[0]}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis" th:text="${token.documentGroupName}" th:title="${token.documentGroupName}"></span>
@@ -49,11 +49,11 @@
             <div class="grid__cell pr-2 pl-2">
                 <img th:if="${token.assigneeUserAvatarPath != null}" class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.assigneeUserAvatarPath}"
                      width="32" height="32">
-                <span class="text-ellipsis" th:text="${token.assigneeUserName}"></span>
-                <span class="text-ellipsis" th:text="${token.assigneeUserId}"></span>
+                <span class="text-ellipsis bold mr-2" th:text="${token.assigneeUserName}"></span>
+                <span class="text-ellipsis sub-text" th:text="${token.assigneeUserId}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <span class="text-ellipsis" th:text="${token.elementName}" th:title="${token.elementName}"></span>
+                <span class="text-ellipsis bold" th:text="${token.elementName}" th:title="${token.elementName}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.createUserAvatarPath}"
@@ -62,7 +62,7 @@
             </div>
             <div class="grid__cell pl-2">
                 <span class="text-ellipsis date-time-from-now mr-2" th:text="${token.createDt}" th:title="${token.createDt}"></span>
-                <span class="text-ellipsis date-time" th:text="${token.createDt}" th:title="${token.createDt}"></span>
+                <span class="text-ellipsis date-time sub-text" th:text="${token.createDt}" th:title="${token.createDt}"></span>
             </div>
         </div>
     </div>

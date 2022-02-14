@@ -4170,6 +4170,13 @@ select {
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row:hover {
   background-color: #EEEEEE;
 }
+.z-itsm-container .z-main-content .z-page-list .grid__body .bold {
+  font-weight: 700;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__body .sub-text {
+  color: #8B9094;
+  font-size: 0.875rem;
+}
 .z-itsm-container .z-main-content .z-page-list .grid--noData .grid__cell {
   grid-column: 1/-1;
   justify-content: center;
