@@ -320,10 +320,10 @@ class ZDocument {
         }
     }
     /**
-     * 돌아가기
+     * 미리보기 뒤로가기
      */
-    return() {
-        history.go(-1);
+    back() {
+        window.history.back()
     }
 }
 

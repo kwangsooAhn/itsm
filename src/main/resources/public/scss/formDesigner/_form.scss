@@ -123,6 +123,7 @@
 .z-component-tooltip {
   position: relative;
   flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
+  padding: 0.375rem 0.5rem; // 6px 8px
   margin: $component-gutter;
   @include border($component-border-width, dashed, $component-border-color, all); // 1px
   @include borderRadius(0.0625rem); // 2px
@@ -398,8 +399,7 @@
     padding: 0 1rem;
     &-tooltip {
       margin: 0;
-      padding-left: 0;
-      padding-right: 0;
+      padding: 0;
       border-color: transparent !important;
     }
   }

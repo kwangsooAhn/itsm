@@ -80,7 +80,7 @@ class ZFormButton {
 
         // 돌아가기 버튼
         const UIReturnButton = new UIButton(i18n.msg('common.btn.return')).addUIClass('secondary')
-            .onUIClick(this.zForm.return.bind(this.zForm));
+            .onUIClick(this.zForm.back.bind(this.zForm));
         UIButtonGroup.addUI(UIReturnButton);
 
         this.returnButtonElement.appendChild(UIButtonGroup.domElement);
