@@ -1858,7 +1858,6 @@ input, button, select, optgroup, textarea {
 .z-document-container .z-document-main .z-document-main-content {
   display: inline-block;
   width: 100%;
-  margin: 6.25rem 0 3rem;
   text-align: center;
 }
 .z-document-container .z-document-main .z-document-main-content .z-document-numbering {
@@ -1866,6 +1865,9 @@ input, button, select, optgroup, textarea {
   margin-bottom: 0.625rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
+}
+.z-document-container .z-document-main .z-drawing-board {
+  margin: 6.25rem 0 3rem;
 }
 .z-document-container .z-document-main .z-drawing-board .z-form {
   margin: 0 6.25rem !important;
@@ -3471,8 +3473,7 @@ body.modal-active {
 }
 .z-component-tooltip {
   margin: 0;
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
 }
 .z-component span {
   word-break: break-all;
@@ -3483,6 +3484,10 @@ body.modal-active {
 }
 .z-group .z-element {
   pointer-events: auto;
+}
+
+.z-dr-table-button-group {
+  top: -0.25rem !important;
 }
 
 /* 태그 기능 디자인

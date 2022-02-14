@@ -4129,6 +4129,7 @@ select {
   display: grid;
   grid-template-columns: var(--data-columns-width);
   grid-template-rows: 49px;
+  cursor: pointer;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__cell {
   display: flex;

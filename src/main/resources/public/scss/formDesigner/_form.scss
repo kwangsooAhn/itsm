@@ -390,3 +390,18 @@
     }
   }
 }
+
+// preview
+.preview {
+  .z-dr-table-button-group { top: -0.25rem; }
+  .z-group-tooltip { border: 0.0625rem solid #FFFFFF; }
+  .z-row-tooltip { border: 0.0625rem solid #FFFFFF; }
+  .z-component {
+    padding: 0 1rem;
+    &-tooltip {
+      margin: 0;
+      padding: 0;
+      border-color: transparent !important;
+    }
+  }
+}

@@ -274,6 +274,7 @@
         display: grid;
         grid-template-columns: var(--data-columns-width);
         grid-template-rows: 49px;
+        cursor: pointer;
       }
 
       &__cell {
