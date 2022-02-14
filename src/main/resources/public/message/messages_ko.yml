@@ -1141,6 +1141,7 @@ process:
       subprocess: "서브프로세스"
       target-document-list: "대상 업무흐름"
       targetMappingId: "작업대상 매핑 ID"
+      targetPlugIn: "대상 플러그인"
       timer-cycle: "타이머주기"
       timer-date: "타이머날짜"
       timerStart: "타이머 이벤트"
