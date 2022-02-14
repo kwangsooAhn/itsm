@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.itsm.chart.respository
+package co.brainz.itsm.statistic.customChart.respository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.querydsl.QuerydslConstants
@@ -23,7 +23,8 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), CustomChartRepositoryCustom {
+class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java),
+    CustomChartRepositoryCustom {
     override fun findChartList(chartSearchCondition: ChartSearchCondition): QueryResults<CustomChartListDto> {
         val chart = QChartEntity.chartEntity
         val user = QAliceUserEntity.aliceUserEntity
