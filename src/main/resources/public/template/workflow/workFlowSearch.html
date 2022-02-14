@@ -48,9 +48,11 @@
     const STATUS_TEMPORARY = 'document.status.temporary';
     const STATUS_USE = 'document.status.use';
     const STATUS_DESTROY = 'document.status.destroy';
-    const APPLICATION_FROM = 'application-form';
-    const WORKFLOW= 'workflow'
-    const DOCUMENT_LINK = 'application-form-link';
+
+    // Document type.
+    const DOCUMENT_TYPE_FORM = 'application-form';
+    const DOCUMENT_TYPE_WORKFLOW = 'workflow'
+    const DOCUMENT_TYPE_LINK = 'application-form-link';
 
 
     let offsetCount = 0;
@@ -115,7 +117,7 @@
         let documentColor = groupDiv.querySelector('[name=document-color]');
         let documentIcon = groupDiv.querySelector('[name=document-icon]');
 
-        if(documentType.value === DOCUMENT_LINK ) { //신청서 링크일 경우 유효성검사
+        if(documentType.value === DOCUMENT_TYPE_LINK ) { //신청서 링크일 경우 유효성검사
             if (!emptyValidationForDocumentLink()) { return false; }
         } else {
             if (!emptyValidationForDocumentOrWorkflow()) { return false; }
@@ -125,24 +127,24 @@
             documentType: documentType.options[documentType.selectedIndex].value,
             documentName: document.getElementById('document-name').value,
             documentDesc: document.getElementById('document-desc').value,
-            formId: documentType.value === DOCUMENT_LINK ? "" : documentForm.options[documentForm.selectedIndex].value,
-            processId: documentType.value === DOCUMENT_LINK ? "" : documentProcess.options[documentProcess.selectedIndex].value,
-            documentNumberingRuleId: documentType.value === DOCUMENT_LINK ? "" : documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
+            formId: documentType.value === DOCUMENT_TYPE_LINK ? "" : documentForm.options[documentForm.selectedIndex].value,
+            processId: documentType.value === DOCUMENT_TYPE_LINK ? "" : documentProcess.options[documentProcess.selectedIndex].value,
+            documentNumberingRuleId: documentType.value === DOCUMENT_TYPE_LINK ? "" : documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
             documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
-            apiEnable: documentType.value === DOCUMENT_LINK ? 'false' : apiEnable.options[apiEnable.selectedIndex].value,
-            documentLinkUrl: documentType.value === DOCUMENT_LINK ? documentLinkUrl.value : null,
+            apiEnable: documentType.value === DOCUMENT_TYPE_LINK ? 'false' : apiEnable.options[apiEnable.selectedIndex].value,
+            documentLinkUrl: documentType.value === DOCUMENT_TYPE_LINK ? documentLinkUrl.value : null,
             documentColor: documentColor.value,
-            documentGroup: documentType.value === APPLICATION_FROM ? documentGroup.options[documentGroup.selectedIndex].value : null,
-            documentIcon: (documentIcon !== null && documentType.options[documentType.selectedIndex].value !== WORKFLOW) ?  documentIcon.value : null
+            documentGroup: documentType.value === DOCUMENT_TYPE_FORM ? documentGroup.options[documentGroup.selectedIndex].value : null,
+            documentIcon: (documentIcon !== null && documentType.options[documentType.selectedIndex].value !== DOCUMENT_TYPE_WORKFLOW) ?  documentIcon.value : null
         };
 
-        let url = documentType.value === DOCUMENT_LINK ? '/rest/workflows/workflowLink' : '/rest/workflows';
+        let url = documentType.value === DOCUMENT_TYPE_LINK ? '/rest/workflows/workflowLink' : '/rest/workflows';
         if (method === 'put' && documentId !== undefined) {
             documentInfo.documentId = documentId;
             url += '/' + documentId;
         }
 
-        if (documentType.value !== DOCUMENT_LINK && document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 신청서/업무흐름 수정(신청서 링크 제외)
+        if (documentType.value !== DOCUMENT_TYPE_LINK && document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 신청서/업무흐름 수정(신청서 링크 제외)
             zAlert.confirm(i18n.msg('document.msg.changeStatusEnabled'), () => {
                 restSubmit(method, url + '?isDeleteData=true', documentInfo, () => {
                     zAlert.success(i18n.msg('common.msg.save'), () => {
@@ -153,7 +155,7 @@
         } else {
             restSubmit(method, url, documentInfo, function (result) {
                 zAlert.success(i18n.msg('common.msg.save'), function () {
-                    if (documentId === undefined && documentType.value !== DOCUMENT_LINK) { // 신청서/업무흐름 신규 등록일 경우에만 팝업 호출한다.(신청서 링크 제외)
+                    if (documentId === undefined && documentType.value !== DOCUMENT_TYPE_LINK) { // 신청서/업무흐름 신규 등록일 경우에만 팝업 호출한다.(신청서 링크 제외)
                         openDocumentDisplay(result);
                     } else {
                         location.reload();
@@ -186,17 +188,17 @@
         const applicationFormLink = document.getElementById('application-form-link-group');
 
         switch (type) {
-            case "application-form":
+            case DOCUMENT_TYPE_FORM:
                 applicationForm.classList.add('on');
                 workflow.classList.remove('on');
                 applicationFormLink.classList.remove('on');
                 break;
-            case "workflow":
+            case DOCUMENT_TYPE_WORKFLOW:
                 workflow.classList.add('on');
                 applicationForm.classList.remove('on');
                 applicationFormLink.classList.remove('on');
                 break;
-            case "application-form-link":
+            case DOCUMENT_TYPE_LINK:
                 applicationFormLink.classList.add('on');
                 workflow.classList.remove('on');
                 applicationForm.classList.remove('on');
