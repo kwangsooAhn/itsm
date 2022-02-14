@@ -1187,6 +1187,8 @@
             if (typeof valueAttr !== 'undefined' && valueAttr !== '') {
                 targetMappingInput.value = (valueAttr[0] !== '') ? valueAttr[0] : '';
             }
+        } else if (scriptType === 'script.type.plugin') {
+
         }
         const propertiesPanel = document.querySelector('.z-process-properties');
         if (propertiesPanel !== null) {
