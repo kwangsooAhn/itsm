@@ -44,10 +44,10 @@
                 <span class="text-ellipsis" th:if="${#arrays.length(token.topics)} > 0" th:text="${token.topics[0]}" th:title="${token.topics[0]}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <span class="text-ellipsis" th:text="${token.documentGroup}" th:title="${token.documentGroup}"></span>
+                <span class="text-ellipsis" th:text="${token.documentGroupName}" th:title="${token.documentGroupName}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.avatarPath}"
+                <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.assigneeUserAvatarPath}"
                      width="32" height="32">
                 <span class="text-ellipsis" th:text="${token.assigneeUserName}"></span>
                 <span class="text-ellipsis" th:text="${token.assigneeUserId}"></span>
@@ -56,7 +56,7 @@
                 <span class="text-ellipsis" th:text="${token.elementName}" th:title="${token.elementName}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.avatarPath}"
+                <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.createUserAvatarPath}"
                      width="32" height="32">
                 <span class="text-ellipsis" th:text="${token.createUserName}"></span>
             </div>
