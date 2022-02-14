@@ -354,7 +354,7 @@ class WfInstanceRepositoryImpl(
                         document.form,
                         document.numberingRule,
                         document.documentIcon,
-                        document.documentGroup
+                        code.codeName
                     ),
                     Projections.constructor(
                         WfInstanceListInstanceDto::class.java,
