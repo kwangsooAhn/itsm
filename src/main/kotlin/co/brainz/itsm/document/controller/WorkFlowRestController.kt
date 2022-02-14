@@ -35,6 +35,16 @@ class WorkFlowRestController(
     }
 
     /**
+     * 업무흐름링크 등록.
+     *
+     * @param documentDto
+     * */
+    @PostMapping("/workflowLink")
+    fun workFlowLink(@RequestBody documentDto: DocumentDto): String? {
+        return documentService.createDocumentLink(documentDto)
+    }
+
+    /**
      * 업무흐름 삭제
      *
      * @param documentId
@@ -42,6 +52,16 @@ class WorkFlowRestController(
     @DeleteMapping("/{documentId}")
     fun deleteWorkFlow(@PathVariable documentId: String): Boolean {
         return documentService.deleteDocument(documentId)
+    }
+
+    /**
+     * 업무흐름링크 삭제
+     *
+     * @param documentId
+     * */
+    @DeleteMapping("/workflowLink/{documentId}")
+    fun deleteWorkFlowLink(@PathVariable documentId: String): Boolean {
+        return documentService.deleteDocumentLink(documentId)
     }
 
     /**
@@ -69,6 +89,20 @@ class WorkFlowRestController(
         val params = LinkedHashMap<String, Any>()
         params["isDeleteData"] = isDeleteData
         return documentService.updateDocument(documentDto, params)
+    }
+
+    /**
+     * 신청서링크 수정
+     *
+     * @param documentId
+     * @param String
+     * */
+    @PutMapping("/workflowLink/{documentId}")
+    fun updateWorkFlowLink(
+        @PathVariable documentId: String,
+        @RequestBody documentDto: DocumentDto
+    ): String? {
+        return documentService.updateDocumentLink(documentDto)
     }
 
     /**

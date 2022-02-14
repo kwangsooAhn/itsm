@@ -17,6 +17,8 @@ const spcialKeyAscilCodeList = [9, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 3
     118, 119, 120, 121, 122, 123, 144, 145] //Backspace, Enter, shift, Insert, Delete를 제외한 특수키 아스키 코드값 ex> 화살표, F1~12, Tab 등등
 const phoneReg = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
 const extensionNumberReg = /^[0-9]{4}$/;
+const urlReg = /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/;
+
 /**
  * 해당 엘리먼트가 null 인지 판별한다.
  */
@@ -772,6 +774,27 @@ function isPhoneNumber(elementId, messageId, callbackFunc) {
     };
     if (elem !== null) {
         if (!phoneReg.test(elem.value)) {
+            if (messageId !== undefined) {
+                zAlert.warning(i18n.msg(messageId), callback);
+            }
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
+/**
+ * 해당 문자열이 URL패턴인지 확인한다.
+ * @returns {boolean}
+ */
+function isUrl(elementId, messageId, callbackFunc) {
+    const elem = isNullElement(elementId);
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+        elem.focus();
+    };
+    if (elem !== null) {
+        if (!urlReg.test(elem.value)) {
             if (messageId !== undefined) {
                 zAlert.warning(i18n.msg(messageId), callback);
             }
