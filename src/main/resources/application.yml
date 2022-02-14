@@ -193,6 +193,11 @@ spring:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32796/itsm
 file.upload.dir: C:\files
 ---
+spring:
+  profiles: ksahn
+  datasource:
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32836/itsm
+---
 # For brainz open
 spring:
   profiles: brainz7
