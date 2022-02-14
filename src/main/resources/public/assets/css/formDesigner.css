@@ -7408,16 +7408,16 @@ body.modal-active {
   background: #339AF0;
 }
 
-A .preview .z-group-tooltip {
+.preview .z-group-tooltip {
   border: 0.0625rem solid #FFFFFF;
 }
-A .preview .z-row-tooltip {
+.preview .z-row-tooltip {
   border: 0.0625rem solid #FFFFFF;
 }
-A .preview .z-component {
+.preview .z-component {
   padding: 0 1rem;
 }
-A .preview .z-component-tooltip {
+.preview .z-component-tooltip {
   margin: 0;
   padding: 0;
   border-color: transparent !important;
