@@ -118,9 +118,9 @@
         const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
         const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
 
-        let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&pageNum=' + pageNum;
-        //    + '&orderColName=' + orderColName
-        //    + '&orderDir=' + orderDir;
+        let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&pageNum=' + pageNum
+            + '&orderColName=' + orderColName
+            + '&orderDir=' + orderDir;
         console.log(urlParam);
         aliceJs.fetchText('/tokens?' + urlParam, {
             method: 'GET'
