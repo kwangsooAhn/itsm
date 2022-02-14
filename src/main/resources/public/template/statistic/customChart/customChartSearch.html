@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
+<head>
+    <title th:text="#{chart.label.chart}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
+</th:block>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{chart.label.chart}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{chart.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="searchFrm">
+        <select id="searchGroupName" name="searchGroupName" class="col-3">
+            <option value="" th:text="#{chart.label.all}" selected></option>
+            <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
+        </select>
+        <input type="text" class="z-input i-search text-ellipsis col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
+               th:placeholder="#{chart.label.searchPlaceholder}"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" sec:authorize="hasAuthority('report.manage')"
+                th:text="#{common.btn.add}" onclick="location.href='/statistics/customChart/new'"></button>
+    </div>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content flex-row" id="chartList"></div>
+</div>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+
+        window.onload = function () {
+            document.getElementById('searchValue').focus();
+            document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+            document.getElementById('searchGroupName').addEventListener('change', function () {
+                getList();
+            });
+            getList();
+        }
+
+        /**
+         * Chart 검색
+         */
+        function getList(pageNum = 1) {
+            const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
+            const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
+            const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum
+                + '&orderColName=' + orderColName
+                + '&orderDir=' + orderDir;
+            aliceJs.fetchText('/statistics/customChart?' + urlParam, {
+                method: 'GET',
+            }).then((htmlData) => {
+                document.getElementById('chartList').innerHTML = htmlData;
+
+                setDateTimeFormat(document.getElementById('chartList'));
+            });
+        }
+
+        /**
+         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+         */
+        function setDateTimeFormat(elem) {
+            elem.querySelectorAll('.date-time').forEach(dt => {
+                const userDateTime = i18n.userDateTime(dt.textContent.trim());
+                dt.textContent = userDateTime;
+                dt.setAttribute('title', userDateTime);
+            });
+        }
+
+        /**
+         * Chart view 화면 호출 (Modal)
+         */
+        function openChartViewModal(chartId, chartType, chartName) {
+            let modalOptions = {
+                title: chartName,
+                body: createModalContent(),
+                classes: 'chart-view-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        zChartManager.destroy();
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function () {
+                    getChart(chartId);
+                }
+            };
+
+            const chartViewModal = new modal(modalOptions);
+            chartViewModal.show();
+        }
+
+        function createModalContent() {
+            return `<div class="chart-edit-content">` +
+                `<div class="flex-column" id="getChart">` +
+                    `<div class="flex-column z-edit-row mt-2">` +
+                        `<div id="container" class="flex-row flex-wrap z-chart-content-view"/>` +
+                        `</div>` +
+                    `</div>` +
+                `</div>`;
+        }
+
+        function getChart(chartId) {
+            aliceJs.fetchJson('/rest/statistics/customChart/' + chartId, {
+                method: 'GET',
+                showProgressbar: true
+            }).then((data) => {
+                // 차트 초기화
+                zChartManager.load(data);
+            });
+
+            // 가데이터 표시 (필요시 주석 제거하여 사용 바람)
+            /*aliceJs.fetchJson('../../assets/js/chart/dummy/' + chartType + '.json', {
+                method: 'GET'
+            }).then((data) => {
+                // 차트 초기화
+                zChartManager.load(data);
+            });*/
+        }
+        /*]]>*/
+    </script>
+    <script type="module">
+        import ZChart from '../../../assets/js/chart/zChart.js';
+
+        const zChartManager = {
+            load: function(data) {
+                // 차트 초기화
+                this.zChart = new ZChart('container', data);
+
+                // 데이터 업데이트
+                this.zChart.update(data.chartData);
+            },
+            destroy: function () {
+                if (this.zChart) {
+                    this.zChart.destroy();
+                    this.zChart = null;
+                    delete this.zChart;
+                }
+            }
+        }
+        window.zChartManager = zChartManager;
+    </script>
+</th:block>
+</html>
