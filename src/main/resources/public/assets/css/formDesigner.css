@@ -7408,6 +7408,9 @@ body.modal-active {
   background: #339AF0;
 }
 
+.preview .z-dr-table-button-group {
+  top: -0.25rem;
+}
 .preview .z-group-tooltip {
   border: 0.0625rem solid #FFFFFF;
 }

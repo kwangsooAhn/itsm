@@ -3486,6 +3486,10 @@ body.modal-active {
   pointer-events: auto;
 }
 
+.z-dr-table-button-group {
+  top: -0.25rem;
+}
+
 /* 태그 기능 디자인
  * /default/_tag.scss
  * @description 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
