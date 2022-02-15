@@ -10,5 +10,5 @@ import java.io.Serializable
 data class TemplateUserRequestListDto(
     var documentId: String,
     var documentName: String,
-    var count: Long
+    var count: Long = 0L
 ):Serializable
