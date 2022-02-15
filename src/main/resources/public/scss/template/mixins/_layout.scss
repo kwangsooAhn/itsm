@@ -309,8 +309,8 @@
       }
 
       &__body {
-        overflow: auto;
-
+        overflow: hidden !important;
+        display: flex;
         .grid__row {
           color: $grid-body-color;
           @include border(0.0625rem, solid, $grid-border-color, bottom);

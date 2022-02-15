@@ -12,7 +12,7 @@
     <h6 class="description ml-2 pl-2" th:text="#{token.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <form id="frmSearch" class="">
+    <form id="frmSearch">
         <select class="col-3" name="searchTokenType" id="searchTokenType">
             <option value="token.type.todo" th:text="#{token.type.todo}" selected></option>
             <option value="token.type.requested" th:text="#{token.type.requested}"></option>
@@ -33,12 +33,12 @@
                maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
         <span id="spanTotalCount" class="z-search-count"></span>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+        <button type="button" class="z-button-icon secondary ml-4" id="btnExcelDownload" name="btnExcelDownload"
+                sec:authorize="hasAuthority('general')" th:title="#{common.btn.export}"
+                th:onclick="|javascript:onExcelDownload()|">
+            <span class="z-icon i-download-as-excel"></span>
+        </button>
     </form>
-    <button type="button" class="z-button-icon secondary ml-auto" id="btnExcelDownload" name="btnExcelDownload"
-            sec:authorize="hasAuthority('general')" th:title="#{common.btn.export}"
-            th:onclick="|javascript:onExcelDownload()|">
-        <span class="z-icon i-download-as-excel"></span>
-    </button>
 </div>
 <div layout:fragment="pageList">
     <div class="z-list-content flex-row" id="tokenList"></div>
@@ -133,6 +133,21 @@
                     tagType: 'instance'
                 });
             });
+            OverlayScrollbars(document.querySelector('.grid__body'), {
+                className: 'scrollbar',
+                callbacks: {
+                    onScroll: function (e) {
+                        const scrollHeight = e.target.scrollHeight;
+                        const scrollTop = e.target.scrollTop;
+                        const clientHeight = e.target.clientHeight;
+                        if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                tokenSearch(true);
+                            }
+                        }
+                    }
+                }
+            });
         });
     }
 
@@ -141,8 +156,8 @@
      */
     function setDateTimeFormat(elem) {
         elem.querySelectorAll('.date-time-from-now').forEach(dt => {
-            dt.title = i18n.userDateTime(dt.textContent.trim());
-            dt.textContent = dateFormatFromNow(dt.textContent.trim());
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = dateFormatFromNow(userDateTime);
         });
 
         elem.querySelectorAll('.date-time').forEach(dt => {

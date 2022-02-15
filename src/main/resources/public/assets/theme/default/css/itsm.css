@@ -4162,7 +4162,8 @@ select {
   transform: rotate(0deg);
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body {
-  overflow: auto;
+  overflow: hidden !important;
+  display: flex;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row {
   color: #222529;
