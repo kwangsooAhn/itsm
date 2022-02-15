@@ -174,7 +174,10 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
         this.orderSpecifier(tokenSearchCondition, query)
-
+        if (tokenSearchCondition.isPaging) {
+            query.limit(tokenSearchCondition.contentNumPerPage)
+            query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
+        }
         return query.fetchResults()
     }
 
@@ -243,6 +246,10 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
         this.orderSpecifier(tokenSearchCondition, query)
+        if (tokenSearchCondition.isPaging) {
+            query.limit(tokenSearchCondition.contentNumPerPage)
+            query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
+        }
         return query.fetchResults()
     }
 
@@ -292,6 +299,10 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
         this.orderSpecifier(tokenSearchCondition, query)
+        if (tokenSearchCondition.isPaging) {
+            query.limit(tokenSearchCondition.contentNumPerPage)
+            query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
+        }
         return query.fetchResults()
     }
 
