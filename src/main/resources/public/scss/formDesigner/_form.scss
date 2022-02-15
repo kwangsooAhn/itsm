@@ -251,6 +251,21 @@
       }
     }
 
+    // filedownload 컴포넌트
+    .z-fileDownload {
+      cursor: pointer;
+
+      .z-icon {
+        &.i-download {
+          background: $file-uploader-icon-color;
+        }
+      }
+      .z-file-text {
+        font-size: $component-fileDownload-font-size;
+        font-weight: $component-fileDownload-font-weight;
+      }
+    }
+
     // fileuploader 컴포넌트
     .file-uploader-view {
       @include border($element-border-width, solid, $element-border-color, left);

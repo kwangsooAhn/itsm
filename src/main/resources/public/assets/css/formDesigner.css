@@ -2002,6 +2002,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-fileDownload {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_filedownload.svg ");
+  mask-image: url("../media/icons/formDesigner/palette/icon_filedownload.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-no-image {
   width: 100%;
   height: 2.813rem;
@@ -6725,14 +6735,14 @@ body.modal-active {
   color: #8B9094;
 }
 
-.modal-dialog.z-thumbnail-image {
+.modal-dialog.z-thumbnail-image, .modal-dialog.z-thumbnail-file {
   width: 1040px;
   height: 48.44rem;
 }
-.modal-dialog.z-thumbnail-image .modal-content {
+.modal-dialog.z-thumbnail-image .modal-content, .modal-dialog.z-thumbnail-file .modal-content {
   height: calc(48.44rem - 3.875rem - 5rem);
 }
-.modal-dialog.z-thumbnail-image .modal-content .z-thumbnail-main .z-thumbnail {
+.modal-dialog.z-thumbnail-image .modal-content .z-thumbnail-main .z-thumbnail, .modal-dialog.z-thumbnail-file .modal-content .z-thumbnail-main .z-thumbnail {
   width: 14.375rem;
 }
 
@@ -7258,6 +7268,16 @@ body.modal-active {
 }
 .z-component .z-element .z-imagebox[src=""] + .z-imagebox-placeholder {
   display: grid;
+}
+.z-component .z-element .z-fileDownload {
+  cursor: pointer;
+}
+.z-component .z-element .z-fileDownload .z-icon.i-download {
+  background: #8B9094;
+}
+.z-component .z-element .z-fileDownload .z-file-text {
+  font-size: 0.875rem;
+  font-weight: 400;
 }
 .z-component .z-element .file-uploader-view {
   border-left: 0.0625rem solid #ABB0B5;
