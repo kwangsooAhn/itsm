@@ -19,22 +19,11 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
         val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
         val user : QAliceUserEntity = QAliceUserEntity.aliceUserEntity
         return from(instance)
-            .select(
-                Projections.constructor(
-                    WfInstanceListInstanceDto::class.java,
-                    instance.instanceId,
-                    instance.instanceStatus,
-                    instance.instanceStartDt,
-                    instance.instanceEndDt,
-                    instance.instanceCreateUser,
-                    instance.pTokenId,
-                    instance.document,
-                    instance.documentNo
-                )
-            )
             .join(user).on(instance.instanceCreateUser.userKey.eq(user.userKey))
             .fetchJoin()
-            .where(instance.instanceStatus.eq(status).and(instance.document.documentId.eq(document)).and(user.department.eq(organizationId)))
+            .where(instance.instanceStatus.eq(status)
+                .and(instance.document.documentId.eq(document))
+                .and(user.department.eq(organizationId)))
             .fetchCount()
     }
 

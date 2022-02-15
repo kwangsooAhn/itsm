@@ -19,7 +19,6 @@ import co.brainz.itsm.dashboard.repository.DashboardTemplateRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import java.time.LocalDateTime
-import org.springframework.stereotype.Component
 
 class OrganizationChart(
     private val wfDocumentRepository: WfDocumentRepository,
