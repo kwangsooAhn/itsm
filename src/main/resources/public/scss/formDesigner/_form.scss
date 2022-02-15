@@ -170,7 +170,14 @@
     &.on { display: flex; }
     &.off { display: none; }
   }
+  // divider
+  &.divider {
+    padding: 0;
+  }
   // element
+  .z-element[style="--data-column:12;"], .z-element[style="--data-column:0;"] {
+    padding: 0.4375rem 0 0.4375rem 0 ; // 7px 0  7px 0px
+  }
   .z-element {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     padding: 0.4375rem 0 0.4375rem 0.938rem ; // 7px 0  7px 15px

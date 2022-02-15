@@ -7328,6 +7328,12 @@ body.modal-active {
 .z-component .z-component-label.off {
   display: none;
 }
+.z-component.divider {
+  padding: 0;
+}
+.z-component .z-element[style="--data-column:12;"], .z-component .z-element[style="--data-column:0;"] {
+  padding: 0.4375rem 0 0.4375rem 0;
+}
 .z-component .z-element {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   padding: 0.4375rem 0 0.4375rem 0.938rem;

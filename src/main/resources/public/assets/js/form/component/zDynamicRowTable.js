@@ -66,7 +66,6 @@ export const dynamicRowTableMixin = {
         element.UITable = new UITable()
             .setUIClass('z-option-table')
             .addUIClass('z-dr-table')
-            .addUIClass('mt-2')
             .setUIId('drTable' + this.id)
             .setUIAttribute('tabindex', '-1')
             .setUIAttribute('data-validation-required', this.validationRequired);
