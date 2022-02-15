@@ -1,0 +1,347 @@
+{
+  "chartId": "4028b22f7c2fefef017c30054c900002",
+  "chartName": "",
+  "chartType": "chart.basicColumn",
+  "chartDesc": "",
+  "tags": [
+    { "tagId": "2c9180867cc31a25017cc7a68eec0511", "value": "단순의뢰" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0512", "value": "개발의뢰" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0513", "value": "원장변경" },
+    { "tagId": "2c9180867cc31a25017cc7a68eec0514", "value": "출력의뢰" }
+  ],
+  "chartConfig": {
+    "operation": "count",
+    "periodUnit": "M",
+    "range": {
+      "type": "chart.range.all",
+      "from": "2020-12-31T15:00:00.000Z",
+      "to": "2022-12-31T14:59:59.000Z"
+    },
+    "yAxisTitle": "미처리건수"
+  },
+  "chartData": [{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "전체",
+    "linkKey": "test1",
+    "value": "22",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "전체",
+    "linkKey": "test1",
+    "value": "87",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "전체",
+    "linkKey": "test1",
+    "value": "17",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "전체",
+    "linkKey": "test1",
+    "value": "18",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "영업본부",
+    "value": "15",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "영업본부",
+    "value": "20",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "영업본부",
+    "value": "22",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "영업본부",
+    "value": "23",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "기업금융본부",
+    "value": "23",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "기업금융본부",
+    "value": "24",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "기업금융본부",
+    "value": "27",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "기업금융본부",
+    "value": "20",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "KiwiBank 사업부",
+    "value": "7",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "KiwiBank 사업부",
+    "value": "8",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "KiwiBank 사업부",
+    "value": "8",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "KiwiBank 사업부",
+    "value": "9",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "차세대추진단ICT",
+    "value": "10",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "차세대추진단ICT",
+    "value": "13",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "차세대추진단ICT",
+    "value": "10",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "차세대추진단ICT",
+    "value": "10",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "여신본부",
+    "value": "7",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "여신본부",
+    "value": "10",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "여신본부",
+    "value": "11",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "여신본부",
+    "value": "12",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "리스크관리본부",
+    "value": "6",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "리스크관리본부",
+    "value": "8",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "리스크관리본부",
+    "value": "8",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "리스크관리본부",
+    "value": "8",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "경영관리본부",
+    "value": "7",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "경영관리본부",
+    "value": "5",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "경영관리본부",
+    "value": "4",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "경영관리본부",
+    "value": "9",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "소비자보호본부",
+    "value": "6",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "소비자보호본부",
+    "value": "7",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "소비자보호본부",
+    "value": "8",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "소비자보호본부",
+    "value": "8",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "준법지원부",
+    "value": "1",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "준법지원부",
+    "value": "3",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "준법지원부",
+    "value": "4",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "준법지원부",
+    "value": "2",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "감사부",
+    "value": "3",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "감사부",
+    "value": "5",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "감사부",
+    "value": "4",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "감사부",
+    "value": "3",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "test1",
+    "value": "3",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "test1",
+    "value": "5",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "test1",
+    "value": "4",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "test1",
+    "value": "3",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "test2",
+    "value": "3",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "test2",
+    "value": "5",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "test2",
+    "value": "4",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "test2",
+    "value": "3",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "test3",
+    "value": "3",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "test3",
+    "value": "5",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "test3",
+    "value": "4",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "test3",
+    "value": "3",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "test4",
+    "value": "3",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "test4",
+    "value": "5",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "test4",
+    "value": "4",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "test4",
+    "value": "3",
+    "series": "출력의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0511",
+    "category": "test5",
+    "value": "3",
+    "series": "단순의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0512",
+    "category": "test5",
+    "value": "5",
+    "series": "개발의뢰"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0513",
+    "category": "test5",
+    "value": "4",
+    "series": "원장변경"
+  },{
+    "id": "2c9180867cc31a25017cc7a68eec0514",
+    "category": "test5",
+    "value": "3",
+    "series": "출력의뢰"
+  }]
+}

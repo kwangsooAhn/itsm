@@ -240,6 +240,15 @@
       margin-right: 1.25rem; //20px
       .card:first-of-type { margin-top: 0;}
     }
+
+    // todo : #12332 대시보드 템플릿 구성 SCSS
+    .component {
+      min-height: 22.5rem; // 360px
+      .contents {
+        flex: 1 1 auto;
+        @include border(0.0625rem, solid, $gray300);
+      }
+    }
   };
 }
 // pagingListTemplate

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonSearchLayout}">
+<head>
+    <title th:text="#{dashboard.label.dashboard}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
+</th:block>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{dashboard.label.dashboard}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{dashboard.msg.viewDescription}"></h6>
+</div>
+<div layout:fragment="pageSearchResult">
+    <div class="flex-row">
+    <!-- 부서별 요청현황 -->
+    <div class="flex-column component" style="width: 80rem;">
+        <h3 class="sub-title" th:text="#{dashboard.label.organizationWorkStatus}"></h3>
+        <div class="contents" id="container"></div>
+    </div>
+    <!-- 개인 요청현황 -->
+    <div class="flex-column ml-auto component" style="width: 16.875rem;">
+        <h3 class="sub-title" th:text="#{dashboard.label.personalRequestStatus}"></h3>
+        <div id="requestStatusByUser" class="contents">
+            <span>Card로 표현 될 영역입니다.</span>
+        </div>
+    </div>
+    </div>
+    <!-- 요청현황 -->
+    <div class="flex-column component" style="width: 100%;">
+        <h3 class="sub-title" th:text="#{dashboard.label.requestStatus}"></h3>
+        <div id="requestListByOrganization" class="contents">
+            <span>Table 영역으로 표현 될 영역입니다.</span>
+        </div>
+    </div>
+</div>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript" type="text/javascript">
+    /*<![CDATA[ */
+        window.onload = function () {
+            // todo : 추후 backend 구현완료 시, dummyData > 실제 데이터로 치환
+            // 부서별 업무현황 dummyData 로드 및 chart 초기화
+            fetch('../../assets/js/chart/dummy/chart.basicColumn.json')
+                .then(response => { return response.json(); })
+                .then(data => {
+                    if (typeof data.chartConfig === 'undefined') { return false; }
+                    // 차트 초기화
+                    zChartManager.load(data);
+                    // 차트 데이터 업데이트
+                    zChartManager.update(data.chartData);
+                });
+
+            OverlayScrollbars(document.querySelector('.highcharts-background'), { className: 'scrollbar' });
+        }
+    /* ]]> */
+    </script>
+    <script type="module">
+        import ZChart from '../../assets/js/chart/zChart.js';
+
+        const zChartManager = {
+            load: function(data) {
+                // 차트 초기화
+                this.zChart = new ZChart('container', data);
+            },
+            update: function (data) {
+                // 데이터 업데이트
+                this.zChart.update(data);
+            },
+            destroy: function () {
+                if (this.zChart) {
+                    this.zChart.destroy();
+                    this.zChart = null;
+                    delete this.zChart;
+                }
+            }
+        }
+        window.zChartManager = zChartManager;
+    </script>
+</th:block>
+</html>

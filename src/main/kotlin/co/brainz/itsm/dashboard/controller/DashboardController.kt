@@ -28,7 +28,7 @@ class DashboardController(
     private val noticeService: NoticeService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val dashboardViewPage: String = "dashboard/dashboardView"
+    private val dashboardViewPage: String = "dashboard/template-001"
     private val dashboardListPage: String = "dashboard/dashboardStatistic"
 
     /**

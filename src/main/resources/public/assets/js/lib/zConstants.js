@@ -113,6 +113,7 @@ export const RESPONSE_CODE = {
 export const CHART = {
     TYPE: {
         BASIC_LINE: 'chart.basicLine',
+        BASIC_COLUMN: 'chart.basicColumn',
         STACKED_COLUMN: 'chart.stackedColumn',
         STACKED_BAR: 'chart.stackedBar',
         PIE: 'chart.pie',

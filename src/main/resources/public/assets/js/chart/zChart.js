@@ -10,6 +10,7 @@
  */
 import { CHART } from '../lib/zConstants.js';
 import { zLineChartMixin } from './type/zLineChart.js';
+import { zBasicColumnChartMixin } from './type/zBasicColumnChart.js';
 import { zStackedColumnChartMixin } from './type/zStackedColumnChart.js';
 import { zStackedBarChartMixin } from './type/zStackedBarChart.js';
 import { zPieChartMixin } from './type/zPieChart.js';
@@ -68,7 +69,7 @@ const HIGHCHARTS_THEME = {
     plotOptions: {
         series: {
             turboThreshold : 0, // 속도 높임
-            stickyTracking : false // 시리즈에서 마우스를 떼면 툴팁이 사라진다: false, 남아있다: true
+            stickyTracking : false, // 시리즈에서 마우스를 떼면 툴팁이 사라진다: false, 남아있다: true
         }
     },
     legend: {
@@ -143,6 +144,8 @@ export  default class ZChart {
         switch(type) {
             case CHART.TYPE.BASIC_LINE:
                 return zLineChartMixin;
+            case CHART.TYPE.BASIC_COLUMN:
+                return zBasicColumnChartMixin;
             case CHART.TYPE.STACKED_COLUMN:
                 return zStackedColumnChartMixin;
             case CHART.TYPE.STACKED_BAR:
