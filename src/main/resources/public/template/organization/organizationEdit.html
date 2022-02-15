@@ -83,7 +83,7 @@
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
                 <button class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
-                <button class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
+                <button class="z-button danger" type="button" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>

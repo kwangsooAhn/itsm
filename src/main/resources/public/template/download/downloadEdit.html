@@ -47,7 +47,7 @@
                 <button th:unless="${download?.downloadId}" onclick="saveDownload('POST')"
                         class="z-button primary" th:text="#{common.btn.register}"></button>
                 <button th:if="${download?.downloadId}" onclick="deleteDownload()"
-                        class="z-button secondary" th:text="#{common.btn.delete}"></button>
+                        class="z-button danger" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
