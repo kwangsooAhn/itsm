@@ -121,7 +121,6 @@
         let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&pageNum=' + pageNum
             + '&orderColName=' + orderColName
             + '&orderDir=' + orderDir;
-        console.log(urlParam);
         aliceJs.fetchText('/tokens?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {
