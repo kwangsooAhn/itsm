@@ -66,44 +66,14 @@ class DashboardTemplateService(
         val templateComponentResultList = mutableListOf<TemplateComponentData>()
 
         templateComponentList.forEach { component ->
-            var result: Any? = null
-            when (component.key) {
-                DashboardConstants.TemplateComponent.STATUS_USER_LIST.code -> {
-                    result = this.getRequestStatusUserList(component.target as LinkedHashMap<String, List<String>>)
-                }
-            }
             templateComponentResultList.add(
                 TemplateComponentData(
                     key = component.key,
                     title = component.title,
-                    result = result
+                    result = templateComponentFactory.getComponent(component.key).getResult(component)
                 )
             )
         }
         return templateComponentResultList
-    }
-
-    /**
-     *  개인 요청 현황판 조회
-     */
-    private fun getRequestStatusUserList(target: LinkedHashMap<String, List<String>>): List<TemplateUserRequestListDto> {
-        val documentList: MutableList<String> = target["documents"] as MutableList<String>
-        val userKey = currentSessionUser.getUserKey()
-        val userRequestList: MutableList<TemplateUserRequestListDto> = mutableListOf()
-
-        for (document in documentList) {
-            val documentDto = wfDocumentRepository.findByDocumentId(document)
-            val documentDtoList = dashboardTemplateRepository.findByDocumentIdAndUserKeyAndStatus(
-                document, userKey, WfInstanceConstants.Status.RUNNING.code
-            )
-            userRequestList.add(
-                TemplateUserRequestListDto(
-                    documentId = documentDto!!.documentId,
-                    documentName = documentDto.documentName,
-                    count = documentDtoList
-                )
-            )
-        }
-        return userRequestList
     }
 }
