@@ -14,7 +14,6 @@ import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import co.brainz.itsm.portal.service.PortalService
-import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("/portals")
@@ -35,6 +35,7 @@ class PortalController(
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val portalMainPage: String = "portal/portalMain"
+    private val portalMainPage1: String = "sso/KSign/jspTest"
     private val portalListPage: String = "portal/portalList"
     private val portalBrowserGuidePage: String = "portal/portalBrowserGuide"
     private val portalNoticeSearchPage: String = "portal/notice/noticeSearch"
@@ -52,6 +53,11 @@ class PortalController(
     @GetMapping("/main")
     fun getPortalSearch(request: HttpServletRequest, model: Model): String {
         return portalMainPage
+    }
+
+    @GetMapping("/main1")
+    fun getPortalSearch1(request: HttpServletRequest, model: Model): String {
+        return portalMainPage1
     }
 
     /**
