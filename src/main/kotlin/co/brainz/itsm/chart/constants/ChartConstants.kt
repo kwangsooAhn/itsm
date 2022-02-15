@@ -42,6 +42,7 @@ object ChartConstants {
     enum class Type(val code: String) {
         STACKED_COLUMN("chart.stackedColumn"),
         STACKED_BAR("chart.stackedBar"),
+        BASIC_COLUMN("chart.basicColumn"),
         BASIC_LINE("chart.basicLine"),
         PIE("chart.pie")
     }

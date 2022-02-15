@@ -12,8 +12,10 @@ import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartConfig
 import co.brainz.itsm.chart.dto.ChartData
 import co.brainz.itsm.chart.dto.ChartRange
-import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
+import co.brainz.itsm.dashboard.constants.DashboardConstants
 import co.brainz.itsm.dashboard.dto.OrganizationChartDto
+import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
+import co.brainz.itsm.dashboard.dto.TemplateComponentData
 import co.brainz.itsm.dashboard.dto.TemplateDto
 import co.brainz.itsm.dashboard.repository.DashboardTemplateRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
@@ -66,17 +68,23 @@ class DashboardTemplateService(
     /**
      * 템플릿 컴포넌트별 조회 (데이터 포함)
      */
-    private fun getTemplateComponentResult(templateComponentList: List<TemplateComponentConfig>): MutableList<Any> {
-        val templateComponentResultList: MutableList<Any> = mutableListOf<Any>()
-        var organizationChartDto: OrganizationChartDto
+    private fun getTemplateComponentResult(templateComponentList: List<TemplateComponentConfig>): List<TemplateComponentData> {
+        val templateComponentResultList = mutableListOf<TemplateComponentData>()
 
         templateComponentList.forEach { component ->
+            var result: Any? = null
             when (component.key) {
-                "requestStatusByOrganization.chart" -> {
-                    organizationChartDto = this.getRequestStatusByOrganizationCharts(component)
-                    templateComponentResultList.add(organizationChartDto)
+                DashboardConstants.TemplateComponent.ORGANIZATION_CHART.code -> {
+                    result = this.getRequestStatusByOrganizationCharts(component)
                 }
             }
+            templateComponentResultList.add(
+                TemplateComponentData(
+                    key = component.key,
+                    title = component.title,
+                    result = result
+                )
+            )
         }
         return templateComponentResultList
     }
@@ -104,19 +112,20 @@ class DashboardTemplateService(
                 chartDataList.add(
                     ChartData(
                         id = document,
-                        category = documentName,
+                        category = organizationRepository.findByOrganizationId(organization).organizationName!!,
                         value = dashboardTemplateRepository.countByDocumentIdAndOrganizationIdAndStatus(
                             document, organization, WfInstanceConstants.Status.RUNNING.code
                         ).toString(),
-                        series = organizationRepository.findByOrganizationId(organization).organizationName!!
+                        series = documentName
                     )
                 )
             }
         }
+
         return OrganizationChartDto(
             chartId = component.key,
             chartName = component.title,
-            chartType = ChartConstants.Type.STACKED_COLUMN.code,
+            chartType = ChartConstants.Type.BASIC_COLUMN.code,
             chartDesc = "",
             tags = tagList,
             //TODO 현재 출력할때 필요하지만 값이 없어 하드코딩하였다.
