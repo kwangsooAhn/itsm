@@ -18,12 +18,16 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import co.brainz.itsm.dashboard.constants.DashboardConstants
+import co.brainz.itsm.dashboard.dto.TemplateUserRequestListDto
+import co.brainz.workflow.document.repository.WfDocumentRepository
+import co.brainz.workflow.instance.constants.WfInstanceConstants
 
 @Service
 class DashboardTemplateService(
     private val currentSessionUser: CurrentSessionUser,
     private val dashboardTemplateRepository: DashboardTemplateRepository,
-    private val templateComponentFactory: TemplateComponentFactory
+    private val templateComponentFactory: TemplateComponentFactory,
+    private val wfDocumentRepository: WfDocumentRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -56,26 +60,41 @@ class DashboardTemplateService(
     /**
      * 템플릿 컴포넌트별 조회 (데이터 포함)
      */
-    private fun getTemplateComponentResult(templateComponentList: List<TemplateComponentConfig>): List<TemplateComponentData> {
-        val templateComponentResultList = mutableListOf<TemplateComponentData>()
+    private fun getTemplateComponentResult(templateComponentList: List<TemplateComponentConfig>): MutableList<Any> {
+        val templateComponentResultList: MutableList<Any> = mutableListOf<Any>()
         templateComponentList.forEach { component ->
             when(component.key) {
                 DashboardConstants.TemplateComponent.STATUS_USER_LIST.code -> {
-                    this.getRequestStatusUserList(component)
+                    templateComponentResultList.add(this.getRequestStatusUserList(component))
                 }
             }
-            templateComponentResultList.add(
-                TemplateComponentData(
-                    key = component.key,
-                    result = templateComponentFactory.getComponent(component.key).getResult(component)
-                )
-            )
         }
         return templateComponentResultList
     }
 
-    private fun getRequestStatusUserList(component: TemplateComponentConfig) {
+    private fun getRequestStatusUserList(component: TemplateComponentConfig): TemplateComponentData {
         val target: LinkedHashMap<String, List<String>> = component.target as LinkedHashMap<String, List<String>>
         val documentList: MutableList<String> = target["documents"] as MutableList<String>
+        val userKey = currentSessionUser.getUserKey()
+        var templateDto: MutableList<TemplateUserRequestListDto> = mutableListOf()
+
+
+        for (document in documentList) {
+            val documentDtoList = dashboardTemplateRepository.findByDocumentIdAndUserKeyAndStatus(document, userKey, WfInstanceConstants.Status.RUNNING.code)
+            val documentDto = wfDocumentRepository.findByDocumentId(document)
+
+            templateDto += TemplateUserRequestListDto(
+                    documentId = documentDto!!.documentId,
+                    documentName = documentDto.documentName,
+                    count = documentDtoList
+                )
+            }
+
+
+        return TemplateComponentData(
+            key = component.key,
+            title = component.title,
+            result = templateDto
+        )
     }
 }

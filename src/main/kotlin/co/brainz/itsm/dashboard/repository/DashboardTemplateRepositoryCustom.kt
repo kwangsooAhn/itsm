@@ -6,5 +6,8 @@
 package co.brainz.itsm.dashboard.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.itsm.instance.dto.InstanceTemplateDto
 
-interface DashboardTemplateRepositoryCustom : AliceRepositoryCustom
+interface DashboardTemplateRepositoryCustom : AliceRepositoryCustom {
+    fun findByDocumentIdAndUserKeyAndStatus(document: String, userKey: String, status: String): Long
+}
