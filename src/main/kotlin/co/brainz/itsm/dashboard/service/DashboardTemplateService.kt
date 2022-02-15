@@ -17,6 +17,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import co.brainz.itsm.dashboard.constants.DashboardConstants
 
 @Service
 class DashboardTemplateService(
@@ -58,6 +59,11 @@ class DashboardTemplateService(
     private fun getTemplateComponentResult(templateComponentList: List<TemplateComponentConfig>): List<TemplateComponentData> {
         val templateComponentResultList = mutableListOf<TemplateComponentData>()
         templateComponentList.forEach { component ->
+            when(component.key) {
+                DashboardConstants.TemplateComponent.STATUS_USER_LIST.code -> {
+                    this.getRequestStatusUserList(component)
+                }
+            }
             templateComponentResultList.add(
                 TemplateComponentData(
                     key = component.key,
@@ -66,5 +72,10 @@ class DashboardTemplateService(
             )
         }
         return templateComponentResultList
+    }
+
+    private fun getRequestStatusUserList(component: TemplateComponentConfig) {
+        val target: LinkedHashMap<String, List<String>> = component.target as LinkedHashMap<String, List<String>>
+        val documentList: MutableList<String> = target["documents"] as MutableList<String>
     }
 }
