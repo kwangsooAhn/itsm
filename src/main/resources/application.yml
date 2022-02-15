@@ -16,7 +16,7 @@ spring:
     suffix: .html
     mode: HTML
     cache: false
-    prefix: classpath:/public/template/
+    prefix: classpath:/public/template
     enabled: true
     encoding: UTF-8
     view-names: thymeleaf/*
