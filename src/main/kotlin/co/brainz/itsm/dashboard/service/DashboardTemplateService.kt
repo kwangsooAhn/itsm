@@ -6,15 +6,12 @@
 package co.brainz.itsm.dashboard.service
 
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.dashboard.constants.DashboardConstants
 import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 import co.brainz.itsm.dashboard.dto.TemplateComponentData
 import co.brainz.itsm.dashboard.dto.TemplateDto
-import co.brainz.itsm.dashboard.dto.TemplateUserRequestListDto
 import co.brainz.itsm.dashboard.repository.DashboardTemplateRepository
 import co.brainz.itsm.dashboard.service.impl.TemplateComponentFactory
 import co.brainz.workflow.document.repository.WfDocumentRepository
-import co.brainz.workflow.instance.constants.WfInstanceConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -26,8 +23,7 @@ import org.springframework.stereotype.Service
 class DashboardTemplateService(
     private val currentSessionUser: CurrentSessionUser,
     private val dashboardTemplateRepository: DashboardTemplateRepository,
-    private val templateComponentFactory: TemplateComponentFactory,
-    private val wfDocumentRepository: WfDocumentRepository
+    private val templateComponentFactory: TemplateComponentFactory
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())

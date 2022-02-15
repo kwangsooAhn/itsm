@@ -5,7 +5,6 @@
 
 package co.brainz.itsm.dashboard.service.impl
 
-import org.springframework.stereotype.Component
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 import co.brainz.itsm.dashboard.dto.TemplateUserRequestListDto
@@ -13,7 +12,6 @@ import co.brainz.itsm.dashboard.repository.DashboardTemplateRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 
-@Component
 class StatusUserList(
     private val currentSessionUser: CurrentSessionUser,
     private val wfDocumentRepository: WfDocumentRepository,
