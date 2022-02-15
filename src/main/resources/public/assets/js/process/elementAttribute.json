@@ -146,7 +146,8 @@
               "id": "script-type", "name": "Type", "type": "select", "default": "script.type.document.attachFile", "required": "Y",
               "sub-list": [
                 {"id": "script.type.document.attachFile", "name": "[문서편집] 첨부파일"},
-                {"id": "script.type.cmdb", "name": "[CMDB] CI 반영"}
+                {"id": "script.type.cmdb", "name": "[CMDB] CI 반영"},
+                {"id": "script.type.plugin", "name": "Plugin 동작"}
               ]
             },
             {"id": "script-detail", "name": "", "type": "inputbox", "default": "", "display": "none"}
