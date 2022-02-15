@@ -7450,6 +7450,7 @@ body.modal-active {
   border-left: none;
   border-right: none;
   overflow: initial;
+  line-height: 1;
 }
 .z-component .z-element .z-dr-table tr td.on {
   display: table-cell;
@@ -7503,6 +7504,9 @@ body.modal-active {
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
+}
+.z-component.dynamicRowTable label {
+  min-height: 2rem;
 }
 
 .z-component .z-component-label .required.off {

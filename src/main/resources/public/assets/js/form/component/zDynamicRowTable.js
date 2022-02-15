@@ -308,8 +308,8 @@ export const dynamicRowTableMixin = {
         return selectbox;
     },
     getDateForColumn(column, cellValue, index) {
-        let dateWrapper = new UIDiv().setUIClass('z-element');
-        let date = new UIInput().setUIPlaceholder(i18n.dateFormat)
+        let dateWrapper = new UIDiv().setUIClass('z-picker-wrapper-dummy');
+        let dateColumn = new UIInput().setUIPlaceholder(i18n.dateFormat)
             .setUIClass('z-input i-date-picker text-ellipsis')
             .setUIId('date' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'date' + index)
@@ -317,10 +317,10 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('type', FORM.DATE_TYPE.DATE_PICKER)
             .setUIAttribute('data-validation-min-date', this._element.columns[index].columnValidation.minDate)
             .setUIAttribute('data-validation-max-date', this._element.columns[index].columnValidation.maxDate);
-        dateWrapper.addUI(date);
+        dateWrapper.addUI(dateColumn);
 
         if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
-            zDateTimePicker.initDatePicker(date.domElement, this.updateDateTimeValue.bind(this));
+            zDateTimePicker.initDatePicker(dateColumn.domElement, this.updateDateTimeValue.bind(this));
         }
         return dateWrapper;
     },

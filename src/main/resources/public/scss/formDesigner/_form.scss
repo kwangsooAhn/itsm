@@ -308,6 +308,7 @@
         border-left: none;
         border-right: none;
         overflow: initial;
+        line-height: 1;
 
         &.on { display: table-cell; }
       }
@@ -357,6 +358,10 @@
         @include borderRadius(0.125rem); // 2px
       }
     }
+  }
+
+  &.dynamicRowTable label {
+    min-height: 2rem; //32px
   }
 }
 // label

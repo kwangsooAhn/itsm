@@ -13,6 +13,7 @@ $tooltip-type: (group, row, component);
     margin: 0;
     padding-left: 0;
     padding-right: 0;
+    display: flex;
   }
   span {
     word-break: break-all;

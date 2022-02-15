@@ -3462,6 +3462,7 @@ body.modal-active {
   margin: 0;
   padding-left: 0;
   padding-right: 0;
+  display: flex;
 }
 .z-component span {
   word-break: break-all;
