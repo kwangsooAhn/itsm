@@ -33,12 +33,12 @@
                maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
         <span id="spanTotalCount" class="z-search-count"></span>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
-        <button type="button" class="z-button-icon secondary ml-auto" id="btnExcelDownload" name="btnExcelDownload"
-                sec:authorize="hasAuthority('general')" th:title="#{common.btn.export}"
-                th:onclick="|javascript:onExcelDownload()|">
-            <span class="z-icon i-download-as-excel"></span>
-        </button>
     </form>
+    <button type="button" class="z-button-icon secondary ml-auto" id="btnExcelDownload" name="btnExcelDownload"
+            sec:authorize="hasAuthority('general')" th:title="#{common.btn.export}"
+            th:onclick="|javascript:onExcelDownload()|">
+        <span class="z-icon i-download-as-excel"></span>
+    </button>
 </div>
 <div layout:fragment="pageList">
     <div class="z-list-content flex-row" id="tokenList"></div>

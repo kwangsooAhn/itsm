@@ -3997,11 +3997,6 @@ select {
   flex-direction: row;
   padding: 0 3.75rem 1.25rem 3.75rem;
 }
-.z-itsm-container .z-main-content .z-page-search #frmSearch {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
 .z-itsm-container .z-main-content .z-page-search .z-search-count {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 700;
