@@ -19,6 +19,7 @@ spring:
     prefix: classpath:/public/template/
     enabled: true
     encoding: UTF-8
+    view-names: thymeleaf/*
   # multipart max upload size
   servlet:
     multipart.max-file-size: 1024MB
@@ -61,6 +62,10 @@ spring:
       pool:
         size: 10
       thread-name-prefix: "alice-scheduler"
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
 
 server:
   port: 443
@@ -118,6 +123,10 @@ find.id.enabled: false
 find.password.enabled: false
 
 jasypt.encryptor.bean: jasyptStringEncryptor
+
+# SSO 사용여부
+sso.enabled: false
+sso.vendor: KSign
 
 ---
 spring:

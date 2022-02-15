@@ -66,6 +66,8 @@ dependencies {
     implementation("org.apache.poi:poi:5.0.0")
     implementation("org.apache.poi:poi-ooxml:5.0.0")
     runtimeOnly("org.postgresql:postgresql")
+    implementation ("javax.servlet:jstl")
+    implementation ("org.apache.tomcat.embed:tomcat-embed-jasper")
 
     // Junit 5 설정
     // 2021-03-10 Jung Hee Chan
