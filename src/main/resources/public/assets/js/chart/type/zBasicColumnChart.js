@@ -182,8 +182,8 @@ export const zBasicColumnChartMixin = {
                     seriesId = temp.id;
                     for (let z = 0; z < categories.length; z++) {
                         if (categories[z] === temp.category) {
-                            // todo : linkKey 값 정리 
-                            let testText = (temp.linkKey) ? temp.linkKey : '부서아이디';
+                            // todo : 실제 linkKey > 요청현황으로 넘기기 위해 series id에 부여
+                            let testText = (temp.linkKey) ? temp.linkKey : 'organization_id';
                             series.push({ y: Number(temp.value), id: testText });
                             break;
                         }
