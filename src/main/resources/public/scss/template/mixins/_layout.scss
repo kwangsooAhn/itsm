@@ -310,6 +310,7 @@
 
       &__body {
         overflow: auto;
+        height: 100vh;
 
         .grid__row {
           color: $grid-body-color;

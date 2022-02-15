@@ -4163,6 +4163,7 @@ select {
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body {
   overflow: auto;
+  height: 100vh;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row {
   color: #222529;
