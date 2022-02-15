@@ -40,7 +40,7 @@ Object.freeze(DEFAULT_COMPONENT_PROPERTY);
 /**
  * 불필요한 key Event를 막기 위한 ascii key code
  */
-const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, ,92, 93,
+const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, 92, 93,
     112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 144, 145];
 
 export const dynamicRowTableMixin = {
@@ -50,7 +50,7 @@ export const dynamicRowTableMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        // 데이터 : "value" :[['1행 1열', '1행 2열', '1행 3열'], ['2행 1열', '2행 2열', '2행 2열']]
+        // 데이터 : "value" : [['제목', '제목', '제목'], ['1행 1열', '1행 2열', '1행 3열'], ['2행 1열', '2행 2열', '2행 2열']]
         this._value = this.data.value || '';
         // 데이터 초기화
         if (!zValidation.isEmpty(this._value)) {
@@ -187,9 +187,11 @@ export const dynamicRowTableMixin = {
             .setUICSSText('width:35' + UNIT.PX);
         row.addUICell(td);
 
-        if (Array.isArray(this.value) && this.value.length > 0) {
-            this.value.forEach((rowData) => {
-                this.addTableRow(table, rowData);
+        if (Array.isArray(this.value) && this.value.length > 1) {
+            this.value.forEach((rowData, index) => {
+                if (index > 0) {
+                    this.addTableRow(table, rowData);
+                }
             });
         } else {
             this.setEmptyTable(table);
@@ -212,7 +214,14 @@ export const dynamicRowTableMixin = {
             targetTable.removeUIRow(targetTable.rows[1]);
         }
         // value가 문자일 경우 배열로 변환
-        if (zValidation.isEmpty(this._value)) { this.value = []; }
+        if (zValidation.isEmpty(this._value)) {
+            this.value = [];
+            const columnHeadData = [];
+            this.elementColumns.forEach((column) => {
+                columnHeadData.push(column.columnName);
+            });
+            this.value.push(columnHeadData);
+        }
         // row 추가
         const row = new UIRow(targetTable).setUIClass('z-dr-table-row');
         // td 추가
@@ -242,7 +251,7 @@ export const dynamicRowTableMixin = {
         });
         // 데이터 추가
         if (zValidation.isEmpty(data)) {
-            this.value[targetTable.rows.length - 1] = columnData;
+            this.value[targetTable.rows.length] = columnData;
         }
         // 삭제 버튼
         const removeButton = new UIButton()
@@ -450,11 +459,11 @@ export const dynamicRowTableMixin = {
         targetTable.removeUIRow(row);
 
         const newValue = JSON.parse(JSON.stringify(this.value));
-        newValue.splice(removeIndex - 1, 1);
+        newValue.splice(removeIndex, 1);
         this.value = newValue;
 
         // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
-        if (Array.isArray(this.value) && this.value.length === 0) {
+        if (Array.isArray(this.value) && this.value.length === 1) {
             this.setEmptyTable(targetTable);
         }
     },
@@ -544,9 +553,7 @@ export const dynamicRowTableMixin = {
             e.target.value;
         const cellElement = (e.target instanceof HTMLSelectElement) ? e.target.parentNode.parentNode :
             e.target.parentNode;
-        const rowIndex = cellElement.parentNode.rowIndex - 1; // 헤더 제외
-        const cellIndex = cellElement.cellIndex;
-        newValue[rowIndex][cellIndex] = changeValue;
+        newValue[cellElement.parentNode.rowIndex][cellElement.cellIndex] = changeValue;
         this.value = newValue;
     },
     updateDateTimeValue(e) {
@@ -554,7 +561,7 @@ export const dynamicRowTableMixin = {
             return false;
         }
         const newValue = JSON.parse(JSON.stringify(this.value));
-        const rowIndex = e.parentNode.parentNode.parentNode.parentNode.rowIndex - 1; // 헤더 제외
+        const rowIndex = e.parentNode.parentNode.parentNode.parentNode.rowIndex;
         const cellIndex = e.parentNode.parentNode.parentNode.cellIndex;
         newValue[rowIndex][cellIndex] = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT,
             e.getAttribute('type').replace('Picker', ''), e.value);
@@ -602,7 +609,7 @@ export const dynamicRowTableMixin = {
     setDefaultValue(column) {
         let defaultValue = '${default}';
         switch (column.columnType) {
-            case "input":
+            case 'input':
                 defaultValue = column.columnElement.defaultValueSelect.split('|');
                 if (defaultValue[0] === 'input') {
                     defaultValue = defaultValue[1];
@@ -610,7 +617,7 @@ export const dynamicRowTableMixin = {
                     defaultValue = ZSession.get(defaultValue[1]) || '';
                 }
                 break;
-            case "dropdown":
+            case 'dropdown':
                 for (let i = 0; i < column.columnElement.options.length; i++) {
                     let checkedYn = column.columnElement.options[i].checked || false;
                     if (checkedYn) {
@@ -619,13 +626,13 @@ export const dynamicRowTableMixin = {
                     defaultValue = defaultValue === '${default}' ? '' : defaultValue;
                 }
                 break;
-            case "time":
+            case 'time':
                 defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForTime(column, defaultValue));
                 break;
-            case "date":
+            case 'date':
                 defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDate(column, defaultValue));
                 break;
-            case "dateTime":
+            case 'dateTime':
                 defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
                 break;
             default:
