@@ -142,8 +142,8 @@
      */
     function setDateTimeFormat(elem) {
         elem.querySelectorAll('.date-time-from-now').forEach(dt => {
-            const userDateTime = i18n.userDateTime(dt.textContent.trim());
-            dt.textContent = dateFormatFromNow(userDateTime);
+            dt.title = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = dateFormatFromNow(dt.textContent.trim());
         });
 
         elem.querySelectorAll('.date-time').forEach(dt => {
