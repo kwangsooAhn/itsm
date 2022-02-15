@@ -1,1 +1,57 @@
-OverlayScrollbars(document.querySelectorAll('.z-page-content'), {className: 'scrollbar'});
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonViewLayout}">
+<head>
+    <title th:text="#{faq.label.view}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{faq.label.faq}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{faq.msg.viewDescription}"></h6>
+</div>
+<div layout:fragment="pageView">
+    <div class="flex-column z-view-row">
+        <div class="view-title text-wordWrap" th:text="${faq?.faqTitle}"></div>
+    </div>
+    <div class="flex-column z-view-row">
+        <div class="view-sub-title flex-row justify-content-end">
+            <span class="text-wordWrap" th:text="${faq?.createUserName}"></span>
+            <span class="vertical-bar"></span>
+            <span class="text-wordNoWrap" id="spanCreateDt" th:text="${faq?.createDt}"></span>
+        </div>
+    </div>
+    <div class="horizontal-bar"></div>
+    <div class="flex-column z-view-row">
+        <div class="view-content">
+            <pre>
+                <span class="view-text" th:text="${faq?.faqContent}"/>
+            </pre>
+        </div>
+    </div>
+    <div class="horizontal-bar"></div>
+    <div class="flex-row justify-content-start z-view-row">
+        <div class="z-button-list">
+            <a class="z-button secondary" href="/faqs/search" th:text="#{common.btn.list}"></a>
+        </div>
+    </div>
+</div>
+</body>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function () {
+        const createDt = document.getElementById('spanCreateDt');
+        createDt.textContent = i18n.userDateTime(createDt.textContent);
+
+        const faqId = [[${faq?.faqId}]];
+        if (faqId === null) {
+            zAlert.warning([[#{common.msg.processedOrDelete}]], function () {
+                location.href = '/faqs/search';
+            });
+            return;
+        }
+        OverlayScrollbars(document.querySelectorAll('.z-page-content'), {className: 'scrollbar'});
+    }
+    /*]]>*/
+</script>
+</html>

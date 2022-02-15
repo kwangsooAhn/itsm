@@ -12,7 +12,7 @@
     <h6 class="description ml-2 pl-2" th:text="#{token.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <form id="frmSearch">
+    <form id="frmSearch" class="">
         <select class="col-3" name="searchTokenType" id="searchTokenType">
             <option value="token.type.todo" th:text="#{token.type.todo}" selected></option>
             <option value="token.type.requested" th:text="#{token.type.requested}"></option>
@@ -33,7 +33,7 @@
                maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
         <span id="spanTotalCount" class="z-search-count"></span>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
-        <button type="button" class="z-button-icon secondary ml-4" id="btnExcelDownload" name="btnExcelDownload"
+        <button type="button" class="z-button-icon secondary ml-auto" id="btnExcelDownload" name="btnExcelDownload"
                 sec:authorize="hasAuthority('general')" th:title="#{common.btn.export}"
                 th:onclick="|javascript:onExcelDownload()|">
             <span class="z-icon i-download-as-excel"></span>
@@ -78,7 +78,7 @@
             callback: function () {
                 getList();
             }
-        });zzzzzzzzzz
+        });
 
         getList();
     };
