@@ -309,12 +309,18 @@
       }
 
       &__body {
-        overflow: auto;
-
+        overflow: hidden !important;
+        display: flex;
         .grid__row {
           color: $grid-body-color;
           @include border(0.0625rem, solid, $grid-border-color, bottom);
           &:hover { background-color: $grid-hover-bg-color; }
+        }
+
+        .bold { font-weight: $font-weight-bold; }
+        .sub-text {
+          color: $gray500;
+          font-size: $font-size-xs;
         }
       }
 

@@ -6313,7 +6313,7 @@ body.modal-active {
 .z-page-paging {
   display: flex;
   flex-direction: row !important;
-  padding: 0 3.75rem 1.875rem 3.75rem;
+  padding: 1.875rem 3.75rem;
   justify-content: center;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;

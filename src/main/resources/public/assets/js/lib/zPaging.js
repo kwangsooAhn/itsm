@@ -125,6 +125,7 @@ export default class ZPaging {
         // 팀장님께서 다시 정리하신다고 하셨음.! by.mo
         OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-main'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.grid__body'), {className: 'scrollbar'});
     }
 
     makePagingArrow(elementId, pageNum) {
