@@ -183,7 +183,7 @@
                 if (deletable === 'true') {
                     options.buttons.push({
                         content: i18n.msg('common.btn.delete'),
-                        classes: 'z-button secondary',
+                        classes: 'z-button danger',
                         bindKey: false,
                         callback: function (modal) {
                             deleteForm(responseObject.id);
@@ -194,7 +194,7 @@
                 // 폐기
                 options.buttons.push({
                     content: i18n.msg('form.status.destroy'),
-                    classes: 'z-button secondary',
+                    classes: 'z-button warning',
                     bindKey: false,
                     callback: function(modal) {
                         saveForm(responseObject.id, true, responseObject.editable);

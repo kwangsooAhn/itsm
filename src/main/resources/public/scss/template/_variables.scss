@@ -479,24 +479,39 @@ $grid-hover-bg-color:                         $neutral200;
 // button, a
 $button-font-family:                          $font-family;
 $button-font-size:                            $font-size-xs;
-$button-font-weight:                          $font-weight-bold;
+$button-font-weight:                          $font-weight-semibold;
+$button-border-none:                          0rem;
 $button-border-width:                         0.0625rem; // 1px
 $button-border-radius:                        0.25rem; // 4px
 // 기본 버튼 테마
 $button-themes-default: (
   'primary': (
-    'default': ('font': $white, 'background': $blue500, 'border': $blue500),
-    'hover': ('font' : $white, 'background': $blue400, 'border': $blue400),
-    'focus': ('font': $white, 'background': $blue500, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-    'active': ('font': $white, 'background': $blue600, 'border': $blue700),
-    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+    'default': ('font': $white, 'background': $blue700, 'border' : $blue700),
+    'hover': ('font' : $white, 'background': $blue600, 'border' : $blue600),
+    'focus': ('font': $white, 'background': $blue700, 'border' : $blue700, 'shadow': 0 0 0 0.125rem $blue500),
+    'active': ('font': $white, 'background': $blue800, 'border' : $blue800),
+    'disabled': ('font': $gray400, 'background': $gray50, 'border' : $gray50)
   ),
   'secondary': (
-    'default': ('font': $blue500, 'background': $white, 'border': $blue500),
-    'hover': ('font' : $blue500, 'background': $blue100, 'border': $blue500),
-    'focus': ('font': $blue500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-    'active': ('font': $blue700, 'background': $blue200, 'border': $blue600),
-    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+    'default': ('font': $gray700, 'background': $gray200, 'border': $gray200),
+    'hover': ('font' : $gray700, 'background': $gray100, 'border': $gray100),
+    'focus': ('font': $gray700, 'background': $gray200, 'border': $blue500, 'shadow': 0 0 0 0.125rem $blue500),
+    'active': ('font': $blue800, 'background': $blue300, 'border': $blue300),
+    'disabled': ('font': $gray400, 'background': $gray50, 'border': $gray50)
+  ),
+  'danger': (
+    'default': ('font': $white, 'background': $red500, 'border': $red500),
+    'hover': ('font' : $white, 'background': $red400, 'border': $red400),
+    'focus': ('font': $white, 'background': $red500, 'border': $red500, 'shadow': 0 0 0.125rem $red700),
+    'active': ('font': $white, 'background': $red600, 'border': $red600),
+    'disabled': ('font': $gray400, 'background': $gray50, 'border': $gray50)
+  ),
+  'warning': (
+    'default': ('font': $blue800, 'background': $orange400, 'border': $orange400),
+    'hover': ('font' : $blue800, 'background': $orange200, 'border': $orange200),
+    'focus': ('font': $blue800, 'background': $orange400, 'border': $orange400, 'shadow': 0 0 0.125rem $orange600),
+    'active': ('font': $blue800, 'background': $orange500, 'border': $orange500),
+    'disabled': ('font': $gray400, 'background': $gray50, 'border': $gray50)
   ),
   'extra': (
     'default': ('font': $blue500, 'background': $white, 'border': $white),

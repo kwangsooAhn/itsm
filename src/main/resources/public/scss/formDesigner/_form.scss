@@ -170,7 +170,14 @@
     &.on { display: flex; }
     &.off { display: none; }
   }
+  // divider
+  &.divider {
+    padding: 0;
+  }
   // element
+  .z-element[style="--data-column:12;"], .z-element[style="--data-column:0;"] {
+    padding: 0.4375rem 0 0.4375rem 0 ; // 7px 0  7px 0px
+  }
   .z-element {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     padding: 0.4375rem 0 0.4375rem 0.938rem ; // 7px 0  7px 15px
@@ -251,6 +258,21 @@
       }
     }
 
+    // filedownload 컴포넌트
+    .z-fileDownload {
+      cursor: pointer;
+
+      .z-icon {
+        &.i-download {
+          background: $file-uploader-icon-color;
+        }
+      }
+      .z-file-text {
+        font-size: $component-fileDownload-font-size;
+        font-weight: $component-fileDownload-font-weight;
+      }
+    }
+
     // fileuploader 컴포넌트
     .file-uploader-view {
       @include border($element-border-width, solid, $element-border-color, left);
@@ -301,6 +323,7 @@
         border-left: none;
         border-right: none;
         overflow: initial;
+        line-height: 1;
 
         &.on { display: table-cell; }
       }
@@ -350,6 +373,10 @@
         @include borderRadius(0.125rem); // 2px
       }
     }
+  }
+
+  &.dynamicRowTable label {
+    min-height: 2rem; //32px
   }
 }
 // label
