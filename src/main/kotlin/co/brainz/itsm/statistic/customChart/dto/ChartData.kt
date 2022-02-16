@@ -13,5 +13,5 @@ data class ChartData(
     val category: String,
     val value: String,
     val series: String,
-    val linkKey: String?
+    val linkKey: String? = null
 ) : Serializable

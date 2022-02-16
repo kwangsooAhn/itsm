@@ -13,5 +13,5 @@ import com.querydsl.core.QueryResults
 interface OrganizationRepositoryCustom : AliceRepositoryCustom {
     fun findByOrganizationSearchList(organizationSearchCondition: OrganizationSearchCondition): QueryResults<OrganizationEntity>
     fun existsByOrganizationName(organizationName: String, organizationId: String?): Long
-    fun findByOrganizationIdList(organizationIdList: List<String>): List<OrganizationEntity>?
+    fun findOrganizationEntityList(organizationIdList: List<String>): List<OrganizationEntity>
 }

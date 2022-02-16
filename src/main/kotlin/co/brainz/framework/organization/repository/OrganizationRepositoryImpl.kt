@@ -41,7 +41,7 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
         return query.fetchCount()
     }
 
-    override fun findByOrganizationIdList(organizationIdList: List<String>): List<OrganizationEntity>? {
+    override fun findOrganizationEntityList(organizationIdList: List<String>): List<OrganizationEntity> {
         val organization = QOrganizationEntity.organizationEntity
         return from(organization)
             .select(

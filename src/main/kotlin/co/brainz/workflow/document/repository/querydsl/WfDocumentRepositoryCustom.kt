@@ -35,5 +35,5 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
     /**
      *  문서 ID List로 조회
      */
-    fun findByDocumentIdList(documentList: List<String>): List<WfDocumentEntity>?
+    fun findDocumentEntityList(documentList: List<String>): List<WfDocumentEntity>
 }

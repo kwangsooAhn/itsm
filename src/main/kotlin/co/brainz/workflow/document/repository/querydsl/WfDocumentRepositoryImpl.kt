@@ -144,7 +144,7 @@ class WfDocumentRepositoryImpl :
         return query.fetchCount() > 0
     }
 
-    override fun findByDocumentIdList(documentList: List<String>): List<WfDocumentEntity>? {
+    override fun findDocumentEntityList(documentList: List<String>): List<WfDocumentEntity> {
         val document = QWfDocumentEntity.wfDocumentEntity
 
         return from(document)

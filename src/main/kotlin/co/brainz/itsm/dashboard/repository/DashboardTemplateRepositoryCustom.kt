@@ -8,5 +8,5 @@ package co.brainz.itsm.dashboard.repository
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface DashboardTemplateRepositoryCustom : AliceRepositoryCustom {
-    fun countByDocumentIdAndOrganizationIdAndStatus(document: String, organizationId: String, status: String): Long
+    fun countRunningDocument(document: String, organizationId: String, status: String): Long
 }

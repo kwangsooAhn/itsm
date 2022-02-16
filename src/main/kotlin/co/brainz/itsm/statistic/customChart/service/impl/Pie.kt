@@ -63,8 +63,7 @@ class Pie(
                     id = tag.tagId.toString(),
                     category = tag.tagValue,
                     value = tagCount.toString(),
-                    series = seriesDt,
-                    linkKey = null
+                    series = seriesDt
                 )
             )
         }
