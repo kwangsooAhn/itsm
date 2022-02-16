@@ -150,9 +150,7 @@
             border-right-color: transparent;
           }
 
-          .z-icon {
-            background: map-get($component-icon, 'default', 'icon');
-          }
+          .z-icon { background: map-get($component-icon, 'default', 'icon'); }
 
           .z-component-name {
             display: block;

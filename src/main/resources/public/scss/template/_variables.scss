@@ -470,6 +470,12 @@ $option-table-header-bg-color:                $neutral100;
 $option-table-icon-color:                     $gray400;
 $option-table-icon-hover-color:               $blue500;
 
+// grid
+$grid-head-color:                             $gray600;
+$grid-body-color:                             $gray800;
+$grid-border-color:                           $gray300;
+$grid-hover-bg-color:                         $neutral200;
+
 // button, a
 $button-font-family:                          $font-family;
 $button-font-size:                            $font-size-xs;
@@ -1006,11 +1012,12 @@ $validation-success-border-width:            0.0625rem; // 1px
 ////////////////////////////// paging /////////////////////////////
 $paging-current-num-font-color:              $gray500;
 $paging-num-font-color:                      $gray800;
-$paging-num-selected-font-color:             $blue600;
-$paging-num-selected-border-color:           $blue600;
+$paging-num-selected-font-color:             $blue700;
+$paging-num-selected-border-color:           $blue700;
 $paging-num-active-font-color:               $blue700;
-$paging-num-active-bg-color:                 $blue200;
+$paging-num-active-bg-color:                 $blue300;
 $paging-num-hover-font-color:                $gray800;
 $paging-num-hover-bg-color:                  $blue100;
-$paging-arrow-icon-inactive-color:           $gray400;
-$paging-arrow-icon-active-color:             $gray500;
+$paging-arrow-icon-prev-color:               $gray400;
+$paging-arrow-icon-next-color:               $gray400;
+$paging-arrow-icon-active-color:             $blue700;

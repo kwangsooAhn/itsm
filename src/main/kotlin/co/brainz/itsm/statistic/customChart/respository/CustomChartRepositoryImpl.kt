@@ -7,19 +7,25 @@
 package co.brainz.itsm.statistic.customChart.respository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.querydsl.QuerydslConstants
 import co.brainz.itsm.statistic.customChart.dto.ChartDataDto
-import co.brainz.itsm.statistic.customChart.dto.CustomChartListDto
 import co.brainz.itsm.statistic.customChart.dto.ChartSearchCondition
+import co.brainz.itsm.statistic.customChart.dto.CustomChartListDto
 import co.brainz.itsm.statistic.customChart.entity.ChartEntity
 import co.brainz.itsm.statistic.customChart.entity.QChartEntity
+import co.brainz.itsm.statistic.customChart.respository.*
 import co.brainz.itsm.statistic.customReportTemplate.entity.QCustomReportTemplateMapEntity
 import com.querydsl.core.QueryResults
+import com.querydsl.core.types.Order
+import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), CustomChartRepositoryCustom {
+class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java),
+    CustomChartRepositoryCustom {
     override fun findChartList(chartSearchCondition: ChartSearchCondition): QueryResults<CustomChartListDto> {
         val chart = QChartEntity.chartEntity
         val user = QAliceUserEntity.aliceUserEntity
@@ -42,7 +48,22 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
             .where(
                 super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue)
             )
-            .orderBy(chart.createDt.desc(), chart.chartName.asc(), chart.chartType.asc())
+
+        if (chartSearchCondition.orderColName.isNullOrEmpty()) {
+            query.orderBy(chart.createDt.desc(), chart.chartName.asc(), chart.chartType.asc())
+        } else {
+            val column = when (chartSearchCondition.orderColName) {
+                QuerydslConstants.OrderColumn.CREATE_USER_NAME.code -> {
+                    chart.createUser.userName
+                }
+                else -> Expressions.stringPath(chart, chartSearchCondition.orderColName)
+            }
+            val direction = when (chartSearchCondition.orderDir) {
+                QuerydslConstants.OrderSpecifier.DESC.code -> Order.DESC
+                else -> Order.ASC
+            }
+            query.orderBy(OrderSpecifier(direction, column))
+        }
         if (chartSearchCondition.isPaging) {
             query.limit(chartSearchCondition.contentNumPerPage)
             query.offset((chartSearchCondition.pageNum - 1) * chartSearchCondition.contentNumPerPage)
