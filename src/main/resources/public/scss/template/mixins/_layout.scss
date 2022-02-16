@@ -257,6 +257,7 @@
     display: flex;
     flex: 1;  // flex: 1 1 0;
     padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
+    overflow-x: auto;
 
     .z-list-content {
       flex: 1;
@@ -270,6 +271,75 @@
 
     .z-list-tree {
       height: 37.88rem; // 606px
+    }
+
+    // 그리드
+    .grid {
+      display: grid;
+      flex: 1;
+      align-content: start;
+
+      &__row {
+        display: grid;
+        grid-template-columns: var(--data-columns-width);
+        grid-template-rows: 49px;
+        cursor: pointer;
+      }
+
+      &__cell {
+        display: flex;
+        height: 100%;
+        align-items: center;
+      }
+
+      &__head {
+        .grid__row {
+          color: $grid-head-color;
+          @include border(0.125rem, solid, $grid-border-color, bottom);
+          .grid__cell:not([data-grid-sortable='false']) {
+            cursor: pointer;
+            > * { pointer-events: none; }
+
+            .z-icon {
+              &.i-sorting {
+                background: $grid-head-color;
+                @include rotate(180);
+              }
+            }
+            &[data-grid-sorting-type='desc'] {
+              .z-icon {
+                &.i-sorting {
+                  @include rotate(0);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &__body {
+        overflow: hidden !important;
+        display: flex;
+        .grid__row {
+          color: $grid-body-color;
+          @include border(0.0625rem, solid, $grid-border-color, bottom);
+          &:hover { background-color: $grid-hover-bg-color; }
+        }
+
+        .bold { font-weight: $font-weight-bold; }
+        .sub-text {
+          color: $gray500;
+          font-size: $font-size-xs;
+        }
+      }
+
+      // 데이터가 없을때
+      &--noData {
+        .grid__cell {
+          grid-column: 1 / -1;
+          justify-content: center;
+        }
+      }
     }
   }
 }

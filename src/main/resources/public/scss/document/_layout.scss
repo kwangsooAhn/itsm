@@ -40,7 +40,6 @@
     .z-document-main-content {
       display: inline-block;
       width: 100%;
-      margin: 6.25rem 0 3rem; // 100px 48px
       text-align: center;
       // 문서 번호
       .z-document-numbering {
@@ -53,6 +52,7 @@
 
     // board 영역
     .z-drawing-board {
+      margin: 6.25rem 0 3rem; // 100px 48px
       .z-form { margin: 0 6.25rem !important; } // 100px
     }
 

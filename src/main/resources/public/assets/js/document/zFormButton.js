@@ -26,10 +26,12 @@ class ZFormButton {
         this.isToken = !!(formDataJson.tokenId);
         this.defaultButtonElement = document.getElementById('defaultButtonArea');
         this.actionButtonTopElement = document.getElementById('actionButtonTopArea'); // 상단 동적 버튼 영역
+        this.returnButtonElement = document.getElementById('returnButtonArea'); // 미리보기 버튼 영역
         this.formDataJson = formDataJson;
         this.zForm = zForm;
         // 기본 버튼 추가
         this.makeDefaultButton();
+        this.makeReturnButton();
         // 편집 가능할 경우에만 버튼 추가
         if (this.zForm.editable) {
             // 사용자 정의 버튼 추가
@@ -67,6 +69,21 @@ class ZFormButton {
         }
 
         this.defaultButtonElement.appendChild(UIButtonGroup.domElement);
+    }
+    makeReturnButton() {
+        if (!zValidation.isDefined(this.returnButtonElement)) { return false; }
+        // 초기화
+        this.returnButtonElement.innerHTML = '';
+
+        // 버튼 목록 생성
+        const UIButtonGroup = new UIDiv().setUIClass('z-button-list');
+
+        // 돌아가기 버튼
+        const UIReturnButton = new UIButton(i18n.msg('common.btn.return')).addUIClass('secondary')
+            .onUIClick(this.zForm.back.bind(this.zForm));
+        UIButtonGroup.addUI(UIReturnButton);
+
+        this.returnButtonElement.appendChild(UIButtonGroup.domElement);
     }
     /**
      * 신청서 상단 동적 버튼 목록 추가 및 이벤트 생성

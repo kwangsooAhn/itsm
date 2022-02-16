@@ -2,7 +2,7 @@
 
 // 썸네일 모달
 .modal-dialog {
-  &.z-thumbnail-image {
+  &.z-thumbnail-image, &.z-thumbnail-file {
     width: $thumbnail-modal-width;
     height: $thumbnail-modal-height;
     
