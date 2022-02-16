@@ -45,7 +45,6 @@
 </div>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[ */
-    let offsetCount = 0;
     let searchFromDt = i18n.getDate({'months': -1});
     let searchToDt = i18n.getDate();
 
@@ -133,21 +132,6 @@
                     tagType: 'instance'
                 });
             });
-            OverlayScrollbars(document.querySelector('.grid__body'), {
-                className: 'scrollbar',
-                callbacks: {
-                    onScroll: function (e) {
-                        const scrollHeight = e.target.scrollHeight;
-                        const scrollTop = e.target.scrollTop;
-                        const clientHeight = e.target.clientHeight;
-                        if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                tokenSearch(true);
-                            }
-                        }
-                    }
-                }
-            });
         });
     }
 
@@ -156,8 +140,7 @@
      */
     function setDateTimeFormat(elem) {
         elem.querySelectorAll('.date-time-from-now').forEach(dt => {
-            const userDateTime = i18n.userDateTime(dt.textContent.trim());
-            dt.textContent = dateFormatFromNow(userDateTime);
+            dt.textContent = dateFormatFromNow(dt.textContent.trim());
         });
 
         elem.querySelectorAll('.date-time').forEach(dt => {
