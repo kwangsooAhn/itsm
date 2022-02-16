@@ -105,8 +105,7 @@
         margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
       }
 
-      // 신청서 아이콘
-      .document-icon-content {
+      .hidden-control-content {
         display: none;
 
         &.on { display: block; }

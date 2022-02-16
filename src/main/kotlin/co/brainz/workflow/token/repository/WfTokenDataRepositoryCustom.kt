@@ -6,7 +6,7 @@
 
 package co.brainz.workflow.token.repository
 
-import co.brainz.itsm.chart.dto.average.ChartTokenData
+import co.brainz.itsm.statistic.customChart.dto.average.ChartTokenData
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDataDto
 
 interface WfTokenDataRepositoryCustom {

@@ -24,7 +24,7 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button secondary" onclick="location.href='/downloads/new'"
+        <button type="button" class="z-button primary" onclick="location.href='/downloads/new'"
                 sec:authorize="hasAuthority('portal.manage')" th:text="#{common.btn.add}">
         </button>
     </div>

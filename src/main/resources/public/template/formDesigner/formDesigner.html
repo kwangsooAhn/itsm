@@ -208,6 +208,10 @@
                                     <span class="z-icon i-ci"></span>
                                     <span class="z-component-name" th:text="#{form.component.ci}"></span>
                                 </div>
+                                <div class="z-component-icon fileDownload list-group-item" id="fileDownload" tabindex="0" style="--data-row:6;">
+                                    <span class="z-icon i-fileDownload"></span>
+                                    <span class="z-component-name" th:text="#{form.component.fileDownload}"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -323,7 +327,7 @@
 <template id="documentModalTemplate">
     <div class="z-document-main preview flex-column align-items-center">
         <div class="z-document-main-header flex-row justify-content-end align-items-center flex-wrap">
-            <div id="defaultButtonArea"></div>
+            <div id="returnButtonArea"></div>
         </div>
         <div class="z-drawing-board" id="documentDrawingBoard" data-display="ready"></div>
     </div>

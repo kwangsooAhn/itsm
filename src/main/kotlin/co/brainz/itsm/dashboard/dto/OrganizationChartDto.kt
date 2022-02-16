@@ -6,8 +6,8 @@
 package co.brainz.itsm.dashboard.dto
 
 import co.brainz.framework.tag.dto.AliceTagDto
-import co.brainz.itsm.chart.dto.ChartConfig
-import co.brainz.itsm.chart.dto.ChartData
+import co.brainz.itsm.statistic.customChart.dto.ChartConfig
+import co.brainz.itsm.statistic.customChart.dto.ChartData
 import java.io.Serializable
 
 data class OrganizationChartDto(

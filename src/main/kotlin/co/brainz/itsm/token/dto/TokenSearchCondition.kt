@@ -5,6 +5,8 @@
 
 package co.brainz.itsm.token.dto
 
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.querydsl.QuerydslConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
@@ -23,10 +25,13 @@ data class TokenSearchCondition(
     var searchFromDt: String = "",
     var searchToDt: String = "",
     var documentGroup: String = "",
-    var offset: Long = 100,
     var searchTag: String = "",
-    var isScroll: Boolean = false
+    val pageNum: Long = 0L,
+    val orderColName: String? = null,
+    val orderDir: String? = QuerydslConstants.OrderSpecifier.ASC.code,
+    val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
+    val isPaging = pageNum > 0
     val tagArray: List<String> = this.tagStrArray()
 
     private fun tagStrArray(): List<String> {

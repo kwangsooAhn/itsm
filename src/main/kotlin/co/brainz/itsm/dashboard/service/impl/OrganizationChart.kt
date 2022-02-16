@@ -10,10 +10,10 @@ import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.tag.dto.AliceTagDto
-import co.brainz.itsm.chart.constants.ChartConstants
-import co.brainz.itsm.chart.dto.ChartConfig
-import co.brainz.itsm.chart.dto.ChartData
-import co.brainz.itsm.chart.dto.ChartRange
+import co.brainz.itsm.statistic.customChart.constants.ChartConstants
+import co.brainz.itsm.statistic.customChart.dto.ChartConfig
+import co.brainz.itsm.statistic.customChart.dto.ChartData
+import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.itsm.dashboard.dto.OrganizationChartDto
 import co.brainz.itsm.dashboard.repository.DashboardTemplateRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
