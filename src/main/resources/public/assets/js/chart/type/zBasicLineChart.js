@@ -143,12 +143,15 @@ export const zBasicLineChartMixin = {
             const tag = this.chart.series[i];
             let series = [];
             let seriesId = ''; // 태그는 저장된 후에 ID가 설정되므로 name 기준으로 비교하여 일치하면 태그 ID를 넣어준다.
+            let seriesName = ''; // 차트의 기간 설정 데이터가 있을 경우, 날짜 데이터로 변환
             for (let j = 0; j < data.length; j++) {
                 const temp = data[j];
                 if (tag.options.name === temp.series) {
                     seriesId = temp.id;
+                    seriesName = (this.config.range.type !== CHART.RANGE_TYPE_NONE) ?
+                        this.getStringToDateTime(this.convertCategoryToLocal(temp.category)): temp.category;
                     series.push({
-                        x: this.getStringToDateTime(this.convertCategoryToLocal(temp.category)),
+                        x: seriesName,
                         y: Number(temp.value)
                     });
                 }

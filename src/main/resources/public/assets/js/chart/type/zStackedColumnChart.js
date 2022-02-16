@@ -120,14 +120,16 @@ export const zStackedColumnChartMixin = {
     update(data) {
         if (data.length === 0) { return false; }
 
-        const categories =  [...new Set(data.map(item => item.category))];
-        // 날짜 데이터 변환
-        const dateTimeCategories =  categories.map((category) =>
-            Highcharts.dateFormat(
-                this.getDateTimeFormat(),
-                this.getStringToDateTime(this.convertCategoryToLocal(category)))
-        );
-        this.chart.xAxis[0].setCategories(dateTimeCategories, false);
+        let categories =  [...new Set(data.map(item => item.category))];
+        // 차트의 기간 설정 데이터가 있을 경우, 날짜 데이터 변환
+        if (this.config.range.type !== CHART.RANGE_TYPE_NONE) {
+            categories = categories.map((category) =>
+                Highcharts.dateFormat(
+                    this.getDateTimeFormat(),
+                    this.getStringToDateTime(this.convertCategoryToLocal(category)))
+            );
+        }
+        this.chart.xAxis[0].setCategories(categories, false);
         for (let i = 0; i < this.chart.series.length; i++) {
             const tag = this.chart.series[i];
             let series = [];
