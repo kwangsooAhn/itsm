@@ -7,9 +7,7 @@ package co.brainz.itsm.dashboard.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.dashboard.entity.DashboardTemplateEntity
-import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
-import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
