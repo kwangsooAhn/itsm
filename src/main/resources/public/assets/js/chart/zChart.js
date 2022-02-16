@@ -53,10 +53,7 @@ const HIGHCHARTS_THEME = {
         minPadding:0,
         scrollbar: { // 스크롤바 표시를 위해서는 min / max 가 필요함
             enabled: true,
-            showFull: false,
-            size: 8, // 스크롤바 사이즈
-            trackBackgroundColor: '#F5F5F5',
-            barBackgroundColor: '#FF0000'
+            showFull: false
         }
     },
     yAxis: {
