@@ -22,7 +22,7 @@ class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentRepositoryCustom {
 
     override fun findByDocuments(documentSearchCondition: DocumentSearchCondition):
-            QueryResults<DocumentDto> {
+        QueryResults<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
 
         val documentQuery = from(document)
@@ -84,7 +84,7 @@ class WfDocumentRepositoryImpl :
     }
 
     override fun findAllByDocuments(documentSearchCondition: DocumentSearchCondition):
-            MutableList<DocumentDto> {
+        MutableList<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
         val documentQuery = from(document)
             .select(

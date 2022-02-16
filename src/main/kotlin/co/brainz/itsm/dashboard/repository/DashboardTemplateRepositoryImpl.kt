@@ -12,16 +12,19 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTemplateEntity::class.java), DashboardTemplateRepositoryCustom {
+class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTemplateEntity::class.java),
+    DashboardTemplateRepositoryCustom {
     override fun countRunningDocument(document: String, organizationId: String, status: String): Long {
         val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
-        val user : QAliceUserEntity = QAliceUserEntity.aliceUserEntity
+        val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
         return from(instance)
             .join(user).on(instance.instanceCreateUser.userKey.eq(user.userKey))
             .fetchJoin()
-            .where(instance.instanceStatus.eq(status)
-                .and(instance.document.documentId.eq(document))
-                .and(user.department.eq(organizationId)))
+            .where(
+                instance.instanceStatus.eq(status)
+                    .and(instance.document.documentId.eq(document))
+                    .and(user.department.eq(organizationId))
+            )
             .fetchCount()
     }
 }

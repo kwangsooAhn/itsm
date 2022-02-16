@@ -27,7 +27,7 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
             query.limit(organizationSearchCondition.contentNumPerPage)
             query.offset((organizationSearchCondition.pageNum - 1) * organizationSearchCondition.contentNumPerPage)
         }
-        query.orderBy(organization.level.asc(),organization.seqNum.asc())
+        query.orderBy(organization.level.asc(), organization.seqNum.asc())
         return query.fetchResults()
     }
 
