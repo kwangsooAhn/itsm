@@ -95,6 +95,19 @@ class WorkFlowController(
     }
 
     /**
+     * 업무흐름 링크 수정 화면.
+     *
+     * @param documentId
+     * @return String
+     */
+    @GetMapping("/workflowLink/{documentId}/edit")
+    fun getWorkFlowLinkEdit(@PathVariable documentId: String, model: Model): String {
+        model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
+        model.addAttribute("documentData", documentService.getDocumentLinkAdmin(documentId))
+        return workFlowEditModalPage
+    }
+
+    /**
      * 신청서 양식 편집 화면.
      *
      * @param documentId

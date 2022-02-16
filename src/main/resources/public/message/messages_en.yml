@@ -81,6 +81,7 @@ common:
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     save: "Saved."
+    select: "Please select data."
     selectAfterDate: "Please select after {0} date."
     selectAfterDateTime: "Please select after {0}."
     selectAfterTime: "Please select after {0} time."
@@ -245,9 +246,11 @@ chart:
   label:
     all: "All"
     average: "Average"
-    chartt: "User Custom Chart"
-    defaultInfo: "Default Info"
+    chart: "User Custom Chart"
+    condition: "condition"
+    chartSetting: "Chart Setting"
     description: "Chart Description"
+    documentStatus: "Target document Status"
     edit: "Chart Edit"
     editDescription: "Register or Edit for custom chart."
     name: "Chart Name"
@@ -279,8 +282,9 @@ chart:
   msg:
     searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
-    enterTargetTags: "Please enter a target tags."
     enterDurationDigit: "Please enter a Duration."
+    enterTargetTags: "Please enter a target tags."
+    maxPeriodUnitRange: "If the interval is hourly, please set the period within {0} days."
     periodUnitOutOfRange: "The duration is greater than the period."
   chart:
     basicLine: "Basic Line Chart"
@@ -289,6 +293,11 @@ chart:
     stackedBar: "Stacked Bar Chart"
     lineAndColumn: "Line And Column Chart"
     gauge: "Gauge Chart"
+  tooltip:
+    targetTags: "Enter the target of the data to be charted as a tag."
+    condition: "• The condition expression supports arithmetic operations (+, -, *, /) and logical operators &&, ||, and comparative operators such as ==, !=, <, >, <=, >= .<br/><br/>
+    • [] can be used to express the tag. If the tag name contains brackets ([ or ]), write the tag name in the expression such as '\\]'.<br/><br/>
+    • () can be used to prioritize logical operations. If the tag name contains brackets (( or )), write the tag name in the expression such as '\\)'."
 
 # CMDB
 cmdb:
@@ -567,6 +576,7 @@ document:
     enable: "Enable"
     form: "Form"
     icon: "Service Request Icon"
+    link: "Document Link"
     name: "Service Request Name"
     notSelect: "Not Select"
     numberingRule: "Document Numbering Rule"
@@ -577,13 +587,16 @@ document:
     status: "Service Request Status"
     tempDocument: "Temporary Application"
     type: "Document Type"
-    write: "Service Request Write"
+    useYn: "Use enable"
+    write: "WorkFlow Edit"
   msg:
     adminSearchDescription: "View and manage workflow by combining process and document form."
     changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status will be deleted."
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
+    checkUrlLink: "Please enter it according to the URL format"
     enterBusinessFlowColor: "Please enter Business Flow Color."
+    enterDocumentLink: "Please enter document's link."
     enterDocumentName: "Please enter document's name."
     launchedInstance: "There is an instance started and cannot be deleted."
     lengthMax: "Please enter less than {0} characters."
@@ -592,6 +605,9 @@ document:
     process: "It has been processed."
     requiredFileupload: "Please upload a file."
     searchDescription: "Inquire and apply for a document"
+    selectForm: "Please select form."
+    selectProcess: "Please select process."
+    selectNumberingRule: "Please select numbering rule"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
@@ -603,6 +619,7 @@ document:
     use: "Use"
   type:
     applicationForm: "Application Form"
+    applicationFormLink: "Application Form - Link"
     workflow: "WorkFlow"
 
 # Download
@@ -874,21 +891,6 @@ form:
     publish: "Publish"
     use: "Use"
 
-# Image
-image:
-  label:
-    name: "Image"
-    list: "Image Management"
-    placeholder: "Select Your Image"
-    popupTitle: "Select Image"
-    upload: "Upload Your Image"
-  msg:
-    existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
-    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
-    fileSelect: "Please select a file."
-    registrationSuccess: "Image Registration Success."
-    searchDescription: "Add, view and manage images to be used in forms."
-
 # Login
 login:
   btn:
@@ -940,11 +942,15 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
-  report:
-    chart: "User custom chart"
-    parent: "Report"
-    report: "Report List"
-    template: "Report Template"
+  statistic:
+    basicChart: "Basic Chart"
+    basicReport: "Basic Report Inquiry"
+    customChart: "User custom chart"
+    customDashboardTemplate: "Custom Dashboard Template"
+    customReport: "Report Inquiry"
+    customReportTemplate: "Custom Report Template"
+    dashboardTemplate: "Dashboard Template"
+    parent: "Statistics/Report"
   setting:
     editMyInfo: "Edit My Info"
   token:
@@ -952,7 +958,7 @@ menu:
   workflow:
     customCode: "Custom Code"
     form: "Form"
-    image: "Image"
+    file: "File"
     numberingPattern: "Pattern"
     numberingRule: "Document Number"
     parent: "Workflow"
@@ -1076,6 +1082,7 @@ process:
     title: "Process Designer"
     undo: "Undo"
   msg:
+    condition: "The applicable documentation specified in accordance with conditions to enter is registered as an attachment."
     duplicateProcessName: "Duplicate process name! Please enter other process name."
     duplicateData: "The same data exists."
     enterRequired: "{0} Required field is empty.<br>Please enter Required field"
@@ -1085,6 +1092,9 @@ process:
     startEventnMustOne: 'Only one start event is allowed.'
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
+    sourceMappingId: "Mapping ID of the component to which the attachment is to be added.<br>※ The working target component may be a file upload component or an image component."
+    targetFileMappingId: "Mapping ID of the component to which the working condition is to be applied.<br>Compare the input value of the component with the working conditions."
+    targetCIMappingId: "Mapping ID of CI component to reflect CMDB changes"
     uncheckWithdraw: "Can't set withdraw in the first element.<br>Please uncheck withdraw in {0} element."
   title:
     preview: "Zenius ITSM : Process Preview"
@@ -1162,8 +1172,8 @@ process:
       userTask: "User Task"
       withdraw: "Withdraw"
 
-# Report
-report:
+# statistic
+statistic:
   btn:
     pdf: "PDF"
   label:
@@ -1171,11 +1181,11 @@ report:
     chart: "Chart"
     description: "Description"
     publishDate: "Publish Date"
-    report: "Report"
+    customReport: "Custom Report"
     reportName: "Report Name"
     search: "Report Search"
     searchPlaceholder: "Template name"
-    template: "Template"
+    customReportTemplate: "custom Report Template"
     templateEdit: "Template Edit"
     templateName: "Template Name"
     templateRegister: "Template Register"
@@ -1449,6 +1459,7 @@ validation:
     checkUserIdFormat: "Please enter the correct userId format."
     dataNotDuplicate: "Duplicate data cannot be included."
     elementNotExist: "The element does not exist."
+    fileSelect: "Please select a file."
     integer: "Please enter only integer."
     max: "Please enter below {0}."
     maxLength: "Please enter less than {0} characters."
@@ -1481,10 +1492,20 @@ project:
 # uploader
 file:
   label:
+    list: "File Management"
+    name: "File"
     or: "or"
+    placeholder: "Select Your File"
+    popupTitle: "Select File"
+    upload: "Upload Your File"
   msg:
     browser: "Find the file yourself."
+    existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
+    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
+    fileSelect: "Please select a file."
     noAttachFile: "There are no attachments."
+    registrationSuccess: "File Registration Success."
+    searchDescription: "Add, view and manage Files to be used in forms."
     upload: "Drop files here to upload."
 
 # Pattern

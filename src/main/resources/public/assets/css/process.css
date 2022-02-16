@@ -5400,13 +5400,13 @@ svg path.connector.hidden {
 }
 .z-help-tooltip .z-tooltip-contents {
   position: absolute;
-  left: auto;
+  left: 0;
   visibility: hidden;
   background-color: #FFFFFF;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   color: #339AF0;
-  width: 28.125rem;
+  width: 100%;
   border: 0.125rem solid #339AF0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -5625,6 +5625,10 @@ svg path.connector.hidden {
   margin-left: -0.313rem;
 }
 
+.z-help-tooltip {
+  position: static;
+}
+
 /* _modal.scss
  *
  * 파일 경로 : template/_modal.scss
@@ -5760,6 +5764,19 @@ body.modal-active {
   background-repeat: no-repeat;
   background-position: center center;
 }
+.z-thumbnail-main .z-thumbnail .z-thumbnail-image,
+.z-thumbnail-main .z-thumbnail .z-thumbnail-file {
+  position: relative;
+}
+.z-thumbnail-main .z-thumbnail .z-thumbnail-image img,
+.z-thumbnail-main .z-thumbnail .z-thumbnail-file img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
 .z-thumbnail-main .z-thumbnail .z-thumbnail-info {
   height: 6.563rem;
   padding: 0.75rem 0.9375rem;
@@ -5815,11 +5832,11 @@ body.modal-active {
   border: 0.0625rem solid #339AF0;
   background-color: #E3F5FC;
 }
-.z-thumbnail-main .z-icon.i-image-upload {
-  width: 4.813rem;
-  height: 4.813rem;
-  -webkit-mask-image: url("../media/icons/icon_image_upload.svg");
-  mask-image: url("../media/icons/icon_image_upload.svg");
+.z-thumbnail-main .z-icon.i-file-upload {
+  width: 5rem;
+  height: 5rem;
+  -webkit-mask-image: url("../media/icons/icon_file_upload.svg");
+  mask-image: url("../media/icons/icon_file_upload.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;

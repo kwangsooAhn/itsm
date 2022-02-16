@@ -6636,6 +6636,19 @@ body.modal-active {
   background-repeat: no-repeat;
   background-position: center center;
 }
+.z-thumbnail-main .z-thumbnail .z-thumbnail-image,
+.z-thumbnail-main .z-thumbnail .z-thumbnail-file {
+  position: relative;
+}
+.z-thumbnail-main .z-thumbnail .z-thumbnail-image img,
+.z-thumbnail-main .z-thumbnail .z-thumbnail-file img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
 .z-thumbnail-main .z-thumbnail .z-thumbnail-info {
   height: 6.563rem;
   padding: 0.75rem 0.9375rem;
@@ -6691,11 +6704,11 @@ body.modal-active {
   border: 0.0625rem solid #339AF0;
   background-color: #E3F5FC;
 }
-.z-thumbnail-main .z-icon.i-image-upload {
-  width: 4.813rem;
-  height: 4.813rem;
-  -webkit-mask-image: url("../media/icons/icon_image_upload.svg");
-  mask-image: url("../media/icons/icon_image_upload.svg");
+.z-thumbnail-main .z-icon.i-file-upload {
+  width: 5rem;
+  height: 5rem;
+  -webkit-mask-image: url("../media/icons/icon_file_upload.svg");
+  mask-image: url("../media/icons/icon_file_upload.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -7811,7 +7824,7 @@ span.modal_node_selected label {
   min-height: 2.25rem;
   align-items: flex-start;
   flex-wrap: wrap;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   cursor: text;
   outline: 0;
@@ -8063,7 +8076,7 @@ span.modal_node_selected label {
   -moz-border-radius: 50%;
   order: 5;
   cursor: pointer;
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
   color: #63686C;
@@ -8215,7 +8228,7 @@ span.modal_node_selected label {
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
-  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   box-sizing: inherit;
   cursor: pointer;

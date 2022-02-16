@@ -208,7 +208,7 @@
 // 문서함
 // 신청서
 // 대시보드
-// 업무흐름 관리 > 이미지 관리
+// 업무흐름 관리 > 파일 관리
 .z-document-header,
 .z-token-header,
 .z-image-header {
@@ -267,6 +267,7 @@
     //신청서 문서이름
     .document-name {
       width: 17.5rem; //280px
+      color: $element-font-color;
       font-size: $font-size-l;
       font-weight: $font-weight-medium;
     }
@@ -363,8 +364,8 @@
     }
   }
 }
-// 업무흐름 관리 > 이미지 관리
-.z-image-content-edit {
+// 업무흐름 관리 > 파일 관리
+.z-file-content-edit {
   padding: 0 3.75rem; // 0 60px
   background-color: $edit-content-bg-color;
 }

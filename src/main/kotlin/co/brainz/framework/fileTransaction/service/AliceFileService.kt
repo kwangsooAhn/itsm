@@ -8,10 +8,10 @@ package co.brainz.framework.fileTransaction.service
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.dto.AliceFileDetailDto
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.dto.AliceFileLocDto
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
-import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
@@ -170,15 +170,18 @@ class AliceFileService(
     }
 
     /**
-     * 워크플로우 이미지 파일 업로드.
+     * 파일관리 파일 업로드.
      */
-    fun uploadImageFiles(multipartFiles: List<MultipartFile>): List<AliceImageFileDto> {
-        val dir = super.getPath(FileConstants.Path.IMAGE.path)
-        val images = mutableListOf<AliceImageFileDto>()
+    fun uploadFiles(multipartFiles: List<MultipartFile>): Boolean {
+        val dir = super.getPath(FileConstants.Path.FILE.path)
+        val extSet = mutableSetOf<String>()
+        aliceFileProvider.getFileNameExtension().forEach {
+            extSet.add(it.fileNameExtension.toUpperCase())
+        }
         multipartFiles.forEach {
             val filePath = Paths.get(dir.toString() + File.separator + it.originalFilename)
             val file = filePath.toFile()
-            if (aliceFileProvider.getAllowedImageExtensions().indexOf(file.extension.toLowerCase()) > -1) {
+            if (extSet.contains(file.extension.toUpperCase())) {
                 var num = 1
                 var fileName = file.name
                 while (file.exists()) {
@@ -186,55 +189,48 @@ class AliceFileService(
                     file.renameTo(File(dir.toFile(), fileName))
                 }
                 it.transferTo(file)
-                val bufferedImage = ImageIO.read(file)
-                val resizedBufferedImage = resizeBufferedImage(bufferedImage, FileConstants.Type.IMAGE.code)
-                images.add(
-                    AliceImageFileDto(
-                        name = fileName,
-                        extension = file.extension,
-                        fullpath = file.absolutePath,
-                        size = super.humanReadableByteCount(it.size),
-                        data = super.encodeToString(resizedBufferedImage, file.extension),
-                        width = bufferedImage.width,
-                        height = bufferedImage.height,
-                        updateDt = LocalDateTime.now()
-                    )
-                )
             }
         }
-
-        return images
+        return true
     }
 
     /**
-     * 이미지 로드
+     * 파일 조회
      */
-    fun getImageFile(name: String): AliceImageFileDto? {
-        val dir = super.getPath(FileConstants.Path.IMAGE.path)
+    fun getFile(name: String): AliceFileDetailDto? {
+        val dir = super.getPath(FileConstants.Path.FILE.path)
         val filePath = Paths.get(dir.toString() + File.separator + name)
         val file = filePath.toFile()
-        return if (file.exists()) {
-            val bufferedImage = ImageIO.read(file)
-            AliceImageFileDto(
+        var fileDetailDto: AliceFileDetailDto? = null
+        if (file.exists()) {
+            var width: Int? = null
+            var height: Int? = null
+            if (aliceFileProvider.getAllowedImageExtensions().indexOf(file.extension.toLowerCase()) > -1) {
+                val bufferedImage = ImageIO.read(file)
+                width = bufferedImage.width
+                height = bufferedImage.height
+            }
+            fileDetailDto = AliceFileDetailDto(
                 name = file.name,
                 extension = file.extension,
                 fullpath = file.absolutePath,
-                size = super.humanReadableByteCount(file.length()),
                 data = Base64.getEncoder().encodeToString(file.readBytes()),
-                width = bufferedImage.width,
-                height = bufferedImage.height,
+                width = width,
+                height = height,
+                size = super.humanReadableByteCount(file.length()),
                 updateDt = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.lastModified()), ZoneId.systemDefault())
             )
-        } else {
-            null
+            fileDetailDto.width = width
+
         }
+        return fileDetailDto
     }
 
     /**
-     * 이미지 삭제.
+     * 파일 삭제.
      */
-    fun deleteImage(name: String): Boolean {
-        val dir = super.getPath(FileConstants.Path.IMAGE.path)
+    fun deleteFile(name: String): Boolean {
+        val dir = super.getPath(FileConstants.Path.FILE.path)
         val filePath = Paths.get(dir.toString() + File.separator + name)
         return try {
             Files.delete(filePath)
@@ -245,10 +241,10 @@ class AliceFileService(
     }
 
     /**
-     * 이미지명 수정.
+     * 파일명 수정.
      */
-    fun renameImage(originName: String, modifyName: String): Boolean {
-        val dir = super.getPath(FileConstants.Path.IMAGE.path)
+    fun renameFile(originName: String, modifyName: String): Boolean {
+        val dir = super.getPath(FileConstants.Path.FILE.path)
         val filePath = Paths.get(dir.toString() + File.separator + originName)
         val file = filePath.toFile()
         val modifyFile = File(dir.toFile(), modifyName)
@@ -328,6 +324,24 @@ class AliceFileService(
         val fileOwnMapEntityList = aliceFileOwnMapRepository.findAllByOwnId(ownId)
         for (fileOwnMapEntity in fileOwnMapEntityList) {
             this.delete(fileOwnMapEntity.fileLocEntity)
+        }
+    }
+
+    /**
+     * 파일관리 다운로드
+     */
+    fun download(fileName: String): ResponseEntity<InputStreamResource> {
+        val dir = super.getPath(FileConstants.Path.FILE.path)
+        val resource =
+            FileSystemResource(Paths.get(dir.toString() + File.separator + fileName))
+        if (resource.exists() && fileName.isNotEmpty()) {
+            return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(Tika().detect(resource.path)))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"$fileName\"")
+                .body(InputStreamResource(resource.inputStream))
+        } else {
+            logger.error("File not found: {}", fileName)
+            throw AliceException(AliceErrorConstants.ERR, "File not found: $fileName")
         }
     }
 

@@ -20,4 +20,15 @@ object DashboardConstants {
         REQUEST("document.group.request"),
         ETC("document.group.etc")
     }
+
+    /**
+     * 개인현황판 기본 템플릿
+     */
+    const val DEFAULT_TEMPLATE_ID = "template-001"
+
+    enum class TemplateComponent(val code: String) {
+        ORGANIZATION_CHART("requestStatusByOrganization.chart"),
+        STATUS_USER_LIST("requestStatusByUser.list"),
+        ORGANIZATION_LIST("requestListByOrganization.list")
+    }
 }

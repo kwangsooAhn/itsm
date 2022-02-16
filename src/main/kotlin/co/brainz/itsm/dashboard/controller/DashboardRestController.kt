@@ -20,4 +20,6 @@ class DashboardRestController(
     fun getDashboardStatistic(): List<DashboardStatisticDto> {
         return dashboardService.getDashboardStatistic()
     }
+
+    //TODO: Highchart에서 부서 클릭시 부서별 데이터 조회 URL 추가
 }

@@ -6,6 +6,7 @@
 package co.brainz.framework.util
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.itsm.dashboard.constants.DashboardConstants
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
@@ -15,6 +16,7 @@ class CurrentSessionUser {
     fun getUserKey(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.userKey
     fun getUserId(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.userId
     fun getEmail(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.email
+    fun getUserTemplateId(): String = DashboardConstants.DEFAULT_TEMPLATE_ID
 
     fun getAuth(): Set<String> {
         val authorises = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!
