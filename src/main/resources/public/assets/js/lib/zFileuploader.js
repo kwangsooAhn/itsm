@@ -40,13 +40,6 @@
     }
 
     /**
-     * 확장자에 따른 파일 아이콘 조회
-     */
-    function getFileIcon(fileName) {
-        return '/assets/media/icons/fileUploader/icon_document_' + getExtension(fileName) + '.svg';
-    }
-
-    /**
      * 매개변수 초기화
      */
     function setExtraParam(extraParam) {
@@ -167,7 +160,7 @@
         return `` +
         `<div class="dz-preview dz-file-preview">` +
             `<div class="dz-details">` +
-                `<img class="dz-file-type" src="${getFileIcon(file.originName, options.isView)}" alt=""/>` +
+                `<img class="dz-file-type" src="${aliceJs.getFileExtensionIcon(getExtension(file.originName))}" alt=""/>` +
                 `<div class="dz-filename" id="loadedFileNames" style="${options.isView ? 'cursor: pointer': ''}">` +
                     `<span>${file.originName}</span>` +
                 `</div>` +
@@ -402,7 +395,7 @@
                             dropzoneMessage.style.display = 'none';
                         }
 
-                        file.previewElement.querySelector('.dz-file-type').src = getFileIcon(file.name, options.isView);
+                        file.previewElement.querySelector('.dz-file-type').src = aliceJs.getFileExtensionIcon(getExtension(file.name));
                         // 삭제 아이콘 추가
                         const removeIcon = document.createElement('span');
                         removeIcon.className = 'z-icon i-delete';

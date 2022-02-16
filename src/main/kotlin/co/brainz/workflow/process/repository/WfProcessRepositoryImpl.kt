@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.process.repository
 
 import co.brainz.itsm.process.dto.ProcessSearchCondition
@@ -5,7 +10,7 @@ import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.process.entity.QWfProcessEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.dsl.CaseBuilder
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -30,10 +35,10 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
             query.where(process.processStatus.`in`(processSearchCondition.statusArray)).orderBy(process.processName.asc())
         } else {
             val statusNumber = CaseBuilder()
-                .`when`(process.processStatus.eq(RestTemplateConstants.ProcessStatus.EDIT.value)).then(1)
-                .`when`(process.processStatus.eq(RestTemplateConstants.ProcessStatus.PUBLISH.value)).then(2)
-                .`when`(process.processStatus.eq(RestTemplateConstants.ProcessStatus.USE.value)).then(3)
-                .`when`(process.processStatus.eq(RestTemplateConstants.ProcessStatus.DESTROY.value)).then(4)
+                .`when`(process.processStatus.eq(WorkflowConstants.ProcessStatus.EDIT.value)).then(1)
+                .`when`(process.processStatus.eq(WorkflowConstants.ProcessStatus.PUBLISH.value)).then(2)
+                .`when`(process.processStatus.eq(WorkflowConstants.ProcessStatus.USE.value)).then(3)
+                .`when`(process.processStatus.eq(WorkflowConstants.ProcessStatus.DESTROY.value)).then(4)
                 .otherwise(5)
             query.orderBy(statusNumber.asc())
                 .orderBy(process.updateDt.coalesce(process.createDt).desc())

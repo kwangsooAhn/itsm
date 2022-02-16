@@ -24,7 +24,7 @@
     <!-- 부서별 요청현황 -->
     <div class="flex-column component" style="width: 80rem;">
         <h3 class="sub-title" th:text="#{dashboard.label.organizationWorkStatus}"></h3>
-        <div class="contents" id="container"></div>
+        <div id="container" class="contents"></div>
     </div>
     <!-- 개인 요청현황 -->
     <div class="flex-column ml-auto component" style="width: 16.875rem;">
@@ -58,8 +58,6 @@
                     // 차트 데이터 업데이트
                     zChartManager.update(data.chartData);
                 });
-
-            OverlayScrollbars(document.querySelector('.highcharts-background'), { className: 'scrollbar' });
         }
     /* ]]> */
     </script>

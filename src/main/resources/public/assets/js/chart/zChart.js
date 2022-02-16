@@ -9,7 +9,7 @@
  * https://www.brainz.co.kr
  */
 import { CHART } from '../lib/zConstants.js';
-import { zLineChartMixin } from './type/zLineChart.js';
+import { zBasicLineChartMixin } from './type/zBasicLineChart.js';
 import { zBasicColumnChartMixin } from './type/zBasicColumnChart.js';
 import { zStackedColumnChartMixin } from './type/zStackedColumnChart.js';
 import { zStackedBarChartMixin } from './type/zStackedBarChart.js';
@@ -155,7 +155,7 @@ export  default class ZChart {
     getMixinByType(type) {
         switch(type) {
             case CHART.TYPE.BASIC_LINE:
-                return zLineChartMixin;
+                return zBasicLineChartMixin;
             case CHART.TYPE.BASIC_COLUMN:
                 return zBasicColumnChartMixin;
             case CHART.TYPE.STACKED_COLUMN:
@@ -261,6 +261,19 @@ export  default class ZChart {
                 return '%Y-%m-%d';
         }
     }
+
+    /**
+     * 전달받은 category 날짜 데이터를 사용자 시간으로 변환하여 준다.
+     * 자세한 내용은 #1874 일감을 참고한다.
+     * @param utcTime 카테고리 시간 문자열 (전달된 서버시간 2021-12-01 15:00:00)
+     * @returns localTime 변환된 시간 문자열 (local 시간 2021-12-01 00:00:00)
+     */
+    convertCategoryToLocal(utcTime) {
+        const systemLocalTime = luxon.DateTime.fromFormat(
+            i18n.systemHourType(utcTime), CHART.DATETIME_FORMAT, { zone: 'utc' }).setZone(i18n.timezone).toISO();
+        return i18n.userDateTime(systemLocalTime, CHART.DATETIME_FORMAT);
+    }
+
     /**
      * 전달받은 데이터의 날짜 데이터를 Date 타입으로 변경
      * @param userDateTime 데이터 문자열

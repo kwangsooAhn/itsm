@@ -117,7 +117,10 @@ export const zStackedBarChartMixin = {
         const categories =  [...new Set(data.map(item => item.category))];
         // 날짜 데이터 변환
         const dateTimeCategories =  categories.map((category) =>
-            Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(category)));
+            Highcharts.dateFormat(
+                this.getDateTimeFormat(),
+                this.getStringToDateTime(this.convertCategoryToLocal(category)))
+        );
         this.chart.xAxis[0].setCategories(dateTimeCategories, false);
         for (let i = 0; i < this.chart.series.length; i++) {
             const tag = this.chart.series[i];

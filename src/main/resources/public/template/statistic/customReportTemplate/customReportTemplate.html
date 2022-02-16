@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
+<head>
+    <title th:text="${template != null} ? #{statistic.label.templateEdit} : #{statistic.label.templateRegister}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
+</th:block>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{statistic.label.customReportTemplate}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{statistic.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <div class="flex-column z-edit-row">
+            <label for="templateName">
+                <span th:text="#{statistic.label.templateName}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" id="templateName" class="z-input text-ellipsis" required="true" maxlength="100"
+                   th:attr="data-validation-required-name=#{statistic.label.templateName}"
+                   th:value="${template?.templateName}" th:readonly="${view}"/>
+        </div>
+        <div class="flex-column z-edit-row">
+            <label for="templateDesc">
+                <span th:text="#{statistic.label.description}"></span>
+            </label>
+            <textarea id="templateDesc" name="templateDesc" class="z-textarea textarea-scroll-wrapper"
+                      maxlength="250" rows="5" th:text="${template?.templateDesc}" th:readonly="${view}"></textarea>
+        </div>
+        <div class="flex-column z-edit-row">
+            <label for="reportName">
+                <span th:text="#{statistic.label.reportName}"></span>
+                <div class="z-help-tooltip">
+                    <span class="z-icon i-tooltip"></span>
+                    <div class="z-tooltip-contents">
+                        <span th:utext="#{statistic.tooltip.reportName}"></span>
+                    </div>
+                </div>
+            </label>
+            <input type="text" id="reportName" class="z-input text-ellipsis" maxlength="100"
+                   th:value="${template?.reportName}" th:readonly="${view}"/>
+        </div>
+        <div class="flex-column z-edit-row">
+            <label class="z-switch">
+                <input type="checkbox" id="automatic" name="automatic"
+                       th:checked="${template?.automatic == true}" th:disabled="${view}">
+                <span></span>
+                <span class="z-label" th:text="#{statistic.label.automatic}"></span>
+            </label>
+        </div>
+        <div class="flex-column z-edit-row">
+            <div class="under-bar">
+                <label>
+                    <span th:text="#{statistic.label.chart}"></span>
+                </label>
+            </div>
+            <div id="details" class="template">
+                <div class="flex-row justify-content-end">
+                    <button type="button" class="z-button-icon extra" onclick="addChart()" th:if="!${view}">
+                        <span class="z-icon i-plus"></span>
+                    </button>
+                </div>
+                <div id="chartList" class="chart"></div>
+            </div>
+        </div>
+        <div class="flex-row justify-content-between z-edit-row">
+            <div class="z-button-list">
+                <a class="z-button secondary" href="/statistics/customReportTemplate/search" th:text="#{common.btn.list}"></a>
+            </div>
+            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('report.manage')">
+                <button type="button" class="z-button primary" th:if="${template == null}"
+                        onclick="saveReportTemplate('POST')" th:text="#{common.btn.register}"></button>
+                <button type="button" class="z-button primary" th:if="${template?.templateId}"
+                        onclick="saveReportTemplate('PUT')" th:text="#{common.btn.modify}"></button>
+                <button type="button" class="z-button secondary" onclick="preview()" th:text="#{common.btn.preview}"></button>
+                <button type="button" class="z-button danger" th:if="${template?.templateId}"
+                        onclick="deleteReportTemplate()" th:text="#{common.btn.delete}"></button>
+            </div>
+        </div>
+    </div>
+    <template id="chartListTemplate">
+        <div class="flex-row mt-2">
+            <div class="flex-column col-11">
+                <select name="chart" th:classappend="${view}?'readonly':''"></select>
+            </div>
+            <div class="flex-column col-1">
+                <button th:if="!${view}" type="button" class="z-button-icon extra">
+                    <span class="z-icon i-delete"></span>
+                </button>
+            </div>
+        </div>
+    </template>
+</div>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    const STATUS_SUCCESS = '0';
+    const STATUS_ERROR_TEMPLATE_NAME_DUPLICATION = '1';
+    const chartListData = /*[[${chartList}]]*/ null;
+    const data = /*[[${template}]]*/ null;
+    window.onload = function () {
+        if (data !== null) {
+            data["charts"].forEach((item) => {
+                addChart(item);
+            })
+        }
+
+
+        OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
+        if (![[${view}]]) {
+            OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
+        }
+    };
+
+    // Chart 추가
+    function addChart(data) {
+        let target = document.querySelector('#chartList');
+        let property = {};
+        if (typeof data !== 'undefined' && data !== null) {
+            property = data;
+        }
+        if (chartListData != null) {
+            const options = chartListData.map(function (option) {
+                return `<option value="${option.chartId}" ${property.chartId === option.chartId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.chartName)}</option>`;
+            }).join('');
+            let rowId = ZWorkflowUtil.generateUUID();
+
+            const chartListDom = document.getElementById('chartListTemplate').content.cloneNode(true);
+            let buttonElement = chartListDom.querySelector('button')
+            let selectElement = chartListDom.querySelector('select')
+            selectElement.setAttribute('id', rowId + '_chart')
+            selectElement.innerHTML = options
+            if (buttonElement) {
+                buttonElement.setAttribute('id', rowId + '_delete');
+                buttonElement.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    this.parentElement.parentElement.remove();
+                });
+            }
+
+            target.appendChild(chartListDom);
+            aliceJs.initDesignedSelectTag();
+        }
+    }
+
+    // 유효성 검사(중복 차트 체크)
+    function isValid() {
+        let isValid = true;
+        let chartElement = document.querySelector('#chartList');
+        let charts = [];
+        chartElement.querySelectorAll('select[name=chart]').forEach((item) => {
+            if (charts.includes(item.value)) {
+                zAlert.warning(i18n.msg('statistic.msg.duplicateChart'));
+                isValid = false;
+            }
+            if (item.value !== '') {
+                charts.push(item.value);
+            }
+        });
+        if (isValid && charts.length === 0) {
+            zAlert.warning(i18n.msg('statistic.msg.emptyChart'));
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    function deleteReportTemplate() {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+            aliceJs.fetchJson('/rest/statistics/customReportTemplate/' + /*[[${template?.templateId}]]*/'', {
+                method: 'DELETE'
+            }).then((status) => {
+                if (status.code === STATUS_SUCCESS) {
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        location.href = '/statistics/customReportTemplate/search';
+                    });
+                }
+            });
+        });
+    }
+
+    // Action
+    function saveReportTemplate(method) {
+        if (!isValidRequiredAll() || !isValid()) { return false; }
+
+        let data = {
+            templateId: '',
+            templateName: document.getElementById('templateName').value,
+            templateDesc: document.getElementById('templateDesc').value,
+            reportName: document.getElementById('reportName').value,
+            automatic: document.getElementById('automatic').checked
+        }
+        let url = '/rest/statistics/customReportTemplate';
+        if (method === 'PUT') {
+            url += '/' + /*[[${template?.templateId}]]*/'';
+            data.templateId = /*[[${template?.templateId}]]*/'';
+        }
+        let charts = [];
+        let chartElement = document.getElementById('chartList');
+        chartElement.querySelectorAll('select[name=chart]').forEach((item, index) => {
+            let chart = {
+                id: item.value,
+                order: index + 1
+            };
+            charts.push(chart);
+        });
+        data.charts = charts;
+
+        aliceJs.fetchJson(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((status) => {
+            switch (status.code) {
+                case STATUS_SUCCESS:
+                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                        location.href = '/statistics/customReportTemplate/search';
+                    });
+                    break;
+                case STATUS_ERROR_TEMPLATE_NAME_DUPLICATION:
+                    zAlert.success(i18n.msg('statistic.msg.templateNameUsed'));
+                    break;
+                default :
+                    break;
+            }
+        });
+    }
+
+    // 미리보기
+    // sessionStorage 에 화면 데이터 저장
+    function preview() {
+        const chartElement = document.querySelector('#chartList');
+        const charts = [];
+        chartElement.querySelectorAll('select[name=chart]').forEach((item) => {
+            if (item.value !== '') {
+                charts.push({chartId: item.value});
+            }
+        });
+
+        // 보고서 명이 존재하면 보고서명을 출력하고, 없으면 템플릿명을 출력한다.
+        const reportNameTemp = isEmpty('reportName') ? document.getElementById('templateName').value :
+            document.getElementById('reportName').value;
+
+        const reportData = {
+            reportId: '',
+            reportName: reportNameTemp,
+            reportDesc: document.querySelector('#templateDesc').value,
+            charts: charts
+        }
+        sessionStorage.setItem("alice_report", JSON.stringify(reportData));
+        window.open('/statistics/customReportTemplate/preview', '_blank');
+    }
+    /*]]>*/
+</script>
+</html>

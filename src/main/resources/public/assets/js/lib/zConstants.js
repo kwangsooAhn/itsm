@@ -130,6 +130,7 @@ export const CHART = {
         DAY: 'D',
         HOUR: 'H'
     },
+    RANGE_TYPE_NONE: 'chart.range.none',
     DATETIME_FORMAT: 'yyyy-MM-dd HH:mm:ss',
     DATE_FORMAT: {
         TYPE1: 'yyyy-MM-dd',

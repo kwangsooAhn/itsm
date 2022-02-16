@@ -16,9 +16,9 @@ import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
-import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
+import co.brainz.framework.util.AliceFileUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
@@ -52,6 +52,7 @@ import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 
 @Service
@@ -66,15 +67,15 @@ class WfTokenManagerService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfComponentRepository: WfComponentRepository,
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
-    private val aliceFileService: AliceFileService,
     private val aliceUserRepository: AliceUserRepository,
     private val aliceFileLocRepository: AliceFileLocRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val ciComponentDataRepository: CIComponentDataRepository,
     private val ciService: CIService,
     private val viewerRepository: ViewerRepository,
-    private val currentSessionUser: CurrentSessionUser
-) {
+    private val currentSessionUser: CurrentSessionUser,
+    environment: Environment
+): AliceFileUtil(environment) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -180,17 +181,10 @@ class WfTokenManagerService(
     }
 
     /**
-     * 첨부파일 업로드 경로(파일명 포함).
-     */
-    fun getUploadFilePath(fileName: String): Path {
-        return aliceFileService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
-    }
-
-    /**
      * 프로세스 파일 경로.
      */
     fun getProcessFilePath(attachFileName: String): Path {
-        return Paths.get(FileConstants.Path.IMAGE.path + File.separator + attachFileName)
+        return Paths.get(super.getPath(FileConstants.Path.FILE.path).toString() + File.separator + attachFileName)
     }
 
     /**
@@ -238,13 +232,6 @@ class WfTokenManagerService(
         ciComponentDataEntities?.forEach { data ->
             ciComponentDataRepository.deleteByCiIdAndComponentId(data.ciId, data.componentId)
         }
-    }
-
-    /**
-     * 랜덤 파일명 생성.
-     */
-    fun getRandomFilename(): String {
-        return aliceFileService.getRandomFilename()
     }
 
     /**

@@ -144,9 +144,16 @@ export const zBasicColumnChartMixin = {
      */
     update(data) {
         if (data.length === 0) { return false; }
+        let categories =  [...new Set(data.map(item => item.category))];
 
-        const categories =  [...new Set(data.map(item => item.category))];
-        
+        // 차트의 기간 설정 데이터가 있을 경우, 날짜 데이터 변환
+        if (this.config.range.type !== CHART.RANGE_TYPE_NONE) {
+           categories = categories.map((category) =>
+               Highcharts.dateFormat(
+                   this.getDateTimeFormat(),
+                   this.getStringToDateTime(this.convertCategoryToLocal(category)))
+           );
+        }
         this.chart.xAxis[0].setCategories(categories, false);
         for (let i = 0; i < this.chart.series.length; i++) {
             const tag = this.chart.series[i];
@@ -158,9 +165,10 @@ export const zBasicColumnChartMixin = {
                     seriesId = temp.id;
                     for (let z = 0; z < categories.length; z++) {
                         if (categories[z] === temp.category) {
-                            // todo : linkKey 값 정리 
-                            let testText = (temp.linkKey) ? temp.linkKey : '부서아이디';
-                            series.push({ y: Number(temp.value), id: testText });
+                            series.push({
+                                y: Number(temp.value),
+                                linkKey: (temp.linkKey) ? temp.linkKey : '' // series 클릭 이벤트를 위한 linkKey
+                            });
                             break;
                         }
                     }

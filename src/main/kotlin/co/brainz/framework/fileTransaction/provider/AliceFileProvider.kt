@@ -6,8 +6,8 @@
 package co.brainz.framework.fileTransaction.provider
 
 import co.brainz.framework.fileTransaction.constants.FileConstants
-import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
-import co.brainz.framework.fileTransaction.dto.AliceImageFileListReturnDto
+import co.brainz.framework.fileTransaction.dto.AliceFileDetailDto
+import co.brainz.framework.fileTransaction.dto.AliceFileDetailListReturnDto
 import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.util.AliceFileUtil
@@ -69,7 +69,7 @@ class AliceFileProvider(
         dir: String,
         searchValue: String,
         currentOffset: Int
-    ): AliceImageFileListReturnDto {
+    ): AliceFileDetailListReturnDto {
         var fileList = mutableListOf<Path>()
         val resourceURL = javaClass.classLoader.getResource(dir)
 
@@ -106,7 +106,7 @@ class AliceFileProvider(
         // 2021-03-17 Jung Hee Chan
         // 내부 경로에 위치한 이미지 파일은 Jar 파일 내부에 있을 수 있어 File 이 아닌 Stream 형태로 읽어옴.
         // 이때 기존 File 방식과 달리 확장자, 사이즈, 수정일자등 데이터를 가져올 수 없음. --> 이미지 관리에 대한 개선의 여지가 있음.
-        val imageList = mutableListOf<AliceImageFileDto>()
+        val imageList = mutableListOf<AliceFileDetailDto>()
         for (i in startIndex until getImageListEndIndex(currentOffset, fileList.size)) {
             var filePathInJAR = fileList[i].toString()
             val fileName = fileList[i].fileName.toString()
@@ -120,7 +120,7 @@ class AliceFileProvider(
             val bufferedImage = ImageIO.read(fileInputStream)
             val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
             imageList.add(
-                AliceImageFileDto(
+                AliceFileDetailDto(
                     name = fileName,
                     extension = "",
                     fullpath = "",
@@ -138,34 +138,70 @@ class AliceFileProvider(
                 )
             )
         }
-        return AliceImageFileListReturnDto(
+        return AliceFileDetailListReturnDto(
             data = imageList,
             totalCount = fileList.size.toLong()
         )
     }
 
     /**
-     * 이미지리스트 전체 또는 offset 단위로 가져오기
-     *
+     * 외부 경로에 있는 파일의 정보를 조회
      */
-    fun getImageFileList(type: String, searchValue: String, currentOffset: Int = -1): AliceImageFileListReturnDto {
+    fun getExternalFileList(
+        type: String,
+        searchValue: String,
+        currentOffset: Int = -1
+    ): AliceFileDetailListReturnDto {
         val dir = when (type) {
-            FileConstants.Type.ICON.code -> {
-                FileConstants.Path.ICON_DOCUMENT.path
-            }
-            FileConstants.Type.ICON_CI_TYPE.code -> {
-                FileConstants.Path.ICON_CI_TYPE.path
-            }
-            else -> {
-                FileConstants.Path.IMAGE.path
+            FileConstants.Type.ICON.code -> FileConstants.Path.ICON_DOCUMENT.path
+            FileConstants.Type.ICON_CI_TYPE.code -> FileConstants.Path.ICON_CI_TYPE.path
+            else -> FileConstants.Path.FILE.path
+        }
+        val dirPath = super.getPath(dir)
+        val fileList = this.getValidFileList(type, dirPath, searchValue)
+        val dataList = mutableListOf<AliceFileDetailDto>()
+        var startIndex = 0
+        if (currentOffset != -1) { // -1인 경우는 전체 조회
+            startIndex = currentOffset
+        }
+        for (i in startIndex until getImageListEndIndex(currentOffset, fileList.size)) {
+            val file = fileList[i].toFile()
+            if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
+                val bufferedImage = ImageIO.read(file)
+                val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
+                dataList.add(
+                    AliceFileDetailDto(
+                        name = file.name,
+                        extension = file.extension,
+                        fullpath = file.absolutePath,
+                        size = super.humanReadableByteCount(file.length()),
+                        data = super.encodeToString(resizedBufferedImage, file.extension),
+                        width = bufferedImage.width,
+                        height = bufferedImage.height,
+                        updateDt = LocalDateTime.ofInstant(
+                            Instant.ofEpochMilli(file.lastModified()),
+                            ZoneId.systemDefault()
+                        )
+                    )
+                )
+            } else {
+                dataList.add(
+                    AliceFileDetailDto(
+                        name = file.name,
+                        extension = file.extension,
+                        fullpath = file.absolutePath,
+                        size = super.humanReadableByteCount(file.length()),
+                        updateDt = LocalDateTime.ofInstant(
+                            Instant.ofEpochMilli(file.lastModified()),
+                            ZoneId.systemDefault()
+                        )
+                    )
+                )
             }
         }
-
-        return getExternalImageDataList(
-            type,
-            super.getPath(dir),
-            searchValue,
-            currentOffset
+        return AliceFileDetailListReturnDto(
+            data = dataList,
+            totalCount = fileList.size.toLong()
         )
     }
 
@@ -180,64 +216,50 @@ class AliceFileProvider(
     }
 
     /**
-     * 외부 경로에 있는 이미지 경로 리스트 가져오기
-     *
+     * [type] 에 따라 파일을 조회하여 목록을 생성 (검색조건 포함)
+     *  - type: file 모든 파일
+     *  - image, icon, cmdb-icon: filter 된 이미지 파일
      */
-    private fun getExternalImageDataList(
-        type: String,
-        dir: Path,
-        searchValue: String,
-        currentOffset: Int
-    ): AliceImageFileListReturnDto {
+    private fun getValidFileList(type: String, dirPath: Path, searchValue: String): List<Path> {
         val fileList = mutableListOf<Path>()
-
-        if (Files.isDirectory(dir)) {
-            val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
+        if (Files.isDirectory(dirPath)) {
+            val fileDirMap = Files.list(dirPath).collect(Collectors.partitioningBy { Files.isDirectory(it) })
             fileDirMap[false]?.forEach { filePath ->
                 val file = filePath.toFile()
-                if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
-                    when (searchValue) {
-                        "" -> fileList.add(filePath)
-                        else -> {
-                            if (file.name.matches(".*$searchValue.*".toRegex())) {
+                when (type) {
+                    FileConstants.Type.ICON.code,
+                    FileConstants.Type.ICON_CI_TYPE.code,
+                    FileConstants.Type.IMAGE.code -> {
+                        if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
+                            if (this.searchValueValid(file, searchValue)) {
                                 fileList.add(filePath)
                             }
+                        }
+                    }
+                    else -> {
+                        if (this.searchValueValid(file, searchValue)) {
+                            fileList.add(filePath)
                         }
                     }
                 }
             }
         }
+        return fileList
+    }
 
-        var startIndex = 0
-        if (currentOffset != -1) { // -1인 경우는 전체 조회
-            startIndex = currentOffset
+    /**
+     * 검색 조건 필터링
+     */
+    private fun searchValueValid(file: File, searchValue: String): Boolean {
+        var isValid = false
+        if (searchValue.isNotEmpty()) {
+            if (file.name.matches(".*$searchValue.*".toRegex())) {
+                isValid = true
+            }
+        } else {
+            isValid = true
         }
-
-        val imageList = mutableListOf<AliceImageFileDto>()
-        for (i in startIndex until getImageListEndIndex(currentOffset, fileList.size)) {
-            val file = fileList[i].toFile()
-            val bufferedImage = ImageIO.read(file)
-            val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
-            imageList.add(
-                AliceImageFileDto(
-                    name = file.name,
-                    extension = file.extension,
-                    fullpath = file.absolutePath,
-                    size = super.humanReadableByteCount(file.length()),
-                    data = super.encodeToString(resizedBufferedImage, file.extension),
-                    width = bufferedImage.width,
-                    height = bufferedImage.height,
-                    updateDt = LocalDateTime.ofInstant(
-                        Instant.ofEpochMilli(file.lastModified()),
-                        ZoneId.systemDefault()
-                    )
-                )
-            )
-        }
-        return AliceImageFileListReturnDto(
-            data = imageList,
-            totalCount = fileList.size.toLong()
-        )
+        return isValid
     }
 
     /**
