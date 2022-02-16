@@ -143,3 +143,11 @@ export const CHART = {
         HOUR12: 'hh:mm a'
     }
 };
+
+// 페이징
+export const PAGING = {
+    ORDER_DIRECTION: {
+        ASC: 'asc',
+        DESC: 'desc'
+    }
+};

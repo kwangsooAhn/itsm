@@ -5634,6 +5634,33 @@ select {
   resize: none;
 }
 
+.highcharts-scrollbar-track {
+  height: 0.5rem;
+  fill: #F5F5F5;
+  stroke-width: 0;
+  rx: calc(0.5rem / 2);
+  ry: calc(0.5rem / 2);
+}
+.highcharts-scrollbar-thumb {
+  height: 0.5rem;
+  fill: #E0E0E0;
+  stroke-width: 0;
+  rx: calc(0.5rem / 2);
+  ry: calc(0.5rem / 2);
+}
+.highcharts-scrollbar-thumb:hover {
+  fill: #CFD5D9;
+}
+.highcharts-scrollbar-button {
+  display: none;
+}
+.highcharts-scrollbar-arrow {
+  display: none;
+}
+.highcharts-scrollbar-rifles {
+  stroke: transparent;
+}
+
 /* _file-uploader.scss 
  *
  * 파일 경로 : template/_file-uploader.scss
@@ -9065,5 +9092,3 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
-
-/*# sourceMappingURL=itsm.css.map */

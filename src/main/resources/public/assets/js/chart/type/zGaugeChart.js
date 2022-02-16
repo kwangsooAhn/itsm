@@ -95,7 +95,7 @@ export const zGaugeChartMixin = {
         // 툴팁 설정
         this.setTooltipOption(defaultOptions);
         // 옵션 프로퍼티 초기화
-        this._options = defaultOptions;
+        this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
         // 멀티플 차트
         this.chart = [];
         this.setMultiple();
