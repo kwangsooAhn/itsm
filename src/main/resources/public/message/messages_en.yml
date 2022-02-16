@@ -514,15 +514,18 @@ dashboard:
   label:
     dashboard: "Dashboard"
     documentStatus: "Requested Documents Status"
+    doneDocument: "Total Documents in proceeded"
     etc: "Etc"
+    incident: "Error Report"
+    inquiry: "inquiry"
     monthDoneDocument: "Documents in proceeded Monthly"
+    organizationWorkStatus: "Work Status by Organization"
+    personalRequestStatus: "Personal Request Status"
+    requestStatus: "Request Status"
     request: "Service Request"
     runningDocument: "Document in progress"
     statistics: "Workflow statistics"
     todoDocument: "Documents to be processed"
-    doneDocument: "Total Documents in proceeded"
-    incident: "Error Report"
-    inquiry: "inquiry"
   msg:
     viewDescription: "Search my business statistics and documents to be processed."
   status:

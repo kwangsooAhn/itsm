@@ -4220,6 +4220,13 @@ select {
 .z-itsm-container .z-main-content .z-page-result .scroll-wrap .card:first-of-type {
   margin-top: 0;
 }
+.z-itsm-container .z-main-content .z-page-result .component {
+  min-height: 22.5rem;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents {
+  flex: 1 1 auto;
+  border: 0.0625rem solid #CFD5D9;
+}
 .z-itsm-container .z-main-content .z-page-edit {
   display: flex;
   flex-direction: column;
@@ -9058,3 +9065,5 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
+
+/*# sourceMappingURL=itsm.css.map */
