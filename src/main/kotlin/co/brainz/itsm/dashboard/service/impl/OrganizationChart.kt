@@ -31,24 +31,24 @@ class OrganizationChart(
         val documentList = wfDocumentRepository.findByDocumentIdList(target["documents"] as MutableList<String>)
         val organizationList = organizationRepository.findByOrganizationIdList(target["organizations"] as MutableList<String>)
 
-        for (findDocument in documentList!!) {
+        for (document in documentList!!) {
             //chart를 그릴 때 tag로 이름을 설정해야 입력해야 인식이 가능하다.
             tagList.add(
                 AliceTagDto(
-                    tagId = findDocument.documentId,
-                    tagValue = findDocument.documentName
+                    tagId = document.documentId,
+                    tagValue = document.documentName
                 )
             )
-            for (findOrganization in organizationList!!) {
+            for (organization in organizationList!!) {
                 chartDataList.add(
                     ChartData(
-                        id = findDocument.documentId,
-                        category = findOrganization.organizationName!!,
+                        id = document.documentId,
+                        category = organization.organizationName!!,
                         value = dashboardTemplateRepository.countByDocumentIdAndOrganizationIdAndStatus(
-                            findDocument.documentId, findOrganization.organizationId, WfInstanceConstants.Status.RUNNING.code
+                            document.documentId, organization.organizationId, WfInstanceConstants.Status.RUNNING.code
                         ).toString(),
-                        series = findDocument.documentName,
-                        linkKey = findOrganization.organizationId
+                        series = document.documentName,
+                        linkKey = organization.organizationId
                     )
                 )
             }
