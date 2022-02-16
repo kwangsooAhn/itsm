@@ -31,7 +31,7 @@ const DEFAULT_CHART_PROPERTY = {
 };
 Object.freeze(DEFAULT_CHART_PROPERTY);
 
-export const zLineChartMixin = {
+export const zBasicLineChartMixin = {
     initProperty() {
         const defaultOptions = JSON.parse(JSON.stringify(DEFAULT_CHART_PROPERTY));
         // 날짜 옵션 설정

@@ -9,7 +9,7 @@
  * https://www.brainz.co.kr
  */
 import { CHART } from '../lib/zConstants.js';
-import { zLineChartMixin } from './type/zLineChart.js';
+import { zBasicLineChartMixin } from './type/zBasicLineChart.js';
 import { zBasicColumnChartMixin } from './type/zBasicColumnChart.js';
 import { zStackedColumnChartMixin } from './type/zStackedColumnChart.js';
 import { zStackedBarChartMixin } from './type/zStackedBarChart.js';
@@ -143,7 +143,7 @@ export  default class ZChart {
     getMixinByType(type) {
         switch(type) {
             case CHART.TYPE.BASIC_LINE:
-                return zLineChartMixin;
+                return zBasicLineChartMixin;
             case CHART.TYPE.BASIC_COLUMN:
                 return zBasicColumnChartMixin;
             case CHART.TYPE.STACKED_COLUMN:
