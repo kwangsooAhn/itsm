@@ -63,7 +63,9 @@ export const zBasicColumnChartMixin = {
         // 시리즈 설정
         this.setSeries(defaultOptions);
         // 시리즈 이벤트 설정
-        this.setSeriesEvent(defaultOptions)
+        if (this.config.enableEvent === 'true') {
+            this.setSeriesEvent(defaultOptions);
+        }
         // 옵션 프로퍼티 초기화
         this._options = defaultOptions;
         // highcharts 초기화
@@ -157,8 +159,7 @@ export const zBasicColumnChartMixin = {
         // todo: #12334 차트 시리즈 클릭 이벤트
         Object.assign(option.plotOptions.series.events, {
             click: function(event){
-                console.log(event.point);
-                zAlert.warning(`${event.point.category} 요청현황 - 부서아이디 : ${event.point.id}`);
+                zAlert.warning(`${event.point.category} 요청현황 - 부서아이디 : ${event.point.linkKey}`);
             }
         });
     },
@@ -168,9 +169,16 @@ export const zBasicColumnChartMixin = {
      */
     update(data) {
         if (data.length === 0) { return false; }
+        let categories =  [...new Set(data.map(item => item.category))];
 
-        const categories =  [...new Set(data.map(item => item.category))];
-        
+        // 차트의 기간 설정 데이터가 있을 경우, 날짜 데이터 변환
+        if (this.config.range.type !== CHART.RANGE_TYPE_NONE) {
+           categories = categories.map((category) =>
+               Highcharts.dateFormat(
+                   this.getDateTimeFormat(),
+                   this.getStringToDateTime(this.convertCategoryToLocal(category)))
+           );
+        }
         this.chart.xAxis[0].setCategories(categories, false);
         for (let i = 0; i < this.chart.series.length; i++) {
             const tag = this.chart.series[i];
@@ -182,9 +190,10 @@ export const zBasicColumnChartMixin = {
                     seriesId = temp.id;
                     for (let z = 0; z < categories.length; z++) {
                         if (categories[z] === temp.category) {
-                            // todo : 실제 linkKey > 요청현황으로 넘기기 위해 series id에 부여
-                            let testText = (temp.linkKey) ? temp.linkKey : 'organization_id';
-                            series.push({ y: Number(temp.value), id: testText });
+                            series.push({
+                                y: Number(temp.value),
+                                linkKey: (temp.linkKey) ? temp.linkKey : '' // series 클릭 이벤트를 위한 linkKey
+                            });
                             break;
                         }
                     }
