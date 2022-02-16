@@ -650,9 +650,15 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.0625rem solid #ABB0B5;
   padding-bottom: 0.625rem;
   margin-bottom: 0.625rem;
+  margin-top: 1.875rem;
 }
 .under-bar .bold {
   border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+}
+.under-bar label {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #757575;
 }
 
 .pointer {
@@ -2234,9 +2240,9 @@ input, button, select, optgroup, textarea {
   right: 0;
   width: 20rem;
   height: 2.5rem;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #63686C;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #424242;
   background-color: #FFFFFF;
   padding: 0.625rem 0.75rem;
 }
@@ -2610,7 +2616,7 @@ input, button, select, optgroup, textarea {
  */
 body {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -2619,12 +2625,13 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
+  color: #424242;
 }
 
 h2 {
@@ -2632,7 +2639,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 h4 {
@@ -2644,8 +2651,9 @@ h5 {
 }
 
 h6 {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
+  font-weight: 500;
+  color: #757575;
 }
 
 a {
@@ -2656,7 +2664,7 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: #222529;
+  color: #424242;
   text-decoration: none;
 }
 
@@ -2680,8 +2688,8 @@ table td, table th {
 .z-table {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
-  color: #222529;
+  font-weight: 500;
+  color: #424242;
   background-color: transparent;
   border: none;
 }
@@ -2692,13 +2700,13 @@ table td, table th {
   padding-left: 1.25rem;
 }
 .z-table td a, .z-table th a {
-  color: #222529;
+  color: #424242;
 }
 .z-table th {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  color: #222529;
+  color: #757575;
 }
 .z-table .z-table-head {
   border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
@@ -2730,7 +2738,7 @@ table td, table th {
 .z-option-table {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   color: #ABB0B5;
   background-color: transparent;
   border: none;
@@ -2747,7 +2755,7 @@ table td, table th {
 .z-option-table tr.z-option-table-header {
   height: 2rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: #ABB0B5;
   border-top: 0.0625rem solid #ABB0B5;
@@ -2782,9 +2790,9 @@ span {
 
 label {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  color: #8B9094;
+  color: #757575;
   font-size: 0.875rem;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .input-button {
@@ -2815,9 +2823,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   height: 2.25rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
@@ -2966,9 +2974,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-textarea {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   padding: 0.5rem 1rem;
 }
@@ -3038,9 +3046,9 @@ div.z-textarea-readonly {
   height: 1.125rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   outline: none;
 }
 .z-switch .z-label {
@@ -3112,9 +3120,9 @@ select {
   height: 2.25rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
@@ -3158,9 +3166,9 @@ select {
   padding: 0.5625rem 1.75rem 0.5625rem 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   cursor: pointer;
   border-radius: 0.125rem;
@@ -3261,7 +3269,7 @@ select {
   border: 0.0625rem solid #ABB0B5;
   background-color: #FFFFFF;
   max-height: 25rem;
-  color: #222529;
+  color: #424242;
   outline: 0;
   overflow: auto;
   border-radius: 0.125rem;
@@ -3278,7 +3286,7 @@ select {
   align-items: center;
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
   display: block;
   max-width: 100%;
@@ -3409,9 +3417,9 @@ select {
   margin-right: 0.5rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   outline: none;
 }
 .z-checkbox > span:first-of-type {
@@ -3503,9 +3511,9 @@ select {
   margin-right: 0.5rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.6;
-  color: #222529;
+  color: #424242;
   outline: none;
 }
 .z-radio > span:first-of-type {
@@ -4933,7 +4941,7 @@ select {
 }
 .z-validation.default {
   border: 0.0625rem solid #ABB0B5;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   background-image: url("../media/icons/validation/icon_default.svg");
   background-size: auto;
@@ -6126,7 +6134,7 @@ select {
   padding: 0;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-picker {
-  color: #222529;
+  color: #424242;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats {
   margin: 0;
@@ -6216,7 +6224,7 @@ select {
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-color-picker .ql-picker-label svg .ql-label,
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-color-picker .ql-picker-label svg .bg-line {
-  fill: #222529;
+  fill: #424242;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-color-picker .ql-picker-label svg .bg {
   fill: #FFFFFF;
@@ -6334,9 +6342,9 @@ select {
   height: auto;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   border: 0.0625rem solid #ABB0B5;
 }
 .ql-wrapper-container .ql-container.ql-snow .ql-editor {
@@ -7456,7 +7464,7 @@ body.modal-active {
   display: table-cell;
 }
 .z-component .z-element .z-ci-table .z-ci-table-row {
-  color: #222529;
+  color: #424242;
 }
 .z-component .z-element .z-ci-table .no-data-found-list {
   color: #ABB0B5;
@@ -7749,7 +7757,7 @@ span.modal_node_selected label {
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
-  padding: 0.625rem 0.75rem;
+  padding: 1.5625rem 0.75rem 0.625rem 0.75rem;
   border-bottom: 0.0625rem solid #CFD5D9;
 }
 .property-group:first-child {
@@ -7758,9 +7766,9 @@ span.modal_node_selected label {
 .property-group .property-group-label {
   width: 100%;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 500;
-  color: #222529;
+  color: #757575;
 }
 
 .property {
@@ -7773,7 +7781,7 @@ span.modal_node_selected label {
 .property .property-label {
   position: relative;
   font-size: 0.875rem;
-  color: #8B9094;
+  color: #757575;
 }
 .property .property-label .property-label-text {
   display: inline-block;

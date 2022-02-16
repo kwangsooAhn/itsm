@@ -80,7 +80,7 @@
   }
 
   #spanCurrentPageNum {
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-medium;
     color: $paging-current-num-font-color;
     @include absolute($right: 3.75rem);
   }

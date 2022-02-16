@@ -323,7 +323,7 @@ $font-family:                                 'Pretendard', '맑은고딕', 'Mal
 // font size
 $font-size-xxl:                               2.5rem !default;   // 45px
 $font-size-xl:                                2rem !default;     // 32px
-$font-size-l:                                 1.5rem !default;   // 24px
+$font-size-l:                                 1.25rem !default;   // 20px
 $font-size-m:                                 1.125rem !default; // 18px
 $font-size-s:                                 1rem !default;     // 16px
 $font-size-xs:                                0.875rem !default; // 14px
@@ -364,8 +364,8 @@ $vertical-bar-margin:                         0 1.875rem 0 0; // 0 30px 0 0
 // element default
 $element-font-family:                         $font-family;
 $element-font-size:                           $font-size-xs;
-$element-font-color:                          $gray800;
-$element-font-weight:                         $font-weight-regular;
+$element-font-color:                          $neutral800;
+$element-font-weight:                         $font-weight-medium;
 $element-line-height:                         1.2;
 $element-bg-color:                            $white;
 $element-border-color:                        $gray400;
@@ -445,20 +445,20 @@ $h4-font-size:                                $font-size-m; // 18px
 $h5-font-size:                                $font-size-s; // 16px
 $h6-font-size:                                $font-size-xs; // 14px
 
-$headings-font-color:                         $gray800;
+$headings-font-color:                         $neutral800;
 $headings-font-weight:                        $font-weight-medium;
 $headings-line-height:                        1.2;
 
 // label
 $label-font-family:                           $font-family;
-$label-font-color:                            $gray500;
+$label-font-color:                            $neutral600;
 $label-font-size:                             $font-size-xs;
-$label-font-weight:                           $font-weight-bold;
+$label-font-weight:                           $font-weight-medium;
 
 // table
 $table-head-font-family:                      $font-family;
-$table-head-font-size:                        $font-size-s;
-$table-head-font-color:                       $gray800;
+$table-head-font-size:                        $font-size-xs;
+$table-head-font-color:                       $neutral600;
 $table-head-font-weight:                      $font-weight-medium;
 $table-row-hover-bg-color:                    $neutral200;
 $table-row-active-font-color:                 $blue700;
@@ -471,7 +471,7 @@ $option-table-icon-color:                     $gray400;
 $option-table-icon-hover-color:               $blue500;
 
 // grid
-$grid-head-color:                             $gray600;
+$grid-head-color:                             $neutral600;
 $grid-body-color:                             $gray800;
 $grid-border-color:                           $gray300;
 $grid-hover-bg-color:                         $neutral200;
@@ -584,8 +584,8 @@ $label-themes-default: (
 $layout-header-height:                       3.125rem; // 50px
 $layout-header-search-font-family:           $font-family;
 $layout-header-search-font-size:             $font-size-xs;
-$layout-header-search-color:                 $gray500;
-$layout-header-search-font-weight:           $font-weight-bold;
+$layout-header-search-color:                 $neutral600;
+$layout-header-search-font-weight:           $font-weight-medium;
 
 $layout-properties-width:                    18.75rem; // 300px
 
@@ -1010,7 +1010,7 @@ $validation-success-border-color:            $green500;
 $validation-success-border-width:            0.0625rem; // 1px
 
 ////////////////////////////// paging /////////////////////////////
-$paging-current-num-font-color:              $gray500;
+$paging-current-num-font-color:              $neutral600;
 $paging-num-font-color:                      $gray800;
 $paging-num-selected-font-color:             $blue700;
 $paging-num-selected-border-color:           $blue700;

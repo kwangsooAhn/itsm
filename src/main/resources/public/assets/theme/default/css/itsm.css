@@ -649,9 +649,15 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.0625rem solid #ABB0B5;
   padding-bottom: 0.625rem;
   margin-bottom: 0.625rem;
+  margin-top: 1.875rem;
 }
 .under-bar .bold {
   border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+}
+.under-bar label {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #757575;
 }
 
 .pointer {
@@ -1925,7 +1931,7 @@ input, button, select, optgroup, textarea {
  */
 body {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -1934,12 +1940,13 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
+  color: #424242;
 }
 
 h2 {
@@ -1947,7 +1954,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 h4 {
@@ -1959,8 +1966,9 @@ h5 {
 }
 
 h6 {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
+  font-weight: 500;
+  color: #757575;
 }
 
 a {
@@ -1971,7 +1979,7 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: #222529;
+  color: #424242;
   text-decoration: none;
 }
 
@@ -1995,8 +2003,8 @@ table td, table th {
 .z-table {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
-  color: #222529;
+  font-weight: 500;
+  color: #424242;
   background-color: transparent;
   border: none;
 }
@@ -2007,13 +2015,13 @@ table td, table th {
   padding-left: 1.25rem;
 }
 .z-table td a, .z-table th a {
-  color: #222529;
+  color: #424242;
 }
 .z-table th {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  color: #222529;
+  color: #757575;
 }
 .z-table .z-table-head {
   border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
@@ -2045,7 +2053,7 @@ table td, table th {
 .z-option-table {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   color: #ABB0B5;
   background-color: transparent;
   border: none;
@@ -2062,7 +2070,7 @@ table td, table th {
 .z-option-table tr.z-option-table-header {
   height: 2rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: #ABB0B5;
   border-top: 0.0625rem solid #ABB0B5;
@@ -2097,9 +2105,9 @@ span {
 
 label {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  color: #8B9094;
+  color: #757575;
   font-size: 0.875rem;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .input-button {
@@ -2130,9 +2138,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   height: 2.25rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
@@ -2281,9 +2289,9 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-textarea {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   padding: 0.5rem 1rem;
 }
@@ -2353,9 +2361,9 @@ div.z-textarea-readonly {
   height: 1.125rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   outline: none;
 }
 .z-switch .z-label {
@@ -2427,9 +2435,9 @@ select {
   height: 2.25rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
@@ -2473,9 +2481,9 @@ select {
   padding: 0.5625rem 1.75rem 0.5625rem 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   cursor: pointer;
   border-radius: 0.125rem;
@@ -2576,7 +2584,7 @@ select {
   border: 0.0625rem solid #ABB0B5;
   background-color: #FFFFFF;
   max-height: 25rem;
-  color: #222529;
+  color: #424242;
   outline: 0;
   overflow: auto;
   border-radius: 0.125rem;
@@ -2593,7 +2601,7 @@ select {
   align-items: center;
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
   display: block;
   max-width: 100%;
@@ -2724,9 +2732,9 @@ select {
   margin-right: 0.5rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   outline: none;
 }
 .z-checkbox > span:first-of-type {
@@ -2818,9 +2826,9 @@ select {
   margin-right: 0.5rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.6;
-  color: #222529;
+  color: #424242;
   outline: none;
 }
 .z-radio > span:first-of-type {
@@ -4142,9 +4150,9 @@ select {
 }
 .z-itsm-container .z-main-content .z-page-search .z-search-count {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.875rem;
-  color: #8B9094;
+  color: #757575;
 }
 .z-itsm-container .z-main-content .z-page-result {
   display: flex;
@@ -4278,9 +4286,10 @@ select {
   display: flex;
   height: 100%;
   align-items: center;
+  font-weight: 500;
+  color: #424242;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row {
-  color: #63686C;
   border-bottom: 0.125rem solid #CFD5D9;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
@@ -4290,7 +4299,7 @@ select {
   pointer-events: none;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
-  background: #63686C;
+  background: #757575;
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -4303,6 +4312,9 @@ select {
   -o-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
   transform: rotate(0deg);
+}
+.z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell {
+  color: #757575;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body {
   overflow: hidden !important;
@@ -4319,8 +4331,9 @@ select {
   font-weight: 700;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body .sub-text {
-  color: #8B9094;
-  font-size: 0.875rem;
+  color: #757575;
+  font-size: 0.75rem;
+  font-weight: 400;
 }
 .z-itsm-container .z-main-content .z-page-list .grid--noData .grid__cell {
   grid-column: 1/-1;
@@ -4710,8 +4723,8 @@ select {
 }
 .z-document-content .document-column .document-name {
   width: 17.5rem;
-  color: #222529;
-  font-size: 1.5rem;
+  color: #424242;
+  font-size: 1.25rem;
   font-weight: 500;
 }
 .z-document-content .document-column .document-icon {
@@ -4913,6 +4926,7 @@ select {
   display: inline-block;
   padding-left: 1.1875rem;
   font-weight: 500;
+  font-size: 1rem;
   line-height: 1.3rem;
 }
 .z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-gnb-link .z-token-count {
@@ -5272,7 +5286,7 @@ select {
 }
 .z-validation.default {
   border: 0.0625rem solid #ABB0B5;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   background-image: url("../../../media/icons/validation/icon_default.svg");
   background-size: auto;
@@ -6639,7 +6653,7 @@ select {
   padding: 0;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-picker {
-  color: #222529;
+  color: #424242;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats {
   margin: 0;
@@ -6729,7 +6743,7 @@ select {
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-color-picker .ql-picker-label svg .ql-label,
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-color-picker .ql-picker-label svg .bg-line {
-  fill: #222529;
+  fill: #424242;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-color-picker .ql-picker-label svg .bg {
   fill: #FFFFFF;
@@ -6847,9 +6861,9 @@ select {
   height: auto;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   border: 0.0625rem solid #ABB0B5;
 }
 .ql-wrapper-container .ql-container.ql-snow .ql-editor {
@@ -9053,8 +9067,8 @@ body.modal-active {
   border-bottom-right-radius: 0.15rem;
 }
 .z-page-paging #spanCurrentPageNum {
-  font-weight: 700;
-  color: #8B9094;
+  font-weight: 500;
+  color: #757575;
   position: absolute;
   right: 3.75rem;
 }

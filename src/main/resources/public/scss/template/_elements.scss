@@ -10,7 +10,7 @@
 // 모바일 기기 회전시에 사용자가 확대하지 않아도 글씨 크기가 재조정되는 것을 예방.
 body {
   font-family: $font-family;
-  font-size: $font-size-s;
+  font-size: $font-size-xs;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -24,8 +24,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: $h1-font-size;
+  font-size: $font-size-xl; // 32px;
   font-weight: $font-weight-bold;
+  color: $neutral800;
 }
 h2 {
   font-size: $h2-font-size;
@@ -40,8 +41,9 @@ h5 {
   font-size: $h5-font-size;
 }
 h6 {
-  font-family: $font-family;
-  font-size: $h6-font-size;
+  font-size: $font-size-xs; // 14px;
+  font-weight: $font-weight-medium;
+  color: $neutral600;
 }
 // a
 a { cursor: pointer; }

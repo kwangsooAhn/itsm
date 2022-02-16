@@ -281,11 +281,12 @@
         display: flex;
         height: 100%;
         align-items: center;
+        font-weight: $font-weight-medium;
+        color: $neutral800;
       }
 
       &__head {
         .grid__row {
-          color: $grid-head-color;
           @include border(0.125rem, solid, $grid-border-color, bottom);
           .grid__cell:not([data-grid-sortable='false']) {
             cursor: pointer;
@@ -305,6 +306,9 @@
               }
             }
           }
+          .grid__cell {
+            color: $grid-head-color;
+          }
         }
       }
 
@@ -319,8 +323,9 @@
 
         .bold { font-weight: $font-weight-bold; }
         .sub-text {
-          color: $gray500;
-          font-size: $font-size-xs;
+          color: $neutral600;
+          font-size: $font-size-xxs;
+          font-weight: $font-weight-regular;
         }
       }
 
