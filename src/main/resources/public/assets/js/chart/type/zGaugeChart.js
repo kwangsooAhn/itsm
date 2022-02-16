@@ -8,6 +8,8 @@
  *
  * https://www.brainz.co.kr
  */
+import { CHART } from "../../lib/zConstants.js";
+
 const DEFAULT_CHART_PROPERTY = {
     chart: {
         type: 'solidgauge',
@@ -227,9 +229,12 @@ export const zGaugeChartMixin = {
                 }
             }
             this.chart[i].yAxis[0].setTitle({ text: tag.value });
-            const seriesName = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(category));
-            this.chart[i].series[0].update({ name: seriesName, id: seriesId }, false);
-            this.chart[i].series[1].update({ name: seriesName, id: seriesId }, false);
+            // 차트의 기간 설정 데이터가 있을 경우, 날짜 데이터 변환
+            if (this.config.range.type !== CHART.RANGE_TYPE_NONE) {
+                const seriesName = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(category));
+                this.chart[i].series[0].update({name: seriesName, id: seriesId}, false);
+                this.chart[i].series[1].update({name: seriesName, id: seriesId}, false);
+            }
             this.chart[i].series[0].setData(series, false); // 게이지
             this.chart[i].series[1].setData(series, true); // 다이얼
         }
