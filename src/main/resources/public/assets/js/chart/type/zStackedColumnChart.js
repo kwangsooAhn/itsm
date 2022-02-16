@@ -38,7 +38,6 @@ export const zStackedColumnChartMixin = {
         this.setSeries(defaultOptions);
         // 옵션 프로퍼티 초기화
         this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
-        console.log(this._options);
         // highcharts 초기화
         this.chart = Highcharts.chart(this.container, this.options);
         // highcharts 이름 초기화
