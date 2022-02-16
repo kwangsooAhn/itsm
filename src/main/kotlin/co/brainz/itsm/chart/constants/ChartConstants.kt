@@ -64,7 +64,8 @@ object ChartConstants {
         BETWEEN("chart.range.between"),
         LAST_MONTH("chart.range.last.month"),
         LAST_DAY("chart.range.last.day"),
-        ALL("chart.range.all")
+        ALL("chart.range.all"),
+        NONE("chart.range.none")
     }
 
     /**

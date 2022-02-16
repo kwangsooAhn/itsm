@@ -180,7 +180,8 @@ abstract class ChartManager(
                         id = instanceTagTokenData.tag.targetId,
                         category = it,
                         value = String.format("%.2f", avgValue),
-                        series = instanceTagTokenData.tag.tagValue
+                        series = instanceTagTokenData.tag.tagValue,
+                        linkKey = null
                     )
                 )
             }
@@ -247,7 +248,8 @@ abstract class ChartManager(
                         id = tagCount.tag.tagId.toString(),
                         category = categoryTag.category,
                         value = String.format("%.2f", percentValue),
-                        series = tagCount.tag.tagValue
+                        series = tagCount.tag.tagValue,
+                        linkKey = null
                     )
                 )
             }
@@ -283,7 +285,8 @@ abstract class ChartManager(
                         id = tagInstance.tag.tagId.toString(),
                         category = it,
                         series = tagInstance.tag.tagValue,
-                        value = count.toString()
+                        value = count.toString(),
+                        linkKey = null
                     )
                 )
             }
