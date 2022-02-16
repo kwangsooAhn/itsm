@@ -73,11 +73,15 @@
                         min: 0,
                         max: 10
                     },
+                    yAxis: {
+                        title: {
+                            text: '미처리건수'
+                        }
+                    },
                     plotOptions: {
                         series: {
                             events: {
                                 click: function(event) {
-                                    console.log(event.point);
                                     zAlert.warning(`${event.point.category} 요청현황 - 부서아이디 : ${event.point.id}`);
                                 }
                             }

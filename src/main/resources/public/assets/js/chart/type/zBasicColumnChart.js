@@ -45,8 +45,6 @@ export const zBasicColumnChartMixin = {
         const defaultOptions = JSON.parse(JSON.stringify(DEFAULT_CHART_PROPERTY));
         // x 축 옵션
         this.setXAxisOptions(defaultOptions);
-        // y 축 옵션
-        this.setYAxisOptions(defaultOptions);
         // 데이터 라벨 설정
         this.setDataLabelOption(defaultOptions);
         // 툴팁 설정
@@ -55,6 +53,7 @@ export const zBasicColumnChartMixin = {
         this.setSeries(defaultOptions);
         // 옵션 프로퍼티 초기화
         this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
+        console.log(this._options);
         // highcharts 초기화
         this.chart = Highcharts.chart(this.container, this.options);
         // highcharts 이름 초기화
@@ -73,14 +72,6 @@ export const zBasicColumnChartMixin = {
     setXAxisOptions(option) {
         Object.assign(option.xAxis.labels, {
             rotation: (this.config.periodUnit === CHART.PERIOD.HOUR) ? -45 : 0
-        });
-    },
-    /**
-     * @param option 하이차트 옵션
-     */
-    setYAxisOptions(option) {
-        Object.assign(option.yAxis.title, {
-            text: (this.config.yAxisTitle !== '') ? this.config.yAxisTitle : ''
         });
     },
     /**
