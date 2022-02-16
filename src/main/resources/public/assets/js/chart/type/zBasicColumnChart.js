@@ -12,19 +12,10 @@ import { CHART } from '../../lib/zConstants.js';
 
 const DEFAULT_CHART_PROPERTY = {
     chart: {
-        type: 'column',
-        marginTop: 40,
-        scrollablePlotArea: {
-            scrollPositionX: 1
-        }
+        type: 'column'
     },
     xAxis: {
         labels: {},
-        min: 0,
-        max: 10,
-        scrollbar: {
-            enabled: true
-        },
         crosshair: true
     },
     yAxis : {
@@ -63,9 +54,9 @@ export const zBasicColumnChartMixin = {
         // 시리즈 설정
         this.setSeries(defaultOptions);
         // 시리즈 이벤트 설정
-        this.setSeriesEvent(defaultOptions)
+        this.setSeriesEvent(defaultOptions);
         // 옵션 프로퍼티 초기화
-        this._options = defaultOptions;
+        this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
         // highcharts 초기화
         this.chart = Highcharts.chart(this.container, this.options);
         // highcharts 이름 초기화

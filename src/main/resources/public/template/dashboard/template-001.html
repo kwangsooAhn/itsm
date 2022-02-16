@@ -11,6 +11,7 @@
     <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/stock.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
 </th:block>
 <body>
@@ -67,8 +68,17 @@
 
         const zChartManager = {
             load: function(data) {
+                const userOption = {
+                    chart: {
+                        marginTop: 40
+                    },
+                    xAxis: {
+                        min: 0,
+                        max: 10
+                    }
+                };
                 // 차트 초기화
-                this.zChart = new ZChart('container', data);
+                this.zChart = new ZChart('container', data, userOption);
             },
             update: function (data) {
                 // 데이터 업데이트

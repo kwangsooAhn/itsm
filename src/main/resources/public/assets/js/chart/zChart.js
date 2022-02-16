@@ -27,7 +27,10 @@ const HIGHCHARTS_THEME = {
             color: '#222529'
         },
         spacingTop: 20,
-        marginTop: 120
+        marginTop: 120,
+        scrollablePlotArea: {
+            scrollPositionX: 1
+        }
     },
     title: {
         text:'',
@@ -47,7 +50,12 @@ const HIGHCHARTS_THEME = {
         lineColor: '#CFD5D9',
         tickColor: '#CFD5D9',
         maxPadding:0,
-        minPadding:0
+        minPadding:0,
+        scrollbar: { // 스크롤바 표시를 위해서는 min / max 가 필요함
+            enabled: true,
+            showFull: false,
+            barBackgroundColor: '#FF0000'
+        }
     },
     yAxis: {
         min: 0,
@@ -108,7 +116,7 @@ const HIGHCHARTS_THEME = {
 Object.freeze(HIGHCHARTS_THEME);
 
 export  default class ZChart {
-    constructor(container, data = {}) {
+    constructor(container, data = {}, customOptions = {}) {
         this.container = container;
         this.data = JSON.parse(JSON.stringify(data));
         this.domElement = document.getElementById(container);
@@ -118,6 +126,7 @@ export  default class ZChart {
         this._desc = this.data.chartDesc || '';
         this._tags = this.data.tags || [];
         this._config = this.data.chartConfig;
+        this._customOptions = customOptions;
 
         // 테마 적용
         Highcharts.setOptions(HIGHCHARTS_THEME);
@@ -205,6 +214,14 @@ export  default class ZChart {
 
     get config() {
         return this._config;
+    }
+
+    set customOptions(options) {
+        this._customOptions = options;
+    }
+
+    get customOptions() {
+        return this._customOptions;
     }
 
     /**

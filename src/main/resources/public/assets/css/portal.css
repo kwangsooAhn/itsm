@@ -4906,6 +4906,10 @@ summary:focus {
   resize: none;
 }
 
+.highcharts-scrollbar-button {
+  display: none;
+}
+
 /* _file-uploader.scss 
  *
  * 파일 경로 : template/_file-uploader.scss

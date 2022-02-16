@@ -5080,6 +5080,10 @@ svg path.connector.hidden {
   resize: none;
 }
 
+.highcharts-scrollbar-button {
+  display: none;
+}
+
 /* _color-picker.scss 
  *
  * 파일 경로 : template/_color-picker.scss
