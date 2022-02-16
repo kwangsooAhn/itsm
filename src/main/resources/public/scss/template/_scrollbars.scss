@@ -342,7 +342,26 @@
     }
   }
 }
-// 하이차트 scrollbar
-.highcharts-scrollbar-button {
-  display: none;
+// highcharts scrollbar
+.highcharts-scrollbar {
+  &-track {
+    height: $scrollbar-thick;
+    fill: $scrollbar-bg-color;
+    stroke-width: 0;
+    rx: calc(#{$scrollbar-thick} / 2);
+    ry: calc(#{$scrollbar-thick} / 2);
+  }
+  &-thumb {
+    height: $scrollbar-thick;
+    fill: $scrollbar-color;
+    stroke-width: 0;
+    rx: calc(#{$scrollbar-thick} / 2);
+    ry: calc(#{$scrollbar-thick} / 2);
+    &:hover {
+      fill: $scrollbar-hover-color;
+    }
+  }
+  &-button { display: none; }
+  &-arrow { display: none; }
+  &-rifles { stroke: transparent; }
 }

@@ -53,8 +53,6 @@ export const zBasicColumnChartMixin = {
         this.setTooltipOption(defaultOptions);
         // 시리즈 설정
         this.setSeries(defaultOptions);
-        // 시리즈 이벤트 설정
-        this.setSeriesEvent(defaultOptions);
         // 옵션 프로퍼티 초기화
         this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
         // highcharts 초기화
@@ -139,19 +137,6 @@ export const zBasicColumnChartMixin = {
                 legendIndex: i
             });
         }
-    },
-    /**
-     * 차트 시리즈 이벤트 설정
-     * @param option 하이차트 옵션
-     */
-    setSeriesEvent(option) {
-        // todo: #12334 차트 시리즈 클릭 이벤트
-        Object.assign(option.plotOptions.series.events, {
-            click: function(event){
-                console.log(event.point);
-                zAlert.warning(`${event.point.category} 요청현황 - 부서아이디 : ${event.point.id}`);
-            }
-        });
     },
     /**
      * 업데이트

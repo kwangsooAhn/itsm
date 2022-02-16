@@ -54,6 +54,8 @@ const HIGHCHARTS_THEME = {
         scrollbar: { // 스크롤바 표시를 위해서는 min / max 가 필요함
             enabled: true,
             showFull: false,
+            size: 8, // 스크롤바 사이즈
+            trackBackgroundColor: '#F5F5F5',
             barBackgroundColor: '#FF0000'
         }
     },
@@ -78,6 +80,7 @@ const HIGHCHARTS_THEME = {
         series: {
             turboThreshold : 0, // 속도 높임
             stickyTracking : false, // 시리즈에서 마우스를 떼면 툴팁이 사라진다: false, 남아있다: true
+            getExtremesFromAll: true
         }
     },
     legend: {
