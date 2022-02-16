@@ -12,7 +12,7 @@
 
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZImageProperty from '../../formDesigner/property/type/zImageProperty.js';
+import ZFileProperty from '../../formDesigner/property/type/zFileProperty.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
@@ -27,7 +27,7 @@ import { zValidation } from '../../lib/zValidation.js';
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '12',
-        path: '', // 이미지 경로0
+        path: '', // 이미지 경로
         width: '', // 이미지 너비
         height: '', // 이미지 높이
         align: 'left'
@@ -177,7 +177,7 @@ export const imageMixin = {
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZImageProperty('elementPath', 'element.path', this.elementPath))
+                .addProperty(new ZFileProperty('elementPath', 'element.path', this.elementPath, 'image'))
                 .addProperty(elementWidthProperty)
                 .addProperty(elementHeightProperty)
                 .addProperty(elementAlignProperty)

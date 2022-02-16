@@ -9,17 +9,19 @@ package co.brainz.workflow.instance.repository
 import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
+import co.brainz.framework.querydsl.QuerydslConstants
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
-import co.brainz.itsm.statistic.customChart.constants.ChartConstants
-import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
+import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.folder.constants.FolderConstants
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.instance.entity.QWfCommentEntity
 import co.brainz.itsm.instance.entity.QWfInstanceViewerEntity
+import co.brainz.itsm.statistic.customChart.constants.ChartConstants
+import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
@@ -33,6 +35,7 @@ import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListDocumentDto
 import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDto
+import co.brainz.workflow.instance.dto.WfInstanceListUserDto
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
@@ -44,8 +47,11 @@ import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
+import com.querydsl.core.types.Order
+import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.CaseBuilder
+import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
 import java.time.LocalDateTime
@@ -67,10 +73,10 @@ class WfInstanceRepositoryImpl(
     val tag: QAliceTagEntity = QAliceTagEntity.aliceTagEntity
     val folder: QWfFolderEntity = QWfFolderEntity.wfFolderEntity
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
-    val searchDataCount: Long = WfTokenConstants.searchDataCount
     val element: QWfElementEntity = QWfElementEntity.wfElementEntity
     val ciComponent: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
     val instanceViewer: QWfInstanceViewerEntity = QWfInstanceViewerEntity.wfInstanceViewerEntity
+    val code: QCodeEntity = QCodeEntity.codeEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -167,12 +173,50 @@ class WfInstanceRepositoryImpl(
         )
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
-            .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.isScroll) {
-            query.limit(searchDataCount)
-                .offset(tokenSearchCondition.offset)
+        this.orderSpecifier(tokenSearchCondition, query)
+        if (tokenSearchCondition.isPaging) {
+            query.limit(tokenSearchCondition.contentNumPerPage)
+            query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
         return query.fetchResults()
+    }
+
+    /**
+     * 화면 정렬 설정
+     */
+    private fun orderSpecifier(
+        tokenSearchCondition: TokenSearchCondition,
+        query: JPQLQuery<WfInstanceListViewDto>
+    ): JPQLQuery<WfInstanceListViewDto> {
+        if (tokenSearchCondition.orderColName.isNullOrEmpty()) {
+            query.orderBy(instance.instanceStartDt.desc())
+        } else {
+            val direction = when (tokenSearchCondition.orderDir) {
+                QuerydslConstants.OrderSpecifier.DESC.code -> Order.DESC
+                else -> Order.ASC
+            }
+            when (tokenSearchCondition.orderColName) {
+                QuerydslConstants.OrderColumn.CREATE_USER_NAME.code -> {
+                    query.orderBy(OrderSpecifier(direction, instance.instanceCreateUser.userName))
+                }
+                QuerydslConstants.OrderColumn.CREATE_DT.code -> {
+                    query.orderBy(OrderSpecifier(direction, instance.instanceStartDt))
+                }
+                QuerydslConstants.OrderColumn.DOCUMENT_GROUP.code -> {
+                    query.orderBy(OrderSpecifier(direction, code.codeName))
+                }
+                QuerydslConstants.OrderColumn.ASSIGNEE_USER_NAME.code -> {
+                    query.orderBy(OrderSpecifier(direction, user.userName))
+                }
+                QuerydslConstants.OrderColumn.ELEMENT_NAME.code -> {
+                    query.orderBy(OrderSpecifier(direction, token.element.elementName))
+                }
+                else -> {
+                    query.orderBy(OrderSpecifier(direction, Expressions.stringPath(instance, tokenSearchCondition.orderColName)))
+                }
+            }
+        }
+        return query
     }
 
     override fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto> {
@@ -201,10 +245,10 @@ class WfInstanceRepositoryImpl(
 
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
-            .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.isScroll) {
-            query.limit(searchDataCount)
-                .offset(tokenSearchCondition.offset)
+        this.orderSpecifier(tokenSearchCondition, query)
+        if (tokenSearchCondition.isPaging) {
+            query.limit(tokenSearchCondition.contentNumPerPage)
+            query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
         return query.fetchResults()
     }
@@ -254,10 +298,10 @@ class WfInstanceRepositoryImpl(
         }
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
-            .orderBy(instance.instanceStartDt.desc())
-        if (tokenSearchCondition.isScroll) {
-            query.limit(searchDataCount)
-                .offset(tokenSearchCondition.offset)
+        this.orderSpecifier(tokenSearchCondition, query)
+        if (tokenSearchCondition.isPaging) {
+            query.limit(tokenSearchCondition.contentNumPerPage)
+            query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
         return query.fetchResults()
     }
@@ -337,7 +381,8 @@ class WfInstanceRepositoryImpl(
                         document.process,
                         document.form,
                         document.numberingRule,
-                        document.documentIcon
+                        document.documentIcon,
+                        code.codeName
                     ),
                     Projections.constructor(
                         WfInstanceListInstanceDto::class.java,
@@ -349,12 +394,21 @@ class WfInstanceRepositoryImpl(
                         instance.pTokenId,
                         instance.document,
                         instance.documentNo
+                    ),
+                    Projections.constructor(
+                        WfInstanceListUserDto::class.java,
+                        user.userId,
+                        user.userName
                     )
                 )
             )
             .innerJoin(instance).on(token.instance.eq(instance))
             .fetchJoin()
             .innerJoin(document).on(instance.document.eq(document))
+            .fetchJoin()
+            .leftJoin(user).on(token.assigneeId.eq(user.userKey))
+            .fetchJoin()
+            .leftJoin(code).on(document.documentGroup.eq(code.code))
             .fetchJoin()
         if (tags.isNotEmpty()) {
             query.where(

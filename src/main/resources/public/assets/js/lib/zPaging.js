@@ -7,7 +7,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-const DEFAULT_OPTIONS = {
+import { PAGING } from './zConstants.js';
+
+const PAGING_DEFAULT_OPTIONS = {
     numOfPageNums : 5, // 출력되는 페이징 숫자의 개수
     activeArrowClass : 'active', // 유효한 화살표용 클래스 이름
     pageNumSelector : 'div.z-paging-numbers a', // 페이지 번호 목록 셀렉터
@@ -15,9 +17,9 @@ const DEFAULT_OPTIONS = {
 };
 export default class ZPaging {
     constructor(options) {
-        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
+        this.options = Object.assign({}, PAGING_DEFAULT_OPTIONS, options);
         // 리스트 목록에 옵져버 설정. 조회되어 리스트가 변하면 자동으로 페이징 처리
-        const config = {childList: true, subtree: true};
+        const config = {childList: true, subtree: false};
         const observer = new MutationObserver(this.update.bind(this));
         observer.observe(document.querySelector('.z-list-content'), config);
     }
@@ -27,6 +29,7 @@ export default class ZPaging {
      *   1) 관련 정보 : 검색건수, 전체 데이터 건수, 정렬 순서, 현재 페이지 번호 출력
      *   2) 페이지 번호 목록 : 기존 출력된 페이지 번호 목록은 지우고 새로 페이지 번호 표시
      *   3) 화살표 처리 : 페이지 번호 목록에 따라 페이징 화살표 링크를 다르게 수정.
+     *   4) 정렬 추가 : 상단 제목 선택시 데이터 재정렬.
      *
      * @return {boolean}
      */
@@ -49,7 +52,7 @@ export default class ZPaging {
 
         // 2-2) 현재 페이지 번호, 전체 페이지 수
         let currentPageNum = Number(document.getElementById('currentPageNum').value);
-        let totalPageNum = Number(document.getElementById('totalPageNum').value);
+        let totalPageNum = (document.getElementById('totalPageNum').value === '0') ? 1 : Number(document.getElementById('totalPageNum').value);
         document.getElementById('spanCurrentPageNum').innerText = i18n.msg('common.label.totalPageNum', totalPageNum);
 
         // 2-3) 현재 페이지번호가 이미 있는 경우 -> class 적용만하고 끝냄.
@@ -109,15 +112,63 @@ export default class ZPaging {
             this.makePagingArrow('pagingNextArrow', endPageNum + 1);
         }
 
+        // 4) 정렬
+        this.makeSortGridIcon();
+        const gridHead = document.querySelector('.grid__head');
+        if (gridHead) {
+            gridHead.querySelectorAll('.grid__cell[data-grid-sortable="true"]').forEach((element) => {
+                element.addEventListener('click', this.sortGrid.bind(this), false);
+            });
+        }
+
         // 스크롤바는 paging이 아니지만 옵져버가 새로 계산할 때마다 필요하기 때문에 임시로 이 곳에 작성.
         // 팀장님께서 다시 정리하신다고 하셨음.! by.mo
         OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-main'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.grid__body'), {className: 'scrollbar'});
     }
 
     makePagingArrow(elementId, pageNum) {
         let pagingArrow = document.getElementById(elementId);
         pagingArrow.classList.add(this.options.activeArrowClass);
         pagingArrow.setAttribute('href', 'javascript:getList(' + (pageNum) + ')');
+    }
+
+    // 정렬
+    sortGrid(e) {
+        if (!e.target.classList.contains('grid__cell')) { return false; }
+
+        const sortColumn = e.target.getAttribute('data-grid-column');
+        const orderColNameElem = document.getElementById('orderColName');
+        const orderDirElem = document.getElementById('orderDir');
+
+        if (!orderColNameElem || !orderDirElem) { return false; }
+
+        if (sortColumn === orderColNameElem.value) { // 정렬 순서 변경
+            if (orderDirElem.value === PAGING.ORDER_DIRECTION.ASC) {
+                orderDirElem.value = PAGING.ORDER_DIRECTION.DESC;
+            } else {
+                orderDirElem.value = PAGING.ORDER_DIRECTION.ASC;
+            }
+        } else { // 정렬 대상 변경
+            orderColNameElem.value = sortColumn;
+            orderDirElem.value = PAGING.ORDER_DIRECTION.ASC;
+        }
+
+        // 데이터 재 호출
+        const curPageLink = document.querySelector('.' + this.options.selectedPage);
+        if (curPageLink) {
+            curPageLink.click();
+        }
+    }
+    // 정렬 아이콘 추가
+    makeSortGridIcon() {
+        const orderColNameElem = document.getElementById('orderColName');
+        const orderDirElem = document.getElementById('orderDir');
+        if (!orderColNameElem || !orderDirElem || orderColNameElem.value === '') { return false; }
+
+        const sortColElem = document.querySelector('.grid__cell[data-grid-column="' + orderColNameElem.value +'"]');
+        sortColElem.setAttribute('data-grid-sorting-type', orderDirElem.value);
+        sortColElem.insertAdjacentHTML('beforeend', `<span class="z-icon i-sorting"></span>`);
     }
 }

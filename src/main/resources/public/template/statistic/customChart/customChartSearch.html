@@ -30,7 +30,7 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button secondary" sec:authorize="hasAuthority('report.manage')"
+        <button type="button" class="z-button primary" sec:authorize="hasAuthority('report.manage')"
                 th:text="#{common.btn.add}" onclick="location.href='/statistics/customChart/new'"></button>
     </div>
 </div>
@@ -55,7 +55,11 @@
          * Chart 검색
          */
         function getList(pageNum = 1) {
-            const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+            const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
+            const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
+            const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum
+                + '&orderColName=' + orderColName
+                + '&orderDir=' + orderDir;
             aliceJs.fetchText('/statistics/customChart?' + urlParam, {
                 method: 'GET',
             }).then((htmlData) => {
