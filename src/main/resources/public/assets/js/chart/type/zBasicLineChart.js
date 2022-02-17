@@ -43,7 +43,7 @@ export const zBasicLineChartMixin = {
         // 시리즈 설정
         this.setSeries(defaultOptions);
         // 옵션 프로퍼티 초기화
-        this._options = defaultOptions;
+        this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
         // highcharts 초기화
         this.chart = Highcharts.chart(this.container, this.options);
         // highcharts 이름 초기화
