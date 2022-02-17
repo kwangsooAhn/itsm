@@ -13,6 +13,7 @@
     <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/stock.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
 </th:block>
 <body>
@@ -158,7 +159,7 @@
                     <button type="button" id="preview" class="z-button secondary"
                             onclick="previewChart()" th:text="#{common.btn.preview}">
                     </button>
-                    <button type="button" th:if="${chart?.chartId}" id="delete" class="z-button secondary"
+                    <button type="button" th:if="${chart?.chartId}" id="delete" class="z-button danger"
                             onclick="deleteChart()" th:text="#{common.btn.delete}">
                     </button>
                 </div>

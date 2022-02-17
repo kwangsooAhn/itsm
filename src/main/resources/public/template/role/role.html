@@ -68,7 +68,7 @@
                     th:if="${role?.roleId}" th:text="#{common.btn.modify}"
                     th:onclick="|javascript:onSave('PUT')|"
                     ></button>
-            <button type="button" class="z-button secondary" id="btnDelete" name="btnDelete"
+            <button type="button" class="z-button danger" id="btnDelete" name="btnDelete"
                     th:if="${role?.roleId}" th:text="#{common.btn.delete}"
                     th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"></button>
         </div>

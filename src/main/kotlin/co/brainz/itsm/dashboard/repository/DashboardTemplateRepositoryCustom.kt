@@ -8,5 +8,5 @@ package co.brainz.itsm.dashboard.repository
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface DashboardTemplateRepositoryCustom : AliceRepositoryCustom {
-    fun findDocumentRunningByUserKey(document: String, userKey: String, status: String): Long
+    fun countRunningDocument(document: String, organizationId: String, status: String): Long
 }

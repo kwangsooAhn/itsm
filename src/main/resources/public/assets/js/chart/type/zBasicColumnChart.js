@@ -1,7 +1,7 @@
 /**
- * Stacked Column Chart
+ * Basic Column Chart
  *
- * @author woodajung <wdj@brainz.co.kr>
+ * @author jylim <jy.lim@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -11,11 +11,26 @@
 import { CHART } from '../../lib/zConstants.js';
 
 const DEFAULT_CHART_PROPERTY = {
-    chart: { type: 'column' },
-    xAxis: { labels: {} },
-    yAxis : { stackLabels: {} },
+    chart: {
+        type: 'column'
+    },
+    xAxis: {
+        labels: {},
+        crosshair: true
+    },
+    yAxis : {
+        title: { text: {} },
+        gridLineWidth: 1,
+        lineWidth: 0,
+        stackLabels: {},
+        labels: { autoRotation: false }
+    },
     plotOptions: {
-        series: { stacking: 'normal' }
+        column: {
+            pointPadding: -0.1,
+            borderWidth: 0
+        },
+        series: { events: {} }
     },
     tooltip: {
         shared: true,
@@ -25,7 +40,7 @@ const DEFAULT_CHART_PROPERTY = {
 };
 Object.freeze(DEFAULT_CHART_PROPERTY);
 
-export const zStackedColumnChartMixin = {
+export const zBasicColumnChartMixin = {
     initProperty() {
         const defaultOptions = JSON.parse(JSON.stringify(DEFAULT_CHART_PROPERTY));
         // x 축 옵션
@@ -69,7 +84,7 @@ export const zStackedColumnChartMixin = {
         const chart = this;
         Object.assign(option.plotOptions.series, {
             dataLabels: {
-                enabled: true,
+                enabled: false,
                 formatter: function () {
                     return chart.getLabelFormat(this.y);
                 }
@@ -95,8 +110,8 @@ export const zStackedColumnChartMixin = {
                 let tooltipFormat = `<span style="font-size:inherit">${this.x}</span><br/>`;
                 for (let i = 0; i < points.length; i++) {
                     const point = points[i];
-                    tooltipFormat += `<br/><span style="color:${point.color}">\u25CF</span> ${point.series.name}: ` +
-                        `${chart.getLabelFormat(point.y)}<br/>`;
+                    tooltipFormat += `<br/><span style="color:${point.color}">${point.series.name}: </span> ` +
+                        `<strong>${chart.getLabelFormat(point.y)}</strong><br/>`;
                 }
                 return tooltipFormat;
             }
@@ -116,7 +131,7 @@ export const zStackedColumnChartMixin = {
             });
         }
     },
-    /**
+    /**ad
      * 업데이트
      * @param data 데이터
      */
@@ -135,7 +150,6 @@ export const zStackedColumnChartMixin = {
         } else {
             this.chart.xAxis[0].setCategories(categories, false);
         }
-
         for (let i = 0; i < this.chart.series.length; i++) {
             const tag = this.chart.series[i];
             let series = [];
@@ -146,7 +160,10 @@ export const zStackedColumnChartMixin = {
                     seriesId = temp.id;
                     for (let z = 0; z < categories.length; z++) {
                         if (categories[z] === temp.category) {
-                            series.push({ y: Number(temp.value) });
+                            series.push({
+                                y: Number(temp.value),
+                                linkKey: (temp.linkKey) ? temp.linkKey : '' // series 클릭 이벤트를 위한 linkKey
+                            });
                             break;
                         }
                     }

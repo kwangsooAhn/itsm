@@ -11,8 +11,8 @@ $tooltip-type: (group, row, component);
   padding: 0 1rem;
   &-tooltip {
     margin: 0;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
+    display: flex;
   }
   span {
     word-break: break-all;
@@ -31,3 +31,5 @@ $tooltip-type: (group, row, component);
     pointer-events: auto;
   }
 }
+
+.z-dr-table-button-group { top: -0.25rem !important; }

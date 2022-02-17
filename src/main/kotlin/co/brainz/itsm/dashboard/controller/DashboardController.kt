@@ -30,7 +30,7 @@ class DashboardController(
     private val noticeService: NoticeService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val dashboardViewPage: String = "dashboard/dashboardView"
+    private val dashboardViewPage: String = "dashboard/template-001"
     private val dashboardListPage: String = "dashboard/dashboardStatistic"
 
     /**
@@ -42,7 +42,7 @@ class DashboardController(
         model.addAttribute("dashboardStatistic", dashboardService.getDashboardStatistic())
         // TODO: 템플릿을 조회하여 컴포넌트별 데이터를 조회
         model.addAttribute("template", dashboardTemplateService.getTemplate())
-        return "dashboard/" + currentSessionUser.getUserTemplateId()
+        return dashboardViewPage
     }
 
     /**

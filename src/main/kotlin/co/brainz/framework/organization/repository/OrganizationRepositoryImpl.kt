@@ -9,6 +9,7 @@ import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.entity.QOrganizationEntity
 import com.querydsl.core.QueryResults
+import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity::class.java),
@@ -26,7 +27,7 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
             query.limit(organizationSearchCondition.contentNumPerPage)
             query.offset((organizationSearchCondition.pageNum - 1) * organizationSearchCondition.contentNumPerPage)
         }
-        query.orderBy(organization.level.asc(),organization.seqNum.asc())
+        query.orderBy(organization.level.asc(), organization.seqNum.asc())
         return query.fetchResults()
     }
 
@@ -38,5 +39,29 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
             query.where(organization.organizationId.ne(organizationId))
         }
         return query.fetchCount()
+    }
+
+    override fun findOrganizationEntityList(organizationIdList: List<String>): List<OrganizationEntity> {
+        val organization = QOrganizationEntity.organizationEntity
+        return from(organization)
+            .select(
+                Projections.constructor(
+                    OrganizationEntity::class.java,
+                    organization.organizationId,
+                    organization.pOrganization,
+                    organization.organizationName,
+                    organization.organizationDesc,
+                    organization.useYn,
+                    organization.level,
+                    organization.seqNum,
+                    organization.editable,
+                    organization.createUserKey,
+                    organization.createDt,
+                    organization.updateUserKey,
+                    organization.updateDt
+                )
+            )
+            .where(organization.organizationId.`in`(organizationIdList))
+            .fetch()
     }
 }

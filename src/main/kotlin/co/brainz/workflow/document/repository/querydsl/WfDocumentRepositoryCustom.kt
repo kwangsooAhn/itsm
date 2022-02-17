@@ -31,8 +31,4 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
      * 신청서 중복체크
      */
     fun existsByDocumentName(documentName: String, documentId: String): Boolean
-    /**
-     *  문서 ID List로 조회
-     */
-    fun findDocumentEntityList(documentList: List<String>): List<WfDocumentEntity>
 }

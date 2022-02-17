@@ -462,7 +462,7 @@ function dateFormatFromNow(date) {
         const durationMilliseconds = luxon.Interval.fromDateTimes(new Date(i18n.userDateTime(date)), new Date())
             .toDuration()
             .valueOf();
-        const humanizedString = humanizeDuration(durationMilliseconds, { largest : 1, floor : true, units : ['y','mo','d','h','m','s'] }).split(' ');
+        const humanizedString = humanizeDuration(durationMilliseconds, { largest : 1, floor : true, units : ['y', 'mo', 'd', 'h', 'm', 's'] }).split(' ');
 
         switch (true) {
             case humanizedString[1].includes('year') : return i18n.msg('date.label.yearsAgo', humanizedString[0]);
@@ -593,7 +593,7 @@ aliceJs.thumbnail = function(options) {
                 thumbnail.addEventListener('click', thumbnailSelect, false);
                 if (options.thumbnailDoubleClickUse) {
                     thumbnail.addEventListener('dblclick', function() {
-                        document.querySelector('.z-thumbnail-save').click();
+                        document.querySelector('.thumbnail-save').click();
                     }, false);
                 }
 
@@ -694,8 +694,13 @@ aliceJs.mergeObject = function(target, source) {
     if (aliceJs.isObject(target) && aliceJs.isObject(source)) {
         Object.keys(source).forEach(function(key) {
             if (aliceJs.isObject(source[key])) {
-                if (!target[key]) { Object.assign(target, { [key]: {} }); }
+                if (!target[key]) {
+                    Object.assign(target, {[key]: {}});
+                }
                 aliceJs.mergeObject(target[key], source[key]);
+            } else if (typeof source[key] === 'function') {
+                const descriptor = Object.getOwnPropertyDescriptor(source, key);
+                Object.defineProperty(target, key, descriptor);
             } else {
                 Object.assign(target, JSON.parse(JSON.stringify({ [key]: source[key] })));
             }

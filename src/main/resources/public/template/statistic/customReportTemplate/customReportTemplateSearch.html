@@ -18,7 +18,7 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button secondary" onclick="openTemplateAdd()"
+        <button type="button" class="z-button primary" onclick="openTemplateAdd()"
                 sec:authorize="hasAuthority('report.manage')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
