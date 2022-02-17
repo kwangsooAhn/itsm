@@ -47,17 +47,14 @@
     <script th:inline="javascript" type="text/javascript">
     /*<![CDATA[ */
         window.onload = function () {
+            container = /*[[${template.result[0].result}]]*/ "";
             // todo : 추후 backend 구현완료 시, dummyData > 실제 데이터로 치환
             // 부서별 업무현황 dummyData 로드 및 chart 초기화
-            fetch('../../assets/js/chart/dummy/chart.basicColumn.json')
-                .then(response => { return response.json(); })
-                .then(data => {
-                    if (typeof data.chartConfig === 'undefined') { return false; }
-                    // 차트 초기화
-                    zChartManager.load(data);
-                    // 차트 데이터 업데이트
-                    zChartManager.update(data.chartData);
-                });
+                        // 차트 초기화
+                        zChartManager.load(container);
+                        // 차트 데이터 업데이트
+                        zChartManager.update(container.chartData);
+
         }
     /* ]]> */
     </script>

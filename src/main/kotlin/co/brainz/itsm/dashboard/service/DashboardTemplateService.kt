@@ -61,6 +61,7 @@ class DashboardTemplateService(
             templateComponentResultList.add(
                 TemplateComponentData(
                     key = component.key,
+                    title = component.title,
                     result = templateComponentFactory.getComponent(component.key).getResult(component)
                 )
             )
