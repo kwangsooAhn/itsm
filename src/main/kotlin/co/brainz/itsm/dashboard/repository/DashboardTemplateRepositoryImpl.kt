@@ -28,7 +28,7 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
             .fetchCount()
     }
 
-    override fun findDocumentRunningByUserKey(document: String, userKey: String, status: String): Long {
+    override fun countRunningDocumentByUserKey(document: String, userKey: String, status: String): Long {
         val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
 
         return from(instance)

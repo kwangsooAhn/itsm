@@ -11,7 +11,6 @@ import co.brainz.itsm.dashboard.dto.TemplateComponentData
 import co.brainz.itsm.dashboard.dto.TemplateDto
 import co.brainz.itsm.dashboard.repository.DashboardTemplateRepository
 import co.brainz.itsm.dashboard.service.impl.TemplateComponentFactory
-import co.brainz.workflow.document.repository.WfDocumentRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule

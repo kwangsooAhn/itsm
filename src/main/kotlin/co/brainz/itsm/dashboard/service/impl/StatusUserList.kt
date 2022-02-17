@@ -25,7 +25,7 @@ class StatusUserList(
         val userRequestList = mutableListOf<TemplateUserRequestListDto>()
 
         for (document in documentList) {
-            val documentCount = dashboardTemplateRepository.findDocumentRunningByUserKey(
+            val documentCount = dashboardTemplateRepository.countRunningDocumentByUserKey(
                 document.documentId, userKey, WfInstanceConstants.Status.RUNNING.code
             )
             userRequestList.add(
