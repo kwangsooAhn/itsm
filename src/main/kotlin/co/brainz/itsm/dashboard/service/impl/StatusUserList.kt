@@ -9,7 +9,8 @@ import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 
 class StatusUserList: co.brainz.itsm.dashboard.service.impl.TemplateComponent {
     override fun getResult(component: TemplateComponentConfig): Any {
-        return 3333
+
+        return emptyArray<String>()
         //TODO("Not yet implemented")
     }
 
