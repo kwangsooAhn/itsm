@@ -618,6 +618,8 @@ document:
     applicationForm: "Application Form"
     applicationFormLink: "Application Form - Link"
     workflow: "WorkFlow"
+  btn:
+    draftSave: "Draft save"
 
 # Download
 download:
