@@ -46,7 +46,8 @@ class AliceWebSecurityConfig(
                 "/api/**",
                 "/i18n/**",
                 "/itsm",
-                "/itsm/**"
+                "/itsm/**",
+                "/login.jsp"
             ).permitAll()
             .anyRequest().authenticated()
             .and().csrf().ignoringAntMatchers("/rest/**")
