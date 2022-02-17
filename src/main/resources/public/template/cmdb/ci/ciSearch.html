@@ -46,7 +46,7 @@
                     </button>
                 </div>
             </div>
-            <div class="z-page-list">
+            <div class="z-page-list p-0">
                 <div class="z-list-content flex-row" id="ciList"></div>
             </div>
             <div layout:replace="layout/itsm/fragment/pagingAreaFragment"></div>
@@ -68,7 +68,6 @@
      */
     function getTree() {
         const search = encodeURIComponent(document.getElementById('typeSearch').value);
-        console.log(search);
         tree.load({
             source: 'ciType',
             dataUrl: '/rest/cmdb/types?search=' + search,
