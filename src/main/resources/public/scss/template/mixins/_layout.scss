@@ -243,10 +243,16 @@
 
     // todo : #12332 대시보드 템플릿 구성 SCSS
     .component {
-      min-height: 22.5rem; // 360px
+      height: 22.5rem; // 360px
       .contents {
         flex: 1 1 auto;
+        padding: 0.625rem 0.3125rem; // 10px 5px
         @include border(0.0625rem, solid, $gray300);
+        // 개인 요청 현황
+        .user-req-status {
+          &-total { height: 4.375rem; } // 70px
+          &-contents { height: 3.125rem; } // 50px
+        }
       }
     }
   };

@@ -30,7 +30,42 @@
     <div class="flex-column ml-auto component" style="width: 16.875rem;">
         <h3 class="sub-title" th:text="#{dashboard.label.personalRequestStatus}"></h3>
         <div id="requestStatusByUser" class="contents">
-            <span>Card로 표현 될 영역입니다.</span>
+            <table class="user-req-status">
+                <thead>
+                    <tr class="user-req-status-total">
+                        <td class="user-req-status-title pl-5 col-2 text-gray700">
+                            <span class="pl-2" th:text="#{dashboard.label.requestUnprocessedCount}"></span>
+                        </td>
+                        <td class="align-center col-1"><h1>0</h1></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="user-req-status-contents">
+                        <td class="pl-5 col-2"><h3 class="pl-2">단순의뢰</h3></td>
+                        <td class="align-center col-1"><h2>0</h2></td>
+                    </tr>
+                    <tr class="user-req-status-contents">
+                        <td class="pl-5 col-2"><h3 class="pl-2">개발의뢰</h3></td>
+                        <td class="align-center col-1"><h2>0</h2></td>
+                    </tr>
+                    <tr class="user-req-status-contents">
+                        <td class="pl-5 col-2"><h3 class="pl-2">원장변경</h3></td>
+                        <td class="align-center col-1"><h2>0</h2></td>
+                    </tr>
+                    <tr class="user-req-status-contents">
+                        <td class="pl-5 col-2"><h3 class="pl-2">출력의뢰</h3></td>
+                        <td class="align-center col-1"><h2>0</h2></td>
+                    </tr>
+                    <tr class="user-req-status-contents">
+                        <td class="pl-5 col-2"><h3 class="pl-2">테스트1</h3></td>
+                        <td class="align-center col-1"><h2>0</h2></td>
+                    </tr>
+                    <tr class="user-req-status-contents">
+                        <td class="pl-5 col-2"><h3 class="pl-2">테스트2</h3></td>
+                        <td class="align-center col-1"><h2>0</h2></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     </div>
@@ -58,6 +93,9 @@
                     // 차트 데이터 업데이트
                     zChartManager.update(data.chartData);
                 });
+
+            // 개인요청현황 스크롤 이벤트
+            OverlayScrollbars(document.querySelector('#requestStatusByUser'), { className: 'inner-scrollbar' });
         }
     /* ]]> */
     </script>
@@ -82,7 +120,7 @@
                         series: {
                             events: {
                                 click: function(event) {
-                                    zAlert.warning(`${event.point.category} 요청현황 - 부서아이디 : ${event.point.id}`);
+                                    zAlert.warning(`${event.point.category} 요청현황 - 부서아이디 : ${event.point.linkKey}`);
                                 }
                             }
                         }
