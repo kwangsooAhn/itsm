@@ -38,11 +38,11 @@ class DashboardController(
      */
     @GetMapping("/view")
     fun getDashboardView(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("noticePopUp", noticeService.findNoticePopUp())
-        model.addAttribute("dashboardStatistic", dashboardService.getDashboardStatistic())
+//        model.addAttribute("noticePopUp", noticeService.findNoticePopUp())
+//        model.addAttribute("dashboardStatistic", dashboardService.getDashboardStatistic())
         // TODO: 템플릿을 조회하여 컴포넌트별 데이터를 조회
         model.addAttribute("template", dashboardTemplateService.getTemplate())
-        return "dashboard/" + currentSessionUser.getUserTemplateId()
+        return dashboardViewPage
     }
 
     /**

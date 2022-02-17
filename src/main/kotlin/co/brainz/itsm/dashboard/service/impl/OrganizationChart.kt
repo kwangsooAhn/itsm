@@ -59,14 +59,13 @@ class OrganizationChart(
             chartType = ChartConstants.Type.BASIC_COLUMN.code,
             tags = tagList,
             //chartConfig의 값은 출력할 때 필요하지만 현재 가져올 값이 없어 하드코딩하였다.
-            chartConfig = listOf(
+            chartConfig =
                 ChartConfig(
                     operation = ChartConstants.Operation.COUNT.code,
                     periodUnit = ChartConstants.Unit.MONTH.code,
                     range = ChartRange(
                         type = ChartConstants.Range.NONE.code
                     )
-                )
             ),
             chartData = chartDataList
         )

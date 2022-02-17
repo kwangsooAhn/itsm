@@ -16,6 +16,6 @@ data class OrganizationChartDto(
     val chartType: String,
     val chartDesc: String? = "",
     val tags: MutableList<AliceTagDto>,
-    val chartConfig: List<ChartConfig>,
+    val chartConfig: ChartConfig,
     val chartData: MutableList<ChartData>
 ) : Serializable
