@@ -267,9 +267,9 @@ abstract class ChartManager(
                 for (i in 0..period) {
                     category.add(
                         ((from.year + i).toString()) +
-                                "-" + String.format("%02d", from.monthValue) +
-                                "-" + String.format("%02d", from.dayOfMonth) +
-                                " " + String.format("%02d", from.hour) + ":00:00"
+                            "-" + String.format("%02d", from.monthValue) +
+                            "-" + String.format("%02d", from.dayOfMonth) +
+                            " " + String.format("%02d", from.hour) + ":00:00"
                     )
                 }
             }
@@ -279,9 +279,9 @@ abstract class ChartManager(
                     val nextCategory = from.plusMonths(i)
                     category.add(
                         nextCategory.year.toString() +
-                                "-" + String.format("%02d", nextCategory.monthValue) +
-                                "-" + String.format("%02d", nextCategory.dayOfMonth) +
-                                " " + String.format("%02d", nextCategory.hour) + ":00:00"
+                            "-" + String.format("%02d", nextCategory.monthValue) +
+                            "-" + String.format("%02d", nextCategory.dayOfMonth) +
+                            " " + String.format("%02d", nextCategory.hour) + ":00:00"
                     )
                 }
             }
@@ -291,9 +291,9 @@ abstract class ChartManager(
                     val nextCategory = from.plusDays(i)
                     category.add(
                         nextCategory.year.toString() +
-                                "-" + String.format("%02d", nextCategory.monthValue) +
-                                "-" + String.format("%02d", nextCategory.dayOfMonth) +
-                                " " + String.format("%02d", nextCategory.hour) + ":00:00"
+                            "-" + String.format("%02d", nextCategory.monthValue) +
+                            "-" + String.format("%02d", nextCategory.dayOfMonth) +
+                            " " + String.format("%02d", nextCategory.hour) + ":00:00"
                     )
                 }
             }
@@ -303,9 +303,9 @@ abstract class ChartManager(
                     val nextCategory = from.plusHours(i)
                     category.add(
                         nextCategory.year.toString() +
-                                "-" + String.format("%02d", nextCategory.monthValue) +
-                                "-" + String.format("%02d", nextCategory.dayOfMonth) +
-                                " " + String.format("%02d", nextCategory.hour) + ":00:00"
+                            "-" + String.format("%02d", nextCategory.monthValue) +
+                            "-" + String.format("%02d", nextCategory.dayOfMonth) +
+                            " " + String.format("%02d", nextCategory.hour) + ":00:00"
                     )
                 }
             }
