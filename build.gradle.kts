@@ -98,6 +98,7 @@ dependencies {
     implementation("org.mapstruct:mapstruct:1.3.0.Final")
     kapt("org.mapstruct:mapstruct-processor:1.3.0.Final")
     kaptTest("org.mapstruct:mapstruct-processor:1.3.0.Final")
+
 }
 
 tasks.withType<Test>().configureEach {
