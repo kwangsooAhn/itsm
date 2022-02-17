@@ -10,15 +10,13 @@
     { "tagId": "2c9180867cc31a25017cc7a68eec0514", "value": "출력의뢰" }
   ],
   "chartConfig": {
-    "enableEvent": "true",
     "operation": "count",
     "periodUnit": "M",
     "range": {
       "type": "chart.range.none",
       "from": "",
       "to": ""
-    },
-    "yAxisTitle": "미처리건수"
+    }
   },
   "chartData": [{
     "id": "2c9180867cc31a25017cc7a68eec0511",
