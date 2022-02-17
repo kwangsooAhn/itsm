@@ -4228,6 +4228,9 @@ select {
   padding: 0.625rem 0.3125rem;
   border: 0.0625rem solid #CFD5D9;
 }
+.z-itsm-container .z-main-content .z-page-result .component .contents .user-req-status {
+  height: 17.5rem;
+}
 .z-itsm-container .z-main-content .z-page-result .component .contents .user-req-status-total {
   height: 4.375rem;
 }
