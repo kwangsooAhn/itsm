@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-</head>
 <body>
-<table class="z-table">
+<div class="grid" style="--data-columns-width: 20px 180px 120px 150px 245px auto;">
+    <div class="grid__head">
+        <div class="grid__row">
+            <div class="grid__cell" data-grid-sortable="false"></div>
+            <div class="grid__cell" data-grid-sortable="true" data-grid-column="ciNo">
+                <span class="text-ellipsis" th:text="#{cmdb.ci.label.ciNo}"></span>
+            </div>
+            <div class="grid__cell" data-grid-sortable="true" data-grid-column="typeName">
+                <span class="text-ellipsis" th:text="#{cmdb.ci.label.type}"></span>
+            </div>
+            <div class="grid__cell" data-grid-sortable="true" data-grid-column="ciName">
+                <span class="text-ellipsis" th:text="#{cmdb.ci.label.name}"></span>
+            </div>
+            <div class="grid__cell" data-grid-sortable="true" data-grid-column="ciDesc">
+                <span class="text-ellipsis" th:text="#{cmdb.ci.label.description}"></span>
+            </div>
+        </div>
+    </div>
+    <div class="grid__body">
+        <div class="grid__row grid--noData" th:if="${#arrays.isEmpty(ciList)}">
+            <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
+        </div>
+        <div class="grid__row" th:unless="${#arrays.isEmpty(ciList)}" th:each="ci: ${ciList}">
+            <div class="grid__cell">
+                <img class="z-img " alt="profile pic" th:src="ci.ciIconData" width="20" height="20">
+            </div>
+            <div class="grid__cell">
+                <input type="hidden" name="ciId" th:value="${ci.ciId}">
+                <a class="text-ellipsis underline" sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')"
+                   th:text="${ci.ciNo}" th:href="@{/cmdb/cis/{id}/view(id=${ci.ciId})}" th:title="${ci.ciNo}">
+                </a>
+            </div>
+            <div class="grid__cell">
+                <span class="text-ellipsis" th:text="${ci.typeName}" th:title="${ci.typeName}"></span>
+            </div>
+            <div class="grid__cell">
+                <span class="text-ellipsis bold" th:text="${ci.ciName}" th:title="${ci.ciName}"></span>
+            </div>
+            <div class="grid__cell">
+                <span class="text-ellipsis sub-text" th:text="${ci.ciDesc}" th:title="${ci.ciDesc}"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<table class="z-table">
     <thead class="z-table-head">
         <tr class="flex-row align-items-center">
             <th style="width: 4%;"></th>
@@ -38,7 +79,7 @@
             </td>
         </tr>
     </tbody>
-</table>
+</table>-->
 <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 </body>
 </html>
