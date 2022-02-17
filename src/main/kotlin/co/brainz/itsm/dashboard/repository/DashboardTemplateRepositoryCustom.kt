@@ -9,4 +9,5 @@ import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface DashboardTemplateRepositoryCustom : AliceRepositoryCustom {
     fun countRunningDocument(document: String, organizationId: String, status: String): Long
+    fun findDocumentRunningByUserKey(document: String, userKey: String, status: String): Long
 }
