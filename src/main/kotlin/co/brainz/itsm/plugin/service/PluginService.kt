@@ -21,7 +21,7 @@ class PluginService(
         pluginFactory.getFactory(pluginId).execute(this.getPlugin(pluginId), body)
     }
 
-    fun getPlugin(pluginId: String): PluginEntity {
+    private fun getPlugin(pluginId: String): PluginEntity {
         val plugin = pluginRepository.findById(pluginId)
         if (!plugin.isPresent) {
             throw AliceException(

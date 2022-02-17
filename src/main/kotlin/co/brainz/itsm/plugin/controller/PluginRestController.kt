@@ -21,8 +21,8 @@ class PluginRestController(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @GetMapping("/{pluginType}")
-    fun executePlugin(@PathVariable pluginType: String, @RequestBody body: String?) {
-        pluginService.executePlugin(pluginType, body)
+    @GetMapping("/{pluginId}")
+    fun executePlugin(@PathVariable pluginId: String, @RequestBody body: String?) {
+        pluginService.executePlugin(pluginId, body)
     }
 }

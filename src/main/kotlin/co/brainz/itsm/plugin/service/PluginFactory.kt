@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component
 @Component
 class PluginFactory {
 
-    fun getFactory(pluginType: String): PluginComponent {
-        return when (pluginType) {
+    fun getFactory(pluginId: String): PluginComponent {
+        return when (pluginId) {
             PluginConstants.PluginId.FOCS.code -> FocsComponent()
             else -> throw AliceException(AliceErrorConstants.ERR, "Plugin not found.")
         }
