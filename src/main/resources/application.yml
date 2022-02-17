@@ -19,10 +19,10 @@ spring:
     prefix: classpath:/public/template/
     enabled: true
     encoding: UTF-8
-    excluded-view-names: sso/*
+    excluded-view-names: jsp/*
   mvc:
     view:
-      prefix: /WEB-INF/jsp/
+      prefix: /WEB-INF/
       suffix: .jsp
   # multipart max upload size
   servlet:
@@ -124,7 +124,7 @@ find.password.enabled: false
 jasypt.encryptor.bean: jasyptStringEncryptor
 
 # SSO 사용여부
-sso.enabled: false
+sso.enabled: true
 sso.vendor: KSign
 
 ---
