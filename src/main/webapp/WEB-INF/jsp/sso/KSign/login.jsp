@@ -1,87 +1,27 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="com.ksign.access.wrapper.api.*" %>
 <%@ page import="com.ksign.access.wrapper.sso.SSOConf" %>
 <%@ page import="com.ksign.access.wrapper.sso.sso10.SSO10Conf" %>
-<%!
-  // -------------------------------------------------------------------------
-  //  [¿Ø∆ø] ∑Œ±◊¿Œ ø¿∑˘ πﬂª˝ Ω√, alert() √‚∑¬ »ƒ ¥Ÿ¿Ω ∆‰¿Ã¡ˆ∑Œ ¿Ãµø«œ¥¬ ∏ﬁº“µÂ
-  // -------------------------------------------------------------------------
-//  public void sendAlert(HttpServletResponse resp, String alertMsg, String nextURI) throws IOException {
-//
-//    alertMsg = alertMsg.replaceAll("\"", "\\\"");
-//    alertMsg = alertMsg.replaceAll("\r", "\\r");
-//    alertMsg = alertMsg.replaceAll("\n", "\\n");
-//
-//    String msg =
-//            "<script language=\"javascript\">\r\n" +
-//                    "  alert(\"" + alertMsg + "\");\r\n" +
-//                    "  top.location.href = \"" + nextURI + "\";\r\n" +
-//                    "</script>\r\n";
-//
-//    resp.setCharacterEncoding("MS949");
-//    // resp.setContentLength();
-//
-//    PrintWriter out = resp.getWriter();
-//    out.println(msg);
-//    out.flush();
-//  }
-%>
+<html>
+<head>
 <%
   // =========================================================================
-  //  <AP.1> SSO º≠∫ÒΩ∫ ∞¥√º »πµÊ
+  //  <AP.1> SSO ÏÑúÎπÑÏä§ Í∞ùÏ≤¥ ÌöçÎìù
   // =========================================================================
   SSORspData rspData = null;
   SSOService ssoService = SSOService.getInstance();
 
   // =========================================================================
-  //  <AP.2> SSO ¿Œ¡ı≈‰≈´ »πµÊ
+  //  <AP.2> SSO Ïù∏Ï¶ùÌÜ†ÌÅ∞ ÌöçÎìù
   // =========================================================================
 
   rspData = ssoService.ssoGetLoginData(request);
   out.print("1. rspData --> " +rspData);
-  out.print("2. rspData.getResultCode() --> " +rspData.getResultCode());
-
-//  if(rspData == null || rspData.getResultCode() == -1) {
-//    // TODO : ø°∑Ø∆‰¿Ã¡ˆ∑Œ or index.jsp ∆‰¿Ã¡ˆ∑Œ ¿Ãµø
-//    String alertMsg = "ªÁøÎ¿⁄ ¿Œ¡ı≈‰≈´ »πµÊø° Ω«∆–«œø¥Ω¿¥œ¥Ÿ. √ ±‚ ¡¢º”∆‰¿Ã¡ˆ∑Œ ¿Ãµø«’¥œ¥Ÿ.";
-//    String nextURI = "../index.jsp";
-//    sendAlert(response, alertMsg, nextURI);
-//    return;
-//  }
-  // end: added
-
-  // =========================================================================
-  //  [AP.3] WAS ¿Œ¡ıººº« º≥¡§ - ¿¿øÎ ƒøΩ∫≈Õ∏∂¿Ã¬° « ø‰
-  // =========================================================================
-  //String uid = rspData.getAttribute("KSIGN_FED_USER_ID");
-  String uid = rspData.getAttribute(SSO10Conf.UIDKey);
-//  if(uid == null) {
-//    uid = rspData.getAttribute("UID");
-//  }
-  out.print("3. rspData.getAttribute(\"KSIGN_FED_USER_ID\") --> " +rspData.getAttribute("KSIGN_FED_USER_ID"));
-  out.print("4. rspData.getAttribute(SSO10Conf.UIDKey) --> " +rspData.getAttribute(SSO10Conf.UIDKey));
-
-
-  String simpyoungwon = SeedCrypto.encrypt(rspData.getAttribute("UID"), null);
-  SeedCrypto.decrypt(simpyoungwon, null);
-  if(uid != null) {
-    session.setAttribute("uid", uid);
-  }
-
-  String expireMsg = request.getParameter("expire");
-  if(expireMsg != null) {
-    session.setAttribute("expire.date", expireMsg);
-  }
-  //...
-  if(true) return;
 %>
-<html>
-<head>
-  <title></title>
 </head>
 <body>
-<%= rspData%>
+>> <%=rspData%>
 </body>
 </html>
