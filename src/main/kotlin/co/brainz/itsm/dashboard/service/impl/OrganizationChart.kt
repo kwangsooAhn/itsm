@@ -43,7 +43,7 @@ class OrganizationChart(
                     ChartData(
                         id = document.documentId,
                         category = organization.organizationName!!,
-                        value = dashboardTemplateRepository.countRunningDocument(
+                        value = dashboardTemplateRepository.countRunningDocumentByOrganizationId(
                             document.documentId, organization.organizationId, WfInstanceConstants.Status.RUNNING.code
                         ).toString(),
                         series = document.documentName,

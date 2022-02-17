@@ -46,6 +46,7 @@ class DashboardTemplateService(
     private fun getTemplateComponentConfigList(templateId: String): List<TemplateComponentConfig> {
         val template = dashboardTemplateRepository.findById(templateId).get()
         val templateConfig = mapper.readValue(template.templateConfig, LinkedHashMap::class.java)
+
         return mapper.convertValue(
             templateConfig["components"],
             TypeFactory.defaultInstance().constructCollectionType(List::class.java, TemplateComponentConfig::class.java)
@@ -57,6 +58,7 @@ class DashboardTemplateService(
      */
     private fun getTemplateComponentResult(templateComponentList: List<TemplateComponentConfig>): List<TemplateComponentData> {
         val templateComponentResultList = mutableListOf<TemplateComponentData>()
+
         templateComponentList.forEach { component ->
             templateComponentResultList.add(
                 TemplateComponentData(
