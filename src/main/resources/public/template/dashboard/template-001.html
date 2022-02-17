@@ -32,39 +32,27 @@
         <div id="requestStatusByUser" class="contents">
             <table class="user-req-status">
                 <thead>
-                    <tr class="user-req-status-total">
-                        <td class="user-req-status-title pl-5 col-2 text-gray700">
-                            <span class="pl-2" th:text="#{dashboard.label.requestUnprocessedCount}"></span>
-                        </td>
-                        <td class="align-center col-1"><h1>0</h1></td>
-                    </tr>
+                <tr class="user-req-status-total">
+                    <td class="user-req-status-title pl-5 col-2 text-gray700">
+                        <span class="pl-2" th:text="#{dashboard.label.requestUnprocessedCount}"></span>
+                    </td>
+                    <td class="align-center col-1">
+                        <h1>0<!--th:text="${#aggregates.sum(template?.result[1].result.![count])} ?: '0'"--></h1>
+                    </td>
+                </tr>
                 </thead>
-                <tbody>
+                <th:block th:if="${not #arrays.isEmpty(template?.result[1].result)}">
+                <tbody th:each="request:${template?.result[1].result}">
                     <tr class="user-req-status-contents">
-                        <td class="pl-5 col-2"><h3 class="pl-2">단순의뢰</h3></td>
-                        <td class="align-center col-1"><h2>0</h2></td>
-                    </tr>
-                    <tr class="user-req-status-contents">
-                        <td class="pl-5 col-2"><h3 class="pl-2">개발의뢰</h3></td>
-                        <td class="align-center col-1"><h2>0</h2></td>
-                    </tr>
-                    <tr class="user-req-status-contents">
-                        <td class="pl-5 col-2"><h3 class="pl-2">원장변경</h3></td>
-                        <td class="align-center col-1"><h2>0</h2></td>
-                    </tr>
-                    <tr class="user-req-status-contents">
-                        <td class="pl-5 col-2"><h3 class="pl-2">출력의뢰</h3></td>
-                        <td class="align-center col-1"><h2>0</h2></td>
-                    </tr>
-                    <tr class="user-req-status-contents">
-                        <td class="pl-5 col-2"><h3 class="pl-2">테스트1</h3></td>
-                        <td class="align-center col-1"><h2>0</h2></td>
-                    </tr>
-                    <tr class="user-req-status-contents">
-                        <td class="pl-5 col-2"><h3 class="pl-2">테스트2</h3></td>
-                        <td class="align-center col-1"><h2>0</h2></td>
+                        <td class="pl-5 col-2">
+<!--                            <h3 class="pl-2" th:text="${request.documentName}"></h3>-->
+                        </td>
+                        <td class="align-center col-1">
+<!--                            <h2 th:text="${request.count} ?: '0'"></h2>-->
+                        </td>
                     </tr>
                 </tbody>
+                </th:block>
             </table>
         </div>
     </div>
@@ -83,13 +71,16 @@
     /*<![CDATA[ */
         window.onload = function () {
             container = /*[[${template.result[0].result}]]*/ "";
+
+            console.log(/*[[${template}]]*/ "");
             // todo : 추후 backend 구현완료 시, dummyData > 실제 데이터로 치환
             // 부서별 업무현황 dummyData 로드 및 chart 초기화
-                        // 차트 초기화
-                        zChartManager.load(container);
-                        // 차트 데이터 업데이트
-                        zChartManager.update(container.chartData);
+            // 차트 초기화
+            zChartManager.load(container);
+            // 차트 데이터 업데이트
+            zChartManager.update(container.chartData);
 
+            OverlayScrollbars(document.querySelector('.user-req-status'), {className: 'inner-scrollbar'});
         }
     /* ]]> */
     </script>
