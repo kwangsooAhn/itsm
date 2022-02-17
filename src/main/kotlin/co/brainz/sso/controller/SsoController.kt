@@ -35,6 +35,7 @@ class SsoController {
             response.sendRedirect("/portals/main")
         }
     }
+
     @GetMapping("/ssoLogin")
     fun ssoLogin(response: HttpServletResponse): String {
         return ssoLoginPage
