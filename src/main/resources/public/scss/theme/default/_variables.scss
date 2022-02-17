@@ -86,24 +86,6 @@ $icon-gnb-token:                              $theme-icon-folder-path + 'gnb/ico
 $icon-gnb-workflow:                           $theme-icon-folder-path + 'gnb/icon_gnb_workflow.svg';
 $icon-gnb-sub-dot:                            $theme-icon-folder-path + 'gnb/icon_gnb_sub_dot.svg';
 
-////////////////////////////// View //////////////////////////////
-$view-title-font-size:                        $font-size-m; // 18px
-$view-title-font-weight:                      $font-weight-medium;
-$view-title-font-color:                       $gray800;
-
-$view-sub-title-font-family:                  $font-family;
-$view-sub-title-font-size:                    $font-size-xs; // 14px
-$view-sub-title-font-weight:                  $font-weight-regular;
-$view-sub-title-font-color:                   $gray500;
-
-$view-content-font-size:                      $font-size-s; // 16px
-$view-content-font-weight:                    $font-weight-regular;
-$view-content-font-color:                     $gray800;
-
-$view-content-bg-color:                       $white;
-$view-content-border-width:                   0.0625rem;  // 1px
-$view-content-border-color:                   $gray300;
-
 ////////////////////////////// Edit //////////////////////////////
 $edit-content-bg-color:                       $white;
 $edit-content-border-width:                   0.0625rem;  // 1px

@@ -228,7 +228,7 @@ input, textarea, select {
   &:hover { outline: 0; }
 }
 .z-input {
-  height: 2.25rem; // 36px
+  height: 2.125rem; // 34px
   font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
@@ -380,7 +380,7 @@ input, textarea, select {
   font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
-  line-height: $element-line-height;
+  line-height: $view-content-line-height;
   color: $element-font-color;
   background-color: $element-bg-color;
   padding: 0.5rem $element-indent; // 들여쓰기 8px 16px
@@ -522,7 +522,7 @@ div.z-textarea {
 // select
 select {
   width: inherit;
-  height: 2.25rem; // 36px
+  height: 2.125rem; // 34px
   font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
@@ -549,7 +549,7 @@ select {
   display: inline-block;
   @include relative();
   width: 100%;
-  height: 2.25rem; // 36px
+  height: 2.125rem; // 34px
   vertical-align: middle;
 
   select.readonly {
@@ -561,7 +561,7 @@ select {
     align-items: center;
     @include absolute(0, 0, 0, 0);
     width: 100%;
-    padding: 0.5625rem 1.75rem 0.5625rem 1rem; // 9px 28px 9px 16px
+    padding: 0.5rem 1.75rem 0.5rem $element-indent; // 8px 28px 8px 12px
     font-family: $element-font-family;
     font-size: $element-font-size;
     font-weight: $element-font-weight;
@@ -673,7 +673,7 @@ select {
     li {
       padding: 0.5625rem 1.75rem 0.5625rem 0; // 9px 28px 9px 16px
       margin: 0 0.3125rem; // 5px
-      text-indent: 0.6875rem; // 11px
+      text-indent: 0.4375rem; // 7px
       align-items: center;
       font-family: inherit;
       font-size: $element-font-size;

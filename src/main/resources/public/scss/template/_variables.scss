@@ -360,6 +360,25 @@ $vertical-bar-width:                          1.875rem; // 30px
 $vertical-bar-height:                         1.875rem; // 30px
 $vertical-bar-margin:                         0 1.875rem 0 0; // 0 30px 0 0
 
+////////////////////////////// View //////////////////////////////
+$view-title-font-size:                        $font-size-m; // 18px
+$view-title-font-weight:                      $font-weight-medium;
+$view-title-font-color:                       $gray800;
+
+$view-sub-title-font-family:                  $font-family;
+$view-sub-title-font-size:                    $font-size-xs; // 14px
+$view-sub-title-font-weight:                  $font-weight-regular;
+$view-sub-title-font-color:                   $gray500;
+
+$view-content-font-size:                      $font-size-xs; // 14px
+$view-content-font-weight:                    $font-weight-medium;
+$view-content-line-height:                    1.6;
+$view-content-font-color:                     $neutral800;
+
+$view-content-bg-color:                       $white;
+$view-content-border-width:                   0.0625rem;  // 1px
+$view-content-border-color:                   $gray300;
+
 //////////////////////////////// element //////////////////////////////////
 // element default
 $element-font-family:                         $font-family;
@@ -372,7 +391,7 @@ $element-border-color:                        $gray400;
 $element-border-width:                        0.0625rem; // 1px
 $element-border:                              $element-border-width solid $element-border-color;
 $element-border-radius:                       0.125rem; // 2px
-$element-indent:                              1rem; // 16px 내부 들여쓰기
+$element-indent:                              0.75rem; // 12px 내부 들여쓰기
 $element-shadow-color:                        $gray300;
 $element-icon-color:                          $gray500;
 
