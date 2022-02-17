@@ -58,9 +58,7 @@ object AliceConstants {
         PATTEN98("/filedel"),
         PATTEN99("/fileSubmit"),
         PATTEN100("/i18n/**"),
-        PATTEN101("/fileImages/**"),
-        PATTEN102("/itsm"),
-        PATTEN103("/itsm/**")
+        PATTEN101("/fileImages/**")
         ;
 
         companion object {
