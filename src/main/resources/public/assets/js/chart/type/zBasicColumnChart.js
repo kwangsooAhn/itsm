@@ -70,7 +70,10 @@ export const zBasicColumnChartMixin = {
      */
     setXAxisOptions(option) {
         Object.assign(option.xAxis.labels, {
-            rotation: (this.config.periodUnit === CHART.PERIOD.HOUR) ? -45 : 0
+            rotation: (this.config.periodUnit === CHART.PERIOD.HOUR) ? -45 : 0,
+            formatter: function () {
+                return typeof this.value !== 'number' ? this.value : '';
+            }
         });
     },
     /**
