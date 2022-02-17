@@ -87,7 +87,6 @@ export const dynamicRowTableMixin = {
         element.addUI(element.UIDiv);
 
         if (this.checkButton) {
-            // 체크 버튼 추가
             element.UIDiv.addUIButton = new UIButton()
                 .setUIClass('z-button')
                 .addUIClass('primary')
@@ -165,8 +164,7 @@ export const dynamicRowTableMixin = {
     },
     set checkButton(boolean) {
         this._check.button = boolean;
-        this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.addUI(new UISpan());
-        console.log(this.checkButton)
+
     },
     get checkButton() {
         return this._check.button;
@@ -180,14 +178,14 @@ export const dynamicRowTableMixin = {
     },
     set checkRequired(boolean) {
         this._check.required = boolean;
-        this.UIElement.UIComponent.UIElement.UITable.setUIAttribute('data-validation-required', boolean);
+        this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.setUIAttribute('data-validation-required', boolean);
     },
     get checkRequired() {
         return this._check.required;
     },
     set checkScriptType(type) {
         this._check.scriptType = type;
-        this.UIElement.UIComponent.UIElement.UITable.setUIAttribute('data-validation-type', type);
+        this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.setUIAttribute('data-validation-type', type);
     },
     get checkScriptType() {
         return this._check.scriptType;
