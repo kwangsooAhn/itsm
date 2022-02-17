@@ -1144,6 +1144,7 @@ process:
       subprocess: "Subprocess"
       target-document-list: "Target Workflow"
       targetMappingId: "Target Mapping ID"
+      targetPlugIn: "Target Plug-in"
       timer-cycle: "Timer Cycle"
       timer-date: "Timer Date"
       timerStart: "Timer Event"

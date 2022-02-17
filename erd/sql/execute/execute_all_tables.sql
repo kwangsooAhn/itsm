@@ -201,6 +201,7 @@ insert into awf_code values ('script', 'root', null, null, null, false, true, 1,
 insert into awf_code values ('script.type', 'script', 'script.type', 'Script Type', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script.type.cmdb', 'script.type', 'script.type.cmdb', '[CMDB] CI 반영', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script.type.document.attachFile', 'script.type', 'script.type.document.attachFile', '[문서편집] 첨부파일', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('script.type.plugin', 'script.type', 'script.type.plugin', 'Plugin 동작', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token', 'root', null, '토큰 관련 코드', null, false, true, 1, 9, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status', 'token', null, '토큰 상태 코드', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status.finish', 'token.status', null, '처리 완료', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
