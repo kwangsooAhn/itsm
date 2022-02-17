@@ -4,7 +4,6 @@
 <%@ page import="com.ksign.access.wrapper.api.*" %>
 <%@ page import="com.ksign.access.wrapper.sso.SSOConf" %>
 <%@ page import="com.ksign.access.wrapper.sso.sso10.SSO10Conf" %>
-<%@ page import="com.ksign.access.wrapper.api.SSOService" %>
 <%!
   // -------------------------------------------------------------------------
   //  [유틸] 로그인 오류 발생 시, alert() 출력 후 다음 페이지로 이동하는 메소드
