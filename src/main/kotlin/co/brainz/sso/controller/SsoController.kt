@@ -29,15 +29,19 @@ class SsoController {
 
     @GetMapping("/","")
     fun ssoCheck(response: HttpServletResponse) {
+        logger.info("/itsm controller start.")
         return if (ssoEnabled) {
+            logger.info("sso 설정 = true")
             response.sendRedirect("/itsm/ssoLogin")
         } else {
+            logger.info("sso 설정 = false")
             response.sendRedirect("/portals/main")
         }
     }
 
     @GetMapping("/ssoLogin")
     fun ssoLogin(response: HttpServletResponse): String {
+        logger.info("/itsm/ssoLogin controller start.")
         return ssoLoginPage
     }
 }
