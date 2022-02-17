@@ -50,10 +50,16 @@
             container = /*[[${template.result[0].result}]]*/ "";
             // todo : 추후 backend 구현완료 시, dummyData > 실제 데이터로 치환
             // 부서별 업무현황 dummyData 로드 및 chart 초기화
-                        // 차트 초기화
-                        zChartManager.load(container);
-                        // 차트 데이터 업데이트
-                        zChartManager.update(container.chartData);
+            // 태그 데이터 변환
+            container.tags.forEach(tag => {
+                if (typeof tag.value === 'undefined' && typeof tag.tagValue !== 'undefined') {
+                    tag.value = tag.tagValue;
+                }
+            });
+            // 차트 초기화
+            zChartManager.load(container);
+            // 차트 데이터 업데이트
+            zChartManager.update(container.chartData);
 
         }
     /* ]]> */
