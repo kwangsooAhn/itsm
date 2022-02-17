@@ -742,6 +742,9 @@ form:
       vertical: "Vertical"
       horizontal: "Horizontal"
     auto: "Auto"
+    check:
+      button: "Add CheckButton"
+      script-type: "Script Type"
     char: "Character"
     common: "Common"
     columnContent:

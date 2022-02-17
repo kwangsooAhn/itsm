@@ -13,6 +13,8 @@
 import ZColumnProperty, { propertyExtends } from '../../formDesigner/property/type/zColumnProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import ZDropdownProperty from "../../formDesigner/property/type/zDropdownProperty.js";
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
@@ -32,6 +34,12 @@ const DEFAULT_COMPONENT_PROPERTY = {
             ...propertyExtends.input
         }]
     },
+    check: {
+        button: false,
+        buttonText: '',
+        required: false, // 필수값 여부
+        scriptType: 'none'
+    },
     validation: {
         required: false // 필수값 여부
     }
@@ -46,9 +54,10 @@ const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38,
 export const dynamicRowTableMixin = {
 
     // 전달 받은 데이터와 기본 property merge
-    initProperty() {
+    initProperty: function () {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
+        this._check = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.check, this.data.check);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         // 데이터 : "value" :[['1행 1열', '1행 2열', '1행 3열'], ['2행 1열', '2행 2열', '2행 2열']]
         this._value = this.data.value || '';
@@ -74,10 +83,20 @@ export const dynamicRowTableMixin = {
 
         this.makeTable(element.UITable);
 
-        // 추가 버튼
         element.UIDiv = new UIDiv().setUIClass('z-dr-table-button-group');
         element.addUI(element.UIDiv);
 
+        if (this.checkButton) {
+            // 체크 버튼 추가
+            element.UIDiv.addUIButton = new UIButton()
+                .setUIClass('z-button')
+                .addUIClass('primary')
+                .addUIClass('mr-2')
+                .addUI(new UISpan().setUITextContent(this.checkButtonText));
+            element.UIDiv.addUI(element.UIDiv.addUIButton);
+        }
+
+        // 추가 버튼
         element.UIDiv.addUIButton = new UIButton()
             .setUIClass('z-button-icon')
             .addUIClass('extra')
@@ -137,6 +156,41 @@ export const dynamicRowTableMixin = {
     },
     get elementColumns() {
         return this.changeDateTimeFormat(this._element.columns, FORM.DATE_TYPE.FORMAT.USERFORMAT);
+    },
+    set check(check) {
+        this._check = check;
+    },
+    get check() {
+        return this._check;
+    },
+    set checkButton(boolean) {
+        this._check.button = boolean;
+        this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.addUI(new UISpan());
+        console.log(this.checkButton)
+    },
+    get checkButton() {
+        return this._check.button;
+    },
+    set checkButtonText(text) {
+        this._check.buttonText = text;
+        this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.addUI(new UISpan().setUITextContent(text));
+    },
+    get checkButtonText() {
+        return this._check.buttonText;
+    },
+    set checkRequired(boolean) {
+        this._check.required = boolean;
+        this.UIElement.UIComponent.UIElement.UITable.setUIAttribute('data-validation-required', boolean);
+    },
+    get checkRequired() {
+        return this._check.required;
+    },
+    set checkScriptType(type) {
+        this._check.scriptType = type;
+        this.UIElement.UIComponent.UIElement.UITable.setUIAttribute('data-validation-type', type);
+    },
+    get checkScriptType() {
+        return this._check.scriptType;
     },
     set validation(validation) {
         this._validation = validation;
@@ -563,12 +617,21 @@ export const dynamicRowTableMixin = {
     },
     // 세부 속성 조회
     getProperty() {
+        const checkScriptType = new ZDropdownProperty('checkScriptType', 'check.script-type',
+            this.checkScriptType, [
+                { name: '방화벽연동-FOCS', value: 'none' }
+            ]);
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('element.columns')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZColumnProperty('elementColumns', '', this.elementColumns)),
+            new ZGroupProperty('check.button')
+                .addProperty(new ZSwitchProperty('checkButton', 'check.button', this.checkButton))
+                .addProperty(new ZSwitchProperty('checkRequired', 'validation.required', this.checkRequired))
+                .addProperty(new ZInputBoxProperty('checkButtonText', 'element.buttonText', this.checkButtonText))
+                .addProperty(checkScriptType),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
@@ -585,6 +648,7 @@ export const dynamicRowTableMixin = {
             value: (Array.isArray(this._value) && this._value.length > 0) ? JSON.stringify(this._value) : this._value,
             label: this._label,
             element: this._element,
+            check: this._check,
             validation: this._validation
         };
     },
