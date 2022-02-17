@@ -677,7 +677,7 @@
                 options.data = responseJson.data;
                 if (options.totalCount) {
                     totalCount = responseJson.totalCount;
-                    document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', totalCount);
+                    document.getElementById('totalCount').innerHTML = i18n.msg('common.label.count', totalCount);
                 }
                 // 사용자가 root를 지정하지 않았을 경우, root는 가져온 데이터의 최상위로 지정
                 if (options.view === 'modal' && options.source === 'code' && !userOptions.hasOwnProperty('root')) {
@@ -690,7 +690,7 @@
                 let tree = makeTree();
                 // 트리 Node 클릭시 이벤트 처리
                 if (typeof selectedNode === 'function') {
-                    let nodes = document.querySelector('#' + options.target).querySelectorAll('span');
+                    let nodes = document.getElementById(options.target).querySelectorAll('span');
                     nodes.forEach.call(nodes, function(node) {
                         node.addEventListener('click', function(e) {
                             selectedNode(this);
@@ -706,13 +706,13 @@
                 }
             } else {
                 // 데이터가 없는 경우 nodata 텍스트를 띄운다
-                document.querySelector('#' + options.target).innerHTML = `
+                document.getElementById(options.target).innerHTML = `
                         <div class="align-center">
                             <label>${i18n.msg('common.msg.noData')}</label>
                         </div>
                     `;
                 if (options.totalCount) {
-                    document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', 0);
+                    document.getElementById('totalCount').innerHTML = i18n.msg('common.label.count', 0);
                 }
             }
             if (options.sessionKey !== null && sessionStorage.getItem(options.sessionKey) !== null) {
@@ -722,7 +722,7 @@
 
         if (options.view === 'modal') {
             treeModal.show();
-            OverlayScrollbars(document.querySelector('#' + options.target), { className: 'scrollbar' });
+            OverlayScrollbars(document.getElementById(options.target), { className: 'scrollbar' });
         }
     }
     exports.load = load;

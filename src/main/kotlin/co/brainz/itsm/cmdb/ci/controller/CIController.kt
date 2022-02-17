@@ -25,7 +25,6 @@ class CIController(
     private val ciService: CIService,
     private val currentSessionUser: CurrentSessionUser
 ) {
-
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"
     private val ciViewPage: String = "cmdb/ci/ciView"

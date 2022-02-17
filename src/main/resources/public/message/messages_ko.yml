@@ -397,6 +397,7 @@ cmdb:
       tag: "태그를 입력하세요."
       viewDescription: "CI에 대한 상세 정보를 조회합니다."
     btn:
+      detailSearch: "상세 검색"
       import: "가져오기"
       export: "내보내기"
   class:

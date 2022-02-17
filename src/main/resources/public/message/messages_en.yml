@@ -394,6 +394,7 @@ cmdb:
       tag: "Please enter a tag."
       viewDescription: "Retrieve detailed information about a CI.."
     btn:
+      detailSearch: "Detail Search"
       import: "Import"
       export: "Export"
   class:
