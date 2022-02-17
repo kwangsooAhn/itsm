@@ -11,4 +11,4 @@ data class TemplateUserRequestListDto(
     var documentId: String,
     var documentName: String,
     var count: Long = 0L
-):Serializable
+) : Serializable

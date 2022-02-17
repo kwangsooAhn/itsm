@@ -34,11 +34,10 @@ class DashboardTemplateService(
     fun getTemplate(): TemplateDto {
         val templateId = currentSessionUser.getUserTemplateId()
         val templateComponentList = this.getTemplateComponentConfigList(templateId)
-        val result = this.getTemplateComponentResult(templateComponentList)
         // TODO: TemplateDto 에 화면에 전송할 추가 정보가 존재할 경우 추가
         return TemplateDto(
             templateId = templateId,
-            result = result
+            result = this.getTemplateComponentResult(templateComponentList)
         )
     }
 

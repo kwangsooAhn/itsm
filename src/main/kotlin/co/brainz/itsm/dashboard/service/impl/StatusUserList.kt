@@ -19,25 +19,23 @@ class StatusUserList(
 ) : co.brainz.itsm.dashboard.service.impl.TemplateComponent {
 
     override fun getResult(component: TemplateComponentConfig): MutableList<TemplateUserRequestListDto> {
-        val target: LinkedHashMap<String,List<String>> = component.target as LinkedHashMap<String,List<String>>
-        val documentList: MutableList<String> = target["documents"] as MutableList<String>
+        val target = component.target as LinkedHashMap<String, List<String>>
+        val documentList = wfDocumentRepository.findDocumentEntityList(target["documents"] as MutableList<String>)
         val userKey = currentSessionUser.getUserKey()
-        val userRequestList: MutableList<TemplateUserRequestListDto> = mutableListOf()
+        val userRequestList = mutableListOf<TemplateUserRequestListDto>()
 
         for (document in documentList) {
-            val documentDto = wfDocumentRepository.findByDocumentId(document)
-            val documentDtoList = dashboardTemplateRepository.findByDocumentIdAndUserKeyAndStatus(
-                document, userKey, WfInstanceConstants.Status.RUNNING.code
+            val documentCount = dashboardTemplateRepository.findDocumentRunningByUserKey(
+                document.documentId, userKey, WfInstanceConstants.Status.RUNNING.code
             )
             userRequestList.add(
                 TemplateUserRequestListDto(
-                    documentId = documentDto!!.documentId,
-                    documentName = documentDto.documentName,
-                    count = documentDtoList
+                    documentId = document.documentId,
+                    documentName = document.documentName,
+                    count = documentCount
                 )
             )
         }
         return userRequestList
     }
-
 }

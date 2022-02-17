@@ -22,7 +22,7 @@ class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentRepositoryCustom {
 
     override fun findByDocuments(documentSearchCondition: DocumentSearchCondition):
-            QueryResults<DocumentDto> {
+        QueryResults<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
 
         val documentQuery = from(document)
@@ -84,7 +84,7 @@ class WfDocumentRepositoryImpl :
     }
 
     override fun findAllByDocuments(documentSearchCondition: DocumentSearchCondition):
-            MutableList<DocumentDto> {
+        MutableList<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
         val documentQuery = from(document)
             .select(
@@ -142,5 +142,34 @@ class WfDocumentRepositoryImpl :
             query.where(!documentEntity.documentId.eq(documentId))
         }
         return query.fetchCount() > 0
+    }
+
+    override fun findDocumentEntityList(documentList: List<String>): List<WfDocumentEntity> {
+        val document = QWfDocumentEntity.wfDocumentEntity
+
+        return from(document)
+            .select(
+                Projections.constructor(
+                    WfDocumentEntity::class.java,
+                    document.documentId,
+                    document.documentType,
+                    document.documentName,
+                    document.documentStatus,
+                    document.documentDesc,
+                    document.documentColor,
+                    document.documentGroup,
+                    document.apiEnable,
+                    document.createDt,
+                    document.createUserKey,
+                    document.updateDt,
+                    document.updateUserKey,
+                    document.process,
+                    document.form,
+                    document.numberingRule,
+                    document.documentIcon
+                )
+            )
+            .where(document.documentId.`in`(documentList))
+            .fetch()
     }
 }
