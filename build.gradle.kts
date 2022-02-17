@@ -66,8 +66,8 @@ dependencies {
     implementation("org.apache.poi:poi:5.0.0")
     implementation("org.apache.poi:poi-ooxml:5.0.0")
     runtimeOnly("org.postgresql:postgresql")
-    implementation ("javax.servlet:jstl")
-    implementation ("org.apache.tomcat.embed:tomcat-embed-jasper")
+    implementation("javax.servlet:jstl")
+    implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
     implementation(files("/libs/KSignAccess-common-4.0.2.jar"))
     implementation(files("/libs/kcasecrypto.jar"))
     implementation(files("/libs/KSignAccessAgent-4.0.2.jar"))
@@ -77,7 +77,7 @@ dependencies {
     implementation(files("/libs/KSignLicenseGenerator-2.7.8.jar"))
     implementation(files("/libs/KSignLicenseVerify-2.5.0.jar"))
     implementation(files("/libs/SSOUtil-2.5.jar"))
-    implementation(files("/libs/log4j-1.2.8.jar"))
+    implementation(files("/libs/log4j-1.2.17.jar"))
 
     // Junit 5 설정
     // 2021-03-10 Jung Hee Chan
