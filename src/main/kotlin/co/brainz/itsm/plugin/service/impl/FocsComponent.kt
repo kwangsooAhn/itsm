@@ -13,8 +13,10 @@ class FocsComponent: PluginComponent() {
         val commands = plugin.pluginCommand.split(" ")
         val command = mutableListOf<String>()
         commands.forEach {
-            command.add(AliceConstants.PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE + "=" + home + "/logback.xml")
-            command.add(AliceConstants.PLUGINS_VM_OPTIONS_LOG_HOME + "=" + home + "/logs")
+            if (it == AliceConstants.SCHEDULER_COMMAND_JAR) {
+                command.add(AliceConstants.PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE + "=" + home + "/logback.xml")
+                command.add(AliceConstants.PLUGINS_VM_OPTIONS_LOG_HOME + "=" + home + "/logs")
+            }
             command.add(it.trim())
         }
         println(command)
