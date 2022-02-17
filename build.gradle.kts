@@ -68,6 +68,16 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     implementation ("javax.servlet:jstl")
     implementation ("org.apache.tomcat.embed:tomcat-embed-jasper")
+    implementation(files("/libs/KSignAccess-common-4.0.2.jar"))
+    implementation(files("/libs/kcasecrypto.jar"))
+    implementation(files("/libs/KSignAccessAgent-4.0.2.jar"))
+    implementation(files("/libs/KSignAccessLib2.0.jar"))
+    implementation(files("/libs/KSignAccessSSOAgent-w-4.1.2.jar"))
+    implementation(files("/libs/KSignCrypto_for_Java_v1.0.1.0.jar"))
+    implementation(files("/libs/KSignLicenseGenerator-2.7.8.jar"))
+    implementation(files("/libs/KSignLicenseVerify-2.5.0.jar"))
+    implementation(files("/libs/SSOUtil-2.5.jar"))
+    implementation(files("/libs/log4j-1.2.8.jar"))
 
     // Junit 5 설정
     // 2021-03-10 Jung Hee Chan
