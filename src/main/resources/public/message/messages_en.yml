@@ -834,6 +834,9 @@ form:
     officeNumber: "Office Number"
     phone: "Phone"
     placeholder: "Placeholder"
+    plugin:
+      button: "Add CheckButton"
+      script-type: "Script Type"
     status: "Status"
     tags: "Tag"
     title: "Form"
