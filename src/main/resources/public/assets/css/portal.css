@@ -4055,7 +4055,7 @@ summary:focus {
 .z-button-icon.light-secondary,
 .z-button-text.light-secondary {
   color: #FFFFFF;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.2);
   border-color: #FFFFFF;
 }
 .z-button.light-secondary .z-icon,
@@ -4069,7 +4069,7 @@ summary:focus {
 .z-button-icon.light-secondary:focus,
 .z-button-text.light-secondary:focus {
   color: #FFFFFF;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.1);
   border-color: #FFFFFF;
   box-shadow: 0 0 0.125rem #2578CE;
 }
@@ -4082,7 +4082,7 @@ summary:focus {
 .z-button-icon.light-secondary:hover,
 .z-button-text.light-secondary:hover {
   color: #FFFFFF;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
   border-color: #FFFFFF;
 }
 .z-button.light-secondary:hover .z-icon,
@@ -4291,10 +4291,18 @@ summary:focus {
 .z-button-text {
   padding: 0;
   line-height: 1.25rem;
+  color: #63686C;
 }
 .z-button-text:hover {
   text-decoration: underline;
   text-underline-position: under;
+  color: #ABB0B5;
+}
+.z-button-text:active, .z-button-textfocus {
+  color: #222529;
+}
+.z-button-text:disabled, .z-button-text.disabled {
+  color: #CFD5D9;
 }
 
 .z-button-list {
@@ -4560,11 +4568,6 @@ summary:focus {
   background-repeat: no-repeat;
   background-position-x: 0.875rem;
   background-position-y: center;
-}
-.z-button.main-return {
-  position: relative;
-  top: 5rem;
-  right: 5rem;
 }
 .z-button.signup-return {
   margin-left: 2.5rem;
