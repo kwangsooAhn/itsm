@@ -34,16 +34,16 @@
                 <thead>
                 <tr class="user-req-status-total">
                     <td class="user-req-status-title pl-5 col-2 text-gray700">
-                        <span class="pl-2" th:text="#{dashboard.label.requestUnprocessedCount}"></span>
+                        <span th:text="#{dashboard.label.requestUnprocessedCount}"></span>
                     </td>
                     <td class="align-center col-1">
                         <h1 th:text="${#arrays.length(template?.result[1].result)} > 0 ? ${#aggregates.sum(template?.result[1].result.![count])} : 0"></h1>
                     </td>
                 </tr>
                 </thead>
-                <tbody th:if="${#arrays.length(template?.result[1].result)} > 0" th:each="request:${template?.result[1].result}">
-                    <tr class="user-req-status-contents">
-                        <td class="pl-5 col-2"><h3 class="pl-2" th:text="${request.documentName}"></h3></td>
+                <tbody th:if="${#arrays.length(template?.result[1].result)} > 0">
+                    <tr class="user-req-status-contents" th:each="request:${template?.result[1].result}">
+                        <td class="pl-5 col-2"><h3 th:text="${request.documentName}"></h3></td>
                         <td class="align-center col-1"><h2 th:text="${request.count}"></h2></td>
                     </tr>
                 </tbody>
