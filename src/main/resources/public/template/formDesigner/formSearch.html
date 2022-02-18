@@ -145,6 +145,7 @@
                     bindKey: false,
                     callback: function(modal) {
                         ZWorkflowUtil.export(responseObject.id, 'form');
+                        modal.hide();
                     }
                 }],
                 close: {
@@ -325,15 +326,16 @@
                 formName: document.getElementById('form_name').value,
                 formDesc: document.getElementById('form_description').value
             };
-            ZWorkflowUtil.import(importFile, formInfo, 'form', function (result) {
-                if (result) {
-                    zAlert.success(i18n.msg('common.msg.save'), function () {
-                        location.reload();
-                    });
-                    return true;
-                } else {
-                    zAlert.danger(i18n.msg('common.label.fail'));
-                    return false;
+            ZWorkflowUtil.import(importFile, formInfo, 'form', function (resultCode) {
+                switch (resultCode) {
+                    case STATUS_ERROR_DUPLICATE_FORM_NAME:
+                        zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
+                        return false;
+                    default:
+                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                            location.reload();
+                            return true;
+                        });
                 }
             });
         }
