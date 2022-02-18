@@ -92,7 +92,7 @@ GET rest/dashboard/unprocessedRequests/{organization_id}
         "organizationId" : "4028b2d57d37168e017d371a5f7f0004",
         "organizationName" : "리스크관리본부",
         "columnTitle" : ["순번", "신청부서", "문서종류", "제목", "신청일", "완료 희망일", "상태", "PL", " 신청자", "난이도", "문서번호"],
-        "columnWidth" : ["40px", "200px", "20%", "500px", "10%", "10%", "10%", "200px", "200px", "5%", "300px"],
+        "columnWidth" : ["60px", "200px", "200px", "300px", "150px", "150px", "150px", "150px", "150px", "80px", "300px"],
         "columnType" : ["string", "string", "string", "date", "date", "string", "string","string", "string"],
         "data" : {
             "0": ["리스크 관리부", "개발의뢰신청서", "이메일이 안됩니다.", "2021-02-05", "2021-02-05", "신청서 접수", "정희찬", "상", "CSR-20220117-001"],
