@@ -86,14 +86,12 @@ export const dynamicRowTableMixin = {
         element.UIDiv = new UIDiv().setUIClass('z-dr-table-button-group');
         element.addUI(element.UIDiv);
 
-        if (this.checkButton) {
-            element.UIDiv.addUIButton = new UIButton()
-                .setUIClass('z-button')
-                .addUIClass('primary')
-                .addUIClass('mr-2')
-                .addUI(new UISpan().setUITextContent(this.checkButtonText));
-            element.UIDiv.addUI(element.UIDiv.addUIButton);
-        }
+        element.UIDiv.addUIButton = new UIButton()
+            .setUIClass('z-button')
+            .addUIClass('primary')
+            .addUIClass('mr-2')
+            .addUI(new UISpan().setUITextContent('유효성체크'));
+        element.UIDiv.addUI(element.UIDiv.addUIButton);
 
         // 추가 버튼
         element.UIDiv.addUIButton = new UIButton()
