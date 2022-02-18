@@ -104,8 +104,9 @@ $token-numbering-color:                       $gray500;
 $card-content-bg-color:                       $white;
 $card-border-width:                           0.0625rem; // 1px
 $card-border-color:                           $gray300;
+$card-shadow-color:                           $gray200;
 $card-border-radius:                          0.0625rem; // 1px
-$card-hover-box-shadow:                       0 0 0 $card-border-width $card-border-color;
+$card-hover-box-shadow:                       0 0 0.625rem 0 $card-shadow-color;
 
 // 카드 목록 마우스 오버시
 $card-list-hover-bg-color:                    $neutral200;

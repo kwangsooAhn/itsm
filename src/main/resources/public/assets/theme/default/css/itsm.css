@@ -4411,7 +4411,7 @@ select {
   cursor: pointer;
 }
 .z-itsm-container .z-main-content .card-list .card:hover {
-  box-shadow: 0 0 0 0.0625rem #CFD5D9;
+  box-shadow: 0 0 0.625rem 0 #E1E6EA;
 }
 .z-itsm-container .z-main-content .card-list .card .document-column h3 {
   width: 28rem;
@@ -4734,8 +4734,8 @@ select {
 .z-document-content .document-column .document-name {
   width: 17.5rem;
   color: #424242;
-  font-size: 1.25rem;
-  font-weight: 500;
+  font-size: 1.5625rem;
+  font-weight: 600;
 }
 .z-document-content .document-column .document-icon {
   position: absolute;
