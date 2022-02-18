@@ -742,9 +742,6 @@ form:
       vertical: "Vertical"
       horizontal: "Horizontal"
     auto: "자동"
-    check:
-      button: "체크 버튼 추가"
-      script-type: "작업 타입"
     char: "문자"
     common: "공통"
     columnContent:
@@ -837,6 +834,9 @@ form:
     officeNumber: "사무실 번호"
     phone: "전화번호"
     placeholder: "Placeholder"
+    plugin:
+      button: "체크 버튼 추가"
+      script-type: "작업 타입"
     status: "상태"
     tags: "태그"
     title: "폼"

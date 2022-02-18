@@ -742,9 +742,6 @@ form:
       vertical: "Vertical"
       horizontal: "Horizontal"
     auto: "Auto"
-    check:
-      button: "Add CheckButton"
-      script-type: "Script Type"
     char: "Character"
     common: "Common"
     columnContent:
@@ -837,6 +834,9 @@ form:
     officeNumber: "Office Number"
     phone: "Phone"
     placeholder: "Placeholder"
+    plugin:
+      button: "Add CheckButton"
+      script-type: "Script Type"
     status: "Status"
     tags: "Tag"
     title: "Form"

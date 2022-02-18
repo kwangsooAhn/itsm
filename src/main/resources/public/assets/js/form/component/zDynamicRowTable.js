@@ -34,7 +34,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
             ...propertyExtends.input
         }]
     },
-    check: {
+    plugin: {
         button: false,
         buttonText: '',
         required: false, // 필수값 여부
@@ -57,7 +57,7 @@ export const dynamicRowTableMixin = {
     initProperty: function () {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
-        this._check = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.check, this.data.check);
+        this._plugin = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.plugin, this.data.plugin);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         // 데이터 : "value" : [['제목', '제목', '제목'], ['1행 1열', '1행 2열', '1행 3열'], ['2행 1열', '2행 2열', '2행 2열']]
         this._value = this.data.value || '';
@@ -154,39 +154,39 @@ export const dynamicRowTableMixin = {
     get elementColumns() {
         return this.changeDateTimeFormat(this._element.columns, FORM.DATE_TYPE.FORMAT.USERFORMAT);
     },
-    set check(check) {
-        this._check = check;
+    set plugin(plugin) {
+        this._plugin = plugin;
     },
-    get check() {
-        return this._check;
+    get plugin() {
+        return this._plugin;
     },
-    set checkButton(boolean) {
-        this._check.button = boolean;
+    set pluginButton(boolean) {
+        this._plugin.button = boolean;
 
     },
-    get checkButton() {
-        return this._check.button;
+    get pluginButton() {
+        return this._plugin.button;
     },
-    set checkButtonText(text) {
-        this._check.buttonText = text;
+    set pluginButtonText(text) {
+        this._plugin.buttonText = text;
         this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.addUI(new UISpan().setUITextContent(text));
     },
-    get checkButtonText() {
-        return this._check.buttonText;
+    get pluginButtonText() {
+        return this._plugin.buttonText;
     },
-    set checkRequired(boolean) {
-        this._check.required = boolean;
+    set pluginRequired(boolean) {
+        this._plugin.required = boolean;
         this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.setUIAttribute('data-validation-required', boolean);
     },
-    get checkRequired() {
-        return this._check.required;
+    get pluginRequired() {
+        return this._plugin.required;
     },
-    set checkScriptType(type) {
-        this._check.scriptType = type;
+    set pluginScriptType(type) {
+        this._plugin.scriptType = type;
         this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.setUIAttribute('data-validation-type', type);
     },
-    get checkScriptType() {
-        return this._check.scriptType;
+    get pluginScriptType() {
+        return this._plugin.scriptType;
     },
     set validation(validation) {
         this._validation = validation;
@@ -620,8 +620,8 @@ export const dynamicRowTableMixin = {
     },
     // 세부 속성 조회
     getProperty() {
-        const checkScriptType = new ZDropdownProperty('checkScriptType', 'check.script-type',
-            this.checkScriptType, [
+        const pluginScriptType = new ZDropdownProperty('pluginScriptType', 'check.script-type',
+            this.pluginScriptType, [
                 { name: '방화벽연동-FOCS', value: 'none' }
             ]);
         return [
@@ -631,10 +631,10 @@ export const dynamicRowTableMixin = {
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZColumnProperty('elementColumns', '', this.elementColumns)),
             new ZGroupProperty('check.button')
-                .addProperty(new ZSwitchProperty('checkButton', 'check.button', this.checkButton))
-                .addProperty(new ZSwitchProperty('checkRequired', 'validation.required', this.checkRequired))
-                .addProperty(new ZInputBoxProperty('checkButtonText', 'element.buttonText', this.checkButtonText))
-                .addProperty(checkScriptType),
+                .addProperty(new ZSwitchProperty('pluginButton', 'check.button', this.pluginButton))
+                .addProperty(new ZSwitchProperty('pluginRequired', 'validation.required', this.pluginRequired))
+                .addProperty(new ZInputBoxProperty('pluginButtonText', 'element.buttonText', this.pluginButtonText))
+                .addProperty(pluginScriptType),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
