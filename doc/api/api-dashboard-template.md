@@ -15,9 +15,37 @@
 개인현황판은 설정 데이터를 사용하지만 설정용 화면은 현재 단계에서 제외되었다. (2022-02 기준) 
 설정화면을 통해서 데이터가 들어간 상태로 가정하고 화면 출력을 구성한다.
 
+---
+
+### 컴포넌트 구성 (Template-001 기준)
+
+#### 부서별 요청현황
+
+`부서별 요청현황` 컴포넌트는 Highchart - basicColumn 차트로 구성된다.
+관련 데이터는 `public > assets > js > cahrt > dummy > chart.basicColumn.json` 파일을 참고한다.
+
+#### 개인 요청현황
+
+`개인 요청현황` 컴포넌트는 접속한 사용자가 신청한 문서들 중 문서별로 미처리 된 건수를 조회할 수 있다.
+
+#### 요청현황
+
+`요청현황` 컴포넌트는 전체 혹은 부서별 미처리 요청들을 조회할 수 있다.
+최초 화면 접근 시 전체 미처리 요청을 조회한다.
+`부서별 요청현황` 컴포넌트에서 부서명을 클릭할 경우, 해당하는 부서의 미처리 요청들을 조회하여 `요청현황` 컴포넌트에 출력한다.
+문서별 설정된 정보에 따라 `요청현황`의 컬럼은 동적으로 변경될 수 있다.
+
+※ 현재(2022-02) 버전에서 sort 기능은 제공하지 않는다. 
+
 ### URL
+
+#### 템플릿 조회
 ```
 GET /dashboard/view
+```
+#### 요청현황 조회
+```
+GET rest/dashboard/unprocessedRequests/{organization_id}
 ```
 
 ### Response
@@ -35,17 +63,15 @@ GET /dashboard/view
       "key": "requestStatusByOrganization.chart",
       "title": "부서별 요청현황",
       "target": {
-          // 부서별 요청현황 참고
-          "chartId": "4028b22f7c2fefef017c30054c900002", // comoponent_id와 동일
+          "chartId": "4028b22f7c2fefef017c30054c900002",
           "chartName": "",
           "chartType": "chart.basicColumn",
           "chartDesc": "",
           "tags": [
-            { "tagId": "2c9180867cc31a25017cc7a68eec0511", "value": "단순의뢰" },
-            ...
+            { "tagId": "2c9180867cc31a25017cc7a68eec0511", "value": "단순의뢰" }
           ],
-          "chartConfig": { ... },
-          "chartData": [{ ... }]
+          "chartConfig": {  },
+          "chartData": [{  }]
       }
     }, {
       "key": "requestStatusByUser.list",
@@ -60,45 +86,22 @@ GET /dashboard/view
           "count": 3
       }] 
     }, {
-      // 설계 중 
       "key": "requestListByOrganization.list",
       "title": "요청현황",
       "target": {
-        "item": [
-          {
-            "title": "신청부서",
-            "width": "200px",
-            "type": "tag",
-            "name": "신청자부서명" 
-          }, {
-            "title": "제목",
-            "width": "20%",
-            "type": "tag",
-            "name": "신청서제목" 
-          }, {
-            "title": "문서종류",
-            "type": "field",
-            "name": "document_name" 
-          }, {
-            "title": "상태",
-            "type": "field",
-            "name": "instance_status" 
-          }, {
-            "title": "문서번호",
-            "type": "field",
-            "name": "document_no" 
-          }
-        ]
+        "organizationId" : "4028b2d57d37168e017d371a5f7f0004",
+        "organizationName" : "리스크관리본부",
+        "columnTitle" : ["순번", "신청부서", "문서종류", "제목", "신청일", "완료 희망일", "상태", "PL", " 신청자", "난이도", "문서번호"],
+        "columnWidth" : ["40px", "200px", "20%", "500px", "10%", "10%", "10%", "200px", "200px", "5%", "300px"],
+        "columnType" : ["string", "string", "string", "date", "date", "string", "string","string", "string"],
+        "data" : {
+            "0": ["리스크 관리부", "개발의뢰신청서", "이메일이 안됩니다.", "2021-02-05", "2021-02-05", "신청서 접수", "정희찬", "상", "CSR-20220117-001"],
+            "1": ["리스크 관리부", "개발의뢰신청서", "이메일이 안됩니다.", "2021-02-12", "2021-02-12", "신청서 접수", "정희찬", "상", "CSR-20220117-002"]
+        }
       }
     }
   ]
 }
 ```  
-
-#### 부서별 요청현황
-
-부서별 요청현황 컴포넌트는 Highchart - basicColumn 차트로 구성된다.
-관련 데이터는 `public > assets > js > cahrt > dummy > chart.basicColumn.json` 파일을 참고한다.
-
 
 
