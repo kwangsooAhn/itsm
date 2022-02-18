@@ -5,7 +5,7 @@
 
 package co.brainz.itsm.plugin.repository
 
-import co.brainz.itsm.plugin.entity.PluginEntity
+import co.brainz.itsm.plugin.entity.PluginHistoryEntity
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
-class PluginRepositoryImpl : QuerydslRepositorySupport(PluginEntity::class.java), PluginRepositoryCustom
+class PluginHistoryRepositoryImpl : QuerydslRepositorySupport(PluginHistoryEntity::class.java), PluginHistoryRepositoryCustom

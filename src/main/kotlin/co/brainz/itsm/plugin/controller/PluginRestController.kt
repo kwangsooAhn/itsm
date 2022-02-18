@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.plugin.controller
 
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.plugin.service.PluginService
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,7 +23,7 @@ class PluginRestController(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @GetMapping("/{pluginId}")
-    fun executePlugin(@PathVariable pluginId: String, @RequestBody body: String?) {
-        pluginService.executePlugin(pluginId, body)
+    fun executePlugin(@PathVariable pluginId: String, @RequestBody body: String?): ZResponse {
+        return pluginService.executePlugin(pluginId, body)
     }
 }

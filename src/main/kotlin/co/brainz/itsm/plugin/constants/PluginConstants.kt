@@ -10,4 +10,5 @@ object PluginConstants {
     enum class PluginId(val code: String) {
         FOCS("api.focs")
     }
+
 }

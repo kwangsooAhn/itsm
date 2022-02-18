@@ -5,11 +5,12 @@
 
 package co.brainz.itsm.plugin.service.impl
 
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.plugin.entity.PluginEntity
 import org.springframework.stereotype.Component
 
 @Component
 abstract class PluginComponent {
-
-    abstract fun execute(plugin: PluginEntity, body: Any?)
+    abstract fun init(pluginsDir: String?)
+    abstract fun execute(plugin: PluginEntity, body: String?): ZResponse
 }
