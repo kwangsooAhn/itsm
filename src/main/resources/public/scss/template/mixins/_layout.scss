@@ -241,7 +241,7 @@
       .card:first-of-type { margin-top: 0;}
     }
 
-    // todo : #12332 대시보드 템플릿 구성 SCSS
+    // todo : #12332 [개인현황판] 대시보드 템플릿구성 임시 SCSS / 추후 BEM 구조로 수정 필요
     .component {
       min-height: 22.5rem; // 360px
       .contents {
