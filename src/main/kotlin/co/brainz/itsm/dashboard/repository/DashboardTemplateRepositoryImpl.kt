@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTemplateEntity::class.java),
     DashboardTemplateRepositoryCustom {
-    override fun countRunningDocument(document: String, organizationId: String, status: String): Long {
+    override fun countRunningDocumentByOrganizationId(document: String, organizationId: String, status: String): Long {
         val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
         val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
         return from(instance)
@@ -24,6 +24,19 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
                 instance.instanceStatus.eq(status)
                     .and(instance.document.documentId.eq(document))
                     .and(user.department.eq(organizationId))
+            )
+            .fetchCount()
+    }
+
+    override fun countRunningDocumentByUserKey(document: String, userKey: String, status: String): Long {
+        val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
+
+        return from(instance)
+            .where(
+                instance.document.documentId.eq(document)
+                    .and(instance.instanceStatus.eq(status)
+                            .and(instance.instanceCreateUser.userKey.eq(userKey))
+                    )
             )
             .fetchCount()
     }

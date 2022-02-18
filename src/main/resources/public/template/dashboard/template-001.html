@@ -30,7 +30,24 @@
     <div class="flex-column ml-auto component" style="width: 16.875rem;">
         <h3 class="sub-title" th:text="#{dashboard.label.personalRequestStatus}"></h3>
         <div id="requestStatusByUser" class="contents">
-            <span>Card로 표현 될 영역입니다.</span>
+            <table class="user-req-status">
+                <thead>
+                <tr class="user-req-status-total">
+                    <td class="user-req-status-title pl-5 col-2 text-gray700">
+                        <span th:text="#{dashboard.label.requestUnprocessedCount}"></span>
+                    </td>
+                    <td class="align-center col-1">
+                        <h1 th:text="${#arrays.length(template?.result[1].result)} > 0 ? ${#aggregates.sum(template?.result[1].result.![count])} : 0"></h1>
+                    </td>
+                </tr>
+                </thead>
+                <tbody th:if="${#arrays.length(template?.result[1].result)} > 0">
+                    <tr class="user-req-status-contents" th:each="request:${template?.result[1].result}">
+                        <td class="pl-5 col-2"><h3 th:text="${request.documentName}"></h3></td>
+                        <td class="align-center col-1"><h2 th:text="${request.count}"></h2></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     </div>
@@ -48,6 +65,7 @@
     /*<![CDATA[ */
         window.onload = function () {
             container = /*[[${template.result[0].result}]]*/ "";
+
             // todo : 추후 backend 구현완료 시, dummyData > 실제 데이터로 치환
             // 부서별 업무현황 dummyData 로드 및 chart 초기화
             // 태그 데이터 변환
@@ -61,6 +79,7 @@
             // 차트 데이터 업데이트
             zChartManager.update(container.chartData);
 
+            OverlayScrollbars(document.querySelector('.user-req-status'), {className: 'inner-scrollbar'});
         }
     /* ]]> */
     </script>
