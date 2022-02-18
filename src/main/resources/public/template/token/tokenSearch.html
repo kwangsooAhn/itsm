@@ -34,11 +34,12 @@
         <span id="spanTotalCount" class="z-search-count"></span>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
+
     <div class="ml-auto">
         <button type="button" class="z-button-icon secondary ml-4" id="btnExcelDownload" name="btnExcelDownload"
                 sec:authorize="hasAuthority('general')" th:title="#{common.btn.export}"
                 th:onclick="|javascript:onExcelDownload()|">
-            <span class="z-icon i-download-as-excel"></span>
+            <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
         </button>
     </div>
 </div>
