@@ -2396,7 +2396,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-input-button {
   position: relative;
-  height: 2.25rem;
+  height: 2.125rem;
 }
 .z-input-button .z-input {
   flex-basis: 100%;

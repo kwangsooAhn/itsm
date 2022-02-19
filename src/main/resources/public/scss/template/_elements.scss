@@ -337,7 +337,7 @@ input, textarea, select {
 
   &-button {
     @include relative();
-    height: 2.25rem; // 36px
+    height: 2.125rem; // 34px
 
     .z-input {
       flex-basis: 100%;
