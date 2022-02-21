@@ -54,6 +54,7 @@ class FocsComponent(
     override fun execute(plugin: PluginEntity, body: String?): ZResponse {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         val data = mapper.readValue(body, PluginDto::class.java)
+        data.pluginId = plugin.pluginId
         // 중복체크
         var response = this.runDuplicate(plugin, data)
         val returnMap: LinkedHashMap<String, Boolean> = mapper.convertValue(response.data, object : TypeReference<Map<String, Boolean>>() {})
