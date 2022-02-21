@@ -1321,6 +1321,8 @@ insert into awf_url values ('/rest/organizations/{id}', 'get', '조직 상세 �
 insert into awf_url values ('/rest/organizations/{id}', 'put', '조직 수정', 'TRUE');
 insert into awf_url values ('/rest/organizations/{id}', 'delete', '조직 삭제', 'TRUE');
 insert into awf_url values ('/rest/organizations', 'post', '조직 등록', 'TRUE');
+insert into awf_url values ('/rest/plugins', 'get', '플러그인 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/plugins/{id}', 'post', '플러그인 조회', 'TRUE');
 insert into awf_url values ('/rest/portals', 'get', '포탈 조회 (페이징)', 'FALSE');
 insert into awf_url values ('/rest/portals/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filenameextensions', 'get', '포탈 첨부파일 확장자 조회', 'FALSE');
@@ -1644,6 +1646,8 @@ insert into awf_url_auth_map values ('/rest/organizations/{id}', 'get', 'workflo
 insert into awf_url_auth_map values ('/rest/organizations/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/organizations/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/organizations', 'post', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/plugins', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/plugins/{id}', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/process/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'put', 'workflow.manage');
@@ -8841,4 +8845,57 @@ COMMENT ON COLUMN wf_instance_viewer.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_instance_viewer.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_instance_viewer.create_user_key IS '수정자';
 COMMENT ON COLUMN wf_instance_viewer.create_dt IS '수정일시';
+
+/**
+ * 플러그인 테이블
+ */
+DROP TABLE IF EXISTS awf_plugin cascade;
+
+create table awf_plugin
+(
+    plugin_id varchar(100) NOT NULL,
+    plugin_name varchar(100) NOT NULL,
+    plugin_type varchar(100) NOT NULL,
+    plugin_location varchar(1024) NOT NULL,
+    plugin_command varchar(2048) NOT NULL,
+    CONSTRAINT awf_plugin_pk PRIMARY KEY (plugin_id)
+);
+
+COMMENT ON TABLE public.awf_plugin IS '플러그인 마스터';
+COMMENT ON COLUMN awf_plugin.plugin_id IS '플러그인 아이디';
+COMMENT ON COLUMN awf_plugin.plugin_name IS '플러그인 이름';
+COMMENT ON COLUMN awf_plugin.plugin_type IS '플러그인 타입';
+COMMENT ON COLUMN awf_plugin.plugin_location IS '플러그인 위치';
+COMMENT ON COLUMN awf_plugin.plugin_command IS '플러그인 실행 명령어';
+
+insert into awf_plugin values ('api.focs', '방화벽-FOCS', 'api', '/focs', 'java -jar focs.jar');
+
+/**
+ * 플러그인 이력 테이블
+ */
+DROP TABLE IF EXISTS awf_plugin_history cascade;
+
+CREATE TABLE awf_plugin_history
+(
+    history_id varchar(128) NOT NULL,
+    plugin_id varchar(100) NOT NULL,
+    startdt timestamp NULL,
+    enddt timestamp NULL,
+    plugin_param text NULL,
+    plugin_result varchar(100) NULL,
+    message text NULL,
+    CONSTRAINT awf_plugin_history_pk PRIMARY KEY (history_id)
+);
+
+COMMENT ON TABLE awf_plugin_history IS '플러그인 처리 이력';
+COMMENT ON COLUMN awf_plugin_history.history_id IS '이력 아이디';
+COMMENT ON COLUMN awf_plugin_history.plugin_id IS '플러그인 아이디';
+COMMENT ON COLUMN awf_plugin_history.startdt IS '실행시간';
+COMMENT ON COLUMN awf_plugin_history.enddt IS '종료시간';
+COMMENT ON COLUMN awf_plugin_history.plugin_param IS '파라미터';
+COMMENT ON COLUMN awf_plugin_history.plugin_result IS '결과';
+COMMENT ON COLUMN awf_plugin_history.message IS '결과 메시지';
+
+-- public.awf_plugin_history foreign keys
+ALTER TABLE awf_plugin_history ADD CONSTRAINT awf_plugin_history_fk FOREIGN KEY (plugin_id) REFERENCES awf_plugin(plugin_id);
 

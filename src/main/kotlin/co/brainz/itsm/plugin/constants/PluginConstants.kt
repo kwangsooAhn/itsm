@@ -7,7 +7,8 @@ package co.brainz.itsm.plugin.constants
 
 object PluginConstants {
 
-    enum class PluginType(val code: String) {
-        FIREWALL("firewall")
+    enum class PluginId(val code: String) {
+        FOCS("api.focs")
     }
+
 }

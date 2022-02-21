@@ -119,6 +119,9 @@ find.password.enabled: false
 
 jasypt.encryptor.bean: jasyptStringEncryptor
 
+# Plugin directory
+plugins.dir: C:\\plugins
+
 ---
 spring:
   profiles: deploy
