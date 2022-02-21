@@ -44,7 +44,7 @@ GET /rest/plugins
 ### URL
 
 ```
-POST /rest/plugins/{pluginId}
+GET /rest/plugins/{pluginId}
 ```
 
 ### Parameter Sample
