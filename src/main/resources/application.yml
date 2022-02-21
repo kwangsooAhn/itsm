@@ -81,6 +81,8 @@ server:
   servlet:
     session:
       timeout: 60m
+  tomcat:
+    additional-tld-skip-patterns: "*.jar"
 
 # user defalut profile path
 user.default.profile: /public/assets/media/images/avatar/img_avatar_01.png
