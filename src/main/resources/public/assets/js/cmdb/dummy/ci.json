@@ -1,3 +1,14 @@
+{
+  "columnName": ["ciIcon", "ciId","ciNo", ""],
+  "columnTitle": ["", "","자산 번호", "자산 유형", "자산 이름", "자산 설명", "버전 정보", "담당자", "입고일"],
+  "columnWidth": ["20px","0px", "180px", "120px", "150px", "245px", "120px", "120px", "120px"],
+  "columnType": ["icon","hidden","string", "string", "string", "string", "string", "string", "dateTime"],
+  "data": {
+    "0": [],
+    "1": [],
+  }
+}
+
 [
   {
     "ciId": "88fc78892916dc310b4984858b28120d",
