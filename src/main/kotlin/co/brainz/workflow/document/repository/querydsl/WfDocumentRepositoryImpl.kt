@@ -144,32 +144,10 @@ class WfDocumentRepositoryImpl :
         return query.fetchCount() > 0
     }
 
-    override fun findDocumentEntityList(documentList: List<String>): List<WfDocumentEntity> {
+    override fun getDocumentListByIds(documentIds: Set<String>): List<WfDocumentEntity> {
         val document = QWfDocumentEntity.wfDocumentEntity
-
         return from(document)
-            .select(
-                Projections.constructor(
-                    WfDocumentEntity::class.java,
-                    document.documentId,
-                    document.documentType,
-                    document.documentName,
-                    document.documentStatus,
-                    document.documentDesc,
-                    document.documentColor,
-                    document.documentGroup,
-                    document.apiEnable,
-                    document.createDt,
-                    document.createUserKey,
-                    document.updateDt,
-                    document.updateUserKey,
-                    document.process,
-                    document.form,
-                    document.numberingRule,
-                    document.documentIcon
-                )
-            )
-            .where(document.documentId.`in`(documentList))
+            .where(document.documentId.`in`(documentIds))
             .fetch()
     }
 }

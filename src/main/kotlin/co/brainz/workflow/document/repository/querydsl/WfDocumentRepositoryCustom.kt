@@ -33,7 +33,7 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
     fun existsByDocumentName(documentName: String, documentId: String): Boolean
 
     /**
-     *  문서 ID List로 조회
+     * 문서 조회
      */
-    fun findDocumentEntityList(documentList: List<String>): List<WfDocumentEntity>
+    fun getDocumentListByIds(documentIds: Set<String>): List<WfDocumentEntity>
 }

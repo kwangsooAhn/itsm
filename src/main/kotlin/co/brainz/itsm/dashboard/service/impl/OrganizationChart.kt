@@ -15,39 +15,47 @@ import co.brainz.itsm.statistic.customChart.dto.ChartConfig
 import co.brainz.itsm.statistic.customChart.dto.ChartData
 import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.workflow.document.repository.WfDocumentRepository
-import co.brainz.workflow.instance.constants.WfInstanceConstants
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 
 class OrganizationChart(
     private val wfDocumentRepository: WfDocumentRepository,
     private val organizationRepository: OrganizationRepository,
     private val dashboardTemplateRepository: DashboardTemplateRepository
-) : co.brainz.itsm.dashboard.service.impl.TemplateComponent {
-    override fun getResult(component: TemplateComponentConfig): OrganizationChartDto {
-        val target = component.target as LinkedHashMap<String, List<String>>
-        val chartDataList = mutableListOf<ChartData>()
-        val tagList = mutableListOf<AliceTagDto>()
-        val documentList = wfDocumentRepository.findDocumentEntityList(target["documents"] as MutableList<String>)
-        val organizationList =
-            organizationRepository.findOrganizationEntityList(target["organizations"] as MutableList<String>)
+) : TemplateComponent {
 
-        for (document in documentList) {
-            //chart를 그릴 때 tag로 이름을 설정해야 입력해야 인식이 가능하다. -> component의 정보를 입력한다.
-            tagList.add(
+    val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
+    override fun getResult(component: TemplateComponentConfig): OrganizationChartDto {
+        val target = mapper.convertValue(component.target, Map::class.java)
+        val documents: List<String> = mapper.convertValue(target["documents"], object : TypeReference<List<String>>() {})
+        val organizations: List<String> = mapper.convertValue(target["organizations"], object : TypeReference<List<String>>() {})
+        val documentEntities = wfDocumentRepository.getDocumentListByIds(documents.toSet())
+        val organizationEntities = organizationRepository.getOrganizationListByIds(organizations.toSet())
+
+        val series = mutableListOf<AliceTagDto>()
+        val chartDataList = mutableListOf<ChartData>()
+        documentEntities.forEach { documentEntity ->
+            series.add(
                 AliceTagDto(
-                    tagId = document.documentId,
-                    tagValue = document.documentName
+                    tagId = documentEntity.documentId,
+                    tagValue = documentEntity.documentName
                 )
             )
-            for (organization in organizationList) {
+
+            organizationEntities.forEach { organizationEntity ->
                 chartDataList.add(
                     ChartData(
-                        id = document.documentId,
-                        category = organization.organizationName!!,
-                        value = dashboardTemplateRepository.countRunningDocumentByOrganizationId(
-                            document.documentId, organization.organizationId, WfInstanceConstants.Status.RUNNING.code
+                        id = documentEntity.documentId,
+                        category = organizationEntity.organizationName!!,
+                        value = dashboardTemplateRepository.countByOrganizationRunningDocument(
+                            documentEntity,
+                            organizationEntity
                         ).toString(),
-                        series = document.documentName,
-                        linkKey = organization.organizationId
+                        series = documentEntity.documentName,
+                        linkKey = organizationEntity.organizationId
                     )
                 )
             }
@@ -57,17 +65,23 @@ class OrganizationChart(
             chartId = component.key,
             chartName = component.title,
             chartType = ChartConstants.Type.BASIC_COLUMN.code,
-            tags = tagList,
-            //chartConfig의 값은 출력할 때 필요하지만 현재 가져올 값이 없어 하드코딩하였다.
-            chartConfig =
-                ChartConfig(
-                    operation = ChartConstants.Operation.COUNT.code,
-                    periodUnit = ChartConstants.Unit.MONTH.code,
-                    range = ChartRange(
-                        type = ChartConstants.Range.NONE.code
-                    )
-            ),
+            tags = series,
+            chartConfig = this.initChartConfig(),
             chartData = chartDataList
+        )
+    }
+
+    /**
+     * 차트 기본 설정 정보 셋팅
+     */
+    private fun initChartConfig(): ChartConfig {
+        return ChartConfig(
+            operation = ChartConstants.Operation.COUNT.code,
+            periodUnit = ChartConstants.Unit.MONTH.code,
+            documentStatus = ChartConstants.DocumentStatus.ONLY_RUNNING.code,
+            range = ChartRange(
+                type = ChartConstants.Range.NONE.code
+            )
         )
     }
 }

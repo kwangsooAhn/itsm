@@ -6,7 +6,10 @@
 package co.brainz.itsm.dashboard.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.itsm.dashboard.entity.DashboardTemplateEntity
+import co.brainz.workflow.document.entity.WfDocumentEntity
+import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -14,29 +17,28 @@ import org.springframework.stereotype.Repository
 @Repository
 class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTemplateEntity::class.java),
     DashboardTemplateRepositoryCustom {
-    override fun countRunningDocumentByOrganizationId(document: String, organizationId: String, status: String): Long {
-        val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
+
+    override fun countByOrganizationRunningDocument(document: WfDocumentEntity, organization: OrganizationEntity): Long {
+        val instance = QWfInstanceEntity.wfInstanceEntity
         val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
         return from(instance)
-            .join(user).on(instance.instanceCreateUser.userKey.eq(user.userKey))
+            .innerJoin(user).on(instance.instanceCreateUser.eq(user))
             .fetchJoin()
             .where(
-                instance.instanceStatus.eq(status)
-                    .and(instance.document.documentId.eq(document))
-                    .and(user.department.eq(organizationId))
+                instance.document.eq(document)
+                    .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
+                    .and(user.department.eq(organization.organizationId))
             )
             .fetchCount()
     }
 
-    override fun countRunningDocumentByUserKey(document: String, userKey: String, status: String): Long {
-        val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
-
+    override fun countByUserRunningDocument(document: WfDocumentEntity, userKey: String): Long {
+        val instance = QWfInstanceEntity.wfInstanceEntity
         return from(instance)
             .where(
-                instance.document.documentId.eq(document)
-                    .and(instance.instanceStatus.eq(status)
-                            .and(instance.instanceCreateUser.userKey.eq(userKey))
-                    )
+                instance.document.eq(document)
+                    .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
+                    .and(instance.instanceCreateUser.userKey.eq(userKey))
             )
             .fetchCount()
     }

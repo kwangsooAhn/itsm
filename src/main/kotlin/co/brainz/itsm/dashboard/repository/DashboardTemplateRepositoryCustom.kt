@@ -5,9 +5,11 @@
 
 package co.brainz.itsm.dashboard.repository
 
+import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.workflow.document.entity.WfDocumentEntity
 
 interface DashboardTemplateRepositoryCustom : AliceRepositoryCustom {
-    fun countRunningDocumentByOrganizationId(document: String, organizationId: String, status: String): Long
-    fun countRunningDocumentByUserKey(document: String, userKey: String, status: String): Long
+    fun countByOrganizationRunningDocument(document: WfDocumentEntity, organization: OrganizationEntity): Long
+    fun countByUserRunningDocument(document: WfDocumentEntity, userKey: String): Long
 }
