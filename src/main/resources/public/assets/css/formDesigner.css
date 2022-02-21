@@ -3686,7 +3686,7 @@ select {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
-  padding: 0.5rem 1.25rem;
+  padding: 0.625rem 1.25rem;
 }
 .z-button:focus, .z-button:hover,
 .z-button-icon:focus,
@@ -4427,7 +4427,8 @@ select {
 }
 
 .z-button-icon {
-  padding: 0.3125rem;
+  padding: 0.4375rem;
+  line-height: 0;
 }
 .z-button-icon-sm {
   width: 1rem;
