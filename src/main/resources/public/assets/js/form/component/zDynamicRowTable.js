@@ -641,8 +641,6 @@ export const dynamicRowTableMixin = {
             'tokenId': zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : '',
             'data': this.value
         };
-        this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton
-            .removeUIClass('primary').addUIClass('success--check');
         aliceJs.fetchJson('/rest/plugins/' + this.pluginScriptType, {
             method: 'POST',
             headers: {
