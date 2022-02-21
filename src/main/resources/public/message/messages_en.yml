@@ -47,6 +47,7 @@ common:
     modify: "Modify"
     name: "Name"
     nameAsc: "Order by name"
+    notSelect: "Not Select"
     preview: "Preview"
     searchWord: "Please enter your search term"
     startDate: "Start date"
@@ -684,6 +685,7 @@ form:
     undo: "Undo"
     update: "Update Form"
   msg:
+    checkPlugInButton: "Please click the {0} button for validation."
     duplicateMappingId: "Mapping ID({0}) is Duplicate"
     enterFormName: "Please enter a form name."
     failedAllColumnDelete: "At least one column is required."
@@ -691,6 +693,7 @@ form:
     failedExport: "Failed to export document form."
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     fileSelect: "Please select a file."
+    failedPlugInButton: "Processing failed because validation failed."
     information: "There are no common editable component detail attributes."
     label: "It must start and end with numbers and letters and can contain only numbers, letters, commas (.), underscores (_), and dashes (-)."
     max: "Please enter below {0}."
@@ -834,6 +837,9 @@ form:
     officeNumber: "Office Number"
     phone: "Phone"
     placeholder: "Placeholder"
+    plugin:
+      button: "Add CheckButton"
+      scriptType: "Script Type"
     status: "Status"
     tags: "Tag"
     title: "Form"

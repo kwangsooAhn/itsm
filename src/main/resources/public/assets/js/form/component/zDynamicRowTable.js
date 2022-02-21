@@ -13,6 +13,8 @@
 import ZColumnProperty, { propertyExtends } from '../../formDesigner/property/type/zColumnProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
@@ -20,6 +22,7 @@ import { FORM, UNIT } from '../../lib/zConstants.js';
 import { ZSession } from '../../lib/zSession.js';
 import { UIButton, UICell, UIDiv, UIInput, UIRow, UISelect, UISpan, UITable } from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
+import { zDocument } from '../../document/zDocument.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -31,6 +34,12 @@ const DEFAULT_COMPONENT_PROPERTY = {
             ...propertyExtends.columnCommon,
             ...propertyExtends.input
         }]
+    },
+    plugin: {
+        useYn: false,
+        buttonText: 'TEXT',
+        required: false, // 필수값 여부
+        scriptType: ''
     },
     validation: {
         required: false // 필수값 여부
@@ -46,9 +55,10 @@ const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38,
 export const dynamicRowTableMixin = {
 
     // 전달 받은 데이터와 기본 property merge
-    initProperty() {
+    initProperty: function () {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
+        this._plugin = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.plugin, this.data.plugin);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         // 데이터 : "value" : [['제목', '제목', '제목'], ['1행 1열', '1행 2열', '1행 3열'], ['2행 1열', '2행 2열', '2행 2열']]
         this._value = this.data.value || '';
@@ -74,10 +84,23 @@ export const dynamicRowTableMixin = {
 
         this.makeTable(element.UITable);
 
-        // 추가 버튼
         element.UIDiv = new UIDiv().setUIClass('z-dr-table-button-group');
         element.addUI(element.UIDiv);
 
+        // 플러그인 검증 버튼 생성
+        element.UIDiv.plugInUIButton = new UIButton()
+            .addUIClass('plugIn-check')
+            .addUIClass('primary')
+            .addUIClass('mr-2')
+            .addUIClass(this.pluginUseYn ? 'on' : 'off')
+            .setUIAttribute('data-validation-required', this.pluginRequired)
+            .setUIAttribute('data-validation-type', this.pluginScriptType)
+            .onUIClick(this.pluginCheck.bind(this));
+        element.UIDiv.plugInUIButton.UIText = new UISpan().setUITextContent(this.pluginButtonText);
+        element.UIDiv.plugInUIButton.addUI(element.UIDiv.plugInUIButton.UIText);
+        element.UIDiv.addUI(element.UIDiv.plugInUIButton);
+
+        // 추가 버튼
         element.UIDiv.addUIButton = new UIButton()
             .setUIClass('z-button-icon')
             .addUIClass('extra')
@@ -92,6 +115,7 @@ export const dynamicRowTableMixin = {
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.setUIDisabled(true);
+            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.setUIDisabled(true);
             // 모든 cell을 readonly 처리하고 버튼은 disabled 처리한다.
             const drTable = this.UIElement.UIComponent.UIElement.UITable.domElement;
             for (const row of drTable.rows) {
@@ -137,6 +161,44 @@ export const dynamicRowTableMixin = {
     },
     get elementColumns() {
         return this.changeDateTimeFormat(this._element.columns, FORM.DATE_TYPE.FORMAT.USERFORMAT);
+    },
+    set plugin(plugin) {
+        this._plugin = plugin;
+    },
+    get plugin() {
+        return this._plugin;
+    },
+    set pluginUseYn(boolean) {
+        this._plugin.useYn = boolean;
+        if (boolean) {
+            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('off').addUIClass('on');
+        } else {
+            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('on').addUIClass('off');
+        }
+    },
+    get pluginUseYn() {
+        return this._plugin.useYn;
+    },
+    set pluginButtonText(text) {
+        this._plugin.buttonText = text;
+        this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.UIText.setUITextContent(text);
+    },
+    get pluginButtonText() {
+        return this._plugin.buttonText;
+    },
+    set pluginRequired(boolean) {
+        this._plugin.required = boolean;
+        this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.setUIAttribute('data-validation-required', boolean);
+    },
+    get pluginRequired() {
+        return this._plugin.required;
+    },
+    set pluginScriptType(type) {
+        this._plugin.scriptType = type;
+        this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.setUIAttribute('data-validation-type', type);
+    },
+    get pluginScriptType() {
+        return this._plugin.scriptType;
     },
     set validation(validation) {
         this._validation = validation;
@@ -568,14 +630,57 @@ export const dynamicRowTableMixin = {
 
         this.value = newValue;
     },
+    // 플러그인 유효성 검증
+    pluginCheck() {
+        if (!Array.isArray(this.value) || this.value.length < 2) {
+            zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'));
+            return false;
+        }
+        // 신청서는 tokenId가 없음
+        const pluginData = {
+            'tokenId': zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : '',
+            'pluginId': this.pluginScriptType,
+            'data': this.value
+        };
+        aliceJs.fetchJson('/rest/plugins/' + this.pluginScriptType, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(pluginData),
+            showProgressbar: true
+        }).then((response) => {
+            // primary > 검증 안됨
+            if (response.data.result) {
+                // success--check > 성공
+                this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton
+                    .removeUIClass('primary').addUIClass('success--check');
+            } else {
+                // error > 실패
+                this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton
+                    .removeUIClass('primary').addUIClass('error');
+            }
+        });
+    },
     // 세부 속성 조회
     getProperty() {
+        const plugInOption = FORM.PLUGIN_LIST.reduce((result, option) => {
+            option.name = option.pluginName;
+            option.value = option.pluginId;
+            result.push(option);
+            return result;
+        }, []);
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('element.columns')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZColumnProperty('elementColumns', '', this.elementColumns)),
+            new ZGroupProperty('plugin.button')
+                .addProperty(new ZSwitchProperty('pluginUseYn', 'plugin.button', this.pluginUseYn))
+                .addProperty(new ZSwitchProperty('pluginRequired', 'validation.required', this.pluginRequired))
+                .addProperty(new ZInputBoxProperty('pluginButtonText', 'element.buttonText', this.pluginButtonText))
+                .addProperty(new ZDropdownProperty('pluginScriptType', 'plugin.scriptType', this.pluginScriptType, plugInOption)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
@@ -592,6 +697,7 @@ export const dynamicRowTableMixin = {
             value: (Array.isArray(this._value) && this._value.length > 0) ? JSON.stringify(this._value) : this._value,
             label: this._label,
             element: this._element,
+            plugin: this._plugin,
             validation: this._validation
         };
     },

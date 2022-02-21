@@ -341,6 +341,10 @@
       height: 2.5rem;
       line-height: 2rem;
       padding-top: 0.625rem;
+
+      .plugIn-check {
+        &.off { display: none; }
+      }
     }
 
     // custom code 컴포넌트

@@ -36,6 +36,14 @@ class ZFormDesigner {
         }).then((customData) => {
             FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
         });
+        
+        // 플러그인 정보 load - DR Table 컴포넌트에서 사용되기 때문에 우선 로드해야 함
+        aliceJs.fetchJson('../../assets/js/process/dummy/pluginFile.json', {
+            //aliceJs.fetchJson('/rest/plugins', {
+            method: 'GET'
+        }).then((pluginData) => {
+            FORM.PLUGIN_LIST =  zValidation.isDefined(pluginData.data) ? pluginData.data : [];
+        });
     }
 
     /**
@@ -724,7 +732,6 @@ class ZFormDesigner {
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
         console.debug(saveData);
-
         // 저장
         aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
             method: 'PUT',
