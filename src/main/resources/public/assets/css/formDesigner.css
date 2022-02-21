@@ -1618,8 +1618,8 @@ input, button, select, optgroup, textarea {
   -webkit-print-color-adjust: exact;
 }
 .z-icon.i-search {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_search.svg");
   mask-image: url("../media/icons/icon_search.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1628,8 +1628,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-delete {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_delete.svg");
   mask-image: url("../media/icons/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1638,8 +1638,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-edit {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_edit.svg");
   mask-image: url("../media/icons/icon_edit.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1658,8 +1658,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-clipboard {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_clipboard.svg");
   mask-image: url("../media/icons/icon_clipboard.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1668,8 +1668,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-plus {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_plus.svg");
   mask-image: url("../media/icons/icon_plus.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1678,8 +1678,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-minus {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_minus.svg");
   mask-image: url("../media/icons/icon_minus.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1688,8 +1688,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-check {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_check.svg");
   mask-image: url("../media/icons/icon_check.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1708,8 +1708,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-copy {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_copy.svg");
   mask-image: url("../media/icons/icon_copy.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1718,8 +1718,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-arrow-right {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_arrow_right.svg");
   mask-image: url("../media/icons/icon_arrow_right.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1728,8 +1728,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-color-palette {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/colorPicker/icon_color_palette.svg");
   mask-image: url("../media/icons/colorPicker/icon_color_palette.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1738,8 +1738,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-image {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_image.svg");
   mask-image: url("../media/icons/icon_image.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1748,8 +1748,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-folder {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_folder.svg");
   mask-image: url("../media/icons/icon_folder.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1758,8 +1758,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-download {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/fileUploader/icon_download.svg");
   mask-image: url("../media/icons/fileUploader/icon_download.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1768,8 +1768,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-upload {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/fileUploader/icon_upload.svg");
   mask-image: url("../media/icons/fileUploader/icon_upload.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1778,8 +1778,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-tooltip {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_tooltip.svg");
   mask-image: url("../media/icons/icon_tooltip.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1788,8 +1788,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-download-as-excel {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_download_xls.svg");
   mask-image: url("../media/icons/icon_download_xls.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1798,8 +1798,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-sorting {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_sorting.svg");
   mask-image: url("../media/icons/icon_sorting.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3633,6 +3633,10 @@ select {
   color: #1959AC;
   background-color: #84D1FA;
   border-color: #84D1FA;
+}
+
+.z-divider {
+  margin: 0;
 }
 
 .z-input-button .z-button-icon-sm {
@@ -7358,7 +7362,7 @@ body.modal-active {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   justify-content: var(--data-align);
   font-weight: 500;
-  padding: 0.4375rem 0;
+  padding: 0;
 }
 .z-component .z-component-label.on {
   display: flex;
@@ -7545,7 +7549,7 @@ body.modal-active {
   right: 0.8125rem;
   height: 2.5rem;
   line-height: 2rem;
-  padding-top: 0.625rem;
+  padding-top: 0.375rem;
 }
 .z-component .z-element .z-custom-code > .z-input {
   margin-right: 0.5rem;
@@ -7603,9 +7607,6 @@ body.modal-active {
 }
 .preview .z-row-tooltip {
   border: 0.0625rem solid #FFFFFF;
-}
-.preview .z-component {
-  padding: 0 1rem;
 }
 .preview .z-component-tooltip {
   margin: 0;

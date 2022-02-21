@@ -21,8 +21,8 @@
     // 상단 영역
     .z-document-main-header {
       position: fixed;
-      right: 38.13rem;
-      width: calc(100% - 38.13rem);
+      right: $layout-properties-width;
+      width: calc(100% - #{$layout-properties-width});
       padding: 0.75rem 1rem ; // 12px
       background: $blue500;
       z-index: $z-index-gnb;
@@ -53,7 +53,7 @@
     // board 영역
     .z-drawing-board {
       margin: 6.25rem 0 3rem; // 100px 48px
-      .z-form { margin: 0 6.25rem !important; } // 100px
+      //.z-form { margin: 0 3.125rem !important; } // 50px
     }
 
     // 하단 영역
@@ -78,7 +78,7 @@
     .z-token-tabs {
       display: flex;
       margin-top: 2rem; // 32px
-      padding: 0 4.0625rem;
+      padding: 0 1.375rem; // 22px
 
       .z-token-tab {
         color: $token-tab-color;
@@ -100,7 +100,7 @@
 
       .z-token-panel {
         display: none;
-        padding: 0 4.0625rem;
+        padding: 0 1.375rem; // 22px
 
         &.on { display: block; }
 
