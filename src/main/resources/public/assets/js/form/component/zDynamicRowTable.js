@@ -639,6 +639,7 @@ export const dynamicRowTableMixin = {
         // 신청서는 tokenId가 없음
         const pluginData = {
             'tokenId': zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : '',
+            'pluginId': this.pluginScriptType,
             'data': this.value
         };
         aliceJs.fetchJson('/rest/plugins/' + this.pluginScriptType, {
