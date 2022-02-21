@@ -643,7 +643,7 @@ export const dynamicRowTableMixin = {
             'data': this.value
         };
         aliceJs.fetchJson('/rest/plugins/' + this.pluginScriptType, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
