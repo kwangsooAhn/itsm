@@ -330,9 +330,11 @@ cmdb:
       searchPlaceholder: "Label / Type / Attribute Name / Description"
       seq: "Sort Order"
       type: "Type"
+      useSearch: "Use Search"
       view: "Attribute"
     msg:
       attributeNameUsed: "The Attribute Name is being used."
+      comepareWithMaxLength: "Enter a number max length is greater than min length."
       enterAttributeName: "Please enter a attribute name."
       searchDescription: "CI Attribute manage posts."
       selectAttributeType: "Please select the type."
@@ -341,7 +343,7 @@ cmdb:
       maxLength: "Please enter max length below 1000."
       maxDate: "Please select max date after min date."
       maxDateTime: "Please select max date time after min date time."
-      comepareWithMaxLength: "Enter a number max length is greater than min length."
+      useSearch: "It can be used as a search condition when searching for an asset."
     btn:
       import: "Import"
       export: "Export"
