@@ -9,8 +9,5 @@ import java.io.Serializable
 
 data class PluginListDto(
     val pluginId: String,
-    val pluginName: String,
-    val pluginType: String,
-    val pluginLocation: String,
-    val pluginCommand: String
+    val pluginName: String
 ) : Serializable

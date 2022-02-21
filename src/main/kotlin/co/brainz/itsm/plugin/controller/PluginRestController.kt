@@ -6,8 +6,6 @@
 package co.brainz.itsm.plugin.controller
 
 import co.brainz.framework.response.dto.ZResponse
-import co.brainz.itsm.plugin.dto.PluginListReturnDto
-import co.brainz.itsm.plugin.dto.PluginSearchCondition
 import co.brainz.itsm.plugin.service.PluginService
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
@@ -30,7 +28,7 @@ class PluginRestController(
     }
 
     @GetMapping("")
-    fun getPlugins(pluginSearchCondition: PluginSearchCondition): PluginListReturnDto {
-        return pluginService.getPlugins(pluginSearchCondition)
+    fun getPlugins(): ZResponse {
+        return pluginService.getPlugins()
     }
 }
