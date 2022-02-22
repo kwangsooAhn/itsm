@@ -6,19 +6,17 @@
 
 package co.brainz.api.cmdb.ciAttribute.service
 
-import co.brainz.api.constants.ApiConstants
-import co.brainz.cmdb.ciAttribute.service.CIAttributeService
-import co.brainz.cmdb.dto.CIAttributeDto
-import co.brainz.cmdb.dto.CIAttributeListDto
-import co.brainz.cmdb.dto.CIAttributeReturnDto
-import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
-import co.brainz.itsm.user.service.UserService
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.time.LocalDateTime
-import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
+import co.brainz.api.constants.*
+import co.brainz.cmdb.ciAttribute.service.*
+import co.brainz.cmdb.dto.*
+import co.brainz.itsm.cmdb.ciAttribute.dto.*
+import co.brainz.itsm.user.service.*
+import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.datatype.jsr310.*
+import com.fasterxml.jackson.module.kotlin.*
+import java.time.*
+import org.slf4j.*
+import org.springframework.stereotype.*
 
 @Service
 class ApiCIAttributeService(
@@ -94,6 +92,7 @@ class ApiCIAttributeService(
             attributeType = map["attributeType"] as String,
             attributeText = map["attributeText"] as String,
             attributeDesc = map["attributeDesc"] as String,
+            searchYn = map["searchYn"] as Boolean,
             attributeValue = mapper.writeValueAsString(map["attributeValue"])
         )
     }

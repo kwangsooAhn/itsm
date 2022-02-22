@@ -7,17 +7,16 @@
 package co.brainz.itsm.cmdb.ciAttribute.service
 
 import co.brainz.cmdb.ciAttribute.service.CIAttributeService
-import co.brainz.cmdb.dto.CIAttributeDto
-import co.brainz.cmdb.dto.CIAttributeReturnDto
-import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.time.LocalDateTime
-import javax.transaction.Transactional
-import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
+import co.brainz.cmdb.dto.*
+import co.brainz.framework.util.*
+import co.brainz.itsm.cmdb.ciAttribute.dto.*
+import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.datatype.jsr310.*
+import com.fasterxml.jackson.module.kotlin.*
+import java.time.*
+import javax.transaction.*
+import org.slf4j.*
+import org.springframework.stereotype.*
 
 @Service
 @Transactional
@@ -87,6 +86,7 @@ class CIAttributeService(
             attributeType = map["attributeType"] as String,
             attributeText = map["attributeText"] as String,
             attributeDesc = map["attributeDesc"] as String,
+            searchYn = map["searchYn"] as Boolean,
             mappingId = map["mappingId"] as String?,
             attributeValue = mapper.writeValueAsString(map["attributeValue"])
         )
