@@ -166,6 +166,9 @@
     justify-content: var(--data-align);
     font-weight: $font-weight-medium;
     padding: 0;
+    .z-component-label-text {
+      line-height: 1;
+    }
 
     &.on { display: flex; }
     &.off { display: none; }
