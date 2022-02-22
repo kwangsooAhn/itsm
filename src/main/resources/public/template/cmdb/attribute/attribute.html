@@ -49,7 +49,7 @@
         <div class="flex-column z-edit-row pt-5 pb-3">
             <label class="z-switch">
                 <input type="checkbox" id="searchYn" name="searchYn"
-                       th:checked="${data?.searchYn == null || data?.searchYn == true}">
+                       th:disabled="${view}" th:checked="${attribute?.searchYn == true}">
                 <span></span>
                 <span class="z-label z-label-name" th:text="#{cmdb.attribute.label.useSearch}"></span>
                 <span class="z-label" th:text="#{cmdb.attribute.msg.useSearch}"></span>
@@ -193,7 +193,7 @@
                 attributeText: document.querySelector('#attributeText').value,
                 mappingId: document.querySelector('#mappingId').value,
                 attributeDesc: document.querySelector('#attributeDesc').value,
-                searchYn: document.getElementById('searchYn').checked
+                searchYn: document.querySelector('#searchYn').checked
             };
             let url = '/rest/cmdb/attributes';
             if (method === 'PUT') {

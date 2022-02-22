@@ -6,7 +6,7 @@
 
 package co.brainz.cmdb.dto
 
-import java.io.Serializable
+import java.io.*
 
 data class CIAttributeValueDto(
     val attributeId: String = "",
@@ -16,6 +16,7 @@ data class CIAttributeValueDto(
     val attributeType: String? = null,
     val attributeOrder: Int? = 0,
     val attributeValue: String? = null,
+    val searchYn: Boolean = false,
     var value: String? = null
 ) : Serializable
 
@@ -27,6 +28,7 @@ class CIAttributeValueGroupListDto(
     val attributeType: String? = null,
     val attributeOrder: Int? = 0,
     val attributeValue: String? = null,
+    val searchYn: Boolean = false,
     var value: String? = null,
     var childAttributes: MutableList<CIAttributeValueDto>? = mutableListOf()
 ) : Serializable
