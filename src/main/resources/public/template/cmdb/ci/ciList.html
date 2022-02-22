@@ -2,26 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<div class="grid" style="--data-columns-width: 20px 180px 120px 150px 245px auto;">
+<div class="grid" th:style="'--data-columns-width:' + ${#strings.arrayJoin(ciData.columnWidth,' ')}">
     <div class="grid__head">
         <div class="grid__row">
-            <div class="grid__cell" data-grid-sortable="false"></div>
-            <div class="grid__cell" data-grid-sortable="true" data-grid-column="ciNo">
-                <span class="text-ellipsis" th:text="#{cmdb.ci.label.ciNo}"></span>
-            </div>
-            <div class="grid__cell" data-grid-sortable="true" data-grid-column="typeName">
-                <span class="text-ellipsis" th:text="#{cmdb.ci.label.type}"></span>
-            </div>
-            <div class="grid__cell" data-grid-sortable="true" data-grid-column="ciName">
-                <span class="text-ellipsis" th:text="#{cmdb.ci.label.name}"></span>
-            </div>
-            <div class="grid__cell" data-grid-sortable="true" data-grid-column="ciDesc">
-                <span class="text-ellipsis" th:text="#{cmdb.ci.label.description}"></span>
-            </div>
+            <th:block th:each="title,status: ${ciData.columnTitle}">
+                <div class="grid__cell" th:data-grid-column="${ciData.columnName[status.index]}"
+                     th:data-grid-sortable="${(ciData.columnType[status.index] != 'icon' and ciData.columnType[status.index] != 'hidden') ? 'true' : 'false'}">
+                    <span class="text-ellipsis" th:text="${title}"></span>
+                </div>
+            </th:block>
         </div>
     </div>
-    <div class="grid__body">
-        <div class="grid__row grid--noData" th:if="${#arrays.isEmpty(ciList)}">
+    <!--<div class="grid__body">
+        <div class="grid__row grid&#45;&#45;noData" th:if="${#arrays.isEmpty(ciList)}">
             <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
         </div>
         <div class="grid__row" th:unless="${#arrays.isEmpty(ciList)}" th:each="ci: ${ciList}">
@@ -44,7 +37,7 @@
                 <span class="text-ellipsis sub-text" th:text="${ci.ciDesc}" th:title="${ci.ciDesc}"></span>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 <!--<table class="z-table">

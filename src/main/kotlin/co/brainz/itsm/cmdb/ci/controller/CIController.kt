@@ -45,8 +45,8 @@ class CIController(
      */
     @GetMapping("")
     fun getCIList(ciSearchCondition: CISearchCondition, model: Model): String {
-        val result = ciService.getCIs(ciSearchCondition)
-        model.addAttribute("ciList", result.data)
+        val result = ciService.getCIsDummy(ciSearchCondition)
+        model.addAttribute("ciData", result.data)
         model.addAttribute("paging", result.paging)
         return ciListPage
     }

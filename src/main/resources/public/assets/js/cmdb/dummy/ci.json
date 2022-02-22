@@ -3,7 +3,7 @@
   "columnTitle": ["", "","자산 번호", "자산 유형", "자산 이름", "자산 설명", "버전 정보", "담당자", "입고일"],
   "columnWidth": ["20px","0px", "180px", "120px", "150px", "245px", "120px", "120px", "120px"],
   "columnType": ["icon","hidden","string", "string", "string", "string", "string", "string", "dateTime"],
-  "data": {
+  "contents": {
     "0": ["image_server.png", "88fc78892916dc310b4984858b28120d", "Zenius_SMS_00010", "Linux", "홈페이지 서버#1", "회사 홈페이지 서버 1", "CentOS 7.0", "정희찬", "2021-12-31T15:00:00.000Z"],
     "1": ["image_server.png", "d2cc70ca65fd2ac35ae6ee8e0c52e2db", "Zenius_SMS_00020", "Linux", "홈페이지 서버#2", "회사 홈페이지 서버 2", "CentOS 7.0", "정지은", "2021-12-31T15:00:00.000Z"]
   }
