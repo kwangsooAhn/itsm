@@ -47,7 +47,7 @@
                 <span class="text-ellipsis bold" th:if="${#arrays.length(token.topics)} > 0" th:text="${token.topics[0]}" th:title="${token.topics[0]}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <span class="text-ellipsis" th:text="${token.documentGroupName}" th:title="${token.documentGroupName}"></span>
+                <span class="text-ellipsis" th:text="${token.documentName}" th:title="${token.documentName}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <img th:if="${token.assigneeUserAvatarPath != null}" class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${token.assigneeUserAvatarPath}"
