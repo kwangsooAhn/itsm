@@ -248,6 +248,20 @@
                 // 개별 정의 차트 옵션
                 const userOption = {
                     chart: {
+                        events: {
+                            redraw: function () {
+                                const ticks = this.xAxis[0].ticks;
+                                const points = this.series[0].points;
+                                points.forEach(function (point, i) {
+                                   if (ticks[i]) {
+                                       const label = ticks[i].label.element;
+                                       label.addEventListener('click', function () {
+                                           updateReqStatus(point.linkKey);
+                                       });
+                                   }
+                                });
+                            }
+                        },
                         marginTop: 40
                     },
                     title: {
@@ -260,15 +274,6 @@
                     yAxis: {
                         title: {
                             text: i18n.msg('dashboard.label.requestUnprocessedCount')
-                        }
-                    },
-                    plotOptions: {
-                        series: {
-                            events: {
-                                click: function(event) {
-                                    updateReqStatus(`${event.point.linkKey}`);
-                                }
-                            }
                         }
                     }
                 };
