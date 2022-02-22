@@ -22,12 +22,12 @@
 <div layout:fragment="pageSearchResult">
     <div class="flex-row">
     <!-- 부서별 요청현황 -->
-    <div class="flex-column component" style="width: 80rem;">
+    <div class="flex-column component">
         <h3 class="sub-title" th:text="#{dashboard.label.organizationWorkStatus}"></h3>
-        <div id="container" class="contents"></div>
+        <div id="container" class="contents contents__req-organization"></div>
     </div>
     <!-- 개인 요청현황 -->
-    <div class="flex-column ml-auto component" style="width: 16.875rem;">
+    <div class="flex-column ml-auto component">
         <h3 class="sub-title" th:text="#{dashboard.label.personalRequestStatus}"></h3>
         <div id="requestStatusByUser" class="contents">
             <table class="contents__req-user">
@@ -54,134 +54,15 @@
     </div>
     </div>
     <!-- 요청현황 -->
-    <div class="flex-column component" style="width: 100%;">
-        <h3 class="sub-title" th:text="#{dashboard.label.requestStatus}"></h3>
+    <div class="flex-column component">
+        <div class="sub-title component-title flex-row">
+            <span class="main" th:text="#{dashboard.label.requestStatus}"></span>
+            <span class="sub pl-4"></span>
+        </div>
         <div id="requestListByOrganization" class="contents contents__req-status">
-            <div class="grid" style="--data-columns-width: 60px 200px 200px 300px 150px 150px 150px 150px 150px 80px 200px">
-                <div class="grid__head" th:if="!${#arrays.isEmpty(template.result[2].result)}">
-                    <div class="grid__row">
-                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">순번</div>
-                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">신청부서</div>
-                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">문서종류</div>
-                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">제목</div>
-                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">신청일</div>
-                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">완료 희망일</div>
-                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">상태</div>
-                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">PL</div>
-                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">신청자</div>
-                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">난이도</div>
-                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">문서번호</div>
-                    </div>
-                </div>
-                <div class="grid__body">
-                    <div class="grid__row grid--noData" th:if="${#arrays.isEmpty(template.result[2].result)}">
-                        <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
-                    </div>
-                    <div class="grid__row">
-                        <div class="grid__cell pr-2 pl-2">1</div>
-                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
-                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
-                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">상</div>
-                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
-                    </div>
-                    <div class="grid__row">
-                        <div class="grid__cell pr-2 pl-2">1</div>
-                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
-                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
-                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">상</div>
-                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
-                    </div>
-                    <div class="grid__row">
-                        <div class="grid__cell pr-2 pl-2">1</div>
-                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
-                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
-                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">상</div>
-                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
-                    </div>
-                    <div class="grid__row">
-                        <div class="grid__cell pr-2 pl-2">1</div>
-                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
-                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
-                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">상</div>
-                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
-                    </div>
-                    <div class="grid__row">
-                        <div class="grid__cell pr-2 pl-2">1</div>
-                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
-                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
-                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">상</div>
-                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
-                    </div>
-                    <div class="grid__row">
-                        <div class="grid__cell pr-2 pl-2">1</div>
-                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
-                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
-                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">상</div>
-                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
-                    </div>
-                    <div class="grid__row">
-                        <div class="grid__cell pr-2 pl-2">1</div>
-                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
-                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
-                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">상</div>
-                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
-                    </div>
-                    <div class="grid__row">
-                        <div class="grid__cell pr-2 pl-2">1</div>
-                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
-                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
-                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
-                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">정희찬</div>
-                        <div class="grid__cell pr-2 pl-2">상</div>
-                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
-                    </div>
-                </div>
+            <div class="grid">
+                <div class="grid__head"></div>
+                <div class="grid__body"></div>
             </div>
         </div>
     </div>
@@ -207,9 +88,12 @@
             updateReqStatus();
 
             OverlayScrollbars(document.querySelector('.contents__req-user'), {className: 'inner-scrollbar'});
-            // todo : #12432 grid scroll issue
-            OverlayScrollbars(document.querySelector('.contents__req-status'), { className: 'inner-scrollbar' });
-            OverlayScrollbars(document.querySelector('.grid__body'), { className: 'inner-scrollbar' });
+            OverlayScrollbars(document.querySelector('.contents__req-status'), {
+                className: 'inner-scrollbar',
+                overflowBehavior: {
+                    y: 'hidden'
+                }
+            });
         }
 
         /**
@@ -217,23 +101,64 @@
          * 부서별 업무현황에서 클릭한 부서 정보가 있을 경우 해당 부서의 요청현황 목록을 검색한다.
          */
         function updateReqStatus(organizationId) {
-            console.log(organizationId);
+
             // 업무현황 grid 초기화
+            const gridElem = document.querySelector('.grid');
+            gridElem.innerHTML = '';
 
             // 업무현황 dummy data load
             fetch('../../assets/js/temp/thirdComponentDummy.json')
                 .then(response => { return response.json(); })
                 .then(data => {
-                    console.log(data);
-                    // header
+                    // sub title
+                    document.querySelector('.component-title .sub').textContent = data.organizationName;
+
+                    // grid column width
+                    document.querySelector('.grid').style.setProperty('--data-columns-width', data.columnWidth.toString().trim().replaceAll(',', ' '));
+
+                    // grid header
+                    const gridHeadElem = document.createElement('div');
+                    gridHeadElem.className = 'grid__head';
                     let gridHead = '';
-                    let gridBody = '';
-                    data.columnTitle.forEach( (title) => {
+                    const headerRow = document.createElement('div');
+                    headerRow.className = 'grid__row';
+                    data.columnTitle.forEach( title => {
                         gridHead = gridHead.concat(
                             `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">${title}</div>`
                         );
                     });
-                    document.querySelector('.grid__head .grid__row').insertAdjacentHTML('beforeend', gridHead);
+                    headerRow.insertAdjacentHTML('beforeend', gridHead);
+                    gridHeadElem.appendChild(headerRow);
+                    gridElem.appendChild(gridHeadElem);
+
+                    // grid body
+                    const gridBodyElem = document.createElement('div');
+                    gridBodyElem.className = 'grid__body';
+                    if (Object.keys(data.contents).length > 0) { // 요청사항 내역이 있는 경우
+                        for (let i = 0; i < Object.keys(data.contents).length; i++) {
+                            const gridRowElem = document.createElement('div');
+                            gridRowElem.className = 'grid__row';
+
+                            let gridContent = `<div class="grid__cell pr-2 pl-2">${i + 1}</div>`;
+                            data.contents[i].forEach( data => {
+                                // todo : columnType 확인 > 날짜 변환 추가
+
+                                gridContent = gridContent.concat(
+                                    `<div class="grid__cell">${data}</div>`
+                                );
+                            });
+                            gridRowElem.insertAdjacentHTML('beforeend', gridContent);
+                            gridBodyElem.appendChild(gridRowElem);
+                        }
+                    } else { // 요청사항 내역이 없는 경우
+                        const noDataElem = document.createElement('div');
+                        noDataElem.textContent = i18n.msg('common.msg.noData');
+                        noDataElem.classList.add('grid__row');
+                        noDataElem.classList.add('grid--noData');
+                        gridBodyElem.appendChild(noDataElem);
+                    }
+                    gridElem.appendChild(gridBodyElem);
+                    OverlayScrollbars(document.querySelector('.grid__body'), { className: 'inner-scrollbar' });
 
                 });
         }
@@ -266,6 +191,7 @@
                         series: {
                             events: {
                                 click: function(event) {
+                                    console.log(`${event.point.linkKey}`);
                                     updateReqStatus(`${event.point.linkKey}`);
                                 }
                             }
@@ -290,4 +216,4 @@
         window.zChartManager = zChartManager;
     </script>
 </th:block>
-</html>
+</html>C

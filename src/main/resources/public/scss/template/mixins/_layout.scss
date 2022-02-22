@@ -315,6 +315,12 @@
     // todo : #12332 [개인현황판] 대시보드 템플릿구성 임시 SCSS / 추후 BEM 구조로 수정 필요
     .component {
       height: 22.5rem; // 360px
+      &-title {
+        font-weight: $font-weight-medium;
+        .main {
+          font-size: $h3-font-size;
+        }
+      }
       .contents {
         flex: 1 1 auto;
         padding: 0.625rem 0.3125rem; // 10px 5px
@@ -337,11 +343,12 @@
         // 요청현황
         &__req-status {
           display: flex;
-          width: 98.75rem; // 1580px
-          height: 22.5rem; // 360px
           border: none;
           overflow-x: hidden;
           @include gridTemplate();
+          .grid__body {
+            max-height: 14.5rem; // 232px;
+          }
         }
       }
     }

@@ -94,7 +94,7 @@ GET rest/dashboard/unprocessedRequests/{organization_id}
         "columnTitle" : ["순번", "신청부서", "문서종류", "제목", "신청일", "완료 희망일", "상태", "PL", " 신청자", "난이도", "문서번호"],
         "columnWidth" : ["60px", "200px", "200px", "300px", "150px", "150px", "150px", "150px", "150px", "80px", "300px"],
         "columnType" : ["string", "string", "string", "date", "date", "string", "string","string", "string"],
-        "data" : {
+        "contents" : {
             "0": ["리스크 관리부", "개발의뢰신청서", "이메일이 안됩니다.", "2021-02-05", "2021-02-05", "신청서 접수", "정희찬", "상", "CSR-20220117-001"],
             "1": ["리스크 관리부", "개발의뢰신청서", "이메일이 안됩니다.", "2021-02-12", "2021-02-12", "신청서 접수", "정희찬", "상", "CSR-20220117-002"]
         }
