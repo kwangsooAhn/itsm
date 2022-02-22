@@ -30,10 +30,10 @@
     <div class="flex-column ml-auto component" style="width: 16.875rem;">
         <h3 class="sub-title" th:text="#{dashboard.label.personalRequestStatus}"></h3>
         <div id="requestStatusByUser" class="contents">
-            <table class="user-req-status">
+            <table class="contents__req-user">
                 <thead>
-                <tr class="user-req-status-total">
-                    <td class="user-req-status-title pl-5 col-2 text-gray700">
+                <tr class="contents__req-user-total">
+                    <td class="contents__req-user-title pl-5 col-2 text-gray700">
                         <span th:text="#{dashboard.label.requestUnprocessedCount}"></span>
                     </td>
                     <td class="align-center col-1">
@@ -42,8 +42,10 @@
                 </tr>
                 </thead>
                 <tbody th:if="${#arrays.length(template?.result[1].result)} > 0">
-                    <tr class="user-req-status-contents" th:each="request:${template?.result[1].result}">
-                        <td class="pl-5 col-2"><h3 th:text="${request.documentName}"></h3></td>
+                    <tr class="contents__req-user-contents" th:each="request:${template?.result[1].result}">
+                        <td class="contents__req-user-title pl-5 col-2">
+                            <h3 class="text-ellipsis pt-2" th:text="${request.documentName}" th:title="${request.documentName}"></h3>
+                        </td>
                         <td class="align-center col-1"><h2 th:text="${request.count}"></h2></td>
                     </tr>
                 </tbody>
@@ -54,8 +56,133 @@
     <!-- 요청현황 -->
     <div class="flex-column component" style="width: 100%;">
         <h3 class="sub-title" th:text="#{dashboard.label.requestStatus}"></h3>
-        <div id="requestListByOrganization" class="contents">
-            <span>Table 영역으로 표현 될 영역입니다.</span>
+        <div id="requestListByOrganization" class="contents contents__req-status">
+            <div class="grid" style="--data-columns-width: 60px 200px 200px 300px 150px 150px 150px 150px 150px 80px 200px">
+                <div class="grid__head" th:if="!${#arrays.isEmpty(template.result[2].result)}">
+                    <div class="grid__row">
+                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">순번</div>
+                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">신청부서</div>
+                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">문서종류</div>
+                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">제목</div>
+                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">신청일</div>
+                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">완료 희망일</div>
+                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">상태</div>
+                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">PL</div>
+                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">신청자</div>
+                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">난이도</div>
+                        <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">문서번호</div>
+                    </div>
+                </div>
+                <div class="grid__body">
+                    <div class="grid__row grid--noData" th:if="${#arrays.isEmpty(template.result[2].result)}">
+                        <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
+                    </div>
+                    <div class="grid__row">
+                        <div class="grid__cell pr-2 pl-2">1</div>
+                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
+                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
+                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">상</div>
+                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
+                    </div>
+                    <div class="grid__row">
+                        <div class="grid__cell pr-2 pl-2">1</div>
+                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
+                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
+                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">상</div>
+                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
+                    </div>
+                    <div class="grid__row">
+                        <div class="grid__cell pr-2 pl-2">1</div>
+                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
+                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
+                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">상</div>
+                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
+                    </div>
+                    <div class="grid__row">
+                        <div class="grid__cell pr-2 pl-2">1</div>
+                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
+                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
+                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">상</div>
+                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
+                    </div>
+                    <div class="grid__row">
+                        <div class="grid__cell pr-2 pl-2">1</div>
+                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
+                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
+                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">상</div>
+                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
+                    </div>
+                    <div class="grid__row">
+                        <div class="grid__cell pr-2 pl-2">1</div>
+                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
+                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
+                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">상</div>
+                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
+                    </div>
+                    <div class="grid__row">
+                        <div class="grid__cell pr-2 pl-2">1</div>
+                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
+                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
+                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">상</div>
+                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
+                    </div>
+                    <div class="grid__row">
+                        <div class="grid__cell pr-2 pl-2">1</div>
+                        <div class="grid__cell pr-2 pl-2">리스크 관리부</div>
+                        <div class="grid__cell pr-2 pl-2">개발의뢰신청서</div>
+                        <div class="grid__cell pr-2 pl-2">이메일이 안됩니다.</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">2021-02-05</div>
+                        <div class="grid__cell pr-2 pl-2">신청서 접수</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">정희찬</div>
+                        <div class="grid__cell pr-2 pl-2">상</div>
+                        <div class="grid__cell pr-2 pl-2">CSR-20220117-001</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -64,10 +191,8 @@
     <script th:inline="javascript" type="text/javascript">
     /*<![CDATA[ */
         window.onload = function () {
-            container = /*[[${template.result[0].result}]]*/ "";
+            const container = /*[[${template.result[0].result}]]*/ "";
 
-            // todo : 추후 backend 구현완료 시, dummyData > 실제 데이터로 치환
-            // 부서별 업무현황 dummyData 로드 및 chart 초기화
             // 태그 데이터 변환
             container.tags.forEach(tag => {
                 if (typeof tag.value === 'undefined' && typeof tag.tagValue !== 'undefined') {
@@ -79,8 +204,40 @@
             // 차트 데이터 업데이트
             zChartManager.update(container.chartData);
 
-            OverlayScrollbars(document.querySelector('.user-req-status'), {className: 'inner-scrollbar'});
+            updateReqStatus();
+
+            OverlayScrollbars(document.querySelector('.contents__req-user'), {className: 'inner-scrollbar'});
+            // todo : #12432 grid scroll issue
+            OverlayScrollbars(document.querySelector('.contents__req-status'), { className: 'inner-scrollbar' });
+            OverlayScrollbars(document.querySelector('.grid__body'), { className: 'inner-scrollbar' });
         }
+
+        /**
+         * 요청현황 데이터를 업데이트한다.
+         * 부서별 업무현황에서 클릭한 부서 정보가 있을 경우 해당 부서의 요청현황 목록을 검색한다.
+         */
+        function updateReqStatus(organizationId) {
+            console.log(organizationId);
+            // 업무현황 grid 초기화
+
+            // 업무현황 dummy data load
+            fetch('../../assets/js/temp/thirdComponentDummy.json')
+                .then(response => { return response.json(); })
+                .then(data => {
+                    console.log(data);
+                    // header
+                    let gridHead = '';
+                    let gridBody = '';
+                    data.columnTitle.forEach( (title) => {
+                        gridHead = gridHead.concat(
+                            `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">${title}</div>`
+                        );
+                    });
+                    document.querySelector('.grid__head .grid__row').insertAdjacentHTML('beforeend', gridHead);
+
+                });
+        }
+
     /* ]]> */
     </script>
     <script type="module">
@@ -90,21 +247,26 @@
             load: function(data) {
                 // 개별 정의 차트 옵션
                 const userOption = {
-                    chart: { marginTop: 40 },
+                    chart: {
+                        marginTop: 40
+                    },
+                    title: {
+                        style: { display: 'none' }
+                    },
                     xAxis: {
                         min: 0,
                         max: 10
                     },
                     yAxis: {
                         title: {
-                            text: '미처리건수'
+                            text: i18n.msg('dashboard.label.requestUnprocessedCount')
                         }
                     },
                     plotOptions: {
                         series: {
                             events: {
                                 click: function(event) {
-                                    zAlert.warning(`${event.point.category} 요청현황 - 부서아이디 : ${event.point.id}`);
+                                    updateReqStatus(`${event.point.linkKey}`);
                                 }
                             }
                         }

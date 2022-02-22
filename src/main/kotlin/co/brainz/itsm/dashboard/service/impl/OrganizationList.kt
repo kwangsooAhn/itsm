@@ -9,7 +9,8 @@ import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 
 class OrganizationList : co.brainz.itsm.dashboard.service.impl.TemplateComponent {
     override fun getResult(component: TemplateComponentConfig): Any {
-        return "bbb"
+        //return "bbb"
+        return emptyArray<String>()
         //TODO("Not yet implemented")
     }
 }

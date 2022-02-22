@@ -16,7 +16,6 @@
   overflow-y: auto;
 }
 
-
 @mixin gridTemplate() {
   .grid {
     display: grid;
@@ -320,21 +319,33 @@
         flex: 1 1 auto;
         padding: 0.625rem 0.3125rem; // 10px 5px
         @include border(0.0625rem, solid, $gray300);
+        // 부서별 업무 현황
+        &__req-organization {
+          width: 80rem; // 1280px
+        }
         // 개인 요청 현황
-        .user-req-status {
-          height: 17.5rem; // 280px
-          &-total { height: 4.375rem; } // 70px
-          &-contents {
-            height: 3.125rem; // 50px
-            display: flex;
-            flex: 1;  // flex: 1 1 0;
-            overflow-x: auto;
-            @include gridTemplate();
+        &__req-user {
+          width: 15.625rem; // 250px
+          height: 16.875rem; // 270px
+          &-title {
+            max-width: 10rem; // 160px
+            cursor: default;
           }
+          &-total { height: 4.375rem; } // 70px
+          &-contents { height: 3.125rem; } // 50px
+        }
+        // 요청현황
+        &__req-status {
+          display: flex;
+          width: 98.75rem; // 1580px
+          height: 22.5rem; // 360px
+          border: none;
+          overflow-x: hidden;
+          @include gridTemplate();
         }
       }
     }
-  };
+  }
 }
 
 // pagingListTemplate
@@ -343,7 +354,7 @@
     display: flex;
     flex: 1;  // flex: 1 1 0;
     padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
-    overflow-x: auto;
+    overflow-x: hidden;
 
     .z-list-content {
       flex: 1;
