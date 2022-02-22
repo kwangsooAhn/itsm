@@ -23,7 +23,6 @@
     String rspDataUid = "service.manager";
 
 %>
-
 <script type="text/javascript">
     let keyModule = '<%=keyModulus%>'
     let keyExponent = '<%=keyExponent%>'
@@ -32,8 +31,6 @@
     const rsa = new RSAKey();
 
     window.onload = function () {
-        console.log(keyModule)
-        console.log(keyExponent)
         rsa.setPublic(keyModule, keyExponent);
 
         if (rspDataUid !== '') {
@@ -43,7 +40,6 @@
             window.location.href='/portals/main';
         }
     }
-
 </script>
 <body>
 <form name='ssoLogin' method='post' action='/itsm/ssoLogin'>
