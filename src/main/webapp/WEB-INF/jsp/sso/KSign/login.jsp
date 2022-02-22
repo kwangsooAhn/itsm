@@ -15,13 +15,11 @@
     Object keyModulus = request.getAttribute("_publicKeyModulus");
     Object keyExponent = request.getAttribute("_publicKeyExponent");
 
-//    SSORspData rspData = null;
-//    SSOService ssoService = SSOService.getInstance();
-//    rspData = ssoService.ssoGetLoginData(request);
-//
-//    String rspDataUid = rspData.getAttribute("UID");
-    String rspDataUid = "service.manager";
+    SSORspData rspData = null;
+    SSOService ssoService = SSOService.getInstance();
+    rspData = ssoService.ssoGetLoginData(request);
 
+    String rspDataUid = rspData.getAttribute("UID");
 %>
 <script type="text/javascript">
     let keyModule = '<%=keyModulus%>'

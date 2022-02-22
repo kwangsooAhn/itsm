@@ -6,13 +6,11 @@
 
 package co.brainz.sso.controller
 
-import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.sso.service.SsoLoginService
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -32,7 +30,6 @@ class SsoController(
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
     private val ssoLoginPage = "jsp/sso/KSign/login"
 
     @Value("\${sso.enabled}")
@@ -65,10 +62,6 @@ class SsoController(
     @PostMapping("/ssoLogin")
     fun ssoLogin(request: HttpServletRequest, response: HttpServletResponse) {
         ssoLoginService.ssoLogin(request, response)
-
-        //currentSessionUser.getUserKey()
         response.sendRedirect("/login")
     }
-
-
 }
