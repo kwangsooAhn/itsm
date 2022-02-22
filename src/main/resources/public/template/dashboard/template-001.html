@@ -101,7 +101,7 @@
          * 부서별 업무현황에서 클릭한 부서 정보가 있을 경우 해당 부서의 요청현황 목록을 검색한다.
          */
         function updateReqStatus(organizationId) {
-
+            console.log(organizationId);
             // 업무현황 grid 초기화
             const gridElem = document.querySelector('.grid');
             gridElem.innerHTML = '';
@@ -173,6 +173,20 @@
                 // 개별 정의 차트 옵션
                 const userOption = {
                     chart: {
+                        events: {
+                            redraw: function () {
+                                const ticks = this.xAxis[0].ticks;
+                                const points = this.series[0].points;
+                                points.forEach(function (point, i) {
+                                   if (ticks[i]) {
+                                       const label = ticks[i].label.element;
+                                       label.addEventListener('click', function () {
+                                           updateReqStatus(point.linkKey);
+                                       });
+                                   }
+                                });
+                            }
+                        },
                         marginTop: 40
                     },
                     title: {
@@ -185,16 +199,6 @@
                     yAxis: {
                         title: {
                             text: i18n.msg('dashboard.label.requestUnprocessedCount')
-                        }
-                    },
-                    plotOptions: {
-                        series: {
-                            events: {
-                                click: function(event) {
-                                    console.log(`${event.point.linkKey}`);
-                                    updateReqStatus(`${event.point.linkKey}`);
-                                }
-                            }
                         }
                     }
                 };
@@ -216,4 +220,4 @@
         window.zChartManager = zChartManager;
     </script>
 </th:block>
-</html>C
+</html>
