@@ -35,7 +35,7 @@
             document.getElementById('userId').value = rsa.encrypt(rspDataUid);
             document.ssoLogin.submit();
         } else {
-            window.location.href='/portals/main';
+            window.location.href = '/portals/main';
         }
     }
 </script>

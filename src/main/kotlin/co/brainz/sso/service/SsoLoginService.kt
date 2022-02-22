@@ -15,7 +15,6 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceUtil
 import java.security.PrivateKey
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
@@ -36,7 +35,7 @@ class SsoLoginService(
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
-    fun ssoLogin(request: HttpServletRequest, response: HttpServletResponse) {
+    fun ssoLogin(request: HttpServletRequest) {
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val session = attr.request.session
         val privateKey = session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey

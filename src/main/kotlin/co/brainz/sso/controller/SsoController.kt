@@ -7,7 +7,6 @@
 package co.brainz.sso.controller
 
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.sso.service.SsoLoginService
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -25,12 +24,13 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("/itsm")
 class SsoController(
-    private val ssoLoginService: SsoLoginService,
-    private val currentSessionUser: CurrentSessionUser
+    private val ssoLoginService: SsoLoginService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val ssoLoginPage = "jsp/sso/KSign/login"
+    private val ssoTokenCheckPage = "/itsm/sso"
+    private val portalMainPage = "/portals/main"
 
     @Value("\${sso.enabled}")
     private val ssoEnabled: Boolean = false
@@ -41,9 +41,9 @@ class SsoController(
     @GetMapping("/","")
     fun ssoCheck(response: HttpServletResponse) {
         return if (ssoEnabled) {
-            response.sendRedirect("/itsm/sso")
+            response.sendRedirect(ssoTokenCheckPage)
         } else {
-            response.sendRedirect("/portals/main")
+            response.sendRedirect(portalMainPage)
         }
     }
 
@@ -61,7 +61,7 @@ class SsoController(
      */
     @PostMapping("/ssoLogin")
     fun ssoLogin(request: HttpServletRequest, response: HttpServletResponse) {
-        ssoLoginService.ssoLogin(request, response)
+        ssoLoginService.ssoLogin(request)
         response.sendRedirect("/login")
     }
 }
