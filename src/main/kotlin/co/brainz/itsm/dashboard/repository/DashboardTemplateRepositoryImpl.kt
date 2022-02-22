@@ -8,11 +8,11 @@ package co.brainz.itsm.dashboard.repository
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.itsm.dashboard.entity.DashboardTemplateEntity
-import co.brainz.itsm.instance.dto.ViewerListDto
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
+import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -52,16 +52,19 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
         val instance = QWfInstanceEntity.wfInstanceEntity
         val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
         val query = from(instance)
-            .innerJoin(user).on(instance.instanceCreateUser.eq(user))
             .where(
                 instance.document.documentId.`in`(documentIds)
                     .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
-                    .and(user.department.eq(organizationId))
             )
+        if (organizationId.isNotEmpty()) {
+            query.where(
+                instance.instanceCreateUser.`in`(
+                    JPAExpressions.select(user)
+                        .from(user)
+                        .where(user.department.eq(organizationId))
+                )
+            )
+        }
         return query.fetch()
-    }
-
-    override fun test(): List<ViewerListDto> {
-        return mutableListOf()
     }
 }
