@@ -39,7 +39,6 @@ class DashboardController(
     @GetMapping("/view")
     fun getDashboardView(request: HttpServletRequest, model: Model): String {
         model.addAttribute("noticePopUp", noticeService.findNoticePopUp())
-        //model.addAttribute("dashboardStatistic", dashboardService.getDashboardStatistic())
         model.addAttribute("template", dashboardTemplateService.getTemplate())
         return dashboardViewPage
     }

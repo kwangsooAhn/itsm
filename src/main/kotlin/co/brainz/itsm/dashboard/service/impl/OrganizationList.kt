@@ -6,6 +6,7 @@
 package co.brainz.itsm.dashboard.service.impl
 
 import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.itsm.dashboard.constants.DashboardConstants
 import co.brainz.itsm.dashboard.dto.OrganizationItem
 import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 import co.brainz.itsm.dashboard.dto.TemplateOrganizationListDto
@@ -17,7 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.util.Arrays
 
 class OrganizationList(
     private val wfDocumentRepository: WfDocumentRepository,
@@ -55,77 +55,76 @@ class OrganizationList(
         // 문서 조회
         val organizationDocumentList = dashboardTemplateRepository.organizationRunningDocument(documentIds, this.organizationId)
 
-        // contents
-        val contents = this.getContents(items, organizationDocumentList)
-
-
-
-
-        //column info
-        val organizationListDto = TemplateOrganizationListDto(
+        return TemplateOrganizationListDto(
             organizationId = this.organizationId,
             organizationName = organizationName,
-            columnTitle = this.getColumnTitle(items),
-            columnWidth = this.getColumnWidth(items),
-            columnType = this.getColumnType(items),
-            contents = contents
+            columnTitle = this.getValueToArray(items, DashboardConstants.ComponentItemKey.TITLE.code),
+            columnWidth = this.getValueToArray(items, DashboardConstants.ComponentItemKey.WIDTH.code),
+            columnType = this.getValueToArray(items, DashboardConstants.ComponentItemKey.DATA_TYPE.code),
+            contents = this.getContents(items, organizationDocumentList)
         )
-
-        return organizationListDto
     }
 
-
-    private fun getContents(items: List<OrganizationItem>, organizationDocumentList: List<WfInstanceEntity>): List<Array<String>> {
-        val result = mutableListOf<Array<String>>()
-
-        // Dummy data
-        val dummyData = this.getDummyData()
-        organizationDocumentList.forEachIndexed { index, wfInstanceEntity ->
-            result.add(dummyData[(0..2).random()])
+    /**
+     * 설정 정보에 따른 값 조회
+     */
+    private fun getContents(
+        items: List<OrganizationItem>,
+        organizationDocumentList: List<WfInstanceEntity>
+    ): List<Array<Any>> {
+        val result = mutableListOf<Array<Any>>()
+        organizationDocumentList.forEach { organizationDocument ->
+            val valueList = mutableListOf<Any>()
+            var value: Any = ""
+            items.forEach { item ->
+                value = when (item.type) {
+                    DashboardConstants.ComponentItemType.FIELD.code -> this.getFieldValue(item, organizationDocument)
+                    DashboardConstants.ComponentItemType.TAG.code -> this.getTagValue(item, organizationDocument)
+                    else -> ""
+                }
+                valueList.add(value)
+            }
+            result.add(valueList.toTypedArray())
         }
         return result
     }
 
-    private fun getDummyData(): List<Array<String>> {
-        val result = mutableListOf<Array<String>>()
-        result.add(
-            arrayOf("", "본부2", "장애 신고", "장애 신고 합니다.", "2022-01-13T01:44:00.000Z", "2022-01-20T109:00:00.000Z", "진행중", "ADMIN", "ADMIN", "긴급", "CSR-20220113-001")
-        )
-        result.add(
-            arrayOf("", "본부2", "단순 문의", "공지사항 추가 문의", "2022-01-15T02:31:00.000Z", "2022-01-20T09:00:00.000Z", "진행중", "ADMIN", "ADMIN", "긴급", "CSR-20220115-001")
-        )
-        result.add(
-            arrayOf("", "본부2", "단순 문의", "개인 정보 보안 문의드립니다.", "2022-01-21T03:12:00.000Z", "2022-01-24T09:00:00.000Z", "진행중", "ADMIN", "ADMIN", "긴급", "CSR-20220221-001")
-        )
-        return result
+    // MappingId 변경
+    private fun getTagValue(
+        item: OrganizationItem,
+        organizationDocument: WfInstanceEntity
+    ): Any {
+        return ""
     }
 
-    private fun getColumnTitle(items: List<OrganizationItem>): Array<String> {
-        val titleList = mutableListOf<String>()
-        items.forEach { titleList.add(it.title) }
-        return titleList.toTypedArray()
+    /**
+     * field 의 name 값으로 매핑된 컬럼 데이터 조회
+     */
+    private fun getFieldValue(
+        item: OrganizationItem,
+        organizationDocument: WfInstanceEntity
+    ): Any {
+        return when (item.name) {
+            DashboardConstants.Column.DOCUMENT_NAME.code -> organizationDocument.document.documentName
+            DashboardConstants.Column.INSTANCE_STATUS.code -> organizationDocument.instanceStatus
+            DashboardConstants.Column.DOCUMENT_NO.code -> organizationDocument.documentNo ?: ""
+            else -> ""
+        }
     }
 
-    private fun getColumnWidth(items: List<OrganizationItem>): Array<String> {
-        val widthList = mutableListOf<String>()
-        items.forEach { widthList.add(it.width) }
-        return widthList.toTypedArray()
+    /**
+     * 컴포넌트 item 값을 [itemKey] 에 따라 배열 처리
+     */
+    private fun getValueToArray(
+        items: List<OrganizationItem>,
+        itemKey: String
+    ): Array<String> {
+        val valueList = mutableListOf<String>()
+        when (itemKey) {
+            DashboardConstants.ComponentItemKey.TITLE.code -> items.forEach { valueList.add(it.title) }
+            DashboardConstants.ComponentItemKey.WIDTH.code -> items.forEach { valueList.add(it.width) }
+            DashboardConstants.ComponentItemKey.DATA_TYPE.code -> items.forEach { valueList.add(it.dataType) }
+        }
+        return valueList.toTypedArray()
     }
-
-    private fun getColumnType(items: List<OrganizationItem>): Array<String> {
-        val typeList = mutableListOf<String>()
-        items.forEach { typeList.add(it.dataType) }
-        return typeList.toTypedArray()
-    }
-
-
-    fun toCamelCase(str: String): String {
-        val words = str.split("[-_]".toRegex()).toTypedArray()
-        return Arrays.stream(words, 1, words.size).map { s: String ->
-            s.substring(0, 1).toUpperCase() + s.substring(1)
-        }.reduce(
-            words[0]
-        ) { obj: String, strValue: String -> obj + strValue }
-    }
-
 }

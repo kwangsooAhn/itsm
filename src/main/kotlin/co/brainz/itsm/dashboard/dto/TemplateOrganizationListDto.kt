@@ -8,5 +8,5 @@ data class TemplateOrganizationListDto(
     val columnTitle: Array<String>,
     val columnWidth: Array<String>,
     val columnType: Array<String>,
-    val contents: List<Array<String>>
+    val contents: List<Array<Any>>
 ) : Serializable
