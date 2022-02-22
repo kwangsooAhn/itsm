@@ -41,6 +41,15 @@ class DashboardTemplateService(
     }
 
     /**
+     * 단일 컴포넌트 조회 (데이터 포함)
+     */
+    fun getTemplateComponent(templateId: String, componentKey: String, option: Map<String, Any>?): TemplateComponentData {
+        val templateComponentConfigList = this.getTemplateComponentConfigList(templateId)
+        val component = templateComponentConfigList.first { it.key == componentKey }
+        return this.getTemplateComponentData(component, option)
+    }
+
+    /**
      * 템플릿의 컴포넌트별 설정 정보 조회
      */
     private fun getTemplateComponentConfigList(templateId: String): List<TemplateComponentConfig> {
@@ -58,16 +67,24 @@ class DashboardTemplateService(
      */
     private fun getTemplateComponentResult(templateComponentList: List<TemplateComponentConfig>): List<TemplateComponentData> {
         val templateComponentResultList = mutableListOf<TemplateComponentData>()
-
         templateComponentList.forEach { component ->
-            templateComponentResultList.add(
-                TemplateComponentData(
-                    key = component.key,
-                    title = component.title,
-                    result = templateComponentFactory.getComponent(component.key).getResult(component)
-                )
-            )
+            templateComponentResultList.add(this.getTemplateComponentData(component, null))
         }
         return templateComponentResultList
+    }
+
+    /**
+     * 컴포넌트 데이터 조회
+     */
+    private fun getTemplateComponentData(component: TemplateComponentConfig, option: Map<String, Any>?): TemplateComponentData {
+        val templateComponent = templateComponentFactory.getComponent(component.key)
+        if (!option.isNullOrEmpty()) {
+            templateComponent.init(option)
+        }
+        return TemplateComponentData(
+            key = component.key,
+            title = component.title,
+            result = templateComponent.getResult(component)
+        )
     }
 }

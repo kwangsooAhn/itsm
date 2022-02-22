@@ -104,7 +104,8 @@
                         series: {
                             events: {
                                 click: function(event) {
-                                    zAlert.warning(`${event.point.category} 요청현황 - 부서아이디 : ${event.point.id}`);
+                                    //zAlert.warning(`${event.point.category} 요청현황 - 부서아이디 : ${event.point.id}`);
+                                    test(event.point.linkKey);
                                 }
                             }
                         }
@@ -126,6 +127,15 @@
             }
         }
         window.zChartManager = zChartManager;
+
+        function test(id) {
+            console.log(id);
+            aliceJs.fetchText('/template' + urlParam, {
+                method: 'GET'
+            }).then((htmlData) => {
+
+            });
+        }
     </script>
 </th:block>
 </html>

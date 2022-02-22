@@ -8,5 +8,6 @@ package co.brainz.itsm.dashboard.service.impl
 import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 
 interface TemplateComponent {
+    fun init(option: Map<String, Any>)
     fun getResult(component: TemplateComponentConfig): Any
 }

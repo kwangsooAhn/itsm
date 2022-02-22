@@ -33,7 +33,9 @@ class TemplateComponentFactory(
             DashboardConstants.TemplateComponent.STATUS_USER_LIST.code -> StatusUserList(
                 currentSessionUser, wfDocumentRepository, dashboardTemplateRepository
             )
-            DashboardConstants.TemplateComponent.ORGANIZATION_LIST.code -> OrganizationList()
+            DashboardConstants.TemplateComponent.ORGANIZATION_LIST.code -> OrganizationList(
+                wfDocumentRepository, dashboardTemplateRepository
+            )
             else -> throw  AliceException(
                 AliceErrorConstants.ERR_00005, "Dashboard Template Component not found."
             )
