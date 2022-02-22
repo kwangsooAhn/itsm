@@ -22,9 +22,9 @@
     String rspDataUid = rspData.getAttribute("UID");
 %>
 <script type="text/javascript">
-    let keyModule = '<%=keyModulus%>'
-    let keyExponent = '<%=keyExponent%>'
-    let rspDataUid = '<%=rspDataUid%>'
+    let keyModule = '<%=keyModulus%>';
+    let keyExponent = '<%=keyExponent%>';
+    let rspDataUid = '<%=rspDataUid%>';
 
     const rsa = new RSAKey();
 
