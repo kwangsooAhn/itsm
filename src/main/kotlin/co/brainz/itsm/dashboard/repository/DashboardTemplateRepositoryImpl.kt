@@ -11,6 +11,8 @@ import co.brainz.itsm.dashboard.entity.DashboardTemplateEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
+import co.brainz.workflow.instance.entity.WfInstanceEntity
+import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -41,5 +43,28 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
                     .and(instance.instanceCreateUser.userKey.eq(userKey))
             )
             .fetchCount()
+    }
+
+    override fun organizationRunningDocument(
+        documentIds: Set<String>,
+        organizationId: String
+    ): List<WfInstanceEntity> {
+        val instance = QWfInstanceEntity.wfInstanceEntity
+        val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
+        val query = from(instance)
+            .where(
+                instance.document.documentId.`in`(documentIds)
+                    .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
+            )
+        if (organizationId.isNotEmpty()) {
+            query.where(
+                instance.instanceCreateUser.`in`(
+                    JPAExpressions.select(user)
+                        .from(user)
+                        .where(user.department.eq(organizationId))
+                )
+            )
+        }
+        return query.fetch()
     }
 }

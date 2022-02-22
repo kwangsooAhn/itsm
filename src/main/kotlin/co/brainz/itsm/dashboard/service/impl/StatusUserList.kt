@@ -23,6 +23,8 @@ class StatusUserList(
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
+    override fun init(option: Map<String, Any>) {}
+
     override fun getResult(component: TemplateComponentConfig): MutableList<TemplateUserRequestListDto> {
         val target = mapper.convertValue(component.target, Map::class.java)
         val documents: List<String> = mapper.convertValue(target["documents"], object : TypeReference<List<String>>() {})
