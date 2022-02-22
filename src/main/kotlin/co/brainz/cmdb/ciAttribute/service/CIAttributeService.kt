@@ -6,18 +6,22 @@
 
 package co.brainz.cmdb.ciAttribute.service
 
-import co.brainz.cmdb.ciAttribute.entity.*
-import co.brainz.cmdb.ciAttribute.repository.*
-import co.brainz.cmdb.constants.*
-import co.brainz.cmdb.dto.*
-import co.brainz.framework.auth.repository.*
-import co.brainz.framework.constants.*
-import co.brainz.framework.exception.*
-import co.brainz.framework.util.*
-import co.brainz.itsm.cmdb.ciAttribute.dto.*
-import kotlin.math.*
-import org.slf4j.*
-import org.springframework.stereotype.*
+import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
+import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CIAttributeDto
+import co.brainz.cmdb.dto.CIAttributeListDto
+import co.brainz.cmdb.dto.CIAttributeReturnDto
+import co.brainz.cmdb.dto.RestTemplateReturnDto
+import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
+import co.brainz.framework.util.AlicePagingData
+import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
+import kotlin.math.ceil
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
 
 @Service
 class CIAttributeService(

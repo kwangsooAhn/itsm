@@ -6,8 +6,8 @@
 
 package co.brainz.cmdb.dto
 
-import java.io.*
-import java.time.*
+import java.io.Serializable
+import java.time.LocalDateTime
 
 data class CIAttributeDto(
     val attributeId: String = "",

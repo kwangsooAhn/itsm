@@ -6,24 +6,37 @@
 
 package co.brainz.cmdb.ciClass.service
 
-import co.brainz.cmdb.ciAttribute.repository.*
-import co.brainz.cmdb.ciClass.constants.*
-import co.brainz.cmdb.ciClass.entity.*
-import co.brainz.cmdb.ciClass.repository.*
-import co.brainz.cmdb.constants.*
-import co.brainz.cmdb.dto.*
-import co.brainz.framework.auth.repository.*
-import co.brainz.framework.exception.*
-import co.brainz.itsm.cmdb.ciClass.dto.*
-import com.fasterxml.jackson.core.type.*
-import com.fasterxml.jackson.databind.*
-import com.fasterxml.jackson.datatype.jsr310.*
-import com.fasterxml.jackson.module.kotlin.*
-import com.querydsl.core.*
-import javax.transaction.*
-import org.slf4j.*
-import org.springframework.data.repository.*
-import org.springframework.stereotype.*
+import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
+import co.brainz.cmdb.ciClass.constants.CIClassConstants
+import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapEntity
+import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapPk
+import co.brainz.cmdb.ciClass.entity.CIClassEntity
+import co.brainz.cmdb.ciClass.repository.CIClassAttributeMapRepository
+import co.brainz.cmdb.ciClass.repository.CIClassRepository
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CIAttributeValueDto
+import co.brainz.cmdb.dto.CIAttributeValueGroupListDto
+import co.brainz.cmdb.dto.CIClassDetailDto
+import co.brainz.cmdb.dto.CIClassDetailValueDto
+import co.brainz.cmdb.dto.CIClassDto
+import co.brainz.cmdb.dto.CIClassListDto
+import co.brainz.cmdb.dto.CIClassReturnDto
+import co.brainz.cmdb.dto.CIClassToAttributeDto
+import co.brainz.cmdb.dto.CIClassTreeListDto
+import co.brainz.cmdb.dto.SearchDto
+import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
+import co.brainz.itsm.cmdb.ciClass.dto.CIClassTreeReturnDto
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.querydsl.core.QueryResults
+import javax.transaction.Transactional
+import org.slf4j.LoggerFactory
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.stereotype.Service
 
 @Service
 class CIClassService(

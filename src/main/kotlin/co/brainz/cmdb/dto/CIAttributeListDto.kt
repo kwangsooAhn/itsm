@@ -6,7 +6,7 @@
 
 package co.brainz.cmdb.dto
 
-import java.io.*
+import java.io.Serializable
 
 data class CIAttributeListDto(
     val attributeId: String? = null,

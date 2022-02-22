@@ -6,17 +6,23 @@
 
 package co.brainz.cmdb.ciAttribute.repository
 
-import co.brainz.cmdb.ci.entity.*
-import co.brainz.cmdb.ciAttribute.entity.*
-import co.brainz.cmdb.ciClass.entity.*
-import co.brainz.cmdb.constants.*
-import co.brainz.cmdb.dto.*
-import co.brainz.itsm.cmdb.ciAttribute.dto.*
-import com.querydsl.core.*
-import com.querydsl.core.types.*
-import com.querydsl.core.types.dsl.*
-import com.querydsl.jpa.*
-import org.springframework.data.jpa.repository.support.*
+import co.brainz.cmdb.ci.entity.QCIDataEntity
+import co.brainz.cmdb.ci.entity.QCIGroupListDataEntity
+import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
+import co.brainz.cmdb.ciAttribute.entity.QCIAttributeEntity
+import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CIAttributeDto
+import co.brainz.cmdb.dto.CIAttributeListDto
+import co.brainz.cmdb.dto.CIAttributeValueDto
+import co.brainz.cmdb.dto.CIGroupListDto
+import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
+import com.querydsl.core.QueryResults
+import com.querydsl.core.types.ExpressionUtils
+import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
+import com.querydsl.jpa.JPAExpressions
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::class.java),
     CIAttributeRepositoryCustom {
