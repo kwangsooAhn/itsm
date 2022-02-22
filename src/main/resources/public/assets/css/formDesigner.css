@@ -3647,7 +3647,7 @@ select {
 }
 
 .z-checkbox input[type=checkbox]:checked + span::after {
-  top: -0.04rem;
+  top: 0;
 }
 
 .z-component .z-radio input[type=radio] + span::after {
