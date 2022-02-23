@@ -219,8 +219,8 @@
       }
     }
 
-    // radio
-    .z-radio {
+    // radio, checkbox
+    .z-radio, .z-checkbox {
       &.vertical {
         display: block;
         margin-top: 0.625rem;
@@ -230,6 +230,10 @@
         display: inline-block;
         margin-right: 0.625rem;
       }
+    }
+
+    // radio
+    .z-radio {
       + span {
         display: inline-block;
         height: 2.25rem;
