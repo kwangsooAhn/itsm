@@ -35,7 +35,6 @@
     flex-direction: column;
     width: calc(100% - #{$nav-width});
     height: 100vh;
-    background-color: $layout-main-bg-color;
 
     &-title {
       display: flex;
@@ -44,13 +43,11 @@
     }
 
     &-content {
-      background-color: $layout-content-bg-color;
       height: calc(100vh - 8.5rem);
 
       .z-page-content {
         @include border(0.0625rem,solid,$layout-main-header-border-color,top);
         flex: 1 1 auto;
-        background: $layout-page-content-bg-color;
       }
 
       .z-page-search {

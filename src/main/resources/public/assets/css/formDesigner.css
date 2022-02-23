@@ -5,7 +5,7 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-/* _reset.scss 
+/* _reset.scss
  *
  * 파일 경로 : template/_reset.scss
  * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
@@ -78,6 +78,8 @@ input, button, select, optgroup, textarea {
   line-height: 1.2;
   margin: 0;
   max-width: 100%;
+  background-color: #FFFFFF;
+  border: none;
 }
 
 :root {
@@ -7321,8 +7323,7 @@ body.modal-active {
 
 .z-component-tooltip {
   position: relative;
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   padding: 0.375rem 0.5rem;
   margin: 0.5rem;
   border: 0.0625rem dashed #CFD5D9;
@@ -7358,8 +7359,7 @@ body.modal-active {
   width: 100%;
 }
 .z-component .z-component-label {
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   justify-content: var(--data-align);
   font-weight: 500;
   padding: 0;
@@ -7380,8 +7380,7 @@ body.modal-active {
   padding: 0.4375rem 0 0.4375rem 0;
 }
 .z-component .z-element {
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   padding: 0.4375rem 0 0.4375rem 0.938rem;
   pointer-events: none;
 }
@@ -7618,7 +7617,7 @@ body.modal-active {
   border-color: transparent !important;
 }
 
-/* _tree.scss 
+/* _tree.scss
  *
  * 파일 경로 : template/_tree.scss
  * @description 트리 구조 디자인
@@ -7681,7 +7680,6 @@ ul.tree ul li:before {
   border-top: 0.0625rem solid #CFD5D9;
 }
 ul.tree ul li:last-child:before {
-  background-color: #FAFAFA;
   height: auto;
   top: 0.9375rem;
   bottom: 0;
@@ -7789,8 +7787,7 @@ span.modal_node_selected label {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  flex-basis: calc(((100% - 44px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 4px);
+  flex-basis: calc(((100% - 44px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 4px);
   margin: 0.9375rem 0 0 0;
 }
 .property .property-label {

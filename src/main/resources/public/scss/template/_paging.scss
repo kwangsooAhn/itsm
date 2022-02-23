@@ -4,11 +4,6 @@
  * @description 페이징 목록 디자인
  * @author Jung Hee Chan
  */
-// TODO 리스트 페이지 디자인 적용 시 정리 필요.
-.z-itsm-container .z-page-paging {
-  background-color: $neutral50;
-}
-
 .z-page-paging {
   display: flex;
   flex-direction: row!important;
