@@ -174,18 +174,16 @@
                     let gridContent = ``;
 
                     data.contents[i].forEach( (value, index) => {
-                        if (index === '0') {
-                            // 순번 추가
+                        if (index === 0) { // 순번
                             gridContent = gridContent.concat(
-                                `<div class="grid__cell pr-2 pl-2">${index + 1}</div>`
+                                `<div class="grid__cell pr-2 pl-4">${i + 1}</div>`
                             );
-                        } else {
-                            // columnType에 따라 데이터 변환
+                        } else { // columnType에 따라 데이터 변환
                             const columnType = data.columnType[index];
                             value = DATE_TYPE.includes(columnType) ? convertDate(columnType, value): value;
 
                             gridContent = gridContent.concat(
-                                `<div class="grid__cell">` +
+                                `<div class="grid__cell pr-2 pl-2">` +
                                     `<span class="text-ellipsis">${value}</span>` +
                                 `</div>`
                             );
