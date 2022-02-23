@@ -123,7 +123,7 @@
          */
         // todo: 실제 데이터 연동 시, dummy Data부분 제거
         function getOrganizationData(organizationId) {
-            console.log('organizationId');
+            console.log(`${organizationId}`);
 
             // 업무현황 data load
             // let urlParam = '/rest/dashboard/organization/' + organizationId + '?templateId=' + templateId + '&componentKey=' + /*[[${template.result[2].key}]]*/ "";
@@ -146,61 +146,38 @@
             document.getElementById('organizationName').textContent = data.organizationId ? data.organizationName : i18n.msg('dashboard.label.all');
 
             // grid column width
-            document.querySelector('.grid').style.setProperty('--data-columns-width', data.columnWidth.toString().trim().replaceAll(',', ' '));
+            gridElem.style.setProperty('--data-columns-width', data.columnWidth.toString().trim().replaceAll(',', ' '));
 
             // grid header
-            const gridHeadElem = document.createElement('div');
-            gridHeadElem.className = 'grid__head';
-            let gridHead = '';
-            const headerRow = document.createElement('div');
-            headerRow.className = 'grid__row';
-            data.columnTitle.forEach( title => {
-                gridHead = gridHead.concat(
-                    `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">${title}</div>`
-                );
-            });
-            headerRow.insertAdjacentHTML('beforeend', gridHead);
-            gridHeadElem.appendChild(headerRow);
-            gridElem.appendChild(gridHeadElem);
+            const gridHead = data.columnTitle.map((title) => {
+                return `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">${title}</div>`;
+            }).join('');
+            gridElem.insertAdjacentHTML('beforeend', `<div class="grid__head"><div class="grid__row">${gridHead}</div></div>`);
 
             // grid body
-            const gridBodyElem = document.createElement('div');
-            gridBodyElem.className = 'grid__body';
+            let gridBodyElem = '';
             if (Object.keys(data.contents).length > 0) { // 요청사항 내역이 있는 경우
+                gridBodyElem += `<div class="grid__body">`;
                 for (let i = 0; i < Object.keys(data.contents).length; i++) {
-                    const gridRowElem = document.createElement('div');
-                    gridRowElem.className = 'grid__row';
-                    let gridContent = ``;
-
-                    data.contents[i].forEach( (value, index) => {
+                    gridBodyElem += `<div class="grid__row">`;
+                    const gridContents = data.contents[i].map((value, index) => {
                         if (index === 0) { // 순번
-                            gridContent = gridContent.concat(
-                                `<div class="grid__cell pr-2 pl-4">${i + 1}</div>`
-                            );
+                            return `<div class="grid__cell pr-2 pl-4">${i + 1}</div>`;
                         } else { // columnType에 따라 데이터 변환
                             const columnType = data.columnType[index];
                             value = DATE_TYPE.includes(columnType) ? convertDate(columnType, value): value;
-
-                            gridContent = gridContent.concat(
-                                `<div class="grid__cell pr-2 pl-2">` +
-                                    `<span class="text-ellipsis">${value}</span>` +
-                                `</div>`
-                            );
+                            return `<div class="grid__cell pr-2 pl-2"><span class="text-ellipsis">${value}</span></div>`;
                         }
-                    });
-                    gridRowElem.insertAdjacentHTML('beforeend', gridContent);
-                    gridBodyElem.appendChild(gridRowElem);
+                    }).join('');
+                    gridBodyElem += `${gridContents}</div>`;
                 }
+                gridBodyElem += `</div>`;
             } else { // 요청사항 내역이 없는 경우
-                const noDataElem = document.createElement('div');
-                const gridCell = document.createElement('div');
-                noDataElem.classList.add('grid__row', 'grid--noData');
-                gridCell.classList.add('grid__cell');
-                gridCell.textContent = i18n.msg('common.msg.noData');
-                noDataElem.appendChild(gridCell);
-                gridBodyElem.appendChild(noDataElem);
+                gridBodyElem = `<div class="grid__body"><div class="grid__row grid--noData">
+                        <div class="grid__cell"><span>${i18n.msg('common.msg.noData')}</span></div>
+                    </div></div>`;
             }
-            gridElem.appendChild(gridBodyElem);
+            gridElem.insertAdjacentHTML('beforeend', `${gridBodyElem}`);
             OverlayScrollbars(document.querySelector('.grid__body'), { className: 'inner-scrollbar' });
         }
 
