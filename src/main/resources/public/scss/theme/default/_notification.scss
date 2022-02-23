@@ -70,10 +70,10 @@
   // notification의 contents들이 나열되는 영역
   &-body {
     overflow-y: auto;
-    height: 20.63rem;    // 330px
-    &.z-nodata {
+    max-height: 20.63rem;    // 330px
+    .z-noData {
       height: 6.875rem;  // 110px
-      padding: 0.938rem; // 15px
+      padding: 3rem; // 48px
     }
   }
   &-content {

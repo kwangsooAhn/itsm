@@ -8,7 +8,7 @@
         <span class="z-icon i-remove float-right" onclick="toggleNotificationContainer();"></span>
     </div>
     <div class="z-notification-body" th:classappend="${#arrays.isEmpty(notificationList)} ? nodata">
-        <div class="z-nodata" th:if="${#arrays.isEmpty(notificationList)}">
+        <div class="z-noData align-center" th:if="${#arrays.isEmpty(notificationList)}">
             <span th:text="#{notification.msg.noNotificationData}"></span>
         </div>
         <div class="z-notification-content" th:unless="${#arrays.isEmpty(notificationList)}"
