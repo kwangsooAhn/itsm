@@ -20,20 +20,24 @@
     <h6 class="description ml-2 pl-2" th:text="#{dashboard.msg.viewDescription}"></h6>
 </div>
 <div layout:fragment="pageSearchResult">
-    <div class="flex-row">
+    <div class="flex-row mb-4">
     <!-- 부서별 요청현황 -->
-    <div class="flex-column component" style="width: 80rem;">
-        <h3 class="sub-title" th:text="#{dashboard.label.organizationWorkStatus}"></h3>
-        <div id="container" class="contents"></div>
+    <div class="flex-column component">
+        <div class="component-title flex-row mb-4">
+            <span th:text="${template?.result[0].title}"></span>
+        </div>
+        <div id="container" class="contents contents__req-organization"></div>
     </div>
     <!-- 개인 요청현황 -->
-    <div class="flex-column ml-auto component" style="width: 16.875rem;">
-        <h3 class="sub-title" th:text="#{dashboard.label.personalRequestStatus}"></h3>
-        <div id="requestStatusByUser" class="contents">
-            <table class="user-req-status">
+    <div class="flex-column ml-auto component">
+        <div class="component-title flex-row mb-4">
+            <span th:text="${template?.result[1].title}"></span>
+        </div>
+        <div class="contents">
+            <table class="contents__req-user">
                 <thead>
-                <tr class="user-req-status-total">
-                    <td class="user-req-status-title pl-5 col-2 text-gray700">
+                <tr class="contents__req-user-total">
+                    <td class="contents__req-user-title pl-5 col-2 text-gray700">
                         <span th:text="#{dashboard.label.requestUnprocessedCount}"></span>
                     </td>
                     <td class="align-center col-1">
@@ -42,8 +46,10 @@
                 </tr>
                 </thead>
                 <tbody th:if="${#arrays.length(template?.result[1].result)} > 0">
-                    <tr class="user-req-status-contents" th:each="request:${template?.result[1].result}">
-                        <td class="pl-5 col-2"><h3 th:text="${request.documentName}"></h3></td>
+                    <tr class="contents__req-user-contents" th:each="request:${template?.result[1].result}">
+                        <td class="contents__req-user-title pl-5 col-2">
+                            <h3 class="text-ellipsis pt-2" th:text="${request.documentName}" th:title="${request.documentName}"></h3>
+                        </td>
                         <td class="align-center col-1"><h2 th:text="${request.count}"></h2></td>
                     </tr>
                 </tbody>
@@ -52,10 +58,13 @@
     </div>
     </div>
     <!-- 요청현황 -->
-    <div class="flex-column component" style="width: 100%;">
-        <h3 class="sub-title" th:text="#{dashboard.label.requestStatus}"></h3>
-        <div id="requestListByOrganization" class="contents">
-            <span>Table 영역으로 표현 될 영역입니다.</span>
+    <div class="flex-column component">
+        <div class="component-title flex-row mb-2">
+            <span th:text="#{dashboard.label.requestStatus}"></span>
+            <span id="organizationName" class="text-gray600 pl-4"></span>
+        </div>
+        <div class="contents contents__req-status">
+            <div class="grid"></div>
         </div>
     </div>
 </div>
@@ -63,11 +72,13 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">
     /*<![CDATA[ */
-        window.onload = function () {
-            container = /*[[${template.result[0].result}]]*/ "";
+        const DATE_TYPE = [ 'date', 'time', 'dateTime' ];
+        const templateId = /*[[${template.templateId}]]*/ "";
+        const container = /*[[${template.result[0].result}]]*/ "";
 
-            // todo : 추후 backend 구현완료 시, dummyData > 실제 데이터로 치환
-            // 부서별 업무현황 dummyData 로드 및 chart 초기화
+        window.onload = function () {
+            const container = /*[[${template.result[0].result}]]*/ "";
+
             // 태그 데이터 변환
             container.tags.forEach(tag => {
                 if (typeof tag.value === 'undefined' && typeof tag.tagValue !== 'undefined') {
@@ -79,8 +90,97 @@
             // 차트 데이터 업데이트
             zChartManager.update(container.chartData);
 
-            OverlayScrollbars(document.querySelector('.user-req-status'), {className: 'inner-scrollbar'});
+            // todo: #12334 업무현황 dummy data load / 실제 데이터 연동 시 aliceJs.fetch 구문 수정
+            fetch('../../assets/js/temp/thirdComponentDummy.json')
+                .then(response => { return response.json(); })
+                .then(data => {
+                    updateReqStatus(data);
+                });
+
+            OverlayScrollbars(document.querySelector('.contents__req-user'), {className: 'inner-scrollbar'});
+            OverlayScrollbars(document.querySelector('.contents__req-status'), {
+                className: 'inner-scrollbar',
+                overflowBehavior: {
+                    y: 'hidden'
+                }
+            });
         }
+
+        /**
+         * column Type에 따라 date type 변환
+         */
+        function convertDate(type, date) {
+            const types = {
+                'date' : i18n.userDate(date),
+                'dateTime' : i18n.userDateTime(date),
+                'time' : i18n.userTime(date)
+            }
+            return types[type] || '';
+        }
+
+        /**
+         * 부서별 업무현황에서 클릭한 부서의 요청현황 목록을 검색한다.
+         */
+        // todo: 실제 데이터 연동 시, dummy Data부분 제거
+        function getOrganizationData(organizationId) {
+            console.log(`${organizationId}`);
+
+            // 업무현황 data load
+            // let urlParam = '/rest/dashboard/organization/' + organizationId + '?templateId=' + templateId + '&componentKey=' + /*[[${template.result[2].key}]]*/ "";
+            // aliceJs.fetchText(urlParam, {
+            //     method: 'GET'
+            // }).then((htmlData) => {
+            //     updateReqStatus(htmlData);
+            // });
+        }
+
+        /**
+         * 요청현황 데이터를 업데이트한다.
+         */
+        function updateReqStatus(data) {
+            // 업무현황 grid 초기화
+            const gridElem = document.querySelector('.grid');
+            gridElem.innerHTML = '';
+
+            // sub title
+            document.getElementById('organizationName').textContent = data.organizationId ? data.organizationName : i18n.msg('dashboard.label.all');
+
+            // grid column width
+            gridElem.style.setProperty('--data-columns-width', data.columnWidth.toString().trim().replaceAll(',', ' '));
+
+            // grid header
+            const gridHead = data.columnTitle.map((title) => {
+                return `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">${title}</div>`;
+            }).join('');
+            gridElem.insertAdjacentHTML('beforeend', `<div class="grid__head"><div class="grid__row">${gridHead}</div></div>`);
+
+            // grid body
+            let gridBodyElem = '';
+            if (Object.keys(data.contents).length > 0) { // 요청사항 내역이 있는 경우
+                gridBodyElem += `<div class="grid__body">`;
+                for (let i = 0; i < Object.keys(data.contents).length; i++) {
+                    gridBodyElem += `<div class="grid__row">`;
+                    const gridContents = data.contents[i].map((value, index) => {
+                        if (index === 0) { // 순번
+                            return `<div class="grid__cell pr-2 pl-4">${i + 1}</div>`;
+                        } else { // columnType에 따라 데이터 변환
+                            const columnType = data.columnType[index];
+                            value = DATE_TYPE.includes(columnType) ? convertDate(columnType, value): value;
+                            return `<div class="grid__cell pr-2 pl-2"><span class="text-ellipsis">${value}</span></div>`;
+                        }
+                    }).join('');
+                    gridBodyElem += `${gridContents}</div>`;
+                }
+                gridBodyElem += `</div>`;
+            } else { // 요청사항 내역이 없는 경우
+                gridBodyElem = `<div class="grid__body"><div class="grid__row grid--noData">
+                        <div class="grid__cell"><span>${i18n.msg('common.msg.noData')}</span></div>
+                    </div></div>`;
+            }
+            gridElem.insertAdjacentHTML('beforeend', `${gridBodyElem}`);
+            OverlayScrollbars(document.querySelector('.grid__body'), { className: 'inner-scrollbar' });
+        }
+
     /* ]]> */
     </script>
     <script type="module">
@@ -90,24 +190,33 @@
             load: function(data) {
                 // 개별 정의 차트 옵션
                 const userOption = {
-                    chart: { marginTop: 40 },
+                    chart: {
+                        events: {
+                            redraw: function () {
+                                const ticks = this.xAxis[0].ticks;
+                                const points = this.series[0].points;
+                                points.forEach(function (point, i) {
+                                   if (ticks[i]) {
+                                       const label = ticks[i].label.element;
+                                       label.addEventListener('click', function () {
+                                           getOrganizationData(point.linkKey);
+                                       });
+                                   }
+                                });
+                            }
+                        },
+                        marginTop: 40
+                    },
+                    title: {
+                        style: { display: 'none' }
+                    },
                     xAxis: {
                         min: 0,
                         max: 10
                     },
                     yAxis: {
                         title: {
-                            text: '미처리건수'
-                        }
-                    },
-                    plotOptions: {
-                        series: {
-                            events: {
-                                click: function(event) {
-                                    //zAlert.warning(`${event.point.category} 요청현황 - 부서아이디 : ${event.point.id}`);
-                                    test(event.point.linkKey);
-                                }
-                            }
+                            text: i18n.msg('dashboard.label.requestUnprocessedCount')
                         }
                     }
                 };
@@ -127,15 +236,6 @@
             }
         }
         window.zChartManager = zChartManager;
-
-        function test(id) {
-            console.log(id);
-            aliceJs.fetchText('/template' + urlParam, {
-                method: 'GET'
-            }).then((htmlData) => {
-
-            });
-        }
     </script>
 </th:block>
 </html>

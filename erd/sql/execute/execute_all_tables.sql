@@ -8827,6 +8827,8 @@ COMMENT ON COLUMN awf_organization.update_dt IS '수정일';
 insert into awf_organization values ('4028b2d57d37168e017d3716cgf00000', null, '조직구성', null, true, 0, 0, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3715fae00002', '4028b2d57d37168e017d3716cgf00000', '본부 1', null, true, 1, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3713bb430003', '4028b2d57d37168e017d3716cgf00000', '본부 2', null, true, 1, 2, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d3715fae00004', '4028b2d57d37168e017d3716cgf00000', '본부 3', null, true, 1, 3, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d3713bb430005', '4028b2d57d37168e017d3716cgf00000', '본부 4', null, true, 1, 4, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d37197bb40001', '4028b2d57d37168e017d3715fae00002', '그룹 1-1', null, true, 2, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d371a4c1f0002', '4028b2d57d37168e017d3715fae00002', '그룹 1-2', null, true, 2, 2, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d371a5f7f0004', '4028b2d57d37168e017d37197bb40001', '팀 1-1-1', null, true, 3, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);

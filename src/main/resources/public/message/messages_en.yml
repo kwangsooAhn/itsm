@@ -512,6 +512,7 @@ customCode:
 # Dashboard
 dashboard:
   label:
+    all: "All"
     dashboard: "Dashboard"
     documentStatus: "Requested Documents Status"
     doneDocument: "Total Documents in proceeded"
