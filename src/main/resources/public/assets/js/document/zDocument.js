@@ -64,6 +64,7 @@ class ZDocument {
         this.formDataJson = this.data.form;
         this.editable = editable;
         this.sortJsonToForm(this.formDataJson); // 정렬
+        this.isAssignee = (typeof formDataJson.actions !== 'undefined' && formDataJson.actions.length > 1) ? true : false; // 문서 열람 권한 체크
         this.makeDocument(this.formDataJson); // 화면 출력
     }
     /**
@@ -105,6 +106,9 @@ class ZDocument {
             this.form.afterEvent();
 
             data.group.forEach( (g, gIndex) => {
+                // #12443 진행 중 문서 - 그룹 숨김 처리
+                g.displayType = (!this.isAssignee && g.displayType === FORM.DISPLAY_TYPE.EDITABLE) ?
+                    FORM.DISPLAY_TYPE.HIDDEN : g.displayType;
                 this.makeDocument(g, this.form, gIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
