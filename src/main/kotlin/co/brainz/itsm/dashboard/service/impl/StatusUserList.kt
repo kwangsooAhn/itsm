@@ -10,32 +10,35 @@ import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 import co.brainz.itsm.dashboard.dto.TemplateUserRequestListDto
 import co.brainz.itsm.dashboard.repository.DashboardTemplateRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
-import co.brainz.workflow.instance.constants.WfInstanceConstants
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 
 class StatusUserList(
     private val currentSessionUser: CurrentSessionUser,
     private val wfDocumentRepository: WfDocumentRepository,
     private val dashboardTemplateRepository: DashboardTemplateRepository
-) : co.brainz.itsm.dashboard.service.impl.TemplateComponent {
+) : TemplateComponent {
+
+    val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
+    override fun init(option: Map<String, Any>) {}
 
     override fun getResult(component: TemplateComponentConfig): MutableList<TemplateUserRequestListDto> {
-        val target = component.target as LinkedHashMap<String, List<String>>
-        val documentList = wfDocumentRepository.findDocumentEntityList(target["documents"] as MutableList<String>)
-        val userKey = currentSessionUser.getUserKey()
-        val userRequestList = mutableListOf<TemplateUserRequestListDto>()
-
-        for (document in documentList) {
-            val documentCount = dashboardTemplateRepository.countRunningDocumentByUserKey(
-                document.documentId, userKey, WfInstanceConstants.Status.RUNNING.code
-            )
-            userRequestList.add(
+        val target = mapper.convertValue(component.target, Map::class.java)
+        val documents: List<String> = mapper.convertValue(target["documents"], object : TypeReference<List<String>>() {})
+        val documentEntities = wfDocumentRepository.getDocumentListByIds(documents.toSet())
+        val userRequestCounts = mutableListOf<TemplateUserRequestListDto>()
+        documentEntities.forEach { documentEntity ->
+            userRequestCounts.add(
                 TemplateUserRequestListDto(
-                    documentId = document.documentId,
-                    documentName = document.documentName,
-                    count = documentCount
+                    documentId = documentEntity.documentId,
+                    documentName = documentEntity.documentName,
+                    count = dashboardTemplateRepository.countByUserRunningDocument(documentEntity, currentSessionUser.getUserKey())
                 )
             )
         }
-        return userRequestList
+        return userRequestCounts
     }
 }

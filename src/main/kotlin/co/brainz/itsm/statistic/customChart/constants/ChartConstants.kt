@@ -83,6 +83,7 @@ object ChartConstants {
      */
     enum class DocumentStatus(val code: String) {
         ONLY_FINISH("only.finish.document"),
-        EVEN_RUNNING("even.running.document")
+        EVEN_RUNNING("even.running.document"),
+        ONLY_RUNNING("only.running.document")
     }
 }

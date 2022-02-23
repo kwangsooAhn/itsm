@@ -204,6 +204,7 @@
                                        const label = ticks[i].label.element;
                                        label.addEventListener('click', function () {
                                            updateReqStatus(point.linkKey);
+                                           test(event.point.linkKey);
                                        });
                                    }
                                 });
@@ -240,6 +241,15 @@
             }
         }
         window.zChartManager = zChartManager;
+
+        function test(id) {
+            console.log(id);
+            aliceJs.fetchText('/template' + urlParam, {
+                method: 'GET'
+            }).then((htmlData) => {
+
+            });
+        }
     </script>
 </th:block>
 </html>
