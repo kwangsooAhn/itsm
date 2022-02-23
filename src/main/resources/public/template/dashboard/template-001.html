@@ -73,6 +73,9 @@
     <script th:inline="javascript" type="text/javascript">
     /*<![CDATA[ */
         const DATE_TYPE = [ 'date', 'time', 'dateTime' ];
+        const templateId = /*[[${template.templateId}]]*/ "";
+        const chartComponentKey = /*[[${template.result[0].key}]]*/ "";
+        const container = /*[[${template.result[0].result}]]*/ "";
 
         window.onload = function () {
             const container = /*[[${template.result[0].result}]]*/ "";
@@ -88,7 +91,12 @@
             // 차트 데이터 업데이트
             zChartManager.update(container.chartData);
 
-            updateReqStatus();
+            // todo: #12334 업무현황 dummy data load / 실제 데이터 연동 시 aliceJs.fetch 구문 수정
+            fetch('../../assets/js/temp/thirdComponentDummy.json')
+                .then(response => { return response.json(); })
+                .then(data => {
+                    updateReqStatus(data);
+                });
 
             OverlayScrollbars(document.querySelector('.contents__req-user'), {className: 'inner-scrollbar'});
             OverlayScrollbars(document.querySelector('.contents__req-status'), {
@@ -97,80 +105,6 @@
                     y: 'hidden'
                 }
             });
-        }
-
-        /**
-         * 요청현황 데이터를 업데이트한다.
-         * 부서별 업무현황에서 클릭한 부서 정보가 있을 경우 해당 부서의 요청현황 목록을 검색한다.
-         */
-        function updateReqStatus(organizationId) {
-            console.log(organizationId);
-            // 업무현황 grid 초기화
-            const gridElem = document.querySelector('.grid');
-            gridElem.innerHTML = '';
-
-            // 업무현황 dummy data load
-            fetch('../../assets/js/temp/thirdComponentDummy.json')
-                .then(response => { return response.json(); })
-                .then(data => {
-                    // todo: 테스트 용 추가 코드 (organizationId 여부에 따라 다르게 나오는지 확인)
-                    data.contents = organizationId ? data.contents : {};
-
-                    // sub title
-                    document.querySelector('#organizationName').textContent = organizationId ? data.organizationName : i18n.msg('dashboard.label.all');
-
-                    // grid column width
-                    document.querySelector('.grid').style.setProperty('--data-columns-width', data.columnWidth.toString().trim().replaceAll(',', ' '));
-
-                    // grid header
-                    const gridHeadElem = document.createElement('div');
-                    gridHeadElem.className = 'grid__head';
-                    let gridHead = '';
-                    const headerRow = document.createElement('div');
-                    headerRow.className = 'grid__row';
-                    data.columnTitle.forEach( title => {
-                        gridHead = gridHead.concat(
-                            `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">${title}</div>`
-                        );
-                    });
-                    headerRow.insertAdjacentHTML('beforeend', gridHead);
-                    gridHeadElem.appendChild(headerRow);
-                    gridElem.appendChild(gridHeadElem);
-
-                    // grid body
-                    const gridBodyElem = document.createElement('div');
-                    gridBodyElem.className = 'grid__body';
-                    if (Object.keys(data.contents).length > 0) { // 요청사항 내역이 있는 경우
-                        for (let i = 0; i < Object.keys(data.contents).length; i++) {
-                            const gridRowElem = document.createElement('div');
-                            gridRowElem.className = 'grid__row';
-
-                            let gridContent = `<div class="grid__cell pr-2 pl-2">${i + 1}</div>`;
-                            data.contents[i].forEach( (value, index) => {
-                                // columnType에 따라 데이터 변환
-                                const columnType = data.columnType[index + 1];
-                                value = DATE_TYPE.includes(columnType) ? convertDate(columnType, value): value;
-
-                                gridContent = gridContent.concat(
-                                    `<div class="grid__cell">${value}</div>`
-                                );
-                            });
-                            gridRowElem.insertAdjacentHTML('beforeend', gridContent);
-                            gridBodyElem.appendChild(gridRowElem);
-                        }
-                    } else { // 요청사항 내역이 없는 경우
-                        const noDataElem = document.createElement('div');
-                        const gridCell = document.createElement('div');
-                        noDataElem.classList.add('grid__row', 'grid--noData');
-                        gridCell.classList.add('grid__cell');
-                        gridCell.textContent = i18n.msg('common.msg.noData');
-                        noDataElem.appendChild(gridCell);
-                        gridBodyElem.appendChild(noDataElem);
-                    }
-                    gridElem.appendChild(gridBodyElem);
-                    OverlayScrollbars(document.querySelector('.grid__body'), { className: 'inner-scrollbar' });
-
-                });
         }
 
         /**
@@ -183,6 +117,94 @@
                 'time' : i18n.userTime(date)
             }
             return types[type] || '';
+        }
+
+        /**
+         * 부서별 업무현황에서 클릭한 부서의 요청현황 목록을 검색한다.
+         */
+        // todo: 실제 데이터 연동 시, dummy Data부분 제거
+        function getOrganizationData(organizationId) {
+            console.log('organizationId');
+
+            // 업무현황 data load
+            // let urlParam = '/rest/dashboard/organization/' + organizationId + '?templateId=' + templateId + '&componentKey=' + chartComponentKey;
+            // aliceJs.fetchText(urlParam, {
+            //     method: 'GET'
+            // }).then((htmlData) => {
+            //     updateReqStatus(htmlData);
+            // });
+        }
+
+        /**
+         * 요청현황 데이터를 업데이트한다.
+         */
+        function updateReqStatus(data) {
+            // 업무현황 grid 초기화
+            const gridElem = document.querySelector('.grid');
+            gridElem.innerHTML = '';
+
+            // sub title
+            document.querySelector('#organizationName').textContent = data.organizationId ? data.organizationName : i18n.msg('dashboard.label.all');
+
+            // grid column width
+            document.querySelector('.grid').style.setProperty('--data-columns-width', data.columnWidth.toString().trim().replaceAll(',', ' '));
+
+            // grid header
+            const gridHeadElem = document.createElement('div');
+            gridHeadElem.className = 'grid__head';
+            let gridHead = '';
+            const headerRow = document.createElement('div');
+            headerRow.className = 'grid__row';
+            data.columnTitle.forEach( title => {
+                gridHead = gridHead.concat(
+                    `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">${title}</div>`
+                );
+            });
+            headerRow.insertAdjacentHTML('beforeend', gridHead);
+            gridHeadElem.appendChild(headerRow);
+            gridElem.appendChild(gridHeadElem);
+
+            // grid body
+            const gridBodyElem = document.createElement('div');
+            gridBodyElem.className = 'grid__body';
+            if (Object.keys(data.contents).length > 0) { // 요청사항 내역이 있는 경우
+                for (let i = 0; i < Object.keys(data.contents).length; i++) {
+                    const gridRowElem = document.createElement('div');
+                    gridRowElem.className = 'grid__row';
+                    let gridContent = ``;
+
+                    data.contents[i].forEach( (value, index) => {
+                        if (index === '0') {
+                            // 순번 추가
+                            gridContent = gridContent.concat(
+                                `<div class="grid__cell pr-2 pl-2">${index + 1}</div>`
+                            );
+                        } else {
+                            // columnType에 따라 데이터 변환
+                            const columnType = data.columnType[index];
+                            value = DATE_TYPE.includes(columnType) ? convertDate(columnType, value): value;
+
+                            gridContent = gridContent.concat(
+                                `<div class="grid__cell">` +
+                                    `<span class="text-ellipsis">${value}</span>` +
+                                `</div>`
+                            );
+                        }
+                    });
+                    gridRowElem.insertAdjacentHTML('beforeend', gridContent);
+                    gridBodyElem.appendChild(gridRowElem);
+                }
+            } else { // 요청사항 내역이 없는 경우
+                const noDataElem = document.createElement('div');
+                const gridCell = document.createElement('div');
+                noDataElem.classList.add('grid__row', 'grid--noData');
+                gridCell.classList.add('grid__cell');
+                gridCell.textContent = i18n.msg('common.msg.noData');
+                noDataElem.appendChild(gridCell);
+                gridBodyElem.appendChild(noDataElem);
+            }
+            gridElem.appendChild(gridBodyElem);
+            OverlayScrollbars(document.querySelector('.grid__body'), { className: 'inner-scrollbar' });
         }
 
     /* ]]> */
@@ -203,8 +225,7 @@
                                    if (ticks[i]) {
                                        const label = ticks[i].label.element;
                                        label.addEventListener('click', function () {
-                                           updateReqStatus(point.linkKey);
-                                           test(event.point.linkKey);
+                                           getOrganizationData(point.linkKey);
                                        });
                                    }
                                 });
@@ -241,15 +262,6 @@
             }
         }
         window.zChartManager = zChartManager;
-
-        function test(id) {
-            console.log(id);
-            aliceJs.fetchText('/template' + urlParam, {
-                method: 'GET'
-            }).then((htmlData) => {
-
-            });
-        }
     </script>
 </th:block>
 </html>

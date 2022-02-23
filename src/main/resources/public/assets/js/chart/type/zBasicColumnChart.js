@@ -162,10 +162,7 @@ export const zBasicColumnChartMixin = {
                         if (categories[z] === temp.category) {
                             series.push({
                                 y: Number(temp.value),
-                                // todo : linkKey와 동일하게 componentKey, TemplateId도 함께 전달해야 함
                                 linkKey: (temp.linkKey) ? temp.linkKey : '' // series 클릭 이벤트를 위한 linkKey
-                                // componentKey : '요청현황의 componentKey' (target)
-                                // templateId : 현재 대시보드 템플릿의 ID
                             });
                             break;
                         }
