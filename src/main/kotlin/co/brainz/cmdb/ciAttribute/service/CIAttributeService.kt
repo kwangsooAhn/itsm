@@ -80,6 +80,7 @@ class CIAttributeService(
                     attributeText = ciAttributeDto.attributeText,
                     attributeType = ciAttributeDto.attributeType,
                     attributeValue = ciAttributeDto.attributeValue,
+                    searchYn = ciAttributeDto.searchYn,
                     mappingId = ciAttributeDto.mappingId,
                     createDt = ciAttributeDto.createDt,
                     createUser = ciAttributeDto.createUserKey?.let {
@@ -117,6 +118,7 @@ class CIAttributeService(
                 attributeEntity.attributeText = ciAttributeDto.attributeText
                 attributeEntity.attributeType = ciAttributeDto.attributeType
                 attributeEntity.attributeValue = ciAttributeDto.attributeValue
+                attributeEntity.searchYn = ciAttributeDto.searchYn
                 attributeEntity.mappingId = ciAttributeDto.mappingId
                 attributeEntity.updateUser = ciAttributeDto.updateUserKey?.let {
                     aliceUserRepository.findAliceUserEntityByUserKey(it)

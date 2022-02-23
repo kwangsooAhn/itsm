@@ -2974,14 +2974,8 @@ select {
   width: 100%;
   margin: 0 !important;
 }
-.z-switch .z-label {
-  margin-left: 0;
-}
 .z-switch .z-label-name {
   width: 12.5rem;
-}
-.z-switch input[type=checkbox] + span {
-  left: inherit;
 }
 .z-switch-list {
   height: 22.5rem;
@@ -3005,6 +2999,12 @@ select {
   word-wrap: normal;
   height: 2.5rem;
   padding-right: 0.2rem;
+}
+.z-switch-list .z-switch .z-label {
+  margin-left: 0;
+}
+.z-switch-list .z-switch input[type=checkbox] + span {
+  left: inherit;
 }
 
 /* _buttons.scss

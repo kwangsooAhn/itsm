@@ -46,6 +46,15 @@
             <input class="z-input" id="mappingId" maxlength="100" th:readonly="${view}"
                    th:value="${attribute?.mappingId}" type="text"/>
         </div>
+        <div class="flex-column z-edit-row pt-5 pb-3">
+            <label class="z-switch">
+                <input type="checkbox" id="searchYn" name="searchYn"
+                       th:disabled="${view}" th:checked="${attribute?.searchYn == true}">
+                <span></span>
+                <span class="z-label z-label-name" th:text="#{cmdb.attribute.label.useSearch}"></span>
+                <span class="z-label" th:text="#{cmdb.attribute.msg.useSearch}"></span>
+            </label>
+        </div>
         <div class="flex-column z-edit-row">
             <label for="attributeType">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.type}"></span>
@@ -183,7 +192,8 @@
                 attributeType: document.querySelector('#attributeType').value,
                 attributeText: document.querySelector('#attributeText').value,
                 mappingId: document.querySelector('#mappingId').value,
-                attributeDesc: document.querySelector('#attributeDesc').value
+                attributeDesc: document.querySelector('#attributeDesc').value,
+                searchYn: document.querySelector('#searchYn').checked
             };
             let url = '/rest/cmdb/attributes';
             if (method === 'PUT') {
