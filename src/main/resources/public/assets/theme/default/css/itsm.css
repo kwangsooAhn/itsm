@@ -8169,11 +8169,11 @@ body.modal-active {
 }
 .z-notification-body {
   overflow-y: auto;
-  height: 20.63rem;
+  max-height: 20.63rem;
 }
-.z-notification-body.z-nodata {
+.z-notification-body .z-noData {
   height: 6.875rem;
-  padding: 0.938rem;
+  padding: 3rem;
 }
 .z-notification-content {
   height: 6.875rem;
@@ -9087,3 +9087,5 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
+
+/*# sourceMappingURL=itsm.css.map */
