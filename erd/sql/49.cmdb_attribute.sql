@@ -11,6 +11,7 @@ CREATE TABLE cmdb_attribute
     attribute_type  character varying(100),
     attribute_text  character varying(128),
     attribute_value text,
+    search_item boolean DEFAULT 'false',
     mapping_id      character varying(128),
     create_user_key character varying(128),
     create_dt       timestamp,
@@ -27,6 +28,7 @@ COMMENT ON COLUMN cmdb_attribute.attribute_desc IS '속성설명';
 COMMENT ON COLUMN cmdb_attribute.attribute_type IS '속성타입';
 COMMENT ON COLUMN cmdb_attribute.attribute_text IS '속성라벨';
 COMMENT ON COLUMN cmdb_attribute.attribute_value IS '속성세부정보';
+COMMENT ON COLUMN cmdb_attribute.search_item IS '검색 조건 사용';
 COMMENT ON COLUMN cmdb_attribute.mapping_id IS '매핑아이디';
 COMMENT ON COLUMN cmdb_attribute.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_attribute.create_dt IS '등록일시';
