@@ -17,8 +17,10 @@
                     <div class="z-action-button-top-area" id="actionButtonTopArea"></div>
                 </div>
                 <div class="z-document-main-content">
-                    <p class="z-document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></p>
-                    <div class="z-drawing-board" id="documentDrawingBoard" data-display="running"></div>
+                    <div class="flex-row justify-content-center">
+                        <p id="documentNumber" class="z-document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></p>
+                    </div>
+                    <div id="documentDrawingBoard" data-display="running"></div>
                 </div>
             </div>
         </form>

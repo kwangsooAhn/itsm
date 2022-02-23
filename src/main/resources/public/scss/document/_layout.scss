@@ -43,8 +43,8 @@
       text-align: center;
       // 문서 번호
       .z-document-numbering {
-        width: 100%;
-        margin-bottom: 0.625rem; // 10px
+        margin: 6.25rem 0 0.625rem; // 100px 0 0 10px
+        text-align: left;
         font-family: $document-numbering-font-family;
         font-size: $font-size-xs;
       }
