@@ -4752,6 +4752,7 @@ select {
   color: #FFFFFF;
   background-color: #FFFFFF;
   border-color: #CFD5D9;
+  border-width: 0.0625rem;
 }
 .z-tab .z-icon {
   background: #FFFFFF;
