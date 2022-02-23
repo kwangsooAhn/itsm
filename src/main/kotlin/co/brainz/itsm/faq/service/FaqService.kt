@@ -86,8 +86,8 @@ class FaqService(
      * FAQ 등록
      */
     @Transactional
-    fun createFaq(faqDto: FaqDto): Boolean {
-        var isSuccess = true
+    fun createFaq(faqDto: FaqDto): String {
+        var code = FaqConstants.Status.STATUS_SUCCESS.code
         val faqEntity = FaqEntity(
             faqGroup = faqDto.faqGroup,
             faqTitle = faqDto.faqTitle,
@@ -95,19 +95,19 @@ class FaqService(
         )
         // Duplicate check
         if (faqRepository.getCountDuplicateFaqTitleAndCategory(faqEntity.faqTitle, faqEntity.faqGroup) > 0) {
-            isSuccess = false
+            code = FaqConstants.Status.STATUS_ERROR_DUPLICATION.code
         }
-        if (isSuccess) {
+        if (code == FaqConstants.Status.STATUS_SUCCESS.code) {
             faqRepository.save(faqEntity)
         }
-        return isSuccess
+        return code
     }
 
     /**
      * FAQ 변경
      */
     @Transactional
-    fun updateFaq(faqId: String, faqDto: FaqDto): Boolean {
+    fun updateFaq(faqId: String, faqDto: FaqDto): String {
         val faqEntity = faqRepository.getOne(faqId)
         val count = faqRepository.getCountDuplicateFaqTitleAndCategory(faqDto.faqTitle, faqDto.faqGroup)
         if (count == 0 || (faqDto.faqTitle.equals(faqEntity.faqTitle) && faqDto.faqGroup.equals(faqEntity.faqGroup))) {
@@ -115,9 +115,9 @@ class FaqService(
             faqEntity.faqTitle = faqDto.faqTitle
             faqEntity.faqContent = faqDto.faqContent
             faqRepository.save(faqEntity)
-            return true
+            return FaqConstants.Status.STATUS_SUCCESS.code
         }
-        return false
+        return FaqConstants.Status.STATUS_ERROR_DUPLICATION.code
     }
 
     /**
