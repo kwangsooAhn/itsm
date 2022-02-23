@@ -515,6 +515,7 @@ customCode:
 # Dashboard
 dashboard:
   label:
+    all: "전체"
     dashboard: "개인 현황판"
     documentStatus: "신청한 문서 현황"
     doneDocument: "전체 처리한 문서"

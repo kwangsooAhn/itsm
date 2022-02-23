@@ -317,9 +317,7 @@
       height: 22.5rem; // 360px
       &-title {
         font-weight: $font-weight-medium;
-        .main {
-          font-size: $h3-font-size;
-        }
+        & > *:first-child { font-size: $font-size-l; }
       }
       .contents {
         flex: 1 1 auto;
@@ -347,7 +345,7 @@
           overflow-x: hidden;
           @include gridTemplate();
           .grid__body {
-            max-height: 14.5rem; // 232px;
+            max-height: 16.375rem; // 262px;
           }
         }
       }
@@ -495,7 +493,7 @@
 
       .i-no-card { content: url('#{$icon-folder-path}icon_no_card.svg'); }
       .no-data-text {
-        font-size: $font-size-m;; // 18px
+        font-size: $font-size-m; // 18px
         font-weight: $font-weight-medium;
         color: $no-data-found-font-color;
         margin-left: 2.5rem; // 40px

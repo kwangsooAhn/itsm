@@ -41,7 +41,9 @@
     /*<![CDATA[*/
     window.onload = function () {
         const createDt = document.getElementById('spanCreateDt');
+        console.log(createDt.textContent);
         createDt.textContent = i18n.userDateTime(createDt.textContent);
+        console.log(createDt.textContent);
 
         const faqId = [[${faq?.faqId}]];
         if (faqId === null) {

@@ -20,16 +20,20 @@
     <h6 class="description ml-2 pl-2" th:text="#{dashboard.msg.viewDescription}"></h6>
 </div>
 <div layout:fragment="pageSearchResult">
-    <div class="flex-row">
+    <div class="flex-row mb-4">
     <!-- 부서별 요청현황 -->
     <div class="flex-column component">
-        <h3 class="sub-title" th:text="#{dashboard.label.organizationWorkStatus}"></h3>
+        <div class="component-title flex-row mb-4">
+            <span th:text="${template?.result[0].title}"></span>
+        </div>
         <div id="container" class="contents contents__req-organization"></div>
     </div>
     <!-- 개인 요청현황 -->
     <div class="flex-column ml-auto component">
-        <h3 class="sub-title" th:text="#{dashboard.label.personalRequestStatus}"></h3>
-        <div id="requestStatusByUser" class="contents">
+        <div class="component-title flex-row mb-4">
+            <span th:text="${template?.result[1].title}"></span>
+        </div>
+        <div class="contents">
             <table class="contents__req-user">
                 <thead>
                 <tr class="contents__req-user-total">
@@ -55,15 +59,12 @@
     </div>
     <!-- 요청현황 -->
     <div class="flex-column component">
-        <div class="sub-title component-title flex-row">
-            <span class="main" th:text="#{dashboard.label.requestStatus}"></span>
-            <span class="sub pl-4"></span>
+        <div class="component-title flex-row mb-2">
+            <span th:text="#{dashboard.label.requestStatus}"></span>
+            <span id="organizationName" class="text-gray600 pl-4"></span>
         </div>
-        <div id="requestListByOrganization" class="contents contents__req-status">
-            <div class="grid">
-                <div class="grid__head"></div>
-                <div class="grid__body"></div>
-            </div>
+        <div class="contents contents__req-status">
+            <div class="grid"></div>
         </div>
     </div>
 </div>
@@ -71,6 +72,8 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">
     /*<![CDATA[ */
+        const DATE_TYPE = [ 'date', 'time', 'dateTime' ];
+
         window.onload = function () {
             const container = /*[[${template.result[0].result}]]*/ "";
 
@@ -110,8 +113,11 @@
             fetch('../../assets/js/temp/thirdComponentDummy.json')
                 .then(response => { return response.json(); })
                 .then(data => {
+                    // todo: 테스트 용 추가 코드 (organizationId 여부에 따라 다르게 나오는지 확인)
+                    data.contents = organizationId ? data.contents : {};
+
                     // sub title
-                    document.querySelector('.component-title .sub').textContent = data.organizationName;
+                    document.querySelector('#organizationName').textContent = organizationId ? data.organizationName : i18n.msg('dashboard.label.all');
 
                     // grid column width
                     document.querySelector('.grid').style.setProperty('--data-columns-width', data.columnWidth.toString().trim().replaceAll(',', ' '));
@@ -140,11 +146,13 @@
                             gridRowElem.className = 'grid__row';
 
                             let gridContent = `<div class="grid__cell pr-2 pl-2">${i + 1}</div>`;
-                            data.contents[i].forEach( data => {
-                                // todo : columnType 확인 > 날짜 변환 추가
+                            data.contents[i].forEach( (value, index) => {
+                                // columnType에 따라 데이터 변환
+                                const columnType = data.columnType[index + 1];
+                                value = DATE_TYPE.includes(columnType) ? convertDate(columnType, value): value;
 
                                 gridContent = gridContent.concat(
-                                    `<div class="grid__cell">${data}</div>`
+                                    `<div class="grid__cell">${value}</div>`
                                 );
                             });
                             gridRowElem.insertAdjacentHTML('beforeend', gridContent);
@@ -152,15 +160,29 @@
                         }
                     } else { // 요청사항 내역이 없는 경우
                         const noDataElem = document.createElement('div');
-                        noDataElem.textContent = i18n.msg('common.msg.noData');
-                        noDataElem.classList.add('grid__row');
-                        noDataElem.classList.add('grid--noData');
+                        const gridCell = document.createElement('div');
+                        noDataElem.classList.add('grid__row', 'grid--noData');
+                        gridCell.classList.add('grid__cell');
+                        gridCell.textContent = i18n.msg('common.msg.noData');
+                        noDataElem.appendChild(gridCell);
                         gridBodyElem.appendChild(noDataElem);
                     }
                     gridElem.appendChild(gridBodyElem);
                     OverlayScrollbars(document.querySelector('.grid__body'), { className: 'inner-scrollbar' });
 
                 });
+        }
+
+        /**
+         * column Type에 따라 date type 변환
+         */
+        function convertDate(type, date) {
+            const types = {
+                'date' : i18n.userDate(date),
+                'dateTime' : i18n.userDateTime(date),
+                'time' : i18n.userTime(date)
+            }
+            return types[type] || '';
         }
 
     /* ]]> */

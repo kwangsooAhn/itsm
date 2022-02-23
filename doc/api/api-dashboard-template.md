@@ -75,7 +75,7 @@ GET rest/dashboard/unprocessedRequests/{organization_id}
       }
     }, {
       "key": "requestStatusByUser.list",
-      "title": "개인 요청 현황",
+      "title": "개인 요청현황",
       "target": [{
           "documentID": "4028b22f7c2fefef017c30054c9000c9",
           "documentName": "장애신고서",

@@ -4223,6 +4223,12 @@ select {
 .z-itsm-container .z-main-content .z-page-result .component {
   height: 22.5rem;
 }
+.z-itsm-container .z-main-content .z-page-result .component-title {
+  font-weight: 500;
+}
+.z-itsm-container .z-main-content .z-page-result .component-title > *:first-child {
+  font-size: 1.5rem;
+}
 .z-itsm-container .z-main-content .z-page-result .component .contents {
   flex: 1 1 auto;
   padding: 0.625rem 0.3125rem;
@@ -4247,8 +4253,6 @@ select {
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status {
   display: flex;
-  width: 98.75rem;
-  height: 22.5rem;
   border: none;
   overflow-x: hidden;
 }
@@ -4317,6 +4321,9 @@ select {
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid--noData .grid__cell {
   grid-column: 1/-1;
   justify-content: center;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body {
+  max-height: 16.375rem;
 }
 .z-itsm-container .z-main-content .z-page-edit {
   display: flex;
@@ -9186,3 +9193,5 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
+
+/*# sourceMappingURL=itsm.css.map */
