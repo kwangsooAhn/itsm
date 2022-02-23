@@ -8,33 +8,12 @@
   }
 }
 
-// properties-panel checkbox
-.z-checkbox {
-  input[type=checkbox] {
-    &:checked {
-      + span {
-        // 체크 기호
-        &::after {
-          top: 0;
-        }
-      }
-    }
-  }
-}
-
 // main
 .z-component {
   .z-radio {
     input[type=radio] {
       + span {
         &::after { top: 0.35rem; } // 5.6px
-      }
-    }
-  }
-  .z-checkbox {
-    input[type=checkbox] {
-      + span {
-        &::after { top: 0.75rem; }
       }
     }
   }

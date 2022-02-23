@@ -3117,7 +3117,7 @@ select {
 .z-checkbox input[type=checkbox]:checked + span::after {
   content: "";
   position: absolute;
-  top: 0.75rem;
+  top: 0;
   left: 0;
   width: 0.75rem;
   height: 0.375rem;
