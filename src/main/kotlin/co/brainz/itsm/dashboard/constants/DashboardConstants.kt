@@ -46,7 +46,7 @@ object DashboardConstants {
      */
     enum class ComponentItemType(val code: String) {
         FIELD("field"),
-        TAG("tag")
+        MAPPING("mapping")
     }
 
     /**

@@ -50,8 +50,9 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
         organizationId: String
     ): List<WfInstanceEntity> {
         val instance = QWfInstanceEntity.wfInstanceEntity
-        val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
+        val user = QAliceUserEntity.aliceUserEntity
         val query = from(instance)
+            .innerJoin(instance.document).fetchJoin()
             .where(
                 instance.document.documentId.`in`(documentIds)
                     .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
