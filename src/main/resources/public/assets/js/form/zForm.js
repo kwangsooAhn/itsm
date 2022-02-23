@@ -51,6 +51,11 @@ export default class ZForm {
         this.UIElement = new UIForm()
             .setUIId(this.id)
             .setUICSSText(formCssText);
+        
+        let documentNumber = document.getElementById('documentNumber');
+        if(documentNumber !== null) {
+            documentNumber.style.width = this._display.width + 'px';
+        }
     }
 
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
