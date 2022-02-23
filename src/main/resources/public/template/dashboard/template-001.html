@@ -74,7 +74,6 @@
     /*<![CDATA[ */
         const DATE_TYPE = [ 'date', 'time', 'dateTime' ];
         const templateId = /*[[${template.templateId}]]*/ "";
-        const chartComponentKey = /*[[${template.result[0].key}]]*/ "";
         const container = /*[[${template.result[0].result}]]*/ "";
 
         window.onload = function () {
@@ -127,7 +126,7 @@
             console.log('organizationId');
 
             // 업무현황 data load
-            // let urlParam = '/rest/dashboard/organization/' + organizationId + '?templateId=' + templateId + '&componentKey=' + chartComponentKey;
+            // let urlParam = '/rest/dashboard/organization/' + organizationId + '?templateId=' + templateId + '&componentKey=' + /*[[${template.result[2].key}]]*/ "";
             // aliceJs.fetchText(urlParam, {
             //     method: 'GET'
             // }).then((htmlData) => {
@@ -144,7 +143,7 @@
             gridElem.innerHTML = '';
 
             // sub title
-            document.querySelector('#organizationName').textContent = data.organizationId ? data.organizationName : i18n.msg('dashboard.label.all');
+            document.getElementById('organizationName').textContent = data.organizationId ? data.organizationName : i18n.msg('dashboard.label.all');
 
             // grid column width
             document.querySelector('.grid').style.setProperty('--data-columns-width', data.columnWidth.toString().trim().replaceAll(',', ' '));
