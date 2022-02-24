@@ -1721,6 +1721,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-arrow-double {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_arrow_double.svg");
+  mask-image: url("../media/icons/icon_arrow_double.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-color-palette {
   width: 1.25rem;
   height: 1.25rem;
@@ -1832,13 +1842,12 @@ input, button, select, optgroup, textarea {
   right: 33.125rem;
   bottom: 0;
   left: 0;
-  overflow-y: auto;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+  overflow-y: auto;
   background-color: #FAFAFA;
-  z-index: 1000;
 }
 .z-document-container .z-document-main::-webkit-scrollbar {
   display: none;
@@ -1846,11 +1855,11 @@ input, button, select, optgroup, textarea {
 }
 .z-document-container .z-document-main .z-document-main-header {
   position: fixed;
+  top: 0;
   right: 33.125rem;
-  width: calc(100% - 33.125rem);
+  left: 0;
   padding: 0.75rem 1rem;
   background: #339AF0;
-  z-index: 100;
 }
 .z-document-container .z-document-main .z-document-main-header .z-action-button-top-area .z-button-list {
   width: 100%;
@@ -1879,6 +1888,39 @@ input, button, select, optgroup, textarea {
   width: 100%;
   padding: 0.75rem 0 4rem;
 }
+.z-document-container .toggle--tab {
+  position: absolute;
+  top: 4.688rem;
+  right: 33.125rem;
+  padding: 0.25rem 0;
+  background-color: #ABB0B5;
+  border-radius: 0;
+  border-top-left-radius: 0.3125rem;
+  border-bottom-left-radius: 0.3125rem;
+  z-index: 25;
+}
+.z-document-container .toggle--tab .z-icon.i-arrow-double {
+  background: #FFFFFF;
+}
+.z-document-container .toggle--tab.off {
+  right: 0;
+}
+.z-document-container .toggle--tab.off .z-icon.i-arrow-double {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.z-document-container .toggle--tab.off + form .z-document-main {
+  right: 0;
+}
+.z-document-container .toggle--tab.off + form .z-document-main .z-document-main-header {
+  right: 0;
+}
+.z-document-container .toggle--tab.off ~ .z-token-properties {
+  width: 0;
+}
 .z-document-container .z-token-properties {
   position: fixed;
   top: 0;
@@ -1888,6 +1930,11 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
   border-left: 0.0625rem solid #CFD5D9;
   overflow: hidden;
+  -webkit-transition: all 0.25s ease-out;
+  -moz-transition: all 0.25s ease-out;
+  -o-transition: all 0.25s ease-out;
+  -ms-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out;
 }
 .z-document-container .z-token-properties .z-token-tabs {
   display: flex;
