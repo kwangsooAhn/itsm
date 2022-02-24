@@ -8,6 +8,7 @@
 package co.brainz.itsm.cmdb.ci.dto
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.querydsl.QuerydslConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
@@ -26,6 +27,9 @@ data class CISearchCondition(
     val relationSearch: String = "",
     val flag: String = "",
     val pageNum: Long = 0L,
+    val typeId: String? = null,
+    val orderColName: String? = null,
+    val orderDir: String? = QuerydslConstants.OrderSpecifier.ASC.code,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
     val tagArray: List<String> = this.tagStrArray()
