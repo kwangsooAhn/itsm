@@ -13,6 +13,9 @@
             </th:block>
         </div>
     </div>
+    <div class="grid__body">
+
+    </div>
     <!--<div class="grid__body">
         <div class="grid__row grid&#45;&#45;noData" th:if="${#arrays.isEmpty(ciList)}">
             <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
@@ -39,6 +42,16 @@
         </div>
     </div>-->
 </div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    let aaa = /*[[${ciData?.contents}]]*/;
+
+    window.onload = function () {
+        console.log(aaa);
+        console.log(typeof aaa)
+    }
+    /*]]>*/
+</script>
 <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 <!--<table class="z-table">
     <thead class="z-table-head">
