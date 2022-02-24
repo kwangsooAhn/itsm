@@ -140,11 +140,13 @@ class OrganizationList(
         if (component != null) {
             val tokenData = wfTokenDataRepository
                 .findWfTokenDataEntitiesByTokenTokenIdAndComponentComponentId(token.tokenId, component!!.componentId)
-            value = when (component?.componentType) {
-                WfComponentConstants.ComponentType.CUSTOM_CODE.code -> {
-                    this.getCustomCodeValue(component!!, tokenData.value)
+            if (tokenData != null) {
+                value = when (component?.componentType) {
+                    WfComponentConstants.ComponentType.CUSTOM_CODE.code -> {
+                        this.getCustomCodeValue(component!!, tokenData.value)
+                    }
+                    else -> tokenData.value
                 }
-                else -> tokenData.value
             }
         }
 
