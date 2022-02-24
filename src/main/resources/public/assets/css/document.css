@@ -1860,6 +1860,7 @@ input, button, select, optgroup, textarea {
   left: 0;
   padding: 0.75rem 1rem;
   background: #339AF0;
+  z-index: 100;
 }
 .z-document-container .z-document-main .z-document-main-header .z-action-button-top-area .z-button-list {
   width: 100%;
@@ -1897,7 +1898,7 @@ input, button, select, optgroup, textarea {
   border-radius: 0;
   border-top-left-radius: 0.3125rem;
   border-bottom-left-radius: 0.3125rem;
-  z-index: 25;
+  z-index: 500;
 }
 .z-document-container .toggle--tab .z-icon.i-arrow-double {
   background: #FFFFFF;
