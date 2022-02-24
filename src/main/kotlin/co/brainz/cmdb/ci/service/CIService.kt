@@ -528,9 +528,9 @@ class CIService(
      * CINo 재귀함수.
      */
     private fun getPType(ciTypes: List<CITypeEntity>?, ciPType: CITypeEntity, typeAliasList: MutableList<String>) {
-        if (ciPType.pType != null) {
-            ciPType.pType.typeAlias?.let { typeAliasList.add(it) }
-            getPType(ciTypes, ciPType.pType, typeAliasList)
+        ciPType.pType?.let {
+            it.typeAlias?.let { alias -> typeAliasList.add(alias) }
+            getPType(ciTypes, it, typeAliasList)
         }
     }
 

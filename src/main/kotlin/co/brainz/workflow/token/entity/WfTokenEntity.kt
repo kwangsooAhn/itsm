@@ -49,5 +49,5 @@ data class WfTokenEntity(
 ) : Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "token")
-    var tokenDataEntities: List<WfTokenDataEntity> = mutableListOf()
+    var tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
 }
