@@ -12,7 +12,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "9.1.0"
     id("io.gitlab.arturbosch.detekt") version "1.1.1"
     id("org.jetbrains.kotlin.kapt") version "1.3.50"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.50"
     jacoco
 }
 
@@ -36,8 +35,6 @@ repositories {
 }
 
 apply(plugin = "kotlin-kapt")
-
-apply(plugin = "kotlin-allopen")
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -196,8 +193,4 @@ buildScan {
 
 tasks.test {
     systemProperty("spring.profiles.active", findProperty("profile") ?: "default")
-}
-
-allOpen {
-    annotation("javax.persistence.Entity")
 }
