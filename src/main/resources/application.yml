@@ -126,7 +126,7 @@ find.password.enabled: false
 jasypt.encryptor.bean: jasyptStringEncryptor
 
 # SSO 사용여부
-sso.enabled: true
+sso.enabled: false
 sso.vendor: KSign
 
 ---
