@@ -272,8 +272,7 @@ class AliceFileProvider(
     private fun getFileTotalCount(dirPath: Path): Long {
         var totalCount = 0L
         if (Files.isDirectory(dirPath)) {
-            val fileDirMap = Files.list(dirPath)
-            totalCount = fileDirMap.count()
+            totalCount = Files.list(dirPath).count()
         }
         return totalCount
     }
