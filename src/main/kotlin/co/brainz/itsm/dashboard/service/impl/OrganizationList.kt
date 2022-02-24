@@ -6,23 +6,36 @@
 package co.brainz.itsm.dashboard.service.impl
 
 import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.itsm.customCode.service.CustomCodeService
+import co.brainz.itsm.dashboard.constants.DashboardConstants
 import co.brainz.itsm.dashboard.dto.OrganizationItem
 import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 import co.brainz.itsm.dashboard.dto.TemplateOrganizationListDto
 import co.brainz.itsm.dashboard.repository.DashboardTemplateRepository
+import co.brainz.workflow.component.constants.WfComponentConstants
+import co.brainz.workflow.component.entity.WfComponentEntity
+import co.brainz.workflow.component.repository.WfComponentPropertyRepository
+import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.instance.entity.WfInstanceEntity
+import co.brainz.workflow.token.entity.WfTokenEntity
+import co.brainz.workflow.token.repository.WfTokenDataRepository
+import co.brainz.workflow.token.repository.WfTokenRepository
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.util.Arrays
 
 class OrganizationList(
     private val wfDocumentRepository: WfDocumentRepository,
     private val organizationRepository: OrganizationRepository,
-    private val dashboardTemplateRepository: DashboardTemplateRepository
+    private val dashboardTemplateRepository: DashboardTemplateRepository,
+    private val wfTokenRepository: WfTokenRepository,
+    private val wfComponentRepository: WfComponentRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
+    private val wfComponentPropertyRepository: WfComponentPropertyRepository,
+    private val customCodeService: CustomCodeService
 ) : TemplateComponent {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -53,79 +66,147 @@ class OrganizationList(
         }
 
         // 문서 조회
-        val organizationDocumentList = dashboardTemplateRepository.organizationRunningDocument(documentIds, this.organizationId)
+        val instanceList = dashboardTemplateRepository.organizationRunningDocument(documentIds, this.organizationId)
 
-        // contents
-        val contents = this.getContents(items, organizationDocumentList)
-
-
-
-
-        //column info
-        val organizationListDto = TemplateOrganizationListDto(
+        return TemplateOrganizationListDto(
             organizationId = this.organizationId,
             organizationName = organizationName,
-            columnTitle = this.getColumnTitle(items),
-            columnWidth = this.getColumnWidth(items),
-            columnType = this.getColumnType(items),
-            contents = contents
+            columnTitle = this.getValueToArray(items, DashboardConstants.ComponentItemKey.TITLE.code),
+            columnWidth = this.getValueToArray(items, DashboardConstants.ComponentItemKey.WIDTH.code),
+            columnType = this.getValueToArray(items, DashboardConstants.ComponentItemKey.DATA_TYPE.code),
+            contents = this.getContents(items, instanceList)
         )
-
-        return organizationListDto
     }
 
+    /**
+     * 설정 정보에 따른 값 조회
+     */
+    private fun getContents(
+        items: List<OrganizationItem>,
+        instanceList: List<WfInstanceEntity>
+    ): List<Array<Any>> {
+        val instanceIds = mutableSetOf<String>()
+        instanceList.forEach { instanceIds.add(it.instanceId) }
+        val tokenList = wfTokenRepository.getListRunningTokenList(instanceIds)
 
-    private fun getContents(items: List<OrganizationItem>, organizationDocumentList: List<WfInstanceEntity>): List<Array<String>> {
-        val result = mutableListOf<Array<String>>()
+        val formIds = mutableSetOf<String>()
+        instanceList.forEach { formIds.add(it.document.form.formId) }
+        val componentList = wfComponentRepository.findByFormIds(formIds)
 
-        // Dummy data
-        val dummyData = this.getDummyData()
-        organizationDocumentList.forEachIndexed { index, wfInstanceEntity ->
-            result.add(dummyData[(0..2).random()])
+        val result = mutableListOf<Array<Any>>()
+        instanceList.forEach { instance ->
+            val valueList = mutableListOf<Any>()
+            var value: Any = ""
+
+            val lastToken = tokenList.first { it.instance == instance }
+            val instanceComponentList = mutableListOf<WfComponentEntity>()
+            componentList.forEach {
+                if (it.form == instance.document.form) {
+                    instanceComponentList.add(it)
+                }
+            }
+
+            items.forEach { item ->
+                value = when (item.type) {
+                    DashboardConstants.ComponentItemType.FIELD.code -> this.getFieldValue(item, instance)
+                    DashboardConstants.ComponentItemType.MAPPING.code -> {
+                        this.getMappingValue(item, lastToken, instanceComponentList)
+                    }
+                    else -> ""
+                }
+                valueList.add(value)
+            }
+            result.add(valueList.toTypedArray())
         }
         return result
     }
 
-    private fun getDummyData(): List<Array<String>> {
-        val result = mutableListOf<Array<String>>()
-        result.add(
-            arrayOf("", "본부2", "장애 신고", "장애 신고 합니다.", "2022-01-13T01:44:00.000Z", "2022-01-20T109:00:00.000Z", "진행중", "ADMIN", "ADMIN", "긴급", "CSR-20220113-001")
-        )
-        result.add(
-            arrayOf("", "본부2", "단순 문의", "공지사항 추가 문의", "2022-01-15T02:31:00.000Z", "2022-01-20T09:00:00.000Z", "진행중", "ADMIN", "ADMIN", "긴급", "CSR-20220115-001")
-        )
-        result.add(
-            arrayOf("", "본부2", "단순 문의", "개인 정보 보안 문의드립니다.", "2022-01-21T03:12:00.000Z", "2022-01-24T09:00:00.000Z", "진행중", "ADMIN", "ADMIN", "긴급", "CSR-20220221-001")
-        )
-        return result
+    /**
+     * name 값으로 mappingId를 조회하여 데이터 검색
+     */
+    private fun getMappingValue(
+        item: OrganizationItem,
+        token: WfTokenEntity,
+        componentList: List<WfComponentEntity>
+    ): Any {
+        var component: WfComponentEntity? = null
+        componentList.forEach {
+            if (it.mappingId == item.name) {
+                component = it
+            }
+        }
+
+        var value = ""
+        if (component != null) {
+            val tokenData = wfTokenDataRepository
+                .findWfTokenDataEntitiesByTokenTokenIdAndComponentComponentId(token.tokenId, component!!.componentId)
+            if (tokenData != null) {
+                value = when (component?.componentType) {
+                    WfComponentConstants.ComponentType.CUSTOM_CODE.code -> {
+                        this.getCustomCodeValue(component!!, tokenData.value)
+                    }
+                    else -> tokenData.value
+                }
+            }
+        }
+
+        return value
     }
 
-    private fun getColumnTitle(items: List<OrganizationItem>): Array<String> {
-        val titleList = mutableListOf<String>()
-        items.forEach { titleList.add(it.title) }
-        return titleList.toTypedArray()
+    /**
+     * 커스텀 코드 데이터 조회
+     */
+    private fun getCustomCodeValue(component: WfComponentEntity, tokenValue: String): String {
+        var value = ""
+        val componentProperties = wfComponentPropertyRepository.findByComponentId(component.componentId)
+        var propertyOptions = ""
+        componentProperties.forEach {
+            if (it.propertyType == WfComponentConstants.ComponentPropertyType.ELEMENT.code) {
+                propertyOptions = it.propertyOptions
+            }
+        }
+        if (propertyOptions.isNotEmpty()) {
+            val options: Map<String, Any> = mapper.readValue(propertyOptions, object : TypeReference<Map<String, Any>>() {})
+            val defaultValueCustomCode = options["defaultValueCustomCode"].toString()
+            val customCodeId = defaultValueCustomCode.split("|")[0]
+            val customCodeDataList = customCodeService.getCustomCodeData(customCodeId)
+            customCodeDataList.data.forEach {
+                if (it.code == tokenValue) {
+                    value = it.codeName?: ""
+                }
+            }
+        }
+        return value
     }
 
-    private fun getColumnWidth(items: List<OrganizationItem>): Array<String> {
-        val widthList = mutableListOf<String>()
-        items.forEach { widthList.add(it.width) }
-        return widthList.toTypedArray()
+    /**
+     * field 의 name 값으로 매핑된 컬럼 데이터 조회
+     */
+    private fun getFieldValue(
+        item: OrganizationItem,
+        instance: WfInstanceEntity
+    ): Any {
+        return when (item.name) {
+            DashboardConstants.Column.DOCUMENT_NAME.code -> instance.document.documentName
+            DashboardConstants.Column.INSTANCE_STATUS.code -> instance.instanceStatus
+            DashboardConstants.Column.DOCUMENT_NO.code -> instance.documentNo ?: ""
+            else -> ""
+        }
     }
 
-    private fun getColumnType(items: List<OrganizationItem>): Array<String> {
-        val typeList = mutableListOf<String>()
-        items.forEach { typeList.add(it.dataType) }
-        return typeList.toTypedArray()
+    /**
+     * 컴포넌트 item 값을 [itemKey] 에 따라 배열 처리
+     */
+    private fun getValueToArray(
+        items: List<OrganizationItem>,
+        itemKey: String
+    ): Array<String> {
+        val valueList = mutableListOf<String>()
+        when (itemKey) {
+            DashboardConstants.ComponentItemKey.TITLE.code -> items.forEach { valueList.add(it.title) }
+            DashboardConstants.ComponentItemKey.WIDTH.code -> items.forEach { valueList.add(it.width) }
+            DashboardConstants.ComponentItemKey.DATA_TYPE.code -> items.forEach { valueList.add(it.dataType) }
+        }
+        return valueList.toTypedArray()
     }
-
-
-    fun toCamelCase(str: String): String {
-        val words = str.split("[-_]".toRegex()).toTypedArray()
-        return Arrays.stream(words, 1, words.size).map { s: String ->
-            s.substring(0, 1).toUpperCase() + s.substring(1)
-        }.reduce(
-            words[0]
-        ) { obj: String, strValue: String -> obj + strValue }
-    }
-
 }
