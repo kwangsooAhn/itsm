@@ -66,72 +66,72 @@ export default class ZPaging {
             document.querySelector('.z-page-paging').style.visibility = 'hidden';
         } else {
             document.querySelector('.z-page-paging').style.visibility = 'visible';
-            // 현재 출력되어 있는 페이징 번호 목록
-            let currentPageList = [];
-            document.querySelectorAll(this.options.pageNumSelector).forEach((element) => {
-                currentPageList.push(element.innerText);
-            });
+        }
+        // 현재 출력되어 있는 페이징 번호 목록
+        let currentPageList = [];
+        document.querySelectorAll(this.options.pageNumSelector).forEach((element) => {
+            currentPageList.push(element.innerText);
+        });
 
-            // 현재 페이지 번호
-            let currentPageNum = Number(document.getElementById('currentPageNum').value);
-            document.getElementById('spanCurrentPageNum').innerText = i18n.msg('common.label.totalPageNum', totalPageNum);
+        // 현재 페이지 번호
+        let currentPageNum = Number(document.getElementById('currentPageNum').value);
+        document.getElementById('spanCurrentPageNum').innerText = i18n.msg('common.label.totalPageNum', totalPageNum);
 
-            // 현재 페이지번호가 이미 있는 경우 -> class 적용만하고 끝냄.
-            if (currentPageList.includes(currentPageNum)) {
-                document.querySelectorAll(this.options.pageNumSelector).forEach((span) => {
-                    span.className = '';
-                    if (span.innerText === currentPageNum) {
-                        span.classList.add(this.options.selectedPage);
-                    }
-                });
-                return true;
-            }
-
-            // 현재 출력되어 있는 페이지 번호 목록 삭제.
+        // 현재 페이지번호가 이미 있는 경우 -> class 적용만하고 끝냄.
+        if (currentPageList.includes(currentPageNum)) {
             document.querySelectorAll(this.options.pageNumSelector).forEach((span) => {
-                span.remove();
-            });
-
-            // 페이지 번호 넣기.
-            let startPageNum = (Math.floor((currentPageNum - 1) / this.options.numOfPageNums) * this.options.numOfPageNums) + 1;
-            let endPageNum = (startPageNum + this.options.numOfPageNums - 1 > totalPageNum) ? totalPageNum : startPageNum + this.options.numOfPageNums - 1;
-            for (let i = startPageNum; i <= endPageNum; i++) {
-                // anchor tag
-                let newAnchor = document.createElement('a');
-                newAnchor.setAttribute('href', 'javascript:getList(' + i + ')');
-                newAnchor.innerText = '' + i;
-                document.querySelector('div.z-paging-numbers').appendChild(newAnchor);
-                // 현재 페이지면 클래스 추가
-                if (currentPageNum === i) {
-                    newAnchor.classList.add(this.options.selectedPage);
+                span.className = '';
+                if (span.innerText === currentPageNum) {
+                    span.classList.add(this.options.selectedPage);
                 }
-            }
-
-            // 화살표 처리
-            document.querySelectorAll('a.z-paging-arrow').forEach( arrow => {
-                arrow.classList.remove(this.options.activeArrowClass);
-                arrow.removeAttribute('href');
             });
+            return true;
+        }
 
-            // 1) Start 화살표 처리 (제일 앞에 있는 '페이지 목록' 이동)
-            if (endPageNum > this.options.numOfPageNums) {
-                this.makePagingArrow('pagingStartArrow', 1);
-            }
+        // 현재 출력되어 있는 페이지 번호 목록 삭제.
+        document.querySelectorAll(this.options.pageNumSelector).forEach((span) => {
+            span.remove();
+        });
 
-            // 2) Prev 화살표 처리 (바로 앞에 있는 '페이지 목록' 이동)
-            if (endPageNum > this.options.numOfPageNums) {
-                this.makePagingArrow('pagingPrevArrow', startPageNum - 1);
+        // 페이지 번호 넣기.
+        let startPageNum = (Math.floor((currentPageNum - 1) / this.options.numOfPageNums) * this.options.numOfPageNums) + 1;
+        let endPageNum = (startPageNum + this.options.numOfPageNums - 1 > totalPageNum) ? totalPageNum : startPageNum + this.options.numOfPageNums - 1;
+        for (let i = startPageNum; i <= endPageNum; i++) {
+            // anchor tag
+            let newAnchor = document.createElement('a');
+            newAnchor.setAttribute('href', 'javascript:getList(' + i + ')');
+            newAnchor.innerText = '' + i;
+            document.querySelector('div.z-paging-numbers').appendChild(newAnchor);
+            // 현재 페이지면 클래스 추가
+            if (currentPageNum === i) {
+                newAnchor.classList.add(this.options.selectedPage);
             }
+        }
 
-            // 3) End 화살표 처리 (제일 마지막 '페이지 목록' 이동)
-            if (totalPageNum > endPageNum) {
-                this.makePagingArrow('pagingEndArrow', totalPageNum);
-            }
+        // 화살표 처리
+        document.querySelectorAll('a.z-paging-arrow').forEach( arrow => {
+            arrow.classList.remove(this.options.activeArrowClass);
+            arrow.removeAttribute('href');
+        });
 
-            // 4) Next 화살표 처리 (바로 다음 '페이지 목록' 이동)
-            if (totalPageNum > endPageNum) {
-                this.makePagingArrow('pagingNextArrow', endPageNum + 1);
-            }
+        // 1) Start 화살표 처리 (제일 앞에 있는 '페이지 목록' 이동)
+        if (endPageNum > this.options.numOfPageNums) {
+            this.makePagingArrow('pagingStartArrow', 1);
+        }
+
+        // 2) Prev 화살표 처리 (바로 앞에 있는 '페이지 목록' 이동)
+        if (endPageNum > this.options.numOfPageNums) {
+            this.makePagingArrow('pagingPrevArrow', startPageNum - 1);
+        }
+
+        // 3) End 화살표 처리 (제일 마지막 '페이지 목록' 이동)
+        if (totalPageNum > endPageNum) {
+            this.makePagingArrow('pagingEndArrow', totalPageNum);
+        }
+
+        // 4) Next 화살표 처리 (바로 다음 '페이지 목록' 이동)
+        if (totalPageNum > endPageNum) {
+            this.makePagingArrow('pagingNextArrow', endPageNum + 1);
         }
     }
 
@@ -166,6 +166,8 @@ export default class ZPaging {
         const curPageLink = document.querySelector('.' + this.options.selectedPage);
         if (curPageLink) {
             curPageLink.click();
+        } else {
+
         }
     }
     // 정렬 아이콘 추가
