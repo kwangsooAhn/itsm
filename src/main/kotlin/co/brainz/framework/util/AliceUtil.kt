@@ -14,6 +14,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import java.util.UUID
 import javax.servlet.http.HttpServletRequest
 
@@ -166,5 +170,15 @@ class AliceUtil {
             resultLinkedHashMap = mapper.convertValue(srcString, linkedMapType)
         }
         return resultLinkedHashMap
+    }
+
+    /**
+     *  타임존 기준으로 시간 변경
+     */
+    fun ChangeTimeBasedTimezone(dateTime:LocalDateTime ,timezone:String): LocalDateTime {
+        val dateTimeBasedUTC = ZonedDateTime.of(dateTime, ZoneOffset.UTC).toEpochSecond()
+        val timeZone = ZoneId.of(timezone)
+        val timeOffset = timeZone.rules.getOffset(dateTime)
+        return LocalDateTime.ofEpochSecond(dateTimeBasedUTC, 0, ZoneOffset.of(timeOffset.toString()))
     }
 }
