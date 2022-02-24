@@ -51,12 +51,6 @@ export default class ZForm {
         this.UIElement = new UIForm()
             .setUIId(this.id)
             .setUICSSText(formCssText);
-
-        // 신청서 너비에 맞게 문서번호 위치하도록
-        let documentNumber = document.getElementById('documentNumber');
-        if(documentNumber !== null) {
-            documentNumber.style.width = this._display.width + UNIT.PX;
-        }
     }
 
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩

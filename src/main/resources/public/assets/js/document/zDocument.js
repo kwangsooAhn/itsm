@@ -12,10 +12,9 @@ import ZComponent from '../form/zComponent.js';
 import ZForm from '../form/zForm.js';
 import ZGroup from '../form/zGroup.js';
 import ZRow from '../form/zRow.js';
-import { DOCUMENT, FORM } from '../lib/zConstants.js';
+import { DOCUMENT, FORM, UNIT } from '../lib/zConstants.js';
 import { ZSession } from '../lib/zSession.js';
 import { zValidation } from '../lib/zValidation.js';
-import { zFormButton } from './zFormButton.js';
 
 class ZDocument {
     constructor() {}
@@ -66,6 +65,20 @@ class ZDocument {
         this.sortJsonToForm(this.formDataJson); // 정렬
         this.isAssignee = (typeof formDataJson.actions !== 'undefined' && formDataJson.actions.length > 1) ? true : false; // 문서 열람 권한 체크
         this.makeDocument(this.formDataJson); // 화면 출력
+
+        // 문서 너비에 맞게 문서번호 위치하도록
+        const formWidth = this.formDataJson.display.width;
+        const documentNumber = document.getElementById('documentNumber');
+        if(documentNumber !== null) {
+            documentNumber.style.width = formWidth + UNIT.PX;
+        }
+        // 문서 너비가 1400px이 넘으면 우측 탭을 접는다.
+        if (Number(formWidth) > 1400) {
+            const toggleTabBtn = document.querySelector('.toggle--tab');
+            if (toggleTabBtn !== null) {
+                toggleTabBtn.classList.add('off');
+            }
+        }
     }
     /**
      * JSON 데이터를 폼의 구성요소 3가지(Group, Row, Component)의 출력 순서로 정렬한다. (Recursive)

@@ -13,16 +13,14 @@
   @include container;
 
   .z-document-main {
-    @include fixedContainer;
+    @include fixed(0, $layout-properties-width, 0, 0);
     @include scrollbarHidden;
+    overflow-y: auto;
     background-color: $layout-main-bg-color;
-    z-index: 1000;
 
     // 상단 영역
     .z-document-main-header {
-      position: fixed;
-      right: $layout-properties-width;
-      width: calc(100% - #{$layout-properties-width});
+      @include fixed(0, $layout-properties-width, null, 0);
       padding: 0.75rem 1rem ; // 12px
       background: $blue500;
       z-index: $z-index-gnb;
@@ -63,7 +61,39 @@
     }
   }
 
+  // 속성 탭 toggle 버튼
+  .toggle--tab {
+    position: absolute;
+    top: 4.688rem; // 75px
+    right: $layout-properties-width;
+    padding: 0.25rem 0; // 4px 0
+    background-color: $gray400;
+    border-radius: 0;
+    border-top-left-radius: 0.3125rem; // 5px
+    border-bottom-left-radius: 0.3125rem; // 5px
+    z-index: $z-index-tooltip;
+    .z-icon {
+      &.i-arrow-double {
+        background: $white;
+      }
+    }
 
+    &.off {
+      right: 0;
+      .z-icon {
+        &.i-arrow-double {
+          @include rotate(180);
+        }
+      }
+      + form {
+        .z-document-main {
+          right: 0;
+          .z-document-main-header { right: 0; }
+        }
+      }
+      ~ .z-token-properties { width: 0; }
+    }
+  }
   // TODO: 문서함에서 문서속성 탭쪽 디자인
   // 2021-06-26 Jung Hee Chan
   // 신청서 디자인은 되었는데 문서함쪽은 고려가 안되어 있는 것 같아 일단 붙여 놓음.
@@ -74,6 +104,7 @@
     background-color: $layout-properties-bg-color;
     @include border($layout-properties-border-width, solid, $layout-properties-border-color, left);
     overflow: hidden;
+    @include transition(all 0.25s ease-out);
 
     .z-token-tabs {
       display: flex;
