@@ -159,8 +159,7 @@ class AliceFileProvider(
             else -> FileConstants.Path.FILE.path
         }
         val dirPath = super.getPath(dir)
-        val allList = this.getValidFileList(type, dirPath, searchValue)
-        val fileList = allList.component1()
+        val fileList = this.getValidFileList(type, dirPath, searchValue)
         val dataList = mutableListOf<AliceFileDetailDto>()
         var startIndex = 0
         if (currentOffset != -1) { // -1인 경우는 전체 조회
@@ -204,7 +203,7 @@ class AliceFileProvider(
         return AliceFileDetailListReturnDto(
             data = dataList,
             totalCount = fileList.size.toLong(),
-            totalCountWithoutCondition = allList.component2().size.toLong(),
+            totalCountWithoutCondition = getFileTotalCount(dirPath),
             orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
         )
     }
@@ -224,9 +223,7 @@ class AliceFileProvider(
      *  - type: file 모든 파일
      *  - image, icon, cmdb-icon: filter 된 이미지 파일
      */
-    private fun getValidFileList(type: String, dirPath: Path, searchValue: String): List<List<Path>> {
-        val returnList = mutableListOf<List<Path>>()
-        val totalList = mutableListOf<Path>()
+    private fun getValidFileList(type: String, dirPath: Path, searchValue: String): List<Path> {
         val fileList = mutableListOf<Path>()
         if (Files.isDirectory(dirPath)) {
             val fileDirMap = Files.list(dirPath).collect(Collectors.partitioningBy { Files.isDirectory(it) })
@@ -248,12 +245,9 @@ class AliceFileProvider(
                         }
                     }
                 }
-                totalList.add(filePath)
             }
         }
-        returnList.add(fileList)
-        returnList.add(totalList)
-        return returnList
+        return fileList
     }
 
     /**
@@ -270,6 +264,18 @@ class AliceFileProvider(
             isValid = true
         }
         return isValid
+    }
+
+    /**
+     * 파일 전체 건수
+     */
+    private fun getFileTotalCount(dirPath: Path): Long {
+        var totalCount = 0L
+        if (Files.isDirectory(dirPath)) {
+            val fileDirMap = Files.list(dirPath)
+            totalCount = fileDirMap.count()
+        }
+        return totalCount
     }
 
     /**
