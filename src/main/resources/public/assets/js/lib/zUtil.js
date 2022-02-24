@@ -618,12 +618,10 @@ aliceJs.thumbnail = function(options) {
                     thumbnailSize.innerHTML = `<label class="text-ellipsis">${thumbnailText}</label>`;
                     thumbnailInfo.appendChild(thumbnailSize);
 
-                    if (options.type !== 'file') {
-                        const thumbnailBottom = document.createElement('div');
-                        thumbnailBottom.className = 'z-thumbnail-bottom';
-                        thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
-                        thumbnail.appendChild(thumbnailBottom);
-                    }
+                    const thumbnailBottom = document.createElement('div');
+                    thumbnailBottom.className = 'z-thumbnail-bottom';
+                    thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
+                    thumbnail.appendChild(thumbnailBottom);
                 }
             }
         } else {

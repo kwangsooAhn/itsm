@@ -12,6 +12,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "9.1.0"
     id("io.gitlab.arturbosch.detekt") version "1.1.1"
     id("org.jetbrains.kotlin.kapt") version "1.3.50"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.50"
     jacoco
 }
 
@@ -35,6 +36,9 @@ repositories {
 }
 
 apply(plugin = "kotlin-kapt")
+
+apply(plugin = "kotlin-allopen")
+
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -66,6 +70,18 @@ dependencies {
     implementation("org.apache.poi:poi:5.0.0")
     implementation("org.apache.poi:poi-ooxml:5.0.0")
     runtimeOnly("org.postgresql:postgresql")
+    implementation("javax.servlet:jstl")
+    implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
+    implementation(files("/libs/ksign/KSignAccess-common-4.0.2.jar"))
+    implementation(files("/libs/ksign/kcasecrypto.jar"))
+    implementation(files("/libs/ksign/KSignAccessAgent-4.0.2.jar"))
+    implementation(files("/libs/ksign/KSignAccessLib2.0.jar"))
+    implementation(files("/libs/ksign/KSignAccessSSOAgent-w-4.1.2.jar"))
+    implementation(files("/libs/ksign/KSignCrypto_for_Java_v1.0.1.0.jar"))
+    implementation(files("/libs/ksign/KSignLicenseGenerator-2.7.8.jar"))
+    implementation(files("/libs/ksign/KSignLicenseVerify-2.5.0.jar"))
+    implementation(files("/libs/ksign/SSOUtil-2.5.jar"))
+    implementation(files("/libs/ksign/log4j-1.2.17.jar"))
 
     // Junit 5 설정
     // 2021-03-10 Jung Hee Chan
@@ -96,6 +112,7 @@ dependencies {
     implementation("org.mapstruct:mapstruct:1.3.0.Final")
     kapt("org.mapstruct:mapstruct-processor:1.3.0.Final")
     kaptTest("org.mapstruct:mapstruct-processor:1.3.0.Final")
+
 }
 
 tasks.withType<Test>().configureEach {
@@ -193,4 +210,8 @@ buildScan {
 
 tasks.test {
     systemProperty("spring.profiles.active", findProperty("profile") ?: "default")
+}
+
+allOpen {
+    annotation("javax.persistence.Entity")
 }
