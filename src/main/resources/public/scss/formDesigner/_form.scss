@@ -165,12 +165,22 @@
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     justify-content: var(--data-align);
     font-weight: $font-weight-medium;
-    padding: 0.4375rem 0; // 7px 0
+    padding: 0;
+    .z-component-label-text {
+      line-height: 1;
+    }
 
     &.on { display: flex; }
     &.off { display: none; }
   }
+  // divider
+  &.divider {
+    padding: 0;
+  }
   // element
+  .z-element[style="--data-column:12;"], .z-element[style="--data-column:0;"] {
+    padding: 0.4375rem 0 0.4375rem 0 ; // 7px 0  7px 0px
+  }
   .z-element {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     padding: 0.4375rem 0 0.4375rem 0.938rem ; // 7px 0  7px 15px
@@ -209,7 +219,7 @@
       }
     }
 
-    // radio , checkbox
+    // radio, checkbox
     .z-radio, .z-checkbox {
       &.vertical {
         display: block;
@@ -220,6 +230,10 @@
         display: inline-block;
         margin-right: 0.625rem;
       }
+    }
+
+    // radio
+    .z-radio {
       + span {
         display: inline-block;
         height: 2.25rem;
@@ -248,6 +262,21 @@
         + .z-imagebox-placeholder {
           display: grid;
         }
+      }
+    }
+
+    // filedownload 컴포넌트
+    .z-fileDownload {
+      cursor: pointer;
+
+      .z-icon {
+        &.i-download {
+          background: $file-uploader-icon-color;
+        }
+      }
+      .z-file-text {
+        font-size: $component-fileDownload-font-size;
+        font-weight: $component-fileDownload-font-weight;
       }
     }
 
@@ -301,6 +330,7 @@
         border-left: none;
         border-right: none;
         overflow: initial;
+        line-height: 1;
 
         &.on { display: table-cell; }
       }
@@ -340,7 +370,7 @@
       @include absolute($top: 0, $right: 0.8125rem); // 0 13px
       height: 2.5rem;
       line-height: 2rem;
-      padding-top: 0.625rem;
+      padding-top: 0.375rem; // 6px
     }
 
     // custom code 컴포넌트
@@ -350,6 +380,10 @@
         @include borderRadius(0.125rem); // 2px
       }
     }
+  }
+
+  &.dynamicRowTable label {
+    min-height: 2rem; //32px
   }
 }
 // label
@@ -387,6 +421,20 @@
           background: $tooltip-menu-focus-bg-color;
         }
       }
+    }
+  }
+}
+
+// preview
+.preview {
+  .z-dr-table-button-group { top: -0.25rem; }
+  .z-group-tooltip { border: 0.0625rem solid #FFFFFF; }
+  .z-row-tooltip { border: 0.0625rem solid #FFFFFF; }
+  .z-component {
+    &-tooltip {
+      margin: 0;
+      padding: 0;
+      border-color: transparent !important;
     }
   }
 }

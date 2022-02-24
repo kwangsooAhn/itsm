@@ -173,7 +173,7 @@ class WfActionService(
         )
         postActions.add(
             RestTemplateActionDto(
-                name = "common.btn.save",
+                name = "document.btn.draftSave",
                 value = WfElementConstants.Action.SAVE.value,
                 customYn = false
             )

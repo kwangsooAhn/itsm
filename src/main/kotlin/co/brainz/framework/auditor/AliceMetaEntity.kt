@@ -28,18 +28,18 @@ open class AliceMetaEntity(
     @CreatedBy
     @JoinColumn(name = "create_user_key", nullable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    var createUser: AliceUserEntity? = null,
+    open var createUser: AliceUserEntity? = null,
 
     @CreatedDate
     @Column(name = "create_dt", nullable = false, updatable = false)
-    var createDt: LocalDateTime = LocalDateTime.now(),
+    open var createDt: LocalDateTime = LocalDateTime.now(),
 
     @LastModifiedBy
     @JoinColumn(name = "update_user_key", insertable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    var updateUser: AliceUserEntity? = null,
+    open var updateUser: AliceUserEntity? = null,
 
     @LastModifiedDate
     @Column(name = "update_dt", insertable = false)
-    var updateDt: LocalDateTime? = LocalDateTime.now()
+    open var updateDt: LocalDateTime? = LocalDateTime.now()
 ) : Serializable

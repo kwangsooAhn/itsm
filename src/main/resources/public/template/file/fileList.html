@@ -285,7 +285,7 @@
     // 다운로드
     function downLoadFile(thumbnail) {
         const fileName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
-        aliceJs.fetchBlob('/rest/files/download?fileName=' + fileName, {
+        aliceJs.fetchBlob('/rest/files/download?fileName=' + encodeURIComponent(fileName), {
             method: 'GET',
             showProgressbar: true
         }).then(blob => {

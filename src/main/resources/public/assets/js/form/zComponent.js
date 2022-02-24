@@ -26,6 +26,7 @@ import { radioMixin } from './component/zRadio.js';
 import { textAreaMixin } from './component/zTextArea.js';
 import { textEditorMixin } from './component/zTextEditor.js';
 import { timeMixin } from './component/zTime.js';
+import { fileDownloadMixin } from './component/zFileDownload.js';
 
 const DEFAULT_PROPERTY = {
     label: {
@@ -112,6 +113,7 @@ export default class ZComponent {
             case 'image':
             case 'divider':
             case 'fileUpload':
+            case 'fileDownload':
                 // 라벨 숨김
                 this._label.position = FORM.LABEL.POSITION.HIDDEN;
                 break;
@@ -155,6 +157,8 @@ export default class ZComponent {
                 return dynamicRowTableMixin;
             case 'ci':
                 return ciMixin;
+            case 'fileDownload':
+                return fileDownloadMixin;
             default:
                 break;
         }
@@ -266,7 +270,7 @@ export default class ZComponent {
 
     set labelFontSize(size) {
         if(size > FORM.LABEL.SIZE.MAX || size < FORM.LABEL.SIZE.MIN) {
-            return false
+            return false;
         }
         this._label.fontSize = size;
         this.UIElement.UIComponent.UILabel.UILabelText

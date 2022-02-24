@@ -6,9 +6,10 @@
 
 package co.brainz.workflow.provider.dto
 
+import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
 data class RestTemplateInstanceListReturnDto(
     val data: List<RestTemplateInstanceViewDto> = emptyList(),
-    val totalCount: Long = 0
+    val paging: AlicePagingData
 ) : Serializable

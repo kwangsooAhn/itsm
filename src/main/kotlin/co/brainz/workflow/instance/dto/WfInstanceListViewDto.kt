@@ -5,5 +5,6 @@ import java.io.Serializable
 data class WfInstanceListViewDto(
     val tokenEntity: WfInstanceListTokenDto,
     val documentEntity: WfInstanceListDocumentDto,
-    val instanceEntity: WfInstanceListInstanceDto
+    val instanceEntity: WfInstanceListInstanceDto,
+    val userEntity: WfInstanceListUserDto
 ) : Serializable

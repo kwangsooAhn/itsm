@@ -51,7 +51,6 @@ class WfInstanceServiceTest {
             searchTokenType = WfTokenConstants.SearchType.COMPLETED.code,
             searchFromDt = LocalDateTime.now().minusYears(1).toString(),
             searchToDt = LocalDateTime.now().toString(),
-            offset = 1,
             searchTag = ""
         )
         val instanceDtoList = wfInstanceService.instances(params)

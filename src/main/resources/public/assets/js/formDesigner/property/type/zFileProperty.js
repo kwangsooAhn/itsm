@@ -17,9 +17,10 @@ const propertyExtends = {
     /* 추가적인 설정이 없다. */
 };
 
-export default class ZImageProperty extends ZProperty {
-    constructor(key, name, value, isAlwaysEditable) {
+export default class ZFileProperty extends ZProperty {
+    constructor(key, name, value, type = 'image', isAlwaysEditable) {
         super(key, name, 'imageProperty', value, isAlwaysEditable);
+        this.type = type;
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -45,7 +46,7 @@ export default class ZImageProperty extends ZProperty {
 
         // button
         this.UIElement.UIDiv.UIButton = new UIButton().setUIClass('z-button-icon').addUIClass('z-button-attach-file')
-            .setUIId('imageUploadPopUp')
+            .setUIId('fileUploadPopUp')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.openThumbnailModal.bind(this));
         this.UIElement.UIDiv.UIButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-folder'));
@@ -71,7 +72,7 @@ export default class ZImageProperty extends ZProperty {
         aliceJs.thumbnail({
             title: i18n.msg('file.label.popupTitle'),
             targetId: this.key,
-            type: 'image',
+            type: this.type,
             isThumbnailInfo: true,
             isFilePrefix: true,
             thumbnailDoubleClickUse: true,

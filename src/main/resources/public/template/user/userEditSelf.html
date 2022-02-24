@@ -356,12 +356,12 @@
             switch (response) {
                 case STATUS_SUCCESS:
                     zAlert.success([[#{common.msg.modify}]], function () {
-                        window.location.reload();
+                        history.back();
                     });
                     break;
                 case STATUS_SUCCESS_EDIT_EMAIL:
                     zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
-                        window.location.reload();
+                        history.back();
                     });
                     break;
                 case STATUS_ERROR_USER_ID_DUPLICATION:
@@ -538,7 +538,7 @@
             `<div class="table-set" id="subUserList"></div>` +
             `</div>`;
     }
-    
+
     function getSubUserList(search, showProgressbar) {
         let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
             + '&from=' + i18n.systemDateTime(document.getElementById('absenceStartDt').value)

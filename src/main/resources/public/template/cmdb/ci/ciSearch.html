@@ -24,9 +24,11 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button secondary" id="btnExcelDownload" name="btnExcelDownload"
+        <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
                 th:onclick="|javascript:onExcelDownload()|"
-                sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')" th:text="#{common.btn.export}"></button>
+                sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')" th:title="#{common.btn.export}">
+            <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
+        </button>
     </div>
 </div>
 <div layout:fragment="pageList">

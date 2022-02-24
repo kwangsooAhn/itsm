@@ -241,6 +241,11 @@
                     button.type = 'button';
 
                     button.className = 'modal-button';
+
+                    if (typeof this.options.buttons[i].id !== 'undefined') {
+                        button.id = this.options.buttons[i].id;
+                    }
+
                     if (typeof this.options.buttons[i].classes !== 'undefined') {
                         button.className += ' ' + this.options.buttons[i].classes;
                     }

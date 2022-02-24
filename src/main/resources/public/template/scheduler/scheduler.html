@@ -152,11 +152,11 @@
                         th:disabled="${!schedule.editable}" th:if="${schedule != null}"
                         th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="z-button secondary" onclick="deleteScheduler()"
+                <button type="button" class="z-button danger" onclick="deleteScheduler()"
                         th:disabled="${!schedule.editable}" th:if="${schedule != null}"
                         th:text="#{common.btn.delete}">
                 </button>
-                <button type="button" class="z-button secondary" onclick="actionScheduler('execute')"
+                <button type="button" class="z-button primary" onclick="actionScheduler('execute')"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.immediatelyExecute}"></button>
                 <button type="button" class="z-button secondary" onclick="openHistoryViewModal(false)"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.history}"></button>

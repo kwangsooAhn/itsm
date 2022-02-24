@@ -57,7 +57,9 @@ class CustomChartService(
                 totalCountWithoutCondition = customChartRepository.count(),
                 currentPageNum = chartSearchCondition.pageNum,
                 totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code,
+                orderColName = chartSearchCondition.orderColName,
+                orderDir = chartSearchCondition.orderDir
             )
         )
     }

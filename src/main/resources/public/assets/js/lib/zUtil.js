@@ -462,7 +462,7 @@ function dateFormatFromNow(date) {
         const durationMilliseconds = luxon.Interval.fromDateTimes(new Date(i18n.userDateTime(date)), new Date())
             .toDuration()
             .valueOf();
-        const humanizedString = humanizeDuration(durationMilliseconds, { largest : 1, floor : true, units : ['y','mo','d','h','m','s'] }).split(' ');
+        const humanizedString = humanizeDuration(durationMilliseconds, { largest : 1, floor : true, units : ['y', 'mo', 'd', 'h', 'm', 's'] }).split(' ');
 
         switch (true) {
             case humanizedString[1].includes('year') : return i18n.msg('date.label.yearsAgo', humanizedString[0]);
@@ -593,7 +593,7 @@ aliceJs.thumbnail = function(options) {
                 thumbnail.addEventListener('click', thumbnailSelect, false);
                 if (options.thumbnailDoubleClickUse) {
                     thumbnail.addEventListener('dblclick', function() {
-                        document.querySelector('.z-thumbnail-save').click();
+                        document.querySelector('.thumbnail-save').click();
                     }, false);
                 }
 

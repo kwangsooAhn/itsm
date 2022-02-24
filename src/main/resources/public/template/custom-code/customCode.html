@@ -125,7 +125,7 @@
                         th:disabled="${!customCode.enabled}" th:if="${customCode?.customCodeId}"
                         th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="z-button secondary" onclick="deleteCustomCode('DELETE')"
+                <button type="button" class="z-button danger" onclick="deleteCustomCode('DELETE')"
                         th:disabled="${!customCode.enabled}" th:if="${customCode?.customCodeId}"
                         th:text="#{common.btn.delete}">
                 </button>
