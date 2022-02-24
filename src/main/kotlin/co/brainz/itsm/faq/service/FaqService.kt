@@ -87,7 +87,7 @@ class FaqService(
      */
     @Transactional
     fun createFaq(faqDto: FaqDto): String {
-        var code = FaqConstants.Status.STATUS_SUCCESS.code
+        var returnCode = FaqConstants.Status.STATUS_SUCCESS.code
         val faqEntity = FaqEntity(
             faqGroup = faqDto.faqGroup,
             faqTitle = faqDto.faqTitle,
@@ -95,12 +95,12 @@ class FaqService(
         )
         // Duplicate check
         if (faqRepository.getCountDuplicateFaqTitleAndCategory(faqEntity.faqTitle, faqEntity.faqGroup) > 0) {
-            code = FaqConstants.Status.STATUS_ERROR_DUPLICATION.code
+            returnCode = FaqConstants.Status.STATUS_ERROR_DUPLICATION.code
         }
-        if (code == FaqConstants.Status.STATUS_SUCCESS.code) {
+        if (returnCode == FaqConstants.Status.STATUS_SUCCESS.code) {
             faqRepository.save(faqEntity)
         }
-        return code
+        return returnCode
     }
 
     /**
