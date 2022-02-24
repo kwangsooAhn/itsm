@@ -9069,12 +9069,12 @@ body.modal-active {
   background-color: #E3F5FC;
 }
 .z-page-paging .z-paging-numbers a.selected-page {
-  background-color: #84D1FA;
+  background-color: #EBF1F5;
   color: #1959AC;
   font-weight: 700;
 }
 .z-page-paging .z-paging-numbers a:active {
-  background-color: #84D1FA;
+  background-color: #EBF1F5;
   color: #1959AC;
   font-weight: 700;
 }
