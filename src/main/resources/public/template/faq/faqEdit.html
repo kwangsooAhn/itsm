@@ -63,6 +63,9 @@
 </div>
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    const STATUS_SUCCESS = '0';
+    const STATUS_ERROR_DUPLICATION = '1';
+
     /*<![CDATA[*/
     window.onload = function () {
         document.getElementById('faqTitle').focus();
@@ -93,11 +96,18 @@
             },
             body: JSON.stringify(data)
         }).then((result) => {
-            let resultMsg = [[#{common.msg.save}]];
-            if (result.status === 200) {
-                zAlert.success(resultMsg, function () {
-                    window.location.href = '/faqs/search';
-                });
+            switch (result.data) {
+                case STATUS_SUCCESS:
+                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                        location.href = '/faqs/search';
+                    });
+                    break;
+                case STATUS_ERROR_DUPLICATION:
+                    zAlert.warning(i18n.msg('faq.msg.duplicateTitleInCategory'));
+                    break;
+                default :
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
             }
         });
     }
