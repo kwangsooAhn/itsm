@@ -53,12 +53,12 @@
         background-color: $paging-num-hover-bg-color;
       }
       &.selected-page {
-        background-color: $paging-num-active-bg-color;
+        background-color: $gray100;
         color: $paging-num-selected-font-color;
         font-weight: $font-weight-bold;
       }
       &:active {
-        background-color: $paging-num-active-bg-color;
+        background-color: $gray100;
         color: $paging-num-active-font-color;
         font-weight: $font-weight-bold;
       }
