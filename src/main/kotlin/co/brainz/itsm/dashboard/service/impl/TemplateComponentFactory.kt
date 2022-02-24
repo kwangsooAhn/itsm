@@ -8,6 +8,7 @@ package co.brainz.itsm.dashboard.service.impl
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.customCode.service.CustomCodeService
 import co.brainz.itsm.dashboard.constants.DashboardConstants
@@ -29,7 +30,8 @@ class TemplateComponentFactory(
     private val wfComponentRepository: WfComponentRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfComponentPropertyRepository: WfComponentPropertyRepository,
-    private val customCodeService: CustomCodeService
+    private val customCodeService: CustomCodeService,
+    private val aliceMessageSource: AliceMessageSource
 ) {
 
     /**
@@ -38,7 +40,7 @@ class TemplateComponentFactory(
     fun getComponent(key: String): TemplateComponent {
         return when (key) {
             DashboardConstants.TemplateComponent.ORGANIZATION_CHART.code -> OrganizationChart(
-                wfDocumentRepository, organizationRepository, dashboardTemplateRepository
+                wfDocumentRepository, organizationRepository, dashboardTemplateRepository, aliceMessageSource
             )
             DashboardConstants.TemplateComponent.STATUS_USER_LIST.code -> StatusUserList(
                 currentSessionUser, wfDocumentRepository, dashboardTemplateRepository

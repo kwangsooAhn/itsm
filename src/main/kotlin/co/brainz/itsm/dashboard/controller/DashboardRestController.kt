@@ -26,7 +26,9 @@ class DashboardRestController(
         @RequestParam(value = "componentKey") componentKey: String
     ): TemplateComponentData {
         val option = LinkedHashMap<String, Any>()
-        option["organizationId"] = organizationId
+        if (organizationId != "null") {
+            option["organizationId"] = organizationId
+        }
         return dashboardTemplateService.getTemplateComponent(templateId, componentKey, option)
     }
 }

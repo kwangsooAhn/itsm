@@ -7,6 +7,7 @@ package co.brainz.itsm.dashboard.service.impl
 
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.dashboard.dto.OrganizationChartDto
 import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 import co.brainz.itsm.dashboard.repository.DashboardTemplateRepository
@@ -23,7 +24,8 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 class OrganizationChart(
     private val wfDocumentRepository: WfDocumentRepository,
     private val organizationRepository: OrganizationRepository,
-    private val dashboardTemplateRepository: DashboardTemplateRepository
+    private val dashboardTemplateRepository: DashboardTemplateRepository,
+    private val aliceMessageSource: AliceMessageSource
 ) : TemplateComponent {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -38,29 +40,46 @@ class OrganizationChart(
         val organizationEntities = organizationRepository.getOrganizationListByIds(organizations.toSet())
 
         val series = mutableListOf<AliceTagDto>()
+        series.add(
+            AliceTagDto(
+                tagId = "all",
+                tagValue = aliceMessageSource.getMessage("dashboard.label.all")
+            )
+        )
         val chartDataList = mutableListOf<ChartData>()
         documentEntities.forEach { documentEntity ->
+            val organizationChartData = mutableListOf<ChartData>()
             series.add(
                 AliceTagDto(
                     tagId = documentEntity.documentId,
                     tagValue = documentEntity.documentName
                 )
             )
-
+            var documentCount = 0L
             organizationEntities.forEach { organizationEntity ->
-                chartDataList.add(
+                val count = dashboardTemplateRepository
+                    .countByOrganizationRunningDocument(documentEntity, organizationEntity)
+                documentCount += count
+                organizationChartData.add(
                     ChartData(
                         id = documentEntity.documentId,
                         category = organizationEntity.organizationName!!,
-                        value = dashboardTemplateRepository.countByOrganizationRunningDocument(
-                            documentEntity,
-                            organizationEntity
-                        ).toString(),
+                        value = count.toString(),
                         series = documentEntity.documentName,
                         linkKey = organizationEntity.organizationId
                     )
                 )
             }
+            // 부서별 전체 건수
+            organizationChartData.add(0,
+                ChartData(
+                    id = documentEntity.documentId,
+                    category = aliceMessageSource.getMessage("dashboard.label.all"),
+                    value = documentCount.toString(),
+                    series = documentEntity.documentName
+                )
+            )
+            chartDataList.addAll(organizationChartData)
         }
 
         return OrganizationChartDto(
