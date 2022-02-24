@@ -5,6 +5,7 @@
 
 package co.brainz.framework.fileTransaction.provider
 
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDetailDto
 import co.brainz.framework.fileTransaction.dto.AliceFileDetailListReturnDto
@@ -158,7 +159,8 @@ class AliceFileProvider(
             else -> FileConstants.Path.FILE.path
         }
         val dirPath = super.getPath(dir)
-        val fileList = this.getValidFileList(type, dirPath, searchValue)
+        val allList = this.getValidFileList(type, dirPath, searchValue)
+        val fileList = allList.component1()
         val dataList = mutableListOf<AliceFileDetailDto>()
         var startIndex = 0
         if (currentOffset != -1) { // -1인 경우는 전체 조회
@@ -201,7 +203,9 @@ class AliceFileProvider(
         }
         return AliceFileDetailListReturnDto(
             data = dataList,
-            totalCount = fileList.size.toLong()
+            totalCount = fileList.size.toLong(),
+            totalCountWithoutCondition = allList.component2().size.toLong(),
+            orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
         )
     }
 
@@ -220,7 +224,9 @@ class AliceFileProvider(
      *  - type: file 모든 파일
      *  - image, icon, cmdb-icon: filter 된 이미지 파일
      */
-    private fun getValidFileList(type: String, dirPath: Path, searchValue: String): List<Path> {
+    private fun getValidFileList(type: String, dirPath: Path, searchValue: String): List<List<Path>> {
+        val returnList = mutableListOf<List<Path>>()
+        val totalList = mutableListOf<Path>()
         val fileList = mutableListOf<Path>()
         if (Files.isDirectory(dirPath)) {
             val fileDirMap = Files.list(dirPath).collect(Collectors.partitioningBy { Files.isDirectory(it) })
@@ -242,9 +248,12 @@ class AliceFileProvider(
                         }
                     }
                 }
+                totalList.add(filePath)
             }
         }
-        return fileList
+        returnList.add(fileList)
+        returnList.add(totalList)
+        return returnList
     }
 
     /**
@@ -252,8 +261,9 @@ class AliceFileProvider(
      */
     private fun searchValueValid(file: File, searchValue: String): Boolean {
         var isValid = false
+        val lowerValue = searchValue.toLowerCase()
         if (searchValue.isNotEmpty()) {
-            if (file.name.matches(".*$searchValue.*".toRegex())) {
+            if (file.name.toLowerCase().matches(".*$lowerValue.*".toRegex())) {
                 isValid = true
             }
         } else {
