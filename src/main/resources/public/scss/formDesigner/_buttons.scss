@@ -191,6 +191,10 @@
 }
 
 .z-button-icon {
+  &:disabled,
+  &.disabled {
+    display: none;
+  }
   &.z-button-attach-file {
     .z-icon {
       &.i-folder { background: $element-icon-color; }
