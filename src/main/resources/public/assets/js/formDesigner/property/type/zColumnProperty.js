@@ -149,8 +149,9 @@ export default class ZColumnProperty extends ZProperty {
         if (index === -1 ) { index = this.value.length; }
         // 공통 컬럼 옵션
         const commonColumnOption = Object.assign({}, propertyExtends.columnCommon, option);
+        const resetColumn = JSON.parse(JSON.stringify(propertyExtends[commonColumnOption.columnType]));
         // 열 속성 기본 값 조회
-        const columnOption = aliceJs.mergeObject(propertyExtends[commonColumnOption.columnType], commonColumnOption);
+        const columnOption = aliceJs.mergeObject(resetColumn, commonColumnOption);
         // tab 버튼
         const tab = new UIButton()
             .setUIClass('z-button-icon')
