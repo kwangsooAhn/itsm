@@ -20,6 +20,7 @@ import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
+import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.constants.WorkflowConstants
@@ -283,8 +284,20 @@ class WfScriptTask(
     }
 
     private fun executePlugin(createTokenDto: WfTokenDto, element: WfElementEntity) {
-        val instanceId = createTokenDto.instanceId
-        wfTokenManagerService.executePlugin(instanceId, element)
+        //scriptTask 데이터에서 pluginId 추출
+        var scriptValue: Map<String, String> = emptyMap()
+        element.elementScriptDataEntities.forEach {
+            scriptValue = mapper.readValue(it.scriptValue, object : TypeReference<Map<String, Any>>() {})
+        }
+        val pluginId = scriptValue[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value]
+
+        // 최신 토큰이 가지고 있는 토큰 데이터 추출
+        var tokenData: List<WfTokenDataDto>? = null
+        createTokenDto.data?.let {
+            tokenData = it
+        }
+
+        wfTokenManagerService.executePlugin(pluginId, tokenData)
     }
 
     /**

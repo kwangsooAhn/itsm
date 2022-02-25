@@ -18,6 +18,8 @@ import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.util.AliceFileUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
@@ -79,6 +81,7 @@ class WfTokenManagerService(
     private val viewerRepository: ViewerRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val pluginService: PluginService,
+    private val aliceTagRepository: AliceTagRepository,
     environment: Environment
 ) : AliceFileUtil(environment) {
 
@@ -195,27 +198,31 @@ class WfTokenManagerService(
     /**
      * 플러그인 실행
      */
-    fun executePlugin(instanceId: String, element: WfElementEntity) {
+    fun executePlugin(pluginId: String?, tokenDataList: List<WfTokenDataDto>?) {
         val param: LinkedHashMap<String, Any> = linkedMapOf()
+        val dataMap: LinkedHashMap<String, String> = linkedMapOf()
         param[PluginConstants.ASYNCHRONOUS] = false
 
-        // scriptTask 전 단계의 토큰 아이디 추출
-        val tokenId = wfInstanceRepository.findByInstanceId(instanceId)?.let {
-            it.tokens?.last()!!.tokenId
+        // tokenDataList의 모든 데이터 중에서 태그가 적용되고 타입이 컴포넌트인 데이터만 추출한다.
+        val componentIds: LinkedHashSet<String> = linkedSetOf()
+        tokenDataList?.let { tokenDataList ->
+            tokenDataList.forEach { tokenData ->
+                componentIds.add(tokenData.componentId)
+            }
+            val tagData = aliceTagRepository.findByTargetIds(AliceTagConstants.TagType.COMPONENT.code, componentIds)
+            tokenDataList.forEach { tokenData ->
+                tagData.forEach { tag ->
+                    if (tag.targetId == tokenData.componentId) {
+                        dataMap[tag.tagValue] = tokenData.value
+                    }
+                }
+            }
         }
-
-        // scriptTask에서 대상 pluginId 추출
-        var scriptValue: Map<String, String> = emptyMap()
-        element.elementScriptDataEntities.forEach {
-            scriptValue = mapper.readValue(it.scriptValue, object : TypeReference<Map<String, Any>>() {})
-        }
-        val pluginId = scriptValue[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value]
         if (!pluginId.isNullOrBlank()) {
             val body = mapper.writeValueAsString(
                 PluginDto(
-                    tokenId = tokenId,
                     pluginId = "",
-                    data = ""
+                    data = dataMap
                 )
             )
             pluginService.executePlugin(pluginId, body, param)
