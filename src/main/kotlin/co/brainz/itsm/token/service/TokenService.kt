@@ -31,10 +31,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 @Service
@@ -210,11 +206,11 @@ class TokenService(
                         ExcelCellVO(value = result.documentNo),
                         ExcelCellVO(value = result.topics?.get(index).toString()),
                         ExcelCellVO(value = result.documentName),
-                        ExcelCellVO(value = result.assigneeUserName),
+                        ExcelCellVO(value = if (result.assigneeUserName != null) result.assigneeUserName else ""),
                         ExcelCellVO(value = result.elementName),
                         ExcelCellVO(value = result.instanceCreateUser),
                         ExcelCellVO(value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                            .format(AliceUtil().ChangeTimeBasedTimezone(result.instanceStartDt, result.timezone))
+                            .format(AliceUtil().changeTimeBasedTimezone(result.instanceStartDt, currentSessionUser.getTimezone()))
                         )
                     )
                 )

@@ -20,6 +20,5 @@ data class RestTemplateInstanceExcelDto(
     val documentType: String,
     val instanceStartDt: LocalDateTime,
     val instanceEndDt: LocalDateTime?,
-    val instanceCreateUser: String,
-    val timezone: String = "Asia/Seoul"
+    val instanceCreateUser: String
 )

@@ -438,8 +438,7 @@ class WfInstanceService(
                 documentGroupName = instance.documentEntity.documentGroupName,
                 assigneeUserName= instance.userEntity.assigneeUserName,
                 elementName = instance.tokenEntity.element.elementName,
-                topics = topics,
-                timezone = instance.userEntity.timezone
+                topics = topics
             )
             tokensForExcel.add(restTemplateInstanceExcelDto)
         }

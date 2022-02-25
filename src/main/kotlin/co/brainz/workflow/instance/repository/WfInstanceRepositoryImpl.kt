@@ -398,8 +398,7 @@ class WfInstanceRepositoryImpl(
                     Projections.constructor(
                         WfInstanceListUserDto::class.java,
                         user.userId,
-                        user.userName,
-                        user.timezone
+                        user.userName
                     )
                 )
             )
