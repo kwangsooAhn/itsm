@@ -64,12 +64,6 @@ class ZDocument {
         this.editable = editable;
         this.sortJsonToForm(this.formDataJson); // 정렬
         this.isAssignee = (typeof formDataJson.stakeholders !== 'undefined') ? formDataJson.stakeholders.isAssignee : true; // 문서 열람 권한 체크
-        this.isReviewer = false;  // 참조인 체크
-        if (typeof formDataJson.actions !== 'undefined') {
-            this.isReviewer = Object.keys(formDataJson.actions).some(function(i) {
-                return formDataJson.actions[i].value === 'review';
-            });
-        }
         this.makeDocument(this.formDataJson); // 화면 출력
 
         // 문서 너비에 맞게 문서번호 위치하도록
@@ -126,10 +120,8 @@ class ZDocument {
 
             data.group.forEach( (g, gIndex) => {
                 // #12443 진행 중 문서 - 그룹 숨김 처리
-                if (g.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
-                    if (!this.isAssignee) {
-                        g.displayType = (this.isReviewer) ? FORM.DISPLAY_TYPE.READONLY : FORM.DISPLAY_TYPE.HIDDEN;
-                    }
+                if (!this.isAssignee && g.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
+                    g.displayType = FORM.DISPLAY_TYPE.READONLY;
                 }
                 this.makeDocument(g, this.form, gIndex);
             });
