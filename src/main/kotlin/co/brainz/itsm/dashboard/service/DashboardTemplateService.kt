@@ -11,6 +11,7 @@ import co.brainz.itsm.dashboard.dto.TemplateComponentData
 import co.brainz.itsm.dashboard.dto.TemplateDto
 import co.brainz.itsm.dashboard.repository.DashboardTemplateRepository
 import co.brainz.itsm.dashboard.service.impl.TemplateComponentFactory
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -43,7 +44,11 @@ class DashboardTemplateService(
     /**
      * 단일 컴포넌트 조회 (데이터 포함)
      */
-    fun getTemplateComponent(templateId: String, componentKey: String, option: Map<String, Any>?): TemplateComponentData {
+    fun getTemplateComponent(templateId: String, componentKey: String, options: Any?): TemplateComponentData {
+        var option: Map<String, Any> = mutableMapOf()
+        if (options != null) {
+            option = mapper.convertValue(options, object : TypeReference<Map<String, Any>>() {})
+        }
         val templateComponentConfigList = this.getTemplateComponentConfigList(templateId)
         val component = templateComponentConfigList.first { it.key == componentKey }
         return this.getTemplateComponentData(component, option)
@@ -68,7 +73,7 @@ class DashboardTemplateService(
     private fun getTemplateComponentResult(templateComponentList: List<TemplateComponentConfig>): List<TemplateComponentData> {
         val templateComponentResultList = mutableListOf<TemplateComponentData>()
         templateComponentList.forEach { component ->
-            templateComponentResultList.add(this.getTemplateComponentData(component, null))
+            templateComponentResultList.add(this.getTemplateComponentData(component, mutableMapOf()))
         }
         return templateComponentResultList
     }
@@ -76,7 +81,7 @@ class DashboardTemplateService(
     /**
      * 컴포넌트 데이터 조회
      */
-    private fun getTemplateComponentData(component: TemplateComponentConfig, option: Map<String, Any>?): TemplateComponentData {
+    private fun getTemplateComponentData(component: TemplateComponentConfig, option: Map<String, Any>): TemplateComponentData {
         val templateComponent = templateComponentFactory.getComponent(component.key)
         if (!option.isNullOrEmpty()) {
             templateComponent.init(option)

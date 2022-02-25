@@ -75,6 +75,7 @@
         const DATE_TYPE = [ 'date', 'time', 'dateTime' ];
         const templateId = /*[[${template.templateId}]]*/ "";
         const container = /*[[${template.result[0].result}]]*/ "";
+        const requestList = /*[[${template.result[2].result}]]*/ "";
 
         window.onload = function () {
             const container = /*[[${template.result[0].result}]]*/ "";
@@ -90,12 +91,7 @@
             // 차트 데이터 업데이트
             zChartManager.update(container.chartData);
 
-            // todo: #12334 업무현황 dummy data load / 실제 데이터 연동 시 aliceJs.fetch 구문 수정
-            fetch('../../assets/js/temp/thirdComponentDummy.json')
-                .then(response => { return response.json(); })
-                .then(data => {
-                    updateReqStatus(data);
-                });
+            updateReqStatus(requestList);
 
             OverlayScrollbars(document.querySelector('.contents__req-user'), {className: 'inner-scrollbar'});
             OverlayScrollbars(document.querySelector('.contents__req-status'), {
@@ -123,10 +119,16 @@
          */
         // todo: 실제 데이터 연동 시, dummy Data부분 제거
         function getOrganizationData(organizationId) {
-            // 업무현황 data load
-            let urlParam = '/rest/dashboard/organization/' + organizationId + '?templateId=' + templateId + '&componentKey=' + /*[[${template.result[2].key}]]*/ "";
+            let urlParam = '/rest/dashboard/template/' + templateId + '/component/' + /*[[${template.result[2].key}]]*/ "";
+            let param = {
+                organizationId: organizationId
+            }
             aliceJs.fetchText(urlParam, {
-                method: 'GET'
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(param)
             }).then((htmlData) => {
                 updateReqStatus(JSON.parse(htmlData)['result']);
             });
