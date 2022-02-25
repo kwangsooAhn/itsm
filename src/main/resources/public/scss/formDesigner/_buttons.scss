@@ -190,6 +190,14 @@
   }
 }
 
+.z-button,
+.z-button-icon {
+  &:disabled,
+  &.disabled {
+    display: none;
+  }
+}
+
 .z-button-icon {
   &.z-button-attach-file {
     .z-icon {
