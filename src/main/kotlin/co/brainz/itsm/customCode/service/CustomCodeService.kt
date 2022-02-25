@@ -6,7 +6,10 @@
 
 package co.brainz.itsm.customCode.service
 
+import co.brainz.framework.auth.entity.AliceRoleEntity
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.specification.OrganizationCustomCodeSpecification
 import co.brainz.framework.util.AlicePagingData
@@ -273,22 +276,110 @@ class CustomCodeService(
         val sort = Sort(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
         when (customCode.targetTable) {
             CustomCodeConstants.TableName.ROLE.code -> {
-                dataList = roleRepository.findAll(RoleCustomCodeSpecification(condition), sort).toMutableList()
+                val roleList = roleRepository.findAll(RoleCustomCodeSpecification(condition), sort).toMutableList()
+                customDataList = this.setCustomCodeTreeByRole(customCode, roleList)
             }
             CustomCodeConstants.TableName.USER.code -> {
-                dataList = userRepository.findAll(UserCustomCodeSpecification(condition), sort).toMutableList()
+                val userList = userRepository.findAll(UserCustomCodeSpecification(condition), sort).toMutableList()
+                customDataList = this.setCustomCodeTreeByUser(customCode, userList)
             }
             CustomCodeConstants.TableName.ORGANIZATION.code -> {
-                dataList = organizationRepository.findAll(OrganizationCustomCodeSpecification(condition), sort).toMutableList()
+                val organizationList =
+                    organizationRepository.findAll(OrganizationCustomCodeSpecification(condition), sort).toMutableList()
+                customDataList = this.setCustomCodeTreeByOrganization(customCode, organizationList)
             }
-        }
-        if (dataList.size > 0) {
-            customDataList = convertTableTypeDataToTree(customCode, dataList)
         }
         return CustomCodeTreeReturnDto(
             data = customDataList,
             totalCount = customDataList.size.toLong()
         )
+    }
+
+    private fun setCustomCodeTreeByOrganization(
+        customCode: CustomCodeCoreDto,
+        dataList: List<OrganizationEntity>
+    ): MutableList<CustomCodeTreeDto> {
+        val customDataList = mutableListOf<CustomCodeTreeDto>()
+        if (dataList.isNotEmpty()) {
+            customDataList.add(
+                CustomCodeTreeDto(
+                    code = customCode.customCodeId,
+                    codeName = customCode.customCodeName,
+                    level = 0,
+                    seqNum = 0
+                )
+            )
+            dataList.forEachIndexed { index, data ->
+                customDataList.add(
+                    CustomCodeTreeDto(
+                        code = data.organizationId,
+                        pCode = customCode.customCodeId,
+                        codeName = data.organizationName,
+                        level = 1,
+                        seqNum = index
+                    )
+                )
+            }
+        }
+        return customDataList
+    }
+
+    private fun setCustomCodeTreeByRole(
+        customCode: CustomCodeCoreDto,
+        dataList: List<AliceRoleEntity>
+    ): MutableList<CustomCodeTreeDto> {
+        val customDataList = mutableListOf<CustomCodeTreeDto>()
+        if (dataList.isNotEmpty()) {
+            customDataList.add(
+                CustomCodeTreeDto(
+                    code = customCode.customCodeId,
+                    codeName = customCode.customCodeName,
+                    level = 0,
+                    seqNum = 0
+                )
+            )
+            dataList.forEachIndexed { index, data ->
+                customDataList.add(
+                    CustomCodeTreeDto(
+                        code = data.roleId,
+                        pCode = customCode.customCodeId,
+                        codeName = data.roleName,
+                        level = 1,
+                        seqNum = index
+                    )
+                )
+            }
+        }
+        return customDataList
+    }
+
+    private fun setCustomCodeTreeByUser(
+        customCode: CustomCodeCoreDto,
+        dataList: List<AliceUserEntity>
+    ): MutableList<CustomCodeTreeDto> {
+        val customDataList = mutableListOf<CustomCodeTreeDto>()
+        if (dataList.isNotEmpty()) {
+            customDataList.add(
+                CustomCodeTreeDto(
+                    code = customCode.customCodeId,
+                    codeName = customCode.customCodeName,
+                    level = 0,
+                    seqNum = 0
+                )
+            )
+            dataList.forEachIndexed { index, data ->
+                customDataList.add(
+                    CustomCodeTreeDto(
+                        code = data.userKey,
+                        pCode = customCode.customCodeId,
+                        codeName = data.userName,
+                        level = 1,
+                        seqNum = index
+                    )
+                )
+            }
+        }
+        return customDataList
     }
 
     /**

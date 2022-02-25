@@ -20,4 +20,41 @@ object DashboardConstants {
         REQUEST("document.group.request"),
         ETC("document.group.etc")
     }
+
+    /**
+     * 개인현황판 기본 템플릿
+     */
+    const val DEFAULT_TEMPLATE_ID = "template-001"
+
+    enum class TemplateComponent(val code: String) {
+        ORGANIZATION_CHART("requestStatusByOrganization.chart"),
+        STATUS_USER_LIST("requestStatusByUser.list"),
+        ORGANIZATION_LIST("requestListByOrganization.list")
+    }
+
+    /**
+     * 컴포넌트 item 키
+     */
+    enum class ComponentItemKey(val code: String) {
+        TITLE("title"),
+        WIDTH("width"),
+        DATA_TYPE("dataType")
+    }
+
+    /**
+     * 컴포넌트 item 타입
+     */
+    enum class ComponentItemType(val code: String) {
+        FIELD("field"),
+        MAPPING("mapping")
+    }
+
+    /**
+     * 컴포넌트 조회 컬럼
+     */
+    enum class Column(val code: String) {
+        DOCUMENT_NAME("document_name"),
+        DOCUMENT_NO("document_no"),
+        INSTANCE_STATUS("instance_status")
+    }
 }

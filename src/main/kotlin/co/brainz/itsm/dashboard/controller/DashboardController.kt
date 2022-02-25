@@ -7,6 +7,7 @@ package co.brainz.itsm.dashboard.controller
 
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.dashboard.service.DashboardService
+import co.brainz.itsm.dashboard.service.DashboardTemplateService
 import co.brainz.itsm.notice.service.NoticeService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
@@ -24,11 +25,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/dashboard")
 class DashboardController(
     private val dashboardService: DashboardService,
+    private val dashboardTemplateService: DashboardTemplateService,
     private val currentSessionUser: CurrentSessionUser,
     private val noticeService: NoticeService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val dashboardViewPage: String = "dashboard/dashboardView"
+    private val dashboardViewPage: String = "dashboard/template-001"
     private val dashboardListPage: String = "dashboard/dashboardStatistic"
 
     /**
@@ -37,8 +39,7 @@ class DashboardController(
     @GetMapping("/view")
     fun getDashboardView(request: HttpServletRequest, model: Model): String {
         model.addAttribute("noticePopUp", noticeService.findNoticePopUp())
-        model.addAttribute("dashboardStatistic", dashboardService.getDashboardStatistic())
-
+        model.addAttribute("template", dashboardTemplateService.getTemplate())
         return dashboardViewPage
     }
 
