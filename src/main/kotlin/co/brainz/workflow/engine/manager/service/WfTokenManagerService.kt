@@ -518,10 +518,11 @@ class WfTokenManagerService(
     /**
      *  Review 읽음 버튼 처리
      */
-    fun updateReview(instanceId: String) {
+    fun updateReview(instanceId: String): Boolean {
         val viewerKey = currentSessionUser.getUserKey()
         if (viewerRepository.findByInstanceIdAndViewerKey(instanceId, viewerKey) != null) {
-            viewerRepository.updateReviewYn(instanceId, viewerKey)
+            return  viewerRepository.updateReviewYn(instanceId, viewerKey) == 1
         }
+        return false
     }
 }
