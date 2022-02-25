@@ -60,6 +60,7 @@ class DocumentActionService(
             val isProgress = this.checkTokenStatusAndAction(tokenObject)
             // 담당자 인지 확인
             val isAssignee = this.checkAssignee(tokenObject, userEntity)
+            tokenObject.get("stakeholders").asJsonObject.addProperty("isAssignee", isAssignee)
             // 반환할 버튼 정보
             val actionsResult = this.getActionList(tokenObject, userEntity, isProgress, isAssignee)
             tokenObject.remove("actions")
