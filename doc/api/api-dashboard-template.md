@@ -63,41 +63,89 @@ GET rest/dashboard/unprocessedRequests/{organization_id}
       "key": "requestStatusByOrganization.chart",
       "title": "부서별 요청현황",
       "target": {
-          "chartId": "4028b22f7c2fefef017c30054c900002",
-          "chartName": "",
-          "chartType": "chart.basicColumn",
-          "chartDesc": "",
-          "tags": [
-            { "tagId": "2c9180867cc31a25017cc7a68eec0511", "value": "단순의뢰" }
-          ],
-          "chartConfig": {  },
-          "chartData": [{  }]
+        "organizations": ["4028b2d57d37168e017d3715fae00002", "4028b2d57d37168e017d3713bb430003", "4028b2d57d37168e017d3715fae00004", "4028b2d57d37168e017d3715fae00005"],
+        "documents": ["4028b21f7c90d996017c91ae7987004f", "4028b21f7c9adb6a017c9b18489900c9", "4028b21f7c9ff7c8017ca06bde520058", "2c9180867cc31a25017cc7a779d70523"]
       }
     }, {
       "key": "requestStatusByUser.list",
-      "title": "개인 요청현황",
-      "target": [{
-          "documentID": "4028b22f7c2fefef017c30054c9000c9",
-          "documentName": "장애신고서",
-          "count": 2
-      },{
-          "documentID": "4028b22f7c2fefef017c30054c900008",
-          "documentName": "IT서비스 요청서서",
-          "count": 3
-      }] 
+      "title": "개인 요청 현황",
+      "target": {
+        "documents": ["4028b21f7c90d996017c91ae7987004f", "4028b21f7c9adb6a017c9b18489900c9", "4028b21f7c9ff7c8017ca06bde520058", "2c9180867cc31a25017cc7a779d70523"]
+      }
     }, {
       "key": "requestListByOrganization.list",
       "title": "요청현황",
       "target": {
-        "organizationId" : "4028b2d57d37168e017d371a5f7f0004",
-        "organizationName" : "리스크관리본부",
-        "columnTitle" : ["순번", "신청부서", "문서종류", "제목", "신청일", "완료 희망일", "상태", "PL", " 신청자", "난이도", "문서번호"],
-        "columnWidth" : ["60px", "200px", "200px", "300px", "150px", "150px", "150px", "150px", "150px", "80px", "300px"],
-        "columnType" : ["string", "string", "string", "date", "date", "string", "string","string", "string"],
-        "contents" : {
-            "0": ["리스크 관리부", "개발의뢰신청서", "이메일이 안됩니다.", "2021-02-05", "2021-02-05", "신청서 접수", "정희찬", "상", "CSR-20220117-001"],
-            "1": ["리스크 관리부", "개발의뢰신청서", "이메일이 안됩니다.", "2021-02-12", "2021-02-12", "신청서 접수", "정희찬", "상", "CSR-20220117-002"]
-        }
+        "documents": ["4028b21f7c90d996017c91ae7987004f", "4028b21f7c9adb6a017c9b18489900c9", "4028b21f7c9ff7c8017ca06bde520058", "2c9180867cc31a25017cc7a779d70523"],
+        "items": [
+         {
+            "title": "순번",
+            "width": "60px",
+            "type": "index",
+            "name": "",
+            "dataType": "number" 
+          }, {
+            "title": "신청부서",
+            "width": "200px",
+            "type": "mapping",
+            "name": "z-sd-requester-department",
+            "dataType": "string" 
+          }, {
+            "title": "문서 종류",
+            "width": "200px",
+            "type": "field",
+            "name": "document_name",
+            "dataType": "string" 
+          }, {
+            "title": "제목",
+            "width": "300px",
+            "type": "mapping",
+            "name": "z-sd-request-title",
+            "dataType": "string" 
+          }, {
+            "title": "신청일시",
+            "width": "150px",
+            "type": "mapping",
+            "name": "z-sd-request-date",
+            "dataType": "dateTime" 
+          }, {
+            "title": "완료 희망일시",
+            "width": "150px",
+            "type": "mapping",
+            "name": "z-sd-request-deadline",
+            "dataType": "dateTime" 
+          }, {
+            "title": "상태",
+            "width": "150px",
+            "type": "field",
+            "name": "instance_status",
+            "dataType": "string" 
+          }, {
+            "title": "PL",
+            "width": "150px",
+            "type": "mapping",
+            "name": "",
+            "dataType": "string" 
+          }, {
+            "title": "신청자",
+            "width": "150px",
+            "type": "mapping",
+            "name": "z-sd-requester",
+            "dataType": "string" 
+          }, {
+            "title": "난이도",
+            "width": "80px",
+            "type": "mapping",
+            "name": "",
+            "dataType": "string" 
+          }, {
+            "title": "문서번호",
+            "width": "300px",
+            "type": "field",
+            "name": "document_no",
+            "dataType": "string" 
+          }
+        ]
       }
     }
   ]
