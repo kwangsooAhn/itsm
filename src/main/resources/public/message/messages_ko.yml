@@ -334,6 +334,7 @@ cmdb:
     msg:
       attributeNameUsed: "사용 중인 속성항목 이름입니다."
       enterAttributeName: "속성항목 이름을 입력하세요."
+      details: "세부정보를 추가해 주세요."
       searchDescription: "CI 속성항목을 조회 및 관리합니다."
       selectAttributeType: "데이터 타입을 선택하세요."
       viewDescription: "속성항목에 대한 상세 정보를 조회합니다."

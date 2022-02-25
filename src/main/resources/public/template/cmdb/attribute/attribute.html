@@ -177,6 +177,12 @@
 
     function saveAttribute(method) {
         if (isValidRequiredAll() && zCmdbAttribute.checkDuplicate(document.querySelector('#attributeType').value)) {
+            const detailsElems = document.querySelector('#details').childNodes;
+            if (detailsElems.length === 0) {
+                zAlert.warning(i18n.msg('cmdb.attribute.msg.details'));
+                return;
+            }
+
             let data = {
                 attributeId: '',
                 attributeName: document.querySelector('#attributeName').value,
