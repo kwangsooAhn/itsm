@@ -376,9 +376,9 @@
     // custom code 컴포넌트
     .z-custom-code {
       > .z-input {
-        margin-right: 0.5rem;
         @include borderRadius(0.125rem); // 2px
       }
+      > .z-button-icon { margin-left: 0.5rem; }
     }
   }
 

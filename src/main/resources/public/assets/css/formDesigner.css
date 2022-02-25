@@ -7574,10 +7574,12 @@ body.modal-active {
   padding-top: 0.375rem;
 }
 .z-component .z-element .z-custom-code > .z-input {
-  margin-right: 0.5rem;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
+}
+.z-component .z-element .z-custom-code > .z-button-icon {
+  margin-left: 0.5rem;
 }
 .z-component.dynamicRowTable label {
   min-height: 2rem;
