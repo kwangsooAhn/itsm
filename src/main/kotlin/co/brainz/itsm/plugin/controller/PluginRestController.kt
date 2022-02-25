@@ -6,6 +6,7 @@
 package co.brainz.itsm.plugin.controller
 
 import co.brainz.framework.response.dto.ZResponse
+import co.brainz.itsm.plugin.constants.PluginConstants
 import co.brainz.itsm.plugin.service.PluginService
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
@@ -25,7 +26,9 @@ class PluginRestController(
 
     @PostMapping("/{pluginId}")
     fun executePlugin(@PathVariable pluginId: String, @RequestBody body: String?): ZResponse {
-        return pluginService.executePlugin(pluginId, body)
+        val param: LinkedHashMap<String, Any> = linkedMapOf()
+        param[PluginConstants.ASYNCHRONOUS] = true
+        return pluginService.executePlugin(pluginId, body, param)
     }
 
     @GetMapping("")

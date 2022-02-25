@@ -72,6 +72,9 @@ class WfScriptTask(
             WfElementConstants.ScriptType.DOCUMENT_CMDB.value -> {
                 this.callCmdbAction(createTokenDto, element)
             }
+            WfElementConstants.ScriptType.DOCUMENT_PLUGIN.value -> {
+                this.executePlugin(createTokenDto, element)
+            }
         }
 
         return createTokenDto
@@ -279,6 +282,11 @@ class WfScriptTask(
         }
     }
 
+    private fun executePlugin(createTokenDto: WfTokenDto, element: WfElementEntity) {
+        val instanceId = createTokenDto.instanceId
+        wfTokenManagerService.executePlugin(instanceId, element)
+    }
+
     /**
      * [targetMappingId] 로 연결된 [componentEntity] 조회.
      */
@@ -349,7 +357,8 @@ class WfScriptTask(
                 for (attachFileName in attachFileNames) {
                     val processFilePath = wfTokenManagerService.getProcessFilePath(attachFileName)
                     val fileName = wfTokenManagerService.getRandomFilename()
-                    val uploadFilePath = wfTokenManagerService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
+                    val uploadFilePath =
+                        wfTokenManagerService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
                     try {
                         Files.copy(processFilePath, uploadFilePath, StandardCopyOption.REPLACE_EXISTING)
                         if (Files.exists(uploadFilePath)) {

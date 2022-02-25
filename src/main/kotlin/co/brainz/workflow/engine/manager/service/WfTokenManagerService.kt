@@ -23,6 +23,9 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.instance.repository.ViewerRepository
+import co.brainz.itsm.plugin.constants.PluginConstants
+import co.brainz.itsm.plugin.dto.PluginDto
+import co.brainz.itsm.plugin.service.PluginService
 import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -55,6 +58,7 @@ import java.time.LocalDateTime
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 
+
 @Service
 class WfTokenManagerService(
     private val wfElementService: WfElementService,
@@ -74,8 +78,9 @@ class WfTokenManagerService(
     private val ciService: CIService,
     private val viewerRepository: ViewerRepository,
     private val currentSessionUser: CurrentSessionUser,
+    private val pluginService: PluginService,
     environment: Environment
-): AliceFileUtil(environment) {
+) : AliceFileUtil(environment) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -186,6 +191,37 @@ class WfTokenManagerService(
     fun getProcessFilePath(attachFileName: String): Path {
         return Paths.get(super.getPath(FileConstants.Path.FILE.path).toString() + File.separator + attachFileName)
     }
+
+    /**
+     * 플러그인 실행
+     */
+    fun executePlugin(instanceId: String, element: WfElementEntity) {
+        val param: LinkedHashMap<String, Any> = linkedMapOf()
+        param[PluginConstants.ASYNCHRONOUS] = false
+
+        // scriptTask 전 단계의 토큰 아이디 추출
+        val tokenId = wfInstanceRepository.findByInstanceId(instanceId)?.let {
+            it.tokens?.last()!!.tokenId
+        }
+
+        // scriptTask에서 대상 pluginId 추출
+        var scriptValue: Map<String, String> = emptyMap()
+        element.elementScriptDataEntities.forEach {
+            scriptValue = mapper.readValue(it.scriptValue, object : TypeReference<Map<String, Any>>() {})
+        }
+        val pluginId = scriptValue[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value]
+        if (!pluginId.isNullOrBlank()) {
+            val body = mapper.writeValueAsString(
+                PluginDto(
+                    tokenId = tokenId,
+                    pluginId = "",
+                    data = ""
+                )
+            )
+            pluginService.executePlugin(pluginId, body, param)
+        }
+    }
+
 
     /**
      * Create CI.
@@ -331,7 +367,7 @@ class WfTokenManagerService(
         if (viewerEntities.isNotEmpty()) {
             for (viewerEntity in viewerEntities) {
                 val notification = commonNotification.copy()
-                    notification.receivedUser = viewerEntity.viewer.userKey
+                notification.receivedUser = viewerEntity.viewer.userKey
                 notifications.add(notification)
                 // 알림 목록에 추가된 후 flag 변경
                 viewerRepository.updateDisplayYn(token.instance.instanceId, viewerEntity.viewer.userKey)

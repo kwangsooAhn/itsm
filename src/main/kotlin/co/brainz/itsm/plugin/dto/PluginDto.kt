@@ -6,7 +6,7 @@
 package co.brainz.itsm.plugin.dto
 
 data class PluginDto(
-    val tokenId: String,
+    val tokenId: String?,
     var pluginId: String,
     val data: Any?
 )

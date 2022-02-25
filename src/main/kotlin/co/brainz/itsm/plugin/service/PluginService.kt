@@ -25,10 +25,10 @@ class PluginService(
     /**
      * [pluginId] 에 따른 처리
      */
-    fun executePlugin(pluginId: String, body: String?): ZResponse {
+    fun executePlugin(pluginId: String, body: String?, param: LinkedHashMap<String, Any>): ZResponse {
         val pluginServiceImpl = pluginFactory.getFactory(pluginId)
         pluginServiceImpl.init(pluginsDir)
-        return pluginServiceImpl.execute(this.getPlugin(pluginId), body)
+        return pluginServiceImpl.execute(this.getPlugin(pluginId), body, param)
     }
 
     /**

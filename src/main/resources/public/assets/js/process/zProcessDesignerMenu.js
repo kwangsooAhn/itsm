@@ -1198,9 +1198,7 @@
             targetPlugInLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
             const targetPlugInSelect = document.createElement('select');
-            // TODO: 가데이터로 처리함 > 추후 실 데이터 가져와서 처리할 예정
-            aliceJs.fetchJson('../../assets/js/process/dummy/pluginFile.json', {
-            //aliceJs.fetchJson('/rest/plugins', {
+            aliceJs.fetchJson('/rest/plugins', {
                 method: 'GET'
             }).then((pluginList) => {
                 if (pluginList.data.length === 0) { return false; }
