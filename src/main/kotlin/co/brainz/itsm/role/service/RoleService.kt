@@ -238,23 +238,19 @@ class RoleService(
      *   4. EditSelf페이지 일 때, 사용자가 시스템 관리자 역할을 갖고 있는지 확인
      */
     fun isExistSystemRoleByUser(userKey: String, roleIds: Set<String>?): Boolean {
-        var isExist = roleIds?.contains(AliceConstants.SYSTEM_ROLE) ?: false
-        if (!isExist) {
-            val userRoleListByNotSelfRole = mutableListOf<AliceUserRoleMapEntity>()
-            userRoleMapRepository.findAll().forEach { userRole ->
-                if (userRole.user.userKey != userKey) {
-                    userRoleListByNotSelfRole.add(userRole)
-                }
-            }
-            isExist = this.isExistSystemRoleByUserList(userRoleListByNotSelfRole)
+        var isExist = true
+        roleIds?.let {
+            isExist = roleIds.contains(AliceConstants.SYSTEM_ROLE)
             if (!isExist) {
-                isExist = isExistSystemRoleByOrganizationList(organizationRoleMapRepository.findAll())
-            }
-            if (!isExist && roleIds == null) {
-                    userRoleMapRepository.findUserRoleByUserKey(userKey).forEach { userRole ->
-                    if(userRole.roleId == AliceConstants.SYSTEM_ROLE) {
-                        isExist = true
+                val userRoleListByNotSelfRole = mutableListOf<AliceUserRoleMapEntity>()
+                userRoleMapRepository.findAll().forEach { userRole ->
+                    if (userRole.user.userKey != userKey) {
+                        userRoleListByNotSelfRole.add(userRole)
                     }
+                }
+                isExist = this.isExistSystemRoleByUserList(userRoleListByNotSelfRole)
+                if (!isExist) {
+                    isExist = isExistSystemRoleByOrganizationList(organizationRoleMapRepository.findAll())
                 }
             }
         }
