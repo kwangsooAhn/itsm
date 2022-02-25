@@ -127,7 +127,7 @@ class FocsComponent(
                 historyId = "",
                 pluginId = plugin.pluginId,
                 startDt = startDateTime,
-                jarData = mapper.writeValueAsString(data)
+                pluginData = mapper.writeValueAsString(data)
             )
         )
 
@@ -163,7 +163,7 @@ class FocsComponent(
                 pluginParam = command.joinToString(" "),
                 pluginResult = isSuccess.toString(),
                 message = errorMsg,
-                jarData = mapper.writeValueAsString(data)
+                pluginData = mapper.writeValueAsString(data)
             )
         )
 

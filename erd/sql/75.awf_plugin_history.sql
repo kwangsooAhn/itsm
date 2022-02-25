@@ -12,7 +12,7 @@ CREATE TABLE awf_plugin_history
     plugin_param text NULL,
     plugin_result varchar(100) NULL,
     message text NULL,
-    jar_data text NULL,
+    plugin_data text NULL,
     CONSTRAINT awf_plugin_history_pk PRIMARY KEY (history_id)
 );
 
@@ -24,7 +24,7 @@ COMMENT ON COLUMN awf_plugin_history.enddt IS '종료시간';
 COMMENT ON COLUMN awf_plugin_history.plugin_param IS '파라미터';
 COMMENT ON COLUMN awf_plugin_history.plugin_result IS '결과';
 COMMENT ON COLUMN awf_plugin_history.message IS '결과 메시지';
-COMMENT ON COLUMN awf_plugin_hiosory.jar_data IS 'JAR 사용 데이터';
+COMMENT ON COLUMN awf_plugin_hiosory.plugin_data IS 'JAR 사용 데이터';
 
 -- public.awf_plugin_history foreign keys
 ALTER TABLE awf_plugin_history ADD CONSTRAINT awf_plugin_history_fk FOREIGN KEY (plugin_id) REFERENCES awf_plugin(plugin_id);

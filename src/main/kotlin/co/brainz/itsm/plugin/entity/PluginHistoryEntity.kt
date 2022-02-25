@@ -40,6 +40,6 @@ data class PluginHistoryEntity(
     @Column(name = "message")
     val message: String? = null,
 
-    @Column(name = "jar_data")
-    val jarData: String?
+    @Column(name = "plugin_data")
+    val pluginData: String?
 ) : Serializable
