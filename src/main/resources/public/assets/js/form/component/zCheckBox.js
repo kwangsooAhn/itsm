@@ -68,8 +68,7 @@ export const checkBoxMixin = {
         }
 
         if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
-            this.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
-            this.value === '') {
+            this.displayType === FORM.DISPLAY_TYPE.EDITABLE && this.value === '') {
             let defaultList = [];
             for (let i = 0; i < this.element.options.length; i++) {
                 let checkedYn = (this.element.options[i].checked || false);
