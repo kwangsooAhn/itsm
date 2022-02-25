@@ -33,7 +33,7 @@
         <div class="component-title flex-row mb-4">
             <span th:text="${template?.result[1].title}"></span>
         </div>
-        <div class="contents">
+        <div class="contents contents__req-personal">
             <table class="contents__req-user">
                 <thead>
                 <tr class="contents__req-user-total">
@@ -77,23 +77,59 @@
         const container = /*[[${template.result[0].result}]]*/ "";
         const requestList = /*[[${template.result[2].result}]]*/ "";
 
-        window.onload = function () {
-            const a = /*[[${template}]]*/ "";
-            console.log(JSON.stringify(a));
-            const container = /*[[${template.result[0].result}]]*/ "";
+        let dummy = null; // KB 저축은행용 가데이터
 
+        window.onload = function () {
+            const container = /*[[${template.result[0].result}]]*/ "";
+            // 태그 전체 항목 제외
+            container.tags = container.tags.filter((tag) => tag.tagId !== 'all');
             // 태그 데이터 변환
             container.tags.forEach(tag => {
                 if (typeof tag.value === 'undefined' && typeof tag.tagValue !== 'undefined') {
                     tag.value = tag.tagValue;
                 }
             });
+            //TODO: 2022-02-25 KB 저축은행용 가데이터 표시 - 배포 및 시연 완료 후 가데이터 부분을 실데이터로 변경한다.
+            aliceJs.fetchJson('../../assets/js/temp/template001.json', {
+                method: 'GET'
+            }).then((data) => {
+                dummy = data;
+                // 차트 초기화
+                zChartManager.load(data.result[0].result);
+                zChartManager.update(data.result[0].result.chartData);
+
+                // 개인 요청 현황
+                const elem = document.querySelector('.contents__req-personal');
+                elem.innerHTML = '';
+                let dummyTemplate = `<table class="contents__req-user"><thead>`;
+                let countSum = 0;
+                const dummyBodyTemplate = data.result[1].result.map((req) => {
+                    countSum += Number(req.count);
+                    return `<tr class="contents__req-user-contents">` +
+                        `<td class="contents__req-user-title pl-5 col-2">` +
+                            `<h3 class="text-ellipsis pt-2">${req.documentName}</h3>` +
+                        `</td>` +
+                        `<td class="align-center col-1"><h2>${req.count}</h2></td>` +
+                        `</tr>`;
+                }).join('');
+                const dummyReqCountTemplate = `<tr class="contents__req-user-total">` +
+                    `<td class="contents__req-user-title pl-5 col-2 text-gray700"><span>${i18n.msg('dashboard.label.requestUnprocessedCount')}</span></td>` +
+                    `<td class="align-center col-1"><h1>${countSum}</h1></td></tr>`;
+                dummyTemplate += dummyReqCountTemplate;
+                dummyTemplate += `<tbody>${dummyBodyTemplate}</tbody>`;
+                elem.insertAdjacentHTML('beforeend', `${dummyTemplate}`);
+
+                // 요청현황
+                updateReqStatus(data.result[2].result);
+            });
+
+
             // 차트 초기화
-            zChartManager.load(container);
+            //zChartManager.load(container);
             // 차트 데이터 업데이트
-            zChartManager.update(container.chartData);
+            //zChartManager.update(container.chartData);
             // 요청 현황
-            updateReqStatus(requestList);
+            //updateReqStatus(requestList);
 
             OverlayScrollbars(document.querySelector('.contents__req-user'), {className: 'inner-scrollbar'});
             OverlayScrollbars(document.querySelector('.contents__req-status'), {
@@ -102,6 +138,17 @@
                     y: 'hidden'
                 }
             });
+        }
+        // TODO: 2022-02-25 KB 저축은행용 가데이터 표시
+        function getDummyData(organizationId) {
+            const dataList = JSON.parse(JSON.stringify(dummy.result[2].result));
+            const selectedOrganization = dummy.dummyMapping.find((item) => item.id === organizationId);
+            if (organizationId != '') {
+                dataList.contents = dataList.contents.filter((item) => {
+                    return item[1] === selectedOrganization.value;
+                });
+            }
+            updateReqStatus(dataList);
         }
 
         /**
@@ -119,7 +166,6 @@
         /**
          * 부서별 업무현황에서 클릭한 부서의 요청현황 목록을 검색한다.
          */
-        // todo: 실제 데이터 연동 시, dummy Data부분 제거
         function getOrganizationData(organizationId) {
             let urlParam = '/rest/dashboard/template/' + templateId + '/component/' + /*[[${template.result[2].key}]]*/ "";
             let param = {
@@ -163,6 +209,7 @@
                 for (let i = 0; i < Object.keys(data.contents).length; i++) {
                     gridBodyElem += `<div class="grid__row">`;
                     const gridContents = data.contents[i].map((value, index) => {
+                        const columnType = data.columnType[index];
                         if (index === 0) { // 순번
                             return `<div class="grid__cell pr-2 pl-4">${i + 1}</div>`;
                         } else { // columnType에 따라 데이터 변환
@@ -201,7 +248,9 @@
                                    if (ticks[i]) {
                                        const label = ticks[i].label.element;
                                        label.addEventListener('click', function () {
-                                           getOrganizationData(point.linkKey);
+                                           //TODO: 2022-02-25 KB 저축은행용 가데이터 표시 - 배포 및 시연 완료 후 가데이터 부분 부서 클릭시 실행
+                                           getDummyData(point.linkKey);
+                                           //getOrganizationData(point.linkKey);
                                        });
                                    }
                                 });
