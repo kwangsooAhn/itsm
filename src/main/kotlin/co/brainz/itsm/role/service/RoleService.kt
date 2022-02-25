@@ -235,6 +235,7 @@ class RoleService(
      *   1. 현재 데이터에 시스템 관리자 역할이 존재하는지 확인
      *   2. 사용자 전체에서 본인을 제외하고 시스템 관리자 역할이 존재하는지 확인
      *   3. 조직 중에 시스템 관리자 역할을 가지고 있는 조직을 조회한 후 해당 조직에 소속된 사용자가 존재하는지 확인
+     *   4. EditSelf페이지 일 때, 사용자가 시스템 관리자 역할을 갖고 있는지 확인
      */
     fun isExistSystemRoleByUser(userKey: String, roleIds: Set<String>?): Boolean {
         var isExist = roleIds?.contains(AliceConstants.SYSTEM_ROLE) ?: false
@@ -248,6 +249,13 @@ class RoleService(
             isExist = this.isExistSystemRoleByUserList(userRoleListByNotSelfRole)
             if (!isExist) {
                 isExist = isExistSystemRoleByOrganizationList(organizationRoleMapRepository.findAll())
+            }
+            if (!isExist && roleIds == null) {
+                    userRoleMapRepository.findUserRoleByUserKey(userKey).forEach { userRole ->
+                    if(userRole.roleId == AliceConstants.SYSTEM_ROLE) {
+                        isExist = true
+                    }
+                }
             }
         }
         return isExist
