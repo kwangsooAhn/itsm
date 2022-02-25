@@ -15,6 +15,7 @@ class CurrentSessionUser {
     fun getUserKey(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.userKey
     fun getUserId(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.userId
     fun getEmail(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.email
+    fun getTimezone(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.timezone
 
     fun getAuth(): Set<String> {
         val authorises = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!

@@ -34,7 +34,7 @@ export default class ZPaging {
      * @return {boolean}
      */
     update() {
-        // 1) 전체 검색건수, 저장된 데이터 전체 건수, 정렬 순서등을 출력
+        // 전체 검색건수, 저장된 데이터 전체 건수, 정렬 순서등을 출력
         document.getElementById('spanTotalCount').innerText = i18n.msg('common.label.count', document.getElementById('totalCount').value);
         document.getElementById('spanTotalCountWithoutCondition').innerText =
             i18n.msg(
@@ -43,19 +43,41 @@ export default class ZPaging {
                 document.getElementById('totalCountWithoutCondition').value
             );
 
-        // 2) 페이지 번호 목록 처리
-        // 2-1) 현재 출력되어 있는 페이징 번호 목록
+        // 정렬
+        this.makeSortGridIcon();
+        const gridHead = document.querySelector('.grid__head');
+        if (gridHead) {
+            gridHead.querySelectorAll('.grid__cell[data-grid-sortable="true"]').forEach((element) => {
+                element.addEventListener('click', this.sortGrid.bind(this), false);
+            });
+        }
+
+        // 스크롤바는 paging이 아니지만 옵져버가 새로 계산할 때마다 필요하기 때문에 임시로 이 곳에 작성.
+        // 팀장님께서 다시 정리하신다고 하셨음.! by.mo
+        OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-main'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.grid__body'), {className: 'scrollbar'});
+
+        // 전체 페이지 개수 확인 (데이터가 아예 없으면 전체 페이지가 0인 것도 감안)
+        let totalPageNum = (document.getElementById('totalPageNum').value === '0') ? 1 : Number(document.getElementById('totalPageNum').value);
+
+        // 전체 페이지가 1페이지이면 페이징 표시는 숨김.
+        if (totalPageNum === 1) {
+            document.querySelector('.z-page-paging').style.visibility = 'hidden';
+        } else {
+            document.querySelector('.z-page-paging').style.visibility = 'visible';
+        }
+        // 현재 출력되어 있는 페이징 번호 목록
         let currentPageList = [];
         document.querySelectorAll(this.options.pageNumSelector).forEach((element) => {
             currentPageList.push(element.innerText);
         });
 
-        // 2-2) 현재 페이지 번호, 전체 페이지 수
+        // 현재 페이지 번호
         let currentPageNum = Number(document.getElementById('currentPageNum').value);
-        let totalPageNum = (document.getElementById('totalPageNum').value === '0') ? 1 : Number(document.getElementById('totalPageNum').value);
         document.getElementById('spanCurrentPageNum').innerText = i18n.msg('common.label.totalPageNum', totalPageNum);
 
-        // 2-3) 현재 페이지번호가 이미 있는 경우 -> class 적용만하고 끝냄.
+        // 현재 페이지번호가 이미 있는 경우 -> class 적용만하고 끝냄.
         if (currentPageList.includes(currentPageNum)) {
             document.querySelectorAll(this.options.pageNumSelector).forEach((span) => {
                 span.className = '';
@@ -66,12 +88,12 @@ export default class ZPaging {
             return true;
         }
 
-        // 2-4) 현재 출력되어 있는 페이지 번호 목록 삭제.
+        // 현재 출력되어 있는 페이지 번호 목록 삭제.
         document.querySelectorAll(this.options.pageNumSelector).forEach((span) => {
             span.remove();
         });
 
-        // 2-5) 페이지 번호 넣기.
+        // 페이지 번호 넣기.
         let startPageNum = (Math.floor((currentPageNum - 1) / this.options.numOfPageNums) * this.options.numOfPageNums) + 1;
         let endPageNum = (startPageNum + this.options.numOfPageNums - 1 > totalPageNum) ? totalPageNum : startPageNum + this.options.numOfPageNums - 1;
         for (let i = startPageNum; i <= endPageNum; i++) {
@@ -86,46 +108,31 @@ export default class ZPaging {
             }
         }
 
-        // 3) 화살표 처리
+        // 화살표 처리
         document.querySelectorAll('a.z-paging-arrow').forEach( arrow => {
             arrow.classList.remove(this.options.activeArrowClass);
             arrow.removeAttribute('href');
         });
 
-        // 3-1) Start 화살표 처리 (제일 앞에 있는 '페이지 목록' 이동)
+        // 1) Start 화살표 처리 (제일 앞에 있는 '페이지 목록' 이동)
         if (endPageNum > this.options.numOfPageNums) {
             this.makePagingArrow('pagingStartArrow', 1);
         }
 
-        // 3-2) Prev 화살표 처리 (바로 앞에 있는 '페이지 목록' 이동)
+        // 2) Prev 화살표 처리 (바로 앞에 있는 '페이지 목록' 이동)
         if (endPageNum > this.options.numOfPageNums) {
             this.makePagingArrow('pagingPrevArrow', startPageNum - 1);
         }
 
-        // 3-3) End 화살표 처리 (제일 마지막 '페이지 목록' 이동)
+        // 3) End 화살표 처리 (제일 마지막 '페이지 목록' 이동)
         if (totalPageNum > endPageNum) {
             this.makePagingArrow('pagingEndArrow', totalPageNum);
         }
 
-        // 3-4) Next 화살표 처리 (바로 다음 '페이지 목록' 이동)
+        // 4) Next 화살표 처리 (바로 다음 '페이지 목록' 이동)
         if (totalPageNum > endPageNum) {
             this.makePagingArrow('pagingNextArrow', endPageNum + 1);
         }
-
-        // 4) 정렬
-        this.makeSortGridIcon();
-        const gridHead = document.querySelector('.grid__head');
-        if (gridHead) {
-            gridHead.querySelectorAll('.grid__cell[data-grid-sortable="true"]').forEach((element) => {
-                element.addEventListener('click', this.sortGrid.bind(this), false);
-            });
-        }
-
-        // 스크롤바는 paging이 아니지만 옵져버가 새로 계산할 때마다 필요하기 때문에 임시로 이 곳에 작성.
-        // 팀장님께서 다시 정리하신다고 하셨음.! by.mo
-        OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelector('.z-main'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelector('.grid__body'), {className: 'scrollbar'});
     }
 
     makePagingArrow(elementId, pageNum) {
@@ -159,6 +166,8 @@ export default class ZPaging {
         const curPageLink = document.querySelector('.' + this.options.selectedPage);
         if (curPageLink) {
             curPageLink.click();
+        } else {
+
         }
     }
     // 정렬 아이콘 추가

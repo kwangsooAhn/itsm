@@ -62,6 +62,9 @@ export const checkBoxMixin = {
                 this.UIElement.UIComponent.UIElement['UILabel' + i].addUIClass('readonly');
                 this.UIElement.UIComponent.UIElement['UILabel' + i].UICheckbox.addUIClass('readonly');
             }
+            // 필수값 표시가 된 대상에 대해 Required off 처리한다.
+            this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
         }
 
         if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
