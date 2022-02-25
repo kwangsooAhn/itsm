@@ -1196,7 +1196,7 @@ insert into awf_url values ('/processes', 'get', '프로세스 목록', 'TRUE');
 insert into awf_url values ('/processes/search', 'get', '프로세스 리스트 검색 호출 화면', 'TRUE');
 insert into awf_url values ('/process/{id}/edit', 'get', '프로세스 디자이너 편집 화면' ,'TRUE');
 insert into awf_url values ('/process/{id}/view', 'get', '프로세스 디자이너 보기 화면' ,'TRUE');
-insert into awf_url values ('/process/{id}/status', 'get', '프로세스 상태', 'TRUE');
+insert into awf_url values ('/process/{id}/status', 'get', '프로세스 상태', 'FALSE');
 insert into awf_url values ('/rest/auths', 'get', '권한 전체 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/auths', 'post', '권한 등록', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'get', '권한 상세 정보 조회', 'TRUE');
