@@ -1412,6 +1412,9 @@ insert into	awf_url values ('/rest/workflows/workflowLink', 'post', '업무흐�
 insert into awf_url values ('/workflows/workflowLink/{id}/edit', 'get', '업무흐름 링크 편집', 'TRUE');
 insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'delete', '업무흐름 링크 삭제', 'TRUE');
 insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'put', '업무흐름 링크 변경', 'TRUE');
+insert into awf_url values ('/itsm','get','SSO 사용 여부', 'FALSE');
+insert into awf_url values ('/itsm/sso','get','SSO 토큰 확인 화면', 'FALSE');
+insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FALSE');
 
 /**
  * URL별권한매핑
@@ -1603,6 +1606,8 @@ insert into awf_url_auth_map values ('/rest/downloads/{id}', 'delete', 'portal.m
 insert into awf_url_auth_map values ('/rest/faqs', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/faqs/{id}', 'put', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/faqs/{id}', 'delete', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}', 'put', 'workflow.manage');

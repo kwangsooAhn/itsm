@@ -59,9 +59,9 @@ $component-icon-drag-font-color:                   $blue400;
 
 // properties header
 $layout-properties-panel-header-height:            2.5rem; // 40px
-$layout-properties-panel-header-font-size:         $font-size-s;
-$layout-properties-panel-header-font-color:        $gray600;
-$layout-properties-panel-header-font-weight:       $font-weight-bold;
+$layout-properties-panel-header-font-size:         $font-size-l;
+$layout-properties-panel-header-font-color:        $neutral800;
+$layout-properties-panel-header-font-weight:       $font-weight-semibold;
 $layout-properties-panel-header-bg-color:          $white;
 $layout-properties-panel-header-border-color:      $gray300;
 
@@ -154,12 +154,12 @@ $save-as-modal-height:                             25.63rem; // 410px
 /////////////////////////// properties ////////////////////////////
 $property-font-size:                               $font-size-xs; // 14px
 
-$property-group-label-color:                       $gray800;
+$property-group-label-color:                       $neutral600;
 $property-group-label-font-family:                 $font-family;
-$property-group-label-font-size:                   $font-size-s; // 16px
+$property-group-label-font-size:                   $font-size-m ; // 16px
 $property-group-label-font-weight:                 $font-weight-medium;
 
-$property-label-color:                             $gray500;
+$property-label-color:                             $neutral600;
 $property-label-font-size:                         $font-size-xs; // 14px
 
 // 열 속성 > tab button

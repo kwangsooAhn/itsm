@@ -366,7 +366,12 @@
                 }
             },
             doubleClickNode: function(p_node) {
-                this.toggleNode(p_node);
+                if (options.rootAvailable || p_node.parent.id !== undefined) {
+                    this.selectNode(p_node);
+                    document.getElementById('saveSelectedNode').click();
+                } else {
+                    this.toggleNode(p_node);
+                }
             },
             selectNode: function(p_node) {
                 if (p_node !== null && p_node !== undefined) {
@@ -645,6 +650,7 @@
                 classes: 'tree',
                 buttons: [
                     {
+                        id: 'saveSelectedNode',
                         content: i18n.msg('common.btn.select'),
                         classes: 'z-button primary',
                         bindKey: false,

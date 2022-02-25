@@ -16,6 +16,7 @@ class CurrentSessionUser {
     fun getUserKey(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.userKey
     fun getUserId(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.userId
     fun getEmail(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.email
+    fun getTimezone(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.timezone
     fun getUserTemplateId(): String = DashboardConstants.DEFAULT_TEMPLATE_ID
 
     fun getAuth(): Set<String> {

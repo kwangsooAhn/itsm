@@ -1,4 +1,4 @@
-/* _tree.scss 
+/* _tree.scss
  *
  * 파일 경로 : template/_tree.scss
  * @description 트리 구조 디자인
@@ -50,13 +50,12 @@ ul.tree {
       &:before {
         content: '';
         @include absolute($top: ($tree-line-height / 2), $left: 0); // half of line-height
-        width: $tree-indentation; 
+        width: $tree-indentation;
         height: $tree-line-width; // 1px
         @include border($tree-line-width, solid, $tree-line-color, top);
       }
        // cover the excess line
        &:last-child:before {
-        background-color: $tree-bg-color;
         height: auto;
         top: ($tree-line-height / 2);
         bottom: 0;

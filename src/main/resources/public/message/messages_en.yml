@@ -623,6 +623,8 @@ document:
     applicationForm: "Application Form"
     applicationFormLink: "Application Form - Link"
     workflow: "WorkFlow"
+  btn:
+    draftSave: "Draft save"
 
 # Download
 download:
@@ -1334,15 +1336,16 @@ token:
     terminate: "terminate"
     finish: "finish"
   excel:
-    docNo: "Document No"
-    name: "Document Name"
+    application-form: "application Form"
+    assignee: "Assignee"
+    createDt: "Document Create Date"
+    createUser: "Document Create User"
     desc: "Document Desc"
+    docNo: "Document No"
+    endDt: "Document End Data"
     status: "Document Status"
     type: "Document Type"
-    createDt: "Document Create Date"
-    endDt: "Document End Data"
-    createUser: "Document Create User"
-    application-form: "application Form"
+    name: "Title"
     workflow: "Workflow"
 
 # WorkflowAdmin

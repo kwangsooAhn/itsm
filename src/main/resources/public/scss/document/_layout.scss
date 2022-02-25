@@ -13,16 +13,14 @@
   @include container;
 
   .z-document-main {
-    @include fixedContainer;
+    @include fixed(0, $layout-properties-width, 0, 0);
     @include scrollbarHidden;
+    overflow-y: auto;
     background-color: $layout-main-bg-color;
-    z-index: 1000;
 
     // 상단 영역
     .z-document-main-header {
-      position: fixed;
-      right: 38.13rem;
-      width: calc(100% - 38.13rem);
+      @include fixed(0, $layout-properties-width, null, 0);
       padding: 0.75rem 1rem ; // 12px
       background: $blue500;
       z-index: $z-index-gnb;
@@ -43,8 +41,8 @@
       text-align: center;
       // 문서 번호
       .z-document-numbering {
-        width: 100%;
-        margin-bottom: 0.625rem; // 10px
+        margin: 6.25rem 0 0.625rem; // 100px 0 0 10px
+        text-align: left;
         font-family: $document-numbering-font-family;
         font-size: $font-size-xs;
       }
@@ -53,7 +51,7 @@
     // board 영역
     .z-drawing-board {
       margin: 6.25rem 0 3rem; // 100px 48px
-      .z-form { margin: 0 6.25rem !important; } // 100px
+      //.z-form { margin: 0 3.125rem !important; } // 50px
     }
 
     // 하단 영역
@@ -63,7 +61,39 @@
     }
   }
 
+  // 속성 탭 toggle 버튼
+  .toggle--tab {
+    position: absolute;
+    top: 4.688rem; // 75px
+    right: $layout-properties-width;
+    padding: 0.25rem 0; // 4px 0
+    background-color: $gray400;
+    border-radius: 0;
+    border-top-left-radius: 0.3125rem; // 5px
+    border-bottom-left-radius: 0.3125rem; // 5px
+    z-index: $z-index-tooltip;
+    .z-icon {
+      &.i-arrow-double {
+        background: $white;
+      }
+    }
 
+    &.off {
+      right: 0;
+      .z-icon {
+        &.i-arrow-double {
+          @include rotate(180);
+        }
+      }
+      + form {
+        .z-document-main {
+          right: 0;
+          .z-document-main-header { right: 0; }
+        }
+      }
+      ~ .z-token-properties { width: 0; }
+    }
+  }
   // TODO: 문서함에서 문서속성 탭쪽 디자인
   // 2021-06-26 Jung Hee Chan
   // 신청서 디자인은 되었는데 문서함쪽은 고려가 안되어 있는 것 같아 일단 붙여 놓음.
@@ -74,11 +104,12 @@
     background-color: $layout-properties-bg-color;
     @include border($layout-properties-border-width, solid, $layout-properties-border-color, left);
     overflow: hidden;
+    @include transition(all 0.25s ease-out);
 
     .z-token-tabs {
       display: flex;
       margin-top: 2rem; // 32px
-      padding: 0 4.0625rem;
+      padding: 0 1.375rem; // 22px
 
       .z-token-tab {
         color: $token-tab-color;
@@ -100,7 +131,7 @@
 
       .z-token-panel {
         display: none;
-        padding: 0 4.0625rem;
+        padding: 0 1.375rem; // 22px
 
         &.on { display: block; }
 
@@ -123,7 +154,7 @@
           &-sub-title {
             display: block;
             color: $token-tab-sub-title-color;
-            margin: 1.75rem 0 0.375rem 0; // 28px 0 6px 0
+            margin: 1.75rem 0 0.3125rem 0; // 28px 0 5px 0
           }
 
           &-table {
@@ -159,7 +190,7 @@
           &-sub-title {
             display: block;
             color: $token-tab-sub-title-color;
-            margin: 2.5rem 0 0.375rem 0; // 40px 0 6px 0
+            margin: 2.5rem 0 0.3125rem 0; // 40px 0 5px 0
           }
 
           &-item {
@@ -265,6 +296,12 @@
 
         // 참조인
         &-viewer {
+          &-sub-title {
+            display: block;
+            color: $token-tab-sub-title-color;
+            margin: 2.5rem 0 0.3125rem 0; // 40px 0 5px 0
+          }
+
           &-table {
             td, th {
               &:nth-child(3) { color: $gray500; }

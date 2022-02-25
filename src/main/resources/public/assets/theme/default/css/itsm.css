@@ -4,7 +4,7 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-/* _reset.scss 
+/* _reset.scss
  *
  * 파일 경로 : template/_reset.scss
  * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
@@ -77,6 +77,8 @@ input, button, select, optgroup, textarea {
   line-height: 1.2;
   margin: 0;
   max-width: 100%;
+  background-color: #FFFFFF;
+  border: none;
 }
 
 :root {
@@ -649,9 +651,15 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.0625rem solid #ABB0B5;
   padding-bottom: 0.625rem;
   margin-bottom: 0.625rem;
+  margin-top: 1.875rem;
 }
 .under-bar .bold {
   border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+}
+.under-bar label {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #757575;
 }
 
 .pointer {
@@ -1605,8 +1613,8 @@ input, button, select, optgroup, textarea {
   -webkit-print-color-adjust: exact;
 }
 .z-icon.i-search {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_search.svg");
   mask-image: url("../../../media/icons/icon_search.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1615,8 +1623,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-delete {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_delete.svg");
   mask-image: url("../../../media/icons/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1625,8 +1633,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-edit {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_edit.svg");
   mask-image: url("../../../media/icons/icon_edit.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1645,8 +1653,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-clipboard {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_clipboard.svg");
   mask-image: url("../../../media/icons/icon_clipboard.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1655,8 +1663,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-plus {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_plus.svg");
   mask-image: url("../../../media/icons/icon_plus.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1665,8 +1673,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-minus {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_minus.svg");
   mask-image: url("../../../media/icons/icon_minus.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1675,8 +1683,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-check {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_check.svg");
   mask-image: url("../../../media/icons/icon_check.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1695,8 +1703,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-copy {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_copy.svg");
   mask-image: url("../../../media/icons/icon_copy.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1705,8 +1713,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-arrow-right {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_arrow_right.svg");
   mask-image: url("../../../media/icons/icon_arrow_right.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1714,9 +1722,19 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-icon.i-color-palette {
+.z-icon.i-arrow-double {
   width: 1.5rem;
   height: 1.5rem;
+  -webkit-mask-image: url("../../../media/icons/icon_arrow_double.svg");
+  mask-image: url("../../../media/icons/icon_arrow_double.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-color-palette {
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/colorPicker/icon_color_palette.svg");
   mask-image: url("../../../media/icons/colorPicker/icon_color_palette.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1725,8 +1743,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-image {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_image.svg");
   mask-image: url("../../../media/icons/icon_image.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1735,8 +1753,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-folder {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_folder.svg");
   mask-image: url("../../../media/icons/icon_folder.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1745,8 +1763,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-download {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/fileUploader/icon_download.svg");
   mask-image: url("../../../media/icons/fileUploader/icon_download.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1755,8 +1773,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-upload {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/fileUploader/icon_upload.svg");
   mask-image: url("../../../media/icons/fileUploader/icon_upload.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1765,8 +1783,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-tooltip {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_tooltip.svg");
   mask-image: url("../../../media/icons/icon_tooltip.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1775,8 +1793,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-download-as-excel {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_download_xls.svg");
   mask-image: url("../../../media/icons/icon_download_xls.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1785,8 +1803,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-sorting {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../../../media/icons/icon_sorting.svg");
   mask-image: url("../../../media/icons/icon_sorting.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1925,7 +1943,7 @@ input, button, select, optgroup, textarea {
  */
 body {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -1934,12 +1952,13 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
+  color: #424242;
 }
 
 h2 {
@@ -1947,7 +1966,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 h4 {
@@ -1959,8 +1978,9 @@ h5 {
 }
 
 h6 {
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
+  font-weight: 500;
+  color: #757575;
 }
 
 a {
@@ -1971,7 +1991,7 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: #222529;
+  color: #424242;
   text-decoration: none;
 }
 
@@ -1995,8 +2015,8 @@ table td, table th {
 .z-table {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
-  color: #222529;
+  font-weight: 500;
+  color: #424242;
   background-color: transparent;
   border: none;
 }
@@ -2007,13 +2027,13 @@ table td, table th {
   padding-left: 1.25rem;
 }
 .z-table td a, .z-table th a {
-  color: #222529;
+  color: #424242;
 }
 .z-table th {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  color: #222529;
+  color: #757575;
 }
 .z-table .z-table-head {
   border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
@@ -2045,7 +2065,7 @@ table td, table th {
 .z-option-table {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   color: #ABB0B5;
   background-color: transparent;
   border: none;
@@ -2062,7 +2082,7 @@ table td, table th {
 .z-option-table tr.z-option-table-header {
   height: 2rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: #ABB0B5;
   border-top: 0.0625rem solid #ABB0B5;
@@ -2097,9 +2117,9 @@ span {
 
 label {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  color: #8B9094;
+  color: #757575;
   font-size: 0.875rem;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .input-button {
@@ -2127,18 +2147,18 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 
 .z-input {
-  height: 2.25rem;
+  height: 2.125rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
   vertical-align: middle;
   /* Chrome, Safari, Edge */
   /* Firefox */
@@ -2250,7 +2270,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-input-button {
   position: relative;
-  height: 2.25rem;
+  height: 2.125rem;
 }
 .z-input-button .z-input {
   flex-basis: 100%;
@@ -2281,11 +2301,11 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-textarea {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.2;
-  color: #222529;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #424242;
   background-color: #FFFFFF;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.75rem;
 }
 .z-textarea:not(.os-textarea) {
   border: 0.0625rem solid #ABB0B5;
@@ -2353,9 +2373,9 @@ div.z-textarea-readonly {
   height: 1.125rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   outline: none;
 }
 .z-switch .z-label {
@@ -2424,18 +2444,18 @@ div.z-textarea-readonly {
 
 select {
   width: inherit;
-  height: 2.25rem;
+  height: 2.125rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
   vertical-align: middle;
   -moz-appearance: none;
   /* Firefox */
@@ -2456,7 +2476,7 @@ select {
   display: inline-block;
   position: relative;
   width: 100%;
-  height: 2.25rem;
+  height: 2.125rem;
   vertical-align: middle;
 }
 .z-select select.readonly {
@@ -2470,12 +2490,12 @@ select {
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 0.5625rem 1.75rem 0.5625rem 1rem;
+  padding: 0.5rem 1.75rem 0.5rem 0.75rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   cursor: pointer;
   border-radius: 0.125rem;
@@ -2576,7 +2596,7 @@ select {
   border: 0.0625rem solid #ABB0B5;
   background-color: #FFFFFF;
   max-height: 25rem;
-  color: #222529;
+  color: #424242;
   outline: 0;
   overflow: auto;
   border-radius: 0.125rem;
@@ -2589,11 +2609,11 @@ select {
 .z-select .z-select-options li {
   padding: 0.5625rem 1.75rem 0.5625rem 0;
   margin: 0 0.3125rem;
-  text-indent: 0.6875rem;
+  text-indent: 0.4375rem;
   align-items: center;
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
   display: block;
   max-width: 100%;
@@ -2724,9 +2744,9 @@ select {
   margin-right: 0.5rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   outline: none;
 }
 .z-checkbox > span:first-of-type {
@@ -2754,7 +2774,7 @@ select {
 .z-checkbox input[type=checkbox]:checked + span::after {
   content: "";
   position: absolute;
-  top: -0.04rem;
+  top: 0;
   left: 0;
   width: 0.75rem;
   height: 0.375rem;
@@ -2818,9 +2838,9 @@ select {
   margin-right: 0.5rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.6;
-  color: #222529;
+  color: #424242;
   outline: none;
 }
 .z-radio > span:first-of-type {
@@ -2942,6 +2962,10 @@ select {
   border-color: #84D1FA;
 }
 
+.z-divider {
+  margin: 0;
+}
+
 .z-checkbox-all {
   display: table-cell;
 }
@@ -3044,7 +3068,7 @@ select {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
-  padding: 0.5rem 1.25rem;
+  padding: 0.625rem 1.25rem;
 }
 .z-button:focus, .z-button:hover,
 .z-button-icon:focus,
@@ -3575,7 +3599,7 @@ select {
 .z-button-icon.light-secondary,
 .z-button-text.light-secondary {
   color: #FFFFFF;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.2);
   border-color: #FFFFFF;
 }
 .z-button.light-secondary .z-icon,
@@ -3589,7 +3613,7 @@ select {
 .z-button-icon.light-secondary:focus,
 .z-button-text.light-secondary:focus {
   color: #FFFFFF;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.1);
   border-color: #FFFFFF;
   box-shadow: 0 0 0.125rem #2578CE;
 }
@@ -3602,7 +3626,7 @@ select {
 .z-button-icon.light-secondary:hover,
 .z-button-text.light-secondary:hover {
   color: #FFFFFF;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
   border-color: #FFFFFF;
 }
 .z-button.light-secondary:hover .z-icon,
@@ -3785,7 +3809,8 @@ select {
 }
 
 .z-button-icon {
-  padding: 0.3125rem;
+  padding: 0.4375rem;
+  line-height: 0;
 }
 .z-button-icon-sm {
   width: 1rem;
@@ -3811,10 +3836,18 @@ select {
 .z-button-text {
   padding: 0;
   line-height: 1.25rem;
+  color: #63686C;
 }
 .z-button-text:hover {
   text-decoration: underline;
   text-underline-position: under;
+  color: #ABB0B5;
+}
+.z-button-text:active, .z-button-textfocus {
+  color: #222529;
+}
+.z-button-text:disabled, .z-button-text.disabled {
+  color: #CFD5D9;
 }
 
 .z-button-list {
@@ -4119,7 +4152,6 @@ select {
   flex-direction: column;
   width: calc(100% - 13.75rem);
   height: 100vh;
-  background-color: #FAFAFA;
 }
 .z-itsm-container .z-main-title {
   display: flex;
@@ -4127,13 +4159,11 @@ select {
   padding: 0 3.75rem 2rem 3.75rem;
 }
 .z-itsm-container .z-main-content {
-  background-color: #FAFAFA;
   height: calc(100vh - 8.5rem);
 }
 .z-itsm-container .z-main-content .z-page-content {
   border-top: 0.0625rem solid #CFD5D9;
   flex: 1 1 auto;
-  background: #FFFFFF;
 }
 .z-itsm-container .z-main-content .z-page-search {
   display: flex;
@@ -4142,9 +4172,9 @@ select {
 }
 .z-itsm-container .z-main-content .z-page-search .z-search-count {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.875rem;
-  color: #8B9094;
+  color: #757575;
 }
 .z-itsm-container .z-main-content .z-page-result {
   display: flex;
@@ -4382,9 +4412,10 @@ select {
   display: flex;
   height: 100%;
   align-items: center;
+  font-weight: 500;
+  color: #424242;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row {
-  color: #63686C;
   border-bottom: 0.125rem solid #CFD5D9;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
@@ -4394,7 +4425,7 @@ select {
   pointer-events: none;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
-  background: #63686C;
+  background: #757575;
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -4407,6 +4438,9 @@ select {
   -o-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
   transform: rotate(0deg);
+}
+.z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell {
+  color: #757575;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body {
   overflow: hidden !important;
@@ -4427,8 +4461,9 @@ select {
   font-weight: 700;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body .sub-text {
-  color: #8B9094;
-  font-size: 0.875rem;
+  color: #757575;
+  font-size: 0.75rem;
+  font-weight: 400;
 }
 .z-itsm-container .z-main-content .z-page-list .grid--noData .grid__cell {
   grid-column: 1/-1;
@@ -4498,7 +4533,7 @@ select {
   cursor: pointer;
 }
 .z-itsm-container .z-main-content .card-list .card:hover {
-  box-shadow: 0 0 0 0.0625rem #CFD5D9;
+  box-shadow: 0 0 0.625rem 0 #E1E6EA;
 }
 .z-itsm-container .z-main-content .card-list .card .document-column h3 {
   width: 28rem;
@@ -4547,9 +4582,10 @@ select {
   padding: 0 1.25rem;
 }
 .z-itsm-container .z-main-content .z-page-view-content {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #222529;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #424242;
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
 }
@@ -4634,9 +4670,10 @@ select {
   padding: 0 1.25rem;
 }
 .z-itsm-container .z-main .view-content {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #222529;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #424242;
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
 }
@@ -4818,9 +4855,9 @@ select {
 }
 .z-document-content .document-column .document-name {
   width: 17.5rem;
-  color: #222529;
-  font-size: 1.5rem;
-  font-weight: 500;
+  color: #424242;
+  font-size: 1.5625rem;
+  font-weight: 600;
 }
 .z-document-content .document-column .document-icon {
   position: absolute;
@@ -5021,6 +5058,7 @@ select {
   display: inline-block;
   padding-left: 1.1875rem;
   font-weight: 500;
+  font-size: 1rem;
   line-height: 1.3rem;
 }
 .z-navigation .z-gnb .z-menu .z-menu-area .z-gnb-area .z-gnb-link .z-token-count {
@@ -5123,7 +5161,6 @@ select {
 }
 
 .z-main-top {
-  background-color: #FAFAFA;
   height: 3.5rem;
 }
 .z-main-top .z-divide {
@@ -5132,11 +5169,9 @@ select {
   color: #CFD5D9;
 }
 .z-main-top .z-user-info {
-  height: 2.875rem;
+  height: 2.5rem;
   margin: 0.313rem 0.5rem 0.313rem 0;
   padding: 0 0.5rem 0 0.5rem;
-  background-color: #FAFAFA;
-  border: 0.0625rem solid #FAFAFA;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
@@ -5173,16 +5208,16 @@ select {
 .z-main-top .z-user-info:hover {
   outline: 0;
   cursor: pointer;
-  background-color: #FFFFFF;
-  border-color: #CFD5D9;
+  background-color: #EBF1F5;
 }
 .z-main-top .z-user-info:focus {
   outline: 0;
-  border: 0.0625rem solid #2578CE !important;
+  box-shadow: 0 0 0 0.125rem #103F8B;
 }
 .z-main-top .z-user-info:active {
   background-color: #FFFFFF;
   border-color: #CFD5D9;
+  box-shadow: 0 0 0 0.125rem #103F8B;
 }
 .z-main-top .z-user-info:active .i-arrow-right {
   background-color: #222529;
@@ -5204,11 +5239,14 @@ select {
 .z-main-top .z-dropdown-content {
   visibility: hidden;
   position: absolute;
-  margin: 3.625rem 0.5rem 0 0;
+  margin: 3.125rem 0.5rem 0 0;
   background-color: #FFFFFF;
   color: #222529;
   font-size: 0.875rem;
   border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
   z-index: 100;
 }
 .z-main-top .z-dropdown-item {
@@ -5218,7 +5256,8 @@ select {
   width: calc(100% - (0.188rem * 2));
   padding-left: 0.875rem;
   margin: 0.188rem;
-  line-height: 2.3;
+  line-height: 2;
+  font-weight: 500;
   background-color: #FFFFFF;
   border: 0.0625rem solid #FFFFFF;
   border-radius: 0.0625rem;
@@ -5380,7 +5419,7 @@ select {
 }
 .z-validation.default {
   border: 0.0625rem solid #ABB0B5;
-  color: #222529;
+  color: #424242;
   background-color: #FFFFFF;
   background-image: url("../../../media/icons/validation/icon_default.svg");
   background-size: auto;
@@ -6774,7 +6813,7 @@ select {
   padding: 0;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-picker {
-  color: #222529;
+  color: #424242;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats {
   margin: 0;
@@ -6864,7 +6903,7 @@ select {
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-color-picker .ql-picker-label svg .ql-label,
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-color-picker .ql-picker-label svg .bg-line {
-  fill: #222529;
+  fill: #424242;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-color-picker .ql-picker-label svg .bg {
   fill: #FFFFFF;
@@ -6982,9 +7021,9 @@ select {
   height: auto;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  color: #222529;
+  color: #424242;
   border: 0.0625rem solid #ABB0B5;
 }
 .ql-wrapper-container .ql-container.ql-snow .ql-editor {
@@ -7048,7 +7087,7 @@ select {
   height: 12.5rem;
 }
 
-/* _tree.scss 
+/* _tree.scss
  *
  * 파일 경로 : template/_tree.scss
  * @description 트리 구조 디자인
@@ -7111,7 +7150,6 @@ ul.tree ul li:before {
   border-top: 0.0625rem solid #CFD5D9;
 }
 ul.tree ul li:last-child:before {
-  background-color: #FAFAFA;
   height: auto;
   top: 0.9375rem;
   bottom: 0;
@@ -7938,7 +7976,6 @@ body.modal-active {
 .modal-dialog.z-thumbnail-preview .modal-content .z-thumbnail-preview-file {
   width: 100%;
   height: 100%;
-  background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -8276,11 +8313,11 @@ body.modal-active {
 }
 .z-notification-body {
   overflow-y: auto;
-  height: 20.63rem;
+  max-height: 20.63rem;
 }
-.z-notification-body.z-nodata {
+.z-notification-body .z-noData {
   height: 6.875rem;
-  padding: 0.938rem;
+  padding: 3rem;
 }
 .z-notification-content {
   height: 6.875rem;
@@ -8556,9 +8593,10 @@ body.modal-active {
   padding: 0 1.25rem;
 }
 .itsm-popup .view-content {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #222529;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #424242;
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
 }
@@ -8638,7 +8676,7 @@ body.modal-active {
   position: relative;
   display: inline-flex;
   width: 100%;
-  min-height: 2.25rem;
+  min-height: 2.125rem;
   align-items: flex-start;
   flex-wrap: wrap;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -8671,7 +8709,7 @@ body.modal-active {
   -moz-border-radius: 0.125rem;
 }
 .tagify.z-input > .tagify__input {
-  padding: 0 1rem;
+  padding: 0 0.75rem;
   visibility: visible;
 }
 .tagify.z-input > .tagify__input:not(:first-child) {
@@ -9085,10 +9123,6 @@ body.modal-active {
  * @description 페이징 목록 디자인
  * @author Jung Hee Chan
  */
-.z-itsm-container .z-page-paging {
-  background-color: #FAFAFA;
-}
-
 .z-page-paging {
   display: flex;
   flex-direction: row !important;
@@ -9170,12 +9204,12 @@ body.modal-active {
   background-color: #E3F5FC;
 }
 .z-page-paging .z-paging-numbers a.selected-page {
-  background-color: #84D1FA;
+  background-color: #EBF1F5;
   color: #1959AC;
   font-weight: 700;
 }
 .z-page-paging .z-paging-numbers a:active {
-  background-color: #84D1FA;
+  background-color: #EBF1F5;
   color: #1959AC;
   font-weight: 700;
 }
@@ -9188,8 +9222,8 @@ body.modal-active {
   border-bottom-right-radius: 0.15rem;
 }
 .z-page-paging #spanCurrentPageNum {
-  font-weight: 700;
-  color: #8B9094;
+  font-weight: 500;
+  color: #757575;
   position: absolute;
   right: 3.75rem;
 }

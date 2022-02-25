@@ -8,24 +8,12 @@
   }
 }
 
-// radio button
+// main
 .z-component {
   .z-radio {
     input[type=radio] {
-      // ⓞ 로 사용될 span
       + span {
-        &::after { // 선택시 작은 원
-          top: 0.35rem; // 5.6px
-        }
-      }
-    }
-  }
-  .z-checkbox {
-    input[type=checkbox] {
-      + span {
-        &::after {
-          top: 0.75rem;
-        }
+        &::after { top: 0.35rem; } // 5.6px
       }
     }
   }

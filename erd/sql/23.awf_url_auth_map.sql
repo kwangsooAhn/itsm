@@ -188,6 +188,8 @@ insert into awf_url_auth_map values ('/rest/downloads/{id}', 'delete', 'portal.m
 insert into awf_url_auth_map values ('/rest/faqs', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/faqs/{id}', 'put', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/faqs/{id}', 'delete', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}', 'put', 'workflow.manage');

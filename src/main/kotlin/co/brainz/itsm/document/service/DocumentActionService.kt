@@ -60,27 +60,9 @@ class DocumentActionService(
             val isProgress = this.checkTokenStatusAndAction(tokenObject)
             // 담당자 인지 확인
             val isAssignee = this.checkAssignee(tokenObject, userEntity)
+            tokenObject.get("stakeholders").asJsonObject.addProperty("isAssignee", isAssignee)
             // 반환할 버튼 정보
             val actionsResult = this.getActionList(tokenObject, userEntity, isProgress, isAssignee)
-            // 해당 문서의 담당자가 아닌 경우, 모든 그룹의 displayType을 readonly로 설정한다.
-            val groups = tokenObject.get("form").asJsonObject.get("group").asJsonArray
-            if (!isAssignee) {
-                for (action in actionsResult) {
-                    if (action.asJsonObject.get("value").asString == WfElementConstants.Action.SAVE.value ||
-                        action.asJsonObject.get("value").asString == WfElementConstants.Action.CANCEL.value ||
-                        action.asJsonObject.get("value").asString == WfElementConstants.Action.TERMINATE.value ||
-                        action.asJsonObject.get("value").asString == WfElementConstants.Action.REJECT.value ||
-                        action.asJsonObject.get("value").asString == WfElementConstants.Action.WITHDRAW.value
-                    ) {
-                        for (group in groups) {
-                            group.asJsonObject.addProperty(
-                                "displayType",
-                                WfDocumentConstants.DisplayType.READONLY.value
-                            )
-                        }
-                    }
-                }
-            }
             tokenObject.remove("actions")
             if (actionsResult.size() > 0) {
                 tokenObject.add("actions", actionsResult)

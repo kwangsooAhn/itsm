@@ -71,8 +71,7 @@ export const dropdownMixin = {
         }
 
         if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
-            this.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
-            this.value === '') {
+            this.displayType === FORM.DISPLAY_TYPE.EDITABLE  && this.value === '') {
             let checkedYn = false;
             for (let i = 0; i < this.element.options.length; i++) {
                 checkedYn = this.element.options[i].checked || false;
