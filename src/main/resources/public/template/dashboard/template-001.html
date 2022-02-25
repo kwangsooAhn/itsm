@@ -78,6 +78,8 @@
         const requestList = /*[[${template.result[2].result}]]*/ "";
 
         window.onload = function () {
+            const a = /*[[${template}]]*/ "";
+            console.log(JSON.stringify(a));
             const container = /*[[${template.result[0].result}]]*/ "";
 
             // 태그 데이터 변환
@@ -90,7 +92,7 @@
             zChartManager.load(container);
             // 차트 데이터 업데이트
             zChartManager.update(container.chartData);
-
+            // 요청 현황
             updateReqStatus(requestList);
 
             OverlayScrollbars(document.querySelector('.contents__req-user'), {className: 'inner-scrollbar'});
