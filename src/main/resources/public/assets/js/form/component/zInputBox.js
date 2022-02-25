@@ -88,8 +88,7 @@ export const inputBoxMixin = {
         // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
         // 기본값이 '${default}' 이면 실제 값을 저장한다.
         if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
-            this.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
-            this.value === '${default}') {
+            this.displayType === FORM.DISPLAY_TYPE.EDITABLE  && this.value === '${default}') {
             this.value = this.UIElement.UIComponent.UIElement.UIInputbox.getUIValue();
         }
     },
