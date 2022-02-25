@@ -45,7 +45,7 @@ GET /dashboard/view
 ```
 #### 대시보드 템플릿 컴포넌트 호출
 ```
-GET /rest/dashboard/template/{templateId}/component/{componentKey}
+POST /rest/dashboard/template/{templateId}/component/{componentKey}
 ```
 
 ### Response
