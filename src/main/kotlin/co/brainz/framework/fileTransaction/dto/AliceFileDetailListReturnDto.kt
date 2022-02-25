@@ -10,5 +10,7 @@ import java.io.Serializable
 
 data class AliceFileDetailListReturnDto(
     val data: List<AliceFileDetailDto> = emptyList(),
-    val totalCount: Long = 0
+    val totalCount: Long = 0,
+    val totalCountWithoutCondition: Long = 0,
+    val orderType: String = ""
 ) : Serializable
