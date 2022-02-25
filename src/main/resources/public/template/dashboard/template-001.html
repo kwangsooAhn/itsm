@@ -123,15 +123,13 @@
          */
         // todo: 실제 데이터 연동 시, dummy Data부분 제거
         function getOrganizationData(organizationId) {
-            console.log(`${organizationId}`);
-
             // 업무현황 data load
-            // let urlParam = '/rest/dashboard/organization/' + organizationId + '?templateId=' + templateId + '&componentKey=' + /*[[${template.result[2].key}]]*/ "";
-            // aliceJs.fetchText(urlParam, {
-            //     method: 'GET'
-            // }).then((htmlData) => {
-            //     updateReqStatus(htmlData);
-            // });
+            let urlParam = '/rest/dashboard/organization/' + organizationId + '?templateId=' + templateId + '&componentKey=' + /*[[${template.result[2].key}]]*/ "";
+            aliceJs.fetchText(urlParam, {
+                method: 'GET'
+            }).then((htmlData) => {
+                updateReqStatus(JSON.parse(htmlData)['result']);
+            });
         }
 
         /**
