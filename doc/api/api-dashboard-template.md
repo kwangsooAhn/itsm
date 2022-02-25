@@ -39,13 +39,13 @@
 
 ### URL
 
-#### 템플릿 조회
+#### 대시보드 템플릿 화면 호출
 ```
 GET /dashboard/view
 ```
-#### 요청현황 조회
+#### 대시보드 템플릿 컴포넌트 호출
 ```
-GET rest/dashboard/unprocessedRequests/{organization_id}
+GET /rest/dashboard/template/{templateId}/component/{componentKey}
 ```
 
 ### Response
