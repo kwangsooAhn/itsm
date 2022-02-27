@@ -637,7 +637,7 @@ class ZFormTokenTab {
             `<img class="z-img i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
             `<h6 class="z-user-name pl-2">` + comment.createUserName + `</h6>` +
             `</div>` +
-            `<h6 class="z-comment-time date-time">` + comment.createDt + `</h6>` +
+            `<h6 class="z-comment-time date-time">` + i18n.userDateTime(comment.createDt) + `</h6>` +
             `<div class="ml-auto">`;
         if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=

@@ -37,7 +37,7 @@ export const zStackedColumnChartMixin = {
         // 시리즈 설정
         this.setSeries(defaultOptions);
         // 옵션 프로퍼티 초기화
-        this._options = defaultOptions;
+        this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
         // highcharts 초기화
         this.chart = Highcharts.chart(this.container, this.options);
         // highcharts 이름 초기화
@@ -55,7 +55,10 @@ export const zStackedColumnChartMixin = {
      */
     setXAxisOptions(option) {
         Object.assign(option.xAxis.labels, {
-            rotation: (this.config.periodUnit === CHART.PERIOD.HOUR) ? -45 : 0
+            rotation: (this.config.periodUnit === CHART.PERIOD.HOUR) ? -45 : 0,
+            formatter: function () {
+                return typeof this.value !== 'number' ? this.value : '';
+            }
         });
     },
     /**
@@ -120,14 +123,19 @@ export const zStackedColumnChartMixin = {
     update(data) {
         if (data.length === 0) { return false; }
 
-        const categories =  [...new Set(data.map(item => item.category))];
-        // 날짜 데이터 변환
-        const dateTimeCategories =  categories.map((category) =>
-            Highcharts.dateFormat(
-                this.getDateTimeFormat(),
-                this.getStringToDateTime(this.convertCategoryToLocal(category)))
-        );
-        this.chart.xAxis[0].setCategories(dateTimeCategories, false);
+        let categories =  [...new Set(data.map(item => item.category))];
+        // 차트의 기간 설정 데이터가 있을 경우, 날짜 데이터 변환
+        if (this.config.range.type !== CHART.RANGE_TYPE_NONE) {
+            const dateTimeCategories = categories.map((category) =>
+                Highcharts.dateFormat(
+                    this.getDateTimeFormat(),
+                    this.getStringToDateTime(this.convertCategoryToLocal(category)))
+            );
+            this.chart.xAxis[0].setCategories(dateTimeCategories, false);
+        } else {
+            this.chart.xAxis[0].setCategories(categories, false);
+        }
+
         for (let i = 0; i < this.chart.series.length; i++) {
             const tag = this.chart.series[i];
             let series = [];

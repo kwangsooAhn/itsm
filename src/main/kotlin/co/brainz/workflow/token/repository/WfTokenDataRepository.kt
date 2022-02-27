@@ -12,5 +12,5 @@ interface WfTokenDataRepository : JpaRepository<WfTokenDataEntity, String>, WfTo
     fun findWfTokenDataEntitiesByTokenTokenIdAndComponentComponentId(
         tokenId: String,
         componentId: String
-    ): WfTokenDataEntity
+    ): WfTokenDataEntity?
 }

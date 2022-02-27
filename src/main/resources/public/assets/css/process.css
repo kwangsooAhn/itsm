@@ -5267,6 +5267,33 @@ svg path.connector.hidden {
   resize: none;
 }
 
+.highcharts-scrollbar-track {
+  height: 0.5rem;
+  fill: #F5F5F5;
+  stroke-width: 0;
+  rx: calc(0.5rem / 2);
+  ry: calc(0.5rem / 2);
+}
+.highcharts-scrollbar-thumb {
+  height: 0.5rem;
+  fill: #E0E0E0;
+  stroke-width: 0;
+  rx: calc(0.5rem / 2);
+  ry: calc(0.5rem / 2);
+}
+.highcharts-scrollbar-thumb:hover {
+  fill: #CFD5D9;
+}
+.highcharts-scrollbar-button {
+  display: none;
+}
+.highcharts-scrollbar-arrow {
+  display: none;
+}
+.highcharts-scrollbar-rifles {
+  stroke: transparent;
+}
+
 /* _color-picker.scss 
  *
  * 파일 경로 : template/_color-picker.scss

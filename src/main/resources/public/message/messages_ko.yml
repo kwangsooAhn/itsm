@@ -513,17 +513,22 @@ customCode:
 # Dashboard
 dashboard:
   label:
+    all: "전체"
     dashboard: "개인 현황판"
     documentStatus: "신청한 문서 현황"
+    doneDocument: "전체 처리한 문서"
     etc: "기타"
+    incident: "장애 신고"
+    inquiry: "단순 문의"
     monthDoneDocument: "월간 처리한 문서"
+    organizationWorkStatus: "부서별 요청현황"
+    personalRequestStatus: "개인 요청현황"
     request: "서비스 요청"
+    requestStatus: "요청현황"
+    requestUnprocessedCount: "미처리 건수"
     runningDocument: "진행 중 문서"
     statistics: "업무 통계"
     todoDocument: "처리할 문서"
-    doneDocument: "전체 처리한 문서"
-    incident: "장애 신고"
-    inquiry: "단순 문의"
   msg:
     viewDescription: "나의 업무통계 및 처리할 문서를 조회합니다."
   status:
