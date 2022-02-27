@@ -60,7 +60,6 @@ import java.time.LocalDateTime
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 
-
 @Service
 class WfTokenManagerService(
     private val wfElementService: WfElementService,
