@@ -176,7 +176,13 @@
     }
 
     function saveAttribute(method) {
-        if (isValidRequiredAll() && zCmdbAttribute.checkDuplicate(document.querySelector('#attributeType').value)) {
+        if (isValidRequiredAll() && zCmdbAttribute.checkDuplicate(document.getElementById('attributeType').value)) {
+            const detailsElems = document.getElementById('details').childNodes;
+            if (detailsElems.length === 0) {
+                zAlert.warning(i18n.msg('cmdb.attribute.msg.details'));
+                return;
+            }
+
             let data = {
                 attributeId: '',
                 attributeName: document.querySelector('#attributeName').value,
