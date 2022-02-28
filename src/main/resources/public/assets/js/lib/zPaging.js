@@ -39,7 +39,6 @@ export default class ZPaging {
         document.getElementById('spanTotalCountWithoutCondition').innerText =
             i18n.msg(
                 'common.label.totalCountWithoutCondition',
-                i18n.msg(document.getElementById('orderType').value),
                 document.getElementById('totalCountWithoutCondition').value
             );
 

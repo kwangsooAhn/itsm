@@ -53,7 +53,7 @@ common:
     success: "Success"
     tag: "Tag"
     title: "Title"
-    totalCountWithoutCondition: "({0}) data total {1}"
+    totalCountWithoutCondition: "data total {0}"
     totalPageNum: "total {0} page"
     updateDate: "Update Date"
     updateUser: "Update User"

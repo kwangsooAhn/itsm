@@ -53,7 +53,7 @@ common:
     success: "성공"
     tag: "태그"
     title: "제목"
-    totalCountWithoutCondition: "({0}) 총 {1} 건"
+    totalCountWithoutCondition: "총 {0} 건"
     totalPageNum: "총 {0} 페이지"
     updateDate: "수정 일시"
     updateUser: "수정자"

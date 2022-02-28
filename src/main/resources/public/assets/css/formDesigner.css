@@ -7582,6 +7582,10 @@ body.modal-active {
 .z-component .z-element .z-dr-table .z-dr-table-row .z-input:not(.z-select-box-label).picker-main {
   padding-right: 2.25rem;
 }
+.z-component .z-element .z-dr-table .z-dr-table-row .z-input:read-only:not(:disabled):not(.tagify),
+.z-component .z-element .z-dr-table .z-dr-table-row .z-select .z-select-box.readonly {
+  border-bottom: none;
+}
 .z-component .z-element .z-dr-table .no-data-found-list {
   height: 2.5625rem;
   color: #ABB0B5;

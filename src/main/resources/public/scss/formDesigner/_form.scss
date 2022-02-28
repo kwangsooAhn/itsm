@@ -355,6 +355,9 @@
             padding-right: 2.25rem;
           }
         }
+
+        .z-input:read-only:not(:disabled):not(.tagify),
+        .z-select .z-select-box.readonly { border-bottom: none; }
       }
       // 데이터 없음
       .no-data-found-list {

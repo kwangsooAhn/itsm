@@ -4257,7 +4257,7 @@ select {
   font-weight: 500;
 }
 .z-itsm-container .z-main-content .z-page-result .component-title > *:first-child {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents {
   flex: 1 1 auto;
@@ -4300,9 +4300,11 @@ select {
   display: flex;
   height: 100%;
   align-items: center;
+  font-weight: 500;
+  color: #424242;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row {
-  color: #63686C;
+  color: #757575;
   border-bottom: 0.125rem solid #CFD5D9;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
@@ -4312,7 +4314,7 @@ select {
   pointer-events: none;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
-  background: #63686C;
+  background: #757575;
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -4326,9 +4328,13 @@ select {
   -ms-transform: rotate(0deg);
   transform: rotate(0deg);
 }
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell {
+  color: #757575;
+}
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body {
   overflow: hidden !important;
   display: flex;
+  flex-direction: column;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row {
   color: #222529;
@@ -4345,8 +4351,9 @@ select {
   font-weight: 700;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .sub-text {
-  color: #8B9094;
-  font-size: 0.875rem;
+  color: #757575;
+  font-size: 0.75rem;
+  font-weight: 400;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid--noData .grid__cell {
   grid-column: 1/-1;
@@ -4416,6 +4423,7 @@ select {
   color: #424242;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row {
+  color: #757575;
   border-bottom: 0.125rem solid #CFD5D9;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
@@ -4445,6 +4453,7 @@ select {
 .z-itsm-container .z-main-content .z-page-list .grid__body {
   overflow: hidden !important;
   display: flex;
+  flex-direction: column;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row {
   color: #222529;
