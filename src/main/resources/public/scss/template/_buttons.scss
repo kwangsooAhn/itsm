@@ -35,7 +35,7 @@
   cursor: pointer;
   @include border($button-border-none, solid, transparent, all);
   @include borderRadius($button-border-radius);
-  padding: 0.5rem 1.25rem; // 8px 20px
+  padding: 0.625rem 1.25rem; // 10px 20px
 
   &:focus,
   &:hover {
@@ -194,7 +194,8 @@
 }
 
 .z-button-icon {
-  padding: 0.3125rem; // 5px (버튼 기본 너비 높이 : 36px 36px)
+  padding: 0.4375rem; // 7px (버튼 기본 너비 높이 : 34px 34px)
+  line-height: 0;
   &-sm {
     width: 1rem; // 16px
     height: 1rem; // 16px
@@ -218,7 +219,19 @@
 .z-button-text {
   padding: 0;
   line-height: 1.25rem; // 20px
-  &:hover { @include underline; }
+  color: $gray600;
+  &:hover {
+    @include underline;
+    color: $gray400;
+  }
+  &:active,
+  &focus {
+    color: $gray800;
+  }
+  &:disabled,
+  &.disabled {
+    color: $gray300;
+  }
 }
 
 // 버튼 목록

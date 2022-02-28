@@ -19,7 +19,7 @@
         <!-- 트리 화면 -->
         <div class="z-page-column-item flex-column flex-col-3">
             <div class="z-page-search">
-                <input type="text" class="z-input i-search col-3 mr-2" id="typeSearch" name="typeSearch" maxlength="100"
+                <input type="text" class="z-input text-ellipsis i-search col-3 mr-2" id="typeSearch" name="typeSearch" maxlength="100"
                        th:placeholder="#{cmdb.type.label.searchPlaceholder}" th:onKeyup="|javascript:getTree();|"/>
                 <span id="totalCount" class="z-search-count"></span>
                 <input type="hidden" id="treeTypeId" value="root"/>
@@ -43,7 +43,7 @@
                     <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
                             th:onclick="|javascript:onExcelDownload();|" th:title="#{common.btn.export}"
                             sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')">
-                        <span class="z-icon i-download-as-excel"></span>
+                        <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
                     </button>
                 </div>
             </div>

@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface WfComponentRepository : JpaRepository<WfComponentEntity, String> {
+interface WfComponentRepository : JpaRepository<WfComponentEntity, String>, WfComponentRepositoryCustom {
 
     @Query("select f from WfComponentEntity f where f.form.formId = :formId")
     fun findByFormId(formId: String): List<WfComponentEntity>

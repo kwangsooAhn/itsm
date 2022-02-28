@@ -35,4 +35,13 @@ class WfTokenRepositoryImpl : QuerydslRepositorySupport(WfTokenEntity::class.jav
             .where(token.element.elementType.eq(WfElementConstants.ElementType.COMMON_END_EVENT.value))
             .fetch()
     }
+
+    override fun getListRunningTokenList(instanceIds: Set<String>): List<WfTokenEntity> {
+        val token = QWfTokenEntity.wfTokenEntity
+        return from(token)
+            .innerJoin(token.element).fetchJoin()
+            .where(token.tokenStatus.eq(WfTokenConstants.Status.RUNNING.code))
+            .where(token.instance.instanceId.`in`(instanceIds))
+            .fetch()
+    }
 }

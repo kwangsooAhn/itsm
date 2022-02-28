@@ -120,7 +120,7 @@ insert into awf_url values ('/processes', 'get', '프로세스 목록', 'TRUE');
 insert into awf_url values ('/processes/search', 'get', '프로세스 리스트 검색 호출 화면', 'TRUE');
 insert into awf_url values ('/process/{id}/edit', 'get', '프로세스 디자이너 편집 화면' ,'TRUE');
 insert into awf_url values ('/process/{id}/view', 'get', '프로세스 디자이너 보기 화면' ,'TRUE');
-insert into awf_url values ('/process/{id}/status', 'get', '프로세스 상태', 'TRUE');
+insert into awf_url values ('/process/{id}/status', 'get', '프로세스 상태', 'FALSE');
 insert into awf_url values ('/rest/auths', 'get', '권한 전체 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/auths', 'post', '권한 등록', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'get', '권한 상세 정보 조회', 'TRUE');
@@ -172,7 +172,7 @@ insert into awf_url values ('/rest/custom-codes', 'put', '커스텀 코드 수�
 insert into awf_url values ('/rest/custom-codes', 'post', '커스텀 코드 등록', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'delete', '커스텀 코드 삭제', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'get', '커스텀코드 목록 조회', 'FALSE');
-insert into awf_url values ('/rest/dashboard/statistic', 'get', '업무 통계 조회', 'FALSE');
+insert into awf_url values ('/rest/dashboard/template/{id}/component/{id}', 'post', '템플릿 컴포넌트별 조회', 'FALSE');
 insert into awf_url values ('/rest/documents', 'get', '신청서 문서 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows', 'post', '신청서 작성', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}', 'delete', '신청서 삭제', 'TRUE');
@@ -335,3 +335,6 @@ insert into	awf_url values ('/rest/workflows/workflowLink', 'post', '업무흐�
 insert into awf_url values ('/workflows/workflowLink/{id}/edit', 'get', '업무흐름 링크 편집', 'TRUE');
 insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'delete', '업무흐름 링크 삭제', 'TRUE');
 insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'put', '업무흐름 링크 변경', 'TRUE');
+insert into awf_url values ('/itsm','get','SSO 사용 여부', 'FALSE');
+insert into awf_url values ('/itsm/sso','get','SSO 토큰 확인 화면', 'FALSE');
+insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FALSE');

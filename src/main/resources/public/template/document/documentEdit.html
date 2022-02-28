@@ -7,6 +7,10 @@
 </head>
 <th:block layout:fragment="content">
     <div class="z-document-container">
+        <!-- 탭 toggle 버튼 -->
+        <button type="button" class="z-button-icon toggle--tab" onclick="onToggleTabHandler(this);">
+            <span class="z-icon i-arrow-double"></span>
+        </button>
         <form id="frm" name="frm">
             <div class="z-document-main flex-column align-items-center">
                 <input type="hidden" id="instanceId" />
@@ -27,6 +31,15 @@
     <link th:href="@{/assets/theme/{theme}/css/itsm.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        function onToggleTabHandler(target) {
+            if (target.classList.contains('off')) {
+                target.classList.remove('off');
+            } else {
+                target.classList.add('off');
+            }
+        }
+    </script>
     <script type="module">
         /*<![CDATA[*/
         import { ZSession } from '../../assets/js/lib/zSession.js';

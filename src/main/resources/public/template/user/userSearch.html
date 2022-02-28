@@ -20,7 +20,7 @@
                 th:text="#{common.btn.add}"></button>
         <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
                 th:onclick="|javascript:onExcelDownload()|" th:title="#{common.btn.export}">
-            <span class="z-icon i-download-as-excel"></span>
+            <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
         </button>
     </div>
 </div>

@@ -64,10 +64,6 @@
     }
   }
 
-  // 메인으로 되돌아가기 버튼
-  &.main-return {
-    @include relative($top: 5rem, $right: 5rem); // 80px 80px
-  }
   // 로그인 되돌아가기
   &.signup-return {
     margin-left: 2.5rem; // 40px

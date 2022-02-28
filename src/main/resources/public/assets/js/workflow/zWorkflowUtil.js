@@ -229,7 +229,7 @@ ZWorkflowUtil.downloadXML = function(id, suffix, xmlString) {
 
 /**
  * export form , process.
- * 
+ *
  * @param id form/process ID
  * @param type form/process
  */
@@ -481,39 +481,8 @@ ZWorkflowUtil.loadProcessFromXML = function(data) {
 };
 
 /**
- * import form, process 데이터 저장.
- *
- * @param type form/process
- * @param data form/process 데이터
- */
-ZWorkflowUtil.saveImportData = function(type, data) {
-    let result = false;
-    let saveUrl = '/rest/forms?saveType=saveas';
-    if (type === 'process') {
-        saveUrl = '/rest/processes?saveType=saveas';
-    }
-    aliceJs.fetchText(saveUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }).then((response) => {
-        if (type === 'process') {
-            let resultToJson = JSON.parse(response.responseText);
-            result = resultToJson.result;
-        } else {
-            if (response.responseText !== '') {
-                result = true;
-            }
-        }
-    });
-    return result;
-};
-
-/**
  * import form, process.
- * 
+ *
  * @param xmlFile XML 파일
  * @param data IMPORT form/process 정보
  * @param type form/process
@@ -524,25 +493,44 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
         const reader = new FileReader();
         reader.addEventListener('load', function(e) {
             let saveData = {};
+            let saveUrl = '';
+            let result = false;
             if (type === xmlFile.name.split('_')[0]) {
                 switch (type) {
                     case 'form':
                         saveData = ZWorkflowUtil.loadFormFromXML(e.target.result);
                         saveData.name = data.formName;
                         saveData.desc = data.formDesc;
+                        saveUrl = '/rest/forms?saveType=saveas';
                         break;
                     case 'process':
                         saveData = ZWorkflowUtil.loadProcessFromXML(e.target.result);
                         saveData.process = {name: data.processName, description: data.processDesc};
                         ZWorkflowUtil.addRequiredProcessAttribute(saveData);
+                        saveUrl = '/rest/processes?saveType=saveas';
                         break;
                     default: //none
                 }
                 console.debug(saveData);
-                let result = ZWorkflowUtil.saveImportData(type, saveData);
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc(result);
-                }
+                aliceJs.fetchText(saveUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(saveData)
+                }).then((response) => {
+                    if (type === 'process') {
+                        let resultToJson = JSON.parse(response);
+                        result = resultToJson.result;
+                    } else {
+                        result = response;
+                    }
+
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc(result);
+                    }
+                });
+                return result;
             } else {
                 zAlert.danger(i18n.msg('validation.msg.checkImportFormat'));
                 return false;

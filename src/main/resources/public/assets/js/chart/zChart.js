@@ -9,7 +9,8 @@
  * https://www.brainz.co.kr
  */
 import { CHART } from '../lib/zConstants.js';
-import { zLineChartMixin } from './type/zLineChart.js';
+import { zBasicLineChartMixin } from './type/zBasicLineChart.js';
+import { zBasicColumnChartMixin } from './type/zBasicColumnChart.js';
 import { zStackedColumnChartMixin } from './type/zStackedColumnChart.js';
 import { zStackedBarChartMixin } from './type/zStackedBarChart.js';
 import { zPieChartMixin } from './type/zPieChart.js';
@@ -26,7 +27,10 @@ const HIGHCHARTS_THEME = {
             color: '#222529'
         },
         spacingTop: 20,
-        marginTop: 120
+        marginTop: 120,
+        scrollablePlotArea: {
+            scrollPositionX: 1
+        }
     },
     title: {
         text:'',
@@ -46,7 +50,11 @@ const HIGHCHARTS_THEME = {
         lineColor: '#CFD5D9',
         tickColor: '#CFD5D9',
         maxPadding:0,
-        minPadding:0
+        minPadding:0,
+        scrollbar: { // 스크롤바 표시를 위해서는 min / max 가 필요함
+            enabled: true,
+            showFull: false
+        }
     },
     yAxis: {
         min: 0,
@@ -68,7 +76,8 @@ const HIGHCHARTS_THEME = {
     plotOptions: {
         series: {
             turboThreshold : 0, // 속도 높임
-            stickyTracking : false // 시리즈에서 마우스를 떼면 툴팁이 사라진다: false, 남아있다: true
+            stickyTracking : false, // 시리즈에서 마우스를 떼면 툴팁이 사라진다: false, 남아있다: true
+            getExtremesFromAll: true
         }
     },
     legend: {
@@ -107,7 +116,7 @@ const HIGHCHARTS_THEME = {
 Object.freeze(HIGHCHARTS_THEME);
 
 export  default class ZChart {
-    constructor(container, data = {}) {
+    constructor(container, data = {}, customOptions = {}) {
         this.container = container;
         this.data = JSON.parse(JSON.stringify(data));
         this.domElement = document.getElementById(container);
@@ -117,6 +126,7 @@ export  default class ZChart {
         this._desc = this.data.chartDesc || '';
         this._tags = this.data.tags || [];
         this._config = this.data.chartConfig;
+        this._customOptions = customOptions;
 
         // 테마 적용
         Highcharts.setOptions(HIGHCHARTS_THEME);
@@ -142,7 +152,9 @@ export  default class ZChart {
     getMixinByType(type) {
         switch(type) {
             case CHART.TYPE.BASIC_LINE:
-                return zLineChartMixin;
+                return zBasicLineChartMixin;
+            case CHART.TYPE.BASIC_COLUMN:
+                return zBasicColumnChartMixin;
             case CHART.TYPE.STACKED_COLUMN:
                 return zStackedColumnChartMixin;
             case CHART.TYPE.STACKED_BAR:
@@ -202,6 +214,14 @@ export  default class ZChart {
 
     get config() {
         return this._config;
+    }
+
+    set customOptions(options) {
+        this._customOptions = options;
+    }
+
+    get customOptions() {
+        return this._customOptions;
     }
 
     /**

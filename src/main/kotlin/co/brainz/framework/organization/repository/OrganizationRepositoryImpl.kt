@@ -26,7 +26,7 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
             query.limit(organizationSearchCondition.contentNumPerPage)
             query.offset((organizationSearchCondition.pageNum - 1) * organizationSearchCondition.contentNumPerPage)
         }
-        query.orderBy(organization.level.asc(),organization.seqNum.asc())
+        query.orderBy(organization.level.asc(), organization.seqNum.asc())
         return query.fetchResults()
     }
 
@@ -38,5 +38,12 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
             query.where(organization.organizationId.ne(organizationId))
         }
         return query.fetchCount()
+    }
+
+    override fun getOrganizationListByIds(organizationIds: Set<String>): List<OrganizationEntity> {
+        val organization = QOrganizationEntity.organizationEntity
+        return from(organization)
+            .where(organization.organizationId.`in`(organizationIds))
+            .fetch()
     }
 }

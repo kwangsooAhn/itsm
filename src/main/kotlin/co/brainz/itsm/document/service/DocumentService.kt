@@ -8,6 +8,7 @@ package co.brainz.itsm.document.service
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
@@ -152,12 +153,10 @@ class DocumentService(
      * @param documentDto
      * @return String?
      */
-    fun createDocument(documentDto: DocumentDto): String? {
+    fun createDocument(documentDto: DocumentDto): ZReturnDto {
         documentDto.createUserKey = currentSessionUser.getUserKey()
         documentDto.createDt = LocalDateTime.now()
-
-        val dataDto = wfDocumentService.createDocument(documentDto)
-        return dataDto.documentId
+        return wfDocumentService.createDocument(documentDto)
     }
 
     /**
@@ -166,12 +165,10 @@ class DocumentService(
      * @param documentDto
      * @return String?
      */
-    fun createDocumentLink(documentDto: DocumentDto): String? {
+    fun createDocumentLink(documentDto: DocumentDto): ZReturnDto {
         documentDto.createUserKey = currentSessionUser.getUserKey()
         documentDto.createDt = LocalDateTime.now()
-        val dataDto = wfDocumentService.createDocumentLink(documentDto)
-
-        return dataDto.documentId
+        return wfDocumentService.createDocumentLink(documentDto)
     }
 
     /**
@@ -183,12 +180,11 @@ class DocumentService(
     fun updateDocument(
         documentDto: DocumentDto,
         params: LinkedHashMap<String, Any>
-    ): String? {
+    ): ZReturnDto {
         val documentId = documentDto.documentId
         documentDto.updateUserKey = currentSessionUser.getUserKey()
         documentDto.updateDt = LocalDateTime.now()
-        wfDocumentService.updateDocument(documentDto, params)
-        return documentId
+        return wfDocumentService.updateDocument(documentDto, params)
     }
 
     /**
@@ -199,12 +195,11 @@ class DocumentService(
      */
     fun updateDocumentLink(
         documentDto: DocumentDto
-    ): String? {
+    ): ZReturnDto {
         val documentId = documentDto.documentId
         documentDto.updateUserKey = currentSessionUser.getUserKey()
         documentDto.updateDt = LocalDateTime.now()
-        wfDocumentService.updateDocumentLink(documentDto)
-        return documentId
+        return wfDocumentService.updateDocumentLink(documentDto)
     }
 
     /**

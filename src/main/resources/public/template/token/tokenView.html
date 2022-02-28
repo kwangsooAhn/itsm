@@ -7,17 +7,25 @@
 </head>
 <th:block layout:fragment="content">
     <div class="z-document-container">
+        <!-- 탭 toggle 버튼 -->
+        <button type="button" class="z-button-icon toggle--tab" onclick="onToggleTabHandler(this);">
+            <span class="z-icon i-arrow-double"></span>
+        </button>
         <form id="frm" name="frm">
             <div class="z-document-main flex-column align-items-center">
                 <input type="hidden" id="instanceId" />
                 <input type="hidden" id="tokenId" th:value="${tokenId}"/>
                 <input type="hidden" id="folderId" th:value="${folderId}"/>
                 <div class="z-document-main-header flex-row justify-content-between align-items-center flex-wrap">
-                    <span class="z-document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></span>
                     <div id="defaultButtonArea"></div>
                     <div class="z-action-button-top-area" id="actionButtonTopArea"></div>
                 </div>
-                <div class="z-drawing-board" id="documentDrawingBoard" data-display="running"></div>
+                <div class="z-document-main-content">
+                    <div class="flex-row justify-content-center">
+                        <p id="documentNumber" class="z-document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></p>
+                    </div>
+                    <div id="documentDrawingBoard" data-display="running"></div>
+                </div>
                 <div class="z-document-main-footer flex-row justify-content-end align-items-center flex-wrap">
                     <div class="z-action-button-bottom-area" id="actionButtonBottomArea"></div>
                 </div>
@@ -31,6 +39,15 @@
     <link th:href="@{/assets/theme/{theme}/css/itsm.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        function onToggleTabHandler(target) {
+            if (target.classList.contains('off')) {
+                target.classList.remove('off');
+            } else {
+                target.classList.add('off');
+            }
+        }
+    </script>
     <script type="module">
         /*<![CDATA[*/
         import { ZSession } from '../../assets/js/lib/zSession.js';

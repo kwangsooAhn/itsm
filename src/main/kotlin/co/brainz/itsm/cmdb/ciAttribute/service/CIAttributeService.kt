@@ -87,6 +87,7 @@ class CIAttributeService(
             attributeType = map["attributeType"] as String,
             attributeText = map["attributeText"] as String,
             attributeDesc = map["attributeDesc"] as String,
+            searchYn = map["searchYn"] as Boolean,
             mappingId = map["mappingId"] as String?,
             attributeValue = mapper.writeValueAsString(map["attributeValue"])
         )

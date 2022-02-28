@@ -42,6 +42,9 @@ data class CIAttributeEntity(
     @Column(name = "attribute_value")
     var attributeValue: String? = "",
 
+    @Column(name = "search_item")
+    var searchYn: Boolean = false,
+
     @Column(name = "mapping_id")
     var mappingId: String? = null,
 

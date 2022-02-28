@@ -295,12 +295,9 @@ chart:
     gauge: "Gauge Chart"
   tooltip:
     targetTags: "차트를 그릴 데이터의 대상을 태그로 입력합니다."
-    condition: "• 조건식은 산술 연산자 중 사칙연산(+, -, *, /)과<br/>
-    &nbsp; 논리연산자(&&, ||)와 비교 연산자(==, !=, <, >, <=, >=)를<br/>&nbsp; 지원합니다.<br/><br/>
-    • 태그를 표현하려면 []를 사용하세요.<br/>
-    &nbsp; 만약 태그명에 대괄호([ 또는 ])가 들어가 있다면 '\\]'와 같이<br/>&nbsp; 태그명을 작성합니다.<br/><br/>
-    • 논리 연산의 우선순위 표기하려면 ()를 사용하세요.<br/>
-    &nbsp; 만약 태그명에 소괄호(( 또는 ))가 사용된다면 '\\)'와 같이<br/>&nbsp; 태그명을 작성합니다."
+    condition: "• 조건식은 산술 연산자 중 사칙연산(+, -, *, /)과<br/>&nbsp; 논리연산자(&&, ||)와 비교 연산자(==, !=, <, >, <=, >=)를<br/>&nbsp; 지원합니다.<br/><br/>
+    • 태그를 표현하려면 []를 사용하세요.<br/>&nbsp; 만약 태그명에 대괄호([ 또는 ])가 들어가 있다면 '\\]'와 같이<br/>&nbsp; 태그명을 작성합니다.<br/><br/>
+    • 논리 연산의 우선순위 표기하려면 ()를 사용하세요.<br/>&nbsp; 만약 태그명에 소괄호(( 또는 ))가 사용된다면 '\\)'와 같이<br/>&nbsp; 태그명을 작성합니다."
 
 # CMDB
 cmdb:
@@ -333,10 +330,13 @@ cmdb:
       searchPlaceholder: "출력용 이름 / 데이터 타입 / 속성항목 이름 / 설명"
       seq: "정렬 순서"
       type: "데이터 타입"
+      useSearch: "검색조건 사용"
       view: "속성항목"
     msg:
       attributeNameUsed: "사용 중인 속성항목 이름입니다."
+      comepareWithMaxLength: "최대길이는 최소길이보다 큰 수를 입력하세요."
       enterAttributeName: "속성항목 이름을 입력하세요."
+      details: "세부정보를 추가해 주세요."
       searchDescription: "CI 속성항목을 조회 및 관리합니다."
       selectAttributeType: "데이터 타입을 선택하세요."
       viewDescription: "속성항목에 대한 상세 정보를 조회합니다."
@@ -344,7 +344,7 @@ cmdb:
       maxLength: "최대길이는 1000 이하로 입력하세요."
       maxDate: "최대 날짜는 최소 날짜 이후로 선택하세요."
       maxDateTime: "최대 날짜 시간은 최소 날짜 시간 이후로 선택하세요."
-      comepareWithMaxLength: "최대길이는 최소길이보다 큰 수를 입력하세요."
+      useSearch: "자산검색시 검색조건으로 사용할 수 있습니다."
     btn:
       import: "가져오기"
       export: "내보내기"
@@ -516,17 +516,22 @@ customCode:
 # Dashboard
 dashboard:
   label:
+    all: "전체"
     dashboard: "개인 현황판"
     documentStatus: "신청한 문서 현황"
+    doneDocument: "전체 처리한 문서"
     etc: "기타"
+    incident: "장애 신고"
+    inquiry: "단순 문의"
     monthDoneDocument: "월간 처리한 문서"
+    organizationWorkStatus: "부서별 요청현황"
+    personalRequestStatus: "개인 요청현황"
     request: "서비스 요청"
+    requestStatus: "요청현황"
+    requestUnprocessedCount: "미처리 건수"
     runningDocument: "진행 중 문서"
     statistics: "업무 통계"
     todoDocument: "처리할 문서"
-    doneDocument: "전체 처리한 문서"
-    incident: "장애 신고"
-    inquiry: "단순 문의"
   msg:
     viewDescription: "나의 업무통계 및 처리할 문서를 조회합니다."
   status:
@@ -622,6 +627,8 @@ document:
     applicationForm: "신청서"
     applicationFormLink: "신청서 링크"
     workflow: "업무흐름"
+  btn:
+    draftSave: "임시저장"
 
 # Download
 download:
@@ -1336,15 +1343,16 @@ token:
     terminate: "종결"
     finish: "처리 완료"
   excel:
-    docNo: "신청서 번호"
-    name: "신청서 이름"
-    desc: "신청서 설명"
-    status: "신청서 상태"
-    type: "신청서 종류"
-    createDt: "신청서 시작일시"
-    endDt: "신청서 종료일시"
-    createUser: "신청서 생성자"
     application-form: "신청서"
+    assignee: "담당자"
+    createDt: "등록일시"
+    createUser: "등록자"
+    desc: "신청서 설명"
+    docNo: "문서 번호"
+    endDt: "신청서 종료일시"
+    name: "제목"
+    status: "상태"
+    type: "문서 종류"
     workflow: "업무흐름"
 
 # WorkflowAdmin

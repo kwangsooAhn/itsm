@@ -154,13 +154,17 @@
             });
         } else {
             restSubmit(method, url, documentInfo, function (result) {
-                zAlert.success(i18n.msg('common.msg.save'), function () {
-                    if (documentId === undefined && documentType.value !== DOCUMENT_TYPE_LINK) { // 신청서/업무흐름 신규 등록일 경우에만 팝업 호출한다.(신청서 링크 제외)
-                        openDocumentDisplay(result);
-                    } else {
-                        location.reload();
-                    }
-                });
+                if (result.result) {
+                    zAlert.success(i18n.msg('common.msg.save'), () => {
+                        if (documentId === undefined && documentType.value !== DOCUMENT_TYPE_LINK) { // 신청서/업무흐름 신규 등록일 경우에만 팝업 호출한다.(신청서 링크 제외)
+                            openDocumentDisplay(result.data);
+                        } else {
+                            location.reload();
+                        }
+                    });
+                } else {
+                    zAlert.warning(result.message);
+                }
             });
         }
     }
@@ -396,7 +400,7 @@
     }
 
     function restSubmit(method, url, data, resultFunc, isShowProgressbar) {
-        aliceJs.fetchText(url, {
+        aliceJs.fetchJson(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'

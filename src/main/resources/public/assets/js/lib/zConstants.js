@@ -113,6 +113,7 @@ export const RESPONSE_CODE = {
 export const CHART = {
     TYPE: {
         BASIC_LINE: 'chart.basicLine',
+        BASIC_COLUMN: 'chart.basicColumn',
         STACKED_COLUMN: 'chart.stackedColumn',
         STACKED_BAR: 'chart.stackedBar',
         PIE: 'chart.pie',
@@ -129,6 +130,7 @@ export const CHART = {
         DAY: 'D',
         HOUR: 'H'
     },
+    RANGE_TYPE_NONE: 'chart.range.none',
     DATETIME_FORMAT: 'yyyy-MM-dd HH:mm:ss',
     DATE_FORMAT: {
         TYPE1: 'yyyy-MM-dd',
@@ -141,6 +143,7 @@ export const CHART = {
         HOUR12: 'hh:mm a'
     }
 };
+
 // 페이징
 export const PAGING = {
     ORDER_DIRECTION: {
