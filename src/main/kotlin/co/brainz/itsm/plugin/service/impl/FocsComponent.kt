@@ -121,7 +121,7 @@ class FocsComponent(
         var isSuccess = true
         val startDateTime = LocalDateTime.now()
 
-        // history
+        // awf_plugin_history save
         val historyData = pluginHistoryRepository.save(
             PluginHistoryEntity(
                 historyId = "",
