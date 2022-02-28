@@ -17,41 +17,53 @@
 
 ---
 
+typeId 가 root일 경우 전체 데이터를 조회한다. 
+'전체'가 선택되면 속성항목이 없기 때문에 현재 나오는 기본항목만 출력된다.
+
 ### URL
 ```
-GET /rest/cmdb/cis
+POST /cmdb/cis/{typeId}
+```
+
+기본 검색 데이터는 url에 포함되어 전달된다.
+
+### Parameter Sample
+
+```json
+{
+  "searchItems": [
+    {
+      "attributeId": "a30f37ff527b142afd2a1b35206c142d",
+      "value": "사용자가 입력한 값"
+    }
+  ]
+}
 ```
 
 ### Response Sample
 
 ```json
-[
-  {
-    "ciId": "a01afbb81330aa670f94615bbd8d1bd6",
-    "ciNo": "CI_SERVER_Linux_000007",
-    "ciName": "CI 테스트",
-    "ciStatus": "use",
-    "typeId": "4028b88179210e1b017921279d29000f",
-    "typeName": "Linux ",
-    "classId": "4028b88179210e1b0179211eb65d0006",
-    "className": "Linux",
-    "ciIcon": "image_linux.png",
-    "ciIconData": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAUCAYAAACAl21KAAAB70lEQVR4XmNgwAEEFBQEpJTU1ksrqf2XVlR9L6WkOh8khq6OIJBSVF0ANgQZK6ruR1dHELj7BXxOSs8CGwCiXb39IIYpqBqgq8UL1m7Y+P/o8RNgzWs3bPq/YfNmMBvo3QZ0tTgByNY5E7L/v99h9v/DNvX/H3aZ/18zI5V0g9JDZcP/HdT+//+wLgr2d1UizSBJJZWCTzs0UAy5vMTgPzACgFjtPrp6nACo+MHjJ0/+vz2W8f/FweT//78//g8CsiqaEMOIcRVIUe/EyWCN6KCkvApsEDT2EtD1ogBNQ+OPHz5+RDcDDK5euwYJcJBhwESKM4GCbCkoLUfXjwJUtWFhBXKZ6gR0M8AAGDYbrl67jq4XBbhAE6YUNOugmwHOW+a2juj6MAAstcO8iOG9tR2aNQvbbNH1YYDCkiKU/GdsqJwLN+T/YR0HWHo5taUWXS8KmFBhjWLQh13aHTBDLiAnvI87gfjdE3T9cPBhh87/xGCN/8Ge6v9n1Wj+/7FPewvUINRsAMJ31hhhNezLswMYaiFYZz9Wg0D4+hprFEM+fvr0f+XcSgx1UIMOgLw2AVMCgkMiY+AYFB4hXuqoag7pbvh/VAu1fPq/X0EAKBEAkvx7UOfTiTnaz0EJVEJBxQGG3RyUfIByj6CuQEmMACcza0kkY5O4AAAAAElFTkSuQmCC",
-    "ciDesc": "",
-    "interlink": false,
-    "createUserKey": "4028b2217b29bf60017b2aa22d710000",
-    "createDt": "2021-11-24T03:19:04.734977",
-    "updateUserKey": null,
-    "updateDt": null,
-    "ciTags": [
-      {
-        "tagId": "4028b22f7d7ecb28017d7ef96f710009",
-        "value": "1"
-      }
-    ]
-  },
-  ...
-]
+{
+  "searchItems": [
+    {
+      "attributeId": "2c9180837c99e748017c9b099d500000",
+      "attributeName": "IP주소",
+      "attributeText": "",
+      "attributeType": "inputbox",
+      "attributeDesc": "",
+      "attributeValue": ""
+    },
+    ...
+  ],
+  "columnName": ["ciIconData", "ciId","ciNo", "typeName", "ciName", "ciDesc", "734ab921484883ad7760032a008baf21", "4028b25d791b75ac01791bb0f9140002", "4028b25d7916ef5f017916f397230000"],
+  "columnTitle": ["", "","자산 번호", "자산 유형", "자산 이름", "자산 설명", "버전 정보", "담당자", "입고일"],
+  "columnWidth": ["20px","0px", "180px", "120px", "150px", "245px", "120px", "120px", "120px"],
+  "columnType": ["icon","hidden","string", "string", "string", "string", "string", "string", "dateTime"],
+  "contents": [
+    ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAASCAYAAABrXO8xAAAAQklEQVR4XmMwtnX7YGzr/p9UzIAuQCymjsb7Dx79//7jJ1YMksOpkRRMHY2jTkXFw0EjT+k+MEYXp51GQphMjW4fALjU5CZSJYXqAAAAAElFTkSuQmCC", "88fc78892916dc310b4984858b28120d", "Zenius_SMS_00010", "Linux", "홈페이지 서버#1", "회사 홈페이지 서버 1", "CentOS 7.0", "정희찬", "2021-12-31T15:00:00.000Z"],
+    ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAASCAYAAABrXO8xAAAAQklEQVR4XmMwtnX7YGzr/p9UzIAuQCymjsb7Dx79//7jJ1YMksOpkRRMHY2jTkXFw0EjT+k+MEYXp51GQphMjW4fALjU5CZSJYXqAAAAAElFTkSuQmCC", "d2cc70ca65fd2ac35ae6ee8e0c52e2db", "Zenius_SMS_00020", "Linux", "홈페이지 서버#2", "회사 홈페이지 서버 2", "CentOS 7.0", "최보람", "2021-12-31T15:00:00.000Z"]
+  ]
+}
 ```
 
 ## CI_데이터 상세 조회
