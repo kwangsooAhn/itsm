@@ -50,7 +50,7 @@ class FocsComponent(
     }
 
     /**
-     * 실행 (화면에서 버튼 클릭시 규정 감사 + 중복 검사)
+     * FOCS 플러그인 실행
      */
     override fun execute(plugin: PluginEntity, body: String?, param: LinkedHashMap<String, Any>): ZResponse {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -88,7 +88,7 @@ class FocsComponent(
     }
 
     /**
-     * 신청
+     * 신청서 등록
      */
     fun runApplicationForm(plugin: PluginEntity, data: PluginDto): ZResponse {
         return this.executeJar(plugin, FocsType.APPLICATION_FORM.code, data)

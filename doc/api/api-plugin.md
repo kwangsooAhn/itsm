@@ -51,7 +51,6 @@ POST /rest/plugins/{pluginId}
 
 ```json
 {
-  "tokenId": "",
   "pluginId": "",
   "data": [
     ["출발지","목적지","서비스","시작일", "만료일"],
