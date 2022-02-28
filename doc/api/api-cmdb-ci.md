@@ -34,7 +34,7 @@ POST /cmdb/cis/{typeId}
   "searchItems": [
     {
       "attributeId": "a30f37ff527b142afd2a1b35206c142d",
-      "value": "사용자가 입력한 값"
+      "searchValue": "사용자가 입력한 값"
     }
   ]
 }
@@ -51,7 +51,8 @@ POST /cmdb/cis/{typeId}
       "attributeText": "",
       "attributeType": "inputbox",
       "attributeDesc": "",
-      "attributeValue": ""
+      "attributeValue": "{validate:'','required':'false','maxLength':'100','minLength':'0'}",
+      "searchValue": "사용자가 입력한 값"
     },
     ...
   ],
