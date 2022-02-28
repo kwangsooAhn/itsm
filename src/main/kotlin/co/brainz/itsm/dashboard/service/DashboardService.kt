@@ -5,13 +5,8 @@
 
 package co.brainz.itsm.dashboard.service
 
-import co.brainz.framework.exception.AliceErrorConstants
-import co.brainz.framework.exception.AliceException
-import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.dashboard.constants.DashboardConstants
 import co.brainz.itsm.dashboard.dto.DashboardGroupCountDto
 import co.brainz.itsm.dashboard.dto.DashboardSearchCondition
-import co.brainz.itsm.dashboard.dto.DashboardStatisticDto
 import co.brainz.itsm.dashboard.repository.DashboardRepository
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.service.WfInstanceService
@@ -26,7 +21,6 @@ import org.springframework.stereotype.Service
 @Service
 class DashboardService(
     private val wfInstanceService: WfInstanceService,
-    private val currentSessionUser: CurrentSessionUser,
     private val dashboardRepository: DashboardRepository
 ) {
 
@@ -37,49 +31,6 @@ class DashboardService(
      */
     fun getStatusCountList(params: LinkedHashMap<String, Any>): List<RestTemplateInstanceCountDto> {
         return wfInstanceService.instancesStatusCount(params)
-    }
-
-    /**
-     *  업무 통계 데이터 조회
-     */
-    fun getDashboardStatistic(): List<DashboardStatisticDto> {
-        val dashboardStatisticDtoList = mutableListOf<DashboardStatisticDto>()
-        val typeList = listOf(
-            DashboardConstants.StatisticType.TODO.code,
-            DashboardConstants.StatisticType.RUNNING.code,
-            DashboardConstants.StatisticType.MONTHDONE.code,
-            DashboardConstants.StatisticType.DONE.code
-        )
-
-        typeList.forEach { type ->
-            val dashboardSearchCondition = DashboardSearchCondition(userKey = currentSessionUser.getUserKey())
-            val dashboardCountList: QueryResults<DashboardGroupCountDto>
-            dashboardCountList = when (type) {
-                DashboardConstants.StatisticType.TODO.code -> this.getTodoStatistic(dashboardSearchCondition)
-                DashboardConstants.StatisticType.RUNNING.code -> this.getRunningStatistic(dashboardSearchCondition)
-                DashboardConstants.StatisticType.MONTHDONE.code -> this.getMonthDoneStatistic(dashboardSearchCondition)
-                DashboardConstants.StatisticType.DONE.code -> this.getDoneStatistic(dashboardSearchCondition)
-                else -> throw AliceException(
-                    AliceErrorConstants.ERR_00005,
-                    AliceErrorConstants.ERR_00005.message + "[Dashboard Statistic Type Error]"
-                )
-            }
-
-            val dashboardStatisticDto = DashboardStatisticDto()
-            dashboardStatisticDto.type = type
-            dashboardCountList.results.forEach {
-                dashboardStatisticDto.total += it.count
-                when (it.groupType) {
-                    DashboardConstants.DocumentGroup.INCIDENT.code -> dashboardStatisticDto.incident = it.count
-                    DashboardConstants.DocumentGroup.INQUIRY.code -> dashboardStatisticDto.inquiry = it.count
-                    DashboardConstants.DocumentGroup.REQUEST.code -> dashboardStatisticDto.request = it.count
-                    else -> dashboardStatisticDto.etc += it.count
-                }
-            }
-            dashboardStatisticDtoList.add(dashboardStatisticDto)
-        }
-
-        return dashboardStatisticDtoList
     }
 
     /**

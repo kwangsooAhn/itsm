@@ -14,14 +14,14 @@ import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
 import co.brainz.itsm.statistic.customChart.service.ChartManagerFactory
 import co.brainz.itsm.statistic.customReport.constants.CustomReportConstants
+import co.brainz.itsm.statistic.customReport.dto.CustomReportListReturnDto
 import co.brainz.itsm.statistic.customReport.dto.ReportCategoryDto
 import co.brainz.itsm.statistic.customReport.dto.ReportDto
-import co.brainz.itsm.statistic.customReport.dto.CustomReportListReturnDto
 import co.brainz.itsm.statistic.customReport.dto.ReportSearchCondition
 import co.brainz.itsm.statistic.customReport.entity.CustomReportDataEntity
 import co.brainz.itsm.statistic.customReport.entity.ReportEntity
-import co.brainz.itsm.statistic.customReport.repository.CustomReportDataRepository
 import co.brainz.itsm.statistic.customReport.repository.CusmtomReportRepository
+import co.brainz.itsm.statistic.customReport.repository.CustomReportDataRepository
 import co.brainz.itsm.statistic.customReportTemplate.repository.CustomReportTemplateRepository
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -78,16 +78,19 @@ class CustomReportService(
             val chart = mapper.convertValue(map["chart"], LinkedHashMap::class.java)
             val configStr = mapper.writeValueAsString(chart["config"])
 
-            val chartDto = ChartDto(
-                chartId = data.chartId!!,
-                chartName = chart["name"] as String,
-                chartType = chart["type"] as String,
-                chartDesc = chart["desc"] as String,
-                chartConfig = mapper.readValue(configStr, ChartConfig::class.java),
-                tags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CHART.code, data.chartId)
-            )
-
-            chartDataList.add(chartManagerFactory.getChartManager(chartDto.chartType).getChart(chartDto))
+            val chartDto = data.chartId?.let {
+                ChartDto(
+                    chartId = it,
+                    chartName = chart["name"] as String,
+                    chartType = chart["type"] as String,
+                    chartDesc = chart["desc"] as String,
+                    chartConfig = mapper.readValue(configStr, ChartConfig::class.java),
+                    tags = aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.CHART.code, it)
+                )
+            }
+            if (chartDto != null) {
+                chartDataList.add(chartManagerFactory.getChartManager(chartDto.chartType).getChart(chartDto))
+            }
         }
 
         return ReportDto(

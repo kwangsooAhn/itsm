@@ -1,23 +1,30 @@
 /*
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
- *
  */
+
 package co.brainz.itsm.dashboard.controller
 
-import co.brainz.itsm.dashboard.dto.DashboardStatisticDto
-import co.brainz.itsm.dashboard.service.DashboardService
-import org.springframework.web.bind.annotation.GetMapping
+import co.brainz.itsm.dashboard.dto.TemplateComponentData
+import co.brainz.itsm.dashboard.service.DashboardTemplateService
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/dashboard")
 class DashboardRestController(
-    private val dashboardService: DashboardService
+    private val dashboardTemplateService: DashboardTemplateService
 ) {
-    @GetMapping("/statistic")
-    fun getDashboardStatistic(): List<DashboardStatisticDto> {
-        return dashboardService.getDashboardStatistic()
+
+    @PostMapping("/template/{templateId}/component/{componentKey}")
+    fun getOrganizationList(
+        @PathVariable templateId: String,
+        @PathVariable componentKey: String,
+        @RequestBody options: Any?
+    ): TemplateComponentData {
+        return dashboardTemplateService.getTemplateComponent(templateId, componentKey, options)
     }
 }

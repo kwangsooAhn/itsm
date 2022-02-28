@@ -70,4 +70,14 @@ class WfDocumentLinkRepositoryImpl :
 
         return query.fetchResults()
     }
+
+    override fun existsByDocumentLinkName(documentName: String, documentLinkId: String): Boolean {
+        val documentLink = QWfDocumentLinkEntity.wfDocumentLinkEntity
+        val query = from(documentLink)
+            .where(documentLink.documentName.eq(documentName))
+        if (documentLinkId.isNotEmpty()) {
+            query.where(!documentLink.documentLinkId.eq(documentLinkId))
+        }
+        return query.fetchCount() > 0
+    }
 }

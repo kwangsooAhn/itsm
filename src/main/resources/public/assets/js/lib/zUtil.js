@@ -618,12 +618,10 @@ aliceJs.thumbnail = function(options) {
                     thumbnailSize.innerHTML = `<label class="text-ellipsis">${thumbnailText}</label>`;
                     thumbnailInfo.appendChild(thumbnailSize);
 
-                    if (options.type !== 'file') {
-                        const thumbnailBottom = document.createElement('div');
-                        thumbnailBottom.className = 'z-thumbnail-bottom';
-                        thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
-                        thumbnail.appendChild(thumbnailBottom);
-                    }
+                    const thumbnailBottom = document.createElement('div');
+                    thumbnailBottom.className = 'z-thumbnail-bottom';
+                    thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
+                    thumbnail.appendChild(thumbnailBottom);
                 }
             }
         } else {
@@ -694,8 +692,13 @@ aliceJs.mergeObject = function(target, source) {
     if (aliceJs.isObject(target) && aliceJs.isObject(source)) {
         Object.keys(source).forEach(function(key) {
             if (aliceJs.isObject(source[key])) {
-                if (!target[key]) { Object.assign(target, { [key]: {} }); }
+                if (!target[key]) {
+                    Object.assign(target, {[key]: {}});
+                }
                 aliceJs.mergeObject(target[key], source[key]);
+            } else if (typeof source[key] === 'function') {
+                const descriptor = Object.getOwnPropertyDescriptor(source, key);
+                Object.defineProperty(target, key, descriptor);
             } else {
                 Object.assign(target, JSON.parse(JSON.stringify({ [key]: source[key] })));
             }

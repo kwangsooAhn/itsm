@@ -1,4 +1,4 @@
-/* _reset.scss 
+/* _reset.scss
  *
  * 파일 경로 : template/_reset.scss
  * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
@@ -74,4 +74,6 @@ input, button, select, optgroup, textarea {
   line-height: 1.2;
   margin: 0;
   max-width: 100%;
+  background-color: #FFFFFF;
+  border: none;
 }

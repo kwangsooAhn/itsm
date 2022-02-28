@@ -336,6 +336,7 @@ cmdb:
       attributeNameUsed: "The Attribute Name is being used."
       comepareWithMaxLength: "Enter a number max length is greater than min length."
       enterAttributeName: "Please enter a attribute name."
+      details: "Please add details."
       searchDescription: "CI Attribute manage posts."
       selectAttributeType: "Please select the type."
       viewDescription: "Inquires detailed information about the attribute."
@@ -514,17 +515,22 @@ customCode:
 # Dashboard
 dashboard:
   label:
+    all: "All"
     dashboard: "Dashboard"
     documentStatus: "Requested Documents Status"
+    doneDocument: "Total Documents in proceeded"
     etc: "Etc"
+    incident: "Error Report"
+    inquiry: "inquiry"
     monthDoneDocument: "Documents in proceeded Monthly"
+    organizationWorkStatus: "Work Status by Organization"
+    personalRequestStatus: "Personal Request Status"
     request: "Service Request"
+    requestStatus: "Request Status"
+    requestUnprocessedCount: "Count of unprocessed requests"
     runningDocument: "Document in progress"
     statistics: "Workflow statistics"
     todoDocument: "Documents to be processed"
-    doneDocument: "Total Documents in proceeded"
-    incident: "Error Report"
-    inquiry: "inquiry"
   msg:
     viewDescription: "Search my business statistics and documents to be processed."
   status:
@@ -620,6 +626,8 @@ document:
     applicationForm: "Application Form"
     applicationFormLink: "Application Form - Link"
     workflow: "WorkFlow"
+  btn:
+    draftSave: "Draft save"
 
 # Download
 download:
@@ -1331,15 +1339,16 @@ token:
     terminate: "terminate"
     finish: "finish"
   excel:
-    docNo: "Document No"
-    name: "Document Name"
+    application-form: "application Form"
+    assignee: "Assignee"
+    createDt: "Document Create Date"
+    createUser: "Document Create User"
     desc: "Document Desc"
+    docNo: "Document No"
+    endDt: "Document End Data"
     status: "Document Status"
     type: "Document Type"
-    createDt: "Document Create Date"
-    endDt: "Document End Data"
-    createUser: "Document Create User"
-    application-form: "application Form"
+    name: "Title"
     workflow: "Workflow"
 
 # WorkflowAdmin

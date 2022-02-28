@@ -1196,7 +1196,7 @@ insert into awf_url values ('/processes', 'get', '프로세스 목록', 'TRUE');
 insert into awf_url values ('/processes/search', 'get', '프로세스 리스트 검색 호출 화면', 'TRUE');
 insert into awf_url values ('/process/{id}/edit', 'get', '프로세스 디자이너 편집 화면' ,'TRUE');
 insert into awf_url values ('/process/{id}/view', 'get', '프로세스 디자이너 보기 화면' ,'TRUE');
-insert into awf_url values ('/process/{id}/status', 'get', '프로세스 상태', 'TRUE');
+insert into awf_url values ('/process/{id}/status', 'get', '프로세스 상태', 'FALSE');
 insert into awf_url values ('/rest/auths', 'get', '권한 전체 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/auths', 'post', '권한 등록', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'get', '권한 상세 정보 조회', 'TRUE');
@@ -1248,7 +1248,8 @@ insert into awf_url values ('/rest/custom-codes', 'put', '커스텀 코드 수�
 insert into awf_url values ('/rest/custom-codes', 'post', '커스텀 코드 등록', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'delete', '커스텀 코드 삭제', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'get', '커스텀코드 목록 조회', 'FALSE');
-insert into awf_url values ('/rest/dashboard/statistic', 'get', '업무 통계 조회', 'FALSE');
+insert into awf_url values ('/rest/dashboard/organization/{id}', 'get', '요청현황 조회 (부서별)', 'FALSE');
+insert into awf_url values ('/rest/dashboard/template/{id}/component/{id}', 'post', '템플릿 컴포넌트별 조회', 'FALSE');
 insert into awf_url values ('/rest/documents', 'get', '신청서 문서 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows', 'post', '신청서 작성', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}', 'delete', '신청서 삭제', 'TRUE');
@@ -1411,6 +1412,9 @@ insert into	awf_url values ('/rest/workflows/workflowLink', 'post', '업무흐�
 insert into awf_url values ('/workflows/workflowLink/{id}/edit', 'get', '업무흐름 링크 편집', 'TRUE');
 insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'delete', '업무흐름 링크 삭제', 'TRUE');
 insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'put', '업무흐름 링크 변경', 'TRUE');
+insert into awf_url values ('/itsm','get','SSO 사용 여부', 'FALSE');
+insert into awf_url values ('/itsm/sso','get','SSO 토큰 확인 화면', 'FALSE');
+insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FALSE');
 
 /**
  * URL별권한매핑
@@ -1602,6 +1606,8 @@ insert into awf_url_auth_map values ('/rest/downloads/{id}', 'delete', 'portal.m
 insert into awf_url_auth_map values ('/rest/faqs', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/faqs/{id}', 'put', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/faqs/{id}', 'delete', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}', 'put', 'workflow.manage');
@@ -8828,6 +8834,8 @@ COMMENT ON COLUMN awf_organization.update_dt IS '수정일';
 insert into awf_organization values ('4028b2d57d37168e017d3716cgf00000', null, '조직구성', null, true, 0, 0, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3715fae00002', '4028b2d57d37168e017d3716cgf00000', '본부 1', null, true, 1, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3713bb430003', '4028b2d57d37168e017d3716cgf00000', '본부 2', null, true, 1, 2, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d3715fae00004', '4028b2d57d37168e017d3716cgf00000', '본부 3', null, true, 1, 3, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d3713bb430005', '4028b2d57d37168e017d3716cgf00000', '본부 4', null, true, 1, 4, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d37197bb40001', '4028b2d57d37168e017d3715fae00002', '그룹 1-1', null, true, 2, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d371a4c1f0002', '4028b2d57d37168e017d3715fae00002', '그룹 1-2', null, true, 2, 2, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d371a5f7f0004', '4028b2d57d37168e017d37197bb40001', '팀 1-1-1', null, true, 3, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -8913,3 +8921,118 @@ COMMENT ON COLUMN wf_instance_viewer.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_instance_viewer.create_user_key IS '수정자';
 COMMENT ON COLUMN wf_instance_viewer.create_dt IS '수정일시';
 
+/**
+  대시보드 템플릿
+ */
+DROP TABLE IF EXISTS awf_dashboard_template  cascade;
+
+CREATE TABLE awf_dashboard_template
+(
+    template_id varchar(128) not null,
+    template_name varchar(128),
+    template_config text,
+    template_desc text,
+    CONSTRAINT awf_dashboard_template_pk PRIMARY KEY (template_id),
+    CONSTRAINT awf_dashboard_template_uq UNIQUE (template_name)
+);
+
+COMMENT ON TABLE awf_dashboard_template is '개인현황판 템플릿';
+COMMENT ON COLUMN awf_dashboard_template.template_id is '템플릿아이디';
+COMMENT ON COLUMN awf_dashboard_template.template_name is '템플릿 이름';
+COMMENT ON COLUMN awf_dashboard_template.template_config is '템플릿 설정';
+COMMENT ON COLUMN awf_dashboard_template.template_desc is '템플릿 설명';
+
+-- 초기 데이터 샘플
+INSERT INTO awf_dashboard_template VALUES ('template-001', '부서별 요청현황', '{
+  "components": [
+    {
+      "key": "requestStatusByOrganization.chart",
+      "title": "부서별 요청현황",
+      "target": {
+        "organizations": ["4028b2d57d37168e017d3715fae00002", "4028b2d57d37168e017d3713bb430003", "4028b2d57d37168e017d3715fae00004", "4028b2d57d37168e017d3715fae00005"],
+        "documents": ["4028b21f7c90d996017c91ae7987004f", "4028b21f7c9adb6a017c9b18489900c9", "4028b21f7c9ff7c8017ca06bde520058", "2c9180867cc31a25017cc7a779d70523"]
+      }
+    }, {
+      "key": "requestStatusByUser.list",
+      "title": "개인 요청 현황",
+      "target": {
+        "documents": ["4028b21f7c90d996017c91ae7987004f", "4028b21f7c9adb6a017c9b18489900c9", "4028b21f7c9ff7c8017ca06bde520058", "2c9180867cc31a25017cc7a779d70523"]
+      }
+    }, {
+      "key": "requestListByOrganization.list",
+      "title": "요청현황",
+      "target": {
+        "documents": ["4028b21f7c90d996017c91ae7987004f", "4028b21f7c9adb6a017c9b18489900c9", "4028b21f7c9ff7c8017ca06bde520058", "2c9180867cc31a25017cc7a779d70523"],
+        "items": [
+         {
+            "title": "순번",
+            "width": "60px",
+            "type": "index",
+            "name": "",
+            "dataType": "number"
+          }, {
+            "title": "신청부서",
+            "width": "200px",
+            "type": "mapping",
+            "name": "z-sd-requester-department",
+            "dataType": "string"
+          }, {
+            "title": "문서 종류",
+            "width": "200px",
+            "type": "field",
+            "name": "document_name",
+            "dataType": "string"
+          }, {
+            "title": "제목",
+            "width": "300px",
+            "type": "mapping",
+            "name": "z-sd-request-title",
+            "dataType": "string"
+          }, {
+            "title": "신청일시",
+            "width": "150px",
+            "type": "mapping",
+            "name": "z-sd-request-date",
+            "dataType": "dateTime"
+          }, {
+            "title": "완료 희망일시",
+            "width": "150px",
+            "type": "mapping",
+            "name": "z-sd-request-deadline",
+            "dataType": "dateTime"
+          }, {
+            "title": "상태",
+            "width": "150px",
+            "type": "field",
+            "name": "instance_status",
+            "dataType": "string"
+          }, {
+            "title": "PL",
+            "width": "150px",
+            "type": "mapping",
+            "name": "",
+            "dataType": "string"
+          }, {
+            "title": "신청자",
+            "width": "150px",
+            "type": "mapping",
+            "name": "z-sd-requester",
+            "dataType": "string"
+          }, {
+            "title": "난이도",
+            "width": "80px",
+            "type": "mapping",
+            "name": "",
+            "dataType": "string"
+          }, {
+            "title": "문서번호",
+            "width": "300px",
+            "type": "field",
+            "name": "document_no",
+            "dataType": "string"
+          }
+        ]
+      }
+    }
+  ]
+}', 'KB 저축은행에서 만든 첫 번째 템플릿');
