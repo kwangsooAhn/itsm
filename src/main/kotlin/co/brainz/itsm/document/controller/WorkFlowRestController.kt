@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.document.controller
 
+import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
@@ -30,7 +31,7 @@ class WorkFlowRestController(
      * @param documentDto
      * */
     @PostMapping("")
-    fun workFlowDocument(@RequestBody documentDto: DocumentDto): String? {
+    fun workFlowDocument(@RequestBody documentDto: DocumentDto): ZReturnDto {
         return documentService.createDocument(documentDto)
     }
 
@@ -40,7 +41,7 @@ class WorkFlowRestController(
      * @param documentDto
      * */
     @PostMapping("/workflowLink")
-    fun workFlowLink(@RequestBody documentDto: DocumentDto): String? {
+    fun workFlowLink(@RequestBody documentDto: DocumentDto): ZReturnDto {
         return documentService.createDocumentLink(documentDto)
     }
 
@@ -85,7 +86,7 @@ class WorkFlowRestController(
         @PathVariable documentId: String,
         @RequestBody documentDto: DocumentDto,
         @RequestParam(value = "isDeleteData", defaultValue = "false") isDeleteData: String
-    ): String? {
+    ): ZReturnDto {
         val params = LinkedHashMap<String, Any>()
         params["isDeleteData"] = isDeleteData
         return documentService.updateDocument(documentDto, params)
@@ -101,7 +102,7 @@ class WorkFlowRestController(
     fun updateWorkFlowLink(
         @PathVariable documentId: String,
         @RequestBody documentDto: DocumentDto
-    ): String? {
+    ): ZReturnDto {
         return documentService.updateDocumentLink(documentDto)
     }
 
