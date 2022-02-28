@@ -143,6 +143,8 @@
         function getDummyData(organizationId) {
             const dataList = JSON.parse(JSON.stringify(dummy.result[2].result));
             const selectedOrganization = dummy.dummyMapping.find((item) => item.id === organizationId);
+            dataList.organizationId = organizationId;
+            dataList.organizationName = selectedOrganization.value;
             if (organizationId != '') {
                 dataList.contents = dataList.contents.filter((item) => {
                     return item[1] === selectedOrganization.value;
@@ -263,7 +265,12 @@
                     },
                     xAxis: {
                         min: 0,
-                        max: 10
+                        max: 10,
+                        labels: {
+                            style: {
+                                cursor: 'pointer'
+                            }
+                        }
                     },
                     yAxis: {
                         allowDecimals: false,
