@@ -530,7 +530,7 @@ class ZValidation {
             } else {
                 errorElem.focus();
             }
-            return true;
+            return false;
         }
         return false;
     }
