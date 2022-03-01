@@ -1,0 +1,12 @@
+## Http Method, URL
+domain: http://222.108.117.150:18980
+path: /api/public/v1/rule/duplicate/search
+
+## JSON Template
+template:
+  sources: 출발지
+  destinations: 목적지
+  services: 서비스
+  startDate: 시작일
+  expirationDate: 만료일
+
