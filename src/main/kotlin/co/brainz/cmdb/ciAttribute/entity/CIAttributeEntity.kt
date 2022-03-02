@@ -45,6 +45,9 @@ data class CIAttributeEntity(
     @Column(name = "search_item")
     var searchYn: Boolean = false,
 
+    @Column(name = "search_item_width")
+    var searchWidth: String? = null,
+
     @Column(name = "mapping_id")
     var mappingId: String? = null,
 

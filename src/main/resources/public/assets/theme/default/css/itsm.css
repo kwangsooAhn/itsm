@@ -4379,6 +4379,9 @@ select {
 .z-itsm-container .z-main-content .z-page-edit .z-edit-row label {
   margin: 0.625rem 0;
 }
+.z-itsm-container .z-main-content .z-page-edit .z-edit-row.off {
+  display: none;
+}
 .z-itsm-container .z-main-content .z-page-edit label {
   margin: 0.625rem 0;
 }

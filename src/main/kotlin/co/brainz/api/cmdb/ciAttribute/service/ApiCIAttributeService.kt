@@ -95,6 +95,7 @@ class ApiCIAttributeService(
             attributeText = map["attributeText"] as String,
             attributeDesc = map["attributeDesc"] as String,
             searchYn = map["searchYn"] as Boolean,
+            searchWidth = map["searchWidth"] as String,
             attributeValue = mapper.writeValueAsString(map["attributeValue"])
         )
     }

@@ -451,6 +451,7 @@
       width: 100%;
       margin: 0.625rem 0 0 0; // 10px 0 0 0
       label { margin: 0.625rem 0; } // 10px 0
+      &.off { display: none; }
     }
     label { margin: 0.625rem 0; } // 10px 0
     .z-button-list {
