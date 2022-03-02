@@ -41,7 +41,8 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeText,
                     ciAttribute.attributeType,
                     ciAttribute.attributeDesc,
-                    ciAttribute.searchYn
+                    ciAttribute.searchYn,
+                    ciAttribute.searchWidth
                 )
             )
             .where(
@@ -73,7 +74,8 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeText,
                     ciAttribute.attributeType,
                     ciAttribute.attributeDesc,
-                    ciAttribute.searchYn
+                    ciAttribute.searchYn,
+                    ciAttribute.searchWidth
                 )
             )
             .where(ciAttribute.attributeId.eq(attributeId))
@@ -97,6 +99,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeType,
                     ciAttribute.attributeValue,
                     ciAttribute.searchYn,
+                    ciAttribute.searchWidth,
                     ciAttribute.mappingId,
                     ciAttribute.createUser.userKey,
                     ciAttribute.createDt,
@@ -144,6 +147,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttributeEntity.attributeText,
                     ciAttributeEntity.attributeType,
                     ciAttributeEntity.searchYn,
+                    ciAttributeEntity.searchWidth,
                     ciClassAttributeMapEntity.attributeOrder,
                     ciAttributeEntity.attributeValue,
                     ciDataEntity.value
@@ -181,7 +185,8 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeText,
                     ciAttribute.attributeType,
                     ciAttribute.attributeDesc,
-                    ciAttribute.searchYn
+                    ciAttribute.searchYn,
+                    ciAttribute.searchWidth
                 )
             )
             .where(
@@ -220,7 +225,8 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     Expressions.asNumber(0),
                     ciAttribute.attributeValue,
                     Expressions.asString(""),
-                    ciAttribute.searchYn
+                    ciAttribute.searchYn,
+                    ciAttribute.searchWidth
                 )
             )
             .where(

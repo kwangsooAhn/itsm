@@ -346,6 +346,7 @@ class CIClassService(
                         attributeOrder = data.attributeOrder,
                         attributeValue = data.attributeValue,
                         searchYn = data.searchYn,
+                        searchWidth = data.searchWidth,
                         value = data.value,
                         childAttributes = childAttributeList
                     )
@@ -392,6 +393,7 @@ class CIClassService(
                                 attributeOrder = groupData.cAttributeSeq,
                                 attributeValue = attribute.attributeValue,
                                 searchYn = attribute.searchYn,
+                                searchWidth = attribute.searchWidth,
                                 value = groupData.cValue
                             )
                         )

@@ -17,6 +17,7 @@ data class CIAttributeValueDto(
     val attributeOrder: Int? = 0,
     val attributeValue: String? = null,
     val searchYn: Boolean = false,
+    val searchWidth: String? = null,
     var value: String? = null
 ) : Serializable
 
@@ -29,6 +30,7 @@ class CIAttributeValueGroupListDto(
     val attributeOrder: Int? = 0,
     val attributeValue: String? = null,
     val searchYn: Boolean = false,
+    val searchWidth: String? = null,
     var value: String? = null,
     var childAttributes: MutableList<CIAttributeValueDto>? = mutableListOf()
 ) : Serializable
