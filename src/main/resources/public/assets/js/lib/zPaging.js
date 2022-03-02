@@ -175,6 +175,9 @@ export default class ZPaging {
         const orderDirElem = document.getElementById('orderDir');
         if (!orderColNameElem || !orderDirElem || orderColNameElem.value === '') { return false; }
 
+        const sortIcon = document.querySelector('.grid__cell[data-grid-column="createDt"]');
+        sortIcon.children[1].remove();
+
         const sortColElem = document.querySelector('.grid__cell[data-grid-column="' + orderColNameElem.value +'"]');
         sortColElem.setAttribute('data-grid-sorting-type', orderDirElem.value);
         sortColElem.insertAdjacentHTML('beforeend', `<span class="z-icon i-sorting"></span>`);
