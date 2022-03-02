@@ -95,8 +95,8 @@ POST /rest/plugins/{pluginId}
 
 ### 1. 방화면 연동(FOCS) 플러그인
 
-* 규정감사 OPEN API
-
+## [ 규정감사 OPEN API ]
+ 
    * Yaml 설정 파일 : assessmentConfig.yml
     
    * API 설명 : DR 테이블 내에 등록된 데이터를 API 통신으로 전송하여 값을 리턴받는다.
@@ -143,7 +143,7 @@ POST /api/public/v1/assessment/prechange
     }
 }
 ```
-* 중복검사 OPEN API
+## [ 중복검사 OPEN API ]
     
     * Yaml 설정 파일 : duplicateConfig.yml
     
@@ -234,7 +234,7 @@ POST /api/public/v1/rule/duplicate/search
     }
 }
 ``` 
-* 신청서 등록 API
+## [ 신청서 등록 API ]
     
     * Yaml 설정 파일 : applicationConfig.yml
 
