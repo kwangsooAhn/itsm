@@ -862,7 +862,7 @@ class ZFormDesigner {
 
         // 폐기상태일 경우 저장 불가능
         if (this.isDestory) {
-            zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
+            zAlert.warning(i18n.msg('common.msg.notSaveAfterDestroy'));
             return false;
         }
 
