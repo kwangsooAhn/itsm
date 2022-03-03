@@ -61,8 +61,14 @@ POST /cmdb/cis/{typeId}
   "columnWidth": ["20px","0px", "180px", "120px", "150px", "245px", "120px", "120px", "120px"],
   "columnType": ["icon","hidden","string", "string", "string", "string", "string", "string", "dateTime"],
   "contents": [
-    ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAASCAYAAABrXO8xAAAAQklEQVR4XmMwtnX7YGzr/p9UzIAuQCymjsb7Dx79//7jJ1YMksOpkRRMHY2jTkXFw0EjT+k+MEYXp51GQphMjW4fALjU5CZSJYXqAAAAAElFTkSuQmCC", "88fc78892916dc310b4984858b28120d", "Zenius_SMS_00010", "Linux", "홈페이지 서버#1", "회사 홈페이지 서버 1", "CentOS 7.0", "정희찬", "2021-12-31T15:00:00.000Z"],
-    ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAASCAYAAABrXO8xAAAAQklEQVR4XmMwtnX7YGzr/p9UzIAuQCymjsb7Dx79//7jJ1YMksOpkRRMHY2jTkXFw0EjT+k+MEYXp51GQphMjW4fALjU5CZSJYXqAAAAAElFTkSuQmCC", "d2cc70ca65fd2ac35ae6ee8e0c52e2db", "Zenius_SMS_00020", "Linux", "홈페이지 서버#2", "회사 홈페이지 서버 2", "CentOS 7.0", "최보람", "2021-12-31T15:00:00.000Z"]
+    {
+      "key": "d2cc70ca65fd2ac35ae6ee8e0c52e2db",
+      "value": ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAASCAYAAABrXO8xAAAAQklEQVR4XmMwtnX7YGzr/p9UzIAuQCymjsb7Dx79//7jJ1YMksOpkRRMHY2jTkXFw0EjT+k+MEYXp51GQphMjW4fALjU5CZSJYXqAAAAAElFTkSuQmCC", "d2cc70ca65fd2ac35ae6ee8e0c52e2db", "Zenius_SMS_00020", "Linux", "홈페이지 서버#2", "회사 홈페이지 서버 2", "CentOS 7.0", "정지은", "2021-12-31T15:00:00.000Z"]
+    },
+    {
+      "key": "d2cc70ca65fd2ac35ae6ee8e0c52e3db",
+      "value": ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAASCAYAAABrXO8xAAAAQklEQVR4XmMwtnX7YGzr/p9UzIAuQCymjsb7Dx79//7jJ1YMksOpkRRMHY2jTkXFw0EjT+k+MEYXp51GQphMjW4fALjU5CZSJYXqAAAAAElFTkSuQmCC", "d2cc70ca65fd2ac35ae6ee8e0c52e3db", "Zenius_SMS_00030", "Linux", "홈페이지 서버#3", "회사 홈페이지 서버 3", "CentOS 6.0", "박현철", "2021-12-31T15:00:00.000Z"]
+    }
   ]
 }
 ```

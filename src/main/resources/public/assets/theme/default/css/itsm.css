@@ -7851,6 +7851,23 @@ body.modal-active {
   color: #339AF0;
   margin: 0.625rem 0;
 }
+.modal-dialog.cmdb-ci-detailSearch-modal {
+  width: 40.125rem;
+  height: 43.75rem;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content {
+  height: calc(43.75rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row {
+  margin: 0.625rem 0 0 0;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row .field-label {
+  flex-basis: 30%;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row .field-element {
+  flex-basis: 70%;
+}
 
 /* _thumbnail.scss
  *

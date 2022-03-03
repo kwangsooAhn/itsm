@@ -19,6 +19,7 @@
         <!-- 트리 화면 -->
         <div class="z-page-column-item flex-column flex-col-3">
             <input type="hidden" id="treeTypeId" value="root"/>
+            <input type="hidden" id="treeTypeName" th:value="#{cmdb.ci.label.all}"/>
             <div class="z-page-tree">
                 <div id="treeList"></div>
             </div>
@@ -29,8 +30,8 @@
                 <form id="searchFrm">
                     <input type="text" class="z-input text-ellipsis i-search col-5" id="searchValue" name="searchValue"
                            maxlength="100" th:placeholder="#{cmdb.ci.label.searchPlaceholder}" th:onKeyup="|javascript:getList();|"/>
-                    <button type="button" class="z-button secondary" id="btnDetailSearch" name="btnDetailSearch"
-                            th:onclick="|javascript:onDetailSearch();|" th:text="#{cmdb.ci.btn.detailSearch}"></button>
+                    <button type="button" class="z-button secondary mr-1 ml-1" id="btnDetailSearch" name="btnDetailSearch"
+                            onclick="onDetailSearch()" th:text="#{cmdb.ci.btn.detailSearch}"></button>
                     <input type="hidden" id="flag" name="flag" value="itsm"/>
                     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
                 </form>
@@ -61,6 +62,7 @@
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
         let searchData = null;
+        let tempSearchData = null;
         window.onload = function () {
             getTree();
 
@@ -90,6 +92,7 @@
                 },
                 selectedNode: function(response) {
                     document.getElementById('treeTypeId').value = response.id;
+                    document.getElementById('treeTypeName').value = response.textContent;
                     getList();
                 }
             });
@@ -128,6 +131,7 @@
          */
         function setSearchItems(target, data) {
             searchData = data;
+            tempSearchData = data;
             target.removeAttribute('onclick');
         }
         /**
@@ -148,11 +152,123 @@
         }
 
         /**
-         * CI 상세 검색
+         * CI 상세 검색 모달 세부 화면
+         */
+        function getItemWithType(data) {
+            const attributeValue = JSON.parse(data.attributeValue);
+            switch (data.attributeType) {
+                case 'inputbox':
+                    return `<input type="text" class="z-input field-element" id="${data.attributeId}" value="${data.searchValue}" onBlur="changeSearchDetail(this)">`;
+                case 'dropdown':
+                    const optionTemplate = attributeValue.option.map(function (opt) {
+                        return `<option value='${opt.value}' ${opt.value === data.searchValue ? 'selected=\'true\'' : ''}>${opt.text}</option>`;
+                    }).join('');
+                    return `<select id="${data.attributeId}" class="field-element" onclick="changeSearchDetail(this)">${optionTemplate}</select>`;
+                case 'radio':
+                    const radioTemplate = attributeValue.option.map(function (opt, idx) {
+                        return `<label for="${data.attributeId}_${idx}" class="z-radio horizontal" tabindex="-1">` +
+                            `<input class="z-radio" type="radio" id="${data.attributeId}_${idx}" value="${opt.value}" name="${data.attributeId}" ` +
+                            `${opt.value === data.searchValue ? 'checked=\'true\'' : ''} onclick="changeSearchDetail(this)">` +
+                            `<span></span><span>${opt.text}</span>` +
+                            `</label>`;
+                    }).join('');
+                    return `<div class="z-radio-group field-element">${radioTemplate}</div>`;
+                case 'date':
+                    return `<input type="text" class="z-input field-element i-date-picker search-date" id="${data.attributeId}" value="${i18n.userDate(data.searchValue)}">`;
+                case 'datetime':
+                    return `<input type="text" class="z-input field-element i-datetime-picker search-datetime" id="${data.attributeId}" value="${i18n.userDateTime(data.searchValue)}">`;
+                default:
+                    break;
+            }
+        }
+
+        function createDetailSearchContent() {
+            const searchTemplate = searchData.map(function (item) {
+                const templateWithType = getItemWithType(item);
+                return `<div class="flex-row align-items-center">` +
+                    `<label class="field-label">${item.attributeText}</label>` +
+                    `${templateWithType}` +
+                    `</div>`;
+            }).join('');
+
+            const targetName = document.getElementById('treeTypeName').value;
+            return `<div class="flex-column">` +
+                `<h3 class="modal-sub-title mt-2 mb-4">${i18n.msg('cmdb.ci.label.targetType', targetName)}</h3>` +
+                `${searchTemplate}` +
+                `</div>`;
+        }
+
+        /**
+         * CI 상세 검색 모달
+         * 상세검색 조건을 입력하고 “검색”버튼을 클릭하면
+         * 리스트 화면의 “상세검색” 버튼은 해당 조건이 사용되었다는 의미로 Primary 색상으로 변경된다.
+         * 상세검색을 열어서 검색조건을 모두 “초기화”하면 다시 CI 유형만으로 검색하고 “상세검색” 버튼도 회색으로 돌아온다.
          */
         function onDetailSearch() {
             // TODO: 상세 검색 모달
+            const ciDetailSearchModal = new modal({
+                title: i18n.msg('cmdb.ci.label.detailSearch'),
+                body: createDetailSearchContent(),
+                classes: 'cmdb-ci-detailSearch-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.search'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        searchData = tempSearchData;
+                        modal.hide();
+                    }
+                }, {
+                    content: i18n.msg('common.btn.initialization'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        tempSearchData = searchData;
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function (modal) {
+                    aliceJs.initDesignedSelectTag();
+                    // 날짜시간 picker 추가
+                    document.querySelectorAll('.search-date').forEach(function (elem) {
+                        zDateTimePicker.initDatePicker(elem, changeSearchDetail);
+                    });
+                    document.querySelectorAll('.search-datetime').forEach(function (elem) {
+                        zDateTimePicker.initDateTimePicker(elem, changeSearchDetail);
+                    });
+
+                }
+            });
+            ciDetailSearchModal.show();
         }
+        /**
+         * 상세 검색 날짜 데이터 업데이트시 호출되는 이벤트
+         */
+        function changeSearchDetail(target) {
+            const targetId = target.id.split('_')[0];
+            let changeValue = target.value;
+            if (target.classList.contains('search-date')) {
+                changeValue = i18n.systemDate(target.value);
+            } else if (target.classList.contains('search-datetime')) {
+                changeValue = i18n.systemDateTime(target.value);
+            }
+            const findIndex = tempSearchData.findIndex(function (item) {
+                return item.attributeId === targetId;
+            });
+            tempSearchData[findIndex].searchValue = changeValue;
+            console.log(tempSearchData);
+        }
+
         /**
          * 목록 다운로드 (엑셀)
          */
@@ -177,7 +293,6 @@
                 method: 'GET',
                 showProgressbar: true
             }).then((rtn) => {
-                console.log(rtn);
                 const ciDetailModal = new modal({
                     title: i18n.msg('cmdb.ci.label.view'),
                     body: rtn,
@@ -190,6 +305,9 @@
                             modal.hide();
                         }
                     }],
+                    close: {
+                        closable: false,
+                    },
                     onCreate: function (modal) {
                         document.getElementById('ciAttributes').click();
                         // 스크롤바 추가
