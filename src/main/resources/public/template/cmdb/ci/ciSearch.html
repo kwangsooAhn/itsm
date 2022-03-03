@@ -1,134 +1,236 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/itsmLayout}">
 <head>
     <title th:text="#{cmdb.ci.label.ciInquiry}"></title>
-    <th:block layout:fragment="pageHead">
-        <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
-    </th:block>
 </head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
+</th:block>
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{cmdb.ci.label.ciInquiry}"></h1>
     <h6 class="description ml-2 pl-2" th:text="#{cmdb.ci.msg.searchDescription}"></h6>
 </div>
-<div layout:fragment="pageSearching">
-    <form id="searchFrm">
-        <input type="text" class="z-input text-ellipsis i-search col-5" id="searchValue" name="searchValue"
-               maxlength="100" th:placeholder="#{cmdb.ci.label.searchPlaceholder}"/>
-        <input type="text" class="z-input text-ellipsis i-search col-5 mr-2" id="tagSearch" name="tagSearch"
-               maxlength="100" th:placeholder="#{cmdb.ci.label.tagPlaceholder}"/>
-        <input type="hidden" id="flag" name="flag" value="itsm"/>
-        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
-    </form>
-    <div class="ml-auto">
-        <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
-                th:onclick="|javascript:onExcelDownload()|"
-                sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')" th:title="#{common.btn.export}">
-            <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
-        </button>
+<th:block layout:fragment="pageContent">
+    <div class="cmdb-ci-content flex-row flex-fill pb-5">
+        <!-- 트리 화면 -->
+        <div class="z-page-column-item flex-column flex-col-3">
+            <input type="hidden" id="treeTypeId" value="root"/>
+            <div class="z-page-tree">
+                <div id="treeList"></div>
+            </div>
+        </div>
+        <!-- 목록 화면 -->
+        <div class="z-page-column-item flex-column flex-col-9">
+            <div class="z-page-search">
+                <form id="searchFrm">
+                    <input type="text" class="z-input text-ellipsis i-search col-5" id="searchValue" name="searchValue"
+                           maxlength="100" th:placeholder="#{cmdb.ci.label.searchPlaceholder}" th:onKeyup="|javascript:getList();|"/>
+                    <button type="button" class="z-button secondary" id="btnDetailSearch" name="btnDetailSearch"
+                            th:onclick="|javascript:onDetailSearch();|" th:text="#{cmdb.ci.btn.detailSearch}"></button>
+                    <input type="hidden" id="flag" name="flag" value="itsm"/>
+                    <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+                </form>
+                <div class="ml-auto">
+                    <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
+                            th:onclick="|javascript:onExcelDownload();|" th:title="#{common.btn.export}"
+                            sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')">
+                        <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
+                    </button>
+                </div>
+            </div>
+            <div class="z-page-list p-0">
+                <div class="z-list-content flex-row" id="ciList"></div>
+            </div>
+            <div class="z-page-paging" style="visibility: hidden">
+                <a href="" id="pagingStartArrow" class="z-paging-arrow flex-row"><span class="z-icon i-paging-start-arrow"></span></a>
+                <a href="" id="pagingPrevArrow" class="z-paging-arrow flex-row"><span class="z-icon i-paging-prev-arrow"></span></a>
+                <div class="z-paging-numbers"></div>
+                <a href="" id="pagingNextArrow" class="z-paging-arrow flex-row"><span class="z-icon i-paging-next-arrow"></span></a>
+                <a href="" id="pagingEndArrow" class="z-paging-arrow flex-row"><span class="z-icon i-paging-end-arrow"></span></a>
+                <span id="spanCurrentPageNum"></span>
+            </div>
+        </div>
     </div>
-</div>
-<div layout:fragment="pageList">
-    <div class="z-list-content flex-row" id="ciList"></div>
-</div>
+</th:block>
 </body>
-<script layout:fragment="pageScript" th:inline="javascript">
-    /*<![CDATA[*/
-    window.onload = function () {
-        document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').onkeyup = function () {
-            getList();
-        };
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+        let searchData = null;
+        window.onload = function () {
+            getTree();
 
-        new zTag(document.getElementById('tagSearch'), {
-            suggestion: true,
-            realtime: false,
-            tagType: 'ci',
-            targetId: '',
-            callback: function () {
-                getList();
-            }
-        });
-
-        getList();
-    }
-
-    function openCIDetailModal(ciId) {
-        aliceJs.fetchText('/cmdb/cis/' + ciId + '/view', {
-            method: 'GET',
-            showProgressbar: true
-        }).then((rtn) => {
-            const ciDetailModal = new modal({
-                title: i18n.msg('cmdb.ci.label.view'),
-                body: rtn,
-                classes: 'cmdb-ci-view-modal',
-                buttons: [{
-                    content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function (modal) {
-                        modal.hide();
-                    }
-                }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function (modal) {
-                    document.getElementById('ciAttributes').click();
-                    // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
-                    OverlayScrollbars(document.querySelectorAll('textarea'), {
-                        className: 'scrollbar',
-                        resize: 'vertical',
-                        sizeAutoCapable: true,
-                        textarea: {
-                            dynHeight: false,
-                            dynWidth: false,
-                            inheritedAttrs: "class"
-                        }
-                    });
-                    new zTag(document.querySelector('input[name=ciDetailTags]'), {
-                        suggestion: false,
-                        realtime: false,
-                        tagType: 'ci',
-                        targetId: document.getElementById('ciId').getAttribute('value')
-                    });
-                    // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-                    document.querySelectorAll('.date-time').forEach(dt => {
-                        dt.textContent = i18n.userDateTime(dt.textContent.trim());
-                    });
+            OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('.z-page-list'), {
+                className: 'scrollbar',
+                overflowBehavior: {
+                    y: 'hidden'
                 }
             });
-            ciDetailModal.show();
-        })
-    }
-
-    function getList(pageNum = 1) {
-        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
-        aliceJs.fetchText('/cmdb/cis?' + urlParam, {
-            method: 'GET'
-        }).then((htmlData) => {
-            document.getElementById('ciList').innerHTML = htmlData;
-            document.querySelectorAll('input[name=ciListTags]').forEach(function (tagInput) {
-                new zTag(tagInput, {
-                    suggestion: false,
-                    realtime: false,
-                    tagType: 'ci'
+        };
+        /**
+         * CI 유형 트리 조회
+         * “전체”가 선택되면 속성항목이 없기 때문에 현재 나오는 기본항목만 출력된다.
+         * CI유형을 선택하면 해당 유형으로 검색이 자동으로 처리된다.
+         */
+        function getTree() {
+            tree.load({
+                source: 'ciType',
+                dataUrl: '/rest/cmdb/types?search=',
+                target: 'treeList',
+                text: 'typeName',
+                totalCount: false,
+                onCreate: function () {
+                    zPagingManager.load();
+                    getList();
+                },
+                selectedNode: function(response) {
+                    document.getElementById('treeTypeId').value = response.id;
+                    getList();
+                }
+            });
+        }
+        /**
+         * CI 목록 조회
+         */
+        function getList(pageNum = 1) {
+            const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
+            const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
+            let detailSearchData = { searchItems: [] };
+            if (searchData) {
+                detailSearchData.searchItems = searchData.map((item) => {
+                    return { attributeId: item.attributeId, searchValue: item.searchValue }
                 });
+            }
+            const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum
+                + '&typeId=' + document.getElementById('treeTypeId').value
+                + '&orderColName=' + orderColName
+                + '&orderDir=' + orderDir;
+            aliceJs.fetchText('/cmdb/cis?' + urlParam, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(detailSearchData)
+            }).then((htmlData) => {
+                document.getElementById('ciList').innerHTML = htmlData;
+                convertDateTime();
+                document.querySelector('.grid__body').click();
+            });
+        }
+        /**
+         *  상세 검색 데이터 세팅
+         *  (검색시 상세 데이터 구조 형태로 전달하기 위함)
+         */
+        function setSearchItems(target, data) {
+            searchData = data;
+            target.removeAttribute('onclick');
+        }
+        /**
+         *  날짜시간 변환
+         */
+        function convertDateTime() {
+            document.querySelectorAll('.date').forEach(dt => {
+                dt.textContent = i18n.userDate(dt.textContent.trim());
+            });
+
+            document.querySelectorAll('.time').forEach(dt => {
+                dt.textContent = i18n.userTime(dt.textContent.trim());
+            });
+
+            document.querySelectorAll('.dateTime').forEach(dt => {
+                dt.textContent = i18n.userDateTime(dt.textContent.trim());
+            });
+        }
+
+        /**
+         * CI 상세 검색
+         */
+        function onDetailSearch() {
+            // TODO: 상세 검색 모달
+        }
+        /**
+         * 목록 다운로드 (엑셀)
+         */
+        function onExcelDownload() {
+            const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
+            const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
+            const urlParam = aliceJs.serialize(document.getElementById('searchFrm'))
+                + '&typeId=' + document.getElementById('treeTypeId').value
+                + '&orderColName=' + orderColName
+                + '&orderDir=' + orderDir;
+            aliceJs.fetchDownload({
+                url: urlParam,
+                fileName: i18n.msg('cmdb.ci.label.ciInquiry') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
+            });
+        }
+        /**
+         * 단일 CI 상세 정보 조회 (모달)
+         */
+        function openCIDetailModal(target) {
+            const ciId = target.querySelector('#ciId').value;
+            aliceJs.fetchText('/cmdb/cis/' + ciId + '/view', {
+                method: 'GET',
+                showProgressbar: true
+            }).then((rtn) => {
+                console.log(rtn);
+                const ciDetailModal = new modal({
+                    title: i18n.msg('cmdb.ci.label.view'),
+                    body: rtn,
+                    classes: 'cmdb-ci-view-modal',
+                    buttons: [{
+                        content: i18n.msg('common.btn.close'),
+                        classes: 'z-button secondary',
+                        bindKey: false,
+                        callback: function (modal) {
+                            modal.hide();
+                        }
+                    }],
+                    onCreate: function (modal) {
+                        document.getElementById('ciAttributes').click();
+                        // 스크롤바 추가
+                        OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
+                        OverlayScrollbars(document.querySelectorAll('textarea'), {
+                            className: 'scrollbar',
+                            resize: 'vertical',
+                            sizeAutoCapable: true,
+                            textarea: {
+                                dynHeight: false,
+                                dynWidth: false,
+                                inheritedAttrs: "class"
+                            }
+                        });
+                        new zTag(document.querySelector('input[name=ciDetailTags]'), {
+                            suggestion: false,
+                            realtime: false,
+                            tagType: 'ci',
+                            targetId: document.getElementById('ciId').getAttribute('value')
+                        });
+                        // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+                        document.querySelectorAll('.date-time').forEach(dt => {
+                            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+                        });
+                    }
+                });
+                ciDetailModal.show();
             })
-        });
-    }
-
-    function onExcelDownload() {
-        aliceJs.fetchDownload({
-            url: '/rest/cmdb/cis/excel?' + aliceJs.serialize(document.getElementById('searchFrm')),
-            fileName: i18n.msg('cmdb.ci.label.ciInquiry') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
-        });
-    }
-
-    /*]]>*/
-</script>
+        }
+        /*]]>*/
+    </script>
+    <script type="module">
+        import ZPaging from '../../../assets/js/lib/zPaging.js';
+        const zPagingManager = {
+            load: function() {
+                if (typeof this.zPaging === 'undefined') {
+                    this.zPaging = new ZPaging();
+                }
+            }
+        };
+        window.zPagingManager = zPagingManager;
+    </script>
+</th:block>
 </html>

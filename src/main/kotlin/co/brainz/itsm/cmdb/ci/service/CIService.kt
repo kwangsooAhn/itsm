@@ -12,10 +12,13 @@ import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIAttributeValueGroupListDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIDetailDto
+import co.brainz.cmdb.dto.CIDynamicListDto
+import co.brainz.cmdb.dto.CIDynamicReturnDto
 import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
@@ -25,6 +28,7 @@ import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
@@ -38,7 +42,9 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.io.File
 import java.time.LocalDateTime
+import kotlin.math.ceil
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -71,6 +77,29 @@ class CIService(
      */
     fun getCI(ciId: String): CIDetailDto {
         return ciService.getCIDetail(ciId)
+    }
+
+    fun getCIsDummy(ciSearchCondition: CISearchCondition): CIDynamicReturnDto {
+        val file = File("src/main/resources/public/assets/js/cmdb/dummy/ci.json")
+        val params = mapper.readValue(file, Map::class.java)
+        val ciData = CIDynamicListDto(
+            searchItems = params["searchItems"],
+            columnName = params["columnName"] as ArrayList<String>,
+            columnTitle = params["columnTitle"] as ArrayList<String>,
+            columnWidth = params["columnWidth"] as ArrayList<String>,
+            columnType = params["columnType"] as ArrayList<String>,
+            contents = params["contents"]
+        )
+        return CIDynamicReturnDto(
+            data = ciData,
+            paging = AlicePagingData(
+                totalCount = 16L,
+                totalCountWithoutCondition = 16L,
+                currentPageNum = ciSearchCondition.pageNum,
+                totalPageNum = ceil(16L.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            )
+        )
     }
 
     /**

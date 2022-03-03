@@ -25,7 +25,6 @@ class CIController(
     private val ciService: CIService,
     private val currentSessionUser: CurrentSessionUser
 ) {
-
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"
     private val ciViewPage: String = "cmdb/ci/ciView"
@@ -44,10 +43,10 @@ class CIController(
     /**
      * CI 조회 목록 화면 호출
      */
-    @GetMapping("")
-    fun getCIList(ciSearchCondition: CISearchCondition, model: Model): String {
-        val result = ciService.getCIs(ciSearchCondition)
-        model.addAttribute("ciList", result.data)
+    @PostMapping("")
+    fun getCIList(ciSearchCondition: CISearchCondition, @RequestBody searchItemsData: String, model: Model): String {
+        val result = ciService.getCIsDummy(ciSearchCondition)
+        model.addAttribute("ciData", result.data)
         model.addAttribute("paging", result.paging)
         return ciListPage
     }

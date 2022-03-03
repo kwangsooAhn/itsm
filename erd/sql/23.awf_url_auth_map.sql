@@ -55,8 +55,8 @@ insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.vie
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.view');
-insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.manage');
-insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/cmdb/cis', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/cmdb/cis', 'post', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/cis/{id}/view', 'get', 'cmdb.manage');

@@ -1,44 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-</head>
 <body>
-<table class="z-table">
-    <thead class="z-table-head">
-        <tr class="flex-row align-items-center">
-            <th style="width: 4%;"></th>
-            <th style="width: 21%;" class="align-left" th:text="#{cmdb.ci.label.ciNo}"></th>
-            <th style="width: 10%;" class="align-left" th:text="#{cmdb.ci.label.type}"></th>
-            <th style="width: 15%;" class="align-left" th:text="#{cmdb.ci.label.name}"></th>
-            <th style="width: 25%;" class="align-left" th:text="#{cmdb.ci.label.description}"></th>
-            <th style="width: 25%;" class="align-left" th:text="#{cmdb.ci.label.tag}"></th>
-        </tr>
-    </thead>
-    <tbody class="z-table-body">
-        <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciList)}">
-            <td style="width: 100%;" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
-        </tr>
-        <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciList)}" th:each="ci: ${ciList}">
-            <td style="width: 4%;">
-                <img th:src="${ci.ciIconData}"/>
-            </td>
-            <input type="hidden" name="ciId" th:value="${ci.ciId}">
-            <td style="width: 21%;" class="align-left underline pointer">
-                <a sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')" th:text="${ci.ciNo}"
-                   th:href="@{/cmdb/cis/{id}/view(id=${ci.ciId})}" th:title="${ci.ciNo}">
-                </a>
-            </td>
-            <td style="width: 10%;" class="align-left" th:text="${ci.typeName}" th:title="${ci.typeName}"></td>
-            <td style="width: 15%;" class="align-left" th:text="${ci.ciName}" th:title="${ci.ciName}"></td>
-            <td style="width: 25%;" class="align-left" th:text="${ci.ciDesc}" th:title="${ci.ciDesc}"></td>
-            <td style="width: 25%;" class="align-left">
-                <input type="text" name="ciListTags" class="align-left text-ellipsis flex-nowrap" th:value="${ci.ciTags}" readonly />
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="grid" th:style="'--data-columns-width:' + ${#strings.arrayJoin(ciData.columnWidth,' ')}">
+    <div class="grid__head">
+        <div class="grid__row">
+            <th:block th:each="title,status: ${ciData.columnTitle}">
+                <div class="grid__cell" th:classappend="${status.index != 0} ? 'pl-2' : ''"
+                     th:data-grid-column="${ciData.columnName[status.index]}"
+                     th:data-grid-sortable="${(ciData.columnType[status.index] != 'icon' and ciData.columnType[status.index] != 'hidden') ? 'true' : 'false'}">
+                    <span class="text-ellipsis" th:text="${title}"></span>
+                </div>
+            </th:block>
+        </div>
+    </div>
+    <div class="grid__body" th:onclick="setSearchItems(this, [[${ciData?.searchItems}]]);">
+        <div class="grid__row grid--noData" th:if="${#arrays.isEmpty(ciData.contents)}">
+            <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
+        </div>
+        <div class="grid__row" th:unless="${#arrays.isEmpty(ciData.contents)}" th:each="ci: ${ciData.contents}"
+             th:onclick="openCIDetailModal(this);">
+            <th:block th:each="text,status: ${ci}">
+                <div class="grid__cell" th:classappend="${status.index != 0} ? 'pl-2' : ''">
+                    <img class="z-img" th:if="${ciData.columnType[status.index] == 'icon'}" th:src="${text}" width="20" height="20">
+                    <input type="hidden" th:if="${ciData.columnType[status.index] == 'hidden'}" th:id="${ciData.columnName[status.index]}" th:value="${text}">
+                    <span class="text-ellipsis" th:if="${ciData.columnType[status.index] == 'string'}" th:text="${text}" th:title="${text}"></span>
+                    <th:block th:if="${ciData.columnType[status.index] == 'dateTime' || ciData.columnType[status.index] == 'time' || ciData.columnType[status.index] == 'date'}">
+                        <span class="text-ellipsis" th:classappend="${ciData.columnType[status.index]}" th:text="${text}" th:title="${text}"></span>
+                    </th:block>
+                </div>
+            </th:block>
+        </div>
+    </div>
+</div>
 <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 </body>
 </html>
