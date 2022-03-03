@@ -5069,6 +5069,13 @@ select {
   background-color: #E3F5FC;
 }
 
+.cmdb-ci-content {
+  height: 100%;
+}
+.cmdb-ci-content .grid__body {
+  max-height: 36.25rem;
+}
+
 .z-navigation .z-gnb {
   width: 13.75rem;
 }

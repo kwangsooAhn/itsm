@@ -43,8 +43,8 @@ class CIController(
     /**
      * CI 조회 목록 화면 호출
      */
-    @GetMapping("")
-    fun getCIList(ciSearchCondition: CISearchCondition, model: Model): String {
+    @PostMapping("")
+    fun getCIList(ciSearchCondition: CISearchCondition, @RequestBody searchItemsData: String, model: Model): String {
         val result = ciService.getCIsDummy(ciSearchCondition)
         model.addAttribute("ciData", result.data)
         model.addAttribute("paging", result.paging)

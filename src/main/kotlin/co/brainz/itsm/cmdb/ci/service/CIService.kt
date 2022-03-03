@@ -44,6 +44,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.File
 import java.time.LocalDateTime
+import kotlin.math.ceil
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -82,6 +83,7 @@ class CIService(
         val file = File("src/main/resources/public/assets/js/cmdb/dummy/ci.json")
         val params = mapper.readValue(file, Map::class.java)
         val ciData = CIDynamicListDto(
+            searchItems = params["searchItems"],
             columnName = params["columnName"] as ArrayList<String>,
             columnTitle = params["columnTitle"] as ArrayList<String>,
             columnWidth = params["columnWidth"] as ArrayList<String>,
@@ -91,11 +93,11 @@ class CIService(
         return CIDynamicReturnDto(
             data = ciData,
             paging = AlicePagingData(
-                totalCount = 2L,
-                totalCountWithoutCondition = 2L,
+                totalCount = 16L,
+                totalCountWithoutCondition = 16L,
                 currentPageNum = ciSearchCondition.pageNum,
-                totalPageNum = 0L,
-                orderType = null
+                totalPageNum = ceil(16L.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
     }
