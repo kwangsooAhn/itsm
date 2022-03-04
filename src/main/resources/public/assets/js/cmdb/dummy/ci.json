@@ -15,7 +15,7 @@
       "attributeType": "dropdown",
       "attributeDesc": "",
       "attributeValue": "{\"option\":[{\"text\":\"선택하세요\",\"value\":\"\"},{\"text\":\"상\",\"value\":\"3\"},{\"text\":\"중\",\"value\":\"2\"},{\"text\":\"하\",\"value\":\"1\"}]}",
-      "searchValue": "1"
+      "searchValue": ""
     }, {
       "attributeId": "4028b88179207446017920f72ed30015",
       "attributeName": "분류",
@@ -32,6 +32,14 @@
       "attributeDesc": "",
       "attributeValue": "{\"required\":\"true\",\"minDateTime\":\"\",\"maxDateTime\":\"\"}",
       "searchValue": "2022-03-03T08:51:00.000Z"
+    }, {
+      "attributeId": "2c9180867f4bfbcd017f4e9b687a0002",
+      "attributeName": "날짜",
+      "attributeText": "날짜",
+      "attributeType": "date",
+      "attributeDesc": "",
+      "attributeValue": "{\"required\":\"true\",\"minDate\":\"\",\"maxDate\":\"\"}",
+      "searchValue": ""
     }
   ],
   "columnName": ["ciIconData", "ciId","ciNo", "typeName", "ciName", "ciDesc", "734ab921484883ad7760032a008baf21", "4028b25d791b75ac01791bb0f9140002", "4028b25d7916ef5f017916f397230000"],

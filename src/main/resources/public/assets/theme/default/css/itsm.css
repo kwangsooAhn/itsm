@@ -7860,7 +7860,7 @@ body.modal-active {
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row {
-  margin: 0.625rem 0 0 0;
+  margin: 1rem 0 0 0;
 }
 .modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row .field-label {
   flex-basis: 30%;

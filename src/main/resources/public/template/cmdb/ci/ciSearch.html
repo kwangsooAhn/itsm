@@ -29,7 +29,7 @@
             <div class="z-page-search">
                 <form id="searchFrm">
                     <input type="text" class="z-input text-ellipsis i-search col-5" id="searchValue" name="searchValue"
-                           maxlength="100" th:placeholder="#{cmdb.ci.label.searchPlaceholder}" th:onKeyup="|javascript:getList();|"/>
+                           maxlength="100" th:placeholder="#{cmdb.ci.label.searchPlaceholder}" onKeyup="getList()"/>
                     <button type="button" class="z-button secondary mr-1 ml-1" id="btnDetailSearch" name="btnDetailSearch"
                             onclick="onDetailSearch()" th:text="#{cmdb.ci.btn.detailSearch}"></button>
                     <input type="hidden" id="flag" name="flag" value="itsm"/>
@@ -186,7 +186,7 @@
             const searchTemplate = searchData.map(function (item) {
                 const templateWithType = getItemWithType(item);
                 return `<div class="flex-row align-items-center">` +
-                    `<label class="field-label">${item.attributeText}</label>` +
+                    `<label class="field-label text-ellipsis">${item.attributeText}</label>` +
                     `${templateWithType}` +
                     `</div>`;
             }).join('');
@@ -205,7 +205,6 @@
          * 상세검색을 열어서 검색조건을 모두 “초기화”하면 다시 CI 유형만으로 검색하고 “상세검색” 버튼도 회색으로 돌아온다.
          */
         function onDetailSearch() {
-            // TODO: 상세 검색 모달
             const ciDetailSearchModal = new modal({
                 title: i18n.msg('cmdb.ci.label.detailSearch'),
                 body: createDetailSearchContent(),
@@ -216,6 +215,12 @@
                     bindKey: false,
                     callback: function (modal) {
                         searchData = tempSearchData;
+                        const btnDetailSearch = document.getElementById('btnDetailSearch');
+                        if (btnDetailSearch && btnDetailSearch.classList.contains('secondary')) {
+                            btnDetailSearch.classList.remove('secondary');
+                            btnDetailSearch.classList.add('primary');
+                        }
+                        getList();
                         modal.hide();
                     }
                 }, {
@@ -223,6 +228,15 @@
                     classes: 'z-button secondary',
                     bindKey: false,
                     callback: function (modal) {
+                        const btnDetailSearch = document.getElementById('btnDetailSearch');
+                        if (btnDetailSearch && btnDetailSearch.classList.contains('primary')) {
+                            btnDetailSearch.classList.remove('primary');
+                            btnDetailSearch.classList.add('secondary');
+                        }
+                        searchData.forEach(function (item) {
+                            item.searchValue = '';
+                        });
+                        getList();
                         modal.hide();
                     }
                 }, {
@@ -246,7 +260,7 @@
                     document.querySelectorAll('.search-datetime').forEach(function (elem) {
                         zDateTimePicker.initDateTimePicker(elem, changeSearchDetail);
                     });
-
+                    OverlayScrollbars(document.querySelector('.cmdb-ci-detailSearch-modal .modal-content'), {className: 'scrollbar'});
                 }
             });
             ciDetailSearchModal.show();
@@ -266,19 +280,45 @@
                 return item.attributeId === targetId;
             });
             tempSearchData[findIndex].searchValue = changeValue;
-            console.log(tempSearchData);
         }
 
         /**
          * 목록 다운로드 (엑셀)
          */
         function onExcelDownload() {
+            // TODO: 엑셀 다운로드도 post로 보내야하지 않을까?
             const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
             const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
+            let detailSearchData = { searchItems: [] };
+            if (searchData) {
+                detailSearchData.searchItems = searchData.map((item) => {
+                    return { attributeId: item.attributeId, searchValue: item.searchValue }
+                });
+            }
             const urlParam = aliceJs.serialize(document.getElementById('searchFrm'))
                 + '&typeId=' + document.getElementById('treeTypeId').value
                 + '&orderColName=' + orderColName
                 + '&orderDir=' + orderDir;
+            let excelFileName = i18n.msg('cmdb.ci.label.ciInquiry') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '');
+            aliceJs.fetchBlob('/rest/cmdb/cis/excel?' + urlParam, {
+                method: 'POST',
+                showProgressBar: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(detailSearchData)
+            }).then((blob) => {
+                if (typeof blob === 'object') {
+                    const a = document.createElement('a');
+                    const url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = excelFileName;
+                    document.body.append(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                }
+            });
             aliceJs.fetchDownload({
                 url: urlParam,
                 fileName: i18n.msg('cmdb.ci.label.ciInquiry') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
