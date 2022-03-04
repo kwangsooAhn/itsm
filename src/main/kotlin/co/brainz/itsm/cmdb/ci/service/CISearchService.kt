@@ -8,11 +8,13 @@ package co.brainz.itsm.cmdb.ci.service
 import co.brainz.cmdb.ci.entity.CIDataEntity
 import co.brainz.cmdb.ci.repository.CIDataRepository
 import co.brainz.cmdb.ciAttribute.constants.CIAttributeConstants
+import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.ciType.constants.CITypeConstants
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.dto.CIContentDto
 import co.brainz.cmdb.dto.CIDynamicListDto
+import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.cmdb.dto.CIsDto
 import co.brainz.framework.util.AliceMessageSource
 import org.springframework.stereotype.Service
@@ -22,7 +24,8 @@ class CISearchService(
     private val aliceMessageSource: AliceMessageSource,
     private val ciTypeService: CITypeService,
     private val ciTypeRepository: CITypeRepository,
-    private val ciDataRepository: CIDataRepository
+    private val ciDataRepository: CIDataRepository,
+    private val ciAttributeRepository: CIAttributeRepository
 ) {
 
     /**
@@ -212,5 +215,14 @@ class CISearchService(
             CIAttributeConstants.Type.DATE_TIME.code -> ciData.value
             else -> ciData.value
         }
+    }
+
+    /**
+     * 상세 검색 속성 정보 조회
+     */
+    fun getSearchItems(columnName: ArrayList<String>?): List<CISearchItem>? {
+        val attributeIds = mutableSetOf<String>()
+        columnName?.forEach { attributeIds.add(it) }
+        return ciAttributeRepository.findAttributeList(attributeIds)
     }
 }

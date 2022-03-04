@@ -10,6 +10,7 @@ import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIGroupListDto
+import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import com.querydsl.core.QueryResults
@@ -27,4 +28,5 @@ interface CIAttributeRepositoryCustom : AliceRepositoryCustom {
 
     fun findAttributeListInGroupList(attributeIdList: MutableList<String>): QueryResults<CIAttributeValueDto>
     fun findGroupListData(attributeId: String, ciId: String): QueryResults<CIGroupListDto>
+    fun findAttributeList(attributeIds: Set<String>): List<CISearchItem>
 }
