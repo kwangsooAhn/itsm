@@ -12,7 +12,8 @@ object CIAttributeConstants {
         DATE("date"),
         DATE_TIME("datetime"),
         HIDDEN("hidden"),
-        STRING("string")
+        STRING("string"),
+        RADIO("radio")
     }
 
     enum class Column(val value: String) {

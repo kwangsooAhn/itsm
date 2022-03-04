@@ -243,7 +243,7 @@ class CISearchService(
     fun getFilterContents(basic: CIDynamicListDto): MutableList<CIContentDto> {
         val contents = basic.contents
         val removeIndexes = mutableSetOf<Int>()
-        basic.searchItems?.forEach { searchItem ->
+        basic.searchItems.forEach { searchItem ->
             var idx = -1
             run loop@{
                 basic.columnName.forEachIndexed { index, column ->
@@ -256,12 +256,10 @@ class CISearchService(
             if (idx > -1) {
                 basic.contents.forEachIndexed { index, content ->
                     when (searchItem.attributeType) {
-                        CIAttributeConstants.Type.DATE.code -> {
-                            // TODO: 날짜 타입을 경우 비교
+                        CIAttributeConstants.Type.RADIO.code -> {
+                            //TODO: 라디오 검색 조건 추가
                         }
-                        CIAttributeConstants.Type.DATE_TIME.code -> {
-                            // TODO: 날짜 타입을 경우 비교
-                        }
+                        //TODO: DropDown 추가 필요
                         else -> {
                             if (content.value[idx]?.toString()?.contains(searchItem.searchValue) == false) {
                                 removeIndexes.add(index)
@@ -272,8 +270,10 @@ class CISearchService(
             }
         }
 
-        removeIndexes.forEach {
-            contents.removeAt(it)
+        if (removeIndexes.isNotEmpty()) {
+            removeIndexes.sortedDescending().forEach {
+                contents.removeAt(it)
+            }
         }
 
         return contents
