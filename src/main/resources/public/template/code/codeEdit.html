@@ -246,11 +246,14 @@
             document.getElementById('btnDelete').style.display = 'none';
         }
 
-        document.querySelectorAll('input[type=text]').forEach(function (object) {
-            object.value = '';
+        const editElems = document.querySelector('.z-page-edit').querySelectorAll('input[type=text], textarea');
+        editElems.forEach((elem) => {
+            elem.readOnly = false;
+            elem.value = '';
         });
-        document.querySelector('textarea').value = '';
+        document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
         document.getElementById('txtCode').disabled = false;
+        document.getElementById('btnCodeLang').disabled = false;
         document.getElementById('codeLang').innerHTML = '';
 
         let selectedNode = tree.getTreeSelectNode();
