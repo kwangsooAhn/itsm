@@ -240,4 +240,20 @@
       }
     }
   }
+
+  // CI 상세 조회 모달
+  &.cmdb-ci-detailSearch-modal {
+    width: 40.125rem; //642px
+    height: 43.75rem; //700px
+    .modal-content {
+      height: calc(43.75rem - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem; // 10px 20px
+
+      .flex-row {
+        margin: 1rem 0 0 0; // 16px
+        .field-label { flex-basis: 30%; }
+        .field-element { flex-basis: 70%; }
+      }
+    }
+  }
 }
