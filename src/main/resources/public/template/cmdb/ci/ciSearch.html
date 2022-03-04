@@ -88,7 +88,8 @@
                 totalCount: false,
                 onCreate: function () {
                     zPagingManager.load();
-                    getList();
+                    // 전체 선택
+                    document.getElementById('treeList').querySelector('.node').click();
                 },
                 selectedNode: function(response) {
                     document.getElementById('treeTypeId').value = response.id;
@@ -146,7 +147,7 @@
                 dt.textContent = i18n.userTime(dt.textContent.trim());
             });
 
-            document.querySelectorAll('.dateTime').forEach(dt => {
+            document.querySelectorAll('.datetime').forEach(dt => {
                 dt.textContent = i18n.userDateTime(dt.textContent.trim());
             });
         }
@@ -286,7 +287,6 @@
          * 목록 다운로드 (엑셀)
          */
         function onExcelDownload() {
-            // TODO: 엑셀 다운로드도 post로 보내야하지 않을까?
             const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
             const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
             let detailSearchData = { searchItems: [] };
