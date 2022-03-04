@@ -134,6 +134,11 @@
             searchData = data;
             tempSearchData = data;
             target.removeAttribute('onclick');
+            // 상세 검색 데이터가 없을 경우에는 버튼을 비활성화.
+            const btnDetailSearch = document.getElementById('btnDetailSearch');
+            if (btnDetailSearch) {
+                btnDetailSearch.disabled = (data === null || data.length === 0);
+            }
         }
         /**
          *  날짜시간 변환
@@ -184,13 +189,16 @@
         }
 
         function createDetailSearchContent() {
-            const searchTemplate = searchData.map(function (item) {
-                const templateWithType = getItemWithType(item);
-                return `<div class="flex-row align-items-center">` +
-                    `<label class="field-label text-ellipsis">${item.attributeText}</label>` +
-                    `${templateWithType}` +
-                    `</div>`;
-            }).join('');
+            let searchTemplate = ``;
+            if (searchData !== null) {
+                searchTemplate = searchData.map(function (item) {
+                    const templateWithType = getItemWithType(item);
+                    return `<div class="flex-row align-items-center">` +
+                        `<label class="field-label text-ellipsis">${item.attributeText}</label>` +
+                        `${templateWithType}` +
+                        `</div>`;
+                }).join('');
+            }
 
             const targetName = document.getElementById('treeTypeName').value;
             return `<div class="flex-column">` +
@@ -234,9 +242,11 @@
                             btnDetailSearch.classList.remove('primary');
                             btnDetailSearch.classList.add('secondary');
                         }
-                        searchData.forEach(function (item) {
-                            item.searchValue = '';
-                        });
+                        if (searchData !== null) {
+                            searchData.forEach(function (item) {
+                                item.searchValue = '';
+                            });
+                        }
                         getList();
                         modal.hide();
                     }
