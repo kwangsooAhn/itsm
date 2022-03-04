@@ -361,8 +361,11 @@ cmdb:
     label:
       all: "All"
       applyDate: "Apply Date"
+      ciDesc: "CI Description"
+      ciName: "CI Name"
       ciNo: "CI No."
       ciInquiry: "CI Inquiry"
+      ciType: "CI Type"
       createUser: "Create User"
       detailSearch: "Asset details search"
       delete: "CI Delete"

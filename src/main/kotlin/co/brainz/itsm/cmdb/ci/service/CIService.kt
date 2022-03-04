@@ -6,11 +6,13 @@
 
 package co.brainz.itsm.cmdb.ci.service
 
+import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIAttributeValueGroupListDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
+import co.brainz.cmdb.dto.CIContentDto
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDynamicListDto
 import co.brainz.cmdb.dto.CIDynamicReturnDto
@@ -57,7 +59,9 @@ class CIService(
     private val ciComponentDataRepository: CIComponentDataRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val excelComponent: ExcelComponent,
-    private val aliceTagManager: AliceTagManager
+    private val aliceTagManager: AliceTagManager,
+    private val ciSearchService: CISearchService,
+    private val ciRepository: CIRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -88,8 +92,10 @@ class CIService(
             columnTitle = params["columnTitle"] as ArrayList<String>,
             columnWidth = params["columnWidth"] as ArrayList<String>,
             columnType = params["columnType"] as ArrayList<String>,
-            contents = params["contents"]
+            contents = mapper.convertValue(params["contents"],
+                object : TypeReference<List<CIContentDto>>() {})
         )
+
         return CIDynamicReturnDto(
             data = ciData,
             paging = AlicePagingData(
@@ -107,6 +113,44 @@ class CIService(
      */
     fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
         return ciService.getCIs(ciSearchCondition)
+    }
+
+    /**
+     * CMDB CI 조회 (동적 컬럼)
+     */
+    fun getCIs(ciSearchCondition: CISearchCondition, searchItemsData: String): CIDynamicReturnDto {
+        val ciList = ciRepository.findCIList(ciSearchCondition)
+        // 공통 출력 데이터 조회
+        val basic = ciSearchService.getBasic(ciList.results)
+        // 옵션 출력 데이터 조회
+        val dynamic = ciSearchCondition.typeId?.let { ciSearchService.getDynamic(it, basic) }
+        if (dynamic?.columnName?.isNotEmpty() == true) {
+            basic.columnName.addAll(dynamic.columnName)
+            basic.columnTitle.addAll(dynamic.columnTitle)
+            basic.columnType.addAll(dynamic.columnType)
+            basic.columnWidth.addAll(dynamic.columnWidth)
+            basic.contents.forEach { content ->
+                dynamic.contents.forEach { attributeContent ->
+                    if (content.key == attributeContent.key) {
+                        content.value.addAll(attributeContent.value)
+                    }
+                }
+            }
+        }
+
+        // TODO searchItemsData 처리 (mapper 변환 후)
+
+
+        return CIDynamicReturnDto(
+            data = basic,
+            paging = AlicePagingData(
+                totalCount = basic.contents.size.toLong(),
+                totalCountWithoutCondition = ciSearchCondition.typeId?.let { ciRepository.countByTypeId(it) } ?: 0,
+                currentPageNum = ciSearchCondition.pageNum,
+                totalPageNum = ceil(basic.contents.size.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            )
+        )
     }
 
     /**

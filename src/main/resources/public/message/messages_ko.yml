@@ -361,8 +361,11 @@ cmdb:
     label:
       all: "전체"
       applyDate: "반영 일시"
-      ciNo: "CI No."
+      ciDesc: "자산 설명"
+      ciName: "자산 이름"
+      ciNo: "자산 번호"
       ciInquiry: "CI 조회"
+      ciType: "자산 유형"
       createUser: "등록자"
       detailSearch: "자산 상세 검색"
       delete: "CI 삭제"
