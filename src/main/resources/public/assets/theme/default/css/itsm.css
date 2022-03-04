@@ -4388,7 +4388,7 @@ select {
   border-bottom: 0.0625rem solid #CFD5D9;
   cursor: pointer;
 }
-.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row:read-only {
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row.read-only {
   cursor: default;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row:hover {
@@ -4509,7 +4509,7 @@ select {
   border-bottom: 0.0625rem solid #CFD5D9;
   cursor: pointer;
 }
-.z-itsm-container .z-main-content .z-page-list .grid__body .grid__row:read-only {
+.z-itsm-container .z-main-content .z-page-list .grid__body .grid__row.read-only {
   cursor: default;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row:hover {
@@ -7867,6 +7867,39 @@ body.modal-active {
 }
 .modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row .field-element {
   flex-basis: 70%;
+}
+.modal-dialog.cmdb-ci-view-modal {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content {
+  height: calc(53.0625rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content .view-row {
+  margin-top: 0.625rem;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content .field-label {
+  margin: 0.625rem 0;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  background-color: #FAFAFA;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group .child-attribute-group {
+  position: relative;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group .child-attribute-group .child-attribute-row {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  background-color: #FFFFFF;
+  padding: 0.3125rem 1.25rem 1.25rem 1.25rem;
 }
 
 /* _thumbnail.scss

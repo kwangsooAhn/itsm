@@ -28,11 +28,10 @@ class CIController(
 ) {
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"
-    private val ciViewPage: String = "cmdb/ci/ciView"
     private val ciEditModal: String = "cmdb/ci/ciEditModal"
     private val ciViewModal: String = "cmdb/ci/ciViewModal"
     private val ciListModal: String = "cmdb/ci/ciListModal"
-
+    private val ciDetailViewModal: String = "cmdb/ci/ciDetailViewModal"
     /**
      * CI 조회 검색 화면 호출
      */
@@ -69,7 +68,7 @@ class CIController(
         model.addAttribute("ciHistoryList", ciHistoryList)
         model.addAttribute("userInfo", currentSessionUser.getUserDto())
         model.addAttribute("ciRelationList", ciRelationList)
-        return ciViewPage
+        return ciDetailViewModal
     }
 
     /**

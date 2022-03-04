@@ -7,6 +7,7 @@
     <title th:text="#{cmdb.ci.label.ciInquiry}"></title>
 </head>
 <th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
 </th:block>
 <body>
@@ -360,26 +361,17 @@
                     },
                     onCreate: function (modal) {
                         document.getElementById('ciAttributes').click();
+                        const ciDetailModalContent = document.querySelector('.cmdb-ci-view-modal');
                         // 스크롤바 추가
-                        OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
-                        OverlayScrollbars(document.querySelectorAll('textarea'), {
-                            className: 'scrollbar',
-                            resize: 'vertical',
-                            sizeAutoCapable: true,
-                            textarea: {
-                                dynHeight: false,
-                                dynWidth: false,
-                                inheritedAttrs: "class"
-                            }
-                        });
+                        OverlayScrollbars(ciDetailModalContent.querySelector('.modal-content'), {className: 'scrollbar'});
                         new zTag(document.querySelector('input[name=ciDetailTags]'), {
                             suggestion: false,
                             realtime: false,
                             tagType: 'ci',
-                            targetId: document.getElementById('ciId').getAttribute('value')
+                            targetId: ciDetailModalContent.querySelector('#ciId').getAttribute('value')
                         });
                         // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-                        document.querySelectorAll('.date-time').forEach(dt => {
+                        ciDetailModalContent.querySelectorAll('.date-time').forEach(dt => {
                             dt.textContent = i18n.userDateTime(dt.textContent.trim());
                         });
                     }
