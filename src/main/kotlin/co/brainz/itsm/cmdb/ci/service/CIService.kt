@@ -35,6 +35,7 @@ import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
+import co.brainz.itsm.cmdb.ci.dto.CISearch
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
@@ -88,7 +89,7 @@ class CIService(
         val file = File("src/main/resources/public/assets/js/cmdb/dummy/ci.json")
         val params = mapper.readValue(file, Map::class.java)
         val ciData = CIDynamicListDto(
-            searchItems = params["searchItems"] as List<CISearchItem>,
+            searchItems = params["searchItems"] as MutableList<CISearchItem>,
             columnName = params["columnName"] as ArrayList<String>,
             columnTitle = params["columnTitle"] as ArrayList<String>,
             columnWidth = params["columnWidth"] as ArrayList<String>,
@@ -119,39 +120,30 @@ class CIService(
     /**
      * CMDB CI 조회 (동적 컬럼)
      */
-    fun getCIs(ciSearchCondition: CISearchCondition, searchItemsData: String): CIDynamicReturnDto {
+    fun getCIs(ciSearchCondition: CISearchCondition, searchItemsData: CISearch): CIDynamicReturnDto {
+        ciSearchCondition.isPaging = false
         val ciList = ciRepository.findCIList(ciSearchCondition)
         // 공통 출력 데이터 조회
-        val basic = ciSearchService.getBasic(ciList.results)
+        var basic = ciSearchService.getBasic(ciList.results)
         // 옵션 출력 데이터 조회
-        val dynamic = ciSearchCondition.typeId?.let { ciSearchService.getDynamic(it, basic) }
-        if (dynamic?.columnName?.isNotEmpty() == true) {
-            basic.columnName.addAll(dynamic.columnName)
-            basic.columnTitle.addAll(dynamic.columnTitle)
-            basic.columnType.addAll(dynamic.columnType)
-            basic.columnWidth.addAll(dynamic.columnWidth)
-            basic.contents.forEach { content ->
-                dynamic.contents.forEach { attributeContent ->
-                    if (content.key == attributeContent.key) {
-                        content.value.addAll(attributeContent.value)
-                    }
-                }
-            }
-        }
+        val dynamic = ciSearchCondition.typeId?.let { ciSearchService.getDynamic(it, basic, searchItemsData) }
+        // 공통 출력 + 옵션 출력 정보
+        basic = ciSearchService.addDynamic(basic, dynamic)
+        // 상세 검색 조건 필터링
+        basic.contents = ciSearchService.getFilterContents(basic)
+        // 페이징
+        val totalCount = basic.contents.size
+        basic.contents = ciSearchService.getPaging(basic, ciSearchCondition)
 
-        // SearchItems 추가
-        basic.searchItems = ciSearchService.getSearchItems(dynamic?.columnName)
-
-        // TODO searchItemsData 처리 (mapper 변환 후)
-
+        // TODO: 컬럼 정렬
 
         return CIDynamicReturnDto(
             data = basic,
             paging = AlicePagingData(
-                totalCount = basic.contents.size.toLong(),
+                totalCount = totalCount.toLong(),
                 totalCountWithoutCondition = ciSearchCondition.typeId?.let { ciRepository.countByTypeId(it) } ?: 0,
                 currentPageNum = ciSearchCondition.pageNum,
-                totalPageNum = ceil(basic.contents.size.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

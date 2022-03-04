@@ -17,6 +17,8 @@ import co.brainz.cmdb.dto.CIDynamicListDto
 import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.cmdb.dto.CIsDto
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.itsm.cmdb.ci.dto.CISearch
+import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import org.springframework.stereotype.Service
 
 @Service
@@ -129,9 +131,10 @@ class CISearchService(
     /**
      * 동적 데이터 생성
      */
-    fun getDynamic(typeId: String, basic: CIDynamicListDto): CIDynamicListDto {
+    fun getDynamic(typeId: String, basic: CIDynamicListDto, searchItemsData: CISearch): CIDynamicListDto {
         val dynamic = this.initDynamic(typeId)
         if (dynamic.columnName.isNotEmpty()) {
+            dynamic.searchItems.addAll(this.getSearchItems(dynamic.columnName, searchItemsData))
             dynamic.contents.addAll(this.getDynamicContents(basic, dynamic.columnName))
         }
         return dynamic
@@ -220,9 +223,84 @@ class CISearchService(
     /**
      * 상세 검색 속성 정보 조회
      */
-    fun getSearchItems(columnName: ArrayList<String>?): List<CISearchItem>? {
+    fun getSearchItems(columnName: ArrayList<String>, searchItemsData: CISearch): List<CISearchItem> {
         val attributeIds = mutableSetOf<String>()
-        columnName?.forEach { attributeIds.add(it) }
-        return ciAttributeRepository.findAttributeList(attributeIds)
+        columnName.forEach { attributeIds.add(it) }
+        val attributeList = ciAttributeRepository.findAttributeList(attributeIds)
+        attributeList.forEach { attribute ->
+            searchItemsData.searchItems?.forEach { searchItem ->
+                if (searchItem.attributeId == attribute.attributeId) {
+                    attribute.searchValue = searchItem.searchValue
+                }
+            }
+        }
+        return attributeList
+    }
+
+    /**
+     * 동적 데이터 조회 필터링
+     */
+    fun getFilterContents(basic: CIDynamicListDto): MutableList<CIContentDto> {
+        val contents = basic.contents
+        val removeIndexes = mutableSetOf<Int>()
+        basic.searchItems?.forEach { searchItem ->
+            var idx = -1
+            run loop@{
+                basic.columnName.forEachIndexed { index, column ->
+                    if (column == searchItem.attributeId) {
+                        idx = index
+                    }
+                }
+            }
+
+            if (idx > -1) {
+                basic.contents.forEachIndexed { index, content ->
+                    if (content.value[idx]?.toString()?.contains(searchItem.searchValue) == false) {
+                        removeIndexes.add(index)
+                    }
+                }
+            }
+        }
+
+        removeIndexes.forEach {
+            contents.removeAt(it)
+        }
+
+        return contents
+    }
+
+    /**
+     * 공통 데이터에 공적 데이터 반영
+     */
+    fun addDynamic(basic: CIDynamicListDto, dynamic: CIDynamicListDto?): CIDynamicListDto {
+        if (dynamic?.columnName?.isNotEmpty() == true) {
+            basic.searchItems.addAll(dynamic.searchItems)
+            basic.columnName.addAll(dynamic.columnName)
+            basic.columnTitle.addAll(dynamic.columnTitle)
+            basic.columnType.addAll(dynamic.columnType)
+            basic.columnWidth.addAll(dynamic.columnWidth)
+            basic.contents.forEach { content ->
+                dynamic.contents.forEach { attributeContent ->
+                    if (content.key == attributeContent.key) {
+                        content.value.addAll(attributeContent.value)
+                    }
+                }
+            }
+        }
+        return basic
+    }
+
+    /**
+     * 페이징 처리
+     */
+    fun getPaging(basic: CIDynamicListDto, ciSearchCondition: CISearchCondition): MutableList<CIContentDto> {
+        val offset = (ciSearchCondition.pageNum - 1) * ciSearchCondition.contentNumPerPage
+        val limit = ciSearchCondition.contentNumPerPage
+        val startIndex = offset.toInt()
+        var endIndex = (startIndex + limit).toInt()
+        if (basic.contents.size < endIndex) {
+            endIndex = basic.contents.size
+        }
+        return basic.contents.subList(startIndex, endIndex)
     }
 }

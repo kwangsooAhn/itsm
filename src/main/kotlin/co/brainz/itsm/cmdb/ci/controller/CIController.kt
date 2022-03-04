@@ -7,6 +7,7 @@
 package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.cmdb.ci.dto.CISearch
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.workflow.document.constants.WfDocumentConstants
@@ -44,7 +45,11 @@ class CIController(
      * CI 조회 목록 화면 호출
      */
     @PostMapping("")
-    fun getCIList(ciSearchCondition: CISearchCondition, @RequestBody searchItemsData: String, model: Model): String {
+    fun getCIList(
+        ciSearchCondition: CISearchCondition,
+        @RequestBody searchItemsData: CISearch,
+        model: Model
+    ): String {
         val result = ciService.getCIs(ciSearchCondition, searchItemsData)
         //val result = ciService.getCIsDummy(ciSearchCondition)
         model.addAttribute("ciData", result.data)

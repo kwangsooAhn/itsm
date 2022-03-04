@@ -33,7 +33,7 @@ data class CISearchCondition(
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
     val tagArray: List<String> = this.tagStrArray()
-    val isPaging = pageNum > 0
+    var isPaging = pageNum > 0
 
     private fun tagStrArray(): List<String> {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())

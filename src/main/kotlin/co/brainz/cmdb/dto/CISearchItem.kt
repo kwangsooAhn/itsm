@@ -14,5 +14,5 @@ data class CISearchItem(
     val attributeType: String = "",
     val attributeDesc: String = "",
     val attributeValue: String = "",
-    val searchValue: String = ""
+    var searchValue: String = ""
 ) : Serializable
