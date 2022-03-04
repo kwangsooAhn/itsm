@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="grid__body">
-        <div class="grid__row grid--noData" th:if="${#arrays.isEmpty(tokenList)}">
+        <div class="grid__row grid--noData read-only" th:if="${#arrays.isEmpty(tokenList)}">
             <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
         </div>
         <div class="grid__row" th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}"
