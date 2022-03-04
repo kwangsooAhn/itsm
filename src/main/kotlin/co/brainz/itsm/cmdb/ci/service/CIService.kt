@@ -20,6 +20,7 @@ import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
+import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
@@ -87,7 +88,7 @@ class CIService(
         val file = File("src/main/resources/public/assets/js/cmdb/dummy/ci.json")
         val params = mapper.readValue(file, Map::class.java)
         val ciData = CIDynamicListDto(
-            searchItems = params["searchItems"],
+            searchItems = params["searchItems"] as List<CISearchItem>,
             columnName = params["columnName"] as ArrayList<String>,
             columnTitle = params["columnTitle"] as ArrayList<String>,
             columnWidth = params["columnWidth"] as ArrayList<String>,
@@ -137,6 +138,9 @@ class CIService(
                 }
             }
         }
+
+        // SearchItems 추가
+        basic.searchItems = ciSearchService.getSearchItems(dynamic?.columnName)
 
         // TODO searchItemsData 처리 (mapper 변환 후)
 
