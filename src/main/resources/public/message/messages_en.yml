@@ -738,6 +738,7 @@ form:
   row: "Row"
   component:
     checkBox: "Checkbox"
+    ci: "CI"
     customCode: "Custom Code"
     date: "Date"
     dateTime: "Date Time"
@@ -754,7 +755,7 @@ form:
     textArea: "Text Box"
     textEditor: "Text Editor"
     time: "Time"
-    ci: "CI"
+    userSearch: "User Search"
   help:
     custom-code-default: "You can set the default value displayed on the component.<br/>'None' prints the default value is not output.<br/>'Session' prints the user's session information.<br/>'Code' prints the data of the code defined by the user."
     custom-code: "You can select a custom code list of user-defined code sets."
@@ -819,6 +820,7 @@ form:
       path: "Path"
       placeholder: "Placeholder"
       rows: "Rows"
+      searchTarget: "Search Target"
       text: "Display Text"
       thickness: "Thickness"
       type: "Type"
@@ -893,6 +895,9 @@ form:
       namePlaceholder: "name"
       value: "Value"
       valuePlaceholder: "value"
+    userSearch:
+      organization: "Search by Organization"
+      custom: "Select custom list"
   status:
     destroy: "Destroy"
     edit: "Edit"
