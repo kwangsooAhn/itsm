@@ -12,5 +12,5 @@ import org.springframework.stereotype.Component
 @Component
 abstract class PluginComponent {
     abstract fun init(pluginsDir: String?)
-    abstract fun execute(plugin: PluginEntity, body: String?): ZResponse
+    abstract fun execute(plugin: PluginEntity, body: String?, param: LinkedHashMap<String, Any>): ZResponse
 }

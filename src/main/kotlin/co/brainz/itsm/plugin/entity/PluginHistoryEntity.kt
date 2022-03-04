@@ -26,17 +26,20 @@ data class PluginHistoryEntity(
     val pluginId: String,
 
     @Column(name = "startdt")
-    val startDt: LocalDateTime,
+    val startDt: LocalDateTime?,
 
     @Column(name = "enddt")
-    val endDt: LocalDateTime,
+    val endDt: LocalDateTime? = null,
 
     @Column(name = "plugin_param")
-    val pluginParam: String,
+    val pluginParam: String? = null,
 
     @Column(name = "plugin_result")
-    val pluginResult: String,
+    val pluginResult: String? = null,
 
     @Column(name = "message")
-    val message: String
+    val message: String? = null,
+
+    @Column(name = "plugin_data")
+    val pluginData: String?
 ) : Serializable

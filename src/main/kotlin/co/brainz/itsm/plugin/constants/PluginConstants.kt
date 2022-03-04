@@ -7,6 +7,8 @@ package co.brainz.itsm.plugin.constants
 
 object PluginConstants {
 
+    const val ASYNCHRONOUS = "asynchronous"
+
     enum class PluginId(val code: String) {
         FOCS("api.focs")
     }
