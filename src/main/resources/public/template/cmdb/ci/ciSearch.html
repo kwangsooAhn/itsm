@@ -134,6 +134,11 @@
             searchData = data;
             tempSearchData = data;
             target.removeAttribute('onclick');
+            // 상세 검색 데이터가 없을 경우에는 버튼을 비활성화.
+            const btnDetailSearch = document.getElementById('btnDetailSearch');
+            if (btnDetailSearch) {
+                btnDetailSearch.disabled = (data === null || data.length === 0);
+            }
         }
         /**
          *  날짜시간 변환
