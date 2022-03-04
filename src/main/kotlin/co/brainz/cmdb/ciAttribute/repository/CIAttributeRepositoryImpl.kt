@@ -146,10 +146,10 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttributeEntity.attributeDesc,
                     ciAttributeEntity.attributeText,
                     ciAttributeEntity.attributeType,
-                    ciAttributeEntity.searchYn,
-                    ciAttributeEntity.searchWidth,
                     ciClassAttributeMapEntity.attributeOrder,
                     ciAttributeEntity.attributeValue,
+                    ciAttributeEntity.searchYn,
+                    ciAttributeEntity.searchWidth,
                     ciDataEntity.value
                 )
             )
@@ -224,9 +224,9 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeType,
                     Expressions.asNumber(0),
                     ciAttribute.attributeValue,
-                    Expressions.asString(""),
                     ciAttribute.searchYn,
-                    ciAttribute.searchWidth
+                    ciAttribute.searchWidth,
+                    Expressions.asString("")
                 )
             )
             .where(
