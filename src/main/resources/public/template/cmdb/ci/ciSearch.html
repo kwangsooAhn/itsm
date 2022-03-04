@@ -184,13 +184,16 @@
         }
 
         function createDetailSearchContent() {
-            const searchTemplate = searchData.map(function (item) {
-                const templateWithType = getItemWithType(item);
-                return `<div class="flex-row align-items-center">` +
-                    `<label class="field-label text-ellipsis">${item.attributeText}</label>` +
-                    `${templateWithType}` +
-                    `</div>`;
-            }).join('');
+            let searchTemplate = ``;
+            if (searchData !== null) {
+                searchTemplate = searchData.map(function (item) {
+                    const templateWithType = getItemWithType(item);
+                    return `<div class="flex-row align-items-center">` +
+                        `<label class="field-label text-ellipsis">${item.attributeText}</label>` +
+                        `${templateWithType}` +
+                        `</div>`;
+                }).join('');
+            }
 
             const targetName = document.getElementById('treeTypeName').value;
             return `<div class="flex-column">` +
@@ -234,9 +237,11 @@
                             btnDetailSearch.classList.remove('primary');
                             btnDetailSearch.classList.add('secondary');
                         }
-                        searchData.forEach(function (item) {
-                            item.searchValue = '';
-                        });
+                        if (searchData !== null) {
+                            searchData.forEach(function (item) {
+                                item.searchValue = '';
+                            });
+                        }
                         getList();
                         modal.hide();
                     }
