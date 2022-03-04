@@ -8,6 +8,7 @@ package co.brainz.itsm.cmdb.ci.service
 
 import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ci.service.CIService
+import co.brainz.cmdb.ciAttribute.constants.CIAttributeConstants
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIAttributeValueGroupListDto
@@ -394,65 +395,56 @@ class CIService(
     /**
      * CI 조회 Excel 다운로드
      */
-    fun getCIsExcelDownload(ciSearchCondition: CISearchCondition): ResponseEntity<ByteArray> {
-        val returnDto = ciService.getCIListForExcel(ciSearchCondition)
+    fun getCIsExcelDownload(ciSearchCondition: CISearchCondition, searchItemsData: CISearch): ResponseEntity<ByteArray> {
+        val result = this.getCIs(ciSearchCondition, searchItemsData).data
+
+        val titleRowVOList = mutableListOf<ExcelCellVO>()
+        result?.columnTitle?.forEachIndexed { index, title ->
+            when (result.columnType[index]) {
+                CIAttributeConstants.Type.ICON.code,
+                CIAttributeConstants.Type.HIDDEN.code -> { }
+                else -> {
+                    titleRowVOList.add(
+                        ExcelCellVO(
+                            value = title,
+                            cellWidth = 5000
+                        )
+                    )
+                }
+            }
+        }
+
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(
                     rows = mutableListOf(
                         ExcelRowVO(
-                            cells = listOf(
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.ciNo"),
-                                    cellWidth = 5000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.type"),
-                                    cellWidth = 5000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.name"),
-                                    cellWidth = 5000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.description"),
-                                    cellWidth = 8000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.tag"),
-                                    cellWidth = 5000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.whetherToInterlink"),
-                                    cellWidth = 5000
-                                )
-                            )
+                            cells = titleRowVOList
                         )
                     )
                 )
             )
         )
 
-        returnDto.forEach { result ->
-            excelVO.sheets[0].rows.add(
+        val excelRowVOList = mutableListOf<ExcelRowVO>()
+        result?.contents?.forEach { content ->
+            val excelCellVOList = mutableListOf<ExcelCellVO>()
+            content.value.forEachIndexed { index, value ->
+                when (result.columnType[index]) {
+                    CIAttributeConstants.Type.ICON.code,
+                    CIAttributeConstants.Type.HIDDEN.code -> { }
+                    else -> {
+                        excelCellVOList.add(ExcelCellVO(value = value))
+                    }
+                }
+            }
+            excelRowVOList.add(
                 ExcelRowVO(
-                    cells = mutableListOf(
-                        ExcelCellVO(value = result.ciNo),
-                        ExcelCellVO(value = result.typeName),
-                        ExcelCellVO(value = result.ciName),
-                        ExcelCellVO(value = result.ciDesc ?: ""),
-                        ExcelCellVO(value = this.tagToString(result.ciTags)),
-                        ExcelCellVO(
-                            value = if (result.interlink == true) {
-                                aliceMessageSource.getMessage("cmdb.ci.label.interlink")
-                            } else {
-                                aliceMessageSource.getMessage("cmdb.ci.label.nonInterlink")
-                            }
-                        )
-                    )
+                    cells = excelCellVOList
                 )
             )
         }
+        excelVO.sheets[0].rows.addAll(excelRowVOList)
         return excelComponent.download(excelVO)
     }
 

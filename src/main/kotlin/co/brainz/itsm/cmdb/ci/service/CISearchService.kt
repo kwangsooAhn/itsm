@@ -255,8 +255,18 @@ class CISearchService(
 
             if (idx > -1) {
                 basic.contents.forEachIndexed { index, content ->
-                    if (content.value[idx]?.toString()?.contains(searchItem.searchValue) == false) {
-                        removeIndexes.add(index)
+                    when (searchItem.attributeType) {
+                        CIAttributeConstants.Type.DATE.code -> {
+                            // TODO: 날짜 타입을 경우 비교
+                        }
+                        CIAttributeConstants.Type.DATE_TIME.code -> {
+                            // TODO: 날짜 타입을 경우 비교
+                        }
+                        else -> {
+                            if (content.value[idx]?.toString()?.contains(searchItem.searchValue) == false) {
+                                removeIndexes.add(index)
+                            }
+                        }
                     }
                 }
             }

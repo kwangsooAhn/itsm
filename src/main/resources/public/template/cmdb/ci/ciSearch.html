@@ -297,7 +297,7 @@
         /**
          * 목록 다운로드 (엑셀)
          */
-        function onExcelDownload() {
+        function onExcelDownload(pageNum = 1) {
             const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
             const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
             let detailSearchData = { searchItems: [] };
@@ -306,7 +306,7 @@
                     return { attributeId: item.attributeId, searchValue: item.searchValue }
                 });
             }
-            const urlParam = aliceJs.serialize(document.getElementById('searchFrm'))
+            const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum
                 + '&typeId=' + document.getElementById('treeTypeId').value
                 + '&orderColName=' + orderColName
                 + '&orderDir=' + orderDir;
@@ -329,10 +329,6 @@
                     a.remove();
                     window.URL.revokeObjectURL(url);
                 }
-            });
-            aliceJs.fetchDownload({
-                url: urlParam,
-                fileName: i18n.msg('cmdb.ci.label.ciInquiry') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
             });
         }
         /**
