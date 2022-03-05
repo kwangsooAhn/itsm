@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+       <node id="getSmsList">
+              SELECT rsl.z_myid,        <!-- 일련번호 -->
+              rsl.z_mydesc,      <!-- 설명 -->
+              rsl.z_myhost,      <!-- 호스트명 -->
+              rsl.z_mylocate,    <!-- 위치 -->
+              rsl.z_svrmanufact, <!-- 제조사 -->
+              rsl.z_myos,        <!-- OS분류 -->
+              rsl.z_svrmodel,    <!-- 모델명 -->
+              rsl.z_svrserial,   <!-- 시리얼 -->
+              rsl.z_myip,        <!-- IP -->
+              rsl.z_regdt,       <!-- 도입일자 -->
+              rsc.z_descript AS sms_cpu_z_descript,    <!-- CPU 정보 -->
+              rsm.z_totsize AS sms_mem_z_totsize,      <!-- MEM SIZE -->
+              rsd.z_totsize AS sms_disk_z_totsize      <!-- DISK SIZE -->
+              FROM   rt_sms_list rsl
+              left outer join (SELECT z_listid, z_descript || ' x ' || sum(z_threads) AS z_descript FROM rt_sms_moninvcpu group by z_descript, z_listid) rsc ON rsl.z_myid = rsc.z_listid
+              left outer join rt_sms_moninvmem rsm ON rsl.z_myid = rsm.z_listid
+              left outer join rt_sms_moninvdisk rsd ON rsl.z_myid = rsd.z_listid
+              GROUP BY (rsl.z_myid, rsc.z_descript, rsm.z_totsize, rsd.z_totsize)
+       </node>
+       <node id="getNmsList">
+              select z_myid,     <!-- 일련번호 -->
+              z_mydesc,   <!-- 설명 -->
+              z_myhost,   <!-- 호스트명 -->
+              z_contact,  <!-- 연락처 -->
+              z_myloc,    <!-- 위치 -->
+              z_mymodel,  <!-- 모델명 -->
+              z_serial,   <!-- 시리얼 -->
+              z_os,       <!-- OS -->
+              z_myip,     <!-- IP -->
+              z_totifnum, <!-- 전체 Interface 개수 -->
+              z_actifnum, <!-- 사용 Interface 개수 -->
+              z_version   <!-- SNMP Version -->
+              from rt_nms_list
+              order by z_myid
+       </node>
+       <node id="getCmdbCIListInMappingIds">
+              select ci_id, ci_no, ci_name, ci_status, type_id, ci_desc, mapping_id
+              from cmdb_ci
+              where mapping_id in (?)
+       </node>
+       <node id="getExistsCmdbCIDataList">
+              select ci_id, attribute_id, value
+              from cmdb_ci_data
+              where ci_id in (?)
+       </node>
+       <node id="getExistsCmdbCIGroupListDataList">
+              select ci_id, attribute_id, c_attribute_id, c_attribute_seq, c_value
+              from cmdb_ci_group_list_data
+              where ci_id in (?)
+       </node>
+       <node id="getCmdbTypeListInTypeAlias">
+              select type_id, p_type_id, type_name, type_desc, type_alias, type_level, class_id, type_icon
+              from cmdb_type where type_alias in (?)
+       </node>
+       <node id="getCMDBAttributeListInClassIds">
+              select clam.class_id, ca.mapping_id, ca.attribute_id, ca.attribute_name, ca.attribute_desc, ca.attribute_type, ca.attribute_text, ca.attribute_value
+              from cmdb_class_attribute_map clam
+              inner join cmdb_attribute ca
+              on clam.attribute_id = ca.attribute_id
+              and clam.class_id in (?)
+              order by clam.attribute_order
+       </node>
+       <node id="getCMDBAttributeListInAttributeIds">
+              select ca.mapping_id, ca.attribute_id, ca.attribute_name, ca.attribute_desc, ca.attribute_type, ca.attribute_text, ca.attribute_value
+              from cmdb_attribute ca
+              where attribute_id in (?)
+       </node>
+       <node id="getLastCINoToService">
+              select ci_no from cmdb_ci
+              where upper(ci_no) like upper('%?%')
+              order by ci_no desc
+              limit 1
+       </node>
+       <node id="getCmdbCIHistoryInCIIds">
+              with history as (
+              select ci.ci_id, coalesce(max(seq), 0) as seq
+              from cmdb_ci ci left join cmdb_ci_history cch
+              on ci.ci_id = cch.ci_id
+              where ci.ci_id in (?)
+              group by ci.ci_id
+              )
+              select ci.ci_id, ci.ci_no, history.seq, ci.ci_name, ci.ci_status, ci_type.type_id
+              , ci_type.class_id, ci_type.type_icon as ci_icon, ci.ci_desc, ci.interlink
+              from cmdb_ci ci, cmdb_type ci_type, history history
+              where ci.type_id = ci_type.type_id
+              and ci.ci_id = history.ci_id
+              and ci.ci_id in (?)
+       </node>
+       <node id="getCmdbCIDataHistory">
+              with history as (
+              select ci.ci_id, coalesce(max(seq), 0) as seq
+              from cmdb_ci ci left join cmdb_ci_data_history data_history
+              on ci.ci_id = data_history.ci_id
+              where ci.ci_id in (?)
+              group by ci.ci_id
+              )
+              select ccd.ci_id, hi.seq, ca.attribute_id, ca.attribute_name, ca.attribute_desc
+              , ca.attribute_type, ca.attribute_text, ca.attribute_value, ccd.value
+              from cmdb_ci_data ccd, cmdb_attribute ca, history hi
+              where ccd.attribute_id = ca.attribute_id
+              and ccd.ci_id = hi.ci_id
+              and ccd.ci_id in (?)
+       </node>
+       <node id="getCmdbCIGroupListDataHistory">
+              with history as (
+              select ci.ci_id, coalesce(max(seq), 0) as seq
+              from cmdb_ci ci left join cmdb_ci_group_list_data_history group_list_data_history
+              on ci.ci_id = group_list_data_history.ci_id
+              where ci.ci_id in (?)
+              group by ci.ci_id
+              )
+              select ccgld.ci_id, hi.seq, ccgld.attribute_id, ca.attribute_id as c_attribute_id, ccgld.c_attribute_seq
+              , ca.attribute_name as c_attribute_name, ca.attribute_desc as c_attribute_desc
+              , ca.attribute_type as c_attribute_type, ca.attribute_text as c_attribute_text
+              , ca.attribute_value as c_attribute_value, ccgld.c_value
+              from cmdb_ci_group_list_data ccgld, cmdb_attribute ca, history hi
+              where ccgld.c_attribute_id = ca.attribute_id
+              and ccgld.ci_id = hi.ci_id
+              and ccgld.ci_id in (?)
+       </node>
+       <node id="deleteCmdbCIData">
+              delete from cmdb_ci_data where ci_id = (?) and attribute_id = (?)
+       </node>
+       <node id="insertCI">
+              insert into cmdb_ci (ci_id, ci_no, ci_name, ci_desc, ci_status, type_id, interlink, mapping_id)
+              values (?, ?, ?, ?, ?, ?, ?, ?)
+       </node>
+       <node id="updateCI">
+              update cmdb_ci
+              set    ci_no = ?,
+              ci_name = ?,
+              ci_desc = ?,
+              ci_status = ?,
+              type_id = ?,
+              interlink = ?
+              where  ci_id = ?
+              and mapping_id = ?
+       </node>
+       <node id="insertCIData">
+              insert into cmdb_ci_data (ci_id, attribute_id, value) values (?, ?, ?)
+       </node>
+       <node id="insertCIGroupListData">
+              insert into cmdb_ci_group_list_data (ci_id, attribute_id, c_attribute_id, c_attribute_seq, c_value) values (?, ?, ?, ?, ?)
+       </node>
+       <node id="deleteCmdbCIGroupListData">
+              delete from cmdb_ci_group_list_data where ci_id = (?) and attribute_id = (?) and c_attribute_id = (?) and c_attribute_seq = (?)
+       </node>
+       <node id="insertCIHistory">
+              insert into cmdb_ci_history (history_id, ci_id, seq, ci_no, ci_name, ci_status, type_id, class_id, ci_icon, ci_desc, interlink)
+              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       </node>
+       <node id="insertCIDataHistory">
+              insert into cmdb_ci_data_history (data_history_id, ci_id, seq, attribute_id, attribute_name, attribute_desc, attribute_type, attribute_text, attribute_value, value)
+              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       </node>
+       <node id="insertCIGroupListDataHistory">
+              insert into cmdb_ci_group_list_data_history (data_history_id, seq, ci_id, attribute_id, c_attribute_id, c_attribute_seq, c_attribute_name, c_attribute_desc, c_attribute_type, c_attribute_text, c_attribute_value, c_value)
+              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       </node>
+</query>
