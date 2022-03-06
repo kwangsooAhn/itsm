@@ -613,10 +613,10 @@ document:
     selectProcess: "프로세스를 선택하세요."
     selectNumberingRule: "문서번호 규칙을 선택하세요."
   display:
-    editable: "수정 가능"
-    editableRequired: "수정 가능(필수값)"
+    editable: "수정"
+    editableRequired: "수정(필수값)"
     hidden: "숨김"
-    readonly: "수정 불가"
+    readonly: "읽기"
   status:
     destroy: "폐기"
     temporary: "임시"
