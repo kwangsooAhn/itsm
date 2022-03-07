@@ -376,6 +376,7 @@ cmdb:
       name: "CI 이름"
       new: "신규"
       relatedDocument: "관련 문서"
+      searchDetailPlaceholder: "CI No / CI 이름 / 설명"
       searchPlaceholder: "CI No / CI 유형 / CI 이름 / 설명"
       select: "CI 선택"
       seqNum: "CI No"

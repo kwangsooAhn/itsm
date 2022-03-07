@@ -30,7 +30,7 @@
             <div class="z-page-search">
                 <form id="searchFrm">
                     <input type="text" class="z-input text-ellipsis i-search col-5" id="searchValue" name="searchValue"
-                           maxlength="100" th:placeholder="#{cmdb.ci.label.searchPlaceholder}" onKeyup="getList()"/>
+                           maxlength="100" th:placeholder="#{cmdb.ci.label.searchDetailPlaceholder}" onKeyup="getList()"/>
                     <button type="button" class="z-button secondary mr-1 ml-1" id="btnDetailSearch" name="btnDetailSearch"
                             onclick="onDetailSearch()" th:text="#{cmdb.ci.btn.detailSearch}"></button>
                     <input type="hidden" id="flag" name="flag" value="itsm"/>
@@ -95,6 +95,12 @@
                 selectedNode: function(response) {
                     document.getElementById('treeTypeId').value = response.id;
                     document.getElementById('treeTypeName').value = response.textContent;
+                    // 버튼 색상 초기화
+                    const btnDetailSearch = document.getElementById('btnDetailSearch');
+                    if (btnDetailSearch && btnDetailSearch.classList.contains('primary')) {
+                        btnDetailSearch.classList.remove('primary');
+                        btnDetailSearch.classList.add('secondary');
+                    }
                     getList();
                 }
             });
@@ -114,7 +120,8 @@
             const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum
                 + '&typeId=' + document.getElementById('treeTypeId').value
                 + '&orderColName=' + orderColName
-                + '&orderDir=' + orderDir;
+                + '&orderDir=' + orderDir
+                + '&isSearchType=false';
             aliceJs.fetchText('/cmdb/cis?' + urlParam, {
                 method: 'POST',
                 headers: {

@@ -815,7 +815,7 @@ export const ciMixin = {
     },
     // 기존 CI 조회 모달 검색
     selectModalSearchCI() {
-        const urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&isSearchType=true';
         aliceJs.fetchText('/cmdb/cis/component/list?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {
