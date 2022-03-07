@@ -19,6 +19,10 @@ import co.brainz.cmdb.dto.CIsDto
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.cmdb.ci.dto.CISearch
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.stereotype.Service
 
 @Service
@@ -29,6 +33,8 @@ class CISearchService(
     private val ciDataRepository: CIDataRepository,
     private val ciAttributeRepository: CIAttributeRepository
 ) {
+
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 공통 출력 컬럼 조회
@@ -107,10 +113,10 @@ class CISearchService(
         val columnTypeList = arrayListOf<String>()
         columnTypeList.add(CIAttributeConstants.Type.ICON.code)
         columnTypeList.add(CIAttributeConstants.Type.HIDDEN.code)
-        columnTypeList.add(CIAttributeConstants.Type.STRING.code)
-        //columnTypeList.add(CIAttributeConstants.Type.STRING.code)
-        columnTypeList.add(CIAttributeConstants.Type.STRING.code)
-        columnTypeList.add(CIAttributeConstants.Type.STRING.code)
+        columnTypeList.add(CIAttributeConstants.Type.INPUT_BOX.code)
+        //columnTypeList.add(CIAttributeConstants.Type.INPUTBOX.code)
+        columnTypeList.add(CIAttributeConstants.Type.INPUT_BOX.code)
+        columnTypeList.add(CIAttributeConstants.Type.INPUT_BOX.code)
         return columnTypeList
     }
 
@@ -131,31 +137,41 @@ class CISearchService(
     /**
      * 동적 데이터 생성
      */
-    fun getDynamic(typeId: String, basic: CIDynamicListDto, searchItemsData: CISearch): CIDynamicListDto {
-        val dynamic = this.initDynamic(typeId)
+    fun getDynamic(
+        typeId: String,
+        basic: CIDynamicListDto,
+        searchItemsData: CISearch,
+        isExcel: Boolean
+    ): CIDynamicListDto {
+        val dynamic = this.initDynamic(typeId, isExcel)
         if (dynamic.columnName.isNotEmpty()) {
             dynamic.searchItems.addAll(this.getSearchItems(dynamic.columnName, searchItemsData))
-            dynamic.contents.addAll(this.getDynamicContents(basic, dynamic.columnName))
+            dynamic.contents.addAll(this.getDynamicContents(basic, dynamic.columnName, isExcel))
         }
         return dynamic
     }
 
-    private fun initDynamic(typeId: String): CIDynamicListDto {
+    private fun initDynamic(typeId: String, isExcel: Boolean): CIDynamicListDto {
         val dynamic = CIDynamicListDto()
         // root 는 동적 데이터를 적용하지 않는다.
         if (typeId != CITypeConstants.CI_TYPE_ROOT_ID) {
             val ciTypeEntity = ciTypeRepository.findById(typeId).orElse(null)
             val attributeList = ciTypeEntity.ciClass.ciClassAttributeMapEntities.sortedBy { it.attributeOrder }
             attributeList.forEach {
-                if (it.ciAttribute.searchYn) {
+                if (isExcel || it.ciAttribute.searchYn) {
                     dynamic.columnName.add(it.ciAttribute.attributeId)
                     dynamic.columnTitle.add(it.ciAttribute.attributeText ?: "") //attributeName 대신 attributeText
                     dynamic.columnWidth.add(it.ciAttribute.searchWidth + "px")
                     dynamic.columnType.add(
-                        when (it.ciAttribute.attributeType) { // date, datetime 제외한 컬럼은 모두 string
+                        when (it.ciAttribute.attributeType) {
+                            CIAttributeConstants.Type.CHECKBOX.code -> CIAttributeConstants.Type.CHECKBOX.code
+                            CIAttributeConstants.Type.CUSTOM_CODE.code -> CIAttributeConstants.Type.CUSTOM_CODE.code
                             CIAttributeConstants.Type.DATE.code -> CIAttributeConstants.Type.DATE.code
                             CIAttributeConstants.Type.DATE_TIME.code -> CIAttributeConstants.Type.DATE_TIME.code
-                            else -> CIAttributeConstants.Type.STRING.code
+                            CIAttributeConstants.Type.DROP_DOWN.code -> CIAttributeConstants.Type.DROP_DOWN.code
+                            CIAttributeConstants.Type.GROUP_LIST.code -> CIAttributeConstants.Type.GROUP_LIST.code
+                            CIAttributeConstants.Type.RADIO.code -> CIAttributeConstants.Type.RADIO.code
+                            else -> CIAttributeConstants.Type.INPUT_BOX.code
                         }
                     )
                 }
@@ -167,7 +183,7 @@ class CISearchService(
     /**
      * 동적 데이터 생성 (전체 CI DATA 조회 후 CI 별 DATA 비교 후 동적 데이터 생성)
      */
-    fun getDynamicContents(basic: CIDynamicListDto, columnName: ArrayList<String>): MutableList<CIContentDto> {
+    fun getDynamicContents(basic: CIDynamicListDto, columnName: ArrayList<String>, isExcel: Boolean): MutableList<CIContentDto> {
         // 전체 CI DATA 조회
         val ciIds = mutableSetOf<String>()
         basic.contents.forEach { ciIds.add(it.key) }
@@ -178,8 +194,14 @@ class CISearchService(
             // 현재 CI_ID 의 CI_DATA 조회
             val ciDataList = mutableListOf<CIDataEntity>()
             allCIDataList.forEach { ciData ->
-                if (ciData.ciAttribute.searchYn && content.key == ciData.ci.ciId) {
-                    ciDataList.add(ciData)
+                if (content.key == ciData.ci.ciId) {
+                    if (isExcel) {
+                        ciDataList.add(ciData)
+                    } else {
+                        if (ciData.ciAttribute.searchYn) {
+                            ciDataList.add(ciData)
+                        }
+                    }
                 }
             }
 
@@ -326,5 +348,79 @@ class CISearchService(
             endIndex = basic.contents.size
         }
         return basic.contents.subList(startIndex, endIndex)
+    }
+
+    /**
+     * 코드 값을 출력할 값으로 변경
+     */
+    fun getConvertValue(basic: CIDynamicListDto): MutableList<CIContentDto> {
+        val attributeIds = mutableSetOf<String>()
+        basic.columnType.forEachIndexed { index, type ->
+            when (type) {
+                CIAttributeConstants.Type.RADIO.code,
+                CIAttributeConstants.Type.CHECKBOX.code,
+                CIAttributeConstants.Type.CUSTOM_CODE.code,
+                CIAttributeConstants.Type.GROUP_LIST.code,
+                CIAttributeConstants.Type.DROP_DOWN.code -> {
+                    attributeIds.add(basic.columnName[index])
+                }
+            }
+        }
+        val attributeList = ciAttributeRepository.findAttributeList(attributeIds)
+
+        basic.columnType.forEachIndexed { index, type ->
+            when (type) {
+                CIAttributeConstants.Type.CHECKBOX.code,
+                CIAttributeConstants.Type.DROP_DOWN.code,
+                CIAttributeConstants.Type.RADIO.code -> {
+                    val attribute = this.getAttribute(attributeList, basic.columnName[index])
+                    if (attribute.attributeId.isNotEmpty()) {
+                        val valueMap: Map<String, Any> =
+                            mapper.readValue(attribute.attributeValue, object : TypeReference<Map<String, Any>>() {})
+                        val options: List<Map<String, Any>> =
+                            mapper.convertValue(valueMap["option"], object : TypeReference<List<Map<String, Any>>>() {})
+                        basic.contents.forEach {
+                            val contentValue = it.value[index].toString().trim()
+                            if (contentValue.isNotEmpty()) {
+                                val values = contentValue.split(",")
+                                val convertValueList = arrayListOf<String>()
+                                values.forEach {
+                                    options.forEach { option ->
+                                        if (it == option["value"].toString()) {
+                                            convertValueList.add(option["text"].toString())
+                                        }
+                                    }
+                                }
+                                it.value[index] = convertValueList.joinToString(separator = ", ")
+                            }
+                        }
+                    }
+                }
+                CIAttributeConstants.Type.GROUP_LIST.code -> {
+
+                }
+                CIAttributeConstants.Type.CUSTOM_CODE.code -> {
+
+                }
+            }
+        }
+
+        return basic.contents
+    }
+
+    /**
+     * 전체 속성정보에서 일치하는 속성 찾기
+     */
+    private fun getAttribute(attributeList: List<CISearchItem>, columnName: String): CISearchItem {
+        var attribute = CISearchItem()
+        run loop@{
+            attributeList.forEach {
+                if (columnName == it.attributeId) {
+                    attribute = it
+                    return@loop
+                }
+            }
+        }
+        return attribute
     }
 }
