@@ -130,8 +130,8 @@ insert into awf_code values ('document.status.temporary', 'document.status', '�
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', '폐기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.use', 'document.status', '사용', '사용', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType', 'document', null, '신청서 프로세스별 그룹 출력 타입', null, false, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 가능', '수정 가능', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.displayType.readonly', 'document.displayType', '수정 불가', '수정 불가', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 ', '수정 ', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.readonly', 'document.displayType', '읽기', '읽기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType.hidden', 'document.displayType', '숨김', '숨김', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download', 'root', null, '자료실', null, true, true, 1, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download.category', 'download', null, '자료실 카테고리', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -1248,7 +1248,6 @@ insert into awf_url values ('/rest/custom-codes', 'put', '커스텀 코드 수�
 insert into awf_url values ('/rest/custom-codes', 'post', '커스텀 코드 등록', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'delete', '커스텀 코드 삭제', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'get', '커스텀코드 목록 조회', 'FALSE');
-insert into awf_url values ('/rest/dashboard/organization/{id}', 'get', '요청현황 조회 (부서별)', 'FALSE');
 insert into awf_url values ('/rest/dashboard/template/{id}/component/{id}', 'post', '템플릿 컴포넌트별 조회', 'FALSE');
 insert into awf_url values ('/rest/documents', 'get', '신청서 문서 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows', 'post', '신청서 작성', 'TRUE');
