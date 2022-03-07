@@ -170,7 +170,7 @@
                     const optionTemplate = attributeValue.option.map(function (opt) {
                         return `<option value='${opt.value}' ${opt.value === data.searchValue ? 'selected=\'true\'' : ''}>${opt.text}</option>`;
                     }).join('');
-                    return `<select id="${data.attributeId}" class="field-element" onclick="changeSearchDetail(this)">${optionTemplate}</select>`;
+                    return `<select id="${data.attributeId}" class="field-element" onchange="changeSearchDetail(this)">${optionTemplate}</select>`;
                 case 'radio':
                     const radioTemplate = attributeValue.option.map(function (opt, idx) {
                         return `<label for="${data.attributeId}_${idx}" class="z-radio horizontal" tabindex="-1">` +
