@@ -57,7 +57,7 @@ class CISearchService(
                         content.add(ci.ciIcon?.let { ciTypeService.getCITypeImageData(it) })
                     CIAttributeConstants.Column.CI_ID.value -> content.add(ci.ciId)
                     CIAttributeConstants.Column.CI_NO.value -> content.add(ci.ciNo)
-                    CIAttributeConstants.Column.CI_TYPE_NAME.value -> content.add(ci.typeName)
+                    //CIAttributeConstants.Column.CI_TYPE_NAME.value -> content.add(ci.typeName)
                     CIAttributeConstants.Column.CI_NAME.value -> content.add(ci.ciName)
                     CIAttributeConstants.Column.CI_DESC.value -> content.add(ci.ciDesc)
                 }
@@ -80,7 +80,7 @@ class CISearchService(
         columnNameList.add(CIAttributeConstants.Column.CI_ICON.value)
         columnNameList.add(CIAttributeConstants.Column.CI_ID.value)
         columnNameList.add(CIAttributeConstants.Column.CI_NO.value)
-        columnNameList.add(CIAttributeConstants.Column.CI_TYPE_NAME.value)
+        //columnNameList.add(CIAttributeConstants.Column.CI_TYPE_NAME.value)
         columnNameList.add(CIAttributeConstants.Column.CI_NAME.value)
         columnNameList.add(CIAttributeConstants.Column.CI_DESC.value)
         return columnNameList
@@ -94,7 +94,7 @@ class CISearchService(
         columnTitleList.add("")
         columnTitleList.add("")
         columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.ciNo"))
-        columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.ciType"))
+        //columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.ciType"))
         columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.ciName"))
         columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.ciDesc"))
         return columnTitleList
@@ -108,7 +108,7 @@ class CISearchService(
         columnTypeList.add(CIAttributeConstants.Type.ICON.code)
         columnTypeList.add(CIAttributeConstants.Type.HIDDEN.code)
         columnTypeList.add(CIAttributeConstants.Type.STRING.code)
-        columnTypeList.add(CIAttributeConstants.Type.STRING.code)
+        //columnTypeList.add(CIAttributeConstants.Type.STRING.code)
         columnTypeList.add(CIAttributeConstants.Type.STRING.code)
         columnTypeList.add(CIAttributeConstants.Type.STRING.code)
         return columnTypeList
@@ -122,7 +122,7 @@ class CISearchService(
         columnWidthList.add(CIAttributeConstants.Width.CI_ICON.width)
         columnWidthList.add(CIAttributeConstants.Width.CI_ID.width)
         columnWidthList.add(CIAttributeConstants.Width.CI_NO.width)
-        columnWidthList.add(CIAttributeConstants.Width.CI_TYPE_NAME.width)
+        //columnWidthList.add(CIAttributeConstants.Width.CI_TYPE_NAME.width)
         columnWidthList.add(CIAttributeConstants.Width.CI_NAME.width)
         columnWidthList.add(CIAttributeConstants.Width.CI_DESC.width)
         return columnWidthList

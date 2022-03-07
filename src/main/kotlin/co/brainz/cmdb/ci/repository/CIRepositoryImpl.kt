@@ -103,11 +103,14 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                 .and(
                     super.likeIgnoreCase(ci.ciName, ciSearchCondition.searchValue)
                         ?.or(super.likeIgnoreCase(ci.ciNo, ciSearchCondition.searchValue))
-                        ?.or(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
+                        //?.or(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
                         ?.or(super.likeIgnoreCase(cmdbClass.className, ciSearchCondition.searchValue))
                         ?.or(super.likeIgnoreCase(ci.ciDesc, ciSearchCondition.searchValue))
                 )
         )
+        if (ciSearchCondition.isSearchType) {
+            query.where(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
+        }
         query.orderBy(ci.ciName.asc())
         if (ciSearchCondition.tagArray.isNotEmpty()) {
             query.where(

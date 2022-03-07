@@ -34,6 +34,7 @@ data class CISearchCondition(
 ) : Serializable {
     val tagArray: List<String> = this.tagStrArray()
     var isPaging = pageNum > 0
+    var isSearchType: Boolean = true
 
     private fun tagStrArray(): List<String> {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -47,7 +48,7 @@ data class CISearchCondition(
                 )
             )
         val tagArray = mutableListOf<String>()
-        if (!tagSearch.isNullOrEmpty()) {
+        if (tagSearch.isNotEmpty()) {
             val tags: List<Map<String, Any>> = mapper.readValue(tagSearch, listLinkedMapType)
             tags.forEach {
                 tagArray.add(it["value"] as String)
