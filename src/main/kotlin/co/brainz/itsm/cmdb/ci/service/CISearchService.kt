@@ -234,7 +234,17 @@ class CISearchService(
                 }
             }
         }
-        return attributeList
+        // 정렬
+        val sortAttributeList = mutableListOf<CISearchItem>()
+        columnName.forEach { name ->
+            attributeList.forEach { attribute ->
+                if (name == attribute.attributeId) {
+                    sortAttributeList.add(attribute)
+                }
+            }
+        }
+
+        return sortAttributeList
     }
 
     /**
@@ -244,25 +254,29 @@ class CISearchService(
         val contents = basic.contents
         val removeIndexes = mutableSetOf<Int>()
         basic.searchItems.forEach { searchItem ->
-            var idx = -1
-            run loop@{
-                basic.columnName.forEachIndexed { index, column ->
-                    if (column == searchItem.attributeId) {
-                        idx = index
+            if (searchItem.searchValue.isNotEmpty()) {
+                var idx = -1
+                run loop@{
+                    basic.columnName.forEachIndexed { index, column ->
+                        if (column == searchItem.attributeId) {
+                            idx = index
+                        }
                     }
                 }
-            }
 
-            if (idx > -1) {
-                basic.contents.forEachIndexed { index, content ->
-                    when (searchItem.attributeType) {
-                        CIAttributeConstants.Type.RADIO.code -> {
-                            //TODO: 라디오 검색 조건 추가
-                        }
-                        //TODO: DropDown 추가 필요
-                        else -> {
-                            if (content.value[idx]?.toString()?.contains(searchItem.searchValue) == false) {
-                                removeIndexes.add(index)
+                if (idx > -1) {
+                    basic.contents.forEachIndexed { index, content ->
+                        when (searchItem.attributeType) {
+                            CIAttributeConstants.Type.RADIO.code,
+                            CIAttributeConstants.Type.DROP_DOWN.code -> {
+                                if (searchItem.searchValue != content.value[idx]?.toString()) {
+                                    removeIndexes.add(index)
+                                }
+                            }
+                            else -> {
+                                if (content.value[idx]?.toString()?.contains(searchItem.searchValue) == false) {
+                                    removeIndexes.add(index)
+                                }
                             }
                         }
                     }
