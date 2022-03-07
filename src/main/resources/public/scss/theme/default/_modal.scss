@@ -114,7 +114,7 @@
   }
   // 업무 흐름 신청서 양식 편집 모달
   &.document-display {
-    width: auto;
+    width: fit-content;
     max-width: 90vw;
     min-width: $document-display-modal-width;
     height: $document-display-modal-height;

@@ -7673,7 +7673,7 @@ body.modal-active {
   display: block;
 }
 .modal-dialog.document-display {
-  width: auto;
+  width: fit-content;
   max-width: 90vw;
   min-width: 68rem;
   height: 42.188rem;
