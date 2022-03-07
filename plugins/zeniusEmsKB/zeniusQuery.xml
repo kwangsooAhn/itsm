@@ -2,15 +2,15 @@
 <query>
        <node id="getSmsList">
               SELECT rsl.z_myid,        <!-- 일련번호 -->
-              rsl.z_mydesc,      <!-- 설명 -->
-              rsl.z_myhost,      <!-- 호스트명 -->
-              rsl.z_mylocate,    <!-- 위치 -->
-              rsl.z_svrmanufact, <!-- 제조사 -->
-              rsl.z_myos,        <!-- OS분류 -->
-              rsl.z_svrmodel,    <!-- 모델명 -->
-              rsl.z_svrserial,   <!-- 시리얼 -->
-              rsl.z_myip,        <!-- IP -->
-              rsl.z_regdt,       <!-- 도입일자 -->
+              rsl.z_mydesc,             <!-- 설명 -->
+              rsl.z_myhost,             <!-- 호스트명 -->
+              rsl.z_mylocate,           <!-- 위치 -->
+              rsl.z_svrmanufact,        <!-- 제조사 -->
+              rsl.z_myos,               <!-- OS분류 -->
+              rsl.z_svrmodel,           <!-- 모델명 -->
+              rsl.z_svrserial,          <!-- 시리얼 -->
+              rsl.z_myip,               <!-- IP -->
+              rsl.z_regdt,              <!-- 도입일자 -->
               rsc.z_descript AS sms_cpu_z_descript,    <!-- CPU 정보 -->
               rsm.z_totsize AS sms_mem_z_totsize,      <!-- MEM SIZE -->
               rsd.z_totsize AS sms_disk_z_totsize      <!-- DISK SIZE -->
@@ -19,20 +19,21 @@
               left outer join rt_sms_moninvmem rsm ON rsl.z_myid = rsm.z_listid
               left outer join rt_sms_moninvdisk rsd ON rsl.z_myid = rsd.z_listid
               GROUP BY (rsl.z_myid, rsc.z_descript, rsm.z_totsize, rsd.z_totsize)
+              ORDER  BY rsl.z_myid
        </node>
        <node id="getNmsList">
               select z_myid,     <!-- 일련번호 -->
-              z_mydesc,   <!-- 설명 -->
-              z_myhost,   <!-- 호스트명 -->
-              z_contact,  <!-- 연락처 -->
-              z_myloc,    <!-- 위치 -->
-              z_mymodel,  <!-- 모델명 -->
-              z_serial,   <!-- 시리얼 -->
-              z_os,       <!-- OS -->
-              z_myip,     <!-- IP -->
-              z_totifnum, <!-- 전체 Interface 개수 -->
-              z_actifnum, <!-- 사용 Interface 개수 -->
-              z_version   <!-- SNMP Version -->
+              z_mydesc,          <!-- 설명 -->
+              z_myhost,          <!-- 호스트명 -->
+              z_contact,         <!-- 연락처 -->
+              z_myloc,           <!-- 위치 -->
+              z_mymodel,         <!-- 모델명 -->
+              z_serial,          <!-- 시리얼 -->
+              z_os,              <!-- OS -->
+              z_myip,            <!-- IP -->
+              z_totifnum,        <!-- 전체 Interface 개수 -->
+              z_actifnum,        <!-- 사용 Interface 개수 -->
+              z_version          <!-- SNMP Version -->
               from rt_nms_list
               order by z_myid
        </node>
