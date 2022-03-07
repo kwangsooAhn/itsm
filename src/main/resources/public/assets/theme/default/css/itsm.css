@@ -7168,6 +7168,7 @@ ul.tree ul li:last-child:before {
   height: auto;
   top: 0.9375rem;
   bottom: 0;
+  border-left: 0.0625rem solid #FFFFFF;
 }
 ul.tree label {
   color: #222529;

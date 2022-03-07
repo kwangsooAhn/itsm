@@ -159,8 +159,7 @@ export const userSearchMixin = {
     },
     // 세부 속성 조회
     getProperty() {
-        console.log(this.elementDefaultValueUserSearch);
-        const userSearchProperty = new ZUserSearchProperty('elementDefaultValueUserSearch', 'element.searchTarget',
+        const userSearchProperty = new ZUserSearchProperty('elementDefaultValueUserSearch', 'element.searchTargetCriteria',
             this.elementDefaultValueUserSearch);
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
