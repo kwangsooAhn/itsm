@@ -1082,7 +1082,7 @@
                 parent.appendChild(classTitleElem);
 
                 elem = document.createElement('div');
-                elem.className = 'attribute-group';
+                elem.className = 'attribute-group mb-2';
                 parent.appendChild(elem);
                 return elem;
             case 'row':
@@ -1172,7 +1172,7 @@
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
                         const radioGroup = document.createElement('label');
-                        radioGroup.className = 'z-radio';
+                        radioGroup.className = 'z-radio' + (opt > 0 ? ' mt-1' : '');
                         radioGroup.tabindex = 0;
                         radioGroup.htmlFor = radioId + '-' + opt;
                         if (displayMode === 'view') {
@@ -1312,7 +1312,7 @@
                 return elem;
             case 'group-list':
                 elem = document.createElement('div');
-                elem.className = 'child-attribute-group';
+                elem.className = 'child-attribute-group pt-2';
                 elem.setAttribute('data-attributeId', data.attributeId);
                 if (typeof attributeValue.option !== 'undefined' && data.childAttributes.length > 0) {
                     // 순서 표시
@@ -1339,7 +1339,7 @@
                 return elem;
             case 'group-list-row':
                 elem = document.createElement('div');
-                elem.className = 'child-attribute-row';
+                elem.className = 'child-attribute-row mt-2';
                 // 삭제 버튼
                 if (parent.children.length > 1 && displayMode === 'edit') {
                     const removeBtn = document.createElement('button');
@@ -1357,7 +1357,7 @@
                 dateElem.className = 'z-input i-date-picker search-date col-3';
                 dateElem.id = ZWorkflowUtil.generateUUID();
                 dateElem.setAttribute('data-attributeId', data.attributeId);
-                dateElem.value = data.value;
+                dateElem.value = i18n.userDate(data.value);
                 dateElem.readOnly = (displayMode === 'view');
                 dateElem.placeholder = i18n.dateFormat;
                 if (attributeValue !== '') {
@@ -1381,7 +1381,7 @@
                 dateTimeElem.id = ZWorkflowUtil.generateUUID();
                 dateTimeElem.setAttribute('data-attributeId', data.attributeId);
                 dateTimeElem.setAttribute('type', type);
-                dateTimeElem.value = data.value;
+                dateTimeElem.value = i18n.userDateTime(data.value);
                 dateTimeElem.readOnly = (displayMode === 'view');
                 dateTimeElem.placeholder = i18n.dateTimeFormat;
                 if (attributeValue !== '') {

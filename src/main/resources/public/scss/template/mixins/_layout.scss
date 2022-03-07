@@ -71,7 +71,7 @@
         color: $grid-body-color;
         @include border(0.0625rem, solid, $grid-border-color, bottom);
         cursor: pointer;
-        &:read-only { cursor: default; }
+        &.read-only { cursor: default; }
         &:hover { background-color: $grid-hover-bg-color; }
       }
 

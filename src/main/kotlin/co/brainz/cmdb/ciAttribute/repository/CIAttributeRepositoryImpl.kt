@@ -16,6 +16,7 @@ import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIGroupListDto
+import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
@@ -58,6 +59,25 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
         }
 
         return query.fetchResults()
+    }
+
+    override fun findAttributeList(attributeIds: Set<String>): List<CISearchItem> {
+        val ciAttribute = QCIAttributeEntity.cIAttributeEntity
+        return from(ciAttribute)
+            .select(
+                Projections.constructor(
+                    CISearchItem::class.java,
+                    ciAttribute.attributeId,
+                    ciAttribute.attributeName,
+                    ciAttribute.attributeText,
+                    ciAttribute.attributeType,
+                    ciAttribute.attributeDesc,
+                    ciAttribute.attributeValue,
+                    Expressions.asString("")
+                )
+            )
+            .where(ciAttribute.attributeId.`in`(attributeIds))
+            .fetch()
     }
 
     /**
@@ -146,10 +166,10 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttributeEntity.attributeDesc,
                     ciAttributeEntity.attributeText,
                     ciAttributeEntity.attributeType,
-                    ciAttributeEntity.searchYn,
-                    ciAttributeEntity.searchWidth,
                     ciClassAttributeMapEntity.attributeOrder,
                     ciAttributeEntity.attributeValue,
+                    ciAttributeEntity.searchYn,
+                    ciAttributeEntity.searchWidth,
                     ciDataEntity.value
                 )
             )
@@ -224,9 +244,9 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeType,
                     Expressions.asNumber(0),
                     ciAttribute.attributeValue,
-                    Expressions.asString(""),
                     ciAttribute.searchYn,
-                    ciAttribute.searchWidth
+                    ciAttribute.searchWidth,
+                    Expressions.asString("")
                 )
             )
             .where(

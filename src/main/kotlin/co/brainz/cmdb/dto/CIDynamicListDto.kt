@@ -9,10 +9,10 @@ package co.brainz.cmdb.dto
 import java.io.Serializable
 
 data class CIDynamicListDto(
-    var searchItems: Any?,
-    var columnName: ArrayList<String>,
-    var columnTitle: ArrayList<String>,
-    var columnWidth: ArrayList<String>,
-    var columnType: ArrayList<String>,
-    val contents: Any?
+    var searchItems: MutableList<CISearchItem> = mutableListOf(),
+    var columnName: ArrayList<String> = arrayListOf(),
+    var columnTitle: ArrayList<String> = arrayListOf(),
+    var columnWidth: ArrayList<String> = arrayListOf(),
+    var columnType: ArrayList<String> = arrayListOf(),
+    var contents: MutableList<CIContentDto> = mutableListOf()
 ) : Serializable

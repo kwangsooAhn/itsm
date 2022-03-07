@@ -7,6 +7,7 @@
 package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.cmdb.ci.dto.CISearch
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.workflow.document.constants.WfDocumentConstants
@@ -27,11 +28,10 @@ class CIController(
 ) {
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"
-    private val ciViewPage: String = "cmdb/ci/ciView"
     private val ciEditModal: String = "cmdb/ci/ciEditModal"
     private val ciViewModal: String = "cmdb/ci/ciViewModal"
     private val ciListModal: String = "cmdb/ci/ciListModal"
-
+    private val ciDetailViewModal: String = "cmdb/ci/ciDetailViewModal"
     /**
      * CI 조회 검색 화면 호출
      */
@@ -44,8 +44,12 @@ class CIController(
      * CI 조회 목록 화면 호출
      */
     @PostMapping("")
-    fun getCIList(ciSearchCondition: CISearchCondition, @RequestBody searchItemsData: String, model: Model): String {
-        val result = ciService.getCIsDummy(ciSearchCondition)
+    fun getCIList(
+        ciSearchCondition: CISearchCondition,
+        @RequestBody searchItemsData: CISearch,
+        model: Model
+    ): String {
+        val result = ciService.getCIs(ciSearchCondition, searchItemsData)
         model.addAttribute("ciData", result.data)
         model.addAttribute("paging", result.paging)
         return ciListPage
@@ -63,7 +67,7 @@ class CIController(
         model.addAttribute("ciHistoryList", ciHistoryList)
         model.addAttribute("userInfo", currentSessionUser.getUserDto())
         model.addAttribute("ciRelationList", ciRelationList)
-        return ciViewPage
+        return ciDetailViewModal
     }
 
     /**
