@@ -9,7 +9,8 @@
  * https://www.brainz.co.kr
  */
 import { CHART } from '../lib/zConstants.js';
-import { zLineChartMixin } from './type/zLineChart.js';
+import { zBasicLineChartMixin } from './type/zBasicLineChart.js';
+import { zBasicColumnChartMixin } from './type/zBasicColumnChart.js';
 import { zStackedColumnChartMixin } from './type/zStackedColumnChart.js';
 import { zStackedBarChartMixin } from './type/zStackedBarChart.js';
 import { zPieChartMixin } from './type/zPieChart.js';
@@ -26,7 +27,10 @@ const HIGHCHARTS_THEME = {
             color: '#222529'
         },
         spacingTop: 20,
-        marginTop: 120
+        marginTop: 120,
+        scrollablePlotArea: {
+            scrollPositionX: 1
+        }
     },
     title: {
         text:'',
@@ -46,7 +50,11 @@ const HIGHCHARTS_THEME = {
         lineColor: '#CFD5D9',
         tickColor: '#CFD5D9',
         maxPadding:0,
-        minPadding:0
+        minPadding:0,
+        scrollbar: { // 스크롤바 표시를 위해서는 min / max 가 필요함
+            enabled: true,
+            showFull: false
+        }
     },
     yAxis: {
         min: 0,
@@ -68,7 +76,8 @@ const HIGHCHARTS_THEME = {
     plotOptions: {
         series: {
             turboThreshold : 0, // 속도 높임
-            stickyTracking : false // 시리즈에서 마우스를 떼면 툴팁이 사라진다: false, 남아있다: true
+            stickyTracking : false, // 시리즈에서 마우스를 떼면 툴팁이 사라진다: false, 남아있다: true
+            getExtremesFromAll: true
         }
     },
     legend: {
@@ -107,7 +116,7 @@ const HIGHCHARTS_THEME = {
 Object.freeze(HIGHCHARTS_THEME);
 
 export  default class ZChart {
-    constructor(container, data = {}) {
+    constructor(container, data = {}, customOptions = {}) {
         this.container = container;
         this.data = JSON.parse(JSON.stringify(data));
         this.domElement = document.getElementById(container);
@@ -117,6 +126,7 @@ export  default class ZChart {
         this._desc = this.data.chartDesc || '';
         this._tags = this.data.tags || [];
         this._config = this.data.chartConfig;
+        this._customOptions = customOptions;
 
         // 테마 적용
         Highcharts.setOptions(HIGHCHARTS_THEME);
@@ -142,7 +152,9 @@ export  default class ZChart {
     getMixinByType(type) {
         switch(type) {
             case CHART.TYPE.BASIC_LINE:
-                return zLineChartMixin;
+                return zBasicLineChartMixin;
+            case CHART.TYPE.BASIC_COLUMN:
+                return zBasicColumnChartMixin;
             case CHART.TYPE.STACKED_COLUMN:
                 return zStackedColumnChartMixin;
             case CHART.TYPE.STACKED_BAR:
@@ -204,6 +216,14 @@ export  default class ZChart {
         return this._config;
     }
 
+    set customOptions(options) {
+        this._customOptions = options;
+    }
+
+    get customOptions() {
+        return this._customOptions;
+    }
+
     /**
      * 차트 간격 설정에 따른 시간 데이터 포맷 조회
      * @returns 데이터 포맷
@@ -238,6 +258,19 @@ export  default class ZChart {
                 return '%Y-%m-%d';
         }
     }
+
+    /**
+     * 전달받은 category 날짜 데이터를 사용자 시간으로 변환하여 준다.
+     * 자세한 내용은 #1874 일감을 참고한다.
+     * @param utcTime 카테고리 시간 문자열 (전달된 서버시간 2021-12-01 15:00:00)
+     * @returns localTime 변환된 시간 문자열 (local 시간 2021-12-01 00:00:00)
+     */
+    convertCategoryToLocal(utcTime) {
+        const systemLocalTime = luxon.DateTime.fromFormat(
+            i18n.systemHourType(utcTime), CHART.DATETIME_FORMAT, { zone: 'utc' }).setZone(i18n.timezone).toISO();
+        return i18n.userDateTime(systemLocalTime, CHART.DATETIME_FORMAT);
+    }
+
     /**
      * 전달받은 데이터의 날짜 데이터를 Date 타입으로 변경
      * @param userDateTime 데이터 문자열

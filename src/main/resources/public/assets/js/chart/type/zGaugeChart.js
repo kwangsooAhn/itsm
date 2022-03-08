@@ -8,6 +8,8 @@
  *
  * https://www.brainz.co.kr
  */
+import { CHART } from "../../lib/zConstants.js";
+
 const DEFAULT_CHART_PROPERTY = {
     chart: {
         type: 'solidgauge',
@@ -93,7 +95,7 @@ export const zGaugeChartMixin = {
         // 툴팁 설정
         this.setTooltipOption(defaultOptions);
         // 옵션 프로퍼티 초기화
-        this._options = defaultOptions;
+        this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
         // 멀티플 차트
         this.chart = [];
         this.setMultiple();
@@ -218,7 +220,7 @@ export const zGaugeChartMixin = {
                 const temp = data[j];
                 if (tag.value === temp.series) {
                     seriesId = temp.id;
-                    category = temp.category;
+                    category = this.convertCategoryToLocal(temp.category);
                     series.push({
                         name: temp.series,
                         color: Highcharts.getOptions().colors[i],
@@ -227,9 +229,12 @@ export const zGaugeChartMixin = {
                 }
             }
             this.chart[i].yAxis[0].setTitle({ text: tag.value });
-            const seriesName = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(category));
-            this.chart[i].series[0].update({ name: seriesName, id: seriesId }, false);
-            this.chart[i].series[1].update({ name: seriesName, id: seriesId }, false);
+            // 차트의 기간 설정 데이터가 있을 경우, 날짜 데이터 변환
+            if (this.config.range.type !== CHART.RANGE_TYPE_NONE) {
+                const seriesName = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(category));
+                this.chart[i].series[0].update({name: seriesName, id: seriesId}, false);
+                this.chart[i].series[1].update({name: seriesName, id: seriesId}, false);
+            }
             this.chart[i].series[0].setData(series, false); // 게이지
             this.chart[i].series[1].setData(series, true); // 다이얼
         }

@@ -13,6 +13,8 @@
 <div layout:fragment="pageSearching">
     <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{file.label.name}"/>
     <span id="totalCount" class="z-search-count"></span>
+    <span class="z-search-count">/</span>
+    <span id="spanTotalCountWithoutCondition" class="z-search-count"></span>
 </div>
 <div layout:fragment="pageSearchResult">
     <input type="hidden" id="creatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
@@ -115,6 +117,12 @@
                 fileList.data.forEach(function (file) {
                     addThumbnail(file);
                 });
+                document.getElementById('spanTotalCountWithoutCondition').innerText =
+                    i18n.msg(
+                        'common.label.totalCountWithoutCondition',
+                        i18n.msg(fileList.orderType),
+                        fileList.totalCountWithoutCondition
+                    );
             }
             if (updatable === 'false') {
                 document.querySelectorAll('label[name="updateLabel"]').forEach(function (updateLabel) {
@@ -188,6 +196,7 @@
                     let deleteAfterCount = Number(document.getElementById('totalCount').value) - 1;
                     document.getElementById('totalCount').value = deleteAfterCount;
                     aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
+                    aliceJs.showTotalCount(deleteAfterCount, 'spanTotalCountWithoutCondition');
                 }
             });
         });
@@ -285,7 +294,7 @@
     // 다운로드
     function downLoadFile(thumbnail) {
         const fileName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
-        aliceJs.fetchBlob('/rest/files/download?fileName=' + fileName, {
+        aliceJs.fetchBlob('/rest/files/download?fileName=' + encodeURIComponent(fileName), {
             method: 'GET',
             showProgressbar: true
         }).then(blob => {

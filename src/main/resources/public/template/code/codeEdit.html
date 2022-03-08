@@ -93,7 +93,7 @@
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
                 <button type="button" class="z-button primary" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="z-button secondary" id="btnDelete" name="btnDelete"
+                <button type="button" class="z-button danger" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
@@ -246,11 +246,15 @@
             document.getElementById('btnDelete').style.display = 'none';
         }
 
-        document.querySelectorAll('input[type=text]').forEach(function (object) {
-            object.value = '';
+        const editElems = document.querySelector('.z-page-edit').querySelectorAll('input[type=text], textarea');
+        editElems.forEach((elem) => {
+            elem.readOnly = false;
+            elem.value = '';
         });
-        document.querySelector('textarea').value = '';
+        document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
         document.getElementById('txtCode').disabled = false;
+        document.getElementById('codeUseYn').disabled = false;
+        document.getElementById('btnCodeLang').disabled = false;
         document.getElementById('codeLang').innerHTML = '';
 
         let selectedNode = tree.getTreeSelectNode();
@@ -323,7 +327,7 @@
         if (method !== 'POST') {
             url += '/' + document.getElementById('txtCode').value;
         }
-        aliceJs.fetchJson(url, {
+        aliceJs.fetchText(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'

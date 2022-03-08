@@ -41,7 +41,7 @@ export const zPieChartMixin = {
         // 툴팁 설정
         this.setTooltipOption(defaultOptions);
         // 옵션 프로퍼티 초기화
-        this._options = defaultOptions;
+        this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
         // highcharts 초기화
         this.chart = Highcharts.chart(this.container, this.options);
         // highcharts 이름 초기화
@@ -78,7 +78,8 @@ export const zPieChartMixin = {
             formatter: function () {
                 return `${this.series.name}<br/>` +
                     `<span style="color:${this.color}">\u25CF</span> ${this.key} : ` +
-                    `${Highcharts.numberFormat(this.percentage, 2, '.', '')} % (${this.y} / ${this.total})`;
+                    `${Highcharts.numberFormat(this.percentage, 2, '.', '')} % ` +
+                    `(${this.y} / ${this.total === undefined ? 0 : this.total})`;
             }
         });
     },
@@ -99,12 +100,16 @@ export const zPieChartMixin = {
                 selected: (i === 0)
             });
         }
-        // 날짜 데이터 사용자 포맷 변경
-        const from = i18n.userDateTime(this.config.range.from, CHART.DATETIME_FORMAT);
-        const to = i18n.userDateTime(this.config.range.to, CHART.DATETIME_FORMAT);
-        const fromDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(from));
-        const toDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(to));
-        this.chart.series[0].update({ name: (fromDt + ' ~ ' + toDt), id: data[0].id }, false);
+
+        // 차트의 기간 설정 데이터가 있을 경우, 날짜 데이터 변환
+        if (this.config.range.type !== CHART.RANGE_TYPE_NONE) {
+            // 날짜 데이터 사용자 포맷 변경
+            const from = i18n.userDateTime(this.config.range.from, CHART.DATETIME_FORMAT);
+            const to = i18n.userDateTime(this.config.range.to, CHART.DATETIME_FORMAT);
+            const fromDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(from));
+            const toDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(to));
+            this.chart.series[0].update({name: (fromDt + ' ~ ' + toDt), id: data[0].id}, false);
+        }
         this.chart.series[0].setData(series, true);
     },
     /**

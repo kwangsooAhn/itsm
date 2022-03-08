@@ -323,7 +323,7 @@ $font-family:                                 'Pretendard', '맑은고딕', 'Mal
 // font size
 $font-size-xxl:                               2.5rem !default;   // 45px
 $font-size-xl:                                2rem !default;     // 32px
-$font-size-l:                                 1.5rem !default;   // 24px
+$font-size-l:                                 1.25rem !default;   // 20px
 $font-size-m:                                 1.125rem !default; // 18px
 $font-size-s:                                 1rem !default;     // 16px
 $font-size-xs:                                0.875rem !default; // 14px
@@ -360,19 +360,38 @@ $vertical-bar-width:                          1.875rem; // 30px
 $vertical-bar-height:                         1.875rem; // 30px
 $vertical-bar-margin:                         0 1.875rem 0 0; // 0 30px 0 0
 
+////////////////////////////// View //////////////////////////////
+$view-title-font-size:                        $font-size-m; // 18px
+$view-title-font-weight:                      $font-weight-medium;
+$view-title-font-color:                       $gray800;
+
+$view-sub-title-font-family:                  $font-family;
+$view-sub-title-font-size:                    $font-size-xs; // 14px
+$view-sub-title-font-weight:                  $font-weight-regular;
+$view-sub-title-font-color:                   $gray500;
+
+$view-content-font-size:                      $font-size-xs; // 14px
+$view-content-font-weight:                    $font-weight-medium;
+$view-content-line-height:                    1.6;
+$view-content-font-color:                     $neutral800;
+
+$view-content-bg-color:                       $white;
+$view-content-border-width:                   0.0625rem;  // 1px
+$view-content-border-color:                   $gray300;
+
 //////////////////////////////// element //////////////////////////////////
 // element default
 $element-font-family:                         $font-family;
 $element-font-size:                           $font-size-xs;
-$element-font-color:                          $gray800;
-$element-font-weight:                         $font-weight-regular;
+$element-font-color:                          $neutral800;
+$element-font-weight:                         $font-weight-medium;
 $element-line-height:                         1.2;
 $element-bg-color:                            $white;
 $element-border-color:                        $gray400;
 $element-border-width:                        0.0625rem; // 1px
 $element-border:                              $element-border-width solid $element-border-color;
 $element-border-radius:                       0.125rem; // 2px
-$element-indent:                              1rem; // 16px 내부 들여쓰기
+$element-indent:                              0.75rem; // 12px 내부 들여쓰기
 $element-shadow-color:                        $gray300;
 $element-icon-color:                          $gray500;
 
@@ -445,20 +464,20 @@ $h4-font-size:                                $font-size-m; // 18px
 $h5-font-size:                                $font-size-s; // 16px
 $h6-font-size:                                $font-size-xs; // 14px
 
-$headings-font-color:                         $gray800;
+$headings-font-color:                         $neutral800;
 $headings-font-weight:                        $font-weight-medium;
 $headings-line-height:                        1.2;
 
 // label
 $label-font-family:                           $font-family;
-$label-font-color:                            $gray500;
+$label-font-color:                            $neutral600;
 $label-font-size:                             $font-size-xs;
-$label-font-weight:                           $font-weight-bold;
+$label-font-weight:                           $font-weight-medium;
 
 // table
 $table-head-font-family:                      $font-family;
-$table-head-font-size:                        $font-size-s;
-$table-head-font-color:                       $gray800;
+$table-head-font-size:                        $font-size-xs;
+$table-head-font-color:                       $neutral600;
 $table-head-font-weight:                      $font-weight-medium;
 $table-row-hover-bg-color:                    $neutral200;
 $table-row-active-font-color:                 $blue700;
@@ -470,27 +489,48 @@ $option-table-header-bg-color:                $neutral100;
 $option-table-icon-color:                     $gray400;
 $option-table-icon-hover-color:               $blue500;
 
+// grid
+$grid-head-color:                             $neutral600;
+$grid-body-color:                             $gray800;
+$grid-border-color:                           $gray300;
+$grid-hover-bg-color:                         $neutral200;
+
 // button, a
 $button-font-family:                          $font-family;
 $button-font-size:                            $font-size-xs;
-$button-font-weight:                          $font-weight-bold;
+$button-font-weight:                          $font-weight-semibold;
+$button-border-none:                          0rem;
 $button-border-width:                         0.0625rem; // 1px
 $button-border-radius:                        0.25rem; // 4px
 // 기본 버튼 테마
 $button-themes-default: (
   'primary': (
-    'default': ('font': $white, 'background': $blue500, 'border': $blue500),
-    'hover': ('font' : $white, 'background': $blue400, 'border': $blue400),
-    'focus': ('font': $white, 'background': $blue500, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-    'active': ('font': $white, 'background': $blue600, 'border': $blue700),
-    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+    'default': ('font': $white, 'background': $blue700, 'border' : $blue700),
+    'hover': ('font' : $white, 'background': $blue600, 'border' : $blue600),
+    'focus': ('font': $white, 'background': $blue700, 'border' : $blue700, 'shadow': 0 0 0 0.125rem $blue500),
+    'active': ('font': $white, 'background': $blue800, 'border' : $blue800),
+    'disabled': ('font': $gray400, 'background': $gray50, 'border' : $gray50)
   ),
   'secondary': (
-    'default': ('font': $blue500, 'background': $white, 'border': $blue500),
-    'hover': ('font' : $blue500, 'background': $blue100, 'border': $blue500),
-    'focus': ('font': $blue500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-    'active': ('font': $blue700, 'background': $blue200, 'border': $blue600),
-    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+    'default': ('font': $gray700, 'background': $gray200, 'border': $gray200),
+    'hover': ('font' : $gray700, 'background': $gray100, 'border': $gray100),
+    'focus': ('font': $gray700, 'background': $gray200, 'border': $blue500, 'shadow': 0 0 0 0.125rem $blue500),
+    'active': ('font': $blue800, 'background': $blue300, 'border': $blue300),
+    'disabled': ('font': $gray400, 'background': $gray50, 'border': $gray50)
+  ),
+  'danger': (
+    'default': ('font': $white, 'background': $red500, 'border': $red500),
+    'hover': ('font' : $white, 'background': $red400, 'border': $red400),
+    'focus': ('font': $white, 'background': $red500, 'border': $red500, 'shadow': 0 0 0.125rem $red700),
+    'active': ('font': $white, 'background': $red600, 'border': $red600),
+    'disabled': ('font': $gray400, 'background': $gray50, 'border': $gray50)
+  ),
+  'warning': (
+    'default': ('font': $blue800, 'background': $orange400, 'border': $orange400),
+    'hover': ('font' : $blue800, 'background': $orange200, 'border': $orange200),
+    'focus': ('font': $blue800, 'background': $orange400, 'border': $orange400, 'shadow': 0 0 0.125rem $orange600),
+    'active': ('font': $blue800, 'background': $orange500, 'border': $orange500),
+    'disabled': ('font': $gray400, 'background': $gray50, 'border': $gray50)
   ),
   'extra': (
     'default': ('font': $blue500, 'background': $white, 'border': $white),
@@ -523,9 +563,9 @@ $button-themes-light: (
     'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
   ),
   'light-secondary': (
-    'default': ('font': $white, 'background': transparent, 'border': $white),
-    'hover': ('font' : $white, 'background': hexToRGBA($white, 0.2), 'border': $white),
-    'focus': ('font': $white, 'background': transparent, 'border': $white, 'shadow': 0 0 0.125rem $blue600),
+    'default': ('font': $white, 'background': hexToRGBA($white, 0.2), 'border': $white),
+    'hover': ('font' : $white, 'background': hexToRGBA($white, 0.1), 'border': $white),
+    'focus': ('font': $white, 'background': hexToRGBA($white, 0.1), 'border': $white, 'shadow': 0 0 0.125rem $blue600),
     'active': ('font': $white, 'background': hexToRGBA($white, 0.4), 'border': $white),
     'disabled': ('font': $gray400, ' background': $neutral200, 'border': $neutral200)
   ),
@@ -566,8 +606,8 @@ $label-themes-default: (
 $layout-header-height:                       3.125rem; // 50px
 $layout-header-search-font-family:           $font-family;
 $layout-header-search-font-size:             $font-size-xs;
-$layout-header-search-color:                 $gray500;
-$layout-header-search-font-weight:           $font-weight-bold;
+$layout-header-search-color:                 $neutral600;
+$layout-header-search-font-weight:           $font-weight-medium;
 
 $layout-properties-width:                    18.75rem; // 300px
 
@@ -730,7 +770,6 @@ $tree-font-color:                            $gray800;
 $tree-font-weight:                           $font-weight-medium;
 // tree 간격
 $tree-line-height:                           1.875rem; // 30px
-$tree-bg-color:                              $neutral50;
 $tree-line-color:                            $gray300;
 $tree-line-width:                            0.0625rem; // 1px
 // +, - icon
@@ -992,13 +1031,13 @@ $validation-success-border-color:            $green500;
 $validation-success-border-width:            0.0625rem; // 1px
 
 ////////////////////////////// paging /////////////////////////////
-$paging-current-num-font-color:              $gray500;
+$paging-current-num-font-color:              $neutral600;
 $paging-num-font-color:                      $gray800;
-$paging-num-selected-font-color:             $blue600;
-$paging-num-selected-border-color:           $blue600;
+$paging-num-selected-font-color:             $blue700;
+$paging-num-selected-border-color:           $blue700;
 $paging-num-active-font-color:               $blue700;
-$paging-num-active-bg-color:                 $blue200;
 $paging-num-hover-font-color:                $gray800;
 $paging-num-hover-bg-color:                  $blue100;
-$paging-arrow-icon-inactive-color:           $gray400;
-$paging-arrow-icon-active-color:             $gray500;
+$paging-arrow-icon-prev-color:               $gray400;
+$paging-arrow-icon-next-color:               $gray400;
+$paging-arrow-icon-active-color:             $blue700;

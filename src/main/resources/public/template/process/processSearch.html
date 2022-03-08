@@ -216,6 +216,7 @@
                     bindKey: false,
                     callback: function(modal) {
                         ZWorkflowUtil.export(data.id, 'process');
+                        modal.hide();
                     }
                 });
                 // 수정
@@ -230,7 +231,7 @@
                 // 삭제
                 options.buttons.push({
                     content: i18n.msg('common.btn.delete'),
-                    classes: 'z-button secondary',
+                    classes: 'z-button danger',
                     bindKey: false,
                     callback: function(modal) {
                         deleteProcess(data.id);
@@ -249,7 +250,7 @@
                 // 폐기
                 options.buttons.push({
                     content: i18n.msg('process.status.destroy'),
-                    classes: 'z-button secondary',
+                    classes: 'z-button warning',
                     bindKey: false,
                     callback: function(modal) {
                         saveProcess(data.id, true, data.enabled);

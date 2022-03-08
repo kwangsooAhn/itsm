@@ -16,11 +16,11 @@
     <tbody class="z-table-body">
         <tr class="flex-row align-items-center notice-pinned " th:each="topNotice: ${topNoticeList}">
             <td style="width:30%;" class="align-left underline">
-                <a sec:authorize="hasAuthority('general')" th:text="${topNotice.noticeTitle}"
-                   th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}" th:title="${topNotice.noticeTitle}">
-                </a>
                 <a sec:authorize="hasAuthority('portal.manage')" th:text="${topNotice.noticeTitle}"
                    th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}" th:title="${topNotice.noticeTitle}"></a>
+                <a sec:authorize="!hasAuthority('portal.manage')" th:text="${topNotice.noticeTitle}"
+                   th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}" th:title="${topNotice.noticeTitle}">
+                </a>
             </td>
             <td style="width:5%;" th:if="${topNotice.popYn}" class="align-center">
                 <button type="button" class="z-button-icon form" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
@@ -38,10 +38,10 @@
         </tr>
         <tr class="flex-row align-items-center" th:each="notice : ${noticeList}">
             <td style="width:30%;" class="align-left underline">
-                <a sec:authorize="hasAuthority('general')" th:text="${notice.noticeTitle}"
-                   th:href="@{/notices/{id}/view(id=${notice.noticeNo})}" th:title="${notice.noticeTitle}"></a>
                 <a sec:authorize="hasAuthority('portal.manage')" th:text="${notice.noticeTitle}"
                    th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}" th:title="${notice.noticeTitle}"></a>
+                <a sec:authorize="!hasAuthority('portal.manage')" th:text="${notice.noticeTitle}"
+                   th:href="@{/notices/{id}/view(id=${notice.noticeNo})}" th:title="${notice.noticeTitle}"></a>
             </td>
             <td style="width:5%;" class="align-center" th:if="${notice.popYn}">
                 <button type="button" class="z-button-icon form" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">

@@ -13,6 +13,7 @@ import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions.constant
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -21,9 +22,10 @@ class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentRepositoryCustom {
 
     override fun findByDocuments(documentSearchCondition: DocumentSearchCondition):
-            QueryResults<DocumentDto> {
+        QueryResults<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
-        val query = from(document)
+
+        val documentQuery = from(document)
             .select(
                 Projections.constructor(
                     DocumentDto::class.java,
@@ -38,6 +40,7 @@ class WfDocumentRepositoryImpl :
                     document.documentColor,
                     document.documentGroup,
                     document.apiEnable,
+                    constant(""),
                     document.createUserKey,
                     document.createDt,
                     document.updateUserKey,
@@ -77,18 +80,13 @@ class WfDocumentRepositoryImpl :
                 super.likeIgnoreCase(document.form.formName, documentSearchCondition.searchFormName)
             ).orderBy(document.documentName.asc())
 
-        if (documentSearchCondition.isPaging) {
-            query.limit(documentSearchCondition.contentNumPerPage)
-            query.offset((documentSearchCondition.pageNum - 1) * documentSearchCondition.contentNumPerPage)
-        }
-
-        return query.fetchResults()
+        return documentQuery.fetchResults()
     }
 
     override fun findAllByDocuments(documentSearchCondition: DocumentSearchCondition):
-            MutableList<DocumentDto> {
+        MutableList<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
-        val query = from(document)
+        val documentQuery = from(document)
             .select(
                 Projections.constructor(
                     DocumentDto::class.java,
@@ -103,6 +101,7 @@ class WfDocumentRepositoryImpl :
                     document.documentColor,
                     document.documentGroup,
                     document.apiEnable,
+                    constant(""),
                     document.createUserKey,
                     document.createDt,
                     document.updateUserKey,
@@ -125,7 +124,7 @@ class WfDocumentRepositoryImpl :
                 }
             ).orderBy(document.documentName.asc())
             .fetchResults()
-        return query.results
+        return documentQuery.results
     }
 
     override fun getDocumentListByNumberingId(numberingId: String): List<WfDocumentEntity> {
@@ -143,5 +142,12 @@ class WfDocumentRepositoryImpl :
             query.where(!documentEntity.documentId.eq(documentId))
         }
         return query.fetchCount() > 0
+    }
+
+    override fun getDocumentListByIds(documentIds: Set<String>): List<WfDocumentEntity> {
+        val document = QWfDocumentEntity.wfDocumentEntity
+        return from(document)
+            .where(document.documentId.`in`(documentIds))
+            .fetch()
     }
 }

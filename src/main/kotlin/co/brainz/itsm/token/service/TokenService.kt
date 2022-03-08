@@ -13,6 +13,7 @@ import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.itsm.token.dto.TokenSearchCondition
@@ -22,19 +23,15 @@ import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.WorkflowConstants
-import co.brainz.workflow.provider.dto.RestTemplateInstanceExcelDto
-import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.*
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.service.WfTokenService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.time.format.DateTimeFormatter
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.time.format.DateTimeFormatter
 
 @Service
 class TokenService(
@@ -72,9 +69,7 @@ class TokenService(
         )
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
-            when (wfComponentService
-                .getComponentTypeById(it.componentId) ==
-                    (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+            when (this.isFileUploadComponent(it.componentId) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
@@ -101,9 +96,7 @@ class TokenService(
         )
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
-            when (wfComponentService
-                .getComponentTypeById(it.componentId) ==
-                    (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+            when (this.isFileUploadComponent(it.componentId) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
@@ -134,7 +127,7 @@ class TokenService(
             userKey = currentSessionUser.getUserKey(),
             searchTokenType = WfTokenConstants.SearchType.TODO.code
         )
-    ).totalCount
+    ).paging.totalCountWithoutCondition
 
     /**
      * 해당 인스턴스를 가진 토큰 데이터를 조회한다.
@@ -151,6 +144,13 @@ class TokenService(
     ): MutableList<RestTemplateInstanceExcelDto> {
         tokenSearchCondition.userKey = currentSessionUser.getUserKey()
         return wfInstanceService.instancesForExcel(tokenSearchCondition)
+    }
+
+    /**
+     * 컴포넌트 파일업로드 판단
+     */
+    private fun isFileUploadComponent(componentId: String): Boolean {
+        return wfComponentService.getComponentTypeById(componentId) == WfComponentConstants.ComponentType.FILEUPLOAD.code
     }
 
     /**
@@ -173,28 +173,24 @@ class TokenService(
                                     cellWidth = 7000
                                 ),
                                 ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("token.excel.desc"),
+                                    value = aliceMessageSource.getMessage("token.excel.type"),
                                     cellWidth = 8000
+                                ),
+                                ExcelCellVO(
+                                    value = aliceMessageSource.getMessage("token.excel.assignee"),
+                                    cellWidth = 3000
                                 ),
                                 ExcelCellVO(
                                     value = aliceMessageSource.getMessage("token.excel.status"),
                                     cellWidth = 3000
                                 ),
                                 ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("token.excel.type"),
-                                    cellWidth = 3000
+                                    value = aliceMessageSource.getMessage("token.excel.createUser"),
+                                    cellWidth = 6000
                                 ),
                                 ExcelCellVO(
                                     value = aliceMessageSource.getMessage("token.excel.createDt"),
                                     cellWidth = 6000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("token.excel.endDt"),
-                                    cellWidth = 6000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("token.excel.createUser"),
-                                    cellWidth = 7000
                                 )
                             )
                         )
@@ -202,26 +198,20 @@ class TokenService(
                 )
             )
         )
-        returnDto.forEach { result ->
+
+        returnDto.forEachIndexed { index, result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
                     cells = mutableListOf(
                         ExcelCellVO(value = result.documentNo),
+                        ExcelCellVO(value = result.topics?.get(index).toString()),
                         ExcelCellVO(value = result.documentName),
-                        ExcelCellVO(value = result.documentDesc),
-                        ExcelCellVO(value = aliceMessageSource.getMessage(result.documentStatus.toString())),
-                        ExcelCellVO(value = aliceMessageSource.getMessage("token.excel." + result.documentType)),
-                        ExcelCellVO(
-                            value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(result.instanceStartDt)
-                        ),
-                        ExcelCellVO(
-                            value = if (result.instanceEndDt != null) {
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(result.instanceEndDt)
-                            } else {
-                                ""
-                            }
-                        ),
-                        ExcelCellVO(value = result.instanceCreateUser)
+                        ExcelCellVO(value = if (result.assigneeUserName != null) result.assigneeUserName else ""),
+                        ExcelCellVO(value = result.elementName),
+                        ExcelCellVO(value = result.instanceCreateUser),
+                        ExcelCellVO(value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                            .format(AliceUtil().changeTimeBasedTimezone(result.instanceStartDt, currentSessionUser.getTimezone()))
+                        )
                     )
                 )
             )

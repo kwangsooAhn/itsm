@@ -105,8 +105,7 @@
         margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
       }
 
-      // 신청서 아이콘
-      .document-icon-content {
+      .hidden-control-content {
         display: none;
 
         &.on { display: block; }
@@ -115,7 +114,9 @@
   }
   // 업무 흐름 신청서 양식 편집 모달
   &.document-display {
-    width: $document-display-modal-width;
+    width: fit-content;
+    max-width: 90vw;
+    min-width: $document-display-modal-width;
     height: $document-display-modal-height;
 
     .modal-content {
@@ -124,7 +125,6 @@
       overflow: hidden;
 
       .document-display-content {
-        width: calc(#{$document-display-modal-width} - 2.5rem); // 너비에서 여백만큼 빼준다.
         height: calc(#{$document-display-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 2.5rem); // 높이에서 여백만큼 빼준다.
         padding: 0 1.25rem; // 0 20px
         overflow-y: auto;

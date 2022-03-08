@@ -25,7 +25,7 @@ export default class ZRow {
         this._displayType = data.displayType || FORM.DISPLAY_TYPE.EDITABLE;
         this._display = data.display || {
             displayOrder: 0,     // 표시 순서
-            margin: '4 0 4 0', // row 간 간격(위 오른쪽 아래 왼쪽)
+            margin: '2 0 2 0', // row 간 간격(위 오른쪽 아래 왼쪽)
             padding: '0 0 0 0' // row 내부 여백(위 오른쪽 아래 왼쪽)
         };
         this._propertyName = 'form.row' || ''; // i18n message name

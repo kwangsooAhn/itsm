@@ -1,6 +1,5 @@
 // Top 메뉴
 .z-main-top {
-    background-color: $top-menu-bg-color;
     height: 3.5rem; // 56px
     .z-divide {
         padding: 0 0.75rem 0 1.25rem; // 0 12px 0 20px
@@ -8,11 +7,9 @@
         color: $top-menu-divide-color;
     }
     .z-user-info {
-        height: 2.875rem; // 46px
+        height: 2.5rem; // 40px
         margin: 0.313rem 0.5rem 0.313rem 0; // 5px 8px 5px 0
         padding: 0 0.5rem 0 0.5rem; // 0 8px 0 8px
-        background-color: $top-menu-bg-color;
-        @include border(0.0625rem, solid, $top-menu-bg-color, all); // 1px
         @include borderRadius(0.25rem); // 4px
         .z-user-name {
             display: inline-block;
@@ -40,16 +37,16 @@
         &:hover {
             outline: 0;
             cursor: pointer;
-            background-color: $top-menu-user-bg-hover;
-            border-color: $top-menu-user-border-hover;
+            background-color: $gray100;
         }
         &:focus {
             outline: 0;
-            border: $element-focus-border !important;
+            box-shadow: 0 0 0 0.125rem $blue800
         }
         &:active {
             background-color: $top-menu-user-bg-active;
             border-color: $top-menu-user-border-active;
+            box-shadow: 0 0 0 0.125rem $blue800;
             .i-arrow-right {
                 background-color: $top-menu-user-icon-active;
             }
@@ -69,11 +66,12 @@
         &-content {
             visibility: hidden;
             position: absolute;
-            margin: 3.625rem 0.5rem 0 0; // 58px 8px 0 0
+            margin: 3.125rem 0.5rem 0 0; // 50px 8px 0 0
             background-color: $top-menu-user-dropdown-bg-color;
             color: $top-menu-user-color;
             font-size: $font-size-xs;
             @include border(0.0625rem, solid, $top-menu-user-dropdown-border-color, all); // 1px
+            @include borderRadius(0.25rem); // 4px
             z-index: $z-index-gnb;
         }
         &-item {
@@ -82,7 +80,8 @@
                 width: calc(100% - (#{$top-menu-user-dropdown-margin} * 2));
                 padding-left: 0.875rem; // 14px
                 margin: $top-menu-user-dropdown-margin;
-                line-height: 2.3;
+                line-height: 2.0;
+                font-weight: $font-weight-medium;
                 background-color: $top-menu-user-dropdown-bg-color;
                 @include border(0.0625rem, solid, $top-menu-user-dropdown-bg-color, all); // 1px
                 @include borderRadius(0.0625rem); // 1px

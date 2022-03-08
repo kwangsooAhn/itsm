@@ -35,7 +35,6 @@
     flex-direction: column;
     width: calc(100% - #{$nav-width});
     height: 100vh;
-    background-color: $layout-main-bg-color;
 
     &-title {
       display: flex;
@@ -44,31 +43,17 @@
     }
 
     &-content {
-      background-color: $layout-content-bg-color;
       height: calc(100vh - 8.5rem);
 
       .z-page-content {
         @include border(0.0625rem,solid,$layout-main-header-border-color,top);
         flex: 1 1 auto;
-        background: $layout-page-content-bg-color;
       }
 
       .z-page-search {
         display: flex;
         flex-direction: row;
         padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
-        .z-search-count {
-          font-family: $layout-header-search-font-family;
-          font-weight: $layout-header-search-font-weight;
-          font-size: 0.875rem;
-          color: $layout-header-search-color;
-        }
-      }
-
-      .z-page-token-search {
-        display: flex;
-        flex-direction: row;
-        padding: 0 0 1.25rem 3.75rem; // 0 0 20px 60px
         .z-search-count {
           font-family: $layout-header-search-font-family;
           font-weight: $layout-header-search-font-weight;
@@ -153,6 +138,13 @@
 .i-profile-photo {
   @include borderRadius(50%);
   background-color: transparent;
+}
+
+// 문서 색상
+.document-color-round {
+  @include borderRadius(50%);
+  width: 0.9375rem; // 15px
+  height: 0.9375rem; // 15px
 }
 
 //작성자 말줄임
@@ -267,8 +259,9 @@
     //신청서 문서이름
     .document-name {
       width: 17.5rem; //280px
-      font-size: $font-size-l;
-      font-weight: $font-weight-medium;
+      color: $element-font-color;
+      font-size: 1.5625rem;
+      font-weight: $font-weight-semibold;
     }
     // 신청서 > 아이콘
     .document-icon {

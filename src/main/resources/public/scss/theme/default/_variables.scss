@@ -51,12 +51,10 @@ $menu-snb-dot-hover:                          $gray200;
 $menu-active-color:                           $blue500;
 
 // Top Menu
-$top-menu-bg-color:                           $neutral50;
 $top-menu-divide-color:                       $gray300;
 $top-menu-notification-active-color:          $blue500;
 $top-menu-user-color:                         $gray800;
-$top-menu-user-bg-hover:                      $white;
-$top-menu-user-border-hover:                  $gray300;
+$top-menu-user-bg-hover:                      $gray200;
 $top-menu-user-bg-active:                     $white;
 $top-menu-user-border-active:                 $gray300;
 $top-menu-user-icon-active:                   $gray800;
@@ -74,35 +72,17 @@ $top-menu-user-dropdown-active-color:         $blue700;
 $icon-gnb-color:                              $gray500;
 
 $icon-gnb-board:                              $theme-icon-folder-path + 'gnb/icon_gnb_board.svg';
-$icon-gnb-chart:                              $theme-icon-folder-path + 'gnb/icon_gnb_chart.svg';
+$icon-gnb-cmdb:                               $theme-icon-folder-path + 'gnb/icon_gnb_cmdb.svg';
+$icon-gnb-config:                             $theme-icon-folder-path + 'gnb/icon_gnb_config.svg';
 $icon-gnb-dashboard:                          $theme-icon-folder-path + 'gnb/icon_gnb_dashboard.svg';
 $icon-gnb-document:                           $theme-icon-folder-path + 'gnb/icon_gnb_document.svg';
 $icon-gnb-download:                           $theme-icon-folder-path + 'gnb/icon_gnb_download.svg';
 $icon-gnb-faq:                                $theme-icon-folder-path + 'gnb/icon_gnb_faq.svg';
 $icon-gnb-notice:                             $theme-icon-folder-path + 'gnb/icon_gnb_notice.svg';
-$icon-gnb-config:                             $theme-icon-folder-path + 'gnb/icon_gnb_config.svg';
-$icon-gnb-workflow:                           $theme-icon-folder-path + 'gnb/icon_gnb_workflow.svg';
+$icon-gnb-statistic:                          $theme-icon-folder-path + 'gnb/icon_gnb_statistic.svg';
 $icon-gnb-token:                              $theme-icon-folder-path + 'gnb/icon_gnb_token.svg';
-$icon-gnb-cmdb:                               $theme-icon-folder-path + 'gnb/icon_gnb_cmdb.svg';
+$icon-gnb-workflow:                           $theme-icon-folder-path + 'gnb/icon_gnb_workflow.svg';
 $icon-gnb-sub-dot:                            $theme-icon-folder-path + 'gnb/icon_gnb_sub_dot.svg';
-
-////////////////////////////// View //////////////////////////////
-$view-title-font-size:                        $font-size-m; // 18px
-$view-title-font-weight:                      $font-weight-medium;
-$view-title-font-color:                       $gray800;
-
-$view-sub-title-font-family:                  $font-family;
-$view-sub-title-font-size:                    $font-size-xs; // 14px
-$view-sub-title-font-weight:                  $font-weight-regular;
-$view-sub-title-font-color:                   $gray500;
-
-$view-content-font-size:                      $font-size-s; // 16px
-$view-content-font-weight:                    $font-weight-regular;
-$view-content-font-color:                     $gray800;
-
-$view-content-bg-color:                       $white;
-$view-content-border-width:                   0.0625rem;  // 1px
-$view-content-border-color:                   $gray300;
 
 ////////////////////////////// Edit //////////////////////////////
 $edit-content-bg-color:                       $white;
@@ -122,8 +102,9 @@ $token-numbering-color:                       $gray500;
 $card-content-bg-color:                       $white;
 $card-border-width:                           0.0625rem; // 1px
 $card-border-color:                           $gray300;
+$card-shadow-color:                           $gray200;
 $card-border-radius:                          0.0625rem; // 1px
-$card-hover-box-shadow:                       0 0 0 $card-border-width $card-border-color;
+$card-hover-box-shadow:                       0 0 0.625rem 0 $card-shadow-color;
 
 // 카드 목록 마우스 오버시
 $card-list-hover-bg-color:                    $neutral200;

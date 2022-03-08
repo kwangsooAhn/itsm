@@ -8,6 +8,7 @@ package co.brainz.itsm.document.service
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
@@ -18,6 +19,7 @@ import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.itsm.process.service.ProcessAdminService
+import co.brainz.workflow.document.repository.WfDocumentLinkRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.document.service.WfDocumentService
 import co.brainz.workflow.provider.constants.WorkflowConstants
@@ -39,6 +41,7 @@ class DocumentService(
     private val wfDocumentService: WfDocumentService,
     private val aliceFileProvider: AliceFileProvider,
     private val currentSessionUser: CurrentSessionUser,
+    private val wfDocumentLinkRepository: WfDocumentLinkRepository,
     private val wfDocumentRepository: WfDocumentRepository
 ) {
 
@@ -50,7 +53,7 @@ class DocumentService(
      * @return List<RestTemplateDocumentListDto>
      */
     fun getDocumentList(documentSearchCondition: DocumentSearchCondition):
-            DocumentListReturnDto {
+        DocumentListReturnDto {
         // 업무흐름을 관리하는 사용자라면 신청서 상태가 임시, 사용을 볼 수가 있다.
         val aliceUserDto = currentSessionUser.getUserDto()
         if (aliceUserDto!!.grantedAuthorises != null) {
@@ -60,14 +63,36 @@ class DocumentService(
                 }
             }
         }
-        val queryResult = wfDocumentRepository.findByDocuments(documentSearchCondition)
+        val documentQueryResult = wfDocumentRepository.findByDocuments(documentSearchCondition)
+        val documentLinkQueryResult = wfDocumentLinkRepository.findByDocumentLink(documentSearchCondition)
+
+        val totalResult = mutableListOf<DocumentDto>() // document + documentLink 합치기
+
+        totalResult.addAll(documentQueryResult.results)
+        if (documentSearchCondition.searchProcessName.isNullOrEmpty() && documentSearchCondition.searchFormName.isNullOrEmpty()) { // 폼, 프로세스 검색시 documnetLink 결과는 제외
+            totalResult.addAll(documentLinkQueryResult.results)
+        }
+        totalResult.sortByDescending { it.createDt }
+
+        var fromIndex = 0 // 문서함(documentSearch.html)에서 호출할 경우
+        var toIndex = totalResult.size
+
+        if (documentSearchCondition.pageNum > 0) { // 업무흐름(workflowSearch.html) 에서 호출할 경우
+            fromIndex = ((documentSearchCondition.pageNum - 1) * documentSearchCondition.contentNumPerPage).toInt()
+            toIndex = (fromIndex + documentSearchCondition.contentNumPerPage).toInt()
+
+            if (totalResult.size < toIndex) {
+                toIndex = totalResult.size
+            }
+        }
+
         val documentList = DocumentListReturnDto(
-            data = queryResult.results,
+            data = if (totalResult.isNotEmpty()) totalResult.subList(fromIndex, toIndex) else totalResult,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
-                totalCountWithoutCondition = wfDocumentRepository.count(),
+                totalCount = totalResult.size.toLong(),
+                totalCountWithoutCondition = wfDocumentRepository.count() + wfDocumentLinkRepository.count(),
                 currentPageNum = documentSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(totalResult.size / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -107,6 +132,13 @@ class DocumentService(
     }
 
     /**
+     * 업무흐름링크 조회.
+     */
+    fun getDocumentLinkAdmin(documentId: String): DocumentDto {
+        return wfDocumentService.getDocumentLink(documentId)
+    }
+
+    /**
      * 신청서 문서 데이터 조회.
      *
      * @return String
@@ -121,11 +153,22 @@ class DocumentService(
      * @param documentDto
      * @return String?
      */
-    fun createDocument(documentDto: DocumentDto): String? {
+    fun createDocument(documentDto: DocumentDto): ZReturnDto {
         documentDto.createUserKey = currentSessionUser.getUserKey()
         documentDto.createDt = LocalDateTime.now()
-        val dataDto = wfDocumentService.createDocument(documentDto)
-        return dataDto.documentId
+        return wfDocumentService.createDocument(documentDto)
+    }
+
+    /**
+     * 신청서 링크 생성.
+     *
+     * @param documentDto
+     * @return String?
+     */
+    fun createDocumentLink(documentDto: DocumentDto): ZReturnDto {
+        documentDto.createUserKey = currentSessionUser.getUserKey()
+        documentDto.createDt = LocalDateTime.now()
+        return wfDocumentService.createDocumentLink(documentDto)
     }
 
     /**
@@ -137,12 +180,26 @@ class DocumentService(
     fun updateDocument(
         documentDto: DocumentDto,
         params: LinkedHashMap<String, Any>
-    ): String? {
+    ): ZReturnDto {
         val documentId = documentDto.documentId
         documentDto.updateUserKey = currentSessionUser.getUserKey()
         documentDto.updateDt = LocalDateTime.now()
-        wfDocumentService.updateDocument(documentDto, params)
-        return documentId
+        return wfDocumentService.updateDocument(documentDto, params)
+    }
+
+    /**
+     * Update DocumentLink.
+     *
+     * @param documentDto
+     * @return String
+     */
+    fun updateDocumentLink(
+        documentDto: DocumentDto
+    ): ZReturnDto {
+        val documentId = documentDto.documentId
+        documentDto.updateUserKey = currentSessionUser.getUserKey()
+        documentDto.updateDt = LocalDateTime.now()
+        return wfDocumentService.updateDocumentLink(documentDto)
     }
 
     /**
@@ -153,6 +210,16 @@ class DocumentService(
      */
     fun deleteDocument(documentId: String): Boolean {
         return wfDocumentService.deleteDocument(documentId)
+    }
+
+    /**
+     * 신청서링크 삭제.
+     *
+     * @param documentId
+     * @return Boolean
+     */
+    fun deleteDocumentLink(documentId: String): Boolean {
+        return wfDocumentService.deleteDocumentLink(documentId)
     }
 
     /**

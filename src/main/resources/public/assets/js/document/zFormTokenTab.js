@@ -536,10 +536,8 @@ class ZFormTokenTab {
             `</button>` +
             `</div>` +
             `<div class="z-document-row-topic">`;
-        if (zValidation.isEmpty(instance.topics)) {
-            instance.topics?.forEach((topic) => {
-                htmlString += `<h6 class="text-ellipsis">` + topic + `</h6>`;
-            });
+        if (!zValidation.isEmpty(instance.topics)) {
+                htmlString += `<br><h6 class="text-ellipsis">` + instance.topics[0] + `</h6>`;
         }
         htmlString +=
             `</div>` +
@@ -637,7 +635,7 @@ class ZFormTokenTab {
             `<img class="z-img i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
             `<h6 class="z-user-name pl-2">` + comment.createUserName + `</h6>` +
             `</div>` +
-            `<h6 class="z-comment-time date-time">` + comment.createDt + `</h6>` +
+            `<h6 class="z-comment-time date-time">` + i18n.userDateTime(comment.createDt) + `</h6>` +
             `<div class="ml-auto">`;
         if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=

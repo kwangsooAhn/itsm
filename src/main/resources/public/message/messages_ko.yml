@@ -54,7 +54,7 @@ common:
     success: "성공"
     tag: "태그"
     title: "제목"
-    totalCountWithoutCondition: "({0}) 총 {1} 건"
+    totalCountWithoutCondition: "총 {0} 건"
     totalPageNum: "총 {0} 페이지"
     updateDate: "수정 일시"
     updateUser: "수정자"
@@ -75,13 +75,15 @@ common:
     minValue: "최소 입력값은 {0} 입니다."
     modify: "수정되었습니다."
     noData: "데이터가 없습니다."
-    onlySaveInEdit: "폐기 단계에서는 수정이 불가합니다."
+    notSaveAfterDestroy: "폐기 단계에서는 수정이 불가합니다."
+    notSaveAfterPublish: "발행/사용인 단계에서는 수정이 불가합니다."
     processedOrDelete: "이미 처리되었거나 삭제되었습니다."
     register: "등록되었습니다."
     required: "{0} 을(를) 입력하세요."
     requiredEnter: "필수 항목을 입력하세요."
     requiredSelect: "필수 항목을 선택하세요."
     save: "저장되었습니다."
+    select: "선택하세요."
     selectAfterDate: "{0} 날짜 이후로 선택하세요."
     selectAfterDateTime: "{0} 이후로 선택하세요."
     selectAfterTime: "{0} 시간 이후로 선택하세요."
@@ -247,8 +249,10 @@ chart:
     all: "전체"
     average: "평균"
     chart: "사용자 정의 차트"
-    defaultInfo: "기본 정보"
+    condition: "조건식"
+    chartSetting: "차트 설정"
     description: "차트 설명"
+    documentStatus: "대상 문서상태"
     edit: "차트 편집"
     editDescription: "사용자 정의 차트를 등록하거나 수정, 삭제합니다."
     name: "차트 이름"
@@ -257,7 +261,7 @@ chart:
     targetTags: "대상 태그"
     type: "차트 종류"
     periodUnit: "간격"
-    operation: "연산"
+    operation: "계산 방법"
     duration: "기간"
     group: "그룹"
     doc: "문서"
@@ -280,8 +284,9 @@ chart:
   msg:
     searchDescription: "다양한 사용자 정의 차트를 조회하고 관리합니다."
     enterChartName: "차트 이름을 입력하세요."
-    enterTargetTags: "대상 태그를 입력하세요."
     enterDurationDigit: "기간을 입력하세요."
+    enterTargetTags: "대상 태그를 입력하세요."
+    maxPeriodUnitRange: "간격이 시간 단위일 경우, 기간을 {0}일 이내로 설정해주세요."
     periodUnitOutOfRange: "간격이 기간보다 큽니다."
   chart:
     basicLine: "Basic Line Chart"
@@ -290,6 +295,11 @@ chart:
     stackedBar: "Stacked Bar Chart"
     lineAndColumn: "Line And Column Chart"
     gauge: "Gauge Chart"
+  tooltip:
+    targetTags: "차트를 그릴 데이터의 대상을 태그로 입력합니다."
+    condition: "• 조건식은 산술 연산자 중 사칙연산(+, -, *, /)과<br/>&nbsp; 논리연산자(&&, ||)와 비교 연산자(==, !=, <, >, <=, >=)를<br/>&nbsp; 지원합니다.<br/><br/>
+    • 태그를 표현하려면 []를 사용하세요.<br/>&nbsp; 만약 태그명에 대괄호([ 또는 ])가 들어가 있다면 '\\]'와 같이<br/>&nbsp; 태그명을 작성합니다.<br/><br/>
+    • 논리 연산의 우선순위 표기하려면 ()를 사용하세요.<br/>&nbsp; 만약 태그명에 소괄호(( 또는 ))가 사용된다면 '\\)'와 같이<br/>&nbsp; 태그명을 작성합니다."
 
 # CMDB
 cmdb:
@@ -326,6 +336,7 @@ cmdb:
     msg:
       attributeNameUsed: "사용 중인 속성항목 이름입니다."
       enterAttributeName: "속성항목 이름을 입력하세요."
+      details: "세부정보를 추가해 주세요."
       searchDescription: "CI 속성항목을 조회 및 관리합니다."
       selectAttributeType: "데이터 타입을 선택하세요."
       viewDescription: "속성항목에 대한 상세 정보를 조회합니다."
@@ -504,17 +515,22 @@ customCode:
 # Dashboard
 dashboard:
   label:
+    all: "전체"
     dashboard: "개인 현황판"
     documentStatus: "신청한 문서 현황"
+    doneDocument: "전체 처리한 문서"
     etc: "기타"
+    incident: "장애 신고"
+    inquiry: "단순 문의"
     monthDoneDocument: "월간 처리한 문서"
+    organizationWorkStatus: "부서별 요청현황"
+    personalRequestStatus: "개인 요청현황"
     request: "서비스 요청"
+    requestStatus: "요청현황"
+    requestUnprocessedCount: "미처리 건수"
     runningDocument: "진행 중 문서"
     statistics: "업무 통계"
     todoDocument: "처리할 문서"
-    doneDocument: "전체 처리한 문서"
-    incident: "장애 신고"
-    inquiry: "단순 문의"
   msg:
     viewDescription: "나의 업무통계 및 처리할 문서를 조회합니다."
   status:
@@ -565,6 +581,7 @@ document:
     enable: "예"
     form: "문서양식"
     icon: "신청서 아이콘"
+    link: "신청서 링크"
     name: "신청서 이름"
     notSelect: "선택 안 함"
     numberingRule: "문서번호 규칙"
@@ -575,13 +592,16 @@ document:
     status: "신청서 상태"
     tempDocument: "임시 신청서"
     type: "업무흐름 구분"
-    write: "신청서 작성"
+    useYn: "신청서 사용여부"
+    write: "업무흐름 편집"
   msg:
     adminSearchDescription: "프로세스와 문서양식을 조합하여 업무흐름을 조회 및 관리합니다."
     changeStatusEnabled: "상태를 사용으로 수정 하시겠습니까?<br/>임시 상태로 작성된 문서 모두 삭제 됩니다."
     checkDocument: "문서를 다시 확인하세요."
     checkDuplication: "이미 해당 문서와 프로세스로 생성된 업무흐름이 존재합니다."
+    checkUrlLink: "URL 형식에 맞게 입력하세요."
     enterBusinessFlowColor: "업무흐름 색상을 입력하세요."
+    enterDocumentLink: "신청서 링크를 입력하세요."
     enterDocumentName: "신청서 이름을 입력하세요."
     launchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
     lengthMax: "{0}글자 이하로 입력하세요."
@@ -590,6 +610,9 @@ document:
     process: "처리되었습니다."
     requiredFileupload: "파일을 업로드하세요."
     searchDescription: "신청서를 조회 및 신청합니다."
+    selectForm: "문서양식을 선택하세요."
+    selectProcess: "프로세스를 선택하세요."
+    selectNumberingRule: "문서번호 규칙을 선택하세요."
   display:
     editable: "수정 가능"
     editableRequired: "수정 가능(필수값)"
@@ -601,7 +624,10 @@ document:
     use: "사용"
   type:
     applicationForm: "신청서"
+    applicationFormLink: "신청서 링크"
     workflow: "업무흐름"
+  btn:
+    draftSave: "임시저장"
 
 # Download
 download:
@@ -721,7 +747,8 @@ form:
     divider: "Divider"
     dropdown: "Dropdown"
     dynamicRowTable: "DR Table"
-    fileUpload: "File upload"
+    fileDownload: "File Download"
+    fileUpload: "File Upload"
     image: "Image"
     inputBox: "Input Box"
     label: "Label"
@@ -795,6 +822,7 @@ form:
       path: "경로"
       placeholder: "Placeholder"
       rows: "입력 행 수"
+      text: "표시 텍스트"
       thickness: "굵기"
       type: "Type"
       width: "너비"
@@ -928,11 +956,15 @@ menu:
     parent: "FAQ"
   notice:
     parent: "공지사항"
-  report:
-    chart: "사용자 정의 차트"
-    parent: "보고서"
-    report: "보고서 조회"
-    template: "보고서 템플릿"
+  statistic:
+    basicChart: "기본 차트"
+    basicReport: "기본 보고서 조회"
+    customChart: "사용자 정의 차트"
+    customDashboardTemplate: "개인 현황판 관리"
+    customReport: "보고서 조회"
+    customReportTemplate: "보고서 템플릿"
+    dashboardTemplate: "현황판 템플릿"
+    parent: "통계/보고서"
   setting:
     editMyInfo: "자기정보 수정"
   token:
@@ -1155,8 +1187,8 @@ process:
       userTask: "유저 태스크"
       withdraw: "회수 가능여부"
 
-# Report
-report:
+# statistic
+statistic:
   btn:
     pdf: "PDF"
   label:
@@ -1164,11 +1196,11 @@ report:
     chart: "사용자 정의 차트"
     description: "설명"
     publishDate: "발행 일시"
-    report: "보고서"
+    customReport: "사용자 정의 보고서"
     reportName: "보고서 이름"
     search: "보고서 조회"
     searchPlaceholder: "템플릿 이름"
-    template: "템플릿"
+    customReportTemplate: "사용자 정의 보고서 템플릿"
     templateEdit: "템플릿 수정"
     templateName: "템플릿 이름"
     templateRegister: "템플릿 등록"
@@ -1279,11 +1311,14 @@ token:
     all: "전체 문서"
     assignee: "담당자"
     completed: "처리 완료"
+    docNo: "문서번호"
+    documentGroup: "문서종류"
     elementName: "업무 이름"
     endDt: "완료 일시"
     history: "처리 이력"
     information: "문서정보"
     list: "문서함"
+    name: "제목"
     print: "처리할 문서 인쇄"
     read: "읽음"
     relatedInstance: "관련 문서"
@@ -1313,15 +1348,16 @@ token:
     terminate: "종결"
     finish: "처리 완료"
   excel:
-    docNo: "신청서 번호"
-    name: "신청서 이름"
-    desc: "신청서 설명"
-    status: "신청서 상태"
-    type: "신청서 종류"
-    createDt: "신청서 시작일시"
-    endDt: "신청서 종료일시"
-    createUser: "신청서 생성자"
     application-form: "신청서"
+    assignee: "담당자"
+    createDt: "등록일시"
+    createUser: "등록자"
+    desc: "신청서 설명"
+    docNo: "문서 번호"
+    endDt: "신청서 종료일시"
+    name: "제목"
+    status: "상태"
+    type: "문서 종류"
     workflow: "업무흐름"
 
 # WorkflowAdmin

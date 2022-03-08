@@ -24,6 +24,7 @@
   font-size: $button-font-size;
   font-weight: $button-font-weight;
   background-color: transparent;
+  line-height: 1;
   opacity: 1;
   vertical-align: middle;
   text-align: center;
@@ -32,9 +33,9 @@
   white-space: nowrap;
   overflow:visible;
   cursor: pointer;
-  @include border($button-border-width, solid, transparent, all);
+  @include border($button-border-none, solid, transparent, all);
   @include borderRadius($button-border-radius);
-  padding: 0.4375rem 0.9375rem; // 7px 15px
+  padding: 0.625rem 1.25rem; // 10px 20px
 
   &:focus,
   &:hover {
@@ -50,7 +51,9 @@
     &.#{$theme} {
       color: map-get($value, 'default', 'font');
       background-color: map-get($value, 'default', 'background');
-      border-color: map-get($value, 'default', 'border');
+      @if map-get($value, 'default', 'border') != null {
+        border-color: map-get($value, 'default', 'border');
+      }
       @if map-get($value, 'default', 'shadow') != null {
         box-shadow: map-get($value, 'default', 'shadow');
       }
@@ -64,7 +67,9 @@
       &:focus {
         color: map-get($value, 'focus', 'font');
         background-color: map-get($value, 'focus', 'background');
-        border-color: map-get($value, 'focus', 'border');
+        @if map-get($value, 'focus', 'border') != null {
+          border-color: map-get($value, 'focus', 'border');
+        };
         @if map-get($value, 'focus', 'shadow') != null {
           box-shadow: map-get($value, 'focus', 'shadow');
         }
@@ -76,7 +81,9 @@
       &:hover {
         color: map-get($value, 'hover', 'font');
         background-color: map-get($value, 'hover', 'background');
-        border-color: map-get($value, 'hover', 'border');
+        @if map-get($value, 'hover', 'border') != null {
+          border-color: map-get($value, 'hover', 'border');
+        };
         @if map-get($value, 'hover', 'shadow') != null {
           box-shadow: map-get($value, 'hover', 'shadow');
         }
@@ -89,7 +96,9 @@
       &:enabled.active {
         color: map-get($value, 'active', 'font');
         background-color: map-get($value, 'active', 'background');
-        border-color: map-get($value, 'active', 'border');
+        @if map-get($value, 'active', 'border') != null {
+          border-color: map-get($value, 'active', 'border');
+        }
         @if map-get($value, 'active', 'shadow') != null {
           box-shadow: map-get($value, 'active', 'shadow');
         }
@@ -102,7 +111,9 @@
       &.disabled {
         color: map-get($value, 'disabled', 'font');
         background-color: map-get($value, 'disabled', 'background');
-        border-color: map-get($value, 'disabled', 'border');
+        @if map-get($value, 'disabled', 'border') != null {
+          border-color: map-get($value, 'disabled', 'border');
+        }
         @if map-get($value, 'disabled', 'shadow') != null {
           box-shadow: map-get($value, 'disabled', 'shadow');
         }
@@ -183,7 +194,8 @@
 }
 
 .z-button-icon {
-  padding: 0.3125rem; // 5px (버튼 기본 너비 높이 : 36px 36px)
+  padding: 0.4375rem; // 7px (버튼 기본 너비 높이 : 34px 34px)
+  line-height: 0;
   &-sm {
     width: 1rem; // 16px
     height: 1rem; // 16px
@@ -207,7 +219,19 @@
 .z-button-text {
   padding: 0;
   line-height: 1.25rem; // 20px
-  &:hover { @include underline; }
+  color: $gray600;
+  &:hover {
+    @include underline;
+    color: $gray400;
+  }
+  &:active,
+  &focus {
+    color: $gray800;
+  }
+  &:disabled,
+  &.disabled {
+    color: $gray300;
+  }
 }
 
 // 버튼 목록

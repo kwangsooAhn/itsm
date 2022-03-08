@@ -54,7 +54,7 @@ common:
     success: "Success"
     tag: "Tag"
     title: "Title"
-    totalCountWithoutCondition: "({0}) data total {1}"
+    totalCountWithoutCondition: "data total {0}"
     totalPageNum: "total {0} page"
     updateDate: "Update Date"
     updateUser: "Update User"
@@ -75,13 +75,15 @@ common:
     minValue: "Minimum input is {0}"
     modify: "Modified."
     noData: "There is no data."
-    onlySaveInEdit: "It cannot be saved in the destroy."
+    notSaveAfterDestroy: "It cannot be saved in the destroy."
+    notSaveAfterPublish: "It cannot be saved in the used/publish"
     processedOrDelete: "Already processed or deleted."
     register: "Registered."
     required: "Please enter {0}."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     save: "Saved."
+    select: "Please select data."
     selectAfterDate: "Please select after {0} date."
     selectAfterDateTime: "Please select after {0}."
     selectAfterTime: "Please select after {0} time."
@@ -246,9 +248,11 @@ chart:
   label:
     all: "All"
     average: "Average"
-    chartt: "User Custom Chart"
-    defaultInfo: "Default Info"
+    chart: "User Custom Chart"
+    condition: "condition"
+    chartSetting: "Chart Setting"
     description: "Chart Description"
+    documentStatus: "Target document Status"
     edit: "Chart Edit"
     editDescription: "Register or Edit for custom chart."
     name: "Chart Name"
@@ -280,8 +284,9 @@ chart:
   msg:
     searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
-    enterTargetTags: "Please enter a target tags."
     enterDurationDigit: "Please enter a Duration."
+    enterTargetTags: "Please enter a target tags."
+    maxPeriodUnitRange: "If the interval is hourly, please set the period within {0} days."
     periodUnitOutOfRange: "The duration is greater than the period."
   chart:
     basicLine: "Basic Line Chart"
@@ -290,6 +295,11 @@ chart:
     stackedBar: "Stacked Bar Chart"
     lineAndColumn: "Line And Column Chart"
     gauge: "Gauge Chart"
+  tooltip:
+    targetTags: "Enter the target of the data to be charted as a tag."
+    condition: "• The condition expression supports arithmetic operations (+, -, *, /) and logical operators &&, ||, and comparative operators such as ==, !=, <, >, <=, >= .<br/><br/>
+    • [] can be used to express the tag. If the tag name contains brackets ([ or ]), write the tag name in the expression such as '\\]'.<br/><br/>
+    • () can be used to prioritize logical operations. If the tag name contains brackets (( or )), write the tag name in the expression such as '\\)'."
 
 # CMDB
 cmdb:
@@ -326,6 +336,7 @@ cmdb:
     msg:
       attributeNameUsed: "The Attribute Name is being used."
       enterAttributeName: "Please enter a attribute name."
+      details: "Please add details."
       searchDescription: "CI Attribute manage posts."
       selectAttributeType: "Please select the type."
       viewDescription: "Inquires detailed information about the attribute."
@@ -504,17 +515,22 @@ customCode:
 # Dashboard
 dashboard:
   label:
+    all: "All"
     dashboard: "Dashboard"
     documentStatus: "Requested Documents Status"
+    doneDocument: "Total Documents in proceeded"
     etc: "Etc"
+    incident: "Error Report"
+    inquiry: "inquiry"
     monthDoneDocument: "Documents in proceeded Monthly"
+    organizationWorkStatus: "Work Status by Organization"
+    personalRequestStatus: "Personal Request Status"
     request: "Service Request"
+    requestStatus: "Request Status"
+    requestUnprocessedCount: "Count of unprocessed requests"
     runningDocument: "Document in progress"
     statistics: "Workflow statistics"
     todoDocument: "Documents to be processed"
-    doneDocument: "Total Documents in proceeded"
-    incident: "Error Report"
-    inquiry: "inquiry"
   msg:
     viewDescription: "Search my business statistics and documents to be processed."
   status:
@@ -565,6 +581,7 @@ document:
     enable: "Enable"
     form: "Form"
     icon: "Service Request Icon"
+    link: "Document Link"
     name: "Service Request Name"
     notSelect: "Not Select"
     numberingRule: "Document Numbering Rule"
@@ -575,13 +592,16 @@ document:
     status: "Service Request Status"
     tempDocument: "Temporary Application"
     type: "Document Type"
-    write: "Service Request Write"
+    useYn: "Use enable"
+    write: "WorkFlow Edit"
   msg:
     adminSearchDescription: "View and manage workflow by combining process and document form."
     changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status will be deleted."
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
+    checkUrlLink: "Please enter it according to the URL format"
     enterBusinessFlowColor: "Please enter Business Flow Color."
+    enterDocumentLink: "Please enter document's link."
     enterDocumentName: "Please enter document's name."
     launchedInstance: "There is an instance started and cannot be deleted."
     lengthMax: "Please enter less than {0} characters."
@@ -590,6 +610,9 @@ document:
     process: "It has been processed."
     requiredFileupload: "Please upload a file."
     searchDescription: "Inquire and apply for a document"
+    selectForm: "Please select form."
+    selectProcess: "Please select process."
+    selectNumberingRule: "Please select numbering rule"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
@@ -601,7 +624,10 @@ document:
     use: "Use"
   type:
     applicationForm: "Application Form"
+    applicationFormLink: "Application Form - Link"
     workflow: "WorkFlow"
+  btn:
+    draftSave: "Draft save"
 
 # Download
 download:
@@ -721,6 +747,7 @@ form:
     divider: "Divider"
     dropdown: "Dropdown"
     dynamicRowTable: "DR Table"
+    fileDownload: "File Download"
     fileUpload: "File upload"
     image: "Image"
     inputBox: "Input Box"
@@ -795,6 +822,7 @@ form:
       path: "Path"
       placeholder: "Placeholder"
       rows: "Rows"
+      text: "Display Text"
       thickness: "Thickness"
       type: "Type"
       width: "Width"
@@ -928,11 +956,15 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
-  report:
-    chart: "User custom chart"
-    parent: "Report"
-    report: "Report List"
-    template: "Report Template"
+  statistic:
+    basicChart: "Basic Chart"
+    basicReport: "Basic Report Inquiry"
+    customChart: "User custom chart"
+    customDashboardTemplate: "Custom Dashboard Template"
+    customReport: "Report Inquiry"
+    customReportTemplate: "Custom Report Template"
+    dashboardTemplate: "Dashboard Template"
+    parent: "Statistics/Report"
   setting:
     editMyInfo: "Edit My Info"
   token:
@@ -1155,8 +1187,8 @@ process:
       userTask: "User Task"
       withdraw: "Withdraw"
 
-# Report
-report:
+# statistic
+statistic:
   btn:
     pdf: "PDF"
   label:
@@ -1164,11 +1196,11 @@ report:
     chart: "Chart"
     description: "Description"
     publishDate: "Publish Date"
-    report: "Report"
+    customReport: "Custom Report"
     reportName: "Report Name"
     search: "Report Search"
     searchPlaceholder: "Template name"
-    template: "Template"
+    customReportTemplate: "custom Report Template"
     templateEdit: "Template Edit"
     templateName: "Template Name"
     templateRegister: "Template Register"
@@ -1276,11 +1308,14 @@ token:
     all: "All Document"
     assignee: "Assignee"
     completed: "Completed Documents"
+    docNo: "Document No"
+    documentGroup: "Document Type"
     elementName: "Task Name"
     endDt: "Finish Date"
     history: "History"
     information: "Information"
     list: "My Document List"
+    name: "Title"
     print: "Process Document Print"
     read: "Read"
     relatedInstance: "Related Documents"
@@ -1310,15 +1345,16 @@ token:
     terminate: "terminate"
     finish: "finish"
   excel:
-    docNo: "Document No"
-    name: "Document Name"
+    application-form: "application Form"
+    assignee: "Assignee"
+    createDt: "Document Create Date"
+    createUser: "Document Create User"
     desc: "Document Desc"
+    docNo: "Document No"
+    endDt: "Document End Data"
     status: "Document Status"
     type: "Document Type"
-    createDt: "Document Create Date"
-    endDt: "Document End Data"
-    createUser: "Document Create User"
-    application-form: "application Form"
+    name: "Title"
     workflow: "Workflow"
 
 # WorkflowAdmin

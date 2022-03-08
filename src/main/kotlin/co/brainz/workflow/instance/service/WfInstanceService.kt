@@ -8,9 +8,12 @@ package co.brainz.workflow.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagManager
+import co.brainz.framework.util.AlicePagingData
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.folder.service.FolderManager
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.itsm.token.dto.TokenSearchCondition
@@ -40,6 +43,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
+import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -55,7 +59,8 @@ class WfInstanceService(
     private val aliceUserRepository: AliceUserRepository,
     private val folderManager: FolderManager,
     private val aliceTagManager: AliceTagManager,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -78,26 +83,43 @@ class WfInstanceService(
      * Search Instances.
      */
     fun instances(tokenSearchCondition: TokenSearchCondition): RestTemplateInstanceListReturnDto {
+        val totalCountWithoutCondition: Long
+
         // Get Document List
+        val countSearchCondition = TokenSearchCondition(userKey = currentSessionUser.getUserKey())
         val queryResults = when (tokenSearchCondition.searchTokenType) {
             WfTokenConstants.SearchType.REQUESTED.code -> {
+                totalCountWithoutCondition = requestedInstances(countSearchCondition).total
                 requestedInstances(
                     tokenSearchCondition
                 )
             }
             WfTokenConstants.SearchType.PROGRESS.code -> {
+                totalCountWithoutCondition = relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
+                    countSearchCondition
+                ).total
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
                     tokenSearchCondition
                 )
             }
             WfTokenConstants.SearchType.COMPLETED.code -> {
+                totalCountWithoutCondition = relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
+                    countSearchCondition
+                ).total
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
                     tokenSearchCondition
                 )
             }
             else -> {
+                totalCountWithoutCondition = todoInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
+                    WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
+                    countSearchCondition
+                ).total
                 todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
@@ -143,9 +165,9 @@ class WfInstanceService(
                 }
             }
 
-            val avatarPath = instance.instanceEntity.instanceCreateUser?.let {
-                userDetailsService.makeAvatarPath(it)
-            }
+            val createUserAvatarPath = instance.instanceEntity.instanceCreateUser?.let { userDetailsService.makeAvatarPath(it) }
+            val assigneeUserAvatarPath = instance.tokenEntity.assigneeId?.let { userDetailsService.selectUserKey(it) }
+                ?.let { userDetailsService.makeAvatarPath(it) }
 
             val restTemplateInstanceViewDto = RestTemplateInstanceViewDto(
                 tokenId = instance.tokenEntity.tokenId,
@@ -157,13 +179,16 @@ class WfInstanceService(
                 topics = topics,
                 createDt = instance.instanceEntity.instanceStartDt,
                 assigneeUserKey = instance.tokenEntity.assigneeId,
-                assigneeUserName = "",
+                assigneeUserId = instance.userEntity.assigneeUserId,
+                assigneeUserName = instance.userEntity.assigneeUserName,
                 createUserKey = instance.instanceEntity.instanceCreateUser?.userKey,
                 createUserName = instance.instanceEntity.instanceCreateUser?.userName,
                 documentId = instance.documentEntity.documentId,
                 documentNo = instance.instanceEntity.documentNo,
                 documentColor = instance.documentEntity.documentColor,
-                avatarPath = avatarPath
+                createUserAvatarPath = createUserAvatarPath,
+                assigneeUserAvatarPath = assigneeUserAvatarPath,
+                documentGroupName = instance.documentEntity.documentGroupName
             )
 
             val tagDataList = mutableListOf<AliceTagDto>()
@@ -179,7 +204,15 @@ class WfInstanceService(
 
         return RestTemplateInstanceListReturnDto(
             data = tokens,
-            totalCount = queryResults.total
+            paging = AlicePagingData(
+                totalCount = queryResults.total,
+                totalCountWithoutCondition = totalCountWithoutCondition,
+                currentPageNum = tokenSearchCondition.pageNum,
+                totalPageNum = ceil(queryResults.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code,
+                orderColName = tokenSearchCondition.orderColName,
+                orderDir = tokenSearchCondition.orderDir
+            )
         )
     }
 
@@ -362,7 +395,35 @@ class WfInstanceService(
                 )
             }
         }
-        val tokensForExcel = mutableListOf<RestTemplateInstanceExcelDto>()
+        val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
+
+        // Topic
+        val tokenIds = mutableSetOf<String>()
+        val tokenDataList = mutableListOf<WfInstanceListTokenDataDto>()
+        for (instance in queryResults.results) {
+            tokenIds.add(instance.tokenEntity.tokenId)
+        }
+        if (tokenIds.isNotEmpty()) {
+            tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
+        }
+        val topics = mutableListOf<String>()
+        for (instance in queryResults.results) {
+            val topicComponentIds = mutableListOf<String>()
+            tokenDataList.forEach { tokenData ->
+                if (tokenData.component.isTopic &&
+                    componentTypeForTopicDisplay.indexOf(tokenData.component.componentType) > -1
+                ) {
+                    if ((instance.tokenEntity.tokenId == tokenData.component.tokenId) && topicComponentIds.size == 0) { // 신청서의  첫번째 isTopic(제목)만 담음
+                        topicComponentIds.add(tokenData.component.componentId)
+                        topics.add(tokenData.value.replace(WfInstanceConstants.TOKEN_DATA_DEFAULT, ""))
+                    }
+                }
+            }
+            if(topicComponentIds.size == 0) { // 신청서에 isTopic이 1개도 없다면 강제로 빈값 추가 (Excel 다운로드시 제목란에 빈값입력을 위해)
+                topics.add(" ")
+            }
+        }
+         val tokensForExcel = mutableListOf<RestTemplateInstanceExcelDto>()
 
         for (instance in queryResults.results) {
             val restTemplateInstanceExcelDto = RestTemplateInstanceExcelDto(
@@ -373,7 +434,11 @@ class WfInstanceService(
                 documentDesc = instance.documentEntity.documentDesc,
                 documentStatus = instance.documentEntity.documentStatus,
                 documentNo = instance.instanceEntity.documentNo,
-                documentType = instance.documentEntity.documentType
+                documentType = instance.documentEntity.documentType,
+                documentGroupName = instance.documentEntity.documentGroupName,
+                assigneeUserName= instance.userEntity.assigneeUserName,
+                elementName = instance.tokenEntity.element.elementName,
+                topics = topics
             )
             tokensForExcel.add(restTemplateInstanceExcelDto)
         }

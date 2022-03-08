@@ -390,22 +390,23 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            showProgressbar: true
         }).then((response) => {
             switch (response) {
                 case STATUS_SUCCESS:
                     zAlert.success([[#{user.msg.createUser}]], function () {
-                        window.location.reload();
+                        window.location.href = '/users/search';
                     });
                     break;
                 case STATUS_SUCCESS_EDIT_ADMIN:
                     zAlert.success([[#{common.msg.modify}]], function () {
-                        window.location.reload();
+                        window.location.href = '/users/search';
                     });
                     break;
                 case STATUS_SUCCESS_EDIT_EMAIL:
                     zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
-                        window.location.reload();
+                        window.location.href = '/users/search';
                     });
                     break;
                 case STATUS_SUCCESS_EDIT_PASSWORD:

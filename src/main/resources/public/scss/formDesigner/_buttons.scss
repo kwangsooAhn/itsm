@@ -113,6 +113,7 @@
   color: map-get($button-tab, 'default', 'font');
   background-color: map-get($button-tab, 'default', 'background');
   border-color: map-get($button-tab, 'default', 'border');
+  border-width: 0.0625rem; //1px
   @if map-get($button-tab, 'default', 'shadow') != null {
     box-shadow: map-get($button-tab, 'default', 'shadow');
   }
@@ -186,6 +187,14 @@
     .z-icon {
       background: map-get($button-tab, 'disabled', 'font');
     }
+  }
+}
+
+.z-button,
+.z-button-icon {
+  &:disabled,
+  &.disabled {
+    display: none;
   }
 }
 

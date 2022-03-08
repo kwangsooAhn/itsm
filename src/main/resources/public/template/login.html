@@ -19,7 +19,6 @@
 <th:block layout:fragment="pageLeft">
     <div class="z-vertical-split-left z-login-background">
         <img class="z-img i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
-        <a href="/portals/main" class="z-button light-secondary main-return float-right" th:text="#{portal.btn.main}"></a>
         <span class="z-copyright"><!-- TODO: © Copyright 2020 Brainzcompany. All rights reserved. --></span>
     </div>
 </th:block>
@@ -47,6 +46,8 @@
                 <button class="z-button kakao col-pct-12" id="kakao" th:text="#{login.btn.kakaoLogin}" onclick="onPlatFormLogin(this.id)"></button>
             </div>
         </div>
+        <div class="pt-2"></div>
+        <a href="/portals/main" class="z-button z-button-text" th:text="'&larr; ' + #{portal.btn.main}"></a>
         <div class="z-login-other flex-row justify-content-center align-items-center">
             <div th:if="${createAccountEnabled}" class="z-login-other-signUp align-center"><a href="/certification/signup" th:text="#{login.label.signupNote}"></a></div>
             <div th:if="${findIdEnabled}" class="vertical-bar"></div>

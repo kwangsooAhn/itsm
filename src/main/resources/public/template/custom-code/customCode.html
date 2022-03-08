@@ -125,7 +125,7 @@
                         th:disabled="${!customCode.enabled}" th:if="${customCode?.customCodeId}"
                         th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="z-button secondary" onclick="deleteCustomCode('DELETE')"
+                <button type="button" class="z-button danger" onclick="deleteCustomCode('DELETE')"
                         th:disabled="${!customCode.enabled}" th:if="${customCode?.customCodeId}"
                         th:text="#{common.btn.delete}">
                 </button>
@@ -197,6 +197,13 @@
                 }
             }
         }
+
+        const conditionElems = document.querySelectorAll('input[name=conditionValue]');
+        if (conditionElems.length === 1) {
+            const conditionLabel = document.getElementById('conditionLabel');
+            conditionLabel.removeChild(conditionLabel.children[1]);
+        }
+
         // for designed select
         // 동적으로 표시되는 select 에 대한 designed select 초기화.
         aliceJs.initDesignedSelectTag();

@@ -9,16 +9,20 @@ import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
+import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.WfDocumentDisplayEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
+import co.brainz.workflow.document.entity.WfDocumentLinkEntity
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
+import co.brainz.workflow.document.repository.WfDocumentLinkRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
@@ -51,6 +55,7 @@ class WfDocumentService(
     private val wfActionService: WfActionService,
     private val wfElementService: WfElementService,
     private val wfDocumentRepository: WfDocumentRepository,
+    private val wfDocumentLinkRepository: WfDocumentLinkRepository,
     private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfProcessRepository: WfProcessRepository,
@@ -103,6 +108,34 @@ class WfDocumentService(
     }
 
     /**
+     * Search Document.
+     *
+     * @param documentId
+     * @return DocumentDto
+     */
+    fun getDocumentLink(documentId: String): DocumentDto {
+        val documentLink = wfDocumentLinkRepository.findByDocumentLinkId(documentId)
+        return DocumentDto(
+            documentId = documentLink.documentLinkId,
+            documentType = DocumentConstants.DocumentType.APPLICATION_FORM_LINK.value,
+            documentName = documentLink.documentName,
+            documentDesc = documentLink.documentDesc,
+            documentLinkUrl = documentLink.documentLinkUrl,
+            documentStatus = documentLink.documentStatus,
+            processId = "",
+            formId = "",
+            apiEnable = false,
+            createDt = documentLink.createDt,
+            createUserKey = documentLink.createUserKey,
+            updateDt = documentLink.updateDt,
+            updateUserKey = documentLink.updateUserKey,
+            documentNumberingRuleId = "",
+            documentColor = documentLink.documentColor,
+            documentIcon = documentLink.documentIcon
+        )
+    }
+
+    /**
      * 최초 신청서 작성용 데이터 반환.
      *
      * @author Jung Hee Chan
@@ -145,25 +178,31 @@ class WfDocumentService(
      * @return RestTemplateDocumentDto
      */
     @Transactional
-    fun createDocument(documentDto: DocumentDto): DocumentDto {
+    fun createDocument(documentDto: DocumentDto): ZReturnDto {
+        var isSuccess = true
+        var message = ""
+        var documentId = ""
+
         val formId = documentDto.formId
         val processId = documentDto.processId
         val selectedForm = wfFormRepository.getOne(formId)
         val selectedProcess = wfProcessRepository.getOne(processId)
         val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
         if (selectedDocument != null) {
-            throw AliceException(
-                AliceErrorConstants.ERR_00004,
-                aliceMessageSource.getMessage("document.msg.checkDuplication")
-            )
+            isSuccess = false
+            message = aliceMessageSource.getMessage("document.msg.checkDuplication")
         }
-        val form = WfFormEntity(formId = formId)
-        val process = WfProcessEntity(processId = processId)
-        if (!wfDocumentRepository.existsByDocumentName(
-                documentDto.documentName,
-                documentDto.documentId
-            )
-        ) {
+        if (isSuccess) {
+            val isDuplicateName = wfDocumentRepository.existsByDocumentName(documentDto.documentName, documentDto.documentId)
+            if (isDuplicateName) {
+                isSuccess = false
+                message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+            }
+        }
+        if (isSuccess) {
+            val form = WfFormEntity(formId = formId)
+            val process = WfProcessEntity(processId = processId)
+
             val documentEntity = WfDocumentEntity(
                 documentId = documentDto.documentId,
                 documentType = documentDto.documentType,
@@ -186,26 +225,50 @@ class WfDocumentService(
             this.createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
             this.updateFormAndProcessStatus(dataEntity)
 
-            return DocumentDto(
-                documentId = dataEntity.documentId,
-                documentType = dataEntity.documentType,
-                documentName = dataEntity.documentName,
-                documentDesc = dataEntity.documentDesc,
-                formId = dataEntity.form.formId,
-                processId = dataEntity.process.processId,
-                createDt = dataEntity.createDt,
-                createUserKey = dataEntity.createUserKey,
-                documentNumberingRuleId = dataEntity.numberingRule.numberingId,
-                documentColor = dataEntity.documentColor,
-                documentGroup = dataEntity.documentGroup,
-                documentIcon = dataEntity.documentIcon
-            )
-        } else {
-            throw AliceException(
-                AliceErrorConstants.ERR_00004,
-                aliceMessageSource.getMessage("document.msg.nameDuplication")
-            )
+            documentId = dataEntity.documentId
         }
+
+        return ZReturnDto(
+            result = isSuccess,
+            message = message,
+            data = documentId
+        )
+    }
+
+    /**
+     * Create DocumentLink.
+     *
+     * @param documentDto
+     * @return DocumentDto
+     */
+    @Transactional
+    fun createDocumentLink(documentDto: DocumentDto): ZReturnDto {
+        var isSuccess = true
+        var message = ""
+
+        val isDuplicateName = wfDocumentLinkRepository.existsByDocumentLinkName(documentDto.documentName, documentDto.documentId)
+        if (isDuplicateName) {
+            isSuccess = false
+            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+        }
+        if (isSuccess) {
+            val documentLinkEntity = WfDocumentLinkEntity(
+                documentLinkId = documentDto.documentId,
+                documentName = documentDto.documentName,
+                documentDesc = documentDto.documentDesc,
+                documentStatus = documentDto.documentStatus,
+                documentLinkUrl = documentDto.documentLinkUrl!!,
+                documentColor = documentDto.documentColor,
+                createDt = documentDto.createDt,
+                createUserKey = documentDto.createUserKey,
+                documentIcon = documentDto.documentIcon
+            )
+            wfDocumentLinkRepository.save(documentLinkEntity)
+        }
+        return ZReturnDto(
+            result = isSuccess,
+            message = message
+        )
     }
 
     /**
@@ -218,16 +281,21 @@ class WfDocumentService(
     fun updateDocument(
         documentDto: DocumentDto,
         params: LinkedHashMap<String, Any>
-    ): Boolean {
-        val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentDto.documentId)
-        val form = WfFormEntity(formId = documentDto.formId)
-        val process = WfProcessEntity(processId = documentDto.processId)
+    ): ZReturnDto {
+        var isSuccess = true
+        var message = ""
 
-        if (!wfDocumentRepository.existsByDocumentName(
-                documentDto.documentName,
-                documentDto.documentId
-            )
-        ) {
+        val isDuplicateName = wfDocumentRepository.existsByDocumentName(documentDto.documentName, documentDto.documentId)
+        if (isDuplicateName) {
+            isSuccess = false
+            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+        }
+
+        if (isSuccess) {
+            val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentDto.documentId)
+            val form = WfFormEntity(formId = documentDto.formId)
+            val process = WfProcessEntity(processId = documentDto.processId)
+
             wfDocumentEntity.documentType = documentDto.documentType
             wfDocumentEntity.documentName = documentDto.documentName
             wfDocumentEntity.documentDesc = documentDto.documentDesc
@@ -242,38 +310,74 @@ class WfDocumentService(
             wfDocumentEntity.documentColor = documentDto.documentColor
             wfDocumentEntity.documentGroup = documentDto.documentGroup
             wfDocumentEntity.documentIcon = documentDto.documentIcon
-        } else {
-            throw AliceException(
-                AliceErrorConstants.ERR_00004,
-                aliceMessageSource.getMessage("document.msg.nameDuplication")
-            )
-        }
-        if (params["isDeleteData"].toString().toBoolean()) {
-            logger.debug("Delete Instance Data... (Document Id: {})", wfDocumentEntity.documentId)
-            val instanceIds = mutableListOf<String>()
-            wfDocumentEntity.instance?.let { instances ->
-                instances.forEach {
-                    instanceIds.add(it.instanceId)
-                }
 
-                ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
-                    ciComponentDataList.forEach { ciComponentData ->
-                        val ciDto = CIDto(
-                            ciId = ciComponentData.ciId,
-                            typeId = "",
-                            ciName = "",
-                            ciStatus = "",
-                            interlink = false
-                        )
-                        ciService.deleteCI(ciDto)
+            if (params["isDeleteData"].toString().toBoolean()) {
+                logger.debug("Delete Instance Data... (Document Id: {})", wfDocumentEntity.documentId)
+                val instanceIds = mutableListOf<String>()
+                wfDocumentEntity.instance?.let { instances ->
+                    instances.forEach {
+                        instanceIds.add(it.instanceId)
                     }
-                }
 
-                wfInstanceRepository.deleteInstances(instances)
+                    ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
+                        ciComponentDataList.forEach { ciComponentData ->
+                            val ciDto = CIDto(
+                                ciId = ciComponentData.ciId,
+                                typeId = "",
+                                ciName = "",
+                                ciStatus = "",
+                                interlink = false
+                            )
+                            ciService.deleteCI(ciDto)
+                        }
+                    }
+
+                    wfInstanceRepository.deleteInstances(instances)
+                }
             }
+
         }
 
-        return true
+        return ZReturnDto(
+            result = isSuccess,
+            message = message
+        )
+    }
+
+    /**
+     * Update DocumentLink.
+     *
+     * @param documentDto
+     */
+    @Transactional
+    fun updateDocumentLink(
+        documentDto: DocumentDto
+    ): ZReturnDto {
+
+        var isSuccess = true
+        var message = ""
+        val isDuplicateName = wfDocumentLinkRepository.existsByDocumentLinkName(documentDto.documentName, documentDto.documentId)
+        if (isDuplicateName) {
+            isSuccess = false
+            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+        }
+
+        if (isSuccess) {
+            val wfDocumentLinkEntity = wfDocumentLinkRepository.findByDocumentLinkId(documentDto.documentId)
+            wfDocumentLinkEntity.documentName = documentDto.documentName
+            wfDocumentLinkEntity.documentDesc = documentDto.documentDesc
+            wfDocumentLinkEntity.documentStatus = documentDto.documentStatus
+            wfDocumentLinkEntity.documentLinkUrl = documentDto.documentLinkUrl.toString()
+            wfDocumentLinkEntity.documentColor = documentDto.documentColor
+            wfDocumentLinkEntity.documentIcon = documentDto.documentIcon
+            wfDocumentLinkEntity.updateUserKey = documentDto.updateUserKey
+            wfDocumentLinkEntity.updateDt = documentDto.updateDt
+        }
+
+        return ZReturnDto(
+            result = isSuccess,
+            message = message
+        )
     }
 
     fun getDocumentListByNumberingId(numberingId: String): List<WfDocumentEntity> {
@@ -325,6 +429,17 @@ class WfDocumentService(
         }
         logger.info("Delete document result. {}", isDel)
         return isDel
+    }
+
+    /**
+     * Delete DocumentLink.
+     *
+     * @param documentId
+     * @return Boolean
+     */
+    @Transactional
+    fun deleteDocumentLink(documentId: String): Boolean {
+        return wfDocumentLinkRepository.deleteByDocumentLinkId(documentId) === 1
     }
 
     /**

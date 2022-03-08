@@ -217,21 +217,21 @@ class ZFormDesigner {
     sortJson(data) {
         if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             data.group.sort((a, b) =>
-                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
             data.group.forEach( (g) => {
                 this.sortJson(g);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             data.row.sort((a, b) =>
-                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
             data.row.forEach( (r) => {
                 this.sortJson(r);
             });
         } else { // row
             data.component.sort((a, b) =>
-                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
         }
     }
@@ -867,7 +867,7 @@ class ZFormDesigner {
 
         // 폐기상태일 경우 저장 불가능
         if (this.isDestory) {
-            zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
+            zAlert.warning(i18n.msg('common.msg.notSaveAfterDestroy'));
             return false;
         }
 

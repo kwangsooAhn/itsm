@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-</head>
 <body>
 <table class="z-table">
     <thead class="z-table-head">
@@ -48,7 +45,7 @@
                     </button>
                 </th:block>
             </td>
-            <td width="10%" class="align-center" th:text="#{${form.status}}" th:title="${form.status}"></td>
+            <td width="10%" class="align-center" th:text="#{${form.status}}" th:title="#{${form.status}}"></td>
             <td width="28%" class="align-left" th:text="${form.desc}" th:title="${form.desc}"></td>
             <td width="10%" class="align-left" th:text="${form.createUserName}" th:title="${form.createUserName}"></td>
             <td width="12%" class="align-left date-time" th:text="${form.createDt}" th:title="${form.createDt}"></td>

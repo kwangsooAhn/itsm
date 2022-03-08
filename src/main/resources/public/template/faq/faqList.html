@@ -19,7 +19,7 @@
                 <td style="width:80%;" class="align-left underline">
                     <a sec:authorize="hasAuthority('portal.manage')" th:text="${faq.faqTitle}"
                        th:href="@{/faqs/{faqId}/edit(faqId=${faq.faqId})}" th:title="${faq.faqTitle}"></a>
-                    <a sec:authorize="hasAuthority('general')" th:text="${faq.faqTitle}"
+                    <a sec:authorize="!hasAuthority('portal.manage')" th:text="${faq.faqTitle}"
                        th:href="@{/faqs/{faqId}/view(faqId=${faq.faqId})}" th:title="${faq.faqTitle}"></a>
                 </td>
             </tr>

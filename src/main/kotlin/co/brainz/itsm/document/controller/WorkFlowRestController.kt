@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.document.controller
 
+import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
@@ -30,8 +31,18 @@ class WorkFlowRestController(
      * @param documentDto
      * */
     @PostMapping("")
-    fun workFlowDocument(@RequestBody documentDto: DocumentDto): String? {
+    fun workFlowDocument(@RequestBody documentDto: DocumentDto): ZReturnDto {
         return documentService.createDocument(documentDto)
+    }
+
+    /**
+     * 업무흐름링크 등록.
+     *
+     * @param documentDto
+     * */
+    @PostMapping("/workflowLink")
+    fun workFlowLink(@RequestBody documentDto: DocumentDto): ZReturnDto {
+        return documentService.createDocumentLink(documentDto)
     }
 
     /**
@@ -42,6 +53,16 @@ class WorkFlowRestController(
     @DeleteMapping("/{documentId}")
     fun deleteWorkFlow(@PathVariable documentId: String): Boolean {
         return documentService.deleteDocument(documentId)
+    }
+
+    /**
+     * 업무흐름링크 삭제
+     *
+     * @param documentId
+     * */
+    @DeleteMapping("/workflowLink/{documentId}")
+    fun deleteWorkFlowLink(@PathVariable documentId: String): Boolean {
+        return documentService.deleteDocumentLink(documentId)
     }
 
     /**
@@ -65,10 +86,24 @@ class WorkFlowRestController(
         @PathVariable documentId: String,
         @RequestBody documentDto: DocumentDto,
         @RequestParam(value = "isDeleteData", defaultValue = "false") isDeleteData: String
-    ): String? {
+    ): ZReturnDto {
         val params = LinkedHashMap<String, Any>()
         params["isDeleteData"] = isDeleteData
         return documentService.updateDocument(documentDto, params)
+    }
+
+    /**
+     * 신청서링크 수정
+     *
+     * @param documentId
+     * @param String
+     * */
+    @PutMapping("/workflowLink/{documentId}")
+    fun updateWorkFlowLink(
+        @PathVariable documentId: String,
+        @RequestBody documentDto: DocumentDto
+    ): ZReturnDto {
+        return documentService.updateDocumentLink(documentDto)
     }
 
     /**

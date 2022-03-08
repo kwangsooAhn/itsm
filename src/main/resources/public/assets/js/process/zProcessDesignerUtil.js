@@ -994,7 +994,7 @@ function validationCheck() {
     let commonStartId = '';
     // 발행, 사용 상태일 경우, 저장이 불가능하다.
     if (deployableStatus.includes(zProcessDesigner.initialStatus)) {
-        zAlert.warning(i18n.msg('common.msg.onlySaveInEdit'));
+        zAlert.warning(i18n.msg('common.msg.notSaveAfterPublish'));
         return false;
     }
     if (zProcessDesigner.isView) return false;

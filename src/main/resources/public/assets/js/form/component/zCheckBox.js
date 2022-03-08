@@ -62,11 +62,13 @@ export const checkBoxMixin = {
                 this.UIElement.UIComponent.UIElement['UILabel' + i].addUIClass('readonly');
                 this.UIElement.UIComponent.UIElement['UILabel' + i].UICheckbox.addUIClass('readonly');
             }
+            // 필수값 표시가 된 대상에 대해 Required off 처리한다.
+            this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
         }
 
         if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
-            this.displayType !== FORM.DISPLAY_TYPE.HIDDEN &&
-            this.value === '') {
+            this.displayType === FORM.DISPLAY_TYPE.EDITABLE && this.value === '') {
             let defaultList = [];
             for (let i = 0; i < this.element.options.length; i++) {
                 let checkedYn = (this.element.options[i].checked || false);
