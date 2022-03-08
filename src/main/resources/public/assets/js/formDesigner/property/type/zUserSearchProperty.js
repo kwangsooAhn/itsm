@@ -20,25 +20,20 @@ const propertyExtends = {
     ]
 };
 
-const selectedTargetUserList = []; // 기존에 선택된 사용자 목록
-
 export default class ZUserSearchProperty extends ZProperty {
     constructor(key, name, value, isAlwaysEditable) {
         super(key, name, 'userSearchProperty', value, isAlwaysEditable);
-
-        // 선택된 사용자 검색 조건
-        // this.options = propertyExtends.options;
         this.selectOptions = propertyExtends.selectOptions;
+        this.defaultValue = (value === '') ? value : JSON.parse(value);
+        this.defaultCriteria = this.defaultValue.targetCriteria || this.selectOptions[0].value;
     }
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
         // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우)
         this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
-        const defaultCriteria = this.value ? this.value : this.selectOptions[0].value;
 
-        this.UIElement = new UIDiv().setUIClass('property')
-            .setUIProperty('--data-column', this.columnWidth);
+        this.UIElement = new UIDiv().setUIClass('property').setUIProperty('--data-column', this.columnWidth);
 
         // 조회 대상 기준
         this.UIElement.UILabel = this.makeLabelProperty();
@@ -48,7 +43,7 @@ export default class ZUserSearchProperty extends ZProperty {
             .setUIId('userSearch')
             .setUIAttribute('name', this.key)
             .setUIOptions(JSON.parse(JSON.stringify(this.selectOptions)))
-            .setUIValue(defaultCriteria)
+            .setUIValue(this.defaultCriteria)
             .setUIAttribute('data-value', 'userSearch')
             .onUIChange(this.updateSearchCriteria.bind(this));
         this.UIElement.addUI(this.UIElement.UISelect);
@@ -57,8 +52,6 @@ export default class ZUserSearchProperty extends ZProperty {
             this.UIElement.UISelect.addUIClass('readonly');
         }
 
-        // 조회대상
-        // 조회대상 - 그룹
         this.UIElement.UIGroup = new UIDiv().setUIClass('search-type vertical mt-3');
         this.UIElement.addUI(this.UIElement.UIGroup);
         return this.UIElement;
@@ -71,60 +64,65 @@ export default class ZUserSearchProperty extends ZProperty {
 
     // 검색조건 변경 시, 하위항목을 업데이트한다.
     updateSearchCriteria(e) {
-        const searchTargetCriteria = typeof e === 'object' ? e.target.value : e;
-        const searchTargetGroup = this.UIElement.UIGroup;
-        searchTargetGroup.clearUI();
-        switch (searchTargetCriteria) {
+        // 검색조건 변경 시, 기존 조건 초기화
+        const targetCriteria = typeof e === 'object' ? e.target.value : e;
+        const targetGroup = this.UIElement.UIGroup;
+        targetGroup.clearUI();
+
+        // 검색조건 세부항목
+        switch (targetCriteria) {
             // 부서별 조회
             case 'organization':
-                // input + button
-                searchTargetGroup.UILabel = this.makeLabelProperty('form.properties.element.searchTarget');
-                searchTargetGroup.addUI(searchTargetGroup.UILabel);
-                searchTargetGroup.UIInputButton = new UIDiv().setUIClass('flex-row z-input-button');
-                searchTargetGroup.addUI(searchTargetGroup.UIInputButton);
-                const organizationId = '';
-                const organizationName = '';
-                searchTargetGroup.UIInputButton.UIInput = new UIInput()
+                targetGroup.UILabel = this.makeLabelProperty('form.properties.element.searchTarget');
+                targetGroup.addUI(targetGroup.UILabel);
+                targetGroup.UIInputButton = new UIDiv().setUIClass('flex-row z-input-button');
+                targetGroup.addUI(targetGroup.UIInputButton);
+                targetGroup.UIInputButton.UIInput = new UIInput()
                     .setUIReadOnly(true)
                     .setUIId('searchTarget')
-                    .setUIAttribute('data-value', organizationId)
-                    .setUIValue(organizationName)
+                    .setUIValue('')
+                    .setUIAttribute('data-validation-required', 'true')
                     .onUIChange(this.updateProperty.bind(this));
-                searchTargetGroup.UIInputButton.addUI(searchTargetGroup.UIInputButton.UIInput);
+                if (targetCriteria === this.defaultCriteria && this.defaultValue.searchKey) {
+                    targetGroup.UIInputButton.UIInput
+                        .setUIValue(this.defaultValue.searchKey[0].value)
+                        .setUIAttribute('data-value', this.defaultValue.searchKey[0].id || '');
+                }
+                targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIInput);
                 // small icon button
-                searchTargetGroup.UIInputButton.UIIconButton = new UIButton()
+                targetGroup.UIInputButton.UIIconButton = new UIButton()
                     .setUIClass('z-button-icon-sm')
                     .setUIAttribute('tabindex', '-1')
                     .onUIClick(this.clearText.bind(this));
-                searchTargetGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
+                targetGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
                     .setUIClass('z-icon')
                     .addUIClass('i-remove');
-                searchTargetGroup.UIInputButton.UIIconButton.addUI(searchTargetGroup.UIInputButton.UIIconButton.UIIcon);
-                searchTargetGroup.UIInputButton.addUI(searchTargetGroup.UIInputButton.UIIconButton);
+                targetGroup.UIInputButton.UIIconButton.addUI(targetGroup.UIInputButton.UIIconButton.UIIcon);
+                targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIIconButton);
                 // button
-                searchTargetGroup.UIInputButton.UIButton = new UIButton()
+                targetGroup.UIInputButton.UIButton = new UIButton()
                     .setUIClass('z-button-icon')
                     .addUIClass('z-button-code')
                     // .setUIAttribute('data-value', '')
                     .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
                     .onUIClick(this.openOrganizationData.bind(this));
-                searchTargetGroup.UIInputButton.addUI(searchTargetGroup.UIInputButton.UIButton);
+                targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIButton);
                 break;
             // 대상목록 지정
             case 'custom':
-                searchTargetGroup.UILabel = this.makeLabelProperty('form.properties.userList');
-                searchTargetGroup.UILabel.domElement.firstChild.classList.add('pt-2');
+                targetGroup.UILabel = this.makeLabelProperty('form.properties.userList');
+                targetGroup.UILabel.domElement.firstChild.classList.add('pt-2');
                 // 사용자 목록 추가 버튼
-                searchTargetGroup.UIButton = new UIButton()
+                targetGroup.UIButton = new UIButton()
                     .setUIClass('z-button-icon')
                     .addUIClass('extra')
                     .addUIClass('float-right')
                     .setUIDisabled(!this.isEditable)
                     // 사용자 검색 모달
                     .onUIClick(this.openUserListModal.bind(this));
-                searchTargetGroup.UIButton.addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'));
-                searchTargetGroup.UILabel.addUI(searchTargetGroup.UIButton);
-                searchTargetGroup.addUI(searchTargetGroup.UILabel);
+                targetGroup.UIButton.addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'));
+                targetGroup.UILabel.addUI(targetGroup.UIButton);
+                targetGroup.addUI(targetGroup.UILabel);
 
                 // 사용자 목록
                 const userTable = new UITable().setUIClass('z-option-table');
@@ -137,17 +135,23 @@ export default class ZUserSearchProperty extends ZProperty {
                 header.addUICell(nameTD);
                 header.addUICell(removeTD);
 
-                searchTargetGroup.userTable = userTable;
-                searchTargetGroup.addUI(searchTargetGroup.userTable);
+                targetGroup.userTable = userTable;
+                targetGroup.addUI(targetGroup.userTable);
 
-                // todo : 데이터가 없는 경우
-                this.setEmptyTable(this.UIElement.UIGroup.userTable);
+                // 사용자 목록 추가
+               if (targetCriteria === this.defaultCriteria && this.defaultValue.searchKey) {
+                    this.addRow(this.defaultValue.searchKey);
+                } else {
+                    this.setEmptyTable(this.UIElement.UIGroup.userTable);
+                }
                 break;
-        }
+            }
+
+        this.updateProperty.call(this, e);
     }
 
     // 부서별 조회 tree
-    openOrganizationData() {
+    openOrganizationData(e) {
         const selectedValue = this.UIElement.UIGroup.UIInputButton.UIInput.getUIAttribute('data-value');
         tree.load({
             view: 'modal',
@@ -163,12 +167,21 @@ export default class ZUserSearchProperty extends ZProperty {
             callbackFunc: (response) => {
                 this.UIElement.UIGroup.UIInputButton.UIInput.setUIValue(response.textContent);
                 this.UIElement.UIGroup.UIInputButton.UIInput.setUIAttribute('data-value', response.id);
-                this.updateProperty.call(this);
+
+                this.updateProperty.call(this, e);
             }
         });
     }
 
-    // 사용자 검색 modal
+    // 조회대상 삭제
+    clearText(e) {
+        this.UIElement.UIGroup.UIInputButton.UIInput.setUIValue('');
+        this.UIElement.UIGroup.UIInputButton.UIInput.setUIAttribute('data-value', '');
+
+        this.updateProperty.call(this, e);
+    }
+
+    // 대상 목록 지정 - 사용자 검색 modal
     openUserListModal() {
         const targetUserModal = new modal({
             title: i18n.msg('form.properties.userList'),
@@ -190,9 +203,6 @@ export default class ZUserSearchProperty extends ZProperty {
                         zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
                         return false;
                     } else {
-                        // selectedTargetUser.forEach((target) => {
-                        //     this.addRow(target.id, target.value);
-                        // });
                         this.addRow(selectedTargetUser);
                     }
                     modal.hide();
@@ -240,23 +250,11 @@ export default class ZUserSearchProperty extends ZProperty {
                     }
                 }
             });
+
         });
     }
 
-    // 속성 변경시 발생하는 이벤트 핸들러
-    updateProperty(elem) {
-
-
-    }
-
-    // 조회대상 삭제
-    clearText(e) {
-        this.UIElement.UIGroup.UIInputButton.UIInput.setUIValue('');
-        this.UIElement.UIGroup.UIInputButton.UIInput.setUIAttribute('data-value', '');
-        this.updateProperty.call(this, e);
-    }
-
-    // 옵션 추가 버튼 클릭 이벤트
+    // 대상 목록 추가
     addRow(targetList) {
         // 테이블 초기화
         const userListTable = this.UIElement.UIGroup.userTable;
@@ -270,7 +268,10 @@ export default class ZUserSearchProperty extends ZProperty {
 
         targetList.forEach((target) => {
             const optionRow = new UIRow(userListTable).setUIClass('z-option-table-row');
-            const addedNameTD = new UICell(optionRow).setUITextContent(target.value).setUIAttribute('data-value', target.id);
+            const addedNameTD = new UICell(optionRow)
+                .setUIId('targetUser')
+                .setUITextContent(target.value)
+                .setUIAttribute('data-value', target.id);
             const addedRemoveTD = new UICell(optionRow).setUICSSText('width: 15%;');
             addedRemoveTD.removeButton = new UIButton()
                 .setUIClass('z-button-icon')
@@ -282,11 +283,11 @@ export default class ZUserSearchProperty extends ZProperty {
             optionRow.addUICell(addedRemoveTD);
             userListTable.addUIRow(optionRow);
         });
-        // todo: 선택된 사용자 정보 저장
 
+        this.updateProperty.call(this);
     }
 
-    // 옵션 삭제 버튼 클릭 이벤트
+    // 대상 목록 row 삭제
     removeRow(e) {
         e.stopPropagation();
         e.preventDefault();
@@ -298,17 +299,54 @@ export default class ZUserSearchProperty extends ZProperty {
         if (this.UIElement.UIGroup.userTable.rows.length === 1) {
             this.setEmptyTable(this.UIElement.UIGroup.userTable);
         }
-        // todo: 삭제된 사용자 정보 저장
 
+        this.updateProperty.call(this);
     }
 
     // 데이터가 없을 때
-    setEmptyTable(targetTable) {
-        const row = new UIRow(targetTable).setUIClass('no-data-found-list');
+    setEmptyTable(target) {
+        const row = new UIRow(target).setUIClass('no-data-found-list');
         const td = new UICell(row).setUIClass('align-center')
-            .setColspan(targetTable.rows[0].cells.length)
+            .setColspan(target.rows[0].cells.length)
             .setUITextContent(i18n.msg('form.msg.noOption'));
         row.addUICell(td);
-        targetTable.addUIRow(row);
+        target.addUIRow(row);
+
+        this.updateProperty.call(this);
+    }
+
+    // 속성 변경시 발생하는 이벤트 핸들러
+    updateProperty(e) {
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
+
+        const curCriteria = this.UIElement.UISelect.domElement.value;
+        let curTarget = [];
+        switch (curCriteria) {
+            case 'organization':
+                curTarget.push({
+                    value: this.UIElement.UIGroup.UIInputButton?.UIInput.getUIValue(),
+                    id: this.UIElement.UIGroup.UIInputButton?.UIInput.getUIAttribute('data-value') || '',
+                });
+                break;
+            case 'custom':
+                this.UIElement.UIGroup.userTable?.rows.forEach((row) => {
+                    const dataCell = row.cells[0].domElement;
+                    if (row.domElement.rowIndex > 0 && dataCell.hasAttribute('data-value')) {
+                        curTarget.push({
+                            value: dataCell.textContent,
+                            id: dataCell.getAttribute('data-value'),
+                        });
+                    }
+                });
+                break;
+        }
+
+        const dataObj = {};
+        dataObj['targetCriteria'] = curCriteria;
+        dataObj['searchKey'] = curTarget;
+
+        this.panel.update.call(this.panel, this.key, JSON.stringify(dataObj));
     }
 }

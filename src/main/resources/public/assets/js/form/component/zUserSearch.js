@@ -16,8 +16,8 @@ import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
-import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UIInput } from '../../lib/zUI.js';
+import { zValidation } from "../../lib/zValidation.js";
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -25,7 +25,7 @@ import { UIDiv, UIInput } from '../../lib/zUI.js';
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        defaultValueUserSearch: '' // 사용자 검색 기본값 (폼 디자이너에서 설정한 값)
+        defaultValueUserSearch: ''
     },
     validation: {
         required: false // 필수값 여부
@@ -40,7 +40,7 @@ export const userSearchMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        this._value = this.data.value ?  this.data.value : '';
+        this._value = this.data.value || '';
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -51,6 +51,7 @@ export const userSearchMixin = {
             .setUIId('userSearch' + this.id)
             .setUIValue(this._value)
             .setUIRequired(this.validationRequired)
+            .setUIAttribute('data-user-search', this.elementUserSearchTarget)
             .setUIAttribute('data-validation-required', this.validationRequired)
             .onUIChange(this.updateValue.bind(this))
             .onUIClick(this.openUserSearchModal.bind(this));
@@ -61,7 +62,6 @@ export const userSearchMixin = {
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
-
     },
     // set, get
     set elementColumnWidth(width) {
@@ -72,12 +72,11 @@ export const userSearchMixin = {
     get elementColumnWidth() {
         return this._element.columnWidth;
     },
-    set elementDefaultValueUserSearch(value) {
+    set elementUserSearchTarget(value) {
         this._element.defaultValueUserSearch = value;
         this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-user-search', value);
-        this.setDefaultValue(this.UIElement.UIComponent.UIElement.UIInput);
     },
-    get elementDefaultValueUserSearch() {
+    get elementUserSearchTarget() {
         return this._element.defaultValueUserSearch;
     },
     set validation(validation) {
@@ -104,6 +103,7 @@ export const userSearchMixin = {
         return this._value;
     },
     // input box 값 변경시 이벤트 핸들러
+    // todo: #12491 [사용자검색용 컴포넌트] 신청서 / 처리할 문서 동작 구현
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
@@ -124,14 +124,6 @@ export const userSearchMixin = {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    // const selectedSubUser = document.querySelector('input[type=radio]:checked');
-                    // if (selectedSubUser === null) {
-                    //     zAlert.warning(i18n.msg('user.msg.enterSubstituteUser'));
-                    //     return false;
-                    // } else {
-                    //     document.getElementById('substituteUserKey').value = selectedSubUser.id;
-                    //     document.getElementById('substituteUser').value = selectedSubUser.value;
-                    // }
                     modal.hide();
                 }
             }, {
@@ -146,11 +138,6 @@ export const userSearchMixin = {
                 closable: false,
             },
             onCreate: () => {
-                // 선택된 조건의 사용자 목록 가져오기
-                // document.getElementById('search').addEventListener('keyup', (e) => {
-                //     this.getSubUserList(e.target.value, false);
-                // });
-                // this.getSubUserList(document.getElementById('search').value, true);
             }
         });
 
@@ -159,8 +146,8 @@ export const userSearchMixin = {
     },
     // 세부 속성 조회
     getProperty() {
-        const userSearchProperty = new ZUserSearchProperty('elementDefaultValueUserSearch', 'element.searchTargetCriteria',
-            this.elementDefaultValueUserSearch);
+        const userSearchProperty = new ZUserSearchProperty('elementUserSearchTarget', 'element.searchTargetCriteria',
+            this.elementUserSearchTarget);
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
