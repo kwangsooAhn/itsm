@@ -15,7 +15,7 @@
               rsm.z_totsize AS sms_mem_z_totsize,      <!-- MEM SIZE -->
               rsd.z_totsize AS sms_disk_z_totsize      <!-- DISK SIZE -->
               FROM   rt_sms_list rsl
-              left outer join (SELECT z_listid, z_descript || ' x ' || sum(z_threads) AS z_descript FROM rt_sms_moninvcpu group by z_descript, z_listid) rsc ON rsl.z_myid = rsc.z_listid
+              left outer join (SELECT z_listid, z_descript || ' x ' || count(z_threads) AS z_descript FROM rt_sms_moninvcpu group by z_descript, z_listid) rsc ON rsl.z_myid = rsc.z_listid
               left outer join rt_sms_moninvmem rsm ON rsl.z_myid = rsm.z_listid
               left outer join rt_sms_moninvdisk rsd ON rsl.z_myid = rsd.z_listid
               GROUP BY (rsl.z_myid, rsc.z_descript, rsm.z_totsize, rsd.z_totsize)
