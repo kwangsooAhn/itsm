@@ -39,7 +39,6 @@ export default class ZPaging {
         document.getElementById('spanTotalCountWithoutCondition').innerText =
             i18n.msg(
                 'common.label.totalCountWithoutCondition',
-                i18n.msg(document.getElementById('orderType').value),
                 document.getElementById('totalCountWithoutCondition').value
             );
 
@@ -173,6 +172,9 @@ export default class ZPaging {
         const orderColNameElem = document.getElementById('orderColName');
         const orderDirElem = document.getElementById('orderDir');
         if (!orderColNameElem || !orderDirElem || orderColNameElem.value === '') { return false; }
+
+        const sortIcon = document.querySelector('.grid__cell[data-grid-column="createDt"]');
+        sortIcon.children[1].remove();
 
         const sortColElem = document.querySelector('.grid__cell[data-grid-column="' + orderColNameElem.value +'"]');
         if (sortColElem) {

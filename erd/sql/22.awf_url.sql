@@ -233,6 +233,8 @@ insert into awf_url values ('/rest/organizations/{id}', 'get', '조직 상세 �
 insert into awf_url values ('/rest/organizations/{id}', 'put', '조직 수정', 'TRUE');
 insert into awf_url values ('/rest/organizations/{id}', 'delete', '조직 삭제', 'TRUE');
 insert into awf_url values ('/rest/organizations', 'post', '조직 등록', 'TRUE');
+insert into awf_url values ('/rest/plugins', 'get', '플러그인 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/plugins/{id}', 'post', '플러그인 조회', 'TRUE');
 insert into awf_url values ('/rest/portals', 'get', '포탈 조회 (페이징)', 'FALSE');
 insert into awf_url values ('/rest/portals/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filenameextensions', 'get', '포탈 첨부파일 확장자 조회', 'FALSE');

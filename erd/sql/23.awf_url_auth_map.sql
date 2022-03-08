@@ -222,6 +222,8 @@ insert into awf_url_auth_map values ('/rest/organizations/{id}', 'get', 'workflo
 insert into awf_url_auth_map values ('/rest/organizations/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/organizations/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/organizations', 'post', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/plugins', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/plugins/{id}', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/process/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'put', 'workflow.manage');

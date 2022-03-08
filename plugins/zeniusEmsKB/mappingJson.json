@@ -1,0 +1,145 @@
+[
+  {
+    "query-id": "getSmsList",
+    "ci-type": "SERVER",
+    "ci-no-prefix": "Zenius_SMS_",
+    "ci-mapping-id-prefix": "sms_",
+    "ci-mapping-id": "z_myid",
+    "ci": [
+      {
+        "ci-column": "name",
+        "query-column": "z_myhost"
+      },
+      {
+        "ci-column": "desc",
+        "query-column": "z_mydesc"
+      }
+    ],
+    "attribute": [
+      {
+        "type": "inputbox",
+        "mapping-id": "host",
+        "query-column": "z_myhost"
+      },
+      {
+        "type": "dropdown",
+        "mapping-id": "location",
+        "query-column": "z_mylocate"
+      },
+      {
+        "type": "dropdown",
+        "mapping-id": "mfr",
+        "query-column": "z_svrmanufact"
+      },
+      {
+        "type": "dropdown",
+        "mapping-id": "os",
+        "query-column": "z_myos"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "model",
+        "query-column": "z_svrmodel"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "serial",
+        "query-column": "z_svrserial"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "ip",
+        "query-column": "z_myip"
+      },
+      {
+        "type": "date",
+        "mapping-id": "implDate",
+        "query-column": "z_regdt"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "cpu",
+        "query-column": "sms_cpu_z_descript"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "mem",
+        "query-column": "sms_mem_z_totsize"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "disk",
+        "query-column": "sms_disk_z_totsize"
+      }
+    ]
+  },
+  {
+    "query-id": "getNmsList",
+    "ci-type": "NETWORK",
+    "ci-no-prefix": "Zenius_NMS_",
+    "ci-mapping-id-prefix": "nms_",
+    "ci-mapping-id": "z_myid",
+    "ci": [
+      {
+        "ci-column": "name",
+        "query-column": "z_myhost"
+      },
+      {
+        "ci-column": "desc",
+        "query-column": "z_mydesc"
+      }
+    ],
+    "attribute": [
+      {
+        "type": "inputbox",
+        "mapping-id": "host",
+        "query-column": "z_myhost"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "address",
+        "query-column": "z_contact"
+      },
+      {
+        "type": "dropdown",
+        "mapping-id": "location",
+        "query-column": "z_myloc"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "model",
+        "query-column": "z_mymodel"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "serial",
+        "query-column": "z_serial"
+      },
+      {
+        "type": "dropdown",
+        "mapping-id": "os",
+        "query-column": "z_os"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "ip",
+        "query-column": "z_myip"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "totalInterface",
+        "query-column": "z_totifnum"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "usageInterface",
+        "query-column": "z_actifnum"
+      },
+      {
+        "type": "inputbox",
+        "mapping-id": "snmpVer",
+        "query-column": "z_version"
+      }
+    ]
+  }
+]

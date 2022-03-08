@@ -536,10 +536,8 @@ class ZFormTokenTab {
             `</button>` +
             `</div>` +
             `<div class="z-document-row-topic">`;
-        if (zValidation.isEmpty(instance.topics)) {
-            instance.topics?.forEach((topic) => {
-                htmlString += `<h6 class="text-ellipsis">` + topic + `</h6>`;
-            });
+        if (!zValidation.isEmpty(instance.topics)) {
+                htmlString += `<br><h6 class="text-ellipsis">` + instance.topics[0] + `</h6>`;
         }
         htmlString +=
             `</div>` +

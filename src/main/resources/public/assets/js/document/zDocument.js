@@ -248,7 +248,26 @@ class ZDocument {
                     break outer;
                 }
             }
-        }
+
+            // 6. plugin 유효성 검증 체크
+            const requiredPlugInElements =
+                parentElements[i].querySelectorAll('.plugIn-check[data-validation-required="true"]:not(.off)');
+            for (let p = 0; p < requiredPlugInElements.length; p++) {
+                const requiredElement = requiredPlugInElements[p];
+                // 미검증
+                if (requiredElement.classList.contains('primary')) {
+                    isValid = false;
+                    zAlert.warning(i18n.msg('form.msg.checkPlugInButton', requiredElement.innerText));
+                    break outer;
+                }
+                // 검증 실패
+                if (requiredElement.classList.contains('error')) {
+                    isValid = false;
+                    zAlert.warning(i18n.msg('form.msg.failedPlugInButton'));
+                    break outer;
+                }
+            }
+       }
         return isValid;
     }
 
@@ -259,16 +278,13 @@ class ZDocument {
         // 유효성 체크 (최대 글자 수)
         const MaxLengthActionType = ['save', 'progress'];
         const isMaxLengthCheck = MaxLengthActionType.includes(actionType);
-
-        if (isMaxLengthCheck && zValidation.hasDOMElementError(this.domElement)) { return false; }
-
         // 아래 상태를 가질 경우 유효성 체크를 진행하지 않음 (필수값)
         const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw', 'review'];
-
         const isActionTypeCheck = validationUncheckActionType.includes(actionType);
-        if (!isActionTypeCheck && !this.saveValidationCheck()) {
-            return false;
-        }
+
+        if (!isActionTypeCheck && isMaxLengthCheck && zValidation.hasDOMElementError(this.domElement)) { return false; }
+
+        if (!isActionTypeCheck && !this.saveValidationCheck()) { return false; }
 
         const saveData = {
             'documentId': this.data.documentId,

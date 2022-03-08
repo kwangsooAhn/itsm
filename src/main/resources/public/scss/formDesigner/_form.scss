@@ -355,6 +355,9 @@
             padding-right: 2.25rem;
           }
         }
+
+        .z-input:read-only:not(:disabled):not(.tagify),
+        .z-select .z-select-box.readonly { border-bottom: none; }
       }
       // 데이터 없음
       .no-data-found-list {
@@ -371,6 +374,10 @@
       height: 2.5rem;
       line-height: 2rem;
       padding-top: 0.375rem; // 6px
+
+      .plugIn-check {
+        &.off { display: none; }
+      }
     }
 
     // custom code 컴포넌트

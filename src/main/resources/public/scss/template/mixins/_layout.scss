@@ -67,6 +67,7 @@
     &__body {
       overflow: hidden !important;
       display: flex;
+      flex-direction: column;
       .grid__row {
         color: $grid-body-color;
         @include border(0.0625rem, solid, $grid-border-color, bottom);
