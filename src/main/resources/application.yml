@@ -129,6 +129,9 @@ jasypt.encryptor.bean: jasyptStringEncryptor
 sso.enabled: false
 sso.vendor: KSign
 
+# Plugin directory
+plugins.dir: C:\\plugins
+
 ---
 spring:
   profiles: deploy

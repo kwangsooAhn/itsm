@@ -13,6 +13,8 @@
 import ZColumnProperty, { propertyExtends } from '../../formDesigner/property/type/zColumnProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
@@ -20,6 +22,7 @@ import { FORM, UNIT } from '../../lib/zConstants.js';
 import { ZSession } from '../../lib/zSession.js';
 import { UIButton, UICell, UIDiv, UIInput, UIRow, UISelect, UISpan, UITable } from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
+import { zDocument } from '../../document/zDocument.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -32,6 +35,12 @@ const DEFAULT_COMPONENT_PROPERTY = {
             ...propertyExtends.input
         }]
     },
+    plugin: {
+        useYn: false,
+        buttonText: 'TEXT',
+        required: false, // 필수값 여부
+        scriptType: ''
+    },
     validation: {
         required: false // 필수값 여부
     }
@@ -40,17 +49,18 @@ Object.freeze(DEFAULT_COMPONENT_PROPERTY);
 /**
  * 불필요한 key Event를 막기 위한 ascii key code
  */
-const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, ,92, 93,
+const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, 92, 93,
     112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 144, 145];
 
 export const dynamicRowTableMixin = {
 
     // 전달 받은 데이터와 기본 property merge
-    initProperty() {
+    initProperty: function () {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
+        this._plugin = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.plugin, this.data.plugin);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        // 데이터 : "value" :[['1행 1열', '1행 2열', '1행 3열'], ['2행 1열', '2행 2열', '2행 2열']]
+        // 데이터 : "value" : [['제목', '제목', '제목'], ['1행 1열', '1행 2열', '1행 3열'], ['2행 1열', '2행 2열', '2행 2열']]
         this._value = this.data.value || '';
         // 데이터 초기화
         if (!zValidation.isEmpty(this._value)) {
@@ -73,10 +83,23 @@ export const dynamicRowTableMixin = {
 
         this.makeTable(element.UITable);
 
-        // 추가 버튼
         element.UIDiv = new UIDiv().setUIClass('z-dr-table-button-group');
         element.addUI(element.UIDiv);
 
+        // 플러그인 검증 버튼 생성
+        element.UIDiv.plugInUIButton = new UIButton()
+            .addUIClass('plugIn-check')
+            .addUIClass('primary')
+            .addUIClass('mr-2')
+            .addUIClass(this.pluginUseYn ? 'on' : 'off')
+            .setUIAttribute('data-validation-required', this.pluginRequired)
+            .setUIAttribute('data-validation-type', this.pluginScriptType)
+            .onUIClick(this.pluginCheck.bind(this));
+        element.UIDiv.plugInUIButton.UIText = new UISpan().setUITextContent(this.pluginButtonText);
+        element.UIDiv.plugInUIButton.addUI(element.UIDiv.plugInUIButton.UIText);
+        element.UIDiv.addUI(element.UIDiv.plugInUIButton);
+
+        // 추가 버튼
         element.UIDiv.addUIButton = new UIButton()
             .setUIClass('z-button-icon')
             .addUIClass('extra')
@@ -91,6 +114,7 @@ export const dynamicRowTableMixin = {
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.setUIDisabled(true);
+            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.setUIDisabled(true);
             // 모든 cell을 readonly 처리하고 버튼은 disabled 처리한다.
             const drTable = this.UIElement.UIComponent.UIElement.UITable.domElement;
             for (const row of drTable.rows) {
@@ -136,6 +160,44 @@ export const dynamicRowTableMixin = {
     },
     get elementColumns() {
         return this.changeDateTimeFormat(this._element.columns, FORM.DATE_TYPE.FORMAT.USERFORMAT);
+    },
+    set plugin(plugin) {
+        this._plugin = plugin;
+    },
+    get plugin() {
+        return this._plugin;
+    },
+    set pluginUseYn(boolean) {
+        this._plugin.useYn = boolean;
+        if (boolean) {
+            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('off').addUIClass('on');
+        } else {
+            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('on').addUIClass('off');
+        }
+    },
+    get pluginUseYn() {
+        return this._plugin.useYn;
+    },
+    set pluginButtonText(text) {
+        this._plugin.buttonText = text;
+        this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.UIText.setUITextContent(text);
+    },
+    get pluginButtonText() {
+        return this._plugin.buttonText;
+    },
+    set pluginRequired(boolean) {
+        this._plugin.required = boolean;
+        this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.setUIAttribute('data-validation-required', boolean);
+    },
+    get pluginRequired() {
+        return this._plugin.required;
+    },
+    set pluginScriptType(type) {
+        this._plugin.scriptType = type;
+        this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.setUIAttribute('data-validation-type', type);
+    },
+    get pluginScriptType() {
+        return this._plugin.scriptType;
     },
     set validation(validation) {
         this._validation = validation;
@@ -186,9 +248,11 @@ export const dynamicRowTableMixin = {
             .setUICSSText('width:35' + UNIT.PX);
         row.addUICell(td);
 
-        if (Array.isArray(this.value) && this.value.length > 0) {
-            this.value.forEach((rowData) => {
-                this.addTableRow(table, rowData);
+        if (Array.isArray(this.value) && this.value.length > 1) {
+            this.value.forEach((rowData, index) => {
+                if (index > 0) {
+                    this.addTableRow(table, rowData);
+                }
             });
         } else {
             this.setEmptyTable(table);
@@ -211,7 +275,14 @@ export const dynamicRowTableMixin = {
             targetTable.removeUIRow(targetTable.rows[1]);
         }
         // value가 문자일 경우 배열로 변환
-        if (zValidation.isEmpty(this._value)) { this.value = []; }
+        if (zValidation.isEmpty(this._value)) {
+            this.value = [];
+            const columnHeadData = [];
+            this.elementColumns.forEach((column) => {
+                columnHeadData.push(column.columnName);
+            });
+            this.value.push(columnHeadData);
+        }
         // row 추가
         const row = new UIRow(targetTable).setUIClass('z-dr-table-row');
         // td 추가
@@ -241,7 +312,7 @@ export const dynamicRowTableMixin = {
         });
         // 데이터 추가
         if (zValidation.isEmpty(data)) {
-            this.value[targetTable.rows.length - 1] = columnData;
+            this.value[targetTable.rows.length] = columnData;
         }
         // 삭제 버튼
         const removeButton = new UIButton()
@@ -449,11 +520,11 @@ export const dynamicRowTableMixin = {
         targetTable.removeUIRow(row);
 
         const newValue = JSON.parse(JSON.stringify(this.value));
-        newValue.splice(removeIndex - 1, 1);
+        newValue.splice(removeIndex, 1);
         this.value = newValue;
 
         // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
-        if (Array.isArray(this.value) && this.value.length === 0) {
+        if (Array.isArray(this.value) && this.value.length === 1) {
             this.setEmptyTable(targetTable);
         }
     },
@@ -543,9 +614,7 @@ export const dynamicRowTableMixin = {
             e.target.value;
         const cellElement = (e.target instanceof HTMLSelectElement) ? e.target.parentNode.parentNode :
             e.target.parentNode;
-        const rowIndex = cellElement.parentNode.rowIndex - 1; // 헤더 제외
-        const cellIndex = cellElement.cellIndex;
-        newValue[rowIndex][cellIndex] = changeValue;
+        newValue[cellElement.parentNode.rowIndex][cellElement.cellIndex] = changeValue;
         this.value = newValue;
     },
     updateDateTimeValue(e) {
@@ -553,21 +622,64 @@ export const dynamicRowTableMixin = {
             return false;
         }
         const newValue = JSON.parse(JSON.stringify(this.value));
-        const rowIndex = e.parentNode.parentNode.parentNode.parentNode.rowIndex - 1; // 헤더 제외
+        const rowIndex = e.parentNode.parentNode.parentNode.parentNode.rowIndex;
         const cellIndex = e.parentNode.parentNode.parentNode.cellIndex;
         newValue[rowIndex][cellIndex] = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT,
             e.getAttribute('type').replace('Picker', ''), e.value);
 
         this.value = newValue;
     },
+    // 플러그인 유효성 검증
+    pluginCheck() {
+        if (!Array.isArray(this.value) || this.value.length < 2) {
+            zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'));
+            return false;
+        }
+        // 신청서는 tokenId가 없음
+        const pluginData = {
+            'tokenId': zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : '',
+            'pluginId': this.pluginScriptType,
+            'data': this.value
+        };
+        aliceJs.fetchJson('/rest/plugins/' + this.pluginScriptType, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(pluginData),
+            showProgressbar: true
+        }).then((response) => {
+            // primary > 검증 안됨
+            if (response.data.result) {
+                // success--check > 성공
+                this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton
+                    .removeUIClass('primary').addUIClass('success--check');
+            } else {
+                // error > 실패
+                this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton
+                    .removeUIClass('primary').addUIClass('error');
+            }
+        });
+    },
     // 세부 속성 조회
     getProperty() {
+        const plugInOption = FORM.PLUGIN_LIST.reduce((result, option) => {
+            option.name = option.pluginName;
+            option.value = option.pluginId;
+            result.push(option);
+            return result;
+        }, []);
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('element.columns')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZColumnProperty('elementColumns', '', this.elementColumns)),
+            new ZGroupProperty('plugin.button')
+                .addProperty(new ZSwitchProperty('pluginUseYn', 'plugin.button', this.pluginUseYn))
+                .addProperty(new ZSwitchProperty('pluginRequired', 'validation.required', this.pluginRequired))
+                .addProperty(new ZInputBoxProperty('pluginButtonText', 'element.buttonText', this.pluginButtonText))
+                .addProperty(new ZDropdownProperty('pluginScriptType', 'plugin.scriptType', this.pluginScriptType, plugInOption)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
@@ -584,6 +696,7 @@ export const dynamicRowTableMixin = {
             value: (Array.isArray(this._value) && this._value.length > 0) ? JSON.stringify(this._value) : this._value,
             label: this._label,
             element: this._element,
+            plugin: this._plugin,
             validation: this._validation
         };
     },
@@ -601,7 +714,7 @@ export const dynamicRowTableMixin = {
     setDefaultValue(column) {
         let defaultValue = '${default}';
         switch (column.columnType) {
-            case "input":
+            case 'input':
                 defaultValue = column.columnElement.defaultValueSelect.split('|');
                 if (defaultValue[0] === 'input') {
                     defaultValue = defaultValue[1];
@@ -609,7 +722,7 @@ export const dynamicRowTableMixin = {
                     defaultValue = ZSession.get(defaultValue[1]) || '';
                 }
                 break;
-            case "dropdown":
+            case 'dropdown':
                 for (let i = 0; i < column.columnElement.options.length; i++) {
                     let checkedYn = column.columnElement.options[i].checked || false;
                     if (checkedYn) {
@@ -618,13 +731,13 @@ export const dynamicRowTableMixin = {
                     defaultValue = defaultValue === '${default}' ? '' : defaultValue;
                 }
                 break;
-            case "time":
+            case 'time':
                 defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForTime(column, defaultValue));
                 break;
-            case "date":
+            case 'date':
                 defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDate(column, defaultValue));
                 break;
-            case "dateTime":
+            case 'dateTime':
                 defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
                 break;
             default:

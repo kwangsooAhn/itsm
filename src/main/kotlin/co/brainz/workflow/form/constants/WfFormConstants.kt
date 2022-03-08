@@ -39,7 +39,8 @@ object WfFormConstants {
         ELEMENT("element"),
         VALIDATION("validation"),
         VALIDATE("validate"),
-        DISPLAY("display")
+        DISPLAY("display"),
+        PLUGIN("plugin")
     }
 
     /**

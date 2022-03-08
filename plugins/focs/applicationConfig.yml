@@ -1,0 +1,80 @@
+## Http Method, URL
+domain: http://222.108.117.150:18980
+path: /api/public/v1/application/form
+
+## application-form template
+template:
+  applicationTemplate:
+    seq: 신청서 번호
+    title: 신청서 제목
+    applicantId: 신청자 아이디
+    applicant: 신청자 이름
+    applicantSign: true
+    department: 신청자 부서명
+    phoneNumber: 신청자 전화번호
+    email: 신청자 이메일
+    author: 소유자 이름
+    owners:
+      - id: 신청서 소유자 아이디
+        name: 신청서 소유자 이름
+    rules: FOCS-Rules
+    directors:
+      - id: 신청부서 결재자1 아이디
+        name: 신청부서 결재자1 이름
+        position: 신청부서 결재자1 직책
+        department: 신청부서 결재자1 부서명
+        approved: true
+      - id: 신청부서 결재자2 아이디
+        name: 신청부서 결재자2 이름
+        position: 신청부서 결재자2 직책
+        department: 신청부서 결재자2 부서명
+        approved: true
+    operatorDirectors:
+      - id: 운영부서 결재자1 아이디
+        name: 운영부서 결재자1 이름
+        position: 운영부서 결재자1 직책
+        department: 운영부서 결재자1 부서명
+        approved: true
+      - id: 운영부서 결재자2 아이디
+        name: 운영부서 결재자2 이름
+        position: 운영부서 결재자2 직책
+        department: 운영부서 결재자2 부서명
+        approved: true
+    operator:
+      approved: true
+      id: 담당 운영자 아이디
+      name: 담당 운영자 이름
+    type: NEW
+    referrers: [ ]
+    operatorReferrers: [ ]
+    opinions: [ ]
+  rulesTemplate:
+    key: 1
+    category: securityRule
+    type: CREATE
+    srcName: 출발지명
+    srcIp: 출발지
+    srcPort:
+      - formattedValue: Any
+    destName: 목적지명
+    destIp: 목적지
+    service: 서비스
+    protocol: 서비스 프로토콜
+    destPort: 목적지 포트
+    bound: 정책 방향성
+    startDate: 시작일
+    expirationDate: 만료일
+    reason: 정책 신청사유
+    duplicationResult:
+    complianceResults:
+
+## template 고정 값
+fixedProperty:
+  applicationTemplate:
+    applicantSign: true
+    approved: true
+    type: NEW
+  rulesTemplate:
+    type: CREATE
+    category: securityRule
+    formattedValue: Any

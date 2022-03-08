@@ -36,6 +36,12 @@ class ZFormDesigner {
         }).then((customData) => {
             FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
         });
+
+        aliceJs.fetchJson('/rest/plugins', {
+            method: 'GET'
+        }).then((pluginData) => {
+            FORM.PLUGIN_LIST =  zValidation.isDefined(pluginData.data) ? pluginData.data : [];
+        });
     }
 
     /**
@@ -724,7 +730,6 @@ class ZFormDesigner {
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
         console.debug(saveData);
-
         // 저장
         aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
             method: 'PUT',

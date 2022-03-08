@@ -248,7 +248,26 @@ class ZDocument {
                     break outer;
                 }
             }
-        }
+
+            // 6. plugin 유효성 검증 체크
+            const requiredPlugInElements =
+                parentElements[i].querySelectorAll('.plugIn-check[data-validation-required="true"]:not(.off)');
+            for (let p = 0; p < requiredPlugInElements.length; p++) {
+                const requiredElement = requiredPlugInElements[p];
+                // 미검증
+                if (requiredElement.classList.contains('primary')) {
+                    isValid = false;
+                    zAlert.warning(i18n.msg('form.msg.checkPlugInButton', requiredElement.innerText));
+                    break outer;
+                }
+                // 검증 실패
+                if (requiredElement.classList.contains('error')) {
+                    isValid = false;
+                    zAlert.warning(i18n.msg('form.msg.failedPlugInButton'));
+                    break outer;
+                }
+            }
+       }
         return isValid;
     }
 
