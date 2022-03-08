@@ -166,8 +166,6 @@ export default class ZPaging {
         const curPageLink = document.querySelector('.' + this.options.selectedPage);
         if (curPageLink) {
             curPageLink.click();
-        } else {
-
         }
     }
     // 정렬 아이콘 추가
