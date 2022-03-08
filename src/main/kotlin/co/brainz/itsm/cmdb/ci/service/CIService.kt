@@ -134,11 +134,11 @@ class CIService(
         basic.contents = ciSearchService.getFilterContents(basic)
         // 코드 값을 실제 값으로 변경하는 작업
         basic.contents = ciSearchService.getConvertValue(basic)
+        // 정렬
+        basic.contents = ciSearchService.getOrderContents(basic, ciSearchCondition)
         // 페이징
         val totalCount = basic.contents.size
         basic.contents = ciSearchService.getPaging(basic, ciSearchCondition)
-
-        // TODO: 컬럼 정렬
 
         return CIDynamicReturnDto(
             data = basic,
@@ -147,7 +147,9 @@ class CIService(
                 totalCountWithoutCondition = ciSearchCondition.typeId?.let { ciRepository.countByTypeId(it) } ?: 0,
                 currentPageNum = ciSearchCondition.pageNum,
                 totalPageNum = ceil(totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
-                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code,
+                orderColName = ciSearchCondition.orderColName,
+                orderDir = ciSearchCondition.orderDir
             )
         )
     }

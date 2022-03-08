@@ -19,6 +19,7 @@ import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
@@ -98,19 +99,16 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         if (ciSearchCondition.typeId != null && ciSearchCondition.typeId != CITypeConstants.CI_TYPE_ROOT_ID) {
             query.where(ci.ciTypeEntity.typeId.eq(ciSearchCondition.typeId))
         }
-        query.where(
-            (!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
-                .and(
-                    super.likeIgnoreCase(ci.ciName, ciSearchCondition.searchValue)
-                        ?.or(super.likeIgnoreCase(ci.ciNo, ciSearchCondition.searchValue))
-                        //?.or(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
-                        ?.or(super.likeIgnoreCase(cmdbClass.className, ciSearchCondition.searchValue))
-                        ?.or(super.likeIgnoreCase(ci.ciDesc, ciSearchCondition.searchValue))
-                )
-        )
+        query.where(!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
+        val builder = BooleanBuilder()
+        builder.and(super.likeIgnoreCase(ci.ciName, ciSearchCondition.searchValue))
+        builder.or(super.likeIgnoreCase(ci.ciNo, ciSearchCondition.searchValue))
+        builder.or(super.likeIgnoreCase(cmdbClass.className, ciSearchCondition.searchValue))
+        builder.or(super.likeIgnoreCase(ci.ciDesc, ciSearchCondition.searchValue))
         if (ciSearchCondition.isSearchType) {
-            query.where(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
+            builder.or(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
         }
+        query.where(builder)
         query.orderBy(ci.ciName.asc())
         if (ciSearchCondition.tagArray.isNotEmpty()) {
             query.where(
