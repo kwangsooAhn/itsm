@@ -15,7 +15,7 @@
                 <th th:id="${group.formGroupId}" th:text="${group.formGroupName}"/>
                 <th:block th:each="display : ${group.displayValue}">
                     <td>
-                        <select th:id="${group.formGroupId} + '_' + ${display.elementId}" name="displays" class="col-2">
+                        <select th:id="${group.formGroupId} + '_' + ${display.elementId}" name="displays" class="col-1">
                             <option th:each="displayType :${documentDisplayTypeList}" th:text="${displayType.codeValue}"
                                     th:value="${displayType.code}" th:selected="${displayType.code} == ${display?.display}">
                             </option>
