@@ -1248,7 +1248,6 @@ insert into awf_url values ('/rest/custom-codes', 'put', '커스텀 코드 수�
 insert into awf_url values ('/rest/custom-codes', 'post', '커스텀 코드 등록', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'delete', '커스텀 코드 삭제', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'get', '커스텀코드 목록 조회', 'FALSE');
-insert into awf_url values ('/rest/dashboard/organization/{id}', 'get', '요청현황 조회 (부서별)', 'FALSE');
 insert into awf_url values ('/rest/dashboard/template/{id}/component/{id}', 'post', '템플릿 컴포넌트별 조회', 'FALSE');
 insert into awf_url values ('/rest/documents', 'get', '신청서 문서 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows', 'post', '신청서 작성', 'TRUE');
@@ -1968,7 +1967,7 @@ COMMENT ON COLUMN portal_board.update_dt IS '수정일';
  * 게시판 댓글
  */
 DROP TABLE IF EXISTS portal_board_comment cascade;
- 
+
 CREATE TABLE portal_board_comment
 (
 	board_comment_id varchar(128) NOT NULL,
