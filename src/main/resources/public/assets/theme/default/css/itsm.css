@@ -7901,6 +7901,18 @@ body.modal-active {
   background-color: #FFFFFF;
   padding: 0.3125rem 1.25rem 1.25rem 1.25rem;
 }
+.modal-dialog.template-import {
+  width: 37.5rem;
+  height: 22.5rem;
+}
+.modal-dialog.template-import .modal-content {
+  height: calc(22.5rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.template-import .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
 
 /* _thumbnail.scss
  *
