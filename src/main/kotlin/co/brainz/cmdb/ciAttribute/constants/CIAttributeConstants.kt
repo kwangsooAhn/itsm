@@ -24,17 +24,17 @@ object CIAttributeConstants {
         CI_ICON("ciIconData"),
         CI_ID("ciId"),
         CI_NO("ciNo"),
-        CI_TYPE_NAME("typeName"),
         CI_NAME("ciName"),
         CI_DESC("ciDesc")
     }
 
     enum class Width(val width: String) {
-        CI_ICON("20px"),
-        CI_ID("0px"),
-        CI_NO("180px"),
-        CI_TYPE_NAME("120px"),
-        CI_NAME("150px"),
-        CI_DESC("245px")
+        CI_ICON("20$UNIT_PX"),
+        CI_ID("0$UNIT_PX"),
+        CI_NO("180$UNIT_PX"),
+        CI_NAME("150$UNIT_PX"),
+        CI_DESC("245$UNIT_PX")
     }
+
+    const val UNIT_PX = "px"
 }

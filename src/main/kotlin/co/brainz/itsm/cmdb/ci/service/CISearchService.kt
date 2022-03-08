@@ -18,6 +18,7 @@ import co.brainz.cmdb.dto.CIDynamicListDto
 import co.brainz.cmdb.dto.CIGroupListDataDto
 import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.cmdb.dto.CIsDto
+import co.brainz.framework.querydsl.QuerydslConstants
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.cmdb.ci.dto.CISearch
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
@@ -66,7 +67,6 @@ class CISearchService(
                         content.add(ci.ciIcon?.let { ciTypeService.getCITypeImageData(it) })
                     CIAttributeConstants.Column.CI_ID.value -> content.add(ci.ciId)
                     CIAttributeConstants.Column.CI_NO.value -> content.add(ci.ciNo)
-                    //CIAttributeConstants.Column.CI_TYPE_NAME.value -> content.add(ci.typeName)
                     CIAttributeConstants.Column.CI_NAME.value -> content.add(ci.ciName)
                     CIAttributeConstants.Column.CI_DESC.value -> content.add(ci.ciDesc)
                 }
@@ -89,7 +89,6 @@ class CISearchService(
         columnNameList.add(CIAttributeConstants.Column.CI_ICON.value)
         columnNameList.add(CIAttributeConstants.Column.CI_ID.value)
         columnNameList.add(CIAttributeConstants.Column.CI_NO.value)
-        //columnNameList.add(CIAttributeConstants.Column.CI_TYPE_NAME.value)
         columnNameList.add(CIAttributeConstants.Column.CI_NAME.value)
         columnNameList.add(CIAttributeConstants.Column.CI_DESC.value)
         return columnNameList
@@ -103,7 +102,6 @@ class CISearchService(
         columnTitleList.add("")
         columnTitleList.add("")
         columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.ciNo"))
-        //columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.ciType"))
         columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.ciName"))
         columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.ciDesc"))
         return columnTitleList
@@ -131,7 +129,6 @@ class CISearchService(
         columnWidthList.add(CIAttributeConstants.Width.CI_ICON.width)
         columnWidthList.add(CIAttributeConstants.Width.CI_ID.width)
         columnWidthList.add(CIAttributeConstants.Width.CI_NO.width)
-        //columnWidthList.add(CIAttributeConstants.Width.CI_TYPE_NAME.width)
         columnWidthList.add(CIAttributeConstants.Width.CI_NAME.width)
         columnWidthList.add(CIAttributeConstants.Width.CI_DESC.width)
         return columnWidthList
@@ -164,7 +161,7 @@ class CISearchService(
                 if (isExcel || it.ciAttribute.searchYn) {
                     dynamic.columnName.add(it.ciAttribute.attributeId)
                     dynamic.columnTitle.add(it.ciAttribute.attributeText ?: "") //attributeName 대신 attributeText
-                    dynamic.columnWidth.add(it.ciAttribute.searchWidth + "px")
+                    dynamic.columnWidth.add(it.ciAttribute.searchWidth + CIAttributeConstants.UNIT_PX)
                     dynamic.columnType.add(
                         when (it.ciAttribute.attributeType) {
                             CIAttributeConstants.Type.CHECKBOX.code -> CIAttributeConstants.Type.CHECKBOX.code
@@ -479,5 +476,30 @@ class CISearchService(
             }
         }
         return attribute
+    }
+
+    /**
+     * 데이터 정렬
+     */
+    fun getOrderContents(basic: CIDynamicListDto, ciSearchCondition: CISearchCondition): MutableList<CIContentDto> {
+        if (ciSearchCondition.orderColName?.isNotEmpty() == true) {
+            var idx = -1
+            basic.columnName.forEachIndexed { index, column ->
+                if (column == ciSearchCondition.orderColName) {
+                    idx = index
+                }
+            }
+            if (idx > -1) {
+                when (ciSearchCondition.orderDir) {
+                    QuerydslConstants.OrderSpecifier.DESC.code -> {
+                        basic.contents.sortByDescending { it.value[idx].toString() }
+                    }
+                    else -> {
+                        basic.contents.sortBy { it.value[idx].toString() }
+                    }
+                }
+            }
+        }
+        return basic.contents
     }
 }
