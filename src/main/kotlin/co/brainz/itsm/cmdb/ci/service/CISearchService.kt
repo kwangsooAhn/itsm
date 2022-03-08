@@ -7,6 +7,7 @@ package co.brainz.itsm.cmdb.ci.service
 
 import co.brainz.cmdb.ci.entity.CIDataEntity
 import co.brainz.cmdb.ci.repository.CIDataRepository
+import co.brainz.cmdb.ci.repository.CIGroupListDataRepository
 import co.brainz.cmdb.ciAttribute.constants.CIAttributeConstants
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.ciType.constants.CITypeConstants
@@ -14,6 +15,7 @@ import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.dto.CIContentDto
 import co.brainz.cmdb.dto.CIDynamicListDto
+import co.brainz.cmdb.dto.CIGroupListDataDto
 import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.cmdb.dto.CIsDto
 import co.brainz.framework.util.AliceMessageSource
@@ -31,7 +33,8 @@ class CISearchService(
     private val ciTypeService: CITypeService,
     private val ciTypeRepository: CITypeRepository,
     private val ciDataRepository: CIDataRepository,
-    private val ciAttributeRepository: CIAttributeRepository
+    private val ciAttributeRepository: CIAttributeRepository,
+    private val ciGroupListDataRepository: CIGroupListDataRepository
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -397,10 +400,64 @@ class CISearchService(
                     }
                 }
                 CIAttributeConstants.Type.GROUP_LIST.code -> {
-
+                    val attribute = this.getAttribute(attributeList, basic.columnName[index])
+                    if (attribute.attributeId.isNotEmpty()) {
+                        val valueMap: Map<String, Any> =
+                            mapper.readValue(attribute.attributeValue, object : TypeReference<Map<String, Any>>() {})
+                        val options: List<Map<String, Any>> =
+                            mapper.convertValue(valueMap["option"], object : TypeReference<List<Map<String, Any>>>() {})
+                        val cAttributeIds = mutableSetOf<String>()
+                        val ciIds = mutableSetOf<String>()
+                        options.forEach { cAttributeIds.add(it["id"].toString()) }
+                        basic.contents.forEach { ciIds.add(it.key) }
+                        // 전체 그룹 리스트 데이터 조회
+                        val ciGroupListDataList = ciGroupListDataRepository.getCIGroupListDataList(ciIds,attribute.attributeId, cAttributeIds)
+                        basic.contents.forEach { content ->
+                            // ci_id 에 일치하는 목록만 추출
+                            val groupListDataList = mutableListOf<CIGroupListDataDto>()
+                            ciGroupListDataList.forEach { groupData ->
+                                if (groupData.ciId == content.key) {
+                                    groupListDataList.add(groupData)
+                                }
+                            }
+                            groupListDataList.sortWith(compareBy<CIGroupListDataDto> { it.cAttributeSeq}.thenBy { it.cAttributeId })
+                            val valueArray = arrayListOf<String>()
+                            var value = ""
+                            var seq = 0
+                            groupListDataList.forEachIndexed { index, it ->
+                                if (seq == it.cAttributeSeq) {
+                                    if (value.isNotEmpty()) {
+                                        value += ", "
+                                    }
+                                } else {
+                                    valueArray.add(value)
+                                    value = ""
+                                }
+                                value += it.cAttributeText + ": " + it.cValue
+                                if (index == groupListDataList.size - 1) {
+                                    valueArray.add(value)
+                                } else {
+                                    seq = it.cAttributeSeq
+                                }
+                            }
+                            var strValue = ""
+                            valueArray.forEachIndexed { index, it ->
+                                strValue += "[$it]"
+                                if (index != valueArray.size -1) {
+                                    strValue += ", "
+                                }
+                            }
+                            content.value[index] = strValue
+                        }
+                    }
                 }
                 CIAttributeConstants.Type.CUSTOM_CODE.code -> {
-
+                    val attribute = this.getAttribute(attributeList, basic.columnName[index])
+                    if (attribute.attributeId.isNotEmpty()) {
+                        basic.contents.forEach {
+                            it.value[index] = it.value[index].toString().trim().split("|")[1]
+                        }
+                    }
                 }
             }
         }
