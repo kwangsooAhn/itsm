@@ -12,6 +12,8 @@ import co.brainz.itsm.plugin.entity.PluginEntity
 import co.brainz.itsm.plugin.repository.PluginRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Propagation
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class PluginService(
@@ -25,6 +27,7 @@ class PluginService(
     /**
      * [pluginId] 에 따른 처리
      */
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     fun executePlugin(pluginId: String, body: String?, param: LinkedHashMap<String, Any>): ZResponse {
         val pluginServiceImpl = pluginFactory.getFactory(pluginId)
         pluginServiceImpl.init(pluginsDir)
