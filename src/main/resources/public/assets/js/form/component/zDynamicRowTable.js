@@ -289,7 +289,7 @@ export const dynamicRowTableMixin = {
         const columnData = [];
         this.elementColumns.forEach((column, index) => {
             if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
-                this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
+                this.displayType !== FORM.DISPLAY_TYPE.HIDDEN) {
                 if (zValidation.isEmpty(data[index])) {
                     let defaultValue = this.setDefaultValue(column);
                     columnData.push(defaultValue);
