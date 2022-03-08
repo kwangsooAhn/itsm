@@ -365,6 +365,8 @@ cmdb:
       ciName: "CI Name"
       ciNo: "CI No."
       ciInquiry: "CI Inquiry"
+      ciTemplate: "CI Template"
+      ciTemplateImport: "TEMPLATE IMPORT"
       ciType: "CI Type"
       createUser: "Create User"
       detailSearch: "Asset details search"
@@ -394,6 +396,7 @@ cmdb:
       relation: "CI Relation"
       targetCiName: "Target CI Name"
       whetherToInterlock: "Whether to Interlink"
+      importFile: "IMPORT FILE"
       interlock: "Interlink"
       nonInterlock: "Non Interlink"
     msg:
@@ -404,12 +407,16 @@ cmdb:
       enterCiName: "Please enter a CI Name."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
+      selectImportFile: "Please select an import file."
+      noticeImportFile: "Import only possible in excel file"
       tag: "Please enter a tag."
       viewDescription: "Retrieve detailed information about a CI.."
     btn:
       detailSearch: "Detail Search"
       import: "Import"
+      importTemplate: "Import Template"
       export: "Export"
+      exportTemplate: "Export Template"
   class:
     label:
       attributeList: "Attribute List"

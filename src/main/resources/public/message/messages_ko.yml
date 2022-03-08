@@ -365,6 +365,8 @@ cmdb:
       ciName: "자산 이름"
       ciNo: "자산 번호"
       ciInquiry: "CI 조회"
+      ciTemplate: "IT자산 템플릿"
+      ciTemplateImport: "템플릿 IMPORT"
       ciType: "자산 유형"
       createUser: "등록자"
       detailSearch: "자산 상세 검색"
@@ -394,6 +396,7 @@ cmdb:
       relation: "연관 관계"
       targetCiName: "대상 CI 이름"
       whetherToInterlink: "연동 여부"
+      importFile: "IMPORT 파일"
       interlink: "연동"
       nonInterlink: "비연동"
     msg:
@@ -404,12 +407,16 @@ cmdb:
       enterCiName: "CI 이름을 입력하세요."
       searchDescription: "CI를 조회 및 관리합니다."
       selectCI: "CI를 선택하세요."
+      selectImportFile: "IMPORT 파일을 선택하세요."
+      noticeImportFile: ".xlsx,.xls 파일만 가능합니다."
       tag: "태그를 입력하세요."
       viewDescription: "CI에 대한 상세 정보를 조회합니다."
     btn:
       detailSearch: "상세 검색"
       import: "가져오기"
+      importTemplate: "일괄등록"
       export: "내보내기"
+      exportTemplate: "템플릿 다운로드"
   class:
     label:
       attributeList: "속성 목록"
