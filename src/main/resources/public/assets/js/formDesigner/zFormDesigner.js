@@ -211,21 +211,21 @@ class ZFormDesigner {
     sortJson(data) {
         if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             data.group.sort((a, b) =>
-                parseInt(a.display.displayOrder) < parseInt(b.display.displayOrder) ? -1 : parseInt(a.display.displayOrder) > parseInt(b.display.displayOrder) ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
             data.group.forEach( (g) => {
                 this.sortJson(g);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             data.row.sort((a, b) =>
-                parseInt(a.display.displayOrder) < parseInt(b.display.displayOrder) ? -1 : parseInt(a.display.displayOrder) > parseInt(b.display.displayOrder) ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
             data.row.forEach( (r) => {
                 this.sortJson(r);
             });
         } else { // row
             data.component.sort((a, b) =>
-                parseInt(a.display.displayOrder) < parseInt(b.display.displayOrder) ? -1 : parseInt(a.display.displayOrder) > parseInt(b.display.displayOrder) ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
         }
     }
