@@ -11,7 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CIGroupListDataRepository : JpaRepository<CIGroupListDataEntity, CIGroupListDataPk> {
+interface CIGroupListDataRepository : JpaRepository<CIGroupListDataEntity, CIGroupListDataPk>,
+    CIGroupListDataRepositoryCustom {
     // ci Id, attribute Id 에 해당되는 cmdb_ci_group_list_data 삭제
     fun deleteByCi_CiIdAndCiAttribute_AttributeId(ciId: String, attributeId: String)
 }

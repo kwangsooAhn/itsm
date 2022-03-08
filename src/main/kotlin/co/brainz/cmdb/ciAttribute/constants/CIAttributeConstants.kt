@@ -9,12 +9,15 @@ object CIAttributeConstants {
 
     enum class Type(val code: String) {
         ICON("icon"),
+        CHECKBOX("checkbox"),
+        CUSTOM_CODE("custom-code"),
         DATE("date"),
         DATE_TIME("datetime"),
+        DROP_DOWN("dropdown"),
         HIDDEN("hidden"),
-        STRING("string"),
-        RADIO("radio"),
-        DROP_DOWN("dropdown")
+        GROUP_LIST("group-list"),
+        INPUT_BOX("inputbox"),
+        RADIO("radio")
     }
 
     enum class Column(val value: String) {

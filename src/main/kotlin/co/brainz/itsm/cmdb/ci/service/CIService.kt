@@ -31,7 +31,6 @@ import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagManager
-import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
@@ -56,7 +55,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class CIService(
-    private val aliceMessageSource: AliceMessageSource,
     private val ciService: CIService,
     private val ciClassService: CIClassService,
     private val ciComponentDataRepository: CIComponentDataRepository,
@@ -127,11 +125,15 @@ class CIService(
         // 공통 출력 데이터 조회
         var basic = ciSearchService.getBasic(ciList.results)
         // 옵션 출력 데이터 조회
-        val dynamic = ciSearchCondition.typeId?.let { ciSearchService.getDynamic(it, basic, searchItemsData) }
+        val dynamic = ciSearchCondition.typeId?.let {
+            ciSearchService.getDynamic(it, basic, searchItemsData, ciSearchCondition.isExcel)
+        }
         // 공통 출력 + 옵션 출력 정보
         basic = ciSearchService.addDynamic(basic, dynamic)
         // 상세 검색 조건 필터링
         basic.contents = ciSearchService.getFilterContents(basic)
+        // 코드 값을 실제 값으로 변경하는 작업
+        basic.contents = ciSearchService.getConvertValue(basic)
         // 페이징
         val totalCount = basic.contents.size
         basic.contents = ciSearchService.getPaging(basic, ciSearchCondition)
@@ -396,6 +398,7 @@ class CIService(
      * CI 조회 Excel 다운로드
      */
     fun getCIsExcelDownload(ciSearchCondition: CISearchCondition, searchItemsData: CISearch): ResponseEntity<ByteArray> {
+        ciSearchCondition.isExcel = true
         val result = this.getCIs(ciSearchCondition, searchItemsData).data
 
         val titleRowVOList = mutableListOf<ExcelCellVO>()
