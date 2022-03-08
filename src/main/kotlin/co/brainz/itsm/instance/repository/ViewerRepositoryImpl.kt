@@ -73,15 +73,16 @@ class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::c
             ).fetchOne()
     }
 
-    override fun updateReviewYn(instanceId: String, viewerKey: String) {
+    override fun updateReviewYn(instanceId: String, viewerKey: String): Int {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
-        update(viewer)
+        return update(viewer)
             .where(
                 viewer.instance.instanceId.eq(instanceId)
                     .and(viewer.viewer.eq(AliceUserEntity(viewerKey)))
             )
             .set(viewer.reviewYn, true)
             .execute()
+            .toInt()
     }
 }

@@ -3530,6 +3530,20 @@ select {
   background: #ABB0B5;
   pointer-events: none;
 }
+.z-button.error,
+.z-button-icon.error,
+.z-button-text.error {
+  color: #FFFFFF;
+  background-color: #F52525;
+  border-color: #F52525;
+}
+.z-button.error .z-icon,
+.z-button-icon.error .z-icon,
+.z-button-text.error .z-icon {
+  display: block;
+  background: #FFFFFF;
+  pointer-events: none;
+}
 .z-button.light-primary,
 .z-button-icon.light-primary,
 .z-button-text.light-primary {
@@ -7681,7 +7695,9 @@ body.modal-active {
   display: block;
 }
 .modal-dialog.document-display {
-  width: 68rem;
+  width: fit-content;
+  max-width: 90vw;
+  min-width: 68rem;
   height: 42.188rem;
 }
 .modal-dialog.document-display .modal-content {
@@ -7690,7 +7706,6 @@ body.modal-active {
   overflow: hidden;
 }
 .modal-dialog.document-display .modal-content .document-display-content {
-  width: calc(68rem - 2.5rem);
   height: calc(42.188rem - 3.875rem - 5rem - 2.5rem);
   padding: 0 1.25rem;
   overflow-y: auto;

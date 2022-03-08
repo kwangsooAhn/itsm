@@ -20,6 +20,7 @@ import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
+import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.constants.WorkflowConstants
@@ -71,6 +72,9 @@ class WfScriptTask(
                 this.setDocumentAttachFile(createTokenDto, element)
             WfElementConstants.ScriptType.DOCUMENT_CMDB.value -> {
                 this.callCmdbAction(createTokenDto, element)
+            }
+            WfElementConstants.ScriptType.DOCUMENT_PLUGIN.value -> {
+                this.executePlugin(createTokenDto, element)
             }
         }
 
@@ -279,6 +283,23 @@ class WfScriptTask(
         }
     }
 
+    private fun executePlugin(createTokenDto: WfTokenDto, element: WfElementEntity) {
+        //scriptTask 데이터에서 pluginId 추출
+        var scriptValue: Map<String, String> = emptyMap()
+        element.elementScriptDataEntities.forEach {
+            scriptValue = mapper.readValue(it.scriptValue, object : TypeReference<Map<String, Any>>() {})
+        }
+        val pluginId = scriptValue[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value]
+
+        // 최신 토큰이 가지고 있는 토큰 데이터 추출
+        var tokenData: List<WfTokenDataDto>? = null
+        createTokenDto.data?.let {
+            tokenData = it
+        }
+
+        wfTokenManagerService.executePlugin(pluginId, tokenData)
+    }
+
     /**
      * [targetMappingId] 로 연결된 [componentEntity] 조회.
      */
@@ -349,7 +370,8 @@ class WfScriptTask(
                 for (attachFileName in attachFileNames) {
                     val processFilePath = wfTokenManagerService.getProcessFilePath(attachFileName)
                     val fileName = wfTokenManagerService.getRandomFilename()
-                    val uploadFilePath = wfTokenManagerService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
+                    val uploadFilePath =
+                        wfTokenManagerService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
                     try {
                         Files.copy(processFilePath, uploadFilePath, StandardCopyOption.REPLACE_EXISTING)
                         if (Files.exists(uploadFilePath)) {

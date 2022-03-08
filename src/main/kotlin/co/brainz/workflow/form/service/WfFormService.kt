@@ -168,6 +168,8 @@ class WfFormService(
                                 objMapper.convertValue(optionValue, linkedMapType)
                             WfFormConstants.PropertyType.ELEMENT.value -> componentDto.element =
                                 objMapper.convertValue(optionValue, linkedMapType)
+                            WfFormConstants.PropertyType.PLUGIN.value -> componentDto.plugin =
+                                objMapper.convertValue(optionValue, linkedMapType)
                         }
                     }
                     componentDtoList.add(componentDto)
@@ -260,6 +262,18 @@ class WfFormService(
                 componentPropertyEntity = WfComponentPropertyEntity(
                     componentId = resultComponentEntity.componentId,
                     propertyType = WfFormConstants.PropertyType.ELEMENT.value,
+                    propertyOptions = objMapper.writeValueAsString(it),
+                    properties = resultComponentEntity
+                )
+                wfComponentPropertyEntities.add(componentPropertyEntity)
+            }
+        }
+
+        component.plugin?.let {
+            if (it.size > 0) {
+                componentPropertyEntity = WfComponentPropertyEntity(
+                    componentId = resultComponentEntity.componentId,
+                    propertyType = WfFormConstants.PropertyType.PLUGIN.value,
                     propertyOptions = objMapper.writeValueAsString(it),
                     properties = resultComponentEntity
                 )

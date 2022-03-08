@@ -36,6 +36,12 @@ class ZFormDesigner {
         }).then((customData) => {
             FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
         });
+
+        aliceJs.fetchJson('/rest/plugins', {
+            method: 'GET'
+        }).then((pluginData) => {
+            FORM.PLUGIN_LIST =  zValidation.isDefined(pluginData.data) ? pluginData.data : [];
+        });
     }
 
     /**
@@ -211,21 +217,21 @@ class ZFormDesigner {
     sortJson(data) {
         if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             data.group.sort((a, b) =>
-                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
             data.group.forEach( (g) => {
                 this.sortJson(g);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             data.row.sort((a, b) =>
-                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
             data.row.forEach( (r) => {
                 this.sortJson(r);
             });
         } else { // row
             data.component.sort((a, b) =>
-                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
         }
     }
@@ -724,7 +730,6 @@ class ZFormDesigner {
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
         console.debug(saveData);
-
         // 저장
         aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
             method: 'PUT',

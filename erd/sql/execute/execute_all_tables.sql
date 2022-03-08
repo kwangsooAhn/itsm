@@ -130,8 +130,8 @@ insert into awf_code values ('document.status.temporary', 'document.status', '�
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', '폐기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.use', 'document.status', '사용', '사용', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType', 'document', null, '신청서 프로세스별 그룹 출력 타입', null, false, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 가능', '수정 가능', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.displayType.readonly', 'document.displayType', '수정 불가', '수정 불가', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 ', '수정 ', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.readonly', 'document.displayType', '읽기', '읽기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType.hidden', 'document.displayType', '숨김', '숨김', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download', 'root', null, '자료실', null, true, true, 1, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download.category', 'download', null, '자료실 카테고리', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -202,6 +202,7 @@ insert into awf_code values ('script', 'root', null, null, null, false, true, 1,
 insert into awf_code values ('script.type', 'script', 'script.type', 'Script Type', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script.type.cmdb', 'script.type', 'script.type.cmdb', '[CMDB] CI 반영', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script.type.document.attachFile', 'script.type', 'script.type.document.attachFile', '[문서편집] 첨부파일', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('script.type.plugin', 'script.type', 'script.type.plugin', 'Plugin 동작', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token', 'root', null, '토큰 관련 코드', null, false, true, 1, 9, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status', 'token', null, '토큰 상태 코드', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status.finish', 'token.status', null, '처리 완료', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -1248,7 +1249,6 @@ insert into awf_url values ('/rest/custom-codes', 'put', '커스텀 코드 수�
 insert into awf_url values ('/rest/custom-codes', 'post', '커스텀 코드 등록', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'delete', '커스텀 코드 삭제', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'get', '커스텀코드 목록 조회', 'FALSE');
-insert into awf_url values ('/rest/dashboard/organization/{id}', 'get', '요청현황 조회 (부서별)', 'FALSE');
 insert into awf_url values ('/rest/dashboard/template/{id}/component/{id}', 'post', '템플릿 컴포넌트별 조회', 'FALSE');
 insert into awf_url values ('/rest/documents', 'get', '신청서 문서 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows', 'post', '신청서 작성', 'TRUE');
@@ -1310,6 +1310,8 @@ insert into awf_url values ('/rest/organizations/{id}', 'get', '조직 상세 �
 insert into awf_url values ('/rest/organizations/{id}', 'put', '조직 수정', 'TRUE');
 insert into awf_url values ('/rest/organizations/{id}', 'delete', '조직 삭제', 'TRUE');
 insert into awf_url values ('/rest/organizations', 'post', '조직 등록', 'TRUE');
+insert into awf_url values ('/rest/plugins', 'get', '플러그인 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/plugins/{id}', 'post', '플러그인 조회', 'TRUE');
 insert into awf_url values ('/rest/portals', 'get', '포탈 조회 (페이징)', 'FALSE');
 insert into awf_url values ('/rest/portals/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filenameextensions', 'get', '포탈 첨부파일 확장자 조회', 'FALSE');
@@ -1640,6 +1642,8 @@ insert into awf_url_auth_map values ('/rest/organizations/{id}', 'get', 'workflo
 insert into awf_url_auth_map values ('/rest/organizations/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/organizations/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/organizations', 'post', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/plugins', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/plugins/{id}', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/process/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'put', 'workflow.manage');
@@ -1968,7 +1972,7 @@ COMMENT ON COLUMN portal_board.update_dt IS '수정일';
  * 게시판 댓글
  */
 DROP TABLE IF EXISTS portal_board_comment cascade;
- 
+
 CREATE TABLE portal_board_comment
 (
 	board_comment_id varchar(128) NOT NULL,
@@ -9034,3 +9038,58 @@ INSERT INTO awf_dashboard_template VALUES ('template-001', '부서별 요청현�
     }
   ]
 }', 'KB 저축은행에서 만든 첫 번째 템플릿');
+/**
+ * 플러그인 테이블
+ */
+DROP TABLE IF EXISTS awf_plugin cascade;
+
+create table awf_plugin
+(
+    plugin_id varchar(100) NOT NULL,
+    plugin_name varchar(100) NOT NULL,
+    plugin_type varchar(100) NOT NULL,
+    plugin_location varchar(1024) NOT NULL,
+    plugin_command varchar(2048) NOT NULL,
+    CONSTRAINT awf_plugin_pk PRIMARY KEY (plugin_id)
+);
+
+COMMENT ON TABLE public.awf_plugin IS '플러그인 마스터';
+COMMENT ON COLUMN awf_plugin.plugin_id IS '플러그인 아이디';
+COMMENT ON COLUMN awf_plugin.plugin_name IS '플러그인 이름';
+COMMENT ON COLUMN awf_plugin.plugin_type IS '플러그인 타입';
+COMMENT ON COLUMN awf_plugin.plugin_location IS '플러그인 위치';
+COMMENT ON COLUMN awf_plugin.plugin_command IS '플러그인 실행 명령어';
+
+insert into awf_plugin values ('api.focs', '방화벽-FOCS', 'api', '/focs', 'java -jar focs.jar');
+
+/**
+ * 플러그인 이력 테이블
+ */
+DROP TABLE IF EXISTS awf_plugin_history cascade;
+
+CREATE TABLE awf_plugin_history
+(
+    history_id varchar(128) NOT NULL,
+    plugin_id varchar(100) NOT NULL,
+    startdt timestamp NULL,
+    enddt timestamp NULL,
+    plugin_param text NULL,
+    plugin_result varchar(100) NULL,
+    message text NULL,
+    plugin_data text NULL,
+    CONSTRAINT awf_plugin_history_pk PRIMARY KEY (history_id)
+);
+
+COMMENT ON TABLE awf_plugin_history IS '플러그인 처리 이력';
+COMMENT ON COLUMN awf_plugin_history.history_id IS '이력 아이디';
+COMMENT ON COLUMN awf_plugin_history.plugin_id IS '플러그인 아이디';
+COMMENT ON COLUMN awf_plugin_history.startdt IS '실행시간';
+COMMENT ON COLUMN awf_plugin_history.enddt IS '종료시간';
+COMMENT ON COLUMN awf_plugin_history.plugin_param IS '파라미터';
+COMMENT ON COLUMN awf_plugin_history.plugin_result IS '결과';
+COMMENT ON COLUMN awf_plugin_history.message IS '결과 메시지';
+COMMENT ON COLUMN awf_plugin_history.plugin_data IS '플러그인 데이터';
+
+-- public.awf_plugin_history foreign keys
+ALTER TABLE awf_plugin_history ADD CONSTRAINT awf_plugin_history_fk FOREIGN KEY (plugin_id) REFERENCES awf_plugin(plugin_id);
+
