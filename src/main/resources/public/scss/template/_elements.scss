@@ -492,7 +492,6 @@ div.z-textarea {
         height: 1.063rem; // 17px
         background-color: $white;
         @include borderRadius(50%);
-        @include boxShadow(0, 0, 0.125rem, 0, $switch-thumb-shadow-color); // 2px
       }
       &::after {
         content: '';
@@ -506,9 +505,8 @@ div.z-textarea {
     &:checked {
       + span {
         background-color: $blue600;
-        @include border($switch-on-track-border-width, solid, $switch-on-track-border-color, all); // 1px
         &::before {
-          @include translate(1.05rem, -0.0625rem); // 16px 1px
+          @include translate(1.1rem, 0); // 17px 0
         }
         &::after {
           top: 0;
@@ -521,15 +519,6 @@ div.z-textarea {
       }
     }
     &:disabled {
-      + span {
-        background-color: $gray200;
-        @include border($switch-disabled-track-border-width, solid, $switch-disabled-track-border-color, all); // 1px
-        &::before {
-          background-color: $switch-disabled-thumb-bg-color;
-        }
-      }
-    }
-    &:read-only, &.readonly {
       + span { background-color: $gray200; }
     }
   }

@@ -2771,9 +2771,6 @@ div.z-textarea-readonly {
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
-  -webkit-box-shadow: 0 0 0.125rem 0 #63686C;
-  -moz-box-shadow: 0 0 0.125rem 0 #63686C;
-  box-shadow: 0 0 0.125rem 0 #63686C;
 }
 .z-switch input[type=checkbox] + span::after {
   content: "";
@@ -2794,14 +2791,13 @@ div.z-textarea-readonly {
 }
 .z-switch input[type=checkbox]:checked + span {
   background-color: #2578CE;
-  border: 0.0625rem solid #2578CE;
 }
 .z-switch input[type=checkbox]:checked + span::before {
-  -webkit-transform: translate(1.05rem, -0.0625rem);
-  -moz-transform: translate(1.05rem, -0.0625rem);
-  -o-transform: translate(1.05rem, -0.0625rem);
-  -ms-transform: translate(1.05rem, -0.0625rem);
-  transform: translate(1.05rem, -0.0625rem);
+  -webkit-transform: translate(1.1rem, 0);
+  -moz-transform: translate(1.1rem, 0);
+  -o-transform: translate(1.1rem, 0);
+  -ms-transform: translate(1.1rem, 0);
+  transform: translate(1.1rem, 0);
 }
 .z-switch input[type=checkbox]:checked + span::after {
   top: 0;
@@ -2812,13 +2808,6 @@ div.z-textarea-readonly {
   mask-image: url("../media/icons/icon_check.svg");
 }
 .z-switch input[type=checkbox]:disabled + span {
-  background-color: #E1E6EA;
-  border: 0.0625rem solid #CFD5D9;
-}
-.z-switch input[type=checkbox]:disabled + span::before {
-  background-color: #F5F5F5;
-}
-.z-switch input[type=checkbox]:read-only + span, .z-switch input[type=checkbox].readonly + span {
   background-color: #E1E6EA;
 }
 
