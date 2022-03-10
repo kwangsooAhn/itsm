@@ -2566,7 +2566,8 @@ div.z-textarea-readonly {
   bottom: 0;
   left: 0;
   width: 2.5rem;
-  height: 1.3rem;
+  height: 1.25rem;
+  margin: 0;
   background-color: #ABB0B5;
   cursor: pointer;
   border-radius: 2.5rem;
@@ -2581,10 +2582,10 @@ div.z-textarea-readonly {
 .z-switch input[type=checkbox] + span::before {
   content: "";
   position: absolute;
-  top: 0.125rem;
+  top: 0.08rem;
   left: 0.125rem;
-  width: 1.125rem;
-  height: 1.063rem;
+  width: 1rem;
+  height: 1rem;
   background-color: #FFFFFF;
   border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -2604,21 +2605,19 @@ div.z-textarea-readonly {
   -webkit-mask-position: center;
   mask-position: center;
   position: absolute;
-  top: 0.0625rem;
   right: 0.125rem;
 }
 .z-switch input[type=checkbox]:checked + span {
   background-color: #2578CE;
 }
 .z-switch input[type=checkbox]:checked + span::before {
-  -webkit-transform: translate(1.1rem, 0);
-  -moz-transform: translate(1.1rem, 0);
-  -o-transform: translate(1.1rem, 0);
-  -ms-transform: translate(1.1rem, 0);
-  transform: translate(1.1rem, 0);
+  -webkit-transform: translate(1.25rem, 0);
+  -moz-transform: translate(1.25rem, 0);
+  -o-transform: translate(1.25rem, 0);
+  -ms-transform: translate(1.25rem, 0);
+  transform: translate(1.25rem, 0);
 }
 .z-switch input[type=checkbox]:checked + span::after {
-  top: 0;
   left: 0;
   -webkit-mask-size: 1.125rem;
   mask-size: 1.125rem;
