@@ -2724,7 +2724,7 @@ div.z-textarea-readonly {
 
 .z-switch {
   position: relative;
-  height: 1.125rem;
+  height: 1.75rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
@@ -2747,14 +2747,13 @@ div.z-textarea-readonly {
   right: 0;
   bottom: 0;
   left: 0;
-  width: 2.25rem;
-  height: 0.75rem;
+  width: 2.5rem;
+  height: 1.3rem;
   background-color: #ABB0B5;
-  border: 0.0625rem solid #8B9094;
+  cursor: pointer;
   border-radius: 2.5rem;
   -webkit-border-radius: 2.5rem;
   -moz-border-radius: 2.5rem;
-  cursor: pointer;
   -webkit-transition: 0.4s;
   -moz-transition: 0.4s;
   -o-transition: 0.4s;
@@ -2764,12 +2763,11 @@ div.z-textarea-readonly {
 .z-switch input[type=checkbox] + span::before {
   content: "";
   position: absolute;
-  top: -0.25rem;
-  left: -0.0625rem;
+  top: 0.125rem;
+  left: 0.125rem;
   width: 1.125rem;
-  height: 1.125rem;
+  height: 1.063rem;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #8B9094;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -2777,23 +2775,51 @@ div.z-textarea-readonly {
   -moz-box-shadow: 0 0 0.125rem 0 #63686C;
   box-shadow: 0 0 0.125rem 0 #63686C;
 }
+.z-switch input[type=checkbox] + span::after {
+  content: "";
+  background-color: #FFFFFF;
+  -webkit-mask-size: 1.5rem;
+  mask-size: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/icon_clear.svg");
+  mask-image: url("../media/icons/icon_clear.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  position: absolute;
+  top: 0.0625rem;
+  right: 0.125rem;
+}
 .z-switch input[type=checkbox]:checked + span {
-  background-color: #339AF0;
+  background-color: #2578CE;
   border: 0.0625rem solid #2578CE;
 }
 .z-switch input[type=checkbox]:checked + span::before {
-  -webkit-transform: translate(1.3125rem, 0);
-  -moz-transform: translate(1.3125rem, 0);
-  -o-transform: translate(1.3125rem, 0);
-  -ms-transform: translate(1.3125rem, 0);
-  transform: translate(1.3125rem, 0);
+  -webkit-transform: translate(1.05rem, -0.0625rem);
+  -moz-transform: translate(1.05rem, -0.0625rem);
+  -o-transform: translate(1.05rem, -0.0625rem);
+  -ms-transform: translate(1.05rem, -0.0625rem);
+  transform: translate(1.05rem, -0.0625rem);
+}
+.z-switch input[type=checkbox]:checked + span::after {
+  top: 0;
+  left: 0;
+  -webkit-mask-size: 1.125rem;
+  mask-size: 1.125rem;
+  -webkit-mask-image: url("../media/icons/icon_check.svg");
+  mask-image: url("../media/icons/icon_check.svg");
 }
 .z-switch input[type=checkbox]:disabled + span {
-  background-color: #E0E0E0;
+  background-color: #E1E6EA;
   border: 0.0625rem solid #CFD5D9;
 }
 .z-switch input[type=checkbox]:disabled + span::before {
   background-color: #F5F5F5;
+}
+.z-switch input[type=checkbox]:read-only + span, .z-switch input[type=checkbox].readonly + span {
+  background-color: #E1E6EA;
 }
 
 select {
