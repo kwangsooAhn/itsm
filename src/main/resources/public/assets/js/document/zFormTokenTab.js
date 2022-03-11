@@ -310,7 +310,7 @@ class ZFormTokenTab {
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('subUserList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(document.getElementById('substituteUserList'), {className: 'scrollbar'});
             // 갯수 가운트
             const substituteUserList = document.getElementById('substituteUserList');
             aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
@@ -324,6 +324,24 @@ class ZFormTokenTab {
                         checkElem.disabled = true;
                     }
                 }
+            });
+            const checkboxList = document.querySelectorAll('input[name=substituteUser]')
+            checkboxList.forEach((checkbox) => {
+                checkbox.addEventListener('click', (e) => {
+                    if(e.target.checked) {
+                        this.viewerList.push({
+                            viewerKey: e.target.id,
+                            reviewYn: false,
+                            displayYn: false,
+                            viewerType: DOCUMENT.VIEWER_TYPE.REGISTER
+                        });
+                    } else {
+                       let removeIndex= this.viewerList.findIndex(function(key) {return key.viewerKey === e.target.id});
+                       if (removeIndex > -1) {
+                           this.viewerList.splice(removeIndex, 1);
+                       }
+                   }
+                })
             });
         });
     }
