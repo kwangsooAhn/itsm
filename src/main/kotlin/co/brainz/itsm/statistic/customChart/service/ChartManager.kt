@@ -265,36 +265,83 @@ abstract class ChartManager(
             ChartConstants.Unit.YEAR.code -> {
                 val period: Long = ChronoUnit.YEARS.between(from, to)
                 for (i in 0..period) {
+                    var initMonth = 1
+                    var initDay = 1
+                    var initHour = 0
+                    val nextCategory = from.plusYears(i)
+                    if (i == 0L) {
+                        initMonth = nextCategory.monthValue
+                        initDay = nextCategory.dayOfMonth
+                        initHour = nextCategory.hour
+                    }
                     category.add(
                         ((from.year + i).toString()) +
-                            "-" + String.format("%02d", from.monthValue) +
-                            "-" + String.format("%02d", from.dayOfMonth) +
-                            " " + String.format("%02d", from.hour) + ":00:00"
+                            "-" + String.format("%02d", initMonth) +
+                            "-" + String.format("%02d", initDay) +
+                            " " + String.format("%02d", initHour) + ":00:00"
                     )
+                }
+                // to 의 년도가 category 없을 경우 추가한다.
+                val toDate = LocalDateTime.parse(to.toString(), DateTimeFormatter.ISO_DATE_TIME)
+                var toDateCategory = toDate.year.toString() +
+                    "-" + String.format("%02d", 1) +
+                    "-" + String.format("%02d", 1) +
+                    " " + String.format("%02d", 0) + ":00:00"
+                if (!category.contains(toDateCategory)) {
+                    category.add(toDateCategory)
                 }
             }
             ChartConstants.Unit.MONTH.code -> {
                 val period: Long = ChronoUnit.MONTHS.between(from, to)
                 for (i in 0..period) {
+                    var initDay = 1
+                    var initHour = 0
                     val nextCategory = from.plusMonths(i)
+                    if (i == 0L) {
+                        initDay = nextCategory.dayOfMonth
+                        initHour = nextCategory.hour
+                    }
                     category.add(
                         nextCategory.year.toString() +
                             "-" + String.format("%02d", nextCategory.monthValue) +
-                            "-" + String.format("%02d", nextCategory.dayOfMonth) +
-                            " " + String.format("%02d", nextCategory.hour) + ":00:00"
+                            "-" + String.format("%02d", initDay) +
+                            " " + String.format("%02d", initHour) + ":00:00"
                     )
+                }
+                // to 의 년도가 category 없을 경우 추가한다.
+                val toDate = LocalDateTime.parse(to.toString(), DateTimeFormatter.ISO_DATE_TIME)
+                val toDateCategory = toDate.year.toString() +
+                    "-" + String.format("%02d", to.monthValue) +
+                    "-" + String.format("%02d", 1) +
+                    " " + String.format("%02d", 0) + ":00:00"
+                if (!category.contains(toDateCategory)) {
+                    category.add(toDateCategory)
                 }
             }
             ChartConstants.Unit.DAY.code -> {
                 val period: Long = ChronoUnit.DAYS.between(from, to)
+
                 for (i in 0..period) {
                     val nextCategory = from.plusDays(i)
+                    var initHour = 0
+                    if (i == 0L) {
+                        initHour = nextCategory.hour
+                    }
                     category.add(
                         nextCategory.year.toString() +
                             "-" + String.format("%02d", nextCategory.monthValue) +
                             "-" + String.format("%02d", nextCategory.dayOfMonth) +
-                            " " + String.format("%02d", nextCategory.hour) + ":00:00"
+                            " " + String.format("%02d", initHour) + ":00:00"
                     )
+                }
+                // to 의 년도가 category 없을 경우 추가한다.
+                val toDate = LocalDateTime.parse(to.toString(), DateTimeFormatter.ISO_DATE_TIME)
+                val toDateCategory = toDate.year.toString() +
+                    "-" + String.format("%02d", to.monthValue) +
+                    "-" + String.format("%02d", to.dayOfMonth) +
+                    " " + String.format("%02d", 0) + ":00:00"
+                if (!category.contains(toDateCategory)) {
+                    category.add(toDateCategory)
                 }
             }
             ChartConstants.Unit.HOUR.code -> {
