@@ -42,7 +42,7 @@ export const customCodeMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        this._value = (typeof this.data.value === 'undefined') ? '${default}' : ''; // 서버에 저장되는 값은 키 값만 저장된다. 왜냐하면 assignee Id 로 key만 전달되어야 하기 떄문이다.
+        this._value = (typeof this.data.value === 'undefined') ? '${default}' : this.data.value; // 서버에 저장되는 값은 키 값만 저장된다. 왜냐하면 assignee Id 로 key만 전달되어야 하기 떄문이다.
 
         // customCode|none|없음  customCode|session|세션값  customCode|code|코드값|코드명
         if (zValidation.isEmpty(this._element.defaultValueCustomCode) && FORM.CUSTOM_CODE.length > 0) {
