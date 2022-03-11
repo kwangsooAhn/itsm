@@ -4876,6 +4876,10 @@ select {
   height: 1.25rem;
 }
 
+.z-switch input[type=checkbox] + span::before {
+  top: 0.125rem;
+}
+
 /* _alerts.scss
  *
  * 파일 경로 : template/_alerts.scss

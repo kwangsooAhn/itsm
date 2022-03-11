@@ -224,3 +224,13 @@
     height: 1.25rem; // 20px
   }
 }
+
+.z-switch {
+  input[type=checkbox] {
+    // 스위치 버튼
+    + span {
+      // 동그라미
+      &::before { top: 0.125rem; } // 2px
+    }
+  }
+}
