@@ -19,6 +19,7 @@ const propertyExtends = {
         {name: i18n.msg('form.properties.userSearch.custom'), value:'custom'}
     ]
 };
+let targetUserArray = [];
 
 export default class ZUserSearchProperty extends ZProperty {
     constructor(key, name, value, isAlwaysEditable) {
@@ -223,6 +224,12 @@ export default class ZUserSearchProperty extends ZProperty {
                     this.getTargetUserList(e.target.value, false);
                 });
                 this.getTargetUserList(document.getElementById('search').value, true);
+                // 기존 사용자 목록
+                targetUserArray.length = 0;
+                this.UIElement.UIGroup.userTable.rows.forEach( (row, idx) => {
+                    const targetValue = row.domElement.childNodes[0].getAttribute('data-value');
+                    targetValue ? targetUserArray.push(targetValue) : '';
+                });
             }
         });
         targetUserModal.show();
@@ -240,15 +247,20 @@ export default class ZUserSearchProperty extends ZProperty {
             OverlayScrollbars(targetUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
             // 갯수 가운트
             aliceJs.showTotalCount(targetUserList.querySelectorAll('.z-table-row').length);
-            // 기존 선택값 표시
-            this.UIElement.UIGroup.userTable.rows.forEach( (row, idx) => {
-                const target = row.domElement.childNodes[0].getAttribute('data-value');
-                if (idx > 0 && target) {
-                    const checkElem = targetUserList.querySelector('input[id="' + target + '"]');
-                    if (checkElem) {
-                        checkElem.checked = true;
+            // 체크 이벤트
+            targetUserList.querySelectorAll('input[type=checkbox]').forEach((element) => {
+                element.addEventListener('change', () => {
+                    if (element.checked) {
+                        targetUserArray.push(element.id);
+                    } else {
+                        targetUserArray = targetUserArray.filter((item) => item !== element.id);
                     }
-                }
+                });
+            })
+            // 기존 선택값 표시
+            targetUserArray.forEach( target => {
+                const checkElem = targetUserList.querySelector('input[id="' + target + '"]');
+                checkElem.checked = !!targetUserList.querySelector('input[id="' + target + '"]');
             });
 
         });
