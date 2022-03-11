@@ -260,8 +260,7 @@ export default class ZUserSearchProperty extends ZProperty {
             })
             // 기존 선택값 표시
             targetUserArray.forEach( target => {
-                const checkElem = targetUserList.querySelector('input[id="' + target + '"]');
-                checkElem.checked = !!targetUserList.querySelector('input[id="' + target + '"]');
+                targetUserList.querySelector('input[id="' + target + '"]').checked = true;
             });
 
         });
