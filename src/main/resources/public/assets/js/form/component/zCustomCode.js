@@ -18,7 +18,7 @@ import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { ZSession } from '../../lib/zSession.js';
-import { UIButton, UIDiv, UIInput, UISpan } from '../../lib/zUI.js';
+import {UIButton, UIDiv, UIInput, UIRemoveButton, UISpan} from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
 
 /**
@@ -64,6 +64,9 @@ export const customCodeMixin = {
             .setUIAttribute('data-custom-data', (this.value === '${default}') ? this.elementDefaultValueCustomCode : this.value)
             .onUIChange(this.updateValue.bind(this))
             .setUIAttribute('data-validation-required', this.validationRequired);
+        element.UIRemoveButton = new UIRemoveButton()
+            .addUIClass('z-button-icon-sm')
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
         element.UIButton = new UIButton()
             .setUIClass('z-button')
             .setUIClass('secondary')
@@ -71,7 +74,7 @@ export const customCodeMixin = {
             .onUIClick(this.openCustomCodeModal.bind(this))
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
 
-        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
+        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
 
         this.setDefaultValue(element.UIInput);
         return element;

@@ -401,6 +401,18 @@ class UIClipboard extends UIElement {
     }
 }
 
+// custom code remove
+class UIRemoveButton extends UIElement {
+    constructor() {
+        super(document.createElement('button'));
+        this.domElement.className = 'z-button-icon-sm';
+        this.domElement.type = 'button';
+        this.domElement.addEventListener('click', function () {
+            aliceJs.clearText(this);
+        });
+    }
+}
+
 class UISwitch extends UIElement {
     constructor(boolean) {
         super(document.createElement('label'));
@@ -632,7 +644,7 @@ class UICell extends UIElement {
 
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
-    UISelect, UICheckbox, UIClipboard, UISwitch, UIBreak,
+    UISelect, UICheckbox, UIClipboard, UIRemoveButton, UISwitch, UIBreak,
     UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable,
     UIRow, UICell, UIRadioButton
 };
