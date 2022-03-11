@@ -141,7 +141,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 targetGroup.addUI(targetGroup.userTable);
 
                 // 사용자 목록 추가
-               if (targetCriteria === this.defaultCriteria && this.defaultValue.searchKey) {
+               if (targetCriteria === this.defaultCriteria && this.defaultValue.searchKey.length > 0) {
                     this.addRow(this.defaultValue.searchKey);
                 } else {
                     this.setEmptyTable(this.UIElement.UIGroup.userTable);
@@ -332,7 +332,8 @@ export default class ZUserSearchProperty extends ZProperty {
         if (e && e.preventDefault) {
             e.preventDefault();
         }
-
+        // 기존 값 초기화
+        this.defaultValue = '';
         const curCriteria = this.UIElement.UISelect.domElement.value;
         let curTarget = [];
         switch (curCriteria) {
