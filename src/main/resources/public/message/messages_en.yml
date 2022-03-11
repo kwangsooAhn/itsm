@@ -732,6 +732,7 @@ form:
     saveInfo: "Saved at {0}"
     searchDescription: "View and manage forms."
     selectImportFile: "Please select an import file."
+    selectTargetUser "Please select Target User for search."
     unique: "Duplicate data cannot be included."
     duplicateFormName: "Duplicate form name! Please enter other form name."
     duplicateOptionsName: "Duplicate options name. Please enter other options name."
@@ -741,6 +742,7 @@ form:
   row: "Row"
   component:
     checkBox: "Checkbox"
+    ci: "CI"
     customCode: "Custom Code"
     date: "Date"
     dateTime: "Date Time"
@@ -757,7 +759,7 @@ form:
     textArea: "Text Box"
     textEditor: "Text Editor"
     time: "Time"
-    ci: "CI"
+    userSearch: "User Search"
   help:
     custom-code-default: "You can set the default value displayed on the component.<br/>'None' prints the default value is not output.<br/>'Session' prints the user's session information.<br/>'Code' prints the data of the code defined by the user."
     custom-code: "You can select a custom code list of user-defined code sets."
@@ -822,6 +824,8 @@ form:
       path: "Path"
       placeholder: "Placeholder"
       rows: "Rows"
+      searchTarget: "Search Target"
+      searchTargetCriteria: "Search Target Criteria"
       text: "Display Text"
       thickness: "Thickness"
       type: "Type"
@@ -899,6 +903,9 @@ form:
       namePlaceholder: "name"
       value: "Value"
       valuePlaceholder: "value"
+    userSearch:
+      organization: "Search by Organization"
+      custom: "Select custom list"
   status:
     destroy: "Destroy"
     edit: "Edit"
@@ -1400,7 +1407,7 @@ user:
     searchPlaceholder: "ID/Name/Dept/Position/Number"
     signUpDate: "SignUp Date"
     substituteUser: "Substitute User"
-    substituteUserSearchPlaceholder: "ID/Name/Department"
+    userSearchPlaceholder: "ID/Name/Department"
     theme: "Theme"
     time: "Time Format"
     timeFormat: "Date/Time Format"

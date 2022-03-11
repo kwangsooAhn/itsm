@@ -2426,6 +2426,13 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
+.z-input.i-user-search {
+  background-image: url("../media/icons/icon_document_user.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
 .z-input.i-px {
   background-image: url("../media/icons/icon_px.svg");
   background-size: auto;
@@ -3496,21 +3503,27 @@ body.modal-active {
 .modal-wrapper .modal-dialog.custom-code-list .custom-code-main {
   padding-top: 1.25rem;
 }
-.modal-wrapper .modal-dialog.sub-user-modal {
+.modal-wrapper .modal-dialog.sub-user-modal, .modal-wrapper .modal-dialog.target-user-modal {
   width: 62.5rem;
   height: 53.0625rem;
 }
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content {
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content, .modal-wrapper .modal-dialog.target-user-modal .modal-content {
   height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list {
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list,
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .target-user-list, .modal-wrapper .modal-dialog.target-user-modal .modal-content .sub-user-list,
+.modal-wrapper .modal-dialog.target-user-modal .modal-content .target-user-list {
   margin-top: 0.9375rem;
 }
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set {
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set,
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .target-user-list .table-set, .modal-wrapper .modal-dialog.target-user-modal .modal-content .sub-user-list .table-set,
+.modal-wrapper .modal-dialog.target-user-modal .modal-content .target-user-list .table-set {
   margin-top: 1.875rem;
 }
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body {
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.target-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
+.modal-wrapper .modal-dialog.target-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body {
   display: block;
   width: 60rem;
   height: 35.313rem;

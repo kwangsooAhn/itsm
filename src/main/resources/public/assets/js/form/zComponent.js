@@ -27,6 +27,7 @@ import { textAreaMixin } from './component/zTextArea.js';
 import { textEditorMixin } from './component/zTextEditor.js';
 import { timeMixin } from './component/zTime.js';
 import { fileDownloadMixin } from './component/zFileDownload.js';
+import { userSearchMixin } from './component/zUserSearch.js';
 
 const DEFAULT_PROPERTY = {
     label: {
@@ -159,6 +160,8 @@ export default class ZComponent {
                 return ciMixin;
             case 'fileDownload':
                 return fileDownloadMixin;
+            case 'userSearch':
+                return userSearchMixin;
             default:
                 break;
         }

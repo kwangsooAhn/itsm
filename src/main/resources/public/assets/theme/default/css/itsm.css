@@ -2253,6 +2253,13 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
+.z-input.i-user-search {
+  background-image: url("../../../media/icons/icon_document_user.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
 .z-input.i-px {
   background-image: url("../../../media/icons/icon_px.svg");
   background-size: auto;
@@ -7175,6 +7182,7 @@ ul.tree ul li:last-child:before {
   height: auto;
   top: 0.9375rem;
   bottom: 0;
+  border-left: 0.0625rem solid #FFFFFF;
 }
 ul.tree label {
   color: #222529;

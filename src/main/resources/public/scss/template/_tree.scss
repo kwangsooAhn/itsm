@@ -59,6 +59,7 @@ ul.tree {
         height: auto;
         top: ($tree-line-height / 2);
         bottom: 0;
+         @include border($tree-line-width, solid, $tree-line-hidden-color, left);
       }
 
       // Level 3+
