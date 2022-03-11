@@ -116,7 +116,7 @@ export const userSearchMixin = {
         e.stopPropagation();
         // 설정된 properties에 따라 사용자 선택 모달이 생성된다.
         this.userSelect = new modal({
-            title: this._label.text,
+            title: this.labelText,
             body: '',
             classes: 'sub-user-modal',
             buttons: [{
@@ -138,6 +138,7 @@ export const userSearchMixin = {
                 closable: false,
             },
             onCreate: () => {
+                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             }
         });
 

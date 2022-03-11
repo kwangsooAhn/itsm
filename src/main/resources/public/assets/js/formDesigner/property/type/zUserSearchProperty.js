@@ -235,15 +235,15 @@ export default class ZUserSearchProperty extends ZProperty {
             method: 'GET',
             showProgressbar: showProgressbar
         }).then((htmlData) => {
-            document.getElementById('targetUserList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-            // 갯수 가운트
             const targetUserList = document.getElementById('targetUserList');
+            targetUserList.innerHTML = htmlData;
+            OverlayScrollbars(targetUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+            // 갯수 가운트
             aliceJs.showTotalCount(targetUserList.querySelectorAll('.z-table-row').length);
             // 기존 선택값 표시
             this.UIElement.UIGroup.userTable.rows.forEach( (row, idx) => {
-                if (idx > 0 && row.domElement.childNodes[0].getAttribute('data-value')) {
-                    const target = row.domElement.childNodes[0].getAttribute('data-value');
+                const target = row.domElement.childNodes[0].getAttribute('data-value');
+                if (idx > 0 && target) {
                     const checkElem = targetUserList.querySelector('input[id="' + target + '"]');
                     if (checkElem) {
                         checkElem.checked = true;
