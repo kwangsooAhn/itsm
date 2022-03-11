@@ -71,14 +71,16 @@ export const customCodeMixin = {
             .onUIClick(this.openCustomCodeModal.bind(this))
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
 
+        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
+
         // 필수값 아닌 custom code는 값 제거 가능
         if (this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('off')) {
             element.UIRemoveButton = new UIRemoveButton()
                 .addUIClass('z-button-icon-sm')
+                .onUIClick(this.removeValue.bind(this))
                 .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
+            element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
         }
-
-        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
 
         this.setDefaultValue(element.UIInput);
         return element;
@@ -90,7 +92,7 @@ export const customCodeMixin = {
             this.UIElement.UIComponent.UIElement.UIButton.setUIDisabled(true);
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : this.UIElement.UIComponent.UIElement.UIRemoveButton.setUIDisabled(true);
         }
         // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
         // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
@@ -205,7 +207,11 @@ export const customCodeMixin = {
         }
         this.value = customData[2];
     },
-
+    // remove 버튼 클릭시 custom data 제거
+    removeValue() {
+        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', '');
+        this.value = '';
+    },
     // 커스텀 코드 모달
     openCustomCodeModal(e) {
         e.stopPropagation();

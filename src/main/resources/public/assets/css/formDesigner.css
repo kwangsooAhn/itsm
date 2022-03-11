@@ -4845,7 +4845,9 @@ select {
 
 .z-button:disabled, .z-button.disabled,
 .z-button-icon:disabled,
-.z-button-icon.disabled {
+.z-button-icon.disabled,
+.z-button-icon-sm:disabled,
+.z-button-icon-sm.disabled {
   display: none;
 }
 

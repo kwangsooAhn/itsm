@@ -191,7 +191,9 @@
 }
 
 .z-button,
-.z-button-icon {
+.z-button-icon,
+.z-button-icon-sm
+{
   &:disabled,
   &.disabled {
     display: none;
