@@ -138,7 +138,9 @@ class CIService(
         basic.contents = ciSearchService.getOrderContents(basic, ciSearchCondition)
         // 페이징
         val totalCount = basic.contents.size
-        basic.contents = ciSearchService.getPaging(basic, ciSearchCondition)
+        if (!ciSearchCondition.isExcel) {
+            basic.contents = ciSearchService.getPaging(basic, ciSearchCondition)
+        }
 
         return CIDynamicReturnDto(
             data = basic,

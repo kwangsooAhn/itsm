@@ -311,7 +311,7 @@
         /**
          * 목록 다운로드 (엑셀)
          */
-        function onExcelDownload(pageNum = 1) {
+        function onExcelDownload() {
             const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
             const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
             let detailSearchData = { searchItems: [] };
@@ -320,7 +320,7 @@
                     return { attributeId: item.attributeId, searchValue: item.searchValue }
                 });
             }
-            const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum
+            const urlParam = aliceJs.serialize(document.getElementById('searchFrm'))
                 + '&typeId=' + document.getElementById('treeTypeId').value
                 + '&orderColName=' + orderColName
                 + '&orderDir=' + orderDir;
