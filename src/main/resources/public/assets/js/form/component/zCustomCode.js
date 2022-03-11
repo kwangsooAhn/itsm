@@ -64,15 +64,19 @@ export const customCodeMixin = {
             .setUIAttribute('data-custom-data', (this.value === '${default}') ? this.elementDefaultValueCustomCode : this.value)
             .onUIChange(this.updateValue.bind(this))
             .setUIAttribute('data-validation-required', this.validationRequired);
-        element.UIRemoveButton = new UIRemoveButton()
-            .addUIClass('z-button-icon-sm')
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
         element.UIButton = new UIButton()
             .setUIClass('z-button')
             .setUIClass('secondary')
             .addUIClass('z-button-icon')
             .onUIClick(this.openCustomCodeModal.bind(this))
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
+
+        // 필수값 아닌 custom code는 값 제거 가능
+        if (this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('off')) {
+            element.UIRemoveButton = new UIRemoveButton()
+                .addUIClass('z-button-icon-sm')
+                .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
+        }
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
 
