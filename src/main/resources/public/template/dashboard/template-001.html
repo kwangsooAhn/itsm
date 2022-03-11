@@ -209,7 +209,7 @@
             if (Object.keys(data.contents).length > 0) { // 요청사항 내역이 있는 경우
                 gridBodyElem += `<div class="grid__body">`;
                 for (let i = 0; i < Object.keys(data.contents).length; i++) {
-                    gridBodyElem += `<div class="grid__row">`;
+                    gridBodyElem += `<div class="grid__row read-only">`;
                     const gridContents = data.contents[i].map((value, index) => {
                         const columnType = data.columnType[index];
                         if (index === 0) { // 순번
@@ -224,7 +224,7 @@
                 }
                 gridBodyElem += `</div>`;
             } else { // 요청사항 내역이 없는 경우
-                gridBodyElem = `<div class="grid__body"><div class="grid__row grid--noData">
+                gridBodyElem = `<div class="grid__body"><div class="grid__row grid--noData read-only">
                         <div class="grid__cell"><span>${i18n.msg('common.msg.noData')}</span></div>
                     </div></div>`;
             }

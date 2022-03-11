@@ -165,8 +165,6 @@ export default class ZPaging {
         const curPageLink = document.querySelector('.' + this.options.selectedPage);
         if (curPageLink) {
             curPageLink.click();
-        } else {
-
         }
     }
     // 정렬 아이콘 추가
@@ -179,7 +177,9 @@ export default class ZPaging {
         sortIcon.children[1].remove();
 
         const sortColElem = document.querySelector('.grid__cell[data-grid-column="' + orderColNameElem.value +'"]');
-        sortColElem.setAttribute('data-grid-sorting-type', orderDirElem.value);
-        sortColElem.insertAdjacentHTML('beforeend', `<span class="z-icon i-sorting"></span>`);
+        if (sortColElem) {
+            sortColElem.setAttribute('data-grid-sorting-type', orderDirElem.value);
+            sortColElem.insertAdjacentHTML('beforeend', `<span class="z-icon i-sorting"></span>`);
+        }
     }
 }

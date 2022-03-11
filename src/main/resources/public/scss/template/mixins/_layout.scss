@@ -72,7 +72,7 @@
         color: $grid-body-color;
         @include border(0.0625rem, solid, $grid-border-color, bottom);
         cursor: pointer;
-        &:read-only { cursor: default; }
+        &.read-only { cursor: default; }
         &:hover { background-color: $grid-hover-bg-color; }
       }
 
@@ -452,6 +452,7 @@
       width: 100%;
       margin: 0.625rem 0 0 0; // 10px 0 0 0
       label { margin: 0.625rem 0; } // 10px 0
+      &.off { display: none; }
     }
     label { margin: 0.625rem 0; } // 10px 0
     .z-button-list {
