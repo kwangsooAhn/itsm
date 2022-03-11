@@ -24,9 +24,10 @@ let targetUserArray = [];
 export default class ZUserSearchProperty extends ZProperty {
     constructor(key, name, value, isAlwaysEditable) {
         super(key, name, 'userSearchProperty', value, isAlwaysEditable);
-        this.selectOptions = propertyExtends.selectOptions;
+        // 컴포넌트에 저장된 설정 값
         this.defaultValue = (value === '') ? value : JSON.parse(value);
-        this.defaultCriteria = this.defaultValue.targetCriteria || this.selectOptions[0].value;
+        // 조회 대상 기준
+        this.defaultCriteria = this.defaultValue.targetCriteria || propertyExtends.selectOptions[0].value;
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -43,7 +44,7 @@ export default class ZUserSearchProperty extends ZProperty {
         this.UIElement.UISelect = new UISelect()
             .setUIId('userSearch')
             .setUIAttribute('name', this.key)
-            .setUIOptions(JSON.parse(JSON.stringify(this.selectOptions)))
+            .setUIOptions(JSON.parse(JSON.stringify(propertyExtends.selectOptions)))
             .setUIValue(this.defaultCriteria)
             .setUIAttribute('data-value', 'userSearch')
             .onUIChange(this.updateSearchCriteria.bind(this));
