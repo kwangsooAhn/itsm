@@ -193,7 +193,7 @@ class UIText extends UISpan {
 }
 
 class UIInput extends UIElement {
-    constructor(text) {
+    constructor(text = '') {
         super(document.createElement('input'));
         this.domElement.type = 'text';
         this.domElement.className = 'z-input';
