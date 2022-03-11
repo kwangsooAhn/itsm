@@ -185,7 +185,7 @@ export default class ZUserSearchProperty extends ZProperty {
     openUserListModal() {
         const targetUserModal = new modal({
             title: i18n.msg('form.properties.userList'),
-            body: `<div class="sub-user-list">` +
+            body: `<div class="target-user-list">` +
                 `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
