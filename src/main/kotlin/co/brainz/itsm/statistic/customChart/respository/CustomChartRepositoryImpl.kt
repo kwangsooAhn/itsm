@@ -92,7 +92,7 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
             .fetch()
     }
 
-    override fun findByChartNameAndType(chartName: String, chartType: String): ChartEntity? {
+    override fun findByChartNameAndChartType(chartName: String, chartType: String): ChartEntity? {
         val chart = QChartEntity.chartEntity
         return from(chart)
             .where(chart.chartName.eq(chartName).and(chart.chartType.eq(chartType)))

@@ -290,6 +290,7 @@ chart:
     enterTargetTags: "Please enter a target tags."
     maxPeriodUnitRange: "If the interval is hourly, please set the period within {0} days."
     periodUnitOutOfRange: "The duration is greater than the period."
+    duplicateChartNameAndChartType: "Duplicate chart name and chart type exist."
   chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"

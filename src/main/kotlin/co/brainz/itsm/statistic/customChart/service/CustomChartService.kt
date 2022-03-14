@@ -109,7 +109,7 @@ class CustomChartService(
     @Transactional
     fun saveChart(chartDto: ChartDto): String {
         // duplication check.
-        val chartEntityCheck = customChartRepository.findByChartNameAndType(chartDto.chartName, chartDto.chartType)
+        val chartEntityCheck = customChartRepository.findByChartNameAndChartType(chartDto.chartName, chartDto.chartType)
         if (chartEntityCheck != null) {
             return ChartConstants.Status.STATUS_ERROR_DUPLICATION.code
         }

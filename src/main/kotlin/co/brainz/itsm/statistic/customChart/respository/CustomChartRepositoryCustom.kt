@@ -16,5 +16,5 @@ import com.querydsl.core.QueryResults
 interface CustomChartRepositoryCustom : AliceRepositoryCustom {
     fun findChartList(chartSearchCondition: ChartSearchCondition): QueryResults<CustomChartListDto>
     fun findChartDataByChartIdsTemplateId(chartIds: Set<String>, templateId: String): List<ChartDataDto>
-    fun findByChartNameAndType(chartName: String, chartType: String): ChartEntity?
+    fun findByChartNameAndChartType(chartName: String, chartType: String): ChartEntity?
 }
