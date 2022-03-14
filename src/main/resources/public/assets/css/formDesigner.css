@@ -7666,7 +7666,7 @@ body.modal-active {
   -moz-border-radius: 0.125rem;
 }
 .z-component .z-element .z-custom-code > .z-button-icon-sm {
-  margin: 0.5625rem 0;
+  right: 2.6rem !important;
 }
 .z-component .z-element .z-custom-code > .z-button-icon {
   margin-left: 0.5rem;

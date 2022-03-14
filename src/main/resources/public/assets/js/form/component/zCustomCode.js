@@ -55,11 +55,11 @@ export const customCodeMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInputButton = new UIDiv()
             .setUIClass('z-custom-code')
-            .addUIClass('flex-row')
+            .addUIClass('flex-row').addUIClass('z-input-button')
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIInput = new UIInput()
-            .setUIClass('z-input z-input-button')
+            .setUIClass('z-input')
             .setUIReadOnly(true)
             .setUIAttribute('data-custom-data', (this.value === '${default}') ? this.elementDefaultValueCustomCode : this.value)
             .onUIChange(this.updateValue.bind(this))
@@ -73,8 +73,9 @@ export const customCodeMixin = {
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
-        // 필수값 아닌 custom code는 값 제거 가능
-        if (this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('off')) {
+        // data-custom-data 값이 remove 버튼 있으면 생성
+        const customData = this.elementDefaultValueCustomCode.split('|');
+        if (customData[2].trim()  !== '') {
             element.UIRemoveButton = new UIRemoveButton()
                 .addUIClass('z-button-icon-sm')
                 .onUIClick(this.removeValue.bind(this))
@@ -201,6 +202,14 @@ export const customCodeMixin = {
 
         const customData = e.target.getAttribute('data-custom-data').split('|');
 
+        if (customData[2].trim()  !== '') {
+            this.element.UIRemoveButton = new UIRemoveButton()
+                .addUIClass('z-button-icon-sm')
+                .onUIClick(this.removeValue.bind(this))
+                .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
+            this.element.addUI(this.element.UIInputButton.addUI(this.element.UIInput).addUI(this.element.UIRemoveButton).addUI(this.element.UIButton));
+        }
+
         // 값이 입력되었을 경우 error 없애기
         if (zValidation.isRequired(customData)) {
             zValidation.removeDOMElementError(e.target);
@@ -209,8 +218,9 @@ export const customCodeMixin = {
     },
     // remove 버튼 클릭시 custom data 제거
     removeValue() {
-        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', '');
-        this.value = '';
+        let customData = this.elementDefaultValueCustomCode.split('|');
+        customData[2] = '';
+        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', customData);
     },
     // 커스텀 코드 모달
     openCustomCodeModal(e) {
