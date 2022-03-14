@@ -200,14 +200,16 @@ export const customCodeMixin = {
         e.stopPropagation();
         e.preventDefault();
 
+        const element = this.UIElement.UIComponent.UIElement;
         const customData = e.target.getAttribute('data-custom-data').split('|');
 
-        if (customData[2].trim()  !== '') {
-            this.element.UIRemoveButton = new UIRemoveButton()
+        if (customData[2].trim() !== '') {
+            element.UIRemoveButton = new UIRemoveButton()
                 .addUIClass('z-button-icon-sm')
                 .onUIClick(this.removeValue.bind(this))
                 .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
-            this.element.addUI(this.element.UIInputButton.addUI(this.element.UIInput).addUI(this.element.UIRemoveButton).addUI(this.element.UIButton));
+            element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
+            console.log(customData[2])
         }
 
         // 값이 입력되었을 경우 error 없애기
@@ -220,7 +222,14 @@ export const customCodeMixin = {
     removeValue() {
         let customData = this.elementDefaultValueCustomCode.split('|');
         customData[2] = '';
+
+        // value 제거
         this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', customData);
+
+        // element 제거
+        if (customData[2].trim() === '') {
+            console.log('aaa')
+        }
     },
     // 커스텀 코드 모달
     openCustomCodeModal(e) {
