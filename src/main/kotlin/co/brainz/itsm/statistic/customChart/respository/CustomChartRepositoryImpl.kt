@@ -13,7 +13,6 @@ import co.brainz.itsm.statistic.customChart.dto.ChartSearchCondition
 import co.brainz.itsm.statistic.customChart.dto.CustomChartListDto
 import co.brainz.itsm.statistic.customChart.entity.ChartEntity
 import co.brainz.itsm.statistic.customChart.entity.QChartEntity
-import co.brainz.itsm.statistic.customChart.respository.*
 import co.brainz.itsm.statistic.customReportTemplate.entity.QCustomReportTemplateMapEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Order
@@ -91,5 +90,12 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
             )
             .orderBy(reportMap.displayOrder.asc())
             .fetch()
+    }
+
+    override fun findByChartNameAndType(chartName: String, chartType: String): ChartEntity? {
+        val chart = QChartEntity.chartEntity
+        return from(chart)
+            .where(chart.chartName.eq(chartName).and(chart.chartType.eq(chartType)))
+            .fetchFirst()
     }
 }
