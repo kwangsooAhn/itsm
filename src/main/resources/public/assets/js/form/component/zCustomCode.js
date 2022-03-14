@@ -74,8 +74,8 @@ export const customCodeMixin = {
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
         // data-custom-data 값이 remove 버튼 있으면 생성
-        const customData = this.elementDefaultValueCustomCode.split('|');
-        if (customData[2].trim()  !== '') {
+        const customData =element.UIInput.getUIAttribute('data-custom-data').split('|');
+        if ((customData.length > 1 && customData[2].trim()  !== '') || (customData.length == 1 && customData[0].trim() !== '')) {  // 문서 작성 상태시 삭제 버튼 추가 || 문서 진행상태시 삭제 버튼 추가
             element.UIRemoveButton = new UIRemoveButton()
                 .addUIClass('z-button-icon-sm')
                 .onUIClick(this.removeValue.bind(this))
@@ -91,9 +91,11 @@ export const customCodeMixin = {
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIButton.setUIDisabled(true);
+            this.UIElement.UIComponent.UIElement.UIRemoveButton !== undefined ?
+                this.UIElement.UIComponent.UIElement.UIRemoveButton.setUIDisabled(true) : '';
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : this.UIElement.UIComponent.UIElement.UIRemoveButton.setUIDisabled(true);
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
         }
         // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
         // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
@@ -200,16 +202,14 @@ export const customCodeMixin = {
         e.stopPropagation();
         e.preventDefault();
 
-        const element = this.UIElement.UIComponent.UIElement;
         const customData = e.target.getAttribute('data-custom-data').split('|');
 
+        // data-custom-data 값이 remove 버튼 있으면 생성
+        const element = this.UIElement.UIComponent;
         if (customData[2].trim() !== '') {
-            element.UIRemoveButton = new UIRemoveButton()
-                .addUIClass('z-button-icon-sm')
-                .onUIClick(this.removeValue.bind(this))
-                .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
-            element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
-            console.log(customData[2])
+            element.UIElement.UIRemoveButton = new UIRemoveButton().addUIClass('z-button-icon-sm')
+                .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove')).onUIClick(this.removeValue.bind(this));
+            element.UIElement.addUI(element.UIElement.UIInputButton.addUI(element.UIElement.UIInput).addUI(element.UIElement.UIRemoveButton).addUI(element.UIElement.UIButton))
         }
 
         // 값이 입력되었을 경우 error 없애기
@@ -221,15 +221,11 @@ export const customCodeMixin = {
     // remove 버튼 클릭시 custom data 제거
     removeValue() {
         let customData = this.elementDefaultValueCustomCode.split('|');
+        customData[1] = 'none'
         customData[2] = '';
-
-        // value 제거
-        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', customData);
-
-        // element 제거
-        if (customData[2].trim() === '') {
-            console.log('aaa')
-        }
+        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', customData[0]+ '|' + customData[1] + '|' + customData[2]);
+        this.UIElement.UIComponent.UIElement.UIRemoveButton.domElement.remove();
+        this.value = customData[2];
     },
     // 커스텀 코드 모달
     openCustomCodeModal(e) {
