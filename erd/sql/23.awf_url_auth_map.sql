@@ -270,6 +270,7 @@ insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'workflow.ma
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/{id}/export', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/roles', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/new', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/search', 'get', 'system.manage');

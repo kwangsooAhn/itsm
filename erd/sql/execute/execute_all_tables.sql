@@ -1256,6 +1256,7 @@ insert into awf_url values ('/rest/workflows/{id}', 'delete', '신청서 삭제'
 insert into awf_url values ('/rest/workflows/{id}', 'get', '신청서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}', 'put', '신청서 수정', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}/display', 'put', '신청서 디스플레이 데이터 저장', 'TRUE');
+insert into awf_url values ('/rest/workflows/{id}/export', 'get', '신청서 export 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/documents/{id}/data', 'get', '신청서의 문서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'post', '자료실 등록', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'put', '자료실 변경', 'TRUE');
@@ -1690,6 +1691,7 @@ insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'workflow.ma
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/{id}/export', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/roles', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/new', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/search', 'get', 'system.manage');

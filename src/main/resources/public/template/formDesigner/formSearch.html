@@ -144,7 +144,7 @@
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
-                        ZWorkflowUtil.export(responseObject.id, 'form');
+                        ZWorkflowUtil.export(responseObject.id, '/rest/forms/' + responseObject.id + '/data', 'form');
                         modal.hide();
                     }
                 }],

@@ -42,6 +42,7 @@ common:
     delete: "Delete"
     edit: "Edit"
     endDate: "End date"
+    export: "Export"
     fail: "Fail"
     group: "Group"
     modify: "Modify"
