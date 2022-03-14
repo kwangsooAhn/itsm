@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -92,5 +93,15 @@ class CIRestController(private val ciService: CIService) {
         @RequestBody searchItemsData: CISearch
     ): ResponseEntity<ByteArray> {
         return ciService.getCIsExcelDownload(ciSearchCondition, searchItemsData)
+    }
+
+    /**
+     * CI 일괄 등록 템플릿 다운로드
+     */
+    @GetMapping("/template")
+    fun getCIsTemplateDownload(
+        @RequestParam typeId: String
+    ): ResponseEntity<ByteArray> {
+        return ciService.getCisTemplateDownload(typeId)
     }
 }
