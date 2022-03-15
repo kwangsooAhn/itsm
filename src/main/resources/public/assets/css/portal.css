@@ -2968,7 +2968,7 @@ div.z-textarea-readonly {
 .z-switch input[type=checkbox] + span::before {
   content: "";
   position: absolute;
-  top: 0.08rem;
+  top: 0.1rem;
   left: 0.125rem;
   width: 1rem;
   height: 1rem;
@@ -5966,6 +5966,11 @@ summary:focus {
   color: #8B9094;
   border-bottom: 0.0625rem solid #CFD5D9;
   padding: 0.75rem 0;
+}
+.z-picker-modal-title .z-button-icon {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.5rem;
 }
 .z-picker-modal-title .z-icon.i-remove {
   position: absolute;

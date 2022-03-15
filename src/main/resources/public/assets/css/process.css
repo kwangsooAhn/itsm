@@ -2812,7 +2812,7 @@ div.z-textarea-readonly {
 .z-switch input[type=checkbox] + span::before {
   content: "";
   position: absolute;
-  top: 0.08rem;
+  top: 0.1rem;
   left: 0.125rem;
   width: 1rem;
   height: 1rem;

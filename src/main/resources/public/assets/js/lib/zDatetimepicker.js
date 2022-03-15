@@ -90,6 +90,7 @@
 
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
+        this.removeTarget = this.removeTarget.bind(this);
         this.setPosition = this.setPosition.bind(this);
         this.clickWindow = this.clickWindow.bind(this);
         this.changeTarget = this.changeTarget.bind(this);
@@ -103,6 +104,14 @@
         pickerTitle.className = 'z-picker-modal-title';
         pickerTitle.textContent = i18n.msg(options.title);
         this.el.appendChild(pickerTitle);
+
+        // create title > remove button
+        let buttonRemove = document.createElement('button');
+        buttonRemove.type = 'button';
+        buttonRemove.className = 'z-button-icon extra';
+        buttonRemove.insertAdjacentHTML('beforeend', `<span class="z-icon i-delete"></span>`);
+        buttonRemove.addEventListener('click', this.removeTarget, false);
+        pickerTitle.appendChild(buttonRemove);
 
         // create title > close icon
         const spanClose = document.createElement('span');
@@ -435,6 +444,13 @@
                 }, false);
                 hourType.appendChild(buttonPM);
             }
+        },
+        // remove 버튼 클릭시 실제 대상 input box의 데이터 삭제.
+        removeTarget: function() {
+            this.target.value = '';
+            this.close();
+
+            this.target.dispatchEvent(callbackEvent); // 정상적으로 값이 변경되었다면 > callback 이벤트 호출
         },
         // Date picker 에서 이전 달력 (<) 아이콘 클릭시 이전 달력으로 변경.
         prevMonth: function() {

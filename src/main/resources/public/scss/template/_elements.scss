@@ -488,7 +488,7 @@ div.z-textarea {
       // 동그라미
       &::before {
         content: '';
-        @include absolute($top: 0.08rem, $left: 0.125rem); // 2px
+        @include absolute($top: 0.1rem, $left: 0.125rem); // 2px
         width: 1rem; // 16px
         height: 1rem; // 16px
         background-color: $white;
