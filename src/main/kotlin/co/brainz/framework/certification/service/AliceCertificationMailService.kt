@@ -103,7 +103,7 @@ class AliceCertificationMailService(
             AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> {
                 params["intro"] = "사용자 계정이 생성되었습니다."
                 params["message"] = "로그인 아이디 : " + aliceCertificationDto.userId + "\n" +
-                        "비밀번호 : " + aliceCertificationDto.password
+                        "임시 비밀번호 : " + aliceCertificationDto.password
                 params["link"] = "$senderProtocol://$host:$senderPort/portals/main"
                 params["text"] = "ITSM으로 바로가기"
             }
