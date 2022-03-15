@@ -4893,7 +4893,9 @@ select {
 
 .z-button:disabled, .z-button.disabled,
 .z-button-icon:disabled,
-.z-button-icon.disabled {
+.z-button-icon.disabled,
+.z-button-icon-sm:disabled,
+.z-button-icon-sm.disabled {
   display: none;
 }
 
@@ -4922,6 +4924,10 @@ select {
   content: "";
   width: 1.25rem;
   height: 1.25rem;
+}
+
+.z-switch input[type=checkbox] + span::before {
+  top: 0.125rem;
 }
 
 /* _alerts.scss
@@ -7703,6 +7709,9 @@ body.modal-active {
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
+}
+.z-component .z-element .z-custom-code > .z-button-icon-sm {
+  right: 2.6rem !important;
 }
 .z-component .z-element .z-custom-code > .z-button-icon {
   margin-left: 0.5rem;
