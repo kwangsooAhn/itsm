@@ -42,7 +42,7 @@ export const customCodeMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        this._value = (typeof this.data.value === 'undefined') ? '${default}' : this.data.value; // 서버에 저장되는 값은 키 값만 저장된다. 왜냐하면 assignee Id 로 key만 전달되어야 하기 떄문이다.
+        this._value = (this.data.value === undefined) ? '${default}' : this.data.value;
 
         // customCode|none|없음  customCode|session|세션값  customCode|code|코드값|코드명
         if (zValidation.isEmpty(this._element.defaultValueCustomCode) && FORM.CUSTOM_CODE.length > 0) {
@@ -73,9 +73,9 @@ export const customCodeMixin = {
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
-        // data-custom-data 값이 remove 버튼 있으면 생성
+        // customCoded의 값이 입력되면 remove 버튼 생성
         const customData =element.UIInput.getUIAttribute('data-custom-data').split('|');
-        if ((customData.length > 1 && customData[2].trim()  !== '') || (customData.length == 1 && customData[0].trim() !== '')) {  // 문서 작성 상태시 삭제 버튼 추가 || 문서 진행상태시 삭제 버튼 추가
+        if (customData[1] !== FORM.CUSTOM.NONE) {
             element.UIRemoveButton = new UIRemoveButton()
                 .addUIClass('z-button-icon-sm')
                 .onUIClick(this.removeValue.bind(this))
@@ -204,7 +204,7 @@ export const customCodeMixin = {
 
         const customData = e.target.getAttribute('data-custom-data').split('|');
 
-        // data-custom-data 값이 remove 버튼 있으면 생성
+        // customCoded의 값이 입력되면 remove 버튼 생성
         const element = this.UIElement.UIComponent;
         if (customData[2].trim() !== '') {
             element.UIElement.UIRemoveButton = new UIRemoveButton().addUIClass('z-button-icon-sm')
