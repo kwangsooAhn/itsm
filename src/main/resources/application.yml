@@ -238,9 +238,9 @@ schedule.plugins.dir: /root/plugins
 ---
 # KB 저축은행 배포용 DB 계정
 spring:
-  profiles: KB_TEST_20220224
+  profiles: kb
   datasource:
-    url: jdbc:log4jdbc:postgresql://10.0.10.175:32853/itsm
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32867/itsm
 ---
 # For jenkins test
 spring:
