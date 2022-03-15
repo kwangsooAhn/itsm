@@ -797,6 +797,7 @@
             }).then((htmlData) => {
                 document.getElementById('ciClassAttributeList').innerHTML = htmlData;
                 aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
+                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
 
                 document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
                     checkbox.addEventListener('change', function (e) {
