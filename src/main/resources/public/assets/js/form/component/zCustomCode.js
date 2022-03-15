@@ -73,7 +73,7 @@ export const customCodeMixin = {
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
-        // customCoded의 값이 입력되면 remove 버튼 생성
+        // customCode 값이 입력되면 remove 버튼 생성
         const customData =element.UIInput.getUIAttribute('data-custom-data').split('|');
         if (customData[1] !== FORM.CUSTOM.NONE) {
             element.UIRemoveButton = new UIRemoveButton()
@@ -208,7 +208,7 @@ export const customCodeMixin = {
 
         const customData = e.target.getAttribute('data-custom-data').split('|');
 
-        // customCoded의 값이 입력되면 remove 버튼 생성
+        // customCode 값이 입력되면 remove 버튼 생성
         const element = this.UIElement.UIComponent;
         if (customData[2].trim() !== '') {
             element.UIElement.UIRemoveButton = new UIRemoveButton().addUIClass('z-button-icon-sm')
