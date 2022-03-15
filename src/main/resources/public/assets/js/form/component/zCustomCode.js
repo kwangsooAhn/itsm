@@ -122,15 +122,15 @@ export const customCodeMixin = {
                     } else {
                         this.value = '';
                     }
-                    // '${default}' 에서 실제 값이 빈 값일 때에 remove 버튼을 제거한다.
-                    if (this.value === '') {
-                        this.UIElement.UIComponent.UIElement.UIRemoveButton.domElement.remove();
-                    }
                     break;
                 case FORM.CUSTOM.CODE:
                     this.value = defaultValues[2];
                     break;
             }
+        }
+        // '${default}' 에서 실제 값이 빈 값일 때에 remove 버튼을 제거한다.
+        if (this.value === '') {
+            this.UIElement.UIComponent.UIElement.UIRemoveButton.domElement.remove();
         }
     },
     // set, get
