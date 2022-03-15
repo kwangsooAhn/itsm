@@ -290,6 +290,7 @@ chart:
     enterTargetTags: "대상 태그를 입력하세요."
     maxPeriodUnitRange: "간격이 시간 단위일 경우, 기간을 {0}일 이내로 설정해주세요."
     periodUnitOutOfRange: "간격이 기간보다 큽니다."
+    duplicateChartNameAndChartType: "중복되는 차트 이름, 차트 종류가 존재합니다."
   chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"
