@@ -6,8 +6,11 @@
 package co.brainz.itsm.instance.repository
 
 import co.brainz.itsm.instance.entity.WfInstanceViewerEntity
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ViewerRepository : JpaRepository<WfInstanceViewerEntity, String>, ViewerRepositoryCustom
+interface ViewerRepository : JpaRepository<WfInstanceViewerEntity, String>, ViewerRepositoryCustom {
+    fun deleteWfInstanceViewerEntityByInstanceAndAndReviewYn(instance: WfInstanceEntity, ReviewYn: Boolean)
+}

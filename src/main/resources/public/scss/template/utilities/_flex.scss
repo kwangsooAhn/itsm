@@ -71,3 +71,11 @@ $flex-align-type: (row, column);
   flex: 1 1 auto;
 }
 
+// flex에서 고정 값이 아닌 %(퍼센트) 비율을 사용하는 경우, 아래 클래스를 사용한다.
+$i: 1;
+@while $i <= $column-count {
+  .flex-col-#{$i} {
+    flex-basis: getColumnPercentWidth($column-count) * $i !important;
+  }
+  $i: $i + 1;
+}
