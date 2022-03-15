@@ -172,6 +172,7 @@
     <script th:inline="javascript" type="text/javascript">
         const chartId = [[${chart?.chartId}]];
         const STATUS_SUCCESS = '0';
+        const STATUS_ERROR_DUPLICATION = '1';
         // 차트 종류
         const PIE_CHART = 'chart.pie';
         const STACKED_COLUMN_CHART = 'chart.stackedColumn';
@@ -311,6 +312,9 @@
                         zAlert.success(i18n.msg('common.msg.save'), function () {
                             location.href = '/statistics/customChart/search';
                         });
+                        break;
+                    case STATUS_ERROR_DUPLICATION:
+                        zAlert.warning(i18n.msg('chart.msg.duplicateChartNameAndChartType'));
                         break;
                     default:
                         zAlert.danger(i18n.msg('common.msg.fail'));
