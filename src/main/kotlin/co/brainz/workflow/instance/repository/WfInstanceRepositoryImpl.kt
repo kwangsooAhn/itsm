@@ -478,7 +478,6 @@ class WfInstanceRepositoryImpl(
                                                     .select(startDtSubToken.tokenStartDt.max())
                                                     .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
                                             ))
-                                            .where(tokenSub.instance.instanceId.eq(instance.instanceId))
                                     ),
                                     tokenDataSub.component.componentId.`in`(
                                         JPAExpressions
