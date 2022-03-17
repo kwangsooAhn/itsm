@@ -242,4 +242,14 @@ class CITypeService(
     fun getCITypesByClassId(classId: String): Boolean {
         return ciTypeRepository.existsCITypeEntitiesByCiClass_ClassId(classId)
     }
+
+    /**
+     * Type Name으로 CI Type Entity 조회
+     *
+     * @param typeName
+     * @return CITypeEntity?
+     */
+    fun getCITypeByTypeName(typeName: String): CITypeEntity? {
+        return ciTypeRepository.findCITypeByTypeName(typeName)
+    }
 }

@@ -384,11 +384,8 @@
         function importTemplate() {
             const formData = new FormData();
             formData.append('files', importFile);
-            /*aliceJs.fetchText('/rest/cmdb/cis/templateUpload', {
+            aliceJs.fetchText('/rest/cmdb/cis/templateUpload', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: formData
             }).then((response) => {
                 // 성공시 페이지 새로 고침
@@ -396,7 +393,7 @@
                     location.reload();
                     return true;
                 });
-            });*/
+            });
         }
         /**
          * 템플릿 업로드 모달 오픈

@@ -13,7 +13,6 @@ import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIAttributeValueGroupListDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
-import co.brainz.cmdb.dto.CIClassToAttributeDto
 import co.brainz.cmdb.dto.CIContentDto
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDynamicListDto
@@ -32,7 +31,6 @@ import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagManager
-import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
@@ -42,7 +40,6 @@ import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
-import co.brainz.itsm.cmdb.ciType.service.CITypeService
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.CollectionType
@@ -65,9 +62,7 @@ class CIService(
     private val excelComponent: ExcelComponent,
     private val aliceTagManager: AliceTagManager,
     private val ciSearchService: CISearchService,
-    private val ciRepository: CIRepository,
-    private val ciTypeService: CITypeService,
-    private val aliceMessageSource: AliceMessageSource
+    private val ciRepository: CIRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -437,6 +432,26 @@ class CIService(
                 )
             )
         )
+
+        val excelRowVOList = mutableListOf<ExcelRowVO>()
+        result?.contents?.forEach { content ->
+            val excelCellVOList = mutableListOf<ExcelCellVO>()
+            content.value.forEachIndexed { index, value ->
+                when (result.columnType[index]) {
+                    CIAttributeConstants.Type.ICON.code,
+                    CIAttributeConstants.Type.HIDDEN.code -> { }
+                    else -> {
+                        excelCellVOList.add(ExcelCellVO(value = value))
+                    }
+                }
+            }
+            excelRowVOList.add(
+                ExcelRowVO(
+                    cells = excelCellVOList
+                )
+            )
+        }
+        excelVO.sheets[0].rows.addAll(excelRowVOList)
         return excelComponent.download(excelVO)
     }
 
@@ -452,83 +467,5 @@ class CIService(
             tagStr += tag.tagValue
         }
         return tagStr
-    }
-
-    /**
-     * CI 일괄 등록 템플릿 다운로드
-     */
-    fun getCisTemplateDownload(typeId: String): ResponseEntity<ByteArray> {
-        val classId = ciTypeService.getCIType(typeId).classId
-        val titleRowVOList = mutableListOf<ExcelCellVO>()
-        val allAttributeList = this.getTemplateAttributeList(classId)
-
-        this.templateColumnTitle().forEach {
-            titleRowVOList.add(
-                ExcelCellVO(
-                    value = it,
-                    cellWidth = 5000
-                )
-            )
-        }
-
-        allAttributeList?.let {
-            allAttributeList.forEach {
-                titleRowVOList.add(
-                    ExcelCellVO(
-                        value = it.attributeName,
-                        cellWidth = 5000
-                    )
-                )
-            }
-        }
-
-        val excelVO = ExcelVO(
-            sheets = mutableListOf(
-                ExcelSheetVO(
-                    rows = mutableListOf(
-                        ExcelRowVO(
-                            cells = titleRowVOList
-                        )
-                    )
-                )
-            )
-        )
-        return excelComponent.download(excelVO)
-    }
-
-    /**
-     * 템플릿 타이틀 생성
-     */
-    private fun templateColumnTitle(): ArrayList<String> {
-        val columnTitleList = arrayListOf<String>()
-        columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.type"))
-        columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.name"))
-        columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.description"))
-
-        return columnTitleList
-    }
-
-    /**
-     * 템플릿 속성 데이터 수집
-     */
-    private fun getTemplateAttributeList(classId: String): MutableList<CIClassToAttributeDto>? {
-        val attributeList = ciClassService.getCIClass(classId).attributes
-        val extendsAttributeList = ciClassService.getCIClass(classId).extendsAttributes
-        var allAttributeList: MutableList<CIClassToAttributeDto>? = mutableListOf()
-
-        // 기존 속성항목 추가
-        attributeList?.let {
-            allAttributeList?.addAll(attributeList)
-        }
-        // 부모 속성항목 추가
-        extendsAttributeList?.let {
-            allAttributeList?.addAll(extendsAttributeList)
-        }
-        // 정렬 진행 ( classLevel -> order 순으로 정렬 )
-        allAttributeList = allAttributeList?.let {
-            it.sortedWith(compareBy({ it.classLevel }, { it.order }))
-        }?.toMutableList()
-
-        return allAttributeList
     }
 }

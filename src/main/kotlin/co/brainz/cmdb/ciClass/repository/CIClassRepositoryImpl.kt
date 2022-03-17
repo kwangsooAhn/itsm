@@ -90,6 +90,7 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
                     ciClassAttributeMap.ciClass.classId,
                     ciClassAttributeMap.ciAttribute.attributeId,
                     ciClassAttributeMap.ciAttribute.attributeName,
+                    ciClassAttributeMap.ciAttribute.attributeType,
                     ciClass.classLevel,
                     ciClassAttributeMap.attributeOrder
                 )
