@@ -7677,27 +7677,27 @@ body.modal-active {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
-.modal-dialog.document-edit {
+.modal-dialog.document-edit, .modal-dialog.workFlow-import {
   width: 40rem;
   height: 50.63rem;
 }
-.modal-dialog.document-edit .modal-content {
+.modal-dialog.document-edit .modal-content, .modal-dialog.workFlow-import .modal-content {
   height: calc(50.63rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
-.modal-dialog.document-edit .modal-content .workflow-content {
+.modal-dialog.document-edit .modal-content .workflow-content, .modal-dialog.workFlow-import .modal-content .workflow-content {
   width: calc(40rem - 2.5rem);
   height: calc(50.63rem - 3.875rem - 5rem - 2.5rem);
   padding: 0 1.25rem;
 }
-.modal-dialog.document-edit .modal-content .field-label {
+.modal-dialog.document-edit .modal-content .field-label, .modal-dialog.workFlow-import .modal-content .field-label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
-.modal-dialog.document-edit .modal-content .hidden-control-content {
+.modal-dialog.document-edit .modal-content .hidden-control-content, .modal-dialog.workFlow-import .modal-content .hidden-control-content {
   display: none;
 }
-.modal-dialog.document-edit .modal-content .hidden-control-content.on {
+.modal-dialog.document-edit .modal-content .hidden-control-content.on, .modal-dialog.workFlow-import .modal-content .hidden-control-content.on {
   display: block;
 }
 .modal-dialog.document-display {

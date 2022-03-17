@@ -8,6 +8,7 @@ common:
     delete: "DELETE"
     editUserInfo: "Edit profile"
     export: "EXPORT"
+    import: "IMPORT"
     list: "LIST"
     logout: "LOGOUT"
     modify: "MODIFY"
@@ -685,9 +686,6 @@ fileupload:
 
 # Form
 form:
-  btn:
-    export: "Export"
-    import: "Import"
   label:
     actionType: "Type"
     addAbove: "Add above"
@@ -1075,8 +1073,6 @@ portal:
 # Process
 process:
   btn:
-    export: "Export"
-    import: "Import"
     simulationCheckResult: "Simulation check result"
   label:
     description: "Description"
@@ -1363,9 +1359,13 @@ workflowAdmin:
   label:
     description: "Description"
     group: "Group"
+    import: "WorkFlow IMPORT"
+    importFile: "IMPORT File"
     name: "Name"
     status: "Status"
     type: "Type"
+  msg:
+    noticeImportFile: "Import only possible in XML file"
 
 # User
 user:
