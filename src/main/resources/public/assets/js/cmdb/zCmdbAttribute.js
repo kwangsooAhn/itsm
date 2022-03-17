@@ -613,17 +613,17 @@
             `<input type="text" class="z-input" maxlength="50" readonly="readonly" ` +
             `id="${data.key}" value="${data.value}">` +
             `</div>` +
-            `<div class="flex-column col-1">` +
+            `<div class="flex-column col-2 align-right mr-2">` +
             `<label>` +
-            `<span class="mr-1">${i18n.msg('cmdb.attribute.label.type')}</span>` +
+            `<span>${i18n.msg('cmdb.attribute.label.type')}</span>` +
             `</label>` +
             `</div>` +
-            `<div class="flex-column col-4">` +
+            `<div class="flex-column col-3">` +
             `<input type="text" class="z-input" maxlength="50" readonly="readonly" value="${data.type}">` +
             `</div>` +
-            `<div class="flex-column col-1">` +
+            `<div class="flex-column col-2 align-right mr-2">` +
             `<label>` +
-            `<span class="mr-1">${i18n.msg('cmdb.attribute.label.seq')}</span><span class="required"></span>` +
+            `<span">${i18n.msg('cmdb.attribute.label.seq')}</span><span class="required"></span>` +
             `</label>` +
             `</div>` +
             `<div class="flex-column col-3">` +
@@ -631,7 +631,7 @@
             `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required" />` +
             `</div>` +
             `<div class="flex-column">` +
-            `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
+            `<button id="${rowId}_delete" type="button" class="z-button-icon extra ml-1">` +
             `<span class="z-icon i-delete"></span>` +
             `</button>` +
             `</div>` +
