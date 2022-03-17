@@ -139,12 +139,6 @@ object AliceConstants {
      * 시스템 관리자 역할
      */
     const val SYSTEM_ROLE = "system.admin"
-
-    /**
-     * 최신 토큰 찾을 때 limit 수.
-     */
-    const val LATEST_TOKEN_SIZE = 1L
-
 }
 
 /**
