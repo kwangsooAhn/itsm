@@ -86,6 +86,7 @@ class WfInstanceRepositoryImpl(
 
         val elementDataSub = QWfElementDataEntity("elementDataSub")
         val roleSub = QAliceUserRoleMapEntity("roleSub")
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
         val builder = getInstancesWhereCondition(
             tokenSearchCondition.searchDocumentId,
             tokenSearchCondition.searchValue,
@@ -158,13 +159,17 @@ class WfInstanceRepositoryImpl(
                     )
             )
         }
-
+        // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
                     .select(token.tokenId.max())
                     .from(token)
-                    .where(token.instance.instanceId.eq(instance.instanceId))
+                    .where(token.tokenStartDt.eq(
+                        from(startDtSubToken)
+                            .select(startDtSubToken.tokenStartDt.max())
+                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                    ))
             )
         )
         builder.and(
@@ -221,6 +226,7 @@ class WfInstanceRepositoryImpl(
 
     override fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto> {
         val tokenSub = QWfTokenEntity("tokenSub")
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
         val builder = getInstancesWhereCondition(
             tokenSearchCondition.searchDocumentId,
             tokenSearchCondition.searchValue,
@@ -230,12 +236,17 @@ class WfInstanceRepositoryImpl(
         if (!hasDocumentViewAuth()) {
             builder.and(instance.instanceCreateUser.userKey.eq(tokenSearchCondition.userKey))
         }
+        // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
                     .select(tokenSub.tokenId.max())
                     .from(tokenSub)
-                    .where(tokenSub.instance.instanceId.eq(instance.instanceId))
+                    .where(tokenSub.tokenStartDt.eq(
+                        from(startDtSubToken)
+                            .select(startDtSubToken.tokenStartDt.max())
+                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                    ))
             )
         )
         builder.and(
@@ -259,6 +270,7 @@ class WfInstanceRepositoryImpl(
     ): QueryResults<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
         val builder = getInstancesWhereCondition(
             tokenSearchCondition.searchDocumentId,
             tokenSearchCondition.searchValue,
@@ -266,12 +278,17 @@ class WfInstanceRepositoryImpl(
             tokenSearchCondition.searchToDt
         )
         builder.and(instance.instanceStatus.`in`(status))
+        // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
                     .select(tokenSub.tokenId.max())
                     .from(tokenSub)
-                    .where(tokenSub.instance.instanceId.eq(instance.instanceId))
+                    .where(tokenSub.tokenStartDt.eq(
+                        from(startDtSubToken)
+                            .select(startDtSubToken.tokenStartDt.max())
+                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                    ))
             )
         )
         if (!hasDocumentViewAuth()) {
@@ -445,6 +462,7 @@ class WfInstanceRepositoryImpl(
             val tokenDataSub = QWfTokenDataEntity("tokenDataSub")
             val componentSub = QWfComponentEntity("componentSub")
             val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
+            val startDtSubToken = QWfTokenEntity.wfTokenEntity
             builder.and(
                 instance.instanceCreateUser.userName.containsIgnoreCase(searchValue.trim())
                     .or(
@@ -452,12 +470,17 @@ class WfInstanceRepositoryImpl(
                             JPAExpressions
                                 .select(tokenDataSub.token.tokenId)
                                 .from(tokenDataSub)
+                                // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
                                 .where(
                                     tokenDataSub.token.tokenId.eq(
                                         JPAExpressions
                                             .select(tokenSub.tokenId.max())
                                             .from(tokenSub)
-                                            .where(tokenSub.instance.instanceId.eq(instance.instanceId))
+                                            .where(tokenSub.tokenStartDt.eq(
+                                                from(startDtSubToken)
+                                                    .select(startDtSubToken.tokenStartDt.max())
+                                                    .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                                            ))
                                     ),
                                     tokenDataSub.component.componentId.`in`(
                                         JPAExpressions
