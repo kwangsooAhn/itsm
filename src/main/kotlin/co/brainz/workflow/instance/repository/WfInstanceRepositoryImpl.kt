@@ -586,7 +586,6 @@ class WfInstanceRepositoryImpl(
             query.where(
                 (instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
                     .and(instance.instanceStartDt.goe(range.from))
-                    .and(instance.instanceStartDt.loe(range.to))
                     .and(instance.instanceEndDt.loe(range.to)))
                     .or(
                         (instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code)
@@ -599,7 +598,6 @@ class WfInstanceRepositoryImpl(
                 instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
                     .and(
                         instance.instanceStartDt.goe(range.from)
-                            .and(instance.instanceStartDt.loe(range.to))
                             .and(instance.instanceEndDt.loe(range.to))
                     )
             )

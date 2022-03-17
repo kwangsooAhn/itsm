@@ -283,7 +283,7 @@ abstract class ChartManager(
                 }
                 // to 의 년도가 category 없을 경우 추가한다.
                 val toDate = LocalDateTime.parse(to.toString(), DateTimeFormatter.ISO_DATE_TIME)
-                var toDateCategory = toDate.year.toString() +
+                val toDateCategory = toDate.year.toString() +
                     "-" + String.format("%02d", 1) +
                     "-" + String.format("%02d", 1) +
                     " " + String.format("%02d", 0) + ":00:00"
@@ -320,10 +320,9 @@ abstract class ChartManager(
             }
             ChartConstants.Unit.DAY.code -> {
                 val period: Long = ChronoUnit.DAYS.between(from, to)
-
                 for (i in 0..period) {
-                    val nextCategory = from.plusDays(i)
                     var initHour = 0
+                    val nextCategory = from.plusDays(i)
                     if (i == 0L) {
                         initHour = nextCategory.hour
                     }
