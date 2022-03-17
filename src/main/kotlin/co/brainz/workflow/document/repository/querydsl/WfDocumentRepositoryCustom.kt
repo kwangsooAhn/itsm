@@ -36,4 +36,9 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
      * 문서 조회
      */
     fun getDocumentListByIds(documentIds: Set<String>): List<WfDocumentEntity>
+
+    /**
+     * 신청서 폼, 프로세스 중복체크
+     */
+    fun existsByProcessIdAndFormId(processId: String, formId: String) : Boolean
 }

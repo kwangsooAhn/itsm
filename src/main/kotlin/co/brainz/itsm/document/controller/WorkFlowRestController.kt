@@ -5,6 +5,8 @@
 
 package co.brainz.itsm.document.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentExportDto
@@ -15,6 +17,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -140,7 +143,7 @@ class WorkFlowRestController(
      * 업무흐름 Import.
      */
     @PostMapping("/import")
-    fun importWorkFlowData(@RequestBody jsonData: Any): String {
+    fun importWorkFlowData(@RequestBody jsonData: Any): ZReturnDto {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return documentService.importDocumentData(mapper.convertValue(jsonData, DocumentImportDto::class.java))

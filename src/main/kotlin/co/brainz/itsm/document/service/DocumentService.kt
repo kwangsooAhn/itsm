@@ -313,8 +313,7 @@ class DocumentService(
     /**
      * 신청서 Import.
      */
-    fun importDocumentData(documentImportDto: DocumentImportDto): String {
-
-        return "1"
+    fun importDocumentData(documentImportDto: DocumentImportDto): ZReturnDto {
+        return wfDocumentService.importDocument(documentImportDto)
     }
 }

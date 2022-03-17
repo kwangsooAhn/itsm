@@ -477,17 +477,15 @@
             processName: document.getElementById('processName').value,
             processDesc: document.getElementById('processDesc').value,
         };
-        ZWorkflowUtil.import(importFile, importData, 'workflow', function (resultCode) {
-            /*switch (resultCode) {
-                case STATUS_ERROR_DUPLICATE_FORM_NAME:
-                    zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
-                    return false;
-                default:
-                    zAlert.success(i18n.msg('common.msg.save'), function () {
-                        location.reload();
-                        return true;
-                    });
-            }*/
+        ZWorkflowUtil.import(importFile, importData, 'workflow', function (response) {
+            if (response.result) {
+                zAlert.success(i18n.msg('common.msg.save'), function () {
+                    location.reload();
+                });
+            } else {
+                zAlert.warning(response.message);
+                return false;
+            }
         });
     }
     /**

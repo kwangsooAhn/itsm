@@ -10,7 +10,7 @@ import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import java.io.Serializable
 
 data class DocumentImportDto(
-    val documentData: DocumentDto,
+    var documentData: DocumentDto,
     var processData: RestTemplateProcessElementDto,
     val formData: RestTemplateFormDataDto,
     val displayData: MutableList<LinkedHashMap<String, Any>> = mutableListOf()

@@ -12,9 +12,11 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
+import co.brainz.itsm.document.dto.DocumentImportDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
@@ -40,10 +42,19 @@ import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.process.repository.WfProcessRepository
+import co.brainz.workflow.process.service.WfProcessService
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
+import co.brainz.workflow.provider.dto.RestTemplateElementDto
+import co.brainz.workflow.provider.dto.RestTemplateFormDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
-import java.util.ArrayDeque
+import java.time.LocalDateTime
+import java.util.*
+import kotlin.collections.LinkedHashMap
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -65,7 +76,9 @@ class WfDocumentService(
     private val numberingRuleRepository: NumberingRuleRepository,
     private val aliceMessageSource: AliceMessageSource,
     private val ciService: CIService,
-    private val ciComponentDataRepository: CIComponentDataRepository
+    private val ciComponentDataRepository: CIComponentDataRepository,
+    private val currentSessionUser: CurrentSessionUser,
+    private val wfProcessService: WfProcessService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -676,5 +689,189 @@ class WfDocumentService(
             }
             sortedUserTasks.add(elementAttribute)
         }
+    }
+
+    /**
+     * 업무흐름 Import.
+     * 신규로 Import된 프로세스, 폼은 '발행' 상태이다.
+     */
+    @Transactional
+    fun importDocument(documentImportDto: DocumentImportDto): ZReturnDto {
+        var isSuccess = true
+        var message = ""
+        var importDto = DocumentImportDto(
+            documentData = documentImportDto.documentData,
+            processData = documentImportDto.processData,
+            formData = documentImportDto.formData,
+            displayData = documentImportDto.displayData
+        )
+
+        // 폼 중복 체크 후 저장
+        if (wfFormRepository.existsByFormName(documentImportDto.formData.name)) {
+            isSuccess = false
+            message = aliceMessageSource.getMessage("form.msg.duplicateFormName")
+        }
+        var newFormId = ""
+        if (isSuccess) {
+            importDto = this.importForm(documentImportDto)
+            newFormId = importDto.formData.id.toString()
+        }
+
+        // 프로세스 중복 체크 후 저장
+        if (isSuccess && wfProcessRepository.existsByProcessName(importDto.processData.process!!.name!!)) {
+            isSuccess = false
+            message = aliceMessageSource.getMessage("process.msg.duplicateProcessName")
+        }
+        var newProcessId = ""
+        if (isSuccess) {
+            importDto = this.importProcess(importDto)
+            newProcessId = importDto.processData.process?.id!!
+        }
+
+        // 문서 중복 체크 후 저장
+        if (isSuccess && wfDocumentRepository.existsByProcessIdAndFormId(newProcessId, newFormId)) {
+            isSuccess = false
+            message = aliceMessageSource.getMessage("document.msg.checkDuplication")
+        }
+        if (isSuccess && wfDocumentRepository.existsByDocumentName(documentImportDto.documentData.documentName, "")) {
+            isSuccess = false
+            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+        }
+        var newDocumentId = ""
+        if (isSuccess) {
+            // 신청서 저장
+            newDocumentId = wfDocumentRepository.save(WfDocumentEntity(
+                documentId = "",
+                documentType = importDto.documentData.documentType,
+                documentName = importDto.documentData.documentName,
+                documentDesc = importDto.documentData.documentDesc,
+                form = WfFormEntity(formId = newFormId),
+                process = WfProcessEntity(processId = newProcessId),
+                createDt = LocalDateTime.now(),
+                createUserKey = currentSessionUser.getUserKey(),
+                documentStatus = importDto.documentData.documentStatus,
+                apiEnable = importDto.documentData.apiEnable,
+                numberingRule = numberingRuleRepository.findById(importDto.documentData.documentNumberingRuleId).get(),
+                documentColor = importDto.documentData.documentColor,
+                documentGroup = importDto.documentData.documentGroup,
+                documentIcon = importDto.documentData.documentIcon
+            )).documentId
+            // 신청서 양식 편집 저장
+            val wfDocumentDisplayEntities: MutableList<WfDocumentDisplayEntity> = mutableListOf()
+            for (display in importDto.displayData) {
+                val documentDisplayEntity = WfDocumentDisplayEntity(
+                    documentId = newDocumentId,
+                    formGroupId = display["formGroupId"] as String,
+                    elementId = display["elementId"] as String,
+                    display = display["display"] as String
+                )
+                wfDocumentDisplayEntities.add(documentDisplayEntity)
+            }
+            if (wfDocumentDisplayEntities.isNotEmpty()) {
+                wfDocumentDisplayRepository.saveAll(wfDocumentDisplayEntities)
+            }
+        }
+
+        return ZReturnDto(
+            result = isSuccess,
+            message = message,
+            data = newDocumentId
+        )
+    }
+    /**
+     * 업무흐름 Import - 폼.
+     */
+    @Transactional
+    fun importForm(documentImportDto: DocumentImportDto): DocumentImportDto {
+        val wfFormDto = wfFormService.createForm(RestTemplateFormDto(
+            name = documentImportDto.formData.name,
+            status = WorkflowConstants.FormStatus.PUBLISH.value,
+            desc = documentImportDto.formData.desc,
+            editable = false,
+            createUserKey = currentSessionUser.getUserKey(),
+            createDt = LocalDateTime.now()
+        ))
+        documentImportDto.formData.id = wfFormDto.id
+        documentImportDto.documentData.formId = wfFormDto.id
+        // 변경된 Group Id를 신청서 양식 편집에도 반영함
+        for (group in documentImportDto.formData.group.orEmpty()) {
+            if (group.id.isNotBlank()) {
+                val newGroupId = UUID.randomUUID().toString().replace("-", "")
+                for (display in documentImportDto.displayData) {
+                    if (display["formGroupId"] == group.id) {
+                        display["formGroupId"] = newGroupId
+                    }
+                }
+                group.id = newGroupId
+                for (row in group.row) {
+                    row.id = UUID.randomUUID().toString().replace("-", "")
+                    for (component in row.component) {
+                        component.id = UUID.randomUUID().toString().replace("-", "")
+                    }
+                }
+            }
+        }
+        wfFormService.saveFormData(documentImportDto.formData)
+        return documentImportDto
+    }
+
+    /**
+     * 업무흐름 Import - 프로세스.
+     */
+    @Transactional
+    fun importProcess(documentImportDto: DocumentImportDto): DocumentImportDto {
+        val processDto = wfProcessService.insertProcess(RestTemplateProcessDto(
+            processName = documentImportDto.processData.process?.name.toString(),
+            processDesc = documentImportDto.processData.process?.description,
+            processStatus = WorkflowConstants.ProcessStatus.PUBLISH.value,
+            enabled = false,
+            createDt = LocalDateTime.now(),
+            createUserKey = currentSessionUser.getUserKey()
+        ))
+        val newProcess = RestTemplateProcessViewDto(
+            id = processDto.processId,
+            name = processDto.processName,
+            createUserKey = processDto.createUserKey,
+            createDt = processDto.createDt,
+            status = processDto.processStatus,
+            enabled = processDto.enabled,
+            description = processDto.processDesc
+        )
+        documentImportDto.documentData.processId = processDto.processId
+        val newElements: MutableList<RestTemplateElementDto> = mutableListOf()
+        val elementKeyMap: MutableMap<String, String> = mutableMapOf()
+        documentImportDto.processData.elements?.forEach { element ->
+            val newElementId = UUID.randomUUID().toString().replace("-", "")
+            for (display in documentImportDto.displayData) {
+                if (display["elementId"] == element.id) {
+                    display["elementId"] = newElementId
+                }
+            }
+            elementKeyMap[element.id] = newElementId
+        }
+        documentImportDto.processData.elements?.forEach { element ->
+            val dataMap: MutableMap<String, Any>? = element.data
+            dataMap?.forEach {
+                if (elementKeyMap.containsKey(it.value)) {
+                    dataMap[it.key] = elementKeyMap[it.value].toString()
+                }
+            }
+
+            newElements.add(RestTemplateElementDto(
+                id = elementKeyMap[element.id]!!,
+                name = element.name,
+                description = element.description,
+                notification = element.notification,
+                data = dataMap,
+                type = element.type,
+                display = element.display
+            ))
+        }
+        documentImportDto.processData = RestTemplateProcessElementDto(
+            process = newProcess,
+            elements = newElements
+        )
+        wfProcessService.updateProcessData(documentImportDto.processData)
+        return documentImportDto
     }
 }
