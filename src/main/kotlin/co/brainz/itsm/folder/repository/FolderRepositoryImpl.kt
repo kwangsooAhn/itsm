@@ -26,6 +26,7 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
         val user = QAliceUserEntity.aliceUserEntity
         val token = QWfTokenEntity.wfTokenEntity
         val document = QWfDocumentEntity.wfDocumentEntity
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
 
         return from(folder)
             .select(
@@ -35,9 +36,13 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
                     folder.instance.instanceId,
                     folder.relatedType,
                     ExpressionUtils.`as`(
-                        JPAExpressions.select(token.tokenId.max())
+                        JPAExpressions.select(token.tokenId)
                             .from(token)
-                            .where(folder.instance.instanceId.eq(token.instance.instanceId)),
+                            .where(token.tokenStartDt.eq(
+                                from(startDtSubToken)
+                                    .select(startDtSubToken.tokenStartDt.max())
+                                    .where(startDtSubToken.instance.instanceId.eq(folder.instance.instanceId))
+                            )),
                         "tokenId"
                     ),
                     folder.instance.document.documentId,

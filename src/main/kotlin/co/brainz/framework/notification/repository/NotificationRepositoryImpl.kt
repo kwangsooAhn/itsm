@@ -24,6 +24,7 @@ class NotificationRepositoryImpl : QuerydslRepositorySupport(NotificationEntity:
         val instance = QWfInstanceEntity.wfInstanceEntity
         val token = QWfTokenEntity.wfTokenEntity
         val subToken = QWfTokenEntity.wfTokenEntity
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
 
         return from(notification)
             .select(
@@ -47,8 +48,12 @@ class NotificationRepositoryImpl : QuerydslRepositorySupport(NotificationEntity:
             .where(notification.receivedUser.userId.eq(receivedUser)
                 .and(token.tokenId.eq(
                     from(subToken)
-                        .select(subToken.tokenId.max())
-                        .where(subToken.instance.instanceId.eq(instance.instanceId))
+                        .select(subToken.tokenId)
+                        .where(subToken.tokenStartDt.eq(
+                            from(startDtSubToken)
+                                .select(startDtSubToken.tokenStartDt.max())
+                                .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                        ))
                     )
                 )
             )
