@@ -7,6 +7,7 @@ package co.brainz.itsm.document.controller
 
 import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.itsm.document.dto.DocumentDto
+import co.brainz.itsm.document.dto.DocumentExportDto
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -118,5 +119,15 @@ class WorkFlowRestController(
         @RequestBody documentDisplay: RestTemplateDocumentDisplaySaveDto
     ): Boolean {
         return documentService.updateDocumentDisplay(documentDisplay)
+    }
+
+    /**
+     * 업무흐름 Export 데이터 조회.
+     *
+     * @param documentId
+     */
+    @GetMapping("/{documentId}/export")
+    fun getExportWorkFlowData(@PathVariable documentId: String): DocumentExportDto {
+        return documentService.getDocumentExportData(documentId)
     }
 }

@@ -13,12 +13,14 @@ import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
+import co.brainz.itsm.document.dto.DocumentExportDto
 import co.brainz.itsm.document.dto.DocumentListReturnDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.itsm.process.service.ProcessAdminService
+import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.document.repository.WfDocumentLinkRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.document.service.WfDocumentService
@@ -38,13 +40,13 @@ import org.springframework.stereotype.Service
 class DocumentService(
     private val formService: FormService,
     private val processAdminService: ProcessAdminService,
+    private val processService: ProcessService,
     private val wfDocumentService: WfDocumentService,
     private val aliceFileProvider: AliceFileProvider,
     private val currentSessionUser: CurrentSessionUser,
     private val wfDocumentLinkRepository: WfDocumentLinkRepository,
     private val wfDocumentRepository: WfDocumentRepository
 ) {
-
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     /**
@@ -278,5 +280,32 @@ class DocumentService(
      */
     fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDisplaySaveDto): Boolean {
         return wfDocumentService.updateDocumentDisplay(documentDisplay)
+    }
+
+    /**
+     * 신청서 Export 데이터 조회.
+     */
+    fun getDocumentExportData(documentId: String): DocumentExportDto {
+        val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
+        // 프로세스 디자이너
+        val processData = processService.getProcessData(documentEntity.process.processId)
+        // 폼 디자이너
+        val formData = formService.getFormData(documentEntity.form.formId)
+        // 신청서 편집 양식
+        val documentDisplayData: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+        for (displayEntity in documentEntity.display) {
+            val documentDisplayMap = LinkedHashMap<String, Any>()
+            documentDisplayMap["formGroupId"] = displayEntity.formGroupId
+            documentDisplayMap["elementId"] = displayEntity.elementId
+            documentDisplayMap["display"] = displayEntity.display
+            documentDisplayData.add(documentDisplayMap)
+        }
+        return DocumentExportDto(
+            documentId = documentId,
+            process = processData.process,
+            elements = processData.elements,
+            form = formData,
+            displays = documentDisplayData
+        )
     }
 }

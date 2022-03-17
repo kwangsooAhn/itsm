@@ -8,6 +8,7 @@
 </head>
 <th:block layout:fragment="pageHead">
     <script th:src="@{/assets/js/lib/zColorPicker.js}"></script>
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
 </th:block>
 <body>
 <div layout:fragment="pageTitle">
@@ -410,6 +411,13 @@
         }).then((response) => {
             resultFunc(response);
         });
+    }
+
+    /**
+     * XML 다운로드
+     */
+    function onXMLDownload(documentId) {
+        ZWorkflowUtil.export(documentId, '/rest/workflows/' + documentId + '/export', 'workflow');
     }
     /*]]>*/
 </script>

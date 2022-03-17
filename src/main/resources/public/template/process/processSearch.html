@@ -215,7 +215,7 @@
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
-                        ZWorkflowUtil.export(data.id, 'process');
+                        ZWorkflowUtil.export(data.id, '/rest/process/' + data.id + '/data', 'process');
                         modal.hide();
                     }
                 });
@@ -244,7 +244,7 @@
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
-                        ZWorkflowUtil.export(data.id, 'process');
+                        ZWorkflowUtil.export(data.id, '/rest/process/' + data.id + '/data', 'process');
                     }
                 });
                 // 폐기

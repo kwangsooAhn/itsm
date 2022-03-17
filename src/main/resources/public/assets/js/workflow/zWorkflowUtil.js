@@ -131,7 +131,7 @@ ZWorkflowUtil.objectToXML = function(data) {
  * @param version workflow version
  * @return {string} XML 문자열
  */
-ZWorkflowUtil.createFormXMLString = function (formData, version) {
+ZWorkflowUtil.createFormXMLString = function(formData, version) {
     const serializer = new XMLSerializer();
     const xmlDoc = document.implementation.createDocument('', '', null);
     // 세부 정보
@@ -210,6 +210,83 @@ ZWorkflowUtil.createProcessXMLString = function(processData, version) {
 };
 
 /**
+ * 업무흐름 데이터로 XML 형식의 문자열을 만들어 반환 한다.
+ * @param workflowData 업무흐름 데이터
+ * @param version workflow version
+ * @return {string} XML 문자열
+ */
+ZWorkflowUtil.createDocumentXMLString = function (workflowData, version) {
+    const serializer = new XMLSerializer();
+    const xmlDoc = document.implementation.createDocument('', '', null);
+    // 세부 정보
+    const definitions = xmlDoc.createElement('definitions');
+    const workflow = xmlDoc.createElement('workflow');
+    workflow.setAttribute('version', version); // 버전
+    workflow.setAttribute('id', workflowData.documentId);
+    definitions.appendChild(workflow);
+
+    // 폼 : ZWorkflowUtil.createFormXMLString 와 구조 동일
+    const form = xmlDoc.createElement('form');
+    form.setAttribute('id', workflowData.form.id);
+    form.innerHTML = ZWorkflowUtil.objectToXML(workflowData.form);
+    workflow.appendChild(form);
+
+    // 프로세스 : ZWorkflowUtil.createProcessXMLString 와 구조 동일
+    const process = xmlDoc.createElement('process');
+    process.setAttribute('id', workflowData.process.id);
+    process.setAttribute('name', workflowData.process.name);
+    process.setAttribute('description', workflowData.process.description);
+    const diagram = xmlDoc.createElement('diagram');
+    workflowData.elements.forEach(function(element) {
+        // 프로세스 엘리먼트
+        const elementNode = xmlDoc.createElement(element.type);
+        elementNode.setAttribute('id', element.id);
+        elementNode.setAttribute('name', element.name);
+        elementNode.setAttribute('notification', element.notification);
+        elementNode.setAttribute('description', element.description);
+        const keys = Object.keys(element.data);
+        keys.forEach(function(key) {
+            const attributeNode = xmlDoc.createElement(key);
+            if (element.data[key]) {
+                if (Array.isArray(element.data[key])) {
+                    const data = xmlDoc.createTextNode(element.data[key]);
+                    attributeNode.appendChild(data);
+                } else {
+                    const cdata = xmlDoc.createCDATASection(element.data[key]);
+                    attributeNode.appendChild(cdata);
+                }
+            }
+            elementNode.appendChild(attributeNode);
+        });
+        process.appendChild(elementNode);
+        // 프로세스 다이어그램
+        const diagramTagName = (element.type === 'arrowConnector') ? 'connector' : 'shape';
+        const diagramNode = xmlDoc.createElement(diagramTagName);
+        diagramNode.setAttribute('id', element.id);
+        const diagramKeys = Object.keys(element.display);
+        diagramKeys.forEach(function(key) {
+            diagramNode.setAttribute(key, element.display[key]);
+        });
+        diagram.appendChild(diagramNode);
+    });
+    workflow.appendChild(process);
+    workflow.appendChild(diagram);
+
+    // 신청서 편집 양식
+    const docDisplay = xmlDoc.createElement('documentDisplay');
+    workflowData.displays.forEach(function (display) {
+        const progressNode = xmlDoc.createElement('progress');
+        progressNode.innerHTML = ZWorkflowUtil.objectToXML(display);
+        docDisplay.appendChild(progressNode);
+    });
+    workflow.appendChild(docDisplay);
+
+    definitions.appendChild(workflow);
+    xmlDoc.appendChild(definitions);
+    return serializer.serializeToString(xmlDoc);
+};
+
+/**
  * download.
  *
  * @param id ID
@@ -228,35 +305,37 @@ ZWorkflowUtil.downloadXML = function(id, suffix, xmlString) {
 };
 
 /**
- * export form , process.
+ * export form, process, document
  *
- * @param id form/process ID
- * @param type form/process
+ * @param id form/process/document ID
+ * @param url 경로
+ * @param type form/process/workflow
  */
-ZWorkflowUtil.export = function(id, type) {
-    let exportUrl = '/rest/forms/' + id + '/data';
-    if (type === 'process') {
-        exportUrl = '/rest/process/' + id + '/data';
-    }
-    aliceJs.fetchJson(exportUrl, {
+ZWorkflowUtil.export = async function(id, url, type) {
+    // 버전 정보
+    const version = await aliceJs.fetchJson('/rest/codes/version.workflow', { method: 'GET' });
+    
+    // XML 추출
+    aliceJs.fetchJson(url, {
         method: 'GET'
     }).then((data) => {
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
             zAlert.danger(i18n.msg('form.msg.failedExport'));
             return false;
         }
-        // 버전 정보
-        aliceJs.fetchJson('/rest/codes/version.workflow', {
-            method: 'GET'
-        }).then(codeData => {
-            let xmlString = '';
-            if (type === 'form') {
-                xmlString = ZWorkflowUtil.createFormXMLString(data, codeData.codeValue);
-            } else if (type === 'process') {
-                xmlString = ZWorkflowUtil.createProcessXMLString(data, codeData.codeValue);
-            }
-            ZWorkflowUtil.downloadXML(id, type, xmlString);
-        });
+        let xmlString = '';
+        switch (type) {
+            case 'form':
+                xmlString = ZWorkflowUtil.createFormXMLString(data, version.codeValue);
+                break;
+            case 'process':
+                xmlString = ZWorkflowUtil.createProcessXMLString(data, version.codeValue);
+                break;
+            case 'workflow':
+                xmlString = ZWorkflowUtil.createDocumentXMLString(data, version.codeValue);
+                break;
+        }
+        ZWorkflowUtil.downloadXML(id, type, xmlString);
     });
 };
 
