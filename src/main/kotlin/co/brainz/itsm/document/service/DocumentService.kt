@@ -292,20 +292,20 @@ class DocumentService(
         // 폼 디자이너
         val formData = formService.getFormData(documentEntity.form.formId)
         // 신청서 편집 양식
-        val documentDisplay: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+        val documentDisplayData: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (displayEntity in documentEntity.display) {
             val documentDisplayMap = LinkedHashMap<String, Any>()
             documentDisplayMap["formGroupId"] = displayEntity.formGroupId
             documentDisplayMap["elementId"] = displayEntity.elementId
             documentDisplayMap["display"] = displayEntity.display
-            documentDisplay.add(documentDisplayMap)
+            documentDisplayData.add(documentDisplayMap)
         }
         return DocumentExportDto(
             documentId = documentId,
             process = processData.process,
             elements = processData.elements,
             form = formData,
-            displays = documentDisplay
+            displays = documentDisplayData
         )
     }
 }
