@@ -225,7 +225,7 @@
                 `<div class="flex-column col-1"><label>` +
                 `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1">` +
+                `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
                 `<span class="z-icon i-delete"></span>` +
                 `</button>` +
@@ -288,7 +288,7 @@
                 `<label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label>` +
                 `</div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1">` +
+                `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
                 `<span class="z-icon i-delete"></span>` +
                 `</button>` +
@@ -358,7 +358,7 @@
                 `<span></span>` +
                 `</label>` +
                 `</div>` +
-                `<div class="flex-column col-1">` +
+                `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
                 `<span class="z-icon i-delete"></span>` +
                 `</button>` +
@@ -626,11 +626,11 @@
             `<span class="mr-1">${i18n.msg('cmdb.attribute.label.seq')}</span><span class="required"></span>` +
             `</label>` +
             `</div>` +
-            `<div class="flex-column col-2">` +
+            `<div class="flex-column col-3">` +
             `<input type="text" class="z-input" id="${data.key}_order" value="${data.order}" maxlength="50" ` +
             `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required" />` +
             `</div>` +
-            `<div class="flex-column col-1">` +
+            `<div class="flex-column">` +
             `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
             `<span class="z-icon i-delete"></span>` +
             `</button>` +
