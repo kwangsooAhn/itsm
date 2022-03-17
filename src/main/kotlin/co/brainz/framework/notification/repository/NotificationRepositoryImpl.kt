@@ -46,9 +46,10 @@ class NotificationRepositoryImpl : QuerydslRepositorySupport(NotificationEntity:
             .innerJoin(instance).on(notification.instanceId.eq(instance.instanceId))
             .innerJoin(token).on(token.instance.instanceId.eq(instance.instanceId))
             .where(notification.receivedUser.userId.eq(receivedUser)
+                // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
                 .and(token.tokenId.eq(
                     from(subToken)
-                        .select(subToken.tokenId)
+                        .select(subToken.tokenId.max())
                         .where(subToken.tokenStartDt.eq(
                             from(startDtSubToken)
                                 .select(startDtSubToken.tokenStartDt.max())

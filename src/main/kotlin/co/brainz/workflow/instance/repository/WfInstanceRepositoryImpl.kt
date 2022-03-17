@@ -159,11 +159,11 @@ class WfInstanceRepositoryImpl(
                     )
             )
         }
-
+        // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
-                    .select(token.tokenId)
+                    .select(token.tokenId.max())
                     .from(token)
                     .where(token.tokenStartDt.eq(
                         from(startDtSubToken)
@@ -236,10 +236,11 @@ class WfInstanceRepositoryImpl(
         if (!hasDocumentViewAuth()) {
             builder.and(instance.instanceCreateUser.userKey.eq(tokenSearchCondition.userKey))
         }
+        // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
-                    .select(tokenSub.tokenId)
+                    .select(tokenSub.tokenId.max())
                     .from(tokenSub)
                     .where(tokenSub.tokenStartDt.eq(
                         from(startDtSubToken)
@@ -277,10 +278,11 @@ class WfInstanceRepositoryImpl(
             tokenSearchCondition.searchToDt
         )
         builder.and(instance.instanceStatus.`in`(status))
+        // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
-                    .select(tokenSub.tokenId)
+                    .select(tokenSub.tokenId.max())
                     .from(tokenSub)
                     .where(tokenSub.tokenStartDt.eq(
                         from(startDtSubToken)
@@ -468,10 +470,11 @@ class WfInstanceRepositoryImpl(
                             JPAExpressions
                                 .select(tokenDataSub.token.tokenId)
                                 .from(tokenDataSub)
+                                // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
                                 .where(
                                     tokenDataSub.token.tokenId.eq(
                                         JPAExpressions
-                                            .select(tokenSub.tokenId)
+                                            .select(tokenSub.tokenId.max())
                                             .from(tokenSub)
                                             .where(tokenSub.tokenStartDt.eq(
                                                 from(startDtSubToken)

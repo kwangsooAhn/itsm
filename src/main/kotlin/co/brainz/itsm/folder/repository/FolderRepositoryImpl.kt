@@ -35,8 +35,9 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
                     folder.folderId,
                     folder.instance.instanceId,
                     folder.relatedType,
+                    // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
                     ExpressionUtils.`as`(
-                        JPAExpressions.select(token.tokenId)
+                        JPAExpressions.select(token.tokenId.max())
                             .from(token)
                             .where(token.tokenStartDt.eq(
                                 from(startDtSubToken)
