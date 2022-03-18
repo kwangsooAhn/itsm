@@ -26,7 +26,6 @@ import javax.validation.Valid
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
@@ -55,9 +54,6 @@ class UserRestController(
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
-
-    @Value("\${spring.mail.enabled}")
-    private val mailEnabled: Boolean = false
 
     /**
      * 사용자를 등록한다.
