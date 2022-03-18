@@ -12,6 +12,6 @@ import java.io.Serializable
 data class DocumentImportDto(
     var documentData: DocumentDto,
     var processData: RestTemplateProcessElementDto,
-    val formData: RestTemplateFormDataDto,
-    val displayData: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+    var formData: RestTemplateFormDataDto,
+    var displayData: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
 ) : Serializable

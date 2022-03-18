@@ -638,11 +638,15 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    showProgressbar: true,
                     body: JSON.stringify(saveData)
                 }).then((response) => {
+                    // TODO: 추후 response 구조 통일 후 if else 없앨 예정
                     if (type === 'process') {
                         let resultToJson = JSON.parse(response);
                         result = resultToJson.result;
+                    } else if (type === 'workflow') {
+                        result =  JSON.parse(response);
                     } else {
                         result = response;
                     }
