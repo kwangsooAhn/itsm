@@ -44,12 +44,9 @@ class CITypeService(
      */
     fun createCIType(ciTypeDto: CITypeDto): String {
         var returnValue = ""
-        val pType = cITypeRepository.findByTypeId(ciTypeDto.pTypeId!!)
-        val typeAliasDupl = cITypeRepository.existsByTypeAlias(ciTypeDto.typeAlias!!) // 식별자 중복체크
-        val pTypeAndTypeNameDupl = cITypeRepository.existsByPTypeAndTypeName(pType, ciTypeDto.typeName!!) // 부모유형 + 유형이름 중복체크
-        if (typeAliasDupl) {
+        if (cITypeRepository.existsByTypeAlias(ciTypeDto.typeAlias!!)) { // 식별자 중복체크
             returnValue = CITypeConstants.Status.STATUS_FAIL_TYPE_ALIAS_DUPLICATION.code
-        } else if (pTypeAndTypeNameDupl) {
+        } else if (cITypeRepository.existsByPTypeAndTypeName(cITypeRepository.findByTypeId(ciTypeDto.pTypeId!!), ciTypeDto.typeName!!)) { // 부모유형 + 유형이름 중복체크
             returnValue = CITypeConstants.Status.STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION.code
         } else {
             ciTypeDto.createDt = LocalDateTime.now()
@@ -66,10 +63,9 @@ class CITypeService(
      */
     fun updateCIType(ciTypeDto: CITypeDto, typeId: String): String {
         var returnValue = ""
-        val preTypeEntity = cITypeRepository.findByTypeId(typeId)
-        val pType = cITypeRepository.findByTypeId(ciTypeDto.pTypeId!!)
-        val pTypeAndTypeNameDupl = cITypeRepository.existsByPTypeAndTypeName(pType, ciTypeDto.typeName!!) // 부모유형 + 유형이름 중복체크
-        if (pTypeAndTypeNameDupl && !preTypeEntity.typeName.equals(ciTypeDto.typeName)) {
+        if (cITypeRepository.existsByPTypeAndTypeName(cITypeRepository.findByTypeId(ciTypeDto.pTypeId!!),  ciTypeDto.typeName!!)
+            && !cITypeRepository.findByTypeId(typeId).typeName.equals(ciTypeDto.typeName) // 부모유형 + 유형이름 중복체크 && 수정전후로 TypeName은 동일할수 있기에 제외처리
+        ) {
             returnValue = CITypeConstants.Status.STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION.code
         } else {
             ciTypeDto.updateDt = LocalDateTime.now()
