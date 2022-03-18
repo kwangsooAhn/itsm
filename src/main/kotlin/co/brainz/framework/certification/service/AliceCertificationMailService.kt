@@ -42,9 +42,6 @@ class AliceCertificationMailService(
         var statusCode = AliceUserConstants.Status.SIGNUP.code
         var classficationCode: String? = ""
 
-        //메일 서버 사용 여부 체크
-        if(!mailEnabled) { return; }
-
         when (target) {
             AliceUserConstants.SendMailStatus.CREATE_USER.code -> {
                 statusCode = AliceUserConstants.Status.SIGNUP.code
@@ -73,7 +70,7 @@ class AliceCertificationMailService(
             AliceUserConstants.SendMailStatus.CREATE_USER.code,
             AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
             AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
-            AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> this.sendCertificationMail(certificationDto)
+            AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> if (mailEnabled) this.sendCertificationMail(certificationDto)
         }
     }
 
@@ -96,6 +93,8 @@ class AliceCertificationMailService(
     }
 
     private fun sendCertificationMail(aliceCertificationDto: AliceCertificationDto) {
+        //메일 서버 사용 여부 체크
+        if(!mailEnabled) { return; }
         aliceMailService.makeContext(makeContextValues(aliceCertificationDto))
         aliceMailService.makeTemplateEngine("certification/emailTemplate")
         val aliceMailDto: AliceMailDto = this.makeMailInfo(aliceCertificationDto)
