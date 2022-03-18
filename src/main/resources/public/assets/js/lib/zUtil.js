@@ -609,7 +609,7 @@ aliceJs.thumbnail = function(options) {
 
                     const thumbnailName = document.createElement('p');
                     thumbnailName.className = 'z-thumbnail-info-text';
-                    thumbnailName.innerHTML = `<label class="text-ellipsis">${file.name}</label>`;
+                    thumbnailName.innerHTML = `<label class="text-ellipsis" title="${file.name}">${file.name}</label>`;
                     thumbnailInfo.appendChild(thumbnailName);
 
                     const thumbnailText = (isImageFile) ? `${file.width} X ${file.height} (${file.size})` : `${file.size}`;
