@@ -639,7 +639,7 @@
             document.getElementById('subUserList').innerHTML = htmlData;
             OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
             // 갯수 가운트
-            const substituteUserList = document.getElementById('substituteUserList');
+            const substituteUserList = document.getElementById('userList');
             aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
             document.querySelectorAll('input[type=radio]').forEach(function (radio) {
                 // 업무 대리인으로 자기 자신은 선택할 수 없다.

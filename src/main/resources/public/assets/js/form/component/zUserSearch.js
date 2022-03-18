@@ -16,6 +16,7 @@ import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import { FORM } from "../../lib/zConstants.js";
 import { UIDiv, UIInput } from '../../lib/zUI.js';
 import { zValidation } from "../../lib/zValidation.js";
 
@@ -32,6 +33,8 @@ const DEFAULT_COMPONENT_PROPERTY = {
     }
 };
 
+let selectedUser = '';
+
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
 
 export const userSearchMixin = {
@@ -40,7 +43,7 @@ export const userSearchMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        this._value = this.data.value || '';
+        this._value = this.data.value || '${default}';
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -49,10 +52,11 @@ export const userSearchMixin = {
         element.UIInput = new UIInput()
             .setUIClass('z-input i-user-search text-ellipsis')
             .setUIId('userSearch' + this.id)
-            .setUIValue(this._value)
             .setUIRequired(this.validationRequired)
-            .setUIAttribute('data-user-search', this.elementUserSearchTarget)
             .setUIAttribute('data-validation-required', this.validationRequired)
+            .setUIAttribute('oncontextmenu', 'return false;')
+            .setUIAttribute('onkeypress', 'return false;')
+            .setUIAttribute('onkeydown', 'return false;')
             .onUIChange(this.updateValue.bind(this))
             .onUIClick(this.openUserSearchModal.bind(this));
 
@@ -62,6 +66,16 @@ export const userSearchMixin = {
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
+        // 신청서 양식 편집 화면에 따른 처리
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
+            this.UIElement.UIComponent.UIElement.UIInput.setUIReadOnly(true);
+            this.UIElement.UIComponent.UIElement.UIInput.setUICSSText('pointer-events:none');
+            // 필수값 표시가 된 대상에 대해 Required off 처리한다.
+            this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+        }
+
+        // 검색 조건 외 실제로 선택된 데이터가 있는지 확인해야 한다.
     },
     // set, get
     set elementColumnWidth(width) {
@@ -74,7 +88,6 @@ export const userSearchMixin = {
     },
     set elementUserSearchTarget(value) {
         this._element.defaultValueUserSearch = value;
-        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-user-search', value);
     },
     get elementUserSearchTarget() {
         return this._element.defaultValueUserSearch;
@@ -103,27 +116,50 @@ export const userSearchMixin = {
         return this._value;
     },
     // input box 값 변경시 이벤트 핸들러
-    // todo: #12491 [사용자검색용 컴포넌트] 신청서 / 처리할 문서 동작 구현
     updateValue(e) {
+        console.log('update data');
         e.stopPropagation();
         e.preventDefault();
 
-        // this.value = e.target.value;
+        // 사용자 검색 결과로 들어간 내용이 있는지 this.value와 'data-user-search' 확인하고 값을 저장한다.
+
+        const searchUserData1 = e.target.getAttribute('data-user-search');
+
+        console.log(searchUserData);
+        console.log(searchUserData1);
+        console.log(e.target.value);
+        console.log(this.value);
+
+        this.value = e.target.value;
     },
 
     // 사용자 선택 모달
     openUserSearchModal(e) {
         e.stopPropagation();
         // 설정된 properties에 따라 사용자 선택 모달이 생성된다.
-        this.userSelect = new modal({
+        this.userSearch = new modal({
             title: this.labelText,
-            body: '',
-            classes: 'sub-user-modal',
+            body: `<div class="target-user-list">` +
+                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
+                `<span id="spanTotalCount" class="search-count"></span>` +
+                `<div class="table-set" id="searchUserList"></div>` +
+                `</div>`,
+            classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
+                    const selectedUserRadio = document.querySelector('input[type=radio]:checked');
+                    if (selectedUserRadio === null) {
+                        zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
+                        return false;
+                    } else {
+                        selectedUser = selectedUserRadio.id;
+                        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(selectedUserRadio.value);
+                        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('user-search-data', selectedUserRadio.id);
+                    }
                     modal.hide();
                 }
             }, {
@@ -138,12 +174,43 @@ export const userSearchMixin = {
                 closable: false,
             },
             onCreate: () => {
+                document.getElementById('search').addEventListener('keyup', (e) => {
+                    this.getUserList(e.target.value, false);
+                });
+                this.getUserList(document.getElementById('search').value, true);
                 OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             }
         });
 
-        this.userSelect.show();
+        this.userSearch.show();
 
+    },
+
+    getUserList(search, showProgressbar) {
+        let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
+            + '&from=&to=&userKey=&multiSelect=false';
+        aliceJs.fetchText(strUrl, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            const searchUserList = document.getElementById('searchUserList');
+            searchUserList.innerHTML = htmlData;
+            OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+            // 갯수 가운트
+            aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+            // 체크 이벤트
+            searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
+                element.addEventListener('change', () => {
+                    selectedUser = element.checked ? element.id : '';
+                });
+            });
+            // 기존 선택값 표시
+            const targetUserId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('user-search-data') || selectedUser;
+            if (targetUserId !== '') {
+                console.log(searchUserList.querySelector('input[id="' + targetUserId + '"]'));
+                searchUserList.querySelector('input[id="' + targetUserId + '"]').checked = true;
+            }
+        });
     },
     // 세부 속성 조회
     getProperty() {
