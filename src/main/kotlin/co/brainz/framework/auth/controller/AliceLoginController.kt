@@ -53,7 +53,7 @@ class AliceLoginController(
     private val findPasswordEnabled: Boolean = false
 
     @Value("\${create.account.enabled}")
-    private var createAccountEnabled: Boolean = false
+    private val createAccountEnabled: Boolean = false
 
     @Value("\${spring.mail.enabled}")
     private val mailEnabled: Boolean = false
@@ -73,10 +73,6 @@ class AliceLoginController(
         val aliceUserEntity: AliceUserEntity?
         var clientIp: String? = request.getHeader("X-Forwarded-For")
         var isExpired = false
-        // 메일 서버 사용 여부를 체크해서 false라면 계정 만들기도 숨긴다.
-        if (!mailEnabled) {
-            createAccountEnabled = false
-        }
         if (ipAccessControlValue == "true") {
             val _ipList = aliceIpVerificationService.getIpList()
             val ipList = mutableListOf<AliceIpVerificationDto>()
@@ -106,7 +102,8 @@ class AliceLoginController(
             model.addAttribute("isLoginPlatform", loginPlatformEnabled)
             model.addAttribute("findPasswordEnabled", findPasswordEnabled)
             model.addAttribute("findIdEnabled", findIdEnabled)
-            model.addAttribute("createAccountEnabled", createAccountEnabled)
+            // 메일 서버 사용 여부를 체크해서 false라면 계정 만들기도 숨긴다.
+            model.addAttribute("createAccountEnabled", createAccountEnabled && mailEnabled)
         }
 
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)

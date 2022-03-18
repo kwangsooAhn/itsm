@@ -108,9 +108,6 @@ class UserService(
     @Value("\${password.expired.period}")
     private var passwordExpiredPeriod: Long = 90L
 
-    @Value("\${spring.mail.enabled}")
-    private val mailEnabled: Boolean = false
-
     init {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     }
@@ -422,15 +419,12 @@ class UserService(
 
         userRepository.save(targetEntity)
 
-        // 메일 서버 사용 여부 체크
-        if (mailEnabled) {
-            aliceCertificationMailService.sendMail(
-                targetEntity.userId,
-                targetEntity.email,
-                AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
-                password
-            )
-        }
+        aliceCertificationMailService.sendMail(
+            targetEntity.userId,
+            targetEntity.email,
+            AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
+            password
+        )
         return AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code
     }
 

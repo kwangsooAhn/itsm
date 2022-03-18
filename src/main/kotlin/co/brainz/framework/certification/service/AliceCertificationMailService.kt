@@ -30,6 +30,9 @@ class AliceCertificationMailService(
     @Value("\${spring.mail.titleName}")
     lateinit var senderName: String
 
+    @Value("\${spring.mail.enabled}")
+    private val mailEnabled: Boolean = false
+
     val host: String = Inet4Address.getLocalHost().hostAddress
 
     @Transactional
@@ -38,6 +41,9 @@ class AliceCertificationMailService(
             AliceKeyGeneratorService().getKey(AliceConstants.EMAIL_CERTIFICATION_KEY_SIZE, false)
         var statusCode = AliceUserConstants.Status.SIGNUP.code
         var classficationCode: String? = ""
+
+        //메일 서버 사용 여부 체크
+        if(!mailEnabled) { return; }
 
         when (target) {
             AliceUserConstants.SendMailStatus.CREATE_USER.code -> {
