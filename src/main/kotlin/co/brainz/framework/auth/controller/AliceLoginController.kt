@@ -53,7 +53,10 @@ class AliceLoginController(
     private val findPasswordEnabled: Boolean = false
 
     @Value("\${create.account.enabled}")
-    private val createAccountEnabled: Boolean = false
+    private var createAccountEnabled: Boolean = false
+
+    @Value("\${spring.mail.enabled}")
+    private val mailEnabled: Boolean = false
 
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
@@ -70,6 +73,10 @@ class AliceLoginController(
         val aliceUserEntity: AliceUserEntity?
         var clientIp: String? = request.getHeader("X-Forwarded-For")
         var isExpired = false
+        // 메일 서버 사용 여부를 체크해서 false라면 계정 만들기도 숨긴다.
+        if (!mailEnabled) {
+            createAccountEnabled = false
+        }
         if (ipAccessControlValue == "true") {
             val _ipList = aliceIpVerificationService.getIpList()
             val ipList = mutableListOf<AliceIpVerificationDto>()
