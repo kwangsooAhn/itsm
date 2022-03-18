@@ -69,7 +69,6 @@ class UserRestController(
         aliceSignUpDto.password = aliceCryptoRsa.encrypt(publicKey, password)
 
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.ADMIN_ID)
-
         if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {
             aliceCertificationMailService.sendMail(
                 aliceSignUpDto.userId,
