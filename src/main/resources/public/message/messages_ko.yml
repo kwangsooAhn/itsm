@@ -270,6 +270,7 @@ chart:
     docCases: "문서 건 수"
     docRatio: "문서 차지 비율"
     searchPlaceholder: "차트 이름"
+    view: "차트 조회"
   option:
     label:
       subTitle: "사용자 정의 차트 보고서"

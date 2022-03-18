@@ -270,6 +270,7 @@ chart:
     docCases: "Documents Cases"
     docRatio: "Documents Ratio"
     searchPlaceholder: "Chart Name"
+    view: "Chart View"
   option:
     label:
       subTitle: "User custom chart report"
