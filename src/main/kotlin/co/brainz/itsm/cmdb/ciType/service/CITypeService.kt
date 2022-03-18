@@ -11,6 +11,7 @@ import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.dto.CITypeDto
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants
+import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants.Validation.*
 import co.brainz.itsm.cmdb.ciType.dto.CITypeTreeReturnDto
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
@@ -43,19 +44,25 @@ class CITypeService(
      * CI Type 생성
      */
     fun createCIType(ciTypeDto: CITypeDto): String {
-        var returnValue = ""
-        if (cITypeRepository.existsByTypeAlias(ciTypeDto.typeAlias!!)) { // 식별자 중복체크
-            returnValue = CITypeConstants.Status.STATUS_FAIL_TYPE_ALIAS_DUPLICATION.code
-        } else if (cITypeRepository.existsByPTypeAndTypeName(cITypeRepository.findByTypeId(ciTypeDto.pTypeId!!), ciTypeDto.typeName!!)) { // 부모유형 + 유형이름 중복체크
-            returnValue = CITypeConstants.Status.STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION.code
-        } else {
-            ciTypeDto.createDt = LocalDateTime.now()
-            ciTypeDto.createUserKey = currentSessionUser.getUserKey()
-            if (ciTypeService.createCIType(ciTypeDto)) {
-                returnValue = CITypeConstants.Status.STATUS_SUCCESS.code
+        var resultCode = ""
+        val validationCode = ciTypeService.duplicationCheck(ciTypeDto)
+
+        when (validationCode) {
+            VALIDATION_OK.code -> {
+                ciTypeDto.createDt = LocalDateTime.now()
+                ciTypeDto.createUserKey = currentSessionUser.getUserKey()
+                if (ciTypeService.createCIType(ciTypeDto))
+                    resultCode = CITypeConstants.Status.STATUS_SUCCESS.code
+            }
+            VALIDATION_DUPLICATION_TYPE_ALIAS.code -> {
+                resultCode = CITypeConstants.Status.STATUS_FAIL_TYPE_ALIAS_DUPLICATION.code
+            }
+            VALIDATION_DUPLICATION_PTYPE_AND_TYPENAME.code -> {
+                resultCode = CITypeConstants.Status.STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION.code
             }
         }
-        return returnValue
+
+        return resultCode
     }
 
     /**
@@ -63,15 +70,20 @@ class CITypeService(
      */
     fun updateCIType(ciTypeDto: CITypeDto, typeId: String): String {
         var returnValue = ""
-        if (cITypeRepository.existsByPTypeAndTypeName(cITypeRepository.findByTypeId(ciTypeDto.pTypeId!!),  ciTypeDto.typeName!!)
-            && !cITypeRepository.findByTypeId(typeId).typeName.equals(ciTypeDto.typeName) // 부모유형 + 유형이름 중복체크 && 수정전후로 TypeName은 동일할수 있기에 제외처리
-        ) {
-            returnValue = CITypeConstants.Status.STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION.code
-        } else {
-            ciTypeDto.updateDt = LocalDateTime.now()
-            ciTypeDto.updateUserKey = currentSessionUser.getUserKey()
-            if (ciTypeService.updateCIType(typeId, ciTypeDto)) {
-                returnValue = CITypeConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
+        val validationCode = ciTypeService.duplicationCheck(ciTypeDto)
+
+        when (validationCode) {
+            VALIDATION_OK.code -> {
+                ciTypeDto.createDt = LocalDateTime.now()
+                ciTypeDto.createUserKey = currentSessionUser.getUserKey()
+                if (ciTypeService.updateCIType(typeId, ciTypeDto))
+                    returnValue = CITypeConstants.Status.STATUS_SUCCESS.code
+            }
+            VALIDATION_DUPLICATION_TYPE_ALIAS.code -> {
+                returnValue = CITypeConstants.Status.STATUS_FAIL_TYPE_ALIAS_DUPLICATION.code
+            }
+            VALIDATION_DUPLICATION_PTYPE_AND_TYPENAME.code -> {
+                returnValue = CITypeConstants.Status.STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION.code
             }
         }
         return returnValue

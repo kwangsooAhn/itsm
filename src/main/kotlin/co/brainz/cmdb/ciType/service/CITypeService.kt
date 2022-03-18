@@ -19,6 +19,7 @@ import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants.Validation.*
 import co.brainz.itsm.cmdb.ciType.dto.CITypeTreeReturnDto
 import com.querydsl.core.QueryResults
 import java.io.File
@@ -241,5 +242,27 @@ class CITypeService(
      */
     fun getCITypesByClassId(classId: String): Boolean {
         return ciTypeRepository.existsCITypeEntitiesByCiClass_ClassId(classId)
+    }
+
+    /**
+     * CI Type로 중복체크
+     *
+     * @param ciTypeDto
+     * @return String CI TYPE 중복에 따른 코드값
+     */
+    fun duplicationCheck(ciTypeDto: CITypeDto): String {
+        var validationCode = ""
+        val preCITypeEntity =ciTypeRepository.findByTypeId(ciTypeDto.typeId) // 수정전 CI Type 정보
+
+        if (ciTypeRepository.existsByTypeAlias(ciTypeDto.typeAlias!!)
+            && !ciTypeDto.typeAlias.equals(preCITypeEntity.typeAlias)) { // 식별자 중복체크 && 수정 전후 TypeAlias 동일건은 예외
+            validationCode = VALIDATION_DUPLICATION_TYPE_ALIAS.code
+        } else if (ciTypeRepository.existsByPTypeAndTypeName(ciTypeRepository.findByTypeId(ciTypeDto.pTypeId!!), ciTypeDto.typeName!!)
+            && !ciTypeDto.typeName.equals(preCITypeEntity.typeName)) { //부모유형 + 유형이름 중복체크 && 수정 전후 TypeName이 동일한건은 예외
+            validationCode = VALIDATION_DUPLICATION_PTYPE_AND_TYPENAME.code
+        } else {
+            validationCode = VALIDATION_OK.code
+        }
+        return validationCode
     }
 }
