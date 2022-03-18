@@ -456,10 +456,12 @@ cmdb:
       enterTypeAlias: "Please enter a Type Alias."
       enterTypeName: "Please enter a Type Name."
       enterTypeSeq: "Enter the sort order."
+      pTypeAndTypeNameDuplication: "The same type name exists within the parent type."
       searchDescription: "CI Type manage posts."
       selectAvailableClass: "Please select a available Class."
       selectAvailableType: "Please select a available Type."
       selectType: "Please select a Type."
+      typeAliasDuplication: "The same type alias exists."
     btn:
       import: "Import"
       export: "Export"
