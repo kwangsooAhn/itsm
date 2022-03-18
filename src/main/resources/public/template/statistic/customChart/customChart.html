@@ -312,6 +312,9 @@
                             location.href = '/statistics/customChart/search';
                         });
                         break;
+                    case STATUS_ERROR_DUPLICATION:
+                        zAlert.warning(i18n.msg('chart.msg.duplicateChartNameAndChartType'));
+                        break;
                     default:
                         zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
