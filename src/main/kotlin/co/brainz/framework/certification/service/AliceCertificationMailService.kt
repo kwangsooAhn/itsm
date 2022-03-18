@@ -30,6 +30,9 @@ class AliceCertificationMailService(
     @Value("\${spring.mail.titleName}")
     lateinit var senderName: String
 
+    @Value("\${spring.mail.enabled}")
+    private val mailEnabled: Boolean = false
+
     val host: String = Inet4Address.getLocalHost().hostAddress
 
     @Transactional
@@ -67,7 +70,7 @@ class AliceCertificationMailService(
             AliceUserConstants.SendMailStatus.CREATE_USER.code,
             AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
             AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
-            AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> this.sendCertificationMail(certificationDto)
+            AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> if (mailEnabled) this.sendCertificationMail(certificationDto)
         }
     }
 
