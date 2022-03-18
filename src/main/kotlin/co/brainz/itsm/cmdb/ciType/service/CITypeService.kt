@@ -40,7 +40,7 @@ class CITypeService(
     }
 
     /**
-     * CI Type 생성 typeAlias
+     * CI Type 생성
      */
     fun createCIType(ciTypeDto: CITypeDto): String {
         var returnValue = ""
