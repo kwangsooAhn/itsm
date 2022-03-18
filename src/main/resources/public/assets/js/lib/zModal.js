@@ -143,6 +143,9 @@
             if (typeof this.wrapper !== 'undefined') {
                 addClass(this.wrapper, 'modal-active');
                 addClass(document.body, 'modal-active');
+                setTimeout(function () {
+                    document.querySelector('.modal-dialog').classList.add('modal-active');
+                }, 30);
                 this.display = true;
                 this.options.onShow(this);
             }
@@ -150,10 +153,14 @@
 
         this.hide = function() {
             if (typeof this.wrapper !== 'undefined') {
-                removeClass(this.wrapper, 'modal-active');
+                const modalWrapper = this;
+                document.querySelector('.modal-dialog').style.opacity = '0';
                 removeClass(document.body, 'modal-active');
+                setTimeout(function () {
+                    document.querySelector('.modal-wrapper').classList.remove('modal-active');
+                    modalWrapper.options.onHide(modalWrapper);
+                }, 150);
                 this.display = false;
-                this.options.onHide(this);
             }
         };
 
