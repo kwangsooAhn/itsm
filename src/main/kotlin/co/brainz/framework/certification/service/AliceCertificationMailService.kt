@@ -93,8 +93,6 @@ class AliceCertificationMailService(
     }
 
     private fun sendCertificationMail(aliceCertificationDto: AliceCertificationDto) {
-        //메일 서버 사용 여부 체크
-        if(!mailEnabled) { return; }
         aliceMailService.makeContext(makeContextValues(aliceCertificationDto))
         aliceMailService.makeTemplateEngine("certification/emailTemplate")
         val aliceMailDto: AliceMailDto = this.makeMailInfo(aliceCertificationDto)
