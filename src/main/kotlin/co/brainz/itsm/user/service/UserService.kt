@@ -422,6 +422,7 @@ class UserService(
 
         userRepository.save(targetEntity)
 
+        // 메일 서버 사용 여부 체크
         if (mailEnabled) {
             aliceCertificationMailService.sendMail(
                 targetEntity.userId,
