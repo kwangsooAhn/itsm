@@ -102,7 +102,7 @@ class AliceLoginController(
             model.addAttribute("isLoginPlatform", loginPlatformEnabled)
             model.addAttribute("findPasswordEnabled", findPasswordEnabled)
             model.addAttribute("findIdEnabled", findIdEnabled)
-            // 메일 서버 사용 여부를 체크해서 false라면 계정 만들기도 숨긴다.
+            // 계정만들기 true, 메일 서버 사용 true 일 때만 회원가입이 가능하다.
             model.addAttribute("createAccountEnabled", createAccountEnabled && mailEnabled)
         }
 
