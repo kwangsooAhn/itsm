@@ -17,22 +17,21 @@ import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
 import co.brainz.itsm.statistic.customChart.service.CustomChartService
 import co.brainz.itsm.statistic.customReport.constants.CustomReportConstants
-import co.brainz.itsm.statistic.customReportTemplate.entity.CustomReportTemplateEntity
-import co.brainz.itsm.statistic.customReportTemplate.repository.CustomReportTemplateMapRepository
-import co.brainz.itsm.statistic.customReportTemplate.repository.CustomReportTemplateRepository
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateCondition
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateDetailDto
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateDto
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateListDto
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateListReturnDto
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateMapDto
+import co.brainz.itsm.statistic.customReportTemplate.entity.CustomReportTemplateEntity
 import co.brainz.itsm.statistic.customReportTemplate.entity.CustomReportTemplateMapEntity
+import co.brainz.itsm.statistic.customReportTemplate.repository.CustomReportTemplateMapRepository
+import co.brainz.itsm.statistic.customReportTemplate.repository.CustomReportTemplateRepository
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.lang.Math.ceil
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
@@ -67,6 +66,8 @@ class CustomTemplateService(
             template.charts?.forEach {
                 chartIds.add(it.chartId)
             }
+
+            val chartNameList: MutableList<String> = mutableListOf()
             customChartRepository.findChartDataByChartIdsTemplateId(chartIds, template.templateId).forEach { chartData ->
                 chartList.add(
                     ChartDto(
@@ -80,6 +81,7 @@ class CustomTemplateService(
                         )
                     )
                 )
+                chartNameList.add(chartData.chartName)
             }
             reportTemplateList.add(
                 CustomReportTemplateListDto(
@@ -89,7 +91,7 @@ class CustomTemplateService(
                     createUserName = template.createUser?.userName,
                     automatic = template.automatic,
                     templateDesc = template.templateDesc,
-                    charts = chartList
+                    chartNameList = chartNameList.joinToString(", ")
                 )
             )
         }
@@ -100,7 +102,7 @@ class CustomTemplateService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = customReportTemplateRepository.count(),
                 currentPageNum = customReportTemplateCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = kotlin.math.ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
