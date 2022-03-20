@@ -8,11 +8,15 @@ package co.brainz.itsm.cmdb.ci.service
 
 import co.brainz.cmdb.ci.entity.CIDataEntity
 import co.brainz.cmdb.ci.entity.CIEntity
+import co.brainz.cmdb.ci.entity.CIGroupListDataEntity
 import co.brainz.cmdb.ci.entity.CIHistoryEntity
 import co.brainz.cmdb.ci.repository.CIDataRepository
+import co.brainz.cmdb.ci.repository.CIGroupListDataRepository
 import co.brainz.cmdb.ci.repository.CIHistoryRepository
 import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ci.service.CIService
+import co.brainz.cmdb.ciAttribute.constants.CIAttributeConstants
+import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIClassToAttributeDto
@@ -29,11 +33,19 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CITemplateConstants
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import co.brainz.itsm.cmdb.ciType.service.CITypeService
+import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.customCode.constants.CustomCodeConstants
+import co.brainz.itsm.customCode.service.CustomCodeService
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import org.apache.poi.openxml4j.opc.OPCPackage
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
@@ -48,10 +60,16 @@ class CITemplateService(
     private val ciDataRepository: CIDataRepository,
     private val ciAttributeRepository: CIAttributeRepository,
     private val ciHistoryRepository: CIHistoryRepository,
+    private val ciGroupListDataRepository: CIGroupListDataRepository,
     private val currentSessionUser: CurrentSessionUser,
-    private val aliceUserRepository: AliceUserRepository
-
+    private val customCodeService: CustomCodeService,
+    private val aliceUserRepository: AliceUserRepository,
+    private val codeService: CodeService
 ) {
+
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
+    val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * CI 일괄 등록 템플릿 다운로드.
@@ -184,7 +202,7 @@ class CITemplateService(
                 )
             }
 
-            // 4. cmdb_ci 데이터 등록
+            // 4. cmdb 데이터 등록
             mappingDataList.forEach { mappingDataMap ->
                 val uuid = AliceUtil().getUUID()
 
@@ -204,17 +222,38 @@ class CITemplateService(
 
                 // 4-2. cmdb_ci_data 데이터 등록
                 for (index in 1 until mappingDataMap.size) {
+                    val ciAttributeEntity =
+                        ciAttributeRepository.getOne(mappingDataMap[index]["attributeId"].toString())
+                    val templateValue = mappingDataMap[index]["templateValue"].toString()
                     ciDataRepository.save(
                         CIDataEntity(
                             ci = ciEntity,
-                            ciAttribute = ciAttributeRepository.getOne(mappingDataMap[index]["attributeId"].toString()),
-                            value = mappingDataMap[index]["attributeValue"].toString()
+                            ciAttribute = ciAttributeEntity,
+                            value = this.getValueByType(ciAttributeEntity, templateValue)
                         )
                     )
 
-                }
+                    if (ciAttributeEntity.attributeType == CIAttributeConstants.Type.GROUP_LIST.code) {
+                        // 4-3. cmdb_ci_group_list_data 데이터 등록
+                        val groupListData = this.getMappingValueByGroupList(ciAttributeEntity, templateValue)
+                        if (groupListData.isNotEmpty()) {
+                            groupListData.forEachIndexed { idx, it ->
+                                it.iterator().forEach {
+                                    ciGroupListDataRepository.save(
+                                        CIGroupListDataEntity(
+                                            ci = ciEntity,
+                                            ciAttribute = ciAttributeEntity,
+                                            cAttributeId = it.key,
+                                            cAttributeSeq = idx,
+                                            cValue = it.value
+                                        )
+                                    )
+                                }
+                            }
+                        }
 
-                // 4-3. cmdb_ci_group_list_data 데이터 등록
+                    }
+                }
 
                 // 4-4. cmdb_ci_history 데이터 등록
                 val ciHistoryEntity = CIHistoryEntity(
@@ -305,7 +344,6 @@ class CITemplateService(
             val map = LinkedHashMap<String, String>()
             ciClassToAttributeDto.attributeId?.let { map["attributeId"] = it }
             ciClassToAttributeDto.attributeName?.let { map["attributeName"] = it }
-            ciClassToAttributeDto.attributeType?.let { map["attributeType"] = it }
             mapList.add(map)
         }
 
@@ -345,9 +383,7 @@ class CITemplateService(
                 val map = LinkedHashMap<String, String>()
                 if (templateData[attributeMap["attributeName"]] != null) {
                     map["attributeId"] = attributeMap["attributeId"].toString()
-                    map["attributeName"] = attributeMap["attributeName"].toString()
-                    map["attributeType"] = attributeMap["attributeType"].toString()
-                    map["attributeValue"] = templateData[attributeMap["attributeName"]].toString()
+                    map["templateValue"] = templateData[attributeMap["attributeName"]].toString()
                 }
                 mapList.add(map)
             }
@@ -390,5 +426,105 @@ class CITemplateService(
         }
 
         return typeName
+    }
+
+    /**
+     * Attribute Type에 따른 Value 출력
+     *
+     * @param ciAttributeEntity
+     * @param templateValue
+     * @return String
+     */
+    private fun getValueByType(ciAttributeEntity: CIAttributeEntity, templateValue: String): String? {
+        val attributeValue = mapper.readValue(ciAttributeEntity.attributeValue, LinkedHashMap::class.java)
+        var value: String? = null
+        return when (ciAttributeEntity.attributeType) {
+            // dropdown, checkbox, radio
+            CIAttributeConstants.Type.DROP_DOWN.code, CIAttributeConstants.Type.CHECKBOX.code, CIAttributeConstants.Type.RADIO.code -> {
+                // dropdown, checkbox, radio의 경우 attribute_value의 option에서 해당 텍스트에 맞는 값을 찾아 변경한다.
+                val options: ArrayList<LinkedHashMap<String, String>> =
+                    mapper.convertValue(
+                        attributeValue["option"],
+                        object : TypeReference<ArrayList<LinkedHashMap<String, String>>>() {})
+                options.forEach {
+                    if (it["text"].toString() == templateValue) {
+                        value = it["value"].toString()
+                    }
+                }
+                value
+            }
+            // custom-code
+            CIAttributeConstants.Type.CUSTOM_CODE.code -> {
+                val customCodeId = attributeValue["customCode"].toString()
+                val customCodeEntity = customCodeService.getCustomCodeDetail(customCodeId)
+                // 커스텀 코드의 타입이 'code'인 경우에만 처리를 한다. (table인 경우는 제외)
+                // TODO: 사용자 컴포넌트 및 부서 컴포넌트 생성 시 , 처리 필요.
+
+                if (customCodeEntity.type == CustomCodeConstants.Type.CODE.code) {
+                    val pCode = customCodeEntity.pCode.toString()
+                    val codeList = codeService.selectCodeByParent(pCode)
+
+                    codeList.forEach { codeDto ->
+                        if (codeDto.codeName.equals(templateValue, ignoreCase = true)) {
+                            value = codeDto.code + '|' + codeDto.codeName
+                        }
+                    }
+                }
+                value
+            }
+            // group-list
+            CIAttributeConstants.Type.GROUP_LIST.code -> {
+                // group-list의 경우 cmdb_ci_data 테이블에 값이 저장되지 않는다.
+                value
+            }
+            // inputbox, date, datetime
+            else -> {
+                templateValue
+            }
+        }
+    }
+
+    /**
+     * 사용자 입력 값과 group-list의 자식 속성들에 대한 데이터 맵핑
+     *
+     * @param ciAttributeEntity
+     * @param templateValue
+     * @return String
+     */
+    private fun getMappingValueByGroupList(
+        ciAttributeEntity: CIAttributeEntity,
+        templateValue: String
+    ): MutableList<LinkedHashMap<String, String>> {
+        val mapList: MutableList<LinkedHashMap<String, String>> = mutableListOf()
+        val attributeValue = mapper.readValue(ciAttributeEntity.attributeValue, LinkedHashMap::class.java)
+        val options: ArrayList<LinkedHashMap<String, String>> =
+            mapper.convertValue(
+                attributeValue["option"],
+                object : TypeReference<ArrayList<LinkedHashMap<String, String>>>() {})
+
+        val targetValueList: MutableList<MutableList<String>> =
+            mapper.readValue(templateValue, object : TypeReference<MutableList<MutableList<String>>>() {})
+
+        val cAttributeIds: MutableList<String> = mutableListOf()
+        options.forEach {
+            cAttributeIds.add(it["id"].toString())
+        }
+
+        if (!(targetValueList.isNullOrEmpty() && cAttributeIds.isNullOrEmpty())) {
+            targetValueList.forEach {
+                var map = LinkedHashMap<String, String>()
+                cAttributeIds.forEachIndexed { idIdx, id ->
+                    it.forEachIndexed { valueIdx, value ->
+                        if (idIdx == valueIdx) {
+                            map[id] = value
+                        }
+                    }
+                }
+                mapList.add(map)
+            }
+        }
+
+
+        return mapList
     }
 }
