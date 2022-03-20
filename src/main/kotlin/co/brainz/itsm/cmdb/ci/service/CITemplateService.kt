@@ -178,7 +178,6 @@ class CITemplateService(
                     AliceErrorConstants.ERR_00005.message + "[CI Type Entity]"
                 )
 
-
             // 2. type_name 과 관련된 Attribute 전체 조회 (부모 + 자신)
             val allAttributeList = if (typeName.isNotBlank()) {
                 this.getAllAttributeList(typeName)
@@ -496,34 +495,38 @@ class CITemplateService(
         templateValue: String
     ): MutableList<LinkedHashMap<String, String>> {
         val mapList: MutableList<LinkedHashMap<String, String>> = mutableListOf()
-        val attributeValue = mapper.readValue(ciAttributeEntity.attributeValue, LinkedHashMap::class.java)
-        val options: ArrayList<LinkedHashMap<String, String>> =
-            mapper.convertValue(
-                attributeValue["option"],
-                object : TypeReference<ArrayList<LinkedHashMap<String, String>>>() {})
+        try {
+            val attributeValue = mapper.readValue(ciAttributeEntity.attributeValue, LinkedHashMap::class.java)
+            val options: ArrayList<LinkedHashMap<String, String>> =
+                mapper.convertValue(
+                    attributeValue["option"],
+                    object : TypeReference<ArrayList<LinkedHashMap<String, String>>>() {})
 
-        val targetValueList: MutableList<MutableList<String>> =
-            mapper.readValue(templateValue, object : TypeReference<MutableList<MutableList<String>>>() {})
+            val targetValueList: MutableList<MutableList<String>> =
+                mapper.readValue(templateValue, object : TypeReference<MutableList<MutableList<String>>>() {})
 
-        val cAttributeIds: MutableList<String> = mutableListOf()
-        options.forEach {
-            cAttributeIds.add(it["id"].toString())
-        }
+            val cAttributeIds: MutableList<String> = mutableListOf()
+            options.forEach {
+                cAttributeIds.add(it["id"].toString())
+            }
 
-        if (!(targetValueList.isNullOrEmpty() && cAttributeIds.isNullOrEmpty())) {
-            targetValueList.forEach {
-                var map = LinkedHashMap<String, String>()
-                cAttributeIds.forEachIndexed { idIdx, id ->
-                    it.forEachIndexed { valueIdx, value ->
-                        if (idIdx == valueIdx) {
-                            map[id] = value
+            if (!(targetValueList.isNullOrEmpty() && cAttributeIds.isNullOrEmpty())) {
+                targetValueList.forEach {
+                    val map = LinkedHashMap<String, String>()
+                    cAttributeIds.forEachIndexed { idIdx, id ->
+                        it.forEachIndexed { valueIdx, value ->
+                            if (idIdx == valueIdx) {
+                                map[id] = value
+                            }
                         }
                     }
+                    mapList.add(map)
                 }
-                mapList.add(map)
             }
-        }
 
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         return mapList
     }

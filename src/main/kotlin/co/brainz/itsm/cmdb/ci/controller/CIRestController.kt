@@ -33,7 +33,7 @@ import org.springframework.web.multipart.MultipartFile
 class CIRestController(
     private val ciService: CIService,
     private val ciTemplateService: CITemplateService
-    ) {
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -117,8 +117,7 @@ class CIRestController(
     @PostMapping("/templateUpload")
     fun uploadTemplate(
         @RequestPart("files") files: MultipartFile
-    ): String {
-        val test =  ciTemplateService.uploadCIsTemplate(files)
-        return ""
+    ) {
+        ciTemplateService.uploadCIsTemplate(files)
     }
 }
