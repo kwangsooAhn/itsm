@@ -1222,7 +1222,6 @@ insert into awf_url values ('/rest/cmdb/cis', 'get', 'CI 전체 조회', 'TRUE')
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'post', 'CI 컴포넌트 - CI 세부 정보 등록', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'get', 'CI 컴포넌트 - CI 컴포넌트 세부 정보 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/relation', 'get', 'CI 연관 관계 데이터 조회', 'FALSE');
-insert into awf_url values ('/rest/cmdb/cis/{id}/relation', 'get', 'CI 연관 관계 데이터 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/data', 'delete', 'CI 컴포넌트 - CI 세부 정보 삭제', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/excel', 'post', 'CI 조회 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/cmdb/cis/template', 'get', 'CI 일괄 등록 템플릿 다운로드', 'TRUE');
