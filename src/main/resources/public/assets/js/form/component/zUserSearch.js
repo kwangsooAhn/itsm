@@ -47,18 +47,21 @@ export const userSearchMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
+        const defaultValues = this.value.split('|');
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
             .setUIClass('z-input i-user-search text-ellipsis')
             .setUIId('userSearch' + this.id)
+            .setUIValue((this.value === '${default}') ? '' : defaultValues[1])
             .setUIRequired(this.validationRequired)
+            .setUIAttribute('user-search-data', (this.value === '${default}') ? '' : defaultValues[0])
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
             .setUIAttribute('onkeydown', 'return false;')
-            .onUIChange(this.updateValue.bind(this))
-            .onUIClick(this.openUserSearchModal.bind(this));
+            .onUIClick(this.openUserSearchModal.bind(this))
+            .onUIChange(this.updateValue.bind(this));
 
         element.addUI(element.UIInput);
 
@@ -74,8 +77,6 @@ export const userSearchMixin = {
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
                 this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
         }
-
-        // 검색 조건 외 실제로 선택된 데이터가 있는지 확인해야 한다.
     },
     // set, get
     set elementColumnWidth(width) {
@@ -117,20 +118,20 @@ export const userSearchMixin = {
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
-        console.log('update data');
         e.stopPropagation();
         e.preventDefault();
 
         // 사용자 검색 결과로 들어간 내용이 있는지 this.value와 'data-user-search' 확인하고 값을 저장한다.
+        const userSearchData = e.target.getAttribute('user-search-data');
 
-        const searchUserData1 = e.target.getAttribute('data-user-search');
+        // 값이 입력되었을 경우 error 없애기
+        if (zValidation.isRequired(userSearchData)) {
+            zValidation.removeDOMElementError(e.target);
+        }
 
-        console.log(searchUserData);
-        console.log(searchUserData1);
-        console.log(e.target.value);
+        this.value = userSearchData + '|' + e.target.value;
+        console.log(userSearchData);
         console.log(this.value);
-
-        this.value = e.target.value;
     },
 
     // 사용자 선택 모달
@@ -151,14 +152,16 @@ export const userSearchMixin = {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
+                    selectedUser = '';
                     const selectedUserRadio = document.querySelector('input[type=radio]:checked');
                     if (selectedUserRadio === null) {
                         zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
                         return false;
                     } else {
-                        selectedUser = selectedUserRadio.id;
-                        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(selectedUserRadio.value);
-                        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('user-search-data', selectedUserRadio.id);
+                        this.UIElement.UIComponent.UIElement.UIInput
+                            .setUIValue(selectedUserRadio.value)
+                            .setUIAttribute('user-search-data', selectedUserRadio.id);
+                        this.UIElement.UIComponent.UIElement.UIInput.domElement.dispatchEvent(new Event('change'));
                     }
                     modal.hide();
                 }
@@ -167,6 +170,7 @@ export const userSearchMixin = {
                 classes: 'z-button secondary',
                 bindKey: false,
                 callback: (modal) => {
+                    selectedUser = '';
                     modal.hide();
                 }
             }],
@@ -187,8 +191,14 @@ export const userSearchMixin = {
     },
 
     getUserList(search, showProgressbar) {
-        let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
-            + '&from=&to=&userKey=&multiSelect=false';
+        // const targetCriteria = JSON.parse(this.elementUserSearchTarget).targetCriteria;
+        // let searchKeys = [];
+        // JSON.parse(this.elementUserSearchTarget).searchKey.forEach( (elem) => {
+        //     searchKeys.push(elem.id);
+        // });
+
+        // todo : targetCriteria 와 searchKey에 따라 원하는 목록이 나오도록 구현
+        let strUrl = '/users/view-pop/userSearch?search=' + encodeURIComponent(search.trim()) + '&multiSelect=false';
         aliceJs.fetchText(strUrl, {
             method: 'GET',
             showProgressbar: showProgressbar
@@ -205,9 +215,9 @@ export const userSearchMixin = {
                 });
             });
             // 기존 선택값 표시
-            const targetUserId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('user-search-data') || selectedUser;
-            if (targetUserId !== '') {
-                console.log(searchUserList.querySelector('input[id="' + targetUserId + '"]'));
+            const targetUserId = (selectedUser !== '') ? selectedUser
+                : this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('user-search-data');
+            if (targetUserId !== null && targetUserId !== '') {
                 searchUserList.querySelector('input[id="' + targetUserId + '"]').checked = true;
             }
         });
