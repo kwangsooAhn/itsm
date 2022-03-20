@@ -165,7 +165,7 @@ class CITemplateService(
      * @param files
      * @return MutableList<CIClassToAttributeDto>
      */
-    fun uploadCIsTemplate(files: MultipartFile): String {
+    fun uploadCIsTemplate(files: MultipartFile) {
         try {
             val workBook = XSSFWorkbook(OPCPackage.open(files.inputStream))
             val sheet = workBook.getSheetAt(0)
@@ -276,8 +276,6 @@ class CITemplateService(
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-        return ""
     }
 
     /**
