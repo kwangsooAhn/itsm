@@ -28,6 +28,7 @@ import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CITemplateConstants
@@ -64,7 +65,8 @@ class CITemplateService(
     private val currentSessionUser: CurrentSessionUser,
     private val customCodeService: CustomCodeService,
     private val aliceUserRepository: AliceUserRepository,
-    private val codeService: CodeService
+    private val codeService: CodeService,
+    private val aliceMessageSource: AliceMessageSource
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -123,10 +125,9 @@ class CITemplateService(
      */
     private fun templateColumnTitle(): ArrayList<String> {
         val columnTitleList = arrayListOf<String>()
-        for (property in CITemplateConstants.BasicProperties.values()) {
-            columnTitleList.add(property.value)
-        }
-
+        columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.type"))
+        columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.name"))
+        columnTitleList.add(aliceMessageSource.getMessage("cmdb.ci.label.description"))
         return columnTitleList
     }
 
@@ -203,17 +204,23 @@ class CITemplateService(
             }
 
             // 4. cmdb 데이터 등록
-            mappingDataList.forEach { mappingDataMap ->
+            mappingDataList.forEach loop@{ mappingDataMap ->
                 val uuid = AliceUtil().getUUID()
+                val ciName = mappingDataMap[0][CITemplateConstants.BasicProperties.CI_NAME.value].toString()
+                val ciDesc = mappingDataMap[0][CITemplateConstants.BasicProperties.CI_DESC.value].toString()
+
+                if (ciName.isBlank()) {
+                    return@loop
+                }
 
                 // 4-1. cmdb_ci 데이터 등록
                 val ciEntity = CIEntity(
                     ciId = uuid,
                     ciNo = ciService.getCINo(ciTypeEntity),
-                    ciName = mappingDataMap[0][CITemplateConstants.BasicProperties.CI_NAME.value].toString(),
+                    ciName = ciName,
                     ciStatus = RestTemplateConstants.CIStatus.STATUS_USE.code,
                     ciTypeEntity = ciTypeEntity,
-                    ciDesc = mappingDataMap[0][CITemplateConstants.BasicProperties.CI_DESC.value].toString(),
+                    ciDesc = ciDesc,
                     interlink = false,
                     createDt = LocalDateTime.now(),
                     createUser = aliceUserRepository.findAliceUserEntityByUserKey(currentSessionUser.getUserKey())
