@@ -31,17 +31,21 @@ class ZFormDesigner {
         this.selectedObject = null;
 
         // 커스텀 코드 정보 load - 커스텀 코드 컴포넌트에서 사용되기 때문에 우선 로드해야 함
-        aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
-            method: 'GET'
-        }).then((customData) => {
-            FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
-        });
-
-        aliceJs.fetchJson('/rest/plugins', {
-            method: 'GET'
-        }).then((pluginData) => {
-            FORM.PLUGIN_LIST =  zValidation.isDefined(pluginData.data) ? pluginData.data : [];
-        });
+        if (FORM.CUSTOM_CODE.length === 0) {
+            aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
+                method: 'GET'
+            }).then((customData) => {
+                FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
+                console.log(FORM.CUSTOM_CODE);
+            });
+        }
+        if (FORM.PLUGIN_LIST.length === 0) {
+            aliceJs.fetchJson('/rest/plugins', {
+                method: 'GET'
+            }).then((pluginData) => {
+                FORM.PLUGIN_LIST = zValidation.isDefined(pluginData.data) ? pluginData.data : [];
+            });
+        }
     }
 
     /**
