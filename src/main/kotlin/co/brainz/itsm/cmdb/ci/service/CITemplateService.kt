@@ -172,7 +172,7 @@ class CITemplateService(
             val sheet = workBook.getSheetAt(0)
 
             // 1.  sheet에서 typeName 조회 및 CI TYPE Entity 조회
-            val typeName = this.getCITypeNameDataFromSheet(sheet).trim()
+            val typeName = this.getCITypeNameDataFromSheet(sheet)
             val ciTypeEntity = ciTypeService.getCITypeByTypeName(typeName)
                 ?: throw AliceException(
                     AliceErrorConstants.ERR_00005,
@@ -426,7 +426,7 @@ class CITemplateService(
             }
         }
 
-        return typeName
+        return typeName.trim()
     }
 
     /**
