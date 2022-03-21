@@ -52,7 +52,7 @@ class BoardArticleService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = boardRepository.count(),
                 currentPageNum = boardArticleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / boardArticleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             ),
             categoryUseYn = false
