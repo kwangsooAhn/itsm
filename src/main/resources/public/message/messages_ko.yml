@@ -1368,7 +1368,7 @@ workflowAdmin:
     status: "상태"
     type: "타입"
   msg:
-    noticeImportFile: "IMPORT시, XML파일만 가능합니다."
+    noticeImportFile: "XML 파일만 가능합니다."
 
 # User
 user:
