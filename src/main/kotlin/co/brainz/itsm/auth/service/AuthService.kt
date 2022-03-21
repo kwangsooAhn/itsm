@@ -74,7 +74,7 @@ class AuthService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = authRepository.count(),
                 currentPageNum = authSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / authSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

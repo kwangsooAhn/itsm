@@ -92,7 +92,7 @@ class DocumentService(
                 totalCount = totalResult.size.toLong(),
                 totalCountWithoutCondition = wfDocumentRepository.count() + wfDocumentLinkRepository.count(),
                 currentPageNum = documentSearchCondition.pageNum,
-                totalPageNum = ceil(totalResult.size / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(totalResult.size / documentSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
