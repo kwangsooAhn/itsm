@@ -426,3 +426,11 @@
 
 // 공지사항 상단 공지
 .notice-pinned { background-color: $notice-pinned-color; }
+
+// CI 조회
+.cmdb-ci-content {
+  height: 100%;
+  .grid__body {
+    max-height: 36.25rem; // 580px
+  }
+}

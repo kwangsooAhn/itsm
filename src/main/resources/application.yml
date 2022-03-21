@@ -34,6 +34,7 @@ spring:
     restart.enabled: false
   # https://support.google.com/accounts/answer/185833?p=InvalidSecondFactor&visit_id=637112185418770392-2382070392&rd=1
   mail:
+    enabled: true
     host: smtp.gmail.com
     port: 587
     username: brainz.zitsm
@@ -238,9 +239,9 @@ schedule.plugins.dir: /root/plugins
 ---
 # KB 저축은행 배포용 DB 계정
 spring:
-  profiles: KB_TEST_20220224
+  profiles: kb
   datasource:
-    url: jdbc:log4jdbc:postgresql://10.0.10.175:32853/itsm
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32867/itsm
 ---
 # For jenkins test
 spring:

@@ -32,10 +32,8 @@
   width: 100%;
   margin: 0 !important;
   .z-label {
-    margin: 0.125rem 0; // 2px
     &-name { width: 12.5rem; } //200px
   }
-  input[type=checkbox] + span { left: inherit }
   // 목록
   &-list {
     height: 22.5rem; // 360px
@@ -47,6 +45,10 @@
       @include ellipsis(list-item);
       height: 2.5rem; // 40px
       padding-right: 0.2rem;
+    }
+    .z-switch {
+      .z-label { margin-left: 0; }
+      input[type=checkbox] + span { left: inherit }
     }
   }
 }

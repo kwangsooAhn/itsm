@@ -30,6 +30,9 @@ class AliceCertificationMailService(
     @Value("\${spring.mail.titleName}")
     lateinit var senderName: String
 
+    @Value("\${spring.mail.enabled}")
+    private val mailEnabled: Boolean = false
+
     val host: String = Inet4Address.getLocalHost().hostAddress
 
     @Transactional
@@ -67,7 +70,7 @@ class AliceCertificationMailService(
             AliceUserConstants.SendMailStatus.CREATE_USER.code,
             AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
             AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
-            AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> this.sendCertificationMail(certificationDto)
+            AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> if (mailEnabled) this.sendCertificationMail(certificationDto)
         }
     }
 
@@ -102,7 +105,10 @@ class AliceCertificationMailService(
         when (aliceCertificationDto.classificationCode) {
             AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> {
                 params["intro"] = "사용자 계정이 생성되었습니다."
-                params["message"] = "비밀번호 :" + aliceCertificationDto.password
+                params["message"] = "로그인 아이디 : " + aliceCertificationDto.userId + "\n" +
+                        "임시 비밀번호 : " + aliceCertificationDto.password
+                params["link"] = "$senderProtocol://$host:$senderPort/portals/main"
+                params["text"] = "ITSM으로 바로가기"
             }
             AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code -> {
                 params["intro"] = "사용자 비밀번호가 초기화되었습니다."
