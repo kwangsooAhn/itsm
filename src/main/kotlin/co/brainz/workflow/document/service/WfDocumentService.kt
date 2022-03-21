@@ -703,12 +703,7 @@ class WfDocumentService(
     fun importDocument(documentImportDto: DocumentImportDto): ZReturnDto {
         var isSuccess = true
         var message = ""
-        var importDto = DocumentImportDto(
-            documentData = documentImportDto.documentData,
-            processData = documentImportDto.processData,
-            formData = documentImportDto.formData,
-            displayData = documentImportDto.displayData
-        )
+        var importDto: DocumentImportDto
 
         // 폼 중복 체크
         if (wfFormRepository.existsByFormName(documentImportDto.formData.name)) {
@@ -717,7 +712,7 @@ class WfDocumentService(
         }
 
         // 프로세스 중복 체크
-        if (isSuccess && wfProcessRepository.existsByProcessName(importDto.processData.process!!.name!!)) {
+        if (isSuccess && wfProcessRepository.existsByProcessName(documentImportDto.processData.process!!.name!!)) {
             isSuccess = false
             message = aliceMessageSource.getMessage("process.msg.duplicateProcessName")
         }
@@ -727,6 +722,7 @@ class WfDocumentService(
             isSuccess = false
             message = aliceMessageSource.getMessage("document.msg.nameDuplication")
         }
+
         // 유효성 검증 후 처리
         if (isSuccess) {
             // 폼 저장
