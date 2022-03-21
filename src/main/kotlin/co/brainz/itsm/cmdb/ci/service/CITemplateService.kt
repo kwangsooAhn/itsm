@@ -165,13 +165,14 @@ class CITemplateService(
      * @param files
      * @return MutableList<CIClassToAttributeDto>
      */
-    fun uploadCIsTemplate(files: MultipartFile) {
+    fun uploadCIsTemplate(files: MultipartFile): Boolean {
+        var isSuccess = true
         try {
             val workBook = XSSFWorkbook(OPCPackage.open(files.inputStream))
             val sheet = workBook.getSheetAt(0)
 
             // 1.  sheet에서 typeName 조회 및 CI TYPE Entity 조회
-            val typeName = this.getCITypeNameDataFromSheet(sheet)
+            val typeName = this.getCITypeNameDataFromSheet(sheet).trim()
             val ciTypeEntity = ciTypeService.getCITypeByTypeName(typeName)
                 ?: throw AliceException(
                     AliceErrorConstants.ERR_00005,
@@ -275,7 +276,10 @@ class CITemplateService(
 
         } catch (e: Exception) {
             e.printStackTrace()
+            isSuccess = false
         }
+
+        return isSuccess
     }
 
     /**

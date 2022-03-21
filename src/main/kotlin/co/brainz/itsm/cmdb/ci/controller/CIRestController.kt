@@ -8,6 +8,8 @@ package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIListDto
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
 import co.brainz.itsm.cmdb.ci.dto.CISearch
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
@@ -117,7 +119,7 @@ class CIRestController(
     @PostMapping("/templateUpload")
     fun uploadTemplate(
         @RequestPart("files") files: MultipartFile
-    ) {
-        ciTemplateService.uploadCIsTemplate(files)
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(ciTemplateService.uploadCIsTemplate(files))
     }
 }
