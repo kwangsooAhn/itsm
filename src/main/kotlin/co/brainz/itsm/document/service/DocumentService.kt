@@ -14,6 +14,7 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentExportDto
+import co.brainz.itsm.document.dto.DocumentImportDto
 import co.brainz.itsm.document.dto.DocumentListReturnDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.form.dto.FormSearchCondition
@@ -307,5 +308,12 @@ class DocumentService(
             form = formData,
             displays = documentDisplayData
         )
+    }
+
+    /**
+     * 신청서 Import.
+     */
+    fun importDocumentData(documentImportDto: DocumentImportDto): ZReturnDto {
+        return wfDocumentService.importDocument(documentImportDto)
     }
 }

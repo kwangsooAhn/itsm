@@ -86,7 +86,9 @@
     }
   }
   // 업무 흐름 등록 / 수정 모달
-  &.document-edit {
+  // 업무 흐름 가져오기 모달
+  &.document-edit,
+  &.workFlow-import {
     width: $document-edit-modal-width;
     height: $document-edit-modal-height;
 

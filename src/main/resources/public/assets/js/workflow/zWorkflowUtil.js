@@ -446,25 +446,19 @@ ZWorkflowUtil.XMLToObject = function(data) {
 
 /**
  * 파일 데이터로부터 폼 정보를 읽어 json 구조로 만들어 반환 한다.
- * @param data XML 파일 데이터
+ * @param xmlDoc XML 파일 데이터
+ * @param xPath xPath
  * @returns json
  */
-ZWorkflowUtil.loadFormFromXML = function (data) {
-    const parser = new DOMParser();
-    const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
-    const xmlDoc = parser.parseFromString(data, 'application/xml');
-    if (ZWorkflowUtil.isParseError(xmlDoc)) {
-        throw new Error('Error parsing XML');
-    }
-
-    const form = xmlDoc.evaluate('/definitions/form', xmlDoc, null, resultType, null);
+ZWorkflowUtil.loadFormFromXML = function (xmlDoc, xPath) {
+    const form = xmlDoc.evaluate(xPath + 'form', xmlDoc, null, XPathResult.ANY_UNORDERED_NODE_TYPE, null);
     return ZWorkflowUtil.XMLToObject(form.singleNodeValue);
 };
 
 /**
  * 파일 데이터로부터 프로세스 정보를 읽어 json 구조로 만들어 반환 한다.
  *
- * @param data XML 파일 데이터
+ * @param xmlDoc XML 파일 데이터
  * <?xml version="1.0" encoding="UTF-8"?>
  * <definitions>
  *     <process workflow-version="버전" id="프로세스ID"" name="" description="">
@@ -476,20 +470,14 @@ ZWorkflowUtil.loadFormFromXML = function (data) {
  *         ...
  *     </diagram>
  * <definitions>
+ * @param xPath xPath
  * @return {{elements: []}}
  */
-ZWorkflowUtil.loadProcessFromXML = function(data) {
-    const parser = new DOMParser();
-    const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
-    const xmlDoc = parser.parseFromString(data, 'text/xml');
-    if (ZWorkflowUtil.isParseError(xmlDoc)) {
-        throw new Error('Error parsing XML');
-    }
-
+ZWorkflowUtil.loadProcessFromXML = function(xmlDoc, xPath) {
     let processData = {elements: []};
     //프로세스의 XML 구조는 데이터를 담당하는 process와 element 위치 정보를 담는 diagram으로 나뉜다.
-    let processNode = xmlDoc.evaluate('/definitions/process', xmlDoc, null, resultType, null);
-    let diagramNode = xmlDoc.evaluate('/definitions/diagram', xmlDoc, null, resultType, null);
+    let processNode = xmlDoc.evaluate(xPath + 'process', xmlDoc, null, XPathResult.ANY_UNORDERED_NODE_TYPE, null);
+    let diagramNode = xmlDoc.evaluate(xPath + 'diagram', xmlDoc, null, XPathResult.ANY_UNORDERED_NODE_TYPE, null);
     let processNodeList = processNode.singleNodeValue.childNodes;
     let diagramNodeList = diagramNode.singleNodeValue.childNodes;
     for (let i = 0, len = processNodeList.length; i < len; i++) {
@@ -560,6 +548,52 @@ ZWorkflowUtil.loadProcessFromXML = function(data) {
 };
 
 /**
+ * 파일 데이터로부터 업무흐름 정보를 읽어 json 구조로 만들어 반환 한다.
+ *
+ * @param xmlDoc XML 파일 데이터
+ * @param userData 사용자로부터 입력받은 데이터
+ */
+ZWorkflowUtil.loadWorkFlowFromXML = function (xmlDoc, userData) {
+    const workFlowData = { displayData: [] };
+
+    // 폼 디자이너
+    const formData = ZWorkflowUtil.loadFormFromXML(xmlDoc, '/definitions/workflow/');
+    formData.name = userData.formName;
+    formData.desc = userData.formDesc;
+    Object.assign(workFlowData, { formData: formData });
+    delete userData.formName;
+    delete userData.formDesc;
+
+    // 프로세스 디자이너
+    const processData = ZWorkflowUtil.loadProcessFromXML(xmlDoc, '/definitions/workflow/');
+    processData.process = { name: userData.processName, description: userData.processDesc };
+    Object.assign(workFlowData, { processData: processData });
+    delete userData.processName;
+    delete userData.processDesc;
+    // 신청서
+    Object.assign(workFlowData, { documentData: userData });
+
+    // 신청서 양식 편집
+    const documentDisplayNode = xmlDoc.evaluate('/definitions/workflow/documentDisplay', xmlDoc, null, XPathResult.ANY_UNORDERED_NODE_TYPE, null);
+    const documentDisplayNodeList = documentDisplayNode.singleNodeValue.childNodes;
+    for (let i = 0, len = documentDisplayNodeList.length; i < len; i++) {
+        const progressNode = documentDisplayNodeList[i];
+        if (progressNode.nodeType === Node.ELEMENT_NODE) {
+            const displayChildData = {};
+            const progressNodeChildList = progressNode.childNodes;
+            for (let j = 0, childLen = progressNodeChildList.length; j < childLen; j++) {
+                let childNode = progressNodeChildList[j];
+                if (childNode.nodeType === Node.ELEMENT_NODE) {
+                    displayChildData[childNode.nodeName] = ZWorkflowUtil.XMLToObject(childNode);
+                }
+            }
+            workFlowData.displayData.push(displayChildData);
+        }
+    }
+    return workFlowData;
+};
+
+/**
  * import form, process.
  *
  * @param xmlFile XML 파일
@@ -575,32 +609,44 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
             let saveUrl = '';
             let result = false;
             if (type === xmlFile.name.split('_')[0]) {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(e.target.result, 'text/xml');
+                if (ZWorkflowUtil.isParseError(xmlDoc)) {
+                    throw new Error('Error parsing XML');
+                }
                 switch (type) {
                     case 'form':
-                        saveData = ZWorkflowUtil.loadFormFromXML(e.target.result);
+                        saveData = ZWorkflowUtil.loadFormFromXML(xmlDoc, '/definitions/');
                         saveData.name = data.formName;
                         saveData.desc = data.formDesc;
                         saveUrl = '/rest/forms?saveType=saveas';
                         break;
                     case 'process':
-                        saveData = ZWorkflowUtil.loadProcessFromXML(e.target.result);
+                        saveData = ZWorkflowUtil.loadProcessFromXML(xmlDoc, '/definitions/');
                         saveData.process = {name: data.processName, description: data.processDesc};
                         ZWorkflowUtil.addRequiredProcessAttribute(saveData);
                         saveUrl = '/rest/processes?saveType=saveas';
                         break;
+                    case 'workflow':
+                        saveData = ZWorkflowUtil.loadWorkFlowFromXML(xmlDoc, JSON.parse(JSON.stringify(data)));
+                        saveUrl = '/rest/workflows/import';
+                        break;
                     default: //none
                 }
-                console.debug(saveData);
                 aliceJs.fetchText(saveUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    showProgressbar: true,
                     body: JSON.stringify(saveData)
                 }).then((response) => {
+                    // TODO: 추후 response 구조 통일 후 if else 없앨 예정
                     if (type === 'process') {
                         let resultToJson = JSON.parse(response);
                         result = resultToJson.result;
+                    } else if (type === 'workflow') {
+                        result =  JSON.parse(response);
                     } else {
                         result = response;
                     }

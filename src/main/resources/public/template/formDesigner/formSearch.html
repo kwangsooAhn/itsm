@@ -27,7 +27,7 @@
         <button class="z-button primary" onclick="openFormRegister();"
                 th:text="#{common.btn.add}" type="button"></button>
         <button class="z-button secondary" onclick="openFormImport();"
-                th:text="#{form.btn.import}" type="button"></button>
+                th:text="#{common.btn.import}" type="button"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
@@ -140,7 +140,7 @@
                 body: createModalContent(responseObject),
                 classes: 'form-edit',
                 buttons: [{
-                    content: i18n.msg('form.btn.export'), // 내보내기 버튼
+                    content: i18n.msg('common.btn.export'), // 내보내기 버튼
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
@@ -366,7 +366,7 @@
             classes: 'form-import',
             buttons: [
                 {
-                    content: i18n.msg('form.btn.import'),
+                    content: i18n.msg('common.btn.import'),
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
