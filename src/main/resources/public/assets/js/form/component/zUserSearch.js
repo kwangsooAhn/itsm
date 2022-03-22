@@ -26,14 +26,13 @@ import { zValidation } from '../../lib/zValidation.js';
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        defaultValueUserSearch: ''
+        defaultValueUserSearch: '',
+        realTimeSelectedUser: ''
     },
     validation: {
         required: false // 필수값 여부
     }
 };
-
-let selectedUser = '';
 
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
 
@@ -55,7 +54,7 @@ export const userSearchMixin = {
             .setUIId('userSearch' + this.id)
             .setUIValue((this.value === '${default}') ? '' : defaultValues[1])
             .setUIRequired(this.validationRequired)
-            .setUIAttribute('user-search-data', (this.value === '${default}') ? '' : defaultValues[0])
+            .setUIAttribute('data-user-search', (this.value === '${default}') ? '' : defaultValues[0])
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
@@ -87,11 +86,19 @@ export const userSearchMixin = {
     get elementColumnWidth() {
         return this._element.columnWidth;
     },
+    // 컴포넌트에 설정된 검색조건
     set elementUserSearchTarget(value) {
         this._element.defaultValueUserSearch = value;
     },
     get elementUserSearchTarget() {
         return this._element.defaultValueUserSearch;
+    },
+    // 컴포넌트 > 모달에서 선택된 임시 값
+    set realTimeSelectedUser(userKey) {
+        this._element.realTimeSelectedUser = userKey;
+    },
+    get realTimeSelectedUser() {
+        return this._element.realTimeSelectedUser;
     },
     set validation(validation) {
         this._validation = validation;
@@ -122,7 +129,7 @@ export const userSearchMixin = {
         e.preventDefault();
 
         // 사용자 검색 결과로 들어간 내용이 있는지 this.value와 'data-user-search' 확인하고 값을 저장한다.
-        const userSearchData = e.target.getAttribute('user-search-data');
+        const userSearchData = e.target.getAttribute('data-user-search');
 
         // 값이 입력되었을 경우 error 없애기
         if (zValidation.isRequired(userSearchData)) {
@@ -150,7 +157,7 @@ export const userSearchMixin = {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    selectedUser = '';
+                    this.realTimeSelectedUser = '';
                     const selectedUserRadio = document.querySelector('input[type=radio]:checked');
                     if (selectedUserRadio === null) {
                         zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
@@ -158,7 +165,7 @@ export const userSearchMixin = {
                     } else {
                         this.UIElement.UIComponent.UIElement.UIInput
                             .setUIValue(selectedUserRadio.value)
-                            .setUIAttribute('user-search-data', selectedUserRadio.id);
+                            .setUIAttribute('data-user-search', selectedUserRadio.id);
                         this.UIElement.UIComponent.UIElement.UIInput.domElement.dispatchEvent(new Event('change'));
                     }
                     modal.hide();
@@ -168,7 +175,7 @@ export const userSearchMixin = {
                 classes: 'z-button secondary',
                 bindKey: false,
                 callback: (modal) => {
-                    selectedUser = '';
+                    this.realTimeSelectedUser = '';
                     modal.hide();
                 }
             }],
@@ -209,12 +216,12 @@ export const userSearchMixin = {
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {
-                    selectedUser = element.checked ? element.id : '';
+                    this.realTimeSelectedUser = element.checked ? element.id : '';
                 });
             });
             // 기존 선택값 표시
-            const targetUserId = (selectedUser !== '') ? selectedUser
-                : this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('user-search-data');
+            const targetUserId = !zValidation.isEmpty(this.realTimeSelectedUser) ? this.realTimeSelectedUser
+                : this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-search');
             if (targetUserId !== null && targetUserId !== '') {
                 searchUserList.querySelector('input[id="' + targetUserId + '"]').checked = true;
             }
