@@ -154,13 +154,13 @@ class UserService(
         val targetKeys = mutableSetOf<String>()
 
         when (targetCriteria) {
-            "organization" -> {
+            AliceUserConstants.UserSearchTarget.ORGANIZATION.code -> {
                 val organizationList = organizationRepository.findByOrganizationId(searchKeys)
                 val organization = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition()).results
                 val organizationName = this.getRecursive(organizationList, organization, mutableListOf(), false)
                 organizationName.forEach { targetKeys.add(it) }
             }
-            "custom" -> searchKeys.split(" ").forEach { targetKeys.add(it) }
+            AliceUserConstants.UserSearchTarget.CUSTOM.code -> searchKeys.split(" ").forEach { targetKeys.add(it) }
         }
 
         val userSearchCondition = UserSearchCondition(
