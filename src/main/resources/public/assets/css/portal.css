@@ -6538,6 +6538,7 @@ body.modal-active {
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
   opacity: 0;
+  transition: 0.3s;
   z-index: 5000;
   position: absolute;
   top: 4em;
@@ -6551,7 +6552,7 @@ body.modal-active {
   box-shadow: 0 0.125rem 0.75rem 0 #63686C;
 }
 .modal-wrapper .modal-dialog.modal-active {
-  transition: all 0.2s;
+  transition: 0.3s;
   opacity: 1;
 }
 .modal-wrapper .modal-dialog .modal-header {

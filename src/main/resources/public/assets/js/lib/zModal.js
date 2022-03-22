@@ -143,22 +143,22 @@
             if (typeof this.wrapper !== 'undefined') {
                 addClass(this.wrapper, 'modal-active');
                 addClass(document.body, 'modal-active');
+                this.display = true;
+                this.options.onShow(this);
                 setTimeout(function () {
                     document.querySelector('.modal-dialog').classList.add('modal-active');
                 }, 30);
-                this.display = true;
-                this.options.onShow(this);
             }
         };
 
         this.hide = function() {
             if (typeof this.wrapper !== 'undefined') {
-                const modalWrapper = this;
-                document.querySelector('.modal-dialog').style.opacity = '0';
-                removeClass(document.body, 'modal-active');
+                const _this = this;
+                const modalWrapper = document.querySelector('.modal-wrapper')
                 setTimeout(function () {
-                    document.querySelector('.modal-wrapper').classList.remove('modal-active');
-                    modalWrapper.options.onHide(modalWrapper);
+                    removeClass(modalWrapper, 'modal-active');
+                    removeClass(document.body, 'modal-active');
+                    _this.options.onHide(_this);
                 }, 150);
                 this.display = false;
             }
@@ -299,10 +299,16 @@
 
         this.destroy = function() {
             if (typeof this.wrapper !== 'undefined') {
-                document.body.removeChild(this.wrapper);
+                document.querySelector('.modal-dialog').style.opacity = '0';
+                document.querySelector('.modal-dialog').classList.remove('modal-active');
+                const _this = this;
+                const modalWrapper = document.querySelector('.modal-wrapper')
+                setTimeout(function () {
+                    document.body.removeChild(modalWrapper);
+                    _this.removeKeyListener();
+                    _this.options.onDestroy(_this);
+                }, 150);
                 this.wrapper = undefined;
-                this.removeKeyListener();
-                this.options.onDestroy(this);
             }
         };
 

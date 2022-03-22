@@ -29,13 +29,14 @@ body.modal-active {
     margin: 0 auto 2em auto;
     background-color: $modal-bg-color;
     opacity: 0;
+    transition: 0.3s;
     z-index: $z-index-between-alert-modal;
     @include absolute(4em, 0, null, 0);
     @include borderRadius(0.25rem); // 4px
     @include boxShadow(0, 0.125rem, 0.75rem, 0, $modal-box-shadow-color);
 
     &.modal-active {
-      transition: all 0.2s;
+      transition: 0.3s;
       opacity: 1;
     }
 
