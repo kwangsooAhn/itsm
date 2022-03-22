@@ -146,6 +146,34 @@ class UserService(
     }
 
     /**
+     * 사용자 검색 조건에 따라 조회한다.
+     */
+    fun getSearchUserList(params: LinkedHashMap<String, Any>): UserListReturnDto {
+        val targetCriteria = params["targetCriteria"].toString()
+        val searchKeys = params["searchKeys"].toString()
+        val targetKeys = mutableSetOf<String>()
+
+        when (targetCriteria) {
+            "organization" -> {
+                val organizationList = organizationRepository.findByOrganizationId(searchKeys)
+                val organization = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition()).results
+                val organizationName = this.getRecursive(organizationList, organization, mutableListOf(), false)
+                organizationName.forEach { targetKeys.add(it) }
+            }
+            "custom" -> searchKeys.split(" ").forEach { targetKeys.add(it) }
+        }
+
+        val userSearchCondition = UserSearchCondition(
+            searchValue = params["search"].toString(),
+            optionalCondition = targetCriteria,
+            optionalTargets = targetKeys,
+            isFilterUseYn = true
+        )
+
+        return this.selectUserList(userSearchCondition)
+    }
+
+    /**
      * 사용자 목록을 조회한다.
      */
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
@@ -183,20 +211,24 @@ class UserService(
         )
     }
 
-    //groupId 값을 이용하여 상위 레벨의 부서폴더이름 추출
+    // organizationId 값을 이용하여 상위 / 하위 레벨의 부서이름 추출
     fun getRecursive(
         organization: OrganizationEntity,
         organizationList: List<OrganizationEntity>,
-        organizationName: MutableList<String>
+        organizationName: MutableList<String>,
+        getParent: Boolean = true
     ): MutableList<String> {
         organizationName.add(organization.organizationName.toString())
-        if (organization.pOrganization != null) {
-            val pOrganization = organizationList.firstOrNull {
-                it.organizationId == organization.pOrganization!!.organizationId
+        val tOrganization = organizationList.firstOrNull {
+            when (getParent) {
+                true -> {
+                    it.organizationId == organization.pOrganization?.organizationId
+                }
+                false -> organization.organizationId == it.pOrganization?.organizationId
             }
-            if (pOrganization != null) {
-                this.getRecursive(pOrganization, organizationList, organizationName)
-            }
+        }
+        if (tOrganization != null) {
+            this.getRecursive(tOrganization, organizationList, organizationName, getParent)
         }
         return organizationName
     }

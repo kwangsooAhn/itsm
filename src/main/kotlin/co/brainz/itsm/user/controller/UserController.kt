@@ -148,6 +148,21 @@ class UserController(
         return userListModalPage
     }
 
+
+    /**
+     * 사용자 검색 컴포넌트 리스트 모달
+     */
+    @GetMapping("/view-pop/userSearch")
+    fun getSearchUsersList(request: HttpServletRequest, model: Model): String {
+        val params = LinkedHashMap<String, Any>()
+        params["search"] = request.getParameter("search")
+        params["targetCriteria"] = request.getParameter("targetCriteria")
+        params["searchKeys"] = request.getParameter("searchKeys")
+        model.addAttribute("userList", userService.getSearchUserList(params).data)
+        model.addAttribute("multiSelect", request.getParameter("multiSelect"))
+        return userListModalPage
+    }
+
     /**
      * 사용자 등록 화면을 호출한다.
      */

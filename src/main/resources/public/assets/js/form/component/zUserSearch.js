@@ -130,8 +130,6 @@ export const userSearchMixin = {
         }
 
         this.value = userSearchData + '|' + e.target.value;
-        console.log(userSearchData);
-        console.log(this.value);
     },
 
     // 사용자 선택 모달
@@ -191,14 +189,14 @@ export const userSearchMixin = {
     },
 
     getUserList(search, showProgressbar) {
-        // const targetCriteria = JSON.parse(this.elementUserSearchTarget).targetCriteria;
-        // let searchKeys = [];
-        // JSON.parse(this.elementUserSearchTarget).searchKey.forEach( (elem) => {
-        //     searchKeys.push(elem.id);
-        // });
+        const targetCriteria = JSON.parse(this.elementUserSearchTarget).targetCriteria;
+        let searchKeys = '';
+        JSON.parse(this.elementUserSearchTarget).searchKey.forEach( (elem, index) => {
+            searchKeys += (index > 0) ? '+' + elem.id : elem.id;
+        });
 
-        // todo : targetCriteria 와 searchKey에 따라 원하는 목록이 나오도록 구현
-        let strUrl = '/users/view-pop/userSearch?search=' + encodeURIComponent(search.trim()) + '&multiSelect=false';
+        let strUrl = '/users/view-pop/userSearch?search=' + encodeURIComponent(search.trim()) +
+            '&multiSelect=false&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
         aliceJs.fetchText(strUrl, {
             method: 'GET',
             showProgressbar: showProgressbar
