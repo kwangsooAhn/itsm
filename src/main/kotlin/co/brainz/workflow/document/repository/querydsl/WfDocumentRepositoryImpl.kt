@@ -150,14 +150,4 @@ class WfDocumentRepositoryImpl :
             .where(document.documentId.`in`(documentIds))
             .fetch()
     }
-
-    override fun existsByProcessIdAndFormId(processId: String, formId: String): Boolean {
-        val documentEntity = QWfDocumentEntity.wfDocumentEntity
-        val query = from(documentEntity)
-            .where(
-                documentEntity.process.processId.eq(processId)
-                    .and(documentEntity.form.formId.eq(formId))
-            )
-        return query.fetchCount() > 0
-    }
 }
