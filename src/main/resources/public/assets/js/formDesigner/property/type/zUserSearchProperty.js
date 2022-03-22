@@ -91,24 +91,26 @@ export default class ZUserSearchProperty extends ZProperty {
                         .setUIAttribute('data-value', this.defaultValue.searchKey[0].id || '');
                 }
                 targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIInput);
-                // small icon button
-                targetGroup.UIInputButton.UIIconButton = new UIButton()
-                    .setUIClass('z-button-icon-sm')
-                    .setUIAttribute('tabindex', '-1')
-                    .onUIClick(this.clearText.bind(this));
-                targetGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
-                    .setUIClass('z-icon')
-                    .addUIClass('i-remove');
-                targetGroup.UIInputButton.UIIconButton.addUI(targetGroup.UIInputButton.UIIconButton.UIIcon);
-                targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIIconButton);
-                // button
-                targetGroup.UIInputButton.UIButton = new UIButton()
-                    .setUIClass('z-button-icon')
-                    .addUIClass('z-button-code')
-                    // .setUIAttribute('data-value', '')
-                    .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
-                    .onUIClick(this.openOrganizationData.bind(this));
-                targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIButton);
+                if (this.isEditable) {
+                    // small icon button
+                    targetGroup.UIInputButton.UIIconButton = new UIButton()
+                        .setUIClass('z-button-icon-sm')
+                        .setUIAttribute('tabindex', '-1')
+                        .onUIClick(this.clearText.bind(this));
+                    targetGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
+                        .setUIClass('z-icon')
+                        .addUIClass('i-remove');
+                    targetGroup.UIInputButton.UIIconButton.addUI(targetGroup.UIInputButton.UIIconButton.UIIcon);
+                    targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIIconButton);
+                    // button
+                    targetGroup.UIInputButton.UIButton = new UIButton()
+                        .setUIClass('z-button-icon')
+                        .addUIClass('z-button-code')
+                        // .setUIAttribute('data-value', '')
+                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
+                        .onUIClick(this.openOrganizationData.bind(this));
+                    targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIButton);
+                }
                 break;
             // 대상목록 지정
             case 'custom':

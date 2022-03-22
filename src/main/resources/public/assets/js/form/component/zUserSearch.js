@@ -258,6 +258,6 @@ export const userSearchMixin = {
     },
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {
-        return true;
+        return !zValidation.isEmpty(JSON.parse(this.elementUserSearchTarget).searchKey[0].value);
     }
 };
