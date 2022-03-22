@@ -56,5 +56,5 @@ interface WfProcessMapper {
         Mapping(target = "updateUserName", ignore = true),
         Mapping(target = "enabled", ignore = true)
     )
-    fun toRestTemplateFormViewDto(restTemplateProcessDto: RestTemplateProcessDto): RestTemplateProcessViewDto
+    fun toRestTemplateProcessViewDto(restTemplateProcessDto: RestTemplateProcessDto): RestTemplateProcessViewDto
 }

@@ -823,7 +823,7 @@ class WfDocumentService(
                 createUserKey = currentSessionUser.getUserKey()
             )
         )
-        val newProcess = wfProcessMapper.toRestTemplateFormViewDto(processDto)
+        val newProcess = wfProcessMapper.toRestTemplateProcessViewDto(processDto)
         documentImportDto.documentData.processId = processDto.processId
         val newElements: MutableList<RestTemplateElementDto> = mutableListOf()
         val elementKeyMap: MutableMap<String, String> = mutableMapOf()
