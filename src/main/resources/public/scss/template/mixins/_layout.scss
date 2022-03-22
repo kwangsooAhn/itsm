@@ -75,8 +75,6 @@
         &.read-only { cursor: default; }
         &:hover { background-color: $grid-hover-bg-color; }
       }
-
-      .bold { font-weight: $font-weight-bold; }
       .sub-text {
         color: $neutral600;
         font-size: $font-size-xxs;

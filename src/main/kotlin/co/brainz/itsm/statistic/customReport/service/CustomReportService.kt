@@ -53,7 +53,7 @@ class CustomReportService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = customReportRepository.count(),
                 currentPageNum = reportSearchCondition.pageNum,
-                totalPageNum = Math.ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble())
+                totalPageNum = Math.ceil(queryResult.total.toDouble() / reportSearchCondition.contentNumPerPage.toDouble())
                     .toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )

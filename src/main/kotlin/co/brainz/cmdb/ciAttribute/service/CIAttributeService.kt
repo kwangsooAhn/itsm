@@ -42,7 +42,7 @@ class CIAttributeService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = ciAttributeRepository.count(),
                 currentPageNum = ciAttributeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / ciAttributeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -165,7 +165,7 @@ class CIAttributeService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = ciAttributeRepository.count(),
                 currentPageNum = ciAttributeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / ciAttributeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

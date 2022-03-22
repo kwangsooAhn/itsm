@@ -95,7 +95,7 @@ class CIService(
                 totalCount = cis.total,
                 totalCountWithoutCondition = ciRepository.count(),
                 currentPageNum = ciSearchCondition.pageNum,
-                totalPageNum = ceil(cis.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(cis.total.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

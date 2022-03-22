@@ -103,7 +103,7 @@ class CIService(
                 totalCount = 16L,
                 totalCountWithoutCondition = 16L,
                 currentPageNum = ciSearchCondition.pageNum,
-                totalPageNum = ceil(16L.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(16L.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -148,7 +148,7 @@ class CIService(
                 totalCount = totalCount.toLong(),
                 totalCountWithoutCondition = ciSearchCondition.typeId?.let { ciRepository.countByTypeId(it) } ?: 0,
                 currentPageNum = ciSearchCondition.pageNum,
-                totalPageNum = ceil(totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(totalCount.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code,
                 orderColName = ciSearchCondition.orderColName,
                 orderDir = ciSearchCondition.orderDir

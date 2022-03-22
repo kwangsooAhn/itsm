@@ -640,6 +640,10 @@ input, button, select, optgroup, textarea {
  * @author wdj
  * @version 1.0
  */
+.font-bold {
+  font-weight: bold;
+}
+
 .underline {
   text-decoration: underline;
   text-underline-position: under;
@@ -682,6 +686,10 @@ input, button, select, optgroup, textarea {
   white-space: nowrap;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.9375rem 0;
@@ -709,10 +717,6 @@ input, button, select, optgroup, textarea {
   font-size: 1.125rem;
   font-weight: 500;
   color: #757575;
-}
-
-.pointer {
-  cursor: pointer;
 }
 
 /*

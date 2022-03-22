@@ -95,6 +95,9 @@
     /*<![CDATA[*/
     const STATUS_SUCCESS = '0';
     const STATUS_SUCCESS_EDIT_TYPE = '1';
+    const STATUS_FAIL_TYPE_ALIAS_DUPLICATION = '2';
+    const STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION = '3';
+
     let observer = aliceJs.pageObserver;
 
     window.addEventListener('load', function() {
@@ -291,6 +294,12 @@
                     zAlert.success(i18n.msg('common.msg.update'), function () {
                         window.location.href = '/cmdb/types/edit';
                     });
+                    break;
+                case STATUS_FAIL_TYPE_ALIAS_DUPLICATION:
+                    zAlert.warning(i18n.msg('cmdb.type.msg.typeAliasDuplication'));
+                    break;
+                case STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION:
+                    zAlert.warning(i18n.msg('cmdb.type.msg.pTypeAndTypeNameDuplication'));
                     break;
                 default:
                     zAlert.danger(i18n.msg('common.msg.fail'));
