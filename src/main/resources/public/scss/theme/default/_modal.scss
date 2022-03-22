@@ -86,7 +86,9 @@
     }
   }
   // 업무 흐름 등록 / 수정 모달
-  &.document-edit {
+  // 업무 흐름 가져오기 모달
+  &.document-edit,
+  &.workFlow-import {
     width: $document-edit-modal-width;
     height: $document-edit-modal-height;
 
@@ -239,6 +241,68 @@
         color: $product-info-modal-content-href-color;
         margin: 0.625rem 0;
       }
+    }
+  }
+
+  // CI 상세 검색 모달
+  &.cmdb-ci-detailSearch-modal {
+    width: 40.125rem; //642px
+    height: 43.75rem; //700px
+    .modal-content {
+      height: calc(43.75rem - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem; // 10px 20px
+
+      .flex-row {
+        margin: 1rem 0 0 0; // 16px
+        .field-label { flex-basis: 30%; }
+        .field-element { flex-basis: 70%; }
+      }
+    }
+  }
+  // CI 상세 조회 모달
+  &.cmdb-ci-view-modal {
+    width: 62.5rem; // 1000px
+    height: 53.0625rem; // 849px
+
+    .modal-content {
+      height: calc(53.0625rem - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem; // 10px 20px
+
+      .view-row {  margin-top: 0.625rem; } // 10px
+      .field-label { margin: 0.625rem 0; } // 10px 0
+      // 세부 속성
+      .attribute-group {
+        @include border(0.0625rem, solid, $gray300, all);
+        @include borderRadius(0.0625rem);
+        background-color: $neutral50;
+        padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
+
+        .child-attribute-group {
+          @include relative();
+          .child-attribute-row {
+            @include border(0.0625rem, solid, $gray300, all);
+            @include borderRadius(0.0625rem);
+            background-color: $white;
+            padding: 0.3125rem 1.25rem 1.25rem 1.25rem; // 5px 20px 20px 20px
+          }
+        }
+      }
+    }
+  }
+  // CI 템플릿 IMPORT 모달
+  &.template-import {
+    width: 37.5rem; // 600px
+    height: 22.5rem; // 360px
+
+    .modal-content {
+      height: calc(22.5rem - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+
     }
   }
 }

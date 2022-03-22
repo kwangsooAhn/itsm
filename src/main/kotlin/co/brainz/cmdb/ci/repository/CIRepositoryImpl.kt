@@ -9,17 +9,17 @@ package co.brainz.cmdb.ci.repository
 import co.brainz.cmdb.ci.entity.CIEntity
 import co.brainz.cmdb.ci.entity.QCIEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassEntity
-import co.brainz.cmdb.ciRelation.entity.QCIRelationEntity
+import co.brainz.cmdb.ciType.constants.CITypeConstants
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIsDto
-import co.brainz.cmdb.dto.CIsExcelDto
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
@@ -71,7 +71,6 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         val cmdbClass = QCIClassEntity.cIClassEntity
         val cmdbTag = QAliceTagEntity.aliceTagEntity
         val wfComponentCIData = QCIComponentDataEntity.cIComponentDataEntity
-        val wfRelationCIData = QCIRelationEntity.cIRelationEntity
         val wfInstance = QWfInstanceEntity.wfInstanceEntity
 
         val query = from(ci)
@@ -97,18 +96,20 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             )
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
             .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
-            .where(
-                (!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
-                    .and(
-                        super.likeIgnoreCase(ci.ciName, ciSearchCondition.searchValue)
-                            ?.or(super.likeIgnoreCase(ci.ciNo, ciSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(cmdbClass.className, ciSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(ci.ciDesc, ciSearchCondition.searchValue))
-                    )
-            )
-
-            .orderBy(ci.ciName.asc())
+        if (ciSearchCondition.typeId != null && ciSearchCondition.typeId != CITypeConstants.CI_TYPE_ROOT_ID) {
+            query.where(ci.ciTypeEntity.typeId.eq(ciSearchCondition.typeId))
+        }
+        query.where(!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
+        val builder = BooleanBuilder()
+        builder.and(super.likeIgnoreCase(ci.ciName, ciSearchCondition.searchValue))
+        builder.or(super.likeIgnoreCase(ci.ciNo, ciSearchCondition.searchValue))
+        builder.or(super.likeIgnoreCase(cmdbClass.className, ciSearchCondition.searchValue))
+        builder.or(super.likeIgnoreCase(ci.ciDesc, ciSearchCondition.searchValue))
+        if (ciSearchCondition.isSearchType) {
+            builder.or(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
+        }
+        query.where(builder)
+        query.orderBy(ci.ciName.asc())
         if (ciSearchCondition.tagArray.isNotEmpty()) {
             query.where(
                 ci.ciId.`in`(
@@ -167,63 +168,15 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             .fetchFirst()
     }
 
-    override fun findCIListForExcel(ciSearchCondition: CISearchCondition): QueryResults<CIsExcelDto> {
-        val ci = QCIEntity.cIEntity
-        val cmdbType = QCITypeEntity.cITypeEntity
-        val cmdbClass = QCIClassEntity.cIClassEntity
-        val cmdbTag = QAliceTagEntity.aliceTagEntity
-        val wfComponentCIData = QCIComponentDataEntity.cIComponentDataEntity
-        val wfInstance = QWfInstanceEntity.wfInstanceEntity
-        val query = from(ci)
-            .select(
-                Projections.constructor(
-                    CIsExcelDto::class.java,
-                    ci.ciId,
-                    ci.ciNo,
-                    ci.ciName,
-                    ci.ciDesc,
-                    cmdbType.typeName,
-                    ci.interlink
-                )
-            )
-            .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
-            .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
-            .where(
-                (!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
-                    .and(
-                        super.likeIgnoreCase(ci.ciName, ciSearchCondition.searchValue)
-                            ?.or(super.likeIgnoreCase(ci.ciNo, ciSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(cmdbClass.className, ciSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(ci.ciDesc, ciSearchCondition.searchValue))
-                    )
-            )
-
-            .orderBy(ci.ciName.asc())
-        if (ciSearchCondition.tagArray.isNotEmpty()) {
-            query.where(
-                ci.ciId.`in`(
-                    JPAExpressions
-                        .select(cmdbTag.targetId)
-                        .from(cmdbTag)
-                        .where(
-                            cmdbTag.tagValue.`in`(ciSearchCondition.tagArray)
-                                .and(cmdbTag.tagType.eq(AliceTagConstants.TagType.CI.code))
-                        )
-                )
-            )
+    /**
+     * CI Type 기준 전체 건수
+     */
+    override fun countByTypeId(typeId: String): Long {
+        val ciEntity = QCIEntity.cIEntity
+        val query = from(ciEntity)
+        if (typeId != CITypeConstants.CI_TYPE_ROOT_ID) {
+            query.where(ciEntity.ciTypeEntity.typeId.eq(typeId))
         }
-        if (ciSearchCondition.flag == "component") {
-            query.where(
-                ci.ciId.notIn(
-                    JPAExpressions
-                        .select(wfComponentCIData.ciId)
-                        .from(wfComponentCIData)
-                        .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
-                        .where(wfInstance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
-                )
-            )
-        }
-        return query.fetchResults()
+        return query.fetchCount()
     }
 }

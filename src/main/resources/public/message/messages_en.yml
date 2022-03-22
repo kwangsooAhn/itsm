@@ -8,6 +8,8 @@ common:
     delete: "DELETE"
     editUserInfo: "Edit profile"
     export: "EXPORT"
+    import: "IMPORT"
+    initialization: "INITIALIZATION"
     list: "LIST"
     logout: "LOGOUT"
     modify: "MODIFY"
@@ -20,6 +22,7 @@ common:
     review: "REVIEW"
     save: "SAVE"
     saveAs: "SAVE AS"
+    search: "SEARCH"
     select: "SELECT"
     terminate: "TERMINATE"
     toModify: "MODIFY"
@@ -42,6 +45,7 @@ common:
     delete: "Delete"
     edit: "Edit"
     endDate: "End date"
+    export: "Export"
     fail: "Fail"
     group: "Group"
     modify: "Modify"
@@ -268,6 +272,7 @@ chart:
     docCases: "Documents Cases"
     docRatio: "Documents Ratio"
     searchPlaceholder: "Chart Name"
+    view: "Chart View"
   option:
     label:
       subTitle: "User custom chart report"
@@ -288,6 +293,7 @@ chart:
     enterTargetTags: "Please enter a target tags."
     maxPeriodUnitRange: "If the interval is hourly, please set the period within {0} days."
     periodUnitOutOfRange: "The duration is greater than the period."
+    duplicateChartNameAndChartType: "Duplicate chart name and chart type exist."
   chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"
@@ -330,21 +336,25 @@ cmdb:
         validate: "Validate"
         value: "Value"
       searchPlaceholder: "Label / Type / Attribute Name / Description"
+      searchWidth: "Column Width"
       seq: "Sort Order"
       type: "Type"
+      useSearch: "Use Search"
       view: "Attribute"
     msg:
       attributeNameUsed: "The Attribute Name is being used."
+      comepareWithMaxLength: "Enter a number max length is greater than min length."
       enterAttributeName: "Please enter a attribute name."
       details: "Please add details."
       searchDescription: "CI Attribute manage posts."
+      searchWidth: "When using search conditions, set the width of the item."
       selectAttributeType: "Please select the type."
       viewDescription: "Inquires detailed information about the attribute."
       editDescription: "Register, modify, or delete information on attribute."
       maxLength: "Please enter max length below 1000."
       maxDate: "Please select max date after min date."
       maxDateTime: "Please select max date time after min date time."
-      comepareWithMaxLength: "Enter a number max length is greater than min length."
+      useSearch: "It can be used as a search condition when searching for an asset."
     btn:
       import: "Import"
       export: "Export"
@@ -357,9 +367,15 @@ cmdb:
     label:
       all: "All"
       applyDate: "Apply Date"
+      ciDesc: "CI Description"
+      ciName: "CI Name"
       ciNo: "CI No."
       ciInquiry: "CI Inquiry"
+      ciTemplate: "CI Template"
+      ciTemplateImport: "TEMPLATE IMPORT"
+      ciType: "CI Type"
       createUser: "Create User"
+      detailSearch: "Asset details search"
       delete: "CI Delete"
       description: "CI Description"
       existing: "Existing"
@@ -368,6 +384,7 @@ cmdb:
       name: "CI Name"
       new: "New"
       relatedDocument: "Related document"
+      searchDetailPlaceholder: "CI No / CI Name / Description"
       searchPlaceholder: "CI No / CI Type / CI Name / Description"
       select: "CI Select"
       seqNum: "CI No"
@@ -377,6 +394,7 @@ cmdb:
         use: "use"
       tag: "Tag"
       tagPlaceholder: "#Tag"
+      targetType: "Target CI Type: {0}"
       type: "CI Type"
       register: "CI Register"
       update: "CI Update"
@@ -384,6 +402,7 @@ cmdb:
       relation: "CI Relation"
       targetCiName: "Target CI Name"
       whetherToInterlock: "Whether to Interlink"
+      importFile: "IMPORT FILE"
       interlock: "Interlink"
       nonInterlock: "Non Interlink"
     msg:
@@ -394,11 +413,16 @@ cmdb:
       enterCiName: "Please enter a CI Name."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
+      selectImportFile: "Please select an import file."
+      noticeImportFile: "Import only possible in excel file"
       tag: "Please enter a tag."
       viewDescription: "Retrieve detailed information about a CI.."
     btn:
+      detailSearch: "Detail Search"
       import: "Import"
+      importTemplate: "Import Template"
       export: "Export"
+      exportTemplate: "Export Template"
   class:
     label:
       attributeList: "Attribute List"
@@ -435,10 +459,12 @@ cmdb:
       enterTypeAlias: "Please enter a Type Alias."
       enterTypeName: "Please enter a Type Name."
       enterTypeSeq: "Enter the sort order."
+      pTypeAndTypeNameDuplication: "The same type name exists within the parent type."
       searchDescription: "CI Type manage posts."
       selectAvailableClass: "Please select a available Class."
       selectAvailableType: "Please select a available Type."
       selectType: "Please select a Type."
+      typeAliasDuplication: "The same type alias exists."
     btn:
       import: "Import"
       export: "Export"
@@ -684,9 +710,6 @@ fileupload:
 
 # Form
 form:
-  btn:
-    export: "Export"
-    import: "Import"
   label:
     actionType: "Type"
     addAbove: "Add above"
@@ -1081,8 +1104,6 @@ portal:
 # Process
 process:
   btn:
-    export: "Export"
-    import: "Import"
     simulationCheckResult: "Simulation check result"
   label:
     description: "Description"
@@ -1369,9 +1390,13 @@ workflowAdmin:
   label:
     description: "Description"
     group: "Group"
+    import: "WorkFlow IMPORT"
+    importFile: "IMPORT File"
     name: "Name"
     status: "Status"
     type: "Type"
+  msg:
+    noticeImportFile: "Import only possible in XML file"
 
 # User
 user:

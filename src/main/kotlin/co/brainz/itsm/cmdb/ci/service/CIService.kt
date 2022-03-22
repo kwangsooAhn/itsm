@@ -6,16 +6,23 @@
 
 package co.brainz.itsm.cmdb.ci.service
 
+import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ci.service.CIService
+import co.brainz.cmdb.ciAttribute.constants.CIAttributeConstants
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIAttributeValueGroupListDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
+import co.brainz.cmdb.dto.CIContentDto
 import co.brainz.cmdb.dto.CIDetailDto
+import co.brainz.cmdb.dto.CIDynamicListDto
+import co.brainz.cmdb.dto.CIDynamicReturnDto
 import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
+import co.brainz.cmdb.dto.CISearchItem
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
@@ -24,10 +31,11 @@ import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagManager
-import co.brainz.framework.util.AliceMessageSource
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
+import co.brainz.itsm.cmdb.ci.dto.CISearch
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
@@ -38,20 +46,23 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.io.File
 import java.time.LocalDateTime
+import kotlin.math.ceil
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
 class CIService(
-    private val aliceMessageSource: AliceMessageSource,
     private val ciService: CIService,
     private val ciClassService: CIClassService,
     private val ciComponentDataRepository: CIComponentDataRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val excelComponent: ExcelComponent,
-    private val aliceTagManager: AliceTagManager
+    private val aliceTagManager: AliceTagManager,
+    private val ciSearchService: CISearchService,
+    private val ciRepository: CIRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -73,11 +84,76 @@ class CIService(
         return ciService.getCIDetail(ciId)
     }
 
+    fun getCIsDummy(ciSearchCondition: CISearchCondition): CIDynamicReturnDto {
+        val file = File("src/main/resources/public/assets/js/cmdb/dummy/ci.json")
+        val params = mapper.readValue(file, Map::class.java)
+        val ciData = CIDynamicListDto(
+            searchItems = params["searchItems"] as MutableList<CISearchItem>,
+            columnName = params["columnName"] as ArrayList<String>,
+            columnTitle = params["columnTitle"] as ArrayList<String>,
+            columnWidth = params["columnWidth"] as ArrayList<String>,
+            columnType = params["columnType"] as ArrayList<String>,
+            contents = mapper.convertValue(params["contents"],
+                object : TypeReference<List<CIContentDto>>() {})
+        )
+
+        return CIDynamicReturnDto(
+            data = ciData,
+            paging = AlicePagingData(
+                totalCount = 16L,
+                totalCountWithoutCondition = 16L,
+                currentPageNum = ciSearchCondition.pageNum,
+                totalPageNum = ceil(16L.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            )
+        )
+    }
+
     /**
      * CMDB CI 목록 조회
      */
     fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
         return ciService.getCIs(ciSearchCondition)
+    }
+
+    /**
+     * CMDB CI 조회 (동적 컬럼)
+     */
+    fun getCIs(ciSearchCondition: CISearchCondition, searchItemsData: CISearch): CIDynamicReturnDto {
+        ciSearchCondition.isPaging = false
+        val ciList = ciRepository.findCIList(ciSearchCondition)
+        // 공통 출력 데이터 조회
+        var basic = ciSearchService.getBasic(ciList.results)
+        // 옵션 출력 데이터 조회
+        val dynamic = ciSearchCondition.typeId?.let {
+            ciSearchService.getDynamic(it, basic, searchItemsData, ciSearchCondition.isExcel)
+        }
+        // 공통 출력 + 옵션 출력 정보
+        basic = ciSearchService.addDynamic(basic, dynamic)
+        // 상세 검색 조건 필터링
+        basic.contents = ciSearchService.getFilterContents(basic)
+        // 코드 값을 실제 값으로 변경하는 작업
+        basic.contents = ciSearchService.getConvertValue(basic)
+        // 정렬
+        basic.contents = ciSearchService.getOrderContents(basic, ciSearchCondition)
+        // 페이징
+        val totalCount = basic.contents.size
+        if (!ciSearchCondition.isExcel) {
+            basic.contents = ciSearchService.getPaging(basic, ciSearchCondition)
+        }
+
+        return CIDynamicReturnDto(
+            data = basic,
+            paging = AlicePagingData(
+                totalCount = totalCount.toLong(),
+                totalCountWithoutCondition = ciSearchCondition.typeId?.let { ciRepository.countByTypeId(it) } ?: 0,
+                currentPageNum = ciSearchCondition.pageNum,
+                totalPageNum = ceil(totalCount.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code,
+                orderColName = ciSearchCondition.orderColName,
+                orderDir = ciSearchCondition.orderDir
+            )
+        )
     }
 
     /**
@@ -325,65 +401,57 @@ class CIService(
     /**
      * CI 조회 Excel 다운로드
      */
-    fun getCIsExcelDownload(ciSearchCondition: CISearchCondition): ResponseEntity<ByteArray> {
-        val returnDto = ciService.getCIListForExcel(ciSearchCondition)
+    fun getCIsExcelDownload(ciSearchCondition: CISearchCondition, searchItemsData: CISearch): ResponseEntity<ByteArray> {
+        ciSearchCondition.isExcel = true
+        val result = this.getCIs(ciSearchCondition, searchItemsData).data
+
+        val titleRowVOList = mutableListOf<ExcelCellVO>()
+        result?.columnTitle?.forEachIndexed { index, title ->
+            when (result.columnType[index]) {
+                CIAttributeConstants.Type.ICON.code,
+                CIAttributeConstants.Type.HIDDEN.code -> { }
+                else -> {
+                    titleRowVOList.add(
+                        ExcelCellVO(
+                            value = title,
+                            cellWidth = 5000
+                        )
+                    )
+                }
+            }
+        }
+
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(
                     rows = mutableListOf(
                         ExcelRowVO(
-                            cells = listOf(
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.ciNo"),
-                                    cellWidth = 5000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.type"),
-                                    cellWidth = 5000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.name"),
-                                    cellWidth = 5000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.description"),
-                                    cellWidth = 8000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.tag"),
-                                    cellWidth = 5000
-                                ),
-                                ExcelCellVO(
-                                    value = aliceMessageSource.getMessage("cmdb.ci.label.whetherToInterlink"),
-                                    cellWidth = 5000
-                                )
-                            )
+                            cells = titleRowVOList
                         )
                     )
                 )
             )
         )
 
-        returnDto.forEach { result ->
-            excelVO.sheets[0].rows.add(
+        val excelRowVOList = mutableListOf<ExcelRowVO>()
+        result?.contents?.forEach { content ->
+            val excelCellVOList = mutableListOf<ExcelCellVO>()
+            content.value.forEachIndexed { index, value ->
+                when (result.columnType[index]) {
+                    CIAttributeConstants.Type.ICON.code,
+                    CIAttributeConstants.Type.HIDDEN.code -> { }
+                    else -> {
+                        excelCellVOList.add(ExcelCellVO(value = value))
+                    }
+                }
+            }
+            excelRowVOList.add(
                 ExcelRowVO(
-                    cells = mutableListOf(
-                        ExcelCellVO(value = result.ciNo),
-                        ExcelCellVO(value = result.typeName),
-                        ExcelCellVO(value = result.ciName),
-                        ExcelCellVO(value = result.ciDesc ?: ""),
-                        ExcelCellVO(value = this.tagToString(result.ciTags)),
-                        ExcelCellVO(
-                            value = if (result.interlink == true) {
-                                aliceMessageSource.getMessage("cmdb.ci.label.interlink")
-                            } else {
-                                aliceMessageSource.getMessage("cmdb.ci.label.nonInterlink")
-                            }
-                        )
-                    )
+                    cells = excelCellVOList
                 )
             )
         }
+        excelVO.sheets[0].rows.addAll(excelRowVOList)
         return excelComponent.download(excelVO)
     }
 

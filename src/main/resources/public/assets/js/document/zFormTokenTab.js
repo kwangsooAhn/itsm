@@ -27,6 +27,7 @@ class ZFormTokenTab {
         this.folderId = formDataJson.folderId;
         this.editable = editable;
         this.viewerList = []; // 참조인 목록
+        this.relatedDocList = []; // 관련문서 목록
 
         // 탭 생성
         aliceJs.fetchText('/tokens/tokenTab', {
@@ -310,7 +311,7 @@ class ZFormTokenTab {
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('subUserList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(document.getElementById('substituteUserList'), {className: 'scrollbar'});
             // 갯수 가운트
             const substituteUserList = document.getElementById('substituteUserList');
             aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
@@ -324,6 +325,24 @@ class ZFormTokenTab {
                         checkElem.disabled = true;
                     }
                 }
+            });
+            const checkboxList = document.querySelectorAll('input[name=substituteUser]')
+            checkboxList.forEach((checkbox) => {
+                checkbox.addEventListener('click', (e) => {
+                    if(e.target.checked) {
+                        this.viewerList.push({
+                            viewerKey: e.target.id,
+                            reviewYn: false,
+                            displayYn: false,
+                            viewerType: DOCUMENT.VIEWER_TYPE.REGISTER
+                        });
+                    } else {
+                       let removeIndex= this.viewerList.findIndex(function(key) {return key.viewerKey === e.target.id});
+                       if (removeIndex > -1) {
+                           this.viewerList.splice(removeIndex, 1);
+                       }
+                   }
+                })
             });
         });
     }
@@ -422,29 +441,49 @@ class ZFormTokenTab {
             this.setDateTimeFormat();
             OverlayScrollbars(document.getElementById('instanceList'), {className: 'scrollbar'});
             aliceJs.showTotalCount(document.querySelectorAll('.instance-list').length);
+
+            const relatedDocumentListBody = document.getElementById('instanceListBody');
+            this.relatedDocList.forEach((doc) => {
+                const checkElem = relatedDocumentListBody.querySelector('input[value="' + doc.instanceId + '"]');
+                if (checkElem) {
+                    checkElem.checked = true;
+                }
+            });
+
+            const checkboxList = document.querySelectorAll('input[name=chk]');
+            checkboxList.forEach((checkbox) => {
+                checkbox.addEventListener('click', (e) => {
+                    if (e.target.checked) {
+                        this.relatedDocList.push({
+                            documentId: this.documentId,
+                            folderId: this.folderId,
+                            instanceId: e.target.value
+                        });
+                    } else {
+                        let removeIndex = this.relatedDocList.findIndex(function (key) {
+                            return key.instanceId === e.target.value;
+                        });
+                        if (removeIndex > -1) {
+                            this.relatedDocList.splice(removeIndex, 1);
+                        }
+                    }
+                })
+            });
         });
     }
     /**
      * 관련 문서 저장 : 선택한 문서를 관련문서로 저장
      */
     saveRelatedDoc() {
-        let checked = document.querySelectorAll('input[name=chk]:checked');
-        if (checked.length === 0) {
+        if (this.relatedDocList.length === 0) {
             zAlert.warning(i18n.msg('token.msg.selectToken'));
         } else {
             let data = {
                 instanceId: this.instanceId,
                 documentId: this.documentId
             }
-            let jsonArray = [];
-            for (let i = 0; i < checked.length; i++) {
-                jsonArray.push({
-                    documentId: this.documentId,
-                    folderId: this.folderId,
-                    instanceId: checked[i].value
-                });
-            }
-            data.folders = jsonArray;
+
+            data.folders = this.relatedDocList;
             aliceJs.fetchText('/rest/folders', {
                 method: 'POST',
                 headers: {
@@ -459,7 +498,8 @@ class ZFormTokenTab {
                         this.setDateTimeFormat();
                     });
                 }
-            });
+                this.relatedDocList = [] // 저장후 검색리스트 초기화
+             });
         }
     }
     /**

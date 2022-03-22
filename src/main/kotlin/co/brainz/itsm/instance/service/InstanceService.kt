@@ -212,25 +212,19 @@ class InstanceService(
         val isSuccess = this.setInitInstance(instanceId, instanceViewerListDto.documentId)
         if (isSuccess) {
             val instance = wfInstanceRepository.findByInstanceId(instanceId)
+            viewerRepository.deleteWfInstanceViewerEntityByInstanceAndAndReviewYn(instance!!, false)
             instanceViewerListDto.viewers.forEach {
-                when (it.viewerType) {
-                    InstanceConstants.ViewType.REGISTER.value -> {
-                        val viewer = aliceUserRepository.findAliceUserEntityByUserKey(it.viewerKey)
-                        val instanceViewerEntity =
-                            WfInstanceViewerEntity(
-                                instance = instance!!,
-                                viewer = viewer,
-                                reviewYn = it.reviewYn,
-                                displayYn = it.displayYn,
-                                createUserKey = currentSessionUser.getUserKey(),
-                                createDt = LocalDateTime.now()
-                            )
-                        viewerRepository.save(instanceViewerEntity)
-                    }
-                    InstanceConstants.ViewType.DELETE.value -> {
-                        this.deleteInstanceViewer(instanceId, it.viewerKey)
-                    }
-                }
+                val viewer = aliceUserRepository.findAliceUserEntityByUserKey(it.viewerKey)
+                val instanceViewerEntity =
+                    WfInstanceViewerEntity(
+                        instance = instance!!,
+                        viewer = viewer,
+                        reviewYn = it.reviewYn,
+                        displayYn = it.displayYn,
+                        createUserKey = currentSessionUser.getUserKey(),
+                        createDt = LocalDateTime.now()
+                    )
+                viewerRepository.save(instanceViewerEntity)
             }
         }
         return isSuccess

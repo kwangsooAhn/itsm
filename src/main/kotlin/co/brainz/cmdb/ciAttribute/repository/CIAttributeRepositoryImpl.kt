@@ -16,6 +16,7 @@ import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIGroupListDto
+import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
@@ -40,7 +41,9 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeName,
                     ciAttribute.attributeText,
                     ciAttribute.attributeType,
-                    ciAttribute.attributeDesc
+                    ciAttribute.attributeDesc,
+                    ciAttribute.searchYn,
+                    ciAttribute.searchWidth
                 )
             )
             .where(
@@ -58,6 +61,25 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
         return query.fetchResults()
     }
 
+    override fun findAttributeList(attributeIds: Set<String>): List<CISearchItem> {
+        val ciAttribute = QCIAttributeEntity.cIAttributeEntity
+        return from(ciAttribute)
+            .select(
+                Projections.constructor(
+                    CISearchItem::class.java,
+                    ciAttribute.attributeId,
+                    ciAttribute.attributeName,
+                    ciAttribute.attributeText,
+                    ciAttribute.attributeType,
+                    ciAttribute.attributeDesc,
+                    ciAttribute.attributeValue,
+                    Expressions.asString("")
+                )
+            )
+            .where(ciAttribute.attributeId.`in`(attributeIds))
+            .fetch()
+    }
+
     /**
      * Attribute 목록 단일 조회.
      */
@@ -71,7 +93,9 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeName,
                     ciAttribute.attributeText,
                     ciAttribute.attributeType,
-                    ciAttribute.attributeDesc
+                    ciAttribute.attributeDesc,
+                    ciAttribute.searchYn,
+                    ciAttribute.searchWidth
                 )
             )
             .where(ciAttribute.attributeId.eq(attributeId))
@@ -94,6 +118,8 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeText,
                     ciAttribute.attributeType,
                     ciAttribute.attributeValue,
+                    ciAttribute.searchYn,
+                    ciAttribute.searchWidth,
                     ciAttribute.mappingId,
                     ciAttribute.createUser.userKey,
                     ciAttribute.createDt,
@@ -142,6 +168,8 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttributeEntity.attributeType,
                     ciClassAttributeMapEntity.attributeOrder,
                     ciAttributeEntity.attributeValue,
+                    ciAttributeEntity.searchYn,
+                    ciAttributeEntity.searchWidth,
                     ciDataEntity.value
                 )
             )
@@ -176,7 +204,9 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeName,
                     ciAttribute.attributeText,
                     ciAttribute.attributeType,
-                    ciAttribute.attributeDesc
+                    ciAttribute.attributeDesc,
+                    ciAttribute.searchYn,
+                    ciAttribute.searchWidth
                 )
             )
             .where(
@@ -214,6 +244,8 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeType,
                     Expressions.asNumber(0),
                     ciAttribute.attributeValue,
+                    ciAttribute.searchYn,
+                    ciAttribute.searchWidth,
                     Expressions.asString("")
                 )
             )

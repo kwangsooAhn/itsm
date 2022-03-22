@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
+<body>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function () {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').onkeyup = function () {
+            getList();
+        };
+
+        new zTag(document.getElementById('tagSearch'), {
+            suggestion: true,
+            realtime: false,
+            tagType: 'ci',
+            targetId: '',
+            callback: function () {
+                getList();
+            }
+        });
+
+        getList();
+    }
+
+    function openCIDetailModal(ciId) {
+        aliceJs.fetchText('/cmdb/cis/' + ciId + '/view', {
+            method: 'GET',
+            showProgressbar: true
+        }).then((rtn) => {
+            const ciDetailModal = new modal({
+                title: i18n.msg('cmdb.ci.label.view'),
+                body: rtn,
+                classes: 'cmdb-ci-view-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function (modal) {
+                    document.getElementById('ciAttributes').click();
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelectorAll('textarea'), {
+                        className: 'scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+                    new zTag(document.querySelector('input[name=ciDetailTags]'), {
+                        suggestion: false,
+                        realtime: false,
+                        tagType: 'ci',
+                        targetId: document.getElementById('ciId').getAttribute('value')
+                    });
+                    // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+                    document.querySelectorAll('.date-time').forEach(dt => {
+                        dt.textContent = i18n.userDateTime(dt.textContent.trim());
+                    });
+                }
+            });
+            ciDetailModal.show();
+        })
+    }
+
+    function getList(pageNum = 1) {
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/cmdb/cis?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            document.getElementById('ciList').innerHTML = htmlData;
+            document.querySelectorAll('input[name=ciListTags]').forEach(function (tagInput) {
+                new zTag(tagInput, {
+                    suggestion: false,
+                    realtime: false,
+                    tagType: 'ci'
+                });
+            })
+        });
+    }
+
+    function onExcelDownload() {
+        aliceJs.fetchDownload({
+            url: '/rest/cmdb/cis/excel?' + aliceJs.serialize(document.getElementById('searchFrm')),
+            fileName: i18n.msg('cmdb.ci.label.ciInquiry') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
+        });
+    }
+
+    /*]]>*/
+</script>
+</html>

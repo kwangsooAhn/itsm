@@ -29,6 +29,7 @@ class WorkFlowController(
     private val workFlowListPage: String = "workflow/workFlowList"
     private val workFlowEditModalPage: String = "workflow/workFlowEditModal"
     private val documentDisplayModalPage: String = "workflow/documentDisplayModal"
+    private val workFlowImportModalPage: String = "workflow/workFlowImportModal"
 
     /**
      * 업무흐름 리스트 호출 화면.
@@ -120,5 +121,16 @@ class WorkFlowController(
         )
         model.addAttribute("documentDisplayList", documentService.getDocumentDisplay(documentId))
         return documentDisplayModalPage
+    }
+
+    /**
+     * 업무흐름 Import 모달
+     */
+    @GetMapping("/import")
+    fun getWorkFlowImport(model: Model): String {
+        model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
+        model.addAttribute("numberingRuleList", numberingRuleService.getNumberingRules())
+        model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
+        return workFlowImportModalPage
     }
 }

@@ -82,7 +82,7 @@ class CustomCodeService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = customCodeRepository.count(),
                 currentPageNum = customCodeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / customCodeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
