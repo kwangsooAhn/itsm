@@ -16,9 +16,9 @@ import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
-import { FORM } from "../../lib/zConstants.js";
+import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UIInput } from '../../lib/zUI.js';
-import { zValidation } from "../../lib/zValidation.js";
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
