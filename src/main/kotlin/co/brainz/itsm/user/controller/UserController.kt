@@ -136,7 +136,7 @@ class UserController(
     /**
      * 사용자 정보 수정 화면 및 자기정보 수정 화면 대리 근무자 리스트 모달
      */
-    @GetMapping("/view-pop/users")
+    @GetMapping("/substituteUsers")
     fun getSubUsersList(request: HttpServletRequest, model: Model): String {
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
@@ -152,7 +152,7 @@ class UserController(
     /**
      * 사용자 검색 컴포넌트 리스트 모달
      */
-    @GetMapping("/view-pop/userSearch")
+    @GetMapping("/searchUsers")
     fun getSearchUsersList(request: HttpServletRequest, model: Model): String {
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")

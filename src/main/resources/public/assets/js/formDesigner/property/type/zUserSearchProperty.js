@@ -237,7 +237,7 @@ export default class ZUserSearchProperty extends ZProperty {
     }
 
     getTargetUserList(search, showProgressbar) {
-        let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
+        let strUrl = '/users/substituteUsers?search=' + encodeURIComponent(search.trim())
             + '&from=&to=&userKey=&multiSelect=true';
         aliceJs.fetchText(strUrl, {
             method: 'GET',

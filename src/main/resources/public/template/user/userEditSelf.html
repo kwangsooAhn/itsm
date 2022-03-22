@@ -535,7 +535,7 @@
     }
 
     function getSubUserList(search, showProgressbar) {
-        let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
+        let strUrl = '/users/substituteUsers?search=' + encodeURIComponent(search.trim())
             + '&from=' + i18n.systemDateTime(document.getElementById('absenceStartDt').value)
             + '&to=' + i18n.systemDateTime(document.getElementById('absenceEndDt').value)
             + '&userKey=' + document.getElementById('userKey').value;

@@ -195,7 +195,7 @@ export const userSearchMixin = {
             searchKeys += (index > 0) ? '+' + elem.id : elem.id;
         });
 
-        let strUrl = '/users/view-pop/userSearch?search=' + encodeURIComponent(search.trim()) +
+        let strUrl = '/users/searchUsers?search=' + encodeURIComponent(search.trim()) +
             '&multiSelect=false&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
         aliceJs.fetchText(strUrl, {
             method: 'GET',
