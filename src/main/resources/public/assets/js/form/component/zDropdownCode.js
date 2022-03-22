@@ -14,12 +14,14 @@
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
-import ZOptionListProperty from '../../formDesigner/property/type/zOptionListProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZDefaultValueDropdownCodeProperty
+    from '../../formDesigner/property/type/zDefaultValueDropdownCodeProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UISelect } from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
+
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -27,7 +29,7 @@ import { zValidation } from '../../lib/zValidation.js';
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        options: [ FORM.DEFAULT_OPTION_ROW ]
+        defaultValueDropdownCode: '{"code":"","defaultCode":""}',
     },
     validation: {
         required: false, // 필수값 여부
@@ -35,8 +37,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
 
-export const dropdownMixin = {
-
+export const dropdownCodeMixin = {
     // 전달 받은 데이터와 기본 property merge
     initProperty() {
         // 엘리먼트 property 초기화
@@ -48,15 +49,14 @@ export const dropdownMixin = {
     makeElement() {
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
-
-        console.log(this.element.options);
+        console.log(this._value);
         element.UIDropdown = new UISelect()
-            .setUIOptions(this.element.options)
+            //.setUIOptions(this.element.options)
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIDropdown);
 
-        if (this._value !== '') {
-            element.UIDropdown.setUIValue(this._value);
+        if (!zValidation.isEmpty(this._value)) {
+            //element.UIDropdown.setUIValue(this._value);
         }
         return element;
     },
@@ -71,7 +71,7 @@ export const dropdownMixin = {
 
         }
 
-        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+        /*if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
             this.displayType === FORM.DISPLAY_TYPE.EDITABLE  && this.value === '') {
             let checkedYn = false;
             for (let i = 0; i < this.element.options.length; i++) {
@@ -80,7 +80,7 @@ export const dropdownMixin = {
                     this.value = this.element.options[i].value;
                 }
             }
-        }
+        }*/
         // Designed Select Box
         aliceJs.initDesignedSelectTag();
     },
@@ -100,12 +100,13 @@ export const dropdownMixin = {
     get elementColumnWidth() {
         return this._element.columnWidth;
     },
-    set elementOptions(options) {
-        this._element.options = options;
-        this.UIElement.UIComponent.UIElement.UIDropdown.setUIOptions(options);
+    // { code: 코드, defaultCode: 기본값 코드} or { mappingId: 매핑 아이디 }
+    set elementDefaultValueDropdownCode(options) {
+        this._element.defaultValueDropdownCode = options;
+        //this.UIElement.UIComponent.UIElement.UIDropdown.setUIOptions(options);
     },
-    get elementOptions() {
-        return this._element.options;
+    get elementDefaultValueDropdownCode() {
+        return this._element.defaultValueDropdownCode;
     },
     set validation(validation) {
         this._validation = validation;
@@ -135,7 +136,7 @@ export const dropdownMixin = {
         e.stopPropagation();
         e.preventDefault();
 
-        this.value = e.target.value;
+        //this.value = e.target.value;
     },
     // 세부 속성 조회
     getProperty() {
@@ -144,7 +145,8 @@ export const dropdownMixin = {
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, false)
+                .addProperty(new ZDefaultValueDropdownCodeProperty('elementDefaultValueDropdownCode',
+                    'element.defaultValueDropdownCode', JSON.parse(this.elementDefaultValueDropdownCode), false)
                     .setValidation(true, '', '', '', '', '')),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
@@ -167,6 +169,7 @@ export const dropdownMixin = {
     },
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {
-        return !zValidation.isEmptyOptions(this.element.options);
+        return false;
+        //return !zValidation.isEmptyOptions(this.element.options);
     }
 };
