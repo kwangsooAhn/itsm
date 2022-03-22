@@ -191,7 +191,7 @@ class UserService(
             var organizationName = mutableListOf<String>()
             if (organization != null) {
                 if (organization.pOrganization != null) {
-                    organizationName = this.getRecursive(organization, organizationList.results, organizationName)
+                    organizationName = this.getRecursive(organization, organizationList.results, organizationName, true)
                 } else {
                     organizationName.add(organization.organizationName.toString())
                 }
@@ -216,7 +216,7 @@ class UserService(
         organization: OrganizationEntity,
         organizationList: List<OrganizationEntity>,
         organizationName: MutableList<String>,
-        getParent: Boolean = true
+        getParent: Boolean
     ): MutableList<String> {
         organizationName.add(organization.organizationName.toString())
         val tOrganization = organizationList.firstOrNull {
