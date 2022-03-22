@@ -1241,7 +1241,7 @@ insert into awf_url values ('/rest/codes/excel', 'get', '코드 조회 엑셀 �
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'get', '코드 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'delete', '코드 삭제', 'TRUE');
-insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 상세 조회', 'TRUE');
+insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 상세 조회', 'FALSE');
 insert into awf_url values ('/rest/comments', 'post', 'Comment 저장', 'FALSE');
 insert into awf_url values ('/rest/comments/{id}', 'delete', 'Comment 삭제', 'FALSE');
 insert into awf_url values ('/rest/custom-codes', 'get', '커스텀 코드 조회', 'FALSE');
@@ -1595,7 +1595,6 @@ insert into awf_url_auth_map values ('/rest/codes/{id}', 'get', 'system.manage')
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/rest/codes/related/{id}', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'system.manage');

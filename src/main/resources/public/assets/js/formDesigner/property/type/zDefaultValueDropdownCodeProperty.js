@@ -13,7 +13,7 @@
  */
 import ZProperty from '../zProperty.js';
 import { zValidation } from '../../../lib/zValidation.js';
-import { UIButton, UIDiv, UIInput, UISelect, UISpan } from '../../../lib/zUI.js';
+import { UIButton, UIDiv, UIInput, UISpan } from '../../../lib/zUI.js';
 import { FORM } from '../../../lib/zConstants.js';
 
 const propertyExtends = {
@@ -42,7 +42,7 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // switch button
-        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('z-button-switch-group');
+        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('z-button-switch-group').setUICSSText(`width:30%;`);
         this.options.forEach((item) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
@@ -68,6 +68,7 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
         const inputValueKey = this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE) ?
             FORM.DROPDOWN_CODE.CODE : FORM.DROPDOWN_CODE.MAPPING_ID;
         this.UIElement.UIInput = new UIInput().setUIId(this.key)
+            .addUIClass('mt-2')
             .setUIValue(this.value[inputValueKey])
             .setUIAttribute('data-validation-min-length', this.validation.minLength)
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
@@ -76,22 +77,26 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
             .onUIChange(this.updateProperty.bind(this));
         this.UIElement.addUI(this.UIElement.UIInput);
 
-        if (this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE)) {
-            // 기본값 코드 라벨
-            this.UIElement.UILabel = this.makeLabelProperty('form.properties.element.defaultCodeValue');
-            this.UIElement.UILabel.addUIClass('mt-3');
-            this.UIElement.addUI(this.UIElement.UILabel);
-            // 기본값 코드 input
-            this.UIElement.UIInput = new UIInput().setUIId(this.key)
-                .setUIAttribute('data-type', FORM.DROPDOWN_CODE.DEFAULT_CODE)
-                .setUIValue(this.value[FORM.DROPDOWN_CODE.DEFAULT_CODE])
-                .setUIAttribute('data-validation-min-length', this.validation.minLength)
-                .setUIAttribute('data-validation-max-length', this.validation.maxLength)
-                .setUIReadOnly(!this.isEditable)
-                .onUIKeyUp(this.updateProperty.bind(this))
-                .onUIChange(this.updateProperty.bind(this));
-            this.UIElement.addUI(this.UIElement.UIInput);
-        }
+        // 기본값 코드 라벨
+        this.UIElement.UILabel = this.makeLabelProperty('form.properties.element.defaultCodeValue')
+            .addUIClass('mt-3')
+            .addUIClass('default-code-label')
+            .addUIClass((this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE) ? 'on' : 'off'));
+        this.UIElement.addUI(this.UIElement.UILabel);
+        this.UIElement.UILabel.domElement.removeChild(this.UIElement.UILabel.domElement.children[1]);
+
+        // 기본값 코드 input
+        this.UIElement.UIInput = new UIInput().setUIId(this.key)
+            .addUIClass((this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE) ? 'on' : 'off'))
+            .setUIAttribute('data-type', FORM.DROPDOWN_CODE.DEFAULT_CODE)
+            .setUIValue(this.value[FORM.DROPDOWN_CODE.DEFAULT_CODE])
+            .setUIAttribute('data-validation-min-length', this.validation.minLength)
+            .setUIAttribute('data-validation-max-length', this.validation.maxLength)
+            .setUIReadOnly(!this.isEditable)
+            .onUIKeyUp(this.updateProperty.bind(this))
+            .onUIChange(this.updateProperty.bind(this));
+        this.UIElement.addUI(this.UIElement.UIInput);
+
         return this.UIElement;
     }
 
@@ -113,10 +118,7 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
             this.panel.validationStatus = false; // 유효성 검증 실패
             return false;
         }
-        console.log(this.value);
-        console.log(e.type);
-        console.log(e.target);
-        //this.panel.update.call(this.panel, e.target.id, this.getPropertyValue(e.type, e.target));
+        this.panel.update.call(this.panel, e.target.id, JSON.stringify(this.getPropertyValue(e.type, e.target)));
     }
 
     /**
@@ -125,37 +127,55 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
      * @param e 이벤트객체
      */
     getPropertyValue(evtType, element) {
+        const property = (evtType === 'click') ? element.parentNode.parentNode : element.parentNode;
+        const selectedButton = property.querySelector('.selected');
+        const firstInput = property.querySelector('.z-input');
+        const defaultCodeLabel = property.querySelector('.default-code-label');
+        const defaultCode = property.querySelector('.z-input[data-type="'+ FORM.DROPDOWN_CODE.DEFAULT_CODE +'"]');
+        let elementDataType = selectedButton.getAttribute('data-type');
+        let tempValue = {};
         switch (evtType) {
             case 'keyup': // input
-                return 'input|' + element.value;
-            case 'change': // select box, input
-                return ((element.type === 'text') ? 'input|' : 'select|') + element.value;
-            case 'click': // button
-                const buttonGroup = element.parentNode;
-                // 초기화
-                for (let i = 0, len = buttonGroup.childNodes.length ; i< len; i++) {
-                    let child = buttonGroup.childNodes[i];
-                    if (child.classList.contains('selected')) {
-                        child.classList.remove('selected');
+            case 'change':
+                if (zValidation.isEmpty(element.getAttribute('data-type'))) {
+                    tempValue[elementDataType] = element.value;
+                    if (elementDataType === FORM.DROPDOWN_CODE.CODE) {
+                        tempValue[FORM.DROPDOWN_CODE.DEFAULT_CODE] = defaultCode.value;
                     }
+                } else {
+                    tempValue[elementDataType] = firstInput.value;
+                    tempValue[element.getAttribute('data-type')] = element.value;
                 }
+                break;
+            case 'click': // button
+                // 버튼 토글
+                selectedButton.classList.remove('selected');
                 element.classList.add('selected');
+                elementDataType = element.getAttribute('data-type');
 
-                const defaultTypeGroup = buttonGroup.parentNode;
-                const input = defaultTypeGroup.querySelector('input[type=text]');
-                const select = defaultTypeGroup.querySelector('select');
-                if (element.getAttribute('data-type') === 'input') { // input 활성화
-                    input.classList.remove('off');
-                    select.classList.add('off');
-                    return 'input|';
-                } else { // select 활성화
-                    select.classList.remove('off');
-                    input.classList.add('off');
-                    select.selectedIndex = 0;
-                    return 'select|' + select.options[0].value;
+                // 값 초기화
+                firstInput.value = '';
+                tempValue[elementDataType] = '';
+
+                // 기본값 코드 숨기기
+                defaultCode.value = '';
+                if (elementDataType === FORM.DROPDOWN_CODE.CODE) {
+                    tempValue[FORM.DROPDOWN_CODE.DEFAULT_CODE] = ''; // 초기값 할당
+                    
+                    defaultCodeLabel.classList.remove('off');
+                    defaultCode.classList.remove('off');
+                    defaultCodeLabel.classList.add('on');
+                    defaultCode.classList.add('on');
+                } else {
+                    defaultCodeLabel.classList.remove('on');
+                    defaultCode.classList.remove('on');
+                    defaultCodeLabel.classList.add('off');
+                    defaultCode.classList.add('off');
                 }
+                break;
             default:
-                return '';
+                break;
         }
+        return tempValue;
     }
 }

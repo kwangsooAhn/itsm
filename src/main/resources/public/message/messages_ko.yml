@@ -843,7 +843,7 @@ form:
       defaultCodeValue: "기본값 코드"
       defaultValue: "기본값"
       defaultValueCustomCode: "Custom Code"
-      defaultValueDropdownCode: "Option"
+      defaultValueDropdownCode: "옵션 데이터"
       defaultValueRadio: "기본값"
       defaultValueSelect: "기본값 타입"
       isEditable: "편집가능 여부"

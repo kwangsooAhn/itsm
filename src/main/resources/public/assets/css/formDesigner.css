@@ -2402,7 +2402,7 @@ input, button, select, optgroup, textarea {
 }
 .z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-icon {
   width: 6.188rem;
-  height: 4.6875rem;
+  height: 5.625rem;
   text-align: center;
   padding: 0.625rem 0;
   background-color: #FFFFFF;
@@ -2413,13 +2413,13 @@ input, button, select, optgroup, textarea {
 }
 .z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-icon:nth-child(odd) {
   position: absolute;
-  top: calc(var(--data-row, 0) * 4.6875rem);
+  top: calc(var(--data-row, 0) * 5.625rem);
   left: 0.0625rem;
   border-left-color: transparent;
 }
 .z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-icon:nth-child(even) {
   position: absolute;
-  top: calc(var(--data-row, 0) * 4.6875rem);
+  top: calc(var(--data-row, 0) * 5.625rem);
   right: 0;
   border-left-color: transparent;
   border-right-color: transparent;
@@ -7981,6 +7981,9 @@ span.modal_node_selected label {
   display: table-cell;
   vertical-align: middle;
 }
+.property .property-label.off {
+  display: none;
+}
 .property .property-value {
   width: 2.813rem !important;
   margin: 0 0.3125rem 0 0;
@@ -8018,6 +8021,9 @@ span.modal_node_selected label {
 }
 .property .z-input:not(.tagify).i-unit-px:not(:last-child) {
   margin-right: 0.25rem;
+}
+.property .z-input:not(.tagify).off {
+  display: none;
 }
 .property .z-textarea {
   line-height: 1.6;

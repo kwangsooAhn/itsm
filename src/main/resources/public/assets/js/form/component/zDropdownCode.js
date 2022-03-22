@@ -49,15 +49,12 @@ export const dropdownCodeMixin = {
     makeElement() {
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
-        console.log(this._value);
+        // 초기값은 '선택하세요.' 이며, 발행/사용 중일 경우 즉 더이상 수정 불가능할때, 실제 서버 데이터를 조회한다.
         element.UIDropdown = new UISelect()
-            //.setUIOptions(this.element.options)
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIDropdown);
 
-        if (!zValidation.isEmpty(this._value)) {
-            //element.UIDropdown.setUIValue(this._value);
-        }
+        this.setDefaultOption(element.UIDropdown);
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
@@ -103,7 +100,7 @@ export const dropdownCodeMixin = {
     // { code: 코드, defaultCode: 기본값 코드} or { mappingId: 매핑 아이디 }
     set elementDefaultValueDropdownCode(options) {
         this._element.defaultValueDropdownCode = options;
-        //this.UIElement.UIComponent.UIElement.UIDropdown.setUIOptions(options);
+        this.setDefaultOption(this.UIElement.UIComponent.UIElement.UIDropdown);
     },
     get elementDefaultValueDropdownCode() {
         return this._element.defaultValueDropdownCode;
@@ -137,6 +134,56 @@ export const dropdownCodeMixin = {
         e.preventDefault();
 
         //this.value = e.target.value;
+    },
+    // 기본값 조회
+    setDefaultOption(target) {
+        const defaultDropdownCode = JSON.parse(this.elementDefaultValueDropdownCode);
+        const isDropdownTypeCode = defaultDropdownCode.hasOwnProperty(FORM.DROPDOWN_CODE.CODE); // 코드인지?
+        const defaultOptions = [{ name: i18n.msg('common.msg.select'), value: '', checked: true }];
+        const defaultCodeValue = zValidation.isEmpty(this.value) && isDropdownTypeCode ?
+            defaultDropdownCode[FORM.DROPDOWN_CODE.DEFAULT_CODE] : this.value;
+        // 매핑ID 조회시 부모 코드로 사용할 데이터
+        target.setUIAttribute('data-parent-code', defaultCodeValue);
+        console.log(defaultCodeValue);
+
+        // 코드면서 코드가 존재하지 않을 경우 / 매핑ID 이면서 매핑ID가 존재하지 않을 경우 = 기본 값
+        if ((isDropdownTypeCode && zValidation.isEmpty(defaultDropdownCode[FORM.DROPDOWN_CODE.CODE]))||
+            (!isDropdownTypeCode && zValidation.isEmpty(defaultDropdownCode[FORM.DROPDOWN_CODE.MAPPING_ID]))) {
+            target.setUIOptions(defaultOptions);
+            return false;
+        }
+
+        let code = '';
+        if (isDropdownTypeCode) {
+            code = defaultDropdownCode[FORM.DROPDOWN_CODE.CODE];
+        } else {
+            // 매핑 아이디이면 매핑아이디가 일치하는 dropdownCode 컴포넌트의 선택된값을 가져와서 조회
+            const matchComponent = document.querySelector('.dropdownCode[data-mappingid="' +
+                defaultDropdownCode[FORM.DROPDOWN_CODE.MAPPING_ID] + '"]');
+            if (matchComponent) {
+                code = matchComponent.querySelector('select').getAttribute('data-parent-code');
+            }
+        }
+        // 조회 대상이 비어있을 경우
+        if (zValidation.isEmpty(code)) {
+            target.setUIOptions(defaultOptions);
+            return false;
+        }
+
+        aliceJs.fetchJson('/rest/codes/related/' + code, {
+            method: 'GET'
+        }).then((codeList) => {
+            if (codeList.length > 0) {
+                codeList.forEach((codeData) => {
+                    defaultOptions.push({
+                        name: codeData.codeName,
+                        value: codeData.code,
+                        checked: (codeData.code === defaultCodeValue)
+                    });
+                });
+            }
+            target.setUIOptions(defaultOptions);
+        });
     },
     // 세부 속성 조회
     getProperty() {
