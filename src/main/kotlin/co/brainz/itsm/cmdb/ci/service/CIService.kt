@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.cmdb.ci.service
 
+import co.brainz.api.dto.RequestCIComponentVO
 import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.ciAttribute.constants.CIAttributeConstants
@@ -287,10 +288,31 @@ class CIService(
         return ciAttributeDataList
     }
 
+    fun saveCIComponentData(ciId: String, ciComponentVO: RequestCIComponentVO): Boolean {
+        // 기존 CI 삭제
+        val deleteCIComponentEntity = ciComponentDataRepository.findByCiIdAndComponentId(
+            ciId, ciComponentVO.componentId
+        )
+        if (deleteCIComponentEntity != null) {
+            ciComponentDataRepository.deleteByCiIdAndComponentId(
+                ciId, ciComponentVO.componentId
+            )
+        }
+        // CI 추가
+        val ciComponentEntity = CIComponentDataEntity(
+            ciId = ciId,
+            componentId = ciComponentVO.componentId,
+            values = mapper.writeValueAsString(ciComponentVO.values),
+            instanceId = ciComponentVO.instanceId
+        )
+        ciComponentDataRepository.save(ciComponentEntity)
+        return true
+    }
+
     /**
      * CI 컴포넌트 -  CI 세부 데이터 저장.
      */
-    fun saveCIComponentData(ciId: String, ciComponentData: String): Boolean {
+    fun saveCIComponentData2(ciId: String, ciComponentData: String): Boolean {
         val map = mapper.readValue(ciComponentData, LinkedHashMap::class.java)
         val componentId = map["componentId"] as String
 
