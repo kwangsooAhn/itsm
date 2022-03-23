@@ -288,6 +288,9 @@ class CIService(
         return ciAttributeDataList
     }
 
+    /**
+     * CI 컴포넌트 -  CI 세부 데이터 저장.
+     */
     fun saveCIComponentData(ciId: String, ciComponentVO: RequestCIComponentVO): Boolean {
         // 기존 CI 삭제
         val deleteCIComponentEntity = ciComponentDataRepository.findByCiIdAndComponentId(
@@ -304,33 +307,6 @@ class CIService(
             componentId = ciComponentVO.componentId,
             values = mapper.writeValueAsString(ciComponentVO.values),
             instanceId = ciComponentVO.instanceId
-        )
-        ciComponentDataRepository.save(ciComponentEntity)
-        return true
-    }
-
-    /**
-     * CI 컴포넌트 -  CI 세부 데이터 저장.
-     */
-    fun saveCIComponentData2(ciId: String, ciComponentData: String): Boolean {
-        val map = mapper.readValue(ciComponentData, LinkedHashMap::class.java)
-        val componentId = map["componentId"] as String
-
-        // 기존 CI 삭제
-        val deleteCIComponentEntity = ciComponentDataRepository.findByCiIdAndComponentId(
-            ciId, componentId
-        )
-        if (deleteCIComponentEntity != null) {
-            ciComponentDataRepository.deleteByCiIdAndComponentId(
-                ciId, componentId
-            )
-        }
-        // CI 추가
-        val ciComponentEntity = CIComponentDataEntity(
-            ciId = ciId,
-            componentId = componentId,
-            values = mapper.writeValueAsString(map["values"]),
-            instanceId = map["instanceId"] as String
         )
         ciComponentDataRepository.save(ciComponentEntity)
         return true
