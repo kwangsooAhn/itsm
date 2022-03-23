@@ -25,6 +25,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 /**
  * 사용자 관리 클래스
@@ -153,13 +154,21 @@ class UserController(
      * 사용자 검색 컴포넌트 리스트 모달
      */
     @GetMapping("/searchUsers")
-    fun getSearchUsersList(request: HttpServletRequest, model: Model): String {
+    fun getSearchUsersList(
+        request: HttpServletRequest,
+        @RequestParam(value = "search") search: String,
+        @RequestParam(value = "targetCriteria") targetCriteria: String,
+        @RequestParam(value = "searchKeys") searchKeys: String,
+        @RequestParam(value = "multiSelect", defaultValue = "false") multiSelect: String,
+        model: Model
+    ): String {
         val params = LinkedHashMap<String, Any>()
-        params["search"] = request.getParameter("search")
-        params["targetCriteria"] = request.getParameter("targetCriteria")
-        params["searchKeys"] = request.getParameter("searchKeys")
+        params["search"] = search
+        params["targetCriteria"] = targetCriteria
+        params["searchKeys"] = searchKeys
+
         model.addAttribute("userList", userService.getSearchUserList(params).data)
-        model.addAttribute("multiSelect", request.getParameter("multiSelect"))
+        model.addAttribute("multiSelect", multiSelect)
         return userListModalPage
     }
 

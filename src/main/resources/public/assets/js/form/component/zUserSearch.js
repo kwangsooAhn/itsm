@@ -26,8 +26,7 @@ import { zValidation } from '../../lib/zValidation.js';
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        defaultValueUserSearch: '',
-        realTimeSelectedUser: ''
+        defaultValueUserSearch: ''
     },
     validation: {
         required: false // 필수값 여부
@@ -43,6 +42,7 @@ export const userSearchMixin = {
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this.data.value || '${default}';
+        this._realTimeSelectedUser = '';
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -95,10 +95,10 @@ export const userSearchMixin = {
     },
     // 컴포넌트 > 모달에서 선택된 임시 값
     set realTimeSelectedUser(userKey) {
-        this._element.realTimeSelectedUser = userKey;
+        this._realTimeSelectedUser = userKey;
     },
     get realTimeSelectedUser() {
-        return this._element.realTimeSelectedUser;
+        return this._realTimeSelectedUser;
     },
     set validation(validation) {
         this._validation = validation;
