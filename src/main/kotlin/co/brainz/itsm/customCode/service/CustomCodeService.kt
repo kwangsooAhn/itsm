@@ -17,7 +17,6 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.component.service.ComponentService
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
 import co.brainz.itsm.customCode.dto.CustomCodeConditionDto
@@ -41,6 +40,7 @@ import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.role.specification.RoleCustomCodeSpecification
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.itsm.user.specification.UserCustomCodeSpecification
+import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -59,10 +59,10 @@ class CustomCodeService(
     private val roleRepository: RoleRepository,
     private val organizationRepository: OrganizationRepository,
     private val userRepository: UserRepository,
-    private val componentService: ComponentService,
     private val codeRepository: CodeRepository,
     private val codeService: CodeService,
-    private val currentSessionUser: CurrentSessionUser
+    private val currentSessionUser: CurrentSessionUser,
+    private val wfComponentPropertyRepository: WfComponentPropertyRepository
 ) {
 
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
@@ -205,10 +205,10 @@ class CustomCodeService(
      * @return List<String>
      */
     private fun getUsedCustomCodeIdList(): List<String> {
-        val parameters = LinkedHashMap<String, Any>()
-        parameters["componentType"] = CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE
-        parameters["componentAttribute"] = CustomCodeConstants.ATTRIBUTE_ID_DISPLAY
-        return componentService.getComponentDataCustomCodeIds(parameters)
+        return wfComponentPropertyRepository.findComponentTypeAndProperty(
+            CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE,
+            CustomCodeConstants.PROPERTY_ID_ELEMENT
+        )
     }
 
     /**
