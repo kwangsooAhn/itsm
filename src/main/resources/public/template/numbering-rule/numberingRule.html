@@ -125,7 +125,7 @@
     /** 등록, 수정 기능 **/
     function onSave(flag) {
         if (isEmpty('txtRuleName', 'rule.msg.enterRuleName')) return;
-        if (!checkUnacceptableCharInUrl("txtRuleName")) return;
+        
         let ruleNames = [];
         let validList = document.querySelectorAll('td[name=ruleName]');
         for (let i = 0; i < validList.length; i++) {
