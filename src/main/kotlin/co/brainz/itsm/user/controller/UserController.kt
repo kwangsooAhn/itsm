@@ -14,6 +14,7 @@ import co.brainz.framework.organization.service.OrganizationService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
+import co.brainz.itsm.user.dto.UserSearchCompCondition
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.service.UserService
 import javax.servlet.http.HttpServletRequest
@@ -25,7 +26,6 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 
 /**
  * 사용자 관리 클래스
@@ -154,21 +154,9 @@ class UserController(
      * 사용자 검색 컴포넌트 리스트 모달
      */
     @GetMapping("/searchUsers")
-    fun getSearchUsersList(
-        request: HttpServletRequest,
-        @RequestParam(value = "search") search: String,
-        @RequestParam(value = "targetCriteria") targetCriteria: String,
-        @RequestParam(value = "searchKeys") searchKeys: String,
-        @RequestParam(value = "multiSelect", defaultValue = "false") multiSelect: String,
-        model: Model
-    ): String {
-        val params = LinkedHashMap<String, Any>()
-        params["search"] = search
-        params["targetCriteria"] = targetCriteria
-        params["searchKeys"] = searchKeys
-
-        model.addAttribute("userList", userService.getSearchUserList(params).data)
-        model.addAttribute("multiSelect", multiSelect)
+    fun getSearchUsersList(userCompSearchCondition: UserSearchCompCondition, model: Model): String {
+        model.addAttribute("userList", userService.getSearchUserList(userCompSearchCondition).data)
+        model.addAttribute("multiSelect", false)
         return userListModalPage
     }
 

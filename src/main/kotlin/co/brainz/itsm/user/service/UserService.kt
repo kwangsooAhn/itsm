@@ -42,6 +42,7 @@ import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
+import co.brainz.itsm.user.dto.UserSearchCompCondition
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
@@ -148,9 +149,9 @@ class UserService(
     /**
      * 사용자 검색 조건에 따라 조회한다.
      */
-    fun getSearchUserList(params: LinkedHashMap<String, Any>): UserListReturnDto {
-        val targetCriteria = params["targetCriteria"].toString()
-        val searchKeys = params["searchKeys"].toString()
+    fun getSearchUserList(userSearchCompCondition: UserSearchCompCondition): UserListReturnDto {
+        val targetCriteria = userSearchCompCondition.targetCriteria
+        val searchKeys = userSearchCompCondition.searchKeys.toString()
         val targetKeys = mutableSetOf<String>()
 
         when (targetCriteria) {
@@ -164,7 +165,7 @@ class UserService(
         }
 
         val userSearchCondition = UserSearchCondition(
-            searchValue = params["search"].toString(),
+            searchValue = userSearchCompCondition.searchValue,
             optionalCondition = targetCriteria,
             optionalTargets = targetKeys,
             isFilterUseYn = true

@@ -202,8 +202,8 @@ export const userSearchMixin = {
             searchKeys += (index > 0) ? '+' + elem.id : elem.id;
         });
 
-        let strUrl = '/users/searchUsers?search=' + encodeURIComponent(search.trim()) +
-            '&multiSelect=false&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
+        let strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim()) +
+            '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
         aliceJs.fetchText(strUrl, {
             method: 'GET',
             showProgressbar: showProgressbar
