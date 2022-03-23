@@ -18,7 +18,7 @@ import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { ZSession } from '../../lib/zSession.js';
-import { UIButton, UIDiv, UIInput, UISpan } from '../../lib/zUI.js';
+import {UIButton, UIDiv, UIInput, UIRemoveButton, UISpan} from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
 
 /**
@@ -42,7 +42,7 @@ export const customCodeMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        this._value = this.data.value || '${default}'; // 서버에 저장되는 값은 키 값만 저장된다. 왜냐하면 assignee Id 로 key만 전달되어야 하기 떄문이다.
+        this._value = (this.data.value === undefined) ? '${default}' : this.data.value;
 
         // customCode|none|없음  customCode|session|세션값  customCode|code|코드값|코드명
         if (zValidation.isEmpty(this._element.defaultValueCustomCode) && FORM.CUSTOM_CODE.length > 0) {
@@ -55,11 +55,11 @@ export const customCodeMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInputButton = new UIDiv()
             .setUIClass('z-custom-code')
-            .addUIClass('flex-row')
+            .addUIClass('flex-row').addUIClass('z-input-button')
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIInput = new UIInput()
-            .setUIClass('z-input z-input-button')
+            .setUIClass('z-input')
             .setUIReadOnly(true)
             .setUIAttribute('data-custom-data', (this.value === '${default}') ? this.elementDefaultValueCustomCode : this.value)
             .onUIChange(this.updateValue.bind(this))
@@ -73,6 +73,16 @@ export const customCodeMixin = {
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
+        // customCode 값이 입력되면 remove 버튼 생성
+        const customData =element.UIInput.getUIAttribute('data-custom-data').split('|');
+        if (customData[1] !== FORM.CUSTOM.NONE) {
+            element.UIRemoveButton = new UIRemoveButton()
+                .addUIClass('z-button-icon-sm')
+                .onUIClick(this.removeValue.bind(this))
+                .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
+            element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
+        }
+
         this.setDefaultValue(element.UIInput);
         return element;
     },
@@ -81,6 +91,8 @@ export const customCodeMixin = {
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIButton.setUIDisabled(true);
+            this.UIElement.UIComponent.UIElement.UIRemoveButton !== undefined ?
+                this.UIElement.UIComponent.UIElement.UIRemoveButton.setUIDisabled(true) : '';
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
                 this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
@@ -115,6 +127,10 @@ export const customCodeMixin = {
                     this.value = defaultValues[2];
                     break;
             }
+        }
+        // '${default}' 에서 실제 값이 빈 값일 때에 remove 버튼을 제거한다.
+        if (this.UIElement.UIComponent.UIElement.UIRemoveButton !== undefined && this.value === '') {
+            this.UIElement.UIComponent.UIElement.UIRemoveButton.domElement.remove();
         }
     },
     // set, get
@@ -192,13 +208,29 @@ export const customCodeMixin = {
 
         const customData = e.target.getAttribute('data-custom-data').split('|');
 
+        // customCode 값이 입력되면 remove 버튼 생성
+        const element = this.UIElement.UIComponent;
+        if (customData[2].trim() !== '') {
+            element.UIElement.UIRemoveButton = new UIRemoveButton().addUIClass('z-button-icon-sm')
+                .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove')).onUIClick(this.removeValue.bind(this));
+            element.UIElement.addUI(element.UIElement.UIInputButton.addUI(element.UIElement.UIInput).addUI(element.UIElement.UIRemoveButton).addUI(element.UIElement.UIButton))
+        }
+
         // 값이 입력되었을 경우 error 없애기
         if (zValidation.isRequired(customData)) {
             zValidation.removeDOMElementError(e.target);
         }
         this.value = customData[2];
     },
-
+    // remove 버튼 클릭시 custom data 제거
+    removeValue() {
+        let customData = this.elementDefaultValueCustomCode.split('|');
+        customData[1] = 'none'
+        customData[2] = '';
+        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', customData[0]+ '|' + customData[1] + '|' + customData[2]);
+        this.UIElement.UIComponent.UIElement.UIRemoveButton.domElement.remove();
+        this.value = customData[2];
+    },
     // 커스텀 코드 모달
     openCustomCodeModal(e) {
         e.stopPropagation();

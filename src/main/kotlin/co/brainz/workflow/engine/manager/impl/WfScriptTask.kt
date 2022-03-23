@@ -349,8 +349,8 @@ class WfScriptTask(
 
             val componentIds: MutableList<String> = mutableListOf()
             var componentValue = ""
+            createTokenDto.data?.forEach { componentIds.add(it.componentId) }
             if (sourceMappingId.isNotEmpty()) {
-                createTokenDto.data?.forEach { componentIds.add(it.componentId) }
                 val sourceComponentId =
                     wfTokenManagerService.getComponentIdInAndMappingId(componentIds, sourceMappingId).componentId
                 componentValue = wfTokenManagerService.getComponentValue(

@@ -39,6 +39,7 @@ class DashboardRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::clas
         val roleSub = QAliceUserRoleMapEntity("roleSub")
         val tokenSub = QWfTokenEntity("tokenSub")
         val builder = this.getInstancesWhereCondition(dashboardSearchCondition)
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
 
         val assigneeUsers = JPAExpressions
             .select(elementDataSub.element.elementId)
@@ -95,12 +96,17 @@ class DashboardRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::clas
                 )
         )
 
+        // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
                     .select(tokenSub.tokenId.max())
                     .from(tokenSub)
-                    .where(tokenSub.instance.instanceId.eq(instance.instanceId))
+                    .where(tokenSub.tokenStartDt.eq(
+                        from(startDtSubToken)
+                            .select(startDtSubToken.tokenStartDt.max())
+                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                    ))
             )
         )
         builder.and(
@@ -117,14 +123,20 @@ class DashboardRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::clas
     override fun findRunningStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
         val tokenSub = QWfTokenEntity("tokenSub")
         val builder = this.getInstancesWhereCondition(dashboardSearchCondition)
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
 
         builder.and(instance.instanceStatus.`in`(dashboardSearchCondition.instanceStatus))
+        // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
                     .select(tokenSub.tokenId.max())
                     .from(tokenSub)
-                    .where(tokenSub.instance.instanceId.eq(instance.instanceId))
+                    .where(tokenSub.tokenStartDt.eq(
+                        from(startDtSubToken)
+                            .select(startDtSubToken.tokenStartDt.max())
+                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                    ))
             )
         )
         builder.and(

@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
-    <title th:text="${chart != null} ? #{chart.label.edit} : #{chart.label.register}"></title>
+    <title th:text="${chart != null} ? (${view} ? #{chart.label.view} : #{chart.label.edit}) : #{chart.label.register}"></title>
 </head>
 <th:block layout:fragment="pageHead">
     <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
@@ -18,7 +18,7 @@
 </th:block>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="${chart != null} ? #{chart.label.edit} : #{chart.label.register}"></h1>
+    <h1 th:text="${chart != null} ? (${view} ? #{chart.label.view} : #{chart.label.edit}) : #{chart.label.register}"></h1>
     <h6 class="description ml-2 pl-4" th:text="#{chart.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
@@ -140,9 +140,8 @@
                             </div>
                         </div>
                     </label>
-                    <input type="text" id="condition" name="condition" class="col-pct-12"
-                           th:value="${chart?.chartConfig?.condition}"
-                           th:readonly="${view}" th:classappend="${view}?'':'z-input'">
+                    <input type="text" id="condition" name="condition" class="z-input col-pct-12"
+                           th:value="${chart?.chartConfig?.condition}" th:readonly="${view}">
                 </div>
             </div>
             <div class="flex-row justify-content-between z-edit-row">
@@ -172,6 +171,7 @@
     <script th:inline="javascript" type="text/javascript">
         const chartId = [[${chart?.chartId}]];
         const STATUS_SUCCESS = '0';
+        const STATUS_ERROR_DUPLICATION = '1';
         // 차트 종류
         const PIE_CHART = 'chart.pie';
         const STACKED_COLUMN_CHART = 'chart.stackedColumn';
@@ -311,6 +311,9 @@
                         zAlert.success(i18n.msg('common.msg.save'), function () {
                             location.href = '/statistics/customChart/search';
                         });
+                        break;
+                    case STATUS_ERROR_DUPLICATION:
+                        zAlert.warning(i18n.msg('chart.msg.duplicateChartNameAndChartType'));
                         break;
                     default:
                         zAlert.danger(i18n.msg('common.msg.fail'));

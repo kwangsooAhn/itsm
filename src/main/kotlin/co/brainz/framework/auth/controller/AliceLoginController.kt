@@ -55,6 +55,9 @@ class AliceLoginController(
     @Value("\${create.account.enabled}")
     private val createAccountEnabled: Boolean = false
 
+    @Value("\${spring.mail.enabled}")
+    private val mailEnabled: Boolean = false
+
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
     /**
@@ -99,7 +102,8 @@ class AliceLoginController(
             model.addAttribute("isLoginPlatform", loginPlatformEnabled)
             model.addAttribute("findPasswordEnabled", findPasswordEnabled)
             model.addAttribute("findIdEnabled", findIdEnabled)
-            model.addAttribute("createAccountEnabled", createAccountEnabled)
+            // 계정만들기 true, 메일 서버 사용 true 일 때만 회원가입이 가능하다.
+            model.addAttribute("createAccountEnabled", createAccountEnabled && mailEnabled)
         }
 
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)

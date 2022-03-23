@@ -508,13 +508,13 @@ export const ciMixin = {
                 const dateElem = el.querySelector('input');
                 rtn.id = dateElem.getAttribute('data-attributeId');
                 rtn.type = type;
-                rtn.value = dateElem.value;
+                rtn.value = i18n.systemDate(dateElem.value);
                 break;
             case 'datetime':
                 const dateTimeElem = el.querySelector('input');
                 rtn.id = dateTimeElem.getAttribute('data-attributeId');
                 rtn.type = type;
-                rtn.value = dateTimeElem.value;
+                rtn.value = i18n.systemDateTime(dateTimeElem.value);
                 break;
             default:
                 break;
@@ -547,7 +547,6 @@ export const ciMixin = {
                         if (zValidation.isEmpty(this._value)) {
                             this.value = [];
                         }
-
                         const newValue = JSON.parse(JSON.stringify(this.value));
                         newValue.push(ciData);
                         this.value = newValue;
@@ -816,7 +815,7 @@ export const ciMixin = {
     },
     // 기존 CI 조회 모달 검색
     selectModalSearchCI() {
-        const urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&isSearchType=true';
         aliceJs.fetchText('/cmdb/cis/component/list?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {

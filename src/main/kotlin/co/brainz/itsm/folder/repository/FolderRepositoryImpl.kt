@@ -26,6 +26,7 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
         val user = QAliceUserEntity.aliceUserEntity
         val token = QWfTokenEntity.wfTokenEntity
         val document = QWfDocumentEntity.wfDocumentEntity
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
 
         return from(folder)
             .select(
@@ -34,10 +35,15 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
                     folder.folderId,
                     folder.instance.instanceId,
                     folder.relatedType,
+                    // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
                     ExpressionUtils.`as`(
                         JPAExpressions.select(token.tokenId.max())
                             .from(token)
-                            .where(folder.instance.instanceId.eq(token.instance.instanceId)),
+                            .where(token.tokenStartDt.eq(
+                                from(startDtSubToken)
+                                    .select(startDtSubToken.tokenStartDt.max())
+                                    .where(startDtSubToken.instance.instanceId.eq(folder.instance.instanceId))
+                            )),
                         "tokenId"
                     ),
                     folder.instance.document.documentId,

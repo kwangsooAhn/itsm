@@ -41,6 +41,10 @@
     @include border($datepicker-border-width, solid, $datepicker-border-color, bottom);
     padding: 0.75rem 0; // 12px 0
 
+    .z-button-icon {
+      @include absolute($top: 0.25rem, $left: 0.5rem); // 4px 8px
+    }
+
     .z-icon {
       &.i-remove {
         @include absolute($top: 0.5rem, $right: 0.5rem); // 8px 8px

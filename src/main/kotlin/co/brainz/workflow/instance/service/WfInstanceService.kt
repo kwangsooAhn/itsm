@@ -208,7 +208,7 @@ class WfInstanceService(
                 totalCount = queryResults.total,
                 totalCountWithoutCondition = totalCountWithoutCondition,
                 currentPageNum = tokenSearchCondition.pageNum,
-                totalPageNum = ceil(queryResults.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResults.total.toDouble() / tokenSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code,
                 orderColName = tokenSearchCondition.orderColName,
                 orderDir = tokenSearchCondition.orderDir

@@ -17,8 +17,10 @@
     <div class="ml-auto" sec:authorize="hasAuthority('system.manage')">
         <button type="button" class="z-button primary" id="btnAdd" name="btnAdd"
                 onclick="location.href='/roles/new'" th:text="#{common.btn.add}"></button>
-        <button type="button" class="z-button secondary" id="btnExcelDownload" name="btnExcelDownload"
-                th:onclick="|javascript:onExcelDownload()|" th:text="#{common.btn.export}"></button>
+        <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
+                th:onclick="|javascript:onExcelDownload()|" th:title="#{common.btn.export}">
+            <span class="z-icon i-download-as-excel"></span>
+        </button>
     </div>
 </div>
 <div layout:fragment="pageList">

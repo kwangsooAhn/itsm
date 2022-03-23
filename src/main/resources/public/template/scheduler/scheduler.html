@@ -118,7 +118,7 @@
                 </div>
             </label>
             <select id="executeCycleType" onchange="changeContainer(this.value)" required="required"
-                    th:disabled="${!schedule.editable}" th:classappend="${view} ? 'readonly' : ''">
+                    th:classappend="${view} ? 'readonly' : ''">
                 <option th:each="executeCycleType: ${executeCycleTypeList}"
                         th:selected="${executeCycleType.codeValue} == ${schedule?.executeCycleType}"
                         th:text="${executeCycleType.codeName}"
@@ -133,7 +133,6 @@
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.cronExpression}"></span>
             </label>
             <input class="z-input text-ellipsis" id="cronExpression" maxlength="100" required="required"
-                   th:disabled="${!schedule.editable}"
                    th:readonly="${view}"
                    th:value="${schedule?.cronExpression}" type="text"/>
         </div>
@@ -145,7 +144,7 @@
             <input class="z-input text-ellipsis" id="executeCyclePeriod" maxlength="10" required="required"
                    th:onkeydown="${view} ? '' : 'return onlyNumber(event)'"
                    th:onkeyup="${view} ? '' : 'aliceJs.removeChar(event)'"
-                   th:disabled="${!schedule.editable}" th:readonly="${view}"
+                   th:readonly="${view}"
                    th:value="${schedule?.executeCyclePeriod}" type="text"/>
         </div>
         <div class="flex-row justify-content-between z-edit-row">
@@ -156,7 +155,7 @@
                 <button type="button" class="z-button primary" onclick="actionScheduler('post')"
                         th:if="${schedule == null}" th:text="#{common.btn.register}"></button>
                 <button type="button" class="z-button primary" onclick="actionScheduler('put')"
-                        th:disabled="${!schedule.editable}" th:if="${schedule != null}"
+                        th:if="${schedule != null}"
                         th:text="#{common.btn.modify}">
                 </button>
                 <button type="button" class="z-button danger" onclick="deleteScheduler()"
