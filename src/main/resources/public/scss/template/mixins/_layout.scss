@@ -89,6 +89,30 @@
         justify-content: center;
       }
     }
+
+    // icon button
+    .z-button-icon {
+      padding: 0;
+      background-color: transparent;
+      border-color: transparent;
+      &:hover, &:focus, &:active, &:disabled {
+        background-color: transparent;
+        border-color: transparent;
+      }
+      .z-icon { background-color: $gray600; }
+      &:hover {
+        .z-icon { background-color: $gray400; }
+      }
+      &:focus {
+        .z-icon { background-color: $gray800; }
+      }
+      &:active {
+        .z-icon { background-color: $gray800; }
+      }
+      &:disabled {
+        .z-icon { background-color: $gray300; }
+      }
+    }
   }
 }
 
