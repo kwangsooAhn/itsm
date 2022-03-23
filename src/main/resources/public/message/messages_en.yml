@@ -736,6 +736,8 @@ form:
     update: "Update Form"
   msg:
     checkPlugInButton: "Please click the {0} button for validation."
+    dropdownCodeNotExist: "There is no Dropdown Code component matching the set mapping ID.</br>Check the mapping ID."
+    dropdownCodeOptionRequired: "At least one option is required for the Dropdown Code component.<br/>Please check the detailed settings."
     duplicateMappingId: "Mapping ID({0}) is Duplicate"
     enterFormName: "Please enter a form name."
     failedAllColumnDelete: "At least one column is required."
