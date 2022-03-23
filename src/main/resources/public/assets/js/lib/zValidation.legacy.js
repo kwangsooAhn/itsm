@@ -804,3 +804,21 @@ function isUrl(elementId, messageId, callbackFunc) {
     }
     return false;
 }
+
+/**
+ * 서버에 전달할 데이터중 '%' 데이터가 있는지 확인한다. (서버내 CheckUnacceptableCharInUrlValidator와 동일한 기능)
+ * @returns {boolean}
+ */
+function checkUnacceptableCharInUrl(elementId) {
+    const elem = isNullElement(elementId);
+
+    if (elem !== null) {
+        if (elem.value.includes('%')) {
+                zAlert.warning(i18n.msg('validation.msg.unacceptableCharacters'));
+                elem.focus();
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
