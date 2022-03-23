@@ -153,13 +153,13 @@
 
         this.hide = function() {
             if (typeof this.wrapper !== 'undefined') {
+                document.querySelector('.modal-dialog').style.opacity = '0';
+                document.querySelector('.modal-dialog').classList.remove('modal-active');
                 const _this = this;
                 const modalWrapper = document.querySelector('.modal-wrapper')
-                setTimeout(function () {
-                    removeClass(modalWrapper, 'modal-active');
-                    removeClass(document.body, 'modal-active');
-                    _this.options.onHide(_this);
-                }, 150);
+                removeClass(modalWrapper, 'modal-active');
+                removeClass(document.body, 'modal-active');
+                _this.options.onHide(_this);
                 this.display = false;
             }
         };
@@ -299,8 +299,6 @@
 
         this.destroy = function() {
             if (typeof this.wrapper !== 'undefined') {
-                document.querySelector('.modal-dialog').style.opacity = '0';
-                document.querySelector('.modal-dialog').classList.remove('modal-active');
                 const _this = this;
                 const modalWrapper = document.querySelector('.modal-wrapper')
                 setTimeout(function () {
