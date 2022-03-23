@@ -258,6 +258,10 @@ export const userSearchMixin = {
     },
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {
-        return !zValidation.isEmpty(JSON.parse(this.elementUserSearchTarget).searchKey[0].value);
+        if (zValidation.isEmpty(JSON.parse(this.elementUserSearchTarget).searchKey[0].value)) {
+            zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.searchTarget')));
+            return false;
+        }
+        return true;
     }
 };
