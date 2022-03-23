@@ -11,11 +11,11 @@
             <th width="25%" class="align-left" th:text="#{workflowAdmin.label.name}"></th>
             <th width="10%" class="align-left" th:text="#{workflowAdmin.label.type}"></th>
             <th width="15%" class="align-left" th:text="#{workflowAdmin.label.group}"></th>
-            <th width="20%" class="align-left" th:text="#{workflowAdmin.label.description}"></th>
-            <th width="9%" class="align-center" th:text="#{workflowAdmin.label.status}"></th>
-            <th width="7%" class="align-center" th:text="#{common.label.edit}"></th>
-            <th width="7%" class="align-center" th:text="#{common.label.export}"></th>
-            <th width="7%" class="align-center" th:text="#{common.label.delete}"></th>
+            <th width="28%" class="align-left" th:text="#{workflowAdmin.label.description}"></th>
+            <th width="10%" class="align-center" th:text="#{workflowAdmin.label.status}"></th>
+            <th width="4%" class="align-center"></th>
+            <th width="4%" class="align-center"></th>
+            <th width="4%" class="align-center"></th>
         </tr>
     </thead>
     <tbody class="z-table-body">
@@ -39,9 +39,9 @@
                     </th:block>
                 </th:block>
             </td>
-            <td style="width: 20%;" class="align-left" th:text="${document.documentDesc}" th:title="${document.documentDesc}"></td>
-            <td style="width: 9%;" class="align-center" th:text="#{${document.documentStatus}}" th:title="#{${document.documentStatus}}"></td>
-            <td style="width: 7%;" class="align-center">
+            <td style="width: 28%;" class="align-left" th:text="${document.documentDesc}" th:title="${document.documentDesc}"></td>
+            <td style="width: 10%;" class="align-center" th:text="#{${document.documentStatus}}" th:title="#{${document.documentStatus}}"></td>
+            <td style="width: 4%;" class="align-center">
                 <th:block sec:authorize="hasAuthority('workflow.manage')">
                     <button type="button" class="z-button-icon form" th:if="${document.documentType} == 'application-form-link'" th:onclick="openDocumentEdit([[${document.documentId}]],true)">
                         <span class="z-icon i-edit"></span>
@@ -51,18 +51,18 @@
                     </button>
                 </th:block>
             </td>
-            <td style="width: 7%;" class="align-center">
+            <td style="width: 4%;" class="align-center">
                 <button type="button" class="z-button-icon form" th:if="${document.documentType} != 'application-form-link'" sec:authorize="hasAuthority('workflow.manage')" th:onclick="onXMLDownload([[${document.documentId}]])">
-                    <span class="z-icon i-download"></span>
+                    <span class="z-icon i-list-download"></span>
                 </button>
             </td>
-            <td style="width: 7%;" class="align-center">
+            <td style="width: 4%;" class="align-center">
                 <th:block sec:authorize="hasAuthority('workflow.manage')">
                     <button type="button" class="z-button-icon form"  th:if="${document.documentType} == 'application-form-link'" th:onclick="deleteDocument([[${document.documentId}]], true)">
-                        <span class="z-icon i-delete"></span>
+                        <span class="z-icon i-list-delete"></span>
                     </button>
                     <button type="button" class="z-button-icon form" th:unless="${document.documentType} == 'application-form-link'" th:onclick="deleteDocument([[${document.documentId}]], false)">
-                        <span class="z-icon i-delete"></span>
+                        <span class="z-icon i-list-delete"></span>
                     </button>
                 </th:block>
             </td>

@@ -8,13 +8,13 @@
 <table class="z-table">
     <thead class="z-table-head">
         <tr class="flex-row align-items-center">
-            <th style="width: 20%" class="align-left" th:text="#{process.label.name}"></th>
-            <th style="width: 10%" class="align-center" th:text="#{process.label.simulation}"></th>
-            <th style="width: 10%" class="align-center" th:text="#{common.label.edit}"></th>
+            <th style="width: 22%" class="align-left" th:text="#{process.label.name}"></th>
             <th style="width: 10%" class="align-center" th:text="#{process.label.state}"></th>
-            <th style="width: 28%" class="align-left" th:text="#{process.label.description}"></th>
+            <th style="width: 35%" class="align-left" th:text="#{process.label.description}"></th>
             <th style="width: 10%" class="align-left" th:text="#{common.label.createUser}"></th>
-            <th style="width: 12%" class="align-left" th:text="#{common.label.createDate}"></th>
+            <th style="width: 15%" class="align-left" th:text="#{common.label.createDate}"></th>
+            <th style="width: 4%" class="align-center"></th>
+            <th style="width: 4%" class="align-center"></th>
         </tr>
     </thead>
     <tbody class="z-table-body">
@@ -22,7 +22,7 @@
             <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(processList)}" th:each="process: ${processList}">
-            <td style="width: 20%" class="align-left underline">
+            <td style="width: 22%" class="align-left underline">
                 <th:block th:if="${process.enabled == true}">
                     <a sec:authorize="!hasAuthority('workflow.manage')" th:text="${process.name}"
                        th:attr="onclick=|openProcessEdit('${process.id}', true)|" th:title="${process.name}"></a>
@@ -35,12 +35,16 @@
                     <span th:unless="${process.status == 'process.status.use'}" th:text="${process.name}" th:title="${process.name}"></span>
                 </div>
             </td>
-            <td style="width: 10%" class="align-center">
+            <td style="width: 10%" class="align-center" th:text="#{${process.status}}" th:title="#{${process.status}}"></td>
+            <td style="width: 35%" class="align-left" th:text="${process.description}" th:title="${process.description}"></td>
+            <td style="width: 10%" class="align-left" th:text="${process.createUserName}" th:title="${process.createUserName}"></td>
+            <td style="width: 15%" class="align-left date-time" th:text="${process.createDt}" th:title="${process.createDt}"></td>
+            <td style="width: 4%" class="align-center">
                 <button type="button" class="z-button-icon form" th:onclick="openProcessDesignerView([[${process.id}]])">
                     <span class="z-icon i-popup"></span>
                 </button>
             </td>
-            <td style="width: 10%" class="align-center">
+            <td style="width: 4%" class="align-center">
                 <th:block th:if="${process.enabled == true}">
                     <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')"
                             th:onclick="openProcessDesignerEdit([[${process.id}]])">
@@ -48,10 +52,6 @@
                     </button>
                 </th:block>
             </td>
-            <td style="width: 10%" class="align-center" th:text="#{${process.status}}" th:title="#{${process.status}}"></td>
-            <td style="width: 28%" class="align-left" th:text="${process.description}" th:title="${process.description}"></td>
-            <td style="width: 10%" class="align-left" th:text="${process.createUserName}" th:title="${process.createUserName}"></td>
-            <td style="width: 12%" class="align-left date-time" th:text="${process.createDt}" th:title="${process.createDt}"></td>
         </tr>
     </tbody>
 </table>
