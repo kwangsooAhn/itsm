@@ -1,9 +1,9 @@
 /**
- * Dropdown Mixin
+ * Dropdown Code Mixin
  *
  * HTML 요소중 select box 형태의 컴포넌트를 제공한다.
  *
- * @author Jung Hee Chan (hcjung@brainz.co.kr)
+ * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.

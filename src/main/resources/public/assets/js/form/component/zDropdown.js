@@ -49,7 +49,6 @@ export const dropdownMixin = {
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        console.log(this.element.options);
         element.UIDropdown = new UISelect()
             .setUIOptions(this.element.options)
             .onUIChange(this.updateValue.bind(this));
