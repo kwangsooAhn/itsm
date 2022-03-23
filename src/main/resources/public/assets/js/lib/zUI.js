@@ -318,6 +318,10 @@ class UISelect extends UIElement {
 
         return this;
     }
+
+    getUIOptionCount() {
+        return this.domElement.options.length;
+    }
 }
 
 class UICheckbox extends UIElement {
