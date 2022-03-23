@@ -51,6 +51,9 @@ export const dropdownCodeMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
         // 초기값은 '선택하세요.' 이며, 발행/사용 중일 경우 즉 더이상 수정 불가능할때, 실제 서버 데이터를 조회한다.
         element.UIDropdown = new UISelect()
+            .addUIClass('align-left')
+            .setUIAttribute('data-validation-required', this.validationRequired)
+            .setUICustom('reDrawOption', this.redrawDefaultOption.bind(this))
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIDropdown);
 
@@ -75,7 +78,7 @@ export const dropdownCodeMixin = {
             }
 
             // Designed Select Box
-            aliceJs.initDesignedSelectTag();
+            aliceJs.initDesignedSelectTag(this.UIElement.UIComponent.UIElement.domElement);
         });
     },
     // set, get
@@ -97,9 +100,8 @@ export const dropdownCodeMixin = {
     // { code: 코드, defaultCode: 기본값 코드} or { mappingId: 매핑 아이디 }
     set elementDefaultValueDropdownCode(options) {
         this._element.defaultValueDropdownCode = options;
-        this.setDefaultOption(this.UIElement.UIComponent.UIElement.UIDropdown).then((rtn) => {
-            // Designed Select Box
-            aliceJs.initDesignedSelectTag();
+        this.setDefaultOption(this.UIElement.UIComponent.UIElement.UIDropdown).then(() => {
+            aliceJs.initDesignedSelectTag(this.UIElement.UIComponent.UIElement.domElement);
         });
     },
     get elementDefaultValueDropdownCode() {
@@ -113,6 +115,7 @@ export const dropdownCodeMixin = {
     },
     set validationRequired(boolean) {
         this._validation.required = boolean;
+        this.UIElement.UIComponent.UIElement.UIDropdown.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
             this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
         } else {
@@ -132,8 +135,33 @@ export const dropdownCodeMixin = {
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
-        // TODO: 구현 예정
-        //this.value = e.target.value;
+
+        // 동일한 코드를 선택한 경우
+        if (e.target.value === this.value) { return false; }
+        this.value = e.target.value;
+        // 매핑 ID가 없는 컴포넌트는 제외
+        if (zValidation.isEmpty(this.mapId)) { return false; }
+
+        // 자신의 매핑 아이디를 가져다가 사용하는 DropdownCode 컴포넌트의 값도 변경한다.
+        document.querySelectorAll('select[data-parent-mappingid="' + this.mapId + '"]').forEach((component) => {
+            component.setAttribute('data-parent-code', e.target.value);
+            // 컴포넌트 새로 그리기
+            component.dispatchEvent(new CustomEvent('reDrawOption'));
+        });
+    },
+    // 부모 코드 변경에 따른 기본값 다시 그리기
+    redrawDefaultOption() {
+        const target = this.UIElement.UIComponent.UIElement.UIDropdown;
+        const code = target.getUIAttribute('data-parent-code');
+        const defaultOptions = [{ name: i18n.msg('common.msg.select'), value: '', checked: true }];
+        this.getDropDownCode(code, defaultOptions).then((options) => {
+            target.setUIOptions(options);
+            target.setUIValue('');
+            aliceJs.initDesignedSelectTag(this.UIElement.UIComponent.UIElement.domElement);
+
+            // 이벤트 발생
+            target.domElement.dispatchEvent(new Event('change'));
+        });
     },
     // 기본값 조회
     async setDefaultOption(target) {
@@ -152,6 +180,11 @@ export const dropdownCodeMixin = {
             return false;
         }
 
+        // 조회 대상이 매핑 아이디일 경우 신청서에서 찾기 위한 용도
+        if (!isDropdownTypeCode) {
+            target.setUIAttribute('data-parent-mappingid', defaultDropdownCode[FORM.DROPDOWN_CODE.MAPPING_ID]);
+        }
+
         let code = '';
         if (isDropdownTypeCode) {
             code = defaultDropdownCode[FORM.DROPDOWN_CODE.CODE];
@@ -163,31 +196,32 @@ export const dropdownCodeMixin = {
                 code = matchComponent.querySelector('select').getAttribute('data-parent-code');
             }
         }
-        // 조회 대상이 비어있을 경우
-        if (zValidation.isEmpty(code)) {
-            target.setUIOptions(defaultOptions);
-            return false;
-        }
-        
         // 조회 대상이 존재할 경우
-        await aliceJs.fetchJson('/rest/codes/related/' + code, {
-            method: 'GET'
-        }).then((codeList) => {
-            if (codeList.length > 0) {
-                codeList.forEach((codeData) => {
-                    defaultOptions.push({
-                        name: codeData.codeName,
-                        value: codeData.code,
-                        checked: (codeData.code === defaultCodeValue)
-                    });
-                    if (codeData.code === defaultCodeValue) {
-                        target.setUIValue(codeData.code);
-                    }
-                });
-            }
-            target.setUIOptions(defaultOptions);
+        await this.getDropDownCode(code, defaultOptions, defaultCodeValue).then((options) => {
+            target.setUIOptions(options);
+            target.setUIValue(defaultCodeValue);
         });
         return true;
+    },
+    // 코드 목록 조회
+    getDropDownCode(code, options, selected = '') {
+        // 조회 대상이 비어있을 경우
+        if (zValidation.isEmpty(code)) {
+            return Promise.resolve(options);
+        }
+        return aliceJs.fetchJson('/rest/codes/related/' + code, { method: 'GET' })
+            .then((codeList) => {
+                if (codeList.length > 0) {
+                    codeList.forEach((codeData) => {
+                        options.push({
+                            name: codeData.codeName,
+                            value: codeData.code,
+                            checked: (codeData.code === selected)
+                        });
+                    });
+                }
+                return options;
+            });
     },
     // 세부 속성 조회
     getProperty() {
