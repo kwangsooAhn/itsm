@@ -12,6 +12,7 @@
  */
 import { UIButton, UICell, UIDiv, UIInput, UIRow, UISelect, UISpan, UITable } from '../../../lib/zUI.js';
 import ZProperty from '../zProperty.js';
+import { zValidation } from "../../../lib/zValidation.js";
 
 const propertyExtends = {
     selectOptions: [
@@ -143,7 +144,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 targetGroup.addUI(targetGroup.userTable);
 
                 // 사용자 목록 추가
-               if (targetCriteria === this.defaultCriteria && this.defaultValue.searchKey.length > 0) {
+               if (targetCriteria === this.defaultCriteria && !zValidation.isEmpty(this.defaultValue.searchKey)) {
                     this.addRow(this.defaultValue.searchKey);
                 } else {
                     this.setEmptyTable(this.UIElement.UIGroup.userTable);

@@ -202,7 +202,7 @@ export const userSearchMixin = {
             searchKeys += (index > 0) ? '+' + elem.id : elem.id;
         });
 
-        let strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim()) +
+        let strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim()) +kzkz
             '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
         aliceJs.fetchText(strUrl, {
             method: 'GET',
@@ -258,7 +258,12 @@ export const userSearchMixin = {
     },
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {
-        if (zValidation.isEmpty(JSON.parse(this.elementUserSearchTarget).searchKey[0].value)) {
+        if (zValidation.isEmpty(JSON.parse(this.elementUserSearchTarget).searchKey[0])) {
+            // 사용자 목록이 없을 떄
+            zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.userList')));
+            return false;
+        } else if (zValidation.isEmpty(JSON.parse(this.elementUserSearchTarget).searchKey[0].value)) {
+            // 조회 대상이 없을 떄
             zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.searchTarget')));
             return false;
         }
