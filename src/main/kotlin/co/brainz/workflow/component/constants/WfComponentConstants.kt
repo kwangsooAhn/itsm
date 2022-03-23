@@ -24,6 +24,7 @@ object WfComponentConstants {
         FILEUPLOAD("fileUpload"),
         CUSTOM_CODE("customCode"),
         DR_TABLE("dynamicRowTable"),
+        USER_SEARCH("userSearch"),
         CI("ci");
     }
 

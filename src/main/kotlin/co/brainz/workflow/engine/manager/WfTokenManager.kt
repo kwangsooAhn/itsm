@@ -196,7 +196,9 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         var assignee = ""
         if (componentMappingId.isNotEmpty()) {
             val componentValueType =
-                if (componentMappingType == WfComponentConstants.ComponentTypeCode.CUSTOM_CODE.code) {
+                // todo: 추후 customCode > 사용자 이름 검색 항목 제거 시 수정필요
+                if (componentMappingType == WfComponentConstants.ComponentTypeCode.CUSTOM_CODE.code
+                    || componentMappingType == WfComponentConstants.ComponentTypeCode.USER_SEARCH.code) {
                     WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
                 } else {
                     WfComponentConstants.ComponentValueType.STRING.code
