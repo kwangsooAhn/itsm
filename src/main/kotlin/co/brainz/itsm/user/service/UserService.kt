@@ -42,6 +42,7 @@ import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
+import co.brainz.itsm.user.dto.UserSearchCompCondition
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
@@ -146,6 +147,32 @@ class UserService(
     }
 
     /**
+     * 사용자 검색 조건에 따라 조회한다.
+     */
+    fun getSearchUserList(userSearchCompCondition: UserSearchCompCondition): UserListReturnDto {
+        val targetKeys = mutableSetOf<String>()
+
+        when (userSearchCompCondition.targetCriteria) {
+            AliceUserConstants.UserSearchTarget.ORGANIZATION.code -> {
+                val organizationList = organizationRepository.findByOrganizationId(userSearchCompCondition.searchKeys)
+                val organization = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition()).results
+                val organizationName = this.getRecursive(organizationList, organization, mutableListOf(), false)
+                organizationName.forEach { targetKeys.add(it) }
+            }
+            AliceUserConstants.UserSearchTarget.CUSTOM.code -> userSearchCompCondition.searchKeys.split(" ").forEach { targetKeys.add(it) }
+        }
+
+        val userSearchCondition = UserSearchCondition(
+            searchValue = userSearchCompCondition.searchValue,
+            optionalCondition = userSearchCompCondition.targetCriteria,
+            optionalTargets = targetKeys,
+            isFilterUseYn = true
+        )
+
+        return this.selectUserList(userSearchCondition)
+    }
+
+    /**
      * 사용자 목록을 조회한다.
      */
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
@@ -163,7 +190,7 @@ class UserService(
             var organizationName = mutableListOf<String>()
             if (organization != null) {
                 if (organization.pOrganization != null) {
-                    organizationName = this.getRecursive(organization, organizationList.results, organizationName)
+                    organizationName = this.getRecursive(organization, organizationList.results, organizationName, true)
                 } else {
                     organizationName.add(organization.organizationName.toString())
                 }
@@ -183,20 +210,26 @@ class UserService(
         )
     }
 
-    //groupId 값을 이용하여 상위 레벨의 부서폴더이름 추출
+    // organizationId 값을 이용하여 상위 / 하위 레벨의 부서이름 추출
     fun getRecursive(
         organization: OrganizationEntity,
         organizationList: List<OrganizationEntity>,
-        organizationName: MutableList<String>
+        organizationName: MutableList<String>,
+        getParent: Boolean
     ): MutableList<String> {
         organizationName.add(organization.organizationName.toString())
-        if (organization.pOrganization != null) {
-            val pOrganization = organizationList.firstOrNull {
-                it.organizationId == organization.pOrganization!!.organizationId
+        val tOrganization = organizationList.firstOrNull {
+            when (getParent) {
+                true -> {
+                    it.organizationId == organization.pOrganization?.organizationId
+                }
+                false -> {
+                    organization.organizationId == it.pOrganization?.organizationId
+                }
             }
-            if (pOrganization != null) {
-                this.getRecursive(pOrganization, organizationList, organizationName)
-            }
+        }
+        if (tOrganization != null) {
+            this.getRecursive(tOrganization, organizationList, organizationName, getParent)
         }
         return organizationName
     }

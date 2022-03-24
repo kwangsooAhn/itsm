@@ -168,4 +168,11 @@ object AliceUserConstants {
         CREATE_USER_ADMIN("3"),
         UPDATE_USER_PASSWORD("4")
     }
+    /**
+     * 사용자 컴포넌트 > 검색 조건
+     */
+    enum class UserSearchTarget(val code: String) {
+        ORGANIZATION("organization"),
+        CUSTOM("custom")
+    }
 }

@@ -57,6 +57,12 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
             .where(
                 user.userName.notIn(AliceUserConstants.CREATE_USER_ID)
             )
+        if (userSearchCondition.optionalTargets.isNotEmpty()) {
+            query.where(
+                (organization.organizationName.`in`(userSearchCondition.optionalTargets))
+                ?.or(user.userKey.`in`(userSearchCondition.optionalTargets))
+            )
+        }
         if (userSearchCondition.excludeIds.isNotEmpty()) {
             query.where(user.userKey.notIn(userSearchCondition.excludeIds))
         }

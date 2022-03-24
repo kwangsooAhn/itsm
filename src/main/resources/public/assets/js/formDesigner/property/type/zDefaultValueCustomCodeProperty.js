@@ -134,24 +134,26 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                         .setUIValue(customCodeText)
                         .onUIChange(this.updateProperty.bind(this));
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIInput);
-                    // small icon button
-                    radioGroup.UIInputButton.UIIconButton = new UIButton()
-                        .setUIClass('z-button-icon-sm')
-                        .setUIAttribute('tabindex', '-1')
-                        .onUIClick(this.clearText.bind(this));
-                    radioGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
-                        .setUIClass('z-icon')
-                        .addUIClass('i-remove');
-                    radioGroup.UIInputButton.UIIconButton.addUI(radioGroup.UIInputButton.UIIconButton.UIIcon);
-                    radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
-                    // button
-                    radioGroup.UIInputButton.UIButton = new UIButton()
-                        .setUIClass('z-button-icon')
-                        .addUIClass('z-button-code')
-                        .setUIAttribute('data-value', defaultCustomCodeValues[0])
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
-                        .onUIClick(this.openCustomCodeData.bind(this));
-                    radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIButton);
+                    if (this.isEditable) {
+                        // small icon button
+                        radioGroup.UIInputButton.UIIconButton = new UIButton()
+                            .setUIClass('z-button-icon-sm')
+                            .setUIAttribute('tabindex', '-1')
+                            .onUIClick(this.clearText.bind(this));
+                        radioGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
+                            .setUIClass('z-icon')
+                            .addUIClass('i-remove');
+                        radioGroup.UIInputButton.UIIconButton.addUI(radioGroup.UIInputButton.UIIconButton.UIIcon);
+                        radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
+                        // button
+                        radioGroup.UIInputButton.UIButton = new UIButton()
+                            .setUIClass('z-button-icon')
+                            .addUIClass('z-button-code')
+                            .setUIAttribute('data-value', defaultCustomCodeValues[0])
+                            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
+                            .onUIClick(this.openCustomCodeData.bind(this));
+                        radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIButton);
+                    }
                     break;
             }
             this.UIElement.UIGroup['UIRadioGroup' + idx] = radioGroup;

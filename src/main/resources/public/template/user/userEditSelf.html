@@ -535,7 +535,7 @@
     }
 
     function getSubUserList(search, showProgressbar) {
-        let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
+        let strUrl = '/users/substituteUsers?search=' + encodeURIComponent(search.trim())
             + '&from=' + i18n.systemDateTime(document.getElementById('absenceStartDt').value)
             + '&to=' + i18n.systemDateTime(document.getElementById('absenceEndDt').value)
             + '&userKey=' + document.getElementById('userKey').value;
@@ -547,7 +547,7 @@
             document.getElementById('subUserList').innerHTML = htmlData;
             OverlayScrollbars(document.querySelector('.z-table-body'), { className: 'scrollbar' });
             //갯수 카운트
-            const substituteUserList = document.getElementById('substituteUserList');
+            const substituteUserList = document.getElementById('userList');
             aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
             document.querySelectorAll('input[type=radio]').forEach(function (radio) {
                 // 업무 대리인으로 자기 자신은 선택할 수 없다.

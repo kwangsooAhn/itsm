@@ -303,7 +303,7 @@ class ZFormTokenTab {
      * @param showProgressbar
      */
     getViewerList(search, showProgressbar) {
-        let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
+        let strUrl = '/users/substituteUsers?search=' + encodeURIComponent(search.trim())
             + '&from=&to=&userKey=' + ZSession.get('userKey')
             + '&multiSelect=true';
         aliceJs.fetchText(strUrl, {
