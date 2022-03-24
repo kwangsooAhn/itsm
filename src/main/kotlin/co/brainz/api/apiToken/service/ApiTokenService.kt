@@ -13,11 +13,11 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.user.service.UserService
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -36,17 +36,15 @@ class ApiTokenService(
     /**
      * Access Token 발행
      */
-    fun createAccessToken(bodyContent: String): ResponseEntity<*> {
-        val params: Map<String, Any> =
-            mapper.readValue(bodyContent, object : TypeReference<Map<String, Any>>() {})
-        if (!this.paramsValid(params, ApiConstants.TokenType.ACCESS_TOKEN.code)) {
+    fun createAccessToken(request: HttpServletRequest): ResponseEntity<*> {
+        if (!this.paramsValid(request, ApiConstants.TokenType.ACCESS_TOKEN.code)) {
             throw AliceException(
                 AliceErrorConstants.ERR_00001,
                 AliceErrorConstants.ERR_00001.message + "[Parameter Error]"
             )
         }
-        val userId = params["userId"].toString()
-        val password = params["password"].toString()
+        val userId = request.getHeader("userId") ?: ""
+        val password = request.getHeader("password") ?: ""
 
         var status: HttpStatus? = null
         val userEntity = userService.selectUser(userId)
@@ -82,16 +80,14 @@ class ApiTokenService(
     /**
      * Refresh Token 으로 Access Token 재발행
      */
-    fun createAccessTokenByRefreshToken(bodyContent: String): ResponseEntity<*> {
-        val params: Map<String, Any> =
-            mapper.readValue(bodyContent, object : TypeReference<Map<String, Any>>() {})
-        if (!this.paramsValid(params, ApiConstants.TokenType.REFRESH_TOKEN.code)) {
+    fun createAccessTokenByRefreshToken(request: HttpServletRequest): ResponseEntity<*> {
+        if (!this.paramsValid(request, ApiConstants.TokenType.REFRESH_TOKEN.code)) {
             throw AliceException(
                 AliceErrorConstants.ERR_00001,
                 AliceErrorConstants.ERR_00001.message + "[Parameter Error]"
             )
         }
-        val refreshToken = params["refresh_token"].toString()
+        val refreshToken = request.getHeader("refresh_token")
 
         val status: HttpStatus?
         val value = LinkedHashMap<String, Any>()
@@ -135,16 +131,16 @@ class ApiTokenService(
     /**
      * Token 발행시 필수 값 확인
      */
-    private fun paramsValid(params: Map<String, Any>, type: String): Boolean {
+    private fun paramsValid(request: HttpServletRequest, type: String): Boolean {
         var returnValue = false
         when (type) {
             ApiConstants.TokenType.ACCESS_TOKEN.code -> {
-                if (params.containsKey("userId") && params.containsKey("password")) {
+                if (!request.getHeader("userId").isNullOrEmpty() && !request.getHeader("password").isNullOrEmpty()) {
                     returnValue = true
                 }
             }
             ApiConstants.TokenType.REFRESH_TOKEN.code -> {
-                if (params.containsKey("refresh_token")) {
+                if (!request.getHeader("refresh_token").isNullOrEmpty()) {
                     returnValue = true
                 }
             }
