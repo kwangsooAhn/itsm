@@ -1211,6 +1211,7 @@ process:
 # statistic
 statistic:
   btn:
+    create: "Create"
     pdf: "PDF"
   label:
     automatic: "Automatic generation"
