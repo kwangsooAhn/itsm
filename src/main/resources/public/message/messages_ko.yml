@@ -8,6 +8,7 @@ common:
     delete: "삭제"
     editUserInfo: "내 정보 수정"
     export: "내보내기"
+    import: "가져오기"
     initialization: "초기화"
     list: "목록"
     logout: "로그아웃"
@@ -44,6 +45,7 @@ common:
     delete: "삭제"
     edit: "편집"
     endDate: "종료일자"
+    export: "내보내기"
     fail: "실패"
     group: "그룹"
     modify: "수정"
@@ -708,9 +710,6 @@ fileupload:
 
 # Form
 form:
-  btn:
-    export: "내보내기"
-    import: "가져오기"
   label:
     actionType: "구분"
     addAbove: "새로만들기-위"
@@ -1104,8 +1103,6 @@ portal:
 # Process
 process:
   btn:
-    export: "내보내기"
-    import: "가져오기"
     simulationCheckResult: "시뮬레이션 점검 결과"
   label:
     description: "설명"
@@ -1395,9 +1392,13 @@ workflowAdmin:
   label:
     description: "설명"
     group: "그룹"
+    import: "업무흐름 IMPORT"
+    importFile: "IMPORT 파일"
     name: "이름"
     status: "상태"
     type: "타입"
+  msg:
+    noticeImportFile: "XML 파일만 가능합니다."
 
 # User
 user:

@@ -7632,20 +7632,26 @@ body.modal-active {
   background-color: rgba(99, 104, 108, 0.6);
 }
 .modal-wrapper .modal-dialog {
+  width: 26.875rem;
+  margin: 0 auto 2em auto;
+  background-color: #FFFFFF;
+  opacity: 0;
+  transition: 0.3s;
+  z-index: 5000;
   position: absolute;
   top: 4em;
   right: 0;
   left: 0;
-  width: 26.875rem;
-  margin: 0 auto 2em auto;
-  background-color: #FFFFFF;
-  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
-  -moz-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
-  box-shadow: 0 0.125rem 0.75rem 0 #63686C;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
-  z-index: 5000;
+  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+  -moz-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+  box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+}
+.modal-wrapper .modal-dialog.modal-active {
+  transition: 0.3s;
+  opacity: 1;
 }
 .modal-wrapper .modal-dialog .modal-header {
   height: 3.875rem;
@@ -7738,27 +7744,27 @@ body.modal-active {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
-.modal-dialog.document-edit {
+.modal-dialog.document-edit, .modal-dialog.workFlow-import {
   width: 40rem;
   height: 50.63rem;
 }
-.modal-dialog.document-edit .modal-content {
+.modal-dialog.document-edit .modal-content, .modal-dialog.workFlow-import .modal-content {
   height: calc(50.63rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
-.modal-dialog.document-edit .modal-content .workflow-content {
+.modal-dialog.document-edit .modal-content .workflow-content, .modal-dialog.workFlow-import .modal-content .workflow-content {
   width: calc(40rem - 2.5rem);
   height: calc(50.63rem - 3.875rem - 5rem - 2.5rem);
   padding: 0 1.25rem;
 }
-.modal-dialog.document-edit .modal-content .field-label {
+.modal-dialog.document-edit .modal-content .field-label, .modal-dialog.workFlow-import .modal-content .field-label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
-.modal-dialog.document-edit .modal-content .hidden-control-content {
+.modal-dialog.document-edit .modal-content .hidden-control-content, .modal-dialog.workFlow-import .modal-content .hidden-control-content {
   display: none;
 }
-.modal-dialog.document-edit .modal-content .hidden-control-content.on {
+.modal-dialog.document-edit .modal-content .hidden-control-content.on, .modal-dialog.workFlow-import .modal-content .hidden-control-content.on {
   display: block;
 }
 .modal-dialog.document-display {

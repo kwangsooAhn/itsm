@@ -152,14 +152,20 @@
             document.getElementById('parentTypeName').setAttribute('readonly','');
             document.getElementById('parentTypeName').value = responseJson.ptypeName;
             document.getElementById('parentTypeId').value = responseJson.ptypeId;
-            document.getElementById('typeName').value = responseJson.typeName;
             document.getElementById('typeId').value = responseJson.typeId;
-            document.getElementById('typeDesc').value = responseJson.typeDesc;
-            document.getElementById('typeSeq').value = responseJson.typeSeq;
             document.getElementById('typeAlias').value = responseJson.typeAlias;
             document.getElementById('typeIcon').value = responseJson.typeIcon;
             document.getElementById('typeClassId').value = responseJson.classId;
             document.getElementById('typeClass').value = responseJson.className;
+            // 유형 이름
+            const typeName = document.getElementById('typeName');
+            typeName.value = responseJson.typeName;
+            // 설명
+            const typeDesc = document.getElementById('typeDesc');
+            typeDesc.value = responseJson.typeDesc;
+            // 정렬 순서
+            const typeSeq = document.getElementById('typeSeq');
+            typeSeq.value = responseJson.typeSeq;
             if (responseJson.editable) {
                 if (document.querySelector('#btnUpdate') != null) {
                     document.querySelector('#btnUpdate').removeAttribute('disabled');
@@ -174,6 +180,10 @@
                     document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
                 }
                 document.getElementById('typeAlias').readOnly = true;
+                document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+                typeName.readOnly = false;
+                typeDesc.readOnly = false;
+                typeSeq.readOnly = false;
             } else {
                 if (document.querySelector('#btnUpdate') != null) {
                     document.getElementById('btnUpdate').disabled = true;
@@ -187,6 +197,10 @@
                 if (document.querySelector('button[name=typeClassSelector]') != null) {
                     document.querySelector('button[name=typeClassSelector]').disabled = true;
                 }
+                document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
+                typeName.readOnly = true;
+                typeDesc.readOnly = true;
+                typeSeq.readOnly = true;
             }
             onEdit();
             observer.isChanged = false;

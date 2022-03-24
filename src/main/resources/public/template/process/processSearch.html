@@ -26,7 +26,7 @@
         <button type="button" class="z-button primary" onclick="openProcessRegister();"
                 sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.add}"></button>
         <button type="button" class="z-button secondary" onclick="openProcessImport();"
-                sec:authorize="hasAuthority('workflow.manage')" th:text="#{process.btn.import}"></button>
+                sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.import}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
@@ -211,11 +211,11 @@
             if (data.enabled && !isView) {
                 // 내보내기 버튼
                 options.buttons.push({
-                    content: i18n.msg('process.btn.export'),
+                    content: i18n.msg('common.btn.export'),
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
-                        ZWorkflowUtil.export(data.id, 'process');
+                        ZWorkflowUtil.export(data.id, '/rest/process/' + data.id + '/data', 'process');
                         modal.hide();
                     }
                 });
@@ -240,11 +240,11 @@
             } else if (data.status === STATUS_USE) {
                 // 내보내기 버튼
                 options.buttons.push({
-                    content: i18n.msg('process.btn.export'),
+                    content: i18n.msg('common.btn.export'),
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
-                        ZWorkflowUtil.export(data.id, 'process');
+                        ZWorkflowUtil.export(data.id, '/rest/process/' + data.id + '/data', 'process');
                     }
                 });
                 // 폐기
@@ -401,7 +401,7 @@
             classes: 'process-import',
             buttons: [
                 {
-                    content: i18n.msg('process.btn.import'),
+                    content: i18n.msg('common.btn.import'),
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {

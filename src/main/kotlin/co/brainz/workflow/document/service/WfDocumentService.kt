@@ -12,9 +12,11 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
+import co.brainz.itsm.document.dto.DocumentImportDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
@@ -32,6 +34,7 @@ import co.brainz.workflow.element.service.WfElementService
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.entity.WfFormEntity
+import co.brainz.workflow.form.mapper.WfFormMapper
 import co.brainz.workflow.form.repository.WfFormRepository
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.formGroup.entity.WfFormGroupEntity
@@ -39,11 +42,21 @@ import co.brainz.workflow.formGroup.repository.WfFormGroupRepository
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.entity.WfProcessEntity
+import co.brainz.workflow.process.mapper.WfProcessMapper
 import co.brainz.workflow.process.repository.WfProcessRepository
+import co.brainz.workflow.process.service.WfProcessService
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
+import co.brainz.workflow.provider.dto.RestTemplateElementDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
+import java.time.LocalDateTime
 import java.util.ArrayDeque
+import java.util.UUID
+import kotlin.collections.LinkedHashMap
+import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -65,8 +78,12 @@ class WfDocumentService(
     private val numberingRuleRepository: NumberingRuleRepository,
     private val aliceMessageSource: AliceMessageSource,
     private val ciService: CIService,
-    private val ciComponentDataRepository: CIComponentDataRepository
+    private val ciComponentDataRepository: CIComponentDataRepository,
+    private val currentSessionUser: CurrentSessionUser,
+    private val wfProcessService: WfProcessService
 ) {
+    private val wfFormMapper = Mappers.getMapper(WfFormMapper::class.java)
+    private val wfProcessMapper = Mappers.getMapper(WfProcessMapper::class.java)
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -676,5 +693,175 @@ class WfDocumentService(
             }
             sortedUserTasks.add(elementAttribute)
         }
+    }
+
+    /**
+     * 업무흐름 Import.
+     * 신규로 Import된 프로세스, 폼은 '발행' 상태이다.
+     */
+    @Transactional
+    fun importDocument(documentImportDto: DocumentImportDto): ZReturnDto {
+        var isSuccess = true
+        var message = ""
+        var importDto: DocumentImportDto
+
+        // 폼 중복 체크
+        if (wfFormRepository.existsByFormName(documentImportDto.formData.name)) {
+            isSuccess = false
+            message = aliceMessageSource.getMessage("form.msg.duplicateFormName")
+        }
+
+        // 프로세스 중복 체크
+        if (isSuccess && wfProcessRepository.existsByProcessName(documentImportDto.processData.process!!.name!!)) {
+            isSuccess = false
+            message = aliceMessageSource.getMessage("process.msg.duplicateProcessName")
+        }
+
+        // 문서 중복 체크
+        if (isSuccess && wfDocumentRepository.existsByDocumentName(documentImportDto.documentData.documentName, "")) {
+            isSuccess = false
+            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+        }
+
+        // 유효성 검증 후 처리
+        if (isSuccess) {
+            // 폼 저장
+            importDto = this.importForm(documentImportDto)
+            val newFormId = importDto.formData.id.toString()
+
+            // 프로세스 저장
+            importDto = this.importProcess(importDto)
+            val newProcessId = importDto.processData.process?.id!!
+
+            // 신청서 저장
+            val newDocumentId = wfDocumentRepository.save(WfDocumentEntity(
+                documentId = "",
+                documentType = importDto.documentData.documentType,
+                documentName = importDto.documentData.documentName,
+                documentDesc = importDto.documentData.documentDesc,
+                form = WfFormEntity(formId = newFormId),
+                process = WfProcessEntity(processId = newProcessId),
+                createDt = LocalDateTime.now(),
+                createUserKey = currentSessionUser.getUserKey(),
+                documentStatus = importDto.documentData.documentStatus,
+                apiEnable = importDto.documentData.apiEnable,
+                numberingRule = numberingRuleRepository.findById(importDto.documentData.documentNumberingRuleId).get(),
+                documentColor = importDto.documentData.documentColor,
+                documentGroup = importDto.documentData.documentGroup,
+                documentIcon = importDto.documentData.documentIcon
+            )).documentId
+            // 신청서 양식 편집 저장
+            val wfDocumentDisplayEntities: MutableList<WfDocumentDisplayEntity> = mutableListOf()
+            for (display in importDto.displayData) {
+                val documentDisplayEntity = WfDocumentDisplayEntity(
+                    documentId = newDocumentId,
+                    formGroupId = display["formGroupId"] as String,
+                    elementId = display["elementId"] as String,
+                    display = display["display"] as String
+                )
+                wfDocumentDisplayEntities.add(documentDisplayEntity)
+            }
+            if (wfDocumentDisplayEntities.isNotEmpty()) {
+                wfDocumentDisplayRepository.saveAll(wfDocumentDisplayEntities)
+            }
+        }
+
+        return ZReturnDto(
+            result = isSuccess,
+            message = message
+        )
+    }
+    /**
+     * 업무흐름 Import - 폼.
+     * WfFormService.kt - saveAsFormData 참고
+     */
+    private fun importForm(documentImportDto: DocumentImportDto): DocumentImportDto {
+        documentImportDto.formData.id = ""
+        documentImportDto.formData.status = WorkflowConstants.FormStatus.PUBLISH.value
+        documentImportDto.formData.createUserKey = currentSessionUser.getUserKey()
+        documentImportDto.formData.createDt = LocalDateTime.now()
+
+        val wfFormDto = wfFormService.createForm(
+            wfFormMapper.toRestTemplateFormDto(documentImportDto.formData)
+        )
+        documentImportDto.formData.id = wfFormDto.id
+        documentImportDto.documentData.formId = wfFormDto.id
+        // 변경된 Group Id를 신청서 양식 편집에도 반영함
+        for (group in documentImportDto.formData.group.orEmpty()) {
+            if (group.id.isNotBlank()) {
+                val newGroupId = UUID.randomUUID().toString().replace("-", "")
+                for (display in documentImportDto.displayData) {
+                    if (display["formGroupId"] == group.id) {
+                        display["formGroupId"] = newGroupId
+                    }
+                }
+                group.id = newGroupId
+                for (row in group.row) {
+                    row.id = UUID.randomUUID().toString().replace("-", "")
+                    for (component in row.component) {
+                        component.id = UUID.randomUUID().toString().replace("-", "")
+                    }
+                }
+            }
+        }
+        wfFormService.saveFormData(documentImportDto.formData)
+        return documentImportDto
+    }
+
+    /**
+     * 업무흐름 Import - 프로세스.
+     * WfProcessService.kt - saveAsProcess 참고
+     */
+    private fun importProcess(documentImportDto: DocumentImportDto): DocumentImportDto {
+        val processDto = wfProcessService.insertProcess(
+            RestTemplateProcessDto(
+                processName = documentImportDto.processData.process?.name.toString(),
+                processDesc = documentImportDto.processData.process?.description,
+                processStatus = WorkflowConstants.ProcessStatus.PUBLISH.value,
+                enabled = false,
+                createDt = LocalDateTime.now(),
+                createUserKey = currentSessionUser.getUserKey()
+            )
+        )
+        val newProcess = wfProcessMapper.toRestTemplateProcessViewDto(processDto)
+        documentImportDto.documentData.processId = processDto.processId
+        val newElements: MutableList<RestTemplateElementDto> = mutableListOf()
+        val elementKeyMap: MutableMap<String, String> = mutableMapOf()
+        // 변경된 Element Id를 신청서 양식 편집에도 반영함
+        documentImportDto.processData.elements?.forEach { element ->
+            val newElementId = UUID.randomUUID().toString().replace("-", "")
+            for (display in documentImportDto.displayData) {
+                if (display["elementId"] == element.id) {
+                    display["elementId"] = newElementId
+                }
+            }
+            elementKeyMap[element.id] = newElementId
+        }
+        documentImportDto.processData.elements?.forEach { element ->
+            val dataMap: MutableMap<String, Any>? = element.data
+            dataMap?.forEach {
+                if (elementKeyMap.containsKey(it.value)) {
+                    dataMap[it.key] = elementKeyMap[it.value].toString()
+                }
+            }
+
+            newElements.add(
+                RestTemplateElementDto(
+                    id = elementKeyMap[element.id]!!,
+                    name = element.name,
+                    description = element.description,
+                    notification = element.notification,
+                    data = dataMap,
+                    type = element.type,
+                    display = element.display
+                )
+            )
+        }
+        documentImportDto.processData = RestTemplateProcessElementDto(
+            process = newProcess,
+            elements = newElements
+        )
+        wfProcessService.updateProcessData(documentImportDto.processData)
+        return documentImportDto
     }
 }

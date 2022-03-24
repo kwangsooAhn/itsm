@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- 업무흐름 모달 -->
+<div class="workflow-content">
+    <div class="flex-column">
+        <!-- 업무흐름 구분 -->
+        <label class="field-label" for="documentType">
+            <span th:text="#{document.label.type}"></span>
+            <span class="required"></span>
+        </label>
+        <select id="documentType" onchange="setDocumentType(this.value)">
+            <option value="application-form" th:text="#{document.type.applicationForm}" selected></option>
+            <option value="workflow" th:text="#{document.type.workflow}"></option>
+        </select>
+        <!-- 신청서 이름 -->
+        <label class="field-label" for="documentName">
+            <span th:text="#{document.label.name}"></span>
+            <span class="required"></span>
+        </label>
+        <input type="text" class="z-input" id="documentName" maxlength="50" required="required"/>
+        <!-- 설명 -->
+        <label class="field-label" th:text="#{document.label.description}" for="documentDesc"></label>
+        <textarea id="documentDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <!-- 업무흐름 구분 :  신청서 -->
+        <div id= "applicationFormGroup" class="hidden-control-content">
+            <!-- 그룹 -->
+            <label class="field-label" th:text="#{common.label.group}" for="applicationDocumentGroup"></label>
+            <select id="applicationDocumentGroup">
+                <option value="" th:text="#{document.label.notSelect}" selected></option>
+                <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
+            </select>
+            <!-- 문서번호 규칙 -->
+            <label class="field-label" for="applicationNumberingRule">
+                <span th:text="#{document.label.numberingRule}"></span>
+                <span class="required"></span>
+            </label>
+            <select id="applicationNumberingRule">
+                <option value="" th:text="#{common.msg.select}" selected></option>
+                <option th:each="numberingRule:${numberingRuleList}"
+                        th:id="${numberingRule.numberingId}"
+                        th:value="${numberingRule.numberingId}"
+                        th:text="${numberingRule.numberingName}"></option>
+            </select>
+            <!-- 신청서 상태 -->
+            <label class="field-label" th:text="#{document.label.status}" for="applicationDocumentStatus"></label>
+            <select id="applicationDocumentStatus">
+                <option th:each="status:${statusList}" th:value="${status.code}"
+                        th:text="${status.codeName}" th:selected="${status.code} == 'document.status.temporary'"></option>
+            </select>
+            <!-- API 활성화 -->
+            <label class="field-label" th:text="#{document.label.apiEnable}" for="applicationApiEnable"></label>
+            <select id="applicationApiEnable" required="required">
+                <option value="true" th:text="#{document.label.enable}"></option>
+                <option value="false" th:text="#{document.label.disable}" selected></option>
+            </select>
+            <!-- 업무 흐름 색상 -->
+            <label class="field-label" for="applicationDocumentColor">
+                <span th:text="#{document.label.businessFlowColor}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" id="applicationDocumentColor"/>
+            <!-- 신청서 아이콘 -->
+            <label class="field-label" for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
+            <div class="flex-row z-input-button">
+                <input type="text" id="applicationDocumentIcon" class="z-input col-pct-11" readonly />
+                <span class="z-icon i-remove" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
+                <button type="button" class="z-button-search z-button form" th:text="#{common.btn.select}" th:onclick="openIcon();"></button>
+            </div>
+        </div>
+        <!-- 업무흐름 구분 :  업무흐름 -->
+        <div id="workflowGroup" class="hidden-control-content">
+            <!-- 문서번호 규칙 -->
+            <label class="field-label" for="workflowNumberingRule">
+                <span th:text="#{document.label.numberingRule}"></span>
+                <span class="required"></span>
+            </label>
+            <select id="workflowNumberingRule">
+                <option value="" th:text="#{common.msg.select}" selected></option>
+                <option th:each="numberingRule:${numberingRuleList}"
+                        th:id="${numberingRule.numberingId}"
+                        th:value="${numberingRule.numberingId}"
+                        th:text="${numberingRule.numberingName}"></option>
+            </select>
+            <!-- 신청서 상태 -->
+            <label class="field-label" th:text="#{document.label.status}" for="workflowDocumentStatus"></label>
+            <input type="hidden" id="workflowPrevDocumentStatus"/>
+            <select id="workflowDocumentStatus">
+                <option th:each="status:${statusList}" th:value="${status.code}"
+                        th:text="${status.codeName}" th:selected="${status.code} == 'document.status.temporary'"></option>
+            </select>
+            <!-- API 활성화 -->
+            <label class="field-label" th:text="#{document.label.apiEnable}" for="workflowApiEnable"></label>
+            <select id="workflowApiEnable" required="required">
+                <option value="true" th:text="#{document.label.enable}"></option>
+                <option value="false" th:text="#{document.label.disable}" selected></option>
+            </select>
+            <!-- 업무 흐름 색상 -->
+            <label class="field-label" for="workflowDocumentColor">
+                <span th:text="#{document.label.businessFlowColor}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" id="workflowDocumentColor"/>
+        </div>
+        <!-- 업무흐름 구분 :  링크 (사용되지 않음) -->
+        <div id="applicationFormLinkGroup" class="hidden-control-content"></div>
+        <!-- 문서양식 이름 -->
+        <label class="field-label" for="formName">
+            <span th:text="#{form.label.name}"></span>
+            <span class="required"></span>
+        </label>
+        <input type="text" id="formName" class="z-input" maxlength="50" required="required">
+        <!-- 문서양식 설명 -->
+        <label class="field-label" th:text="#{'form.label.description'}" for="formDesc"></label>
+        <textarea id="formDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <!-- 프로세스 이름 -->
+        <label class="field-label" for="processName">
+            <span th:text="#{process.label.name}"></span>
+            <span class="required"></span>
+        </label>
+        <input type="text" id="processName" class="z-input" maxlength="50" required="required">
+        <!-- 프로세스 설명 -->
+        <label class="field-label" th:text="#{'process.label.description'}" for="processDesc"></label>
+        <textarea id="processDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <!-- XML 파일 -->
+        <div class="file-uploader-edit">
+            <label class="file-uploader-title field-label">
+                <span th:text="#{'workflowAdmin.label.importFile'}"></span>
+                <span class="required"></span>
+            </label>
+            <div id="dropZoneFiles"></div>
+            <div id="dropZoneUploadedFiles"></div>
+        </div>
+        <h6 class="description pt-1 pl-2" th:text="#{'workflowAdmin.msg.noticeImportFile'}"></h6>
+    </div>
+</div>
+</body>
+</html>

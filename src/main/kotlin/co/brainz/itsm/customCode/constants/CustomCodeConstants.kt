@@ -3,14 +3,14 @@ package co.brainz.itsm.customCode.constants
 object CustomCodeConstants {
 
     /**
-     * 컴포넌트 타입 custom-code
+     * 컴포넌트 타입 customCode
      */
-    const val COMPONENT_TYPE_CUSTOM_CODE: String = "custom-code"
+    const val COMPONENT_TYPE_CUSTOM_CODE: String = "customCode"
 
     /**
-     * 속성 아이디 display
+     * 속성 아이디 element
      */
-    const val ATTRIBUTE_ID_DISPLAY: String = "display"
+    const val PROPERTY_ID_ELEMENT: String = "element"
 
     /**
      * 사용자 정의 코드 p_code.

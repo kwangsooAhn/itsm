@@ -45,7 +45,7 @@ class NumberingRuleRestController(private val numberingRuleService: NumberingRul
      * 문서번호 등록.
      */
     @PostMapping("/", "")
-    fun saveNumberingPattern(@RequestBody @Valid numberingRuleDto: NumberingRuleDto): String {
+    fun saveNumberingPattern(@RequestBody numberingRuleDto: NumberingRuleDto): String {
         return numberingRuleService.saveNumberingRule(numberingRuleDto)
     }
 
@@ -53,7 +53,7 @@ class NumberingRuleRestController(private val numberingRuleService: NumberingRul
      * 문서번호 수정.
      */
     @PutMapping("/{numberingId}")
-    fun updateNumberingRule(@RequestBody @Valid numberingRuleDto: NumberingRuleDto): String {
+    fun updateNumberingRule(@RequestBody numberingRuleDto: NumberingRuleDto): String {
         return numberingRuleService.saveNumberingRule(numberingRuleDto)
     }
 
