@@ -11,7 +11,7 @@
  *
  * https://www.brainz.co.kr
  */
-import {FORM, UNIT} from '../../../lib/zConstants.js';
+import { FORM } from '../../../lib/zConstants.js';
 import { UIDiv, UIInput, UILabel, UIRadioButton, UISpan } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
