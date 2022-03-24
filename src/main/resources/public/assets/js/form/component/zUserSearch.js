@@ -196,9 +196,10 @@ export const userSearchMixin = {
     },
 
     getUserList(search, showProgressbar) {
-        const targetCriteria = JSON.parse(this.elementUserSearchTarget).targetCriteria;
+        const targetData = JSON.parse(this.elementUserSearchTarget);
+        const targetCriteria = targetData.targetCriteria;
         let searchKeys = '';
-        JSON.parse(this.elementUserSearchTarget).searchKey.forEach( (elem, index) => {
+        targetData.searchKey.forEach( (elem, index) => {
             searchKeys += (index > 0) ? '+' + elem.id : elem.id;
         });
 
@@ -258,12 +259,15 @@ export const userSearchMixin = {
     },
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {
-        if (zValidation.isEmpty(JSON.parse(this.elementUserSearchTarget).searchKey[0])) {
-            // 사용자 목록이 없을 떄
+        const targetData = JSON.parse(this.elementUserSearchTarget);
+
+        // 사용자 목록이 없을 떄
+        if (zValidation.isEmpty(targetData.searchKey[0])) {
             zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.userList')));
             return false;
-        } else if (zValidation.isEmpty(JSON.parse(this.elementUserSearchTarget).searchKey[0].value)) {
-            // 조회 대상이 없을 떄
+        }
+        // 조회 대상이 없을 떄
+        if (zValidation.isEmpty(targetData.searchKey[0].value)) {
             zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.searchTarget')));
             return false;
         }
