@@ -176,7 +176,12 @@
         }
       }
 
-      .z-picker-wrapper-date { flex: 1; }
+      .z-picker-wrapper-date {
+        flex: 1;
+        .picker-main {
+          width:inherit;
+        }
+      }
     }
   }
   // tab
