@@ -112,6 +112,12 @@ class UIElement {
     getUIIndexOfChild(element) {
         return Array.prototype.indexOf.call(this.domElement.children, element.domElement);
     }
+
+    // 사용자 이벤트
+    setUICustom(event, callback) {
+        this.domElement.addEventListener(event, callback.bind(this), false);
+        return this;
+    }
 }
 
 // properties

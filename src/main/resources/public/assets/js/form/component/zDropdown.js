@@ -50,6 +50,7 @@ export const dropdownMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         element.UIDropdown = new UISelect()
+            .addUIClass('align-left')
             .setUIOptions(this.element.options)
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIDropdown);
