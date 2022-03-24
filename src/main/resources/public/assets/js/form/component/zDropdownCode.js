@@ -139,6 +139,11 @@ export const dropdownCodeMixin = {
         // 동일한 코드를 선택한 경우
         if (e.target.value === this.value) { return false; }
         this.value = e.target.value;
+
+        // change 일 경우 minLength, maxLength 체크
+        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
+            return false;
+        }
         // 매핑 ID가 없는 컴포넌트는 제외
         if (zValidation.isEmpty(this.mapId)) { return false; }
 
@@ -152,6 +157,9 @@ export const dropdownCodeMixin = {
     // 부모 코드 변경에 따른 기본값 다시 그리기
     redrawDefaultOption() {
         const target = this.UIElement.UIComponent.UIElement.UIDropdown;
+        // 다시 그릴 경우 에러 제거
+        zValidation.removeDOMElementError(target.domElement);
+
         const code = target.getUIAttribute('data-parent-code');
         const defaultOptions = [{ name: i18n.msg('common.msg.select'), value: '', checked: true }];
         this.getDropDownCode(code, defaultOptions).then((options) => {
