@@ -202,7 +202,7 @@ export const userSearchMixin = {
             searchKeys += (index > 0) ? '+' + elem.id : elem.id;
         });
 
-        let strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim()) +kzkz
+        let strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim()) +
             '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
         aliceJs.fetchText(strUrl, {
             method: 'GET',
