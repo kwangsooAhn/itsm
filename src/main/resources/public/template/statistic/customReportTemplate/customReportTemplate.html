@@ -79,6 +79,7 @@
                 <button type="button" class="z-button primary" th:if="${template?.templateId}"
                         onclick="saveReportTemplate('PUT')" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="z-button secondary" onclick="preview()" th:text="#{common.btn.preview}"></button>
+                <button type="button" class="z-button secondary" th:onclick="makeReport([[${template.templateId}]])" th:text="#{statistic.btn.create}"></button>
                 <button type="button" class="z-button danger" th:if="${template?.templateId}"
                         onclick="deleteReportTemplate()" th:text="#{common.btn.delete}"></button>
             </div>
@@ -266,6 +267,26 @@
         }
         sessionStorage.setItem("alice_report", JSON.stringify(reportData));
         window.open('/statistics/customReportTemplate/preview', '_blank');
+    }
+
+    // 생성하기
+    function makeReport(templateId) {
+        const STATUS_SUCESS = "0";
+        const STATUS_FAIL = "1";
+
+        aliceJs.fetchText('/rest/statistics/customReportTemplate/' + templateId, {
+            method: 'POST'
+        }).then((status) => {
+            switch (status) {
+                case STATUS_SUCESS:
+                    zAlert.success(i18n.msg("statistic.msg.createSucess"));
+                    break
+                case STATUS_FAIL:
+                    zAlert.warning(i18n.msg("statistic.msg.creatFail"));
+                    break;
+                default:
+            }
+        });
     }
     /*]]>*/
 </script>
