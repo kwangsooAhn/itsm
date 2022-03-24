@@ -2839,7 +2839,7 @@ INSERT INTO wf_document VALUES ('4028b21f7c9ff7c8017ca06bde520058','IT서비스 
 /* 서비스데스크 - 서비스요청 - 만족도 */
 INSERT INTO wf_document VALUES ('4028b21f7c9ff7c8017ca04d16830000','만족도 평가 - 서비스요청','','4028b21f7c9cc269017c9cc76a5e0000','4028b21f7c90d996017c914e27340030','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 서비스데스크 - 구성관리 */
-INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc7a779d70523','CMDB 변경 요청서','','2c9180837c94c0f3017c977775530001','2c9180867cc31a25017cc7a069e301a5','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form','','img_document_03.png',false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
+INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc7a779d70523','CMDB 변경 요청서','','2c9180837c94c0f3017c977775530001','2c9180867cc31a25017cc7a069e301a5','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form','','img_document_03.png',true,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 서비스데스크 - 구성관리 - 만족도 */
 INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc5ca1a9f0145','만족도 평가 - 구성관리','','2c9180867cc31a25017cc5c08e2f0120','2c9180867cc31a25017cc5c7268f0122','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 인프라 변경관리 */
@@ -4715,26 +4715,6 @@ INSERT INTO wf_component_property VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'di
 INSERT INTO wf_component_property VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'element', '{"columnWidth":"8","options":[{"name":"선택 안함","value":"none","checked":true},{"name":"전화 통화","value":"phone","checked":false},{"name":"서비스 포탈 및 모바일 애플리케이션","value":"portal","checked":false},{"name":"라이브 채팅 및 챗봇","value":"chatting","checked":false},{"name":"이메일","value":"email","checked":false},{"name":"대면","value":"interview","checked":false},{"name":"소셜 미디어","value":"sns","checked":false},{"name":"모니터링툴 자동 등록","value":"automatic","checked":false}]}');
 INSERT INTO wf_component_property VALUES('d16277a918414e35b76510d8c413e38b', 'element', '{"columnWidth":"8","defaultValueRadio":"now"}');
 
-/**
- * 컴포넌트세부설정
- */
-DROP TABLE IF EXISTS wf_component_data cascade;
-
-CREATE TABLE wf_component_data
-(
-    component_id varchar(128) NOT NULL,
-    attribute_id varchar(100) NOT NULL,
-    attribute_value text NOT NULL,
-    attribute_order int,
-    CONSTRAINT wf_component_data_pk PRIMARY KEY (component_id, attribute_id),
-    CONSTRAINT wf_component_data_fk FOREIGN KEY (component_id) REFERENCES wf_component (component_id)
-);
-
-COMMENT ON TABLE wf_component_data IS '컴포넌트세부설정';
-COMMENT ON COLUMN wf_component_data.component_id IS '컴포넌트아이디';
-COMMENT ON COLUMN wf_component_data.attribute_id IS '속성아이디';
-COMMENT ON COLUMN wf_component_data.attribute_value IS '속성값';
-COMMENT ON COLUMN wf_component_data.attribute_order IS '속성순서';
 /**
  * 엘리먼트정보
  */

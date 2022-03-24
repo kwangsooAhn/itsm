@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.cmdb.ci.controller
 
+import co.brainz.api.dto.RequestCIComponentVO
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
@@ -44,8 +45,8 @@ class CIRestController(private val ciService: CIService) {
      * CI 컴포넌트 - CI 세부 정보 등록
      */
     @PostMapping("/{ciId}/data")
-    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentData: String): Boolean {
-        return ciService.saveCIComponentData(ciId, ciComponentData)
+    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentVO: RequestCIComponentVO): Boolean {
+        return ciService.saveCIComponentData(ciId, ciComponentVO)
     }
 
     /**
