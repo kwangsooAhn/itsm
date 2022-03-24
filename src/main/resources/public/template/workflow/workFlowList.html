@@ -15,7 +15,6 @@
             <th width="10%" class="align-center" th:text="#{workflowAdmin.label.status}"></th>
             <th width="4%" class="align-center"></th>
             <th width="4%" class="align-center"></th>
-            <th width="4%" class="align-center"></th>
         </tr>
     </thead>
     <tbody class="z-table-body">
@@ -41,7 +40,7 @@
                     </th:block>
                 </th:block>
             </td>
-            <td style="width: 30%;" class="align-left" th:text="${document.documentDesc}" th:title="${document.documentDesc}"></td>
+            <td style="width: 32%;" class="align-left" th:text="${document.documentDesc}" th:title="${document.documentDesc}"></td>
             <td style="width: 10%;" class="align-center" th:text="#{${document.documentStatus}}" th:title="#{${document.documentStatus}}"></td>
             <td style="width: 4%;" class="align-center">
                 <button type="button" class="z-button-icon form" th:if="${document.documentType} != 'application-form-link'" sec:authorize="hasAuthority('workflow.manage')" th:onclick="onXMLDownload([[${document.documentId}]])">
