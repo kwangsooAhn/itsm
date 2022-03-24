@@ -1211,6 +1211,7 @@ process:
 # statistic
 statistic:
   btn:
+    create: "생성하기"
     pdf: "PDF"
   label:
     automatic: "자동 생성"
