@@ -150,23 +150,21 @@ class UserService(
      * 사용자 검색 조건에 따라 조회한다.
      */
     fun getSearchUserList(userSearchCompCondition: UserSearchCompCondition): UserListReturnDto {
-        val targetCriteria = userSearchCompCondition.targetCriteria
-        val searchKeys = userSearchCompCondition.searchKeys.toString()
         val targetKeys = mutableSetOf<String>()
 
-        when (targetCriteria) {
+        when (userSearchCompCondition.targetCriteria) {
             AliceUserConstants.UserSearchTarget.ORGANIZATION.code -> {
-                val organizationList = organizationRepository.findByOrganizationId(searchKeys)
+                val organizationList = organizationRepository.findByOrganizationId(userSearchCompCondition.searchKeys)
                 val organization = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition()).results
                 val organizationName = this.getRecursive(organizationList, organization, mutableListOf(), false)
                 organizationName.forEach { targetKeys.add(it) }
             }
-            AliceUserConstants.UserSearchTarget.CUSTOM.code -> searchKeys.split(" ").forEach { targetKeys.add(it) }
+            AliceUserConstants.UserSearchTarget.CUSTOM.code -> userSearchCompCondition.searchKeys.split(" ").forEach { targetKeys.add(it) }
         }
 
         val userSearchCondition = UserSearchCondition(
             searchValue = userSearchCompCondition.searchValue,
-            optionalCondition = targetCriteria,
+            optionalCondition = userSearchCompCondition.targetCriteria,
             optionalTargets = targetKeys,
             isFilterUseYn = true
         )
@@ -225,7 +223,9 @@ class UserService(
                 true -> {
                     it.organizationId == organization.pOrganization?.organizationId
                 }
-                false -> organization.organizationId == it.pOrganization?.organizationId
+                false -> {
+                    organization.organizationId == it.pOrganization?.organizationId
+                }
             }
         }
         if (tOrganization != null) {
