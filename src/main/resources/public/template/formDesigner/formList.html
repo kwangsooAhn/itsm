@@ -22,13 +22,13 @@
             <td width="27%" class="align-left underline">
                 <th:block th:if="${form.editable == true}">
                     <a sec:authorize="!hasAuthority('workflow.manage')" th:text="${form.name}"
-                       th:attr="onclick=|openFormDesignerEdit('${form.id}', true)|" th:title="${form.name}"></a>
+                       th:attr="onclick=|openFormDesignerView('${form.id}', true)|" th:title="${form.name}"></a>
                     <a sec:authorize="hasAuthority('workflow.manage')" th:text="${form.name}"
-                       th:attr="onclick=|openFormDesignerEdit('${form.id}', false)|" th:title="${form.name}"></a>
+                       th:attr="onclick=|openFormDesignerEdit('${form.id}', true)|" th:title="${form.name}"></a>
                 </th:block>
                 <div th:unless="${form.editable == true}">
                     <a th:if="${form.status == 'form.status.use'}" th:text="${form.name}"
-                       th:attr="onclick=|openFormDesignerEdit('${form.id}', true)|" th:title="${form.name}"></a>
+                       th:attr="onclick=|openFormDesignerView('${form.id}', true)|" th:title="${form.name}"></a>
                     <span th:unless="${form.status == 'form.status.use'}" th:text="${form.name}" th:title="${form.name}"></span>
                 </div>
             </td>

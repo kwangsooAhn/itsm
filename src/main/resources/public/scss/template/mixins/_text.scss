@@ -40,6 +40,7 @@
 @mixin underline {
   text-decoration: underline;
   text-underline-position: under;
+  &:hover { text-decoration: underline; }
 }
 
 // 사용자 텍스트 선택 여부

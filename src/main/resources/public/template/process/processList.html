@@ -25,13 +25,13 @@
             <td style="width: 27%" class="align-left underline">
                 <th:block th:if="${process.enabled == true}">
                     <a sec:authorize="!hasAuthority('workflow.manage')" th:text="${process.name}"
-                       th:attr="onclick=|openProcessDesignerEdit('${process.id}', true)|" th:title="${process.name}"></a>
+                       th:attr="onclick=|openProcessDesignerView('${process.id}', true)|" th:title="${process.name}"></a>
                     <a sec:authorize="hasAuthority('workflow.manage')" th:text="${process.name}"
-                       th:attr="onclick=|openProcessDesignerEdit('${process.id}', false)|" th:title="${process.name}"></a>
+                       th:attr="onclick=|openProcessDesignerEdit('${process.id}', true)|" th:title="${process.name}"></a>
                 </th:block>
                 <div th:unless="${process.enabled == true}">
                     <a th:if="${process.status == 'process.status.use'}" th:text="${process.name}"
-                       th:attr="onclick=|openProcessDesignerEdit('${process.id}', true)|" th:title="${process.name}"></a>
+                       th:attr="onclick=|openProcessDesignerView('${process.id}', true)|" th:title="${process.name}"></a>
                     <span th:unless="${process.status == 'process.status.use'}" th:text="${process.name}" th:title="${process.name}"></span>
                 </div>
             </td>
