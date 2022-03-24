@@ -8,9 +8,9 @@
 <table class="z-table">
     <thead class="z-table-head">
         <tr class="flex-row align-items-center">
-            <th style="width: 22%" class="align-left" th:text="#{process.label.name}"></th>
+            <th style="width: 27%" class="align-left" th:text="#{process.label.name}"></th>
             <th style="width: 10%" class="align-center" th:text="#{process.label.state}"></th>
-            <th style="width: 35%" class="align-left" th:text="#{process.label.description}"></th>
+            <th style="width: 30%" class="align-left" th:text="#{process.label.description}"></th>
             <th style="width: 10%" class="align-left" th:text="#{common.label.createUser}"></th>
             <th style="width: 15%" class="align-left" th:text="#{common.label.createDate}"></th>
             <th style="width: 4%" class="align-center"></th>
@@ -22,33 +22,32 @@
             <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(processList)}" th:each="process: ${processList}">
-            <td style="width: 22%" class="align-left underline">
+            <td style="width: 27%" class="align-left underline">
                 <th:block th:if="${process.enabled == true}">
                     <a sec:authorize="!hasAuthority('workflow.manage')" th:text="${process.name}"
-                       th:attr="onclick=|openProcessEdit('${process.id}', true)|" th:title="${process.name}"></a>
+                       th:attr="onclick=|openProcessDesignerView('${process.id}', true)|" th:title="${process.name}"></a>
                     <a sec:authorize="hasAuthority('workflow.manage')" th:text="${process.name}"
-                       th:attr="onclick=|openProcessEdit('${process.id}', false)|" th:title="${process.name}"></a>
+                       th:attr="onclick=|openProcessDesignerEdit('${process.id}', true)|" th:title="${process.name}"></a>
                 </th:block>
                 <div th:unless="${process.enabled == true}">
                     <a th:if="${process.status == 'process.status.use'}" th:text="${process.name}"
-                       th:attr="onclick=|openProcessEdit('${process.id}', true)|" th:title="${process.name}"></a>
+                       th:attr="onclick=|openProcessDesignerView('${process.id}', true)|" th:title="${process.name}"></a>
                     <span th:unless="${process.status == 'process.status.use'}" th:text="${process.name}" th:title="${process.name}"></span>
                 </div>
             </td>
             <td style="width: 10%" class="align-center" th:text="#{${process.status}}" th:title="#{${process.status}}"></td>
-            <td style="width: 35%" class="align-left" th:text="${process.description}" th:title="${process.description}"></td>
+            <td style="width: 30%" class="align-left" th:text="${process.description}" th:title="${process.description}"></td>
             <td style="width: 10%" class="align-left" th:text="${process.createUserName}" th:title="${process.createUserName}"></td>
             <td style="width: 15%" class="align-left date-time" th:text="${process.createDt}" th:title="${process.createDt}"></td>
             <td style="width: 4%" class="align-center">
-                <button type="button" class="z-button-icon form" th:onclick="openProcessDesignerView([[${process.id}]])">
-                    <span class="z-icon i-popup"></span>
+                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="exportForm([[${process.id}]])">
+                    <span class="z-icon i-list-download"></span>
                 </button>
             </td>
             <td style="width: 4%" class="align-center">
                 <th:block th:if="${process.enabled == true}">
-                    <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')"
-                            th:onclick="openProcessDesignerEdit([[${process.id}]])">
-                        <span class="z-icon i-edit"></span>
+                    <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="deleteProcess([[${process.id}]])">
+                        <span class="z-icon i-list-delete"></span>
                     </button>
                 </th:block>
             </td>

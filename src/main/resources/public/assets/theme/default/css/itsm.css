@@ -647,6 +647,9 @@ input, button, select, optgroup, textarea {
   text-decoration: underline;
   text-underline-position: under;
 }
+.underline:hover {
+  text-decoration: underline;
+}
 
 .description {
   color: #8B9094;
@@ -3966,6 +3969,9 @@ select {
   text-underline-position: under;
   color: #ABB0B5;
 }
+.z-button-text:hover:hover {
+  text-decoration: underline;
+}
 .z-button-text:active, .z-button-textfocus {
   color: #222529;
 }
@@ -6528,6 +6534,9 @@ select {
   padding: 0 0.625rem 0 0.9375rem;
   text-decoration: underline;
   text-underline-position: under;
+}
+.file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-filename:hover {
+  text-decoration: underline;
 }
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-size {
   color: #ABB0B5;

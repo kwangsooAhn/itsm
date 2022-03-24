@@ -648,6 +648,9 @@ input, button, select, optgroup, textarea {
   text-decoration: underline;
   text-underline-position: under;
 }
+.underline:hover {
+  text-decoration: underline;
+}
 
 .description {
   color: #8B9094;
@@ -4436,6 +4439,9 @@ svg path.connector.hidden {
   text-decoration: underline;
   text-underline-position: under;
   color: #ABB0B5;
+}
+.z-button-text:hover:hover {
+  text-decoration: underline;
 }
 .z-button-text:active, .z-button-textfocus {
   color: #222529;
