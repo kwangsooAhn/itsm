@@ -429,9 +429,7 @@
 
     /** method 에 따른 데이터 셋팅 **/
     function actionScheduler(method) {
-        if (!isValidRequired()) {
-            return false;
-        }
+        if (!isValidRequired()) {return false;}
         const taskType = document.getElementById('taskType').value;
         const executeCycleType = document.getElementById('executeCycleType').value;
         let data = {
@@ -608,7 +606,6 @@
             }
         });
     }
-
     /*]]>*/
 </script>
 </html>
