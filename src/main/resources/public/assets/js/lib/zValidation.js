@@ -442,6 +442,7 @@ class ZValidation {
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.getDOMElementValue(target).length <= Number(maxLength);
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.maxLength', maxLength), callback);
+            target.value = target.value.substring(0, maxLength);
         } else { // 변수이면 true인지 false인지만 반환
             rtn = target.length <= Number(maxLength);
         }

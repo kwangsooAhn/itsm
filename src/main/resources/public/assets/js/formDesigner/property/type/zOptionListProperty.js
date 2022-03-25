@@ -18,9 +18,11 @@ import { UIButton, UICell, UICheckbox, UIDiv, UIInput, UILabel, UIRadioButton,
     UIRow, UISpan, UITable } from '../../../lib/zUI.js';
 import { FORM } from '../../../lib/zConstants.js';
 import { zValidation } from '../../../lib/zValidation.js';
-
 const propertyExtends = {
     /* 추가되는 기본 속성외에 속성이 없음 */
+    validation: {
+        maxLength: 75
+    }
 };
 
 export default class ZOptionListProperty extends ZProperty {
@@ -184,9 +186,10 @@ export default class ZOptionListProperty extends ZProperty {
 
         // 유효성 검증
         // keyup 일 경우 type, min, max 체크
-        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
+        if (e.type === 'keyup'  && zValidation.isMaxLength(e.target, propertyExtends.validation.maxLength) && !zValidation.keyUpValidationCheck(e.target)) {
             return false;
         }
+
         // change 일 경우 minLength, maxLength & 중복 값 체크
         if (e.type === 'change') {
             let propertyValue = this.getPropertyValue(this.UIElement.UIOptionTable.domElement);
