@@ -225,7 +225,7 @@ export const userSearchMixin = {
                 : this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-search');
             const targetRadio = searchUserList.querySelector('input[id="' + targetUserId + '"]');
             if (!zValidation.isEmpty(targetUserId) && !zValidation.isEmpty(targetRadio)) {
-                targetRadio.checked = !!targetRadio;
+                targetRadio.checked = true;
             }
         });
     },
