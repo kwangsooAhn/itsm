@@ -273,7 +273,7 @@ export const customCodeMixin = {
     },
     // 세부 속성 조회
     getProperty() {
-        const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueCustomCode', 'element.DefaultValueCustomCode',
+        const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueCustomCode', 'element.defaultValueCustomCode',
             this.elementDefaultValueCustomCode);
         customCodeProperty.help = 'form.help.custom-code';
         return [

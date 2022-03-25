@@ -112,6 +112,11 @@ class UIElement {
     getUIIndexOfChild(element) {
         return Array.prototype.indexOf.call(this.domElement.children, element.domElement);
     }
+
+    setUICustomEvent(event, callback) {
+        this.domElement.addEventListener(event, callback.bind(this), false);
+        return this;
+    }
 }
 
 // properties
@@ -317,6 +322,10 @@ class UISelect extends UIElement {
         }
 
         return this;
+    }
+
+    getUIOptionCount() {
+        return this.domElement.options.length;
     }
 }
 

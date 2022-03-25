@@ -648,6 +648,9 @@ input, button, select, optgroup, textarea {
   text-decoration: underline;
   text-underline-position: under;
 }
+.underline:hover {
+  text-decoration: underline;
+}
 
 .description {
   color: #8B9094;
@@ -1685,6 +1688,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-list-delete {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/icon_list-delete.svg");
+  mask-image: url("../media/icons/icon_list-delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-edit {
   width: 1.25rem;
   height: 1.25rem;
@@ -1696,8 +1709,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-popup {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_popup.svg");
   mask-image: url("../media/icons/icon_popup.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1820,6 +1833,16 @@ input, button, select, optgroup, textarea {
   height: 1.25rem;
   -webkit-mask-image: url("../media/icons/fileUploader/icon_download.svg");
   mask-image: url("../media/icons/fileUploader/icon_download.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-list-download {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/icon_list-download.svg");
+  mask-image: url("../media/icons/icon_list-download.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2623,6 +2646,30 @@ table td, table th {
 .z-table .z-table-body .no-data-found-list {
   pointer-events: none;
 }
+.z-table .z-table-body .z-button-icon {
+  padding: 0;
+  background-color: transparent;
+  border-color: transparent;
+}
+.z-table .z-table-body .z-button-icon:hover, .z-table .z-table-body .z-button-icon:focus, .z-table .z-table-body .z-button-icon:active, .z-table .z-table-body .z-button-icon:disabled {
+  background-color: transparent;
+  border-color: transparent;
+}
+.z-table .z-table-body .z-button-icon .z-icon {
+  background-color: #63686C;
+}
+.z-table .z-table-body .z-button-icon:hover .z-icon {
+  background-color: #ABB0B5;
+}
+.z-table .z-table-body .z-button-icon:focus .z-icon {
+  background-color: #222529;
+}
+.z-table .z-table-body .z-button-icon:active .z-icon {
+  background-color: #222529;
+}
+.z-table .z-table-body .z-button-icon:disabled .z-icon {
+  background-color: #CFD5D9;
+}
 
 .z-option-table {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -2854,10 +2901,17 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   z-index: 25;
 }
 .z-input-button .z-button-icon-sm {
-  position: absolute;
-  top: 0.625rem;
-  right: 5rem;
+  position: relative;
+  margin-top: 0.625rem;
   -webkit-print-color-adjust: exact;
+}
+.z-input-button .z-button-icon-sm::before {
+  content: "";
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  bottom: -0.5rem;
+  border-bottom: 0.0625rem solid #CFD5D9;
 }
 .z-input::-webkit-outer-spin-button, .z-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -4401,6 +4455,9 @@ summary:focus {
   text-underline-position: under;
   color: #ABB0B5;
 }
+.z-button-text:hover:hover {
+  text-decoration: underline;
+}
 .z-button-text:active, .z-button-textfocus {
   color: #222529;
 }
@@ -5746,6 +5803,9 @@ summary:focus {
   text-decoration: underline;
   text-underline-position: under;
 }
+.file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-filename:hover {
+  text-decoration: underline;
+}
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-size {
   color: #ABB0B5;
   padding: 0;
@@ -6541,20 +6601,26 @@ body.modal-active {
   background-color: rgba(99, 104, 108, 0.6);
 }
 .modal-wrapper .modal-dialog {
+  width: 26.875rem;
+  margin: 0 auto 2em auto;
+  background-color: #FFFFFF;
+  opacity: 0;
+  transition: 0.3s;
+  z-index: 5000;
   position: absolute;
   top: 4em;
   right: 0;
   left: 0;
-  width: 26.875rem;
-  margin: 0 auto 2em auto;
-  background-color: #FFFFFF;
-  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
-  -moz-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
-  box-shadow: 0 0.125rem 0.75rem 0 #63686C;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
-  z-index: 5000;
+  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+  -moz-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+  box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+}
+.modal-wrapper .modal-dialog.modal-active {
+  transition: 0.3s;
+  opacity: 1;
 }
 .modal-wrapper .modal-dialog .modal-header {
   height: 3.375rem;
