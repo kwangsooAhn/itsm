@@ -175,7 +175,6 @@ insert into awf_url_auth_map values ('/rest/codes/{id}', 'get', 'system.manage')
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/rest/codes/related/{id}', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'system.manage');

@@ -27,6 +27,7 @@ import { textAreaMixin } from './component/zTextArea.js';
 import { textEditorMixin } from './component/zTextEditor.js';
 import { timeMixin } from './component/zTime.js';
 import { fileDownloadMixin } from './component/zFileDownload.js';
+import { dropdownCodeMixin } from './component/zDropdownCode.js';
 
 const DEFAULT_PROPERTY = {
     label: {
@@ -85,6 +86,7 @@ export default class ZComponent {
         // 컴포넌트 추가
         this.UIElement.UIComponent = new UIComponent()
             .setUIId(this.id)
+            .setUIAttribute('data-mappingId', this.mapId)
             .addUIClass(this.type);
         // 라벨 추가
         this.UIElement.UIComponent.UILabel = this.makeLabel();
@@ -159,6 +161,8 @@ export default class ZComponent {
                 return ciMixin;
             case 'fileDownload':
                 return fileDownloadMixin;
+            case 'dropdownCode':
+                return dropdownCodeMixin;
             default:
                 break;
         }
@@ -182,6 +186,7 @@ export default class ZComponent {
 
     set mapId(mapId) {
         this._mapId = mapId;
+        this.UIElement.UIComponent.setUIAttribute('data-mappingId', mapId);
     }
 
     get mapId() {

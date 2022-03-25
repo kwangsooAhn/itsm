@@ -36,7 +36,6 @@ class ZFormDesigner {
                 method: 'GET'
             }).then((customData) => {
                 FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
-                console.log(FORM.CUSTOM_CODE);
             });
         }
         if (FORM.PLUGIN_LIST.length === 0) {
