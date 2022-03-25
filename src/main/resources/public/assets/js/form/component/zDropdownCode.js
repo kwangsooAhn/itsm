@@ -53,7 +53,7 @@ export const dropdownCodeMixin = {
         element.UIDropdown = new UISelect()
             .addUIClass('align-left')
             .setUIAttribute('data-validation-required', this.validationRequired)
-            .setUICustom('reDrawOption', this.redrawDefaultOption.bind(this))
+            .setUICustomEvent('reDrawOption', this.redrawDefaultOption.bind(this))
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIDropdown);
 
