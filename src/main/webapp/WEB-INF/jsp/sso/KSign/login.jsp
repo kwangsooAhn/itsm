@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.ksign.access.wrapper.api.*" %>
-<%@ page import="com.ksign.access.wrapper.sso.SSOConf" %>
-<%@ page import="com.ksign.access.wrapper.sso.sso10.SSO10Conf" %>
+<%--<%@ page import="com.ksign.access.wrapper.api.*" %>--%>
+<%--<%@ page import="com.ksign.access.wrapper.sso.SSOConf" %>--%>
+<%--<%@ page import="com.ksign.access.wrapper.sso.sso10.SSO10Conf" %>--%>
 <html>
 <head>
     <script src="/assets/vendors/rsa/rsa.js"></script>
@@ -15,11 +15,50 @@
     Object keyModulus = request.getAttribute("_publicKeyModulus");
     Object keyExponent = request.getAttribute("_publicKeyExponent");
 
-    SSORspData rspData = null;
-    SSOService ssoService = SSOService.getInstance();
-    rspData = ssoService.ssoGetLoginData(request);
+//    SSORspData rspData = null;
+//    SSOService ssoService = SSOService.getInstance();
+//    rspData = ssoService.ssoGetLoginData(request);
+//
+//    String rspDataUid = rspData.getAttribute("UID");
+//   String ACC_DE = rspData.getAttribute("ACC_DE");
+    String ACC_DE_SYS = "ITS";
+    String ACC_DE = "";
+    String rspDataUid = "admin";
 
-    String rspDataUid = rspData.getAttribute("UID");
+    if ("".equals(ACC_DE)) {
+        try {
+            session.invalidate();
+        } catch (Exception e) {
+            System.out.println("Session already invalidate.");
+            System.out.println("[ACCESS_DENIED] 해당 사용자는 접근할 수 없는 시스템입니다. 시스템 코드 : " + ACC_DE_SYS);
+        }
+%>
+<script type="text/javascript">
+    alert("[ACCESS_DENIED] 해당 사용자는 접근할 수 없는 시스템입니다. \n시스템 코드 : <%=ACC_DE_SYS%>");
+    window.close();
+</script>
+<%
+        return;
+    }
+    if (ACC_DE != null && !"".equals(ACC_DE)) {
+        ArrayList<String> accDeList = new ArrayList<String>(Arrays.asList(ACC_DE.split("_")));
+
+        if (!accDeList.contains(ACC_DE_SYS)) {
+            try {
+                session.invalidate();
+            } catch (Exception e) {
+                System.out.println("Session already invalidate.");
+                System.out.println("[ACCESS_DENIED] 해당 사용자는 접근할 수 없는 시스템입니다. 시스템 코드 : " + ACC_DE_SYS);
+            }
+%>
+<script type="text/javascript">
+    alert("[ACCESS_DENIED] 해당 사용자는 접근할 수 없는 시스템입니다. \n시스템 코드 : <%=ACC_DE_SYS%>");
+    window.close();
+</script>
+<%
+            return;
+        }
+    }
 %>
 <script type="text/javascript">
     let keyModule = '<%=keyModulus%>';
