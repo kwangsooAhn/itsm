@@ -157,17 +157,17 @@ export const userSearchMixin = {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    this.realTimeSelectedUser = '';
-                    const selectedUserRadio = document.querySelector('input[type=radio]:checked');
-                    if (selectedUserRadio === null) {
+                    // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
+                    if (zValidation.isEmpty(this.realTimeSelectedUser)) {
                         zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
                         return false;
                     } else {
                         this.UIElement.UIComponent.UIElement.UIInput
-                            .setUIValue(selectedUserRadio.value)
-                            .setUIAttribute('data-user-search', selectedUserRadio.id);
+                            .setUIAttribute('data-user-search', this.realTimeSelectedUser.split('|')[0])
+                            .setUIValue(this.realTimeSelectedUser.split('|')[1]);
                         this.UIElement.UIComponent.UIElement.UIInput.domElement.dispatchEvent(new Event('change'));
                     }
+                    this.realTimeSelectedUser = '';
                     modal.hide();
                 }
             }, {
@@ -217,14 +217,15 @@ export const userSearchMixin = {
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {
-                    this.realTimeSelectedUser = element.checked ? element.id : '';
+                    this.realTimeSelectedUser = element.checked ? element.id + '|' + element.value : '';
                 });
             });
             // 기존 선택값 표시
-            const targetUserId = !zValidation.isEmpty(this.realTimeSelectedUser) ? this.realTimeSelectedUser
+            const targetUserId = (this.value === '${default}') ? this.realTimeSelectedUser.split('|')[0]
                 : this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-search');
-            if (targetUserId !== null && targetUserId !== '') {
-                searchUserList.querySelector('input[id="' + targetUserId + '"]').checked = true;
+            const targetRadio = searchUserList.querySelector('input[id="' + targetUserId + '"]');
+            if (!zValidation.isEmpty(targetUserId) && !zValidation.isEmpty(targetRadio)) {
+                targetRadio.checked = !!targetRadio;
             }
         });
     },
