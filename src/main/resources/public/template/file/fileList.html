@@ -11,10 +11,12 @@
     <h6 class="description ml-2 pl-2" th:text="#{file.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{file.label.name}"/>
-    <span id="totalCount" class="z-search-count"></span>
-    <span class="z-search-count">/</span>
-    <span id="spanTotalCountWithoutCondition" class="z-search-count"></span>
+    <div>
+        <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{file.label.name}"/>
+        <span id="totalCount" class="z-search-count"></span>
+        <span class="z-search-count">/</span>
+        <span id="spanTotalCountWithoutCondition" class="z-search-count"></span>
+    </div>
 </div>
 <div layout:fragment="pageSearchResult">
     <input type="hidden" id="creatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
