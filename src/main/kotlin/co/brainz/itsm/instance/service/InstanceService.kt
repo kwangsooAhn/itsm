@@ -172,7 +172,7 @@ class InstanceService(
                 var organizationName = mutableListOf<String>()
                 if (organization != null) {
                     if (organization.pOrganization != null) {
-                        organizationName = userService.getRecursive(organization, organizationList.results, organizationName, true)
+                        organizationName = userService.getRecursive(organization, organizationList.results, organizationName)
                     } else {
                         organizationName.add(organization.organizationName.toString())
                     }
