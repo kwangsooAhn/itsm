@@ -15,7 +15,7 @@ class ZValidation {
         // 알림창 사용 여부가 false일 경우 DOM을 검색하여 'error-msg' class를 찾아서 에러 메시지를 표기한다.
         this.alert = options.alert; // 알림창 사용여부
         this.spcialKeyAscilCodeList = [8, 9, 12, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 46, 91, 93, 112, 113, 114, 115, 116, 117,
-            118, 119, 120, 121, 122, 123, 144, 145]
+            118, 119, 120, 121, 122, 123, 144, 145];
         this.regex = Object.assign({}, {
             number: /^[-+]?[0-9]*\.?[0-9]+$/, // 숫자
             integer: /^[0-9]*$/,              // 정수
