@@ -194,7 +194,7 @@ class UserService(
             val pOrganization = organizationList.firstOrNull {
                 it.organizationId == organization.pOrganization!!.organizationId
             }
-            if (pOrganization != null) {
+            if (pOrganization?.pOrganization != null) {
                 this.getRecursive(pOrganization, organizationList, organizationName)
             }
         }
