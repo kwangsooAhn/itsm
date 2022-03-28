@@ -157,8 +157,8 @@ class UserService(
             AliceUserConstants.UserSearchTarget.ORGANIZATION.code -> {
                 val organization = organizationRepository.findByOrganizationId(userSearchCompCondition.searchKeys)
                 val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition()).results
-                val organizationName = organizationService.getOrganizationChildren(organization, organizationList, mutableListOf())
-                organizationName.forEach { targetKeys.add(it) }
+                val organizationNameList = organizationService.getOrganizationChildren(organization, organizationList, mutableListOf())
+                organizationNameList.forEach { targetKeys.add(it) }
             }
             AliceUserConstants.UserSearchTarget.CUSTOM.code -> userSearchCompCondition.searchKeys.split(" ").forEach { targetKeys.add(it) }
         }
