@@ -145,6 +145,14 @@
                 addClass(document.body, 'modal-active');
                 this.display = true;
                 this.options.onShow(this);
+                let show;
+                new Promise(() => {
+                    show = setTimeout(() => {
+                        document.querySelector('.modal-dialog').classList.add('modal-active');
+                    }, 150)
+                }).then(() => {
+                    clearTimeout(show);
+                })
             }
         };
 
@@ -152,13 +160,17 @@
             if (typeof this.wrapper !== 'undefined') {
                 const _this = this;
                 const modalWrapper = this.wrapper;
-                modalWrapper.querySelector('.modal-dialog').style.opacity = '0';
                 modalWrapper.querySelector('.modal-dialog').classList.remove('modal-active');
-                setTimeout(function () {
-                    removeClass(modalWrapper, 'modal-active');
-                    removeClass(document.body, 'modal-active');
-                    _this.options.onHide(_this);
-                }, 150);
+                let hide;
+                new Promise(() => {
+                    hide = setTimeout(() => {
+                        removeClass(modalWrapper, 'modal-active');
+                        removeClass(document.body, 'modal-active');
+                        _this.options.onHide(_this);
+                    }, 150)
+                }).then(() => {
+                    clearTimeout(hide);
+                })
                 this.display = false;
             }
         };
@@ -180,9 +192,14 @@
             if (typeof this.options.classes !== 'undefined' && this.options.classes !== '') {
                 dialog.className += ' ' + this.options.classes;
             }
-            setTimeout(function () {
-                dialog.classList.add('modal-active');
-            }, 30);
+            let create;
+            new Promise(() => {
+                create = setTimeout(() => {
+                    dialog.classList.add('modal-active');
+                }, 30)
+            }).then(() => {
+                clearTimeout(create);
+            })
 
             // 닫기 버튼
             if (typeof this.options.close.closable !== 'undefined' && this.options.close.closable) {
@@ -304,11 +321,16 @@
                 const _this = this;
                 const modalWrapper = this.wrapper;
                 this.wrapper = undefined;
-                setTimeout(function () {
-                    document.body.removeChild(modalWrapper);
-                    _this.removeKeyListener();
-                    _this.options.onDestroy(_this);
-                }, 150);
+                let destroy;
+                new Promise(() => {
+                    destroy = setTimeout(() => {
+                        document.body.removeChild(modalWrapper);
+                        _this.removeKeyListener();
+                        _this.options.onDestroy(_this);
+                    }, 150)
+                }).then(() => {
+                    clearTimeout(destroy);
+                })
             }
         };
 
