@@ -29,8 +29,6 @@
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
     let offsetCount = 0;
-    const STATUS_SUCESS = "0";
-    const STATUS_FAIL = "1";
 
     window.onload = function() {
         document.getElementById('searchValue').focus();
@@ -62,22 +60,6 @@
 
     function openTemplateAdd() {
         location.href = '/statistics/customReportTemplate/new';
-    }
-
-    function makeReport(templateId) {
-        aliceJs.fetchText('/rest/statistics/customReportTemplate/' + templateId, {
-            method: 'POST'
-        }).then((status) => {
-            switch (status) {
-                case STATUS_SUCESS:
-                    zAlert.success(i18n.msg("statistic.msg.createSucess"));
-                    break
-                case STATUS_FAIL:
-                    zAlert.warning(i18n.msg("statistic.msg.creatFail"));
-                    break;
-                default:
-            }
-        });
     }
     /*]]>*/
 </script>

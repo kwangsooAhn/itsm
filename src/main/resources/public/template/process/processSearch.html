@@ -26,7 +26,7 @@
         <button type="button" class="z-button primary" onclick="openProcessRegister();"
                 sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.add}"></button>
         <button type="button" class="z-button secondary" onclick="openProcessImport();"
-                sec:authorize="hasAuthority('workflow.manage')" th:text="#{process.btn.import}"></button>
+                sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.import}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
@@ -80,7 +80,7 @@
     }
 
      // 프로세스 등록/수정
-    function saveProcess(processId, isDestroy, isEnabled) {
+    function saveProcess(processId, isDestroy) {
         // 빈 값 체크
         if (!checkValidation()) { return false; }
 
@@ -92,10 +92,6 @@
         let url = '/rest/processes';
 
         if (typeof processId !== 'undefined') {
-            if (!isEnabled) {
-                zAlert.warning(i18n.msg('process.msg.failedDestroy'));
-                return false;
-            }
             // 수정
             method = 'PUT';
             url += ('/' + processId);
@@ -175,104 +171,6 @@
                 `</div>`;
     }
 
-    // 프로세스 수정 / 보기 모달 오픈
-    function openProcessEdit(processId, isView) {
-        if (typeof processId === 'undefined') { return false; }
-
-        aliceJs.fetchJson('/rest/processes/' + processId + '/data', {
-            method: 'GET'
-        }).then((data) => {
-            data.isView = isView;
-            let options = {
-                title: isView ? i18n.msg('process.label.detail') : i18n.msg('process.label.edit') ,
-                body: createModalContent(data),
-                classes: 'process-edit',
-                buttons: [],
-                close: {
-                    closable: false,
-                },
-                onCreate: function(modal) {
-                    // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                    OverlayScrollbars(document.getElementById('process_description'), {
-                        className: 'inner-scrollbar',
-                        resize: 'vertical',
-                        sizeAutoCapable: true,
-                        textarea: {
-                            dynHeight: false,
-                            dynWidth: false,
-                            inheritedAttrs: "class"
-                        }
-                    });
-                }
-            };
-
-            // 버튼 설정
-            if (data.enabled && !isView) {
-                // 내보내기 버튼
-                options.buttons.push({
-                    content: i18n.msg('process.btn.export'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        ZWorkflowUtil.export(data.id, 'process');
-                        modal.hide();
-                    }
-                });
-                // 수정
-                options.buttons.push({
-                    content: i18n.msg('common.btn.modify'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        saveProcess(data.id, false, true);
-                    }
-                });
-                // 삭제
-                options.buttons.push({
-                    content: i18n.msg('common.btn.delete'),
-                    classes: 'z-button danger',
-                    bindKey: false,
-                    callback: function(modal) {
-                        deleteProcess(data.id);
-                    }
-                });
-            } else if (data.status === STATUS_USE) {
-                // 내보내기 버튼
-                options.buttons.push({
-                    content: i18n.msg('process.btn.export'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        ZWorkflowUtil.export(data.id, 'process');
-                    }
-                });
-                // 폐기
-                options.buttons.push({
-                    content: i18n.msg('process.status.destroy'),
-                    classes: 'z-button warning',
-                    bindKey: false,
-                    callback: function(modal) {
-                        saveProcess(data.id, true, data.enabled);
-                    }
-                });
-            }
-            // 취소
-            options.buttons.push({
-                content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: function(modal) {
-                    modal.hide();
-                }
-            });
-
-            // 모달 호출
-            const processModal = new modal(options);
-            processModal.show();
-        });
-    }
-
     // 프로세스 등록 모달 오픈
     function openProcessRegister() {
         const processModal = new modal({
@@ -343,6 +241,11 @@
         window.open('/process/' + processId + '/view', 'process_' + processId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
     }
 
+    //프로세스 EXPORT (XML 다운로드)
+    function exportForm(processId) {
+        ZWorkflowUtil.export(processId, '/rest/process/' + processId + '/data', 'process');
+    }
+
     // 파일업로드 라이브러리로 파일 drag & drop시 callback으로 전달받는 파일을 저장한다.
     function getImportFile(file) {
         if (typeof file !== 'undefined') {
@@ -401,7 +304,7 @@
             classes: 'process-import',
             buttons: [
                 {
-                    content: i18n.msg('process.btn.import'),
+                    content: i18n.msg('common.btn.import'),
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {

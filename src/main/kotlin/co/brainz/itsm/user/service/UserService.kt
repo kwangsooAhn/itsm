@@ -177,7 +177,7 @@ class UserService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID),
                 currentPageNum = userSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / userSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -194,7 +194,7 @@ class UserService(
             val pOrganization = organizationList.firstOrNull {
                 it.organizationId == organization.pOrganization!!.organizationId
             }
-            if (pOrganization != null) {
+            if (pOrganization?.pOrganization != null) {
                 this.getRecursive(pOrganization, organizationList, organizationName)
             }
         }
