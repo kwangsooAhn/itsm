@@ -8,7 +8,6 @@ package co.brainz.api.workflow.service
 
 import co.brainz.api.constants.ApiConstants
 import co.brainz.api.dto.RequestDto
-import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import org.springframework.stereotype.Service
@@ -20,7 +19,7 @@ class ApiWorkflowMapper(
 
     fun callDataMapper(documentId: String, requestDto: RequestDto): RestTemplateTokenDto {
         val tokenDto = RestTemplateTokenDto(
-            instanceId = AliceUtil().getUUID(),
+            instanceId = requestDto.instanceId,
             tokenId = requestDto.tokenId,
             documentId = documentId,
             action = requestDto.action,
@@ -29,7 +28,7 @@ class ApiWorkflowMapper(
 
         // 담당자가 없을 경우 기본값을 셋팅한다.
         if (!requestDto.assigneeId.isNullOrEmpty()) {
-            tokenDto.instanceCreateUser = userService.selectUser(requestDto.assigneeId!!)
+            tokenDto.instanceCreateUser = userService.selectUserKey(requestDto.assigneeId!!)
         } else {
             tokenDto.instanceCreateUser = userService.selectUser(ApiConstants.CREATE_USER)
         }

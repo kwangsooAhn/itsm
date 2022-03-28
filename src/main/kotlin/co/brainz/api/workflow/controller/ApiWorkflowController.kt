@@ -7,6 +7,7 @@
 package co.brainz.api.workflow.controller
 
 import co.brainz.api.ApiUtil
+import co.brainz.api.dto.RequestCmdbDto
 import co.brainz.api.dto.RequestDto
 import co.brainz.api.workflow.service.ApiWorkflowService
 import co.brainz.framework.response.ZAliceResponse
@@ -52,6 +53,14 @@ class ApiWorkflowController(
         @RequestBody requestDto: RequestDto
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(apiWorkflowService.callDocument(documentId, requestDto))
+    }
+
+    @PostMapping("/cmdb")
+    fun callCmdbDocument(
+        request: HttpServletRequest,
+        @RequestBody requestCmdbList: List<RequestCmdbDto>
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiWorkflowService.callCmdbDocument(requestCmdbList))
     }
 
     @GetMapping("/{instanceId}/history")

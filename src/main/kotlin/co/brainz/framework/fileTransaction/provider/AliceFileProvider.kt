@@ -5,7 +5,6 @@
 
 package co.brainz.framework.fileTransaction.provider
 
-import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDetailDto
 import co.brainz.framework.fileTransaction.dto.AliceFileDetailListReturnDto
@@ -203,8 +202,7 @@ class AliceFileProvider(
         return AliceFileDetailListReturnDto(
             data = dataList,
             totalCount = fileList.size.toLong(),
-            totalCountWithoutCondition = getFileTotalCount(dirPath),
-            orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            totalCountWithoutCondition = getFileTotalCount(dirPath)
         )
     }
 

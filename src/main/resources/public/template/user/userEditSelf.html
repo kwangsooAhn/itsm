@@ -198,18 +198,18 @@
                                    id="absenceStartDt" name="absenceStartDt" th:readonly="${view}">
                         </div>
                     </div>
-                    <div class="flex-column col-3">
+                    <div class="flex-column col-3 ml-2">
                         <label class="field-label required" th:text="#{common.label.endDate}"></label>
                         <div>
                             <input type="text" class="z-input i-date-picker search-date"
                                    id="absenceEndDt" name="absenceEndDt" th:readonly="${view}">
                         </div>
                     </div>
-                    <div class="flex-column col-4">
+                    <div class="flex-column col-4 ml-2">
                         <label class="field-label required" th:text="#{user.label.substituteUser}"></label>
                         <div class="flex-row z-input-button">
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
-                            <input type="text" class="z-input col-5" id="substituteUser" name="substituteUser"
+                            <input type="text" class="z-input col-2" id="substituteUser" name="substituteUser"
                                     readonly>
                             <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);">
                                 <span class="z-icon i-remove"></span>

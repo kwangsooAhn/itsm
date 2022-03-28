@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<div class="grid" style="--data-columns-width: 20% 20% 25% 10% 10% 15%;">
+<div class="grid" style="--data-columns-width: 20% 20% 30% 10% 15% 5%;">
     <div class="grid__head">
         <div class="grid__row">
             <div class="grid__cell pr-2 pl-4" data-grid-sortable="true" data-grid-column="chartName">
@@ -14,14 +14,14 @@
             <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="chartDesc">
                 <span class="text-ellipsis" th:text="#{chart.label.description}"></span>
             </div>
-            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">
-                <span class="text-ellipsis" th:text="#{common.label.preview}"></span>
-            </div>
             <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="createUserName">
                 <span class="text-ellipsis" th:text="#{common.label.createUser}"></span>
             </div>
             <div class="grid__cell pl-2" data-grid-sortable="true" data-grid-column="createDt">
                 <span class="text-ellipsis" th:text="#{common.label.createDate}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">
+                <span class="text-ellipsis"></span>
             </div>
         </div>
     </div>
@@ -45,16 +45,16 @@
                 <span class="text-ellipsis" th:text="${chart.chartDesc}" th:title="${chart.chartDesc}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('report.view')"
-                        th:onclick="openChartViewModal([[${chart.chartId}]], [[${chart.chartType}]], [[${chart.chartName}]])">
-                    <span class="z-icon i-popup"></span>
-                </button>
-            </div>
-            <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis" th:text="${chart.createUserName}" th:title="${chart.createUserName}"></span>
             </div>
             <div class="grid__cell pl-2">
                 <span class="text-ellipsis date-time" th:text="${chart.createDt}" th:title="${chart.createDt}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('report.view')"
+                        th:onclick="openChartViewModal([[${chart.chartId}]], [[${chart.chartType}]], [[${chart.chartName}]])">
+                    <span class="z-icon i-popup"></span>
+                </button>
             </div>
         </div>
     </div>

@@ -12,7 +12,6 @@ import java.time.LocalDateTime
 
 data class NumberingRuleDto(
     var numberingId: String = "",
-    @CheckUnacceptableCharInUrl
     var numberingName: String,
     var numberingDesc: String? = null,
     var latestDate: LocalDateTime? = null,

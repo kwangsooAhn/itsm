@@ -17,3 +17,8 @@ connections:
     username: 5Sl8Ykqf0ITR/tROEQt/Nw==
 options:
   query-timeout-sec: 10
+  document-api-url: https://10.0.10.175:32792/api/wf/cmdb
+  access-token:
+    url: https://10.0.10.175:32792/api/tokens
+    user-id: zyefJQIs1bxzK8txOlJKvnx6RGT0GbBO #cmdb.admin
+    password: 8ybGIb4s7Q58VVCq2XSO8T3q6T+WOBb0 #itsm123!

@@ -82,7 +82,7 @@
     }
 
     // 폼 수정
-    function saveForm(formId, isDestroy, isEditable) {
+    function saveForm(formId, isDestroy) {
         if (!checkValidation()) { return false; }
         const formInfo = {
             name: document.getElementById('form_name').value,
@@ -93,8 +93,6 @@
         } else { // 수정
             formInfo.id = formId;
             formInfo.status = isDestroy ? STATUS_DESTROY : document.getElementById('form_status').value;
-            isEditable ? restSubmit('PUT', '/rest/forms/' + formId, formInfo)
-                : zAlert.warning(i18n.msg('form.msg.failedDestroy'));
         }
     }
 
@@ -124,98 +122,6 @@
                    `<label class="field-label" for="form_description">${i18n.msg('form.label.description')}</label>` +
                    `<textarea rows="3" class="z-textarea textarea-scroll-wrapper" id="form_description" maxlength="256" ${data !== undefined && data.isView ? 'readonly' : ''}>${data !== undefined ? data.desc : ''}</textarea>` +
                 `</div>`;
-    }
-
-    // 폼 수정 / 보기 모달 오픈
-    function openFormEdit(formId, isView) {
-        if (typeof formId === 'undefined') { return false; }
-
-        aliceJs.fetchJson('/rest/forms/' + formId, {
-            method: 'GET'
-        }).then((responseObject) => {
-            responseObject.isView = isView;
-
-            let options = {
-                title: isView ? i18n.msg('form.label.detail') : i18n.msg('form.label.edit') ,
-                body: createModalContent(responseObject),
-                classes: 'form-edit',
-                buttons: [{
-                    content: i18n.msg('common.btn.export'), // 내보내기 버튼
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        ZWorkflowUtil.export(responseObject.id, '/rest/forms/' + responseObject.id + '/data', 'form');
-                        modal.hide();
-                    }
-                }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function(modal) {
-                    // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                    OverlayScrollbars(document.getElementById('form_description'), {
-                        className: 'inner-scrollbar',
-                        resize: 'vertical',
-                        sizeAutoCapable: true,
-                        textarea: {
-                            dynHeight: false,
-                            dynWidth: false,
-                            inheritedAttrs: "class"
-                        }
-                    });
-                }
-            };
-
-            // 버튼 설정
-            if (!isView) {
-                // 수정
-                if (updatable === 'true') {
-                    options.buttons.push({
-                        content: i18n.msg('common.btn.modify'),
-                        classes: 'z-button primary',
-                        bindKey: false,
-                        callback: function (modal) {
-                            saveForm(responseObject.id, false, true);
-                        }
-                    });
-                }
-                // 삭제
-                if (deletable === 'true') {
-                    options.buttons.push({
-                        content: i18n.msg('common.btn.delete'),
-                        classes: 'z-button danger',
-                        bindKey: false,
-                        callback: function (modal) {
-                            deleteForm(responseObject.id);
-                        }
-                    });
-                }
-            } else if (responseObject.status === STATUS_USE) {
-                // 폐기
-                options.buttons.push({
-                    content: i18n.msg('form.status.destroy'),
-                    classes: 'z-button warning',
-                    bindKey: false,
-                    callback: function(modal) {
-                        saveForm(responseObject.id, true, responseObject.editable);
-                    }
-                });
-            }
-            // 취소
-            options.buttons.push({
-                content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: function(modal) {
-                    modal.hide();
-                }
-            });
-
-            // 모달 호출
-            const formModal = new modal(options);
-            formModal.show();
-        })
     }
 
     // 폼 등록 모달 오픈
@@ -311,6 +217,11 @@
         let specs = 'left=' + _left + ',top=' + _top;
         specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
         window.open('/forms/' + formId + '/view', 'form_' + formId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
+    }
+
+    //폼 EXPORT (XML 다운로드)
+    function exportForm(formId) {
+        ZWorkflowUtil.export(formId, '/rest/forms/' + formId + '/data', 'form');
     }
 
     // 파일업로드 라이브러리로 파일 drag & drop시 callback으로 전달받는 파일을 저장한다.

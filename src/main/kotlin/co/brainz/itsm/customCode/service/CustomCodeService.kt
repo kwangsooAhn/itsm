@@ -17,7 +17,6 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.component.service.ComponentService
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
 import co.brainz.itsm.customCode.dto.CustomCodeConditionDto
@@ -41,9 +40,11 @@ import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.role.specification.RoleCustomCodeSpecification
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.itsm.user.specification.UserCustomCodeSpecification
+import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import javax.persistence.Column
 import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
@@ -59,10 +60,10 @@ class CustomCodeService(
     private val roleRepository: RoleRepository,
     private val organizationRepository: OrganizationRepository,
     private val userRepository: UserRepository,
-    private val componentService: ComponentService,
     private val codeRepository: CodeRepository,
     private val codeService: CodeService,
-    private val currentSessionUser: CurrentSessionUser
+    private val currentSessionUser: CurrentSessionUser,
+    private val wfComponentPropertyRepository: WfComponentPropertyRepository
 ) {
 
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
@@ -96,9 +97,8 @@ class CustomCodeService(
      */
     fun getCustomCodeDetail(customCodeId: String): CustomCodeDto {
         val customCodeEntity = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
-        val usedCustomCodeIdList = getUsedCustomCodeIdList()
         val customCodeDto = customCodeMapper.toCustomCodeDto(customCodeEntity)
-        customCodeDto.enabled = (usedCustomCodeIdList.indexOf(customCodeEntity.customCodeId) == -1)
+        customCodeDto.enabled = (this.getUsedCustomCodeIdList().contains(customCodeEntity.customCodeId))
         when (customCodeDto.type) {
             CustomCodeConstants.Type.TABLE.code -> {
                 customCodeDto.targetTableName =
@@ -144,7 +144,7 @@ class CustomCodeService(
      */
     @Transactional
     fun deleteCustomCode(customCodeId: String): String {
-        return if (getUsedCustomCodeIdList().indexOf(customCodeId) != -1) {
+        return if (getUsedCustomCodeIdList().contains(customCodeId)) {
             CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code
         } else {
             customCodeRepository.deleteById(customCodeId)
@@ -204,11 +204,19 @@ class CustomCodeService(
      *
      * @return List<String>
      */
-    private fun getUsedCustomCodeIdList(): List<String> {
-        val parameters = LinkedHashMap<String, Any>()
-        parameters["componentType"] = CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE
-        parameters["componentAttribute"] = CustomCodeConstants.ATTRIBUTE_ID_DISPLAY
-        return componentService.getComponentDataCustomCodeIds(parameters)
+    fun getUsedCustomCodeIdList(): List<String> {
+        val componentOptions = wfComponentPropertyRepository.findComponentTypeAndProperty(
+            CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE,
+            CustomCodeConstants.PROPERTY_ID_ELEMENT
+        )
+
+        val customCodeIds = mutableSetOf<String>()
+        componentOptions.forEach {
+            val option: MutableMap<String, Any> = ObjectMapper().readValue(it)
+            customCodeIds.add(option["defaultValueCustomCode"].toString().split("|")[0])
+        }
+
+        return customCodeIds.toList()
     }
 
     /**
@@ -240,7 +248,7 @@ class CustomCodeService(
         var code = CustomCodeConstants.Status.STATUS_VALID_SUCCESS.code
         var isContinue = true
         val customCodeId = customCodeDto.customCodeId
-        if (customCodeId != "" && getUsedCustomCodeIdList().indexOf(customCodeId) != -1) {
+        if (customCodeId != "" && getUsedCustomCodeIdList().contains(customCodeId)) {
             code = CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code
             isContinue = false
         }
