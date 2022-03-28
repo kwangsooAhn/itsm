@@ -56,6 +56,8 @@ class NotificationRepositoryImpl : QuerydslRepositorySupport(NotificationEntity:
                                 .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
                         ))
                     )
+                ).and(
+                    notification.target.eq("zitsm")
                 )
             )
             .orderBy(notification.confirmYn.asc(), notification.createDt.desc())

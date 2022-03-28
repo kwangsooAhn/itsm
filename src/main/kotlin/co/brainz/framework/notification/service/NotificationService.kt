@@ -44,14 +44,6 @@ class NotificationService(
                 notificationEntity.target = "zitsm"
                 notificationEntityList.add(notificationEntity)
 
-                // Insert Notification Data For Toast
-                if (toast.toUpperCase() == "TRUE") {
-                    val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
-                    notificationEntity.receivedUser = userEntity
-                    notificationEntity.target = "toast"
-                    notificationEntityList.add(notificationEntity)
-                }
-
                 // Insert Notification Data For Vendor
                 if (vendor.isNotBlank()) {
                     val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
