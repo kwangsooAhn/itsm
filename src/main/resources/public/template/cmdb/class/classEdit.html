@@ -48,6 +48,25 @@
             <input type="text" class="z-input" id="txtClassSeq" name="txtClassSeq" maxlength="4"
                    onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
         </div>
+        <div class="z-edit-row flex-column">
+            <div class="flex-row justify-content-between">
+                <label th:text="#{cmdb.class.label.alarm}"></label>
+                <button type="button" class="z-button-icon extra float-right" onclick="addAlarmCondition()"
+                        sec:authorize="hasAuthority('cmdb.manage')">
+                    <span class="z-icon i-plus"></span>
+                </button>
+            </div>
+            <div class="horizontal-bar"></div>
+            <div id="alarmCondition">
+                <div class="flex-row z-edit-row justify-content-between">
+                    <label class="col-2" th:text="#{cmdb.class.label.alertItem}"></label>
+                    <label class="col-4" th:text="#{cmdb.class.label.condition}"></label>
+                    <label class="col-2" th:text="#{cmdb.class.label.alertTarget}"></label>
+                    <label><!-- 삭제 버튼 영역 --></label>
+                </div>
+            </div>
+        </div>
+
         <div class="z-edit-row flex-column flex-fill">
             <div class="flex-row justify-content-between">
                 <label class="required" th:text="#{cmdb.class.label.attributeList}"></label>
@@ -57,7 +76,7 @@
                     <span class="z-icon i-plus"></span>
                 </button>
             </div>
-            <div class="under-bar"></div>
+            <div class="horizontal-bar"></div>
             <div id="extendsAttributeList"></div>
             <div id="attributeList"></div>
         </div>

@@ -400,7 +400,11 @@ cmdb:
       export: "Export"
   class:
     label:
+      alarm: "Alarm"
+      alertItem: "Alert Item"
+      alertTarget: "Target"
       attributeList: "Attribute List"
+      condition: "Condition"
       description: "Description"
       management: "CI Class"
       name: "Name"

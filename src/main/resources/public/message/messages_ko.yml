@@ -400,7 +400,11 @@ cmdb:
       export: "내보내기"
   class:
     label:
+      alarm: "알림 설정"
+      alertItem: "감시항목"
+      alertTarget: "대상"
       attributeList: "속성 목록"
+      condition: "조건"
       description: "설명"
       management: "CI 속성그룹"
       name: "속성그룹 이름"
