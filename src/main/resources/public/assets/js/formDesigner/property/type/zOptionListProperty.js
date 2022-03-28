@@ -142,7 +142,7 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIPlaceholder(i18n.msg('form.properties.optionList.namePlaceholder'))
             .setUIValue(option.name).onUIChange(this.updateProperty.bind(this))
             .setUIValue(option.name).onUIKeyUp(this.updateProperty.bind(this))
-            .setUIAttribute('data-validation-max-length', this.validation.maxLength)
+            .setUIAttribute('data-validation-max-length', propertyExtends.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
             .setUIAttribute('name', 'optionName')
@@ -155,7 +155,7 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIPlaceholder(i18n.msg('form.properties.optionList.valuePlaceholder'))
             .setUIValue(option.value).onUIChange(this.updateProperty.bind(this))
             .setUIValue(option.value).onUIKeyUp(this.updateProperty.bind(this))
-            .setUIAttribute('data-validation-max-length', this.validation.maxLength)
+            .setUIAttribute('data-validation-max-length', propertyExtends.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
             .setUIAttribute('name', 'optionValue')
@@ -186,7 +186,7 @@ export default class ZOptionListProperty extends ZProperty {
 
         // 유효성 검증
         // keyup 일 경우 type, min, max 체크
-        if (e.type === 'keyup'  && zValidation.isMaxLength(e.target, propertyExtends.validation.maxLength) && !zValidation.keyUpValidationCheck(e.target)) {
+        if (e.type === 'keyup'  &&  !zValidation.keyUpValidationCheck(e.target)) {
             return false;
         }
 
