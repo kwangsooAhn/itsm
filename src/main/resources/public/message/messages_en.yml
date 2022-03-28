@@ -757,7 +757,7 @@ form:
     saveInfo: "Saved at {0}"
     searchDescription: "View and manage forms."
     selectImportFile: "Please select an import file."
-    selectTargetUser "Please select Target User for search."
+    selectTargetUser: "Please select Target User for search."
     unique: "Duplicate data cannot be included."
     duplicateFormName: "Duplicate form name! Please enter other form name."
     duplicateOptionsName: "Duplicate options name. Please enter other options name."
