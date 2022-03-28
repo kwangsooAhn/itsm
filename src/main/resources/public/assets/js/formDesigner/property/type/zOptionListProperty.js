@@ -19,7 +19,6 @@ import { UIButton, UICell, UICheckbox, UIDiv, UIInput, UILabel, UIRadioButton,
 import { FORM } from '../../../lib/zConstants.js';
 import { zValidation } from '../../../lib/zValidation.js';
 const propertyExtends = {
-    /* 추가되는 기본 속성외에 속성이 없음 */
     validation: {
         maxLength: 75
     }
