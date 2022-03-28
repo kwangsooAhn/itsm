@@ -7724,16 +7724,12 @@ body.modal-active {
   right: 0;
   bottom: 0;
   left: 0;
-  visibility: hidden;
-  transition: 0.3s;
+  display: none;
   overflow: auto;
   z-index: 1000;
 }
 .modal-wrapper.modal-active {
-  visibility: visible;
-}
-.modal-wrapper.modal-active .modal-dialog {
-  opacity: 1;
+  display: block;
 }
 .modal-wrapper .modal-backdrop {
   position: fixed;
@@ -7749,7 +7745,7 @@ body.modal-active {
   margin: 0 auto 2em auto;
   background-color: #FFFFFF;
   opacity: 0;
-  transition: 0.4s;
+  transition: 0.3s;
   z-index: 5000;
   position: absolute;
   top: 4em;
@@ -7761,6 +7757,10 @@ body.modal-active {
   -webkit-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
   -moz-box-shadow: 0 0.125rem 0.75rem 0 #63686C;
   box-shadow: 0 0.125rem 0.75rem 0 #63686C;
+}
+.modal-wrapper .modal-dialog.modal-active {
+  transition: 0.3s;
+  opacity: 1;
 }
 .modal-wrapper .modal-dialog .modal-header {
   height: 3.875rem;
