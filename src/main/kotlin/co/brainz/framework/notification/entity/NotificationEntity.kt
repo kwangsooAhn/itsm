@@ -38,6 +38,9 @@ data class NotificationEntity(
     var confirmYn: Boolean = false,
 
     @Column(name = "display_yn")
-    var displayYn: Boolean = false
+    var displayYn: Boolean = false,
+
+    @Column(name = "target")
+    var target: String? = null
 
 ) : Serializable, AliceMetaEntity()

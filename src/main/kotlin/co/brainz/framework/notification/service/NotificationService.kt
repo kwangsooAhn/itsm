@@ -6,6 +6,7 @@ import co.brainz.framework.notification.entity.NotificationEntity
 import co.brainz.framework.notification.mapper.NotificationMapper
 import co.brainz.framework.notification.repository.NotificationRepository
 import org.mapstruct.factory.Mappers
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
@@ -14,6 +15,11 @@ class NotificationService(
     private val notificationRepository: NotificationRepository,
     private val userRepository: AliceUserRepository
 ) {
+    @Value("\${notification.toast}")
+    lateinit var toast: String
+
+    @Value("\${notification.vendor}")
+    lateinit var vendor: String
 
     private val notificationMapper: NotificationMapper = Mappers.getMapper(NotificationMapper::class.java)
 
@@ -35,7 +41,16 @@ class NotificationService(
             userEntity?.let {
                 val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
                 notificationEntity.receivedUser = userEntity
+                notificationEntity.target = "zitsm"
                 notificationEntityList.add(notificationEntity)
+
+                // insert notificaton Vendor Data
+                if (toast.toUpperCase() == "TRUE" && vendor.isNotBlank()) {
+                    val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
+                    notificationEntity.receivedUser = userEntity
+                    notificationEntity.target = vendor
+                    notificationEntityList.add(notificationEntity)
+                }
             }
         }
         notificationRepository.saveAll(notificationEntityList)
