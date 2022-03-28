@@ -41,16 +41,14 @@ body.modal-active {
     }
 
     .modal-header {
-      height: $modal-header-height;
+      min-height: $modal-header-height;
       font-size: $modal-header-font-size;
       font-weight: $modal-header-font-weight;
       color: $modal-header-font-color;
       padding: 1.25rem; // 20px
-      text-overflow: ellipsis;
-      overflow: hidden;
+      line-height: 1.2;
       @include border(2px, solid, $modal-header-border, bottom);
       @include borderRadius(0.25rem 0.25rem 0 0); // 4px
-      @include ellipsis();
     }
 
     .modal-content {
