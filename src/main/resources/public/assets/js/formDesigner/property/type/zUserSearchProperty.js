@@ -231,7 +231,9 @@ export default class ZUserSearchProperty extends ZProperty {
                 this.UIElement.UIGroup.userTable.rows.forEach( (row, idx) => {
                     const targetId = row.domElement.childNodes[0].getAttribute('data-value');
                     const targetName = row.domElement.childNodes[0].textContent;
-                    targetId ? targetUserArray.push(`${targetId}|${targetName}`) : '';
+                    if (targetId) {
+                        targetUserArray.push({id: targetId, value: targetName});
+                    }
                 });
             }
         });
@@ -254,15 +256,15 @@ export default class ZUserSearchProperty extends ZProperty {
             targetUserList.querySelectorAll('input[type=checkbox]').forEach((element) => {
                 element.addEventListener('change', () => {
                     if (element.checked) {
-                        targetUserArray.push(`${element.id}|${element.value}`);
+                        targetUserArray.push({id: element.id, value: element.value});
                     } else {
-                        targetUserArray = targetUserArray.filter((item) => item.includes(element.id));
+                        targetUserArray = targetUserArray.filter((item) => item.id !== element.id);
                     }
                 });
             })
             // 기존 선택값 표시
             targetUserArray.forEach( target => {
-                const targetCheckBox = targetUserList.querySelector('input[id="' + target.split('|')[0] + '"]');
+                const targetCheckBox = targetUserList.querySelector('input[id="' + target.id + '"]');
                 if (!zValidation.isEmpty(targetCheckBox)) {
                     targetCheckBox.checked = true;
                 }
@@ -287,8 +289,8 @@ export default class ZUserSearchProperty extends ZProperty {
             const optionRow = new UIRow(userListTable).setUIClass('z-option-table-row');
             const addedNameTD = new UICell(optionRow)
                 .setUIId('targetUser')
-                .setUIAttribute('data-value', target.split('|')[0])
-                .setUITextContent(target.split('|')[1]);
+                .setUIAttribute('data-value', target.id)
+                .setUITextContent(target.value);
             const addedRemoveTD = new UICell(optionRow).setUICSSText('width: 15%;');
             addedRemoveTD.removeButton = new UIButton()
                 .setUIClass('z-button-icon')
