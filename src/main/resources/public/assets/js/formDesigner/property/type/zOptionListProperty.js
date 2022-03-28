@@ -186,7 +186,7 @@ export default class ZOptionListProperty extends ZProperty {
 
         // 유효성 검증
         // keyup 일 경우 type, min, max 체크
-        if (e.type === 'keyup'  &&  !zValidation.keyUpValidationCheck(e.target)) {
+        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
             return false;
         }
 
