@@ -167,7 +167,6 @@ export const userSearchMixin = {
                             .setUIValue(this.realTimeSelectedUser.split('|')[1]);
                         this.UIElement.UIComponent.UIElement.UIInput.domElement.dispatchEvent(new Event('change'));
                     }
-                    this.realTimeSelectedUser = '';
                     modal.hide();
                 }
             }, {
@@ -175,7 +174,6 @@ export const userSearchMixin = {
                 classes: 'z-button secondary',
                 bindKey: false,
                 callback: (modal) => {
-                    this.realTimeSelectedUser = '';
                     modal.hide();
                 }
             }],
@@ -183,6 +181,7 @@ export const userSearchMixin = {
                 closable: false,
             },
             onCreate: () => {
+                this.realTimeSelectedUser = '';
                 document.getElementById('search').addEventListener('keyup', (e) => {
                     this.getUserList(e.target.value, false);
                 });
@@ -221,8 +220,11 @@ export const userSearchMixin = {
                 });
             });
             // 기존 선택값 표시
-            const targetUserId = (this.value === '${default}') ? this.realTimeSelectedUser.split('|')[0]
-                : this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-search');
+            const targetId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-search');
+            const targetName = this.UIElement.UIComponent.UIElement.UIInput.getUIValue();
+            this.realTimeSelectedUser = (this.value !== '${default}') ? `${targetId}|${targetName}` : '';
+
+            const targetUserId = this.realTimeSelectedUser.split('|')[0];
             const targetRadio = searchUserList.querySelector('input[id="' + targetUserId + '"]');
             if (!zValidation.isEmpty(targetUserId) && !zValidation.isEmpty(targetRadio)) {
                 targetRadio.checked = true;
