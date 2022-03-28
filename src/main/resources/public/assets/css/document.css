@@ -3423,6 +3423,12 @@ body.modal-active {
   border-radius: 0.25rem 0.25rem 0 0;
   -webkit-border-radius: 0.25rem 0.25rem 0 0;
   -moz-border-radius: 0.25rem 0.25rem 0 0;
+  display: inline-block;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
 .modal-wrapper .modal-dialog .modal-content {
   overflow: auto;

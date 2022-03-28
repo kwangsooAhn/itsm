@@ -50,6 +50,7 @@ body.modal-active {
       overflow: hidden;
       @include border(2px, solid, $modal-header-border, bottom);
       @include borderRadius(0.25rem 0.25rem 0 0); // 4px
+      @include ellipsis();
     }
 
     .modal-content {
