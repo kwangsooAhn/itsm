@@ -36,6 +36,7 @@
   &.i-image { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_image.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
   &.i-divider { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_divider.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
   &.i-fileDownload { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_filedownload.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-userSearch { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_user.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
   &.i-dropdownCode { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dropdownCode.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
 
   // 컴포넌트

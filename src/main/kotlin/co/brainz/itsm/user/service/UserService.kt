@@ -24,9 +24,9 @@ import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
-import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
+import co.brainz.framework.organization.service.OrganizationService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -42,6 +42,7 @@ import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
+import co.brainz.itsm.user.dto.UserSearchCompCondition
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
@@ -93,6 +94,7 @@ class UserService(
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
     private val wfTokenRepository: WfTokenRepository,
+    private val organizationService: OrganizationService,
     private val organizationRepository: OrganizationRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository,
     private val roleService: RoleService
@@ -146,6 +148,32 @@ class UserService(
     }
 
     /**
+     * 사용자 검색 조건에 따라 조회한다.
+     */
+    fun getSearchUserList(userSearchCompCondition: UserSearchCompCondition): UserListReturnDto {
+        val targetKeys = mutableSetOf<String>()
+
+        when (userSearchCompCondition.targetCriteria) {
+            AliceUserConstants.UserSearchTarget.ORGANIZATION.code -> {
+                val organization = organizationRepository.findByOrganizationId(userSearchCompCondition.searchKeys)
+                val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition()).results
+                val organizationNameList = organizationService.getOrganizationChildren(organization, organizationList, mutableListOf())
+                organizationNameList.forEach { targetKeys.add(it) }
+            }
+            AliceUserConstants.UserSearchTarget.CUSTOM.code -> userSearchCompCondition.searchKeys.split(" ").forEach { targetKeys.add(it) }
+        }
+
+        val userSearchCondition = UserSearchCondition(
+            searchValue = userSearchCompCondition.searchValue,
+            optionalCondition = userSearchCompCondition.targetCriteria,
+            optionalTargets = targetKeys,
+            isFilterUseYn = true
+        )
+
+        return this.selectUserList(userSearchCondition)
+    }
+
+    /**
      * 사용자 목록을 조회한다.
      */
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
@@ -163,7 +191,7 @@ class UserService(
             var organizationName = mutableListOf<String>()
             if (organization != null) {
                 if (organization.pOrganization != null) {
-                    organizationName = this.getRecursive(organization, organizationList.results, organizationName)
+                    organizationName = organizationService.getOrganizationParent(organization, organizationList.results, organizationName)
                 } else {
                     organizationName.add(organization.organizationName.toString())
                 }
@@ -181,24 +209,6 @@ class UserService(
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
-    }
-
-    //groupId 값을 이용하여 상위 레벨의 부서폴더이름 추출
-    fun getRecursive(
-        organization: OrganizationEntity,
-        organizationList: List<OrganizationEntity>,
-        organizationName: MutableList<String>
-    ): MutableList<String> {
-        organizationName.add(organization.organizationName.toString())
-        if (organization.pOrganization != null) {
-            val pOrganization = organizationList.firstOrNull {
-                it.organizationId == organization.pOrganization!!.organizationId
-            }
-            if (pOrganization?.pOrganization != null) {
-                this.getRecursive(pOrganization, organizationList, organizationName)
-            }
-        }
-        return organizationName
     }
 
     /**

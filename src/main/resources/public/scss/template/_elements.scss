@@ -350,6 +350,10 @@ input, textarea, select {
     @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_date_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
+  &.i-user-search {
+    @include backgroundImage($icon-folder-path + 'icon_document_user.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+  }
+
   &.i-px {
     @include backgroundImage($icon-folder-path + 'icon_px.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }

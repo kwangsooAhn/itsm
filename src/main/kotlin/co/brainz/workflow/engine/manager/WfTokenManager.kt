@@ -196,10 +196,14 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         var assignee = ""
         if (componentMappingId.isNotEmpty()) {
             val componentValueType =
-                if (componentMappingType == WfComponentConstants.ComponentTypeCode.CUSTOM_CODE.code) {
-                    WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
-                } else {
-                    WfComponentConstants.ComponentValueType.STRING.code
+                when (componentMappingType) {
+                    WfComponentConstants.ComponentTypeCode.CUSTOM_CODE.code -> {
+                        WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
+                    }
+                    WfComponentConstants.ComponentTypeCode.USER_SEARCH.code -> {
+                        WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
+                    }
+                    else -> WfComponentConstants.ComponentValueType.STRING.code
                 }
             assignee = wfTokenManagerService.getComponentValue(
                 token.tokenId,
