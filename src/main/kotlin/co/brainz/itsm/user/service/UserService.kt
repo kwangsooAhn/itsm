@@ -24,9 +24,9 @@ import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
-import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
+import co.brainz.framework.organization.service.OrganizationService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -94,6 +94,7 @@ class UserService(
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
     private val wfTokenRepository: WfTokenRepository,
+    private val organizationService: OrganizationService,
     private val organizationRepository: OrganizationRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository,
     private val roleService: RoleService
@@ -156,7 +157,7 @@ class UserService(
             AliceUserConstants.UserSearchTarget.ORGANIZATION.code -> {
                 val organization = organizationRepository.findByOrganizationId(userSearchCompCondition.searchKeys)
                 val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition()).results
-                val organizationName = this.getChildRecursive(organization, organizationList, mutableListOf())
+                val organizationName = organizationService.getOrganizationChildren(organization, organizationList, mutableListOf())
                 organizationName.forEach { targetKeys.add(it) }
             }
             AliceUserConstants.UserSearchTarget.CUSTOM.code -> userSearchCompCondition.searchKeys.split(" ").forEach { targetKeys.add(it) }
@@ -190,7 +191,7 @@ class UserService(
             var organizationName = mutableListOf<String>()
             if (organization != null) {
                 if (organization.pOrganization != null) {
-                    organizationName = this.getRecursive(organization, organizationList.results, organizationName)
+                    organizationName = organizationService.getOrganizationParent(organization, organizationList.results, organizationName)
                 } else {
                     organizationName.add(organization.organizationName.toString())
                 }
@@ -211,39 +212,39 @@ class UserService(
     }
 
     // organizationId 값을 이용하여 상위 레벨의 부서 이름 추출
-    fun getRecursive(
-        organization: OrganizationEntity,
-        organizationList: List<OrganizationEntity>,
-        organizationName: MutableList<String>
-    ): MutableList<String> {
-        organizationName.add(organization.organizationName.toString())
-        if (organization.pOrganization != null) {
-            val pOrganization = organizationList.firstOrNull {
-                it.organizationId == organization.pOrganization!!.organizationId
-            }
-            if (pOrganization != null) {
-                this.getRecursive(pOrganization, organizationList, organizationName)
-            }
-        }
-        return organizationName
-    }
+//    fun getOrganizationParent(
+//        organization: OrganizationEntity,
+//        organizationList: List<OrganizationEntity>,
+//        organizationName: MutableList<String>
+//    ): MutableList<String> {
+//        organizationName.add(organization.organizationName.toString())
+//        if (organization.pOrganization != null) {
+//            val pOrganization = organizationList.firstOrNull {
+//                it.organizationId == organization.pOrganization!!.organizationId
+//            }
+//            if (pOrganization != null) {
+//                this.getOrganizationParent(pOrganization, organizationList, organizationName)
+//            }
+//        }
+//        return organizationName
+//    }
 
     // organizationId 값을 이용하여 하위 레벨의 부서 이름 추출
-    fun getChildRecursive(
-        organization: OrganizationEntity,
-        organizationList: List<OrganizationEntity>,
-        organizationName: MutableList<String>
-    ): List<String> {
-        organizationName.add(organization.organizationName.toString())
-        val cOrganization = organizationRepository.findByPOrganization(organization)
-        if (cOrganization.isNotEmpty()) {
-            cOrganization.forEach {
-                organizationName.add(it.organizationName.toString())
-                this.getChildRecursive(it, cOrganization, organizationName)
-            }
-        }
-        return organizationName.distinct()
-    }
+//    fun getOrganizationChildren(
+//        organization: OrganizationEntity,
+//        organizationList: List<OrganizationEntity>,
+//        organizationName: MutableList<String>
+//    ): List<String> {
+//        organizationName.add(organization.organizationName.toString())
+//        val cOrganization = organizationRepository.findByPOrganization(organization)
+//        if (cOrganization.isNotEmpty()) {
+//            cOrganization.forEach {
+//                organizationName.add(it.organizationName.toString())
+//                this.getOrganizationChildren(it, cOrganization, organizationName)
+//            }
+//        }
+//        return organizationName.distinct()
+//    }
 
     /**
      * 사용자 ID로 해당 정보를 1건 조회한다.
