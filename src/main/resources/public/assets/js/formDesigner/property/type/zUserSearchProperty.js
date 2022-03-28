@@ -202,13 +202,11 @@ export default class ZUserSearchProperty extends ZProperty {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    const selectedTargetUser = document.getElementById('targetUserList')
-                        .querySelectorAll('input[type=checkbox]:checked');
-                    if (selectedTargetUser.length === 0) {
+                    if (zValidation.isEmpty(targetUserArray)) {
                         zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
                         return false;
                     } else {
-                        this.addRow(selectedTargetUser);
+                        this.addRow(targetUserArray);
                     }
                     modal.hide();
                 }
@@ -231,8 +229,9 @@ export default class ZUserSearchProperty extends ZProperty {
                 // 기존 사용자 목록
                 targetUserArray.length = 0;
                 this.UIElement.UIGroup.userTable.rows.forEach( (row, idx) => {
-                    const targetValue = row.domElement.childNodes[0].getAttribute('data-value');
-                    targetValue ? targetUserArray.push(targetValue) : '';
+                    const targetId = row.domElement.childNodes[0].getAttribute('data-value');
+                    const targetName = row.domElement.childNodes[0].textContent;
+                    targetId ? targetUserArray.push(`${targetId}|${targetName}`) : '';
                 });
             }
         });
@@ -255,15 +254,18 @@ export default class ZUserSearchProperty extends ZProperty {
             targetUserList.querySelectorAll('input[type=checkbox]').forEach((element) => {
                 element.addEventListener('change', () => {
                     if (element.checked) {
-                        targetUserArray.push(element.id);
+                        targetUserArray.push(`${element.id}|${element.value}`);
                     } else {
-                        targetUserArray = targetUserArray.filter((item) => item !== element.id);
+                        targetUserArray = targetUserArray.filter((item) => item.includes(element.id));
                     }
                 });
             })
             // 기존 선택값 표시
             targetUserArray.forEach( target => {
-                targetUserList.querySelector('input[id="' + target + '"]').checked = true;
+                const targetCheckBox = targetUserList.querySelector('input[id="' + target.split('|')[0] + '"]');
+                if (!zValidation.isEmpty(targetCheckBox)) {
+                    targetCheckBox.checked = true;
+                }
             });
 
         });
@@ -285,8 +287,8 @@ export default class ZUserSearchProperty extends ZProperty {
             const optionRow = new UIRow(userListTable).setUIClass('z-option-table-row');
             const addedNameTD = new UICell(optionRow)
                 .setUIId('targetUser')
-                .setUITextContent(target.value)
-                .setUIAttribute('data-value', target.id);
+                .setUIAttribute('data-value', target.split('|')[0])
+                .setUITextContent(target.split('|')[1]);
             const addedRemoveTD = new UICell(optionRow).setUICSSText('width: 15%;');
             addedRemoveTD.removeButton = new UIButton()
                 .setUIClass('z-button-icon')

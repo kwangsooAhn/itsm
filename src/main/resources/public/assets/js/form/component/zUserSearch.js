@@ -136,7 +136,7 @@ export const userSearchMixin = {
             zValidation.removeDOMElementError(e.target);
         }
 
-        this.value = userSearchData + '|' + e.target.value;
+        this.value = `${userSearchData}|${e.target.value}`;
     },
 
     // 사용자 선택 모달
@@ -167,7 +167,6 @@ export const userSearchMixin = {
                             .setUIValue(this.realTimeSelectedUser.split('|')[1]);
                         this.UIElement.UIComponent.UIElement.UIInput.domElement.dispatchEvent(new Event('change'));
                     }
-                    this.realTimeSelectedUser = '';
                     modal.hide();
                 }
             }, {
@@ -175,7 +174,6 @@ export const userSearchMixin = {
                 classes: 'z-button secondary',
                 bindKey: false,
                 callback: (modal) => {
-                    this.realTimeSelectedUser = '';
                     modal.hide();
                 }
             }],
@@ -183,6 +181,7 @@ export const userSearchMixin = {
                 closable: false,
             },
             onCreate: () => {
+                this.realTimeSelectedUser = '';
                 document.getElementById('search').addEventListener('keyup', (e) => {
                     this.getUserList(e.target.value, false);
                 });
@@ -217,7 +216,7 @@ export const userSearchMixin = {
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {
-                    this.realTimeSelectedUser = element.checked ? element.id + '|' + element.value : '';
+                    this.realTimeSelectedUser = element.checked ? `${element.id}|${element.value}` : '';
                 });
             });
             // 기존 선택값 표시
