@@ -40,7 +40,7 @@ data class NotificationEntity(
     @Column(name = "display_yn")
     var displayYn: Boolean = false,
 
-    @Column(name = "target")
+    @Column(name = "target", length = 100)
     var target: String? = null
 
 ) : Serializable, AliceMetaEntity()
