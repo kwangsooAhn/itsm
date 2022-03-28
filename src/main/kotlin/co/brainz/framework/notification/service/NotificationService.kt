@@ -36,24 +36,27 @@ class NotificationService(
      */
     fun insertNotificationList(notificationDtoList: List<NotificationDto>) {
         val notificationEntityList = mutableListOf<NotificationEntity>()
-        notificationDtoList.forEach { notificationDto ->
-            val userEntity = userRepository.findById(notificationDto.receivedUser).orElse(null)
-            userEntity?.let {
-                val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
-                notificationEntity.receivedUser = userEntity
-                notificationEntity.target = "zitsm"
-                notificationEntityList.add(notificationEntity)
-
-                // Insert Notification Data For Vendor
-                if (vendor.isNotBlank()) {
+        if (toast.toLowerCase() == "true") {
+            notificationDtoList.forEach { notificationDto ->
+                val userEntity = userRepository.findById(notificationDto.receivedUser).orElse(null)
+                userEntity?.let {
                     val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
                     notificationEntity.receivedUser = userEntity
-                    notificationEntity.target = vendor
+                    notificationEntity.target = "zitsm"
                     notificationEntityList.add(notificationEntity)
+
+                    // Insert Notification Data For Vendor
+                    if (vendor.isNotBlank()) {
+                        val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
+                        notificationEntity.receivedUser = userEntity
+                        notificationEntity.target = vendor
+                        notificationEntityList.add(notificationEntity)
+                    }
                 }
             }
+
+            notificationRepository.saveAll(notificationEntityList)
         }
-        notificationRepository.saveAll(notificationEntityList)
     }
 
     /**
