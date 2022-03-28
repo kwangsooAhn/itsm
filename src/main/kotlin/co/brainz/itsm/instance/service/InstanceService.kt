@@ -9,9 +9,9 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.framework.organization.service.OrganizationService
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.instance.dto.CommentDto
 import co.brainz.itsm.instance.dto.InstanceCommentDto
 import co.brainz.itsm.instance.dto.InstanceViewerListDto
@@ -22,7 +22,6 @@ import co.brainz.itsm.instance.entity.WfInstanceViewerEntity
 import co.brainz.itsm.instance.mapper.CommentMapper
 import co.brainz.itsm.instance.repository.CommentRepository
 import co.brainz.itsm.instance.repository.ViewerRepository
-import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
@@ -48,8 +47,8 @@ class InstanceService(
     private val currentSessionUser: CurrentSessionUser,
     private val wfInstanceRepository: WfInstanceRepository,
     private val commentRepository: CommentRepository,
+    private val organizationService: OrganizationService,
     private val organizationRepository: OrganizationRepository,
-    private val userService: UserService,
     private val viewerRepository: ViewerRepository,
     val wfTokenManagerService: WfTokenManagerService
 ) {
@@ -172,7 +171,7 @@ class InstanceService(
                 var organizationName = mutableListOf<String>()
                 if (organization != null) {
                     if (organization.pOrganization != null) {
-                        organizationName = userService.getRecursive(organization, organizationList.results, organizationName, true)
+                        organizationName = organizationService.getOrganizationParent(organization, organizationList.results, organizationName)
                     } else {
                         organizationName.add(organization.organizationName.toString())
                     }

@@ -16,5 +16,6 @@ interface OrganizationRepository : JpaRepository<OrganizationEntity, String>,
     JpaSpecificationExecutor<OrganizationEntity>,
     OrganizationRepositoryCustom {
     fun findByOrganizationId(organizationId: String): OrganizationEntity
+    fun findByPOrganization(pOrganization: OrganizationEntity): List<OrganizationEntity>
     fun deleteByOrganizationId(organizationId: String)
 }

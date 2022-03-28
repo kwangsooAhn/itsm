@@ -24,9 +24,9 @@ import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
-import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
+import co.brainz.framework.organization.service.OrganizationService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -94,6 +94,7 @@ class UserService(
     private val aliceFileAvatarService: AliceFileAvatarService,
     private val currentSessionUser: CurrentSessionUser,
     private val wfTokenRepository: WfTokenRepository,
+    private val organizationService: OrganizationService,
     private val organizationRepository: OrganizationRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository,
     private val roleService: RoleService
@@ -154,10 +155,10 @@ class UserService(
 
         when (userSearchCompCondition.targetCriteria) {
             AliceUserConstants.UserSearchTarget.ORGANIZATION.code -> {
-                val organizationList = organizationRepository.findByOrganizationId(userSearchCompCondition.searchKeys)
-                val organization = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition()).results
-                val organizationName = this.getRecursive(organizationList, organization, mutableListOf(), false)
-                organizationName.forEach { targetKeys.add(it) }
+                val organization = organizationRepository.findByOrganizationId(userSearchCompCondition.searchKeys)
+                val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition()).results
+                val organizationNameList = organizationService.getOrganizationChildren(organization, organizationList, mutableListOf())
+                organizationNameList.forEach { targetKeys.add(it) }
             }
             AliceUserConstants.UserSearchTarget.CUSTOM.code -> userSearchCompCondition.searchKeys.split(" ").forEach { targetKeys.add(it) }
         }
@@ -190,7 +191,7 @@ class UserService(
             var organizationName = mutableListOf<String>()
             if (organization != null) {
                 if (organization.pOrganization != null) {
-                    organizationName = this.getRecursive(organization, organizationList.results, organizationName, true)
+                    organizationName = organizationService.getOrganizationParent(organization, organizationList.results, organizationName)
                 } else {
                     organizationName.add(organization.organizationName.toString())
                 }
@@ -208,30 +209,6 @@ class UserService(
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
-    }
-
-    // organizationId 값을 이용하여 상위 / 하위 레벨의 부서이름 추출
-    fun getRecursive(
-        organization: OrganizationEntity,
-        organizationList: List<OrganizationEntity>,
-        organizationName: MutableList<String>,
-        getParent: Boolean
-    ): MutableList<String> {
-        organizationName.add(organization.organizationName.toString())
-        val tOrganization = organizationList.firstOrNull {
-            when (getParent) {
-                true -> {
-                    it.organizationId == organization.pOrganization?.organizationId
-                }
-                false -> {
-                    organization.organizationId == it.pOrganization?.organizationId
-                }
-            }
-        }
-        if (tOrganization != null) {
-            this.getRecursive(tOrganization, organizationList, organizationName, getParent)
-        }
-        return organizationName
     }
 
     /**

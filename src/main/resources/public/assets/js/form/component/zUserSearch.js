@@ -136,7 +136,7 @@ export const userSearchMixin = {
             zValidation.removeDOMElementError(e.target);
         }
 
-        this.value = userSearchData + '|' + e.target.value;
+        this.value = `${userSearchData}|${e.target.value}`;
     },
 
     // 사용자 선택 모달
@@ -157,15 +157,14 @@ export const userSearchMixin = {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    this.realTimeSelectedUser = '';
-                    const selectedUserRadio = document.querySelector('input[type=radio]:checked');
-                    if (selectedUserRadio === null) {
+                    // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
+                    if (zValidation.isEmpty(this.realTimeSelectedUser)) {
                         zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
                         return false;
                     } else {
                         this.UIElement.UIComponent.UIElement.UIInput
-                            .setUIValue(selectedUserRadio.value)
-                            .setUIAttribute('data-user-search', selectedUserRadio.id);
+                            .setUIAttribute('data-user-search', this.realTimeSelectedUser.split('|')[0])
+                            .setUIValue(this.realTimeSelectedUser.split('|')[1]);
                         this.UIElement.UIComponent.UIElement.UIInput.domElement.dispatchEvent(new Event('change'));
                     }
                     modal.hide();
@@ -175,7 +174,6 @@ export const userSearchMixin = {
                 classes: 'z-button secondary',
                 bindKey: false,
                 callback: (modal) => {
-                    this.realTimeSelectedUser = '';
                     modal.hide();
                 }
             }],
@@ -183,6 +181,7 @@ export const userSearchMixin = {
                 closable: false,
             },
             onCreate: () => {
+                this.realTimeSelectedUser = '';
                 document.getElementById('search').addEventListener('keyup', (e) => {
                     this.getUserList(e.target.value, false);
                 });
@@ -217,14 +216,18 @@ export const userSearchMixin = {
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {
-                    this.realTimeSelectedUser = element.checked ? element.id : '';
+                    this.realTimeSelectedUser = element.checked ? `${element.id}|${element.value}` : '';
                 });
             });
             // 기존 선택값 표시
-            const targetUserId = !zValidation.isEmpty(this.realTimeSelectedUser) ? this.realTimeSelectedUser
-                : this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-search');
-            if (targetUserId !== null && targetUserId !== '') {
-                searchUserList.querySelector('input[id="' + targetUserId + '"]').checked = true;
+            const targetId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-search');
+            const targetName = this.UIElement.UIComponent.UIElement.UIInput.getUIValue();
+            this.realTimeSelectedUser = (this.value !== '${default}') ? `${targetId}|${targetName}` : '';
+
+            const targetUserId = this.realTimeSelectedUser.split('|')[0];
+            const targetRadio = searchUserList.querySelector('input[id="' + targetUserId + '"]');
+            if (!zValidation.isEmpty(targetUserId) && !zValidation.isEmpty(targetRadio)) {
+                targetRadio.checked = true;
             }
         });
     },
