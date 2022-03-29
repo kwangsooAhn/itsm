@@ -1,4 +1,4 @@
-/**ㅜ
+/**
  * 알림
  */
 DROP TABLE IF EXISTS awf_notification cascade;
