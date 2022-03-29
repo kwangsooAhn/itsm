@@ -96,7 +96,7 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
         // commonStart 다음 element가 userTask인지 검사
         if (sourceElement.elementType == WfElementConstants.ElementType.COMMON_START_EVENT.value &&
             targetElement.elementType != WfElementConstants.ElementType.USER_TASK.value) {
-            return failed("The following task is not userTask.")
+            return failed("After the startTask, the userTask must come.")
         }
         return true
     }
