@@ -223,59 +223,65 @@ class ZFormTokenTab {
             body: viewerModalTemplate.content.cloneNode(true),
             classes: 'sub-user-modal',
             buttons: [{
-                content: i18n.msg('common.btn.check'),
+                content: i18n.msg('common.btn.select'),
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    const substituteUserList = document.getElementById('substituteUserList');
-                    const selectedViewerList = substituteUserList.querySelectorAll('input[type=checkbox]:checked');
-                    const clonedViewerList = JSON.parse(JSON.stringify(this.viewerList));
-                    const saveViewerData = [];
-                    selectedViewerList.forEach((viewer) => {
-                        const findIndex = clonedViewerList.findIndex(function (item) {
-                            return item.viewerKey === viewer.id;
+                    if (this.viewerList.length > 0) {
+                        const substituteUserList = document.getElementById('subUserList');
+                        const selectedViewerList = substituteUserList.querySelectorAll('input[type=checkbox]:checked');
+                        const clonedViewerList = JSON.parse(JSON.stringify(this.viewerList));
+                        const saveViewerData = [];
+                        selectedViewerList.forEach((viewer) => {
+                            const findIndex = clonedViewerList.findIndex(function (item) {
+                                return item.viewerKey === viewer.id;
+                            });
+
+                            // 신규 추가
+                            if (findIndex === -1) {
+                                saveViewerData.push({
+                                    viewerKey: viewer.id,
+                                    reviewYn: false,
+                                    displayYn: false,
+                                    viewerType: DOCUMENT.VIEWER_TYPE.REGISTER
+                                });
+                            } else { // 기존 수정
+                                const matchingViewer = clonedViewerList[findIndex];
+                                saveViewerData.push({
+                                    viewerKey: matchingViewer.viewerKey,
+                                    reviewYn: matchingViewer.reviewYn,
+                                    displayYn: matchingViewer.displayYn,
+                                    viewerType: DOCUMENT.VIEWER_TYPE.MODIFY
+                                });
+                                clonedViewerList.splice(findIndex, 1);
+                            }
+                        });
+                        // 자기 자신일 경우, 포함시키고 아닐 경우 삭제
+                        clonedViewerList.forEach((viewer) => {
+                            if (viewer.viewerKey === ZSession.get('userKey')) {
+                                viewer.viewerType = DOCUMENT.VIEWER_TYPE.MODIFY;
+                            } else {
+                                viewer.viewerType = DOCUMENT.VIEWER_TYPE.DELETE;
+                            }
+                            saveViewerData.push({
+                                viewerKey: viewer.viewerKey,
+                                reviewYn: viewer.reviewYn,
+                                displayYn: viewer.displayYn,
+                                viewerType: viewer.viewerType
+                            });
                         });
 
-                        // 신규 추가
-                        if (findIndex === -1) {
-                            saveViewerData.push({
-                                viewerKey: viewer.id,
-                                reviewYn: false,
-                                displayYn: false,
-                                viewerType: DOCUMENT.VIEWER_TYPE.REGISTER
-                            });
-                        } else { // 기존 수정
-                            const matchingViewer = clonedViewerList[findIndex];
-                            saveViewerData.push({
-                                viewerKey: matchingViewer.viewerKey,
-                                reviewYn: matchingViewer.reviewYn,
-                                displayYn: matchingViewer.displayYn,
-                                viewerType: DOCUMENT.VIEWER_TYPE.MODIFY
-                            });
-                            clonedViewerList.splice(findIndex, 1);
+                        let data = {
+                            instanceId: this.instanceId,
+                            documentId: this.documentId,
+                            viewers: saveViewerData
                         }
-                    });
-                    // 자기 자신일 경우, 포함시키고 아닐 경우 삭제
-                    clonedViewerList.forEach((viewer) => {
-                        if (viewer.viewerKey === ZSession.get('userKey')) {
-                            viewer.viewerType = DOCUMENT.VIEWER_TYPE.MODIFY;
-                        } else {
-                            viewer.viewerType = DOCUMENT.VIEWER_TYPE.DELETE;
-                        }
-                        saveViewerData.push({
-                            viewerKey: viewer.viewerKey,
-                            reviewYn: viewer.reviewYn,
-                            displayYn: viewer.displayYn,
-                            viewerType: viewer.viewerType
-                        });
-                    });
-
-                    let data = {
-                        instanceId: this.instanceId,
-                        documentId: this.documentId,
-                        viewers: saveViewerData
+                        this.saveViewer(data);
+                    } else {
+                        zAlert.warning(i18n.msg('token.msg.selectViewer'));
+                        return false;
                     }
-                    this.saveViewer(data);
+
                     modal.hide();
                 }
             }, {
@@ -310,14 +316,13 @@ class ZFormTokenTab {
             method: 'GET',
             showProgressbar: showProgressbar
         }).then((htmlData) => {
-            document.getElementById('subUserList').innerHTML = htmlData;
-            OverlayScrollbars(document.getElementById('substituteUserList'), {className: 'scrollbar'});
+            const viewerList = document.getElementById('subUserList');
+            viewerList.innerHTML = htmlData;
+            OverlayScrollbars(viewerList, {className: 'scrollbar'});
             // 갯수 가운트
-            const substituteUserList = document.getElementById('substituteUserList');
-            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
-
+            aliceJs.showTotalCount(viewerList.querySelectorAll('.z-table-row').length);
             this.viewerList.forEach((viewer) => {
-                const checkElem = substituteUserList.querySelector('input[id="' + viewer.viewerKey + '"]');
+                const checkElem = viewerList.querySelector('input[id="' + viewer.viewerKey + '"]');
                 if (checkElem) {
                     checkElem.checked = true;
                     // 읽음일 경우 편집 불가능
@@ -326,7 +331,7 @@ class ZFormTokenTab {
                     }
                 }
             });
-            const checkboxList = document.querySelectorAll('input[name=substituteUser]')
+            const checkboxList = viewerList.querySelectorAll('input[name=userName]')
             checkboxList.forEach((checkbox) => {
                 checkbox.addEventListener('click', (e) => {
                     if(e.target.checked) {
