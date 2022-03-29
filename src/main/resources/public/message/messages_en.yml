@@ -1366,6 +1366,7 @@ token:
     process: "Process"
   msg:
     selectToken: "Check the related documents to be added."
+    selectViewer: "Check the viewers to be added."
     searchDescription: "View and search documents relating to me."
     tag: "Insert tags."
   type:

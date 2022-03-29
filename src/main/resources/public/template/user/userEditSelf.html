@@ -214,7 +214,7 @@
                             <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);">
                                 <span class="z-icon i-remove"></span>
                             </button>
-                            <button type="button" class="z-button-search z-button form" onclick="openUserListPopup();"
+                            <button type="button" class="z-button-search z-button form" onclick="openSubUserModal();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
@@ -281,6 +281,7 @@
     const STATUS_SUCCESS_EDIT_EMAIL = '4';
     const STATUS_ERROR_SYSTEM_USER_NOT_EXIST = '7';
     const alicePlatform = 'user.platform.alice';
+    let subUserInfo = {};
 
     function runAbsenceDocument() {
         if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
@@ -480,7 +481,7 @@
         });
     }
 
-    function openUserListPopup() {
+    function openSubUserModal() {
         let isValid = true
         if (isEmpty('absenceStartDt', 'user.msg.enterAbsenceStartDt')) isValid = false;
         if (isEmpty('absenceEndDt', 'user.msg.enterAbsenceEndDt')) isValid = false;
@@ -494,13 +495,13 @@
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: (modal) => {
-                        const selectedSubUser = document.querySelector('input[type=radio]:checked');
-                        if (selectedSubUser === null) {
+                        // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
+                        if (Object.keys(subUserInfo).length > 0) {
+                            document.getElementById('substituteUserKey').value = subUserInfo.id;
+                            document.getElementById('substituteUser').value = subUserInfo.value;
+                        } else {
                             zAlert.warning(i18n.msg('user.msg.enterSubstituteUser'));
                             return false;
-                        } else {
-                            document.getElementById('substituteUserKey').value = selectedSubUser.id;
-                            document.getElementById('substituteUser').value = selectedSubUser.value;
                         }
                         modal.hide();
                     }
@@ -516,6 +517,7 @@
                     closable: false,
                 },
                 onCreate: () => {
+                    subUserInfo = {};
                     document.getElementById('search').addEventListener('keyup', (e) => {
                         this.getSubUserList(e.target.value, false);
                     });
@@ -538,7 +540,8 @@
         let strUrl = '/users/substituteUsers?search=' + encodeURIComponent(search.trim())
             + '&from=' + i18n.systemDateTime(document.getElementById('absenceStartDt').value)
             + '&to=' + i18n.systemDateTime(document.getElementById('absenceEndDt').value)
-            + '&userKey=' + document.getElementById('userKey').value;
+            + '&userKey=' + document.getElementById('userKey').value
+            + '&multiSelect=false';
 
         aliceJs.fetchText(strUrl, {
             method: 'GET',
@@ -550,16 +553,22 @@
             const substituteUserList = document.getElementById('userList');
             aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
             document.querySelectorAll('input[type=radio]').forEach(function (radio) {
-                // 업무 대리인으로 자기 자신은 선택할 수 없다.
-                if (radio.id === document.getElementById('userKey').value) {
-                    radio.disabled = true;
-                }
+                // 체크 이벤트
+                radio.addEventListener('change', () => {
+                    if (radio.checked) {
+                        subUserInfo.id = radio.id;
+                        subUserInfo.value = radio.value;
+                    }
+                });
             });
             // 선택된 항목 표시
-            const selectedSubstituteUserKey = document.getElementById('substituteUserKey').value;
-            const radioElem = document.querySelector('input[id="' + selectedSubstituteUserKey + '"]');
+            const selectedSubUserKey = document.getElementById('substituteUserKey').value;
+            const selectedSubUserName = document.getElementById('substituteUser').textContent;
+            const radioElem = document.querySelector('input[id="' + selectedSubUserKey + '"]');
             if (radioElem) {
                 radioElem.checked = true;
+                subUserInfo.id = selectedSubUserKey;
+                subUserInfo.value = selectedSubUserName;
             }
         });
     }
