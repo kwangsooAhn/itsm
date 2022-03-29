@@ -854,12 +854,16 @@ class ZFormDesigner {
         });
     }
     /**
-     * TODO: 미리보기
+     * 미리보기
      */
     preview() {
+        // 이미 모달이 열린 경우, 다시 열지 않음
+        if (zDocument.documentModal.display) {
+            return false;
+        }
         const previewData = this.form.toJson();
         zDocument.editable = false;
-        zFormButton.init({ form: previewData}, zDocument);
+        zFormButton.init({ form: previewData }, zDocument);
         zDocument.makeDocument(previewData); // Form 생성
         zDocument.documentModal.show(); // 모달 표시
     }

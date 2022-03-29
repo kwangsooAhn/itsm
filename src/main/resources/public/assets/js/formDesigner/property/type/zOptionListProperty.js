@@ -18,9 +18,10 @@ import { UIButton, UICell, UICheckbox, UIDiv, UIInput, UILabel, UIRadioButton,
     UIRow, UISpan, UITable } from '../../../lib/zUI.js';
 import { FORM } from '../../../lib/zConstants.js';
 import { zValidation } from '../../../lib/zValidation.js';
-
 const propertyExtends = {
-    /* 추가되는 기본 속성외에 속성이 없음 */
+    validation: {
+        maxLength: 75
+    }
 };
 
 export default class ZOptionListProperty extends ZProperty {
@@ -140,7 +141,7 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIPlaceholder(i18n.msg('form.properties.optionList.namePlaceholder'))
             .setUIValue(option.name).onUIChange(this.updateProperty.bind(this))
             .setUIValue(option.name).onUIKeyUp(this.updateProperty.bind(this))
-            .setUIAttribute('data-validation-max-length', this.validation.maxLength)
+            .setUIAttribute('data-validation-max-length', propertyExtends.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
             .setUIAttribute('name', 'optionName')
@@ -153,7 +154,7 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIPlaceholder(i18n.msg('form.properties.optionList.valuePlaceholder'))
             .setUIValue(option.value).onUIChange(this.updateProperty.bind(this))
             .setUIValue(option.value).onUIKeyUp(this.updateProperty.bind(this))
-            .setUIAttribute('data-validation-max-length', this.validation.maxLength)
+            .setUIAttribute('data-validation-max-length', propertyExtends.validation.maxLength)
             .setUIAttribute('data-validation-required', 'true')
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
             .setUIAttribute('name', 'optionValue')
@@ -187,6 +188,7 @@ export default class ZOptionListProperty extends ZProperty {
         if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
             return false;
         }
+
         // change 일 경우 minLength, maxLength & 중복 값 체크
         if (e.type === 'change') {
             let propertyValue = this.getPropertyValue(this.UIElement.UIOptionTable.domElement);
