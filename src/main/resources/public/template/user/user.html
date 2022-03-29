@@ -289,6 +289,7 @@
     const STATUS_SUCCESS_EDIT_ADMIN = '5';
     const STATUS_SUCCESS_EDIT_PASSWORD = '6';
     const STATUS_ERROR_SYSTEM_USER_NOT_EXIST = '7';
+    let subUserInfo = {};
 
     function checkUserRole(roleObject) {
         if (roleObject.checked) {
@@ -584,13 +585,13 @@
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: (modal) => {
-                        const selectedSubUser = document.querySelector('input[type=radio]:checked');
-                        if (selectedSubUser === null) {
+                        // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
+                        if (Object.keys(subUserInfo).length > 0) {
+                            document.getElementById('substituteUserKey').value = subUserInfo.id;
+                            document.getElementById('substituteUser').value = subUserInfo.value;
+                        } else {
                             zAlert.warning(i18n.msg('user.msg.enterSubstituteUser'));
                             return false;
-                        } else {
-                            document.getElementById('substituteUserKey').value = selectedSubUser.id;
-                            document.getElementById('substituteUser').value = selectedSubUser.value;
                         }
                         modal.hide();
                     }
@@ -606,6 +607,7 @@
                     closable: false,
                 },
                 onCreate: () => {
+                    subUserInfo = {};
                     document.getElementById('search').addEventListener('keyup', (e) => {
                         this.getSubUserList(e.target.value, false);
                     });
@@ -642,16 +644,22 @@
             const substituteUserList = document.getElementById('userList');
             aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
             document.querySelectorAll('input[type=radio]').forEach(function (radio) {
-                // 업무 대리인으로 자기 자신은 선택할 수 없다.
-                if (radio.id === document.getElementById('userKey').value) {
-                    radio.disabled = true;
-                }
+                // 체크 이벤트
+                radio.addEventListener('change', () => {
+                    if (radio.checked) {
+                        subUserInfo.id = `${radio.id}`;
+                        subUserInfo.value = `${radio.value}`;
+                    }
+                });
             });
             // 선택된 항목 표시
-            const selectedSubstituteUserKey = document.getElementById('substituteUserKey').value;
-            const radioElem = document.querySelector('input[id="' + selectedSubstituteUserKey + '"]');
+            const selectedSubUserKey = document.getElementById('substituteUserKey').value;
+            const selectedSubUserName = document.getElementById('substituteUser').textContent;
+            const radioElem = document.querySelector('input[id="' + selectedSubUserKey + '"]');
             if (radioElem) {
                 radioElem.checked = true;
+                subUserInfo.id = `${selectedSubUserKey}`;
+                subUserInfo.value = `${selectedSubUserName}`;
             }
         });
     }
