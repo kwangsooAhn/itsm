@@ -503,7 +503,6 @@
             if (document.querySelector('.z-simulation-report').classList.contains('closed')) {
                 document.querySelector('.z-button-simulation-report').click();
             }
-
             // 스크롤바 생성
             OverlayScrollbars(document.querySelector('.z-simulation-report-contents-main'), { className: 'scrollbar' });
         });
@@ -896,6 +895,7 @@
         simulationButton.type = 'button';
         simulationButton.className = 'z-button-icon secondary z-button-simulation-report';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
+
         const simulationIcon = document.createElement('span');
         simulationIcon.className = 'z-icon i-simulation-report';
         simulationButton.appendChild(simulationIcon);
