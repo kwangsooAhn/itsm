@@ -11,7 +11,7 @@
  */
 
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZUserSearchProperty from '../../formDesigner/property/type/ZUserSearchProperty.js';
+import ZUserSearchProperty from '../../formDesigner/property/type/zUserSearchProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
