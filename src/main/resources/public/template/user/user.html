@@ -647,8 +647,8 @@
                 // 체크 이벤트
                 radio.addEventListener('change', () => {
                     if (radio.checked) {
-                        subUserInfo.id = `${radio.id}`;
-                        subUserInfo.value = `${radio.value}`;
+                        subUserInfo.id = radio.id;
+                        subUserInfo.value = radio.value;
                     }
                 });
             });
@@ -658,8 +658,8 @@
             const radioElem = document.querySelector('input[id="' + selectedSubUserKey + '"]');
             if (radioElem) {
                 radioElem.checked = true;
-                subUserInfo.id = `${selectedSubUserKey}`;
-                subUserInfo.value = `${selectedSubUserName}`;
+                subUserInfo.id = selectedSubUserKey;
+                subUserInfo.value = selectedSubUserName;
             }
         });
     }
