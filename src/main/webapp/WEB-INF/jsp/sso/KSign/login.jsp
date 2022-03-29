@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
-<%--<%@ page import="com.ksign.access.wrapper.api.*" %>--%>
-<%--<%@ page import="com.ksign.access.wrapper.sso.SSOConf" %>--%>
-<%--<%@ page import="com.ksign.access.wrapper.sso.sso10.SSO10Conf" %>--%>
+<%@ page import="com.ksign.access.wrapper.api.*" %>
+<%@ page import="com.ksign.access.wrapper.sso.SSOConf" %>
+<%@ page import="com.ksign.access.wrapper.sso.sso10.SSO10Conf" %>
 <html>
 <head>
     <script src="/assets/vendors/rsa/rsa.js"></script>
