@@ -57,16 +57,15 @@
                 </button>
             </div>
             <div class="horizontal-bar"></div>
-            <div id="alarmCondition">
+            <div id="alarmList" tabindex="-1">
                 <div class="flex-row z-edit-row justify-content-between">
-                    <label class="col-2" th:text="#{cmdb.class.label.alertItem}"></label>
-                    <label class="col-4" th:text="#{cmdb.class.label.condition}"></label>
-                    <label class="col-2" th:text="#{cmdb.class.label.alertTarget}"></label>
-                    <label><!-- 삭제 버튼 영역 --></label>
+                    <label class="col-pct-3" th:text="#{cmdb.class.label.alertItem}"></label>
+                    <label class="col-pct-4" th:text="#{cmdb.class.label.condition}"></label>
+                    <label class="col-pct-3" th:text="#{cmdb.class.label.alertTarget}"></label>
+                    <label style="width: 34px;"><!-- 삭제 버튼 영역 너비는 고정됨 --></label>
                 </div>
             </div>
         </div>
-
         <div class="z-edit-row flex-column flex-fill">
             <div class="flex-row justify-content-between">
                 <label class="required" th:text="#{cmdb.class.label.attributeList}"></label>
@@ -92,6 +91,31 @@
             </div>
         </div>
     </div>
+    <template id="alarmConditionTemplate">
+        <div class="flex-row z-edit-row justify-content-between alarm">
+            <select class="col-pct-3" id="alarmAttributeId">
+                <option selected="selected" th:text="#{common.label.notSelect}" value=""></option>
+            </select>
+            <div class="flex-row justify-content-between col-pct-4" id="alarmCondition">
+                <input type="text" class="z-input col-pct-2" id="periodValue" maxlength="3"
+                       onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)">
+                <select class="col-pct-5 mr-1 ml-1" id="unitValue">
+                    <option selected="selected" th:text="#{cmdb.class.label.month}" value="month"></option>
+                    <option th:text="#{cmdb.class.label.day}" value="day"></option>
+                </select>
+                <select class="col-pct-5" id="optionValue">
+                    <option selected="selected" th:text="#{cmdb.class.label.before}" value="before"></option>
+                    <option th:text="#{cmdb.class.label.after}" value="after"></option>
+                </select>
+            </div>
+            <select class="col-pct-3" id="alarmTargetAttributeId">
+                <option selected="selected" th:text="#{common.label.notSelect}" value=""></option>
+            </select>
+            <button class="z-button-icon extra" onclick="deleteAlarmCondition(event)">
+                <span class="z-icon i-delete"></span>
+            </button>
+        </div>
+    </template>
 </div>
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
@@ -181,6 +205,32 @@
                 });
             }
             onEdit();
+
+            // TODO 가데이터 삭제 필요!
+            responseJson.alarms = [
+                {
+                    "attributeId": "40289ecf7f535e5e017f536b16ea0009",
+                    "condition": { "period": 1, "unit": "day", "option": "before" },
+                    "targetAttributeId": "4028b25d791b75ac01791bb14a4d0003"
+                }
+            ];
+            responseJson.alarmAttributes = [
+                {"attributeId": "40289ecf7f535e5e017f536b16ea0009", "attributeText": "알림일시"},
+                {"attributeId": "4028b25d7916ef5f017916f71b030002", "attributeText": "유지보수 시작일"},
+                {"attributeId": "4028b25d7916ef5f017916f7bd590003", "attributeText": "유지보수 종료일"}
+            ];
+            responseJson.alarmTargetAttributes = [
+                {"attributeId": "4028b25d791b75ac01791bb0f9140002", "attributeText": "담당자(정)"},
+                {"attributeId": "4028b25d791b75ac01791bb14a4d0003", "attributeText": "담당자(부)"}
+            ];
+            // 트리 선택시 기존 알림 삭제
+            const alarmList = document.getElementById('alarmList');
+            while (alarmList.children.length > 1) {
+                alarmList.children[1].remove();
+            }
+            // 알림 설정 추가
+            setAlarmCondition(responseJson);
+
             observer.isChanged = false;
         });
     }
@@ -193,6 +243,9 @@
             target: 'treeList',
             text: 'className',
             totalCount: true,
+            onCreate: function () {
+                document.getElementById('treeList').querySelector('.node').click();
+            },
             selectedNode: function (response) {
                 onGetDetail(response.id)
             }
@@ -247,42 +300,115 @@
         }
     }
 
+    /**
+     * 저장시 알림 목록 조회
+     */
+    function getSaveAlarmList() {
+        const saveAlarmsList = [];
+        const alarmNodeList = document.querySelectorAll('.alarm');
+
+        if (alarmNodeList.length === 0) { return saveAlarmsList; }
+
+        let isValid = true;
+        outer : for (let i = 0; i < alarmNodeList.length; i++) {
+            const saveAlarm = { condition: {} };
+            // 감시항목 미선택시
+            const alarmAttributeId = alarmNodeList[i].querySelector('#alarmAttributeId');
+            const selectedAlarmAttributeId = alarmAttributeId.options[alarmAttributeId.selectedIndex].value;
+            if (alarmAttributeId && selectedAlarmAttributeId === '') {
+                isValid = false;
+                zAlert.warning(i18n.msg('cmdb.class.msg.selectAlertItem'), function () {
+                    alarmAttributeId.focus();
+                });
+                break outer;
+            }
+            saveAlarm.attributeId = selectedAlarmAttributeId;
+
+            // 조건 미입력시
+            const period = alarmNodeList[i].querySelector('#periodValue');
+            if (period && period.value === '') {
+                isValid = false;
+                zAlert.warning(i18n.msg('cmdb.class.msg.enterCondition'), function () {
+                    period.focus();
+                });
+                break outer;
+            }
+            saveAlarm.condition.period = period.value;
+            const unit = alarmNodeList[i].querySelector('#unitValue');
+            saveAlarm.condition.unit = unit.options[unit.selectedIndex].value;
+            const option = alarmNodeList[i].querySelector('#optionValue');
+            saveAlarm.condition.option = option.options[option.selectedIndex].value;
+
+            // 대상 미선택시
+            const alarmTargetAttributeId = alarmNodeList[i].querySelector('#alarmTargetAttributeId');
+            const selectedAlarmTargetAttributeId = alarmTargetAttributeId.options[alarmTargetAttributeId.selectedIndex].value;
+            if (alarmTargetAttributeId && selectedAlarmTargetAttributeId === '') {
+                isValid = false;
+                zAlert.warning(i18n.msg('cmdb.class.msg.selectAlertTarget'), function () {
+                    alarmTargetAttributeId.focus();
+                });
+                break outer;
+            }
+            saveAlarm.targetAttributeId = selectedAlarmTargetAttributeId;
+
+            saveAlarmsList.push(saveAlarm);
+        }
+        // 중복 체크
+        const saveAlarmsSet = new Set(saveAlarmsList.map(alarm => JSON.stringify(alarm)));
+        if (saveAlarmsSet.size < saveAlarmsList.length) {
+            isValid = false;
+            zAlert.warning(i18n.msg('cmdb.class.msg.duplicateAlarm'), function () {
+                document.getElementById('alarmList').focus();
+            });
+        }
+
+        return isValid ? saveAlarmsList : null;
+    }
+
     /** CMDB Class 등록, 수정 **/
     function onSave(flag) {
-        let pClassId = document.getElementById('txtPClassId').value;
-        if (isEmpty('txtClassName', 'cmdb.class.msg.enterClassName')) return;
-        if (isEmpty('txtClassSeq', 'cmdb.class.msg.enterClassSeq')) return;
-        if (document.getElementsByName('attribute').length === 0) {
+        // 유효성 검증
+        if (isEmpty('txtClassName', 'cmdb.class.msg.enterClassName')) return false;
+        if (isEmpty('txtClassSeq', 'cmdb.class.msg.enterClassSeq')) return false;
+
+        const saveAlarmsList = getSaveAlarmList();
+        if (saveAlarmsList === null) return false;
+
+        // 속성 목록
+        const attributeNodeList = document.getElementsByName('attribute');
+        if (attributeNodeList.length === 0) {
             zAlert.warning(i18n.msg('cmdb.class.msg.enterAttributeList'));
-            return;
+            return false;
         }
-        let attributeList = [];
-        document.getElementsByName('attribute').forEach(function (elem) {
-            attributeList.push(elem.id);
+        const saveAttributeList = [];
+        attributeNodeList.forEach(function (elem) {
+            saveAttributeList.push(elem.id);
         });
 
-        let obj = {};
-        obj.classId = document.getElementById('txtClassId').value;
-        obj.className = document.getElementById('txtClassName').value;
-        obj.classDesc = document.getElementById('txtClassDesc').value;
-        obj.classSeq = document.getElementById('txtClassSeq').value;
-        obj.attributes = attributeList;
+        const saveData = {
+            classId: document.getElementById('txtClassId').value,
+            className: document.getElementById('txtClassName').value,
+            classDesc: document.getElementById('txtClassDesc').value,
+            classSeq: document.getElementById('txtClassSeq').value,
+            attributes: saveAttributeList,
+            alarms: saveAlarmsList
+        };
 
-        if (pClassId !== '' || pClassId !== null) {
-            obj.pclassId = pClassId;
+        const pClassId = document.getElementById('txtPClassId');
+        if (pClassId !== null && pClassId.value !== '') {
+            saveData.pclassId = pClassId.value;
         }
 
         let strUrl = '/rest/cmdb/classes';
         if (flag !== 'POST') {
             strUrl += '/' + document.getElementById('txtClassId').value;
         }
-
         aliceJs.fetchText(strUrl, {
             method: flag,
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(obj)
+            body: JSON.stringify(saveData)
         }).then((status) => {
             switch (status) {
                 case STATUS_SUCCESS:
@@ -447,6 +573,64 @@
             });
         })
     }
+
+    /**
+     * 기존 알림 설정 추가
+     */
+    function setAlarmCondition(data) {
+        const alarmConditionTemplate = document.getElementById('alarmConditionTemplate');
+        const alarmAttributeSelect = alarmConditionTemplate.content.querySelector('#alarmAttributeId');
+        const alarmTargetAttributeSelect = alarmConditionTemplate.content.querySelector('#alarmTargetAttributeId');
+        // 감시 항목 옵션 삭제
+        while (alarmAttributeSelect.options.length > 1) {
+            alarmAttributeSelect.remove(1);
+        }
+        // 감시 항목 옵션 추가
+        const alarmAttributeOptions = data.alarmAttributes.map(function (opt) {
+            return `<option value="${opt.attributeId}">${aliceJs.filterXSS(opt.attributeText)}</option>`;
+        }).join('');
+        alarmAttributeSelect.insertAdjacentHTML('beforeend', alarmAttributeOptions);
+
+        // 대상 옵션 삭제
+        while (alarmTargetAttributeSelect.options.length > 1) {
+            alarmTargetAttributeSelect.remove(1);
+        }
+        // 대상 옵션 추가
+        const alarmTargetAttributeOptions = data.alarmTargetAttributes.map(function (opt) {
+            return `<option value="${opt.attributeId}">${aliceJs.filterXSS(opt.attributeText)}</option>`;
+        }).join('');
+        alarmTargetAttributeSelect.insertAdjacentHTML('beforeend', alarmTargetAttributeOptions);
+
+        data.alarms.forEach((alarm) => {
+            addAlarmCondition(alarm);
+        });
+    }
+
+    /**
+     * + 버튼 클릭시 알림 설정 신규 추가
+     */
+    function addAlarmCondition(data = { attributeId: '', condition: { period: '', unit: 'month', option: 'before'}, targetAttributeId: ''} ) {
+        const alarmConditionTemplate = document.getElementById('alarmConditionTemplate');
+        const alarmList = document.getElementById('alarmList');
+        const alarm =  alarmConditionTemplate.content.cloneNode(true);
+        // 기본 값 세팅
+        alarm.querySelector('#alarmAttributeId').value = data.attributeId;
+        alarm.querySelector('#periodValue').value = data.condition.period;
+        alarm.querySelector('#unitValue').value = data.condition.unit;
+        alarm.querySelector('#optionValue').value = data.condition.option;
+        alarm.querySelector('#alarmTargetAttributeId').value = data.targetAttributeId;
+
+        alarmList.appendChild(alarm);
+        aliceJs.initDesignedSelectTag(alarm.content);
+    }
+
+    /**
+     * 휴지통 버튼 클릭시 알림 삭제
+     */
+    function deleteAlarmCondition(e) {
+        e.target.parentNode.remove();
+    }
+
     /*]]>*/
 </script>
 </html>
