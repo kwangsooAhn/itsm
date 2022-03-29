@@ -19,7 +19,26 @@
     SSOService ssoService = SSOService.getInstance();
     rspData = ssoService.ssoGetLoginData(request);
 
+    String ACC_DE = rspData.getAttribute("ACC_DE");
+    String ACC_DE_SYS = "ITS";
     String rspDataUid = rspData.getAttribute("UID");
+
+    ArrayList<String> accDeList = new ArrayList<String>(Arrays.asList(ACC_DE.split("_")));
+    if (!accDeList.contains(ACC_DE_SYS)) {
+        try {
+            session.invalidate();
+        } catch (Exception e) {
+            System.out.println("Session already invalidate.");
+            System.out.println("[ACCESS_DENIED] 해당 사용자는 접근할 수 없는 시스템입니다. 시스템 코드 : " + ACC_DE_SYS);
+        }
+%>
+<script type="text/javascript">
+    alert("[ACCESS_DENIED] 해당 사용자는 접근할 수 없는 시스템입니다. \n시스템 코드 : <%=ACC_DE_SYS%>");
+    window.close();
+</script>
+<%
+        return;
+    }
 %>
 <script type="text/javascript">
     let keyModule = '<%=keyModulus%>';
