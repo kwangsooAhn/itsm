@@ -500,9 +500,6 @@
                 document.querySelector('.z-simulation-report-contents-main .details').appendChild(reportDetails);
             }
 
-            if (document.querySelector('.z-simulation-report').classList.contains('closed')) {
-                document.querySelector('.z-button-simulation-report').click();
-            }
             // 스크롤바 생성
             OverlayScrollbars(document.querySelector('.z-simulation-report-contents-main'), { className: 'scrollbar' });
         });
@@ -856,6 +853,7 @@
         const simulationToggleEvent = function() {
             document.querySelector('.z-simulation-report').classList.toggle('closed');
             document.querySelector('.z-button-simulation-report').classList.toggle('active');
+            simulationProcess();
         };
 
         // 시뮬레이션 레포트 초기화 설정
@@ -895,7 +893,6 @@
         simulationButton.type = 'button';
         simulationButton.className = 'z-button-icon secondary z-button-simulation-report';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
-
         const simulationIcon = document.createElement('span');
         simulationIcon.className = 'z-icon i-simulation-report';
         simulationButton.appendChild(simulationIcon);

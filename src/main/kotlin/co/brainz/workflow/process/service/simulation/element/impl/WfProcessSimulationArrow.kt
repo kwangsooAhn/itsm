@@ -22,7 +22,9 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
             return failed("Action value is a forbidden word.")
         }
         val sourceElementId = element.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
+        val targetElementId = element.getElementDataValue(WfElementConstants.AttributeId.TARGET_ID.value)
         val sourceElement = wfElementRepository.findWfElementEntityByElementId(sourceElementId!!)
+        val targetElement = wfElementRepository.findWfElementEntityByElementId(targetElementId!!)
         val arrowConnectors = wfElementRepository.findAllArrowConnectorElement(sourceElement.elementId)
         val sourceElementIsGateway =
             WfElementConstants.ElementType.getAtomic(sourceElement.elementType) ==
@@ -89,6 +91,12 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
                             " If action then all checks should be unchecked."
                 )
             }
+        }
+
+        // commonStart 다음 element가 userTask인지 검사
+        if (sourceElement.elementType == WfElementConstants.ElementType.COMMON_START_EVENT.value &&
+            targetElement.elementType != WfElementConstants.ElementType.USER_TASK.value) {
+            return failed("The following task is not userTask.")
         }
         return true
     }
