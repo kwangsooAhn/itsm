@@ -15,5 +15,8 @@ data class CIClassDetailDto(
     var pClassName: String? = null,
     var editable: Boolean? = true,
     var attributes: List<CIClassToAttributeDto>? = null,
-    var extendsAttributes: List<CIClassToAttributeDto>? = null
+    var extendsAttributes: List<CIClassToAttributeDto>? = null,
+    var alarms: List<CIClassAlarmDto>? = null,
+    var alarmAttributes: List<CIClassAlarmAttributeDto>? = null,
+    var alarmTargetAttributes: List<CIClassAlarmAttributeDto>? = null
 )

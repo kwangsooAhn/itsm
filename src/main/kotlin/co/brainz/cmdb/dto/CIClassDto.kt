@@ -20,5 +20,6 @@ data class CIClassDto(
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
     var updateDt: LocalDateTime? = null,
-    var attributes: List<String>? = null
+    var attributes: List<String>? = null,
+    var alarms: List<CIClassAlarmDto> = emptyList()
 ) : Serializable

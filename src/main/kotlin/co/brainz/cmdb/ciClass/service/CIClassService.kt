@@ -11,11 +11,16 @@ import co.brainz.cmdb.ciClass.constants.CIClassConstants
 import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapEntity
 import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapPk
 import co.brainz.cmdb.ciClass.entity.CIClassEntity
+import co.brainz.cmdb.ciClass.entity.CIClassNotificationEntity
 import co.brainz.cmdb.ciClass.repository.CIClassAttributeMapRepository
+import co.brainz.cmdb.ciClass.repository.CIClassNotificationRepository
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIAttributeValueGroupListDto
+import co.brainz.cmdb.dto.CIClassAlarmAttributeDto
+import co.brainz.cmdb.dto.CIClassAlarmConditionDto
+import co.brainz.cmdb.dto.CIClassAlarmDto
 import co.brainz.cmdb.dto.CIClassDetailDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIClassDto
@@ -43,7 +48,8 @@ class CIClassService(
     private val ciClassRepository: CIClassRepository,
     private val ciAttributeRepository: CIAttributeRepository,
     private val aliceUserRepository: AliceUserRepository,
-    private val ciClassAttributeMapRepository: CIClassAttributeMapRepository
+    private val ciClassAttributeMapRepository: CIClassAttributeMapRepository,
+    private val ciClassNotificationRepository: CIClassNotificationRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -114,6 +120,41 @@ class CIClassService(
             extendsAttributes = ciClassRepository.findClassToAttributeList(recursiveClassList)
         }
 
+        // 알림 설정 조회
+        val alarmList = ciClassNotificationRepository.findClassNotificationList(classId)
+        val alarms = mutableListOf<CIClassAlarmDto>()
+        alarmList.forEach {
+            alarms.add(
+                CIClassAlarmDto(
+                    attributeId = it.ciAttribute.attributeId,
+                    condition = mapper.readValue(it.condition, CIClassAlarmConditionDto::class.java),
+                    targetAttributeId = it.ciTargetAttribute.attributeId
+                )
+            )
+        }
+
+        // 감시항목 리스트 (부모 속성 포함)
+        val alarmAttributes = mutableListOf<CIClassAlarmAttributeDto>()
+        if (!extendsAttributes.isNullOrEmpty()) {
+            alarmAttributes.addAll(
+                this.getAttributesInType(
+                    extendsAttributes, setOf(CIClassConstants.AttributeType.DATE.code, CIClassConstants.AttributeType.DATE_TIME.code)))
+        }
+        if (!attributes.isNullOrEmpty()) {
+            alarmAttributes.addAll(
+                this.getAttributesInType(
+                    attributes, setOf(CIClassConstants.AttributeType.DATE.code, CIClassConstants.AttributeType.DATE_TIME.code)))
+        }
+
+        // 대상 리스트 (부모 속성 포함)
+        val alarmTargetAttributes = mutableListOf<CIClassAlarmAttributeDto>()
+        if (!extendsAttributes.isNullOrEmpty()) {
+            alarmTargetAttributes.addAll(this.getAttributesInType(extendsAttributes, setOf(CIClassConstants.AttributeType.CUSTOM_CODE.code)))
+        }
+        if (!attributes.isNullOrEmpty()) {
+            alarmTargetAttributes.addAll(this.getAttributesInType(attributes, setOf(CIClassConstants.AttributeType.CUSTOM_CODE.code)))
+        }
+
         return CIClassDetailDto(
             classId = ciClassEntity.classId,
             className = ciClassEntity.className,
@@ -123,8 +164,29 @@ class CIClassService(
             pClassName = pClassName,
             editable = editable,
             attributes = attributes,
-            extendsAttributes = extendsAttributes
+            extendsAttributes = extendsAttributes,
+            alarms = alarms,
+            alarmAttributes = alarmAttributes,
+            alarmTargetAttributes = alarmTargetAttributes
         )
+    }
+
+    private fun getAttributesInType(
+        attributeList: List<CIClassToAttributeDto>,
+        typeSets: Set<String>
+    ): List<CIClassAlarmAttributeDto> {
+        val attributes = mutableListOf<CIClassAlarmAttributeDto>()
+        attributeList.forEach {
+            if (typeSets.contains(it.attributeType)) {
+                attributes.add(
+                    CIClassAlarmAttributeDto(
+                        attributeId = it.attributeId as String,
+                        attributeText = it.attributeText as String
+                    )
+                )
+            }
+        }
+        return attributes
     }
 
     /**
@@ -244,6 +306,21 @@ class CIClassService(
             order++
         }
 
+        // 알림 설정
+        if (ciClassDto.alarms.isNotEmpty()) {
+            ciClassDto.alarms.forEachIndexed { index, alarm ->
+                ciClassNotificationRepository.save(
+                    CIClassNotificationEntity(
+                        ciClass = savedCiClassEntity,
+                        ciAttribute = ciAttributeRepository.getOne(alarm.attributeId),
+                        attributeOrder = index + 1,
+                        condition = mapper.writeValueAsString(alarm.condition),
+                        ciTargetAttribute = ciAttributeRepository.getOne(alarm.targetAttributeId)
+                    )
+                )
+            }
+        }
+
         return true
     }
 
@@ -291,6 +368,22 @@ class CIClassService(
             order++
         }
 
+        // 알림 설정
+        ciClassNotificationRepository.deleteCIClassNotificationEntitiesByCiClass_ClassId(ciClassDto.classId)
+        if (ciClassDto.alarms.isNotEmpty()) {
+            ciClassDto.alarms.forEachIndexed { index, alarm ->
+                ciClassNotificationRepository.save(
+                    CIClassNotificationEntity(
+                        ciClass = updatedCiClassEntity,
+                        ciAttribute = ciAttributeRepository.getOne(alarm.attributeId),
+                        attributeOrder = index + 1,
+                        condition = mapper.writeValueAsString(alarm.condition),
+                        ciTargetAttribute = ciAttributeRepository.getOne(alarm.targetAttributeId)
+                    )
+                )
+            }
+        }
+
         return true
     }
 
@@ -304,6 +397,7 @@ class CIClassService(
             AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"
         )
 
+        ciClassNotificationRepository.deleteCIClassNotificationEntitiesByCiClass_ClassId(classId)
         ciClassRepository.deleteById(classEntity.classId)
         return true
     }

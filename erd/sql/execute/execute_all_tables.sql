@@ -692,6 +692,7 @@ CREATE TABLE awf_notification
 	received_user varchar(128) NOT NULL,
 	title varchar(128) NOT NULL,
 	message varchar(1024),
+	notification_type varchar(128) DEFAULT 'document',
 	instance_id varchar(128),
 	confirm_yn boolean DEFAULT 'false',
 	display_yn boolean DEFAULT 'false',
@@ -707,6 +708,7 @@ COMMENT ON COLUMN awf_notification.notification_id IS '알림아이디';
 COMMENT ON COLUMN awf_notification.received_user IS '수신사용자';
 COMMENT ON COLUMN awf_notification.title IS '제목';
 COMMENT ON COLUMN awf_notification.message IS '메시지';
+COMMENT ON COLUMN awf_notification.notification_type IS '알림타입';
 COMMENT ON COLUMN awf_notification.instance_id IS '인스턴스아이디';
 COMMENT ON COLUMN awf_notification.confirm_yn IS '확인여부';
 COMMENT ON COLUMN awf_notification.display_yn IS '표시여부';
@@ -1248,7 +1250,6 @@ insert into awf_url values ('/rest/custom-codes', 'put', '커스텀 코드 수�
 insert into awf_url values ('/rest/custom-codes', 'post', '커스텀 코드 등록', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'delete', '커스텀 코드 삭제', 'TRUE');
 insert into awf_url values ('/rest/custom-codes/{id}', 'get', '커스텀코드 목록 조회', 'FALSE');
-insert into awf_url values ('/rest/dashboard/organization/{id}', 'get', '요청현황 조회 (부서별)', 'FALSE');
 insert into awf_url values ('/rest/dashboard/template/{id}/component/{id}', 'post', '템플릿 컴포넌트별 조회', 'FALSE');
 insert into awf_url values ('/rest/documents', 'get', '신청서 문서 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows', 'post', '신청서 작성', 'TRUE');
@@ -8922,7 +8923,7 @@ COMMENT ON COLUMN wf_instance_viewer.create_dt IS '수정일시';
 /**
   대시보드 템플릿
  */
-DROP TABLE IF EXISTS awf_dashboard_template  cascade;
+DROP TABLE IF EXISTS awf_dashboard_template cascade;
 
 CREATE TABLE awf_dashboard_template
 (
@@ -9034,3 +9035,28 @@ INSERT INTO awf_dashboard_template VALUES ('template-001', '부서별 요청현�
     }
   ]
 }', 'KB 저축은행에서 만든 첫 번째 템플릿');
+
+/**
+  속성 그룹 알림
+ */
+DROP TABLE IF EXISTS cmdb_class_notification cascade;
+
+CREATE TABLE cmdb_class_notification
+(
+    class_id varchar(128) NOT NULL,
+    attribute_id varchar(128) NOT NULL,
+    attribute_order int NOT NULL,
+    condition text,
+    target_attribute_id varchar(128) NOT NULL,
+    CONSTRAINT cmdb_class_notification_pk PRIMARY KEY (class_id, attribute_id, condition, target_attribute_id),
+    CONSTRAINT cmdb_class_notification_fk1 FOREIGN KEY (class_id) REFERENCES cmdb_class (class_id),
+    CONSTRAINT cmdb_class_notification_fk2 FOREIGN KEY (attribute_id) REFERENCES cmdb_attribute (attribute_id)
+);
+
+COMMENT ON TABLE cmdb_class_notification IS '속성 알람 설정 정보';
+COMMENT ON COLUMN cmdb_class_notification.class_id IS '클래스아이디';
+COMMENT ON COLUMN cmdb_class_notification.attribute_id IS '속성아이디';
+COMMENT ON COLUMN cmdb_class_notification.attribute_order IS '순서';
+COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
+COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';
+
