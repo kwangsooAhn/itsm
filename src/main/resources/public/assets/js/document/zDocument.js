@@ -310,34 +310,31 @@ class ZDocument {
         console.debug(saveData);
 
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
-        const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
-        aliceJs.fetchText(url, {
-            method: (saveData.tokenId === '') ? 'post' : 'put',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(saveData),
-            showProgressbar: true
-        }).then(rtn => {
-            if (rtn === 'true') {
-                if (actionType === 'cancel') {
-                    zAlert.confirm(i18n.msg('document.msg.cancel'),  () => {
-                        opener.location.reload();
-                        window.close();
-                    });
-                } else if (actionType === 'terminate') {
-                    zAlert.confirm(i18n.msg('document.msg.terminate'),  () => {
-                        opener.location.reload();
-                        window.close();
-                    });
-                } else {
-                    zAlert.success(i18n.msg(actionMsg),  () => {
-                        opener.location.reload();
-                        window.close();
-                    });
+        const finishAction = function () {
+            const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
+            aliceJs.fetchText(url, {
+                method: (saveData.tokenId === '') ? 'post' : 'put',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(saveData),
+                showProgressbar: true
+            }).then(rtn => {
+                if (rtn === 'true') {
+                    opener.location.reload();
+                    window.close();
                 }
-            }
-        });
+            });
+        };
+        if (actionType === 'cancel') {
+            zAlert.confirm(i18n.msg('document.msg.cancel'), finishAction);
+        } else if (actionType === 'terminate') {
+            zAlert.confirm(i18n.msg('document.msg.terminate'), finishAction);
+        } else {
+            zAlert.success(i18n.msg(actionMsg), finishAction);
+        }
+
+
     }
     /**
      * 프로세스 맵 팝업 호출
