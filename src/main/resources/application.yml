@@ -251,5 +251,7 @@ spring:
 ---
 # Notification Toast Option
 notification:
-  toast: true
+  toast.enabled: true
   vendor:
+    enabled: false
+    target:

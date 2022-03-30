@@ -15,11 +15,14 @@ class NotificationService(
     private val notificationRepository: NotificationRepository,
     private val userRepository: AliceUserRepository
 ) {
-    @Value("\${notification.toast}")
+    @Value("\${notification.toast.enabled}")
     lateinit var toast: String
 
-    @Value("\${notification.vendor}")
-    lateinit var vendor: String
+    @Value("\${notification.vendor.enabled}")
+    lateinit var isVendorEnabled: String
+
+    @Value("\${notification.vendor.target}")
+    lateinit var vendorTarget: String
 
     private val notificationMapper: NotificationMapper = Mappers.getMapper(NotificationMapper::class.java)
 
@@ -42,14 +45,13 @@ class NotificationService(
                 userEntity?.let {
                     val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
                     notificationEntity.receivedUser = userEntity
-                    notificationEntity.target = "zitsm"
                     notificationEntityList.add(notificationEntity)
 
                     // Insert Notification Data For Vendor
-                    if (vendor.isNotBlank()) {
+                    if (isVendorEnabled == "true" && vendorTarget.isNotBlank()) {
                         val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
                         notificationEntity.receivedUser = userEntity
-                        notificationEntity.target = vendor
+                        notificationEntity.target = vendorTarget
                         notificationEntityList.add(notificationEntity)
                     }
                 }
