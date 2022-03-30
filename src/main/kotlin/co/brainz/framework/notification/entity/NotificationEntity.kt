@@ -2,6 +2,7 @@ package co.brainz.framework.notification.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.notification.constants.NotificationConstants
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -41,6 +42,6 @@ data class NotificationEntity(
     var displayYn: Boolean = false,
 
     @Column(name = "target", length = 100)
-    var target: String? = null
+    var target: String? = NotificationConstants.ITSM_IDENTIFIER
 
 ) : Serializable, AliceMetaEntity()
