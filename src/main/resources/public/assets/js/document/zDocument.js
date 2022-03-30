@@ -320,10 +320,22 @@ class ZDocument {
             showProgressbar: true
         }).then(rtn => {
             if (rtn === 'true') {
-                zAlert.success(i18n.msg(actionMsg),  () => {
-                    opener.location.reload();
-                    window.close();
-                });
+                if (actionType === 'cancel') {
+                    zAlert.confirm(i18n.msg('document.msg.cancel'),  () => {
+                        opener.location.reload();
+                        window.close();
+                    });
+                } else if (actionType === 'terminate') {
+                    zAlert.confirm(i18n.msg('document.msg.terminate'),  () => {
+                        opener.location.reload();
+                        window.close();
+                    });
+                } else {
+                    zAlert.success(i18n.msg(actionMsg),  () => {
+                        opener.location.reload();
+                        window.close();
+                    });
+                }
             }
         });
     }
