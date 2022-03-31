@@ -181,7 +181,7 @@ spring:
   profiles: mo
   datasource:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32846/itsm
-file.upload.dir: D:\files
+file.upload.dir: C:\files
 schedule.plugins.dir: C:\Users\Mo Hyungnan\ideaProjects\itsm\plugins
 ---
 spring:
