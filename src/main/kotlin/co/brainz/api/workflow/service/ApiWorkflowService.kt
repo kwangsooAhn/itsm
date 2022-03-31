@@ -100,6 +100,7 @@ class ApiWorkflowService(
             }
 
             // TODO: 컴포넌트 기본 값 셋팅 필요
+            // TODO: default 값 추가 + CI 필수값 처리 >> componentData 에 저장할 수 있게 한다.
 
             // 신청서 등록 (WfEngine)
             val requestDto = RequestDto(
