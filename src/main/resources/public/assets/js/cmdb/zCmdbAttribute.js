@@ -187,6 +187,7 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
+        aliceJs.initDesignedSelectTag();
     }
 
     /**
@@ -480,7 +481,6 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
-
         aliceJs.initDesignedSelectTag();
 
         // custom-code 변경 시 데이터 변경
@@ -707,6 +707,7 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
+        aliceJs.initDesignedSelectTag();
 
         const minDateElement = document.getElementById(objectId + '-minDate');
         const maxDateElement = document.getElementById(objectId + '-maxDate');
@@ -764,6 +765,7 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
+        aliceJs.initDesignedSelectTag();
 
         const minDateTimeElement = document.getElementById(objectId + '-minDateTime');
         const maxDateTimeElement = document.getElementById(objectId + '-maxDateTime');
