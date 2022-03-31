@@ -1359,7 +1359,7 @@ token:
     read: "읽음"
     relatedInstance: "관련 문서"
     relatedInstancePlaceholder: "신청서 이름 / 등록자"
-    searchPlaceholder: "문서번호 / 등록자 / 제목"
+    searchPlaceholder: "문서번호 / 제목 / 등록자"
     status: "상태"
     startDt: "시작 일시"
     tagPlaceHolder: "#태그"
