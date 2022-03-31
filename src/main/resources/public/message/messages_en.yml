@@ -622,6 +622,7 @@ document:
     write: "WorkFlow Edit"
   msg:
     adminSearchDescription: "View and manage workflow by combining process and document form."
+    cancel: "If you cancel the document, the document will be deleted. Would you like to proceed though?"
     changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status will be deleted."
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
@@ -639,6 +640,7 @@ document:
     selectForm: "Please select form."
     selectProcess: "Please select process."
     selectNumberingRule: "Please select numbering rule"
+    terminate: "The document will be forcibly closed. Would you like to proceed though?"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
