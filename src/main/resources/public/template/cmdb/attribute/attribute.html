@@ -98,8 +98,7 @@
                 <button type="button" class="z-button primary" onclick="saveAttribute('PUT')"
                         th:if="${attribute?.attributeId}" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="z-button danger" onclick="deleteAttribute()"
-                        th:disabled="${!attribute.enabled}" th:if="${attribute?.attributeId}"
-                        th:text="#{common.btn.delete}"></button>
+                        th:if="${attribute?.attributeId}" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
