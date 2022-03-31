@@ -298,9 +298,7 @@
                 body: JSON.stringify(absenceInfo)
             }).then((rtn) => {
                 if (rtn) {
-                    zAlert.success([[#{common.msg.modify}]], () => {
-                        window.location.reload();
-                    });
+                    zAlert.success([[#{common.msg.modify}]]);
                 }
             });
         });
