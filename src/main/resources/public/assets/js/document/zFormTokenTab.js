@@ -408,10 +408,10 @@ class ZFormTokenTab {
                 callback: (modal) => {
                     if (this.relatedDocList.length === 0) {
                         zAlert.warning(i18n.msg('token.msg.selectToken'));
-                    } else {
-                        this.saveRelatedDoc();
-                        modal.hide();
+                        return false;
                     }
+                    this.saveRelatedDoc();
+                    modal.hide();
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
