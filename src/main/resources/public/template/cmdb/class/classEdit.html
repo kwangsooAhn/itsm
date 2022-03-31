@@ -206,23 +206,6 @@
             }
             onEdit();
 
-            // TODO 가데이터 삭제 필요!
-            responseJson.alarms = [
-                {
-                    "attributeId": "40289ecf7f535e5e017f536b16ea0009",
-                    "condition": { "period": 1, "unit": "day", "option": "before" },
-                    "targetAttributeId": "4028b25d791b75ac01791bb14a4d0003"
-                }
-            ];
-            responseJson.alarmAttributes = [
-                {"attributeId": "40289ecf7f535e5e017f536b16ea0009", "attributeText": "알림일시"},
-                {"attributeId": "4028b25d7916ef5f017916f71b030002", "attributeText": "유지보수 시작일"},
-                {"attributeId": "4028b25d7916ef5f017916f7bd590003", "attributeText": "유지보수 종료일"}
-            ];
-            responseJson.alarmTargetAttributes = [
-                {"attributeId": "4028b25d791b75ac01791bb0f9140002", "attributeText": "담당자(정)"},
-                {"attributeId": "4028b25d791b75ac01791bb14a4d0003", "attributeText": "담당자(부)"}
-            ];
             // 트리 선택시 기존 알림 삭제
             const alarmList = document.getElementById('alarmList');
             while (alarmList.children.length > 1) {

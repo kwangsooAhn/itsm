@@ -1,7 +1,7 @@
 /**
   대시보드 템플릿
  */
-DROP TABLE IF EXISTS awf_dashboard_template  cascade;
+DROP TABLE IF EXISTS awf_dashboard_template cascade;
 
 CREATE TABLE awf_dashboard_template
 (
