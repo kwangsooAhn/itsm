@@ -44,6 +44,8 @@
         vertical-align: middle;
       }
     }
+
+    &.off { display: none; }
   }
   .property-value {
     width: 2.813rem !important; // 45px
@@ -88,6 +90,8 @@
         margin-right: 0.25rem; // 4px
       }
     }
+
+    &.off { display: none; }
   }
   // textarea 엘리먼트
   .z-textarea {
@@ -176,7 +180,12 @@
         }
       }
 
-      .z-picker-wrapper-date { flex: 1; }
+      .z-picker-wrapper-date {
+        flex: 1;
+        .picker-main {
+          width:inherit;
+        }
+      }
     }
   }
   // tab

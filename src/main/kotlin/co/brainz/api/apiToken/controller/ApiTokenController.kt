@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -27,10 +26,9 @@ class ApiTokenController(
      */
     @GetMapping("")
     fun createAccessToken(
-        request: HttpServletRequest,
-        @RequestBody bodyContent: String
+        request: HttpServletRequest
     ): ResponseEntity<*> {
-        return apiTokenService.createAccessToken(bodyContent)
+        return apiTokenService.createAccessToken(request)
     }
 
     /**
@@ -38,9 +36,8 @@ class ApiTokenController(
      */
     @GetMapping("/refresh")
     fun createAccessTokenByRefreshToken(
-        request: HttpServletRequest,
-        @RequestBody bodyContent: String
+        request: HttpServletRequest
     ): ResponseEntity<*> {
-        return apiTokenService.createAccessTokenByRefreshToken(bodyContent)
+        return apiTokenService.createAccessTokenByRefreshToken(request)
     }
 }

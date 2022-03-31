@@ -112,6 +112,11 @@ class UIElement {
     getUIIndexOfChild(element) {
         return Array.prototype.indexOf.call(this.domElement.children, element.domElement);
     }
+
+    setUICustomEvent(event, callback) {
+        this.domElement.addEventListener(event, callback.bind(this), false);
+        return this;
+    }
 }
 
 // properties
@@ -193,7 +198,7 @@ class UIText extends UISpan {
 }
 
 class UIInput extends UIElement {
-    constructor(text) {
+    constructor(text = '') {
         super(document.createElement('input'));
         this.domElement.type = 'text';
         this.domElement.className = 'z-input';
@@ -318,6 +323,10 @@ class UISelect extends UIElement {
 
         return this;
     }
+
+    getUIOptionCount() {
+        return this.domElement.options.length;
+    }
 }
 
 class UICheckbox extends UIElement {
@@ -398,6 +407,18 @@ class UIClipboard extends UIElement {
         this.UITooltip.UITooptipText = new UISpan().setUIClass('z-clipboard-tooltip-text')
             .setUITextContent('Copy to clipboard');
         this.UITooltip.UIButton.addUI(this.UITooltip.UITooptipText);
+    }
+}
+
+// custom code remove
+class UIRemoveButton extends UIElement {
+    constructor() {
+        super(document.createElement('button'));
+        this.domElement.className = 'z-button-icon-sm';
+        this.domElement.type = 'button';
+        this.domElement.addEventListener('click', function () {
+            aliceJs.clearText(this);
+        });
     }
 }
 
@@ -632,7 +653,7 @@ class UICell extends UIElement {
 
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
-    UISelect, UICheckbox, UIClipboard, UISwitch, UIBreak,
+    UISelect, UICheckbox, UIClipboard, UIRemoveButton, UISwitch, UIBreak,
     UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable,
     UIRow, UICell, UIRadioButton
 };

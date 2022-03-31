@@ -62,8 +62,7 @@
 
             // 문서함 카운트
             .z-token-count {
-              @include absolute();
-              margin: 0.3125rem 9rem; // 5px 144px
+              @include absolute($top: 3.5rem, $right: 0.8125rem); // 56px 13px
               padding: 0.125rem 0.625rem; // 2px 10px
               @include borderRadius(1.25rem); // 20px
               line-height: inherit;

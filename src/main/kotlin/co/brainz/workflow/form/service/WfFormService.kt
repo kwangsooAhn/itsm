@@ -87,7 +87,7 @@ class WfFormService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = wfFormRepository.count(),
                 currentPageNum = formSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / formSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -167,6 +167,8 @@ class WfFormService(
                             WfFormConstants.PropertyType.VALIDATION.value -> componentDto.validation =
                                 objMapper.convertValue(optionValue, linkedMapType)
                             WfFormConstants.PropertyType.ELEMENT.value -> componentDto.element =
+                                objMapper.convertValue(optionValue, linkedMapType)
+                            WfFormConstants.PropertyType.PLUGIN.value -> componentDto.plugin =
                                 objMapper.convertValue(optionValue, linkedMapType)
                         }
                     }
@@ -260,6 +262,18 @@ class WfFormService(
                 componentPropertyEntity = WfComponentPropertyEntity(
                     componentId = resultComponentEntity.componentId,
                     propertyType = WfFormConstants.PropertyType.ELEMENT.value,
+                    propertyOptions = objMapper.writeValueAsString(it),
+                    properties = resultComponentEntity
+                )
+                wfComponentPropertyEntities.add(componentPropertyEntity)
+            }
+        }
+
+        component.plugin?.let {
+            if (it.size > 0) {
+                componentPropertyEntity = WfComponentPropertyEntity(
+                    componentId = resultComponentEntity.componentId,
+                    propertyType = WfFormConstants.PropertyType.PLUGIN.value,
                     propertyOptions = objMapper.writeValueAsString(it),
                     properties = resultComponentEntity
                 )

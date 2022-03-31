@@ -8,6 +8,7 @@
 package co.brainz.itsm.cmdb.ci.dto
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.querydsl.QuerydslConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
@@ -26,10 +27,15 @@ data class CISearchCondition(
     val relationSearch: String = "",
     val flag: String = "",
     val pageNum: Long = 0L,
+    val typeId: String? = null,
+    val orderColName: String? = null,
+    val orderDir: String? = QuerydslConstants.OrderSpecifier.ASC.code,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
     val tagArray: List<String> = this.tagStrArray()
-    val isPaging = pageNum > 0
+    var isPaging = pageNum > 0
+    var isSearchType: Boolean = true // type 검색 사용유무 (모달 CI 검색: true, CI 조회: false)__CI 조회는 타입을 선택하기 때문
+    var isExcel: Boolean = false
 
     private fun tagStrArray(): List<String> {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -43,7 +49,7 @@ data class CISearchCondition(
                 )
             )
         val tagArray = mutableListOf<String>()
-        if (!tagSearch.isNullOrEmpty()) {
+        if (tagSearch.isNotEmpty()) {
             val tags: List<Map<String, Any>> = mapper.readValue(tagSearch, listLinkedMapType)
             tags.forEach {
                 tagArray.add(it["value"] as String)

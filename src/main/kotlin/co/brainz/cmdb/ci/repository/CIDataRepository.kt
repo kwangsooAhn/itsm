@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
-interface CIDataRepository : JpaRepository<CIDataEntity, CIDataPk> {
+interface CIDataRepository : JpaRepository<CIDataEntity, CIDataPk>, CIDataRepositoryCustom {
     // CI Id 에 해당되는 CI_Data 삭제
     @Transactional
     @Modifying

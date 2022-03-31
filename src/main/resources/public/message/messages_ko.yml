@@ -8,6 +8,8 @@ common:
     delete: "삭제"
     editUserInfo: "내 정보 수정"
     export: "내보내기"
+    import: "가져오기"
+    initialization: "초기화"
     list: "목록"
     logout: "로그아웃"
     modify: "수정 완료"
@@ -20,6 +22,7 @@ common:
     review: "읽음"
     save: "저장"
     saveAs: "다른 이름으로 저장"
+    search: "검색"
     select: "선택"
     terminate: "종결"
     toModify: "수정"
@@ -42,6 +45,7 @@ common:
     delete: "삭제"
     edit: "편집"
     endDate: "종료일자"
+    export: "내보내기"
     fail: "실패"
     group: "그룹"
     modify: "수정"
@@ -268,6 +272,7 @@ chart:
     docCases: "문서 건 수"
     docRatio: "문서 차지 비율"
     searchPlaceholder: "차트 이름"
+    view: "차트 조회"
   option:
     label:
       subTitle: "사용자 정의 차트 보고서"
@@ -288,6 +293,7 @@ chart:
     enterTargetTags: "대상 태그를 입력하세요."
     maxPeriodUnitRange: "간격이 시간 단위일 경우, 기간을 {0}일 이내로 설정해주세요."
     periodUnitOutOfRange: "간격이 기간보다 큽니다."
+    duplicateChartNameAndChartType: "중복되는 차트 이름, 차트 종류가 존재합니다."
   chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"
@@ -330,21 +336,25 @@ cmdb:
         validate: "유효성"
         value: "Value"
       searchPlaceholder: "출력용 이름 / 데이터 타입 / 속성항목 이름 / 설명"
+      searchWidth: "컬럼 너비"
       seq: "정렬 순서"
       type: "데이터 타입"
+      useSearch: "검색조건 사용"
       view: "속성항목"
     msg:
       attributeNameUsed: "사용 중인 속성항목 이름입니다."
+      comepareWithMaxLength: "최대길이는 최소길이보다 큰 수를 입력하세요."
       enterAttributeName: "속성항목 이름을 입력하세요."
       details: "세부정보를 추가해 주세요."
       searchDescription: "CI 속성항목을 조회 및 관리합니다."
+      searchWidth: "검색조건 사용시, 항목의 너비를 설정합니다."
       selectAttributeType: "데이터 타입을 선택하세요."
       viewDescription: "속성항목에 대한 상세 정보를 조회합니다."
       editDescription: "속성항목에 대한 내용을 등록하거나 수정, 삭제합니다."
       maxLength: "최대길이는 1000 이하로 입력하세요."
       maxDate: "최대 날짜는 최소 날짜 이후로 선택하세요."
       maxDateTime: "최대 날짜 시간은 최소 날짜 시간 이후로 선택하세요."
-      comepareWithMaxLength: "최대길이는 최소길이보다 큰 수를 입력하세요."
+      useSearch: "자산검색시 검색조건으로 사용할 수 있습니다."
     btn:
       import: "가져오기"
       export: "내보내기"
@@ -357,9 +367,15 @@ cmdb:
     label:
       all: "전체"
       applyDate: "반영 일시"
-      ciNo: "CI No."
+      ciDesc: "자산 설명"
+      ciName: "자산 이름"
+      ciNo: "자산 번호"
       ciInquiry: "CI 조회"
+      ciTemplate: "IT자산 템플릿"
+      ciTemplateImport: "템플릿 IMPORT"
+      ciType: "자산 유형"
       createUser: "등록자"
+      detailSearch: "자산 상세 검색"
       delete: "CI 삭제"
       description: "CI 설명"
       existing: "기존"
@@ -368,6 +384,7 @@ cmdb:
       name: "CI 이름"
       new: "신규"
       relatedDocument: "관련 문서"
+      searchDetailPlaceholder: "자산 번호 / 자산 이름 / 설명"
       searchPlaceholder: "CI No / CI 유형 / CI 이름 / 설명"
       select: "CI 선택"
       seqNum: "CI No"
@@ -377,6 +394,7 @@ cmdb:
         use: "사용"
       tag: "태그"
       tagPlaceholder: "#태그"
+      targetType: "대상 자산 유형: {0}"
       type: "CI 유형"
       register: "CI 등록"
       update: "CI 수정"
@@ -384,6 +402,7 @@ cmdb:
       relation: "연관 관계"
       targetCiName: "대상 CI 이름"
       whetherToInterlink: "연동 여부"
+      importFile: "IMPORT 파일"
       interlink: "연동"
       nonInterlink: "비연동"
     msg:
@@ -394,11 +413,16 @@ cmdb:
       enterCiName: "CI 이름을 입력하세요."
       searchDescription: "CI를 조회 및 관리합니다."
       selectCI: "CI를 선택하세요."
+      selectImportFile: "IMPORT 파일을 선택하세요."
+      noticeImportFile: ".xlsx,.xls 파일만 가능합니다."
       tag: "태그를 입력하세요."
       viewDescription: "CI에 대한 상세 정보를 조회합니다."
     btn:
+      detailSearch: "상세 검색"
       import: "가져오기"
+      importTemplate: "일괄등록"
       export: "내보내기"
+      exportTemplate: "템플릿 다운로드"
   class:
     label:
       after: "이후"
@@ -447,10 +471,12 @@ cmdb:
       enterTypeAlias: "식별자를 입력하세요."
       enterTypeName: "유형 이름을 입력하세요."
       enterTypeSeq: "정렬 순서를 입력하세요."
+      pTypeAndTypeNameDuplication: "부모 유형내 동일한 유형이름이 존재합니다."
       searchDescription: "CI 유형을 조회 및 관리합니다."
       selectAvailableClass: "유효한 속성그룹을 선택하세요."
       selectAvailableType: "유효한 유형을 선택하세요."
       selectType: "유형을 선택하세요."
+      typeAliasDuplication: "동일한 식별자가 존재합니다."
     btn:
       import: "가져오기"
       export: "내보내기"
@@ -608,6 +634,7 @@ document:
     write: "업무흐름 편집"
   msg:
     adminSearchDescription: "프로세스와 문서양식을 조합하여 업무흐름을 조회 및 관리합니다."
+    cancel: "해당 문서를 취소 시 문서가 삭제 됩니다.<br/>그래도 진행 하시겠습니까?"
     changeStatusEnabled: "상태를 사용으로 수정 하시겠습니까?<br/>임시 상태로 작성된 문서 모두 삭제 됩니다."
     checkDocument: "문서를 다시 확인하세요."
     checkDuplication: "이미 해당 문서와 프로세스로 생성된 업무흐름이 존재합니다."
@@ -625,6 +652,7 @@ document:
     selectForm: "문서양식을 선택하세요."
     selectProcess: "프로세스를 선택하세요."
     selectNumberingRule: "문서번호 규칙을 선택하세요."
+    terminate: "해당 문서가 강제 종료가 됩니다.<br/>그래도 진행 하시겠습니까?"
   display:
     editable: "수정 가능"
     editableRequired: "수정 가능(필수값)"
@@ -696,9 +724,6 @@ fileupload:
 
 # Form
 form:
-  btn:
-    export: "내보내기"
-    import: "가져오기"
   label:
     actionType: "구분"
     addAbove: "새로만들기-위"
@@ -723,12 +748,16 @@ form:
     update: "문서양식 수정"
     undo: "작업 취소"
   msg:
+    checkPlugInButton: "유효성 검증을 위해 {0} 버튼을 클릭해주세요."
+    dropdownCodeNotExist: "설정된 매핑 아이디와 일치하는 Dropdown Code 컴포넌트가 존재하지 않습니다.</br>매핑 아이디를 확인하세요."
+    dropdownCodeOptionRequired: "Dropdown Code 컴포넌트는 최소 1개 이상의 옵션은 필수입니다.<br/>세부 설정을 확인해주세요."
     duplicateMappingId: "매핑 아이디({0})가 중복됩니다."
     enterFormName: "양식이름을 입력하세요."
     failedAllColumnDelete: "최소 1개 열은 필수입니다."
     failedDestroy: "관련 문서가 존재합니다.<br/>폐기할 수 없는 문서양식입니다."
     failedExport: "문서 양식 내보내기에 실패하였습니다."
     failedFormDelete: "문서양식을 삭제할 수 없습니다. 발행된 신청서가 있는 지 확인하세요."
+    failedPlugInButton: "유효성 검증에 실패하여 처리가 불가능합니다."
     fileSelect: "파일을 선택하세요."
     information: "공통 편집 가능한 컴포넌트 세부 속성이 존재하지 않습니다."
     label: "입력 항목은 숫자와 문자로 시작, 종료 되어야하고 숫자,문자, 쉼표(.), 언더바(_), 대시(-) 만 포함 할 수 있습니다."
@@ -742,6 +771,7 @@ form:
     saveInfo: "{0} 에 저장됨"
     searchDescription: "문서양식를 조회 및 관리합니다."
     selectImportFile: "IMPORT 파일을 선택하세요."
+    selectTargetUser: "사용자를 선택하세요."
     unique: "중복된 데이터는 포함할 수 없습니다."
     duplicateFormName: "중복되는 문서양식 이름이 있습니다.<br>다른 문서양식 이름을 입력하세요."
     duplicateOptionsName: "옵션 목록에 중복되는 이름이 있습니다.<br>다른 이름을 입력하세요."
@@ -751,11 +781,13 @@ form:
   row: "Row"
   component:
     checkBox: "Checkbox"
+    ci: "CI"
     customCode: "Custom Code"
     date: "Date"
     dateTime: "Date Time"
     divider: "Divider"
     dropdown: "Dropdown"
+    dropdownCode: "Dropdown Code"
     dynamicRowTable: "DR Table"
     fileDownload: "File Download"
     fileUpload: "File Upload"
@@ -767,7 +799,7 @@ form:
     textArea: "Text Box"
     textEditor: "Text Editor"
     time: "Time"
-    ci: "CI"
+    userSearch: "User Search"
   help:
     custom-code-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'없음'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'세션'을 선택하는 경우 사용자의 세션 정보가 기본 값으로 출력됩니다.<br/>'코드'로 선택하는 경우에는 사용자가 정의한 코드의 데이터를 기본 값으로 출력합니다."
     custom-code: "사용자가 정의한 코드셋의 커스텀 코드 목록을 선택할 수 있습니다. 자세한 설정은 업무흐름 관리 > 커스텀 코드 화면을 참조바랍니다."
@@ -783,6 +815,7 @@ form:
       horizontal: "Horizontal"
     auto: "자동"
     char: "문자"
+    code: "코드"
     common: "공통"
     columnContent:
       align: "정렬"
@@ -824,14 +857,18 @@ form:
       columnName: "컬럼명"
       columnOrder: "선택 컬럼"
       columnType: "입력 유형"
+      defaultCodeValue: "기본값 코드"
       defaultValue: "기본값"
-      DefaultValueCustomCode: "Custom Code"
+      defaultValueCustomCode: "Custom Code"
+      defaultValueDropdownCode: "옵션 데이터"
       defaultValueRadio: "기본값"
       defaultValueSelect: "기본값 타입"
       isEditable: "편집가능 여부"
       path: "경로"
       placeholder: "Placeholder"
       rows: "입력 행 수"
+      searchTarget: "조회 대상"
+      searchTargetCriteria: "조회 대상 기준"
       text: "표시 텍스트"
       thickness: "굵기"
       type: "Type"
@@ -875,11 +912,15 @@ form:
     officeNumber: "사무실 번호"
     phone: "전화번호"
     placeholder: "Placeholder"
+    plugin:
+      button: "체크 버튼 추가"
+      scriptType: "작업 타입"
     status: "상태"
     tags: "태그"
     title: "폼"
     userId: "사용자 아이디"
     userKey: "사용자 키"
+    userList: "사용자 목록"
     userName: "사용자 이름"
     validate: "유효성"
     validation:
@@ -906,6 +947,9 @@ form:
       namePlaceholder: "이름 입력"
       value: "항목 값"
       valuePlaceholder: "값 입력"
+    userSearch:
+      organization: "부서별 조회"
+      custom: "대상 목록 지정"
   status:
     destroy: "폐기"
     edit: "편집"
@@ -1081,8 +1125,6 @@ portal:
 # Process
 process:
   btn:
-    export: "내보내기"
-    import: "가져오기"
     simulationCheckResult: "시뮬레이션 점검 결과"
   label:
     description: "설명"
@@ -1186,6 +1228,7 @@ process:
       subprocess: "서브프로세스"
       target-document-list: "대상 업무흐름"
       targetMappingId: "작업대상 매핑 ID"
+      targetPlugIn: "대상 플러그인"
       timer-cycle: "타이머주기"
       timer-date: "타이머날짜"
       timerStart: "타이머 이벤트"
@@ -1196,6 +1239,7 @@ process:
 # statistic
 statistic:
   btn:
+    create: "생성하기"
     pdf: "PDF"
   label:
     automatic: "자동 생성"
@@ -1328,8 +1372,8 @@ token:
     print: "처리할 문서 인쇄"
     read: "읽음"
     relatedInstance: "관련 문서"
-    relatedInstancePlaceholder: "신청서 이름/ 작성자"
-    searchPlaceholder: "규칙 이름 / 작성자 / 내용"
+    relatedInstancePlaceholder: "신청서 이름 / 등록자"
+    searchPlaceholder: "문서번호 / 제목 / 등록자"
     status: "상태"
     startDt: "시작 일시"
     tagPlaceHolder: "#태그"
@@ -1340,6 +1384,7 @@ token:
     process: "처리"
   msg:
     selectToken: "추가할 관련 문서를 선택해주세요."
+    selectViewer: "추가할 참조인을 선택해주세요."
     searchDescription: "나와 관련된 문서를 조회 및 처리합니다."
     tag: "태그를 입력하세요."
   type:
@@ -1371,9 +1416,13 @@ workflowAdmin:
   label:
     description: "설명"
     group: "그룹"
+    import: "업무흐름 IMPORT"
+    importFile: "IMPORT 파일"
     name: "이름"
     status: "상태"
     type: "타입"
+  msg:
+    noticeImportFile: "XML 파일만 가능합니다."
 
 # User
 user:
@@ -1409,7 +1458,7 @@ user:
     searchPlaceholder: "아이디/이름/부서/직책/전화번호"
     signUpDate: "가입일"
     substituteUser: "업무 대리인"
-    substituteUserSearchPlaceholder: "아이디/이름/부서"
+    userSearchPlaceholder: "아이디/이름/부서"
     theme: "테마"
     time: "시간 유형"
     timeFormat: "날짜/시간 유형"

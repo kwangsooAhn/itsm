@@ -547,7 +547,10 @@ $button-themes-default: (
     'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
   ),
   'default': (
-    'default': ('font': $gray400, 'background': transparent, 'border': transparent),
+          'default': ('font': $gray400, 'background': transparent, 'border': transparent),
+  ),
+  'error': (
+          'default': ('font': $white, 'background': $red500, 'border': $red500),
   )
 );
 // 어두운 배경에서 사용되는 버튼 테마
@@ -768,6 +771,7 @@ $tree-font-weight:                           $font-weight-medium;
 // tree 간격
 $tree-line-height:                           1.875rem; // 30px
 $tree-line-color:                            $gray300;
+$tree-line-hidden-color:                     $white;
 $tree-line-width:                            0.0625rem; // 1px
 // +, - icon
 $tree-toggle-icon-width:                     0.875rem; // 14px

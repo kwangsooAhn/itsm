@@ -230,4 +230,43 @@ class OrganizationService(
             }
         }
     }
+
+    /**
+     *  상위부서 조직명 recursive 조회
+     */
+    fun getOrganizationParent(
+        organization: OrganizationEntity,
+        organizationList: List<OrganizationEntity>,
+        organizationName: MutableList<String>
+    ): MutableList<String> {
+        organizationName.add(organization.organizationName.toString())
+        if (organization.pOrganization != null) {
+            val pOrganization = organizationList.firstOrNull {
+                it.organizationId == organization.pOrganization!!.organizationId
+            }
+            if (pOrganization != null) {
+                this.getOrganizationParent(pOrganization, organizationList, organizationName)
+            }
+        }
+        return organizationName
+    }
+
+    /**
+     *  하위부서 조직명 recursive 조회
+     */
+    fun getOrganizationChildren(
+        organization: OrganizationEntity,
+        organizationList: List<OrganizationEntity>,
+        organizationName: MutableList<String>
+    ): List<String> {
+        organizationName.add(organization.organizationName.toString())
+        val cOrganization = organizationRepository.findByPOrganization(organization)
+        if (cOrganization.isNotEmpty()) {
+            cOrganization.forEach {
+                organizationName.add(it.organizationName.toString())
+                this.getOrganizationChildren(it, cOrganization, organizationName)
+            }
+        }
+        return organizationName.distinct()
+    }
 }

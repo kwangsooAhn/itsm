@@ -74,7 +74,13 @@ export const FORM = {
         SESSION: 'session',
         CODE: 'code'
     },
+    DROPDOWN_CODE: {
+        CODE: 'code',
+        DEFAULT_CODE: 'defaultCode',
+        MAPPING_ID: 'mappingId'
+    },
     CUSTOM_CODE: [],
+    PLUGIN_LIST: [],
     // 옵션 속성에 추가되는 기본 값
     DEFAULT_OPTION_ROW: { name: '', value: '', checked: false },
     // 15개 column 제한 (dynamic table)

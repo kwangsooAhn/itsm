@@ -6,9 +6,11 @@
 
 package co.brainz.itsm.cmdb.ci.controller
 
+import co.brainz.api.dto.RequestCIComponentVO
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
+import co.brainz.itsm.cmdb.ci.dto.CISearch
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.service.CIService
 import javax.servlet.http.HttpServletRequest
@@ -43,8 +45,8 @@ class CIRestController(private val ciService: CIService) {
      * CI 컴포넌트 - CI 세부 정보 등록
      */
     @PostMapping("/{ciId}/data")
-    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentData: String): Boolean {
-        return ciService.saveCIComponentData(ciId, ciComponentData)
+    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentVO: RequestCIComponentVO): Boolean {
+        return ciService.saveCIComponentData(ciId, ciComponentVO)
     }
 
     /**
@@ -85,8 +87,11 @@ class CIRestController(private val ciService: CIService) {
     /**
      * CI 조회 Excel 다운로드
      */
-    @GetMapping("/excel")
-    fun getCIsExcelDownload(ciSearchCondition: CISearchCondition): ResponseEntity<ByteArray> {
-        return ciService.getCIsExcelDownload(ciSearchCondition)
+    @PostMapping("/excel")
+    fun getCIsExcelDownload(
+        ciSearchCondition: CISearchCondition,
+        @RequestBody searchItemsData: CISearch
+    ): ResponseEntity<ByteArray> {
+        return ciService.getCIsExcelDownload(ciSearchCondition, searchItemsData)
     }
 }

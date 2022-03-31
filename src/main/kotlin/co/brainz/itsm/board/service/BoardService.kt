@@ -40,7 +40,7 @@ class BoardService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = boardAdminRepository.count(),
                 currentPageNum = boardSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / boardSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

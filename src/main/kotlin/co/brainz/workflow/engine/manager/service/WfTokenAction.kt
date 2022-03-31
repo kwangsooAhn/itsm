@@ -33,8 +33,8 @@ class WfTokenAction(
     /**
      * Review
      */
-    fun actionReview(instanceId: String) {
-        wfTokenManagerService.updateReview(instanceId)
+    fun actionReview(instanceId: String): Boolean {
+        return wfTokenManagerService.updateReview(instanceId)
     }
 
     /**

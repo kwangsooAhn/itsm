@@ -143,6 +143,12 @@
             if (typeof this.wrapper !== 'undefined') {
                 addClass(this.wrapper, 'modal-active');
                 addClass(document.body, 'modal-active');
+                const modalDialog = document.querySelector('.modal-dialog');
+                modalDialog.classList.remove('modal-active');
+                this.animation = setTimeout(function() {
+                    clearTimeout(this.animation);
+                    modalDialog.classList.add('modal-active');
+                }, 30);
                 this.display = true;
                 this.options.onShow(this);
             }
@@ -150,10 +156,15 @@
 
         this.hide = function() {
             if (typeof this.wrapper !== 'undefined') {
-                removeClass(this.wrapper, 'modal-active');
-                removeClass(document.body, 'modal-active');
+                const _this = this;
+                const modalWrapper = this.wrapper;
+                modalWrapper.querySelector('.modal-dialog').classList.remove('modal-active');
+                setTimeout(function() {
+                    removeClass(modalWrapper, 'modal-active');
+                    removeClass(document.body, 'modal-active');
+                    _this.options.onHide(_this);
+                }, 150);
                 this.display = false;
-                this.options.onHide(this);
             }
         };
 
@@ -174,6 +185,9 @@
             if (typeof this.options.classes !== 'undefined' && this.options.classes !== '') {
                 dialog.className += ' ' + this.options.classes;
             }
+            setTimeout(function() {
+                dialog.classList.add('modal-active');
+            }, 30);
 
             // 닫기 버튼
             if (typeof this.options.close.closable !== 'undefined' && this.options.close.closable) {
@@ -292,10 +306,14 @@
 
         this.destroy = function() {
             if (typeof this.wrapper !== 'undefined') {
-                document.body.removeChild(this.wrapper);
+                const _this = this;
+                const modalWrapper = this.wrapper;
                 this.wrapper = undefined;
-                this.removeKeyListener();
-                this.options.onDestroy(this);
+                setTimeout(function() {
+                    document.body.removeChild(modalWrapper);
+                    _this.removeKeyListener();
+                    _this.options.onDestroy(_this);
+                }, 150);
             }
         };
 

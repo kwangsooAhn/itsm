@@ -9,10 +9,6 @@ import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
-import co.brainz.workflow.component.entity.WfComponentDataEntity
-import co.brainz.workflow.component.entity.WfComponentEntity
-import co.brainz.workflow.component.repository.WfComponentDataRepository
-import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.entity.WfElementDataEntity
@@ -20,7 +16,6 @@ import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.repository.WfElementDataRepository
 import co.brainz.workflow.element.repository.WfElementRepository
 import co.brainz.workflow.form.entity.WfFormEntity
-import co.brainz.workflow.form.repository.WfFormRepository
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.process.entity.WfProcessEntity
@@ -30,7 +25,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.File
 import java.time.LocalDateTime
-import java.util.UUID
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -39,15 +33,6 @@ class InitTestData {
 
     @Autowired
     lateinit var aliceUserRepository: AliceUserRepository
-
-    @Autowired
-    lateinit var wfFormRepository: WfFormRepository
-
-    @Autowired
-    lateinit var wfComponentRepository: WfComponentRepository
-
-    @Autowired
-    lateinit var wfComponentDataRepository: WfComponentDataRepository
 
     @Autowired
     lateinit var wfProcessRepository: WfProcessRepository
@@ -100,16 +85,16 @@ class InitTestData {
     /**
      * 폼 생성 ([formJsonFile] 파일의 폼 목록).
      */
-    fun setForms() {
-        this.makeForms(null)
-    }
+    // fun setForms() {
+    //     this.makeForms(null)
+    // }
 
     /**
      * 커스텀 폼 생성.
      */
-    fun setForms(customDataList: MutableList<WfFormEntity>?) {
-        this.makeForms(customDataList)
-    }
+    // fun setForms(customDataList: MutableList<WfFormEntity>?) {
+    //     this.makeForms(customDataList)
+    // }
 
     /**
      * 프로세스 생성 ([processJsonFile] 파일의 프로세스 목록).
@@ -202,61 +187,61 @@ class InitTestData {
     /**
      * 폼 데이터 생성 (Multiple).
      */
-    private fun makeForms(customDataList: MutableList<WfFormEntity>?) {
-        var forms: MutableList<WfFormEntity> = mutableListOf()
-        when (customDataList) {
-            null -> {
-                val jsonFile = File(jsonFilePath + File.separator + formJsonFile)
-                if (jsonFile.exists()) {
-                    val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
-                    jsonNode.forEach { form ->
-                        var formEntity = WfFormEntity(
-                            formId = "",
-                            formName = form["name"].asText(),
-                            formStatus = form["status"].asText(),
-                            createDt = LocalDateTime.now(),
-                            createUser = aliceUserRepository.findByUserId("admin")
-                        )
-                        formEntity = wfFormRepository.save(formEntity)
-
-                        // component
-                        val components: MutableList<WfComponentEntity> = mutableListOf()
-                        form["components"].forEach { component ->
-                            var componentEntity = WfComponentEntity(
-                                componentId = UUID.randomUUID().toString().replace("-", ""),
-                                componentType = component["type"].asText(),
-                                form = formEntity,
-                                isTopic = component["isTopic"].asBoolean(),
-                                mappingId = component["mappingId"].asText()
-                            )
-                            componentEntity = wfComponentRepository.save(componentEntity)
-
-                            // component data
-                            val componentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
-                            component["attributes"].forEach { componentData ->
-                                val componentDatEntity = WfComponentDataEntity(
-                                    componentId = componentEntity.componentId,
-                                    attributeId = componentData["id"].asText(),
-                                    attributes = componentEntity,
-                                    attributeValue = componentData["value"].asText()
-                                )
-                                componentDataEntities.add(componentDatEntity)
-                            }
-                            componentEntity.attributes!!.addAll(
-                                wfComponentDataRepository.saveAll(componentDataEntities)
-                            )
-                            components.add(componentEntity)
-                        }
-                        formEntity.components.addAll(components)
-                        forms.add(formEntity)
-                    }
-                    wfFormRepository.saveAll(forms)
-                }
-            }
-            else -> forms = wfFormRepository.saveAll(customDataList)
-        }
-        this.initData.forms = forms
-    }
+    // private fun makeForms(customDataList: MutableList<WfFormEntity>?) {
+    //     var forms: MutableList<WfFormEntity> = mutableListOf()
+    //     when (customDataList) {
+    //         null -> {
+    //             val jsonFile = File(jsonFilePath + File.separator + formJsonFile)
+    //             if (jsonFile.exists()) {
+    //                 val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
+    //                 jsonNode.forEach { form ->
+    //                     var formEntity = WfFormEntity(
+    //                         formId = "",
+    //                         formName = form["name"].asText(),
+    //                         formStatus = form["status"].asText(),
+    //                         createDt = LocalDateTime.now(),
+    //                         createUser = aliceUserRepository.findByUserId("admin")
+    //                     )
+    //                     formEntity = wfFormRepository.save(formEntity)
+    //
+    //                     // component
+    //                     val components: MutableList<WfComponentEntity> = mutableListOf()
+    //                     form["components"].forEach { component ->
+    //                         var componentEntity = WfComponentEntity(
+    //                             componentId = UUID.randomUUID().toString().replace("-", ""),
+    //                             componentType = component["type"].asText(),
+    //                             form = formEntity,
+    //                             isTopic = component["isTopic"].asBoolean(),
+    //                             mappingId = component["mappingId"].asText()
+    //                         )
+    //                         componentEntity = wfComponentRepository.save(componentEntity)
+    //
+    //                         // component data
+    //                         val componentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
+    //                         component["attributes"].forEach { componentData ->
+    //                             val componentDatEntity = WfComponentDataEntity(
+    //                                 componentId = componentEntity.componentId,
+    //                                 attributeId = componentData["id"].asText(),
+    //                                 attributes = componentEntity,
+    //                                 attributeValue = componentData["value"].asText()
+    //                             )
+    //                             componentDataEntities.add(componentDatEntity)
+    //                         }
+    //                         componentEntity.attributes!!.addAll(
+    //                             wfComponentDataRepository.saveAll(componentDataEntities)
+    //                         )
+    //                         components.add(componentEntity)
+    //                     }
+    //                     formEntity.components.addAll(components)
+    //                     forms.add(formEntity)
+    //                 }
+    //                 wfFormRepository.saveAll(forms)
+    //             }
+    //         }
+    //         else -> forms = wfFormRepository.saveAll(customDataList)
+    //     }
+    //     this.initData.forms = forms
+    // }
 
     /**
      * 프로세스 생성 (Multiple).

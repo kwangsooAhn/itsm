@@ -17,6 +17,7 @@
         .z-report-area {
             .z-drawing-board {
                 width: 45.625rem; // 730px
+                margin: 0 auto;
                 .z-chart-content {
                     margin: 0 0 1.25rem 0; // 20px
                     .z-title {
@@ -39,8 +40,9 @@
         }
         .z-report-main-footer {
             display: flex;
+            width: 45.625rem; // 730px
+            margin: 4mm auto 10mm;
             line-height: 1.2;
-            margin: 4mm 0 10mm 0;
             .z-logo {
                 display: inline-block;
                 background-color: $black;

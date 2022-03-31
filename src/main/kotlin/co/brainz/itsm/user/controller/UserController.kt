@@ -14,6 +14,7 @@ import co.brainz.framework.organization.service.OrganizationService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
+import co.brainz.itsm.user.dto.UserSearchCompCondition
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.service.UserService
 import javax.servlet.http.HttpServletRequest
@@ -136,7 +137,7 @@ class UserController(
     /**
      * 사용자 정보 수정 화면 및 자기정보 수정 화면 대리 근무자 리스트 모달
      */
-    @GetMapping("/view-pop/users")
+    @GetMapping("/substituteUsers")
     fun getSubUsersList(request: HttpServletRequest, model: Model): String {
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
@@ -145,6 +146,17 @@ class UserController(
         params["userKey"] = request.getParameter("userKey")
         model.addAttribute("userList", userService.selectNotAbsenceUserList(params).data)
         model.addAttribute("multiSelect", request.getParameter("multiSelect"))
+        return userListModalPage
+    }
+
+
+    /**
+     * 사용자 검색 컴포넌트 리스트 모달
+     */
+    @GetMapping("/searchUsers")
+    fun getSearchUsersList(userCompSearchCondition: UserSearchCompCondition, model: Model): String {
+        model.addAttribute("userList", userService.getSearchUserList(userCompSearchCondition).data)
+        model.addAttribute("multiSelect", false)
         return userListModalPage
     }
 
