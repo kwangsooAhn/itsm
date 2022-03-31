@@ -189,6 +189,16 @@ class WfTokenManagerService(
     }
 
     /**
+     * Delete token By instanceId.
+     */
+    fun deleteTokenByInstanceId(instanceId: String) {
+        val instance = wfInstanceRepository.findByInstanceId(instanceId)
+        if (instance != null) {
+            wfTokenRepository.deleteWfTokenEntityByInstance(instance)
+        }
+    }
+
+    /**
      * 프로세스 파일 경로.
      */
     fun getProcessFilePath(attachFileName: String): Path {
