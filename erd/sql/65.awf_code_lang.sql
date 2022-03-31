@@ -93,3 +93,5 @@ insert into awf_code_lang values ('customCode.sessionKey.position', 'Position', 
 insert into awf_code_lang values ('customCode.sessionKey.departmentName', 'Department', 'en');
 insert into awf_code_lang values ('customCode.sessionKey.officeNumber', 'Office Number', 'en');
 insert into awf_code_lang values ('customCode.sessionKey.mobileNumber', 'Mobile', 'en');
+insert into awf_code_lang values ('customCode.type.table', 'table', 'en');
+insert into awf_code_lang values ('customCode.type.code', 'code', 'en');
