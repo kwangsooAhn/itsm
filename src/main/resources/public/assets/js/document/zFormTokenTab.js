@@ -406,8 +406,7 @@ class ZFormTokenTab {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    this.saveRelatedDoc();
-                    modal.hide();
+                    this.saveRelatedDoc(modal);
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
@@ -478,7 +477,7 @@ class ZFormTokenTab {
     /**
      * 관련 문서 저장 : 선택한 문서를 관련문서로 저장
      */
-    saveRelatedDoc() {
+    saveRelatedDoc(modal) {
         if (this.relatedDocList.length === 0) {
             zAlert.warning(i18n.msg('token.msg.selectToken'));
         } else {
@@ -504,6 +503,7 @@ class ZFormTokenTab {
                 }
                 this.relatedDocList = [] // 저장후 검색리스트 초기화
              });
+            modal.hide();
         }
     }
     /**
