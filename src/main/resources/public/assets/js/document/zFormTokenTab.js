@@ -406,7 +406,12 @@ class ZFormTokenTab {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    this.saveRelatedDoc(modal);
+                    if (this.relatedDocList.length === 0) {
+                        zAlert.warning(i18n.msg('token.msg.selectToken'));
+                    } else {
+                        this.saveRelatedDoc();
+                        modal.hide();
+                    }
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
@@ -477,34 +482,29 @@ class ZFormTokenTab {
     /**
      * 관련 문서 저장 : 선택한 문서를 관련문서로 저장
      */
-    saveRelatedDoc(modal) {
-        if (this.relatedDocList.length === 0) {
-            zAlert.warning(i18n.msg('token.msg.selectToken'));
-        } else {
-            let data = {
-                instanceId: this.instanceId,
-                documentId: this.documentId
-            }
-
-            data.folders = this.relatedDocList;
-            aliceJs.fetchText('/rest/folders', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then((result) => {
-                if (result !== '') {
-                    this.folderId = result;
-                    this.reloadRelatedInstance().then(() => {
-                        // 날짜 표기 변경
-                        this.setDateTimeFormat();
-                    });
-                }
-                this.relatedDocList = [] // 저장후 검색리스트 초기화
-             });
-            modal.hide();
+    saveRelatedDoc() {
+        let data = {
+            instanceId: this.instanceId,
+            documentId: this.documentId
         }
+
+        data.folders = this.relatedDocList;
+        aliceJs.fetchText('/rest/folders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((result) => {
+            if (result !== '') {
+                this.folderId = result;
+                this.reloadRelatedInstance().then(() => {
+                    // 날짜 표기 변경
+                    this.setDateTimeFormat();
+                });
+            }
+            this.relatedDocList = [] // 저장후 검색리스트 초기화
+        });
     }
     /**
      * 관련 문서 삭제
