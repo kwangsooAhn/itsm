@@ -1357,7 +1357,7 @@ token:
     read: "Read"
     relatedInstance: "Related Documents"
     relatedInstancePlaceholder: "Document Name / Create User"
-    searchPlaceholder: "Document No / Create User / Contents"
+    searchPlaceholder: "Document No / Title / Create User"
     startDt: "Start Date"
     status: "Status"
     tagPlaceHolder: "#Tags"
