@@ -619,7 +619,7 @@ document:
     tempDocument: "Temporary Application"
     type: "Document Type"
     useYn: "Use enable"
-    write: "WorkFlow Edit"
+    write: "Service Request register"
   msg:
     adminSearchDescription: "View and manage workflow by combining process and document form."
     cancel: "If you cancel the document, the document will be deleted. Would you like to proceed though?"
