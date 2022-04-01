@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.cmdb.ciType.service
 
+import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.dto.CITypeDto
 import co.brainz.framework.util.CurrentSessionUser
@@ -86,5 +87,9 @@ class CITypeService(
 
     fun getCITypesByClassId(classId: String): Boolean {
         return ciTypeService.getCITypesByClassId(classId)
+    }
+
+    fun getCITypeByTypeName(typeName: String): CITypeEntity? {
+        return ciTypeService.getCITypeByTypeName(typeName)
     }
 }

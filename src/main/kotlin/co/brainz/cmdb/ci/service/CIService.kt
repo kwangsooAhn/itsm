@@ -494,7 +494,7 @@ class CIService(
     /**
      * CINo 가져오기 (생성).
      */
-    private fun getCINo(ciTypeEntity: CITypeEntity): String {
+    fun getCINo(ciTypeEntity: CITypeEntity): String {
         // 1. alias 로 연결된 최상위 부모까지 조회하여 prefix 생성
         val ciTypes = ciTypeRepository.findByCITypeAll()
         val typeAliasList = mutableListOf<String>()
