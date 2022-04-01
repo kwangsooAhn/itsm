@@ -8,7 +8,6 @@ package co.brainz.api.workflow.service
 
 import co.brainz.api.dto.RequestCmdbDto
 import co.brainz.api.dto.RequestDto
-import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
@@ -42,7 +41,6 @@ class ApiWorkflowService(
     private val apiWorkflowMapper: ApiWorkflowMapper,
     private val aliceMessageSource: AliceMessageSource,
     private val ciService: CIService,
-    private val ciTypeRepository: CITypeRepository,
     private val tokenService: TokenService
 ) {
 
