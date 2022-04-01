@@ -245,6 +245,16 @@ class CITypeService(
     }
 
     /**
+     * Type Name으로 CI Type Entity 조회
+     *
+     * @param typeName
+     * @return CITypeEntity?
+     */
+    fun getCITypeByTypeName(typeName: String): CITypeEntity? {
+        return ciTypeRepository.findCITypeByTypeName(typeName)
+    }
+
+    /**
      * CI Type로 중복체크
      *
      * @param ciTypeDto

@@ -37,12 +37,12 @@
                     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
                 </form>
                 <div class="ml-auto">
-                    <!--<button type="button" class="z-button secondary" id="btnTemplateDownload" name="btnTemplateDownload"
+                    <button type="button" class="z-button secondary" id="btnTemplateDownload" name="btnTemplateDownload"
                             sec:authorize="hasAuthority('cmdb.manage')" th:text="#{cmdb.ci.btn.exportTemplate}"
                             th:onclick="|javascript:onTemplateDownload()|"></button>
                     <button type="button" class="z-button secondary" id="btnTemplateUpload" name="btnTemplateUpload"
                             sec:authorize="hasAuthority('cmdb.manage')" th:text="#{cmdb.ci.btn.importTemplate}"
-                            th:onclick="|javascript:openTemplateUploadModal()|"></button>-->
+                            th:onclick="|javascript:openTemplateUploadModal()|"></button>
                     <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
                             th:onclick="|javascript:onExcelDownload();|" th:title="#{common.btn.export}"
                             sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')">
@@ -351,29 +351,13 @@
          * #12502 [CI 일괄업로드] 템플릿 다운로드 기능 구현 후 아래 주석 해제 예정
          */
         function onTemplateDownload() {
-            const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
-            const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
-            let detailSearchData = { searchItems: [] };
-            if (searchData) {
-                detailSearchData.searchItems = searchData.map((item) => {
-                    return { attributeId: item.attributeId, searchValue: item.searchValue }
-                });
-            }
-            const urlParam = aliceJs.serialize(document.getElementById('searchFrm'))
-                + '&typeId=' + document.getElementById('treeTypeId').value
-                + '&orderColName=' + orderColName
-                + '&orderDir=' + orderDir;
+            const urlParam = 'typeId=' + document.getElementById('treeTypeId').value
             // 다운로드 되는 파일은 “IT자산 템플릿-[CI유형명]-20220214”와 같은 형식의 이름을 가진다.
             const typeName = document.getElementById('treeTypeName').value;
             let excelFileName = i18n.msg('cmdb.ci.label.ciTemplate') + '-' + typeName + '-' + new Date().toISOString().substring(0, 10).replace(/-/g, '');
-            console.log(excelFileName);
-            /*aliceJs.fetchBlob('/rest/cmdb/cis/templateDownload?' + urlParam, {
-                method: 'POST',
-                showProgressBar: true,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(detailSearchData)
+            aliceJs.fetchBlob('/rest/cmdb/cis/template?' + urlParam, {
+                method: 'GET',
+                showProgressBar: true
             }).then((blob) => {
                 if (typeof blob === 'object') {
                     const a = document.createElement('a');
@@ -385,7 +369,7 @@
                     a.remove();
                     window.URL.revokeObjectURL(url);
                 }
-            });*/
+            });
         }
         // 파일업로드 라이브러리로 파일 drag & drop시 callback으로 전달받는 파일을 저장한다.
         function getImportFile(file) {
@@ -400,11 +384,8 @@
         function importTemplate() {
             const formData = new FormData();
             formData.append('files', importFile);
-            /*aliceJs.fetchText('/rest/cmdb/cis/templateUpload', {
+            aliceJs.fetchJson('/rest/cmdb/cis/templateUpload', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: formData
             }).then((response) => {
                 // 성공시 페이지 새로 고침
@@ -412,7 +393,7 @@
                     location.reload();
                     return true;
                 });
-            });*/
+            });
         }
         /**
          * 템플릿 업로드 모달 오픈

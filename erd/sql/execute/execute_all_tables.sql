@@ -696,8 +696,8 @@ CREATE TABLE awf_notification
 	instance_id varchar(128),
 	confirm_yn boolean DEFAULT 'false',
 	display_yn boolean DEFAULT 'false',
-    target varchar(100) DEFAULT 'zitsm',
-    create_user_key varchar(128),
+	target varchar(100) DEFAULT 'zitsm',
+	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
@@ -1227,6 +1227,8 @@ insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'get', 'CI 컴포넌트 
 insert into awf_url values ('/rest/cmdb/cis/{id}/relation', 'get', 'CI 연관 관계 데이터 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/data', 'delete', 'CI 컴포넌트 - CI 세부 정보 삭제', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/excel', 'post', 'CI 조회 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis/template', 'get', 'CI 일괄 등록 템플릿 다운로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis/templateUpload', 'post', 'CI 일괄 등록 템플릿 업로드', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
@@ -1581,6 +1583,10 @@ insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.view');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/template', 'get', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/template', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/templateUpload', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/templateUpload', 'post', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'post', 'cmdb.manage');
@@ -8643,6 +8649,8 @@ insert into awf_code_lang values ('customCode.sessionKey.position', 'Position', 
 insert into awf_code_lang values ('customCode.sessionKey.departmentName', 'Department', 'en');
 insert into awf_code_lang values ('customCode.sessionKey.officeNumber', 'Office Number', 'en');
 insert into awf_code_lang values ('customCode.sessionKey.mobileNumber', 'Mobile', 'en');
+insert into awf_code_lang values ('customCode.type.table', 'table', 'en');
+insert into awf_code_lang values ('customCode.type.code', 'code', 'en');
 
 /**
  * 사용자 지정 테이블

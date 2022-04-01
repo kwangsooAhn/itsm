@@ -122,12 +122,10 @@
                 <button type="button" class="z-button primary" onclick="saveCustomCode('POST')"
                         th:if="${customCode == null}" th:text="#{common.btn.register}"></button>
                 <button type="button" class="z-button primary" onclick="saveCustomCode('PUT')"
-                        th:disabled="${!customCode.enabled}" th:if="${customCode?.customCodeId}"
-                        th:text="#{common.btn.modify}">
+                        th:if="${customCode?.customCodeId}" th:text="#{common.btn.modify}">
                 </button>
                 <button type="button" class="z-button danger" onclick="deleteCustomCode('DELETE')"
-                        th:disabled="${!customCode.enabled}" th:if="${customCode?.customCodeId}"
-                        th:text="#{common.btn.delete}">
+                        th:if="${customCode?.customCodeId}" th:text="#{common.btn.delete}">
                 </button>
             </div>
         </div>

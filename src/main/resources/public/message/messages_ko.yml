@@ -335,7 +335,7 @@ cmdb:
         session: "세션"
         validate: "유효성"
         value: "Value"
-      searchPlaceholder: "출력용 이름 / 데이터 타입 / 속성항목 이름 / 설명"
+      searchPlaceholder: "속성항목 이름 / 출력용 이름 / 데이터 타입 / 설명"
       searchWidth: "컬럼 너비"
       seq: "정렬 순서"
       type: "데이터 타입"

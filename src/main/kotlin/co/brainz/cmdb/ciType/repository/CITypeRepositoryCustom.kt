@@ -17,4 +17,5 @@ interface CITypeRepositoryCustom : AliceRepositoryCustom {
     fun findTypeList(searchDto: SearchDto): QueryResults<CITypeListDto>
     fun findByTypeList(search: String): QueryResults<CITypeEntity>
     fun findByCITypeAll(): List<CITypeEntity>?
+    fun findCITypeByTypeName(typeName: String): CITypeEntity?
 }

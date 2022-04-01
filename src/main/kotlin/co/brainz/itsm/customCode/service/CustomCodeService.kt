@@ -277,7 +277,7 @@ class CustomCodeService(
      * @param customCode CustomCodeEntity
      * @return MutableList<CustomCodeDataDto>
      */
-    private fun getTableTypeData(customCode: CustomCodeCoreDto): CustomCodeTreeReturnDto {
+    fun getTableTypeData(customCode: CustomCodeCoreDto): CustomCodeTreeReturnDto {
         var customDataList = mutableListOf<CustomCodeTreeDto>()
         var dataList = mutableListOf<Any>()
         val condition = jsonToArrayByCondition(customCode.condition)
@@ -447,7 +447,7 @@ class CustomCodeService(
      * @param customCode CustomCodeEntity
      * @return MutableList<CustomCodeDataDto>
      */
-    private fun getCodeTypeData(customCode: CustomCodeCoreDto): CustomCodeTreeReturnDto {
+    fun getCodeTypeData(customCode: CustomCodeCoreDto): CustomCodeTreeReturnDto {
         val customDataList = mutableListOf<CustomCodeTreeDto>()
         val lang = currentSessionUser.getUserDto()?.lang
 
