@@ -17,12 +17,14 @@ import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.ApiComponentDto
 import co.brainz.workflow.provider.dto.ComponentPropertyDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
+import co.brainz.workflow.token.repository.WfTokenDataRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -32,12 +34,13 @@ import org.springframework.stereotype.Service
 @Service
 class ApiWorkflowService(
     private val documentService: DocumentService,
-    private val instanceService: WfInstanceService,
+    private val wfInstanceService: WfInstanceService,
     private val wfEngine: WfEngine,
     private val wfComponentService: WfComponentService,
     private val apiWorkflowMapper: ApiWorkflowMapper,
     private val aliceMessageSource: AliceMessageSource,
-    private val ciService: CIService
+    private val ciService: CIService,
+    private val wfTokenDataRepository: WfTokenDataRepository
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -85,7 +88,7 @@ class ApiWorkflowService(
     }
 
     fun getInstanceHistory(instanceId: String): List<RestTemplateInstanceHistoryDto> {
-        return instanceService.getInstancesHistory(instanceId)
+        return wfInstanceService.getInstancesHistory(instanceId)
     }
 
     @Transactional
@@ -111,6 +114,37 @@ class ApiWorkflowService(
             )
             this.callDocument(requestCmdb.documentId, requestDto)
         }
+        return true
+    }
+
+    fun callWorkflow(documentNo: String): Boolean {
+        // documentNo 값으로... instance를 조회하여
+        // 다음 단계로 진행한다.
+        // token 데이터는 마지막걸 그대로 복사하고
+        // documentNo 값이 여러개일 경우 첫번쨰로 처리하도록 한다
+        val instance = wfInstanceService.getInstanceListInDocumentNo(documentNo).first()
+        val token = wfInstanceService.getInstanceLatestToken(instance.instanceId)
+
+        val tokenDto = WfTokenDto(
+            tokenId = token.tokenId,
+            documentId = instance.document.documentId,
+            documentName = instance.document.documentName,
+            instanceId = instance.instanceId,
+            elementId = token.elementId,
+            elementType = token.elementType,
+            tokenStatus = token.tokenStatus,
+            tokenAction = token.action,
+            assigneeId = token.assigneeId, // 담당자 없을 경우 확인 필요
+            numberingId = token.numberingId,
+            parentTokenId = token.parentTokenId,
+            instanceCreateUser = token.instanceCreateUser,
+            action = WfElementConstants.Action.PROGRESS.value,
+            instancePlatform = WorkflowConstants.InstancePlatform.API.code,
+            data = wfTokenDataRepository.getTokenDataList(token.tokenId)
+        )
+
+        wfEngine.progressWorkflow(tokenDto)
+
         return true
     }
 }

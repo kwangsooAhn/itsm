@@ -445,4 +445,8 @@ class WfInstanceService(
 
         return tokensForExcel
     }
+
+    fun getInstanceListInDocumentNo(documentNo: String): List<WfInstanceEntity> {
+        return wfInstanceRepository.findWfInstanceEntitiesByDocumentNo(documentNo)
+    }
 }
