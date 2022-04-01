@@ -11,6 +11,8 @@ import java.io.Serializable
 data class RequestCmdbDto(
     val documentId: String,
     val assigneeId: String,
-    val data: List<RequestCIComponentVO>,
+    val targetComponentId: String,
+    var ciData: MutableList<RequestCIVO> = mutableListOf(),
+    val ciComponentData: List<RequestCIComponentVO>,
     val default: List<RestTemplateTokenDataDto>
 ) : Serializable

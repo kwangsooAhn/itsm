@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.token.service
 
+import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
@@ -18,20 +19,26 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.component.constants.WfComponentConstants
+import co.brainz.workflow.component.dto.WfCIComponentValueDto
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.WorkflowConstants
-import co.brainz.workflow.provider.dto.*
+import co.brainz.workflow.provider.dto.RestTemplateInstanceExcelDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.service.WfTokenService
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.format.DateTimeFormatter
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import java.time.format.DateTimeFormatter
 
 @Service
 class TokenService(
@@ -43,7 +50,8 @@ class TokenService(
     private val currentSessionUser: CurrentSessionUser,
     private val wfEngine: WfEngine,
     private val aliceMessageSource: AliceMessageSource,
-    private val excelComponent: ExcelComponent
+    private val excelComponent: ExcelComponent,
+    private val ciTypeService: CITypeService
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -68,12 +76,50 @@ class TokenService(
             instancePlatform = WorkflowConstants.InstancePlatform.ITSM.code
         )
 
+        // 특정 컴포넌트의 데이터 셋팅 (CI)
+        if (restTemplateTokenDataUpdateDto.componentData != null) {
+            this.componentDataConverter(restTemplateTokenDataUpdateDto.componentData!!)
+        }
+
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
             when (this.isFileUploadComponent(it.componentId) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
         return wfEngine.startWorkflow(wfEngine.toTokenDto(tokenDto))
+    }
+
+    /**
+     * CI 컴포넌트의 경우 데이터를 셋팅한다.
+     *  화면에서 받은 데이터 중
+     *  1) 값이 없는 경우 DTO 기본값 셋팅
+     *  2) 필수 값: ciId, typeId, ciName, ciDesc, actionType
+     */
+    fun componentDataConverter(componentData: List<RestTemplateTokenDataDto>): List<RestTemplateTokenDataDto> {
+        val componentIds = mutableSetOf<String>()
+        componentData.forEach { component ->
+            componentIds.add(component.componentId)
+        }
+        val componentList = wfComponentService.getComponents(componentIds)
+        componentData.forEach { data ->
+            val component = componentList.first { it.componentId == data.componentId }
+            when (component.componentType) {
+                WfComponentConstants.ComponentType.CI.code -> {
+                    val dataValueList: List<WfCIComponentValueDto> =
+                        mapper.readValue(data.value,
+                            TypeFactory.defaultInstance().constructCollectionType(List::class.java, WfCIComponentValueDto::class.java))
+                    dataValueList.forEach { dataValue ->
+                        val ciType = ciTypeService.getCIType(dataValue.typeId)
+                        dataValue.typeName = ciType?.typeName
+                        dataValue.classId = ciType?.classId
+                        dataValue.ciIcon = ciType?.typeIcon
+                        dataValue.ciIconData = ciType?.typeIcon?.let { ciTypeService.getCITypeImageData(it) }
+                    }
+                    data.value = mapper.writeValueAsString(dataValueList)
+                }
+            }
+        }
+        return componentData
     }
 
     /**
