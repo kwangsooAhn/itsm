@@ -187,6 +187,7 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
+        aliceJs.initDesignedSelectTag();
     }
 
     /**
@@ -225,7 +226,7 @@
                 `<div class="flex-column col-1"><label>` +
                 `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1">` +
+                `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
                 `<span class="z-icon i-delete"></span>` +
                 `</button>` +
@@ -288,7 +289,7 @@
                 `<label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label>` +
                 `</div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1">` +
+                `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
                 `<span class="z-icon i-delete"></span>` +
                 `</button>` +
@@ -358,7 +359,7 @@
                 `<span></span>` +
                 `</label>` +
                 `</div>` +
-                `<div class="flex-column col-1">` +
+                `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
                 `<span class="z-icon i-delete"></span>` +
                 `</button>` +
@@ -480,7 +481,6 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
-
         aliceJs.initDesignedSelectTag();
 
         // custom-code 변경 시 데이터 변경
@@ -613,25 +613,25 @@
             `<input type="text" class="z-input" maxlength="50" readonly="readonly" ` +
             `id="${data.key}" value="${data.value}">` +
             `</div>` +
-            `<div class="flex-column col-1">` +
+            `<div class="flex-column col-2 align-right mr-2">` +
             `<label>` +
-            `<span class="mr-1">${i18n.msg('cmdb.attribute.label.type')}</span>` +
+            `<span>${i18n.msg('cmdb.attribute.label.type')}</span>` +
             `</label>` +
             `</div>` +
-            `<div class="flex-column col-4">` +
+            `<div class="flex-column col-3">` +
             `<input type="text" class="z-input" maxlength="50" readonly="readonly" value="${data.type}">` +
             `</div>` +
-            `<div class="flex-column col-1">` +
+            `<div class="flex-column col-2 align-right mr-2">` +
             `<label>` +
-            `<span class="mr-1">${i18n.msg('cmdb.attribute.label.seq')}</span><span class="required"></span>` +
+            `<span">${i18n.msg('cmdb.attribute.label.seq')}</span><span class="required"></span>` +
             `</label>` +
             `</div>` +
-            `<div class="flex-column col-2">` +
+            `<div class="flex-column col-3">` +
             `<input type="text" class="z-input" id="${data.key}_order" value="${data.order}" maxlength="50" ` +
             `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required" />` +
             `</div>` +
-            `<div class="flex-column col-1">` +
-            `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
+            `<div class="flex-column">` +
+            `<button id="${rowId}_delete" type="button" class="z-button-icon extra ml-1">` +
             `<span class="z-icon i-delete"></span>` +
             `</button>` +
             `</div>` +
@@ -707,6 +707,7 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
+        aliceJs.initDesignedSelectTag();
 
         const minDateElement = document.getElementById(objectId + '-minDate');
         const maxDateElement = document.getElementById(objectId + '-maxDate');
@@ -764,6 +765,7 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
+        aliceJs.initDesignedSelectTag();
 
         const minDateTimeElement = document.getElementById(objectId + '-minDateTime');
         const maxDateTimeElement = document.getElementById(objectId + '-maxDateTime');
@@ -797,6 +799,7 @@
             }).then((htmlData) => {
                 document.getElementById('ciClassAttributeList').innerHTML = htmlData;
                 aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
+                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
 
                 document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
                     checkbox.addEventListener('change', function (e) {
@@ -1083,7 +1086,7 @@
                 parent.appendChild(classTitleElem);
 
                 elem = document.createElement('div');
-                elem.className = 'attribute-group';
+                elem.className = 'attribute-group mb-2';
                 parent.appendChild(elem);
                 return elem;
             case 'row':
@@ -1175,7 +1178,7 @@
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
                         const radioGroup = document.createElement('label');
-                        radioGroup.className = 'z-radio';
+                        radioGroup.className = 'z-radio' + (opt > 0 ? ' mt-1' : '');
                         radioGroup.tabindex = 0;
                         radioGroup.htmlFor = radioId + '-' + opt;
                         if (displayMode === 'view') {
@@ -1315,7 +1318,7 @@
                 return elem;
             case 'group-list':
                 elem = document.createElement('div');
-                elem.className = 'child-attribute-group';
+                elem.className = 'child-attribute-group pt-2';
                 elem.setAttribute('data-attributeId', data.attributeId);
                 if (typeof attributeValue.option !== 'undefined' && data.childAttributes.length > 0) {
                     // 순서 표시
@@ -1342,7 +1345,7 @@
                 return elem;
             case 'group-list-row':
                 elem = document.createElement('div');
-                elem.className = 'child-attribute-row';
+                elem.className = 'child-attribute-row mt-2';
                 // 삭제 버튼
                 if (parent.children.length > 1 && displayMode === 'edit') {
                     const removeBtn = document.createElement('button');
@@ -1360,7 +1363,7 @@
                 dateElem.className = 'z-input i-date-picker search-date col-3';
                 dateElem.id = ZWorkflowUtil.generateUUID();
                 dateElem.setAttribute('data-attributeId', data.attributeId);
-                dateElem.value = data.value;
+                dateElem.value = i18n.userDate(data.value);
                 dateElem.readOnly = (displayMode === 'view');
                 dateElem.placeholder = i18n.dateFormat;
                 if (attributeValue !== '') {
@@ -1384,7 +1387,7 @@
                 dateTimeElem.id = ZWorkflowUtil.generateUUID();
                 dateTimeElem.setAttribute('data-attributeId', data.attributeId);
                 dateTimeElem.setAttribute('type', type);
-                dateTimeElem.value = data.value;
+                dateTimeElem.value = i18n.userDateTime(data.value);
                 dateTimeElem.readOnly = (displayMode === 'view');
                 dateTimeElem.placeholder = i18n.dateTimeFormat;
                 if (attributeValue !== '') {

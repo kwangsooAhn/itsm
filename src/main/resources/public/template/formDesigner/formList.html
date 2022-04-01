@@ -5,13 +5,13 @@
 <table class="z-table">
     <thead class="z-table-head">
         <tr class="flex-row align-items-center">
-            <th width="20%" class="align-left" th:text="#{form.label.name}"></th>
-            <th width="10%" class="align-center" th:text="#{common.label.preview}"></th>
-            <th width="10%" class="align-center" th:text="#{common.label.edit}"></th>
+            <th width="27%" class="align-left" th:text="#{form.label.name}"></th>
             <th width="10%" class="align-center" th:text="#{form.label.state}"></th>
-            <th width="28%" class="align-left" th:text="#{form.label.description}"></th>
+            <th width="30%" class="align-left" th:text="#{form.label.description}"></th>
             <th width="10%" class="align-left" th:text="#{common.label.createUser}"></th>
-            <th width="12%" class="align-left" th:text="#{common.label.createDate}"></th>
+            <th width="15%" class="align-left" th:text="#{common.label.createDate}"></th>
+            <th width="4%" class="align-center"></th>
+            <th width="4%" class="align-center"></th>
         </tr>
     </thead>
     <tbody class="z-table-body">
@@ -19,36 +19,35 @@
             <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
-            <td width="20%" class="align-left underline">
+            <td width="27%" class="align-left underline">
                 <th:block th:if="${form.editable == true}">
                     <a sec:authorize="!hasAuthority('workflow.manage')" th:text="${form.name}"
-                       th:attr="onclick=|openFormEdit('${form.id}', true)|" th:title="${form.name}"></a>
+                       th:attr="onclick=|openFormDesignerView('${form.id}', true)|" th:title="${form.name}"></a>
                     <a sec:authorize="hasAuthority('workflow.manage')" th:text="${form.name}"
-                       th:attr="onclick=|openFormEdit('${form.id}', false)|" th:title="${form.name}"></a>
+                       th:attr="onclick=|openFormDesignerEdit('${form.id}', true)|" th:title="${form.name}"></a>
                 </th:block>
                 <div th:unless="${form.editable == true}">
                     <a th:if="${form.status == 'form.status.use'}" th:text="${form.name}"
-                       th:attr="onclick=|openFormEdit('${form.id}', true)|" th:title="${form.name}"></a>
+                       th:attr="onclick=|openFormDesignerView('${form.id}', true)|" th:title="${form.name}"></a>
                     <span th:unless="${form.status == 'form.status.use'}" th:text="${form.name}" th:title="${form.name}"></span>
                 </div>
             </td>
-            <td width="10%" class="align-center">
-                <button type="button" class="z-button-icon form" th:onclick="openFormDesignerView([[${form.id}]])">
-                    <span class="z-icon i-popup"></span>
+            <td width="10%" class="align-center" th:text="#{${form.status}}" th:title="#{${form.status}}"></td>
+            <td width="30%" class="align-left" th:text="${form.desc}" th:title="${form.desc}"></td>
+            <td width="10%" class="align-left" th:text="${form.createUserName}" th:title="${form.createUserName}"></td>
+            <td width="15%" class="align-left date-time" th:text="${form.createDt}" th:title="${form.createDt}"></td>
+            <td width="4%" class="align-center">
+                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="exportForm([[${form.id}]])">
+                    <span class="z-icon i-list-download"></span>
                 </button>
             </td>
-            <td width="10%" class="align-center">
+            <td width="4%" class="align-center">
                 <th:block th:if="${form.editable == true}">
-                    <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')"
-                            th:onclick="openFormDesignerEdit([[${form.id}]])">
-                        <span class="z-icon i-edit"></span>
+                    <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="deleteForm([[${form.id}]])">
+                        <span class="z-icon i-list-delete"></span>
                     </button>
                 </th:block>
             </td>
-            <td width="10%" class="align-center" th:text="#{${form.status}}" th:title="${form.status}"></td>
-            <td width="28%" class="align-left" th:text="${form.desc}" th:title="${form.desc}"></td>
-            <td width="10%" class="align-left" th:text="${form.createUserName}" th:title="${form.createUserName}"></td>
-            <td width="12%" class="align-left date-time" th:text="${form.createDt}" th:title="${form.createDt}"></td>
         </tr>
     </tbody>
 </table>

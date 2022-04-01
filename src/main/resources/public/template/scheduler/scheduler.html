@@ -18,7 +18,7 @@
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.name}"></span>
             </label>
             <input class="z-input text-ellipsis" id="taskName" maxlength="100" required="required" th:readonly="${view}"
-                   th:disabled="${!schedule.editable}" th:value="${schedule?.taskName}" type="text"/>
+                   th:disabled="${schedule != null && !schedule.editable}" th:value="${schedule?.taskName}" type="text"/>
         </div>
         <div class="flex-column z-edit-row">
             <label for="taskDesc">
@@ -26,13 +26,13 @@
             </label>
             <textarea class="z-textarea textarea-scroll-wrapper" id="taskDesc" maxlength="250" name="taskDesc"
                       rows="5" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'"
-                      th:disabled="${!schedule.editable}" th:text="${schedule?.taskDesc}"></textarea>
+                      th:disabled="${schedule != null && !schedule.editable}" th:text="${schedule?.taskDesc}"></textarea>
         </div>
         <div class="flex-column z-edit-row">
             <label for="taskStatus">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.status}"></span>
             </label>
-            <select id="taskStatus" required="required" th:disabled="${!schedule.editable}"
+            <select id="taskStatus" required="required" th:disabled="${schedule != null && !schedule.editable}"
                     th:classappend="${view} ? 'readonly' : ''">
                 <option th:selected="true == ${schedule?.useYn}" th:text="#{scheduler.status.true}"
                         value="true"></option>
@@ -45,7 +45,7 @@
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.taskType}"></span>
             </label>
             <select id="taskType" onchange="changeContainer(this.value)" required="required"
-                    th:disabled="${!schedule.editable}" th:classappend="${view} ? 'readonly' : ''">
+                    th:disabled="${schedule != null && !schedule.editable}" th:classappend="${view} ? 'readonly' : ''">
                 <option th:each="taskType: ${taskTypeList}" th:selected="${taskType.codeValue} == ${schedule?.taskType}"
                         th:text="${taskType.codeName}"
                         th:value="${taskType.codeValue}">
@@ -61,16 +61,15 @@
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.class}"></span>
                 </label>
                 <input class="z-input text-ellipsis" id="executeClass" maxlength="100" required="required"
-                       th:disabled="${!schedule.editable}"
-                       th:readonly="${view}"
-                       th:value="${schedule?.executeClass}" type="text"/>
+                       th:disabled="${schedule != null && !schedule.editable}"
+                       th:readonly="${view}" th:value="${schedule?.executeClass}" type="text"/>
             </div>
             <div class="flex-column z-edit-row">
                 <label>
                     <span th:text="#{scheduler.label.args}"></span>
                 </label>
                 <input class="z-input text-ellipsis" id="args" maxlength="100" th:readonly="${view}"
-                       th:disabled="${!schedule.editable}" th:value="${schedule?.args}" type="text"/>
+                       th:disabled="${schedule != null && !schedule.editable}" th:value="${schedule?.args}" type="text"/>
             </div>
         </div>
         <!-- 타입: jar -->
@@ -80,16 +79,15 @@
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.src}"></span>
                 </label>
                 <input class="z-input text-ellipsis" id="src" maxlength="250" required="required" th:readonly="${view}"
-                       th:disabled="${!schedule.editable}" th:value="${schedule?.src}" type="text"/>
+                       th:disabled="${schedule != null && !schedule.editable}" th:value="${schedule?.src}" type="text"/>
             </div>
             <div class="flex-column z-edit-row">
                 <label>
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.command}"></span>
                 </label>
                 <input class="z-input text-ellipsis" id="executeCommand" maxlength="500" required="required"
-                       th:disabled="${!schedule.editable}"
-                       th:readonly="${view}"
-                       th:value="${schedule?.executeCommand}" type="text"/>
+                       th:disabled="${schedule != null && !schedule.editable}"
+                       th:readonly="${view}" th:value="${schedule?.executeCommand}" type="text"/>
             </div>
         </div>
         <!-- 타입: query -->
@@ -100,9 +98,8 @@
                 </label>
                 <textarea class="z-textarea textarea-scroll-wrapper" id="executeQuery" maxlength="500"
                           name="executeQuery" required="required" rows="10"
-                          th:disabled="${!schedule.editable}"
-                          th:readonly="${view}"
-                          th:text="${schedule?.executeQuery}"></textarea>
+                          th:disabled="${schedule != null && !schedule.editable}"
+                          th:readonly="${view}" th:text="${schedule?.executeQuery}"></textarea>
             </div>
         </div>
         <div class="flex-column z-edit-row">
@@ -118,7 +115,7 @@
                 </div>
             </label>
             <select id="executeCycleType" onchange="changeContainer(this.value)" required="required"
-                    th:disabled="${!schedule.editable}" th:classappend="${view} ? 'readonly' : ''">
+                    th:classappend="${view} ? 'readonly' : ''">
                 <option th:each="executeCycleType: ${executeCycleTypeList}"
                         th:selected="${executeCycleType.codeValue} == ${schedule?.executeCycleType}"
                         th:text="${executeCycleType.codeName}"
@@ -133,7 +130,6 @@
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.cronExpression}"></span>
             </label>
             <input class="z-input text-ellipsis" id="cronExpression" maxlength="100" required="required"
-                   th:disabled="${!schedule.editable}"
                    th:readonly="${view}"
                    th:value="${schedule?.cronExpression}" type="text"/>
         </div>
@@ -145,7 +141,7 @@
             <input class="z-input text-ellipsis" id="executeCyclePeriod" maxlength="10" required="required"
                    th:onkeydown="${view} ? '' : 'return onlyNumber(event)'"
                    th:onkeyup="${view} ? '' : 'aliceJs.removeChar(event)'"
-                   th:disabled="${!schedule.editable}" th:readonly="${view}"
+                   th:readonly="${view}"
                    th:value="${schedule?.executeCyclePeriod}" type="text"/>
         </div>
         <div class="flex-row justify-content-between z-edit-row">
@@ -156,7 +152,7 @@
                 <button type="button" class="z-button primary" onclick="actionScheduler('post')"
                         th:if="${schedule == null}" th:text="#{common.btn.register}"></button>
                 <button type="button" class="z-button primary" onclick="actionScheduler('put')"
-                        th:disabled="${!schedule.editable}" th:if="${schedule != null}"
+                        th:if="${schedule != null}"
                         th:text="#{common.btn.modify}">
                 </button>
                 <button type="button" class="z-button danger" onclick="deleteScheduler()"
@@ -433,7 +429,7 @@
 
     /** method 에 따른 데이터 셋팅 **/
     function actionScheduler(method) {
-        if (!isValidRequired()) { return false; }
+        if (!isValidRequired()) {return false;}
         const taskType = document.getElementById('taskType').value;
         const executeCycleType = document.getElementById('executeCycleType').value;
         let data = {

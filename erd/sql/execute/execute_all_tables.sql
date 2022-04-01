@@ -130,8 +130,8 @@ insert into awf_code values ('document.status.temporary', 'document.status', '�
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', '폐기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.use', 'document.status', '사용', '사용', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType', 'document', null, '신청서 프로세스별 그룹 출력 타입', null, false, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 가능', '수정 가능', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.displayType.readonly', 'document.displayType', '수정 불가', '수정 불가', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 ', '수정 ', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.readonly', 'document.displayType', '읽기', '읽기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType.hidden', 'document.displayType', '숨김', '숨김', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download', 'root', null, '자료실', null, true, true, 1, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download.category', 'download', null, '자료실 카테고리', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -202,6 +202,7 @@ insert into awf_code values ('script', 'root', null, null, null, false, true, 1,
 insert into awf_code values ('script.type', 'script', 'script.type', 'Script Type', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script.type.cmdb', 'script.type', 'script.type.cmdb', '[CMDB] CI 반영', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script.type.document.attachFile', 'script.type', 'script.type.document.attachFile', '[문서편집] 첨부파일', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('script.type.plugin', 'script.type', 'script.type.plugin', 'Plugin 동작', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token', 'root', null, '토큰 관련 코드', null, false, true, 1, 9, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status', 'token', null, '토큰 상태 코드', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status.finish', 'token.status', null, '처리 완료', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -692,10 +693,10 @@ CREATE TABLE awf_notification
 	received_user varchar(128) NOT NULL,
 	title varchar(128) NOT NULL,
 	message varchar(1024),
-	notification_type varchar(128) DEFAULT 'document',
 	instance_id varchar(128),
 	confirm_yn boolean DEFAULT 'false',
 	display_yn boolean DEFAULT 'false',
+	target varchar(100) DEFAULT 'zitsm',
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -708,10 +709,10 @@ COMMENT ON COLUMN awf_notification.notification_id IS '알림아이디';
 COMMENT ON COLUMN awf_notification.received_user IS '수신사용자';
 COMMENT ON COLUMN awf_notification.title IS '제목';
 COMMENT ON COLUMN awf_notification.message IS '메시지';
-COMMENT ON COLUMN awf_notification.notification_type IS '알림타입';
 COMMENT ON COLUMN awf_notification.instance_id IS '인스턴스아이디';
 COMMENT ON COLUMN awf_notification.confirm_yn IS '확인여부';
 COMMENT ON COLUMN awf_notification.display_yn IS '표시여부';
+COMMENT ON COLUMN awf_notification.target IS '대상 시스템';
 COMMENT ON COLUMN awf_notification.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_notification.create_dt IS '등록일';
 COMMENT ON COLUMN awf_notification.update_user_key IS '수정자';
@@ -1124,7 +1125,7 @@ insert into awf_url values ('/cmdb/attributes/list-modal', 'get', 'CMDB Attribut
 insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/view-pop/attributes', 'get', 'CMDB Class Attribute 모달 리스트 화면', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
-insert into awf_url values ('/cmdb/cis', 'get', 'CMDB CI 조회 목록', 'TRUE');
+insert into awf_url values ('/cmdb/cis', 'post', 'CMDB CI 조회 목록', 'TRUE');
 insert into awf_url values ('/cmdb/cis/search', 'get', 'CMDB CI 조회 목록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/cis/component/new', 'get', 'CMDB CI 등록 화면', 'FALSE');
 insert into awf_url values ('/cmdb/cis/component/edit', 'post', 'CMDB CI 수정 화면', 'FALSE');
@@ -1143,6 +1144,7 @@ insert into awf_url values ('/workflows/new', 'get', '신청서 생성 화면', 
 insert into awf_url values ('/workflows/search', 'get', '업무흐름 데이터 + 목록화면', 'TRUE');
 insert into awf_url values ('/workflows/{id}/edit', 'get', '신청서 수정 화면', 'TRUE');
 insert into awf_url values ('/workflows/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
+insert into awf_url values ('/workflows/import', 'get', '업무흐름 import 화면', 'TRUE');
 insert into awf_url values ('/documents', 'get', '신청서 리스트 화면', 'FALSE');
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
 insert into awf_url values ('/documents/{id}/edit', 'get', '신청서 조회', 'TRUE');
@@ -1224,7 +1226,9 @@ insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'post', 'CI 컴포넌트
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'get', 'CI 컴포넌트 - CI 컴포넌트 세부 정보 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/relation', 'get', 'CI 연관 관계 데이터 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/data', 'delete', 'CI 컴포넌트 - CI 세부 정보 삭제', 'FALSE');
-insert into awf_url values ('/rest/cmdb/cis/excel', 'get', 'CI 조회 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis/excel', 'post', 'CI 조회 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis/template', 'get', 'CI 일괄 등록 템플릿 다운로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis/templateUpload', 'post', 'CI 일괄 등록 템플릿 업로드', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
@@ -1242,7 +1246,7 @@ insert into awf_url values ('/rest/codes/excel', 'get', '코드 조회 엑셀 �
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'get', '코드 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'delete', '코드 삭제', 'TRUE');
-insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 상세 조회', 'TRUE');
+insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 상세 조회', 'FALSE');
 insert into awf_url values ('/rest/comments', 'post', 'Comment 저장', 'FALSE');
 insert into awf_url values ('/rest/comments/{id}', 'delete', 'Comment 삭제', 'FALSE');
 insert into awf_url values ('/rest/custom-codes', 'get', '커스텀 코드 조회', 'FALSE');
@@ -1257,6 +1261,8 @@ insert into awf_url values ('/rest/workflows/{id}', 'delete', '신청서 삭제'
 insert into awf_url values ('/rest/workflows/{id}', 'get', '신청서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}', 'put', '신청서 수정', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}/display', 'put', '신청서 디스플레이 데이터 저장', 'TRUE');
+insert into awf_url values ('/rest/workflows/{id}/export', 'get', '신청서 export 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/workflows/import', 'post', '업무흐름 import', 'TRUE');
 insert into awf_url values ('/rest/documents/{id}/data', 'get', '신청서의 문서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'post', '자료실 등록', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'put', '자료실 변경', 'TRUE');
@@ -1311,6 +1317,8 @@ insert into awf_url values ('/rest/organizations/{id}', 'get', '조직 상세 �
 insert into awf_url values ('/rest/organizations/{id}', 'put', '조직 수정', 'TRUE');
 insert into awf_url values ('/rest/organizations/{id}', 'delete', '조직 삭제', 'TRUE');
 insert into awf_url values ('/rest/organizations', 'post', '조직 등록', 'TRUE');
+insert into awf_url values ('/rest/plugins', 'get', '플러그인 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/plugins/{id}', 'post', '플러그인 조회', 'TRUE');
 insert into awf_url values ('/rest/portals', 'get', '포탈 조회 (페이징)', 'FALSE');
 insert into awf_url values ('/rest/portals/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filenameextensions', 'get', '포탈 첨부파일 확장자 조회', 'FALSE');
@@ -1403,7 +1411,8 @@ insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 �
 insert into awf_url values ('/users/{userkey}/view', 'get', '사용자 정보 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editself', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
-insert into awf_url values ('/users/view-pop/users', 'get', '업무 대리인 모달 리스트 화면', 'FALSE');
+insert into awf_url values ('/users/substituteUsers', 'get', '업무 대리인 모달 리스트 화면', 'FALSE');
+insert into awf_url values ('/users/searchUsers', 'get', '사용자 검색 모달 리스트 화면', 'FALSE');
 insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', 'FALSE');
 insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음에 변경하기', 'FALSE');
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
@@ -1474,8 +1483,8 @@ insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.vie
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.view');
-insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.manage');
-insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/cmdb/cis', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/cmdb/cis', 'post', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/cis/{id}/view', 'get', 'cmdb.manage');
@@ -1572,8 +1581,12 @@ insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.view');
-insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.manage');
-insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.view');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/template', 'get', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/template', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/templateUpload', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/templateUpload', 'post', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'post', 'cmdb.manage');
@@ -1594,7 +1607,6 @@ insert into awf_url_auth_map values ('/rest/codes/{id}', 'get', 'system.manage')
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/rest/codes/related/{id}', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'system.manage');
@@ -1641,6 +1653,8 @@ insert into awf_url_auth_map values ('/rest/organizations/{id}', 'get', 'workflo
 insert into awf_url_auth_map values ('/rest/organizations/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/organizations/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/organizations', 'post', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/plugins', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/plugins/{id}', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/process/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'put', 'workflow.manage');
@@ -1687,6 +1701,8 @@ insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'workflow.ma
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/{id}/export', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/import', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/roles', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/new', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/search', 'get', 'system.manage');
@@ -1743,6 +1759,7 @@ insert into awf_url_auth_map values ('/workflows/new', 'get', 'workflow.manage')
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/workflows/import', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','workflow.manage');
 insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
@@ -2830,7 +2847,7 @@ INSERT INTO wf_document VALUES ('4028b21f7c9ff7c8017ca06bde520058','IT서비스 
 /* 서비스데스크 - 서비스요청 - 만족도 */
 INSERT INTO wf_document VALUES ('4028b21f7c9ff7c8017ca04d16830000','만족도 평가 - 서비스요청','','4028b21f7c9cc269017c9cc76a5e0000','4028b21f7c90d996017c914e27340030','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 서비스데스크 - 구성관리 */
-INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc7a779d70523','CMDB 변경 요청서','','2c9180837c94c0f3017c977775530001','2c9180867cc31a25017cc7a069e301a5','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form','','img_document_03.png',false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
+INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc7a779d70523','CMDB 변경 요청서','','2c9180837c94c0f3017c977775530001','2c9180867cc31a25017cc7a069e301a5','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form','','img_document_03.png',true,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 서비스데스크 - 구성관리 - 만족도 */
 INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc5ca1a9f0145','만족도 평가 - 구성관리','','2c9180867cc31a25017cc5c08e2f0120','2c9180867cc31a25017cc5c7268f0122','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 인프라 변경관리 */
@@ -4706,26 +4723,6 @@ INSERT INTO wf_component_property VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'di
 INSERT INTO wf_component_property VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'element', '{"columnWidth":"8","options":[{"name":"선택 안함","value":"none","checked":true},{"name":"전화 통화","value":"phone","checked":false},{"name":"서비스 포탈 및 모바일 애플리케이션","value":"portal","checked":false},{"name":"라이브 채팅 및 챗봇","value":"chatting","checked":false},{"name":"이메일","value":"email","checked":false},{"name":"대면","value":"interview","checked":false},{"name":"소셜 미디어","value":"sns","checked":false},{"name":"모니터링툴 자동 등록","value":"automatic","checked":false}]}');
 INSERT INTO wf_component_property VALUES('d16277a918414e35b76510d8c413e38b', 'element', '{"columnWidth":"8","defaultValueRadio":"now"}');
 
-/**
- * 컴포넌트세부설정
- */
-DROP TABLE IF EXISTS wf_component_data cascade;
-
-CREATE TABLE wf_component_data
-(
-    component_id varchar(128) NOT NULL,
-    attribute_id varchar(100) NOT NULL,
-    attribute_value text NOT NULL,
-    attribute_order int,
-    CONSTRAINT wf_component_data_pk PRIMARY KEY (component_id, attribute_id),
-    CONSTRAINT wf_component_data_fk FOREIGN KEY (component_id) REFERENCES wf_component (component_id)
-);
-
-COMMENT ON TABLE wf_component_data IS '컴포넌트세부설정';
-COMMENT ON COLUMN wf_component_data.component_id IS '컴포넌트아이디';
-COMMENT ON COLUMN wf_component_data.attribute_id IS '속성아이디';
-COMMENT ON COLUMN wf_component_data.attribute_value IS '속성값';
-COMMENT ON COLUMN wf_component_data.attribute_order IS '속성순서';
 /**
  * 엘리먼트정보
  */
@@ -7583,6 +7580,8 @@ CREATE TABLE cmdb_attribute
     attribute_type  character varying(100),
     attribute_text  character varying(128),
     attribute_value text,
+    search_item boolean DEFAULT false,
+    search_item_width character varying(128),
     mapping_id      character varying(128),
     create_user_key character varying(128),
     create_dt       timestamp,
@@ -7599,183 +7598,186 @@ COMMENT ON COLUMN cmdb_attribute.attribute_desc IS '속성설명';
 COMMENT ON COLUMN cmdb_attribute.attribute_type IS '속성타입';
 COMMENT ON COLUMN cmdb_attribute.attribute_text IS '속성라벨';
 COMMENT ON COLUMN cmdb_attribute.attribute_value IS '속성세부정보';
+COMMENT ON COLUMN cmdb_attribute.search_item IS '검색 조건 사용';
+COMMENT ON COLUMN cmdb_attribute.search_item_width IS '검색 조건 사용 컬럼 너비';
 COMMENT ON COLUMN cmdb_attribute.mapping_id IS '매핑아이디';
 COMMENT ON COLUMN cmdb_attribute.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_attribute.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_attribute.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_attribute.update_dt IS '수정일시';
 
-INSERT INTO cmdb_attribute VALUES ('ac4f3785cdbcc149a0b92dbf00af80ef','분류','','inputbox','분류','{"validate":"","required":"true","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb574a70005','자산중요도','자산보안등급정보','inputbox','자산중요도','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('77b6112b3013a6808aeb04f80dd75360','기밀성','자산보안등급정보','dropdown','기밀성','{"option":[{"text":"선택하세요","value":""},{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('b5f16c33ca0531087ed1b46805a9c682','무결성','자산보안등급정보','dropdown','무결성','{"option":[{"text":"선택하세요","value":""},{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('072fcb3be4056095a9af82dc6505b1e8','가용성','자산보안등급정보','dropdown','가용성','{"option":[{"text":"선택하세요","value":""},{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb4b48c0004','평가결과','자산보안등급정보','inputbox','평가결과','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791b777a240000','외부연동ID','인프라정보','inputbox','외부연동ID','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','zid','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791b78b0550001','시리얼번호','인프라정보','inputbox','시리얼번호','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','serial','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb0f9140002','담당자(정)','일반정보','custom-code','담당자(정)','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"none","value":""},"button":""}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb14a4d0003','담당자(부)','일반정보','custom-code','담당자(부)','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"none","value":""},"button":""}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('adaeef4046bfcd78e345ad48cbbeefa5','모델명','인프라정보','inputbox','모델명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','model','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('189319790e6349c7248b9f50456ed47b','비고','일반정보','inputbox','비고','{"validate":"","required":"false","maxLength":"10000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('27caaeba596663101d55a09ec873a375','상태','일반정보 - 인프라','radio','상태','{"option":[{"text":"사용","value":"use"},{"text":"미사용","value":"unused"},{"text":"폐기","value":"disposal"},{"text":"할당","value":"assignment"},{"text":"반납","value":"return"},{"text":"AS","value":"as"},{"text":"예비","value":"spare"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b881792074460179209cef74000c','관리부서','일반정보','inputbox','관리부서','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916fc8f1d0004','기간(연평균)','유지보수정보','inputbox','기간(연평균)','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f397230000','취득 일','유지보수정보','inputbox','취득 일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f7bd590003','유지보수 종료일','유지보수정보','inputbox','유지보수 종료일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916fff6c60006','업무영향 범위','유지보수정보','inputbox','업무영향 범위','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f71b030002','유지보수 시작일','유지보수정보','inputbox','유지보수 시작일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f01791711dc08000b','유지 보수 비상 연락처','유지보수정보','inputbox','유지 보수 비상 연락처','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f0179170ee2c7000a','유지보수 담당자명','유지보수정보','inputbox','유지보수 담당자명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f0179170df7c80009','유지보수 업체명','유지보수정보','inputbox','유지보수 업체명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920d8df1c000d','유지보수여부','유지보수정보','dropdown','유지보수여부','{"option":[{"text":"선택하세요","value":""},{"text":"사용","value":"used"},{"text":"미사용","value":"unused"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f594a70001','도입금액','유지보수정보','inputbox','도입금액','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f0179170937d70008','근거자료','유지보수정보','inputbox','근거자료','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f01791707c3b70007','이용자수/처리건수','유지보수정보','inputbox','이용자수/처리건수','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916fd4e5b0005','예상금액','유지보수정보','inputbox','예상금액','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c7f51d8000f','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"11i v1","value":"v1"},{"text":"11i v2","value":"v2"},{"text":"11i v3","value":"v3"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c839afd0012','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"UNIX 3.2","value":"UNIX 3.2"},{"text":"UNIX 4.0","value":"UNIX 4.0"},{"text":"UNIX 5.1","value":"UNIX 5.1"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('734ab921484883ad7760032a008baf21','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"Debian","value":"debian"},{"text":"Ubuntu","value":"ubuntu"},{"text":"RedHat","value":"redHat"},{"text":"CentOs","value":"centOs"},{"text":"Fedora","value":"fedora"},{"text":"Mint","value":"Mint"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920ed30de0011','HDD','인프라정보 - 노트북','inputbox','HDD','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c84a9500013','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"7.1.0","value":"7.1.0"},{"text":"7.1.1","value":"7.1.1"},{"text":"7.1.2","value":"7.1.2"},{"text":"7.1.3","value":"7.1.3"},{"text":"7.1.4","value":"7.1.4"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c78e61e000e','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"5.2","value":"5.2"},{"text":"5.3","value":"5.3"},{"text":"6.1","value":"6.1"},{"text":"7.1","value":"7.1"},{"text":"7.2","value":"7.2"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c815b090010','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"10","value":"10"},{"text":"11.1","value":"11.1"},{"text":"11.2","value":"11.2"},{"text":"11.3","value":"11.3"},{"text":"11.4","value":"11.4"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('df0e88d216ace73e0164f3dbf7ade131','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"Windows Server 2012","value":"2012"},{"text":"Windows Server 2016","value":"2016"},{"text":"Windows Server 2019","value":"2019"},{"text":"Windows Server 20H2","value":"20H2"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c82c9ca0011','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"9","value":"9"},{"text":"10","value":"10"},{"text":"11","value":"11"},{"text":"12","value":"12"},{"text":"13","value":"13"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817920744601792089f9390008','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"APpCheckEndPointProtection","value":"APpCheckEndPointProtection"},{"text":"AppcheckAnalyzerCloud","value":"AppcheckAnalyzerCloud"},{"text":"CMSCloud","value":"CMSCloud"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817920744601792090af45000b','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"SSLPLUS","value":"SSLPLUS"},{"text":"XTM","value":"XTM"},{"text":"IPS","value":"IPS"},{"text":"WIPS","value":"WIPS"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b881792074460179208c29bf0009','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"Fasoo Enterprise DRM","value":"FasooEnterpriseDRM"},{"text":"Fasoo Data Radar","value":"FasooDataRadar"},{"text":"Fasoo RiskView","value":"FasooRiskView"},{"text":"FED-N","value":"FED-N"},{"text":"FED-R","value":"FED-R"},{"text":"FED-E","value":"FED-E"},{"text":"FED-M","value":"FED-M"},{"text":"FSP","value":"FSP"},{"text":"FSS","value":"FSS"},{"text":"FSW","value":"FSW"},{"text":"FSM","value":"FSM"},{"text":"FXM","value":"FXM"},{"text":"FILM","value":"FILM"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920873e820007','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"AppCheck","value":"AppCheck"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b881792074460179207d3f7c0002','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"Net-Protect","value":"Net-Protect"},{"text":"OneWay Protect","value":"OneWayProtect"},{"text":"ShellCop","value":"ShellCop"},{"text":"FireMon","value":"FireMon"},{"text":"ZyroidSE","value":"ZyroidSE"},{"text":"Xnexpose","value":"Xnexpose"},{"text":"Metasploit","value":"Metasploit"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b881792074460179207b35a20001','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"Cloudera","value":"Cloudera"},{"text":"SecureGuard IM","value":"SecureGuardIM"},{"text":"SecureGuard AM","value":"SecureGuardAM"},{"text":"SecureGuard PM","value":"SecureGuardPM"},{"text":"SecureGurard CCTV PM","value":"SecureGurardCCTVPM"},{"text":"SecureSuard VPN","value":"SecureSuardVPN"},{"text":"SecureGruard OTP","value":"SecureGruardOTP"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920843f560005','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"ChangeMiner","value":"ChangeMiner"},{"text":"MetaMiner","value":"MetaMiner"},{"text":"DQMiner","value":"DQMiner"},{"text":"DQXpress","value":"DQXpress"},{"text":"DQ loT","value":"DQloT"},{"text":"SQLMiner","value":"SQLMiner"},{"text":"DataHawk","value":"DataHawk"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b881792074460179208588280006','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"uToken","value":"uToken"},{"text":"uTokenHSM","value":"uTokenHSM"},{"text":"Genian NAC","value":"GenianNAC"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c98e06e0016','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"BLUEMAX-NGF","value":"BLUEMAX-NGF"},{"text":"BLUEMAX-NFG VE","value":"BLUEMAX-NFG-VE"},{"text":"SECUI MF2","value":"SECUI-MF2"},{"text":"BLUEMAX-WIPS","value":"BLUEMAX-WIPS"},{"text":"BLUEMAX-TAMS","value":"BLUEMAX-TAMS"},{"text":"SECUI TMS","value":"SECUI-TMS"},{"text":"BLUEMAX-LMS","value":"BLUEMAX-LMS"},{"text":"SECUI MFI","value":"SECUI-MFI"},{"text":"SECUI MFD","value":"SECUI-MFD"},{"text":"SECUI MA","value":"SECUI-MA"},{"text":"SECUI SCAN","value":"SECUI-SCAN"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920ee4ac50012','AC 어댑터','인프라정보 - 노트북','inputbox','AC 어댑터','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920ec770e0010','RAM','인프라정보 - 노트북','inputbox','RAM','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920ef02e10013','그래픽 카드','인프라정보 - 노트북','inputbox','그래픽 카드','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c91baa00015','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"DB-I","value":"DB-I"},{"text":"WAS-I","value":"WAS-I"},{"text":"App-I","value":"App-I"},{"text":"Mail-I","value":"Mail-I"},{"text":"Privacy-I","value":"Privacy-I"},{"text":"Server-I","value":"Server-I"},{"text":"WebKeeper","value":"WebKeeper"},{"text":"EDR","value":"EDR"},{"text":"Privacy-I Cloud","value":"Privacy-I-Cloud"},{"text":"WebKeeper Cloud","value":"WebKeeper-Cloud"},{"text":"Mail-I Cloud","value":"Mail-I-Cloud"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c88e4b30014','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"BigEye","value":"BigEye"},{"text":"nSIEM","value":"nSIEM"},{"text":"nPIS","value":"nPIS"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817920744601792079683b0000','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"TIP","value":"TIP"},{"text":"MDS","value":"MDS"},{"text":"EPP Patch Management","value":"EPPPatchManagement"},{"text":"EPP Security Assessment","value":"EPPSecurityAssessment"},{"text":"V3 Internet Secuiry 9.0","value":"V3InternetSecuiry9.0"},{"text":"TrusGuard","value":"TrusGuard"},{"text":"TrusGuard DPX","value":"TrusGuardDPX"},{"text":"AIIPS","value":"AIIPS"},{"text":"TMS","value":"TMS"},{"text":"vTrusGruard WAS","value":"vTrusGruardWAS"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817920744601792080a98f0003','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"SPiDER TM","value":"SPiDERTM"},{"text":"SPiDER AI","value":"SPiDERAI"},{"text":"Smart Guard","value":"SmartGuard"},{"text":"WEBMON","value":"WEBMON"},{"text":"SPiDER LogBox","value":"SPiDERLogBox"},{"text":"SPiDER SOAR","value":"SPiDERSOAR"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817920744601792082b3f20004','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"Genian NAC","value":"GenianNAC"},{"text":"Genian Cloud NAC","value":"GenianCloudNAC"},{"text":"Genian Insights E","value":"GenianInsightsE"},{"text":"Genian GPI","value":"GenianGPI"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b881792074460179208efdca000a','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"WAPPLES","value":"WAPPLES"},{"text":"DAmo","value":"DAmo"},{"text":"CIS-CC","value":"CIS-CC"},{"text":"iSIGN+","value":"iSIGN+"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c6e00bc0009','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c5fa3850004','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c5dd9240003','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c6f7892000a','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('489a14a0ebdca14b6eb42cf804330145','버전','인프라정보 - 데이터베이스','inputbox','버전','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}','version','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c5c52970002','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c7057ef000b','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c71ff45000d','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c60844a0005','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c711790000c','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c617c790006','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c62891d0007','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c685fef0008','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a5e5aac0000','인스턴스 명','인프라정보 - 데이터베이스','inputbox','인스턴스 명','{"validate":"","required":"false","maxLength":"500","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a6008e30003','백업 주기','인프라정보 - 데이터베이스','inputbox','백업 주기','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a5f95d70002','백업 방식','인프라정보 - 데이터베이스','inputbox','백업 방식','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a60910e0004','보관 주기','인프라정보 - 데이터베이스','inputbox','보관 주기','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a61b37f0005','보관 위치','인프라정보 - 데이터베이스','inputbox','보관 위치','{"validate":"","required":"false","maxLength":"500","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a5efdb00001','인스턴스 역할','인프라정보 - 데이터베이스','inputbox','인스턴스 역할','{"validate":"","required":"false","maxLength":"500","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920eb4f63000f','OS','인프라정보 - 노트북','inputbox','OS','{"validate":"","required":"true","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920f09cc90014','Notebook_CPU','인프라정보 - 노트북','inputbox','CPU','{"validate":"","required":"true","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bc0ffe3000a','IOS Version','인프라정보 - 네트워크','inputbox','IOS Version','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','iosver','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bbb1ed10006','인터페이스정보','인프라정보 - 네트워크','inputbox','인터페이스정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bbd4e5b0007','SNMP버전','인프라정보 - 네트워크','inputbox','SNMP버전','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bbe677f0008','전체IF개수','인프라정보 - 네트워크','inputbox','전체IF개수','{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}','totifnum','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bc0759f0009','사용IF개수','인프라정보 - 네트워크','inputbox','사용IF개수','{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}','actifnum','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b61f7170001','지역','인프라정보 - 공통','inputbox','지역','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017917129c66000c','IP','인프라정보 - 공통','inputbox','IP','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','ip','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b71ff790003','건물명','인프라정보 - 공통','inputbox','건물명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b72ccbc0004','층','인프라정보 - 공통','inputbox','층','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b73fff90005','랙위치','인프라정보 - 공통','inputbox','랙위치','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('6ea67d6c6cb28def6b289affc6c95fd1','MAC','인프라정보 - 공통','inputbox','MAC','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','mac','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b01792155cae80020','ICMP 정보','인프라상세 - 네트워크','inputbox','ICMP 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b01792156af0c0022','IPCHECK 정보','인프라상세 - 네트워크','inputbox','IPCHECK 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b0179215883dd0025','L4SWITCH 정보','인프라상세 - 네트워크','inputbox','L4SWITCH 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b017921555a73001f','OID 정보','인프라상세 - 네트워크','inputbox','OID 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b017921563ea00021','SNMP 정보','인프라상세 - 네트워크','inputbox','SNMP 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b0179215719fb0023','L2SWITCH 정보','인프라상세 - 네트워크','inputbox','L2SWITCH 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b017921581a750024','L3SWITCH 정보','인프라상세 - 네트워크','inputbox','L3SWITCH 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b01792159017a0026','APETC 정보','인프라상세 - 네트워크','inputbox','APETC 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b01792159687f0027','IPS 정보','인프라상세 - 네트워크','inputbox','IPS 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920f72ed30015','분류','보안장비 - 설비정보','radio','분류','{"option":[{"text":"서버","value":"sms"},{"text":"네트워크","value":"nms"},{"text":"기타","value":"etc"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0b263e0000','구매(건)','소프트웨어정보','inputbox','구매(건)','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0b97760001','설치(건)','소프트웨어정보','inputbox','설치(건)','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0c231a0002','공급사','소프트웨어정보','inputbox','공급사','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0c78660003','라이선스 시작일','소프트웨어정보','inputbox','라이선스 시작일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0d0aec0004','라이선스 종료일','소프트웨어정보','inputbox','라이선스 종료일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0d5e0d0005','금액','소프트웨어정보','inputbox','금액','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f282cc10007','업체명','계약정보관리','inputbox','업체명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f288f020008','계약명','계약정보관리','inputbox','계약명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f297d640009','계약일','계약정보관리','inputbox','계약일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f29d2ac000a','계약시작일','계약정보관리','inputbox','계약시작일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2a6796000b','계약종료일','계약정보관리','inputbox','계약종료일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2ad6ea000c','계약방법','계약정보관리','inputbox','계약방법','{"validate":"","required":"false","maxLength":"500","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2b611f000d','계약금액','계약정보관리','inputbox','계약금액','{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2cab18000e','계약상세내역','계약정보관리','inputbox','계약상세내역','{"validate":"char","required":"false","maxLength":"1000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2d01d6000f','예산코드','계약정보관리','inputbox','예산코드','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2d60300010','계약 담당부서','계약정보관리','inputbox','계약 담당부서','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2e573f0011','계약 담당자','계약정보관리','custom-code','계약 담당자','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"session","value":"userName"},"button":"검색"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f5b51700001','년도','사업정보관리','inputbox','년도','{"validate":"","required":"true","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6123360002','처리상태','사업정보관리','dropdown','처리상태','{"option":[{"text":"선택하세요.","value":""},{"text":"정상","value":"normal"},{"text":"취소","value":"cancel"},{"text":"대기","value":"waiting"},{"text":"전산실무협의회","value":"computing working group"},{"text":"전산운영위원회","value":"computing steering committee"},{"text":"RFI발송","value":"rfisent"},{"text":"RFI접수","value":"rfireceipt"},{"text":"RFP발송","value":"rfpsent"},{"text":"RFP접수","value":"rfpreceipt"},{"text":"제안평가","value":"proposalevaluation"},{"text":"입찰발송","value":"sendbid"},{"text":"입찰등록","value":"bidregistration"},{"text":"입찰실시","value":"bidding"},{"text":"계약완료","value":"contractcompletion"},{"text":"사업추진중","value":"businessinprogress"},{"text":"최종검수완료","value":"finalinspectioncompleted"},{"text":"최종대금지금완료","value":"finalpaymentcompleted"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f62f3d10003','구분','사업정보관리','dropdown','구분','{"option":[{"text":"선택하세요.","value":""},{"text":"전년도 계속사업","value":"beforeyear"},{"text":"본부부서 추진사업","value":"headquarters"},{"text":"전산정보부 추진사업","value":"computerinformation"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f63cdf60004','우선순위','사업정보관리','inputbox','우선순위','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6451ec0005','주관부서','사업정보관리','inputbox','주관부서','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f64b62c0006','사업추진일정 시작월','사업정보관리','inputbox','사업추진일정 시작월','{"validate":"number","required":"false","maxLength":"10","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6587d60007','사업추진일정 종료월','사업정보관리','inputbox','사업추진일정 종료월','{"validate":"number","required":"false","maxLength":"10","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6697260008','소요예산 합계','사업정보관리','inputbox','소요예산 합계','{"validate":"","required":"false","maxLength":"10000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6b9b180009','정보보호 사업구분','사업정보관리','radio','정보보호 사업구분','{"option":[{"text":"해당없음","value":"none"},{"text":"전체","value":"all"},{"text":"부분","value":"part"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6c041c000a','정보보호 사업기준','사업정보관리','inputbox','정보보호 사업기준','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6c8877000b','정보보호예산 합계','사업정보관리','inputbox','정보보호예산 합계','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6d490a000c','전산실무협의회 심의대상 여부','사업정보관리','radio','전산실무협의회 심의대상 여부','{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6db3b8000d','전산실무협의회 심의완료일','사업정보관리','inputbox','전산실무협의회 심의완료일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6e6999000e','전산운영위원회 심의완료일','사업정보관리','inputbox','전산운영위원회 심의완료일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6f4ff6000f','RFI 발송여부','사업정보관리','radio','RFI 발송여부','{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f7524b40010','전산운영위원회 심의대상여부','사업정보관리','radio','전산운영위원회 심의대상여부','{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f7610e60011','RFI 발송일자','사업정보관리','inputbox','RFI 발송일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f812a9c0012','RFI 접수일자','사업정보관리','inputbox','RFI 접수일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f81bf150013','RFI 발송대상업체','사업정보관리','inputbox','RFI 발송대상업체','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f821bfc0014','RFP 발송일자','사업정보관리','inputbox','RFP 발송일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f827a9a0015','RFP 접수일자','사업정보관리','inputbox','RFP 접수일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f82e2990016','RFP 발송업체','사업정보관리','inputbox','RFP 발송업체','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f83df0c0017','제안설명회 일자','사업정보관리','inputbox','제안설명회 일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f84329c0018','제안평가 일자','사업정보관리','inputbox','제안평가 일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f8551c80019','예산배정방법','사업정보관리','radio','예산배정방법','{"option":[{"text":"정상배정","value":"normal"},{"text":"타사업에예산전용","value":"other"},{"text":"정상배정+타사업예산전용","value":"normalother"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f860fb7001a','추진사유','사업정보관리','inputbox','추진사유','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f8669aa001b','미추진사유','사업정보관리','inputbox','미추진사유','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('e613591ddea0f8c1f2457104f7cf286d','장비명','','inputbox','장비명','{"validate":"","required":"true","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('bde6f4eac279ac3528c9cca16d12779a','데이터베이스','','custom-code','데이터베이스','{"required":"true","customCode":"40288ab777dd21b50177dd52781e0000","default":{"type":"code","value":"cmdb.db.kind.altibase|altibase"},"button":"검색"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('ef60a5a1aa010de9b7ba2dda96107c5d','Processor','','inputbox','Processor','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('c1f97be1aea3fdee785ca73b751f79d8','수량','','inputbox','수량','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('247aa7187b335f9c4d78db5e18a2704c','브랜드','','inputbox','브랜드','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('2bb03c41cd9998e77da9b737d4fcf9ab','bash 버전','','inputbox','bash 버전','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('e651113f8a452f55f50ed41956cdfb34','버전','','inputbox','버전','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('58e0cd57479bbb9d8a6b2bb6012206c2','설치장소','','inputbox','설치장소','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('602b2c9216825bffc96ae69eeb73bdbc','도입일','','inputbox','도입일','{"validate":"","required":"true","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('d0a35c07fa9bdd919a039f1f127cd54e','보호수준','','dropdown','보호수준','{{"text":"선택하세요","value":""},"option":[{"text":"가 등급","value":"3"},{"text":"나 등급","value":"2"},{"text":"다 등급","value":"1"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('f4538a0d55c456461f1d0932fd424350','RAM','','inputbox','RAM','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('42b02142dd9128e47a35b737d4fc21ad','서비스명','','inputbox','서비스명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('799afe719cd0bfe38797172bb77ae5d8','라이선스 정책','','dropdown','라이선스 정책','{"option":[{"text":"선택하세요","value":""},{"text":"무료","value":"free"},{"text":"유료","value":"pay"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('932831a8e53aa6f795f608794e51e7e0','IP_V6','','inputbox','IP_V6','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('a508fbfda5d65a54b9b25dc5925d79bb','관리자','','custom-code','관리자','{"required":"true","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"session","value":"userName"},"button":"검색"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('1d1338bb6316ab81f7c6adbc77199409','제조사','','inputbox','제조사','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('addc07e374faec9f0d6d3bbeca565886','OS 종류','','dropdown','OS 종류','{"option":[{"text":"선택하세요","value":""},{"text":"common","value":"common"},{"text":"Linux","value":"linux"},{"text":"FreeBSD","value":"freebsd"},{"text":"Solaris","value":"solaris"},{"text":"AIX","value":"aix"},{"text":"HPUX","value":"hpux"},{"text":"WinNT","value":"winnt"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('79a99dfa69d7d0c5c369ad4840815749','IP_V4','','inputbox','IP_V4','{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('99a8cf26726e907a95dad34e188cbfc8','등급','','dropdown','등급','{"option":[{"text":"선택하세요","value":""},{"text":"1등급","value":"1"},{"text":"2등급","value":"2"},{"text":"3등급","value":"3"}]}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('6e247bdb7b70757e1987ae25a36c3d13','호스트명','','inputbox','호스트명','{"validate":"","required":"true","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b62eb220002','용도','','inputbox','용도','{"validate":"","required":"false","maxLength":"300","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('2c91808e7c8027a1017c828506300002','인덱스','순서','inputbox','인덱스','{"validate":"number","required":"false","maxLength":"999999","minLength":"0"}','index','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('2c9180837c99e748017c9c5ea9e5000a','메모리-사이즈','메모리-사이즈','inputbox','메모리-사이즈','{"validate":"","required":"false","maxLength":"999999999999","minLength":"0"}','mem_nsize','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f01791713d145000d','메모리','인프라정보 - 서버','group-list','메모리','{"option":[{"id":"2c91808e7c8027a1017c828506300002","order":"1"},{"id":"2c9180837c99e748017c9c5ea9e5000a","order":"2"}]}','sms_mem','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('2c91808e7c8027a1017c8287e6c00003','CPU 모델명','CPU 모델명','inputbox','CPU 모델명','{"validate":"","required":"false","maxLength":"10000","minLength":"0"}','cpu_descript','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('d47973f063130acab00b2cf203a9788b','CPU','인프라정보 - 서버','group-list','CPU','{"option":[{"id":"2c91808e7c8027a1017c828506300002","order":"1"},{"id":"2c91808e7c8027a1017c8287e6c00003","order":"2"}]}','sms_cpu','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('2c9180837c99e748017c9c63e6b9000b','디스크-용량','디스크-용량','inputbox','디스크-용량','{"validate":"","required":"false","maxLength":"999999999999","minLength":"0"}','disk_nsize','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b5e35ff0000','디스크','인프라정보 - 서버','group-list','디스크','{"option":[{"id":"2c91808e7c8027a1017c828506300002","order":"1"},{"id":"2c9180837c99e748017c9c63e6b9000b","order":"2"}]}','sms_disk','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('2c9180837c99e748017c9c6f73d1000d','NIC-명','NIC-명','inputbox','NIC-명','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}','nic_nicname','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('2c9180837c99e748017c9c701dfc000e','NIC_HPA Speed','NIC_HPA Speed','inputbox','NIC_HPA Speed','{"validate":"","required":"false","maxLength":"999999999","minLength":"0"}','nic_speed','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c36103b0000','NIC','인프라정보 - 서버','group-list','NIC','{"option":[{"id":"2c91808e7c8027a1017c828506300002","order":"1"},{"id":"2c9180837c99e748017c9c6f73d1000d","order":"2"},{"id":"2c9180837c99e748017c9c701dfc000e","order":"3"}]}','sms_nic','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('ac4f3785cdbcc149a0b92dbf00af80ef','분류','','inputbox','분류','{"validate":"","required":"true","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb574a70005','자산중요도','자산보안등급정보','inputbox','자산중요도','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('77b6112b3013a6808aeb04f80dd75360','기밀성','자산보안등급정보','dropdown','기밀성','{"option":[{"text":"선택하세요","value":""},{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('b5f16c33ca0531087ed1b46805a9c682','무결성','자산보안등급정보','dropdown','무결성','{"option":[{"text":"선택하세요","value":""},{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('072fcb3be4056095a9af82dc6505b1e8','가용성','자산보안등급정보','dropdown','가용성','{"option":[{"text":"선택하세요","value":""},{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb4b48c0004','평가결과','자산보안등급정보','inputbox','평가결과','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791b777a240000','외부연동ID','인프라정보','inputbox','외부연동ID','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','zid','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791b78b0550001','시리얼번호','인프라정보','inputbox','시리얼번호','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','serial','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb0f9140002','담당자(정)','일반정보','custom-code','담당자(정)','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"none","value":""},"button":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb14a4d0003','담당자(부)','일반정보','custom-code','담당자(부)','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"none","value":""},"button":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('adaeef4046bfcd78e345ad48cbbeefa5','모델명','인프라정보','inputbox','모델명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','model','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('189319790e6349c7248b9f50456ed47b','비고','일반정보','inputbox','비고','{"validate":"","required":"false","maxLength":"10000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('27caaeba596663101d55a09ec873a375','상태','일반정보 - 인프라','radio','상태','{"option":[{"text":"사용","value":"use"},{"text":"미사용","value":"unused"},{"text":"폐기","value":"disposal"},{"text":"할당","value":"assignment"},{"text":"반납","value":"return"},{"text":"AS","value":"as"},{"text":"예비","value":"spare"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b881792074460179209cef74000c','관리부서','일반정보','custom-code','관리부서','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0009","default":{"type":"none","value":""},"button":""}',false,'','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916fc8f1d0004','기간(연평균)','유지보수정보','inputbox','기간(연평균)','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f397230000','취득일','일반자산 정보','date','취득일','{"required":"true","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f7bd590003','유지보수 종료일','유지보수정보','date','유지보수 종료일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916fff6c60006','업무영향 범위','유지보수정보','inputbox','업무영향 범위','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f71b030002','유지보수 시작일','유지보수정보','date','유지보수 시작일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f01791711dc08000b','유지 보수 비상 연락처','유지보수정보','inputbox','유지 보수 비상 연락처','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f0179170ee2c7000a','유지보수 담당자명','유지보수정보','inputbox','유지보수 담당자명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f0179170df7c80009','유지보수 업체명','유지보수정보','inputbox','유지보수 업체명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920d8df1c000d','유지보수여부','유지보수정보','dropdown','유지보수여부','{"option":[{"text":"선택하세요","value":""},{"text":"사용","value":"used"},{"text":"미사용","value":"unused"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f594a70001','도입금액','유지보수정보','inputbox','도입금액','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f0179170937d70008','근거자료','유지보수정보','inputbox','근거자료','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f01791707c3b70007','이용자수/처리건수','유지보수정보','inputbox','이용자수/처리건수','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916fd4e5b0005','예상금액','유지보수정보','inputbox','예상금액','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c7f51d8000f','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"11i v1","value":"v1"},{"text":"11i v2","value":"v2"},{"text":"11i v3","value":"v3"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c839afd0012','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"UNIX 3.2","value":"UNIX 3.2"},{"text":"UNIX 4.0","value":"UNIX 4.0"},{"text":"UNIX 5.1","value":"UNIX 5.1"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('734ab921484883ad7760032a008baf21','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"Debian","value":"debian"},{"text":"Ubuntu","value":"ubuntu"},{"text":"RedHat","value":"redHat"},{"text":"CentOs","value":"centOs"},{"text":"Fedora","value":"fedora"},{"text":"Mint","value":"Mint"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920ed30de0011','HDD','인프라정보 - 노트북','inputbox','HDD','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c84a9500013','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"7.1.0","value":"7.1.0"},{"text":"7.1.1","value":"7.1.1"},{"text":"7.1.2","value":"7.1.2"},{"text":"7.1.3","value":"7.1.3"},{"text":"7.1.4","value":"7.1.4"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c78e61e000e','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"5.2","value":"5.2"},{"text":"5.3","value":"5.3"},{"text":"6.1","value":"6.1"},{"text":"7.1","value":"7.1"},{"text":"7.2","value":"7.2"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c815b090010','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"10","value":"10"},{"text":"11.1","value":"11.1"},{"text":"11.2","value":"11.2"},{"text":"11.3","value":"11.3"},{"text":"11.4","value":"11.4"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('df0e88d216ace73e0164f3dbf7ade131','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"Windows Server 2012","value":"2012"},{"text":"Windows Server 2016","value":"2016"},{"text":"Windows Server 2019","value":"2019"},{"text":"Windows Server 20H2","value":"20H2"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c82c9ca0011','버전','인프라정보 - 서버 - 운영체제','dropdown','버전','{"option":[{"text":"선택하세요","value":""},{"text":"9","value":"9"},{"text":"10","value":"10"},{"text":"11","value":"11"},{"text":"12","value":"12"},{"text":"13","value":"13"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817920744601792089f9390008','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"APpCheckEndPointProtection","value":"APpCheckEndPointProtection"},{"text":"AppcheckAnalyzerCloud","value":"AppcheckAnalyzerCloud"},{"text":"CMSCloud","value":"CMSCloud"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817920744601792090af45000b','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"SSLPLUS","value":"SSLPLUS"},{"text":"XTM","value":"XTM"},{"text":"IPS","value":"IPS"},{"text":"WIPS","value":"WIPS"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b881792074460179208c29bf0009','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"Fasoo Enterprise DRM","value":"FasooEnterpriseDRM"},{"text":"Fasoo Data Radar","value":"FasooDataRadar"},{"text":"Fasoo RiskView","value":"FasooRiskView"},{"text":"FED-N","value":"FED-N"},{"text":"FED-R","value":"FED-R"},{"text":"FED-E","value":"FED-E"},{"text":"FED-M","value":"FED-M"},{"text":"FSP","value":"FSP"},{"text":"FSS","value":"FSS"},{"text":"FSW","value":"FSW"},{"text":"FSM","value":"FSM"},{"text":"FXM","value":"FXM"},{"text":"FILM","value":"FILM"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920873e820007','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"AppCheck","value":"AppCheck"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b881792074460179207d3f7c0002','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"Net-Protect","value":"Net-Protect"},{"text":"OneWay Protect","value":"OneWayProtect"},{"text":"ShellCop","value":"ShellCop"},{"text":"FireMon","value":"FireMon"},{"text":"ZyroidSE","value":"ZyroidSE"},{"text":"Xnexpose","value":"Xnexpose"},{"text":"Metasploit","value":"Metasploit"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b881792074460179207b35a20001','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"Cloudera","value":"Cloudera"},{"text":"SecureGuard IM","value":"SecureGuardIM"},{"text":"SecureGuard AM","value":"SecureGuardAM"},{"text":"SecureGuard PM","value":"SecureGuardPM"},{"text":"SecureGurard CCTV PM","value":"SecureGurardCCTVPM"},{"text":"SecureSuard VPN","value":"SecureSuardVPN"},{"text":"SecureGruard OTP","value":"SecureGruardOTP"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920843f560005','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"ChangeMiner","value":"ChangeMiner"},{"text":"MetaMiner","value":"MetaMiner"},{"text":"DQMiner","value":"DQMiner"},{"text":"DQXpress","value":"DQXpress"},{"text":"DQ loT","value":"DQloT"},{"text":"SQLMiner","value":"SQLMiner"},{"text":"DataHawk","value":"DataHawk"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b881792074460179208588280006','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"uToken","value":"uToken"},{"text":"uTokenHSM","value":"uTokenHSM"},{"text":"Genian NAC","value":"GenianNAC"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c98e06e0016','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"BLUEMAX-NGF","value":"BLUEMAX-NGF"},{"text":"BLUEMAX-NFG VE","value":"BLUEMAX-NFG-VE"},{"text":"SECUI MF2","value":"SECUI-MF2"},{"text":"BLUEMAX-WIPS","value":"BLUEMAX-WIPS"},{"text":"BLUEMAX-TAMS","value":"BLUEMAX-TAMS"},{"text":"SECUI TMS","value":"SECUI-TMS"},{"text":"BLUEMAX-LMS","value":"BLUEMAX-LMS"},{"text":"SECUI MFI","value":"SECUI-MFI"},{"text":"SECUI MFD","value":"SECUI-MFD"},{"text":"SECUI MA","value":"SECUI-MA"},{"text":"SECUI SCAN","value":"SECUI-SCAN"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920ee4ac50012','AC 어댑터','인프라정보 - 노트북','inputbox','AC 어댑터','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920ec770e0010','RAM','인프라정보 - 노트북','inputbox','RAM','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920ef02e10013','그래픽 카드','인프라정보 - 노트북','inputbox','그래픽 카드','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c91baa00015','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"DB-I","value":"DB-I"},{"text":"WAS-I","value":"WAS-I"},{"text":"App-I","value":"App-I"},{"text":"Mail-I","value":"Mail-I"},{"text":"Privacy-I","value":"Privacy-I"},{"text":"Server-I","value":"Server-I"},{"text":"WebKeeper","value":"WebKeeper"},{"text":"EDR","value":"EDR"},{"text":"Privacy-I Cloud","value":"Privacy-I-Cloud"},{"text":"WebKeeper Cloud","value":"WebKeeper-Cloud"},{"text":"Mail-I Cloud","value":"Mail-I-Cloud"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c88e4b30014','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"BigEye","value":"BigEye"},{"text":"nSIEM","value":"nSIEM"},{"text":"nPIS","value":"nPIS"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817920744601792079683b0000','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"TIP","value":"TIP"},{"text":"MDS","value":"MDS"},{"text":"EPP Patch Management","value":"EPPPatchManagement"},{"text":"EPP Security Assessment","value":"EPPSecurityAssessment"},{"text":"V3 Internet Secuiry 9.0","value":"V3InternetSecuiry9.0"},{"text":"TrusGuard","value":"TrusGuard"},{"text":"TrusGuard DPX","value":"TrusGuardDPX"},{"text":"AIIPS","value":"AIIPS"},{"text":"TMS","value":"TMS"},{"text":"vTrusGruard WAS","value":"vTrusGruardWAS"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817920744601792080a98f0003','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"SPiDER TM","value":"SPiDERTM"},{"text":"SPiDER AI","value":"SPiDERAI"},{"text":"Smart Guard","value":"SmartGuard"},{"text":"WEBMON","value":"WEBMON"},{"text":"SPiDER LogBox","value":"SPiDERLogBox"},{"text":"SPiDER SOAR","value":"SPiDERSOAR"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817920744601792082b3f20004','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"Genian NAC","value":"GenianNAC"},{"text":"Genian Cloud NAC","value":"GenianCloudNAC"},{"text":"Genian Insights E","value":"GenianInsightsE"},{"text":"Genian GPI","value":"GenianGPI"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b881792074460179208efdca000a','솔류션','인프라정보 - 보안솔류션','dropdown','솔류션','{"option":[{"text":"선택하세요","value":""},{"text":"WAPPLES","value":"WAPPLES"},{"text":"DAmo","value":"DAmo"},{"text":"CIS-CC","value":"CIS-CC"},{"text":"iSIGN+","value":"iSIGN+"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c6e00bc0009','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c5fa3850004','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c5dd9240003','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c6f7892000a','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('489a14a0ebdca14b6eb42cf804330145','버전','인프라정보 - 데이터베이스','inputbox','버전','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','version','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c5c52970002','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c7057ef000b','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c71ff45000d','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c60844a0005','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c711790000c','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c617c790006','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c62891d0007','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c685fef0008','라이선스','인프라정보 - 데이터베이스','dropdown','라이선스','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a5e5aac0000','인스턴스 명','인프라정보 - 데이터베이스','inputbox','인스턴스 명','{"validate":"","required":"false","maxLength":"500","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a6008e30003','백업 주기','인프라정보 - 데이터베이스','inputbox','백업 주기','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a5f95d70002','백업 방식','인프라정보 - 데이터베이스','inputbox','백업 방식','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a60910e0004','보관 주기','인프라정보 - 데이터베이스','inputbox','보관 주기','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a61b37f0005','보관 위치','인프라정보 - 데이터베이스','inputbox','보관 위치','{"validate":"","required":"false","maxLength":"500","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7a8a5993017a8a5efdb00001','인스턴스 역할','인프라정보 - 데이터베이스','inputbox','인스턴스 역할','{"validate":"","required":"false","maxLength":"500","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920eb4f63000f','OS','인프라정보 - 노트북','inputbox','OS','{"validate":"","required":"true","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920f09cc90014','Notebook_CPU','인프라정보 - 노트북','inputbox','CPU','{"validate":"","required":"true","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bc0ffe3000a','IOS Version','인프라정보 - 네트워크','inputbox','IOS Version','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','iosver','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bbb1ed10006','인터페이스정보','인프라정보 - 네트워크','inputbox','인터페이스정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bbd4e5b0007','SNMP버전','인프라정보 - 네트워크','inputbox','SNMP버전','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bbe677f0008','전체IF개수','인프라정보 - 네트워크','inputbox','전체IF개수','{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}',false,'200','totifnum','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bc0759f0009','사용IF개수','인프라정보 - 네트워크','inputbox','사용IF개수','{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}',false,'200','actifnum','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b61f7170001','지역','인프라정보 - 공통','inputbox','지역','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017917129c66000c','IP','인프라정보 - 공통','inputbox','IP','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','ip','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b71ff790003','건물명','인프라정보 - 공통','inputbox','건물명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b72ccbc0004','층','인프라정보 - 공통','inputbox','층','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b73fff90005','랙위치','인프라정보 - 공통','inputbox','랙위치','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('6ea67d6c6cb28def6b289affc6c95fd1','MAC','인프라정보 - 공통','inputbox','MAC','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','mac','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b01792155cae80020','ICMP 정보','인프라상세 - 네트워크','inputbox','ICMP 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b01792156af0c0022','IPCHECK 정보','인프라상세 - 네트워크','inputbox','IPCHECK 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b0179215883dd0025','L4SWITCH 정보','인프라상세 - 네트워크','inputbox','L4SWITCH 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b017921555a73001f','OID 정보','인프라상세 - 네트워크','inputbox','OID 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b017921563ea00021','SNMP 정보','인프라상세 - 네트워크','inputbox','SNMP 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b0179215719fb0023','L2SWITCH 정보','인프라상세 - 네트워크','inputbox','L2SWITCH 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b017921581a750024','L3SWITCH 정보','인프라상세 - 네트워크','inputbox','L3SWITCH 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b01792159017a0026','APETC 정보','인프라상세 - 네트워크','inputbox','APETC 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179210e1b01792159687f0027','IPS 정보','인프라상세 - 네트워크','inputbox','IPS 정보','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920f72ed30015','분류','보안장비 - 설비정보','radio','분류','{"option":[{"text":"서버","value":"sms"},{"text":"네트워크","value":"nms"},{"text":"기타","value":"etc"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0b263e0000','구매(건)','소프트웨어정보','inputbox','구매(건)','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0b97760001','설치(건)','소프트웨어정보','inputbox','설치(건)','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0c231a0002','공급사','소프트웨어정보','inputbox','공급사','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0c78660003','라이선스 시작일','소프트웨어정보','date','라이선스 시작일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0d0aec0004','라이선스 종료일','소프트웨어정보','date','라이선스 종료일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0d5e0d0005','금액','소프트웨어정보','inputbox','금액','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f282cc10007','업체명','계약정보관리','inputbox','업체명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f288f020008','계약명','계약정보관리','inputbox','계약명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f297d640009','계약일','계약정보관리','date','계약일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f29d2ac000a','계약시작일','계약정보관리','date','계약시작일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2a6796000b','계약종료일','계약정보관리','date','계약종료일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2ad6ea000c','계약방법','계약정보관리','inputbox','계약방법','{"validate":"","required":"false","maxLength":"500","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2b611f000d','계약금액','계약정보관리','inputbox','계약금액','{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2cab18000e','계약상세내역','계약정보관리','inputbox','계약상세내역','{"validate":"char","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2d01d6000f','예산코드','계약정보관리','inputbox','예산코드','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2d60300010','계약 담당부서','계약정보관리','custom-code','계약 담당부서','{"required":"true","customCode":"40288a19736b46fb01736b89e46c0009","default":{"type":"none","value":""},"button":""}',false,'','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2e573f0011','계약 담당자','계약정보관리','custom-code','계약 담당자','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"session","value":"userName"},"button":"검색"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f5b51700001','년도','사업정보관리','inputbox','년도','{"validate":"","required":"true","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6123360002','처리상태','사업정보관리','dropdown','처리상태','{"option":[{"text":"선택하세요.","value":""},{"text":"정상","value":"normal"},{"text":"취소","value":"cancel"},{"text":"대기","value":"waiting"},{"text":"전산실무협의회","value":"computing working group"},{"text":"전산운영위원회","value":"computing steering committee"},{"text":"RFI발송","value":"rfisent"},{"text":"RFI접수","value":"rfireceipt"},{"text":"RFP발송","value":"rfpsent"},{"text":"RFP접수","value":"rfpreceipt"},{"text":"제안평가","value":"proposalevaluation"},{"text":"입찰발송","value":"sendbid"},{"text":"입찰등록","value":"bidregistration"},{"text":"입찰실시","value":"bidding"},{"text":"계약완료","value":"contractcompletion"},{"text":"사업추진중","value":"businessinprogress"},{"text":"최종검수완료","value":"finalinspectioncompleted"},{"text":"최종대금지금완료","value":"finalpaymentcompleted"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f62f3d10003','구분','사업정보관리','dropdown','구분','{"option":[{"text":"선택하세요.","value":""},{"text":"전년도 계속사업","value":"beforeyear"},{"text":"본부부서 추진사업","value":"headquarters"},{"text":"전산정보부 추진사업","value":"computerinformation"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f63cdf60004','우선순위','사업정보관리','inputbox','우선순위','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6451ec0005','주관부서','사업정보관리','custom-code','주관부서','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0009","default":{"type":"none","value":""},"button":""}',false,'','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f64b62c0006','사업추진일정 시작월','사업정보관리','date','사업추진일정 시작월','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6587d60007','사업추진일정 종료월','사업정보관리','date','사업추진일정 종료월','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6697260008','소요예산 합계','사업정보관리','inputbox','소요예산 합계','{"validate":"","required":"false","maxLength":"10000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6b9b180009','정보보호 사업구분','사업정보관리','radio','정보보호 사업구분','{"option":[{"text":"해당없음","value":"none"},{"text":"전체","value":"all"},{"text":"부분","value":"part"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6c041c000a','정보보호 사업기준','사업정보관리','inputbox','정보보호 사업기준','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6c8877000b','정보보호예산 합계','사업정보관리','inputbox','정보보호예산 합계','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6d490a000c','전산실무협의회 심의대상 여부','사업정보관리','radio','전산실무협의회 심의대상 여부','{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6db3b8000d','전산실무협의회 심의완료일','사업정보관리','date','전산실무협의회 심의완료일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6e6999000e','전산운영위원회 심의완료일','사업정보관리','date','전산운영위원회 심의완료일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6f4ff6000f','RFI 발송여부','사업정보관리','radio','RFI 발송여부','{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f7524b40010','전산운영위원회 심의대상여부','사업정보관리','radio','전산운영위원회 심의대상여부','{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f7610e60011','RFI 발송일자','사업정보관리','datetime','RFI 발송일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f812a9c0012','RFI 접수일자','사업정보관리','datetime','RFI 접수일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f81bf150013','RFI 발송대상업체','사업정보관리','inputbox','RFI 발송대상업체','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f821bfc0014','RFP 발송일자','사업정보관리','datetime','RFP 발송일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f827a9a0015','RFP 접수일자','사업정보관리','datetime','RFP 접수일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f82e2990016','RFP 발송업체','사업정보관리','inputbox','RFP 발송업체','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f83df0c0017','제안설명회 일자','사업정보관리','datetime','제안설명회 일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f84329c0018','제안평가 일자','사업정보관리','datetime','제안평가 일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f8551c80019','예산배정방법','사업정보관리','radio','예산배정방법','{"option":[{"text":"정상배정","value":"normal"},{"text":"타사업에예산전용","value":"other"},{"text":"정상배정+타사업예산전용","value":"normalother"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f860fb7001a','추진사유','사업정보관리','inputbox','추진사유','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f8669aa001b','미추진사유','사업정보관리','inputbox','미추진사유','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('e613591ddea0f8c1f2457104f7cf286d','장비명','','inputbox','장비명','{"validate":"","required":"true","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('bde6f4eac279ac3528c9cca16d12779a','데이터베이스','','custom-code','데이터베이스','{"required":"true","customCode":"40288ab777dd21b50177dd52781e0000","default":{"type":"code","value":"cmdb.db.kind.altibase|altibase"},"button":"검색"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('ef60a5a1aa010de9b7ba2dda96107c5d','Processor','','inputbox','Processor','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('c1f97be1aea3fdee785ca73b751f79d8','수량','','inputbox','수량','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('247aa7187b335f9c4d78db5e18a2704c','브랜드','','inputbox','브랜드','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('2bb03c41cd9998e77da9b737d4fcf9ab','bash 버전','','inputbox','bash 버전','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('e651113f8a452f55f50ed41956cdfb34','버전','','inputbox','버전','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('58e0cd57479bbb9d8a6b2bb6012206c2','설치장소','','inputbox','설치장소','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('602b2c9216825bffc96ae69eeb73bdbc','도입일','','date','도입일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('d0a35c07fa9bdd919a039f1f127cd54e','보호수준','','dropdown','보호수준','{{"text":"선택하세요","value":""},"option":[{"text":"가 등급","value":"3"},{"text":"나 등급","value":"2"},{"text":"다 등급","value":"1"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('f4538a0d55c456461f1d0932fd424350','RAM','','inputbox','RAM','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('42b02142dd9128e47a35b737d4fc21ad','서비스명','','inputbox','서비스명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('799afe719cd0bfe38797172bb77ae5d8','라이선스 정책','','dropdown','라이선스 정책','{"option":[{"text":"선택하세요","value":""},{"text":"무료","value":"free"},{"text":"유료","value":"pay"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('932831a8e53aa6f795f608794e51e7e0','IP_V6','','inputbox','IP_V6','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('a508fbfda5d65a54b9b25dc5925d79bb','관리자','','custom-code','관리자','{"required":"true","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"session","value":"userName"},"button":"검색"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('1d1338bb6316ab81f7c6adbc77199409','제조사','','inputbox','제조사','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('addc07e374faec9f0d6d3bbeca565886','OS 종류','','dropdown','OS 종류','{"option":[{"text":"선택하세요","value":""},{"text":"common","value":"common"},{"text":"Linux","value":"linux"},{"text":"FreeBSD","value":"freebsd"},{"text":"Solaris","value":"solaris"},{"text":"AIX","value":"aix"},{"text":"HPUX","value":"hpux"},{"text":"WinNT","value":"winnt"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('79a99dfa69d7d0c5c369ad4840815749','IP_V4','','inputbox','IP_V4','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('99a8cf26726e907a95dad34e188cbfc8','등급','','dropdown','등급','{"option":[{"text":"선택하세요","value":""},{"text":"1등급","value":"1"},{"text":"2등급","value":"2"},{"text":"3등급","value":"3"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('6e247bdb7b70757e1987ae25a36c3d13','호스트명','','inputbox','호스트명','{"validate":"","required":"true","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b62eb220002','용도','','inputbox','용도','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('2c91808e7c8027a1017c828506300002','인덱스','순서','inputbox','인덱스','{"validate":"number","required":"false","maxLength":"999999","minLength":"0"}',false,'200','index','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('2c9180837c99e748017c9c5ea9e5000a','메모리-사이즈','메모리-사이즈','inputbox','메모리-사이즈','{"validate":"","required":"false","maxLength":"999999999999","minLength":"0"}',false,'200','mem_nsize','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f01791713d145000d','메모리','인프라정보 - 서버','group-list','메모리','{"option":[{"id":"2c91808e7c8027a1017c828506300002","order":"1"},{"id":"2c9180837c99e748017c9c5ea9e5000a","order":"2"}]}',false,'200','sms_mem','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('2c91808e7c8027a1017c8287e6c00003','CPU 모델명','CPU 모델명','inputbox','CPU 모델명','{"validate":"","required":"false","maxLength":"10000","minLength":"0"}',false,'200','cpu_descript','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('d47973f063130acab00b2cf203a9788b','CPU','인프라정보 - 서버','group-list','CPU','{"option":[{"id":"2c91808e7c8027a1017c828506300002","order":"1"},{"id":"2c91808e7c8027a1017c8287e6c00003","order":"2"}]}',false,'200','sms_cpu','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('2c9180837c99e748017c9c63e6b9000b','디스크-용량','디스크-용량','inputbox','디스크-용량','{"validate":"","required":"false","maxLength":"999999999999","minLength":"0"}',false,'200','disk_nsize','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b5e35ff0000','디스크','인프라정보 - 서버','group-list','디스크','{"option":[{"id":"2c91808e7c8027a1017c828506300002","order":"1"},{"id":"2c9180837c99e748017c9c63e6b9000b","order":"2"}]}',false,'200','sms_disk','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('2c9180837c99e748017c9c6f73d1000d','NIC-명','NIC-명','inputbox','NIC-명','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','nic_nicname','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('2c9180837c99e748017c9c701dfc000e','NIC_HPA Speed','NIC_HPA Speed','inputbox','NIC_HPA Speed','{"validate":"","required":"false","maxLength":"999999999","minLength":"0"}',false,'200','nic_speed','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c36103b0000','NIC','인프라정보 - 서버','group-list','NIC','{"option":[{"id":"2c91808e7c8027a1017c828506300002","order":"1"},{"id":"2c9180837c99e748017c9c6f73d1000d","order":"2"},{"id":"2c9180837c99e748017c9c701dfc000e","order":"3"}]}',false,'200','sms_nic','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('40288a9d7f86cbbb017f86d435560000','도입일자','서버정보','date','도입일자','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 
 /**
  * CMDB 클래스 정보
@@ -7912,7 +7914,7 @@ COMMENT ON COLUMN cmdb_type.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_type.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_type.update_dt IS '수정일시';
 
-insert into cmdb_type values ('root', null, 'root', null, 'CI', 0, 0, 'root', null, '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('root', null, '전체', null, 'CI', 0, 0, 'root', null, '0509e09412534a6e98f04ca79abb6424', now());
 insert into cmdb_type values ('4028b88179210e1b017921277022000e', 'root', '서버', '서버입니다.', 'SERVER', 1, 10, '4028b88179210e1b0179211d13760005', 'image_server.png', '0509e09412534a6e98f04ca79abb6424', now());
 insert into cmdb_type values ('4028b88179210e1b0179217bb335004b', 'root', '네트워크', '네트워크 타입입니다.', 'NETWORK', 1, 20, '4028b88179210e1b0179212f17f90011', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
 insert into cmdb_type values ('4028b88179210e1b0179218fb2070055', 'root', '데이터베이스', '데이터베이스 Type입니다.', 'DATABASE', 1, 30, '4028b88179210e1b017921336fc60012', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
@@ -8647,6 +8649,8 @@ insert into awf_code_lang values ('customCode.sessionKey.position', 'Position', 
 insert into awf_code_lang values ('customCode.sessionKey.departmentName', 'Department', 'en');
 insert into awf_code_lang values ('customCode.sessionKey.officeNumber', 'Office Number', 'en');
 insert into awf_code_lang values ('customCode.sessionKey.mobileNumber', 'Mobile', 'en');
+insert into awf_code_lang values ('customCode.type.table', 'table', 'en');
+insert into awf_code_lang values ('customCode.type.code', 'code', 'en');
 
 /**
  * 사용자 지정 테이블
@@ -8830,7 +8834,7 @@ COMMENT ON COLUMN awf_organization.create_dt IS '등록일';
 COMMENT ON COLUMN awf_organization.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_organization.update_dt IS '수정일';
 
-insert into awf_organization values ('4028b2d57d37168e017d3716cgf00000', null, '조직구성', null, true, 0, 0, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d3716cgf00000', null, '전체', null, true, 0, 0, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3715fae00002', '4028b2d57d37168e017d3716cgf00000', '본부 1', null, true, 1, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3713bb430003', '4028b2d57d37168e017d3716cgf00000', '본부 2', null, true, 1, 2, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3715fae00004', '4028b2d57d37168e017d3716cgf00000', '본부 3', null, true, 1, 3, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -8923,7 +8927,7 @@ COMMENT ON COLUMN wf_instance_viewer.create_dt IS '수정일시';
 /**
   대시보드 템플릿
  */
-DROP TABLE IF EXISTS awf_dashboard_template cascade;
+DROP TABLE IF EXISTS awf_dashboard_template  cascade;
 
 CREATE TABLE awf_dashboard_template
 (
@@ -9035,28 +9039,58 @@ INSERT INTO awf_dashboard_template VALUES ('template-001', '부서별 요청현�
     }
   ]
 }', 'KB 저축은행에서 만든 첫 번째 템플릿');
-
 /**
-  속성 그룹 알림
+ * 플러그인 테이블
  */
-DROP TABLE IF EXISTS cmdb_class_notification cascade;
+DROP TABLE IF EXISTS awf_plugin cascade;
 
-CREATE TABLE cmdb_class_notification
+create table awf_plugin
 (
-    class_id varchar(128) NOT NULL,
-    attribute_id varchar(128) NOT NULL,
-    attribute_order int NOT NULL,
-    condition text,
-    target_attribute_id varchar(128) NOT NULL,
-    CONSTRAINT cmdb_class_notification_pk PRIMARY KEY (class_id, attribute_id, condition, target_attribute_id),
-    CONSTRAINT cmdb_class_notification_fk1 FOREIGN KEY (class_id) REFERENCES cmdb_class (class_id),
-    CONSTRAINT cmdb_class_notification_fk2 FOREIGN KEY (attribute_id) REFERENCES cmdb_attribute (attribute_id)
+    plugin_id varchar(100) NOT NULL,
+    plugin_name varchar(100) NOT NULL,
+    plugin_type varchar(100) NOT NULL,
+    plugin_location varchar(1024) NOT NULL,
+    plugin_command varchar(2048) NOT NULL,
+    CONSTRAINT awf_plugin_pk PRIMARY KEY (plugin_id)
 );
 
-COMMENT ON TABLE cmdb_class_notification IS '속성 알람 설정 정보';
-COMMENT ON COLUMN cmdb_class_notification.class_id IS '클래스아이디';
-COMMENT ON COLUMN cmdb_class_notification.attribute_id IS '속성아이디';
-COMMENT ON COLUMN cmdb_class_notification.attribute_order IS '순서';
-COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
-COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';
+COMMENT ON TABLE public.awf_plugin IS '플러그인 마스터';
+COMMENT ON COLUMN awf_plugin.plugin_id IS '플러그인 아이디';
+COMMENT ON COLUMN awf_plugin.plugin_name IS '플러그인 이름';
+COMMENT ON COLUMN awf_plugin.plugin_type IS '플러그인 타입';
+COMMENT ON COLUMN awf_plugin.plugin_location IS '플러그인 위치';
+COMMENT ON COLUMN awf_plugin.plugin_command IS '플러그인 실행 명령어';
+
+insert into awf_plugin values ('api.focs', '방화벽-FOCS', 'api', '/focs', 'java -jar focs.jar');
+
+/**
+ * 플러그인 이력 테이블
+ */
+DROP TABLE IF EXISTS awf_plugin_history cascade;
+
+CREATE TABLE awf_plugin_history
+(
+    history_id varchar(128) NOT NULL,
+    plugin_id varchar(100) NOT NULL,
+    startdt timestamp NULL,
+    enddt timestamp NULL,
+    plugin_param text NULL,
+    plugin_result varchar(100) NULL,
+    message text NULL,
+    plugin_data text NULL,
+    CONSTRAINT awf_plugin_history_pk PRIMARY KEY (history_id)
+);
+
+COMMENT ON TABLE awf_plugin_history IS '플러그인 처리 이력';
+COMMENT ON COLUMN awf_plugin_history.history_id IS '이력 아이디';
+COMMENT ON COLUMN awf_plugin_history.plugin_id IS '플러그인 아이디';
+COMMENT ON COLUMN awf_plugin_history.startdt IS '실행시간';
+COMMENT ON COLUMN awf_plugin_history.enddt IS '종료시간';
+COMMENT ON COLUMN awf_plugin_history.plugin_param IS '파라미터';
+COMMENT ON COLUMN awf_plugin_history.plugin_result IS '결과';
+COMMENT ON COLUMN awf_plugin_history.message IS '결과 메시지';
+COMMENT ON COLUMN awf_plugin_history.plugin_data IS '플러그인 데이터';
+
+-- public.awf_plugin_history foreign keys
+ALTER TABLE awf_plugin_history ADD CONSTRAINT awf_plugin_history_fk FOREIGN KEY (plugin_id) REFERENCES awf_plugin(plugin_id);
 

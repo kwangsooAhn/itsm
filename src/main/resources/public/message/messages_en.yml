@@ -8,6 +8,8 @@ common:
     delete: "DELETE"
     editUserInfo: "Edit profile"
     export: "EXPORT"
+    import: "IMPORT"
+    initialization: "INITIALIZATION"
     list: "LIST"
     logout: "LOGOUT"
     modify: "MODIFY"
@@ -20,6 +22,7 @@ common:
     review: "REVIEW"
     save: "SAVE"
     saveAs: "SAVE AS"
+    search: "SEARCH"
     select: "SELECT"
     terminate: "TERMINATE"
     toModify: "MODIFY"
@@ -42,6 +45,7 @@ common:
     delete: "Delete"
     edit: "Edit"
     endDate: "End date"
+    export: "Export"
     fail: "Fail"
     group: "Group"
     modify: "Modify"
@@ -268,6 +272,7 @@ chart:
     docCases: "Documents Cases"
     docRatio: "Documents Ratio"
     searchPlaceholder: "Chart Name"
+    view: "Chart View"
   option:
     label:
       subTitle: "User custom chart report"
@@ -288,6 +293,7 @@ chart:
     enterTargetTags: "Please enter a target tags."
     maxPeriodUnitRange: "If the interval is hourly, please set the period within {0} days."
     periodUnitOutOfRange: "The duration is greater than the period."
+    duplicateChartNameAndChartType: "Duplicate chart name and chart type exist."
   chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"
@@ -329,22 +335,26 @@ cmdb:
         session: "Session"
         validate: "Validate"
         value: "Value"
-      searchPlaceholder: "Label / Type / Attribute Name / Description"
+      searchPlaceholder: "Attribute Name / Label / Type / Description"
+      searchWidth: "Column Width"
       seq: "Sort Order"
       type: "Type"
+      useSearch: "Use Search"
       view: "Attribute"
     msg:
       attributeNameUsed: "The Attribute Name is being used."
+      comepareWithMaxLength: "Enter a number max length is greater than min length."
       enterAttributeName: "Please enter a attribute name."
       details: "Please add details."
       searchDescription: "CI Attribute manage posts."
+      searchWidth: "When using search conditions, set the width of the item."
       selectAttributeType: "Please select the type."
       viewDescription: "Inquires detailed information about the attribute."
       editDescription: "Register, modify, or delete information on attribute."
       maxLength: "Please enter max length below 1000."
       maxDate: "Please select max date after min date."
       maxDateTime: "Please select max date time after min date time."
-      comepareWithMaxLength: "Enter a number max length is greater than min length."
+      useSearch: "It can be used as a search condition when searching for an asset."
     btn:
       import: "Import"
       export: "Export"
@@ -357,9 +367,15 @@ cmdb:
     label:
       all: "All"
       applyDate: "Apply Date"
+      ciDesc: "CI Description"
+      ciName: "CI Name"
       ciNo: "CI No."
       ciInquiry: "CI Inquiry"
+      ciTemplate: "CI Template"
+      ciTemplateImport: "TEMPLATE IMPORT"
+      ciType: "CI Type"
       createUser: "Create User"
+      detailSearch: "Asset details search"
       delete: "CI Delete"
       description: "CI Description"
       existing: "Existing"
@@ -368,6 +384,7 @@ cmdb:
       name: "CI Name"
       new: "New"
       relatedDocument: "Related document"
+      searchDetailPlaceholder: "CI No / CI Name / Description"
       searchPlaceholder: "CI No / CI Type / CI Name / Description"
       select: "CI Select"
       seqNum: "CI No"
@@ -377,6 +394,7 @@ cmdb:
         use: "use"
       tag: "Tag"
       tagPlaceholder: "#Tag"
+      targetType: "Target CI Type: {0}"
       type: "CI Type"
       register: "CI Register"
       update: "CI Update"
@@ -384,6 +402,7 @@ cmdb:
       relation: "CI Relation"
       targetCiName: "Target CI Name"
       whetherToInterlock: "Whether to Interlink"
+      importFile: "IMPORT FILE"
       interlock: "Interlink"
       nonInterlock: "Non Interlink"
     msg:
@@ -394,11 +413,16 @@ cmdb:
       enterCiName: "Please enter a CI Name."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
+      selectImportFile: "Please select an import file."
+      noticeImportFile: "Import only possible in excel file"
       tag: "Please enter a tag."
       viewDescription: "Retrieve detailed information about a CI.."
     btn:
+      detailSearch: "Detail Search"
       import: "Import"
+      importTemplate: "Import Template"
       export: "Export"
+      exportTemplate: "Export Template"
   class:
     label:
       after: "After"
@@ -447,10 +471,12 @@ cmdb:
       enterTypeAlias: "Please enter a Type Alias."
       enterTypeName: "Please enter a Type Name."
       enterTypeSeq: "Enter the sort order."
+      pTypeAndTypeNameDuplication: "The same type name exists within the parent type."
       searchDescription: "CI Type manage posts."
       selectAvailableClass: "Please select a available Class."
       selectAvailableType: "Please select a available Type."
       selectType: "Please select a Type."
+      typeAliasDuplication: "The same type alias exists."
     btn:
       import: "Import"
       export: "Export"
@@ -608,6 +634,7 @@ document:
     write: "WorkFlow Edit"
   msg:
     adminSearchDescription: "View and manage workflow by combining process and document form."
+    cancel: "If you cancel the document, the document will be deleted. Would you like to proceed though?"
     changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status will be deleted."
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
@@ -625,6 +652,7 @@ document:
     selectForm: "Please select form."
     selectProcess: "Please select process."
     selectNumberingRule: "Please select numbering rule"
+    terminate: "The document will be forcibly closed. Would you like to proceed though?"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
@@ -696,9 +724,6 @@ fileupload:
 
 # Form
 form:
-  btn:
-    export: "Export"
-    import: "Import"
   label:
     actionType: "Type"
     addAbove: "Add above"
@@ -723,6 +748,9 @@ form:
     undo: "Undo"
     update: "Update Form"
   msg:
+    checkPlugInButton: "Please click the {0} button for validation."
+    dropdownCodeNotExist: "There is no Dropdown Code component matching the set mapping ID.</br>Check the mapping ID."
+    dropdownCodeOptionRequired: "At least one option is required for the Dropdown Code component.<br/>Please check the detailed settings."
     duplicateMappingId: "Mapping ID({0}) is Duplicate"
     enterFormName: "Please enter a form name."
     failedAllColumnDelete: "At least one column is required."
@@ -730,6 +758,7 @@ form:
     failedExport: "Failed to export document form."
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     fileSelect: "Please select a file."
+    failedPlugInButton: "Processing failed because validation failed."
     information: "There are no common editable component detail attributes."
     label: "It must start and end with numbers and letters and can contain only numbers, letters, commas (.), underscores (_), and dashes (-)."
     max: "Please enter below {0}."
@@ -742,6 +771,7 @@ form:
     saveInfo: "Saved at {0}"
     searchDescription: "View and manage forms."
     selectImportFile: "Please select an import file."
+    selectTargetUser: "Please select Target User for search."
     unique: "Duplicate data cannot be included."
     duplicateFormName: "Duplicate form name! Please enter other form name."
     duplicateOptionsName: "Duplicate options name. Please enter other options name."
@@ -751,11 +781,13 @@ form:
   row: "Row"
   component:
     checkBox: "Checkbox"
+    ci: "CI"
     customCode: "Custom Code"
     date: "Date"
     dateTime: "Date Time"
     divider: "Divider"
     dropdown: "Dropdown"
+    dropdownCode: "Dropdown Code"
     dynamicRowTable: "DR Table"
     fileDownload: "File Download"
     fileUpload: "File upload"
@@ -767,7 +799,7 @@ form:
     textArea: "Text Box"
     textEditor: "Text Editor"
     time: "Time"
-    ci: "CI"
+    userSearch: "User Search"
   help:
     custom-code-default: "You can set the default value displayed on the component.<br/>'None' prints the default value is not output.<br/>'Session' prints the user's session information.<br/>'Code' prints the data of the code defined by the user."
     custom-code: "You can select a custom code list of user-defined code sets."
@@ -783,6 +815,7 @@ form:
       horizontal: "Horizontal"
     auto: "Auto"
     char: "Character"
+    code: "Code"
     common: "Common"
     columnContent:
       align: "정렬"
@@ -824,14 +857,18 @@ form:
       columnName: "Column Name"
       columnOrder: "Column Order"
       columnType: "Column Type"
+      defaultCodeValue: "Default Code Value"
       defaultValue: "Default Value"
-      DefaultValueCustomCode: "Custom Code"
+      defaultValueCustomCode: "Custom Code"
+      defaultValueDropdownCode: "Option"
       defaultValueRadio: "Default Value"
       defaultValueSelect: "Default Value Type"
       isEditable: "Editable"
       path: "Path"
       placeholder: "Placeholder"
       rows: "Rows"
+      searchTarget: "Search Target"
+      searchTargetCriteria: "Search Target Criteria"
       text: "Display Text"
       thickness: "Thickness"
       type: "Type"
@@ -875,6 +912,9 @@ form:
     officeNumber: "Office Number"
     phone: "Phone"
     placeholder: "Placeholder"
+    plugin:
+      button: "Add CheckButton"
+      scriptType: "Script Type"
     status: "Status"
     tags: "Tag"
     title: "Form"
@@ -906,6 +946,9 @@ form:
       namePlaceholder: "name"
       value: "Value"
       valuePlaceholder: "value"
+    userSearch:
+      organization: "Search by Organization"
+      custom: "Select custom list"
   status:
     destroy: "Destroy"
     edit: "Edit"
@@ -945,7 +988,7 @@ menu:
     parent: "Board"
   config:
     auth: "Auth"
-    boardAdmin: "Board management"
+    boardAdmin: "Board config"
     code: "Code management"
     organization: "Department"
     parent: "System config"
@@ -969,7 +1012,7 @@ menu:
     customChart: "User custom chart"
     customDashboardTemplate: "Custom Dashboard Template"
     customReport: "Report Inquiry"
-    customReportTemplate: "Custom Report Template"
+    customReportTemplate: "Report Template"
     dashboardTemplate: "Dashboard Template"
     parent: "Statistics/Report"
   setting:
@@ -1026,7 +1069,7 @@ notice:
     enterTopNoticeStrtDt: "Please enter a top notice start date."
     maximunTopNoticeCount: "The maximum number at the top is 10."
     portalDescription: "View notice's information."
-    searchDescrition: "View and manage notice's information."
+    searchDescription: "View and manage notice's information."
     viewDescription: "Inquire detailed information about the notice."
 
 # Notification
@@ -1081,8 +1124,6 @@ portal:
 # Process
 process:
   btn:
-    export: "Export"
-    import: "Import"
     simulationCheckResult: "Simulation check result"
   label:
     description: "Description"
@@ -1186,6 +1227,7 @@ process:
       subprocess: "Subprocess"
       target-document-list: "Target Workflow"
       targetMappingId: "Target Mapping ID"
+      targetPlugIn: "Target Plug-in"
       timer-cycle: "Timer Cycle"
       timer-date: "Timer Date"
       timerStart: "Timer Event"
@@ -1196,6 +1238,7 @@ process:
 # statistic
 statistic:
   btn:
+    create: "Create"
     pdf: "PDF"
   label:
     automatic: "Automatic generation"
@@ -1326,7 +1369,7 @@ token:
     read: "Read"
     relatedInstance: "Related Documents"
     relatedInstancePlaceholder: "Document Name / Create User"
-    searchPlaceholder: "Document No / Create User / Contents"
+    searchPlaceholder: "Document No / Title / Create User"
     startDt: "Start Date"
     status: "Status"
     tagPlaceHolder: "#Tags"
@@ -1337,6 +1380,7 @@ token:
     process: "Process"
   msg:
     selectToken: "Check the related documents to be added."
+    selectViewer: "Check the viewers to be added."
     searchDescription: "View and search documents relating to me."
     tag: "Insert tags."
   type:
@@ -1368,14 +1412,18 @@ workflowAdmin:
   label:
     description: "Description"
     group: "Group"
+    import: "WorkFlow IMPORT"
+    importFile: "IMPORT File"
     name: "Name"
     status: "Status"
     type: "Type"
+  msg:
+    noticeImportFile: "Import only possible in XML file"
 
 # User
 user:
   btn:
-    immediately: "Immediately Execute"
+    immediately: "Execute"
     nextTime: "Change after {0} days"
     resetPassword: "RESET PASSWORD"
     updatePassword: "Change Password"
@@ -1386,7 +1434,7 @@ user:
     editUserInfo: "Edit User Information"
     edit: "User Edit"
     email: "Email"
-    executeCurrentAbsence: "Current Document Absence"
+    executeCurrentAbsence: "Document transfer"
     FileExtensionAllowed: "※ File Extension Allowed : 200KB"
     FileSizeLimit: "※ File Size Limit : 200KB"
     id: "User ID"
@@ -1406,7 +1454,7 @@ user:
     searchPlaceholder: "ID/Name/Dept/Position/Number"
     signUpDate: "SignUp Date"
     substituteUser: "Substitute User"
-    substituteUserSearchPlaceholder: "ID/Name/Department"
+    userSearchPlaceholder: "ID/Name/Department"
     theme: "Theme"
     time: "Time Format"
     timeFormat: "Date/Time Format"

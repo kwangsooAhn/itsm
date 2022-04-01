@@ -1187,6 +1187,48 @@
             if (typeof valueAttr !== 'undefined' && valueAttr !== '') {
                 targetMappingInput.value = (valueAttr[0] !== '') ? valueAttr[0] : '';
             }
+        } else if (scriptType === 'script.type.plugin') {
+            // 대상 플러그인
+            const targetPlugInProperties = document.createElement('div');
+            targetPlugInProperties.className = 'properties';
+
+            const targetPlugInLabel = document.createElement('label');
+            targetPlugInLabel.className = 'properties-title mb-2';
+            targetPlugInLabel.textContent = i18n.msg(i18nMsgPrefix + 'targetPlugIn');
+            targetPlugInLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
+
+            const targetPlugInSelect = document.createElement('select');
+            aliceJs.fetchJson('/rest/plugins', {
+                method: 'GET'
+            }).then((pluginList) => {
+                if (pluginList.data.length === 0) { return false; }
+                for (let i = 0; i < pluginList.data.length; i++) {
+                    const option = pluginList.data[i];
+                    const selectOption = document.createElement('option');
+                    selectOption.value = option.pluginId;
+                    selectOption.text = option.pluginName;
+                    if (typeof valueAttr !== 'undefined' && valueAttr !== '' && selectOption.value === valueAttr[0]) {
+                        selectOption.selected = true;
+                    }
+                    targetPlugInSelect.appendChild(selectOption);
+                }
+                aliceJs.initDesignedSelectTag();
+                targetPlugInSelect.dispatchEvent(new Event('change'));
+            });
+
+            const changeHandler = function() {
+                inputObject.value = targetPlugInSelect.value;
+                const evt = document.createEvent('HTMLEvents');
+                evt.initEvent('change', false, true);
+                inputObject.dispatchEvent(evt);
+            };
+
+            targetPlugInSelect.addEventListener('change', changeHandler);
+
+            targetPlugInProperties.appendChild(targetPlugInLabel);
+            targetPlugInProperties.appendChild(targetPlugInSelect);
+
+            subContainer.appendChild(targetPlugInProperties);
         }
         const propertiesPanel = document.querySelector('.z-process-properties');
         if (propertiesPanel !== null) {
@@ -1402,7 +1444,7 @@
                     }
                 }
             }
-        } else if (scriptType === 'script.type.cmdb') {
+        } else if (scriptType === 'script.type.cmdb' || scriptType === 'script.type.plugin') {
             inputObject.parentNode.classList.remove('last'); // 하단 선 제거
         }
     }

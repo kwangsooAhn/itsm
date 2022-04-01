@@ -14,15 +14,15 @@ import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.framework.util.AlicePagingData
-import co.brainz.itsm.statistic.customChart.entity.ChartEntity
-import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
+import co.brainz.itsm.code.dto.CodeDto
+import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 import co.brainz.itsm.statistic.customChart.dto.ChartConfig
 import co.brainz.itsm.statistic.customChart.dto.ChartDto
-import co.brainz.itsm.statistic.customChart.dto.CustomChartListReturnDto
 import co.brainz.itsm.statistic.customChart.dto.ChartSearchCondition
-import co.brainz.itsm.code.dto.CodeDto
-import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.statistic.customChart.dto.CustomChartListReturnDto
+import co.brainz.itsm.statistic.customChart.entity.ChartEntity
+import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -56,7 +56,7 @@ class CustomChartService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = customChartRepository.count(),
                 currentPageNum = chartSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / chartSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code,
                 orderColName = chartSearchCondition.orderColName,
                 orderDir = chartSearchCondition.orderDir
@@ -108,7 +108,11 @@ class CustomChartService(
      */
     @Transactional
     fun saveChart(chartDto: ChartDto): String {
-        val status = ChartConstants.Status.STATUS_SUCCESS.code
+        // duplication check.
+        if (customChartRepository.existsByChartNameAndChartType(chartDto.chartName, chartDto.chartType)) {
+            return ChartConstants.Status.STATUS_ERROR_DUPLICATION.code
+        }
+
         var chartEntity = ChartEntity(
             chartId = chartDto.chartId,
             chartType = chartDto.chartType,
@@ -133,7 +137,7 @@ class CustomChartService(
                 )
             }
         }
-        return status
+        return ChartConstants.Status.STATUS_SUCCESS.code
     }
 
     /**

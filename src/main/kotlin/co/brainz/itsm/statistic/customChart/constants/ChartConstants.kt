@@ -23,7 +23,8 @@ object ChartConstants {
      * chart status
      */
     enum class Status(val code: String) {
-        STATUS_SUCCESS("0")
+        STATUS_SUCCESS("0"),
+        STATUS_ERROR_DUPLICATION("1")
     }
 
     /**

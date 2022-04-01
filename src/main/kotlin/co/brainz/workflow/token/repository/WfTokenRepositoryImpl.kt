@@ -40,7 +40,7 @@ class WfTokenRepositoryImpl : QuerydslRepositorySupport(WfTokenEntity::class.jav
         val token = QWfTokenEntity.wfTokenEntity
         return from(token)
             .innerJoin(token.element).fetchJoin()
-            .where(token.tokenStatus.eq(WfTokenConstants.Status.RUNNING.code))
+            .where(token.tokenStatus.`in`(WfTokenConstants.Status.RUNNING.code, WfTokenConstants.Status.WAITING.code))
             .where(token.instance.instanceId.`in`(instanceIds))
             .fetch()
     }

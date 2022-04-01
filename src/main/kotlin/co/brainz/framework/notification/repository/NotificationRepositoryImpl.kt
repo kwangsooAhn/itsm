@@ -7,6 +7,7 @@ package co.brainz.framework.notification.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.notification.constants.NotificationConstants
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.entity.NotificationEntity
 import co.brainz.framework.notification.entity.QNotificationEntity
@@ -24,6 +25,7 @@ class NotificationRepositoryImpl : QuerydslRepositorySupport(NotificationEntity:
         val instance = QWfInstanceEntity.wfInstanceEntity
         val token = QWfTokenEntity.wfTokenEntity
         val subToken = QWfTokenEntity.wfTokenEntity
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
 
         return from(notification)
             .select(
@@ -45,11 +47,18 @@ class NotificationRepositoryImpl : QuerydslRepositorySupport(NotificationEntity:
             .innerJoin(instance).on(notification.instanceId.eq(instance.instanceId))
             .innerJoin(token).on(token.instance.instanceId.eq(instance.instanceId))
             .where(notification.receivedUser.userId.eq(receivedUser)
+                // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
                 .and(token.tokenId.eq(
                     from(subToken)
                         .select(subToken.tokenId.max())
-                        .where(subToken.instance.instanceId.eq(instance.instanceId))
+                        .where(subToken.tokenStartDt.eq(
+                            from(startDtSubToken)
+                                .select(startDtSubToken.tokenStartDt.max())
+                                .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                        ))
                     )
+                ).and(
+                    notification.target.eq(NotificationConstants.ITSM_IDENTIFIER)
                 )
             )
             .orderBy(notification.confirmYn.asc(), notification.createDt.desc())

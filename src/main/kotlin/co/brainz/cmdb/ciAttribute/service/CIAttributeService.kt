@@ -42,7 +42,7 @@ class CIAttributeService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = ciAttributeRepository.count(),
                 currentPageNum = ciAttributeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / ciAttributeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -80,6 +80,8 @@ class CIAttributeService(
                     attributeText = ciAttributeDto.attributeText,
                     attributeType = ciAttributeDto.attributeType,
                     attributeValue = ciAttributeDto.attributeValue,
+                    searchYn = ciAttributeDto.searchYn,
+                    searchWidth = ciAttributeDto.searchWidth,
                     mappingId = ciAttributeDto.mappingId,
                     createDt = ciAttributeDto.createDt,
                     createUser = ciAttributeDto.createUserKey?.let {
@@ -117,6 +119,8 @@ class CIAttributeService(
                 attributeEntity.attributeText = ciAttributeDto.attributeText
                 attributeEntity.attributeType = ciAttributeDto.attributeType
                 attributeEntity.attributeValue = ciAttributeDto.attributeValue
+                attributeEntity.searchYn = ciAttributeDto.searchYn
+                attributeEntity.searchWidth = ciAttributeDto.searchWidth
                 attributeEntity.mappingId = ciAttributeDto.mappingId
                 attributeEntity.updateUser = ciAttributeDto.updateUserKey?.let {
                     aliceUserRepository.findAliceUserEntityByUserKey(it)
@@ -161,7 +165,7 @@ class CIAttributeService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = ciAttributeRepository.count(),
                 currentPageNum = ciAttributeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / ciAttributeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

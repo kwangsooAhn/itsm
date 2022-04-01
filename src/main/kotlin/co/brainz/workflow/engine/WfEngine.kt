@@ -30,7 +30,9 @@ class WfEngine(
     @Transactional
     fun startWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.info("Start Workflow : {}", tokenDto.documentName)
-
+        // 참조인, 댓글, 태그 입력시 임시로 등록된 데이터가 존재할 경우가 있으므로 삭제한 후 다시 시작 이벤트를 생성한다.
+        wfTokenManagerService.deleteTokenByInstanceId(tokenDto.instanceId)
+        
         val instance = wfTokenManagerService.createInstance(tokenDto)
         val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
         tokenDto.instanceId = instance.instanceId
@@ -60,7 +62,7 @@ class WfEngine(
             return false
         }
 
-        // 참조인 처리
+        // 참조인 처리 (문서 담당자와 참조인이 동일할때 문서 처리와 동시에 읽음처리)
         val reviewExceptionElementTypeIds = setOf(WfElementConstants.ElementType.COMMON_END_EVENT.value)
         if (!reviewExceptionElementTypeIds.contains(tokenDto.elementType)) {
             WfTokenAction(wfTokenManagerService).actionReview(tokenDto.instanceId)
@@ -69,6 +71,8 @@ class WfEngine(
         if (WfElementConstants.Action.isApplicationAction(tokenDto.action!!)) {
             // 프로세스로 그려지진 않았지만 반려나 회수처럼 시스템에서 기본적으로 제공하는 동작 선택 시.
             WfTokenAction(wfTokenManagerService).progressApplicationAction(tokenDto)
+        } else if (WfElementConstants.Action.REVIEW.value == tokenDto.action) {
+            return WfTokenAction(wfTokenManagerService).actionReview(tokenDto.instanceId)
         } else {
             // 프로세스로 그려진 동적인 흐름을 진행하는 동작.
             var currentTokenDto = tokenDto.copy()

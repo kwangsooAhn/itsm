@@ -46,6 +46,33 @@
             <input class="z-input" id="mappingId" maxlength="100" th:readonly="${view}"
                    th:value="${attribute?.mappingId}" type="text"/>
         </div>
+        <div class="flex-column z-edit-row pt-5 pb-3" id="searchYnGroup">
+            <label class="z-switch">
+                <input type="checkbox" id="searchYn" name="searchYn" th:disabled="${view}"
+                       th:checked="${attribute?.searchYn == true}" onchange="setSearchWidthRequired(this);">
+                <span></span>
+                <span class="z-label z-label-name" th:text="#{cmdb.attribute.label.useSearch}"></span>
+                <span class="z-label" th:text="#{cmdb.attribute.msg.useSearch}"></span>
+            </label>
+        </div>
+        <div class="flex-column z-edit-row" id="searchWidthGroup">
+            <label id="searchWidthLabel" for="searchWidth">
+                <span th:text="#{cmdb.attribute.label.searchWidth}"></span>
+                <th:block th:if="${attribute?.searchYn == true}">
+                    <span class="required"></span>
+                </th:block>
+                <div class="z-help-tooltip">
+                    <span class="z-icon i-tooltip"></span>
+                    <div class="z-tooltip-contents right" id="tooltipContent">
+                        <span th:utext="#{cmdb.attribute.msg.searchWidth}"></span>
+                    </div>
+                </div>
+            </label>
+            <input class="z-input i-px col-3" id="searchWidth" maxlength="4" th:readonly="${view}"
+                   th:value="${attribute?.searchWidth}" type="text" th:required="${attribute?.searchYn == true}"
+                   th:attr="data-validation-required-name=#{cmdb.attribute.label.searchWidth}"
+                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"/>
+        </div>
         <div class="flex-column z-edit-row">
             <label for="attributeType">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.type}"></span>
@@ -71,8 +98,7 @@
                 <button type="button" class="z-button primary" onclick="saveAttribute('PUT')"
                         th:if="${attribute?.attributeId}" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="z-button danger" onclick="deleteAttribute()"
-                        th:disabled="${!attribute.enabled}" th:if="${attribute?.attributeId}"
-                        th:text="#{common.btn.delete}"></button>
+                        th:if="${attribute?.attributeId}" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -86,6 +112,7 @@
     const STATUS_SUCCESS = '0';
     const STATUS_ERROR_CMDB_ATTRIBUTE_NAME_DUPLICATION = '1';
     const attributeData = /*[[${attribute?.attributeValue}]]*/ null;
+    const SEARCH_YN_USED = ['inputbox', 'dropdown', 'radio', 'date', 'datetime'];
 
     window.onload = function () {
         const attributeType = /*[[${attribute?.attributeType}]]*/ null;
@@ -118,12 +145,35 @@
         });
     };
 
+    function setSearchWidthRequired(elem) {
+        const searchWidthLabel = document.getElementById('searchWidthLabel');
+        const searchWidth = document.getElementById('searchWidth');
+        searchWidth.required = elem.checked;
+        if (elem.checked) {
+            searchWidthLabel.children[0].insertAdjacentHTML('afterend', `<span class="required"></span>`);
+        } else {
+            searchWidthLabel.removeChild(searchWidthLabel.children[1]);
+        }
+    }
+
     function changeType(object, isInit) {
         let data = null;
         if (isInit) {
             data = JSON.parse(attributeData);
         }
         zCmdbAttribute.makeDetails(object.value, data);
+        // 데이터 타입에 따라 검색조건 사용 및 너비 속성 사용 설정
+        const searchYnGroup = document.getElementById('searchYnGroup');
+        const searchWidthGroup = document.getElementById('searchWidthGroup');
+        if (SEARCH_YN_USED.includes(object.value)) {
+            searchYnGroup.classList.remove('off');
+            searchWidthGroup.classList.remove('off');
+        } else {
+            searchYnGroup.classList.add('off');
+            searchWidthGroup.classList.add('off');
+            document.getElementById('searchYn').checked = false;
+            document.getElementById('searchWidth').value = '200';
+        }
 
         if ([[${view}]]) {
             const detailObject = document.getElementById('details');
@@ -185,11 +235,13 @@
 
             let data = {
                 attributeId: '',
-                attributeName: document.querySelector('#attributeName').value,
-                attributeType: document.querySelector('#attributeType').value,
-                attributeText: document.querySelector('#attributeText').value,
-                mappingId: document.querySelector('#mappingId').value,
-                attributeDesc: document.querySelector('#attributeDesc').value
+                attributeName: document.getElementById('attributeName').value,
+                attributeType: document.getElementById('attributeType').value,
+                attributeText: document.getElementById('attributeText').value,
+                mappingId: document.getElementById('mappingId').value,
+                attributeDesc: document.getElementById('attributeDesc').value,
+                searchYn: (document.getElementById('searchYn') === null) ? false : document.getElementById('searchYn').checked,
+                searchWidth: (document.getElementById('searchWidth') === null) ? '200' : document.getElementById('searchWidth').value
             };
             let url = '/rest/cmdb/attributes';
             if (method === 'PUT') {

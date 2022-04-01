@@ -161,9 +161,15 @@
             document.getElementById('txtClassId').value = responseJson.classId;
             document.getElementById('txtPClassId').value = responseJson.pclassId;
             document.getElementById('txtPClassName').value = responseJson.pclassName;
-            document.getElementById('txtClassName').value = responseJson.className;
-            document.getElementById('txtClassDesc').value = responseJson.classDesc;
-            document.getElementById('txtClassSeq').value = responseJson.classSeq;
+            // 속성그룹 이름
+            const txtClassName = document.getElementById('txtClassName');
+            txtClassName.value = responseJson.className;
+            // 설명
+            const txtClassDesc = document.getElementById('txtClassDesc');
+            txtClassDesc.value = responseJson.classDesc;
+            // 정렬 순서
+            const txtClassSeq = document.getElementById('txtClassSeq');
+            txtClassSeq.value = responseJson.classSeq;
 
             if (responseJson.editable) {
                 if (document.getElementById('btnUpdate') != null) {
@@ -172,6 +178,10 @@
                 if (document.getElementById('btnDelete') != null) {
                     document.getElementById('btnDelete').removeAttribute('disabled');
                 }
+                document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+                txtClassName.readOnly = false;
+                txtClassDesc.readOnly = false;
+                txtClassSeq.readOnly = false;
             } else {
                 if (document.getElementById('btnUpdate') != null) {
                     document.getElementById('btnUpdate').disabled = true;
@@ -179,6 +189,10 @@
                 if (document.getElementById('btnDelete') != null) {
                     document.getElementById('btnDelete').disabled = true;
                 }
+                document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
+                txtClassName.readOnly = true;
+                txtClassDesc.readOnly = true;
+                txtClassSeq.readOnly = true;
             }
             while (extendsAttributeList.hasChildNodes()) {
                 extendsAttributeList.removeChild(extendsAttributeList.firstChild);

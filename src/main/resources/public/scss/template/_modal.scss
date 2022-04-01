@@ -12,11 +12,11 @@ body.modal-active {
 
 .modal-wrapper {
   @include resetPosition();
-  display:none;
+  display: none;
   overflow:auto;
   z-index: $z-index-modal;
 
-  &.modal-active { display:block; }
+  &.modal-active { display: block; }
 
   .modal-backdrop {
     @include resetPosition();
@@ -25,22 +25,28 @@ body.modal-active {
   }
 
   .modal-dialog {
-    @include absolute(4em, 0, null, 0);
     width: $modal-width;
     margin: 0 auto 2em auto;
     background-color: $modal-bg-color;
-    @include boxShadow(0, 0.125rem, 0.75rem, 0, $modal-box-shadow-color);
-    @include borderRadius(0.25rem); // 4px
+    opacity: 0;
+    transition: 0.3s;
     z-index: $z-index-between-alert-modal;
+    @include absolute(4em, 0, null, 0);
+    @include borderRadius(0.25rem); // 4px
+    @include boxShadow(0, 0.125rem, 0.75rem, 0, $modal-box-shadow-color);
+
+    &.modal-active {
+      transition: 0.3s;
+      opacity: 1;
+    }
 
     .modal-header {
-      height: $modal-header-height;
+      min-height: $modal-header-height;
       font-size: $modal-header-font-size;
       font-weight: $modal-header-font-weight;
       color: $modal-header-font-color;
       padding: 1.25rem; // 20px
-      text-overflow: ellipsis;
-      overflow: hidden;
+      line-height: 1.2;
       @include border(2px, solid, $modal-header-border, bottom);
       @include borderRadius(0.25rem 0.25rem 0 0); // 4px
     }

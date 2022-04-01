@@ -55,8 +55,8 @@ insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.vie
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.view');
-insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.manage');
-insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/cmdb/cis', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/cmdb/cis', 'post', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/cis/{id}/view', 'get', 'cmdb.manage');
@@ -153,8 +153,12 @@ insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.view');
-insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.manage');
-insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.view');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/template', 'get', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/template', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/templateUpload', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/templateUpload', 'post', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'post', 'cmdb.manage');
@@ -175,7 +179,6 @@ insert into awf_url_auth_map values ('/rest/codes/{id}', 'get', 'system.manage')
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/rest/codes/related/{id}', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'system.manage');
@@ -222,6 +225,8 @@ insert into awf_url_auth_map values ('/rest/organizations/{id}', 'get', 'workflo
 insert into awf_url_auth_map values ('/rest/organizations/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/organizations/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/organizations', 'post', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/plugins', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/plugins/{id}', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/process/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/process/{id}/data', 'put', 'workflow.manage');
@@ -268,6 +273,8 @@ insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'workflow.ma
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/{id}/export', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/import', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/roles', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/new', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/search', 'get', 'system.manage');
@@ -324,6 +331,7 @@ insert into awf_url_auth_map values ('/workflows/new', 'get', 'workflow.manage')
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/workflows/import', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','workflow.manage');
 insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');

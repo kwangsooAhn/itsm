@@ -13,5 +13,7 @@ data class CIAttributeListDto(
     val attributeName: String? = null,
     val attributeText: String? = "",
     val attributeType: String? = null,
-    val attributeDesc: String? = null
+    val attributeDesc: String? = null,
+    val searchYn: Boolean = false,
+    val searchWidth: String? = null
 ) : Serializable

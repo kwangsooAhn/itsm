@@ -11,10 +11,12 @@
     <h6 class="description ml-2 pl-2" th:text="#{file.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{file.label.name}"/>
-    <span id="totalCount" class="z-search-count"></span>
-    <span class="z-search-count">/</span>
-    <span id="spanTotalCountWithoutCondition" class="z-search-count"></span>
+    <div>
+        <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{file.label.name}"/>
+        <span id="totalCount" class="z-search-count"></span>
+        <span class="z-search-count">/</span>
+        <span id="spanTotalCountWithoutCondition" class="z-search-count"></span>
+    </div>
 </div>
 <div layout:fragment="pageSearchResult">
     <input type="hidden" id="creatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
@@ -120,7 +122,6 @@
                 document.getElementById('spanTotalCountWithoutCondition').innerText =
                     i18n.msg(
                         'common.label.totalCountWithoutCondition',
-                        i18n.msg(fileList.orderType),
                         fileList.totalCountWithoutCondition
                     );
             }
@@ -152,7 +153,7 @@
                 `<div class="z-thumbnail-info">` +
                     `<p class="z-thumbnail-info-text">` +
                         `<label name="updateLabel" class="z-thumbnail-image-name text-ellipsis" ondblclick="renameFile(this);" title="${image.name}">${image.name}</label>` +
-                        `<input type="text" class="z-input float-left" />` +
+                        `<input type="text" class="z-input float-left" maxlength="128"/>` +
                     `</p>` +
                     `<p class="z-thumbnail-info-text">` +
                         `<label class="text-ellipsis">${thumbnailText}</label>` +
