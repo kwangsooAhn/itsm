@@ -335,7 +335,7 @@ cmdb:
         session: "Session"
         validate: "Validate"
         value: "Value"
-      searchPlaceholder: "Label / Type / Attribute Name / Description"
+      searchPlaceholder: "Attribute Name / Label / Type / Description"
       searchWidth: "Column Width"
       seq: "Sort Order"
       type: "Type"
