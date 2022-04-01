@@ -1,6 +1,7 @@
 package co.brainz.framework.notification.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.entity.NotificationEntity
 import co.brainz.framework.notification.mapper.NotificationMapper
@@ -31,7 +32,15 @@ class NotificationService(
      */
     fun getNotificationList(): List<NotificationDto> {
         val userId = SecurityContextHolder.getContext().authentication.principal as String
-        return notificationRepository.findNotificationList(userId)
+        val notificationList = mutableListOf<NotificationDto>()
+        // 알림 조회 - 문서제외
+        notificationList.addAll(notificationRepository.findNotificationListExceptDocument(userId))
+        // 알림 조회 - 문서용
+        notificationList.addAll(notificationRepository.findNotificationListForDocument(userId))
+        // sort
+        notificationList.sortWith(compareBy<NotificationDto> { it.confirmYn }.thenByDescending { it.createDt })
+        // 갯수 제한
+        return notificationList.take(AliceConstants.NOTIFICATION_SIZE.toInt())
     }
 
     /**
