@@ -19,4 +19,6 @@ interface WfTokenRepository : JpaRepository<WfTokenEntity, String>, WfTokenRepos
     fun findTopByInstanceOrderByTokenStartDtDesc(
         instance: WfInstanceEntity
     ): WfTokenEntity?
+
+    fun deleteWfTokenEntityByInstance(instance: WfInstanceEntity)
 }
