@@ -8,12 +8,15 @@ package co.brainz.api.workflow.service
 
 import co.brainz.api.dto.RequestCmdbDto
 import co.brainz.api.dto.RequestDto
+import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.itsm.document.service.DocumentService
+import co.brainz.itsm.token.service.TokenService
+import co.brainz.workflow.component.dto.WfCIComponentValueDto
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.engine.WfEngine
@@ -23,6 +26,7 @@ import co.brainz.workflow.provider.dto.ApiComponentDto
 import co.brainz.workflow.provider.dto.ComponentPropertyDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -37,7 +41,9 @@ class ApiWorkflowService(
     private val wfComponentService: WfComponentService,
     private val apiWorkflowMapper: ApiWorkflowMapper,
     private val aliceMessageSource: AliceMessageSource,
-    private val ciService: CIService
+    private val ciService: CIService,
+    private val ciTypeRepository: CITypeRepository,
+    private val tokenService: TokenService
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -94,13 +100,36 @@ class ApiWorkflowService(
             val instanceId = AliceUtil().getUUID()
 
             // CI 임시 등록 (wf_component_ci_data)
-            requestCmdb.data.forEach {
+            requestCmdb.ciComponentData.forEach {
                 it.instanceId = instanceId
                 ciService.saveCIComponentData(it.ciId, it)
             }
+            // 컴포넌트별 값 설정 (기본값 + CI)
+            val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
+            tokenDataList.addAll(requestCmdb.default)
 
-            // TODO: 컴포넌트 기본 값 셋팅 필요
-            // TODO: default 값 추가 + CI 필수값 처리 >> componentData 에 저장할 수 있게 한다.
+            val ciValueList = mutableListOf<WfCIComponentValueDto>()
+            requestCmdb.ciData.forEach { ci ->
+                ciValueList.add(
+                    WfCIComponentValueDto(
+                        ciId = ci.ciId,
+                        ciNo = ci.ciNo,
+                        typeId = ci.typeId,
+                        ciName = ci.ciName,
+                        ciDesc = ci.ciDesc,
+                        ciStatus = ci.ciStatus,
+                        interlink = ci.interlink,
+                        actionType = ci.actionType
+                    )
+                )
+            }
+            tokenDataList.add(
+                RestTemplateTokenDataDto(
+                    componentId = requestCmdb.targetComponentId,
+                    value = mapper.writeValueAsString(ciValueList)
+                )
+            )
+            tokenService.componentDataConverter(tokenDataList)
 
             // 신청서 등록 (WfEngine)
             val requestDto = RequestDto(
@@ -108,7 +137,7 @@ class ApiWorkflowService(
                 instanceId = instanceId,
                 assigneeId = requestCmdb.assigneeId,
                 action = WfElementConstants.Action.PROGRESS.value,
-                componentData = requestCmdb.default
+                componentData = tokenDataList
             )
             this.callDocument(requestCmdb.documentId, requestDto)
         }
