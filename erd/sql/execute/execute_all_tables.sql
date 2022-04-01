@@ -696,8 +696,8 @@ CREATE TABLE awf_notification
 	instance_id varchar(128),
 	confirm_yn boolean DEFAULT 'false',
 	display_yn boolean DEFAULT 'false',
-    target varchar(100) DEFAULT 'zitsm',
-    create_user_key varchar(128),
+	target varchar(100) DEFAULT 'zitsm',
+	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
@@ -8649,6 +8649,8 @@ insert into awf_code_lang values ('customCode.sessionKey.position', 'Position', 
 insert into awf_code_lang values ('customCode.sessionKey.departmentName', 'Department', 'en');
 insert into awf_code_lang values ('customCode.sessionKey.officeNumber', 'Office Number', 'en');
 insert into awf_code_lang values ('customCode.sessionKey.mobileNumber', 'Mobile', 'en');
+insert into awf_code_lang values ('customCode.type.table', 'table', 'en');
+insert into awf_code_lang values ('customCode.type.code', 'code', 'en');
 
 /**
  * 사용자 지정 테이블
