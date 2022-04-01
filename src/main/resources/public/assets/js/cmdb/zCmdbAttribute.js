@@ -875,16 +875,18 @@
     function checkDuplicate(type) {
         let isValid = true;
         if (type === 'dropdown' || type === 'radio' || type === 'checkbox') {
-            let detailsObject = document.querySelectorAll('#details > .flex-row:not(:first-child)');
+            let detailsObject = document.querySelectorAll('#details .flex-row');
             let labels = [];
             let values = [];
             for (let i = 0, len = detailsObject.length; i < len; i++) {
                 let labelObject = detailsObject[i].querySelectorAll('input')[0];
                 let valueObject = detailsObject[i].querySelectorAll('input')[1];
-                if (labels.indexOf(labelObject.value.trim()) > -1 || values.indexOf(valueObject.value.trim()) > -1) {
-                    zAlert.warning(i18n.msg('validation.msg.dataNotDuplicate'));
-                    isValid = false;
-                    break;
+                if (!aliceJs.isEmpty(valueObject.value)) {
+                    if (labels.indexOf(labelObject.value.trim()) > -1 || values.indexOf(valueObject.value.trim()) > -1) {
+                        zAlert.warning(i18n.msg('validation.msg.dataNotDuplicate'));
+                        isValid = false;
+                        break;
+                    }
                 }
                 labels.push(labelObject.value.trim());
                 values.push(valueObject.value.trim());
