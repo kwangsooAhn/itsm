@@ -697,8 +697,8 @@ CREATE TABLE awf_notification
 	instance_id varchar(128),
 	confirm_yn boolean DEFAULT 'false',
 	display_yn boolean DEFAULT 'false',
-    target varchar(100) DEFAULT 'zitsm',
-    create_user_key varchar(128),
+	target varchar(100) DEFAULT 'zitsm',
+	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
@@ -9033,6 +9033,7 @@ INSERT INTO awf_dashboard_template VALUES ('template-001', '부서별 요청현�
     }
   ]
 }', 'KB 저축은행에서 만든 첫 번째 템플릿');
+
 /**
  * 플러그인 테이블
  */
@@ -9087,7 +9088,6 @@ COMMENT ON COLUMN awf_plugin_history.plugin_data IS '플러그인 데이터';
 
 -- public.awf_plugin_history foreign keys
 ALTER TABLE awf_plugin_history ADD CONSTRAINT awf_plugin_history_fk FOREIGN KEY (plugin_id) REFERENCES awf_plugin(plugin_id);
-
 
 /**
   속성 그룹 알림
