@@ -31,17 +31,20 @@ class ZFormDesigner {
         this.selectedObject = null;
 
         // 커스텀 코드 정보 load - 커스텀 코드 컴포넌트에서 사용되기 때문에 우선 로드해야 함
-        aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
-            method: 'GET'
-        }).then((customData) => {
-            FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
-        });
-
-        aliceJs.fetchJson('/rest/plugins', {
-            method: 'GET'
-        }).then((pluginData) => {
-            FORM.PLUGIN_LIST =  zValidation.isDefined(pluginData.data) ? pluginData.data : [];
-        });
+        if (FORM.CUSTOM_CODE.length === 0) {
+            aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
+                method: 'GET'
+            }).then((customData) => {
+                FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
+            });
+        }
+        if (FORM.PLUGIN_LIST.length === 0) {
+            aliceJs.fetchJson('/rest/plugins', {
+                method: 'GET'
+            }).then((pluginData) => {
+                FORM.PLUGIN_LIST = zValidation.isDefined(pluginData.data) ? pluginData.data : [];
+            });
+        }
     }
 
     /**
@@ -851,12 +854,16 @@ class ZFormDesigner {
         });
     }
     /**
-     * TODO: 미리보기
+     * 미리보기
      */
     preview() {
+        // 이미 모달이 열린 경우, 다시 열지 않음
+        if (zDocument.documentModal.display) {
+            return false;
+        }
         const previewData = this.form.toJson();
         zDocument.editable = false;
-        zFormButton.init({ form: previewData}, zDocument);
+        zFormButton.init({ form: previewData }, zDocument);
         zDocument.makeDocument(previewData); // Form 생성
         zDocument.documentModal.show(); // 모달 표시
     }

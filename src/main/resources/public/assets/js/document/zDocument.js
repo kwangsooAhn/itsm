@@ -217,7 +217,7 @@ class ZDocument {
                 // row를 1개 이상 등록하라는 경고 후 포커싱
                 if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
                     isValid = false;
-                    zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
+                    zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'), function () {
                         table.focus();
                     });
                     break outer;
@@ -230,7 +230,7 @@ class ZDocument {
                 // 해당 text editor 내부에 입력된 텍스트가 있는지 확인 (공백 포함)
                 if (requiredTextEditorElements[k].querySelector('p').textContent.length === 0) {
                     isValid = false;
-                    zAlert.warning(i18n.msg('common.msg.requiredEnter'), function() {
+                    zAlert.warning(i18n.msg('common.msg.requiredEnter'), function () {
                         requiredTextEditorElements[k].focus();
                     });
                     break outer;
@@ -267,7 +267,17 @@ class ZDocument {
                     break outer;
                 }
             }
-       }
+
+            // dropdown 유효성 검증 체크
+            const requiredDropdowns = parentElements[i].querySelectorAll('select[data-validation-required="true"]');
+            for (let q = 0; q < requiredDropdowns.length; q++) {
+                const requiredElement = requiredDropdowns[q];
+                if (!zValidation.isRequired(requiredElement)) {
+                    isValid = false;
+                    break outer;
+                }
+            }
+        }
         return isValid;
     }
 
@@ -300,22 +310,31 @@ class ZDocument {
         console.debug(saveData);
 
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
-        const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
-        aliceJs.fetchText(url, {
-            method: (saveData.tokenId === '') ? 'post' : 'put',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(saveData),
-            showProgressbar: true
-        }).then(rtn => {
-            if (rtn === 'true') {
-                zAlert.success(i18n.msg(actionMsg),  () => {
+        const finishAction = function () {
+            const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
+            aliceJs.fetchText(url, {
+                method: (saveData.tokenId === '') ? 'post' : 'put',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(saveData),
+                showProgressbar: true
+            }).then(rtn => {
+                if (rtn === 'true') {
                     opener.location.reload();
                     window.close();
-                });
-            }
-        });
+                }
+            });
+        };
+        if (actionType === 'cancel') {
+            zAlert.confirm(i18n.msg('document.msg.cancel'), finishAction);
+        } else if (actionType === 'terminate') {
+            zAlert.confirm(i18n.msg('document.msg.terminate'), finishAction);
+        } else {
+            zAlert.success(i18n.msg(actionMsg), finishAction);
+        }
+
+
     }
     /**
      * 프로세스 맵 팝업 호출

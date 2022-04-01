@@ -11,7 +11,8 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface WfComponentPropertyRepository : JpaRepository<WfComponentPropertyEntity, String> {
+interface WfComponentPropertyRepository : JpaRepository<WfComponentPropertyEntity, String>,
+    WfComponentPropertyRepositoryCustom {
 
     @Query("select g from WfComponentPropertyEntity g where g.componentId = :componentId")
     fun findByComponentId(componentId: String): List<WfComponentPropertyEntity>

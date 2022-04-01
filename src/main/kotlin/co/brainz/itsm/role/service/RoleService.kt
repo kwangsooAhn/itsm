@@ -165,7 +165,7 @@ class RoleService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = roleRepository.count(),
                 currentPageNum = roleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / roleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

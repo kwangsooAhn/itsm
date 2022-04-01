@@ -5,10 +5,19 @@
 
 package co.brainz.itsm.document.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.itsm.document.dto.DocumentDto
+import co.brainz.itsm.document.dto.DocumentExportDto
+import co.brainz.itsm.document.dto.DocumentImportDto
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -118,5 +127,25 @@ class WorkFlowRestController(
         @RequestBody documentDisplay: RestTemplateDocumentDisplaySaveDto
     ): Boolean {
         return documentService.updateDocumentDisplay(documentDisplay)
+    }
+
+    /**
+     * 업무흐름 Export 데이터 조회.
+     *
+     * @param documentId
+     */
+    @GetMapping("/{documentId}/export")
+    fun getExportWorkFlowData(@PathVariable documentId: String): DocumentExportDto {
+        return documentService.getDocumentExportData(documentId)
+    }
+
+    /**
+     * 업무흐름 Import.
+     */
+    @PostMapping("/import")
+    fun importWorkFlowData(@RequestBody jsonData: Any): ZReturnDto {
+        val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        return documentService.importDocumentData(mapper.convertValue(jsonData, DocumentImportDto::class.java))
     }
 }

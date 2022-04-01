@@ -96,7 +96,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                         .setUIAttribute('name', this.key)
                         .setUIReadOnly(!this.isEditable);
                     radioGroup.addUI(radioGroup.UIInput);
-                    if (!this.isEditable) {
+                    if (this.isEditable) {
                         zDateTimePicker.initDatePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
                     }
                     break;
@@ -123,7 +123,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                         .setUIAttribute('name', this.key)
                         .setUIReadOnly(!this.isEditable);
                     radioGroup.addUI(radioGroup.UIInput);
-                    if (!this.isEditable) {
+                    if (this.isEditable) {
                         zDateTimePicker.initTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
                     }
                     break;
@@ -156,7 +156,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                         .setUIAttribute('name', this.key)
                         .setUIReadOnly(!this.isEditable);
                     radioGroup.addUI(radioGroup.UIInput);
-                    if (!this.isEditable) {
+                    if (this.isEditable) {
                         zDateTimePicker.initDateTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
                     }
                     break;

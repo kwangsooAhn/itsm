@@ -86,7 +86,7 @@ class SchedulerService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = aliceScheduleTaskRepository.count(),
                 currentPageNum = schedulerSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / schedulerSearchCondition.contentNumPerPage).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

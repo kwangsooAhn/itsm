@@ -14,7 +14,7 @@
                 <th style="width:63%;" class="align-left" th:text="#{user.label.department}"></th>
             </tr>
         </thead>
-        <tbody id="substituteUserList" class="z-table-body">
+        <tbody id="userList" class="z-table-body">
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(userList)}">
                 <td style="width:100%" colspan="4" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
@@ -22,14 +22,14 @@
                 <td style="width: 5%;" class="align-center text-clip">
                     <label class="z-checkbox" th:for="${user.userKey}" tabindex="0" th:if="${multiSelect}" >
                         <input type="checkbox" th:id="${user.userKey}" th:value="${user.userName}"
-                               name="substituteUser" th:title="${user.userName}"
+                               name="userName" th:title="${user.userName}"
                                th:data-avatarPath="${user.avatarPath}"
                                th:data-organizationName="${user?.groupName}">
                         <span></span>
                     </label>
                     <label class="z-radio" th:for="${user.userKey}" tabindex="0" th:unless="${multiSelect}" >
                         <input type="radio" th:id="${user.userKey}" th:value="${user.userName}"
-                               name="substituteUser" th:title="${user.userName}"
+                               name="userName" th:title="${user.userName}"
                                th:data-avatarPath="${user.avatarPath}"
                                th:data-OrganizationName="${user?.groupName}">
                         <span></span>

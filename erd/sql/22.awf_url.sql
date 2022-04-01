@@ -65,6 +65,7 @@ insert into awf_url values ('/workflows/new', 'get', '신청서 생성 화면', 
 insert into awf_url values ('/workflows/search', 'get', '업무흐름 데이터 + 목록화면', 'TRUE');
 insert into awf_url values ('/workflows/{id}/edit', 'get', '신청서 수정 화면', 'TRUE');
 insert into awf_url values ('/workflows/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
+insert into awf_url values ('/workflows/import', 'get', '업무흐름 import 화면', 'TRUE');
 insert into awf_url values ('/documents', 'get', '신청서 리스트 화면', 'FALSE');
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
 insert into awf_url values ('/documents/{id}/edit', 'get', '신청서 조회', 'TRUE');
@@ -166,7 +167,7 @@ insert into awf_url values ('/rest/codes/excel', 'get', '코드 조회 엑셀 �
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'get', '코드 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'delete', '코드 삭제', 'TRUE');
-insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 상세 조회', 'TRUE');
+insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 상세 조회', 'FALSE');
 insert into awf_url values ('/rest/comments', 'post', 'Comment 저장', 'FALSE');
 insert into awf_url values ('/rest/comments/{id}', 'delete', 'Comment 삭제', 'FALSE');
 insert into awf_url values ('/rest/custom-codes', 'get', '커스텀 코드 조회', 'FALSE');
@@ -181,6 +182,8 @@ insert into awf_url values ('/rest/workflows/{id}', 'delete', '신청서 삭제'
 insert into awf_url values ('/rest/workflows/{id}', 'get', '신청서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}', 'put', '신청서 수정', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}/display', 'put', '신청서 디스플레이 데이터 저장', 'TRUE');
+insert into awf_url values ('/rest/workflows/{id}/export', 'get', '신청서 export 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/workflows/import', 'post', '업무흐름 import', 'TRUE');
 insert into awf_url values ('/rest/documents/{id}/data', 'get', '신청서의 문서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'post', '자료실 등록', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'put', '자료실 변경', 'TRUE');
@@ -329,7 +332,8 @@ insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 �
 insert into awf_url values ('/users/{userkey}/view', 'get', '사용자 정보 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editself', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
-insert into awf_url values ('/users/view-pop/users', 'get', '업무 대리인 모달 리스트 화면', 'FALSE');
+insert into awf_url values ('/users/substituteUsers', 'get', '업무 대리인 모달 리스트 화면', 'FALSE');
+insert into awf_url values ('/users/searchUsers', 'get', '사용자 검색 모달 리스트 화면', 'FALSE');
 insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', 'FALSE');
 insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음에 변경하기', 'FALSE');
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');

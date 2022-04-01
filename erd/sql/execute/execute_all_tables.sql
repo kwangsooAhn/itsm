@@ -696,7 +696,8 @@ CREATE TABLE awf_notification
 	instance_id varchar(128),
 	confirm_yn boolean DEFAULT 'false',
 	display_yn boolean DEFAULT 'false',
-	create_user_key varchar(128),
+    target varchar(100) DEFAULT 'zitsm',
+    create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
@@ -711,6 +712,7 @@ COMMENT ON COLUMN awf_notification.message IS '메시지';
 COMMENT ON COLUMN awf_notification.instance_id IS '인스턴스아이디';
 COMMENT ON COLUMN awf_notification.confirm_yn IS '확인여부';
 COMMENT ON COLUMN awf_notification.display_yn IS '표시여부';
+COMMENT ON COLUMN awf_notification.target IS '대상 시스템';
 COMMENT ON COLUMN awf_notification.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_notification.create_dt IS '등록일';
 COMMENT ON COLUMN awf_notification.update_user_key IS '수정자';
@@ -1142,6 +1144,7 @@ insert into awf_url values ('/workflows/new', 'get', '신청서 생성 화면', 
 insert into awf_url values ('/workflows/search', 'get', '업무흐름 데이터 + 목록화면', 'TRUE');
 insert into awf_url values ('/workflows/{id}/edit', 'get', '신청서 수정 화면', 'TRUE');
 insert into awf_url values ('/workflows/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
+insert into awf_url values ('/workflows/import', 'get', '업무흐름 import 화면', 'TRUE');
 insert into awf_url values ('/documents', 'get', '신청서 리스트 화면', 'FALSE');
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
 insert into awf_url values ('/documents/{id}/edit', 'get', '신청서 조회', 'TRUE');
@@ -1243,7 +1246,7 @@ insert into awf_url values ('/rest/codes/excel', 'get', '코드 조회 엑셀 �
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'get', '코드 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'delete', '코드 삭제', 'TRUE');
-insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 상세 조회', 'TRUE');
+insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 상세 조회', 'FALSE');
 insert into awf_url values ('/rest/comments', 'post', 'Comment 저장', 'FALSE');
 insert into awf_url values ('/rest/comments/{id}', 'delete', 'Comment 삭제', 'FALSE');
 insert into awf_url values ('/rest/custom-codes', 'get', '커스텀 코드 조회', 'FALSE');
@@ -1258,6 +1261,8 @@ insert into awf_url values ('/rest/workflows/{id}', 'delete', '신청서 삭제'
 insert into awf_url values ('/rest/workflows/{id}', 'get', '신청서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}', 'put', '신청서 수정', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}/display', 'put', '신청서 디스플레이 데이터 저장', 'TRUE');
+insert into awf_url values ('/rest/workflows/{id}/export', 'get', '신청서 export 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/workflows/import', 'post', '업무흐름 import', 'TRUE');
 insert into awf_url values ('/rest/documents/{id}/data', 'get', '신청서의 문서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'post', '자료실 등록', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'put', '자료실 변경', 'TRUE');
@@ -1406,7 +1411,8 @@ insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 �
 insert into awf_url values ('/users/{userkey}/view', 'get', '사용자 정보 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editself', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
-insert into awf_url values ('/users/view-pop/users', 'get', '업무 대리인 모달 리스트 화면', 'FALSE');
+insert into awf_url values ('/users/substituteUsers', 'get', '업무 대리인 모달 리스트 화면', 'FALSE');
+insert into awf_url values ('/users/searchUsers', 'get', '사용자 검색 모달 리스트 화면', 'FALSE');
 insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', 'FALSE');
 insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음에 변경하기', 'FALSE');
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
@@ -1601,7 +1607,6 @@ insert into awf_url_auth_map values ('/rest/codes/{id}', 'get', 'system.manage')
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/rest/codes/related/{id}', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'system.manage');
@@ -1696,6 +1701,8 @@ insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'workflow.ma
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/{id}/export', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/import', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/roles', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/new', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/search', 'get', 'system.manage');
@@ -1752,6 +1759,7 @@ insert into awf_url_auth_map values ('/workflows/new', 'get', 'workflow.manage')
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/workflows/import', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','workflow.manage');
 insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
@@ -1978,7 +1986,7 @@ COMMENT ON COLUMN portal_board.update_dt IS '수정일';
  * 게시판 댓글
  */
 DROP TABLE IF EXISTS portal_board_comment cascade;
-
+ 
 CREATE TABLE portal_board_comment
 (
 	board_comment_id varchar(128) NOT NULL,
@@ -2839,7 +2847,7 @@ INSERT INTO wf_document VALUES ('4028b21f7c9ff7c8017ca06bde520058','IT서비스 
 /* 서비스데스크 - 서비스요청 - 만족도 */
 INSERT INTO wf_document VALUES ('4028b21f7c9ff7c8017ca04d16830000','만족도 평가 - 서비스요청','','4028b21f7c9cc269017c9cc76a5e0000','4028b21f7c90d996017c914e27340030','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 서비스데스크 - 구성관리 */
-INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc7a779d70523','CMDB 변경 요청서','','2c9180837c94c0f3017c977775530001','2c9180867cc31a25017cc7a069e301a5','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form','','img_document_03.png',false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
+INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc7a779d70523','CMDB 변경 요청서','','2c9180837c94c0f3017c977775530001','2c9180867cc31a25017cc7a069e301a5','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form','','img_document_03.png',true,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 서비스데스크 - 구성관리 - 만족도 */
 INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc5ca1a9f0145','만족도 평가 - 구성관리','','2c9180867cc31a25017cc5c08e2f0120','2c9180867cc31a25017cc5c7268f0122','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 인프라 변경관리 */
@@ -4715,26 +4723,6 @@ INSERT INTO wf_component_property VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'di
 INSERT INTO wf_component_property VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'element', '{"columnWidth":"8","options":[{"name":"선택 안함","value":"none","checked":true},{"name":"전화 통화","value":"phone","checked":false},{"name":"서비스 포탈 및 모바일 애플리케이션","value":"portal","checked":false},{"name":"라이브 채팅 및 챗봇","value":"chatting","checked":false},{"name":"이메일","value":"email","checked":false},{"name":"대면","value":"interview","checked":false},{"name":"소셜 미디어","value":"sns","checked":false},{"name":"모니터링툴 자동 등록","value":"automatic","checked":false}]}');
 INSERT INTO wf_component_property VALUES('d16277a918414e35b76510d8c413e38b', 'element', '{"columnWidth":"8","defaultValueRadio":"now"}');
 
-/**
- * 컴포넌트세부설정
- */
-DROP TABLE IF EXISTS wf_component_data cascade;
-
-CREATE TABLE wf_component_data
-(
-    component_id varchar(128) NOT NULL,
-    attribute_id varchar(100) NOT NULL,
-    attribute_value text NOT NULL,
-    attribute_order int,
-    CONSTRAINT wf_component_data_pk PRIMARY KEY (component_id, attribute_id),
-    CONSTRAINT wf_component_data_fk FOREIGN KEY (component_id) REFERENCES wf_component (component_id)
-);
-
-COMMENT ON TABLE wf_component_data IS '컴포넌트세부설정';
-COMMENT ON COLUMN wf_component_data.component_id IS '컴포넌트아이디';
-COMMENT ON COLUMN wf_component_data.attribute_id IS '속성아이디';
-COMMENT ON COLUMN wf_component_data.attribute_value IS '속성값';
-COMMENT ON COLUMN wf_component_data.attribute_order IS '속성순서';
 /**
  * 엘리먼트정보
  */
@@ -7631,12 +7619,12 @@ INSERT INTO cmdb_attribute VALUES ('4028b25d791b75ac01791bb14a4d0003','담당자
 INSERT INTO cmdb_attribute VALUES ('adaeef4046bfcd78e345ad48cbbeefa5','모델명','인프라정보','inputbox','모델명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','model','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('189319790e6349c7248b9f50456ed47b','비고','일반정보','inputbox','비고','{"validate":"","required":"false","maxLength":"10000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('27caaeba596663101d55a09ec873a375','상태','일반정보 - 인프라','radio','상태','{"option":[{"text":"사용","value":"use"},{"text":"미사용","value":"unused"},{"text":"폐기","value":"disposal"},{"text":"할당","value":"assignment"},{"text":"반납","value":"return"},{"text":"AS","value":"as"},{"text":"예비","value":"spare"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b881792074460179209cef74000c','관리부서','일반정보','inputbox','관리부서','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b881792074460179209cef74000c','관리부서','일반정보','custom-code','관리부서','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0009","default":{"type":"none","value":""},"button":""}',false,'','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916fc8f1d0004','기간(연평균)','유지보수정보','inputbox','기간(연평균)','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f397230000','취득 일','유지보수정보','inputbox','취득 일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f7bd590003','유지보수 종료일','유지보수정보','inputbox','유지보수 종료일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f397230000','취득일','일반자산 정보','date','취득일','{"required":"true","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f7bd590003','유지보수 종료일','유지보수정보','date','유지보수 종료일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916fff6c60006','업무영향 범위','유지보수정보','inputbox','업무영향 범위','{"validate":"","required":"false","maxLength":"300","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f71b030002','유지보수 시작일','유지보수정보','inputbox','유지보수 시작일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f017916f71b030002','유지보수 시작일','유지보수정보','date','유지보수 시작일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f01791711dc08000b','유지 보수 비상 연락처','유지보수정보','inputbox','유지 보수 비상 연락처','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f0179170ee2c7000a','유지보수 담당자명','유지보수정보','inputbox','유지보수 담당자명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b25d7916ef5f0179170df7c80009','유지보수 업체명','유지보수정보','inputbox','유지보수 업체명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
@@ -7717,44 +7705,44 @@ INSERT INTO cmdb_attribute VALUES ('4028b88179207446017920f72ed30015','분류','
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0b263e0000','구매(건)','소프트웨어정보','inputbox','구매(건)','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0b97760001','설치(건)','소프트웨어정보','inputbox','설치(건)','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0c231a0002','공급사','소프트웨어정보','inputbox','공급사','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0c78660003','라이선스 시작일','소프트웨어정보','inputbox','라이선스 시작일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0d0aec0004','라이선스 종료일','소프트웨어정보','inputbox','라이선스 종료일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0c78660003','라이선스 시작일','소프트웨어정보','date','라이선스 시작일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0d0aec0004','라이선스 종료일','소프트웨어정보','date','라이선스 종료일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f0d5e0d0005','금액','소프트웨어정보','inputbox','금액','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f282cc10007','업체명','계약정보관리','inputbox','업체명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f288f020008','계약명','계약정보관리','inputbox','계약명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f297d640009','계약일','계약정보관리','inputbox','계약일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f29d2ac000a','계약시작일','계약정보관리','inputbox','계약시작일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2a6796000b','계약종료일','계약정보관리','inputbox','계약종료일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f297d640009','계약일','계약정보관리','date','계약일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f29d2ac000a','계약시작일','계약정보관리','date','계약시작일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2a6796000b','계약종료일','계약정보관리','date','계약종료일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2ad6ea000c','계약방법','계약정보관리','inputbox','계약방법','{"validate":"","required":"false","maxLength":"500","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2b611f000d','계약금액','계약정보관리','inputbox','계약금액','{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2cab18000e','계약상세내역','계약정보관리','inputbox','계약상세내역','{"validate":"char","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2d01d6000f','예산코드','계약정보관리','inputbox','예산코드','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2d60300010','계약 담당부서','계약정보관리','inputbox','계약 담당부서','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2d60300010','계약 담당부서','계약정보관리','custom-code','계약 담당부서','{"required":"true","customCode":"40288a19736b46fb01736b89e46c0009","default":{"type":"none","value":""},"button":""}',false,'','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8eeaa3017a8f2e573f0011','계약 담당자','계약정보관리','custom-code','계약 담당자','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"session","value":"userName"},"button":"검색"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f5b51700001','년도','사업정보관리','inputbox','년도','{"validate":"","required":"true","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6123360002','처리상태','사업정보관리','dropdown','처리상태','{"option":[{"text":"선택하세요.","value":""},{"text":"정상","value":"normal"},{"text":"취소","value":"cancel"},{"text":"대기","value":"waiting"},{"text":"전산실무협의회","value":"computing working group"},{"text":"전산운영위원회","value":"computing steering committee"},{"text":"RFI발송","value":"rfisent"},{"text":"RFI접수","value":"rfireceipt"},{"text":"RFP발송","value":"rfpsent"},{"text":"RFP접수","value":"rfpreceipt"},{"text":"제안평가","value":"proposalevaluation"},{"text":"입찰발송","value":"sendbid"},{"text":"입찰등록","value":"bidregistration"},{"text":"입찰실시","value":"bidding"},{"text":"계약완료","value":"contractcompletion"},{"text":"사업추진중","value":"businessinprogress"},{"text":"최종검수완료","value":"finalinspectioncompleted"},{"text":"최종대금지금완료","value":"finalpaymentcompleted"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f62f3d10003','구분','사업정보관리','dropdown','구분','{"option":[{"text":"선택하세요.","value":""},{"text":"전년도 계속사업","value":"beforeyear"},{"text":"본부부서 추진사업","value":"headquarters"},{"text":"전산정보부 추진사업","value":"computerinformation"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f63cdf60004','우선순위','사업정보관리','inputbox','우선순위','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6451ec0005','주관부서','사업정보관리','inputbox','주관부서','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f64b62c0006','사업추진일정 시작월','사업정보관리','inputbox','사업추진일정 시작월','{"validate":"number","required":"false","maxLength":"10","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6587d60007','사업추진일정 종료월','사업정보관리','inputbox','사업추진일정 종료월','{"validate":"number","required":"false","maxLength":"10","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6451ec0005','주관부서','사업정보관리','custom-code','주관부서','{"required":"false","customCode":"40288a19736b46fb01736b89e46c0009","default":{"type":"none","value":""},"button":""}',false,'','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f64b62c0006','사업추진일정 시작월','사업정보관리','date','사업추진일정 시작월','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6587d60007','사업추진일정 종료월','사업정보관리','date','사업추진일정 종료월','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6697260008','소요예산 합계','사업정보관리','inputbox','소요예산 합계','{"validate":"","required":"false","maxLength":"10000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6b9b180009','정보보호 사업구분','사업정보관리','radio','정보보호 사업구분','{"option":[{"text":"해당없음","value":"none"},{"text":"전체","value":"all"},{"text":"부분","value":"part"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6c041c000a','정보보호 사업기준','사업정보관리','inputbox','정보보호 사업기준','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6c8877000b','정보보호예산 합계','사업정보관리','inputbox','정보보호예산 합계','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6d490a000c','전산실무협의회 심의대상 여부','사업정보관리','radio','전산실무협의회 심의대상 여부','{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6db3b8000d','전산실무협의회 심의완료일','사업정보관리','inputbox','전산실무협의회 심의완료일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6e6999000e','전산운영위원회 심의완료일','사업정보관리','inputbox','전산운영위원회 심의완료일','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6db3b8000d','전산실무협의회 심의완료일','사업정보관리','date','전산실무협의회 심의완료일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6e6999000e','전산운영위원회 심의완료일','사업정보관리','date','전산운영위원회 심의완료일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f6f4ff6000f','RFI 발송여부','사업정보관리','radio','RFI 발송여부','{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f7524b40010','전산운영위원회 심의대상여부','사업정보관리','radio','전산운영위원회 심의대상여부','{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f7610e60011','RFI 발송일자','사업정보관리','inputbox','RFI 발송일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f812a9c0012','RFI 접수일자','사업정보관리','inputbox','RFI 접수일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f7610e60011','RFI 발송일자','사업정보관리','datetime','RFI 발송일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f812a9c0012','RFI 접수일자','사업정보관리','datetime','RFI 접수일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f81bf150013','RFI 발송대상업체','사업정보관리','inputbox','RFI 발송대상업체','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f821bfc0014','RFP 발송일자','사업정보관리','inputbox','RFP 발송일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f827a9a0015','RFP 접수일자','사업정보관리','inputbox','RFP 접수일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f821bfc0014','RFP 발송일자','사업정보관리','datetime','RFP 발송일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f827a9a0015','RFP 접수일자','사업정보관리','datetime','RFP 접수일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f82e2990016','RFP 발송업체','사업정보관리','inputbox','RFP 발송업체','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f83df0c0017','제안설명회 일자','사업정보관리','inputbox','제안설명회 일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f84329c0018','제안평가 일자','사업정보관리','inputbox','제안평가 일자','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f83df0c0017','제안설명회 일자','사업정보관리','datetime','제안설명회 일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f84329c0018','제안평가 일자','사업정보관리','datetime','제안평가 일자','{"required":"false","minDateTime":"","maxDateTime":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f8551c80019','예산배정방법','사업정보관리','radio','예산배정방법','{"option":[{"text":"정상배정","value":"normal"},{"text":"타사업에예산전용","value":"other"},{"text":"정상배정+타사업예산전용","value":"normalother"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f860fb7001a','추진사유','사업정보관리','inputbox','추진사유','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b8817a8f3542017a8f8669aa001b','미추진사유','사업정보관리','inputbox','미추진사유','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
@@ -7766,7 +7754,7 @@ INSERT INTO cmdb_attribute VALUES ('247aa7187b335f9c4d78db5e18a2704c','브랜드
 INSERT INTO cmdb_attribute VALUES ('2bb03c41cd9998e77da9b737d4fcf9ab','bash 버전','','inputbox','bash 버전','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('e651113f8a452f55f50ed41956cdfb34','버전','','inputbox','버전','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('58e0cd57479bbb9d8a6b2bb6012206c2','설치장소','','inputbox','설치장소','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
-INSERT INTO cmdb_attribute VALUES ('602b2c9216825bffc96ae69eeb73bdbc','도입일','','inputbox','도입일','{"validate":"","required":"true","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('602b2c9216825bffc96ae69eeb73bdbc','도입일','','date','도입일','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('d0a35c07fa9bdd919a039f1f127cd54e','보호수준','','dropdown','보호수준','{{"text":"선택하세요","value":""},"option":[{"text":"가 등급","value":"3"},{"text":"나 등급","value":"2"},{"text":"다 등급","value":"1"}]}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('f4538a0d55c456461f1d0932fd424350','RAM','','inputbox','RAM','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('42b02142dd9128e47a35b737d4fc21ad','서비스명','','inputbox','서비스명','{"validate":"","required":"false","maxLength":"100","minLength":"0"}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
@@ -7789,6 +7777,7 @@ INSERT INTO cmdb_attribute VALUES ('4028b25d791b52a501791b5e35ff0000','디스크
 INSERT INTO cmdb_attribute VALUES ('2c9180837c99e748017c9c6f73d1000d','NIC-명','NIC-명','inputbox','NIC-명','{"validate":"","required":"false","maxLength":"1000","minLength":"0"}',false,'200','nic_nicname','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('2c9180837c99e748017c9c701dfc000e','NIC_HPA Speed','NIC_HPA Speed','inputbox','NIC_HPA Speed','{"validate":"","required":"false","maxLength":"999999999","minLength":"0"}',false,'200','nic_speed','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 INSERT INTO cmdb_attribute VALUES ('4028b25d791c335201791c36103b0000','NIC','인프라정보 - 서버','group-list','NIC','{"option":[{"id":"2c91808e7c8027a1017c828506300002","order":"1"},{"id":"2c9180837c99e748017c9c6f73d1000d","order":"2"},{"id":"2c9180837c99e748017c9c701dfc000e","order":"3"}]}',false,'200','sms_nic','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
+INSERT INTO cmdb_attribute VALUES ('40288a9d7f86cbbb017f86d435560000','도입일자','서버정보','date','도입일자','{"required":"false","minDate":"","maxDate":""}',false,'200','','0509e09412534a6e98f04ca79abb6424',now(),NULL,NULL);
 
 /**
  * CMDB 클래스 정보
@@ -8843,7 +8832,7 @@ COMMENT ON COLUMN awf_organization.create_dt IS '등록일';
 COMMENT ON COLUMN awf_organization.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_organization.update_dt IS '수정일';
 
-insert into awf_organization values ('4028b2d57d37168e017d3716cgf00000', null, '조직구성', null, true, 0, 0, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d3716cgf00000', null, '전체', null, true, 0, 0, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3715fae00002', '4028b2d57d37168e017d3716cgf00000', '본부 1', null, true, 1, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3713bb430003', '4028b2d57d37168e017d3716cgf00000', '본부 2', null, true, 1, 2, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3715fae00004', '4028b2d57d37168e017d3716cgf00000', '본부 3', null, true, 1, 3, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);

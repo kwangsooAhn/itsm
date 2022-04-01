@@ -87,7 +87,7 @@ class WfFormService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = wfFormRepository.count(),
                 currentPageNum = formSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / formSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

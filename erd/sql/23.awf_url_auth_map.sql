@@ -179,7 +179,6 @@ insert into awf_url_auth_map values ('/rest/codes/{id}', 'get', 'system.manage')
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/rest/codes/related/{id}', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'system.manage');
@@ -274,6 +273,8 @@ insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'workflow.ma
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/{id}/export', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/workflows/import', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/roles', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/new', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/roles/search', 'get', 'system.manage');
@@ -330,6 +331,7 @@ insert into awf_url_auth_map values ('/workflows/new', 'get', 'workflow.manage')
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/workflows/import', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','workflow.manage');
 insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');

@@ -76,7 +76,7 @@ class WfProcessService(
                 totalCount = queryResult.total,
                 totalCountWithoutCondition = wfProcessRepository.count(),
                 currentPageNum = processSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.total.toDouble() / processSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

@@ -42,26 +42,36 @@ class CITypeService(
      * CI Type 생성
      */
     fun createCIType(ciTypeDto: CITypeDto): String {
-        var returnValue = ""
-        ciTypeDto.createDt = LocalDateTime.now()
-        ciTypeDto.createUserKey = currentSessionUser.getUserKey()
-        if (ciTypeService.createCIType(ciTypeDto)) {
-            returnValue = CITypeConstants.Status.STATUS_SUCCESS.code
+        var returnCode = CITypeConstants.Status.STATUS_FAIL.code
+        val validationCode = ciTypeService.checkValidation(ciTypeDto)
+
+        if (validationCode == CITypeConstants.Status.STATUS_SUCCESS.code) {
+            ciTypeDto.createDt = LocalDateTime.now()
+            ciTypeDto.createUserKey = currentSessionUser.getUserKey()
+            if (ciTypeService.createCIType(ciTypeDto))
+                returnCode = CITypeConstants.Status.STATUS_SUCCESS.code
+        } else {
+            returnCode = validationCode
         }
-        return returnValue
+        return returnCode
     }
 
     /**
      * CI Type 수정
      */
     fun updateCIType(ciTypeDto: CITypeDto, typeId: String): String {
-        var returnValue = ""
-        ciTypeDto.updateDt = LocalDateTime.now()
-        ciTypeDto.updateUserKey = currentSessionUser.getUserKey()
-        if (ciTypeService.updateCIType(typeId, ciTypeDto)) {
-            returnValue = CITypeConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
+        var returnCode = CITypeConstants.Status.STATUS_FAIL.code
+        val validationCode = ciTypeService.checkValidation(ciTypeDto)
+
+        if (validationCode == CITypeConstants.Status.STATUS_SUCCESS.code) {
+            ciTypeDto.createDt = LocalDateTime.now()
+            ciTypeDto.createUserKey = currentSessionUser.getUserKey()
+            if (ciTypeService.updateCIType(typeId, ciTypeDto))
+                returnCode = CITypeConstants.Status.STATUS_SUCCESS_EDIT_TYPE.code
+        } else {
+            returnCode = validationCode
         }
-        return returnValue
+        return returnCode
     }
 
     /**
