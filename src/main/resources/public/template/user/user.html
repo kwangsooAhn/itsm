@@ -42,10 +42,33 @@
                                th:required="!${view}" th:value="${users?.userId}" type="text" />
                     </div>
                     <div class="flex-column z-edit-row"
-                         th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice') && !view}">
+                         th:if="${users?.userKey != null && mailEnabled && users?.platform.equals('user.platform.alice') && !view}">
                         <label th:text="#{user.label.password}"></label>
-                        <button class="z-button primary" th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"
-                                th:text="#{user.btn.resetPassword}" type="button"/>
+                        <button class="z-button primary"
+                                th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"
+                                th:text="#{user.btn.resetPassword}" type="button"></button>
+                    </div>
+                   <div th:if="${!mailEnabled && !view}">
+                        <div class="flex-column z-edit-row">
+                            <label for="password">
+                                <span th:classappend="${users?.userKey != null} ? '':'required'" th:text="#{user.label.password}"></span>
+                                <div class="z-help-tooltip">
+                                    <span class="z-icon i-tooltip"></span>
+                                    <div class="z-tooltip-contents">
+                                        <span th:utext="#{user.tooltip.pwRule}"></span>
+                                    </div>
+                                </div>
+                            </label>
+                            <input class="z-input text-ellipsis" id="password" maxlength="100" name="password"
+                                   th:readonly="${view}" th:required="!${view}" type="password" />
+                        </div>
+                        <div class="flex-column z-edit-row">
+                            <label for="rePassword">
+                                <span th:classappend="${users?.userKey != null} ? '':'required'" th:text="#{user.label.rePassword}"></span>
+                            </label>
+                            <input class="z-input text-ellipsis" id="rePassword" maxlength="100" name="rePassword"
+                                   th:readonly="${view}" th:required="!${view}" type="password" />
+                        </div>
                     </div>
                     <div class="flex-column z-edit-row">
                         <label for="userName">
@@ -324,7 +347,13 @@
 
     function validation() {
         if (isEmpty('userId', 'user.msg.enterUserId')) return false;
-        if (!isValidUserId("userId", true)) return false;
+        if (!isValidUserId('userId', true)) return false;
+        if ([[${users?.userKey}]] === null && document.getElementById('password') !== null) {
+            if (isEmpty('password', 'user.msg.enterpassword')) return false;
+            if (!isValidPassword('password', true)) return false;
+            if (isEmpty('rePassword', 'user.msg.enterrePassword')) return false;
+            if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
+        }
         if (isEmpty('userName', 'user.msg.enterUserName')) return false;
         if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
         if (!isValidEmail('email', true)) return false;
@@ -383,6 +412,14 @@
             avatarUUID: document.getElementById('avatarUUID').value,
             absence: absenceInfo
         };
+        const password = document.getElementById('password').value;
+        if (password !== '') {
+            const rsa = new RSAKey();
+            const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+            const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+            rsa.setPublic(keyModule, keyExponent);
+            data.password = rsa.encrypt(password);
+        }
 
         aliceJs.fetchText(url, {
             method: method,

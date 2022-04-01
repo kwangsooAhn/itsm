@@ -251,7 +251,7 @@ function isValidPassword(elementId, callbackFunc) {
      * [ 설명 ]
      * 비밀번호에 사용자의 ID를 포함하지 않는다.
      */
-    if (password.search(userId) > -1) {
+    if (userId.trim() !== '' && password.search(userId) > -1) {
         zAlert.warning(i18n.msg('validation.msg.pwContainsId'), callbackFunc);
         return false;
     }
@@ -261,7 +261,7 @@ function isValidPassword(elementId, callbackFunc) {
      * [ 설명 ]
      * 비밀번호에 사용자의 이메일 ID를 포함하지 않는다.
      */
-    if (password.search(emailId[0]) > -1) {
+    if (emailId[0].trim() !== '' && password.search(emailId[0]) > -1) {
         zAlert.warning(i18n.msg('validation.msg.pwContainsEmail'), callbackFunc);
         return false;
     }
