@@ -303,7 +303,6 @@ class WfTokenManagerService(
      */
     fun getUserInfo(assignee: String): AliceUserEntity? {
         return aliceUserRepository.findByIdOrNull(assignee)
-        //return aliceUserRepository.findByUserKey(assignee)
     }
 
     /**
