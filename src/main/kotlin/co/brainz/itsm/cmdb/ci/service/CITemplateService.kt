@@ -229,36 +229,37 @@ class CITemplateService(
 
                 // 4-2. cmdb_ci_data 데이터 등록
                 for (index in 1 until mappingDataMap.size) {
-                    val ciAttributeEntity =
-                        ciAttributeRepository.getOne(mappingDataMap[index]["attributeId"].toString())
-                    val templateValue = mappingDataMap[index]["templateValue"].toString()
-                    ciDataRepository.save(
-                        CIDataEntity(
-                            ci = ciEntity,
-                            ciAttribute = ciAttributeEntity,
-                            value = this.getValueByType(ciAttributeEntity, templateValue)
+                    if (mappingDataMap[index].isNotEmpty()) {
+                        val ciAttributeEntity =
+                            ciAttributeRepository.getOne(mappingDataMap[index]["attributeId"].toString())
+                        val templateValue = mappingDataMap[index]["templateValue"].toString()
+                        ciDataRepository.save(
+                            CIDataEntity(
+                                ci = ciEntity,
+                                ciAttribute = ciAttributeEntity,
+                                value = this.getValueByType(ciAttributeEntity, templateValue)
+                            )
                         )
-                    )
 
-                    if (ciAttributeEntity.attributeType == CIAttributeConstants.Type.GROUP_LIST.code) {
-                        // 4-3. cmdb_ci_group_list_data 데이터 등록
-                        val groupListData = this.getMappingValueByGroupList(ciAttributeEntity, templateValue)
-                        if (groupListData.isNotEmpty()) {
-                            groupListData.forEachIndexed { idx, it ->
-                                it.iterator().forEach {
-                                    ciGroupListDataRepository.save(
-                                        CIGroupListDataEntity(
-                                            ci = ciEntity,
-                                            ciAttribute = ciAttributeEntity,
-                                            cAttributeId = it.key,
-                                            cAttributeSeq = idx,
-                                            cValue = it.value
+                        if (ciAttributeEntity.attributeType == CIAttributeConstants.Type.GROUP_LIST.code) {
+                            // 4-3. cmdb_ci_group_list_data 데이터 등록
+                            val groupListData = this.getMappingValueByGroupList(ciAttributeEntity, templateValue)
+                            if (groupListData.isNotEmpty()) {
+                                groupListData.forEachIndexed { idx, it ->
+                                    it.iterator().forEach {
+                                        ciGroupListDataRepository.save(
+                                            CIGroupListDataEntity(
+                                                ci = ciEntity,
+                                                ciAttribute = ciAttributeEntity,
+                                                cAttributeId = it.key,
+                                                cAttributeSeq = idx,
+                                                cValue = it.value
+                                            )
                                         )
-                                    )
+                                    }
                                 }
                             }
                         }
-
                     }
                 }
 
