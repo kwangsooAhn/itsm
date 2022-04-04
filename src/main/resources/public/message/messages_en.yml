@@ -596,8 +596,8 @@ document:
   label:
     all: "All"
     apiEnable: "API Enable"
-    WorkFlowColor: "WorkFlow Color"
-    WorkFlow: "WorkFlow"
+    workFlowColor: "WorkFlow Color"
+    workFlow: "WorkFlow"
     description: "Service Request Description"
     disable: "Disable"
     docNo: "Service Request No"

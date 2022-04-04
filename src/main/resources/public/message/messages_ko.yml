@@ -596,8 +596,8 @@ document:
   label:
     all: "전체"
     apiEnable: "API 활성화"
-    WorkFlowColor: "업무흐름 색상"
-    WorkFlow: "업무흐름"
+    workFlowColor: "업무흐름 색상"
+    workFlow: "업무흐름"
     description: "설명"
     disable: "아니요"
     docNo: "문서번호"
