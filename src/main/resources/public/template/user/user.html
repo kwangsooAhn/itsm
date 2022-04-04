@@ -396,6 +396,7 @@
         const data = {
             userKey: document.getElementById('userKey').value,
             userId: document.getElementById('userId').value,
+            password: document.getElementById('password') ? document.getElementById('password').value : '',
             userName: document.getElementById('userName').value,
             email: document.getElementById('email').value,
             useYn: document.getElementById('usageStatus').checked,
@@ -412,14 +413,6 @@
             avatarUUID: document.getElementById('avatarUUID').value,
             absence: absenceInfo
         };
-        const password = document.getElementById('password').value;
-        if (password !== '') {
-            const rsa = new RSAKey();
-            const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
-            const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
-            rsa.setPublic(keyModule, keyExponent);
-            data.password = rsa.encrypt(password);
-        }
 
         aliceJs.fetchText(url, {
             method: method,

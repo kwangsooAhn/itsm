@@ -13,7 +13,7 @@ data class AliceSignUpDto(
     var userId: String,
     @CheckUnacceptableCharInUrl
     var userName: String,
-    var password: String?,
+    var password: String,
     var email: String,
     @CheckUnacceptableCharInUrl
     var position: String?,

@@ -157,7 +157,7 @@ class AliceCertificationService(
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val privateKey =
             attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
-        val password = aliceSignUpDto.password?.let { aliceCryptoRsa.decrypt(privateKey, it) }
+        val password = aliceCryptoRsa.decrypt(privateKey, aliceSignUpDto.password)
         val user = AliceUserEntity(
             userKey = "",
             userId = aliceSignUpDto.userId,
