@@ -69,7 +69,7 @@ class UserRestController(
             else -> aliceSignUpDto.password
         }
         val publicKey = aliceCryptoRsa.getPublicKey()
-        aliceSignUpDto.password = aliceCryptoRsa.encrypt(publicKey, password)
+        aliceSignUpDto.password = password?.let { aliceCryptoRsa.encrypt(publicKey, it) }
 
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.ADMIN_ID)
         if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {

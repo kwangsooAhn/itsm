@@ -348,11 +348,13 @@
     function validation() {
         if (isEmpty('userId', 'user.msg.enterUserId')) return false;
         if (!isValidUserId('userId', true)) return false;
-        if ([[${users?.userKey}]] === null && document.getElementById('password') !== null) {
-            if (isEmpty('password', 'user.msg.enterpassword')) return false;
-            if (!isValidPassword('password', true)) return false;
-            if (isEmpty('rePassword', 'user.msg.enterrePassword')) return false;
+        if (![[${mailEnabled}]]) {
+            if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.enterUserPassword')) return false;
+            if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.enterUserRePassword')) return false;
             if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
+            if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
+                if (!isValidPassword('password')) return false;
+            }
         }
         if (isEmpty('userName', 'user.msg.enterUserName')) return false;
         if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
@@ -396,7 +398,6 @@
         const data = {
             userKey: document.getElementById('userKey').value,
             userId: document.getElementById('userId').value,
-            password: document.getElementById('password') ? document.getElementById('password').value : '',
             userName: document.getElementById('userName').value,
             email: document.getElementById('email').value,
             useYn: document.getElementById('usageStatus').checked,
@@ -413,6 +414,18 @@
             avatarUUID: document.getElementById('avatarUUID').value,
             absence: absenceInfo
         };
+        console.log([[${mailEnabled}]]);
+        if (![[${mailEnabled}]]) {
+            console.log(111);
+            const password = document.getElementById('password').value;
+            const rsa = new RSAKey();
+            const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+            const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+            rsa.setPublic(keyModule, keyExponent);
+            data.password = ([[${users?.userKey}]] !== null) ? rsa.encrypt(password) : password;
+        } else {
+            console.log(222);
+        }
 
         aliceJs.fetchText(url, {
             method: method,

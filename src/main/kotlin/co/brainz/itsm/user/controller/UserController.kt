@@ -169,7 +169,9 @@ class UserController(
      * 사용자 등록 화면을 호출한다.
      */
     @GetMapping("/new")
-    fun getUserRegister(model: Model): String {
+    fun getUserRegister(request: HttpServletRequest, model: Model): String {
+        request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
+
         val allCodes = userService.getInitCodeList()
         model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
         model.addAttribute("timezoneList", userService.selectTimezoneList())
