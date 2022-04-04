@@ -414,17 +414,13 @@
             avatarUUID: document.getElementById('avatarUUID').value,
             absence: absenceInfo
         };
-        console.log([[${mailEnabled}]]);
         if (![[${mailEnabled}]]) {
-            console.log(111);
             const password = document.getElementById('password').value;
             const rsa = new RSAKey();
             const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
             const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
             rsa.setPublic(keyModule, keyExponent);
             data.password = ([[${users?.userKey}]] !== null) ? rsa.encrypt(password) : password;
-        } else {
-            console.log(222);
         }
 
         aliceJs.fetchText(url, {
