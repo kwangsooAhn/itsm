@@ -225,7 +225,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         var assigneeAbsence = assignee
         if (assignee.isNotEmpty()) {
             val userEntity = wfTokenManagerService.getUserInfo(assignee)
-            if (userEntity.absenceYn) {
+            if (userEntity != null && userEntity.absenceYn) {
                 userEntity.userCustomEntities.forEach { custom ->
                     if (custom.customType == UserConstants.UserCustom.USER_ABSENCE.code) {
                         val absenceInfo = wfTokenManagerService.getAbsenceInfo(custom)

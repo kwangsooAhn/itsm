@@ -8,6 +8,7 @@ package co.brainz.api.workflow.service
 
 import co.brainz.api.dto.RequestCmdbDto
 import co.brainz.api.dto.RequestDto
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
@@ -117,14 +118,14 @@ class ApiWorkflowService(
         return true
     }
 
+    /**
+     * 문서를 다음 단계로 진행
+     */
     fun callWorkflow(documentNo: String): Boolean {
-        // documentNo 값으로... instance를 조회하여
-        // 다음 단계로 진행한다.
-        // token 데이터는 마지막걸 그대로 복사하고
-        // documentNo 값이 여러개일 경우 첫번쨰로 처리하도록 한다
         val instance = wfInstanceService.getInstanceListInDocumentNo(documentNo).first()
         val token = wfInstanceService.getInstanceLatestToken(instance.instanceId)
-
+        // 현재 토큰 처리자는 시스템으로 고정
+        token.assigneeId = AliceUserConstants.CREATE_USER_ID
         val tokenDto = WfTokenDto(
             tokenId = token.tokenId,
             documentId = instance.document.documentId,
@@ -134,7 +135,7 @@ class ApiWorkflowService(
             elementType = token.elementType,
             tokenStatus = token.tokenStatus,
             tokenAction = token.action,
-            assigneeId = token.assigneeId, // 담당자 없을 경우 확인 필요
+            assigneeId = token.assigneeId,
             numberingId = token.numberingId,
             parentTokenId = token.parentTokenId,
             instanceCreateUser = token.instanceCreateUser,
@@ -142,9 +143,6 @@ class ApiWorkflowService(
             instancePlatform = WorkflowConstants.InstancePlatform.API.code,
             data = wfTokenDataRepository.getTokenDataList(token.tokenId)
         )
-
-        wfEngine.progressWorkflow(tokenDto)
-
-        return true
+        return wfEngine.progressWorkflow(tokenDto)
     }
 }

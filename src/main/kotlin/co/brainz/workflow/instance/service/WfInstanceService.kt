@@ -336,6 +336,8 @@ class WfInstanceService(
                 tokenDto = wfTokenMapper.toTokenDto(token)
                 tokenDto.processId = token.element.processId
                 tokenDto.elementId = token.element.elementId
+                tokenDto.elementType = token.element.elementType
+                tokenDto.assigneeId = token.assigneeId
                 val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
                 token.tokenDataEntities.forEach { tokenData ->
                     tokenDataList.add(wfTokenMapper.toTokenDataDto(tokenData))

@@ -67,4 +67,6 @@ object WfComponentConstants {
     enum class ComponentPropertyType(val code: String) {
         ELEMENT("element")
     }
+
+    const val DEFAULT_VALUE = "\${default}"
 }
