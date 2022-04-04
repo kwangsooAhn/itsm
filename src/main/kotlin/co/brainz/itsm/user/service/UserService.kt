@@ -257,7 +257,7 @@ class UserService(
                     attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val targetEntity = updateDataInput(userUpdateDto)
 
-                when (userUpdateDto.password != null) {
+                when (userUpdateDto.password?.isNotEmpty()) {
                     targetEntity.password != userUpdateDto.password -> {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
                         userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
