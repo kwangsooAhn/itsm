@@ -11,4 +11,12 @@ object NotificationConstants {
      * Notification ITSM Idenfitier
      */
     const val ITSM_IDENTIFIER: String = "zitsm"
+
+    /**
+     * Notification Type
+     */
+    enum class Type(val code: String) {
+        DOCUMENT("document"),
+        CMDB("cmdb")
+    }
 }

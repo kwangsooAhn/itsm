@@ -8658,7 +8658,7 @@ body.modal-active {
 .z-notification-content span.z-title.z-confirm {
   opacity: 0.75;
 }
-.z-notification-content span.z-title:hover {
+.z-notification-content span.z-title__link:hover {
   cursor: pointer;
   text-decoration: underline;
 }

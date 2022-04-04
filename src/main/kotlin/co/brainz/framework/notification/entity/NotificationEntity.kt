@@ -42,6 +42,9 @@ data class NotificationEntity(
     var displayYn: Boolean = false,
 
     @Column(name = "target", length = 100)
-    var target: String? = NotificationConstants.ITSM_IDENTIFIER
+    var target: String? = NotificationConstants.ITSM_IDENTIFIER,
+
+    @Column(name = "notification_type", length = 128)
+    var type: String? = NotificationConstants.Type.DOCUMENT.code
 
 ) : Serializable, AliceMetaEntity()

@@ -9,6 +9,7 @@ CREATE TABLE awf_notification
 	received_user varchar(128) NOT NULL,
 	title varchar(128) NOT NULL,
 	message varchar(1024),
+	notification_type varchar(128) DEFAULT 'document',
 	instance_id varchar(128),
 	confirm_yn boolean DEFAULT 'false',
 	display_yn boolean DEFAULT 'false',
@@ -25,6 +26,7 @@ COMMENT ON COLUMN awf_notification.notification_id IS '알림아이디';
 COMMENT ON COLUMN awf_notification.received_user IS '수신사용자';
 COMMENT ON COLUMN awf_notification.title IS '제목';
 COMMENT ON COLUMN awf_notification.message IS '메시지';
+COMMENT ON COLUMN awf_notification.notification_type IS '알림타입';
 COMMENT ON COLUMN awf_notification.instance_id IS '인스턴스아이디';
 COMMENT ON COLUMN awf_notification.confirm_yn IS '확인여부';
 COMMENT ON COLUMN awf_notification.display_yn IS '표시여부';
