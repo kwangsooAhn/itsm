@@ -223,9 +223,16 @@
                 `<input type="text" class="z-input" maxlength="50" required="true" required ` +
                 `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
-                `<div class="flex-column col-1"><label>` +
-                `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
-                `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
+                `<div class="flex-column col-1">` +
+                `<label>` +
+                `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span>` +
+                `<span class="required"></span>` +
+                `</label>` +
+                `</div>` +
+                `<div class="flex-column col-5">` +
+                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
+                `</div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
                 `<span class="z-icon i-delete"></span>` +
@@ -877,7 +884,7 @@
     function checkDuplicate(type) {
         let isValid = true;
         if (type === 'dropdown' || type === 'radio' || type === 'checkbox') {
-            let detailsObject = document.querySelectorAll('#details > .flex-row:not(:first-child)');
+            let detailsObject = document.querySelectorAll('#details .flex-row');
             let labels = [];
             let values = [];
             for (let i = 0, len = detailsObject.length; i < len; i++) {
