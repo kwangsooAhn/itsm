@@ -620,7 +620,6 @@ document:
     type: "업무흐름 구분"
     useYn: "신청서 사용여부"
     write: "업무흐름 등록"
-    workflowDisplay: "신청서 양식 편집"
     workflowEdit: "업무흐름 수정"
   msg:
     adminSearchDescription: "프로세스와 문서양식을 조합하여 업무흐름을 조회 및 관리합니다."

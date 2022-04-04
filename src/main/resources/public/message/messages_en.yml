@@ -620,7 +620,6 @@ document:
     type: "Document Type"
     useYn: "Use enable"
     write: "WorkFlow register"
-    workflowDisplay: "WorkFlow Display"
     workflowEdit: "WorkFlow Edit"
   msg:
     adminSearchDescription: "View and manage workflow by combining process and document form."
