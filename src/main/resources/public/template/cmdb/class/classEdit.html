@@ -271,11 +271,22 @@
         if (document.getElementById('btnRegister') != null) {
             document.getElementById('btnRegister').style.display = 'block';
         }
+
         document.getElementById('txtClassId').value = '';
         document.getElementById('txtPClassId').value = '';
-        document.getElementById('txtClassName').value = '';
-        document.getElementById('txtClassDesc').value = '';
-        document.getElementById('txtClassSeq').value = '';
+        // 속성그룹 이름
+        const txtClassName = document.getElementById('txtClassName');
+        txtClassName.value = '';
+        txtClassName.readOnly = false;
+        // 설명
+        const txtClassDesc = document.getElementById('txtClassDesc');
+        txtClassDesc.value = '';
+        txtClassDesc.readOnly = false;
+        document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+        // 정렬 순서
+        const txtClassSeq = document.getElementById('txtClassSeq');
+        txtClassSeq.value = '';
+        txtClassSeq.readOnly = false;
 
         let selectedNode = tree.getTreeSelectNode();
         if (selectedNode !== null) {
