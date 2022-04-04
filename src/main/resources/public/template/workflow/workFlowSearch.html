@@ -237,7 +237,6 @@
         aliceJs.fetchText(url, {
             method: 'GET'
         }).then((htmlData) => {
-            console.log(documentId);
             let modalOptions = {
                 title: i18n.msg('document.label.write'),
                 body: htmlData,
@@ -297,8 +296,8 @@
                     });
                     aliceJs.initDesignedSelectTag();
 
-                    // 편집 시, 모달 제목 변경
-                    document.querySelector('.modal-header').innerHTML = (documentType === 'workflow') ? i18n.msg('document.label.workflowEdit') : i18n.msg('document.label.registerEdit');
+                    // 수정일 경우 타입에 따라 모달 제목 변경
+                    if (documentId !== undefined) document.querySelector('.modal-header').innerHTML = (documentType === 'workflow') ? i18n.msg('document.label.workflowEdit') : i18n.msg('document.label.registerEdit');
                 }
             }
 
