@@ -223,9 +223,16 @@
                 `<input type="text" class="z-input" maxlength="50" required="true" required ` +
                 `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
-                `<div class="flex-column col-1"><label>` +
-                `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
-                `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
+                `<div class="flex-column col-1">` +
+                `<label>` +
+                `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span>` +
+                `<span class="required"></span>` +
+                `</label>` +
+                `</div>` +
+                `<div class="flex-column col-5">` +
+                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
+                `</div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
                 `<span class="z-icon i-delete"></span>` +
@@ -883,7 +890,7 @@
             for (let i = 0, len = detailsObject.length; i < len; i++) {
                 let labelObject = detailsObject[i].querySelectorAll('input')[0];
                 let valueObject = detailsObject[i].querySelectorAll('input')[1];
-                if (labels.indexOf(labelObject.value.trim()) > -1 || (!aliceJs.isEmpty(valueObject.value) && values.indexOf(valueObject.value.trim()) > -1)) {
+                if (labels.indexOf(labelObject.value.trim()) > -1 || values.indexOf(valueObject.value.trim()) > -1) {
                     zAlert.warning(i18n.msg('validation.msg.dataNotDuplicate'));
                     isValid = false;
                     break;
