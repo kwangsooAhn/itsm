@@ -368,7 +368,11 @@
             doubleClickNode: function(p_node) {
                 if (options.rootAvailable || p_node.parent.id !== undefined) {
                     this.selectNode(p_node);
-                    document.getElementById('saveSelectedNode').click();
+                    // 모달일 경우에만 saveSelectedNode가 존재함
+                    const saveSelectedNode = document.getElementById('saveSelectedNode');
+                    if (saveSelectedNode) {
+                        saveSelectedNode.click();
+                    }
                 } else {
                     this.toggleNode(p_node);
                 }

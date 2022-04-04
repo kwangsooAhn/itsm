@@ -132,6 +132,8 @@
         &.z-confirm {
           opacity: 0.75;
         }
+      }
+      &.z-title__link {
         &:hover {
           cursor: pointer;
           text-decoration: underline;

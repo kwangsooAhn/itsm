@@ -100,6 +100,7 @@
                 noDisplayNotification.forEach(function (element) {
                     showNotification({
                         notificationId: element.id,
+                        notificationType: element.getAttribute('notification-type'),
                         instanceId: element.getAttribute('instance-id'),
                         title: element.querySelector('.z-title').innerHTML,
                         date: element.querySelector('.z-date').innerHTML,
@@ -131,7 +132,12 @@
                 updateNotification(param.notificationId, 'display');
             },
             onClick: function() {
-                openTokenPage(param.notificationId, param.tokenId);
+                // 문서 알림일 경우만 팝업 호출
+                if (param.notificationType === 'document') {
+                    openTokenPage(param.notificationId, param.tokenId);
+                } else {
+                    updateNotification(param.notificationId, 'confirm');
+                }
             }
         }).callToast();
     }
@@ -139,7 +145,6 @@
     // TODO: 처리할 문서 화면 호출. 해당 문서가 처리되었을 때 이슈로 구현하지 않음. 일단 처리할 문서 목록 화면으로 이동하도록 함.
     // Open token page.
     function openTokenPage(notificationId, instanceId) {
-        console.log('[openTokenPage] instance id : ' + instanceId);
         location.href = '/tokens/search';
         updateNotification(notificationId, 'confirm');
     }

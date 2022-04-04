@@ -21,4 +21,8 @@ class WfComponentService(
     fun getComponentTypeById(componentId: String): String {
         return this.getComponent(componentId).componentType
     }
+
+    fun getComponents(componentIds: Set<String>): List<WfComponentEntity> {
+        return wfComponentRepository.findByComponentIdIn(componentIds.toList())
+    }
 }

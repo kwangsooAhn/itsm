@@ -5,6 +5,7 @@
 
 package co.brainz.framework.notification.dto
 
+import co.brainz.framework.notification.constants.NotificationConstants
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -18,5 +19,6 @@ data class NotificationDto(
     var documentNo: String? = null,
     var confirmYn: Boolean? = false,
     var displayYn: Boolean? = false,
-    var createDt: LocalDateTime? = null
+    var createDt: LocalDateTime? = null,
+    var type: String = NotificationConstants.Type.DOCUMENT.code
 ) : Serializable
