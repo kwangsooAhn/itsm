@@ -2045,6 +2045,7 @@ input, button, select, optgroup, textarea {
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-tag {
   margin: 0.625rem 0 0 0;
+  padding-bottom: 1.25rem;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-history {
   height: 100%;
