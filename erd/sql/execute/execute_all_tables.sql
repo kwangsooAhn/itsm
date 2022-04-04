@@ -9121,3 +9121,15 @@ COMMENT ON COLUMN cmdb_class_notification.attribute_order IS '순서';
 COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
 COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';
 
+/**
+  IF 모니터
+ */
+DROP TABLE IF EXISTS if_monitor cascade;
+
+CREATE TABLE if_montior
+(
+    document_no varchar(128) NOT NULL
+);
+
+COMMENT ON TABLE if_monitor IS 'IF 모니터';
+COMMENT ON COLUMN if_monitor.document_no IS '문서번호';
