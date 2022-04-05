@@ -100,8 +100,10 @@ file.image.uri: /fileImages
 # schedule plugins directory
 schedule.plugins.dir: C:\\plugins
 
-# Schedule timezone
-schedule.plugins.timezone: Asia/Seoul
+# Timezone
+timezone:
+  scheduler: Asia/Seoul
+  customChart: Asia/Seoul
 
 # IP 접근 제한 기능 설정
 ip.access.control: true
