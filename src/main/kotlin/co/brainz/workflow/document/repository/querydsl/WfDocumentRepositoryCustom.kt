@@ -8,6 +8,7 @@ package co.brainz.workflow.document.repository.querydsl
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.FieldOptionDto
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import com.querydsl.core.QueryResults
 
@@ -36,4 +37,9 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
      * 문서 조회
      */
     fun getDocumentListByIds(documentIds: Set<String>): List<WfDocumentEntity>
+
+    /**
+     * 이력 조회 컴포넌트 데이터 조회
+     */
+    fun getSearchFieldValues(fieldOptionDto: FieldOptionDto): List<Array<Any>>
 }

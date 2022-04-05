@@ -7,6 +7,7 @@ package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.FieldReturnDto
 import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
@@ -40,5 +41,13 @@ class DocumentRestController(
         documentSearchCondition: DocumentSearchCondition
     ): List<DocumentDto> {
         return documentService.getDocumentList(documentSearchCondition).data
+    }
+
+    @GetMapping("/{documentNo}/components/{componentId}/value")
+    fun getDocumentComponentValue(
+        @PathVariable documentNo: String,
+        @PathVariable componentId: String
+    ): FieldReturnDto {
+        return documentService.getDocumentComponentValue(documentNo, componentId)
     }
 }

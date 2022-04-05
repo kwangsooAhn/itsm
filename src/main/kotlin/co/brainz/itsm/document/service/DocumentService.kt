@@ -17,20 +17,31 @@ import co.brainz.itsm.document.dto.DocumentExportDto
 import co.brainz.itsm.document.dto.DocumentImportDto
 import co.brainz.itsm.document.dto.DocumentListReturnDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.FieldDataDto
+import co.brainz.itsm.document.dto.FieldDto
+import co.brainz.itsm.document.dto.FieldOptionDto
+import co.brainz.itsm.document.dto.FieldOrderDto
+import co.brainz.itsm.document.dto.FieldReturnDto
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.itsm.process.service.ProcessService
+import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import co.brainz.workflow.document.repository.WfDocumentLinkRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.document.service.WfDocumentService
+import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.File
 import java.time.LocalDateTime
 import kotlin.math.ceil
@@ -46,9 +57,12 @@ class DocumentService(
     private val aliceFileProvider: AliceFileProvider,
     private val currentSessionUser: CurrentSessionUser,
     private val wfDocumentLinkRepository: WfDocumentLinkRepository,
-    private val wfDocumentRepository: WfDocumentRepository
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val wfComponentPropertyRepository: WfComponentPropertyRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 신청서 리스트 조회.
@@ -315,5 +329,77 @@ class DocumentService(
      */
     fun importDocumentData(documentImportDto: DocumentImportDto): ZReturnDto {
         return wfDocumentService.importDocument(documentImportDto)
+    }
+
+    /**
+     * 이력 조회 컴포넌트 데이터 조회
+     */
+    fun getDocumentComponentValue(documentNo: String, componentId: String): FieldReturnDto {
+        //val fieldOption = this.dummyOption()
+
+        // wf_component_property 테이블에서 데이터 조회
+        val componentProperties = wfComponentPropertyRepository.findByComponentId(componentId)
+        val fieldOption = FieldOptionDto(documentNo = documentNo)
+        componentProperties.forEach { property ->
+            if (property.propertyType == WfFormConstants.PropertyType.ELEMENT.value) {
+                val optionValue = mapper.readValue(property.propertyOptions, LinkedHashMap::class.java)
+                fieldOption.table = optionValue["table"] as String
+                fieldOption.fields.addAll(
+                    mapper.convertValue(optionValue["fields"], object : TypeReference<List<FieldDto>>() {})
+                )
+                fieldOption.sort =
+                    mapper.convertValue(optionValue["sort"], object : TypeReference<FieldOrderDto>() {})
+            }
+        }
+
+        // fields
+        val fieldDataList = mutableListOf<FieldDataDto>()
+        fieldOption.fields.forEach {
+            fieldDataList.add(
+                FieldDataDto(
+                    alias = it.alias,
+                    width = it.width
+                )
+            )
+        }
+
+        // data
+        val data = mutableListOf<Array<Any>>()
+        val results = wfDocumentService.getSearchFieldValues(fieldOption)
+        if (!results.isNullOrEmpty()) {
+            data.add(results.toTypedArray())
+        }
+
+        return FieldReturnDto(
+            fields = fieldDataList,
+            data = data
+        )
+    }
+
+    private fun dummyOption(): FieldOptionDto {
+        val fieldOption = FieldOptionDto()
+        fieldOption.table = "test"
+        fieldOption.fields.add(
+            FieldDto(
+                name = "aa",
+                alias = "title",
+                width = 100
+            )
+        )
+        fieldOption.fields.add(
+            FieldDto(
+                name = "bb",
+                alias = "desc",
+                width = 100
+            )
+        )
+        fieldOption.fields.add(
+            FieldDto(
+                name = "cc",
+                alias = "create_dt",
+                width = 100
+            )
+        )
+        return fieldOption
     }
 }
