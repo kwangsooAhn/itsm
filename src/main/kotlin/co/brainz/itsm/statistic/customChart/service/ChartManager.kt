@@ -259,8 +259,8 @@ abstract class ChartManager(
     private fun getCategory(chartConfig: ChartConfig): LinkedHashSet<String> {
         val category = LinkedHashSet<String>()
 
-        val from = chartConfig.range.from!!
-        val to = chartConfig.range.to!!
+        val from = chartConfig.range.fromDateTime!!
+        val to = chartConfig.range.toDateTime!!
         when (chartConfig.periodUnit) {
             ChartConstants.Unit.YEAR.code -> {
                 val period: Long = ChronoUnit.YEARS.between(from, to)

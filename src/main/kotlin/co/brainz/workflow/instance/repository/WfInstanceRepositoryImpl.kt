@@ -608,20 +608,20 @@ class WfInstanceRepositoryImpl(
         if (documentStatus == ChartConstants.DocumentStatus.EVEN_RUNNING.code) {
             query.where(
                 (instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
-                    .and(instance.instanceStartDt.goe(range.from))
-                    .and(instance.instanceEndDt.loe(range.to)))
+                    .and(instance.instanceStartDt.goe(range.fromDateTime))
+                    .and(instance.instanceEndDt.loe(range.toDateTime)))
                     .or(
                         (instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code)
-                            .and(instance.instanceStartDt.goe(range.from)))
-                            .and(instance.instanceStartDt.loe(range.to))
+                            .and(instance.instanceStartDt.goe(range.fromDateTime)))
+                            .and(instance.instanceStartDt.loe(range.toDateTime))
                     )
             )
         } else {
             query.where(
                 instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
                     .and(
-                        instance.instanceStartDt.goe(range.from)
-                            .and(instance.instanceEndDt.loe(range.to))
+                        instance.instanceStartDt.goe(range.fromDateTime)
+                            .and(instance.instanceEndDt.loe(range.toDateTime))
                     )
             )
         }
