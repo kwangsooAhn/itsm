@@ -58,6 +58,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
 import org.springframework.core.env.Environment
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -121,7 +122,7 @@ class WfTokenManagerService(
         var value = ""
         val tokenData = wfTokenDataRepository
             .findWfTokenDataEntitiesByTokenTokenIdAndComponentComponentId(tokenId, mappingId)
-        if (tokenData != null) {
+        if (tokenData != null && tokenData.value != WfComponentConstants.DEFAULT_VALUE) {
             value = if (componentValueType == WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code) {
                 tokenData.value.split("|")[0]
             } else {
@@ -300,8 +301,8 @@ class WfTokenManagerService(
     /**
      * 사용자 정보 조회.
      */
-    fun getUserInfo(assignee: String): AliceUserEntity {
-        return aliceUserRepository.findByUserKey(assignee)
+    fun getUserInfo(assignee: String): AliceUserEntity? {
+        return aliceUserRepository.findByIdOrNull(assignee)
     }
 
     /**

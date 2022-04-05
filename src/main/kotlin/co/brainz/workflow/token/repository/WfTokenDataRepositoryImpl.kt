@@ -9,6 +9,7 @@ package co.brainz.workflow.token.repository
 import co.brainz.itsm.statistic.customChart.dto.average.ChartTokenData
 import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
+import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
 import co.brainz.workflow.form.entity.QWfFormEntity
 import co.brainz.workflow.instance.dto.WfInstanceListComponentDto
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDataDto
@@ -73,6 +74,20 @@ class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::c
             .innerJoin(tokenData.component, component).on(component.componentType.`in`(componentTypeSet))
             .where(tokenData.component.componentId.`in`(componentIds))
             .where(tokenData.token.tokenId.`in`(tokenIds))
+            .fetch()
+    }
+
+    override fun getTokenDataList(tokenId: String): List<WfTokenDataDto> {
+        val tokenData = QWfTokenDataEntity.wfTokenDataEntity
+        return from(tokenData)
+            .select(
+                Projections.constructor(
+                    WfTokenDataDto::class.java,
+                    tokenData.component.componentId,
+                    tokenData.value
+                )
+            )
+            .where(tokenData.token.tokenId.eq(tokenId))
             .fetch()
     }
 }
