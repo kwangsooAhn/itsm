@@ -63,8 +63,7 @@
             <!-- 신청서 아이콘 -->
             <label class="field-label" for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
             <div class="flex-row z-input-button">
-                <input type="text" id="applicationDocumentIcon" class="z-input col-pct-11" readonly />
-                <input type="text" id="applicationDocumentIcon" class="z-input col-pct-11" readonly />
+                <input type="text" id="applicationDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
                 <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
                     <span class="z-icon i-remove"></span>
                 </button>
