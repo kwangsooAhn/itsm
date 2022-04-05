@@ -70,4 +70,9 @@ class ApiWorkflowController(
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(apiWorkflowService.getInstanceHistory(instanceId))
     }
+
+    @PostMapping("/{documentNo}/action")
+    fun callWorkflow(@PathVariable documentNo: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiWorkflowService.callWorkflow(documentNo))
+    }
 }
