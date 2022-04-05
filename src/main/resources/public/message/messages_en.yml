@@ -306,6 +306,7 @@ chart:
     condition: "• The condition expression supports arithmetic operations (+, -, *, /) and logical operators &&, ||, and comparative operators such as ==, !=, <, >, <=, >= .<br/><br/>
     • [] can be used to express the tag. If the tag name contains brackets ([ or ]), write the tag name in the expression such as '\\]'.<br/><br/>
     • () can be used to prioritize logical operations. If the tag name contains brackets (( or )), write the tag name in the expression such as '\\)'."
+    timezoneInfo: "Chart settings are based on time zone {0}."
 
 # CMDB
 cmdb:

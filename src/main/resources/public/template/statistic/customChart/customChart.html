@@ -86,7 +86,15 @@
                 <div class="flex-row">
                     <!--/* 기간 */-->
                     <div class="flex-column col-3">
-                        <label class="field-label required" th:text="#{chart.label.duration}"></label>
+                        <label>
+                            <span class="field-label required" th:text="#{chart.label.duration}"></span>
+                            <div class="z-help-tooltip">
+                                <span class="z-icon i-tooltip"></span>
+                                <div class="z-tooltip-contents right">
+                                    <span th:utext="#{chart.tooltip.timezoneInfo(${chartTimezone})}"></span>
+                                </div>
+                            </div>
+                        </label>
                         <div>
                             <select id="rangeType" name="rangeType" onchange="changeRangeType(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
                                 <option th:each="unit:${code.range}" th:value="${unit.codeValue}"
