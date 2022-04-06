@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+    <node id = "getDocumentNoData">
+        select document_no
+        from if_monitor
+    </node>
+    <node id = "updateCheckFlagColumn">
+        update if_monitor
+        set check_flag = true
+        where document_no = ?
+    </node>
+</query>
