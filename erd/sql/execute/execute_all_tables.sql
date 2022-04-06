@@ -9134,4 +9134,4 @@ CREATE TABLE if_monitor
 
 COMMENT ON TABLE if_monitor IS 'IF 모니터';
 COMMENT ON COLUMN if_monitor.document_no IS '문서번호';
-COMMNET ON COLUMN if_monitor.check_flag IS '처리여부';
+COMMENT ON COLUMN if_monitor.check_flag IS '처리여부';
