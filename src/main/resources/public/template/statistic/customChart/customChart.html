@@ -358,10 +358,9 @@
             }
             // 간격이 '시간' 단위일때, 시작일자와 종료일자의 차이가 3일 이상일 경우 경고창 표시
             if (document.getElementById('periodUnitSelectBox').value === PERIOD_HOUR) {
-                const fromDtValue = document.getElementById('rangeFromDt').value;
-                const validToDtValue = i18n.systemDate(fromDtValue, { days : MAX_PERIOD_RANGE });
-                const toDtValue = document.getElementById('rangeToDt').value;
-                if (!i18n.compareSystemDate(toDtValue, validToDtValue)) {
+                const fromDtValue = new Date(document.getElementById('rangeFromDt').value);
+                const toDtValue = new Date(document.getElementById('rangeToDt').value);
+                if ((toDtValue - fromDtValue) / (1000 * 60 * 60 * 24) >= MAX_PERIOD_RANGE) {
                     zAlert.warning(i18n.msg('chart.msg.maxPeriodUnitRange', MAX_PERIOD_RANGE));
                     return false;
                 }

@@ -104,10 +104,8 @@ export const zPieChartMixin = {
         // 차트의 기간 설정 데이터가 있을 경우, 날짜 데이터 변환
         if (this.config.range.type !== CHART.RANGE_TYPE_NONE) {
             // 날짜 데이터 사용자 포맷 변경
-            const from = i18n.userDateTime(this.config.range.from, CHART.DATETIME_FORMAT);
-            const to = i18n.userDateTime(this.config.range.to, CHART.DATETIME_FORMAT);
-            const fromDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(from));
-            const toDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(to));
+            const fromDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(this.config.range.fromDate));
+            const toDt = Highcharts.dateFormat(this.getDateTimeFormat(), this.getStringToDateTime(this.config.range.toDate));
             this.chart.series[0].update({name: (fromDt + ' ~ ' + toDt), id: data[0].id}, false);
         }
         this.chart.series[0].setData(series, true);

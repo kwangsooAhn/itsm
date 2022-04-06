@@ -149,7 +149,7 @@ export const zBasicLineChartMixin = {
                 if (tag.options.name === temp.series) {
                     seriesId = temp.id;
                     seriesName = (this.config.range.type !== CHART.RANGE_TYPE_NONE) ?
-                        this.getStringToDateTime(this.convertCategoryToLocal(temp.category)): temp.category;
+                        this.getStringToDateTime(temp.category): temp.category;
                     series.push({
                         x: seriesName,
                         y: Number(temp.value)

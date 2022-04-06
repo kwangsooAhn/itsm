@@ -122,7 +122,7 @@ export const zStackedBarChartMixin = {
             const dateTimeCategories = categories.map((category) =>
                 Highcharts.dateFormat(
                     this.getDateTimeFormat(),
-                    this.getStringToDateTime(this.convertCategoryToLocal(category)))
+                    this.getStringToDateTime(category))
             );
             this.chart.xAxis[0].setCategories(dateTimeCategories, false);
         } else {
