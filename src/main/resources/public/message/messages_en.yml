@@ -833,6 +833,7 @@ form:
       dateTime: "DateTime"
       dropdown: "DropDown"
       input: "InputBox"
+      label: "Label"
       time: "Time"
     dataAttribute: "Data Attribute"
     department: "Department"

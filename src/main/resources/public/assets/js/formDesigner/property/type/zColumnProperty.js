@@ -93,6 +93,11 @@ export const propertyExtends = {
             minDateTime: '',
             maxDateTime: ''
         }
+    },
+    label: {
+        columnElement: {
+            text: 'LABEL'
+        }
     }
 };
 
@@ -337,7 +342,8 @@ export default class ZColumnProperty extends ZProperty {
                 { name: i18n.msg('form.properties.columnType.dropdown'), value: 'dropdown' },
                 { name: i18n.msg('form.properties.columnType.date'), value: 'date' },
                 { name: i18n.msg('form.properties.columnType.time'), value: 'time' },
-                { name: i18n.msg('form.properties.columnType.dateTime'), value: 'dateTime' }
+                { name: i18n.msg('form.properties.columnType.dateTime'), value: 'dateTime' },
+                { name: i18n.msg('form.properties.columnType.label'), value: 'label' }
             ]);
 
         // head - input
@@ -433,6 +439,8 @@ export default class ZColumnProperty extends ZProperty {
                 return this.getPropertyForColumnTypeTime(option, id);
             case 'dateTime':
                 return this.getPropertyForColumnTypeDateTime(option, id);
+            case 'label':
+                return this.getPropertyForColumnTypeLabel(option, id);
             default:
                 return [];
         }
@@ -519,6 +527,13 @@ export default class ZColumnProperty extends ZProperty {
             new ZGroupProperty('group.validation')
                 .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.minDateTime', 'validation.minDateTime', option.columnValidation.minDateTime, FORM.DATE_TYPE.DATETIME_PICKER))
                 .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxDateTime', 'validation.maxDateTime', option.columnValidation.maxDateTime, FORM.DATE_TYPE.DATETIME_PICKER))
+        ];
+    }
+    // 컬럼 세부 속성 - label
+    getPropertyForColumnTypeLabel(option, id) {
+        return [
+            new ZGroupProperty('group.columnElement')
+                .addProperty(new ZInputBoxProperty(id + '|columnElement.text', 'label.text', option.columnElement.text))
         ];
     }
     // 입력 유형 타입 변경
