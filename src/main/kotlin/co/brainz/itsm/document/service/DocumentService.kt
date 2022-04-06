@@ -10,6 +10,7 @@ import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
@@ -335,8 +336,6 @@ class DocumentService(
      * 이력 조회 컴포넌트 데이터 조회
      */
     fun getDocumentComponentValue(documentNo: String, componentId: String): FieldReturnDto {
-        //val fieldOption = this.dummyOption()
-
         // wf_component_property 테이블에서 데이터 조회
         val componentProperties = wfComponentPropertyRepository.findByComponentId(componentId)
         val fieldOption = FieldOptionDto(documentNo = documentNo)
@@ -363,43 +362,21 @@ class DocumentService(
             )
         }
 
-        // data
+        // data (실패시 빈 데이터로 진행)
         val data = mutableListOf<Array<Any>>()
-        val results = wfDocumentService.getSearchFieldValues(fieldOption)
-        if (!results.isNullOrEmpty()) {
-            data.add(results.toTypedArray())
+        try {
+            val results = wfDocumentService.getSearchFieldValues(fieldOption)
+            if (!results.isNullOrEmpty()) {
+                data.add(results.toTypedArray())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logger.error(AliceUtil().printStackTraceToString(e))
         }
 
         return FieldReturnDto(
             fields = fieldDataList,
             data = data
         )
-    }
-
-    private fun dummyOption(): FieldOptionDto {
-        val fieldOption = FieldOptionDto()
-        fieldOption.table = "test"
-        fieldOption.fields.add(
-            FieldDto(
-                name = "aa",
-                alias = "title",
-                width = 100
-            )
-        )
-        fieldOption.fields.add(
-            FieldDto(
-                name = "bb",
-                alias = "desc",
-                width = 100
-            )
-        )
-        fieldOption.fields.add(
-            FieldDto(
-                name = "cc",
-                alias = "create_dt",
-                width = 100
-            )
-        )
-        return fieldOption
     }
 }

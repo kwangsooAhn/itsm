@@ -9,6 +9,7 @@ import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.document.dto.FieldOptionDto
+import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
@@ -168,6 +169,7 @@ class WfDocumentRepositoryImpl :
         if (fieldOptionDto.sort.field.isNotEmpty()) {
             sqlBuilder.append(" order by ${fieldOptionDto.sort.field} ${fieldOptionDto.sort.order}")
         }
+        sqlBuilder.append(" limit ${WfComponentConstants.LIST_LIMIT}")
         return entityManager?.createNativeQuery(sqlBuilder.toString())?.resultList as List<Array<Any>>
     }
 }
