@@ -8,6 +8,8 @@ package co.brainz.workflow.document.repository.querydsl
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.FieldOptionDto
+import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
@@ -149,5 +151,25 @@ class WfDocumentRepositoryImpl :
         return from(document)
             .where(document.documentId.`in`(documentIds))
             .fetch()
+    }
+
+    override fun getSearchFieldValues(fieldOptionDto: FieldOptionDto): List<Array<Any>> {
+        val sqlBuilder = StringBuilder()
+        sqlBuilder.append("select ")
+        fieldOptionDto.fields.forEachIndexed { index, field ->
+            if (index > 0) {
+                sqlBuilder.append(", ")
+            }
+            sqlBuilder.append(field.name)
+        }
+        sqlBuilder.append(" from " + fieldOptionDto.table)
+        if (fieldOptionDto.documentNo.isNotEmpty()) {
+            sqlBuilder.append(" where document_no = '${fieldOptionDto.documentNo}'")
+        }
+        if (fieldOptionDto.sort.field.isNotEmpty()) {
+            sqlBuilder.append(" order by ${fieldOptionDto.sort.field} ${fieldOptionDto.sort.order}")
+        }
+        sqlBuilder.append(" limit ${WfComponentConstants.LIST_LIMIT}")
+        return entityManager?.createNativeQuery(sqlBuilder.toString())?.resultList as List<Array<Any>>
     }
 }
