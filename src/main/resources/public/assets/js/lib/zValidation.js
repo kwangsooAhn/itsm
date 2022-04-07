@@ -264,7 +264,8 @@ class ZValidation {
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
-            rtn = this.regex.integer.test(this.getDOMElementValue(target));
+            const targetValue = this.getDOMElementValue(target);
+            rtn = this.regex.integer.test(targetValue) || targetValue === '';
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.integer'), callback);
         } else { // 변수이면 true인지 false인지만 반환
             rtn = (this.isNumber(target) && target % 1 === 0);
@@ -280,7 +281,8 @@ class ZValidation {
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
-            rtn = this.regex.char.test(this.getDOMElementValue(target));
+            const targetValue = this.getDOMElementValue(target);
+            rtn = this.regex.char.test(targetValue) || targetValue === '';
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.char'), callback);
         } else { // 변수이면 true인지 false인지만 반환
             rtn = (typeof target === 'string' && this.regex.char.test(target));
@@ -296,7 +298,8 @@ class ZValidation {
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
-            rtn = this.regex.specialChar.test(this.getDOMElementValue(target));
+            const targetValue = this.getDOMElementValue(target);
+            rtn = this.regex.specialChar.test(targetValue) || targetValue === '';
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.specialChar'), callback);
         } else { // 변수이면 true인지 false인지만 반환
             rtn = (typeof target === 'string' && this.regex.specialChar.test(target));
@@ -312,7 +315,8 @@ class ZValidation {
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
-            rtn = this.regex.email.test(this.getDOMElementValue(target));
+            const targetValue = this.getDOMElementValue(target);
+            rtn = this.regex.email.test(targetValue) || targetValue === '';
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.checkEmailFormat'), callback);
         } else { // 변수이면 true인지 false인지만 반환
             rtn = (typeof target === 'string' && this.regex.email.test(target));
@@ -353,14 +357,14 @@ class ZValidation {
                 console.error('The DOM Element is incorrect. Please check the DOM Element.');
                 return true;
             }
-            rtn = targetValue >= Number(minValue);
+            rtn = targetValue >= Number(minValue) || targetValue === '';
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.min', minValue), callback);
         } else { // 변수이면 true인지 false인지만 반환
             if (!this.isNumber(Number(target))) {
                 console.error('The variable is incorrect. Please check the variable.');
                 return true;
             }
-            rtn = Number(target) >= Number(minValue);
+            rtn = Number(target) >= Number(minValue) || target === '';
         }
         return rtn;
     }
@@ -378,18 +382,18 @@ class ZValidation {
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             const targetValue = this.getDOMElementValue(target);
-            if (!this.isNumber(Number(targetValue))) {
+            if (!this.isNumber(Number(targetValue)) && targetValue !== '') {
                 console.error('The DOM Element is incorrect. Please check the DOM Element.');
                 return true;
             }
-            rtn = targetValue <= Number(maxValue);
+            rtn = targetValue <= Number(maxValue) || targetValue === '';
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.max', maxValue), callback);
         } else { // 변수이면 true인지 false인지만 반환
-            if (!this.isNumber(Number(target))) {
+            if (!this.isNumber(Number(target)) && target !== '') {
                 console.error('The variable is incorrect. Please check the variable.');
                 return true;
             }
-            rtn = Number(target) <= Number(maxValue);
+            rtn = Number(target) <= Number(maxValue) || target === '';
         }
         return rtn;
     }
@@ -457,7 +461,8 @@ class ZValidation {
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
-            rtn = this.regex.phone.test(this.getDOMElementValue(target)) || this.regex.extensionNumber.test(this.getDOMElementValue(target));
+            const targetValue = this.getDOMElementValue(target);
+            rtn = this.regex.phone.test(targetValue) || this.regex.extensionNumber.test(targetValue) || targetValue === '';
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.checkPhoneNumberOrExtentionNumberFormat'), callback);
         } else { // 변수이면 true인지 false인지만 반환
             rtn = (typeof target === 'string' && (this.regex.phone.test(target) || this.regex.extensionNumber.test(this.getDOMElementValue(target))));
