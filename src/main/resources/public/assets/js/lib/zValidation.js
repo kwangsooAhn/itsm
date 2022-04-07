@@ -14,8 +14,7 @@ class ZValidation {
     constructor(options = { alert: true }) {
         // 알림창 사용 여부가 false일 경우 DOM을 검색하여 'error-msg' class를 찾아서 에러 메시지를 표기한다.
         this.alert = options.alert; // 알림창 사용여부
-        this.spcialKeyAscilCodeList = [8, 9, 12, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 46, 91, 93, 112, 113, 114, 115, 116, 117,
-            118, 119, 120, 121, 122, 123, 144, 145];
+
         this.regex = Object.assign({}, {
             number: /^[-+]?[0-9]*\.?[0-9]+$/, // 숫자
             integer: /^[0-9]*$/,              // 정수
@@ -244,10 +243,12 @@ class ZValidation {
      */
     isNumber(target, callback) {
         if (this.isEmpty(target)) { return true; }
+
         let rtn = true;
         // 유효성 검증
-        if (this.isDOMElement(target) && !this.isSpecialKey(target.events)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기 && 특수키(ex> backspace)입력시 유효성 제외
-            rtn = this.regex.number.test(this.getDOMElementValue(target));
+        if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
+            const targetValue = this.getDOMElementValue(target);
+            rtn = this.regex.number.test(targetValue) || targetValue === '';
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.number'), callback);
         } else { // 변수이면 true인지 false인지만 반환
             rtn = (typeof target === 'number' && !isNaN(target));
@@ -551,19 +552,6 @@ class ZValidation {
                 zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.options')));
                 return true;
             }
-        }
-        return false;
-    }
-
-    /**
-     * 키보드 입력시 특수키 입력인지 확인한다.
-     * ex> BackSpace, 방향키, F1~F12, Tab 등등
-     */
-    isSpecialKey(event) {
-        event = event || window.event;
-        const keyID = (event.which) ? event.which : event.keyCode;
-        if (this.spcialKeyAscilCodeList.indexOf(keyID) > -1) {
-            return true;
         }
         return false;
     }
