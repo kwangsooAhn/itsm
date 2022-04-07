@@ -123,8 +123,21 @@ class NumberingRuleService(
      */
     @Transactional
     fun saveNumberingRule(numberingRuleDto: NumberingRuleDto): String {
-        val status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
         var count = 0
+
+        // Duplicate check
+        val numberingRulePatternMapResult = numberingRulePatternMapRepository.findAllByNumberingPatternIn(numberingRuleDto.patternList)
+        val numberingGrouping = numberingRulePatternMapResult!!.results.groupBy { it.numberingRule }
+        for (numbering in numberingGrouping) {
+            var order = 0
+            val numberingGroupingList = numbering.value
+            for (pattern in numberingGroupingList) {
+                if (numberingRuleDto.patternList[order] == pattern.numberingPattern.patternId && order == pattern.patternOrder) { order++ }
+            }
+            if (numberingRuleDto.patternList.size == order) {
+                return NumberingRuleConstants.Status.STATUS_ERROR_DUPLICATION.code
+            }
+        }
 
         val numberingRuleEntity = numberingRuleRepository.save(
             NumberingRuleEntity(
@@ -150,7 +163,7 @@ class NumberingRuleService(
             count++
         }
 
-        return status
+        return NumberingRuleConstants.Status.STATUS_SUCCESS.code
     }
 
     /**

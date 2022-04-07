@@ -1624,6 +1624,7 @@ rule:
     searchPlaceholder: "Document Number"
     selectSequence: "It must contain at least one sequence."
     usedRule: "This document number is being used."
+    duplicateRulePattern: "Duplicate document number pattern. Please choice other pattern."
 
 # Product
 product:
