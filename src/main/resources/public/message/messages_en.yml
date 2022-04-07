@@ -1453,7 +1453,7 @@ user:
     rePassword: "rePassword"
     register: "User Register"
     role: "User Role"
-    searchPlaceholder: "Name/ID/Dept/Position/officeNum/mobileNum"
+    searchPlaceholder: "Name / ID / Dept / Position / officeNum / mobileNum"
     signUpDate: "SignUp Date"
     substituteUser: "Substitute User"
     userSearchPlaceholder: "ID/Name/Department"
