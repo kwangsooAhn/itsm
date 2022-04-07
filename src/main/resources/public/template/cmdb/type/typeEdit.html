@@ -163,6 +163,9 @@
             // 설명
             const typeDesc = document.getElementById('typeDesc');
             typeDesc.value = responseJson.typeDesc;
+            // 식별자
+            const typeAlias = document.getElementById('typeAlias');
+            typeDesc.value = responseJson.typeDesc;
             // 정렬 순서
             const typeSeq = document.getElementById('typeSeq');
             typeSeq.value = responseJson.typeSeq;
@@ -179,10 +182,10 @@
                 if (document.querySelector('button[name=typeClassSelector]') != null) {
                     document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
                 }
-                document.getElementById('typeAlias').readOnly = true;
                 document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
                 typeName.readOnly = false;
                 typeDesc.readOnly = false;
+                typeAlias.readOnly = false;
                 typeSeq.readOnly = false;
             } else {
                 if (document.querySelector('#btnUpdate') != null) {
@@ -200,6 +203,7 @@
                 document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
                 typeName.readOnly = true;
                 typeDesc.readOnly = true;
+                typeAlias.readOnly = true;
                 typeSeq.readOnly = true;
             }
             onEdit();
