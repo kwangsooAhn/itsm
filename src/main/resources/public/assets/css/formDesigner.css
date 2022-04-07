@@ -7782,6 +7782,9 @@ body.modal-active {
 .z-component .z-element .z-dr-table .z-dr-table-row .z-select .z-select-box.readonly {
   border-bottom: none;
 }
+.z-component .z-element .z-dr-table .z-dr-table-row span {
+  line-height: 1.6;
+}
 .z-component .z-element .z-dr-table .no-data-found-list {
   height: 2.5625rem;
   color: #ABB0B5;

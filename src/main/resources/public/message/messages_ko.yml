@@ -833,6 +833,7 @@ form:
       date: "Date"
       dateTime: "DateTime"
       input: "InputBox"
+      label: "Label"
       time: "Time"
     dataAttribute: "데이터 속성"
     department: "부서"

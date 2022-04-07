@@ -444,7 +444,7 @@ cmdb:
     msg:
       duplicateAlarm: "Duplicate alarm.<br>Please check alarm."
       confirmDeleteAttribute: "Are you sure you want to delete the attribute?"
-      editDescritpion: "Add, view and manage CMDB Class."
+      editDescription: "Add, view and manage CMDB Class."
       enterAttributeList: "Excluding the parent attribute list, there must be at least one own attribute list."
       enterClassName: "Please enter a class name."
       enterClassSeq: "Enter the sort order."
@@ -834,6 +834,7 @@ form:
       dateTime: "DateTime"
       dropdown: "DropDown"
       input: "InputBox"
+      label: "Label"
       time: "Time"
     dataAttribute: "Data Attribute"
     department: "Department"
