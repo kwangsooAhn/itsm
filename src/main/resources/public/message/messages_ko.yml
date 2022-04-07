@@ -1457,7 +1457,7 @@ user:
     rePassword: "재확인 비밀번호"
     register: "사용자 정보 등록"
     role: "사용자 역할"
-    searchPlaceholder: "아이디/이름/부서/직책/전화번호"
+    searchPlaceholder: "이름 / 아이디 / 이메일 / 부서 / 직책 / 사무실번호 / 휴대폰번호"
     signUpDate: "가입일"
     substituteUser: "업무 대리인"
     userSearchPlaceholder: "아이디/이름/부서"
