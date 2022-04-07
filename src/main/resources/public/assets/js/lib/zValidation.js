@@ -382,14 +382,14 @@ class ZValidation {
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             const targetValue = this.getDOMElementValue(target);
-            if (!this.isNumber(Number(targetValue)) && targetValue !== '') {
+            if (!this.isNumber(Number(targetValue))) {
                 console.error('The DOM Element is incorrect. Please check the DOM Element.');
                 return true;
             }
             rtn = targetValue <= Number(maxValue) || targetValue === '';
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.max', maxValue), callback);
         } else { // 변수이면 true인지 false인지만 반환
-            if (!this.isNumber(Number(target)) && target !== '') {
+            if (!this.isNumber(Number(target))) {
                 console.error('The variable is incorrect. Please check the variable.');
                 return true;
             }
