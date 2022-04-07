@@ -196,10 +196,14 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         var assignee = ""
         if (componentMappingId.isNotEmpty()) {
             val componentValueType =
-                if (componentMappingType == WfComponentConstants.ComponentTypeCode.CUSTOM_CODE.code) {
-                    WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
-                } else {
-                    WfComponentConstants.ComponentValueType.STRING.code
+                when (componentMappingType) {
+                    WfComponentConstants.ComponentTypeCode.CUSTOM_CODE.code -> {
+                        WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
+                    }
+                    WfComponentConstants.ComponentTypeCode.USER_SEARCH.code -> {
+                        WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
+                    }
+                    else -> WfComponentConstants.ComponentValueType.STRING.code
                 }
             assignee = wfTokenManagerService.getComponentValue(
                 token.tokenId,
@@ -221,7 +225,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         var assigneeAbsence = assignee
         if (assignee.isNotEmpty()) {
             val userEntity = wfTokenManagerService.getUserInfo(assignee)
-            if (userEntity.absenceYn) {
+            if (userEntity != null && userEntity.absenceYn) {
                 userEntity.userCustomEntities.forEach { custom ->
                     if (custom.customType == UserConstants.UserCustom.USER_ABSENCE.code) {
                         val absenceInfo = wfTokenManagerService.getAbsenceInfo(custom)

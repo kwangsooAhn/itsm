@@ -223,11 +223,15 @@ class ZFormTokenTab {
             body: viewerModalTemplate.content.cloneNode(true),
             classes: 'sub-user-modal',
             buttons: [{
-                content: i18n.msg('common.btn.check'),
+                content: i18n.msg('common.btn.select'),
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    const substituteUserList = document.getElementById('substituteUserList');
+                    if (this.viewerList.length === 0) {
+                        zAlert.warning(i18n.msg('token.msg.selectViewer'));
+                        return false;
+                    }
+                    const substituteUserList = document.getElementById('subUserList');
                     const selectedViewerList = substituteUserList.querySelectorAll('input[type=checkbox]:checked');
                     const clonedViewerList = JSON.parse(JSON.stringify(this.viewerList));
                     const saveViewerData = [];
@@ -276,6 +280,7 @@ class ZFormTokenTab {
                         viewers: saveViewerData
                     }
                     this.saveViewer(data);
+
                     modal.hide();
                 }
             }, {
@@ -303,21 +308,20 @@ class ZFormTokenTab {
      * @param showProgressbar
      */
     getViewerList(search, showProgressbar) {
-        let strUrl = '/users/view-pop/users?search=' + encodeURIComponent(search.trim())
+        let strUrl = '/users/substituteUsers?search=' + encodeURIComponent(search.trim())
             + '&from=&to=&userKey=' + ZSession.get('userKey')
             + '&multiSelect=true';
         aliceJs.fetchText(strUrl, {
             method: 'GET',
             showProgressbar: showProgressbar
         }).then((htmlData) => {
-            document.getElementById('subUserList').innerHTML = htmlData;
-            OverlayScrollbars(document.getElementById('substituteUserList'), {className: 'scrollbar'});
+            const viewerList = document.getElementById('subUserList');
+            viewerList.innerHTML = htmlData;
+            OverlayScrollbars(viewerList, {className: 'scrollbar'});
             // 갯수 가운트
-            const substituteUserList = document.getElementById('substituteUserList');
-            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
-
+            aliceJs.showTotalCount(viewerList.querySelectorAll('.z-table-row').length);
             this.viewerList.forEach((viewer) => {
-                const checkElem = substituteUserList.querySelector('input[id="' + viewer.viewerKey + '"]');
+                const checkElem = viewerList.querySelector('input[id="' + viewer.viewerKey + '"]');
                 if (checkElem) {
                     checkElem.checked = true;
                     // 읽음일 경우 편집 불가능
@@ -326,7 +330,7 @@ class ZFormTokenTab {
                     }
                 }
             });
-            const checkboxList = document.querySelectorAll('input[name=substituteUser]')
+            const checkboxList = viewerList.querySelectorAll('input[name=userName]')
             checkboxList.forEach((checkbox) => {
                 checkbox.addEventListener('click', (e) => {
                     if(e.target.checked) {
@@ -402,6 +406,10 @@ class ZFormTokenTab {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
+                    if (this.relatedDocList.length === 0) {
+                        zAlert.warning(i18n.msg('token.msg.selectToken'));
+                        return false;
+                    }
                     this.saveRelatedDoc();
                     modal.hide();
                 }
@@ -475,32 +483,28 @@ class ZFormTokenTab {
      * 관련 문서 저장 : 선택한 문서를 관련문서로 저장
      */
     saveRelatedDoc() {
-        if (this.relatedDocList.length === 0) {
-            zAlert.warning(i18n.msg('token.msg.selectToken'));
-        } else {
-            let data = {
-                instanceId: this.instanceId,
-                documentId: this.documentId
-            }
-
-            data.folders = this.relatedDocList;
-            aliceJs.fetchText('/rest/folders', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then((result) => {
-                if (result !== '') {
-                    this.folderId = result;
-                    this.reloadRelatedInstance().then(() => {
-                        // 날짜 표기 변경
-                        this.setDateTimeFormat();
-                    });
-                }
-                this.relatedDocList = [] // 저장후 검색리스트 초기화
-             });
+        let data = {
+            instanceId: this.instanceId,
+            documentId: this.documentId
         }
+
+        data.folders = this.relatedDocList;
+        aliceJs.fetchText('/rest/folders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((result) => {
+            if (result !== '') {
+                this.folderId = result;
+                this.reloadRelatedInstance().then(() => {
+                    // 날짜 표기 변경
+                    this.setDateTimeFormat();
+                });
+            }
+            this.relatedDocList = [] // 저장후 검색리스트 초기화
+        });
     }
     /**
      * 관련 문서 삭제

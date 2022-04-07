@@ -104,6 +104,7 @@
                     noDisplayNotification.forEach(function (element) {
                         showNotification({
                             notificationId: element.id,
+                            notificationType: element.getAttribute('notification-type'),
                             tokenId: element.getAttribute('token-id'),
                             title: element.querySelector('.z-title').innerHTML,
                             date: element.querySelector('.z-date').textContent,
@@ -118,6 +119,7 @@
 
         // show notification popup.
         function showNotification(param) {
+            console.log(param);
             let text = '<div class="icon float-left"></div>' +
                 '<div class="content float-left"><div class="title">' + param.title + '</div>' +
                 '<div class="message text-ellipsis">' + param.message + '</div>' +
@@ -135,7 +137,12 @@
                     updateNotification(param.notificationId, 'display');
                 },
                 onClick: function() {
-                    openTokenPage(param.notificationId, param.tokenId);
+                    // 문서 알림일 경우만 팝업 호출
+                    if (param.notificationType === 'document') {
+                        openTokenPage(param.notificationId, param.tokenId);
+                    } else {
+                        updateNotification(param.notificationId, 'confirm');
+                    }
                 }
             }).callToast();
         }

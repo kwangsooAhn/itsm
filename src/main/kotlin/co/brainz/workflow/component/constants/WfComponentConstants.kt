@@ -24,6 +24,7 @@ object WfComponentConstants {
         FILEUPLOAD("fileUpload"),
         CUSTOM_CODE("customCode"),
         DR_TABLE("dynamicRowTable"),
+        USER_SEARCH("userSearch"),
         CI("ci");
     }
 
@@ -66,4 +67,6 @@ object WfComponentConstants {
     enum class ComponentPropertyType(val code: String) {
         ELEMENT("element")
     }
+
+    const val DEFAULT_VALUE = "\${default}"
 }

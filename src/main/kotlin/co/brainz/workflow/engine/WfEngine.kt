@@ -30,7 +30,9 @@ class WfEngine(
     @Transactional
     fun startWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.info("Start Workflow : {}", tokenDto.documentName)
-
+        // 참조인, 댓글, 태그 입력시 임시로 등록된 데이터가 존재할 경우가 있으므로 삭제한 후 다시 시작 이벤트를 생성한다.
+        wfTokenManagerService.deleteTokenByInstanceId(tokenDto.instanceId)
+        
         val instance = wfTokenManagerService.createInstance(tokenDto)
         val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
         tokenDto.instanceId = instance.instanceId

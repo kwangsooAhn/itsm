@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/itsm/pageType/pagingListLayout">
 <head>
-    <title th:text="#{document.label.businessFlow}"></title>
+    <title th:text="#{document.label.workFlow}"></title>
 </head>
 <th:block layout:fragment="pageHead">
     <script th:src="@{/assets/js/lib/zColorPicker.js}"></script>
@@ -12,7 +12,7 @@
 </th:block>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{document.label.businessFlow}"></h1>
+    <h1 th:text="#{document.label.workFlow}"></h1>
     <h6 class="description ml-2 pl-2" th:text="#{document.msg.adminSearchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
@@ -100,14 +100,14 @@
         if (isEmpty(prefix + 'DocumentForm', 'document.msg.selectForm')) { return false; }
         if (isEmpty(prefix + 'DocumentProcess','document.msg.selectProcess')) { return false; }
         if (isEmpty(prefix + 'NumberingRule', 'document.msg.selectNumberingRule')) { return false; }
-        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterBusinessFlowColor')) { return false; }
+        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
 
         return true;
     }
     // 신청서 링크 전용 유효성검사
     function emptyValidationForDocumentLink(prefix) {
         if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
-        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterBusinessFlowColor')) { return false; }
+        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
         if (isEmpty(prefix + 'Url', 'document.msg.enterDocumentLink')) { return false; }
         if (!isUrl(prefix + 'Url','document.msg.checkUrlLink')) { return false; }
 
@@ -189,12 +189,12 @@
         const prefix = getPrefixForId(documentType.value);
         aliceJs.thumbnail({
             title: i18n.msg('document.label.icon'),
-            targetId: prefix + 'DocumentColor',
+            targetId: prefix + 'DocumentIcon',
             type: 'icon',
             isThumbnailInfo: false,
             isFilePrefix: false,
             thumbnailDoubleClickUse: true,
-            selectedPath: document.getElementById(prefix + 'DocumentColor').value,
+            selectedPath: document.getElementById(prefix + 'DocumentIcon').value,
         });
     }
 
@@ -238,7 +238,7 @@
             method: 'GET'
         }).then((htmlData) => {
             let modalOptions = {
-                title: (documentId !== undefined) ? i18n.msg('document.label.edit') : i18n.msg('document.label.write'),
+                title: i18n.msg('document.label.write'),
                 body: htmlData,
                 classes: 'document-edit',
                 buttons: [{
@@ -295,13 +295,16 @@
                         }
                     });
                     aliceJs.initDesignedSelectTag();
+
+                    // 수정일 경우 타입에 따라 모달 제목 변경
+                    if (documentId !== undefined) document.querySelector('.modal-header').innerHTML = (documentType === 'workflow') ? i18n.msg('document.label.workFlowEdit') : i18n.msg('document.label.registerEdit');
                 }
             }
 
             // 수정일 경우 신청서 양식 편집 버튼 추가
             if (documentId !== undefined && !isDocumentLink ) {
                 modalOptions.buttons.splice(1, 0, {
-                    content: i18n.msg('document.label.display'),
+                    content: i18n.msg('document.label.registerDisplay'),
                     classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
@@ -323,7 +326,7 @@
             method: 'GET'
         }).then((htmlData) => {
             let modalOptions = {
-                title: i18n.msg('document.label.display'),
+                title: i18n.msg('document.label.registerDisplay'),
                 body: htmlData,
                 classes: 'document-display',
                 buttons: [{
@@ -442,7 +445,7 @@
     function checkValidationForImportWorkflow(prefix) {
         if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
         if (isEmpty(prefix + 'NumberingRule', 'document.msg.selectNumberingRule')) { return false; }
-        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterBusinessFlowColor')) { return false; }
+        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
         if (isEmpty('formName', 'form.msg.enterFormName')) { return false; }
         if (isEmpty('processName', 'process.msg.enterProcessName')) { return false; }
         if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {

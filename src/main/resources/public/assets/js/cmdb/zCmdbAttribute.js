@@ -187,6 +187,7 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
+        aliceJs.initDesignedSelectTag();
     }
 
     /**
@@ -222,9 +223,16 @@
                 `<input type="text" class="z-input" maxlength="50" required="true" required ` +
                 `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
-                `<div class="flex-column col-1"><label>` +
-                `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
-                `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
+                `<div class="flex-column col-1">` +
+                `<label>` +
+                `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span>` +
+                `<span class="required"></span>` +
+                `</label>` +
+                `</div>` +
+                `<div class="flex-column col-5">` +
+                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
+                `</div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
                 `<span class="z-icon i-delete"></span>` +
@@ -480,7 +488,6 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
-
         aliceJs.initDesignedSelectTag();
 
         // custom-code 변경 시 데이터 변경
@@ -707,6 +714,7 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
+        aliceJs.initDesignedSelectTag();
 
         const minDateElement = document.getElementById(objectId + '-minDate');
         const maxDateElement = document.getElementById(objectId + '-maxDate');
@@ -764,6 +772,7 @@
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
+        aliceJs.initDesignedSelectTag();
 
         const minDateTimeElement = document.getElementById(objectId + '-minDateTime');
         const maxDateTimeElement = document.getElementById(objectId + '-maxDateTime');
@@ -875,7 +884,7 @@
     function checkDuplicate(type) {
         let isValid = true;
         if (type === 'dropdown' || type === 'radio' || type === 'checkbox') {
-            let detailsObject = document.querySelectorAll('#details > .flex-row:not(:first-child)');
+            let detailsObject = document.querySelectorAll('#details .flex-row');
             let labels = [];
             let values = [];
             for (let i = 0, len = detailsObject.length; i < len; i++) {

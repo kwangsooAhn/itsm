@@ -693,9 +693,11 @@ CREATE TABLE awf_notification
 	received_user varchar(128) NOT NULL,
 	title varchar(128) NOT NULL,
 	message varchar(1024),
+	notification_type varchar(128) DEFAULT 'document',
 	instance_id varchar(128),
 	confirm_yn boolean DEFAULT 'false',
 	display_yn boolean DEFAULT 'false',
+	target varchar(100) DEFAULT 'zitsm',
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -708,9 +710,11 @@ COMMENT ON COLUMN awf_notification.notification_id IS '알림아이디';
 COMMENT ON COLUMN awf_notification.received_user IS '수신사용자';
 COMMENT ON COLUMN awf_notification.title IS '제목';
 COMMENT ON COLUMN awf_notification.message IS '메시지';
+COMMENT ON COLUMN awf_notification.notification_type IS '알림타입';
 COMMENT ON COLUMN awf_notification.instance_id IS '인스턴스아이디';
 COMMENT ON COLUMN awf_notification.confirm_yn IS '확인여부';
 COMMENT ON COLUMN awf_notification.display_yn IS '표시여부';
+COMMENT ON COLUMN awf_notification.target IS '대상 시스템';
 COMMENT ON COLUMN awf_notification.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_notification.create_dt IS '등록일';
 COMMENT ON COLUMN awf_notification.update_user_key IS '수정자';
@@ -967,6 +971,7 @@ insert into awf_scheduled_task_mst values ('4028b2647a9890d5017a98a94efb0000', '
 insert into awf_scheduled_task_mst values ('4028b2647aadd869017aadf4cf830000', 'Access Token 삭제', 'query', '기간이 초과된 access token 을 삭제한다.', 'TRUE', 'FALSE', null, 'delete from awf_api_token
 where create_dt < now() - interval ''10day''', null, 'cron', null, '0 0 18 * * ?', null, null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_scheduled_task_mst values ('4028b21e7c286680017c2868d9600000', '보고서 자동 생성', 'jar', '보고서 템플릿의 옵션 중, "자동 생성" 옵션이 설정된 템플릿을 수집하여, 보고서에 대한 자동 생성을 진행한다.', 'TRUE', 'FALSE', null, null, 'java -jar createReport.jar', 'cron', null, '0 0 18 * * ?', null, '/createReport', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_scheduled_task_mst values ('4028b2647fbed869039fdce4cf870321', 'IF 테이블 모니터링 - 외부시그널', 'jar', 'IF 모니터링 플러그인 연동을 통해 rest API 통신을 진행한다.(IF 테이블 설정 필요)', 'TRUE', 'FALSE', null, null, 'java -jar ifMonitoring.jar', 'cron', null, '0 0/5 * * * ?', null, '/ifMonitoring', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 타임존정보
@@ -1225,6 +1230,8 @@ insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'get', 'CI 컴포넌트 
 insert into awf_url values ('/rest/cmdb/cis/{id}/relation', 'get', 'CI 연관 관계 데이터 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/data', 'delete', 'CI 컴포넌트 - CI 세부 정보 삭제', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/excel', 'post', 'CI 조회 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis/template', 'get', 'CI 일괄 등록 템플릿 다운로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis/templateUpload', 'post', 'CI 일괄 등록 템플릿 업로드', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
@@ -1407,7 +1414,8 @@ insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 �
 insert into awf_url values ('/users/{userkey}/view', 'get', '사용자 정보 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editself', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
-insert into awf_url values ('/users/view-pop/users', 'get', '업무 대리인 모달 리스트 화면', 'FALSE');
+insert into awf_url values ('/users/substituteUsers', 'get', '업무 대리인 모달 리스트 화면', 'FALSE');
+insert into awf_url values ('/users/searchUsers', 'get', '사용자 검색 모달 리스트 화면', 'FALSE');
 insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', 'FALSE');
 insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음에 변경하기', 'FALSE');
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
@@ -1578,6 +1586,10 @@ insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.view');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/template', 'get', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/template', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/templateUpload', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/templateUpload', 'post', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'post', 'cmdb.manage');
@@ -7929,7 +7941,7 @@ insert into cmdb_type values ('4028b88179210e1b017921a355c10070', '4028b88179210
 insert into cmdb_type values ('4028b88179210e1b017921a2b43a006f', '4028b88179210e1b0179219878cd0062', '파수닷컴', '파수닷컴 Type입니다.', 'FASOO', 2, 130, '4028b88179210e1b0179216f773b0040', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
 insert into cmdb_type values ('4028b88179210e1b0179219f9e5c006a', '4028b88179210e1b0179219878cd0062', '지니안', '지니안 Type입니다.', 'Genians', 2, 140, '4028b88179210e1b0179216a760a0039', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
 insert into cmdb_type values ('4028b88179210e1b0179219d58e20066', '4028b88179210e1b0179219878cd0062', '안랩', '안랩 Type입니다.', 'Ahnlab', 2, 150, '4028b88179210e1b017921651e3d0035', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921279d29000f', '4028b88179210e1b017921277022000e', 'Linux ', 'Linux Type입니다.', 'Linux', 2, 10, '4028b88179210e1b0179211eb65d0006', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921279d29000f', '4028b88179210e1b017921277022000e', 'Linux', 'Linux Type입니다.', 'Linux', 2, 10, '4028b88179210e1b0179211eb65d0006', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
 insert into cmdb_type values ('4028b88179210e1b0179217894fd0046', '4028b88179210e1b017921277022000e', 'HPUX', 'HPUX Type입니다.', 'HPUX', 2, 20, '4028b88179210e1b01792123742e0009', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
 insert into cmdb_type values ('4028b88179210e1b01792127ed690010', '4028b88179210e1b017921277022000e', 'WinNT', 'WinNT Type입니다.', 'WinNT', 2, 30, '4028b88179210e1b017921201e8f0007', 'image_winnt.png', '0509e09412534a6e98f04ca79abb6424', now());
 insert into cmdb_type values ('4028b88179210e1b0179217906d10047', '4028b88179210e1b017921277022000e', 'Solaris', 'Solaris Type입니다.', 'Solaris', 2, 40, '4028b88179210e1b017921242450000a', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
@@ -8640,6 +8652,8 @@ insert into awf_code_lang values ('customCode.sessionKey.position', 'Position', 
 insert into awf_code_lang values ('customCode.sessionKey.departmentName', 'Department', 'en');
 insert into awf_code_lang values ('customCode.sessionKey.officeNumber', 'Office Number', 'en');
 insert into awf_code_lang values ('customCode.sessionKey.mobileNumber', 'Mobile', 'en');
+insert into awf_code_lang values ('customCode.type.table', 'table', 'en');
+insert into awf_code_lang values ('customCode.type.code', 'code', 'en');
 
 /**
  * 사용자 지정 테이블
@@ -8823,7 +8837,7 @@ COMMENT ON COLUMN awf_organization.create_dt IS '등록일';
 COMMENT ON COLUMN awf_organization.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_organization.update_dt IS '수정일';
 
-insert into awf_organization values ('4028b2d57d37168e017d3716cgf00000', null, '조직구성', null, true, 0, 0, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_organization values ('4028b2d57d37168e017d3716cgf00000', null, '전체', null, true, 0, 0, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3715fae00002', '4028b2d57d37168e017d3716cgf00000', '본부 1', null, true, 1, 1, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3713bb430003', '4028b2d57d37168e017d3716cgf00000', '본부 2', null, true, 1, 2, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_organization values ('4028b2d57d37168e017d3715fae00004', '4028b2d57d37168e017d3716cgf00000', '본부 3', null, true, 1, 3, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -8916,7 +8930,7 @@ COMMENT ON COLUMN wf_instance_viewer.create_dt IS '수정일시';
 /**
   대시보드 템플릿
  */
-DROP TABLE IF EXISTS awf_dashboard_template  cascade;
+DROP TABLE IF EXISTS awf_dashboard_template cascade;
 
 CREATE TABLE awf_dashboard_template
 (
@@ -9028,6 +9042,7 @@ INSERT INTO awf_dashboard_template VALUES ('template-001', '부서별 요청현�
     }
   ]
 }', 'KB 저축은행에서 만든 첫 번째 템플릿');
+
 /**
  * 플러그인 테이블
  */
@@ -9083,3 +9098,26 @@ COMMENT ON COLUMN awf_plugin_history.plugin_data IS '플러그인 데이터';
 -- public.awf_plugin_history foreign keys
 ALTER TABLE awf_plugin_history ADD CONSTRAINT awf_plugin_history_fk FOREIGN KEY (plugin_id) REFERENCES awf_plugin(plugin_id);
 
+/**
+  속성 그룹 알림
+ */
+DROP TABLE IF EXISTS cmdb_class_notification cascade;
+
+CREATE TABLE cmdb_class_notification
+(
+    class_id varchar(128) NOT NULL,
+    attribute_id varchar(128) NOT NULL,
+    attribute_order int NOT NULL,
+    condition text,
+    target_attribute_id varchar(128) NOT NULL,
+    CONSTRAINT cmdb_class_notification_pk PRIMARY KEY (class_id, attribute_id, condition, target_attribute_id),
+    CONSTRAINT cmdb_class_notification_fk1 FOREIGN KEY (class_id) REFERENCES cmdb_class (class_id),
+    CONSTRAINT cmdb_class_notification_fk2 FOREIGN KEY (attribute_id) REFERENCES cmdb_attribute (attribute_id)
+);
+
+COMMENT ON TABLE cmdb_class_notification IS '속성 알람 설정 정보';
+COMMENT ON COLUMN cmdb_class_notification.class_id IS '클래스아이디';
+COMMENT ON COLUMN cmdb_class_notification.attribute_id IS '속성아이디';
+COMMENT ON COLUMN cmdb_class_notification.attribute_order IS '순서';
+COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
+COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';

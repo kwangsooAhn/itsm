@@ -14,12 +14,14 @@ import co.brainz.framework.organization.service.OrganizationService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
+import co.brainz.itsm.user.dto.UserSearchCompCondition
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.service.UserService
 import javax.servlet.http.HttpServletRequest
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -47,6 +49,9 @@ class UserController(
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userPage: String = "user/user"
     private val userListModalPage: String = "user/userListModal"
+
+    @Value("\${spring.mail.enabled}")
+    private val mailEnabled: Boolean = false
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -119,6 +124,7 @@ class UserController(
             UserConstants.UserEdit.EDIT.code -> {
                 model.addAttribute("allRoles", roleService.getAllRoleList())
                 model.addAttribute("userRoles", roleService.getUserRoleList(userKey))
+                model.addAttribute("mailEnabled", mailEnabled)
                 model.addAttribute("view", false)
                 returnUrl = userPage
             }
@@ -136,7 +142,7 @@ class UserController(
     /**
      * 사용자 정보 수정 화면 및 자기정보 수정 화면 대리 근무자 리스트 모달
      */
-    @GetMapping("/view-pop/users")
+    @GetMapping("/substituteUsers")
     fun getSubUsersList(request: HttpServletRequest, model: Model): String {
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
@@ -148,15 +154,29 @@ class UserController(
         return userListModalPage
     }
 
+
+    /**
+     * 사용자 검색 컴포넌트 리스트 모달
+     */
+    @GetMapping("/searchUsers")
+    fun getSearchUsersList(userCompSearchCondition: UserSearchCompCondition, model: Model): String {
+        model.addAttribute("userList", userService.getSearchUserList(userCompSearchCondition).data)
+        model.addAttribute("multiSelect", false)
+        return userListModalPage
+    }
+
     /**
      * 사용자 등록 화면을 호출한다.
      */
     @GetMapping("/new")
-    fun getUserRegister(model: Model): String {
+    fun getUserRegister(request: HttpServletRequest, model: Model): String {
+        request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
+
         val allCodes = userService.getInitCodeList()
         model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
         model.addAttribute("timezoneList", userService.selectTimezoneList())
         model.addAttribute("allRoles", roleService.getAllRoleList())
+        model.addAttribute("mailEnabled", mailEnabled)
         model.addAttribute("themeList", allCodes["themeList"])
         model.addAttribute("langList", allCodes["langList"])
         model.addAttribute("dateList", allCodes["dateList"])

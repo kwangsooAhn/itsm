@@ -143,6 +143,12 @@
             if (typeof this.wrapper !== 'undefined') {
                 addClass(this.wrapper, 'modal-active');
                 addClass(document.body, 'modal-active');
+                const modalDialog = document.querySelector('.modal-dialog');
+                modalDialog.classList.remove('modal-active');
+                this.animation = setTimeout(function() {
+                    clearTimeout(this.animation);
+                    modalDialog.classList.add('modal-active');
+                }, 30);
                 this.display = true;
                 this.options.onShow(this);
             }
@@ -152,9 +158,8 @@
             if (typeof this.wrapper !== 'undefined') {
                 const _this = this;
                 const modalWrapper = this.wrapper;
-                modalWrapper.querySelector('.modal-dialog').style.opacity = '0';
                 modalWrapper.querySelector('.modal-dialog').classList.remove('modal-active');
-                setTimeout(function () {
+                setTimeout(function() {
                     removeClass(modalWrapper, 'modal-active');
                     removeClass(document.body, 'modal-active');
                     _this.options.onHide(_this);
@@ -180,7 +185,7 @@
             if (typeof this.options.classes !== 'undefined' && this.options.classes !== '') {
                 dialog.className += ' ' + this.options.classes;
             }
-            setTimeout(function () {
+            setTimeout(function() {
                 dialog.classList.add('modal-active');
             }, 30);
 
@@ -304,7 +309,7 @@
                 const _this = this;
                 const modalWrapper = this.wrapper;
                 this.wrapper = undefined;
-                setTimeout(function () {
+                setTimeout(function() {
                     document.body.removeChild(modalWrapper);
                     _this.removeKeyListener();
                     _this.options.onDestroy(_this);

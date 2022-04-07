@@ -306,6 +306,7 @@ export const dynamicRowTableMixin = {
                 `${column.columnContent.underline ? 'text-decoration:underline;' : ''}`;
 
             const td = new UICell(row)
+                .addUIClass('align-' + column.columnContent.align)
                 .setUICSSText(tdCssText)
                 .addUI(this.getElementByColumnType(column, columnData[index], index));
             row.addUICell(td);
@@ -341,6 +342,8 @@ export const dynamicRowTableMixin = {
                 return this.getTimeForColumn(column, cellValue, index);
             case 'dateTime':
                 return this.getDateTimeForColumn(column, cellValue, index);
+            case 'label':
+                return this.getLabelForColumn(column);
             default:
                 return new UISpan().setUIInnerHTML(cellValue);
         }
@@ -430,6 +433,16 @@ export const dynamicRowTableMixin = {
             zDateTimePicker.initDateTimePicker(dateTime.domElement, this.updateDateTimeValue.bind(this));
         }
         return dateTimeWrapper;
+    },
+    // column Type - label
+    getLabelForColumn(column) {
+        const label = new UISpan().setUIClass('text-ellipsis')
+            .setUITextContent(column.columnElement.text);
+
+        if (column.columnContent.underline) {
+            label.setUITextDecoration('underline');
+        }
+        return label;
     },
     getDefaultValueForDate(column, cellValue) {
         if (cellValue === '${default}') {
@@ -615,6 +628,7 @@ export const dynamicRowTableMixin = {
         const cellElement = (e.target instanceof HTMLSelectElement) ? e.target.parentNode.parentNode :
             e.target.parentNode;
         newValue[cellElement.parentNode.rowIndex][cellElement.cellIndex] = changeValue;
+
         this.value = newValue;
     },
     updateDateTimeValue(e) {
@@ -626,7 +640,6 @@ export const dynamicRowTableMixin = {
         const cellIndex = e.parentNode.parentNode.parentNode.cellIndex;
         newValue[rowIndex][cellIndex] = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT,
             e.getAttribute('type').replace('Picker', ''), e.value);
-
         this.value = newValue;
     },
     // 플러그인 유효성 검증
@@ -739,6 +752,9 @@ export const dynamicRowTableMixin = {
                 break;
             case 'dateTime':
                 defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
+                break;
+            case 'label':
+                defaultValue = '';
                 break;
             default:
                 break;

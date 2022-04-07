@@ -2045,6 +2045,7 @@ input, button, select, optgroup, textarea {
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-tag {
   margin: 0.625rem 0 0 0;
+  padding-bottom: 1.25rem;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-history {
   height: 100%;
@@ -2520,6 +2521,13 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-input.i-datetime-picker {
   background-image: url("../media/icons/dateTimePicker/icon_date_time_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-user-search {
+  background-image: url("../media/icons/icon_document_user.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
@@ -3405,13 +3413,12 @@ body.modal-active {
   opacity: 1;
 }
 .modal-wrapper .modal-dialog .modal-header {
-  height: 3.875rem;
+  min-height: 3.875rem;
   font-size: 1.5rem;
   font-weight: 500;
   color: #222529;
   padding: 1.25rem;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  line-height: 1.2;
   border-bottom: 2px solid #EBF1F5;
   border-radius: 0.25rem 0.25rem 0 0;
   -webkit-border-radius: 0.25rem 0.25rem 0 0;
@@ -3619,21 +3626,27 @@ body.modal-active {
 .modal-wrapper .modal-dialog.custom-code-list .custom-code-main {
   padding-top: 1.25rem;
 }
-.modal-wrapper .modal-dialog.sub-user-modal {
+.modal-wrapper .modal-dialog.sub-user-modal, .modal-wrapper .modal-dialog.target-user-modal {
   width: 62.5rem;
   height: 53.0625rem;
 }
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content {
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content, .modal-wrapper .modal-dialog.target-user-modal .modal-content {
   height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list {
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list,
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .target-user-list, .modal-wrapper .modal-dialog.target-user-modal .modal-content .sub-user-list,
+.modal-wrapper .modal-dialog.target-user-modal .modal-content .target-user-list {
   margin-top: 0.9375rem;
 }
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set {
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set,
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .target-user-list .table-set, .modal-wrapper .modal-dialog.target-user-modal .modal-content .sub-user-list .table-set,
+.modal-wrapper .modal-dialog.target-user-modal .modal-content .target-user-list .table-set {
   margin-top: 1.875rem;
 }
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body {
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
+.modal-wrapper .modal-dialog.sub-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.target-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
+.modal-wrapper .modal-dialog.target-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body {
   display: block;
   width: 60rem;
   height: 35.313rem;

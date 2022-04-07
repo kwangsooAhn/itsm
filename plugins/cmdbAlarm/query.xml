@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+    <node id = "getCmdbClassList">
+        select class_id
+             , class_name
+             , p_class_id
+             , class_level
+        from cmdb_class
+        order by class_level
+    </node>
+    <node id = "getCmdbClassAttributeMapList">
+        select ccam.class_id
+             , ccam.attribute_id
+             , ca.attribute_name
+             , ca.attribute_text
+             , ca.attribute_type
+             , ccam.attribute_order
+        from cmdb_attribute ca, cmdb_class_attribute_map ccam
+        where ca.attribute_id = ccam.attribute_id
+        and ca.attribute_type in (?)
+        order by class_id asc, attribute_order desc
+    </node>
+    <node id = "getCIList">
+        select cc.ci_id
+             , cc.ci_no
+             , cc.ci_name
+             , cc.ci_status
+             , cc.ci_desc
+             , cc.type_id
+             , ct.class_id
+        from cmdb_ci cc, cmdb_type ct
+        where cc.type_id = ct.type_id
+    </node>
+    <node id = "getCIData">
+        select ccd.ci_id
+             , ccd.attribute_id
+             , ccd.value
+        from cmdb_ci_data ccd, cmdb_attribute ca
+        where ccd.attribute_id = ca.attribute_id
+        and ca.attribute_type in (?)
+        order by ci_id
+    </node>
+    <node id = "getCmdbClassNotificationList">
+        select class_id
+             , attribute_id
+             , attribute_order
+             , condition
+             , target_attribute_id
+        from cmdb_class_notification
+        order by class_id, attribute_order
+    </node>
+    <node id = "insertNotification">
+        insert into awf_notification (notification_id, received_user, title, message, notification_type, create_user_key, create_dt)
+        values (?, ?, ?, ?, ?, ?, ?)
+    </node>
+    <node id = "getUserList">
+        select user_key
+             , user_id
+             , user_name
+             , email
+        from awf_user
+        where user_key in (?)
+    </node>
+</query>

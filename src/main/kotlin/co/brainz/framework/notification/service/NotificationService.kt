@@ -1,11 +1,13 @@
 package co.brainz.framework.notification.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.entity.NotificationEntity
 import co.brainz.framework.notification.mapper.NotificationMapper
 import co.brainz.framework.notification.repository.NotificationRepository
 import org.mapstruct.factory.Mappers
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
@@ -14,6 +16,14 @@ class NotificationService(
     private val notificationRepository: NotificationRepository,
     private val userRepository: AliceUserRepository
 ) {
+    @Value("\${notification.toast.enabled}")
+    lateinit var toast: String
+
+    @Value("\${notification.vendor.enabled}")
+    lateinit var isVendorEnabled: String
+
+    @Value("\${notification.vendor.target}")
+    lateinit var vendorTarget: String
 
     private val notificationMapper: NotificationMapper = Mappers.getMapper(NotificationMapper::class.java)
 
@@ -22,7 +32,15 @@ class NotificationService(
      */
     fun getNotificationList(): List<NotificationDto> {
         val userId = SecurityContextHolder.getContext().authentication.principal as String
-        return notificationRepository.findNotificationList(userId)
+        val notificationList = mutableListOf<NotificationDto>()
+        // 알림 조회 - 문서제외
+        notificationList.addAll(notificationRepository.findNotificationListExceptDocument(userId))
+        // 알림 조회 - 문서용
+        notificationList.addAll(notificationRepository.findNotificationListForDocument(userId))
+        // sort
+        notificationList.sortWith(compareBy<NotificationDto> { it.confirmYn }.thenByDescending { it.createDt })
+        // 갯수 제한
+        return notificationList.take(AliceConstants.NOTIFICATION_SIZE.toInt())
     }
 
     /**
@@ -30,15 +48,26 @@ class NotificationService(
      */
     fun insertNotificationList(notificationDtoList: List<NotificationDto>) {
         val notificationEntityList = mutableListOf<NotificationEntity>()
-        notificationDtoList.forEach { notificationDto ->
-            val userEntity = userRepository.findById(notificationDto.receivedUser).orElse(null)
-            userEntity?.let {
-                val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
-                notificationEntity.receivedUser = userEntity
-                notificationEntityList.add(notificationEntity)
+        if (toast.toLowerCase() == "true") {
+            notificationDtoList.forEach { notificationDto ->
+                val userEntity = userRepository.findById(notificationDto.receivedUser).orElse(null)
+                userEntity?.let {
+                    val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
+                    notificationEntity.receivedUser = userEntity
+                    notificationEntityList.add(notificationEntity)
+
+                    // Insert Notification Data For Vendor
+                    if (isVendorEnabled == "true" && vendorTarget.isNotBlank()) {
+                        val notificationEntity = notificationMapper.toNotificationEntity(notificationDto)
+                        notificationEntity.receivedUser = userEntity
+                        notificationEntity.target = vendorTarget
+                        notificationEntityList.add(notificationEntity)
+                    }
+                }
             }
+
+            notificationRepository.saveAll(notificationEntityList)
         }
-        notificationRepository.saveAll(notificationEntityList)
     }
 
     /**

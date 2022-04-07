@@ -2707,6 +2707,13 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
+.z-input.i-user-search {
+  background-image: url("../media/icons/icon_document_user.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
 .z-input.i-px {
   background-image: url("../media/icons/icon_px.svg");
   background-size: auto;
@@ -6035,13 +6042,12 @@ body.modal-active {
   opacity: 1;
 }
 .modal-wrapper .modal-dialog .modal-header {
-  height: 3.875rem;
+  min-height: 3.875rem;
   font-size: 1.5rem;
   font-weight: 500;
   color: #222529;
   padding: 1.25rem;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  line-height: 1.2;
   border-bottom: 2px solid #EBF1F5;
   border-radius: 0.25rem 0.25rem 0 0;
   -webkit-border-radius: 0.25rem 0.25rem 0 0;

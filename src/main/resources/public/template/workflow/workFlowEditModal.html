@@ -87,7 +87,7 @@
             </select>
             <!-- 업무 흐름 색상 -->
             <label class="field-label" for="applicationDocumentColor">
-                <span th:text="#{document.label.businessFlowColor}"></span>
+                <span th:text="#{document.label.workFlowColor}"></span>
                 <span class="required"></span>
             </label>
             <input type="text" id="applicationDocumentColor" th:value="${documentData?.documentColor}"/>
@@ -95,8 +95,10 @@
             <label class="field-label" for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
             <div class="flex-row z-input-button">
                 <input type="text" id="applicationDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
-                <span class="z-icon i-remove" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
-                <button type="button" class="z-button-search z-button form" th:text="#{common.btn.select}" th:onclick="openIcon();"></button>
+                <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
+                    <span class="z-icon i-remove"></span>
+                </button>
+                <button type="button" class="z-button-search z-button form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
             </div>
         </div>
         <!-- 업무흐름 구분 :  업무흐름 -->
@@ -155,7 +157,7 @@
             </select>
             <!-- 업무 흐름 색상 -->
             <label class="field-label" for="workflowDocumentColor">
-                <span th:text="#{document.label.businessFlowColor}"></span>
+                <span th:text="#{document.label.workFlowColor}"></span>
                 <span class="required"></span>
             </label>
             <input type="text" id="workflowDocumentColor" th:value="${documentData?.documentColor}"/>
@@ -178,7 +180,7 @@
             </div>
             <!-- 업무 흐름 색상 -->
             <label class="field-label" for="linkDocumentColor">
-                <span th:text="#{document.label.businessFlowColor}"></span>
+                <span th:text="#{document.label.workFlowColor}"></span>
                 <span class="required"></span>
             </label>
             <input type="text" id="linkDocumentColor" th:value="${documentData?.documentColor}"/>
@@ -186,8 +188,10 @@
             <label class="field-label" for="linkDocumentIcon" th:text="#{document.label.icon}"></label>
             <div class="flex-row z-input-button">
                 <input type="text" id="linkDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
-                <span class="z-icon i-remove" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
-                <button type="button" class="z-button-search z-button form" th:text="#{common.btn.select}" th:onclick="openIcon();"></button>
+                <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
+                    <span class="z-icon i-remove"></span>
+                </button>
+                <button type="button" class="z-button-search z-button form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
             </div>
         </div>
     </div>

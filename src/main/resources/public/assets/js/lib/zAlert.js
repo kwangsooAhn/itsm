@@ -76,8 +76,12 @@ zAlert.danger = function (message, callbackFunc) {
  *
  * @param message message
  * @param okCallbackFunc ok 시 callback function
+ * @param cancelCallbackFunc cancel 시 callback function
  */
 zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
+    const target = event.target;
+    target.blur();
+
     const myModal = new modal({
         message: message,
         body: `<div class="z-alert-dialog"><div class="z-alert-body z-alert-icon-confirm">

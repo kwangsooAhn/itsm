@@ -112,6 +112,10 @@ function zTag(inputElement, userSettings, tagifySettings) {
         tagging.on('remove', (function (tag) {
             aliceJs.fetchText(TAG_URL + '/' + tag.detail.data.tagId, {
                 method: 'DELETE'
+            }).then(() => {
+                let tagArray = tag.detail.tagify.value;
+                let index = tagArray.indexOf(tag.detail.data.value);
+                tagArray.splice(index,1);
             });
         }));
     }

@@ -148,6 +148,8 @@ insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'get', 'CI 컴포넌트 
 insert into awf_url values ('/rest/cmdb/cis/{id}/relation', 'get', 'CI 연관 관계 데이터 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/data', 'delete', 'CI 컴포넌트 - CI 세부 정보 삭제', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/excel', 'post', 'CI 조회 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis/template', 'get', 'CI 일괄 등록 템플릿 다운로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis/templateUpload', 'post', 'CI 일괄 등록 템플릿 업로드', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
@@ -330,7 +332,8 @@ insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 �
 insert into awf_url values ('/users/{userkey}/view', 'get', '사용자 정보 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editself', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
-insert into awf_url values ('/users/view-pop/users', 'get', '업무 대리인 모달 리스트 화면', 'FALSE');
+insert into awf_url values ('/users/substituteUsers', 'get', '업무 대리인 모달 리스트 화면', 'FALSE');
+insert into awf_url values ('/users/searchUsers', 'get', '사용자 검색 모달 리스트 화면', 'FALSE');
 insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', 'FALSE');
 insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음에 변경하기', 'FALSE');
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
