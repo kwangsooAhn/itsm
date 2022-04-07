@@ -229,7 +229,7 @@
           }
         }
 
-        .z-button-icon {
+        .z-button-icon:not(.z-button-code) {
           padding: 0;
           .z-icon {
             display: inline-block;
