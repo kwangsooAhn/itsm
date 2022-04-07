@@ -126,7 +126,7 @@ class NumberingRuleService(
         var count = 0
 
         // Duplicate check
-        val numberingRulePatternMapResult = numberingRulePatternMapRepository.findAllByNumberingPatternIn(numberingRuleDto.patternList)
+        val numberingRulePatternMapResult = numberingRulePatternMapRepository.findAllByNumberingPatternIn(numberingRuleDto.patternList, numberingRuleDto.numberingId)
         val numberingGrouping = numberingRulePatternMapResult!!.results.groupBy { it.numberingRule }
         for (numbering in numberingGrouping) {
             var order = 0

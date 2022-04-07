@@ -11,5 +11,5 @@ import co.brainz.itsm.numberingRule.entity.NumberingRulePatternMapEntity
 import com.querydsl.core.QueryResults
 
 interface NumberingRulePatternMapRepositoryCustom : AliceRepositoryCustom {
-    fun findAllByNumberingPatternIn(patternList: MutableList<String>): QueryResults<NumberingRulePatternMapEntity>?
+    fun findAllByNumberingPatternIn(patternList: MutableList<String>, numberingId: String): QueryResults<NumberingRulePatternMapEntity>?
 }
