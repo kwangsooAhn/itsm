@@ -835,6 +835,7 @@ form:
       input: "InputBox"
       label: "Label"
       time: "Time"
+      userSearch: "User Search"
     dataAttribute: "Data Attribute"
     department: "Department"
     default:

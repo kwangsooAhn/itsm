@@ -835,6 +835,7 @@ form:
       input: "InputBox"
       label: "Label"
       time: "Time"
+      userSearch: "User Search"
     dataAttribute: "데이터 속성"
     department: "부서"
     default:
