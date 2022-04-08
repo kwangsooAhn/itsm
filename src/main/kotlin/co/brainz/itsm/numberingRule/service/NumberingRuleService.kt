@@ -123,20 +123,12 @@ class NumberingRuleService(
      */
     @Transactional
     fun saveNumberingRule(numberingRuleDto: NumberingRuleDto): String {
+        var status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
         var count = 0
 
         // Duplicate check
-        val numberingRulePatternMapResult = numberingRulePatternMapRepository.findAllByNumberingPatternIn(numberingRuleDto.patternList, numberingRuleDto.numberingId)
-        val numberingGrouping = numberingRulePatternMapResult!!.results.groupBy { it.numberingRule }
-        for (numbering in numberingGrouping) {
-            var order = 0
-            val numberingGroupingList = numbering.value
-            for (pattern in numberingGroupingList) {
-                if (numberingRuleDto.patternList[order] == pattern.numberingPattern.patternId && order == pattern.patternOrder) { order++ }
-            }
-            if (numberingRuleDto.patternList.size == order) {
-                return NumberingRuleConstants.Status.STATUS_ERROR_DUPLICATION.code
-            }
+        if (!this.duplicateCheck(numberingRuleDto)) {
+            status = NumberingRuleConstants.Status.STATUS_ERROR_DUPLICATION.code
         }
 
         val numberingRuleEntity = numberingRuleRepository.save(
@@ -163,7 +155,7 @@ class NumberingRuleService(
             count++
         }
 
-        return NumberingRuleConstants.Status.STATUS_SUCCESS.code
+        return status
     }
 
     /**
@@ -336,5 +328,30 @@ class NumberingRuleService(
         }
 
         return value
+    }
+    /**
+     * 문서번호 등록/수정 시 패턴 중복 체크
+     */
+    fun duplicateCheck(numberingRuleDto: NumberingRuleDto): Boolean {
+        val numberingRulePatternMapResult = numberingRulePatternMapRepository.findAllByNumberingPatternIn(
+            numberingRuleDto.patternList,
+            numberingRuleDto.numberingId
+        )
+        if (numberingRulePatternMapResult != null) {
+            val numberingGrouping = numberingRulePatternMapResult.results.groupBy { it.numberingRule }
+            for (numbering in numberingGrouping) {
+                var order = 0
+                val numberingGroupingList = numbering.value
+                for (pattern in numberingGroupingList) {
+                    if (numberingRuleDto.patternList[order] == pattern.numberingPattern.patternId && order == pattern.patternOrder) {
+                        order++
+                    }
+                }
+                if (numberingRuleDto.patternList.size == order) {
+                    return false
+                }
+            }
+        }
+        return true
     }
 }
