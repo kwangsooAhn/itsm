@@ -93,18 +93,27 @@ export const propertyExtends = {
             minDateTime: '',
             maxDateTime: ''
         }
+    },
+    fieldCommon: {
+        field: '',
+        alias: '',
+        columnWidth: '12', // 컬럼 너비
     }
 };
 
 export default class ZColumnProperty extends ZProperty {
-    constructor(key, name, value, isAlwaysEditable) {
-        super(key, name, 'columnProperty', value, isAlwaysEditable);
+    constructor(key, name, type, value, isAlwaysEditable) {
+        super(key, name, type, value, isAlwaysEditable);
 
         this.tabs = [];
         this.panels = [];
         this.selectedTabId = '';
 
         this.validationStatus = true;
+
+        this.isDefault = (this.type === FORM.COLUMN_PROPERTY.COLUMN);
+        console.log(this.type);
+        console.log(this.isDefault);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -147,11 +156,18 @@ export default class ZColumnProperty extends ZProperty {
     // 컬럼 추가
     addColumn(option, index) {
         if (index === -1 ) { index = this.value.length; }
-        // 공통 컬럼 옵션
-        const commonColumnOption = Object.assign({}, propertyExtends.columnCommon, option);
-        const resetColumn = JSON.parse(JSON.stringify(propertyExtends[commonColumnOption.columnType]));
-        // 열 속성 기본 값 조회
-        const columnOption = aliceJs.mergeObject(resetColumn, commonColumnOption);
+
+        let columnOption;
+        if (this.isDefault) {
+            console.log('default');
+            const commonColumnOption = Object.assign({}, propertyExtends.columnCommon, option);
+            const resetColumn =  JSON.parse(JSON.stringify(propertyExtends[commonColumnOption.columnType]));
+            columnOption = aliceJs.mergeObject(resetColumn, commonColumnOption);
+        } else {
+            console.log('field');
+            columnOption = Object.assign({}, propertyExtends.fieldCommon, option);
+        }
+
         // tab 버튼
         const tab = new UIButton()
             .setUIClass('z-button-icon')
@@ -166,9 +182,16 @@ export default class ZColumnProperty extends ZProperty {
             .setUIClass('z-panel')
             .setUIId('column' + index)
             .setUIDisplay('none');
-        panel.UICommon = this.addColumnForColumnCommon(columnOption, index); // 컬럼 공통 속성
-        panel.UIColumn = this.addColumnForColumnType(columnOption, index); // 입력 유형별 속성
-        panel.addUI(panel.UICommon).addUI(panel.UIColumn);
+
+        // 컬럼 공통 속성
+        panel.UICommon = this.addColumnForColumnCommon(columnOption, index);
+        panel.addUI(panel.UICommon);
+        // 입력 유형별 속성
+        if (this.isDefault) {
+            panel.UIColumn = this.addColumnForColumnType(columnOption, index);
+            panel.addUI(panel.UIColumn);
+        }
+
         this.UITabPanel.panelGroup.addUI(panel);
         this.panels.push(panel);
 
@@ -210,7 +233,9 @@ export default class ZColumnProperty extends ZProperty {
             arrowRightButton,
             deleteButton
         );
-        const property = this.getPropertyForColumnCommon(option, 'column' + index);
+        const property = this.isDefault
+            ? this.getPropertyForColumnCommon(option, 'column' + index)
+            : this.getPropertyForFieldCommon(option, 'column' + index);
         this.makePropertyRecursive(columnCommonGroup, property);
         return columnCommonGroup;
     }
@@ -519,6 +544,25 @@ export default class ZColumnProperty extends ZProperty {
             new ZGroupProperty('group.validation')
                 .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.minDateTime', 'validation.minDateTime', option.columnValidation.minDateTime, FORM.DATE_TYPE.DATETIME_PICKER))
                 .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxDateTime', 'validation.maxDateTime', option.columnValidation.maxDateTime, FORM.DATE_TYPE.DATETIME_PICKER))
+        ];
+    }
+    // 필드 세부 속성
+    getPropertyForFieldCommon(option, id) {
+        // head - field
+        const fieldInputProperty = new ZInputBoxProperty(id + '|field', 'element.field', option.field)
+            .setValidation(true, '', '', '', '', '');
+        fieldInputProperty.columnWidth = '6';
+
+        // head - alias
+        const aliasProperty = new ZInputBoxProperty(id + '|columnName', 'element.columnName', option.alias)
+            .setValidation(true, '', '', '', '', '');
+        aliasProperty.columnWidth = '6';
+
+        return [
+            new ZGroupProperty('group.sort')
+                .addProperty(fieldInputProperty)
+                .addProperty(aliasProperty)
+                .addProperty(new ZSliderProperty(id + '|columnWidth', 'element.columnWidth', option.columnWidth))
         ];
     }
     // 입력 유형 타입 변경

@@ -674,7 +674,7 @@ export const dynamicRowTableMixin = {
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('element.columns')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZColumnProperty('elementColumns', '', this.elementColumns)),
+                .addProperty(new ZColumnProperty('elementColumns', '', FORM.COLUMN_PROPERTY.COLUMN, this.elementColumns)),
             new ZGroupProperty('plugin.button')
                 .addProperty(new ZSwitchProperty('pluginUseYn', 'plugin.button', this.pluginUseYn))
                 .addProperty(new ZSwitchProperty('pluginRequired', 'validation.required', this.pluginRequired))
