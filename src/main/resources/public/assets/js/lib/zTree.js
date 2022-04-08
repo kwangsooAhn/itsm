@@ -613,7 +613,7 @@
      * @return {Element}
      */
     function getTreeSelectNode() {
-        return document.querySelector('.node_selected');
+        return document.querySelector('.node_selected, .modal_node_selected');
     }
 
     /**
