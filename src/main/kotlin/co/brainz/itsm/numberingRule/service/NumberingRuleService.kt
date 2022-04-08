@@ -129,30 +129,30 @@ class NumberingRuleService(
         // Duplicate check
         if (!this.duplicatePatternCheck(numberingRuleDto)) {
             status = NumberingRuleConstants.Status.STATUS_ERROR_DUPLICATION.code
-        } else {
-            val numberingRuleEntity = numberingRuleRepository.save(
-                NumberingRuleEntity(
-                    numberingId = numberingRuleDto.numberingId,
-                    numberingName = numberingRuleDto.numberingName,
-                    numberingDesc = numberingRuleDto.numberingDesc
+            return status
+        }
+        val numberingRuleEntity = numberingRuleRepository.save(
+            NumberingRuleEntity(
+                numberingId = numberingRuleDto.numberingId,
+                numberingName = numberingRuleDto.numberingName,
+                numberingDesc = numberingRuleDto.numberingDesc
+            )
+        )
+
+        if (numberingRuleDto.numberingId != "") {
+            numberingRulePatternMapRepository.deleteByNumberingRule(numberingRuleEntity)
+        }
+
+        numberingRuleDto.patternList.forEach {
+            val numberingPatternEntity = numberingPatternRepository.getOne(it)
+            numberingRulePatternMapRepository.save(
+                NumberingRulePatternMapEntity(
+                    numberingRuleEntity,
+                    numberingPatternEntity,
+                    count
                 )
             )
-
-            if (numberingRuleDto.numberingId != "") {
-                numberingRulePatternMapRepository.deleteByNumberingRule(numberingRuleEntity)
-            }
-
-            numberingRuleDto.patternList.forEach {
-                val numberingPatternEntity = numberingPatternRepository.getOne(it)
-                numberingRulePatternMapRepository.save(
-                    NumberingRulePatternMapEntity(
-                        numberingRuleEntity,
-                        numberingPatternEntity,
-                        count
-                    )
-                )
-                count++
-            }
+            count++
         }
 
         return status
@@ -337,7 +337,7 @@ class NumberingRuleService(
             numberingRuleDto.patternList,
             numberingRuleDto.numberingId
         )
-        if (numberingRulePatternMapResult.results.size != 0) {
+        if (numberingRulePatternMapResult.results.isNotEmpty()) {
             val numberingGrouping = numberingRulePatternMapResult.results.groupBy { it.numberingRule }
             for (numbering in numberingGrouping) {
                 var order = 0
