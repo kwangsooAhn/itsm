@@ -130,6 +130,9 @@
             target: 'treeList',
             text: 'typeName',
             totalCount: true,
+            onCreate: function () {
+                document.getElementById('treeList').querySelector('.node').click();
+            },
             selectedNode: function(response) {
                 onGetDetail(response.id);
                 document.getElementById('typeLevel').value = response.getAttribute('data-depth');
