@@ -337,19 +337,17 @@ class NumberingRuleService(
             numberingRuleDto.patternList,
             numberingRuleDto.numberingId
         )
-        if (numberingRulePatternMapResult != null) {
-            val numberingGrouping = numberingRulePatternMapResult.results.groupBy { it.numberingRule }
-            for (numbering in numberingGrouping) {
-                var order = 0
-                val numberingGroupingList = numbering.value
-                for (pattern in numberingGroupingList) {
-                    if (numberingRuleDto.patternList[order] == pattern.numberingPattern.patternId && order == pattern.patternOrder) {
-                        order++
-                    }
+        val numberingGrouping = numberingRulePatternMapResult.results.groupBy { it.numberingRule }
+        for (numbering in numberingGrouping) {
+            var order = 0
+            val numberingGroupingList = numbering.value
+            for (pattern in numberingGroupingList) {
+                if (numberingRuleDto.patternList[order] == pattern.numberingPattern.patternId && order == pattern.patternOrder) {
+                    order++
                 }
-                if (numberingRuleDto.patternList.size == order) {
-                    return false
-                }
+            }
+            if (numberingRuleDto.patternList.size == order) {
+                return false
             }
         }
         return true
