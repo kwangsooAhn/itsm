@@ -24,8 +24,7 @@ import { zValidation } from '../../lib/zValidation.js';
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        columnWidth: '10',
-        defaultValueDepartmentSearch: ''
+        columnWidth: '10'
     },
     validation: {
         required: false // 필수값 여부
@@ -41,7 +40,6 @@ export const departmentSearchMixin = {
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this.data.value || '${default}';
-        this._realTimeSelectedUser = '';
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -53,7 +51,7 @@ export const departmentSearchMixin = {
             .setUIId('departmentSearch' + this.id)
             .setUIValue((this.value === '${default}') ? '' : defaultValues[1])
             .setUIRequired(this.validationRequired)
-            .setUIAttribute('data-user-search', (this.value === '${default}') ? '' : defaultValues[0])
+            .setUIAttribute('data-department-search', (this.value === '${default}') ? '' : defaultValues[0])
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
@@ -83,13 +81,6 @@ export const departmentSearchMixin = {
     },
     get elementColumnWidth() {
         return this._element.columnWidth;
-    },
-    // 컴포넌트 > 모달에서 선택된 임시 값
-    set realTimeSelectedUser(userKey) {
-        this._realTimeSelectedUser = userKey;
-    },
-    get realTimeSelectedUser() {
-        return this._realTimeSelectedUser;
     },
     set validation(validation) {
         this._validation = validation;
@@ -131,14 +122,11 @@ export const departmentSearchMixin = {
     },
     // 세부 속성 조회
     getProperty() {
-        const userSearchProperty = new ZUserSearchProperty('elementDepartmentSearchTarget', 'element.searchTargetCriteria',
-            this.elementDepartmentSearchTarget);
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(userSearchProperty),
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
@@ -158,4 +146,8 @@ export const departmentSearchMixin = {
             validation: this._validation
         };
     },
+    // 발행을 위한 validation 체크
+    validationCheckOnPublish() {
+        return true;
+    }
 };
