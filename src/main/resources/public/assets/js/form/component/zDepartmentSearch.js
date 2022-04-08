@@ -56,6 +56,7 @@ export const departmentSearchMixin = {
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
             .setUIAttribute('onkeydown', 'return false;')
+            .onUIClick(this.openDepartmentSearchModal.bind(this))
             .onUIChange(this.updateValue.bind(this));
 
         element.addUI(element.UIInput);
@@ -120,6 +121,68 @@ export const departmentSearchMixin = {
 
         this.value = `${departmentSearchData}|${e.target.value}`;
     },
+
+    // 속성 변경시 발생하는 이벤트 핸들러
+    updateProperty(e) {
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
+        // 기존 값 초기화
+        this.defaultValue = '';
+        const curCriteria = this.UIElement.UISelect.domElement.value;
+        let curTarget = [];
+        switch (curCriteria) {
+            case 'organization':
+                curTarget.push({
+                    value: this.UIElement.UIGroup.UIInputButton?.UIInput.getUIValue(),
+                    id: this.UIElement.UIGroup.UIInputButton?.UIInput.getUIAttribute('data-value') || '',
+                });
+                break;
+            case 'custom':
+                this.UIElement.UIGroup.userTable?.rows.forEach((row) => {
+                    const dataCell = row.cells[0].domElement;
+                    if (row.domElement.rowIndex > 0 && dataCell.hasAttribute('data-value')) {
+                        curTarget.push({
+                            value: dataCell.textContent,
+                            id: dataCell.getAttribute('data-value'),
+                        });
+                    }
+                });
+                break;
+        }
+
+        const dataObj = {};
+        dataObj['targetCriteria'] = curCriteria;
+        dataObj['searchKey'] = curTarget;
+
+        this.panel.update.call(this.panel, this.key, JSON.stringify(dataObj));
+    },
+
+    // 사용자 선택 모달
+    openDepartmentSearchModal(e) {
+        e.stopPropagation();
+
+        const selectedValue = this.UIElement.UIGroup.UIInputButton.UIInput.getUIAttribute('data-department-search');
+        tree.load({
+            view: 'modal',
+            title: i18n.msg('department.label.deptList'),
+            dataUrl: '/rest/organizations',
+            target: 'treeList',
+            source: 'organization',
+            text: 'organizationName',
+            nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
+            defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
+            leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
+            selectedValue: selectedValue,
+            callbackFunc: (response) => {
+                this.UIElement.UIGroup.UIInputButton.UIInput.setUIValue(response.textContent);
+                this.UIElement.UIGroup.UIInputButton.UIInput.setUIAttribute('data-department-search', response.id);
+
+                this.updateProperty.call(this, e);
+            }
+        });
+    },
+
     // 세부 속성 조회
     getProperty() {
         return [
