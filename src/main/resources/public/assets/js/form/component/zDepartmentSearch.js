@@ -140,6 +140,7 @@ export const departmentSearchMixin = {
             callbackFunc: (response) => {
                 e.target.value = response.textContent;
                 e.target.setAttribute('data-department-search', response.id);
+                e.target.dispatchEvent(new Event('change'));
             }
         });
     },
