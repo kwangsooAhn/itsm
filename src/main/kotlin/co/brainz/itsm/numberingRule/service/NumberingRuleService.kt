@@ -127,7 +127,7 @@ class NumberingRuleService(
         var count = 0
 
         // Duplicate check
-        if (!this.duplicateCheck(numberingRuleDto)) {
+        if (!this.duplicatePatternCheck(numberingRuleDto)) {
             status = NumberingRuleConstants.Status.STATUS_ERROR_DUPLICATION.code
         }
 
@@ -332,7 +332,7 @@ class NumberingRuleService(
     /**
      * 문서번호 등록/수정 시 패턴 중복 체크
      */
-    fun duplicateCheck(numberingRuleDto: NumberingRuleDto): Boolean {
+    fun duplicatePatternCheck(numberingRuleDto: NumberingRuleDto): Boolean {
         val numberingRulePatternMapResult = numberingRulePatternMapRepository.findAllByNumberingPatternIn(
             numberingRuleDto.patternList,
             numberingRuleDto.numberingId
