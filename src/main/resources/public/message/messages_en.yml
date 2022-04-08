@@ -836,6 +836,7 @@ form:
       input: "InputBox"
       label: "Label"
       time: "Time"
+      userSearch: "User Search"
     dataAttribute: "Data Attribute"
     department: "Department"
     default:
@@ -1288,7 +1289,7 @@ role:
     editDescription: "Add, view and manage roles."
     enterRoleId: "Please enter a role id."
     enterRoleName: "Please enter a role name."
-    searchPlaceholder: "Role Name / Role Desc."
+    searchPlaceholder: "Role Name / Role Desc"
     selectAuth: "Please select a auth."
 
 # Scheduler
@@ -1454,7 +1455,7 @@ user:
     rePassword: "rePassword"
     register: "User Register"
     role: "User Role"
-    searchPlaceholder: "ID/Name/Dept/Position/Number"
+    searchPlaceholder: "Name / ID / Dept / Position / officeNum / mobileNum"
     signUpDate: "SignUp Date"
     substituteUser: "Substitute User"
     userSearchPlaceholder: "ID/Name/Department"
@@ -1625,6 +1626,7 @@ rule:
     searchPlaceholder: "Document Number"
     selectSequence: "It must contain at least one sequence."
     usedRule: "This document number is being used."
+    duplicateRulePattern: "Duplicate document number pattern. Please choice other pattern."
 
 # Product
 product:

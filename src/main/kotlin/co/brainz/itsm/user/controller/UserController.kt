@@ -131,6 +131,7 @@ class UserController(
             UserConstants.UserEdit.VIEW.code -> {
                 model.addAttribute("allRoles", roleService.getAllRoleList())
                 model.addAttribute("userRoles", roleService.getUserRoleList(userKey))
+                model.addAttribute("mailEnabled", mailEnabled)
                 model.addAttribute("view", true)
                 returnUrl = userPage
             }

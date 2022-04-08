@@ -185,7 +185,7 @@ class CodeService(
             useYn = codeDetailDto.useYn
         )
 
-        if (codeRepository.existsByCodeAndEditableTrue(codeDetailDto.code)) {
+        if (codeRepository.existsByCode(codeDetailDto.code)) {
             status = CodeConstants.Status.STATUS_ERROR_CODE_DUPLICATION.code
         } else if (!codeRepository.existsByCode(codeDetailDto.pCode!!) && codeDetailDto.pCode != "") {
             status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_NOT_EXIST.code
