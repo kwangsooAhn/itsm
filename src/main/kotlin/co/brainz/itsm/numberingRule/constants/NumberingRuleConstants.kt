@@ -13,6 +13,7 @@ object NumberingRuleConstants {
      */
     enum class Status(val code: String) {
         STATUS_SUCCESS("0"),
-        STATUS_ERROR_RULE_USED("1")
+        STATUS_ERROR_RULE_USED("1"),
+        STATUS_ERROR_DUPLICATION("2")
     }
 }

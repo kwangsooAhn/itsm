@@ -1628,6 +1628,7 @@ rule:
     searchPlaceholder: "문서번호 규칙 이름"
     selectSequence: "Sequence를 최소 하나 이상 포함해야 합니다."
     usedRule: "해당 문서번호 규칙을 사용 중입니다."
+    duplicateRulePattern: "동일한 문서번호 패턴이 존재합니다.<br>다른 패턴을 선택해 주세요."
 
 # Product
 product:
