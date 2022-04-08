@@ -123,36 +123,36 @@ class NumberingRuleService(
      */
     @Transactional
     fun saveNumberingRule(numberingRuleDto: NumberingRuleDto): String {
-        var status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
+        var status = NumberingRuleConstants.Status.STATUS_ERROR_DUPLICATION.code
         var count = 0
 
         // Duplicate check
-        if (!this.duplicatePatternCheck(numberingRuleDto)) {
-            status = NumberingRuleConstants.Status.STATUS_ERROR_DUPLICATION.code
-            return status
-        }
-        val numberingRuleEntity = numberingRuleRepository.save(
-            NumberingRuleEntity(
-                numberingId = numberingRuleDto.numberingId,
-                numberingName = numberingRuleDto.numberingName,
-                numberingDesc = numberingRuleDto.numberingDesc
-            )
-        )
-
-        if (numberingRuleDto.numberingId != "") {
-            numberingRulePatternMapRepository.deleteByNumberingRule(numberingRuleEntity)
-        }
-
-        numberingRuleDto.patternList.forEach {
-            val numberingPatternEntity = numberingPatternRepository.getOne(it)
-            numberingRulePatternMapRepository.save(
-                NumberingRulePatternMapEntity(
-                    numberingRuleEntity,
-                    numberingPatternEntity,
-                    count
+        if (this.duplicatePatternCheck(numberingRuleDto)) {
+            val numberingRuleEntity = numberingRuleRepository.save(
+                NumberingRuleEntity(
+                    numberingId = numberingRuleDto.numberingId,
+                    numberingName = numberingRuleDto.numberingName,
+                    numberingDesc = numberingRuleDto.numberingDesc
                 )
             )
-            count++
+
+            if (numberingRuleDto.numberingId != "") {
+                numberingRulePatternMapRepository.deleteByNumberingRule(numberingRuleEntity)
+            }
+
+            numberingRuleDto.patternList.forEach {
+                val numberingPatternEntity = numberingPatternRepository.getOne(it)
+                numberingRulePatternMapRepository.save(
+                    NumberingRulePatternMapEntity(
+                        numberingRuleEntity,
+                        numberingPatternEntity,
+                        count
+                    )
+                )
+                count++
+            }
+
+            status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
         }
 
         return status
@@ -329,6 +329,7 @@ class NumberingRuleService(
 
         return value
     }
+
     /**
      * 문서번호 등록/수정 시 패턴 중복 체크
      */
