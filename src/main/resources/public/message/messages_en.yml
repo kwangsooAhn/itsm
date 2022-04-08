@@ -1288,7 +1288,7 @@ role:
     editDescription: "Add, view and manage roles."
     enterRoleId: "Please enter a role id."
     enterRoleName: "Please enter a role name."
-    searchPlaceholder: "Role Name / Role Desc."
+    searchPlaceholder: "Role Name / Role Desc"
     selectAuth: "Please select a auth."
 
 # Scheduler
