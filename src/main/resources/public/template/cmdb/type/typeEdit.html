@@ -130,6 +130,9 @@
             target: 'treeList',
             text: 'typeName',
             totalCount: true,
+            onCreate: function () {
+                document.getElementById('treeList').querySelector('.node').click();
+            },
             selectedNode: function(response) {
                 onGetDetail(response.id);
                 document.getElementById('typeLevel').value = response.getAttribute('data-depth');
@@ -163,9 +166,13 @@
             // 설명
             const typeDesc = document.getElementById('typeDesc');
             typeDesc.value = responseJson.typeDesc;
+            // 식별자
+            const typeAlias = document.getElementById('typeAlias');
+            typeDesc.value = responseJson.typeDesc;
             // 정렬 순서
             const typeSeq = document.getElementById('typeSeq');
             typeSeq.value = responseJson.typeSeq;
+
             if (responseJson.editable) {
                 if (document.querySelector('#btnUpdate') != null) {
                     document.querySelector('#btnUpdate').removeAttribute('disabled');
@@ -179,10 +186,10 @@
                 if (document.querySelector('button[name=typeClassSelector]') != null) {
                     document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
                 }
-                document.getElementById('typeAlias').readOnly = true;
                 document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
                 typeName.readOnly = false;
                 typeDesc.readOnly = false;
+                typeAlias.readOnly = false;
                 typeSeq.readOnly = false;
             } else {
                 if (document.querySelector('#btnUpdate') != null) {
@@ -200,6 +207,7 @@
                 document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
                 typeName.readOnly = true;
                 typeDesc.readOnly = true;
+                typeAlias.readOnly = true;
                 typeSeq.readOnly = true;
             }
             onEdit();
@@ -230,8 +238,22 @@
         document.querySelectorAll('input[type=text]:not(.inherit)').forEach(function(object){
             object.value = '';
         });
+
+        // 유형 이름
+        const typeName = document.getElementById('typeName');
+        // 설명
+        const typeDesc = document.getElementById('typeDesc');
+        // 식별자
+        const typeAlias = document.getElementById('typeAlias');
+        // 정렬 순서
+        const typeSeq = document.getElementById('typeSeq');
+
+        document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
         document.querySelector('textarea').value = '';
-        document.querySelector('input[name=typeAlias]').removeAttribute('readOnly');
+        typeName.readOnly = false;
+        typeDesc.readOnly = false;
+        typeAlias.readOnly = false;
+        typeSeq.readOnly = false;
 
         let selectedNode = tree.getTreeSelectNode();
         if (selectedNode !== null) {

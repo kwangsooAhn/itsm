@@ -123,31 +123,36 @@ class NumberingRuleService(
      */
     @Transactional
     fun saveNumberingRule(numberingRuleDto: NumberingRuleDto): String {
-        val status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
+        var status = NumberingRuleConstants.Status.STATUS_ERROR_DUPLICATION.code
         var count = 0
 
-        val numberingRuleEntity = numberingRuleRepository.save(
-            NumberingRuleEntity(
-                numberingId = numberingRuleDto.numberingId,
-                numberingName = numberingRuleDto.numberingName,
-                numberingDesc = numberingRuleDto.numberingDesc
-            )
-        )
-
-        if (numberingRuleDto.numberingId != "") {
-            numberingRulePatternMapRepository.deleteByNumberingRule(numberingRuleEntity)
-        }
-
-        numberingRuleDto.patternList.forEach {
-            val numberingPatternEntity = numberingPatternRepository.getOne(it)
-            numberingRulePatternMapRepository.save(
-                NumberingRulePatternMapEntity(
-                    numberingRuleEntity,
-                    numberingPatternEntity,
-                    count
+        // Duplicate check
+        if (this.duplicatePatternCheck(numberingRuleDto)) {
+            val numberingRuleEntity = numberingRuleRepository.save(
+                NumberingRuleEntity(
+                    numberingId = numberingRuleDto.numberingId,
+                    numberingName = numberingRuleDto.numberingName,
+                    numberingDesc = numberingRuleDto.numberingDesc
                 )
             )
-            count++
+
+            if (numberingRuleDto.numberingId != "") {
+                numberingRulePatternMapRepository.deleteByNumberingRule(numberingRuleEntity)
+            }
+
+            numberingRuleDto.patternList.forEach {
+                val numberingPatternEntity = numberingPatternRepository.getOne(it)
+                numberingRulePatternMapRepository.save(
+                    NumberingRulePatternMapEntity(
+                        numberingRuleEntity,
+                        numberingPatternEntity,
+                        count
+                    )
+                )
+                count++
+            }
+
+            status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
         }
 
         return status
@@ -323,5 +328,31 @@ class NumberingRuleService(
         }
 
         return value
+    }
+
+    /**
+     * 문서번호 등록/수정 시 패턴 중복 체크
+     */
+    fun duplicatePatternCheck(numberingRuleDto: NumberingRuleDto): Boolean {
+        val numberingRulePatternMapResult = numberingRulePatternMapRepository.findAllByNumberingPatternIn(
+            numberingRuleDto.patternList,
+            numberingRuleDto.numberingId
+        )
+        if (numberingRulePatternMapResult.results.isNotEmpty()) {
+            val numberingGrouping = numberingRulePatternMapResult.results.groupBy { it.numberingRule }
+            for (numbering in numberingGrouping) {
+                var order = 0
+                val numberingGroupingList = numbering.value
+                for (pattern in numberingGroupingList) {
+                    if (numberingRuleDto.patternList[order] == pattern.numberingPattern.patternId && order == pattern.patternOrder) {
+                        order++
+                    }
+                }
+                if (numberingRuleDto.patternList.size == order) {
+                    return false
+                }
+            }
+        }
+        return true
     }
 }
