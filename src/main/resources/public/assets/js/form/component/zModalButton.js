@@ -16,7 +16,6 @@ import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZInputBoxProperty from "../../formDesigner/property/type/zInputBoxProperty.js";
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
-import ZOptionListProperty from "../../formDesigner/property/type/zOptionListProperty.js";
 import ZSwitchProperty from "../../formDesigner/property/type/zSwitchProperty.js";
 
 /**
@@ -168,8 +167,8 @@ export const modalButtonMixin = {
         modalHeightProperty.unit = UNIT.PX;
 
         // 조회 대상 테이블
-        const targetTableProperty = new ZInputBoxProperty('elementSearchTarget', 'element.searchTargetTable', this.elementSearchTarget)
-            .setValidation(true, '', '', '', '', '');
+        const targetTableProperty = new ZInputBoxProperty('elementSearchTarget', 'element.searchTargetTable', this.elementSearchTarget);
+
         targetTableProperty.help = 'form.help.target-table';
         // 조회 대상 기준
         const orderTableProperty = new ZInputBoxProperty('fieldOrderTarget', 'element.searchTargetCriteria', this.fieldOrderTarget);
@@ -184,7 +183,7 @@ export const modalButtonMixin = {
                 .addProperty(modalWidthProperty)
                 .addProperty(modalHeightProperty),
             new ZGroupProperty('group.display')
-                .addProperty(targetTableProperty)
+                .addProperty(targetTableProperty.setValidation(true, '', '', '', '', ''))
                 .addProperty(new ZColumnProperty('elementColumns', '', FORM.COLUMN_PROPERTY.FIELD, this.elementColumns))
                 .addProperty(orderTableProperty)
                 .addProperty(new ZSwitchProperty('fieldOrderBy', 'element.orderByAsc', this.fieldOrderBy))
