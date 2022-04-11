@@ -36,8 +36,14 @@
   &.i-image { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_image.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
   &.i-divider { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_divider.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
   &.i-fileDownload { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_filedownload.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-userSearch { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_user.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
   &.i-dropdownCode { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dropdownCode.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-userSearch { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_user.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-modalButton { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_modalButton.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+
+  // copy
+  &.i-copy { @include maskImage('#{$icon-folder-path}formDesigner/tooltip/icon_copy.svg', 1.25rem, 1.25rem, no-repeat, center); } // 20px 20px
+  // delete
+  &.i-delete { @include maskImage('#{$icon-folder-path}formDesigner/tooltip/icon_remove.svg', 1.25rem, 1.25rem, no-repeat, center); } // 20px 20px
 
   // 컴포넌트
   &.i-no-image {

@@ -2115,6 +2115,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-dropdownCode {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_dropdownCode.svg ");
+  mask-image: url("../media/icons/formDesigner/palette/icon_dropdownCode.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-userSearch {
   width: 2rem;
   height: 2rem;
@@ -2125,11 +2135,31 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-icon.i-dropdownCode {
+.z-icon.i-modalButton {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_dropdownCode.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_dropdownCode.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_modalButton.svg ");
+  mask-image: url("../media/icons/formDesigner/palette/icon_modalButton.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-copy {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/formDesigner/tooltip/icon_copy.svg");
+  mask-image: url("../media/icons/formDesigner/tooltip/icon_copy.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-delete {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/formDesigner/tooltip/icon_remove.svg");
+  mask-image: url("../media/icons/formDesigner/tooltip/icon_remove.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -4846,7 +4876,7 @@ select {
 
 .z-header-button-dropdown {
   width: 1.25rem;
-  padding: 0.25rem 0;
+  padding: 0.5625rem 0.1875rem;
 }
 .z-header-button-dropdown .z-icon {
   margin-left: -0.1875rem;

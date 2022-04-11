@@ -4669,7 +4669,7 @@ svg path.connector.hidden {
 
 .z-header-button-dropdown {
   width: 1.25rem;
-  padding: 0.25rem 0;
+  padding: 0.5625rem 0.1875rem;
 }
 .z-header-button-dropdown .z-icon {
   margin-left: -0.1875rem;
