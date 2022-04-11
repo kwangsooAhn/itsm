@@ -112,8 +112,6 @@ export default class ZColumnProperty extends ZProperty {
         this.validationStatus = true;
 
         this.isDefault = (this.type === FORM.COLUMN_PROPERTY.COLUMN);
-        console.log(this.type);
-        console.log(this.isDefault);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -159,12 +157,10 @@ export default class ZColumnProperty extends ZProperty {
 
         let columnOption;
         if (this.isDefault) {
-            console.log('default');
             const commonColumnOption = Object.assign({}, propertyExtends.columnCommon, option);
             const resetColumn =  JSON.parse(JSON.stringify(propertyExtends[commonColumnOption.columnType]));
             columnOption = aliceJs.mergeObject(resetColumn, commonColumnOption);
         } else {
-            console.log('field');
             columnOption = Object.assign({}, propertyExtends.fieldCommon, option);
         }
 
@@ -554,12 +550,12 @@ export default class ZColumnProperty extends ZProperty {
         fieldInputProperty.columnWidth = '6';
 
         // head - alias
-        const aliasProperty = new ZInputBoxProperty(id + '|columnName', 'element.columnName', option.alias)
+        const aliasProperty = new ZInputBoxProperty(id + '|alias', 'element.columnName', option.alias)
             .setValidation(true, '', '', '', '', '');
         aliasProperty.columnWidth = '6';
 
         return [
-            new ZGroupProperty('group.sort')
+            new ZGroupProperty('group.modalTable')
                 .addProperty(fieldInputProperty)
                 .addProperty(aliasProperty)
                 .addProperty(new ZSliderProperty(id + '|columnWidth', 'element.columnWidth', option.columnWidth))

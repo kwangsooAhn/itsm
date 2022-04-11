@@ -38,7 +38,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
             order: 'asc'
         },
         searchTarget: '',
-        options: [FORM.DEFAULT_OPTION_ROW]
+        options: [FORM.FIELD_OPTION_ROW]
     },
     validation: {
         required: false, // 필수값 여부
@@ -50,7 +50,6 @@ export const modalButtonMixin = {
     // 전달 받은 데이터와 기본 property merge
     initProperty() {
         // 엘리먼트 property 초기화
-        console.log(this.data);
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this.data.value || '';
@@ -123,7 +122,6 @@ export const modalButtonMixin = {
         return this._element.options;
     },
     set elementColumns(columns) {
-        console.log(columns);
         this._element.columns = columns;
         // this.UIElement.UIComponent.UIElement.UITable.clearUIRow().clearUI();
         // this.makeTable(this.UIElement.UIComponent.UIElement.UITable);
@@ -132,18 +130,15 @@ export const modalButtonMixin = {
         return this._element.columns;
     },
     set fieldOrderTarget(value) {
-        console.log(value);
         this._element.sort.field = value;
     },
     get fieldOrderTarget() {
         return this._element.sort.field;
     },
     set fieldOrderBy(value) {
-        console.log(value);
         this._element.sort.order = value ? 'asc' : 'desc';
     },
     get fieldOrderBy() {
-        console.log(this._element.sort.order === 'asc');
         return (this._element.sort.order === 'asc');
     },
     set validation(validation) {
@@ -172,13 +167,13 @@ export const modalButtonMixin = {
         modalHeightProperty.columnWidth = '6';
         modalHeightProperty.unit = UNIT.PX;
 
-        // 데이터 정렬 설정
-        // 필드 정렬 기준
-        const fieldOrderTarget = new ZInputBoxProperty('elementModalHeight', 'element.searchTargetCriteria', this.fieldOrderTarget)
+        // 조회 대상 테이블
+        const targetTableProperty = new ZInputBoxProperty('elementSearchTarget', 'element.searchTargetTable', this.elementSearchTarget)
             .setValidation(true, '', '', '', '', '');
-        // element - 항목명(field) / 너비
-        const fieldProperty = new ZOptionListProperty('fieldOptions', 'element.options', this.elementOptions, true)
-            .setValidation(true, '', '', '', '', '');
+        targetTableProperty.help = 'form.help.target-table';
+        // 조회 대상 기준
+        const orderTableProperty = new ZInputBoxProperty('fieldOrderTarget', 'element.searchTargetCriteria', this.fieldOrderTarget);
+        orderTableProperty.help = 'form.help.order-table';
 
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
@@ -189,10 +184,9 @@ export const modalButtonMixin = {
                 .addProperty(modalWidthProperty)
                 .addProperty(modalHeightProperty),
             new ZGroupProperty('group.display')
-                .addProperty(new ZInputBoxProperty('elementSearchTarget', 'element.searchTarget', this.elementSearchTarget)
-                    .setValidation(true, '', '', '', '', ''))
+                .addProperty(targetTableProperty)
                 .addProperty(new ZColumnProperty('elementColumns', '', FORM.COLUMN_PROPERTY.FIELD, this.elementColumns))
-                .addProperty(new ZInputBoxProperty('elementModalHeight', 'element.searchTargetCriteria', this.fieldOrderTarget))
+                .addProperty(orderTableProperty)
                 .addProperty(new ZSwitchProperty('fieldOrderBy', 'element.orderByAsc', this.fieldOrderBy))
         ];
     },
