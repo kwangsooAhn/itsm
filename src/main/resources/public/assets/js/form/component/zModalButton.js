@@ -34,7 +34,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
         },
         sort: {
             field: '',
-            order: 'asc'
+            order: FORM.FIELD_ORDER_BY.ASC
         },
         searchTarget: '',
         options: [FORM.FIELD_OPTION_ROW]
@@ -122,8 +122,6 @@ export const modalButtonMixin = {
     },
     set elementColumns(columns) {
         this._element.columns = columns;
-        // this.UIElement.UIComponent.UIElement.UITable.clearUIRow().clearUI();
-        // this.makeTable(this.UIElement.UIComponent.UIElement.UITable);
     },
     get elementColumns() {
         return this._element.columns;
@@ -135,10 +133,10 @@ export const modalButtonMixin = {
         return this._element.sort.field;
     },
     set fieldOrderBy(value) {
-        this._element.sort.order = value ? 'asc' : 'desc';
+        this._element.sort.order = value ? FORM.FIELD_ORDER_BY.ASC : FORM.FIELD_ORDER_BY.DESC;
     },
     get fieldOrderBy() {
-        return (this._element.sort.order === 'asc');
+        return (this._element.sort.order === FORM.FIELD_ORDER_BY.ASC);
     },
     set validation(validation) {
         this._validation = validation;
@@ -167,8 +165,8 @@ export const modalButtonMixin = {
         modalHeightProperty.unit = UNIT.PX;
 
         // 조회 대상 테이블
-        const targetTableProperty = new ZInputBoxProperty('elementSearchTarget', 'element.searchTargetTable', this.elementSearchTarget);
-
+        const targetTableProperty = new ZInputBoxProperty('elementSearchTarget', 'element.searchTargetTable', this.elementSearchTarget)
+            .setValidation(true, '', '', '', '', '');
         targetTableProperty.help = 'form.help.target-table';
         // 조회 대상 기준
         const orderTableProperty = new ZInputBoxProperty('fieldOrderTarget', 'element.searchTargetCriteria', this.fieldOrderTarget);
@@ -183,7 +181,7 @@ export const modalButtonMixin = {
                 .addProperty(modalWidthProperty)
                 .addProperty(modalHeightProperty),
             new ZGroupProperty('group.display')
-                .addProperty(targetTableProperty.setValidation(true, '', '', '', '', ''))
+                .addProperty(targetTableProperty)
                 .addProperty(new ZColumnProperty('elementColumns', '', FORM.COLUMN_PROPERTY.FIELD, this.elementColumns))
                 .addProperty(orderTableProperty)
                 .addProperty(new ZSwitchProperty('fieldOrderBy', 'element.orderByAsc', this.fieldOrderBy))

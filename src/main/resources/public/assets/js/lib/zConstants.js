@@ -85,6 +85,11 @@ export const FORM = {
     DEFAULT_OPTION_ROW: { name: '', value: '', checked: false },
     // 필드 옵션 속성에 추가되는 기본 값
     FIELD_OPTION_ROW: { name: '', alias: '', checked: false },
+    // 필드 옵션 조회 조건 (Modal Button Component)
+    FIELD_ORDER_BY: {
+        ASC: 'asc',
+        DESC: 'desc'
+    },
     // 15개 column 제한 (dynamic table)
     MAX_COLUMN_IN_TABLE: 15,
     // columnProperty 타입
