@@ -86,7 +86,7 @@
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.position}" for="position"></label>
                         <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}"
-                               maxlength="100">
+                               maxlength="100" onchange="isSpecialChar('position','validation.msg.checkPositionFormat')">
                     </div>
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.department}"></label>
