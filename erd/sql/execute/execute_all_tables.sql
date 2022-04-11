@@ -15,6 +15,11 @@ CREATE SEQUENCE portal_board_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE schedule_history_seq INCREMENT 1 MINVALUE 1 START 1;
 
 /**
+ * DB (Timezone) 설정
+ */
+set timezone='UTC';
+
+/**
  * 권한
  */
 DROP TABLE IF EXISTS awf_auth cascade;
@@ -9121,3 +9126,4 @@ COMMENT ON COLUMN cmdb_class_notification.attribute_id IS '속성아이디';
 COMMENT ON COLUMN cmdb_class_notification.attribute_order IS '순서';
 COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
 COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';
+
