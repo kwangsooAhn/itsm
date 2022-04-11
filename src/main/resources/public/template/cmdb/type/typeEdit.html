@@ -57,7 +57,7 @@
         <div class="z-edit-row flex-column">
             <label th:text="#{cmdb.type.label.icon}"></label>
             <div class="flex-row z-input-button">
-                <input class="z-input inherit" id="typeIcon" name="typeIcon" type="text" readonly>
+                <input class="z-input" id="typeIcon" name="typeIcon" type="text" readonly>
                 <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
                     <span class="z-icon i-remove"></span>
                 </button>
@@ -68,7 +68,7 @@
         <div class="z-edit-row flex-column">
             <label class="required" th:text="#{cmdb.type.label.class}"></label>
             <div class="flex-row z-input-button">
-                <input class="z-input inherit" id="typeClass" name="typeClass" type="text" readonly>
+                <input class="z-input" id="typeClass" name="typeClass" type="text" readonly>
                 <input id="typeClassId" name="typeClassId" type="hidden"/>
 <!--                <span class="z-icon i-remove" name="clearClass" onclick="aliceJs.clearText(this);" tabindex="-1"></span>-->
                 <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
@@ -136,6 +136,7 @@
             selectedNode: function(response) {
                 onGetDetail(response.id);
                 document.getElementById('typeLevel').value = response.getAttribute('data-depth');
+                response.classList = 'node_selected';
             }
         });
     }
@@ -235,7 +236,7 @@
         if (document.querySelector('button[name=typeClassSelector]') != null) {
             document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
         }
-        document.querySelectorAll('input[type=text]:not(.inherit)').forEach(function(object){
+        document.querySelectorAll('input[type=text]').forEach(function(object){
             object.value = '';
         });
 
