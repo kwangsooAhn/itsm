@@ -219,7 +219,7 @@ export const userSearchMixin = {
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {
-                    const userId = element.getAttribute('data-userId');
+                    const userId = element.getAttribute('data-user-id');
                     this.realTimeSelectedUser = element.checked ? `${element.id}|${element.value}|${userId}` : '';
                 });
             });

@@ -23,6 +23,7 @@
                     <label class="z-checkbox" th:for="${user.userKey}" tabindex="0" th:if="${multiSelect}" >
                         <input type="checkbox" th:id="${user.userKey}" th:value="${user.userName}"
                                name="userName" th:title="${user.userName}"
+                               th:data-user-id="${user.userId}"
                                th:data-avatarPath="${user.avatarPath}"
                                th:data-organizationName="${user?.groupName}">
                         <span></span>
@@ -30,6 +31,7 @@
                     <label class="z-radio" th:for="${user.userKey}" tabindex="0" th:unless="${multiSelect}" >
                         <input type="radio" th:id="${user.userKey}" th:value="${user.userName}"
                                name="userName" th:title="${user.userName}"
+                               th:data-user-id="${user.userId}"
                                th:data-avatarPath="${user.avatarPath}"
                                th:data-OrganizationName="${user?.groupName}">
                         <span></span>

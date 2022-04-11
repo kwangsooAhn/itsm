@@ -456,6 +456,7 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('data-validation-required', column.columnValidation.required)
             .setUIAttribute('data-modal-title', column.columnName)
             .setUIAttribute('data-realtime-selected-user', cellValue)
+            .setUIAttribute('data-user-id', (defaultValues.length > 1) ? defaultValues[2] : '')
             .setUIAttribute('data-user-search', (defaultValues.length > 1) ? defaultValues[0] : '')
             .setUIAttribute('data-user-search-target', column.columnElement.defaultValueUserSearch)
             .onUIClick(this.openUserSearchModal.bind(this))
@@ -761,6 +762,7 @@ export const dynamicRowTableMixin = {
                     }
 
                     target.setAttribute('data-user-search', realTimeSelectedUser[0]);
+                    target.setAttribute('data-user-id', realTimeSelectedUser[2]);
                     target.value = realTimeSelectedUser[1];
                     target.dispatchEvent(new Event('change'));
 
@@ -779,9 +781,10 @@ export const dynamicRowTableMixin = {
             },
             onCreate: () => {
                 // 모달 오픈시 선택된 값이 있으면 설정한다.
-                const targetUserId = target.getAttribute('data-user-search');
-                if (!zValidation.isEmpty(targetUserId)) {
-                    target.setAttribute('data-realtime-selected-user', `${targetUserId}|${target.value}`);
+                const targetUserKey = target.getAttribute('data-user-search');
+                const targetUserId = target.getAttribute('data-user-id');
+                if (!zValidation.isEmpty(targetUserKey)) {
+                    target.setAttribute('data-realtime-selected-user', `${targetUserKey}|${target.value}|${targetUserId}`);
                 } else {
                     target.setAttribute('data-realtime-selected-user', '');
                 }
@@ -817,14 +820,15 @@ export const dynamicRowTableMixin = {
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {
+                    const userId = element.getAttribute('data-user-id');
                     target.setAttribute('data-realtime-selected-user', element.checked ?
-                        `${element.id}|${element.value}` : '');
+                        `${element.id}|${element.value}|${userId}` : '');
                 });
             });
             // 기존 선택값 표시
-            const targetUserId = target.getAttribute('data-realtime-selected-user').split('|')[0];
-            const targetRadio = searchUserList.querySelector('input[id="' + targetUserId + '"]');
-            if (!zValidation.isEmpty(targetUserId) && !zValidation.isEmpty(targetRadio)) {
+            const targetUserKey = target.getAttribute('data-realtime-selected-user').split('|')[0];
+            const targetRadio = searchUserList.querySelector('input[id="' + targetUserKey + '"]');
+            if (!zValidation.isEmpty(targetUserKey) && !zValidation.isEmpty(targetRadio)) {
                 targetRadio.checked = true;
             }
         });
