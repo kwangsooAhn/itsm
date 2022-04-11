@@ -9,6 +9,12 @@
  * https://www.brainz.co.kr
  */
 
+import ZColumnProperty, { propertyExtends } from '../../formDesigner/property/type/zColumnProperty.js';
+import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import { FORM, UNIT } from '../../lib/zConstants.js';
 import { UIButton, UIDiv, UISpan } from '../../lib/zUI.js';
 import ZColumnProperty, { propertyExtends } from "../../formDesigner/property/type/zColumnProperty.js";
