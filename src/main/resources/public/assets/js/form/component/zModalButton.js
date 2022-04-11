@@ -17,12 +17,7 @@ import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import { FORM, UNIT } from '../../lib/zConstants.js';
 import { UIButton, UIDiv, UISpan } from '../../lib/zUI.js';
-import ZColumnProperty, { propertyExtends } from "../../formDesigner/property/type/zColumnProperty.js";
-import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZInputBoxProperty from "../../formDesigner/property/type/zInputBoxProperty.js";
-import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
-import ZSwitchProperty from "../../formDesigner/property/type/zSwitchProperty.js";
+import { zValidation } from '../../lib/zValidation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -162,11 +157,11 @@ export const modalButtonMixin = {
     getProperty() {
         // element - 모달 크기
         const modalWidthProperty = new ZInputBoxProperty('elementModalWidth', 'element.modalWidth', this.elementModalWidth)
-            .setValidation(false, 'number', '0', '1720', '', '');
+            .setValidation(false, 'number', '400', '1720', '', '');
         modalWidthProperty.columnWidth = '6';
         modalWidthProperty.unit = UNIT.PX;
         const modalHeightProperty = new ZInputBoxProperty('elementModalHeight', 'element.modalHeight', this.elementModalHeight)
-            .setValidation(false, 'number', '0', '800', '', '');
+            .setValidation(false, 'number', '120', '800', '', '');
         modalHeightProperty.columnWidth = '6';
         modalHeightProperty.unit = UNIT.PX;
 
@@ -211,6 +206,14 @@ export const modalButtonMixin = {
     },
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {
+        // 모달 테이블 속성 중 필드가 누락되었을 때
+        const modalTableOption = this.elementColumns;
+        for (let i = 0; i < modalTableOption.length; i++) {
+            if (zValidation.isEmpty(modalTableOption[i].field)) {
+                zAlert.warning(i18n.msg('form.msg.modalTableRequired', i + 1));
+                return false;
+            }
+        }
         return true;
     }
 };

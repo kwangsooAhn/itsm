@@ -144,7 +144,7 @@ export default class ZColumnProperty extends ZProperty {
             .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
             .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'))
             .setUIDisabled(!this.isEditable)
-            .onUIClick(this.addColumn.bind(this, { columnType: 'input' }, -1));
+            .onUIClick(this.addColumn.bind(this, (this.isDefault) ? { columnType: 'input' } : '', -1));
         this.UITabPanel.tabGroup.addUI(this.UITabPanel.tabGroup.addButton);
 
         return this.UIElement;
@@ -546,12 +546,12 @@ export default class ZColumnProperty extends ZProperty {
     getPropertyForFieldCommon(option, id) {
         // head - field
         const fieldInputProperty = new ZInputBoxProperty(id + '|field', 'element.field', option.field)
-            .setValidation(true, '', '', '', '', '');
+            .setValidation(true, '', '', '', '', '128');
         fieldInputProperty.columnWidth = '6';
 
         // head - alias
         const aliasProperty = new ZInputBoxProperty(id + '|alias', 'element.columnName', option.alias)
-            .setValidation(true, '', '', '', '', '');
+            .setValidation(false, '', '', '', '', '128');
         aliasProperty.columnWidth = '6';
 
         return [

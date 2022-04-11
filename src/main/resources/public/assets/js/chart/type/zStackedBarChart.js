@@ -8,7 +8,7 @@
  *
  * https://www.brainz.co.kr
  */
-import { CHART } from "../../lib/zConstants.js";
+import { CHART } from '../../lib/zConstants.js';
 
 const DEFAULT_CHART_PROPERTY = {
     chart: { type: 'bar' },
