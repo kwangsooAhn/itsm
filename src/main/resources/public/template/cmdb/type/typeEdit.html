@@ -133,6 +133,7 @@
             selectedNode: function(response) {
                 onGetDetail(response.id);
                 document.getElementById('typeLevel').value = response.getAttribute('data-depth');
+                response.classList = 'node_selected';
             }
         });
     }
