@@ -804,3 +804,25 @@ function isUrl(elementId, messageId, callbackFunc) {
     }
     return false;
 }
+
+/**
+ * 특수문자가 입력되었는지 확인한다.
+ * @returns {boolean}
+ */
+function isSpecialChar(elementId, messageId, callbackFunc) {
+    const elem = isNullElement(elementId);
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+        elem.focus();
+    };
+    if (elem !== null) {
+        if (specialCharReg.test(elem.value)) {
+            if (messageId !== undefined) {
+                zAlert.warning(i18n.msg(messageId), callback);
+            }
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
