@@ -8223,21 +8223,21 @@ span.modal_node_selected label {
 .property .z-tab-panel .z-panels .z-panel .z-panel-common > .property {
   padding: 0 0.75rem;
 }
-.property .z-tab-panel .z-panels .z-panel .z-button-icon {
+.property .z-tab-panel .z-panels .z-panel .z-button-icon:not(.z-button-code) {
   padding: 0;
 }
-.property .z-tab-panel .z-panels .z-panel .z-button-icon .z-icon {
+.property .z-tab-panel .z-panels .z-panel .z-button-icon:not(.z-button-code) .z-icon {
   display: inline-block;
   background: #339AF0;
 }
-.property .z-tab-panel .z-panels .z-panel .z-button-icon .z-icon.z-prev {
+.property .z-tab-panel .z-panels .z-panel .z-button-icon:not(.z-button-code) .z-icon.z-prev {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-.property .z-tab-panel .z-panels .z-panel .z-button-icon .z-icon.z-clear {
+.property .z-tab-panel .z-panels .z-panel .z-button-icon:not(.z-button-code) .z-icon.z-clear {
   background: #8B9094;
 }
 .property .z-tab-panel .z-panels .z-panel .z-button-switch-group .z-button-switch,

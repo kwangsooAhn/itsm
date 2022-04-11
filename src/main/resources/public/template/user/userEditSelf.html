@@ -106,12 +106,14 @@
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
                         <input type="text" class="z-input" id="officeNumber" name="officeNumber"
-                               th:value="${users?.officeNumber}" maxlength="100">
+                               th:value="${users?.officeNumber}" maxlength="100"
+                               onchange="isPhoneNumberOrExtenstionNumber('officeNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
                         <input type="text" class="z-input" id="mobileNumber" name="mobileNumber"
-                               th:value="${users?.mobileNumber}" maxlength="100">
+                               th:value="${users?.mobileNumber}" maxlength="100"
+                               onchange="isPhoneNumberOrExtenstionNumber('mobileNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
                 </div>
                 <div class="flex-column avatar-edit ml-4">

@@ -27,6 +27,7 @@ import ZOptionListProperty from './zOptionListProperty.js';
 import ZDefaultValueRadioProperty from './zDefaultValueRadioProperty.js';
 import ZDateTimePickerProperty from './zDateTimePickerProperty.js';
 import ZSwitchProperty from './zSwitchProperty.js';
+import ZUserSearchProperty from './zUserSearchProperty.js';
 
 export const propertyExtends = {
     columnCommon: {
@@ -97,6 +98,14 @@ export const propertyExtends = {
     label: {
         columnElement: {
             text: 'LABEL'
+        }
+    },
+    userSearch: {
+        columnElement: {
+            defaultValueUserSearch: ''
+        },
+        columnValidation: {
+            required: false // 필수값 여부
         }
     }
 };
@@ -343,7 +352,8 @@ export default class ZColumnProperty extends ZProperty {
                 { name: i18n.msg('form.properties.columnType.date'), value: 'date' },
                 { name: i18n.msg('form.properties.columnType.time'), value: 'time' },
                 { name: i18n.msg('form.properties.columnType.dateTime'), value: 'dateTime' },
-                { name: i18n.msg('form.properties.columnType.label'), value: 'label' }
+                { name: i18n.msg('form.properties.columnType.label'), value: 'label' },
+                { name: i18n.msg('form.properties.columnType.userSearch'), value: 'userSearch' }
             ]);
 
         // head - input
@@ -441,6 +451,8 @@ export default class ZColumnProperty extends ZProperty {
                 return this.getPropertyForColumnTypeDateTime(option, id);
             case 'label':
                 return this.getPropertyForColumnTypeLabel(option, id);
+            case 'userSearch':
+                return this.getPropertyForColumnTypeUserSearch(option, id);
             default:
                 return [];
         }
@@ -534,6 +546,17 @@ export default class ZColumnProperty extends ZProperty {
         return [
             new ZGroupProperty('group.columnElement')
                 .addProperty(new ZInputBoxProperty(id + '|columnElement.text', 'label.text', option.columnElement.text))
+        ];
+    }
+    // 컬럼 세부 속성 - userSearch
+    getPropertyForColumnTypeUserSearch(option, id) {
+        const userSearchProperty = new ZUserSearchProperty(id + '|columnElement.defaultValueUserSearch',
+            'element.searchTargetCriteria', option.columnElement.defaultValueUserSearch);
+        return [
+            new ZGroupProperty('group.columnElement')
+                .addProperty(userSearchProperty),
+            new ZGroupProperty('group.columnValidation')
+                .addProperty(new ZSwitchProperty(id + '|columnValidation.required', 'validation.requiredInput', option.columnValidation.required))
         ];
     }
     // 입력 유형 타입 변경

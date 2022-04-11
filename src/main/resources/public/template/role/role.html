@@ -40,7 +40,7 @@
         </div>
         <div class="z-edit-row flex-column">
             <div class="flex-column z-edit-row">
-                <h3 class="sub-title under-bar bold" th:text="#{role.menu.auth}"></h3>
+                <h3 th:classappend="${view} ? '' : 'required'" class="sub-title under-bar bold" th:text="#{role.menu.auth}"></h3>
             <div class="z-switch-list">
                 <ul>
                     <li class="text-ellipsis" th:each="auth : ${authList}">
