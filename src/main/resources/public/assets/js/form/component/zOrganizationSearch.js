@@ -1,5 +1,5 @@
 /**
- * Department Search Mixin
+ * Organization Search Mixin
  *
  *
  * @author Mo Hyung Nan <hn.mo@brainz.co.kr>
@@ -33,7 +33,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
 
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
 
-export const departmentSearchMixin = {
+export const organizationSearchMixin = {
     // 전달 받은 데이터와 기본 property merge
     initProperty() {
         // 엘리먼트 property 초기화
@@ -48,15 +48,15 @@ export const departmentSearchMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
             .setUIClass('z-input i-user-search text-ellipsis')
-            .setUIId('departmentSearch' + this.id)
+            .setUIId('organizationSearch' + this.id)
             .setUIValue((this.value === '${default}') ? '' : defaultValues[1])
             .setUIRequired(this.validationRequired)
-            .setUIAttribute('data-department-search', (this.value === '${default}') ? '' : defaultValues[0])
+            .setUIAttribute('data-organization-search', (this.value === '${default}') ? '' : defaultValues[0])
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
             .setUIAttribute('onkeydown', 'return false;')
-            .onUIClick(this.openDepartmentSearchModal.bind(this))
+            .onUIClick(this.openOrganizationSearchModal.bind(this))
             .onUIChange(this.updateValue.bind(this));
 
         element.addUI(element.UIInput);
@@ -111,21 +111,21 @@ export const departmentSearchMixin = {
         e.stopPropagation();
         e.preventDefault();
 
-        // 부서 검색 결과로 들어간 내용이 있는지 this.value와 'data-department-search' 확인하고 값을 저장한다.
-        const departmentSearchData = e.target.getAttribute('data-department-search');
+        // 부서 검색 결과로 들어간 내용이 있는지 this.value와 'data-organization-search' 확인하고 값을 저장한다.
+        const organizationSearchData = e.target.getAttribute('data-organization-search');
 
         // 값이 입력되었을 경우 error 없애기
-        if (zValidation.isRequired(departmentSearchData)) {
+        if (zValidation.isRequired(organizationSearchData)) {
             zValidation.removeDOMElementError(e.target);
         }
 
-        this.value = `${departmentSearchData}|${e.target.value}`;
+        this.value = `${organizationSearchData}|${e.target.value}`;
     },
 
     // 부서 선택 모달
-    openDepartmentSearchModal(e) {
+    openOrganizationSearchModal(e) {
         e.stopPropagation();
-        const departmentSearchData = e.target.getAttribute('data-department-search');
+        const departmentSearchData = e.target.getAttribute('data-organization-search');
         tree.load({
             view: 'modal',
             title: i18n.msg('department.label.deptList'),
@@ -136,10 +136,10 @@ export const departmentSearchMixin = {
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
             defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
             leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
-            selectedValue: departmentSearchData,
+            selectedValue: organizationSearchData,
             callbackFunc: (response) => {
                 e.target.value = response.textContent;
-                e.target.setAttribute('data-department-search', response.id);
+                e.target.setAttribute('data-organization-search', response.id);
                 e.target.dispatchEvent(new Event('change'));
             }
         });

@@ -203,7 +203,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
                     WfComponentConstants.ComponentTypeCode.USER_SEARCH.code -> {
                         WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
                     }
-                    WfComponentConstants.ComponentTypeCode.DEPARTMENT_SEARCH.code -> {
+                    WfComponentConstants.ComponentTypeCode.ORGANIZATION_SEARCH.code -> {
                         WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
                     }
                     else -> WfComponentConstants.ComponentValueType.STRING.code

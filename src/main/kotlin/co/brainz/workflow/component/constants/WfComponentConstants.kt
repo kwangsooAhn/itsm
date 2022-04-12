@@ -25,7 +25,7 @@ object WfComponentConstants {
         CUSTOM_CODE("customCode"),
         DR_TABLE("dynamicRowTable"),
         USER_SEARCH("userSearch"),
-        DEPARTMENT_SEARCH("departmentSearch"),
+        ORGANIZATION_SEARCH("departmentSearch"),
         CI("ci");
     }
 
