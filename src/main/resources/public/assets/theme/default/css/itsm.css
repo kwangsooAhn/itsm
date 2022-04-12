@@ -8788,7 +8788,6 @@ body.modal-active {
 }
 .reply-list {
   padding: 0 0;
-  border-bottom: 0.0625rem solid #CFD5D9;
   margin-top: 0.0625rem;
 }
 .reply-list .vertical-bar {
@@ -8812,8 +8811,9 @@ body.modal-active {
   font-weight: 400;
 }
 .reply-list .reply-row {
-  margin-top: 1.875rem;
-  margin-bottom: 1.875rem;
+  border-bottom: 0.0625rem solid #CFD5D9;
+  padding-top: 1.875rem;
+  padding-bottom: 1.875rem;
 }
 .reply-list .reply-edit, .reply-list .reply-delete {
   padding: 0 1.25rem 0 0;
