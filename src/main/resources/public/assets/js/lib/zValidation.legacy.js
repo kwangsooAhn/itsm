@@ -8,7 +8,8 @@ const lowerCaseReg = /^[a-z]*$/;
 const integerReg = /^[0-9]*$/; // 정수
 const numberReg = /^[-+]?[0-9]*\.?[0-9]+$/; // 숫자
 const charReg = /^[a-zA-Z가-힣]*$/; // 영문자 , 한글
-const specialCharReg = /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/;
+const specialCharReg = /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/; //특수문자만
+const specialCharIncludeReg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; //특수문자 포함
 const rgbReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 const idReg = /^[A-Za-z0-9+][A-Za-z0-9@\-_\.]*$/;
 const regularCharacterReg = /^[a-zA-Z가-힣0-9ㄱ-ㅎㅏ-ㅣ]*$/;
@@ -804,3 +805,25 @@ function isUrl(elementId, messageId, callbackFunc) {
     }
     return false;
 }
+
+/**
+ * 특수문자가 포함되었는지 확인한다.
+ * @returns {boolean}
+ */
+function isSpecialChar(elementId, messageId, callbackFunc) {
+    const elem = isNullElement(elementId);
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+        elem.focus();
+    };
+    if (elem !== null) {
+        if (specialCharIncludeReg.test(elem.value)) {
+            if (messageId !== undefined) {
+                zAlert.warning(i18n.msg(messageId), callback);
+            }
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
