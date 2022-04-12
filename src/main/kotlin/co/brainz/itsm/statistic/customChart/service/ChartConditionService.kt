@@ -11,7 +11,11 @@ import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.statistic.customChart.constants.ChartConditionConstants
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.token.repository.WfTokenDataRepository
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.expression.EvaluationContext
 import org.springframework.expression.Expression
 import org.springframework.expression.ExpressionParser
@@ -27,6 +31,8 @@ class ChartConditionService(
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    @Value("\${timezone.customChart}")
+    val timezone: String? = null
     /**
      * 조건에 일치하는 인스턴스 리스트를 리턴한다.
      */
@@ -206,7 +212,6 @@ class ChartConditionService(
         return targetCondition
     }
 
-
     /**
      * 해당 값의 숫자, 문자, 날짜에 따라 각 형식에 맞게 리턴하도록 한다.
      */
@@ -218,5 +223,22 @@ class ChartConditionService(
             // 문자열 혹은 날짜
             "\'" + value + "\'"
         }
+    }
+
+    /**
+     * UTC 시간대로 저장된 날짜시간 데이터를 차트 기준 타임존으로 변환.
+     *
+     * 차트 출력을 위한 데이터는 문서들의 시작일, 종료일등 시간날짜 데이터를 기준으로 계산되어 지는데
+     * 저장된 기준은 UTC 이지만, 차트는 설정된 타임존으로 생성되기 때문에 변환이 필요.
+     *
+     * 예를 들어, DB 에 저장된 데이터가 '2022-01-01 18:00:00'라고 하고 차트 기준 타임존은 Asia/Seoul 이라고 하면
+     * 해당 날짜시간이 변경되면 '2022-01-02 03:00:00'이 된다. +09:00이 된 것이다.
+     * 차트는 이 기준으로 데이터를 계산한다.
+     *
+     * @param dateTime DB 에 저장된 UTC 기준으로 날짜 시간 데이터.
+     * @return LocalDateTime 차트 기준 타임존으로 변경된 날짜시간 데이터.
+     */
+    fun convertChartTimezone(dateTime: LocalDateTime): LocalDateTime {
+        return dateTime.atZone(ZoneOffset.UTC).withZoneSameInstant(ZoneId.of(timezone)).toLocalDateTime()
     }
 }

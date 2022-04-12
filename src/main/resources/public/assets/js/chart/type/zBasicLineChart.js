@@ -62,7 +62,7 @@ export const zBasicLineChartMixin = {
      */
     setDateTimeOption(option) {
         // 날짜 데이터 사용자 포맷 변경
-        const from = i18n.userDateTime(this.config.range.from, CHART.DATETIME_FORMAT);
+        const from = i18n.userDateTime(this.config.range.fromDateTime, CHART.DATETIME_FORMAT);
         // 시간 간격 설정
         const defaultDateTimeOptions = {
             pointStart: this.getStringToDateTime(from),

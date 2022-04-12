@@ -480,7 +480,9 @@
                     range: {
                         type: document.getElementById('rangeType').value,
                         fromDate: document.getElementById('rangeFromDt').value,
-                        toDate: document.getElementById('rangeToDt').value
+                        toDate: document.getElementById('rangeToDt').value,
+                        fromDateTime: document.getElementById('rangeFromDt').value + 'T00:00:00',
+                        toDateTime: document.getElementById('rangeToDt').value + 'T23:59:59',
                     },
                     documentStatus: document.getElementById('targetStatusSelectBox').value,
                     condition: document.getElementById('condition').value

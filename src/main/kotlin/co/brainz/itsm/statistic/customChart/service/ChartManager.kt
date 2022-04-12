@@ -172,7 +172,7 @@ abstract class ChartManager(
                 instanceTagTokenData.tokenDataList.forEach { tokenData ->
                     if (periodUnitValue == this.getPeriodUnitValue(
                             chartConfig.periodUnit!!,
-                            tokenData.instanceStartDt
+                            chartConditionService.convertChartTimezone(tokenData.instanceStartDt)
                         )
                     ) {
                         totalCount++ // 숫자가 아닌 잘못된 값도 전체 건수에 포함한다. (제외하려면 한줄 아래로...)
@@ -233,7 +233,7 @@ abstract class ChartManager(
                 instances.forEach { instance ->
                     if (periodUnitValue == this.getPeriodUnitValue(
                             chartConfig.periodUnit!!,
-                            instance.instanceStartDt!!
+                            chartConditionService.convertChartTimezone(instance.instanceStartDt!!)
                         )
                     ) {
                         count++
@@ -365,6 +365,9 @@ abstract class ChartManager(
      */
     private fun getTagInstances(chartDto: ChartDto): List<ChartTagInstanceDto> {
         val tagInstances = mutableListOf<ChartTagInstanceDto>()
+        chartDto.chartConfig.range.fromDateTimeUTC = chartConditionService.convertChartTimezone(chartDto.chartConfig.range.fromDateTime!!)
+        chartDto.chartConfig.range.toDateTimeUTC = chartConditionService.convertChartTimezone(chartDto.chartConfig.range.toDateTime!!)
+
         chartDto.tags.forEach { tag ->
             tagInstances.add(
                 ChartTagInstanceDto(
@@ -422,7 +425,7 @@ abstract class ChartManager(
                 tagInstances.instances.forEach { instance ->
                     if (periodUnitValue == this.getPeriodUnitValue(
                             chartConfig.periodUnit!!,
-                            instance.instanceStartDt!!
+                            chartConditionService.convertChartTimezone(instance.instanceStartDt!!)
                         )
                     ) {
                         count++
@@ -492,7 +495,7 @@ abstract class ChartManager(
                 tagInstances.instances.forEach { instance ->
                     if (periodUnitValue == this.getPeriodUnitValue(
                             chartConfig.periodUnit!!,
-                            instance.instanceStartDt!!
+                            chartConditionService.convertChartTimezone(instance.instanceStartDt!!)
                         )
                     ) {
                         count++

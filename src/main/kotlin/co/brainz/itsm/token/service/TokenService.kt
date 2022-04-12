@@ -96,18 +96,17 @@ class TokenService(
      *  2) 필수 값: ciId, typeId, ciName, ciDesc, actionType
      */
     fun componentDataConverter(componentData: List<RestTemplateTokenDataDto>): List<RestTemplateTokenDataDto> {
-        val componentIds = mutableSetOf<String>()
-        componentData.forEach { component ->
-            componentIds.add(component.componentId)
-        }
-        val componentList = wfComponentService.getComponents(componentIds)
+        val components = wfComponentService.getComponents(componentData.map(RestTemplateTokenDataDto::componentId).toSet())
+
         componentData.forEach { data ->
-            val component = componentList.first { it.componentId == data.componentId }
+            if (data.value.isEmpty()) { return@forEach }
+            val component = components.first { it.componentId == data.componentId }
             when (component.componentType) {
                 WfComponentConstants.ComponentType.CI.code -> {
                     val dataValueList: List<WfCIComponentValueDto> =
                         mapper.readValue(data.value,
                             TypeFactory.defaultInstance().constructCollectionType(List::class.java, WfCIComponentValueDto::class.java))
+
                     dataValueList.forEach { dataValue ->
                         val ciType = ciTypeService.getCIType(dataValue.typeId)
                         dataValue.typeName = ciType?.typeName

@@ -269,6 +269,9 @@ export  default class ZChart {
         if (!zValidation.isDefined(matchDateTime)) {
             matchDateTime = userDateTime.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)$/); // 2021-12-01 00:00
         }
+        if (!zValidation.isDefined(matchDateTime)) {
+            matchDateTime = userDateTime.match(/^(\d+)-(\d+)-(\d+)T(\d+)\:(\d+)\:(\d+)$/);// 2021-12-01T00:00:00
+        }
         return new Date(matchDateTime[1], matchDateTime[2] - 1, matchDateTime[3],
             matchDateTime[4], matchDateTime[5], (matchDateTime.length === 7 ) ? matchDateTime[6] : '00').getTime();
     }
