@@ -23,7 +23,6 @@
 
   &-list {
     padding: 0 0;
-    @include border($reply-content-border-width, solid, $reply-content-border-color, bottom);
     @include verticalBar(1.25rem, 1.25rem, $reply-content-border-width solid $reply-content-border-color, 0.0625rem 0.9375rem 0.0625rem 0);
     margin-top: 0.0625rem; // -1px
     // 댓글이 없으면 라인 생략
@@ -40,8 +39,9 @@
         font-weight: $font-weight-regular;
       }
       &-row {
-        margin-top : 1.875rem; // 30px
-        margin-bottom: 1.875rem; // 30px
+        @include border($reply-content-border-width, solid, $reply-content-border-color, bottom);
+        padding-top : 1.875rem; // 30px
+        padding-bottom: 1.875rem; // 30px
       }
       &-edit,
       &-delete {
