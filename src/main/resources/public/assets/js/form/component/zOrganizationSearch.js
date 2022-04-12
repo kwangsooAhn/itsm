@@ -125,7 +125,7 @@ export const organizationSearchMixin = {
     // 부서 선택 모달
     openOrganizationSearchModal(e) {
         e.stopPropagation();
-        const departmentSearchData = e.target.getAttribute('data-organization-search');
+        const organizationSearchData = e.target.getAttribute('data-organization-search');
         tree.load({
             view: 'modal',
             title: i18n.msg('department.label.deptList'),
