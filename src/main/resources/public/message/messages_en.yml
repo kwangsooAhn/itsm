@@ -227,7 +227,7 @@ board:
     reply: "Board Reply"
     replyYn: "Reply enable"
     searchBoardPlaceholder: "Category / Title / Create User"
-    searchPlaceholder: "Board Title / Create User"
+    searchPlaceholder: "Board Name / Create User"
     title: "Title"
     useYn: "Use enable"
     view: "Board View"
