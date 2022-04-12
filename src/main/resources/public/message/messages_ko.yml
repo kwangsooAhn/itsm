@@ -226,7 +226,7 @@ board:
     register: "게시글 작성"
     reply: "답글 작성"
     replyYn: "답글 사용 여부"
-    searchBoardPlaceholder: "분류 / 제목 / 작성자"
+    searchBoardPlaceholder: "분류 / 제목 / 등록자"
     searchPlaceholder: "게시판 이름 / 등록자"
     title: "제목"
     useYn: "사용 여부"
