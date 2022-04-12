@@ -343,6 +343,7 @@ class DocumentService(
             if (property.propertyType == WfFormConstants.PropertyType.ELEMENT.value) {
                 val optionValue = mapper.readValue(property.propertyOptions, LinkedHashMap::class.java)
                 fieldOption.table = optionValue["table"] as String
+                fieldOption.keyField = optionValue["keyField"] as String
                 fieldOption.fields.addAll(
                     mapper.convertValue(optionValue["fields"], object : TypeReference<List<FieldDto>>() {})
                 )

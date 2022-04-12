@@ -9,6 +9,7 @@ import java.io.Serializable
 
 data class FieldOptionDto(
     var table: String = "",
+    var keyField: String = "",
     val documentNo: String = "",
     val fields: MutableList<FieldDto> = mutableListOf(),
     var sort: FieldOrderDto = FieldOrderDto()
